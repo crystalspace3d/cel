@@ -42,41 +42,41 @@
 <a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
-<a name="l00026"></a>00026 SCF_VERSION (<a class="code" href="structiPcActorMove.html">iPcActorMove</a>, 0, 0, 1);
-<a name="l00027"></a>00027 
-<a name="l00056"></a><a class="code" href="structiPcActorMove.html">00056</a> <span class="keyword">struct </span><a class="code" href="structiPcActorMove.html">iPcActorMove</a> : <span class="keyword">public</span> iBase
-<a name="l00057"></a>00057 {
-<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a0">Forward</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00061"></a>00061   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a1">IsMovingForward</a> () = 0;
-<a name="l00063"></a>00063   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a2">Backward</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a3">IsMovingBackward</a> () = 0;
-<a name="l00067"></a>00067   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a4">StrafeLeft</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00069"></a>00069   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a5">IsStrafingLeft</a> () = 0;
-<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a6">StrafeRight</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a7">IsStrafingRight</a> () = 0;
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a8">RotateLeft</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a9">IsRotatingLeft</a> () = 0;
-<a name="l00079"></a>00079   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a10">RotateRight</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00081"></a>00081   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a11">IsRotatingRight</a> () = 0;
-<a name="l00083"></a>00083   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a12">RotateTo</a> (<span class="keywordtype">float</span> yrot) = 0;
-<a name="l00085"></a>00085   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a13">Run</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a14">IsRunning</a> () = 0;
-<a name="l00089"></a>00089   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a15">AutoRun</a> (<span class="keywordtype">bool</span> start) = 0;
-<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a16">IsAutoRunning</a> () = 0;
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a17">Jump</a> () = 0;
-<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a18">ToggleCameraMode</a> () = 0;
+<a name="l00054"></a><a class="code" href="structiPcActorMove.html">00054</a> <span class="keyword">struct </span><a class="code" href="structiPcActorMove.html">iPcActorMove</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00055"></a>00055 {
+<a name="l00056"></a>00056   SCF_INTERFACE (<a class="code" href="structiPcActorMove.html">iPcActorMove</a>, 0, 0, 1);
+<a name="l00057"></a>00057 
+<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a1">Forward</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00061"></a>00061   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a2">IsMovingForward</a> () = 0;
+<a name="l00063"></a>00063   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a3">Backward</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a4">IsMovingBackward</a> () = 0;
+<a name="l00067"></a>00067   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a5">StrafeLeft</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00069"></a>00069   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a6">IsStrafingLeft</a> () = 0;
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a7">StrafeRight</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a8">IsStrafingRight</a> () = 0;
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a9">RotateLeft</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a10">IsRotatingLeft</a> () = 0;
+<a name="l00079"></a>00079   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a11">RotateRight</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00081"></a>00081   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a12">IsRotatingRight</a> () = 0;
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a13">RotateTo</a> (<span class="keywordtype">float</span> yrot) = 0;
+<a name="l00085"></a>00085   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a14">Run</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a15">IsRunning</a> () = 0;
+<a name="l00089"></a>00089   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a16">AutoRun</a> (<span class="keywordtype">bool</span> start) = 0;
+<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcActorMove.html#a17">IsAutoRunning</a> () = 0;
+<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a18">Jump</a> () = 0;
+<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a19">ToggleCameraMode</a> () = 0;
 <a name="l00096"></a>00096 
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a19">SetMovementSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a20">GetMovementSpeed</a> () <span class="keyword">const </span>= 0;
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a20">SetMovementSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a21">GetMovementSpeed</a> () <span class="keyword">const </span>= 0;
 <a name="l00101"></a>00101 
-<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a21">SetRunningSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
-<a name="l00105"></a>00105   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a22">GetRunningSpeed</a> () <span class="keyword">const </span>= 0;
+<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a22">SetRunningSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a23">GetRunningSpeed</a> () <span class="keyword">const </span>= 0;
 <a name="l00106"></a>00106 
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a23">SetRotationSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a24">GetRotationSpeed</a> () <span class="keyword">const </span>= 0;
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a24">SetRotationSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a25">GetRotationSpeed</a> () <span class="keyword">const </span>= 0;
 <a name="l00111"></a>00111 
-<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a25">SetJumpingVelocity</a> (<span class="keywordtype">float</span> speed) = 0;
-<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a26">GetJumpingVelocity</a> () <span class="keyword">const </span>= 0;
+<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcActorMove.html#a26">SetJumpingVelocity</a> (<span class="keywordtype">float</span> speed) = 0;
+<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcActorMove.html#a27">GetJumpingVelocity</a> () <span class="keyword">const </span>= 0;
 <a name="l00116"></a>00116 };
 <a name="l00117"></a>00117 
 <a name="l00118"></a>00118 <span class="preprocessor">#endif // __CEL_PF_ACTORMOVE__</span>

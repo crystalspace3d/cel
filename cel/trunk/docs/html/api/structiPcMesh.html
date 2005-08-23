@@ -23,42 +23,42 @@
 <a href="structiPcMesh-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a0">SetPath</a> (const char *path)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a1">SetPath</a> (const char *path)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the path to use.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a1">SetMesh</a> (const char *factname, const char *filename)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the path to use.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a2">SetMesh</a> (const char *factname, const char *filename)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh filename to use.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a2">SetMesh</a> (iMeshWrapper *mesh, bool do_remove=false)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh filename to use.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a3">SetMesh</a> (iMeshWrapper *mesh, bool do_remove=false)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to use directly.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a3">CreateEmptyThing</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to use directly.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a4">CreateEmptyThing</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#a1">SetMesh()</a>).  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iMeshWrapper *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a4">GetMesh</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#a2">SetMesh()</a>).  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iMeshWrapper *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a5">GetMesh</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the mesh.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a5">MoveMesh</a> (iSector *sector, const csVector3 &amp;pos)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the mesh.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a6">MoveMesh</a> (iSector *sector, const csVector3 &amp;pos)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to move the mesh to some sector and position and also update lighting.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a6">SetAction</a> (const char *actionName, bool reset=false)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to move the mesh to some sector and position and also update lighting.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a7">SetAction</a> (const char *actionName, bool reset=false)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' for the mesh.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a7">GetAction</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' for the mesh.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a8">GetAction</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the current action name.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a8">SetReverseAction</a> (bool reverse=true)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the current action name.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a9">SetReverseAction</a> (bool reverse=true)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' to be reversed for the mesh.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a9">Hide</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' to be reversed for the mesh.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a10">Hide</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hide this mesh.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a10">Show</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hide this mesh.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a11">Show</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show this mesh.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a11">IsVisible</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show this mesh.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#a12">IsVisible</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if mesh is visible.  <a href="#a11"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if mesh is visible.  <a href="#a12"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class holding the representation of a mesh. 
@@ -77,8 +77,8 @@ MoveMesh: parameters 'sector' (string) and 'position' (vector3). </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="mesh_8h-source.html#l00053">53</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMesh::CreateEmptyThing" ref="a3" args="()=0" --><p>
+Definition at line <a class="el" href="mesh_8h-source.html#l00051">51</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMesh::CreateEmptyThing" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -102,12 +102,12 @@ Definition at line <a class="el" href="mesh_8h-source.html#l00053">53</a> of fil
     <td>
 
 <p>
-Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#a1">SetMesh()</a>). 
+Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#a2">SetMesh()</a>). 
 <p>
-After this use <a class="el" href="structiPcMesh.html#a4">GetMesh()</a> to add polygons to the mesh.    </td>
+After this use <a class="el" href="structiPcMesh.html#a5">GetMesh()</a> to add polygons to the mesh.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMesh::GetAction" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMesh::GetAction" ref="a8" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -136,7 +136,7 @@ Return the current action name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMesh::GetMesh" ref="a4" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMesh::GetMesh" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -165,7 +165,7 @@ Get the mesh.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMesh::Hide" ref="a9" args="()=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMesh::Hide" ref="a10" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -194,7 +194,7 @@ Hide this mesh.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMesh::IsVisible" ref="a11" args="() const =0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMesh::IsVisible" ref="a12" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -223,7 +223,7 @@ Return true if mesh is visible.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMesh::MoveMesh" ref="a5" args="(iSector *sector, const csVector3 &amp;pos)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMesh::MoveMesh" ref="a6" args="(iSector *sector, const csVector3 &amp;pos)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -262,7 +262,7 @@ Convenience function to move the mesh to some sector and position and also updat
 If sector specified is 0, sector is not updated.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMesh::SetAction" ref="a6" args="(const char *actionName, bool reset=false)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMesh::SetAction" ref="a7" args="(const char *actionName, bool reset=false)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -301,7 +301,7 @@ Convenience function to set an 'action' for the mesh.
 This only works for 3D sprites. For other mesh objects nothing will happen.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMesh::SetMesh" ref="a2" args="(iMeshWrapper *mesh, bool do_remove=false)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMesh::SetMesh" ref="a3" args="(iMeshWrapper *mesh, bool do_remove=false)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -340,13 +340,13 @@ Set the mesh to use directly.
 It is normally not recommended to use this function directly. <a class="el" href="structiPcRegion.html">iPcRegion</a> will use it for its dummy entities. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>mesh</em>&nbsp;</td><td>a pointer to an iMeshWrapper that will be attached to the pcmesh. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>do_remove</em>&nbsp;</td><td>if true then this pcmesh will remove the mesh on destruction. By default this will not happen if you use <a class="el" href="structiPcMesh.html#a1">SetMesh()</a> on an already existing mesh.</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>do_remove</em>&nbsp;</td><td>if true then this pcmesh will remove the mesh on destruction. By default this will not happen if you use <a class="el" href="structiPcMesh.html#a2">SetMesh()</a> on an already existing mesh.</td></tr>
   </table>
 </dl>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMesh::SetMesh" ref="a1" args="(const char *factname, const char *filename)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMesh::SetMesh" ref="a2" args="(const char *factname, const char *filename)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -385,7 +385,7 @@ Set the mesh filename to use.
 Returns false on failure. Note that this filename can refer to a mesh factory file or a library file containing a mesh factory. If 'filename' is not given (i.e. 0) then it is assumed the factory is already loaded in memory.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMesh::SetPath" ref="a0" args="(const char *path)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMesh::SetPath" ref="a1" args="(const char *path)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -412,10 +412,10 @@ Returns false on failure. Note that this filename can refer to a mesh factory fi
 <p>
 Set the path to use. 
 <p>
-If this is not done then the filename in <a class="el" href="structiPcMesh.html#a1">SetMesh()</a> will be used alone. Otherwise this path is used to temporarily set the current VFS dir while loading (which will be restored afterwards) and the filename in <a class="el" href="structiPcMesh.html#a1">SetMesh()</a> is used relative to that. Note that this must be called before <a class="el" href="structiPcMesh.html#a1">SetMesh()</a>.    </td>
+If this is not done then the filename in <a class="el" href="structiPcMesh.html#a2">SetMesh()</a> will be used alone. Otherwise this path is used to temporarily set the current VFS dir while loading (which will be restored afterwards) and the filename in <a class="el" href="structiPcMesh.html#a2">SetMesh()</a> is used relative to that. Note that this must be called before <a class="el" href="structiPcMesh.html#a2">SetMesh()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMesh::SetReverseAction" ref="a8" args="(bool reverse=true)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMesh::SetReverseAction" ref="a9" args="(bool reverse=true)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -445,7 +445,7 @@ Convenience function to set an 'action' to be reversed for the mesh.
 This only works for 3D sprites. For other mesh objects nothing will happen.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMesh::Show" ref="a10" args="()=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMesh::Show" ref="a11" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

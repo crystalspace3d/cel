@@ -42,54 +42,54 @@
 <a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "iutil/comp.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csutil/scf.h"</span>
-<a name="l00026"></a>00026 <span class="preprocessor">#include "csutil/refarr.h"</span>
-<a name="l00027"></a>00027 <span class="preprocessor">#include "csutil/weakref.h"</span>
-<a name="l00028"></a>00028 <span class="preprocessor">#include "physicallayer/propclas.h"</span>
-<a name="l00029"></a>00029 <span class="preprocessor">#include "physicallayer/propfact.h"</span>
-<a name="l00030"></a>00030 <span class="preprocessor">#include "physicallayer/pl.h"</span>
-<a name="l00031"></a>00031 
-<a name="l00032"></a>00032 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
-<a name="l00033"></a>00033 <span class="keyword">struct </span>iObjectRegistry;
-<a name="l00034"></a>00034 
+<a name="l00026"></a>00026 <span class="preprocessor">#include "csutil/scf_implementation.h"</span>
+<a name="l00027"></a>00027 <span class="preprocessor">#include "csutil/refarr.h"</span>
+<a name="l00028"></a>00028 <span class="preprocessor">#include "csutil/weakref.h"</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include "physicallayer/propclas.h"</span>
+<a name="l00030"></a>00030 <span class="preprocessor">#include "physicallayer/propfact.h"</span>
+<a name="l00031"></a>00031 <span class="preprocessor">#include "physicallayer/pl.h"</span>
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
+<a name="l00034"></a>00034 <span class="keyword">struct </span>iObjectRegistry;
 <a name="l00035"></a>00035 
-<a name="l00036"></a><a class="code" href="structProperty.html">00036</a> <span class="keyword">struct </span><a class="code" href="structProperty.html">Property</a>
-<a name="l00037"></a>00037 {
-<a name="l00038"></a><a class="code" href="structProperty.html#o0">00038</a>   csStringID            <a class="code" href="structProperty.html#o0">id</a>;
-<a name="l00039"></a><a class="code" href="structProperty.html#o1">00039</a>   celDataType           <a class="code" href="structProperty.html#o1">datatype</a>;
-<a name="l00040"></a><a class="code" href="structProperty.html#o2">00040</a>   <span class="keywordtype">bool</span>                  <a class="code" href="structProperty.html#o2">readonly</a>;
-<a name="l00041"></a><a class="code" href="structProperty.html#o3">00041</a>   <span class="keyword">const</span> <span class="keywordtype">char</span>*           <a class="code" href="structProperty.html#o3">desc</a>;
-<a name="l00042"></a>00042 };
-<a name="l00043"></a>00043 
-<a name="l00049"></a><a class="code" href="classcelPcCommon.html">00049</a> <span class="keyword">class </span><a class="code" href="classcelPcCommon.html">celPcCommon</a> : <span class="keyword">public</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>, <span class="keyword">public</span> <a class="code" href="structiCelTimerListener.html">iCelTimerListener</a>
-<a name="l00050"></a>00050 {
-<a name="l00051"></a>00051 <span class="keyword">private</span>:
-<a name="l00052"></a>00052   csRefArray&lt;iCelPropertyChangeCallback&gt; callbacks;
-<a name="l00053"></a>00053   <span class="comment">// This flag is true if we currently don't know the state of</span>
-<a name="l00054"></a>00054   <span class="comment">// the sibling property classes (property classes in the same</span>
-<a name="l00055"></a>00055   <span class="comment">// entity). It is set to true by PropertyClassesHaveChanged()</span>
-<a name="l00056"></a>00056   <span class="comment">// and cleared by HavePropertyClassesChanged().</span>
-<a name="l00057"></a>00057   <span class="keywordtype">bool</span> propclasses_dirty;
-<a name="l00058"></a>00058   <span class="keywordtype">char</span>* tag;
-<a name="l00059"></a>00059 
-<a name="l00060"></a>00060 <span class="keyword">protected</span>:
-<a name="l00061"></a><a class="code" href="classcelPcCommon.html#p0">00061</a>   <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>;
-<a name="l00062"></a><a class="code" href="classcelPcCommon.html#p1">00062</a>   iObjectRegistry* <a class="code" href="classcelPcCommon.html#p1">object_reg</a>;
-<a name="l00063"></a><a class="code" href="classcelPcCommon.html#p2">00063</a>   csWeakRef&lt;iCelPlLayer&gt; <a class="code" href="classcelPcCommon.html#p2">pl</a>;
-<a name="l00064"></a>00064 
-<a name="l00065"></a>00065 <span class="keyword">protected</span>:
-<a name="l00066"></a>00066   <span class="keywordtype">void</span> FirePropertyChangeCallback (<span class="keywordtype">int</span> propertyId);
-<a name="l00067"></a>00067 
-<a name="l00068"></a><a class="code" href="classcelPcCommon.html#f0">00068</a>   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#f0">UpdateProperties</a> (iObjectRegistry*) { <span class="keywordflow">return</span>; }
+<a name="l00036"></a>00036 
+<a name="l00037"></a><a class="code" href="structProperty.html">00037</a> <span class="keyword">struct </span><a class="code" href="structProperty.html">Property</a>
+<a name="l00038"></a>00038 {
+<a name="l00039"></a><a class="code" href="structProperty.html#o0">00039</a>   csStringID            <a class="code" href="structProperty.html#o0">id</a>;
+<a name="l00040"></a><a class="code" href="structProperty.html#o1">00040</a>   celDataType           <a class="code" href="structProperty.html#o1">datatype</a>;
+<a name="l00041"></a><a class="code" href="structProperty.html#o2">00041</a>   <span class="keywordtype">bool</span>                  <a class="code" href="structProperty.html#o2">readonly</a>;
+<a name="l00042"></a><a class="code" href="structProperty.html#o3">00042</a>   <span class="keyword">const</span> <span class="keywordtype">char</span>*           <a class="code" href="structProperty.html#o3">desc</a>;
+<a name="l00043"></a>00043 };
+<a name="l00044"></a>00044 
+<a name="l00050"></a><a class="code" href="classcelPcCommon.html">00050</a> <span class="keyword">class </span><a class="code" href="classcelPcCommon.html">celPcCommon</a> : <span class="keyword">public</span> scfImplementation2&lt;
+<a name="l00051"></a>00051         celPcCommon, iCelPropertyClass, iCelTimerListener&gt;
+<a name="l00052"></a>00052 {
+<a name="l00053"></a>00053 <span class="keyword">private</span>:
+<a name="l00054"></a>00054   csRefArray&lt;iCelPropertyChangeCallback&gt; callbacks;
+<a name="l00055"></a>00055   <span class="comment">// This flag is true if we currently don't know the state of</span>
+<a name="l00056"></a>00056   <span class="comment">// the sibling property classes (property classes in the same</span>
+<a name="l00057"></a>00057   <span class="comment">// entity). It is set to true by PropertyClassesHaveChanged()</span>
+<a name="l00058"></a>00058   <span class="comment">// and cleared by HavePropertyClassesChanged().</span>
+<a name="l00059"></a>00059   <span class="keywordtype">bool</span> propclasses_dirty;
+<a name="l00060"></a>00060   <span class="keywordtype">char</span>* tag;
+<a name="l00061"></a>00061 
+<a name="l00062"></a>00062 <span class="keyword">protected</span>:
+<a name="l00063"></a><a class="code" href="classcelPcCommon.html#p0">00063</a>   <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>;
+<a name="l00064"></a><a class="code" href="classcelPcCommon.html#p1">00064</a>   iObjectRegistry* <a class="code" href="classcelPcCommon.html#p1">object_reg</a>;
+<a name="l00065"></a><a class="code" href="classcelPcCommon.html#p2">00065</a>   csWeakRef&lt;iCelPlLayer&gt; <a class="code" href="classcelPcCommon.html#p2">pl</a>;
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 <span class="keyword">protected</span>:
+<a name="l00068"></a>00068   <span class="keywordtype">void</span> FirePropertyChangeCallback (<span class="keywordtype">int</span> propertyId);
 <a name="l00069"></a>00069 
-<a name="l00070"></a><a class="code" href="classcelPcCommon.html#p3">00070</a>   <span class="keywordtype">void</span>** <a class="code" href="classcelPcCommon.html#p3">propdata</a>;
-<a name="l00071"></a><a class="code" href="classcelPcCommon.html#p4">00071</a>   <a class="code" href="structProperty.html">Property</a>* <a class="code" href="classcelPcCommon.html#p4">props</a>;
-<a name="l00072"></a><a class="code" href="classcelPcCommon.html#p5">00072</a>   size_t* <a class="code" href="classcelPcCommon.html#p5">propcount</a>;
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074 <span class="keyword">public</span>:
-<a name="l00075"></a>00075   <a class="code" href="classcelPcCommon.html">celPcCommon</a> (iObjectRegistry* <a class="code" href="classcelPcCommon.html#p1">object_reg</a>);
-<a name="l00076"></a>00076   <span class="keyword">virtual</span> ~<a class="code" href="classcelPcCommon.html">celPcCommon</a> ();
-<a name="l00077"></a>00077 
-<a name="l00078"></a><a class="code" href="classcelPcCommon.html#o0">00078</a>   <a class="code" href="classcelPcCommon.html#o0">SCF_DECLARE_IBASE</a>;
+<a name="l00070"></a><a class="code" href="classcelPcCommon.html#f0">00070</a>   <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#f0">UpdateProperties</a> (iObjectRegistry*) { <span class="keywordflow">return</span>; }
+<a name="l00071"></a>00071 
+<a name="l00072"></a><a class="code" href="classcelPcCommon.html#p3">00072</a>   <span class="keywordtype">void</span>** <a class="code" href="classcelPcCommon.html#p3">propdata</a>;
+<a name="l00073"></a><a class="code" href="classcelPcCommon.html#p4">00073</a>   <a class="code" href="structProperty.html">Property</a>* <a class="code" href="classcelPcCommon.html#p4">props</a>;
+<a name="l00074"></a><a class="code" href="classcelPcCommon.html#p5">00074</a>   size_t* <a class="code" href="classcelPcCommon.html#p5">propcount</a>;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076 <span class="keyword">public</span>:
+<a name="l00077"></a>00077   <a class="code" href="classcelPcCommon.html">celPcCommon</a> (iObjectRegistry* <a class="code" href="classcelPcCommon.html#p1">object_reg</a>);
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> ~<a class="code" href="classcelPcCommon.html">celPcCommon</a> ();
 <a name="l00079"></a>00079 
 <a name="l00080"></a><a class="code" href="classcelPcCommon.html#a2">00080</a>   <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a2">HavePropertyClassesChanged</a> ()
 <a name="l00081"></a>00081   {
@@ -98,39 +98,39 @@
 <a name="l00084"></a>00084     <span class="keywordflow">return</span> <span class="keyword">true</span>;
 <a name="l00085"></a>00085   }
 <a name="l00086"></a>00086 
-<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a3">SetTag</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tagname);
+<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetTag (<span class="keyword">const</span> <span class="keywordtype">char</span>* tagname);
 <a name="l00088"></a><a class="code" href="classcelPcCommon.html#a4">00088</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelPcCommon.html#a4">GetTag</a> ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> tag; }
 <a name="l00089"></a>00089 
 <a name="l00090"></a><a class="code" href="classcelPcCommon.html#a5">00090</a>   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#a5">GetEntity</a> () { <span class="keywordflow">return</span> <a class="code" href="classcelPcCommon.html#p0">entity</a>; }
-<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a6">SetEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>);
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a7">AddPropertyChangeCallback</a> (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb);
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a8">RemovePropertyChangeCallback</a> (
+<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetEntity (<a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>);
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> AddPropertyChangeCallback (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb);
+<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RemovePropertyChangeCallback (
 <a name="l00094"></a>00094         <a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>* cb);
 <a name="l00095"></a>00095 
-<a name="l00096"></a>00096   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keywordtype">long</span>);
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keywordtype">float</span>);
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keywordtype">bool</span>);
-<a name="l00099"></a>00099   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keyword">const</span> <span class="keywordtype">char</span>*);
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keyword">const</span> csVector2&amp;);
-<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keyword">const</span> csVector3&amp;);
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <span class="keyword">const</span> csColor&amp;);
-<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pclass);
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a9">SetProperty</a> (csStringID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>);
-<a name="l00105"></a>00105   <span class="keyword">virtual</span> celDataType <a class="code" href="classcelPcCommon.html#a18">GetPropertyOrActionType</a> (csStringID);
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a19">IsPropertyReadOnly</a> (csStringID);
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">long</span> <a class="code" href="classcelPcCommon.html#a20">GetPropertyLong</a> (csStringID);
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="classcelPcCommon.html#a21">GetPropertyFloat</a> (csStringID);
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a22">GetPropertyBool</a> (csStringID);
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelPcCommon.html#a23">GetPropertyString</a> (csStringID);
-<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a24">GetPropertyVector</a> (csStringID, csVector2&amp;);
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a24">GetPropertyVector</a> (csStringID, csVector3&amp;);
-<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a26">GetPropertyColor</a> (csStringID, csColor&amp;);
-<a name="l00114"></a>00114   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="classcelPcCommon.html#a27">GetPropertyPClass</a> (csStringID);
-<a name="l00115"></a>00115   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#a28">GetPropertyEntity</a> (csStringID);
+<a name="l00096"></a>00096   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keywordtype">long</span>);
+<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keywordtype">float</span>);
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keywordtype">bool</span>);
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keyword">const</span> <span class="keywordtype">char</span>*);
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keyword">const</span> csVector2&amp;);
+<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keyword">const</span> csVector3&amp;);
+<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <span class="keyword">const</span> csColor&amp;);
+<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pclass);
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> SetProperty (csStringID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelPcCommon.html#p0">entity</a>);
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> celDataType GetPropertyOrActionType (csStringID);
+<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsPropertyReadOnly (csStringID);
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">long</span> GetPropertyLong (csStringID);
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">float</span> GetPropertyFloat (csStringID);
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> GetPropertyBool (csStringID);
+<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* GetPropertyString (csStringID);
+<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> GetPropertyVector (csStringID, csVector2&amp;);
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> GetPropertyVector (csStringID, csVector3&amp;);
+<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> GetPropertyColor (csStringID, csColor&amp;);
+<a name="l00114"></a>00114   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* GetPropertyPClass (csStringID);
+<a name="l00115"></a>00115   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* GetPropertyEntity (csStringID);
 <a name="l00116"></a><a class="code" href="classcelPcCommon.html#a29">00116</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelPcCommon.html#a29">PerformAction</a> (csStringID, <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>*) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }
-<a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelPcCommon.html#a30">GetPropertyOrActionDescription</a> (csStringID);
-<a name="l00118"></a>00118   <span class="keyword">virtual</span> size_t <a class="code" href="classcelPcCommon.html#a31">GetPropertyAndActionCount</a> () <span class="keyword">const</span>;
-<a name="l00119"></a>00119   <span class="keyword">virtual</span> csStringID <a class="code" href="classcelPcCommon.html#a32">GetPropertyOrActionID</a> (size_t);
+<a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* GetPropertyOrActionDescription (csStringID);
+<a name="l00118"></a>00118   <span class="keyword">virtual</span> size_t GetPropertyAndActionCount () <span class="keyword">const</span>;
+<a name="l00119"></a>00119   <span class="keyword">virtual</span> csStringID GetPropertyOrActionID (size_t);
 <a name="l00120"></a><a class="code" href="classcelPcCommon.html#a33">00120</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelPcCommon.html#a33">PropertyClassesHaveChanged</a> ()
 <a name="l00121"></a>00121   {
 <a name="l00122"></a>00122     propclasses_dirty = <span class="keyword">true</span>;
