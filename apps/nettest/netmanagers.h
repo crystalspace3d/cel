@@ -46,7 +46,8 @@ class GameFactoryManager : public celGameFactoryManager
   GameServerManager* server_manager;
   GameClientManager* client_manager;
 
-  GameFactoryManager (NetTest* nettest, iCelGameFactory* factory, csString level_path, csString level_file);
+  GameFactoryManager (NetTest* nettest, iCelGameFactory* factory,
+  	csString level_path, csString level_file);
   virtual ~GameFactoryManager ();
 
   virtual void ServerNetworkStateChanged (celServerNetworkState new_state, 
@@ -54,10 +55,14 @@ class GameFactoryManager : public celGameFactoryManager
   virtual bool InitClient (iCelGame* game);
   virtual bool InitServer (iCelGame* game);
   csString GetConnectionState () { return connection_state; }
-  bool IsClientAvailable () { return (game.IsValid() && game->IsClientAvailable ()); }
-  bool IsServerAvailable () { return (game.IsValid() && game->IsServerAvailable ()); }
-  iCelGameClient* GetClient() { return game.IsValid() ? game->GetGameClient() : 0; }
-  iCelGameServer* GetServer() { return game.IsValid() ? game->GetGameServer() : 0; }
+  bool IsClientAvailable ()
+  { return (game.IsValid() && game->IsClientAvailable ()); }
+  bool IsServerAvailable ()
+  { return (game.IsValid() && game->IsServerAvailable ()); }
+  iCelGameClient* GetClient()
+  { return game.IsValid() ? game->GetGameClient() : 0; }
+  iCelGameServer* GetServer()
+  { return game.IsValid() ? game->GetGameServer() : 0; }
 };
 
 class GameServerManager : public celGameServerManager

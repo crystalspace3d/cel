@@ -49,7 +49,8 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
 
     if (pc)
     {
-      celPersistenceResult pc_persist_code = pc->SetPersistentData (data_time, databuf, persistence_type);
+      celPersistenceResult pc_persist_code = pc->SetPersistentData (
+      	data_time, databuf, persistence_type);
       if (pc_persist_code > persist_code)
 	persist_code = pc_persist_code;
     }
@@ -62,7 +63,8 @@ celPersistenceResult SetEntityPersistentData (iCelEntity* entity,
  * GameFactoryManager
  ****************************/
 
-GameFactoryManager::GameFactoryManager (NetTest* nettest, iCelGameFactory* factory, csString level_path, csString level_file)
+GameFactoryManager::GameFactoryManager (NetTest* nettest,
+	iCelGameFactory* factory, csString level_path, csString level_file)
 {
   GameFactoryManager::nettest = nettest;
   GameFactoryManager::factory = factory;
@@ -80,10 +82,12 @@ GameFactoryManager::~GameFactoryManager ()
   delete client_manager;
 }
 
-void GameFactoryManager::ServerNetworkStateChanged (celServerNetworkState new_state, 
+void GameFactoryManager::ServerNetworkStateChanged (
+	celServerNetworkState new_state, 
         celServerNetworkState previous_state, csString reason)
 {
-  printf ("The state of the connection has changed from %d to %d, reason %s\n", previous_state, new_state, reason.GetData ());
+  printf ("The state of the connection has changed from %d to %d, reason %s\n",
+  	previous_state, new_state, reason.GetData ());
 
   switch (new_state)
   {
@@ -94,7 +98,8 @@ void GameFactoryManager::ServerNetworkStateChanged (celServerNetworkState new_st
     connection_state = "Not connected";
     break;
   case CEL_NET_SERVER_INVALID_HOSTNAME:
-    connection_state.Format ("Invalid server hostname: ""%s""", reason.GetData ());
+    connection_state.Format ("Invalid server hostname: ""%s""",
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_TRYING_CONNECTION:
     connection_state = "Trying to connect";
@@ -103,10 +108,12 @@ void GameFactoryManager::ServerNetworkStateChanged (celServerNetworkState new_st
     connection_state = "Connected, sending initialization data";
     break;
   case CEL_NET_SERVER_REJECTED_BAD_GAME:
-    connection_state.Format ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""", factory->GetGameName ().GetData (), reason.GetData ());
+    connection_state.Format ("Rejected: the client is playing game ""%s"" while the server is playing game ""%s""", factory->GetGameName ().GetData (),
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PROTOCOL:
-    connection_state.Format ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""", factory->GetProtocolVersion ().GetData (), reason.GetData ());
+    connection_state.Format ("Rejected: the client has protocol version ""%s"" while the server has version ""%s""",
+    	factory->GetProtocolVersion ().GetData (), reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_BAD_PASSWORD:
     connection_state = "Rejected: invalid password";
@@ -115,7 +122,8 @@ void GameFactoryManager::ServerNetworkStateChanged (celServerNetworkState new_st
     connection_state = "Rejected: the server is playing a single player game";
     break;
   case CEL_NET_SERVER_REJECTED_UNAUTHORIZED:
-    connection_state.Format ("Rejected: the player is not authorized to join the game. Reason: ""%s""", reason.GetData ());
+    connection_state.Format ("Rejected: the player is not authorized to join the game. Reason: ""%s""",
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_REJECTED_MAX_PLAYERS:
     connection_state = "Rejected: server full";
@@ -130,7 +138,8 @@ void GameFactoryManager::ServerNetworkStateChanged (celServerNetworkState new_st
     connection_state = "Disconnected";
     break;
   case CEL_NET_SERVER_KICKED:
-    connection_state.Format ("Player kicked from the game. Reason: ""%s""", reason.GetData ());
+    connection_state.Format ("Player kicked from the game. Reason: ""%s""",
+    	reason.GetData ());
     break;
   case CEL_NET_SERVER_UNREACHABLE:
     connection_state = "Server unreachable";
@@ -158,12 +167,13 @@ bool GameFactoryManager::InitClient (iCelGame* game)
     csString path = csStrNew (game_info->custom_data->GetString ()->GetData ());
     csString file = csStrNew (game_info->custom_data->GetString ()->GetData ());
 
-    // TODO: load the level in another tread
+    // TODO: load the level in another thread
     if (!nettest->CreateRoom (path, file))
       return false;
 
     // add a camera so that the level is really loaded and ready to be displayed
-    csRef<iCelEntity> default_camera = nettest->CreateDefaultCamera ("defaultcamera");
+    csRef<iCelEntity> default_camera = nettest->CreateDefaultCamera (
+    	"defaultcamera");
     if (!default_camera)
       return false;
   }
@@ -193,12 +203,13 @@ bool GameFactoryManager::InitServer (iCelGame* game)
   game->GetGameServer ()->SetClientTimeOut (10000);
 
   // add a npc character
-  server_manager->npc_entity = nettest->CreateActorNPC ("npcchar", "", csVector3 (0,0,50));
+  server_manager->npc_entity = nettest->CreateActorNPC ("npcchar", "",
+  	csVector3 (0,0,50));
   if (!server_manager->npc_entity)
     return false;
 
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (server_manager->npc_entity, 
-  	iPcActorMove);
+  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (
+  	server_manager->npc_entity, iPcActorMove);
   pcactormove->Forward(true);
 
   return true;
@@ -249,7 +260,8 @@ bool GameServerManager::AuthorizePlayer (celPlayer* player, csString &reason)
   return true;
 }
 
-celPlayer* GameServerManager::ValidatePlayerUpdate (celPlayer* previous_player_data)
+celPlayer* GameServerManager::ValidatePlayerUpdate (
+	celPlayer* previous_player_data)
 {
   return previous_player_data;
 }
@@ -273,13 +285,15 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
     comment.Format ("Player %s is connected", player->player_name.GetData ());
     break;
   case CEL_NET_PLAYER_DISCONNECTED:
-    comment.Format ("Player %s has left the game", player->player_name.GetData ());
+    comment.Format ("Player %s has left the game",
+    	player->player_name.GetData ());
     break;
   case CEL_NET_PLAYER_UNREACHABLE:
     comment.Format ("Player %s is unreachable", player->player_name.GetData ());
     break;
   case CEL_NET_PLAYER_LOST:
-    comment.Format ("The connection to player %s is lost", player->player_name.GetData ());
+    comment.Format ("The connection to player %s is lost",
+    	player->player_name.GetData ());
     break;
   default:
     comment = "Invalid new connection state";
@@ -310,45 +324,56 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
 
     // create an avatar for the new player
     bool is_camera_actor = false;
-    if (factory->game->IsClientAvailable () && *factory->GetClient()->GetPlayer () == *player)
+    if (factory->game->IsClientAvailable ()
+    	&& *factory->GetClient()->GetPlayer () == *player)
       is_camera_actor = true;
 
     csRef<iCelEntity> entity;
     entity_name = "player" + player->player_id;
     if (is_camera_actor)
-      entity = factory->nettest->CreateActor (entity_name, "", csVector3 (0,0,50));
-    else entity = factory->nettest->CreateActorNPC (entity_name, "", csVector3 (0,0,50));
+      entity = factory->nettest->CreateActor (entity_name, "",
+      	csVector3 (0,0,50));
+    else
+      entity = factory->nettest->CreateActorNPC (entity_name, "",
+      	csVector3 (0,0,50));
 
-    celNetworkLinkData player_link_data (NETWORK_LINK_ACTOR, entity, bit_array, LINK_PERIOD);
+    celNetworkLinkData player_link_data (NETWORK_LINK_ACTOR, entity,
+    	bit_array, LINK_PERIOD);
     if (!is_camera_actor)
       factory->GetServer ()->SetNetworkLink (player, player_link_data, true);
 
     // add a network link to the npc character
-    celNetworkLinkData npc_link_data (NETWORK_LINK_ACTOR, npc_entity, bit_array, LINK_PERIOD);
+    celNetworkLinkData npc_link_data (NETWORK_LINK_ACTOR, npc_entity,
+    	bit_array, LINK_PERIOD);
     factory->GetServer()->SetNetworkLink (player, npc_link_data, false);
 
     // add a network link to the avatars of the other players
-    pl = CS_QUERY_REGISTRY (factory->nettest->GetObjectRegistry (), iCelPlLayer);
+    pl = CS_QUERY_REGISTRY (factory->nettest->GetObjectRegistry (),
+    	iCelPlLayer);
     iCelPlayerList* player_list = factory->GetServer ()->GetPlayerList ();
     size_t i = 0;
     for ( ; i < player_list->GetCount (); i++)
     {
       celPlayer* other_player = player_list->Get (i);
-      if (factory->GetServer ()->GetPlayerState (other_player) == CEL_NET_PLAYER_PLAYING
+      if (factory->GetServer ()->GetPlayerState (other_player)
+      	  == CEL_NET_PLAYER_PLAYING
 	  && other_player->player_id != player->player_id)
       {
 	entity_name = "player" + other_player->player_id;
 	iCelEntity* entity = pl->FindEntity (entity_name);
 	CS_ASSERT (entity);
-	celNetworkLinkData link_data (NETWORK_LINK_ACTOR, entity, bit_array, LINK_PERIOD);
+	celNetworkLinkData link_data (NETWORK_LINK_ACTOR, entity, bit_array,
+		LINK_PERIOD);
 	factory->GetServer ()->SetNetworkLink (player, link_data, false);
-	factory->GetServer ()->SetNetworkLink (other_player, player_link_data, false);
+	factory->GetServer ()->SetNetworkLink (other_player, player_link_data,
+		false);
       }
     }
   }
 
   // if it is player leaving
-  if (new_state == CEL_NET_PLAYER_DISCONNECTED || new_state == CEL_NET_PLAYER_LOST)
+  if (new_state == CEL_NET_PLAYER_DISCONNECTED
+  	|| new_state == CEL_NET_PLAYER_LOST)
   {
     // remove network links to this player
     csString entity_name = "player" + player->player_id;
@@ -371,7 +396,8 @@ void GameServerManager::HandleClientEvent (celPlayer* player,
         celClientEventType event_type, csTicks event_time, 
         iCelDataBuffer* event_data)
 {
-  printf ("Client event received from player %d: type: %d time: %d\n", player->player_id, event_type, event_time);
+  printf ("Client event received from player %d: type: %d time: %d\n",
+  	player->player_id, event_type, event_time);
   printf ("%s", event_data->GetDebugInfo ().GetData ());
   fflush (stdout);
 
@@ -402,7 +428,8 @@ void GameServerManager::HandleClientEvent (celPlayer* player,
     event.event_time = 1000;
     event.event_data = pl->CreateDataBuffer (0);
     csString message;
-    message.Format ("Player %s has been kicked from the game", player->player_name.GetData ());
+    message.Format ("Player %s has been kicked from the game",
+    	player->player_name.GetData ());
     event.event_data->Add (message);
     iCelPlayerList* player_list = factory->GetServer ()->GetPlayerList ();
     size_t i = 0;
@@ -429,8 +456,10 @@ void GameServerManager::HandleClientEvent (celPlayer* player,
 void GameServerManager::PersistenceProblem (celPlayer* player, iCelEntity* entity,
 	iCelPropertyClass* pc, celPersistenceResult persist_code)
 {
-  printf ("Persistence problem encountered while updating data from player %s\n", player->player_name.GetData ());
-  printf ("Problem was for entity %d, pc %s:%s. Persistence result: %d\n", entity->GetID (), pc->GetName (), pc->GetTag (), persist_code);
+  printf ("Persistence problem encountered while updating data from player %s\n",
+  	player->player_name.GetData ());
+  printf ("Problem was for entity %d, pc %s:%s. Persistence result: %d\n",
+  	entity->GetID (), pc->GetName (), pc->GetTag (), persist_code);
   fflush (stdout);
 }
 
@@ -500,30 +529,37 @@ void GameClientManager::HandleServerEvent (celServerEventType event_type,
   }
 }
 
-iCelEntity* GameClientManager::CreateNetworkLinkTarget (celNetworkLinkType link_type, 
+iCelEntity* GameClientManager::CreateNetworkLinkTarget (
+	celNetworkLinkType link_type, 
         csTicks creation_time, iCelPersistentDataList* creation_data, 
         bool player_controlled)
 
 {
   // create dummy entity if this player is not the actor
-  if (link_type == NETWORK_LINK_ACTOR && !factory->IsServerAvailable () && !player_controlled)
+  if (link_type == NETWORK_LINK_ACTOR && !factory->IsServerAvailable ()
+  	&& !player_controlled)
   {
     csString entity_name = "player" + entity_counter++;
-    csRef<iCelEntity> entity = factory->nettest->CreateActorNPC (entity_name, "", csVector3 (0, 0, 0));
-    SetEntityPersistentData (entity, creation_time, creation_data, CEL_PERSIST_TYPE_SERVER_CONTROL);
+    csRef<iCelEntity> entity = factory->nettest->CreateActorNPC (
+    	entity_name, "", csVector3 (0, 0, 0));
+    SetEntityPersistentData (entity, creation_time, creation_data,
+    	CEL_PERSIST_TYPE_SERVER_CONTROL);
     return entity;
   }
 
   // if the entity is the player avatar
-  if (link_type == NETWORK_LINK_ACTOR && !factory->IsServerAvailable () && player_controlled)
+  if (link_type == NETWORK_LINK_ACTOR && !factory->IsServerAvailable ()
+  	&& player_controlled)
   {
     // remove the default camera
     csRef<iCelEntity> default_camera = pl->FindEntity ("defaultcamera");
     pl->RemoveEntity (default_camera);
 
     // add the actor
-    csRef<iCelEntity> entity = factory->nettest->CreateActor ("camera", "", csVector3 (0, 100, 0));
-    SetEntityPersistentData (entity, creation_time, creation_data, CEL_PERSIST_TYPE_SERVER_FORCING);
+    csRef<iCelEntity> entity = factory->nettest->CreateActor ("camera", "",
+    	csVector3 (0, 100, 0));
+    SetEntityPersistentData (entity, creation_time, creation_data,
+    	CEL_PERSIST_TYPE_SERVER_FORCING);
     return entity;
   }
 
@@ -535,7 +571,8 @@ void GameClientManager::NetworkLinkControlChanged (iCelEntity* entity,
 {
 }
 
-void GameClientManager::NetworkLinkRemoved (csTicks deletion_time, iCelEntity* entity)
+void GameClientManager::NetworkLinkRemoved (csTicks deletion_time,
+	iCelEntity* entity)
 {
   pl->RemoveEntity (entity);
 }
