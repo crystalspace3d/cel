@@ -64,18 +64,18 @@
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047 <span class="keyword">struct </span><a class="code" href="structiCelEntityTracker.html">iCelEntityTracker</a>;
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 SCF_VERSION (<a class="code" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a>, 0, 0, 2);
-<a name="l00050"></a>00050 
-<a name="l00055"></a><a class="code" href="structiCelNewEntityCallback.html">00055</a> <span class="keyword">struct </span><a class="code" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> : <span class="keyword">public</span> iBase
-<a name="l00056"></a>00056 {
-<a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelNewEntityCallback.html#a0">NewEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00053"></a><a class="code" href="structiCelNewEntityCallback.html">00053</a> <span class="keyword">struct </span><a class="code" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00054"></a>00054 {
+<a name="l00055"></a>00055   SCF_INTERFACE (<a class="code" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a>, 0, 0, 2);
+<a name="l00056"></a>00056 
+<a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelNewEntityCallback.html#a1">NewEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00059"></a>00059 };
 <a name="l00060"></a>00060 
-<a name="l00061"></a>00061 SCF_VERSION (<a class="code" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a>, 0, 0, 2);
-<a name="l00062"></a>00062 
-<a name="l00067"></a><a class="code" href="structiCelEntityRemoveCallback.html">00067</a> <span class="keyword">struct </span><a class="code" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> : <span class="keyword">public</span> iBase
-<a name="l00068"></a>00068 {
-<a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityRemoveCallback.html#a0">RemoveEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00065"></a><a class="code" href="structiCelEntityRemoveCallback.html">00065</a> <span class="keyword">struct </span><a class="code" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00066"></a>00066 {
+<a name="l00067"></a>00067   SCF_INTERFACE (<a class="code" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a>, 0, 0, 2);
+<a name="l00068"></a>00068 
+<a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityRemoveCallback.html#a1">RemoveEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00071"></a>00071 };
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 

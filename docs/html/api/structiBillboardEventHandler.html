@@ -23,18 +23,18 @@
 <a href="structiBillboardEventHandler-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a0">Select</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a1">Select</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is selected.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a1">MouseMove</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is selected.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a2">MouseMove</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mouse moves while billboard is selected.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a2">Unselect</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mouse moves while billboard is selected.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a3">Unselect</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is unselected.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a3">DoubleClick</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is unselected.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardEventHandler.html#a4">DoubleClick</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard, int mouse_button, int mousex, int mousey)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is double clicked.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Billboard is double clicked.  <a href="#a4"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 An event on some billboard (like being selected or something). 
@@ -43,8 +43,8 @@ Note that all coordinates in this interface are given in billboard coordinates (
 <p>
 
 <p>
-Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00069">69</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboardEventHandler::DoubleClick" ref="a3" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
+Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00067">67</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iBillboardEventHandler::DoubleClick" ref="a4" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -95,7 +95,7 @@ Billboard is double clicked.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboardEventHandler::MouseMove" ref="a1" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboardEventHandler::MouseMove" ref="a2" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -146,7 +146,7 @@ Mouse moves while billboard is selected.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iBillboardEventHandler::Select" ref="a0" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboardEventHandler::Select" ref="a1" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -197,7 +197,7 @@ Billboard is selected.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboardEventHandler::Unselect" ref="a2" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboardEventHandler::Unselect" ref="a3" args="(iBillboard *billboard, int mouse_button, int mousex, int mousey)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

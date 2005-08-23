@@ -61,20 +61,20 @@
 <a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiBillboardLayer.html#a3">GetName</a> () <span class="keyword">const </span>= 0;
 <a name="l00059"></a>00059 };
 <a name="l00060"></a>00060 
-<a name="l00061"></a>00061 SCF_VERSION (<a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a>, 0, 0, 1);
-<a name="l00062"></a>00062 
-<a name="l00069"></a><a class="code" href="structiBillboardEventHandler.html">00069</a> <span class="keyword">struct </span><a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> : <span class="keyword">public</span> iBase
-<a name="l00070"></a>00070 {
-<a name="l00074"></a>00074   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a0">Select</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
+<a name="l00067"></a><a class="code" href="structiBillboardEventHandler.html">00067</a> <span class="keyword">struct </span><a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00068"></a>00068 {
+<a name="l00069"></a>00069   SCF_INTERFACE (<a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a>, 0, 0, 1);
+<a name="l00070"></a>00070 
+<a name="l00074"></a>00074   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a1">Select</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
 <a name="l00075"></a>00075         <span class="keywordtype">int</span> mousex, <span class="keywordtype">int</span> mousey) = 0;
 <a name="l00076"></a>00076 
-<a name="l00080"></a>00080   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a1">MouseMove</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
+<a name="l00080"></a>00080   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a2">MouseMove</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
 <a name="l00081"></a>00081         <span class="keywordtype">int</span> mousex, <span class="keywordtype">int</span> mousey) = 0;
 <a name="l00082"></a>00082 
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a2">Unselect</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a3">Unselect</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
 <a name="l00087"></a>00087         <span class="keywordtype">int</span> mousex, <span class="keywordtype">int</span> mousey) = 0;
 <a name="l00088"></a>00088 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a3">DoubleClick</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardEventHandler.html#a4">DoubleClick</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard, <span class="keywordtype">int</span> mouse_button,
 <a name="l00093"></a>00093         <span class="keywordtype">int</span> mousex, <span class="keywordtype">int</span> mousey) = 0;
 <a name="l00094"></a>00094 };
 <a name="l00095"></a>00095 
