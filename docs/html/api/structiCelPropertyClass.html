@@ -137,6 +137,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a38">TickOnce</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a38"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a39">GetPersistentData</a> (celPersistenceType persistence_type)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the persistent data of this property class.  <a href="#a39"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPersistenceResult&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a40">SetPersistentData</a> (csTicks data_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *data, celPersistenceType persistence_type)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Read the state of this property class from some persistent data.  <a href="#a40"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class for an entity. 
@@ -145,7 +151,7 @@ A property class describe physical attributes of an entity.
 <p>
 
 <p>
-Definition at line <a class="el" href="propclas_8h-source.html#l00163">163</a> of file <a class="el" href="propclas_8h-source.html">propclas.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="propclas_8h-source.html#l00164">164</a> of file <a class="el" href="propclas_8h-source.html">propclas.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a10"></a><!-- doxytag: member="iCelPropertyClass::AddPropertyChangeCallback" ref="a10" args="(iCelPropertyChangeCallback *cb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -234,6 +240,36 @@ Referenced by <a class="el" href="persisthelper_8h-source.html#l00070">celStanda
 Get the name of this property class. 
 <p>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="a39"></a><!-- doxytag: member="iCelPropertyClass::GetPersistentData" ref="a39" args="(celPersistenceType persistence_type)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::GetPersistentData           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">celPersistenceType&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>persistence_type</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Return the persistent data of this property class. 
+<p>
+Note: this function replaces the Save function.    </td>
   </tr>
 </table>
 <a class="anchor" name="a33"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyAndActionCount" ref="a33" args="() const =0" --><p>
@@ -976,6 +1012,59 @@ This routine is the first pass saving routine. Few property classes need to impl
 <p>
 Set the entity for this property class. 
 <p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a40"></a><!-- doxytag: member="iCelPropertyClass::SetPersistentData" ref="a40" args="(csTicks data_time, iCelDataBuffer *data, celPersistenceType persistence_type)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual celPersistenceResult iCelPropertyClass::SetPersistentData           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">csTicks&nbsp;</td>
+          <td class="mdname" nowrap> <em>data_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>celPersistenceType&nbsp;</td>
+          <td class="mdname" nowrap> <em>persistence_type</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Read the state of this property class from some persistent data. 
+<p>
+Note: this function replaces the Load function. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>data_time</em>&nbsp;</td><td>The timestamp of the persistent data. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>The persistent data. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>persistence_type</em>&nbsp;</td><td>The type of the persistence source. </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>Whether a problem has been encountered or not. Cheats can happen only if the type of the persistence source is CEL_PERSIST_TYPE_CLIENT_CONTROL (ie, when we are on the server side and the entity is controlled by a client).</dd></dl>
     </td>
   </tr>
 </table>

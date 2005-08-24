@@ -134,13 +134,16 @@ virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><t
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a36"></a><!-- doxytag: member="iCelDataBuffer::GetIBase" ref="a36" args="()" -->
 virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelDataBuffer.html#a36">GetIBase</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a37"></a><!-- doxytag: member="iCelDataBuffer::GetDebugInfo" ref="a37" args="()" -->
+virtual csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelDataBuffer.html#a37">GetDebugInfo</a> ()</td></tr>
+
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface describes persistable data. 
 <p>
 
 <p>
-Definition at line <a class="el" href="persist_8h-source.html#l00041">41</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="persist_8h-source.html#l00099">99</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a6"></a><!-- doxytag: member="iCelDataBuffer::Add" ref="a6" args="(bool v)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -170,7 +173,7 @@ Convenience methods to add specific types of data.
 <p>
 
 <p>
-Definition at line <a class="el" href="persist_8h-source.html#l00076">76</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.
+Definition at line <a class="el" href="persist_8h-source.html#l00134">134</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.
 <p>
 References <a class="el" href="structiCelDataBuffer.html#a5">AddData()</a>, and <a class="el" href="datatype_8h-source.html#l00125">celData::Set()</a>.    </td>
   </tr>
@@ -203,7 +206,7 @@ Add a data entry.
 <p>
 
 <p>
-Referenced by <a class="el" href="persist_8h-source.html#l00076">Add()</a>, <a class="el" href="persist_8h-source.html#l00090">AddAction()</a>, and <a class="el" href="persist_8h-source.html#l00091">AddIBase()</a>.    </td>
+Referenced by <a class="el" href="persist_8h-source.html#l00134">Add()</a>, <a class="el" href="persist_8h-source.html#l00148">AddAction()</a>, and <a class="el" href="persist_8h-source.html#l00149">AddIBase()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a22"></a><!-- doxytag: member="iCelDataBuffer::GetBool" ref="a22" args="()" --><p>
@@ -234,7 +237,7 @@ Convenience methods to get specific types of data.
 <p>
 
 <p>
-Definition at line <a class="el" href="persist_8h-source.html#l00094">94</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.
+Definition at line <a class="el" href="persist_8h-source.html#l00152">152</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.
 <p>
 References <a class="el" href="structiCelDataBuffer.html#a3">GetData()</a>, <a class="el" href="datatype_8h-source.html#l00065">celData::type</a>, and celData::value.    </td>
   </tr>
@@ -297,7 +300,7 @@ Get the next data entry.
 <p>
 See <a class="el" href="structiCelDataBuffer.html#a2">Reset()</a>.
 <p>
-Referenced by <a class="el" href="persist_8h-source.html#l00094">GetBool()</a>, <a class="el" href="persist_8h-source.html#l00153">GetColor()</a>, <a class="el" href="persist_8h-source.html#l00171">GetEntity()</a>, <a class="el" href="persist_8h-source.html#l00129">GetFloat()</a>, <a class="el" href="persist_8h-source.html#l00178">GetIBase()</a>, <a class="el" href="persist_8h-source.html#l00109">GetInt16()</a>, <a class="el" href="persist_8h-source.html#l00119">GetInt32()</a>, <a class="el" href="persist_8h-source.html#l00099">GetInt8()</a>, <a class="el" href="persist_8h-source.html#l00164">GetPC()</a>, <a class="el" href="persist_8h-source.html#l00134">GetString()</a>, <a class="el" href="persist_8h-source.html#l00114">GetUInt16()</a>, <a class="el" href="persist_8h-source.html#l00124">GetUInt32()</a>, <a class="el" href="persist_8h-source.html#l00104">GetUInt8()</a>, <a class="el" href="persist_8h-source.html#l00139">GetVector2()</a>, and <a class="el" href="persist_8h-source.html#l00146">GetVector3()</a>.    </td>
+Referenced by <a class="el" href="persist_8h-source.html#l00152">GetBool()</a>, <a class="el" href="persist_8h-source.html#l00211">GetColor()</a>, <a class="el" href="persist_8h-source.html#l00241">GetDebugInfo()</a>, <a class="el" href="persist_8h-source.html#l00229">GetEntity()</a>, <a class="el" href="persist_8h-source.html#l00187">GetFloat()</a>, <a class="el" href="persist_8h-source.html#l00236">GetIBase()</a>, <a class="el" href="persist_8h-source.html#l00167">GetInt16()</a>, <a class="el" href="persist_8h-source.html#l00177">GetInt32()</a>, <a class="el" href="persist_8h-source.html#l00157">GetInt8()</a>, <a class="el" href="persist_8h-source.html#l00222">GetPC()</a>, <a class="el" href="persist_8h-source.html#l00192">GetString()</a>, <a class="el" href="persist_8h-source.html#l00172">GetUInt16()</a>, <a class="el" href="persist_8h-source.html#l00182">GetUInt32()</a>, <a class="el" href="persist_8h-source.html#l00162">GetUInt8()</a>, <a class="el" href="persist_8h-source.html#l00197">GetVector2()</a>, and <a class="el" href="persist_8h-source.html#l00204">GetVector3()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="iCelDataBuffer::GetDataCount" ref="a1" args="() const =0" --><p>
@@ -326,7 +329,9 @@ Referenced by <a class="el" href="persist_8h-source.html#l00094">GetBool()</a>, 
 <p>
 Get the number of data entries. 
 <p>
-    </td>
+
+<p>
+Referenced by <a class="el" href="persist_8h-source.html#l00241">GetDebugInfo()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="iCelDataBuffer::GetSerialNumber" ref="a0" args="() const =0" --><p>
