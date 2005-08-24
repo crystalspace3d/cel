@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.00"
-	Name="plgstdphyslayer"
+	Name="appnettest"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,9 +12,10 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\out\release\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\release\build\plgstdphyslayer\"
-			ConfigurationType="2"
+			OutputDirectory="..\out\release\build\appnettest\"
+			IntermediateDirectory="..\out\release\build\appnettest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			WholeProgramOptimization="TRUE"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -35,10 +36,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\release\build\plgstdphyslayer\"
-				ObjectFile="..\out\release\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\release\build\appnettest\appnettest.pch"
+				AssemblerListingLocation="..\out\release\build\appnettest\"
+				ObjectFile="..\out\release\build\appnettest\"
+				ProgramDataBaseFileName="..\out\release\build\appnettest\appnettest.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -52,16 +53,15 @@
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\stdphyslayer.dll"
-				DelayLoadDLLs=""
-				ImportLibrary="..\out\release\build\plgstdphyslayer\plgstdphyslayer.lib"
+				OutputFile="..\nettest.exe"
+				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib"
+				AdditionalDependencies="advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\release\build\appnettest\appnettest.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -73,7 +73,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\release\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\release\build\appnettest\appnettest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -93,9 +93,10 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\out\debug\build\plgstdphyslayer\"
-			IntermediateDirectory="..\out\debug\build\plgstdphyslayer\"
-			ConfigurationType="2"
+			OutputDirectory="..\out\debug\build\appnettest\"
+			IntermediateDirectory="..\out\debug\build\appnettest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -109,10 +110,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..;..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pch"
-				AssemblerListingLocation="..\out\debug\build\plgstdphyslayer\"
-				ObjectFile="..\out\debug\build\plgstdphyslayer\"
-				ProgramDataBaseFileName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				PrecompiledHeaderFile="..\out\debug\build\appnettest\appnettest.pch"
+				AssemblerListingLocation="..\out\debug\build\appnettest\"
+				ObjectFile="..\out\debug\build\appnettest\"
+				ProgramDataBaseFileName="..\out\debug\build\appnettest\appnettest.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -124,16 +125,15 @@
 				Name="VCLinkerTool"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
-				OutputFile="..\stdphyslayer.dll"
-				DelayLoadDLLs=""
-				ImportLibrary="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.lib"
+				OutputFile="..\nettest.exe"
+				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib"
+				AdditionalDependencies="advapi32.lib user32.lib gdi32.lib shell32.lib libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.pdb"
+				ProgramDatabaseFile="..\out\debug\build\appnettest\appnettest.pdb"
 				GenerateManifest="FALSE"
 				TargetMachine="1"/>
 			<Tool
@@ -145,7 +145,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\out\debug\build\plgstdphyslayer\plgstdphyslayer.tlb"/>
+				TypeLibraryName="..\out\debug\build\appnettest\appnettest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -169,63 +169,33 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\datatype.cpp">
+				RelativePath="..\apps\nettest\netmanagers.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\entity.cpp">
+				RelativePath="..\apps\nettest\nettest.cpp">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\entitytpl.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\etracker.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.cpp">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.cpp">
+				RelativePath="..\apps\nettest\ntmain.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\plugins\stdphyslayer\entity.h">
+				RelativePath="..\apps\nettest\netmanagers.h">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\entitytpl.h">
+				RelativePath="..\apps\nettest\nettest.h">
 			</File>
 			<File
-				RelativePath="..\plugins\stdphyslayer\etracker.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\message.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\numreg.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\pl.h">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\propclas.h">
+				RelativePath="..\apps\nettest\networktypes.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\msvc\plgstdphyslayer.rc">
-			</File>
-			<File
-				RelativePath="..\plugins\stdphyslayer\stdphyslayer.csplugin">
+				RelativePath="..\msvc\appnettest.rc">
 			</File>
 		</Filter>
 	</Files>

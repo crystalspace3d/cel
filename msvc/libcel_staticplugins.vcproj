@@ -1259,6 +1259,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\stdphyslayer\datatype.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_stdphyslayer_datatype.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_stdphyslayer_datatype.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\plugins\stdphyslayer\entity.cpp">
 				<FileConfiguration
 					Name="Release|Win32">

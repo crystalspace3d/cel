@@ -48,6 +48,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "appnettest"=.\appnettest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libceltool
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "grpall_cel"=.\grpall_cel.dsp - Package Owner=<4>
 
 Package=<5>
@@ -64,6 +79,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name appmechtest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name appnettest
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libceltool
@@ -181,6 +199,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name appmechtest
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name appnettest
     End Project Dependency
 }}}
 

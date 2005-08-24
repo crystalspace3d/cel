@@ -396,6 +396,10 @@ SOURCE=..\plugins\propclass\zone\zone.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\stdphyslayer\datatype.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\stdphyslayer\entity.cpp
 # End Source File
 # Begin Source File
