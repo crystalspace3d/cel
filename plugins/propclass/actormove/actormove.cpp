@@ -404,7 +404,8 @@ void celPcActorMove::ToggleCameraMode ()
   pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
 }
 
-csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (celPersistenceType persistence_type)
+csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
+	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
     return SaveFirstPass ();
@@ -423,7 +424,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (celPersistenceType pers
     // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
     uint32 anim_count = sprcal3d->GetActiveAnimCount ();
     databuf->Add (anim_count);
-    char buffer[anim_count * 2];
+    char* buffer = new char [anim_count * 2];
     sprcal3d->GetActiveAnims (buffer, 2 * anim_count);
     // TODO: use instead a new celData type: RAW_DATA?
     uint32 i;
@@ -432,6 +433,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (celPersistenceType pers
       databuf->Add ((int8) buffer[2 * i]);
       databuf->Add ((int8) buffer[2 * i + 1]);
     }
+    delete[] buffer;
   }
   else if (spr3d)
   {
@@ -443,7 +445,8 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (celPersistenceType pers
 }
 
 celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time, 
-		      iCelDataBuffer* databuf, celPersistenceType persistence_type)
+		      iCelDataBuffer* databuf,
+		      celPersistenceType persistence_type)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ACTORMOVE_SERIAL) return CEL_PERSIST_RESULT_ERROR;
@@ -471,7 +474,7 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
   if (sprcal3d)
   {
     int anim_count = databuf->GetUInt32 ();
-    char buffer[anim_count * 2];
+    char* buffer = new char [anim_count * 2];
     int i = 0;
     for (i = 0; i < anim_count; i++)
     {
@@ -479,6 +482,7 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
       buffer[2 * i + 1] = databuf->GetInt8 ();
     }
     sprcal3d->SetActiveAnims (buffer, anim_count);
+    delete[] buffer;
   }
   else if (spr3d)
   {
