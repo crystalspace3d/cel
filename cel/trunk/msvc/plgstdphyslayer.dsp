@@ -104,6 +104,10 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\stdphyslayer\datatype.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\stdphyslayer\entity.cpp
 # End Source File
 # Begin Source File
