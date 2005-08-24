@@ -90,8 +90,36 @@
 <a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a10">FindExternalPC</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
 <a name="l00078"></a>00078 };
 <a name="l00079"></a>00079 
-<a name="l00080"></a>00080 <span class="preprocessor">#endif // __CEL_CELTOOL_PERSISTHELPER__</span>
-<a name="l00081"></a>00081 <span class="preprocessor"></span>
+<a name="l00083"></a><a class="code" href="classcelStandardPersistentDataList.html">00083</a> <span class="keyword">class </span><a class="code" href="classcelStandardPersistentDataList.html">celStandardPersistentDataList</a> : <span class="keyword">public</span> <a class="code" href="structiCelPersistentDataList.html">iCelPersistentDataList</a>
+<a name="l00084"></a>00084 {
+<a name="l00085"></a>00085  <span class="keyword">private</span>:
+<a name="l00086"></a>00086   <span class="keyword">class </span>celPersistentDataEntry
+<a name="l00087"></a>00087   {
+<a name="l00088"></a>00088   <span class="keyword">public</span>:
+<a name="l00089"></a>00089     csRef&lt;iCelDataBuffer&gt; databuf;
+<a name="l00090"></a>00090     csString pc_name;
+<a name="l00091"></a>00091     csString pc_tag;
+<a name="l00092"></a>00092   };
+<a name="l00093"></a>00093   csArray&lt;celPersistentDataEntry*&gt; data_list;
+<a name="l00094"></a>00094   
+<a name="l00095"></a>00095  <span class="keyword">public</span>:
+<a name="l00096"></a>00096   <a class="code" href="classcelStandardPersistentDataList.html">celStandardPersistentDataList</a> ();
+<a name="l00097"></a>00097   <span class="keyword">virtual</span> ~<a class="code" href="classcelStandardPersistentDataList.html">celStandardPersistentDataList</a> ();
+<a name="l00098"></a>00098 
+<a name="l00099"></a><a class="code" href="classcelStandardPersistentDataList.html#o0">00099</a>   <a class="code" href="classcelStandardPersistentDataList.html#o0">SCF_DECLARE_IBASE</a>;
+<a name="l00100"></a>00100 
+<a name="l00101"></a><a class="code" href="classcelStandardPersistentDataList.html#a2">00101</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelStandardPersistentDataList.html#a2">GetCount</a> ()<span class="keyword"> const</span>
+<a name="l00102"></a>00102 <span class="keyword">    </span>{ <span class="keywordflow">return</span> data_list.Length (); }
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardPersistentDataList.html#a3">GetPersistentData</a> (size_t idx, csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
+<a name="l00105"></a>00105         csString&amp; pc_name, csString&amp; pc_tag) <span class="keyword">const</span>;
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardPersistentDataList.html#a4">AddPersistentData</a> (csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
+<a name="l00108"></a>00108         csString&amp; pc_name, csString&amp; pc_tag);
+<a name="l00109"></a>00109 };
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="preprocessor">#endif // __CEL_CELTOOL_PERSISTHELPER__</span>
+<a name="l00112"></a>00112 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.4 
 </small></address> </div></body> </html>
