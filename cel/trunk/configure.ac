@@ -95,11 +95,6 @@ CS_CHECK_CSWIN32LIBS
 CS_CHECK_PYTHON()
 CS_CHECK_CPPUNIT([emit])
 
-CS_CHECK_LIB_WITH([ode],
-    [AC_LANG_PROGRAM([[#include <ode/ode.h>]], [dWorldCreate()])],
-    [$srcdir/libs/libode*], [C++],
-    [CS_EMIT_BUILD_RESULT([cs_cv_libode], [ODE])])
-
 CS_CHECK_LIB_WITH([NL],
     [AC_LANG_PROGRAM([[#include <nl.h>]], [nlOpen(0,0)])],
     [], [C++],

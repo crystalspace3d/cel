@@ -56,8 +56,6 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
   [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
 
 MsvcGenConfig PYTHON.AVAILABLE : no ;
-MsvcGenConfig ODE.AVAILABLE : yes ;
-MsvcGenConfig ODE.LIBS : "ode.lib" ;
 
 # Header subdirectories (order sensitive: libraries before plugins and apps)
 SubInclude TOP docs ;
