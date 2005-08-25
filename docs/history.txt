@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Aug-2005
+	- res made some compile fixes.
 24-Aug-2005
 	- Jorrit fixed the actormove plugin. It is illegal in C++ to
 	  do 'char bla[var]'. You must use allocation here.
