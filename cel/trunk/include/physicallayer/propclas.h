@@ -25,69 +25,10 @@
 #include "csutil/strset.h"
 #include "csutil/ref.h"
 #include "physicallayer/datatype.h"
+#include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 
 struct iCelPropertyClassList;
-
-/**
- * Find a property class by SCF interface and tag. If tag is 0 then
- * it will find the default property class.
- */
-template<class Interface>
-inline csPtr<Interface> celQueryPropertyClassTag (
-  iCelPropertyClassList* plist, const char* tag)
-{
-  iBase* base = plist->FindByInterfaceAndTag (
-    scfInterfaceTraits<Interface>::GetID (),
-    scfInterfaceTraits<Interface>::GetVersion (),
-    tag);
-
-  if (base == 0) return csPtr<Interface> (0); 
-
-  Interface* x = (Interface*)base->QueryInterface (
-    scfInterfaceTraits<Interface>::GetID (),
-    scfInterfaceTraits<Interface>::GetVersion ());
-
-  base->DecRef ();	// Release our base interface.
-  return csPtr<Interface> (x);
-}
-
-/**
- * Find a property class by SCF interface. This function will first
- * try to find a property class that implements the interface but has tag
- * not set (0). If such a property class cannot be found then it will
- * return a random one that implements the given interface.
- */
-template<class Interface>
-inline csPtr<Interface> celQueryPropertyClass (
-  iCelPropertyClassList* plist)
-{
-  iBase* base = plist->FindByInterface (
-    scfInterfaceTraits<Interface>::GetID (),
-    scfInterfaceTraits<Interface>::GetVersion ());
-
-  if (base == 0) return csPtr<Interface> (0); 
-
-  Interface* x = (Interface*)base->QueryInterface (
-    scfInterfaceTraits<Interface>::GetID (),
-    scfInterfaceTraits<Interface>::GetVersion ());
-
-  base->DecRef ();	// Release our base interface.
-  return csPtr<Interface> (x);
-}
-
-/**
- * Find a property class by SCF interface. This function will first
- * try to find a property class that implements the interface but has tag
- * not set (0). If such a property class cannot be found then it will
- * return a random one that implements the given interface.
- */
-template<class Interface>
-inline csPtr<Interface> celQueryPropertyClassEntity (
-  iCelEntity* entity)
-{
-  return celQueryPropertyClass<Interface> (entity->GetPropertyClassList ());
-}
 
 /**
  * Find a property class by SCF interface. This function will first
@@ -516,6 +457,66 @@ struct iCelPropertyClassList : public iBase
   virtual iBase* FindByInterfaceAndTag (
   	scfInterfaceID id, int version, const char* tag) const = 0;
 };
+
+/**
+ * Find a property class by SCF interface and tag. If tag is 0 then
+ * it will find the default property class.
+ */
+template<class Interface>
+inline csPtr<Interface> celQueryPropertyClassTag (
+  iCelPropertyClassList* plist, const char* tag)
+{
+  iBase* base = plist->FindByInterfaceAndTag (
+    scfInterfaceTraits<Interface>::GetID (),
+    scfInterfaceTraits<Interface>::GetVersion (),
+    tag);
+
+  if (base == 0) return csPtr<Interface> (0); 
+
+  Interface* x = (Interface*)base->QueryInterface (
+    scfInterfaceTraits<Interface>::GetID (),
+    scfInterfaceTraits<Interface>::GetVersion ());
+
+  base->DecRef ();	// Release our base interface.
+  return csPtr<Interface> (x);
+}
+
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
+template<class Interface>
+inline csPtr<Interface> celQueryPropertyClass (
+  iCelPropertyClassList* plist)
+{
+  iBase* base = plist->FindByInterface (
+    scfInterfaceTraits<Interface>::GetID (),
+    scfInterfaceTraits<Interface>::GetVersion ());
+
+  if (base == 0) return csPtr<Interface> (0); 
+
+  Interface* x = (Interface*)base->QueryInterface (
+    scfInterfaceTraits<Interface>::GetID (),
+    scfInterfaceTraits<Interface>::GetVersion ());
+
+  base->DecRef ();	// Release our base interface.
+  return csPtr<Interface> (x);
+}
+
+/**
+ * Find a property class by SCF interface. This function will first
+ * try to find a property class that implements the interface but has tag
+ * not set (0). If such a property class cannot be found then it will
+ * return a random one that implements the given interface.
+ */
+template<class Interface>
+inline csPtr<Interface> celQueryPropertyClassEntity (
+  iCelEntity* entity)
+{
+  return celQueryPropertyClass<Interface> (entity->GetPropertyClassList ());
+}
 
 #endif // __CEL_PL_PROPCLASS__
 
