@@ -424,14 +424,15 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
     // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
     uint32 anim_count = sprcal3d->GetActiveAnimCount ();
     databuf->Add (anim_count);
-    char* buffer = new char [anim_count * 2];
-    sprcal3d->GetActiveAnims (buffer, 2 * anim_count);
+    csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
+
+    sprcal3d->GetActiveAnims (buffer, anim_count);
     // TODO: use instead a new celData type: RAW_DATA?
     uint32 i;
     for (i = 0; i < anim_count; i++)
     {
-      databuf->Add ((int8) buffer[2 * i]);
-      databuf->Add ((int8) buffer[2 * i + 1]);
+      databuf->Add ((int32) buffer[i].index);
+      databuf->Add ((float) buffer[i].weight);
     }
     delete[] buffer;
   }
@@ -474,12 +475,12 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
   if (sprcal3d)
   {
     int anim_count = databuf->GetUInt32 ();
-    char* buffer = new char [anim_count * 2];
+    csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
     int i = 0;
     for (i = 0; i < anim_count; i++)
     {
-      buffer[2 * i] = databuf->GetInt8 ();
-      buffer[2 * i + 1] = databuf->GetInt8 ();
+      buffer[i].index = databuf->GetInt32 ();
+      buffer[i].weight = databuf->GetFloat ();
     }
     sprcal3d->SetActiveAnims (buffer, anim_count);
     delete[] buffer;
