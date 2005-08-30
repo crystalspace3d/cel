@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Aug-2005
+	- Jorrit fixed CEL for latest CS (cal3d changes).
 25-Aug-2005
 	- res made some compile fixes.
         - res removed the (now unneeded) ODE dependency.
