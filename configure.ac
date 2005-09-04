@@ -94,11 +94,15 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 CS_CHECK_CSWIN32LIBS
 CS_CHECK_PYTHON()
 CS_CHECK_CPPUNIT([emit])
+CS_CHECK_PTHREAD([cygwin*])
 
 CS_CHECK_LIB_WITH([NL],
     [AC_LANG_PROGRAM([[#include <nl.h>]], [nlOpen(0,0)])],
     [], [C++],
-    [CS_EMIT_BUILD_RESULT([cs_cv_libNL], [HAWKNL])])
+    [CS_EMIT_BUILD_RESULT([cs_cv_libNL], [HAWKNL])], [],
+    [$cs_cv_sys_pthread_cflags],
+    [$cs_cv_sys_pthread_lflags],
+    [$cs_cv_sys_pthread_libs])
 
 #------------------------------------------------------------------------------
 # Use the CPPFLAGS, CXXFLAGS, CFLAGS, and LDFLAGS passed to configure, as well
