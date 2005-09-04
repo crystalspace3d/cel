@@ -80,6 +80,7 @@ protected:
   csWeakRef<iPcCollisionDetection> pccolldet;
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
+  csRef<iCollideSystem> cdsys;
 
   csWeakRef<iPcMesh> anchor;
   bool anchor_needsinit;
@@ -100,11 +101,11 @@ protected:
 
   csVector3 velWorld;
 
-    /// Should the model be tilted so it's aligned with the ground
+  /// Should the model be tilted so it's aligned with the ground
   bool hugGround;
-  csVector3 moveHistory[40];
-  int historyIndex;
-  bool historyFilled;
+
+  float xRot;
+  float zRot;
 
   // Path vars
   csRef<iPath> path;
@@ -136,6 +137,9 @@ protected:
   bool MoveV (float delta);
   bool MoveSprite (float delta);
   void OffsetSprite (float delta);
+
+  /// Transform pcmesh so that it follows the curvature of the ground at pos (sector)
+  void HugGround(const csVector3& pos, iSector* sector);
 
   // Returns a list of sectors near a position.
   int FindSectors (const csVector3& pos, float size, iSector** sectors);

@@ -167,9 +167,9 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   angDelta = 0;
   lastDRUpdate = 0;
 
-  historyIndex = 0;
-  historyFilled = false;
-  hugGround = true;
+  xRot = 0;
+  zRot = 0;
+  hugGround = false;
   called = false;
 
   portalDisplaced = 0.0f;
@@ -556,8 +556,10 @@ bool celPcLinearMovement::RotateV (float delta)
     }
   }
 
+  iMovable* movable = pcmesh->GetMesh()->GetMovable();
   csYRotMatrix3 rotMat(angle.y);
-  pcmesh->GetMesh ()->GetMovable()->Transform (rotMat);
+  movable->SetTransform(movable->GetTransform().GetT2O () * rotMat );
+  //pcmesh->GetMesh ()->GetMovable()->Transform (rotMat);
   return true;
 }
 
@@ -819,98 +821,8 @@ bool celPcLinearMovement::MoveV (float delta)
       velWorld.y = 0;
     }
 
-    // Not fully implemented!
-    if (false)
-    {
-      int currentIndex = historyIndex;
-      moveHistory[historyIndex++] = newpos;
-      if(historyIndex == 40)
-        historyIndex = 0;
-      float displacement = 0;
-      //float heightChange = 0;
-      float baseSize = bottomSize.z;
-      csVector3 current(moveHistory[currentIndex--]);
-
-      float highest = current.y;
-      csVector3 planevec[3];
-      planevec[0] = planevec[1] = planevec[2] = current;
-      int i = 0;
-      while (displacement < baseSize)
-      {
-        if((!historyFilled && currentIndex < 0)
-		|| (currentIndex == historyIndex))
-          break;
-        if(currentIndex < 0)
-          currentIndex = 39;
-
-        if(displacement < baseSize / 3 && current.y > highest)
-        {
-          planevec[0] = current;
-          highest = current.y;
-        }
-        else if(displacement < baseSize * 2 / 3 && displacement >= baseSize / 3)
-        {
-          if (i != 1)
-          {
-            planevec[1] = current;
-            highest = current.y;
-            i = 1;
-          }
-          else if (current.y > highest)
-          {
-            planevec[1] = current;
-            highest = current.y;
-          }
-        }
-        else if(displacement >= baseSize * 2 / 3)
-        {
-          if (i != 2)
-          {
-            planevec[2] = current;
-            highest = current.y;
-            i = 2;
-          }
-          else if (current.y > highest)
-          {
-            planevec[2] = current;
-            highest = current.y;
-          }
-        }
-        current = moveHistory[currentIndex--];
-
-        displacement = sqrt(pow(newpos.x - current.x, 2)
-		+ pow(newpos.z - current.z, 2));
-        //heightChange += current.y - previous.y;
-      }
-
-#if 0
-      if(displacement > baseSize)
-      {
-        csPlane3 plane(planevec[0], planevec[1], planevec[2]);
-        if(plane.Normal().Norm() > 0)
-        {
-          csVector3 normal = plane.Normal().Unit();
-          if(normal.y < 0)
-            normal = -normal;
-          //float yAngle = acos(normal.y);
-          //float xAngle = atan(normal.x/normal.z);
-          //float angle = atan(max_y - 0.01 - oldpos.y / distTravelled);
-          //float angle = atan(heightChange / displacement);
-          //printf("angle: %f, numerator: %f, denominator: %f\n",angle*2*PI/360, oldpos.y-max_y-0.01,distTravelled);
-
-          const csMatrix3& transform = pcmesh->GetMesh ()->GetMovable ()
-	  	->GetFullTransform().GetT2O();
-          csVector3 zVec(0,0,1);
-          zVec = transform*zVec;
-
-          //float diffAngle = angle - atan(zVec.y/zVec.z);
-          //printf("%p Normal %f %f %f \n", this, normal.x, normal.y, normal.z);
-          //printf("Target x angle: %f y angle: %f\n", xAngle, yAngle);
-          //csXRotMatrix3 rotMat(-diffAngle);
-        }
-      }
-#endif 
-    }
+    if(hugGround)
+      HugGround(newpos, new_sector);
   }
 
   // Move to the new position. If we have an anchor we have to convert
@@ -931,6 +843,109 @@ bool celPcLinearMovement::MoveV (float delta)
   movable->UpdateMove ();
 
   return true;
+}
+void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
+{
+  csVector3 start, end;
+  csIntersectingTriangle closest_tri;
+  csVector3 isect[4];
+  csPlane3 plane;
+  bool hit[4];
+
+  // Set minimum base dimensions of 0.5x0.5 for good aesthetics
+  float legsXlimit = MAX(bottomSize.x / 2, 0.5);
+  float legsZlimit = MAX(bottomSize.z / 2, 0.5);
+
+  start.y = pos.y + shift.y + 0.01;
+
+  // Assuming the bounding box is axis-aligned: (Lower-left point)
+  start.x = pos.x - legsXlimit;
+  start.z = pos.z - legsZlimit;
+
+  end = start;
+  end.y -= 5;
+
+  hit[0] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
+    false, closest_tri, isect[0]) != -1;
+
+  // Assuming the bounding box is axis-aligned: (Upper-left point)
+  start.x = pos.x - legsXlimit;
+  start.z = pos.z + legsZlimit;
+
+  end = start;
+  end.y -= 5;
+
+  hit[1] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
+    false, closest_tri, isect[1]) != -1;
+
+  // Assuming the bounding box is axis-aligned: (Upper-right point)
+  start.x = pos.x + legsXlimit;
+  start.z = pos.z + legsZlimit;
+
+  end = start;
+  end.y -= 5;
+
+  hit[2] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
+    false, closest_tri, isect[2]) != -1;
+
+  // Assuming the bounding box is axis-aligned: (Lower-right point)
+  start.x = pos.x + legsXlimit;
+  start.z = pos.z - legsZlimit;
+
+  end = start;
+  end.y -= 5;
+
+  hit[3] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
+    false, closest_tri, isect[3]) != -1;
+
+  //printf("Isect (%f %f %f %f)\n",hit[0] ? isect[0].y : -999, hit[1] ? isect[1].y : -999, hit[2] ? isect[2].y: -999, hit[3] ? isect[3].y: -999);
+
+  int notHit = 0;
+  int lowest = -1;
+  for(int i = 0; i<4 && notHit <= 1;i++)
+  {
+    if(!hit[i])
+    {
+      notHit++;
+      lowest = i;
+      continue;
+    }
+    if(notHit == 0)
+    {
+      if(lowest == -1)
+        lowest = i;
+      else if(isect[lowest].y > isect[i].y)
+        lowest = i;
+    }
+  }
+  if(notHit <= 1)
+  {
+    switch(lowest)
+    {
+    case 0:
+      plane.Set(isect[1], isect[2], isect[3]);
+      break;
+    case 1:
+      plane.Set(isect[0], isect[2], isect[3]);
+      break;
+    case 2:
+      plane.Set(isect[0], isect[1], isect[3]);
+      break;
+    case 3:
+      plane.Set(isect[0], isect[1], isect[2]);
+      break;
+    }
+    csVector3 normal = plane.GetNormal().Unit();
+
+    float newxRot = atan2(normal.z, normal.y );
+    float newzRot = -atan2(normal.x, normal.y );
+    csMatrix3 rotMat = csZRotMatrix3(newzRot) * csXRotMatrix3(newxRot - xRot) * csZRotMatrix3(-zRot);
+    pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
+    xRot = newxRot;
+    zRot = newzRot;
+
+    //printf("xRot %f zRot %f X %f Y %f Z %f\n", xRot*180/PI, zRot*180/PI, normal.x, normal.y, normal.z);
+  }
 }
 
 void celPcLinearMovement::UpdateDRDelta (csTicks ticksdelta)
@@ -1098,10 +1113,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   celPcLinearMovement::shift = shift;
 
-  // Temporary fix for ladder climbing
-  // This MIGHT not be necessary in most cases
-  bottomSize.x = MAX(topSize.x, bottomSize.x);
-  bottomSize.z = MAX(topSize.z, bottomSize.z);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   if (!pc_cd)
   {
