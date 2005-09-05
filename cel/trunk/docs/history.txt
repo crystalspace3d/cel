@@ -4,13 +4,16 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 5-Sep-2005
-  - Andrew Dai added SetHugGround(bool) to allow the pcmesh to be transformed
-    according to the contour of the ground, this defaults to false unless
-    the model's z dimension is greater than 1.
+	- Andrew Dai added SetHugGround(bool) to allow the pcmesh to be 
+	  transformed according to the contour of the ground, this defaults 
+	  to false unless the model's z dimension is greater than 1.
+	- caedes extended python interface for iCelParameterBlock with
+	  GetParameterValue function. This gets a csStringID as parameter and
+	  returns the appropiate python object according to celData contents.
 4-Sep-2005
-  - Andrew Dai improved celPcLinearMovement so that it can transform
-    the pcmesh to follow the contour of the ground it is standing on, with
-    HugGround().
+	- Andrew Dai improved celPcLinearMovement so that it can transform
+	  the pcmesh to follow the contour of the ground it is standing on, 
+	  with HugGround().
 	- Eric Sunshine added a pthread check to configure.ac, and upgraded the
 	  HawkNL check to utilize the pthread results since pthread is needed
 	  by HawkNL on some platforms.
