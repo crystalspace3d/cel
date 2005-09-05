@@ -661,11 +661,14 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	    else
               val = (float) csMouseEventHelper::GetY(&ev);
             celData ret;
+	    csStringID id_mouseval = pl->FetchStringID ("cel.parameter.value");
+	    celGenericParameterBlock *params = new celGenericParameterBlock (1);
+	    params->SetParameterDef (0, id_mouseval, "value");
 	    if (screenspace)
-              ret.Set (val);
+	      params->GetParameter(0).Set(val);
 	    else
-              ret.Set (ScreenToCentered (val, p->numeric));
-            bh->SendMessage (p->command, this, ret, 0);
+	      params->GetParameter(0).Set(ScreenToCentered (val, p->numeric));
+            bh->SendMessage (p->command, this, ret, params);
 	  }
 	  if (p->recenter)
 	  {
@@ -766,11 +769,14 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	    //Get the value in the range -1 to 1.
             val = val / 32767;
             celData ret;
+	    csStringID id_mouseval = pl->FetchStringID ("cel.parameter.value");
+	    celGenericParameterBlock *params = new celGenericParameterBlock (1);
+	    params->SetParameterDef (0, id_mouseval, "value");
 	    if (screenspace)
-              ret.Set (CenteredToScreen (val, p->numeric));
+	      params->GetParameter(0).Set(CenteredToScreen (val, p->numeric));
 	    else
-              ret.Set (val);
-            bh->SendMessage (p->command, this, ret, 0);
+	      params->GetParameter(0).Set(val);
+            bh->SendMessage (p->command, this, ret, params);
 	  }
         }
         p = p->next;
