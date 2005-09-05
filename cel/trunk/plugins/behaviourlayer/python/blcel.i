@@ -140,7 +140,6 @@ CEL_PC_QUERY(pcType)
 %ignore celInitializer::RequestPlugins;
 %ignore celInitializer::RequestPluginsV;
 %include "celtool/initapp.h"
-
 //-----------------------------------------------------------------------------
 
 %include "physicallayer/pl.h"
@@ -220,6 +219,53 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 %ignore iCelBehaviour::SendMessageV;
 %include "behaviourlayer/behave.h"
+%extend iCelParameterBlock {
+	PyObject *GetParameterValue(csStringID id) {
+		const celData *data = self->GetParameter(id);
+		PyObject *obj = Py_None;
+		if (data)
+		{
+		    switch(data->type)
+		    {
+			case CEL_DATA_FLOAT:
+				obj = PyFloat_FromDouble((float)data->value.f);
+				break;
+			case CEL_DATA_BOOL:
+				obj = SWIG_From_bool((bool)data->value.bo);
+				break;
+			case CEL_DATA_STRING:
+			{
+				char *result;
+				result = (char*)((iString const *)(data->value.s)->GetData());
+				obj = SWIG_FromCharPtr(result);
+				break;
+			}
+			case CEL_DATA_VECTOR2:
+			{
+				csVector2 *result;
+				result = new csVector2(data->value.v.x,data->value.v.y);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector2, 1);
+				break;
+			}
+			case CEL_DATA_VECTOR3:
+			{
+				csVector3 *result;
+				result = new csVector3(data->value.v.x,data->value.v.y,data->value.v.z);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector3, 1);
+				break;
+			}
+			/* Still to be done (and some more) */
+			case CEL_DATA_PCLASS:
+			case CEL_DATA_ENTITY:
+			case CEL_DATA_ACTION:
+			default:
+				obj = Py_None;
+				break;
+		    }
+		}
+		return obj;
+	}
+}
 %extend iCelBehaviour {
   PyObject *GetPythonObject()
   {
@@ -408,3 +454,5 @@ enum celDataType
   CEL_DATA_COLOR,
   CEL_DATA_IBASE
 };
+
+
