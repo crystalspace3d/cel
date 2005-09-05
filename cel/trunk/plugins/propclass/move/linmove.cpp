@@ -1107,6 +1107,9 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   topSize = body;
   bottomSize = legs;
 
+  if(bottomSize.z > 1)
+    hugGround = true;
+  
   intervalSize.x = MIN(topSize.x, bottomSize.x);
   intervalSize.y = MIN(topSize.y, bottomSize.y);
   intervalSize.z = MIN(topSize.z, bottomSize.z);

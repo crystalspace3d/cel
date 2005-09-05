@@ -5,7 +5,8 @@ The history order is reversed so that new features are at the top.
 
 5-Sep-2005
   - Andrew Dai added SetHugGround(bool) to allow the pcmesh to be transformed
-    according to the contour of the ground, this defaults to false.
+    according to the contour of the ground, this defaults to false unless
+    the model's z dimension is greater than 1.
 4-Sep-2005
   - Andrew Dai improved celPcLinearMovement so that it can transform
     the pcmesh to follow the contour of the ground it is standing on, with
