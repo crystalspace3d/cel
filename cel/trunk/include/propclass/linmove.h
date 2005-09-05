@@ -303,6 +303,9 @@ struct iPcLinearMovement : public iBase
 
   virtual void SetOnGround (bool onground) = 0;
 
+  /// Set if pcmesh should be transformed to follow the contour of the ground
+  virtual void SetHugGround (bool hugGround) = 0;
+
   virtual void SetDeltaLimit(float deltaLimit) = 0;
 
   virtual bool RotateV (float delta) = 0;

@@ -237,6 +237,11 @@ public:
       pccolldet->SetOnGround(onground);
   }
 
+  /// Set if pcmesh should be transformed to follow the contour of the ground
+  void SetHugGround(bool hugGround) {
+    this->hugGround = hugGround;
+  }
+
   void SetGravity(float grav) {
       gravity = grav;
   }
@@ -490,6 +495,10 @@ public:
     virtual void SetOnGround (bool onground)
     {
       scfParent->SetOnGround (onground);
+    }
+    virtual void SetHugGround (bool hugGround)
+    {
+      scfParent->SetHugGround (hugGround);
     }
     virtual void SetGravity(float grav)
     {
