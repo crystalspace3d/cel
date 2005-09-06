@@ -392,20 +392,20 @@ bool celBehaviourDynActor::SendMessageV (const char* msg_id,
       return false;
 
     if (!strcmp (msg_id+15, "forward1"))
-      pcmechobj->AddForceDuration (csVector3 (0, 0, -25), false,
-      	csVector3 (0, 0, 0), .2);
+      pcmechobj->AddForceDuration (csVector3 (0, 0, -25.0f), false,
+      	csVector3 (0, 0, 0), .2f);
     else if (!strcmp (msg_id+15, "backward1"))
-      pcmechobj->AddForceDuration (csVector3 (0, 0, 25), false,
-      	csVector3 (0, 0, 0), .2);
+      pcmechobj->AddForceDuration (csVector3 (0, 0, 25.0f), false,
+      	csVector3 (0, 0, 0), .2f);
     else if (!strcmp (msg_id+15, "strafeleft1"))
-      pcmechobj->AddForceDuration (csVector3 (25, 0, 0), false,
-      	csVector3 (0, 0, 0), .2);
+      pcmechobj->AddForceDuration (csVector3 (25.0f, 0, 0), false,
+      	csVector3 (0, 0, 0), .2f);
     else if (!strcmp (msg_id+15, "straferight1"))
-      pcmechobj->AddForceDuration (csVector3 (-25, 0, 0), false,
-      	csVector3 (0, 0, 0), .2);
+      pcmechobj->AddForceDuration (csVector3 (-25.0f, 0, 0), false,
+      	csVector3 (0, 0, 0), .2f);
     else if (!strcmp (msg_id+15, "jump1"))
-      pcmechobj->AddForceDuration (csVector3 (0, 25, 0), false,
-      	csVector3 (0, 0, 0), .2);
+      pcmechobj->AddForceDuration (csVector3 (0, 25.0f, 0), false,
+      	csVector3 (0, 0, 0), .2f);
     else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,

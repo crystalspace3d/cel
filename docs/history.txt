@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Sep-2005
+	- Eric Sunshine eliminated a bunch of compilation warnings reported by
+	  MSVC 7.1 about possible numeric truncation.
 5-Sep-2005
 	- Andrew Dai added SetHugGround(bool) to allow the pcmesh to be 
 	  transformed according to the contour of the ground, this defaults 

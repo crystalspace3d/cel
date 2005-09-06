@@ -156,7 +156,7 @@ celMovePathSeqOp::celMovePathSeqOp (
   tag = qm->ResolveParameter (params, tag_par);
 
   csString sectorname;
-  path = new csPath (nodes.Length ());
+  path = new csPath ((int)nodes.Length ());
 
   sector = 0;
   maxtime = 0.0f;
@@ -164,7 +164,7 @@ celMovePathSeqOp::celMovePathSeqOp (
   for (i = 0 ; i < nodes.Length () ; i++)
   {
     float t = ToFloat (qm->ResolveParameter (params, times[i]));
-    path->SetTime (i, t);
+    path->SetTime ((int)i, t);
     if (t >= maxtime) maxtime = t;
 
     if (!sector)
@@ -195,9 +195,9 @@ celMovePathSeqOp::celMovePathSeqOp (
     }
 
     const csVector3& pos = mapnode->GetPosition ();
-    path->SetPositionVector (i, pos);
-    path->SetForwardVector (i, mapnode->GetZVector ());
-    path->SetUpVector (i, mapnode->GetYVector ());
+    path->SetPositionVector ((int)i, pos);
+    path->SetForwardVector ((int)i, mapnode->GetZVector ());
+    path->SetUpVector ((int)i, mapnode->GetYVector ());
   }
 }
 

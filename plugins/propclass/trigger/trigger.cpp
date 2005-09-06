@@ -447,7 +447,7 @@ void celPcTrigger::TickOnce ()
       {
 	csVector3 end (mpos.x, mpos.y-above_maxdist, mpos.z);
 	// Small correction to make sure we don't miss the object that we're standing on.
-	mpos.y += .01;
+	mpos.y += .01f;
 	trigger_fired = cdsys->CollideSegment (above_collider, &above_trans,
 		mpos, end);
       }
@@ -540,7 +540,7 @@ void celPcTrigger::TickOnce ()
 		->GetFullPosition ();
 	csVector3 end (origin.x, origin.y-above_maxdist, origin.z);
 	// Small correction to make sure we don't miss the object that we're standing on.
-	origin.y += .01;
+	origin.y += .01f;
 	if (!cdsys->CollideSegment (above_collider, &above_trans, origin, end))
 	  continue;
       }
