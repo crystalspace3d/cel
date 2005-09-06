@@ -422,8 +422,8 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
   if (sprcal3d)
   {
     // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
-    uint32 anim_count = sprcal3d->GetActiveAnimCount ();
-    databuf->Add (anim_count);
+    size_t anim_count = sprcal3d->GetActiveAnimCount ();
+    databuf->Add ((uint32)anim_count);
     csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
 
     sprcal3d->GetActiveAnims (buffer, anim_count);
