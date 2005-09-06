@@ -2092,6 +2092,51 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
   return bl;
 }
 
+static PyObject *iCelParameterBlock_GetParameterValue(iCelParameterBlock *self,csStringID id){
+		const celData *data = self->GetParameter(id);
+		PyObject *obj = Py_None;
+		if (data)
+		{
+		    switch(data->type)
+		    {
+			case CEL_DATA_FLOAT:
+				obj = PyFloat_FromDouble((float)data->value.f);
+				break;
+			case CEL_DATA_BOOL:
+				obj = SWIG_From_bool((bool)data->value.bo);
+				break;
+			case CEL_DATA_STRING:
+			{
+				char *result;
+				result = (char*)((iString const *)(data->value.s)->GetData());
+				obj = SWIG_FromCharPtr(result);
+				break;
+			}
+			case CEL_DATA_VECTOR2:
+			{
+				csVector2 *result;
+				result = new csVector2(data->value.v.x,data->value.v.y);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector2, 1);
+				break;
+			}
+			case CEL_DATA_VECTOR3:
+			{
+				csVector3 *result;
+				result = new csVector3(data->value.v.x,data->value.v.y,data->value.v.z);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector3, 1);
+				break;
+			}
+			/* Still to be done (and some more) */
+			case CEL_DATA_PCLASS:
+			case CEL_DATA_ENTITY:
+			case CEL_DATA_ACTION:
+			default:
+				obj = Py_None;
+				break;
+		    }
+		}
+		return obj;
+	}
 static PyObject *iCelBehaviour_GetPythonObject(iCelBehaviour *self){
     PyObject* obj = (PyObject*)(self->GetInternalObject());
     Py_INCREF (obj);
@@ -5729,6 +5774,30 @@ static PyObject *_wrap_iCelParameterBlock_GetParameter(PyObject *self, PyObject 
     }
     
     PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iCelParameterBlock_GetParameter'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelParameterBlock_GetParameterValue(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelParameterBlock *arg1 = (iCelParameterBlock *) 0 ;
+    csStringID arg2 ;
+    PyObject *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelParameterBlock_GetParameterValue",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelParameterBlock, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (csStringID)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (PyObject *)iCelParameterBlock_GetParameterValue(arg1,arg2);
+    
+    resultobj = result;
+    return resultobj;
+    fail:
     return NULL;
 }
 
@@ -16778,6 +16847,29 @@ static PyObject *_wrap_iPcLinearMovement_SetOnGround(PyObject *, PyObject *args)
 }
 
 
+static PyObject *_wrap_iPcLinearMovement_SetHugGround(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    bool arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcLinearMovement_SetHugGround",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (bool)(SWIG_As_bool(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetHugGround(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcLinearMovement_SetDeltaLimit(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
@@ -24054,6 +24146,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csQueryRegistry_iCelBlLayer", _wrap_csQueryRegistry_iCelBlLayer, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameterCount", _wrap_iCelParameterBlock_GetParameterCount, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameter", _wrap_iCelParameterBlock_GetParameter, METH_VARARGS, NULL},
+	 { (char *)"iCelParameterBlock_GetParameterValue", _wrap_iCelParameterBlock_GetParameterValue, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelParameterBlock", _wrap_delete_iCelParameterBlock, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_swigregister", iCelParameterBlock_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iCelBehaviour_GetName", _wrap_iCelBehaviour_GetName, METH_VARARGS, NULL},
@@ -24463,6 +24556,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_SetPathSector", _wrap_iPcLinearMovement_SetPathSector, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_IsOnGround", _wrap_iPcLinearMovement_IsOnGround, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetOnGround", _wrap_iPcLinearMovement_SetOnGround, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_SetHugGround", _wrap_iPcLinearMovement_SetHugGround, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetDeltaLimit", _wrap_iPcLinearMovement_SetDeltaLimit, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_RotateV", _wrap_iPcLinearMovement_RotateV, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetGravity", _wrap_iPcLinearMovement_SetGravity, METH_VARARGS, NULL},
