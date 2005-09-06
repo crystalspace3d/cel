@@ -358,6 +358,7 @@ class iCelParameterBlock(cspace.iBase):
         return "<%s.%s; proxy of C++ iCelParameterBlock instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
+    def GetParameterValue(*args): return _blcelc.iCelParameterBlock_GetParameterValue(*args)
     def __del__(self, destroy=_blcelc.delete_iCelParameterBlock):
         try:
             if self.thisown: destroy(self)
@@ -1303,6 +1304,7 @@ class iPcLinearMovement(cspace.iBase):
     def SetPathSector(*args): return _blcelc.iPcLinearMovement_SetPathSector(*args)
     def IsOnGround(*args): return _blcelc.iPcLinearMovement_IsOnGround(*args)
     def SetOnGround(*args): return _blcelc.iPcLinearMovement_SetOnGround(*args)
+    def SetHugGround(*args): return _blcelc.iPcLinearMovement_SetHugGround(*args)
     def SetDeltaLimit(*args): return _blcelc.iPcLinearMovement_SetDeltaLimit(*args)
     def RotateV(*args): return _blcelc.iPcLinearMovement_RotateV(*args)
     def SetGravity(*args): return _blcelc.iPcLinearMovement_SetGravity(*args)
