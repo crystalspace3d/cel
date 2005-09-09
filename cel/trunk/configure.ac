@@ -64,7 +64,7 @@ CS_CHECK_TEMPLATE_TOOLKIT2([emit])
 
 CS_CHECK_PROGS([SWIG], [swig])
 AS_IF([test -n "$SWIG"],
-    [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.20],
+    [CS_CHECK_PROG_VERSION([swig], [$SWIG -version 2>&1], [1.3.22],
 	[9.9|.9], [CS_EMIT_BUILD_PROPERTY([CMD.SWIG], [$SWIG])])])
 
 #----------------------------------------------------------------------------
