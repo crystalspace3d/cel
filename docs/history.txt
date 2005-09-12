@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Sep-2005
+	- Jorrit fixed CEL configure so that it finds CS again.
 9-Sep-2005
 	- Eric Sunshine increased the minimum required Swig version from 1.3.20
 	  to 1.3.22 in configure.ac since blcel.i now requires features
