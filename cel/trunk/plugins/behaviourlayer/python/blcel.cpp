@@ -25333,7 +25333,7 @@ static void *_p_iHaloTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iHalo *) x));
 }
 static void *_p_iSpriteCal3DSocketTo_p_iBase(void *x) {
-    return (void *)((iBase *)  ((iSpriteCal3DSocket *) x));
+    return (void *)((iBase *) (iSpriteSocket *) ((iSpriteCal3DSocket *) x));
 }
 static void *_p_iStreamTo_p_iBase(void *x) {
     return (void *)((iBase *)  ((iStream *) x));
