@@ -22,6 +22,8 @@
 
 #include "propclass/camera.h"
 
+struct iPcMesh;
+
 SCF_VERSION (iPcSimpleCamera, 0, 0, 3);
 
 /**
@@ -52,6 +54,12 @@ struct iPcSimpleCamera : public iPcCamera
    *        position.
    */
   virtual void SetLookAtOffset (const csVector3& lookat) = 0;
+
+  /**
+   * Set the mesh to follow.
+   * \param mesh the mesh property class for the camera to follow.
+   */
+  virtual void SetMesh (iPcMesh* mesh) = 0;
 
   /**
    * Render. This will clear the screen then draw on top of it.

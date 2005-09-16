@@ -229,6 +229,11 @@ void celPcSimpleCamera::SetLookAtOffset (const csVector3& lookat)
   objectlookat = lookat;
 }
 
+void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
+{
+  pcmesh = mesh;
+}
+
 #define SIMPLE_CAMERA_SERIAL 3
 
 csPtr<iCelDataBuffer> celPcSimpleCamera::Save ()

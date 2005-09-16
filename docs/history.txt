@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Sep-2005
+	- David Bronke added a SetMesh function to iPcSimpleCamera to allow you to
+	  explicitly specify what mesh the camera should follow.
 12-Sep-2005
 	- Jorrit fixed CEL configure so that it finds CS again.
 9-Sep-2005

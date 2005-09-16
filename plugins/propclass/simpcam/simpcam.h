@@ -113,6 +113,12 @@ public:
   virtual void SetLookAtOffset (const csVector3& lookat);
 
   /**
+   * Set the mesh to follow.
+   * \param mesh the mesh property class for the camera to follow.
+   */
+  virtual void SetMesh (iPcMesh* mesh);
+
+  /**
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw();
@@ -222,6 +228,10 @@ public:
     virtual void SetLookAtOffset (const csVector3& lookat)
     {
       scfParent->SetLookAtOffset (lookat);
+    }
+    virtual void SetMesh (iPcMesh* mesh)
+    {
+      scfParent->SetMesh (mesh);
     }
     virtual void Draw()
     {
