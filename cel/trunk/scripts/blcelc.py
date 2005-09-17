@@ -1513,6 +1513,7 @@ class iPcSimpleCamera(iPcCamera):
     def SetDrawMesh(*args): return _blcelc.iPcSimpleCamera_SetDrawMesh(*args)
     def SetCameraOffset(*args): return _blcelc.iPcSimpleCamera_SetCameraOffset(*args)
     def SetLookAtOffset(*args): return _blcelc.iPcSimpleCamera_SetLookAtOffset(*args)
+    def SetMesh(*args): return _blcelc.iPcSimpleCamera_SetMesh(*args)
     def Draw(*args): return _blcelc.iPcSimpleCamera_Draw(*args)
     def __del__(self, destroy=_blcelc.delete_iPcSimpleCamera):
         try:

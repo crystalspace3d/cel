@@ -20016,6 +20016,27 @@ static PyObject *_wrap_iPcSimpleCamera_SetLookAtOffset(PyObject *, PyObject *arg
 }
 
 
+static PyObject *_wrap_iPcSimpleCamera_SetMesh(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcSimpleCamera *arg1 = (iPcSimpleCamera *) 0 ;
+    iPcMesh *arg2 = (iPcMesh *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcSimpleCamera_SetMesh",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcSimpleCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iPcMesh, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    (arg1)->SetMesh(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcSimpleCamera_Draw(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcSimpleCamera *arg1 = (iPcSimpleCamera *) 0 ;
@@ -24659,6 +24680,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcSimpleCamera_SetDrawMesh", _wrap_iPcSimpleCamera_SetDrawMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcSimpleCamera_SetCameraOffset", _wrap_iPcSimpleCamera_SetCameraOffset, METH_VARARGS, NULL},
 	 { (char *)"iPcSimpleCamera_SetLookAtOffset", _wrap_iPcSimpleCamera_SetLookAtOffset, METH_VARARGS, NULL},
+	 { (char *)"iPcSimpleCamera_SetMesh", _wrap_iPcSimpleCamera_SetMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcSimpleCamera_Draw", _wrap_iPcSimpleCamera_Draw, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcSimpleCamera", _wrap_delete_iPcSimpleCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcSimpleCamera_swigregister", iPcSimpleCamera_swigregister, METH_VARARGS, NULL},
