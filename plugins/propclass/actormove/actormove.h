@@ -42,6 +42,7 @@
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
 #include "propclass/mesh.h"
+#include "propclass/sound.h"
 
 struct iCelEntity;
 struct iCelPlLayer;
@@ -66,6 +67,7 @@ private:
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcCamera> pccamera;
   csWeakRef<iPcDefaultCamera> pcdefcamera;
+  csWeakRef<iPcSoundListener> pcsoundlistener;
 
   bool checked_spritestate;
   csWeakRef<iSpriteCal3DState> sprcal3d;

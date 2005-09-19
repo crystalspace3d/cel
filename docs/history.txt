@@ -3,6 +3,17 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Sep-2005
+	- Jorrit added pcsoundlistener and pcsoundsource property classes. This
+	  are the start of sound system in CEL. The listener is usually attached
+	  to the player entity. There can only be one listener. The sources
+	  are individual sound sources. Currently the system mostly works although
+	  3D sound is not operating correctly yet. Work in progress.
+	- Jorrit extended celtest so that the actor has a sound listener. Also
+	  celtest will now load the sound renderer and loader plugins.
+	- Jorrit extended pcactormove so that it will now attempt to update the
+	  listener position as soon as the actor moves. This is not 100%
+	  functional yet.
 15-Sep-2005
 	- David Bronke added a SetMesh function to iPcSimpleCamera to allow you to
 	  explicitly specify what mesh the camera should follow.
