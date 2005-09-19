@@ -41,7 +41,9 @@
 #include "ivideo/fontserv.h"
 #include "ivideo/txtmgr.h"
 #include "iengine/mesh.h"
+#include "iengine/movable.h"
 #include "imesh/object.h"
+#include "isound/listener.h"
 
 //---------------------------------------------------------------------------
 
@@ -232,6 +234,7 @@ void celPcActorMove::FindSiblingPropertyClasses ()
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
     pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
+    pcsoundlistener = CEL_QUERY_PROPCLASS_ENT (entity, iPcSoundListener);
     checked_spritestate = false;
   }
 }
@@ -309,6 +312,16 @@ void celPcActorMove::HandleMovement (bool jump)
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 		    "cel.pcactormove", "pcmesh is missing!");
     return;
+  }
+
+  if (pcsoundlistener)
+  {
+    // @@@ This is not 100% ok yet. We need to:
+    //  - also set direction
+    //  - be able to update constantly instead of only when this function is called.
+    csVector3 pos = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetOrigin ();
+    pcsoundlistener->GetSoundListener ()->SetPosition (pos);
+    //printf ("new pos %g,%g,%g\n", pos.x, pos.y, pos.z); fflush (stdout);
   }
 
   float speed;

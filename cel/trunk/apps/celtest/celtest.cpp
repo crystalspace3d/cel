@@ -55,6 +55,8 @@
 #include "ivideo/fontserv.h"
 #include "igraphic/imageio.h"
 #include "imap/loader.h"
+#include "isound/renderer.h"
+#include "isound/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
@@ -88,6 +90,7 @@
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
+#include "propclass/sound.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -189,6 +192,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pclinearmovement",
 	"pctooltip",
 	"pcinventory",
+	"pcsoundlistener",
 	(void*)0);
   if (!entity_cam) return 0;
 
@@ -348,6 +352,10 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
 	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
 		iCollideSystem),
+	CS_REQUEST_PLUGIN ("crystalspace.sound.loader.multiplexer",
+		iSoundLoader),
+	CS_REQUEST_PLUGIN ("crystalspace.sound.render.software",
+		iSoundRender),
 	CS_REQUEST_END))
   {
     return ReportError ("Can't initialize plugins!");
@@ -442,6 +450,10 @@ bool CelTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundlistener"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundsource"))
     return false;
 
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
