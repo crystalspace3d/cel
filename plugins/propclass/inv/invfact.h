@@ -73,15 +73,20 @@ private:
   static csStringID id_entity;
   celOneParameterBlock* params;
 
+  csRef<iCelInventorySpace> space;
+
 public:
   celPcInventory (iObjectRegistry* object_reg);
   virtual ~celPcInventory ();
 
   virtual bool AddEntity (iCelEntity* entity);
+  virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params);
   virtual bool RemoveEntity (iCelEntity* entity);
+  virtual bool RemoveEntity (iCelParameterBlock* params);
   virtual bool RemoveAll ();
   virtual size_t GetEntityCount () const { return contents.Length () ; }
   virtual iCelEntity* GetEntity (size_t idx) const;
+  virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const;
   virtual bool SetStrictCharacteristics (const char* charName, bool strict);
   virtual bool HasStrictCharacteristics (const char* charName) const;
   virtual bool SetConstraints (const char* charName, float minValue,
@@ -91,6 +96,9 @@ public:
   virtual void RemoveConstraints (const char* charName);
   virtual void RemoveAllConstraints ();
   virtual float GetCurrentCharacteristic (const char* charName) const;
+
+  virtual void SetSpace (iCelInventorySpace* space);
+  virtual iCelInventorySpace* GetSpace ();
 
   virtual void MarkDirty (const char* charName);
   virtual bool TestConstraints (const char* charName);

@@ -156,6 +156,13 @@ bool celPcInventory::AddEntity (iCelEntity* child)
 {
   if (contents.Find (child) != csArrayItemNotFound) return true;
 
+  if(space)
+  {
+    bool ret = space->AddEntity(child);
+    if(!ret)
+      return false;
+  }
+
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   size_t idx = contents.Push (child);
@@ -175,6 +182,70 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->RemoveFromInventory ((iPcInventory*)this);
+
+    if(space)
+      space->RemoveEntity(child);
+    return false;
+  }
+
+  // Send messages.
+  FireInventoryListenersAdd (child);
+  iCelBehaviour* bh;
+  if (entity)
+  {
+    bh = entity->GetBehaviour ();
+    if (bh)
+    {
+      params->GetParameter (0).Set (child);
+      celData ret;
+      bh->SendMessage ("pcinventory_addchild", this, ret, params);
+    }
+  }
+  bh = child->GetBehaviour ();
+  if (bh)
+  {
+    params->GetParameter (0).Set (entity);
+    celData ret;
+    bh->SendMessage ("pcinventory_added", this, ret, params);
+  }
+
+  return true;
+}
+
+bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
+{
+
+  if (contents.Find (child) != csArrayItemNotFound) return true;
+
+  if(space)
+  {
+    bool ret = space->AddEntity(child, pparams);
+    if(!ret)
+      return false;
+  }
+
+  // Add our child. We will later test if this is valid and if
+  // not undo this change.
+  size_t idx = contents.Push (child);
+  DG_LINK (this, child->QueryObject ());
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+    child->GetPropertyClassList (), iPcCharacteristics));
+  if (pcchar)
+    pcchar->AddToInventory ((iPcInventory*)this);
+
+  // First try if everything is ok.
+  MarkDirty (0);
+  if (!TestConstraints (0))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (0);
+    contents.DeleteIndex (idx);
+    DG_UNLINK (this, child->QueryObject ());
+    if (pcchar)
+      pcchar->RemoveFromInventory ((iPcInventory*)this);
+
+    if(space)
+      space->RemoveEntity(child);
     return false;
   }
 
@@ -207,6 +278,13 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   size_t idx = contents.Find (child);
   if (idx == csArrayItemNotFound) return true;
 
+  if(space)
+  {
+    bool ret = space->RemoveEntity(child);
+    if(!ret)
+      return false;
+  }
+
   // Remove our child. We will later test if this is valid and if
   // not undo this change.
   // make sure the entity isn't deleted too early
@@ -228,6 +306,76 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     DG_LINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->AddToInventory ((iPcInventory*)this);
+    if (space)
+      space->AddEntity(child);
+    return false;
+  }
+
+  // Send messages.
+  FireInventoryListenersRemove (child);
+  iCelBehaviour* bh;
+  if (entity)
+  {
+    bh = entity->GetBehaviour ();
+    if (bh)
+    {
+      params->GetParameter (0).Set (child);
+      celData ret;
+      bh->SendMessage ("pcinventory_removechild", this, ret, params);
+    }
+  }
+  bh = child->GetBehaviour ();
+  if (bh)
+  {
+    params->GetParameter (0).Set (entity);
+    celData ret;
+    bh->SendMessage ("pcinventory_removed", this, ret, params);
+  }
+
+  return true;
+}
+
+bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
+{
+  csRef<iCelEntity> child;
+  if (space)
+    child = GetEntitySlot (pparams);
+  else
+    return false;
+
+  if (!child)
+    return false;
+
+  bool ret = space->RemoveEntity(child);
+  if (!ret)
+    return false;
+
+  size_t idx = contents.Find (child);
+  if (idx == csArrayItemNotFound) return true;
+
+  // Remove our child. We will later test if this is valid and if
+  // not undo this change.
+  // make sure the entity isn't deleted too early
+  csRef<iCelEntity> childref = child;
+  contents.DeleteIndex (idx);
+  DG_UNLINK (this, child->QueryObject ());
+  csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
+    child->GetPropertyClassList (), iPcCharacteristics));
+  if (pcchar)
+    pcchar->RemoveFromInventory ((iPcInventory*)this);
+
+  // First try if everything is ok.
+  MarkDirty (0);
+  if (!TestConstraints (0))
+  {
+    // Constraints are not ok. Undo our change.
+    MarkDirty (0);
+    contents.Push (child);
+    DG_LINK (this, child->QueryObject ());
+    if (pcchar)
+      pcchar->AddToInventory ((iPcInventory*)this);
+
+    space->AddEntity(child);
     return false;
   }
 
@@ -258,7 +406,12 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
 bool celPcInventory::RemoveAll ()
 {
   while (contents.Length () > 0)
+  {
     if (!RemoveEntity ((iCelEntity*)contents[0])) return false;
+  }
+
+  if(space) space->RemoveAll();
+
   return true;
 }
 
@@ -267,6 +420,11 @@ iCelEntity* celPcInventory::GetEntity (size_t idx) const
   CS_ASSERT ((idx != csArrayItemNotFound) && idx < contents.Length ());
   iCelEntity* ent = (iCelEntity*)contents[idx];
   return ent;
+}
+
+iCelEntity* celPcInventory::GetEntitySlot (iCelParameterBlock* pparams) const
+{
+  return space->GetEntity (pparams);
 }
 
 celPcInventory::constraint* celPcInventory::FindConstraint (
@@ -279,6 +437,16 @@ celPcInventory::constraint* celPcInventory::FindConstraint (
     if (!strcmp (name, c->charName)) return c;
   }
   return 0;
+}
+
+void celPcInventory::SetSpace(iCelInventorySpace* space)
+{
+  this->space = space;
+}
+
+iCelInventorySpace* celPcInventory::GetSpace()
+{
+  return space;
 }
 
 celPcInventory::constraint* celPcInventory::NewConstraint (const char* name)
@@ -800,6 +968,3 @@ void celPcCharacteristics::Dump ()
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());
   }
 }
-
-//---------------------------------------------------------------------------
-
