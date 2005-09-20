@@ -32,48 +32,63 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a3">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a4">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a4">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a5">RemoveAll</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity on a given slot using the space system.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a5">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a6">GetEntityCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a6">RemoveEntity</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entities in this inventory.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a7">GetEntity</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity on a slot using the space system.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a7">RemoveAll</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get some entity.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a8">SetStrictCharacteristics</a> (const char *charName, bool strict)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a8">GetEntityCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true reject any entities that don't have this characteristic.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a9">HasStrictCharacteristics</a> (const char *charName) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entities in this inventory.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a9">GetEntity</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the value of 'strict characteristics'.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a10">SetConstraints</a> (const char *charName, float minValue, float maxValue, float totalMaxValue)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get some entity.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a10">GetEntitySlot</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the constraints for some characteristic.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a11">GetConstraints</a> (const char *charName, float &amp;minValue, float &amp;maxValue, float &amp;totalMaxValue) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get an entity from a generic slot (space system).  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a11">SetStrictCharacteristics</a> (const char *charName, bool strict)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the constraints for some characteristic.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a12">RemoveConstraints</a> (const char *charName)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true reject any entities that don't have this characteristic.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a12">HasStrictCharacteristics</a> (const char *charName) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove constraints for a characteristic.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a13">RemoveAllConstraints</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the value of 'strict characteristics'.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a13">SetConstraints</a> (const char *charName, float minValue, float maxValue, float totalMaxValue)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all constraints.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a14">GetCurrentCharacteristic</a> (const char *charName) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the constraints for some characteristic.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a14">GetConstraints</a> (const char *charName, float &amp;minValue, float &amp;maxValue, float &amp;totalMaxValue) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current value for some characteristic.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a15">MarkDirty</a> (const char *charName)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the constraints for some characteristic.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a15">RemoveConstraints</a> (const char *charName)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mark this characteristic as dirty for this inventory and all inventories this entity is in.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a16">TestConstraints</a> (const char *charName)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove constraints for a characteristic.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a16">RemoveAllConstraints</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test constraints for this characteristic for this inventory and all inventories * this entity is in.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a17">Dump</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all constraints.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a17">GetCurrentCharacteristic</a> (const char *charName) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a debugging function to dump the contents of the inventory and all constraints.  <a href="#a17"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current value for some characteristic.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a18">MarkDirty</a> (const char *charName)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mark this characteristic as dirty for this inventory and all inventories this entity is in.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a19">TestConstraints</a> (const char *charName)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test constraints for this characteristic for this inventory and all inventories * this entity is in.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a20">Dump</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a debugging function to dump the contents of the inventory and all constraints.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a21">SetSpace</a> (<a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a> *space)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set an optional space manager for this inventory.  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#a22">GetSpace</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the used space manager.  <a href="#a22"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an inventory property class. 
@@ -92,7 +107,46 @@ pcinventory_removed: this entity is removed (entity) </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="inv_8h-source.html#l00060">60</a> of file <a class="el" href="inv_8h-source.html">inv.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="inv_8h-source.html#l00164">164</a> of file <a class="el" href="inv_8h-source.html">inv.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcInventory::AddEntity" ref="a4" args="(iCelEntity *entity, iCelParameterBlock *params)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcInventory::AddEntity           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>entity</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>params</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add an entity on a given slot using the space system. 
+<p>
+Returns false if the entity could not be added (capacity exceeded for example). Note that it is safe to add entities that are already in the inventory. Nothing will happen then and true will be returned.  is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>).    </td>
+  </tr>
+</table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="iPcInventory::AddEntity" ref="a3" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -153,7 +207,7 @@ Add an inventory listener.
 Inventory listeners are called right before the behaviour is called.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iPcInventory::Dump" ref="a17" args="()=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iPcInventory::Dump" ref="a20" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -182,7 +236,7 @@ This is a debugging function to dump the contents of the inventory and all const
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcInventory::GetConstraints" ref="a11" args="(const char *charName, float &amp;minValue, float &amp;maxValue, float &amp;totalMaxValue) const =0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcInventory::GetConstraints" ref="a14" args="(const char *charName, float &amp;minValue, float &amp;maxValue, float &amp;totalMaxValue) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -233,7 +287,7 @@ Get the constraints for some characteristic.
 Returns false if there are no constraints defined.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcInventory::GetCurrentCharacteristic" ref="a14" args="(const char *charName) const =0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcInventory::GetCurrentCharacteristic" ref="a17" args="(const char *charName) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -263,7 +317,7 @@ Get the current value for some characteristic.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcInventory::GetEntity" ref="a7" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcInventory::GetEntity" ref="a9" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -293,7 +347,7 @@ Get some entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcInventory::GetEntityCount" ref="a6" args="() const =0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcInventory::GetEntityCount" ref="a8" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -322,7 +376,66 @@ Get the number of entities in this inventory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcInventory::HasStrictCharacteristics" ref="a9" args="(const char *charName) const =0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcInventory::GetEntitySlot" ref="a10" args="(iCelParameterBlock *params) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a>* iPcInventory::GetEntitySlot           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>params</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get an entity from a generic slot (space system). 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a22"></a><!-- doxytag: member="iPcInventory::GetSpace" ref="a22" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>* iPcInventory::GetSpace           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the used space manager. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcInventory::HasStrictCharacteristics" ref="a12" args="(const char *charName) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -352,7 +465,7 @@ Return the value of 'strict characteristics'.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcInventory::MarkDirty" ref="a15" args="(const char *charName)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iPcInventory::MarkDirty" ref="a18" args="(const char *charName)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -382,7 +495,7 @@ Mark this characteristic as dirty for this inventory and all inventories this en
 If 'charName' == 0 then all characteristics will be marked dirty.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcInventory::RemoveAll" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcInventory::RemoveAll" ref="a7" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -411,7 +524,7 @@ Remove all entities.
 This can fail if removing entities causes upstream inventories to fail its constraints. In that case entities are removed until the first failure. To ensure correct removal for this inventory you should first clear all constraints.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcInventory::RemoveAllConstraints" ref="a13" args="()=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcInventory::RemoveAllConstraints" ref="a16" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -440,7 +553,7 @@ Remove all constraints.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcInventory::RemoveConstraints" ref="a12" args="(const char *charName)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcInventory::RemoveConstraints" ref="a15" args="(const char *charName)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -470,7 +583,37 @@ Remove constraints for a characteristic.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcInventory::RemoveEntity" ref="a4" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcInventory::RemoveEntity" ref="a6" args="(iCelParameterBlock *params)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcInventory::RemoveEntity           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>params</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Remove an entity on a slot using the space system. 
+<p>
+This can fail if removing an entity causes an upstream inventory to fail its constraints.  is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>). It can also contain additional information to specify which entity to remove from some slot (if stacked items are supported).    </td>
+  </tr>
+</table>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcInventory::RemoveEntity" ref="a5" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -530,7 +673,7 @@ Remove an inventory listener.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcInventory::SetConstraints" ref="a10" args="(const char *charName, float minValue, float maxValue, float totalMaxValue)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcInventory::SetConstraints" ref="a13" args="(const char *charName, float minValue, float maxValue, float totalMaxValue)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -582,7 +725,37 @@ There is a min and max value for one entity and also a total max value for the e
 This function can fail if the new constraints cause current contents to be invalidated.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcInventory::SetStrictCharacteristics" ref="a8" args="(const char *charName, bool strict)=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iPcInventory::SetSpace" ref="a21" args="(iCelInventorySpace *space)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcInventory::SetSpace           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>space</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set an optional space manager for this inventory. 
+<p>
+If you don't do this then the inventory system will use no space/slot system.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcInventory::SetStrictCharacteristics" ref="a11" args="(const char *charName, bool strict)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -622,7 +795,7 @@ By default this is false which means that the inventory will automatically assum
 This function can fail if this inventory already has contents and entities in this inventory do not satisfy the strict condition.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcInventory::TestConstraints" ref="a16" args="(const char *charName)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iPcInventory::TestConstraints" ref="a19" args="(const char *charName)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
