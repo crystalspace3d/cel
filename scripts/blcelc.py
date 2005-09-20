@@ -1853,6 +1853,66 @@ class iPcInventoryListenerPtr(iPcInventoryListener):
         _swig_setattr(self, iPcInventoryListener,self.__class__,iPcInventoryListener)
 _blcelc.iPcInventoryListener_swigregister(iPcInventoryListenerPtr)
 
+class iCelInventorySpaceSlot(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelInventorySpaceSlot, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpaceSlot, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelInventorySpaceSlot instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetEntity(*args): return _blcelc.iCelInventorySpaceSlot_GetEntity(*args)
+    def AddEntity(*args): return _blcelc.iCelInventorySpaceSlot_AddEntity(*args)
+    def RemoveEntity(*args): return _blcelc.iCelInventorySpaceSlot_RemoveEntity(*args)
+    def GetCount(*args): return _blcelc.iCelInventorySpaceSlot_GetCount(*args)
+    def RemoveAll(*args): return _blcelc.iCelInventorySpaceSlot_RemoveAll(*args)
+    def IsEmpty(*args): return _blcelc.iCelInventorySpaceSlot_IsEmpty(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelInventorySpaceSlot):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelInventorySpaceSlotPtr(iCelInventorySpaceSlot):
+    def __init__(self, this):
+        _swig_setattr(self, iCelInventorySpaceSlot, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelInventorySpaceSlot, 'thisown', 0)
+        _swig_setattr(self, iCelInventorySpaceSlot,self.__class__,iCelInventorySpaceSlot)
+_blcelc.iCelInventorySpaceSlot_swigregister(iCelInventorySpaceSlotPtr)
+
+class iCelInventorySpace(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelInventorySpace, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpace, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelInventorySpace instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetSpaceTotal(*args): return _blcelc.iCelInventorySpace_GetSpaceTotal(*args)
+    def GetSpaceLeft(*args): return _blcelc.iCelInventorySpace_GetSpaceLeft(*args)
+    def GetSpaceTaken(*args): return _blcelc.iCelInventorySpace_GetSpaceTaken(*args)
+    def AddEntity(*args): return _blcelc.iCelInventorySpace_AddEntity(*args)
+    def RemoveEntity(*args): return _blcelc.iCelInventorySpace_RemoveEntity(*args)
+    def RemoveAll(*args): return _blcelc.iCelInventorySpace_RemoveAll(*args)
+    def GetSlot(*args): return _blcelc.iCelInventorySpace_GetSlot(*args)
+    def GetEntity(*args): return _blcelc.iCelInventorySpace_GetEntity(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelInventorySpace):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelInventorySpacePtr(iCelInventorySpace):
+    def __init__(self, this):
+        _swig_setattr(self, iCelInventorySpace, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelInventorySpace, 'thisown', 0)
+        _swig_setattr(self, iCelInventorySpace,self.__class__,iCelInventorySpace)
+_blcelc.iCelInventorySpace_swigregister(iCelInventorySpacePtr)
+
 class iPcInventory(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1870,6 +1930,7 @@ class iPcInventory(cspace.iBase):
     def RemoveAll(*args): return _blcelc.iPcInventory_RemoveAll(*args)
     def GetEntityCount(*args): return _blcelc.iPcInventory_GetEntityCount(*args)
     def GetEntity(*args): return _blcelc.iPcInventory_GetEntity(*args)
+    def GetEntitySlot(*args): return _blcelc.iPcInventory_GetEntitySlot(*args)
     def SetStrictCharacteristics(*args): return _blcelc.iPcInventory_SetStrictCharacteristics(*args)
     def HasStrictCharacteristics(*args): return _blcelc.iPcInventory_HasStrictCharacteristics(*args)
     def SetConstraints(*args): return _blcelc.iPcInventory_SetConstraints(*args)
@@ -1880,6 +1941,8 @@ class iPcInventory(cspace.iBase):
     def MarkDirty(*args): return _blcelc.iPcInventory_MarkDirty(*args)
     def TestConstraints(*args): return _blcelc.iPcInventory_TestConstraints(*args)
     def Dump(*args): return _blcelc.iPcInventory_Dump(*args)
+    def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
+    def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
     def __del__(self, destroy=_blcelc.delete_iPcInventory):
         try:
             if self.thisown: destroy(self)
