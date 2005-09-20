@@ -186,10 +186,6 @@ void celPcSimpleCamera::SetDrawMesh (bool draw)
 
 void celPcSimpleCamera::Draw ()
 {
-  // First get elapsed time from the virtual clock.
-  //csTicks elapsed_time = vc->GetElapsedTicks ();
-  //float elapsed_sec = elapsed_time / 1000.0f;
-
   // Try to get position and sector from mesh.
   csReversibleTransform actor_trans;
   iSector* cam_sector;
