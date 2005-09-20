@@ -204,6 +204,10 @@ SOURCE=..\msvc\libpfsimpcam_staticreg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\msvc\libpfsound_staticreg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\msvc\libpftest_staticreg.cpp
 # End Source File
 # Begin Source File
@@ -365,6 +369,10 @@ SOURCE=..\plugins\propclass\quest\questfact.cpp
 # Begin Source File
 
 SOURCE=..\plugins\propclass\simpcam\simpcam.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\sound\soundfact.cpp
 # End Source File
 # Begin Source File
 
@@ -657,6 +665,10 @@ SOURCE=..\plugins\propclass\quest\questfact.h
 # Begin Source File
 
 SOURCE=..\plugins\propclass\simpcam\simpcam.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\sound\soundfact.h
 # End Source File
 # Begin Source File
 
