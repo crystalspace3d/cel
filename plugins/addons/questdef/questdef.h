@@ -57,7 +57,8 @@ public:
   /**
    * Parses the quests.
    */
-  virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
+  virtual csPtr<iBase> Parse (iDocumentNode* node,
+  	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
   struct Component : public iComponent

@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Sep-2005
+	- Jorrit fixed CEL for latest CS changes (loader plugin related).
 19-Sep-2005
 	- Jorrit added pcsoundlistener and pcsoundsource property classes. This
 	  are the start of sound system in CEL. The listener is usually attached
