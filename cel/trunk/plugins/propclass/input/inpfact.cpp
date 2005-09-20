@@ -556,6 +556,7 @@ celButtonMap* celPcCommandInput::GetButtonMap (int type, int numeric,
 
 void celPcCommandInput::ScreenCoordinates (bool screen)
 {
+	screenspace = screen;
 }
 
 float celPcCommandInput::ScreenToCentered (float screencoord, float axis)
