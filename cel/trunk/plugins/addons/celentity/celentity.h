@@ -66,7 +66,8 @@ public:
    * an entity. If the context is not a mesh, a standalone entity will be
    * created. For meshes an additional pcmesh property class will be assigned.
    */
-  virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
+  virtual csPtr<iBase> Parse (iDocumentNode* node,
+  	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
   virtual iCelEntity* Load (iDocumentNode* node, iMeshWrapper* mesh = 0);

@@ -59,7 +59,8 @@ public:
    * Parses a document/script for addons defining a pcfactory, a behaviour
    * layer and/or behaviour xmlscripts.
    */
-  virtual csPtr<iBase> Parse (iDocumentNode* node, iLoaderContext* ldr_context,
+  virtual csPtr<iBase> Parse (iDocumentNode* node,
+  	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
 
   struct Component : public iComponent

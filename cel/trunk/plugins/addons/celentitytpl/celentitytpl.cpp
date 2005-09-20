@@ -355,7 +355,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 }
 
 csPtr<iBase> celAddOnCelEntityTemplate::Parse (iDocumentNode* node,
-	iLoaderContext* ldr_context, iBase*)
+	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {
   iCelEntityTemplate* ent = Load (node);
   csRef<iBase> ent_return = (iBase*)ent;
