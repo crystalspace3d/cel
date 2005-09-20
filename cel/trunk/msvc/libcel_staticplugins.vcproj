@@ -539,6 +539,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\msvc\libpfsound_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\msvc_libpfsound_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\msvc_libpfsound_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\msvc\libpftest_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1151,6 +1166,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_simpcam_simpcam.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\sound\soundfact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_sound_soundfact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_sound_soundfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1792,6 +1822,9 @@
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\simpcam\simpcam.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\sound\soundfact.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\test\testfact.h">
