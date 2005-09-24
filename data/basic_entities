@@ -29,9 +29,8 @@
     </materials>
 <!--
     <sounds>
-    	<sound name="wind">
-	    <file>/this/sounds/outdoor/ambient/wind_flute_building_l_c.ogg</file>
-	</sound>
+    	<sound name="loopbzzt" mode3d="absolute"
+	  file="/lib/std/loopbzzt.wav" />
     </sounds>
 -->
 
@@ -447,16 +446,14 @@
 	</addon>
 
 <!--
-	<addon plugin="cel.addons.celentity" entityname="windSound">
+	<addon plugin="cel.addons.celentity" entityname="loopbzzt">
 	    <propclass name="pcsoundsource">
-	    	<property name="soundname" string="wind" />
+	    	<property name="soundname" string="loopbzzt" />
 	    	<property name="volume" float="1" />
 	    	<property name="position" vector="3,3,3" />
 	    	<property name="maximumdistance" float="5" />
-	    	<property name="mode3d" long="2" />
-	    	<action name="Play">
-		    <par name="method" long="2" />
-		</action>
+	    	<property name="loop" bool="true" />
+	    	<action name="Unpause" />
 	    </propclass>
 	</addon>
 -->

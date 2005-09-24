@@ -28,7 +28,10 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
-#include "isound/handle.h"
+#include "isndsys/ss_data.h"
+#include "isndsys/ss_stream.h"
+#include "isndsys/ss_renderer.h"
+#include "isndsys/ss_manager.h"
 
 //---------------------------------------------------------------------------
 
@@ -62,20 +65,26 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   propdata[propid_front] = 0;
   propdata[propid_top] = 0;
   propdata[propid_position] = 0;
-  propdata[propid_velocity] = 0;
   propdata[propid_distancefactor] = 0;
   propdata[propid_rollofffactor] = 0;
-  propdata[propid_dopplerfactor] = 0;
-  propdata[propid_headsize] = 0;
-  propdata[propid_environment] = 0;
 
-  renderer = CS_QUERY_REGISTRY (object_reg, iSoundRender);
+  renderer = CS_QUERY_REGISTRY (object_reg, iSndSysRenderer);
   if (!renderer)
   {
-    // @@@ Report error?
-    printf ("Can't find renderer!\n");
-    fflush (stdout);
-    return;
+    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+      	iPluginManager);
+    renderer = CS_LOAD_PLUGIN (plugin_mgr,
+    	"crystalspace.sndsys.renderer.software", iSndSysRenderer);
+    if (renderer)
+    {
+      object_reg->Register (renderer, "iSndSysRenderer");
+    }
+    else
+    {
+      // @@@ Error report.
+      printf ("Error! No sound renderer!\n"); fflush (stdout);
+      return;
+    }
   }
   listener = renderer->GetListener ();
 }
@@ -92,7 +101,7 @@ void celPcSoundListener::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 9;
+    propertycount = 5;
     properties = new Property[propertycount];
 
     properties[propid_front].id = pl->FetchStringID ("cel.property.front");
@@ -110,11 +119,6 @@ void celPcSoundListener::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_position].readonly = false;
     properties[propid_position].desc = "Position vector.";
 
-    properties[propid_velocity].id = pl->FetchStringID ("cel.property.velocity");
-    properties[propid_velocity].datatype = CEL_DATA_VECTOR3;
-    properties[propid_velocity].readonly = false;
-    properties[propid_velocity].desc = "Velocity direction vector.";
-
     properties[propid_distancefactor].id = pl->FetchStringID (
     	"cel.property.distancefactor");
     properties[propid_distancefactor].datatype = CEL_DATA_FLOAT;
@@ -126,23 +130,6 @@ void celPcSoundListener::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_rollofffactor].datatype = CEL_DATA_FLOAT;
     properties[propid_rollofffactor].readonly = false;
     properties[propid_rollofffactor].desc = "Rolloff factor.";
-
-    properties[propid_dopplerfactor].id = pl->FetchStringID (
-    	"cel.property.dopplerfactor");
-    properties[propid_dopplerfactor].datatype = CEL_DATA_FLOAT;
-    properties[propid_dopplerfactor].readonly = false;
-    properties[propid_dopplerfactor].desc = "Doppler factor.";
-
-    properties[propid_headsize].id = pl->FetchStringID ("cel.property.headsize");
-    properties[propid_headsize].datatype = CEL_DATA_FLOAT;
-    properties[propid_headsize].readonly = false;
-    properties[propid_headsize].desc = "Head size.";
-
-    properties[propid_environment].id = pl->FetchStringID (
-    	"cel.property.environment");
-    properties[propid_environment].datatype = CEL_DATA_STRING;
-    properties[propid_environment].readonly = false;
-    properties[propid_environment].desc = "Environment specification.";
   }
 }
 
@@ -167,11 +154,6 @@ bool celPcSoundListener::SetProperty (csStringID propertyId, const csVector3& b)
   else if (propertyId == properties[propid_position].id)
   {
     listener->SetPosition (b);
-    return true;
-  }
-  else if (propertyId == properties[propid_velocity].id)
-  {
-    listener->SetVelocity (b);
     return true;
   }
   else
@@ -201,11 +183,6 @@ bool celPcSoundListener::GetPropertyVector (csStringID propertyId, csVector3& b)
     b = listener->GetPosition ();
     return true;
   }
-  else if (propertyId == properties[propid_velocity].id)
-  {
-    b = listener->GetVelocity ();
-    return true;
-  }
   else
   {
     return celPcCommon::GetPropertyVector (propertyId, b);
@@ -226,16 +203,6 @@ bool celPcSoundListener::SetProperty (csStringID propertyId, float b)
     listener->SetRollOffFactor (b);
     return true;
   }
-  else if (propertyId == properties[propid_dopplerfactor].id)
-  {
-    listener->SetDopplerFactor (b);
-    return true;
-  }
-  else if (propertyId == properties[propid_headsize].id)
-  {
-    listener->SetHeadSize (b);
-    return true;
-  }
   else
   {
     return celPcCommon::SetProperty (propertyId, b);
@@ -254,46 +221,9 @@ float celPcSoundListener::GetPropertyFloat (csStringID propertyId)
   {
     return listener->GetRollOffFactor ();
   }
-  else if (propertyId == properties[propid_dopplerfactor].id)
-  {
-    return listener->GetDopplerFactor ();
-  }
-  else if (propertyId == properties[propid_headsize].id)
-  {
-    return listener->GetHeadSize ();
-  }
   else
   {
     return celPcCommon::GetPropertyFloat (propertyId);
-  }
-}
-
-bool celPcSoundListener::SetProperty (csStringID propertyId, const char* b)
-{
-  if (!listener) return false;
-  UpdateProperties (object_reg);
-  if (propertyId == properties[propid_environment].id)
-  {
-    SetEnvironment (b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
-}
-
-const char* celPcSoundListener::GetPropertyString (csStringID propertyId)
-{
-  if (!listener) return 0;
-  UpdateProperties (object_reg);
-  if (propertyId == properties[propid_environment].id)
-  {
-    return GetEnvironment ();
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
   }
 }
 
@@ -334,68 +264,19 @@ bool celPcSoundListener::PerformAction (csStringID actionId,
   return false;
 }
 
-const char* env_table[] =
-{
-  "generic",
-  "paddedcell",
-  "room",
-  "bathroom",
-  "livingroom",
-  "stoneroom",
-  "auditorium",
-  "concerthall",
-  "cave",
-  "arena",
-  "carpetedhallway",
-  "hallway",
-  "stonecorridor",
-  "alley",
-  "forest",
-  "city",
-  "mountains",
-  "quarry",
-  "plain",
-  "parkinglot",
-  "sewerpipe",
-  "underwater",
-  "drugged",
-  "dizzy",
-  "psychotic"
-};
-
-void celPcSoundListener::SetEnvironment (const char* env)
-{
-  int i;
-  for (i = 0 ; i <= ENVIRONMENT_PSYCHOTIC ; i++)
-    if (!strcmp (env, env_table[i]))
-    {
-      listener->SetEnvironment ((csSoundEnvironment)i);
-      break;
-    }
-}
-
-const char* celPcSoundListener::GetEnvironment ()
-{
-  int e = listener->GetEnvironment ();
-  if (e < 0 || e > ENVIRONMENT_PSYCHOTIC) return "<unknown>";
-  return env_table[e];
-}
-
 //---------------------------------------------------------------------------
 
-csStringID celPcSoundSource::action_play = csInvalidStringID;
-csStringID celPcSoundSource::id_method = csInvalidStringID;
-csStringID celPcSoundSource::action_stop = csInvalidStringID;
+csStringID celPcSoundSource::action_pause = csInvalidStringID;
+csStringID celPcSoundSource::action_unpause = csInvalidStringID;
 
 celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   // For PerformAction.
-  if (action_play == csInvalidStringID)
+  if (action_pause == csInvalidStringID)
   {
-    action_play = pl->FetchStringID ("cel.action.Play");
-    id_method = pl->FetchStringID ("cel.parameter.method");
-    action_stop = pl->FetchStringID ("cel.action.Stop");
+    action_pause = pl->FetchStringID ("cel.action.Pause");
+    action_unpause = pl->FetchStringID ("cel.action.Unpause");
   }
 
   // For properties.
@@ -405,12 +286,11 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   propcount = &propertycount;
   propdata[propid_soundname] = 0;
   propdata[propid_volume] = 0;
-  propdata[propid_frequencyfactor] = 0;
-  propdata[propid_mode3d] = 0;
+  propdata[propid_directionalradiation] = 0;
   propdata[propid_position] = 0;
-  propdata[propid_velocity] = 0;
   propdata[propid_minimumdistance] = 0;
   propdata[propid_maximumdistance] = 0;
+  propdata[propid_loop] = 0;
 }
 
 celPcSoundSource::~celPcSoundSource ()
@@ -425,7 +305,7 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 8;
+    propertycount = 7;
     properties = new Property[propertycount];
 
     properties[propid_soundname].id = pl->FetchStringID ("cel.property.soundname");
@@ -438,26 +318,16 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_volume].readonly = false;
     properties[propid_volume].desc = "Volume.";
 
-    properties[propid_frequencyfactor].id = pl->FetchStringID (
-    	"cel.property.frequencyfactor");
-    properties[propid_frequencyfactor].datatype = CEL_DATA_FLOAT;
-    properties[propid_frequencyfactor].readonly = false;
-    properties[propid_frequencyfactor].desc = "Frequency factor.";
-
-    properties[propid_mode3d].id = pl->FetchStringID ("cel.property.mode3d");
-    properties[propid_mode3d].datatype = CEL_DATA_LONG;
-    properties[propid_mode3d].readonly = false;
-    properties[propid_mode3d].desc = "3D Mode.";
+    properties[propid_directionalradiation].id = pl->FetchStringID (
+    	"cel.property.directionalradiation");
+    properties[propid_directionalradiation].datatype = CEL_DATA_FLOAT;
+    properties[propid_directionalradiation].readonly = false;
+    properties[propid_directionalradiation].desc = "Directional radiation.";
 
     properties[propid_position].id = pl->FetchStringID ("cel.property.position");
     properties[propid_position].datatype = CEL_DATA_VECTOR3;
     properties[propid_position].readonly = false;
     properties[propid_position].desc = "Position vector.";
-
-    properties[propid_velocity].id = pl->FetchStringID ("cel.property.velocity");
-    properties[propid_velocity].datatype = CEL_DATA_VECTOR3;
-    properties[propid_velocity].readonly = false;
-    properties[propid_velocity].desc = "Velocity direction vector.";
 
     properties[propid_minimumdistance].id = pl->FetchStringID (
     	"cel.property.minimumdistance");
@@ -470,6 +340,11 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_maximumdistance].datatype = CEL_DATA_FLOAT;
     properties[propid_maximumdistance].readonly = false;
     properties[propid_maximumdistance].desc = "Maximum distance.";
+
+    properties[propid_loop].id = pl->FetchStringID ("cel.property.loop");
+    properties[propid_loop].datatype = CEL_DATA_BOOL;
+    properties[propid_loop].readonly = false;
+    properties[propid_loop].desc = "Loop.";
   }
 }
 
@@ -480,11 +355,6 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, const csVector3& b)
   if (propertyId == properties[propid_position].id)
   {
     source->SetPosition (b);
-    return true;
-  }
-  else if (propertyId == properties[propid_velocity].id)
-  {
-    source->SetVelocity (b);
     return true;
   }
   else
@@ -502,11 +372,6 @@ bool celPcSoundSource::GetPropertyVector (csStringID propertyId, csVector3& b)
     b = source->GetPosition ();
     return true;
   }
-  else if (propertyId == properties[propid_velocity].id)
-  {
-    b = source->GetVelocity ();
-    return true;
-  }
   else
   {
     return celPcCommon::GetPropertyVector (propertyId, b);
@@ -522,9 +387,9 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, float b)
     source->SetVolume (b);
     return true;
   }
-  else if (propertyId == properties[propid_frequencyfactor].id)
+  else if (propertyId == properties[propid_directionalradiation].id)
   {
-    source->SetFrequencyFactor (b);
+    source->SetDirectionalRadiation (b);
     return true;
   }
   else if (propertyId == properties[propid_minimumdistance].id)
@@ -551,9 +416,9 @@ float celPcSoundSource::GetPropertyFloat (csStringID propertyId)
   {
     return source->GetVolume ();
   }
-  else if (propertyId == properties[propid_frequencyfactor].id)
+  else if (propertyId == properties[propid_directionalradiation].id)
   {
-    return source->GetFrequencyFactor ();
+    return source->GetDirectionalRadiation ();
   }
   else if (propertyId == properties[propid_minimumdistance].id)
   {
@@ -569,13 +434,14 @@ float celPcSoundSource::GetPropertyFloat (csStringID propertyId)
   }
 }
 
-bool celPcSoundSource::SetProperty (csStringID propertyId, long b)
+bool celPcSoundSource::SetProperty (csStringID propertyId, bool b)
 {
   if (!GetSource ()) return false;
   UpdateProperties (object_reg);
-  if (propertyId == properties[propid_mode3d].id)
+  if (propertyId == properties[propid_loop].id)
   {
-    source->SetMode3D (b);
+    source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
+    	CS_SNDSYS_STREAM_DONTLOOP);
     return true;
   }
   else
@@ -584,23 +450,22 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, long b)
   }
 }
 
-long celPcSoundSource::GetPropertyLong (csStringID propertyId)
+bool celPcSoundSource::GetPropertyBool (csStringID propertyId)
 {
-  if (!GetSource ()) return 0;
+  if (!GetSource ()) return false;
   UpdateProperties (object_reg);
-  if (propertyId == properties[propid_mode3d].id)
+  if (propertyId == properties[propid_loop].id)
   {
-    return source->GetMode3D ();
+    return source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
   }
   else
   {
-    return celPcCommon::GetPropertyLong (propertyId);
+    return celPcCommon::GetPropertyBool (propertyId);
   }
 }
 
 bool celPcSoundSource::SetProperty (csStringID propertyId, const char* b)
 {
-  if (!GetSource ()) return false;
   UpdateProperties (object_reg);
   if (propertyId == properties[propid_soundname].id)
   {
@@ -615,7 +480,6 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcSoundSource::GetPropertyString (csStringID propertyId)
 {
-  if (!GetSource ()) return false;
   UpdateProperties (object_reg);
   if (propertyId == properties[propid_soundname].id)
   {
@@ -652,16 +516,14 @@ bool celPcSoundSource::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
   if (!GetSource ()) return false;
-  if (actionId == action_play)
+  if (actionId == action_unpause)
   {
-    CEL_FETCH_LONG_PAR (method,params,id_method);
-    if (!p_method) return false;
-    source->Play (method);
+    source->GetStream ()->Unpause ();
     return true;
   }
-  else if (actionId == action_stop)
+  else if (actionId == action_pause)
   {
-    source->Stop ();
+    source->GetStream ()->Pause ();
     return true;
   }
   return false;
@@ -671,9 +533,26 @@ void celPcSoundSource::GetSoundWrap ()
 {
   if (!soundwrap)
   {
-    csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-    soundwrap = CS_GET_NAMED_CHILD_OBJECT (engine->QueryObject (),
-  	iSoundWrapper, soundname);
+    csRef<iSndSysManager> mgr = CS_QUERY_REGISTRY (object_reg, iSndSysManager);
+    if (!mgr)
+    {
+      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+      	iPluginManager);
+      mgr = CS_LOAD_PLUGIN (plugin_mgr, "crystalspace.sndsys.manager",
+    	iSndSysManager);
+      if (mgr)
+      {
+        object_reg->Register (mgr, "iSndSysManager");
+      }
+      else
+      {
+	// @@@ Error report.
+        printf ("Error! No sound manager!\n"); fflush (stdout);
+        return;
+      }
+    }
+
+    soundwrap = mgr->FindSoundByName (soundname);
     if (!soundwrap)
     {
       // @@@ Report error?
@@ -687,7 +566,28 @@ bool celPcSoundSource::GetSource ()
 {
   GetSoundWrap ();
   if (!soundwrap) return false;
-  source = soundwrap->GetSound ()->CreateSource (SOUND3D_DISABLE);
+  csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (object_reg,
+  	iSndSysRenderer);
+  if (!renderer)
+  {
+    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+      	iPluginManager);
+    renderer = CS_LOAD_PLUGIN (plugin_mgr,
+    	"crystalspace.sndsys.renderer.software", iSndSysRenderer);
+    if (renderer)
+    {
+      object_reg->Register (renderer, "iSndSysRenderer");
+    }
+    else
+    {
+      // @@@ Error report.
+      printf ("Error! No sound renderer!\n"); fflush (stdout);
+      return false;
+    }
+  }
+  csRef<iSndSysSource> src = renderer->CreateSource (soundwrap->GetStream ());
+  if (src)
+    source = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware3D);
   return source != 0;
 }
 

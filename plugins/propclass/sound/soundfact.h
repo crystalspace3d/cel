@@ -30,10 +30,10 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/sound.h"
-#include "isound/source.h"
-#include "isound/listener.h"
-#include "isound/renderer.h"
-#include "isound/wrapper.h"
+#include "isndsys/ss_source.h"
+#include "isndsys/ss_listener.h"
+#include "isndsys/ss_renderer.h"
+#include "isndsys/ss_manager.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -62,41 +62,31 @@ private:
     propid_front = 0,
     propid_top,
     propid_position,
-    propid_velocity,
     propid_distancefactor,
-    propid_rollofffactor,
-    propid_dopplerfactor,
-    propid_headsize,
-    propid_environment
+    propid_rollofffactor
   };
   static Property* properties;
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
-  csRef<iSoundRender> renderer;
-  csRef<iSoundListener> listener;
+  csRef<iSndSysRenderer> renderer;
+  csRef<iSndSysListener> listener;
 
 public:
   celPcSoundListener (iObjectRegistry* object_reg);
   virtual ~celPcSoundListener ();
 
-  virtual iSoundListener* GetSoundListener () { return listener; }
-  virtual void SetEnvironment (const char* env);
-  virtual const char* GetEnvironment ();
+  virtual iSndSysListener* GetSoundListener () { return listener; }
 
   virtual const char* GetName () const { return "pcsoundlistener"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
-  // Override SetProperty from celPcCommon in order to provide support
-  // for the 'max' property.
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual bool SetProperty (csStringID, float);
   virtual float GetPropertyFloat (csStringID);
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
 };
 
 /**
@@ -107,29 +97,27 @@ class celPcSoundSource : public scfImplementationExt1<
 {
 private:
   // For PerformAction.
-  static csStringID action_play;
-  static csStringID id_method;
-  static csStringID action_stop;
+  static csStringID action_pause;
+  static csStringID action_unpause;
 
   // For properties.
   enum propids
   {
     propid_soundname = 0,
     propid_volume,
-    propid_frequencyfactor,
-    propid_mode3d,
+    propid_directionalradiation,
     propid_position,
-    propid_velocity,
     propid_minimumdistance,
-    propid_maximumdistance
+    propid_maximumdistance,
+    propid_loop
   };
   static Property* properties;
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
-  csRef<iSoundSource> source;
+  csRef<iSndSysSourceSoftware3D> source;
   csString soundname;
-  csRef<iSoundWrapper> soundwrap;
+  csRef<iSndSysWrapper> soundwrap;
   void GetSoundWrap ();
   bool GetSource ();
 
@@ -137,7 +125,7 @@ public:
   celPcSoundSource (iObjectRegistry* object_reg);
   virtual ~celPcSoundSource ();
 
-  virtual iSoundSource* GetSoundSource () { return source; }
+  virtual iSndSysSource* GetSoundSource () { return source; }
   virtual void SetSoundName (const char* name);
   virtual const char* GetSoundName () const { return soundname; }
 
@@ -146,14 +134,12 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
-  // Override SetProperty from celPcCommon in order to provide support
-  // for the 'max' property.
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual bool SetProperty (csStringID, float);
   virtual float GetPropertyFloat (csStringID);
-  virtual bool SetProperty (csStringID, long);
-  virtual long GetPropertyLong (csStringID);
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool GetPropertyBool (csStringID);
   virtual bool SetProperty (csStringID, const char*);
   virtual const char* GetPropertyString (csStringID);
 };
