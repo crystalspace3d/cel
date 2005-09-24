@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -23,12 +23,13 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-struct iSoundListener;
-struct iSoundSource;
+struct iSndSysListener;
+struct iSndSysSource;
 
 /**
  * This is the sound listener property class. There can really be only
- * one listener at any moment. It represents the listener (i.e. player of the game).
+ * one listener at any moment. It represents the listener (i.e. player of the
+ * game).
  * <p>
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
@@ -43,17 +44,9 @@ struct iSoundSource;
  * <li>front (vector3, read/write): front direction.
  * <li>top (vector3, read/write): top direction.
  * <li>position (vector3, read/write): position.
- * <li>velocity (vector3, read/write): velocity.
  * <li>distancefactor (float, read/write): distance factor.
  * <li>rollofffactor (float, read/write): rolloff factor.
- * <li>dopplerfactor (float, read/write): doppler factor.
  * <li>headsize (float, read/write): headsize.
- * <li>environment (string, read/write): sound environment. One of:
- *     "generic", "paddedcell", "room", "bathroom", "livingroom", "stoneroom",
- *     "auditorium", "concerthall", "cave", "arena", "carpetedhallway",
- *     "hallway", "stonecorridor", "alley", "forest", "city", "mountains",
- *     "quarry", "plain", "parkinglot", "sewerpipe", "underwater",
- *     "drugged", "dizzy", "psychotic".
  * </ul>
  */
 struct iPcSoundListener : public virtual iBase
@@ -61,13 +54,7 @@ struct iPcSoundListener : public virtual iBase
   SCF_INTERFACE (iPcSoundListener, 0, 0, 1);
 
   /// Get the sound listener.
-  virtual iSoundListener* GetSoundListener () = 0;
-
-  /// Set environment.
-  virtual void SetEnvironment (const char* env) = 0;
-
-  /// Get environment.
-  virtual const char* GetEnvironment () = 0;
+  virtual iSndSysListener* GetSoundListener () = 0;
 };
 
 /*
@@ -77,22 +64,20 @@ struct iPcSoundListener : public virtual iBase
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
- * <li>Play: parameters 'method' (int). 0=normal, 1=restart, 2=loop.
- * <li>Stop: no parameters.
+ * <li>Unpause: no parameters.
+ * <li>Pause: no parameters.
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * <ul>
  * <li>soundname (string, read/write): name of the sound that will be used.
- * <li>volume (float, read/write): volume between 0 and 1.
- * <li>frequencyfactor (float, read/write): frequency factor: 1=normal, >1 faster.
- * <li>mode3d (int, read/write): Possible values are 0 for disable 3d,
- *     1 for sound relative to listener, and 2 for absolute sound position.
+ * <li>volume (float, read/write): 0=off, 1=normal, >1 is above normal.
+ * <li>directionalradiation (float, read/write): directional radiation.
  * <li>position (vector3, read/write): position.
- * <li>velocity (vector3, read/write): velocity.
  * <li>minimumdistance (float, read/write): minimum play distance.
  * <li>maximumdistance (float, read/write): maximum play distance.
+ * <li>loop (bool, read/write): true=loop, false=don't loop.
  * </ul>
  */
 struct iPcSoundSource : public virtual iBase
@@ -100,7 +85,7 @@ struct iPcSoundSource : public virtual iBase
   SCF_INTERFACE (iPcSoundSource, 0, 0, 1);
 
   /// Get the sound source.
-  virtual iSoundSource* GetSoundSource () = 0;
+  virtual iSndSysSource* GetSoundSource () = 0;
 
   /// Set the name of the sound wrapper to use.
   virtual void SetSoundName (const char* name) = 0;

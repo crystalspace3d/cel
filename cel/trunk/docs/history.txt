@@ -3,9 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Sep-2005
+	- Jorrit ported the CEL sound system to the new CS sound system.
+	  Works a lot better now.
 20-Sep-2005
-	- David Bronke implemented celPcCommandInput::ScreenCoordinates (), which
-	  was empty for some reason.
+	- David Bronke implemented celPcCommandInput::ScreenCoordinates (),
+	  which was empty for some reason.
 	- David Bronke performed some minor code cleanup in iPcSimpleCamera.
 	- Jorrit fixed CEL for latest CS changes (loader plugin related).
 19-Sep-2005

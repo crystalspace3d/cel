@@ -43,7 +43,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "imesh/object.h"
-#include "isound/listener.h"
+#include "isndsys/ss_listener.h"
 
 //---------------------------------------------------------------------------
 
