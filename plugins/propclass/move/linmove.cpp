@@ -559,6 +559,7 @@ bool celPcLinearMovement::RotateV (float delta)
   iMovable* movable = pcmesh->GetMesh()->GetMovable();
   csYRotMatrix3 rotMat(angle.y);
   movable->SetTransform(movable->GetTransform().GetT2O () * rotMat );
+  movable->UpdateMove ();
   //pcmesh->GetMesh ()->GetMovable()->Transform (rotMat);
   return true;
 }

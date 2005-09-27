@@ -47,6 +47,8 @@
 struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
+struct iMovable;
+class celActorMovableListener;
 
 /**
  * Factory for actormove and npcmove.
@@ -68,6 +70,10 @@ private:
   csWeakRef<iPcCamera> pccamera;
   csWeakRef<iPcDefaultCamera> pcdefcamera;
   csWeakRef<iPcSoundListener> pcsoundlistener;
+
+  // Movable listener so we can update the sound listener.
+  csWeakRef<iMovable> movable_for_listener;
+  csRef<celActorMovableListener> movlistener;
 
   bool checked_spritestate;
   csWeakRef<iSpriteCal3DState> sprcal3d;

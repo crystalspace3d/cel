@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Sep-2005
+	- Jorrit fixed a bug in pclinmove. It was not calling UpdateMove()
+	  after rotating the actor.
+	- Jorrit fixed pcactormove so that it now constantly updates the
+	  sound listener when the actor moves.
+	- Jorrit also correctly sets up the direction for the listener in
+	  pcactormove.
 24-Sep-2005
 	- Jorrit ported the CEL sound system to the new CS sound system.
 	  Works a lot better now.
