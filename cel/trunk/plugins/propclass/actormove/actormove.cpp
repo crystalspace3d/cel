@@ -54,6 +54,35 @@ CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
 
 //---------------------------------------------------------------------------
 
+class celActorMovableListener : public scfImplementation1<celActorMovableListener,
+	iMovableListener>
+{
+private:
+  csWeakRef<iSndSysListener> listener;
+
+public:
+  celActorMovableListener (iSndSysListener* listener)
+  	: scfImplementationType (this), listener (listener)
+  {
+  }
+  virtual ~celActorMovableListener () { }
+  virtual void MovableChanged (iMovable* movable)
+  {
+    if (listener)
+    {
+      csReversibleTransform tr = movable->GetFullTransform ();
+      csVector3 pos = tr.GetOrigin ();
+      listener->SetPosition (pos);
+      csVector3 up = tr.GetUp ();
+      csVector3 front = tr.GetFront ();
+      listener->SetDirection (front, up);
+    }
+  }
+  virtual void MovableDestroyed (iMovable*) { }
+};
+
+//---------------------------------------------------------------------------
+
 csStringID celPcActorMove::action_setspeed = csInvalidStringID;
 csStringID celPcActorMove::action_forward = csInvalidStringID;
 csStringID celPcActorMove::action_backward = csInvalidStringID;
@@ -230,12 +259,27 @@ void celPcActorMove::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
+    if (movlistener)
+    {
+      if (movable_for_listener)
+        movable_for_listener->RemoveListener (movlistener);
+      movlistener = 0;
+    }
+
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
     pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
     pcsoundlistener = CEL_QUERY_PROPCLASS_ENT (entity, iPcSoundListener);
     checked_spritestate = false;
+    
+    if (pcsoundlistener && pcmesh)
+    {
+      movlistener.AttachNew (new celActorMovableListener (
+      	pcsoundlistener->GetSoundListener ()));
+      movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
+      movable_for_listener->AddListener (movlistener);
+    }
   }
 }
 
@@ -312,16 +356,6 @@ void celPcActorMove::HandleMovement (bool jump)
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 		    "cel.pcactormove", "pcmesh is missing!");
     return;
-  }
-
-  if (pcsoundlistener)
-  {
-    // @@@ This is not 100% ok yet. We need to:
-    //  - also set direction
-    //  - be able to update constantly instead of only when this function is called.
-    csVector3 pos = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().GetOrigin ();
-    pcsoundlistener->GetSoundListener ()->SetPosition (pos);
-    //printf ("new pos %g,%g,%g\n", pos.x, pos.y, pos.z); fflush (stdout);
   }
 
   float speed;
