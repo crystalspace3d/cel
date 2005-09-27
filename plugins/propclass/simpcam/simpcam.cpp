@@ -49,7 +49,6 @@
 #include "iengine/sector.h"
 #include "cstool/csview.h"
 #include "cstool/collider.h"
-#include "csgeom/transfrm.h"
 #include "ivaria/view.h"
 #include "ivaria/collider.h"
 #include "ivaria/reporter.h"
@@ -88,14 +87,11 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
-  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
-  CS_ASSERT (kbd != 0);
-
   objectlookat.Set (0, 0, 0);
   objectcampos.Set (0, 0, 0);
 
   lastActorSector = 0;
+  meshExplicitlySet = false;
 
   // Actions
   if (action_initcam == csInvalidStringID)
@@ -118,14 +114,16 @@ celPcSimpleCamera::~celPcSimpleCamera ()
 
 void celPcSimpleCamera::FindSiblingPropertyClasses ()
 {
-  if (HavePropertyClassesChanged ())
+  if (!meshExplicitlySet)
   {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    if (HavePropertyClassesChanged ())
+    {
+      pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    }
   }
 }
 
-void celPcSimpleCamera::GetActorTransform (csReversibleTransform& actor_trans,
-	iSector*& actor_sector)
+void celPcSimpleCamera::GetActorTransform ()
 {
   // Try to get position and sector from the mesh.
   FindSiblingPropertyClasses ();
@@ -161,7 +159,7 @@ bool celPcSimpleCamera::PerformAction (csStringID actionId,
     if (p_drawmesh)
       SetDrawMesh (drawmesh);
     else
-      Report (object_reg, "Couldn't get campos!");
+      Report (object_reg, "Couldn't get drawmesh flag!");
     return true;
   }
   return false;
@@ -187,10 +185,8 @@ void celPcSimpleCamera::SetDrawMesh (bool draw)
 void celPcSimpleCamera::Draw ()
 {
   // Try to get position and sector from mesh.
-  csReversibleTransform actor_trans;
-  iSector* cam_sector;
-  GetActorTransform (actor_trans, cam_sector);
-  if (cam_sector)
+  GetActorTransform ();
+  if (actor_sector)
   {
     // Adjust camera transform for relative position and lookat position.
     csReversibleTransform cam_trans;
@@ -202,8 +198,8 @@ void celPcSimpleCamera::Draw ()
   
     // First set the camera back on where the sector is.
     // We assume here that normal camera movement is good.
-    if (c->GetSector () != cam_sector)
-      c->SetSector (cam_sector);
+    if (c->GetSector () != actor_sector)
+      c->SetSector (actor_sector);
     c->SetTransform (cam_trans);
     c->OnlyPortals (true);
   }
@@ -227,7 +223,16 @@ void celPcSimpleCamera::SetLookAtOffset (const csVector3& lookat)
 
 void celPcSimpleCamera::SetMesh (iPcMesh* mesh)
 {
-  pcmesh = mesh;
+  if (mesh)
+  {
+    pcmesh = mesh;
+    meshExplicitlySet = true;
+  }
+  else
+  {
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    meshExplicitlySet = false;
+  }
 }
 
 #define SIMPLE_CAMERA_SERIAL 3

@@ -36,6 +36,7 @@
 #include "propclass/simpcam.h"
 #include "propclass/region.h"
 #include "propclass/mesh.h"
+#include "csgeom/transfrm.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -48,7 +49,6 @@ struct iCollideSystem;
 struct iView;
 class csView;
 class celPcSimpleCamera;
-class csReversibleTransform;
 class iPcZoneManager;
 
 /**
@@ -70,20 +70,22 @@ private:
   static csStringID param_lookat;
   static csStringID param_drawmesh;
 
-  csRef<iKeyboardDriver> kbd;
-  csRef<iMouseDriver> mouse;
   //bool use_cd;
   bool drawmesh;
   csVector3 objectcampos;
   csVector3 objectlookat;
+
+  bool meshExplicitlySet;
+
+  csReversibleTransform actor_trans;
+  iSector* actor_sector;
 
   csWeakRef<iPcMesh> pcmesh;
   void FindSiblingPropertyClasses ();
 
   iSector* lastActorSector;
 
-  void GetActorTransform (csReversibleTransform& actor_trans, iSector*&
-      actor_sector);
+  void GetActorTransform ();
 
 public:
   celPcSimpleCamera (iObjectRegistry* object_reg);
