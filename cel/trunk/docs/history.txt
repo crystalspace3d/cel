@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 27-Sep-2005
+	- David Bronke performed some code cleanup in celPcSimpleCamera and fixed
+	  a bug in explicitly setting the mesh for the camera to follow.
 	- Jorrit fixed a bug in pclinmove. It was not calling UpdateMove()
 	  after rotating the actor.
 	- Jorrit fixed pcactormove so that it now constantly updates the
