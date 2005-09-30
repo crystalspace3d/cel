@@ -3,9 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Sep-2005
+	- Eric Sunshine updated the Autoconf, Jam, and msvcgen files from the
+	  master copies in the CS repository.
 27-Sep-2005
-	- David Bronke performed some code cleanup in celPcSimpleCamera and fixed
-	  a bug in explicitly setting the mesh for the camera to follow.
+	- David Bronke performed some code cleanup in celPcSimpleCamera and
+	  fixed a bug in explicitly setting the mesh for the camera to follow.
 	- Jorrit fixed a bug in pclinmove. It was not calling UpdateMove()
 	  after rotating the actor.
 	- Jorrit fixed pcactormove so that it now constantly updates the
@@ -22,10 +25,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed CEL for latest CS changes (loader plugin related).
 19-Sep-2005
 	- Jorrit added pcsoundlistener and pcsoundsource property classes. This
-	  are the start of sound system in CEL. The listener is usually attached
-	  to the player entity. There can only be one listener. The sources
-	  are individual sound sources. Currently the system mostly works
-	  although 3D sound is not operating correctly yet. Work in progress.
+	  are the start of sound system in CEL. The listener is usually
+	  attached to the player entity. There can only be one listener. The
+	  sources are individual sound sources. Currently the system mostly
+	  works although 3D sound is not operating correctly yet. Work in
+	  progress.
 	- Jorrit extended celtest so that the actor has a sound listener. Also
 	  celtest will now load the sound renderer and loader plugins.
 	- Jorrit extended pcactormove so that it will now attempt to update the
@@ -161,15 +165,15 @@ The history order is reversed so that new features are at the top.
 	  and to Jamconfig. Makes ODE-requiring plugins work on MinGW.
 14-Jul-2005
 	- Jorrit did a big stability fix to the mechanics plugin. Apparently
-	  ODE doesn't like it if it is called with variable steps. The mechanics
-	  plugin normally calls ode->Step(delta) with delta constant. However
-	  there is always a remaining part of the elapsed time that was also
-	  done. This could cause instability. To fix this, instead of doing
-	  the remaining part immediatelly we store it in a class variable
-	  and add it to the elapsed time the next frame. That way we are sure
-	  that we always do steps that are exactly 'delta' big but our physics
-	  simulation speed is still independent from the framerate. This helps
-	  a great deal with stability.
+	  ODE doesn't like it if it is called with variable steps. The
+	  mechanics plugin normally calls ode->Step(delta) with delta
+	  constant. However there is always a remaining part of the elapsed
+	  time that was also done. This could cause instability. To fix this,
+	  instead of doing the remaining part immediatelly we store it in a
+	  class variable and add it to the elapsed time the next frame. That
+	  way we are sure that we always do steps that are exactly 'delta' big
+	  but our physics simulation speed is still independent from the
+	  framerate. This helps a great deal with stability.
 	- Vincent Knecht fixed 'sphere' filename uppercase issue in
 	  mechtest.cpp.
 13-Jul-2005
