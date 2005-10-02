@@ -485,7 +485,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
   }
   else if (spr3d)
   {
-    databuf->Add (spr3d->GetCurFrame ());
+    databuf->Add ((int32)spr3d->GetCurFrame ());
     databuf->Add (spr3d->GetCurAction ()->GetName ());
   }
 

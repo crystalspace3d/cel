@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Oct-2005
+	- Eric Sunshine fixed compilation error due to ambiguity in invocation
+	  of iCelDataBuffer::Add() invoked from
+	  celPcActorMove::GetPersistentData().
 30-Sep-2005
 	- Eric Sunshine updated the Autoconf, Jam, and msvcgen files from the
 	  master copies in the CS repository.
