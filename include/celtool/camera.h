@@ -40,29 +40,6 @@ struct iPcRegion;
 struct iPcZoneManager;
 class csView;
 
-//---------------------------------------------------------------------------
-
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
-//---------------------------------------------------------------------------
-
 /**
  * The representation of a camera.
  */
@@ -98,6 +75,8 @@ protected:
   bool clear_zbuf, clear_screen;
 
 public:
+  static void Report(iObjectRegistry* reg, const char* msg, ...);
+
   celPcCameraCommon (iObjectRegistry* object_reg);
   virtual ~celPcCameraCommon ();
 

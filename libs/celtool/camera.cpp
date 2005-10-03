@@ -42,8 +42,6 @@
 #include "ivaria/view.h"
 #include "ivideo/graph3d.h"
 
-//---------------------------------------------------------------------------
-
 celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
@@ -65,6 +63,25 @@ celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
 
 celPcCameraCommon::~celPcCameraCommon ()
 {
+}
+
+void celPcCameraCommon::Report(iObjectRegistry* reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
 }
 
 bool celPcCameraCommon::SetRegion (iPcRegion* newregion, bool point,

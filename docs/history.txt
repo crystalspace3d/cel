@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	  collider mesh as well but that is wrong as that transform is
 	  set separatelly on the body so essentially it was setting the
 	  movable transform twice.
+	- Eric Sunshine eliminated compilation warnings about unused Report()
+	  function.
 2-Oct-2005
 	- Eric Sunshine fixed compilation error due to ambiguity in invocation
 	  of iCelDataBuffer::Add() invoked from
