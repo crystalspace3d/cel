@@ -23,30 +23,30 @@
 <a href="structiPcTooltip-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a0">SetText</a> (const char *text)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a0">Hide</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the text to display.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a1">Show</a> (int x, int y)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hide tooltip.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a1">IsVisible</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show tooltip at given location.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a2">Hide</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is tooltip visible?  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a2">SetBackgroundColor</a> (int r, int g, int b)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Hide tooltip.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a3">IsVisible</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set background color (use -1, -1, -1 for transparent).  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a3">SetFont</a> (iFont *font)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is tooltip visible?  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a4">SetTextColor</a> (int r, int g, int b)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the font for the tooltip.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a4">SetJustify</a> (celTooltipJustify justify)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set text color.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a5">SetBackgroundColor</a> (int r, int g, int b)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the justification of the tooltip.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a5">SetText</a> (const char *text)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set background color (use -1, -1, -1 for transparent).  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a6">SetFont</a> (iFont *font)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the text to display.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a6">SetTextColor</a> (int r, int g, int b)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the font for the tooltip.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a7">SetJustify</a> (celTooltipJustify justify)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set text color.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTooltip.html#a7">Show</a> (int x, int y)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the justification of the tooltip.  <a href="#a7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show tooltip at given location.  <a href="#a7"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Tooltip property class. 
@@ -54,7 +54,7 @@ Tooltip property class.
 
 <p>
 Definition at line <a class="el" href="tooltip_8h-source.html#l00040">40</a> of file <a class="el" href="tooltip_8h-source.html">tooltip.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcTooltip::Hide" ref="a2" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcTooltip::Hide" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -83,7 +83,7 @@ Hide tooltip.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcTooltip::IsVisible" ref="a3" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcTooltip::IsVisible" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -112,7 +112,7 @@ Is tooltip visible?
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcTooltip::SetBackgroundColor" ref="a5" args="(int r, int g, int b)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcTooltip::SetBackgroundColor" ref="a2" args="(int r, int g, int b)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -157,7 +157,7 @@ Set background color (use -1, -1, -1 for transparent).
 Default yellow.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcTooltip::SetFont" ref="a6" args="(iFont *font)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcTooltip::SetFont" ref="a3" args="(iFont *font)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -187,7 +187,7 @@ Set the font for the tooltip.
 Defaults to CSFONT_COURIER.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcTooltip::SetJustify" ref="a7" args="(celTooltipJustify justify)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcTooltip::SetJustify" ref="a4" args="(celTooltipJustify justify)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -217,7 +217,7 @@ Set the justification of the tooltip.
 Defaults to left-aligned.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcTooltip::SetText" ref="a0" args="(const char *text)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcTooltip::SetText" ref="a5" args="(const char *text)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -247,7 +247,7 @@ Set the text to display.
 Newlines will be properly handled.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcTooltip::SetTextColor" ref="a4" args="(int r, int g, int b)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcTooltip::SetTextColor" ref="a6" args="(int r, int g, int b)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -292,7 +292,7 @@ Set text color.
 Default black.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcTooltip::Show" ref="a1" args="(int x, int y)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcTooltip::Show" ref="a7" args="(int x, int y)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

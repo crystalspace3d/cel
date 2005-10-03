@@ -23,69 +23,69 @@
 <a href="structiCelGameServer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a0">RegisterServerManager</a> (<a class="el" href="classcelGameServerManager.html">celGameServerManager</a> *manager)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a0">ChangeLevel</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *new_game)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register the manager of this server.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a1">SetAdministrator</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *new_admin)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Level change, the game is re-initialized.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a1">ChangeLinkControl</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="classcelPlayer.html">celPlayer</a> *player, bool player_controlled)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the administrator of the game.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a2">GetAdministrator</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define if it is the client or the server that will update the entity.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a2">CreateChannel</a> (csStringID channel_id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the administrator of the game.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a3">GetPlayerList</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a channel, ie a list of players.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a3">GetAdministrator</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the list of players connected to the server.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPlayerNetworkState&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a4">GetPlayerState</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the administrator of the game.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a4">GetNetworkPlayerStats</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a> &amp;stats) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the state of the network connection to the player.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a5">KickPlayer</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, csString reason)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of the specified player.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a5">GetNetworkTotalStats</a> (<a class="el" href="structcelNetworkPlayerTotalStats.html">celNetworkPlayerTotalStats</a> &amp;stats) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Kick the player from the game, ie the player will be forced to disconnect from the game.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a6">CreateChannel</a> (csStringID channel_id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of this server.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a6">GetPlayerList</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a channel, ie a list of players.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a7">RemoveChannel</a> (csStringID channel_id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the list of players connected to the server.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPlayerNetworkState&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a7">GetPlayerState</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Stop managing the list of players and delete it.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a8">LaunchServerEvent</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="classcelServerEventData.html">celServerEventData</a> &amp;event_data)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the state of the network connection to the player.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a8">KickPlayer</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, csString reason)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server event has to be sent to a player.  <a href="#a8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Kick the player from the game, ie the player will be forced to disconnect from the game.  <a href="#a8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a9">LaunchServerEvent</a> (csStringID channel_id, <a class="el" href="classcelServerEventData.html">celServerEventData</a> &amp;event_data)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server event has to be sent to the players in the channel.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a10">SetNetworkLink</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="classcelNetworkLinkData.html">celNetworkLinkData</a> &amp;link_data, bool player_controlled)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a10">LaunchServerEvent</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="classcelServerEventData.html">celServerEventData</a> &amp;event_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Establish a link between an entity and a player.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a11">ChangeLinkControl</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="classcelPlayer.html">celPlayer</a> *player, bool player_controlled)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server event has to be sent to a player.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a11">RegisterServerManager</a> (<a class="el" href="classcelGameServerManager.html">celGameServerManager</a> *manager)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define if it is the client or the server that will update the entity.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a12">SetNetworkLink</a> (csStringID channel_id, <a class="el" href="classcelNetworkLinkData.html">celNetworkLinkData</a> &amp;link_data)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register the manager of this server.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a12">RemoveChannel</a> (csStringID channel_id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Establish a link between a source entity and the players in a list.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a13">RemoveNetworkLink</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Stop managing the list of players and delete it.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a13">RemoveNetworkLink</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, csStringID channel_id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the existing link between the entity and the player, ie the state of the entity will no more be sent to the player.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a14">RemoveNetworkLink</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, csStringID channel_id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the existing link between the entity and the channel, ie the state of the entity will no more be sent to the players in the list.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a14">RemoveNetworkLink</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the existing link between the entity and the channel, ie the state of the entity will no more be sent to the players in the list.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a15">ChangeLevel</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *new_game)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the existing link between the entity and the player, ie the state of the entity will no more be sent to the player.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a15">SetAdministrator</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *new_admin)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Level change, the game is re-initialized.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a16">SetNetworkPeriod</a> (csTicks period)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the administrator of the game.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a16">SetClientTimeOut</a> (csTicks timeout)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specify the maximum frequency at which the server can send data to clients.  <a href="#a16"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The server will consider a client connected until the connection is broken (network state CEL_NET_PLAYER_UNREACHABLE) during the specified time.  <a href="#a16"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a17">SetMaximumBandwidth</a> (size_t width)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specify the maximum bandwidth of the network data transmission in bytes per second.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a18">SetClientTimeOut</a> (csTicks timeout)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a18">SetNetworkLink</a> (csStringID channel_id, <a class="el" href="classcelNetworkLinkData.html">celNetworkLinkData</a> &amp;link_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The server will consider a client connected until the connection is broken (network state CEL_NET_PLAYER_UNREACHABLE) during the specified time.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a19">GetNetworkPlayerStats</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a> &amp;stats) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Establish a link between a source entity and the players in a list.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a19">SetNetworkLink</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="classcelNetworkLinkData.html">celNetworkLinkData</a> &amp;link_data, bool player_controlled)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of the specified player.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a20">GetNetworkTotalStats</a> (<a class="el" href="structcelNetworkPlayerTotalStats.html">celNetworkPlayerTotalStats</a> &amp;stats) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Establish a link between an entity and a player.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#a20">SetNetworkPeriod</a> (csTicks period)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of this server.  <a href="#a20"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specify the maximum frequency at which the server can send data to clients.  <a href="#a20"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The main object to manage the server game logic. 
@@ -109,7 +109,7 @@ You should define and register a <a class="el" href="classcelGameServerManager.h
 
 <p>
 Definition at line <a class="el" href="network_8h-source.html#l00341">341</a> of file <a class="el" href="network_8h-source.html">network.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iCelGameServer::ChangeLevel" ref="a15" args="(celGameInfo *new_game)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelGameServer::ChangeLevel" ref="a0" args="(celGameInfo *new_game)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -136,7 +136,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00341">341</a> of
 <p>
 Level change, the game is re-initialized. 
 <p>
-Clear all pending network links and server events. The iCelGameClientManager of all players will be called with <a class="el" href="classcelGameClientManager.html#a5">celGameClientManager::LevelChanged</a>. All the players are marked as CEL_NET_PLAYER_CONNECTING, they will need to do <a class="el" href="structiCelGameClient.html#a6">iCelGameClient::SetReady</a>. <dl compact><dt><b>Parameters:</b></dt><dd>
+Clear all pending network links and server events. The iCelGameClientManager of all players will be called with <a class="el" href="classcelGameClientManager.html#a3">celGameClientManager::LevelChanged</a>. All the players are marked as CEL_NET_PLAYER_CONNECTING, they will need to do <a class="el" href="structiCelGameClient.html#a9">iCelGameClient::SetReady</a>. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>level_name</em>&nbsp;</td><td>a significant name for the new level.</td></tr>
   </table>
@@ -144,7 +144,7 @@ Clear all pending network links and server events. The iCelGameClientManager of 
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iCelGameServer::ChangeLinkControl" ref="a11" args="(iCelEntity *entity, celPlayer *player, bool player_controlled)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelGameServer::ChangeLinkControl" ref="a1" args="(iCelEntity *entity, celPlayer *player, bool player_controlled)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -196,7 +196,7 @@ A network link between the player and the entity must be present. <dl compact><d
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelGameServer::CreateChannel" ref="a6" args="(csStringID channel_id)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelGameServer::CreateChannel" ref="a2" args="(csStringID channel_id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -231,7 +231,7 @@ The list will be managed by the server which will listen to players disconnectin
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelGameServer::GetAdministrator" ref="a2" args="()=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelGameServer::GetAdministrator" ref="a3" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -260,7 +260,7 @@ Return the administrator of the game.
 The return value can be 0 if no administrator was defined in iCelGameFactory::CreateGame.    </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iCelGameServer::GetNetworkPlayerStats" ref="a19" args="(celPlayer *player, celNetworkPlayerStats &amp;stats) const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelGameServer::GetNetworkPlayerStats" ref="a4" args="(celPlayer *player, celNetworkPlayerStats &amp;stats) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -299,7 +299,7 @@ Return the network stats of the specified player.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iCelGameServer::GetNetworkTotalStats" ref="a20" args="(celNetworkPlayerTotalStats &amp;stats) const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelGameServer::GetNetworkTotalStats" ref="a5" args="(celNetworkPlayerTotalStats &amp;stats) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -329,7 +329,7 @@ Return the network stats of this server.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelGameServer::GetPlayerList" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelGameServer::GetPlayerList" ref="a6" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -358,7 +358,7 @@ Return the list of players connected to the server.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelGameServer::GetPlayerState" ref="a4" args="(celPlayer *player)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelGameServer::GetPlayerState" ref="a7" args="(celPlayer *player)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -388,7 +388,7 @@ Return the state of the network connection to the player.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelGameServer::KickPlayer" ref="a5" args="(celPlayer *player, csString reason)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelGameServer::KickPlayer" ref="a8" args="(celPlayer *player, csString reason)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -466,7 +466,7 @@ A server event has to be sent to the players in the channel.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelGameServer::LaunchServerEvent" ref="a8" args="(celPlayer *player, celServerEventData &amp;event_data)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iCelGameServer::LaunchServerEvent" ref="a10" args="(celPlayer *player, celServerEventData &amp;event_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -505,7 +505,7 @@ A server event has to be sent to a player.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelGameServer::RegisterServerManager" ref="a0" args="(celGameServerManager *manager)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iCelGameServer::RegisterServerManager" ref="a11" args="(celGameServerManager *manager)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -535,7 +535,7 @@ Register the manager of this server.
 Only one manager can be registered at a time.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelGameServer::RemoveChannel" ref="a7" args="(csStringID channel_id)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iCelGameServer::RemoveChannel" ref="a12" args="(csStringID channel_id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -565,7 +565,7 @@ Stop managing the list of players and delete it.
 Any existing network links to this channel will also be removed.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iCelGameServer::RemoveNetworkLink" ref="a14" args="(iCelEntity *entity, csStringID channel_id)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iCelGameServer::RemoveNetworkLink" ref="a13" args="(iCelEntity *entity, csStringID channel_id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -604,7 +604,7 @@ Remove the existing link between the entity and the channel, ie the state of the
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iCelGameServer::RemoveNetworkLink" ref="a13" args="(iCelEntity *entity, celPlayer *player)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iCelGameServer::RemoveNetworkLink" ref="a14" args="(iCelEntity *entity, celPlayer *player)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -643,7 +643,7 @@ Remove the existing link between the entity and the player, ie the state of the 
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelGameServer::SetAdministrator" ref="a1" args="(celPlayer *new_admin)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iCelGameServer::SetAdministrator" ref="a15" args="(celPlayer *new_admin)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -673,7 +673,7 @@ Set the administrator of the game.
 It doesn't need to be a player already connected.    </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iCelGameServer::SetClientTimeOut" ref="a18" args="(csTicks timeout)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iCelGameServer::SetClientTimeOut" ref="a16" args="(csTicks timeout)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -733,7 +733,7 @@ Specify the maximum bandwidth of the network data transmission in bytes per seco
 A bandwidth of 0 means that it is unlimited.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iCelGameServer::SetNetworkLink" ref="a12" args="(csStringID channel_id, celNetworkLinkData &amp;link_data)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iCelGameServer::SetNetworkLink" ref="a18" args="(csStringID channel_id, celNetworkLinkData &amp;link_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -779,7 +779,7 @@ If a link between the entity and the channel is already present, the previous li
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iCelGameServer::SetNetworkLink" ref="a10" args="(celPlayer *player, celNetworkLinkData &amp;link_data, bool player_controlled)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iCelGameServer::SetNetworkLink" ref="a19" args="(celPlayer *player, celNetworkLinkData &amp;link_data, bool player_controlled)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -833,7 +833,7 @@ If a link between the entity and the player is already present, the previous lin
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iCelGameServer::SetNetworkPeriod" ref="a16" args="(csTicks period)=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iCelGameServer::SetNetworkPeriod" ref="a20" args="(csTicks period)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

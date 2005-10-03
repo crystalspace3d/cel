@@ -23,18 +23,18 @@
 <a href="structiQuestSequenceFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a0">AddDelay</a> (const char *delay)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this factory.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a1">Load</a> (iDocumentNode *node)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a delay.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a1">AddSeqOpFactory</a> (<a class="el" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> *seqopfact, const char *duration)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this sequence factory from a document node.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a2">AddSeqOpFactory</a> (<a class="el" href="structiQuestSeqOpFactory.html">iQuestSeqOpFactory</a> *seqopfact, const char *duration)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a new operation factory at the specified time.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a2">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a new operation factory at the specified time.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a3">AddDelay</a> (const char *delay)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this factory.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#a3">Load</a> (iDocumentNode *node)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a delay.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this sequence factory from a document node.  <a href="#a3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A representation of a sequence factory. 
@@ -44,7 +44,7 @@ A sequence factory is basically a sequence of sequence operation factories.
 
 <p>
 Definition at line <a class="el" href="questmanager_8h-source.html#l00503">503</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestSequenceFactory::AddDelay" ref="a3" args="(const char *delay)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestSequenceFactory::AddDelay" ref="a0" args="(const char *delay)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -79,7 +79,7 @@ Add a delay.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestSequenceFactory::AddSeqOpFactory" ref="a2" args="(iQuestSeqOpFactory *seqopfact, const char *duration)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestSequenceFactory::AddSeqOpFactory" ref="a1" args="(iQuestSeqOpFactory *seqopfact, const char *duration)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -124,7 +124,7 @@ Add a new operation factory at the specified time.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestSequenceFactory::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestSequenceFactory::GetName" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -153,7 +153,7 @@ Get the name of this factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestSequenceFactory::Load" ref="a1" args="(iDocumentNode *node)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestSequenceFactory::Load" ref="a3" args="(iDocumentNode *node)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

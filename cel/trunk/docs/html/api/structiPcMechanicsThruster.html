@@ -23,36 +23,36 @@
 <a href="structiPcMechanicsThruster-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a0">SetMechanicsObject</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *mechsys)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a0">AvailableThrust</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mechanics object to affect.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a1">GetMechanicsObject</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">How much thrust is available on this thruster?  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a1">GetMaxThrust</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mechanics object.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a2">SetPosition</a> (const csVector3 &amp;pos)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum thrust.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a2">GetMechanicsObject</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the thruster's position relative to the object.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a3">GetPosition</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mechanics object.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a3">GetOrientation</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the thruster's position relative to the object.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a4">SetOrientation</a> (const csVector3 &amp;orientation)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the orientation of the thruster.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a4">GetPosition</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the thruster.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a5">GetOrientation</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the thruster's position relative to the object.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a5">GetThrustForce</a> (float thrust)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the orientation of the thruster.  <a href="#a5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force a given thrust will produce, taking into account the current environment.  <a href="#a5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a6">SetMaxThrust</a> (float maxthrust)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the maximum thrust.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a7">GetMaxThrust</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a7">SetMechanicsObject</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *mechsys)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum thrust.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a8">GetThrustForce</a> (float thrust)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mechanics object to affect.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a8">SetOrientation</a> (const csVector3 &amp;orientation)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force a given thrust will produce, taking into account the current environment.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a9">AvailableThrust</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the thruster.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a9">SetPosition</a> (const csVector3 &amp;pos)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">How much thrust is available on this thruster?  <a href="#a9"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the thruster's position relative to the object.  <a href="#a9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsThruster.html#a10">ThrustChange</a> (float deltathrust)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Applies a delta to the thruster's current thrust.  <a href="#a10"></a><br></td></tr>
@@ -63,7 +63,7 @@
 
 <p>
 Definition at line <a class="el" href="mechthruster_8h-source.html#l00019">19</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsThruster::AvailableThrust" ref="a9" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMechanicsThruster::AvailableThrust" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -92,7 +92,7 @@ How much thrust is available on this thruster?
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsThruster::GetMaxThrust" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsThruster::GetMaxThrust" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -121,7 +121,7 @@ Get the maximum thrust.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsThruster::GetMechanicsObject" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsThruster::GetMechanicsObject" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -150,7 +150,7 @@ Get the associated mechanics object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsThruster::GetOrientation" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsThruster::GetOrientation" ref="a3" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -179,7 +179,7 @@ Get the orientation of the thruster.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsThruster::GetPosition" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsThruster::GetPosition" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -208,7 +208,7 @@ Get the thruster's position relative to the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThruster::GetThrustForce" ref="a8" args="(float thrust)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsThruster::GetThrustForce" ref="a5" args="(float thrust)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -278,7 +278,7 @@ Set the maximum thrust.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMechanicsThruster::SetMechanicsObject" ref="a0" args="(iPcMechanicsObject *mechsys)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsThruster::SetMechanicsObject" ref="a7" args="(iPcMechanicsObject *mechsys)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -313,7 +313,7 @@ This is required. <dl compact><dt><b>Parameters:</b></dt><dd>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsThruster::SetOrientation" ref="a4" args="(const csVector3 &amp;orientation)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsThruster::SetOrientation" ref="a8" args="(const csVector3 &amp;orientation)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -348,7 +348,7 @@ Set the orientation of the thruster.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsThruster::SetPosition" ref="a2" args="(const csVector3 &amp;pos)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsThruster::SetPosition" ref="a9" args="(const csVector3 &amp;pos)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

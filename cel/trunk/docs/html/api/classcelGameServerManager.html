@@ -26,21 +26,21 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a0">AuthorizePlayer</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, csString &amp;reason)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A player is asking to join the game.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a1">ValidatePlayerUpdate</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *previous_player_data)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a1">HandleClientEvent</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, celClientEventType event_type, csTicks event_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *event_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if the new data of a player are valid.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a2">PlayerNetworkStateChanged</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, celPlayerNetworkState new_state, celPlayerNetworkState previous_state)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A client event has been catched.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a2">PersistenceProblem</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, celPersistenceResult persist_code)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The state of the network connection to the player has changed.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a3">HandleClientEvent</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, celClientEventType event_type, csTicks event_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *event_data)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">An entity is controlled by a player and a problem was encountered while updating the data of this entity.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a3">PlayerNetworkStateChanged</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, celPlayerNetworkState new_state, celPlayerNetworkState previous_state)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A client event has been catched.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a4">PersistenceProblem</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc, celPersistenceResult persist_code)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The state of the network connection to the player has changed.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a4">ServerEnd</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">An entity is controlled by a player and a problem was encountered while updating the data of this entity.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a5">ServerEnd</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The game is finished and the server will be closed.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameServerManager.html#a5">ValidatePlayerUpdate</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *previous_player_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The game is finished and the server will be closed.  <a href="#a5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if the new data of a player are valid.  <a href="#a5"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an interface you should implement in order to manage the events from the server. 
@@ -101,7 +101,7 @@ A player is asking to join the game.
 Return true if the new player is accepted, false otherwise (for example, because the player has been banned). A text explaining the reason of a negative answer can be specified.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="celGameServerManager::HandleClientEvent" ref="a3" args="(celPlayer *player, celClientEventType event_type, csTicks event_time, iCelDataBuffer *event_data)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="celGameServerManager::HandleClientEvent" ref="a1" args="(celPlayer *player, celClientEventType event_type, csTicks event_time, iCelDataBuffer *event_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -152,7 +152,7 @@ A client event has been catched.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="celGameServerManager::PersistenceProblem" ref="a4" args="(celPlayer *player, iCelEntity *entity, iCelPropertyClass *pc, celPersistenceResult persist_code)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="celGameServerManager::PersistenceProblem" ref="a2" args="(celPlayer *player, iCelEntity *entity, iCelPropertyClass *pc, celPersistenceResult persist_code)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -211,7 +211,7 @@ An entity is controlled by a player and a problem was encountered while updating
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="celGameServerManager::PlayerNetworkStateChanged" ref="a2" args="(celPlayer *player, celPlayerNetworkState new_state, celPlayerNetworkState previous_state)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="celGameServerManager::PlayerNetworkStateChanged" ref="a3" args="(celPlayer *player, celPlayerNetworkState new_state, celPlayerNetworkState previous_state)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -256,7 +256,7 @@ The state of the network connection to the player has changed.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="celGameServerManager::ServerEnd" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="celGameServerManager::ServerEnd" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -285,7 +285,7 @@ The game is finished and the server will be closed.
 You should delete here all entities and the physical layer.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="celGameServerManager::ValidatePlayerUpdate" ref="a1" args="(celPlayer *previous_player_data)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="celGameServerManager::ValidatePlayerUpdate" ref="a5" args="(celPlayer *previous_player_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -312,7 +312,7 @@ You should delete here all entities and the physical layer.    </td>
 <p>
 Check if the new data of a player are valid. 
 <p>
-It happens when <a class="el" href="structiCelGameClient.html#a2">iCelGameClient::UpdatePlayer</a> has been called on the client side. <dl compact><dt><b>Returns:</b></dt><dd>the validated data of the player.</dd></dl>
+It happens when <a class="el" href="structiCelGameClient.html#a11">iCelGameClient::UpdatePlayer</a> has been called on the client side. <dl compact><dt><b>Returns:</b></dt><dd>the validated data of the player.</dd></dl>
     </td>
   </tr>
 </table>

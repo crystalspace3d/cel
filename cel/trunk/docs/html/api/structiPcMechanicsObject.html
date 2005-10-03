@@ -23,123 +23,123 @@
 <a href="structiPcMechanicsObject-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a1">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a0">AddForceDuration</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh which this body will control.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a2">GetMesh</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in seconds) add the force every step.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a1">AddForceFrame</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mesh property class.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a3">SetMechanicsSystem</a> (<a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> *mechsys)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a2">AddForceOnce</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mechanics system to use.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a4">GetMechanicsSystem</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force once to the given object.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a3">AddForceTagged</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 &amp;forceid)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mechanics system.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRigidBody *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a5">GetBody</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a4">AddToGroup</a> (const char *group)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated rigid body.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a6">SetFriction</a> (float friction)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add this body to the specified group.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a5">AttachColliderBox</a> (const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's friction.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a7">SetMass</a> (float mass)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a box collider for this object.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a6">AttachColliderCylinder</a> (float length, float radius, const csOrthoTransform &amp;trans)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's mass.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a8">SetElasticity</a> (float elasticity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a cylinder collider for this object.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a7">AttachColliderMesh</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's elasticity.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a9">SetDensity</a> (float density)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a mesh collider for this object from the attached <a class="el" href="structiPcMesh.html">iPcMesh</a>.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a8">AttachColliderPlane</a> (const csPlane3 &amp;plane)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's density.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a10">SetSoftness</a> (float softness)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a plane collider for this object.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a9">AttachColliderSphere</a> (float radius, const csVector3 &amp;offset)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's softness.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a11">SetLift</a> (const csVector3 &amp;lift)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a sphere collider for this object.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a10">ClearForces</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's lift.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a12">SetDrag</a> (float drag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the permanent forces on this body.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a11">CreateJoint</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *other)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's drag.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a13">GetFriction</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between this object and another.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a12">GetAngularVelocity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's friction.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a14">GetMass</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current angular velocity (rotation) of the object.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRigidBody *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a13">GetBody</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's mass.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a15">GetElasticity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated rigid body.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a14">GetDensity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's elasticity.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a16">GetDensity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's density.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a15">GetDrag</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's density.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a17">GetSoftness</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's drag.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a16">GetElasticity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's softness.  <a href="#a17"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's elasticity.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a17">GetFriction</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's friction.  <a href="#a17"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a18">GetLift</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's lift.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a19">GetDrag</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a19">GetLinearVelocity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's drag.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a20">SetLinearVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current linear velocity (movement) of the object.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a20">GetMass</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial linear velocity (movement) of the object.  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a21">SetAngularVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's mass.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a21">GetMechanicsSystem</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial angular velocity (rotation) of the object.  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a22">GetLinearVelocity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mechanics system.  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a22">GetMesh</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current linear velocity (movement) of the object.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a23">GetAngularVelocity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated mesh property class.  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a23">GetSoftness</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current angular velocity (rotation) of the object.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a24">MakeStatic</a> (bool stat)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's softness.  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a24">IsStatic</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Make static.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a25">IsStatic</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if static.  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a25">MakeStatic</a> (bool stat)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if static.  <a href="#a25"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a26">AttachColliderSphere</a> (float radius, const csVector3 &amp;offset)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Make static.  <a href="#a25"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a26">RemoveForceTagged</a> (uint32 forceid)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a sphere collider for this object.  <a href="#a26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a27">AttachColliderCylinder</a> (float length, float radius, const csOrthoTransform &amp;trans)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#a26"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a27">RemoveFromGroup</a> (const char *group)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a cylinder collider for this object.  <a href="#a27"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a28">AttachColliderBox</a> (const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove this body from the specified group.  <a href="#a27"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a29">SetAngularVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a box collider for this object.  <a href="#a28"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a29">AttachColliderPlane</a> (const csPlane3 &amp;plane)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial angular velocity (rotation) of the object.  <a href="#a29"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a30">SetDensity</a> (float density)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a plane collider for this object.  <a href="#a29"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a30">AttachColliderMesh</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's density.  <a href="#a30"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a31">SetDrag</a> (float drag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a mesh collider for this object from the attached <a class="el" href="structiPcMesh.html">iPcMesh</a>.  <a href="#a30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a31">AddForceOnce</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's drag.  <a href="#a31"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a32">SetElasticity</a> (float elasticity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force once to the given object.  <a href="#a31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a32">AddForceDuration</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's elasticity.  <a href="#a32"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a33">SetFriction</a> (float friction)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in seconds) add the force every step.  <a href="#a32"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a33">AddForceFrame</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's friction.  <a href="#a33"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a34">SetLift</a> (const csVector3 &amp;lift)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a33"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a34">AddForceTagged</a> (const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 &amp;forceid)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's lift.  <a href="#a34"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a35">SetLinearVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#a34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a35">RemoveForceTagged</a> (uint32 forceid)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial linear velocity (movement) of the object.  <a href="#a35"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a36">SetMass</a> (float mass)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#a35"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a36">ClearForces</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's mass.  <a href="#a36"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a37">SetMechanicsSystem</a> (<a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> *mechsys)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the permanent forces on this body.  <a href="#a36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a37">AddToGroup</a> (const char *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mechanics system to use.  <a href="#a37"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a38">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add this body to the specified group.  <a href="#a37"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a38">RemoveFromGroup</a> (const char *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh which this body will control.  <a href="#a38"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a39">SetSoftness</a> (float softness)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove this body from the specified group.  <a href="#a38"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a39">CreateJoint</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *other)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between this object and another.  <a href="#a39"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's softness.  <a href="#a39"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A dynamic body. 
@@ -153,7 +153,7 @@ pcdynamicbody_collision: an entity has collided with this entity. </li>
 
 <p>
 Definition at line <a class="el" href="mechsys_8h-source.html#l00198">198</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a32"></a><!-- doxytag: member="iPcMechanicsObject::AddForceDuration" ref="a32" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMechanicsObject::AddForceDuration" ref="a0" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -212,7 +212,7 @@ During the specified time (in seconds) add the force every step.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a33"></a><!-- doxytag: member="iPcMechanicsObject::AddForceFrame" ref="a33" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsObject::AddForceFrame" ref="a1" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -264,7 +264,7 @@ During the next frame add the force every step.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a31"></a><!-- doxytag: member="iPcMechanicsObject::AddForceOnce" ref="a31" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsObject::AddForceOnce" ref="a2" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -316,7 +316,7 @@ Add a force once to the given object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a34"></a><!-- doxytag: member="iPcMechanicsObject::AddForceTagged" ref="a34" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 &amp;forceid)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsObject::AddForceTagged" ref="a3" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 &amp;forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -375,7 +375,7 @@ Add a force with the given tag, to be manually removed later.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a37"></a><!-- doxytag: member="iPcMechanicsObject::AddToGroup" ref="a37" args="(const char *group)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsObject::AddToGroup" ref="a4" args="(const char *group)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -410,7 +410,7 @@ Add this body to the specified group.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a28"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderBox" ref="a28" args="(const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderBox" ref="a5" args="(const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -455,7 +455,7 @@ Create a box collider for this object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a27"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderCylinder" ref="a27" args="(float length, float radius, const csOrthoTransform &amp;trans)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderCylinder" ref="a6" args="(float length, float radius, const csOrthoTransform &amp;trans)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -507,7 +507,7 @@ Create a cylinder collider for this object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a30"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderMesh" ref="a30" args="()=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderMesh" ref="a7" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -536,7 +536,7 @@ Create a mesh collider for this object from the attached <a class="el" href="str
     </td>
   </tr>
 </table>
-<a class="anchor" name="a29"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderPlane" ref="a29" args="(const csPlane3 &amp;plane)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderPlane" ref="a8" args="(const csPlane3 &amp;plane)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -571,7 +571,7 @@ Create a plane collider for this object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a26"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderSphere" ref="a26" args="(float radius, const csVector3 &amp;offset)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsObject::AttachColliderSphere" ref="a9" args="(float radius, const csVector3 &amp;offset)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -616,7 +616,7 @@ Create a sphere collider for this object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a36"></a><!-- doxytag: member="iPcMechanicsObject::ClearForces" ref="a36" args="()=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsObject::ClearForces" ref="a10" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -645,7 +645,7 @@ Clear the permanent forces on this body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a39"></a><!-- doxytag: member="iPcMechanicsObject::CreateJoint" ref="a39" args="(iPcMechanicsObject *other)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMechanicsObject::CreateJoint" ref="a11" args="(iPcMechanicsObject *other)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -675,7 +675,7 @@ Create a joint between this object and another.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="iPcMechanicsObject::GetAngularVelocity" ref="a23" args="()=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMechanicsObject::GetAngularVelocity" ref="a12" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -704,7 +704,7 @@ Get the current angular velocity (rotation) of the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsObject::GetBody" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcMechanicsObject::GetBody" ref="a13" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -733,7 +733,7 @@ Get the associated rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcMechanicsObject::GetDensity" ref="a16" args="()=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcMechanicsObject::GetDensity" ref="a14" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -762,7 +762,7 @@ Get the object's density.
 Must be called before Attach..., otherwise defaults to 1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iPcMechanicsObject::GetDrag" ref="a19" args="()=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcMechanicsObject::GetDrag" ref="a15" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -791,7 +791,7 @@ Get the object's drag.
 Must be called before Attach..., otherwise defaults to 0.    </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcMechanicsObject::GetElasticity" ref="a15" args="()=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcMechanicsObject::GetElasticity" ref="a16" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -820,7 +820,7 @@ Get the object's elasticity.
 Must be called before Attach..., otherwise defaults to 0.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcMechanicsObject::GetFriction" ref="a13" args="()=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcMechanicsObject::GetFriction" ref="a17" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -878,7 +878,7 @@ Get the object's lift.
 Must be called before Attach..., otherwise defaults to 0.    </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="iPcMechanicsObject::GetLinearVelocity" ref="a22" args="()=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iPcMechanicsObject::GetLinearVelocity" ref="a19" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -907,7 +907,7 @@ Get the current linear velocity (movement) of the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcMechanicsObject::GetMass" ref="a14" args="()=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iPcMechanicsObject::GetMass" ref="a20" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -936,7 +936,7 @@ Get the object's mass.
 Must be called before Attach..., otherwise defaults to 1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcMechanicsObject::GetMechanicsSystem" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iPcMechanicsObject::GetMechanicsSystem" ref="a21" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -965,7 +965,7 @@ Get the associated mechanics system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsObject::GetMesh" ref="a2" args="()=0" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="iPcMechanicsObject::GetMesh" ref="a22" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -994,7 +994,7 @@ Get the associated mesh property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iPcMechanicsObject::GetSoftness" ref="a17" args="()=0" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="iPcMechanicsObject::GetSoftness" ref="a23" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1023,7 +1023,7 @@ Get the object's softness.
 Must be called before Attach..., otherwise defaults to 0.    </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="iPcMechanicsObject::IsStatic" ref="a25" args="() const =0" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="iPcMechanicsObject::IsStatic" ref="a24" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1052,7 +1052,7 @@ Return true if static.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a24"></a><!-- doxytag: member="iPcMechanicsObject::MakeStatic" ref="a24" args="(bool stat)=0" --><p>
+<a class="anchor" name="a25"></a><!-- doxytag: member="iPcMechanicsObject::MakeStatic" ref="a25" args="(bool stat)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1087,7 +1087,7 @@ Make static.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a35"></a><!-- doxytag: member="iPcMechanicsObject::RemoveForceTagged" ref="a35" args="(uint32 forceid)=0" --><p>
+<a class="anchor" name="a26"></a><!-- doxytag: member="iPcMechanicsObject::RemoveForceTagged" ref="a26" args="(uint32 forceid)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1122,7 +1122,7 @@ Remove the force with the given tag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a38"></a><!-- doxytag: member="iPcMechanicsObject::RemoveFromGroup" ref="a38" args="(const char *group)=0" --><p>
+<a class="anchor" name="a27"></a><!-- doxytag: member="iPcMechanicsObject::RemoveFromGroup" ref="a27" args="(const char *group)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1157,7 +1157,7 @@ Remove this body from the specified group.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="iPcMechanicsObject::SetAngularVelocity" ref="a21" args="(const csVector3 &amp;vel)=0" --><p>
+<a class="anchor" name="a29"></a><!-- doxytag: member="iPcMechanicsObject::SetAngularVelocity" ref="a29" args="(const csVector3 &amp;vel)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1192,7 +1192,7 @@ Set the initial angular velocity (rotation) of the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcMechanicsObject::SetDensity" ref="a9" args="(float density)=0" --><p>
+<a class="anchor" name="a30"></a><!-- doxytag: member="iPcMechanicsObject::SetDensity" ref="a30" args="(float density)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1227,7 +1227,7 @@ Must be called before Attach..., otherwise defaults to 1. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcMechanicsObject::SetDrag" ref="a12" args="(float drag)=0" --><p>
+<a class="anchor" name="a31"></a><!-- doxytag: member="iPcMechanicsObject::SetDrag" ref="a31" args="(float drag)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1262,7 +1262,7 @@ Must be called before Attach..., otherwise defaults to 0. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcMechanicsObject::SetElasticity" ref="a8" args="(float elasticity)=0" --><p>
+<a class="anchor" name="a32"></a><!-- doxytag: member="iPcMechanicsObject::SetElasticity" ref="a32" args="(float elasticity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1297,7 +1297,7 @@ Must be called before Attach..., otherwise defaults to 0. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsObject::SetFriction" ref="a6" args="(float friction)=0" --><p>
+<a class="anchor" name="a33"></a><!-- doxytag: member="iPcMechanicsObject::SetFriction" ref="a33" args="(float friction)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1332,7 +1332,7 @@ Must be called before Attach..., otherwise defaults to 1. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcMechanicsObject::SetLift" ref="a11" args="(const csVector3 &amp;lift)=0" --><p>
+<a class="anchor" name="a34"></a><!-- doxytag: member="iPcMechanicsObject::SetLift" ref="a34" args="(const csVector3 &amp;lift)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1367,7 +1367,7 @@ Must be called before Attach..., otherwise defaults to 0. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iPcMechanicsObject::SetLinearVelocity" ref="a20" args="(const csVector3 &amp;vel)=0" --><p>
+<a class="anchor" name="a35"></a><!-- doxytag: member="iPcMechanicsObject::SetLinearVelocity" ref="a35" args="(const csVector3 &amp;vel)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1402,7 +1402,7 @@ Set the initial linear velocity (movement) of the object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsObject::SetMass" ref="a7" args="(float mass)=0" --><p>
+<a class="anchor" name="a36"></a><!-- doxytag: member="iPcMechanicsObject::SetMass" ref="a36" args="(float mass)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1437,7 +1437,7 @@ Must be called before Attach..., otherwise defaults to 1. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsObject::SetMechanicsSystem" ref="a3" args="(iPcMechanicsSystem *mechsys)=0" --><p>
+<a class="anchor" name="a37"></a><!-- doxytag: member="iPcMechanicsObject::SetMechanicsSystem" ref="a37" args="(iPcMechanicsSystem *mechsys)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1472,7 +1472,7 @@ If you don't do this then the object will look in the object registry for a suit
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsObject::SetMesh" ref="a1" args="(iPcMesh *mesh)=0" --><p>
+<a class="anchor" name="a38"></a><!-- doxytag: member="iPcMechanicsObject::SetMesh" ref="a38" args="(iPcMesh *mesh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1507,7 +1507,7 @@ If not called then this property class will automatically look for 'pcmesh'. <dl
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcMechanicsObject::SetSoftness" ref="a10" args="(float softness)=0" --><p>
+<a class="anchor" name="a39"></a><!-- doxytag: member="iPcMechanicsObject::SetSoftness" ref="a39" args="(float softness)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

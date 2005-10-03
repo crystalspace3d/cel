@@ -63,31 +63,31 @@
 <a name="l00050"></a>00050 
 <a name="l00051"></a><a class="code" href="classcelStandardLocalEntitySet.html#o0">00051</a>   <a class="code" href="classcelStandardLocalEntitySet.html#o0">SCF_DECLARE_IBASE</a>;
 <a name="l00052"></a>00052 
-<a name="l00053"></a><a class="code" href="classcelStandardLocalEntitySet.html#a2">00053</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelStandardLocalEntitySet.html#a2">GetEntityCount</a> ()<span class="keyword"> const</span>
+<a name="l00053"></a><a class="code" href="classcelStandardLocalEntitySet.html#a5">00053</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelStandardLocalEntitySet.html#a5">GetEntityCount</a> ()<span class="keyword"> const</span>
 <a name="l00054"></a>00054 <span class="keyword">  </span>{
 <a name="l00055"></a>00055     <span class="keywordflow">return</span> local_entities.Length ();
 <a name="l00056"></a>00056   }
-<a name="l00057"></a><a class="code" href="classcelStandardLocalEntitySet.html#a3">00057</a>   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a3">GetEntity</a> (size_t idx)<span class="keyword"> const</span>
+<a name="l00057"></a><a class="code" href="classcelStandardLocalEntitySet.html#a4">00057</a>   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a4">GetEntity</a> (size_t idx)<span class="keyword"> const</span>
 <a name="l00058"></a>00058 <span class="keyword">  </span>{
 <a name="l00059"></a>00059     <span class="keywordflow">return</span> local_entities[idx];
 <a name="l00060"></a>00060   }
-<a name="l00061"></a><a class="code" href="classcelStandardLocalEntitySet.html#a4">00061</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardLocalEntitySet.html#a4">AddEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
+<a name="l00061"></a><a class="code" href="classcelStandardLocalEntitySet.html#a0">00061</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardLocalEntitySet.html#a0">AddEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
 <a name="l00062"></a>00062   {
 <a name="l00063"></a>00063     local_entities.Push (entity);
 <a name="l00064"></a>00064     local_entities_set.Add (entity);
 <a name="l00065"></a>00065   }
-<a name="l00066"></a><a class="code" href="classcelStandardLocalEntitySet.html#a5">00066</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardLocalEntitySet.html#a5">IsLocal</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
+<a name="l00066"></a><a class="code" href="classcelStandardLocalEntitySet.html#a7">00066</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardLocalEntitySet.html#a7">IsLocal</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
 <a name="l00067"></a>00067   {
 <a name="l00068"></a>00068     <span class="keywordflow">return</span> local_entities_set.In (entity);
 <a name="l00069"></a>00069   }
-<a name="l00070"></a><a class="code" href="classcelStandardLocalEntitySet.html#a6">00070</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardLocalEntitySet.html#a5">IsLocal</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc)
+<a name="l00070"></a><a class="code" href="classcelStandardLocalEntitySet.html#a6">00070</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardLocalEntitySet.html#a7">IsLocal</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc)
 <a name="l00071"></a>00071   {
-<a name="l00072"></a>00072     <span class="keywordflow">return</span> local_entities_set.In (pc-&gt;<a class="code" href="structiCelPropertyClass.html#a4">GetEntity</a> ());
+<a name="l00072"></a>00072     <span class="keywordflow">return</span> local_entities_set.In (pc-&gt;<a class="code" href="structiCelPropertyClass.html#a1">GetEntity</a> ());
 <a name="l00073"></a>00073   }
-<a name="l00074"></a>00074   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelStandardLocalEntitySet.html#a7">SaveExternalEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity);
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a8">FindExternalEntity</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
+<a name="l00074"></a>00074   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelStandardLocalEntitySet.html#a8">SaveExternalEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity);
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a2">FindExternalEntity</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
 <a name="l00076"></a>00076   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelStandardLocalEntitySet.html#a9">SaveExternalPC</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc);
-<a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a10">FindExternalPC</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="classcelStandardLocalEntitySet.html#a3">FindExternalPC</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
 <a name="l00078"></a>00078 };
 <a name="l00079"></a>00079 
 <a name="l00083"></a><a class="code" href="classcelStandardPersistentDataList.html">00083</a> <span class="keyword">class </span><a class="code" href="classcelStandardPersistentDataList.html">celStandardPersistentDataList</a> : <span class="keyword">public</span> <a class="code" href="structiCelPersistentDataList.html">iCelPersistentDataList</a>
@@ -114,7 +114,7 @@
 <a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardPersistentDataList.html#a3">GetPersistentData</a> (size_t idx, csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
 <a name="l00105"></a>00105         csString&amp; pc_name, csString&amp; pc_tag) <span class="keyword">const</span>;
 <a name="l00106"></a>00106 
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardPersistentDataList.html#a4">AddPersistentData</a> (csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardPersistentDataList.html#a0">AddPersistentData</a> (csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
 <a name="l00108"></a>00108         csString&amp; pc_name, csString&amp; pc_tag);
 <a name="l00109"></a>00109 };
 <a name="l00110"></a>00110 

@@ -54,18 +54,18 @@
 <a name="l00035"></a>00035 
 <a name="l00043"></a><a class="code" href="structiPcCollisionDetection.html">00043</a> <span class="keyword">struct </span><a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> : <span class="keyword">public</span> iBase
 <a name="l00044"></a>00044 {
-<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a0">Init</a> (<span class="keyword">const</span> csVector3&amp; body, <span class="keyword">const</span> csVector3&amp; legs,
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a2">Init</a> (<span class="keyword">const</span> csVector3&amp; body, <span class="keyword">const</span> csVector3&amp; legs,
 <a name="l00054"></a>00054         <span class="keyword">const</span> csVector3&amp; shift)=0;
 <a name="l00055"></a>00055 
-<a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a0">Init</a> ()=0;
+<a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a2">Init</a> ()=0;
 <a name="l00057"></a>00057 
-<a name="l00061"></a>00061   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a2">IsOnGround</a> () <span class="keyword">const </span>= 0;
+<a name="l00061"></a>00061   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a3">IsOnGround</a> () <span class="keyword">const </span>= 0;
 <a name="l00062"></a>00062 
-<a name="l00064"></a>00064   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCollisionDetection.html#a3">SetOnGround</a> (<span class="keywordtype">bool</span> flag) = 0;
+<a name="l00064"></a>00064   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCollisionDetection.html#a5">SetOnGround</a> (<span class="keywordtype">bool</span> flag) = 0;
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UseCD(<span class="keywordtype">bool</span> flag) = 0;
 <a name="l00067"></a>00067 
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a5">AdjustForCollisions</a> (csVector3&amp; oldpos,
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#a0">AdjustForCollisions</a> (csVector3&amp; oldpos,
 <a name="l00073"></a>00073                                     csVector3&amp; newpos,
 <a name="l00074"></a>00074                                     csVector3&amp; vel,
 <a name="l00075"></a>00075                                     <span class="keywordtype">float</span> delta,

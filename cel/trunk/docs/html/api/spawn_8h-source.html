@@ -46,18 +46,18 @@
 <a name="l00027"></a>00027 
 <a name="l00038"></a><a class="code" href="structiPcSpawn.html">00038</a> <span class="keyword">struct </span><a class="code" href="structiPcSpawn.html">iPcSpawn</a> : <span class="keyword">public</span> iBase
 <a name="l00039"></a>00039 {
-<a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a0">SetEnabled</a> (<span class="keywordtype">bool</span> e) = 0;
-<a name="l00048"></a>00048   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcSpawn.html#a1">IsEnabled</a> () <span class="keyword">const </span>= 0;
+<a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a4">SetEnabled</a> (<span class="keywordtype">bool</span> e) = 0;
+<a name="l00048"></a>00048   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcSpawn.html#a2">IsEnabled</a> () <span class="keyword">const </span>= 0;
 <a name="l00049"></a>00049 
-<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a2">AddEntityType</a> (<span class="keywordtype">float</span> chance, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <a class="code" href="structiCelBlLayer.html">iCelBlLayer</a>* bl,
+<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a0">AddEntityType</a> (<span class="keywordtype">float</span> chance, <span class="keyword">const</span> <span class="keywordtype">char</span>* name, <a class="code" href="structiCelBlLayer.html">iCelBlLayer</a>* bl,
 <a name="l00066"></a>00066                   <span class="keyword">const</span> <span class="keywordtype">char</span>* behaviour, <span class="keyword">const</span> <span class="keywordtype">char</span>* msg_id,
 <a name="l00067"></a>00067                   <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params, ...) = 0;
-<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a3">ClearEntityList</a> () = 0;
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a1">ClearEntityList</a> () = 0;
 <a name="l00072"></a>00072 
-<a name="l00082"></a>00082   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a4">SetTiming</a> (<span class="keywordtype">bool</span> repeat, <span class="keywordtype">bool</span> random,
+<a name="l00082"></a>00082   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a5">SetTiming</a> (<span class="keywordtype">bool</span> repeat, <span class="keywordtype">bool</span> random,
 <a name="l00083"></a>00083                   csTicks mindelay, csTicks maxdelay) = 0;
 <a name="l00084"></a>00084 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a5">Reset</a> () = 0;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSpawn.html#a3">Reset</a> () = 0;
 <a name="l00093"></a>00093 };
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 <span class="preprocessor">#endif // __CEL_PF_SPAWN__</span>

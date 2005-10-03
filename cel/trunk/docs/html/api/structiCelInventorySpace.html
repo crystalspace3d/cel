@@ -23,30 +23,30 @@
 <a href="structiCelInventorySpace-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a1">GetSpaceTotal</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a0">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return how much space is available in total.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a2">GetSpaceLeft</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity on a given slot.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a1">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return how much space is left.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a4">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">When some code calls old-style <a class="el" href="structiCelInventorySpace.html#a1">AddEntity()</a> (with no parameters) on the <a class="el" href="structiPcInventory.html">iPcInventory</a> then this function will be called.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a2">GetEntity</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">When some code calls old-style <a class="el" href="structiCelInventorySpace.html#a4">AddEntity()</a> (with no parameters) on the <a class="el" href="structiPcInventory.html">iPcInventory</a> then this function will be called.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a5">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Try to get a certain entity from a slot.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelInventorySpaceSlot.html">iCelInventorySpaceSlot</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a3">GetSlot</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the entity from its slot.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a6">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Try to get a certain slot.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a4">GetSpaceLeft</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity on a given slot.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a7">RemoveEntity</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return how much space is left.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a6">GetSpaceTotal</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity (or entities) from the specified slot (through 'params').  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelInventorySpaceSlot.html">iCelInventorySpaceSlot</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a9">GetSlot</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return how much space is available in total.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a8">RemoveEntity</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Try to get a certain slot.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a10">GetEntity</a> (<a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity (or entities) from the specified slot (through 'params').  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelInventorySpace.html#a9">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Try to get a certain entity from a slot.  <a href="#a10"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the entity from its slot.  <a href="#a9"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface represents a space system for the inventory property class. 
@@ -56,7 +56,7 @@ You can implement this to implement (for example) a 2D grid based system. Use iP
 
 <p>
 Definition at line <a class="el" href="inv_8h-source.html#l00094">94</a> of file <a class="el" href="inv_8h-source.html">inv.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelInventorySpace::AddEntity" ref="a6" args="(iCelEntity *entity, iCelParameterBlock *params)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelInventorySpace::AddEntity" ref="a0" args="(iCelEntity *entity, iCelParameterBlock *params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -95,7 +95,7 @@ Add an entity on a given slot.
 The generic 'params' will be used to indicate the slot. It is up to the implementation of this interface to decide on how to use this. /return false if there is no room or if this is not allowed.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelInventorySpace::AddEntity" ref="a4" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelInventorySpace::AddEntity" ref="a1" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -120,12 +120,12 @@ The generic 'params' will be used to indicate the slot. It is up to the implemen
     <td>
 
 <p>
-When some code calls old-style <a class="el" href="structiCelInventorySpace.html#a4">AddEntity()</a> (with no parameters) on the <a class="el" href="structiPcInventory.html">iPcInventory</a> then this function will be called. 
+When some code calls old-style <a class="el" href="structiCelInventorySpace.html#a1">AddEntity()</a> (with no parameters) on the <a class="el" href="structiPcInventory.html">iPcInventory</a> then this function will be called. 
 <p>
 We can pick a default slot or else reject this if a slot specification is always required. /return false if there is no room or if this is not allowed.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iCelInventorySpace::GetEntity" ref="a10" args="(iCelParameterBlock *params)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelInventorySpace::GetEntity" ref="a2" args="(iCelParameterBlock *params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -155,7 +155,7 @@ Try to get a certain entity from a slot.
 'params' is used to specify the slot and is implementation dependent.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iCelInventorySpace::GetSlot" ref="a9" args="(iCelParameterBlock *params)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelInventorySpace::GetSlot" ref="a3" args="(iCelParameterBlock *params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -185,7 +185,7 @@ Try to get a certain slot.
 'params' is used to specify the slot and is implementation dependent.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelInventorySpace::GetSpaceLeft" ref="a2" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelInventorySpace::GetSpaceLeft" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -214,7 +214,7 @@ Return how much space is left.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelInventorySpace::GetSpaceTotal" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelInventorySpace::GetSpaceTotal" ref="a6" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -243,7 +243,7 @@ Return how much space is available in total.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelInventorySpace::RemoveEntity" ref="a7" args="(iCelParameterBlock *params)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelInventorySpace::RemoveEntity" ref="a8" args="(iCelParameterBlock *params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -273,7 +273,7 @@ Remove an entity (or entities) from the specified slot (through 'params').
 If needed the params can be extended with information to specify the right item to be removed (for stacked items).    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelInventorySpace::RemoveEntity" ref="a5" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iCelInventorySpace::RemoveEntity" ref="a9" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

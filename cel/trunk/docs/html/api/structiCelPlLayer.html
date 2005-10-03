@@ -23,177 +23,177 @@
 <a href="structiCelPlLayer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a0">CreateEntity</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a0">AddEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a1">CreateEntityInScope</a> (int scope)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is removed.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a1">AddNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with the ID being allocated in the given scope.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a2">CreateEntity</a> (uint id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is added.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a2">AddScope</a> (csString version, int size)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with an id provided.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a3">CreateEntity</a> (const char *entname, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *bhname,...)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an ID scope to the physical layer.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a3">AttachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a4">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attach an entity to some object (usually an object from the engine).  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a4">Cache</a> (iBase *object)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity from the physical layer.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a5">RemoveEntities</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cache an SCF object.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a5">CallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a6">CreateEntityTemplate</a> (const char *factname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event every frame.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a6">CallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, csTicks delta, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity template.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a7">RemoveEntityTemplate</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *entfact)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event in 'delta' milliseconds.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a7">CleanCache</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity template.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a8">RemoveEntityTemplates</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clean up the cache.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a8">CreateDataBuffer</a> (long serialnr)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entity templates.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a9">FindEntityTemplate</a> (const char *factname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a data buffer.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a9">CreateEmptyEntityList</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity template with a given name.  <a href="#a9"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty entity list for personal use.  <a href="#a9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a10">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name, const celEntityTemplateParams &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity from a template.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelMessage.html">iCelMessage</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a11">CreateMessage</a> (const char *msg_string,...)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a11">CreateEntity</a> (const char *entname, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *bhname,...)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a message.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a12">CreateDataBuffer</a> (long serialnr)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a12">CreateEntity</a> (uint id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a data buffer.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a13">AttachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with an id provided.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a13">CreateEntity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attach an entity to some object (usually an object from the engine).  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a14">UnattachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a14">CreateEntityInScope</a> (int scope)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unattach an entity from some object.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a15">GetEntity</a> (uint id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with the ID being allocated in the given scope.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a15">CreateEntityTemplate</a> (const char *factname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the entity with ID id.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a16">GetEntityCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity template.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a16">CreateEntityTracker</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total number of entities.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a17">GetEntityByIndex</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity tracker that you can use to keep track of specific sets of entities.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelMessage.html">iCelMessage</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a17">CreateMessage</a> (const char *msg_string,...)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specific entity by index (not by ID).  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a18">FindEntity</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a message.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a18">CreatePropertyClass</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *propname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity with a given name.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a19">GetBehaviour</a> (uint id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to create a property class from a registered class factory.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a19">CreateTaggedPropertyClass</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *propname, const char *tagname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to get the behaviour that belongs to the entity for a given ID.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a20">FindAttachedEntity</a> (iObject *object)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to create a property class with a tag from a registered class factory.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a20">FetchString</a> (csStringID id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given an iObject, find the attached entity (if any).  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a21">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;pos, float radius)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find the string that corresponds with some ID.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csStringID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a21">FetchStringID</a> (const char *str)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are within a certain radius of a given position.  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a22">FindNearbyEntities</a> (iSector *sector, const csBox3 &amp;box)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retreive the unique ID associated with this string or create a new ID if needed.  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a22">FindAttachedEntity</a> (iObject *object)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are in a given box.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a23">GetHitEntity</a> (iCamera *camera, int x, int y)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given an iObject, find the attached entity (if any).  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a23">FindBehaviourLayer</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given a position on screen find the nearest entity to the camera.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a24">CreateEmptyEntityList</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a behaviour layer by name.  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a24">FindEntity</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty entity list for personal use.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a25">CreateEntityTracker</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity with a given name.  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a25">FindEntityTemplate</a> (const char *factname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity tracker that you can use to keep track of specific sets of entities.  <a href="#a25"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity template with a given name.  <a href="#a25"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a26">FindEntityTracker</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a tracker by name.  <a href="#a26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a27">RemoveEntityTracker</a> (<a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *tracker)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a27">FindNearbyEntities</a> (iSector *sector, const csBox3 &amp;box)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a tracker.  <a href="#a27"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a28">SetEntityAddonAllowed</a> (bool allow)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are in a given box.  <a href="#a27"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a28">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;pos, float radius)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable or disable the operations of the cel entity addon.  <a href="#a28"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a29">IsEntityAddonAllowed</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are within a certain radius of a given position.  <a href="#a28"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a29">FindPropertyClassFactory</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Query if entity addons are allowed.  <a href="#a29"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a30">LoadPropertyClassFactory</a> (const char *plugin_id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class factory by name.  <a href="#a29"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a30">GetBehaviour</a> (uint id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a property class plugin by class id if it doesn't already exist.  <a href="#a30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a31">RegisterPropertyClassFactory</a> (<a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *pf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to get the behaviour that belongs to the entity for a given ID.  <a href="#a30"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a31">GetBehaviourLayer</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a property class factory with this physical layer.  <a href="#a31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a32">UnregisterPropertyClassFactory</a> (<a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *pf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specificied behaviour layer.  <a href="#a31"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a32">GetBehaviourLayerCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unregister a property class factory.  <a href="#a32"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a33">GetPropertyClassFactoryCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of registered behaviour layers.  <a href="#a32"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a33">GetEntity</a> (uint id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of registered property class factories.  <a href="#a33"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a34">GetPropertyClassFactory</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the entity with ID id.  <a href="#a33"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a34">GetEntityByIndex</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specificied property class factory.  <a href="#a34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a35">FindPropertyClassFactory</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specific entity by index (not by ID).  <a href="#a34"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a35">GetEntityCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class factory by name.  <a href="#a35"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a36">CreatePropertyClass</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *propname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total number of entities.  <a href="#a35"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a36">GetHitEntity</a> (iCamera *camera, int x, int y)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to create a property class from a registered class factory.  <a href="#a36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a37">CreateTaggedPropertyClass</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *propname, const char *tagname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given a position on screen find the nearest entity to the camera.  <a href="#a36"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a37">GetPropertyClassFactory</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to create a property class with a tag from a registered class factory.  <a href="#a37"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a38">RegisterBehaviourLayer</a> (<a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specificied property class factory.  <a href="#a37"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a38">GetPropertyClassFactoryCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a behaviour layer.  <a href="#a38"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a39">UnregisterBehaviourLayer</a> (<a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of registered property class factories.  <a href="#a38"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a39">IsEntityAddonAllowed</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unregister a behaviour layer.  <a href="#a39"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a40">GetBehaviourLayerCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Query if entity addons are allowed.  <a href="#a39"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a40">LoadPropertyClassFactory</a> (const char *plugin_id)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of registered behaviour layers.  <a href="#a40"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a41">GetBehaviourLayer</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a property class plugin by class id if it doesn't already exist.  <a href="#a40"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a41">RegisterBehaviourLayer</a> (<a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specificied behaviour layer.  <a href="#a41"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a42">FindBehaviourLayer</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a behaviour layer.  <a href="#a41"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a42">RegisterPropertyClassFactory</a> (<a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *pf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a behaviour layer by name.  <a href="#a42"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a43">Cache</a> (iBase *object)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a property class factory with this physical layer.  <a href="#a42"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a43">RemoveCallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cache an SCF object.  <a href="#a43"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a44">Uncache</a> (iBase *object)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'every-frame' callbacks to a specific listener.  <a href="#a43"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a44">RemoveCallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Uncache an SCF object.  <a href="#a44"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a45">CleanCache</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'once' callbacks to a specific listener.  <a href="#a44"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a45">RemoveEntities</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clean up the cache.  <a href="#a45"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csStringID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a46">FetchStringID</a> (const char *str)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a45"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a46">RemoveEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retreive the unique ID associated with this string or create a new ID if needed.  <a href="#a46"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a47">FetchString</a> (csStringID id)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity from the physical layer.  <a href="#a46"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a47">RemoveEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find the string that corresponds with some ID.  <a href="#a47"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a48">AddEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes an registered RemoveCallback.  <a href="#a47"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a48">RemoveEntityTemplate</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *entfact)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is removed.  <a href="#a48"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a49">RemoveEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity template.  <a href="#a48"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a49">RemoveEntityTemplates</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes an registered RemoveCallback.  <a href="#a49"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a50">AddNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entity templates.  <a href="#a49"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a50">RemoveEntityTracker</a> (<a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *tracker)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is added.  <a href="#a50"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a tracker.  <a href="#a50"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a51">RemoveNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Removes an registered NewCallback.  <a href="#a51"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a52">CallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a52">SetEntityAddonAllowed</a> (bool allow)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event every frame.  <a href="#a52"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a53">CallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, csTicks delta, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable or disable the operations of the cel entity addon.  <a href="#a52"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a53">UnattachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event in 'delta' milliseconds.  <a href="#a53"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a54">RemoveCallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unattach an entity from some object.  <a href="#a53"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a54">Uncache</a> (iBase *object)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'every-frame' callbacks to a specific listener.  <a href="#a54"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a55">RemoveCallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Uncache an SCF object.  <a href="#a54"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a55">UnregisterBehaviourLayer</a> (<a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'once' callbacks to a specific listener.  <a href="#a55"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a56">AddScope</a> (csString version, int size)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unregister a behaviour layer.  <a href="#a55"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a56">UnregisterPropertyClassFactory</a> (<a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *pf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an ID scope to the physical layer.  <a href="#a56"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unregister a property class factory.  <a href="#a56"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the Physical Layer itself. 
@@ -201,7 +201,7 @@ This is the Physical Layer itself.
 
 <p>
 Definition at line <a class="el" href="pl_8h-source.html#l00100">100</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a48"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="a48" args="(iCelEntityRemoveCallback *clback)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="a0" args="(iCelEntityRemoveCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -231,7 +231,7 @@ This registers a callback that is called each time when an entity is removed.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a50"></a><!-- doxytag: member="iCelPlLayer::AddNewEntityCallback" ref="a50" args="(iCelNewEntityCallback *clback)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPlLayer::AddNewEntityCallback" ref="a1" args="(iCelNewEntityCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -261,7 +261,7 @@ This registers a callback that is called each time when an entity is added.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a56"></a><!-- doxytag: member="iCelPlLayer::AddScope" ref="a56" args="(csString version, int size)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPlLayer::AddScope" ref="a2" args="(csString version, int size)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -300,7 +300,7 @@ Add an ID scope to the physical layer.
 Entities are created by propclasses only in the default scope so you can completely manage the ID allocation of your own scopes.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iCelPlLayer::AttachEntity" ref="a13" args="(iObject *object, iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPlLayer::AttachEntity" ref="a3" args="(iObject *object, iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -339,7 +339,7 @@ Attach an entity to some object (usually an object from the engine).
 This function will check if the entity was already attached and do nothing in that case.    </td>
   </tr>
 </table>
-<a class="anchor" name="a43"></a><!-- doxytag: member="iCelPlLayer::Cache" ref="a43" args="(iBase *object)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPlLayer::Cache" ref="a4" args="(iBase *object)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -369,7 +369,7 @@ Cache an SCF object.
 This effectively means that the PL will keep a references to this object. This function will not add the object if it is already cached so it is safe to call multiple times.    </td>
   </tr>
 </table>
-<a class="anchor" name="a52"></a><!-- doxytag: member="iCelPlLayer::CallbackEveryFrame" ref="a52" args="(iCelTimerListener *listener, int where)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPlLayer::CallbackEveryFrame" ref="a5" args="(iCelTimerListener *listener, int where)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -414,7 +414,7 @@ This will call TickEveryFrame(). <dl compact><dt><b>Parameters:</b></dt><dd>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a53"></a><!-- doxytag: member="iCelPlLayer::CallbackOnce" ref="a53" args="(iCelTimerListener *listener, csTicks delta, int where)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPlLayer::CallbackOnce" ref="a6" args="(iCelTimerListener *listener, csTicks delta, int where)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -466,7 +466,7 @@ This will call Tick(). <dl compact><dt><b>Parameters:</b></dt><dd>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a45"></a><!-- doxytag: member="iCelPlLayer::CleanCache" ref="a45" args="()=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPlLayer::CleanCache" ref="a7" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -495,7 +495,7 @@ Clean up the cache.
 This will decrease the ref count of all objects in the cache. Possibly this will remove them unless some other object still has a reference.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPlLayer::CreateDataBuffer" ref="a12" args="(long serialnr)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPlLayer::CreateDataBuffer" ref="a8" args="(long serialnr)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -525,7 +525,7 @@ Create a data buffer.
 Usually property class implementations will call this to create a data buffer for their own persistent data. The use of this is not required. A property class can just as well make its own implementation of <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a24"></a><!-- doxytag: member="iCelPlLayer::CreateEmptyEntityList" ref="a24" args="()=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPlLayer::CreateEmptyEntityList" ref="a9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -606,7 +606,7 @@ Create an entity from a template.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a3" args="(const char *entname, iCelBlLayer *bl, const char *bhname,...)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a11" args="(const char *entname, iCelBlLayer *bl, const char *bhname,...)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -654,7 +654,7 @@ Create an entity from a template.
 <p>
 Create a new physical layer entity. 
 <p>
-The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#a4">RemoveEntity()</a> to remove the entity. This version accepts a name for the entity and will also create a behaviour from the given behaviour layer. This function will use the reporter to report an error if the entity could not be created for some reason (or the behaviour failed). In that case this function returns 0. This function will also create a number of property classes for this entity. You have to end the list of property class names with (void*)0. The variable parameters should be property class strings. <dl compact><dt><b>Parameters:</b></dt><dd>
+The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#a46">RemoveEntity()</a> to remove the entity. This version accepts a name for the entity and will also create a behaviour from the given behaviour layer. This function will use the reporter to report an error if the entity could not be created for some reason (or the behaviour failed). In that case this function returns 0. This function will also create a number of property classes for this entity. You have to end the list of property class names with (void*)0. The variable parameters should be property class strings. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>entname</em>&nbsp;</td><td>can be 0. In that case no name will be set. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bl</em>&nbsp;</td><td>is the behaviour layer and can be 0. </td></tr>
@@ -664,7 +664,7 @@ The physical layer will keep a reference to this entity. You need to call <a cla
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a2" args="(uint id)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a12" args="(uint id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -694,7 +694,7 @@ Create a new physical layer entity, with an id provided.
 You should ensure that the id provided isn't already used and that you use the hash implementation of the numreg.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a0" args="()=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="a13" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -720,10 +720,10 @@ You should ensure that the id provided isn't already used and that you use the h
 <p>
 Create a new physical layer entity. 
 <p>
-The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#a4">RemoveEntity()</a> to remove the entity.    </td>
+The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#a46">RemoveEntity()</a> to remove the entity.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPlLayer::CreateEntityInScope" ref="a1" args="(int scope)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iCelPlLayer::CreateEntityInScope" ref="a14" args="(int scope)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -753,7 +753,7 @@ Create a new physical layer entity, with the ID being allocated in the given sco
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPlLayer::CreateEntityTemplate" ref="a6" args="(const char *factname)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iCelPlLayer::CreateEntityTemplate" ref="a15" args="(const char *factname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -788,7 +788,7 @@ Create an entity template.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="iCelPlLayer::CreateEntityTracker" ref="a25" args="(const char *name)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iCelPlLayer::CreateEntityTracker" ref="a16" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -815,10 +815,10 @@ Create an entity template.
 <p>
 Create an entity tracker that you can use to keep track of specific sets of entities. 
 <p>
-Call <a class="el" href="structiCelPlLayer.html#a27">RemoveEntityTracker()</a> to remove it.    </td>
+Call <a class="el" href="structiCelPlLayer.html#a50">RemoveEntityTracker()</a> to remove it.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPlLayer::CreateMessage" ref="a11" args="(const char *msg_string,...)=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iCelPlLayer::CreateMessage" ref="a17" args="(const char *msg_string,...)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -857,7 +857,7 @@ Create a message.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a36"></a><!-- doxytag: member="iCelPlLayer::CreatePropertyClass" ref="a36" args="(iCelEntity *entity, const char *propname)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iCelPlLayer::CreatePropertyClass" ref="a18" args="(iCelEntity *entity, const char *propname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -896,7 +896,7 @@ Convenience function to create a property class from a registered class factory.
 Note that the reference count of the returned class is not turned up.    </td>
   </tr>
 </table>
-<a class="anchor" name="a37"></a><!-- doxytag: member="iCelPlLayer::CreateTaggedPropertyClass" ref="a37" args="(iCelEntity *entity, const char *propname, const char *tagname)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iCelPlLayer::CreateTaggedPropertyClass" ref="a19" args="(iCelEntity *entity, const char *propname, const char *tagname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -941,7 +941,7 @@ Convenience function to create a property class with a tag from a registered cla
 Note that the reference count of the returned class is not turned up.    </td>
   </tr>
 </table>
-<a class="anchor" name="a47"></a><!-- doxytag: member="iCelPlLayer::FetchString" ref="a47" args="(csStringID id)=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iCelPlLayer::FetchString" ref="a20" args="(csStringID id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -971,7 +971,7 @@ Find the string that corresponds with some ID.
 Returns 0 if there is no such string.    </td>
   </tr>
 </table>
-<a class="anchor" name="a46"></a><!-- doxytag: member="iCelPlLayer::FetchStringID" ref="a46" args="(const char *str)=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iCelPlLayer::FetchStringID" ref="a21" args="(const char *str)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1002,7 +1002,7 @@ There are various places in CEL where this is used. <p>
 The convention on string names is usually 'cel.xxx.yyy'. With 'xxx' equal to the type of string (i.e. 'property'), and 'yyy' the name of the given type (i.e. the property name). An example: 'cel.property.startsector'.    </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iCelPlLayer::FindAttachedEntity" ref="a20" args="(iObject *object)=0" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="iCelPlLayer::FindAttachedEntity" ref="a22" args="(iObject *object)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1032,7 +1032,7 @@ Given an iObject, find the attached entity (if any).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a42"></a><!-- doxytag: member="iCelPlLayer::FindBehaviourLayer" ref="a42" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="iCelPlLayer::FindBehaviourLayer" ref="a23" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1062,7 +1062,7 @@ Find a behaviour layer by name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iCelPlLayer::FindEntity" ref="a18" args="(const char *name)=0" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="iCelPlLayer::FindEntity" ref="a24" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1092,7 +1092,7 @@ Find an entity with a given name.
 This function will scan all entities (at maximum) the first time it is called for a given entity. Later on it will use a hash for faster finding.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPlLayer::FindEntityTemplate" ref="a9" args="(const char *factname)=0" --><p>
+<a class="anchor" name="a25"></a><!-- doxytag: member="iCelPlLayer::FindEntityTemplate" ref="a25" args="(const char *factname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1152,7 +1152,7 @@ Find a tracker by name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="a22" args="(iSector *sector, const csBox3 &amp;box)=0" --><p>
+<a class="anchor" name="a27"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="a27" args="(iSector *sector, const csBox3 &amp;box)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1191,7 +1191,7 @@ Find all entities that are in a given box.
 This uses the attached entities from above.    </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="a21" args="(iSector *sector, const csVector3 &amp;pos, float radius)=0" --><p>
+<a class="anchor" name="a28"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="a28" args="(iSector *sector, const csVector3 &amp;pos, float radius)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1236,7 +1236,7 @@ Find all entities that are within a certain radius of a given position.
 This uses the attached entities from above.    </td>
   </tr>
 </table>
-<a class="anchor" name="a35"></a><!-- doxytag: member="iCelPlLayer::FindPropertyClassFactory" ref="a35" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a29"></a><!-- doxytag: member="iCelPlLayer::FindPropertyClassFactory" ref="a29" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1266,7 +1266,7 @@ Find a property class factory by name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iCelPlLayer::GetBehaviour" ref="a19" args="(uint id)=0" --><p>
+<a class="anchor" name="a30"></a><!-- doxytag: member="iCelPlLayer::GetBehaviour" ref="a30" args="(uint id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1296,7 +1296,7 @@ This is a convenience function to get the behaviour that belongs to the entity f
     </td>
   </tr>
 </table>
-<a class="anchor" name="a41"></a><!-- doxytag: member="iCelPlLayer::GetBehaviourLayer" ref="a41" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a31"></a><!-- doxytag: member="iCelPlLayer::GetBehaviourLayer" ref="a31" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1326,7 +1326,7 @@ Get the specificied behaviour layer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a40"></a><!-- doxytag: member="iCelPlLayer::GetBehaviourLayerCount" ref="a40" args="() const =0" --><p>
+<a class="anchor" name="a32"></a><!-- doxytag: member="iCelPlLayer::GetBehaviourLayerCount" ref="a32" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1355,7 +1355,7 @@ Get the number of registered behaviour layers.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iCelPlLayer::GetEntity" ref="a15" args="(uint id)=0" --><p>
+<a class="anchor" name="a33"></a><!-- doxytag: member="iCelPlLayer::GetEntity" ref="a33" args="(uint id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1385,7 +1385,7 @@ Returns the entity with ID id.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iCelPlLayer::GetEntityByIndex" ref="a17" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a34"></a><!-- doxytag: member="iCelPlLayer::GetEntityByIndex" ref="a34" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1415,7 +1415,7 @@ Get the specific entity by index (not by ID).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iCelPlLayer::GetEntityCount" ref="a16" args="() const =0" --><p>
+<a class="anchor" name="a35"></a><!-- doxytag: member="iCelPlLayer::GetEntityCount" ref="a35" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1444,7 +1444,7 @@ Get the total number of entities.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="iCelPlLayer::GetHitEntity" ref="a23" args="(iCamera *camera, int x, int y)=0" --><p>
+<a class="anchor" name="a36"></a><!-- doxytag: member="iCelPlLayer::GetHitEntity" ref="a36" args="(iCamera *camera, int x, int y)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1489,7 +1489,7 @@ Given a position on screen find the nearest entity to the camera.
 Returns 0 if no entity found. This function depends on the attached entities.    </td>
   </tr>
 </table>
-<a class="anchor" name="a34"></a><!-- doxytag: member="iCelPlLayer::GetPropertyClassFactory" ref="a34" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a37"></a><!-- doxytag: member="iCelPlLayer::GetPropertyClassFactory" ref="a37" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1519,7 +1519,7 @@ Get the specificied property class factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a33"></a><!-- doxytag: member="iCelPlLayer::GetPropertyClassFactoryCount" ref="a33" args="() const =0" --><p>
+<a class="anchor" name="a38"></a><!-- doxytag: member="iCelPlLayer::GetPropertyClassFactoryCount" ref="a38" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1548,7 +1548,7 @@ Get the number of registered property class factories.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a29"></a><!-- doxytag: member="iCelPlLayer::IsEntityAddonAllowed" ref="a29" args="() const =0" --><p>
+<a class="anchor" name="a39"></a><!-- doxytag: member="iCelPlLayer::IsEntityAddonAllowed" ref="a39" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1577,7 +1577,7 @@ Query if entity addons are allowed.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a30"></a><!-- doxytag: member="iCelPlLayer::LoadPropertyClassFactory" ref="a30" args="(const char *plugin_id)=0" --><p>
+<a class="anchor" name="a40"></a><!-- doxytag: member="iCelPlLayer::LoadPropertyClassFactory" ref="a40" args="(const char *plugin_id)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1607,7 +1607,7 @@ Load a property class plugin by class id if it doesn't already exist.
 Returns false on failure. This must be called before you can use property classes from this factory.    </td>
   </tr>
 </table>
-<a class="anchor" name="a38"></a><!-- doxytag: member="iCelPlLayer::RegisterBehaviourLayer" ref="a38" args="(iCelBlLayer *bl)=0" --><p>
+<a class="anchor" name="a41"></a><!-- doxytag: member="iCelPlLayer::RegisterBehaviourLayer" ref="a41" args="(iCelBlLayer *bl)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1637,7 +1637,7 @@ Register a behaviour layer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a31"></a><!-- doxytag: member="iCelPlLayer::RegisterPropertyClassFactory" ref="a31" args="(iCelPropertyClassFactory *pf)=0" --><p>
+<a class="anchor" name="a42"></a><!-- doxytag: member="iCelPlLayer::RegisterPropertyClassFactory" ref="a42" args="(iCelPropertyClassFactory *pf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1664,10 +1664,10 @@ Register a behaviour layer.
 <p>
 Register a property class factory with this physical layer. 
 <p>
-It is not needed for apps to call this function as the property class factory itself will do it when it is loaded. To load a property class factory plugin you can use <a class="el" href="structiCelPlLayer.html#a30">LoadPropertyClassFactory()</a>.    </td>
+It is not needed for apps to call this function as the property class factory itself will do it when it is loaded. To load a property class factory plugin you can use <a class="el" href="structiCelPlLayer.html#a40">LoadPropertyClassFactory()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a54"></a><!-- doxytag: member="iCelPlLayer::RemoveCallbackEveryFrame" ref="a54" args="(iCelTimerListener *listener, int where)=0" --><p>
+<a class="anchor" name="a43"></a><!-- doxytag: member="iCelPlLayer::RemoveCallbackEveryFrame" ref="a43" args="(iCelTimerListener *listener, int where)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1706,7 +1706,7 @@ Remove all 'every-frame' callbacks to a specific listener.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a55"></a><!-- doxytag: member="iCelPlLayer::RemoveCallbackOnce" ref="a55" args="(iCelTimerListener *listener, int where)=0" --><p>
+<a class="anchor" name="a44"></a><!-- doxytag: member="iCelPlLayer::RemoveCallbackOnce" ref="a44" args="(iCelTimerListener *listener, int where)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1745,7 +1745,7 @@ Remove all 'once' callbacks to a specific listener.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPlLayer::RemoveEntities" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a45"></a><!-- doxytag: member="iCelPlLayer::RemoveEntities" ref="a45" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1774,7 +1774,7 @@ Remove all entities.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPlLayer::RemoveEntity" ref="a4" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a46"></a><!-- doxytag: member="iCelPlLayer::RemoveEntity" ref="a46" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1804,7 +1804,7 @@ Remove an entity from the physical layer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a49"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityRemoveCallback" ref="a49" args="(iCelEntityRemoveCallback *clback)=0" --><p>
+<a class="anchor" name="a47"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityRemoveCallback" ref="a47" args="(iCelEntityRemoveCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1834,7 +1834,7 @@ Removes an registered RemoveCallback.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTemplate" ref="a7" args="(iCelEntityTemplate *entfact)=0" --><p>
+<a class="anchor" name="a48"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTemplate" ref="a48" args="(iCelEntityTemplate *entfact)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1864,7 +1864,7 @@ Remove an entity template.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTemplates" ref="a8" args="()=0" --><p>
+<a class="anchor" name="a49"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTemplates" ref="a49" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1893,7 +1893,7 @@ Remove all entity templates.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a27"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTracker" ref="a27" args="(iCelEntityTracker *tracker)=0" --><p>
+<a class="anchor" name="a50"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityTracker" ref="a50" args="(iCelEntityTracker *tracker)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1953,7 +1953,7 @@ Removes an registered NewCallback.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a28"></a><!-- doxytag: member="iCelPlLayer::SetEntityAddonAllowed" ref="a28" args="(bool allow)=0" --><p>
+<a class="anchor" name="a52"></a><!-- doxytag: member="iCelPlLayer::SetEntityAddonAllowed" ref="a52" args="(bool allow)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1983,7 +1983,7 @@ Enable or disable the operations of the cel entity addon.
 This addon will enable users to add entities from a CS world file. This addon will not do that if this flag is disabled (enabled by default). This is mostly used by the persistence layer to prevent the addons from working then since the entities will be loaded otherwise in that situation.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iCelPlLayer::UnattachEntity" ref="a14" args="(iObject *object, iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a53"></a><!-- doxytag: member="iCelPlLayer::UnattachEntity" ref="a53" args="(iObject *object, iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -2022,7 +2022,7 @@ Unattach an entity from some object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a44"></a><!-- doxytag: member="iCelPlLayer::Uncache" ref="a44" args="(iBase *object)=0" --><p>
+<a class="anchor" name="a54"></a><!-- doxytag: member="iCelPlLayer::Uncache" ref="a54" args="(iBase *object)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -2052,7 +2052,7 @@ Uncache an SCF object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a39"></a><!-- doxytag: member="iCelPlLayer::UnregisterBehaviourLayer" ref="a39" args="(iCelBlLayer *bl)=0" --><p>
+<a class="anchor" name="a55"></a><!-- doxytag: member="iCelPlLayer::UnregisterBehaviourLayer" ref="a55" args="(iCelBlLayer *bl)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -2082,7 +2082,7 @@ Unregister a behaviour layer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a32"></a><!-- doxytag: member="iCelPlLayer::UnregisterPropertyClassFactory" ref="a32" args="(iCelPropertyClassFactory *pf)=0" --><p>
+<a class="anchor" name="a56"></a><!-- doxytag: member="iCelPlLayer::UnregisterPropertyClassFactory" ref="a56" args="(iCelPropertyClassFactory *pf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

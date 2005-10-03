@@ -28,33 +28,33 @@
 <a href="structiCelLocalEntitySet-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a0">GetEntityCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a0">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Number of entities managed by this set.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a1">GetEntity</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity to the local set.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a1">FindExternalEntity</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified entity.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a2">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to find a non-local entity.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a2">FindExternalPC</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity to the local set.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a3">IsLocal</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to find a non-local property class.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a3">GetEntity</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if an entity is local (is in this set).  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a4">IsLocal</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified entity.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a4">GetEntityCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if a property class is local (is in this set).  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a5">SaveExternalEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Number of entities managed by this set.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a5">IsLocal</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to save a non-local entity.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a6">FindExternalEntity</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if a property class is local (is in this set).  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a6">IsLocal</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to find a non-local entity.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a7">SaveExternalPC</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if an entity is local (is in this set).  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a7">SaveExternalEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to save a non-local property class.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a8">FindExternalPC</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to save a non-local entity.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelLocalEntitySet.html#a8">SaveExternalPC</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *pc)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to find a non-local property class.  <a href="#a8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This routine will be called by the persistence layer whenever it needs to save a non-local property class.  <a href="#a8"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A local entity set define the set of entities that are considered 'local' to the saved file. 
@@ -64,7 +64,7 @@ That means that all entities that are in this list will be saved and all entitie
 
 <p>
 Definition at line <a class="el" href="persist_8h-source.html#l00303">303</a> of file <a class="el" href="persist_8h-source.html">persist.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelLocalEntitySet::AddEntity" ref="a2" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelLocalEntitySet::AddEntity" ref="a0" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -93,10 +93,10 @@ Add an entity to the local set.
 <p>
 
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a4">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a0">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelLocalEntitySet::FindExternalEntity" ref="a6" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelLocalEntitySet::FindExternalEntity" ref="a1" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -125,10 +125,10 @@ This routine will be called by the persistence layer whenever it needs to find a
 <p>
 Basically it should return an already existing entity from the databuffer.
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a8">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a2">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelLocalEntitySet::FindExternalPC" ref="a8" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelLocalEntitySet::FindExternalPC" ref="a2" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -157,10 +157,10 @@ This routine will be called by the persistence layer whenever it needs to find a
 <p>
 Basically it should return an already existing property class from the databuffer.
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a10">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a3">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelLocalEntitySet::GetEntity" ref="a1" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelLocalEntitySet::GetEntity" ref="a3" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -189,10 +189,10 @@ Get the specified entity.
 <p>
 
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a3">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a4">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelLocalEntitySet::GetEntityCount" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelLocalEntitySet::GetEntityCount" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -220,10 +220,10 @@ Number of entities managed by this set.
 <p>
 
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a2">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a5">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelLocalEntitySet::IsLocal" ref="a4" args="(iCelPropertyClass *pc)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelLocalEntitySet::IsLocal" ref="a5" args="(iCelPropertyClass *pc)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -255,7 +255,7 @@ Test if a property class is local (is in this set).
 Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a6">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelLocalEntitySet::IsLocal" ref="a3" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelLocalEntitySet::IsLocal" ref="a6" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -284,10 +284,10 @@ Test if an entity is local (is in this set).
 <p>
 
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a5">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a7">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelLocalEntitySet::SaveExternalEntity" ref="a5" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelLocalEntitySet::SaveExternalEntity" ref="a7" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -316,10 +316,10 @@ This routine will be called by the persistence layer whenever it needs to save a
 <p>
 So this routine should return a databuffer that can identify a non-local entity.
 <p>
-Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a7">celStandardLocalEntitySet</a>.    </td>
+Implemented in <a class="el" href="classcelStandardLocalEntitySet.html#a8">celStandardLocalEntitySet</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelLocalEntitySet::SaveExternalPC" ref="a7" args="(iCelPropertyClass *pc)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelLocalEntitySet::SaveExternalPC" ref="a8" args="(iCelPropertyClass *pc)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

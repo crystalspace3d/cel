@@ -55,59 +55,59 @@
 <a name="l00036"></a>00036 
 <a name="l00040"></a><a class="code" href="structiCelMapFile.html">00040</a> <span class="keyword">struct </span><a class="code" href="structiCelMapFile.html">iCelMapFile</a> : <span class="keyword">public</span> iBase
 <a name="l00041"></a>00041 {
-<a name="l00047"></a>00047   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a0">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
+<a name="l00047"></a>00047   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a4">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
 <a name="l00048"></a>00048 
-<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a1">SetFile</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a3">SetFile</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
 <a name="l00054"></a>00054 
-<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a2">GetPath</a> () <span class="keyword">const </span>= 0;
+<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a1">GetPath</a> () <span class="keyword">const </span>= 0;
 <a name="l00060"></a>00060 
-<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a3">GetFile</a> () <span class="keyword">const </span>= 0;
+<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a0">GetFile</a> () <span class="keyword">const </span>= 0;
 <a name="l00066"></a>00066 
-<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a4">SetSectorName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelMapFile.html#a5">SetSectorName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 <a name="l00074"></a>00074 
-<a name="l00079"></a>00079   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a5">GetSectorName</a> () <span class="keyword">const </span>= 0;
+<a name="l00079"></a>00079   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelMapFile.html#a2">GetSectorName</a> () <span class="keyword">const </span>= 0;
 <a name="l00080"></a>00080 };
 <a name="l00081"></a>00081 
 <a name="l00082"></a>00082 SCF_VERSION (<a class="code" href="structiCelRegion.html">iCelRegion</a>, 0, 1, 1);
 <a name="l00083"></a>00083 
 <a name="l00088"></a><a class="code" href="structiCelRegion.html">00088</a> <span class="keyword">struct </span><a class="code" href="structiCelRegion.html">iCelRegion</a> : <span class="keyword">public</span> iBase
 <a name="l00089"></a>00089 {
-<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelRegion.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelRegion.html#a5">GetName</a> () <span class="keyword">const </span>= 0;
 <a name="l00092"></a>00092 
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a1">SetCachePath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a8">SetCachePath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
 <a name="l00101"></a>00101 
 <a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelRegion.html#a2">GetCachePath</a> () <span class="keyword">const </span>= 0;
 <a name="l00107"></a>00107 
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <a class="code" href="structiCelMapFile.html">iCelMapFile</a>* <a class="code" href="structiCelRegion.html#a3">CreateMapFile</a> () = 0;
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <a class="code" href="structiCelMapFile.html">iCelMapFile</a>* <a class="code" href="structiCelRegion.html#a1">CreateMapFile</a> () = 0;
 <a name="l00113"></a>00113 
 <a name="l00117"></a>00117   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelRegion.html#a4">GetMapFileCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00118"></a>00118 
-<a name="l00122"></a>00122   <span class="keyword">virtual</span> <a class="code" href="structiCelMapFile.html">iCelMapFile</a>* <a class="code" href="structiCelRegion.html#a5">GetMapFile</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+<a name="l00122"></a>00122   <span class="keyword">virtual</span> <a class="code" href="structiCelMapFile.html">iCelMapFile</a>* <a class="code" href="structiCelRegion.html#a3">GetMapFile</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
 <a name="l00123"></a>00123 
-<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelRegion.html#a6">RemoveMapFile</a> (<a class="code" href="structiCelMapFile.html">iCelMapFile</a>* mapfile) = 0;
+<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelRegion.html#a7">RemoveMapFile</a> (<a class="code" href="structiCelMapFile.html">iCelMapFile</a>* mapfile) = 0;
 <a name="l00129"></a>00129 
-<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a7">RemoveAllMapFiles</a> () = 0;
+<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a6">RemoveAllMapFiles</a> () = 0;
 <a name="l00134"></a>00134 
-<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a8">AssociateEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRegion.html#a0">AssociateEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00140"></a>00140 };
 <a name="l00141"></a>00141 
 <a name="l00142"></a>00142 SCF_VERSION (<a class="code" href="structiCelZone.html">iCelZone</a>, 0, 1, 0);
 <a name="l00143"></a>00143 
 <a name="l00148"></a><a class="code" href="structiCelZone.html">00148</a> <span class="keyword">struct </span><a class="code" href="structiCelZone.html">iCelZone</a> : <span class="keyword">public</span> iBase
 <a name="l00149"></a>00149 {
-<a name="l00151"></a>00151   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelZone.html#a0">GetName</a> () <span class="keyword">const </span>= 0;
+<a name="l00151"></a>00151   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelZone.html#a1">GetName</a> () <span class="keyword">const </span>= 0;
 <a name="l00152"></a>00152 
-<a name="l00156"></a>00156   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelZone.html#a1">LinkRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
+<a name="l00156"></a>00156   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelZone.html#a4">LinkRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
 <a name="l00157"></a>00157 
-<a name="l00161"></a>00161   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelZone.html#a2">GetRegionCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00161"></a>00161   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelZone.html#a3">GetRegionCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00162"></a>00162 
-<a name="l00166"></a>00166   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiCelZone.html#a3">GetRegion</a> (size_t idx) <span class="keyword">const </span>= 0;
+<a name="l00166"></a>00166   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiCelZone.html#a2">GetRegion</a> (size_t idx) <span class="keyword">const </span>= 0;
 <a name="l00167"></a>00167 
-<a name="l00171"></a>00171   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiCelZone.html#a4">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+<a name="l00171"></a>00171   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiCelZone.html#a0">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
 <a name="l00172"></a>00172 
-<a name="l00177"></a>00177   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelZone.html#a5">UnlinkRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
+<a name="l00177"></a>00177   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelZone.html#a6">UnlinkRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
 <a name="l00178"></a>00178 
-<a name="l00182"></a>00182   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelZone.html#a6">UnlinkAllRegions</a> () = 0;
+<a name="l00182"></a>00182   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelZone.html#a5">UnlinkAllRegions</a> () = 0;
 <a name="l00183"></a>00183 };
 <a name="l00184"></a>00184 
 <a name="l00188"></a>00188 
@@ -123,48 +123,48 @@
 <a name="l00202"></a>00202 
 <a name="l00236"></a><a class="code" href="structiPcZoneManager.html">00236</a> <span class="keyword">struct </span><a class="code" href="structiPcZoneManager.html">iPcZoneManager</a> : <span class="keyword">public</span> iBase
 <a name="l00237"></a>00237 {
-<a name="l00243"></a>00243   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a0">EnableColliderWrappers</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00243"></a>00243   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a2">EnableColliderWrappers</a> (<span class="keywordtype">bool</span> en) = 0;
 <a name="l00244"></a>00244 
-<a name="l00248"></a>00248   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a1">IsColliderWrappers</a> () <span class="keyword">const </span>= 0;
+<a name="l00248"></a>00248   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a11">IsColliderWrappers</a> () <span class="keyword">const </span>= 0;
 <a name="l00249"></a>00249 
-<a name="l00256"></a>00256   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a2">Load</a> (iDocumentNode* node) = 0;
+<a name="l00256"></a>00256   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a13">Load</a> (iDocumentNode* node) = 0;
 <a name="l00257"></a>00257 
-<a name="l00270"></a>00270   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a2">Load</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
+<a name="l00270"></a>00270   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a13">Load</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path, <span class="keyword">const</span> <span class="keywordtype">char</span>* file) = 0;
 <a name="l00271"></a>00271 
-<a name="l00275"></a>00275   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a4">CreateZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00275"></a>00275   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a1">CreateZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 <a name="l00276"></a>00276 
-<a name="l00280"></a>00280   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a5">GetZoneCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00280"></a>00280   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a10">GetZoneCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00281"></a>00281 
-<a name="l00285"></a>00285   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a6">GetZone</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+<a name="l00285"></a>00285   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a9">GetZone</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
 <a name="l00286"></a>00286 
-<a name="l00290"></a>00290   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a7">FindZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+<a name="l00290"></a>00290   <span class="keyword">virtual</span> <a class="code" href="structiCelZone.html">iCelZone</a>* <a class="code" href="structiPcZoneManager.html#a5">FindZone</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
 <a name="l00291"></a>00291 
-<a name="l00296"></a>00296   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a8">RemoveZone</a> (<a class="code" href="structiCelZone.html">iCelZone</a>* zone) = 0;
+<a name="l00296"></a>00296   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a19">RemoveZone</a> (<a class="code" href="structiCelZone.html">iCelZone</a>* zone) = 0;
 <a name="l00297"></a>00297 
-<a name="l00301"></a>00301   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a9">RemoveAllZones</a> () = 0;
+<a name="l00301"></a>00301   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a17">RemoveAllZones</a> () = 0;
 <a name="l00302"></a>00302 
-<a name="l00306"></a>00306   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a10">CreateRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00306"></a>00306   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a0">CreateRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 <a name="l00307"></a>00307 
-<a name="l00311"></a>00311   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a11">GetRegionCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00311"></a>00311   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcZoneManager.html#a8">GetRegionCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00312"></a>00312 
-<a name="l00316"></a>00316   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a12">GetRegion</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
+<a name="l00316"></a>00316   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a7">GetRegion</a> (<span class="keywordtype">int</span> idx) <span class="keyword">const </span>= 0;
 <a name="l00317"></a>00317 
-<a name="l00321"></a>00321   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a13">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+<a name="l00321"></a>00321   <span class="keyword">virtual</span> <a class="code" href="structiCelRegion.html">iCelRegion</a>* <a class="code" href="structiPcZoneManager.html#a3">FindRegion</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
 <a name="l00322"></a>00322 
-<a name="l00327"></a>00327   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a14">RemoveRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
+<a name="l00327"></a>00327   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcZoneManager.html#a18">RemoveRegion</a> (<a class="code" href="structiCelRegion.html">iCelRegion</a>* region) = 0;
 <a name="l00328"></a>00328 
-<a name="l00332"></a>00332   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a15">RemoveAllRegions</a> () = 0;
+<a name="l00332"></a>00332   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a16">RemoveAllRegions</a> () = 0;
 <a name="l00333"></a>00333 
-<a name="l00337"></a>00337   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a16">FindStartLocations</a> (iStringArray* regionnames,
+<a name="l00337"></a>00337   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a4">FindStartLocations</a> (iStringArray* regionnames,
 <a name="l00338"></a>00338         iStringArray* startnames) = 0;
 <a name="l00339"></a>00339 
-<a name="l00345"></a>00345   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a17">GetLastStartLocation</a> (iString* regionname,
+<a name="l00345"></a>00345   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcZoneManager.html#a6">GetLastStartLocation</a> (iString* regionname,
 <a name="l00346"></a>00346         iString* startname) = 0;
 <a name="l00347"></a>00347 
-<a name="l00365"></a>00365   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a18">PointCamera</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
+<a name="l00365"></a>00365   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a14">PointCamera</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
 <a name="l00366"></a>00366         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
 <a name="l00367"></a>00367 
-<a name="l00385"></a>00385   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a19">PointMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
+<a name="l00385"></a>00385   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcZoneManager.html#a15">PointMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entity, <span class="keyword">const</span> <span class="keywordtype">char</span>* regionname,
 <a name="l00386"></a>00386         <span class="keyword">const</span> <span class="keywordtype">char</span>* startname = 0) = 0;
 <a name="l00387"></a>00387 };
 <a name="l00388"></a>00388 

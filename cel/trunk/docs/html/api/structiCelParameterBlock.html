@@ -30,15 +30,15 @@
 <a href="structiCelParameterBlock-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelParameterBlock.html#a0">GetParameterCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structcelData.html">celData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelParameterBlock.html#a0">GetParameter</a> (csStringID id) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get number of parameters.  <a href="#a0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter given an id.  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelParameterBlock.html#a1">GetParameter</a> (size_t idx, csStringID &amp;id, celDataType &amp;t) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter with index.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structcelData.html">celData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelParameterBlock.html#a2">GetParameter</a> (csStringID id) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelParameterBlock.html#a2">GetParameterCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter given an id.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get number of parameters.  <a href="#a2"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface is a parameter block that can be used to pass parameters through SendMessage() in a behaviour. 
@@ -48,7 +48,7 @@ Parameter ids are constructed from the following string: cel.parameter."name"
 
 <p>
 Definition at line <a class="el" href="behave_8h-source.html#l00041">41</a> of file <a class="el" href="behave_8h-source.html">behave.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelParameterBlock::GetParameter" ref="a2" args="(csStringID id) const =0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelParameterBlock::GetParameter" ref="a0" args="(csStringID id) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -77,7 +77,7 @@ Get parameter given an id.
 <p>
 
 <p>
-Implemented in <a class="el" href="classcelGenericParameterBlock.html#a6">celGenericParameterBlock</a>, <a class="el" href="classcelVariableParameterBlock.html#a6">celVariableParameterBlock</a>, and <a class="el" href="classcelOneParameterBlock.html#a6">celOneParameterBlock</a>.    </td>
+Implemented in <a class="el" href="classcelGenericParameterBlock.html#a1">celGenericParameterBlock</a>, <a class="el" href="classcelVariableParameterBlock.html#a1">celVariableParameterBlock</a>, and <a class="el" href="classcelOneParameterBlock.html#a1">celOneParameterBlock</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="iCelParameterBlock::GetParameter" ref="a1" args="(size_t idx, csStringID &amp;id, celDataType &amp;t) const =0" --><p>
@@ -124,10 +124,10 @@ Get parameter with index.
 <p>
 Returns the name and sets 'id' and 'type' to the appropriate values.
 <p>
-Implemented in <a class="el" href="classcelGenericParameterBlock.html#a5">celGenericParameterBlock</a>, <a class="el" href="classcelVariableParameterBlock.html#a5">celVariableParameterBlock</a>, and <a class="el" href="classcelOneParameterBlock.html#a5">celOneParameterBlock</a>.    </td>
+Implemented in <a class="el" href="classcelGenericParameterBlock.html#a2">celGenericParameterBlock</a>, <a class="el" href="classcelVariableParameterBlock.html#a2">celVariableParameterBlock</a>, and <a class="el" href="classcelOneParameterBlock.html#a2">celOneParameterBlock</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelParameterBlock::GetParameterCount" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelParameterBlock::GetParameterCount" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

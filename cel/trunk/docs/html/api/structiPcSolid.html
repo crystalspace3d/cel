@@ -23,15 +23,15 @@
 <a href="structiPcSolid-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSolid.html#a0">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCollider *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSolid.html#a0">GetCollider</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set mesh from which to create the solid representation.  <a href="#a0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get (and create if needed) the collider for this mesh.  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSolid.html#a1">GetMesh</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current mesh on which we're working.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCollider *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSolid.html#a2">GetCollider</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSolid.html#a2">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get (and create if needed) the collider for this mesh.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set mesh from which to create the solid representation.  <a href="#a2"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A solid representation of an entity. 
@@ -41,7 +41,7 @@ This is used for collision detection.
 
 <p>
 Definition at line <a class="el" href="solid_8h-source.html#l00035">35</a> of file <a class="el" href="solid_8h-source.html">solid.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSolid::GetCollider" ref="a2" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSolid::GetCollider" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -99,7 +99,7 @@ Get the current mesh on which we're working.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSolid::SetMesh" ref="a0" args="(iPcMesh *mesh)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSolid::SetMesh" ref="a2" args="(iPcMesh *mesh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

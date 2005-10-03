@@ -23,42 +23,42 @@
 <a href="structiCelGameClient-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a0">RegisterClientManager</a> (<a class="el" href="classcelGameClientManager.html">celGameClientManager</a> *manager)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a0">ConvertServerClock</a> (csTicks server_time) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register the manager of this client.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a1">GetPlayer</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a time from the server clock to the client clock.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a1">GetMappedEntity</a> (uint entity_id) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the current player associated with this client.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a2">UpdatePlayer</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the entity on the client side that is network linked with an entity with ID entity_id on the server side.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual uint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a2">GetMappedID</a> (uint entity_id) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the data of the current player.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a3">ConvertServerClock</a> (csTicks server_time) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the ID of the entity on the client side that is network linked with an entity with ID entity_id on the server side.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a3">GetNetworkStats</a> (<a class="el" href="structcelNetworkServerStats.html">celNetworkServerStats</a> &amp;stats) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a time from the server clock to the client clock.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual uint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a4">GetMappedID</a> (uint entity_id) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of this client.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a4">GetPlayer</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the ID of the entity on the client side that is network linked with an entity with ID entity_id on the server side.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a5">GetMappedEntity</a> (uint entity_id) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the current player associated with this client.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a5">LaunchClientEvent</a> (<a class="el" href="classcelClientEventData.html">celClientEventData</a> &amp;event_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the entity on the client side that is network linked with an entity with ID entity_id on the server side.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a6">SetReady</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Ask the game client to send an event to the server.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a6">RegisterClientManager</a> (<a class="el" href="classcelGameClientManager.html">celGameClientManager</a> *manager)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate that the client has loaded everything and is ready to play.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a7">LaunchClientEvent</a> (<a class="el" href="classcelClientEventData.html">celClientEventData</a> &amp;event_data)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register the manager of this client.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a7">SetMaximumBandwidth</a> (size_t width)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Ask the game client to send an event to the server.  <a href="#a7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum bandwidth of the network data transmission in bytes per second.  <a href="#a7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a8">SetNetworkPeriod</a> (csTicks period)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Specify the maximum frequency at which the client can send data.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a9">SetMaximumBandwidth</a> (size_t width)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a9">SetReady</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum bandwidth of the network data transmission in bytes per second.  <a href="#a9"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate that the client has loaded everything and is ready to play.  <a href="#a9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a10">SetServerTimeOut</a> (csTicks timeout)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The client will consider itself connected to the server until the connection is broken during specified time.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a11">GetNetworkStats</a> (<a class="el" href="structcelNetworkServerStats.html">celNetworkServerStats</a> &amp;stats) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameClient.html#a11">UpdatePlayer</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of this client.  <a href="#a11"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the data of the current player.  <a href="#a11"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The main object to manage the client game logic. 
@@ -82,7 +82,7 @@ You should define and register a <a class="el" href="classcelGameClientManager.h
 
 <p>
 Definition at line <a class="el" href="network_8h-source.html#l00519">519</a> of file <a class="el" href="network_8h-source.html">network.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelGameClient::ConvertServerClock" ref="a3" args="(csTicks server_time) const =0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelGameClient::ConvertServerClock" ref="a0" args="(csTicks server_time) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -112,7 +112,7 @@ Convert a time from the server clock to the client clock.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelGameClient::GetMappedEntity" ref="a5" args="(uint entity_id) const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelGameClient::GetMappedEntity" ref="a1" args="(uint entity_id) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -142,7 +142,7 @@ Return the entity on the client side that is network linked with an entity with 
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelGameClient::GetMappedID" ref="a4" args="(uint entity_id) const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelGameClient::GetMappedID" ref="a2" args="(uint entity_id) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -172,7 +172,7 @@ Return the ID of the entity on the client side that is network linked with an en
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iCelGameClient::GetNetworkStats" ref="a11" args="(celNetworkServerStats &amp;stats) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelGameClient::GetNetworkStats" ref="a3" args="(celNetworkServerStats &amp;stats) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -202,7 +202,7 @@ Return the network stats of this client.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelGameClient::GetPlayer" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelGameClient::GetPlayer" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -231,7 +231,7 @@ Return the current player associated with this client.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelGameClient::LaunchClientEvent" ref="a7" args="(celClientEventData &amp;event_data)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelGameClient::LaunchClientEvent" ref="a5" args="(celClientEventData &amp;event_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -261,7 +261,7 @@ Ask the game client to send an event to the server.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelGameClient::RegisterClientManager" ref="a0" args="(celGameClientManager *manager)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelGameClient::RegisterClientManager" ref="a6" args="(celGameClientManager *manager)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -291,7 +291,7 @@ Register the manager of this client.
 Only one manager can be registered at a time.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iCelGameClient::SetMaximumBandwidth" ref="a9" args="(size_t width)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelGameClient::SetMaximumBandwidth" ref="a7" args="(size_t width)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -351,7 +351,7 @@ Specify the maximum frequency at which the client can send data.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelGameClient::SetReady" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iCelGameClient::SetReady" ref="a9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -410,7 +410,7 @@ The client will consider itself connected to the server until the connection is 
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelGameClient::UpdatePlayer" ref="a2" args="(celPlayer *player)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iCelGameClient::UpdatePlayer" ref="a11" args="(celPlayer *player)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

@@ -29,69 +29,69 @@
 <a href="structiPcCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a0">SetRegion</a> (<a class="el" href="structiPcRegion.html">iPcRegion</a> *region, bool point=true, const char *name=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a0">DisableDistanceClipping</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a Region.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a1">SetZoneManager</a> (<a class="el" href="structiPcZoneManager.html">iPcZoneManager</a> *zonemgr, bool point, const char *regionname, const char *name=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable distance clipping.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a1">Draw</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a2">SetZoneManager</a> (const char *entityname, bool point, const char *regionname, const char *name=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a2">EnableAdaptiveDistanceClipping</a> (float min_fps, float max_fps, float min_dist)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a3">SetRectangle</a> (int x, int y, int w, int h)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable adaptive distance clipping.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a3">EnableFixedDistanceClipping</a> (float dist)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the view rectangle to use on screen.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCamera *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a4">GetCamera</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fixed distance clipping.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a4">GetAdaptiveMaxFPS</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the camera.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iView *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a5">GetView</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum fps used for adaptive distance clipping.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a5">GetAdaptiveMinDistance</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the view.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a6">SetClearZBuffer</a> (bool flag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum distance used for adaptive distance clipping.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a6">GetAdaptiveMinFPS</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear z-buffer every frame.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a7">GetClearZBuffer</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum fps used for adaptive distance clipping.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCamera *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a7">GetCamera</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a8">SetClearScreen</a> (bool flag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the camera.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a8">GetClearScreen</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear screen every frame.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a9">GetClearScreen</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear screen flag.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a9">GetClearZBuffer</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear screen flag.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a10">DisableDistanceClipping</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a10">GetFixedDistance</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Disable distance clipping.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a11">EnableFixedDistanceClipping</a> (float dist)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iView *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a11">GetView</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fixed distance clipping.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a12">EnableAdaptiveDistanceClipping</a> (float min_fps, float max_fps, float min_dist)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the view.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a12">SetAutoDraw</a> (bool auto_draw)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable adaptive distance clipping.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a13">UseDistanceClipping</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the auto-draw option.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a13">SetClearScreen</a> (bool flag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use distance clipping (either fixed or adaptive).  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a14">UseFixedDistanceClipping</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear screen every frame.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a14">SetClearZBuffer</a> (bool flag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use fixed distance clipping (as opposed to adaptive).  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a15">GetFixedDistance</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear z-buffer every frame.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a15">SetRectangle</a> (int x, int y, int w, int h)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a16">GetAdaptiveMinFPS</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the view rectangle to use on screen.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a16">SetRegion</a> (<a class="el" href="structiPcRegion.html">iPcRegion</a> *region, bool point=true, const char *name=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum fps used for adaptive distance clipping.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a17">GetAdaptiveMaxFPS</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a Region.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a17">SetZoneManager</a> (const char *entityname, bool point, const char *regionname, const char *name=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum fps used for adaptive distance clipping.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a18">GetAdaptiveMinDistance</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a18">SetZoneManager</a> (<a class="el" href="structiPcZoneManager.html">iPcZoneManager</a> *zonemgr, bool point, const char *regionname, const char *name=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum distance used for adaptive distance clipping.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a19">SetAutoDraw</a> (bool auto_draw)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a19">UseDistanceClipping</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the auto-draw option.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a20">Draw</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use distance clipping (either fixed or adaptive).  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a20">UseFixedDistanceClipping</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a20"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use fixed distance clipping (as opposed to adaptive).  <a href="#a20"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The representation of a camera. 
@@ -99,7 +99,7 @@ The representation of a camera.
 
 <p>
 Definition at line <a class="el" href="propclass_2camera_8h-source.html#l00036">36</a> of file <a class="el" href="propclass_2camera_8h-source.html">camera.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcCamera::DisableDistanceClipping" ref="a10" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcCamera::DisableDistanceClipping" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -128,7 +128,7 @@ Disable distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iPcCamera::Draw" ref="a20" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcCamera::Draw" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -156,10 +156,10 @@ Render.
 <p>
 This will clear the screen then draw on top of it.
 <p>
-Implemented in <a class="el" href="structiPcSimpleCamera.html#a4">iPcSimpleCamera</a>.    </td>
+Implemented in <a class="el" href="structiPcSimpleCamera.html#a0">iPcSimpleCamera</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcCamera::EnableAdaptiveDistanceClipping" ref="a12" args="(float min_fps, float max_fps, float min_dist)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcCamera::EnableAdaptiveDistanceClipping" ref="a2" args="(float min_fps, float max_fps, float min_dist)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -211,7 +211,7 @@ In this mode the clipping plane will vary depending on the desired minimum and m
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcCamera::EnableFixedDistanceClipping" ref="a11" args="(float dist)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcCamera::EnableFixedDistanceClipping" ref="a3" args="(float dist)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -246,7 +246,7 @@ In this mode there is a fixed plane at the specified distance. All geometry that
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMaxFPS" ref="a17" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMaxFPS" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -275,7 +275,7 @@ Get the maximum fps used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMinDistance" ref="a18" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMinDistance" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -304,7 +304,7 @@ Get the minimum distance used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMinFPS" ref="a16" args="() const =0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcCamera::GetAdaptiveMinFPS" ref="a6" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -333,7 +333,7 @@ Get the minimum fps used for adaptive distance clipping.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcCamera::GetCamera" ref="a4" args="() const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcCamera::GetCamera" ref="a7" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -362,7 +362,7 @@ Get the camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcCamera::GetClearScreen" ref="a9" args="() const =0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcCamera::GetClearScreen" ref="a8" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -391,7 +391,7 @@ Get the clear screen flag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcCamera::GetClearZBuffer" ref="a7" args="() const =0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcCamera::GetClearZBuffer" ref="a9" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -420,7 +420,7 @@ Get the clear zbuffer flag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcCamera::GetFixedDistance" ref="a15" args="() const =0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcCamera::GetFixedDistance" ref="a10" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -449,7 +449,7 @@ Get the fixed distance (returns &lt; 0 if adaptive is used).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcCamera::GetView" ref="a5" args="() const =0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcCamera::GetView" ref="a11" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -478,7 +478,7 @@ Get the view.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iPcCamera::SetAutoDraw" ref="a19" args="(bool auto_draw)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcCamera::SetAutoDraw" ref="a12" args="(bool auto_draw)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -513,7 +513,7 @@ If this option is enabled, the camera will automatically render. <dl compact><dt
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcCamera::SetClearScreen" ref="a8" args="(bool flag)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcCamera::SetClearScreen" ref="a13" args="(bool flag)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -548,7 +548,7 @@ Off by default unless the loaded map specifies this. <dl compact><dt><b>Paramete
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcCamera::SetClearZBuffer" ref="a6" args="(bool flag)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcCamera::SetClearZBuffer" ref="a14" args="(bool flag)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -583,7 +583,7 @@ Off by default unless the loaded map specifies this. <dl compact><dt><b>Paramete
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcCamera::SetRectangle" ref="a3" args="(int x, int y, int w, int h)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcCamera::SetRectangle" ref="a15" args="(int x, int y, int w, int h)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -642,7 +642,7 @@ Set the view rectangle to use on screen.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcCamera::SetRegion" ref="a0" args="(iPcRegion *region, bool point=true, const char *name=0)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcCamera::SetRegion" ref="a16" args="(iPcRegion *region, bool point=true, const char *name=0)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -694,7 +694,7 @@ Set Camera to a Region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcCamera::SetZoneManager" ref="a2" args="(const char *entityname, bool point, const char *regionname, const char *name=0)=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcCamera::SetZoneManager" ref="a17" args="(const char *entityname, bool point, const char *regionname, const char *name=0)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -753,7 +753,7 @@ Set Camera to a zone manager.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcCamera::SetZoneManager" ref="a1" args="(iPcZoneManager *zonemgr, bool point, const char *regionname, const char *name=0)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iPcCamera::SetZoneManager" ref="a18" args="(iPcZoneManager *zonemgr, bool point, const char *regionname, const char *name=0)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -812,7 +812,7 @@ Set Camera to a zone manager.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcCamera::UseDistanceClipping" ref="a13" args="() const =0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iPcCamera::UseDistanceClipping" ref="a19" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -841,7 +841,7 @@ Returns true if we use distance clipping (either fixed or adaptive).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcCamera::UseFixedDistanceClipping" ref="a14" args="() const =0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iPcCamera::UseFixedDistanceClipping" ref="a20" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

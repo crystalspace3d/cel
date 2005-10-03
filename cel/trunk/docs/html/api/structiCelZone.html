@@ -23,27 +23,27 @@
 <a href="structiCelZone-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a0">FindRegion</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this zone.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a1">LinkRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a1">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Link a region with this zone.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a2">GetRegionCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this zone.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a2">GetRegion</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of regions in this zone.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a3">GetRegion</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a3">GetRegionCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a4">FindRegion</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of regions in this zone.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a4">LinkRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a5">UnlinkRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Link a region with this zone.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a5">UnlinkAllRegions</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unlink the region from this zone.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a6">UnlinkAllRegions</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unlink all regions from this zone.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelZone.html#a6">UnlinkRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unlink all regions from this zone.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unlink the region from this zone.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A zone. 
@@ -53,7 +53,7 @@ A zone represents a collection of regions that are all in memory at the same tim
 
 <p>
 Definition at line <a class="el" href="zone_8h-source.html#l00148">148</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelZone::FindRegion" ref="a4" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelZone::FindRegion" ref="a0" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -83,7 +83,7 @@ Get the specified region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelZone::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelZone::GetName" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -112,7 +112,7 @@ Get the name of this zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelZone::GetRegion" ref="a3" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelZone::GetRegion" ref="a2" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -142,7 +142,7 @@ Get the specified region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelZone::GetRegionCount" ref="a2" args="() const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelZone::GetRegionCount" ref="a3" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -171,7 +171,7 @@ Get the count of regions in this zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelZone::LinkRegion" ref="a1" args="(iCelRegion *region)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelZone::LinkRegion" ref="a4" args="(iCelRegion *region)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -201,7 +201,7 @@ Link a region with this zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelZone::UnlinkAllRegions" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelZone::UnlinkAllRegions" ref="a5" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -230,7 +230,7 @@ Unlink all regions from this zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelZone::UnlinkRegion" ref="a5" args="(iCelRegion *region)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelZone::UnlinkRegion" ref="a6" args="(iCelRegion *region)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

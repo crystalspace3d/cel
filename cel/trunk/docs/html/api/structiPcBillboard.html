@@ -23,21 +23,21 @@
 <a href="structiPcBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a1">SetBillboardName</a> (const char *name)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a0">AreEventsEnabled</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the name of the billboard.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a2">GetBillboardName</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if events are enabled.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a1">EnableEvents</a> (bool e)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of the billboard.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a3">GetBillboard</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable or disable listening for events for this billboard.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a2">GetBillboard</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the billboard.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a4">EnableEvents</a> (bool e)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the billboard.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a3">GetBillboardName</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable or disable listening for events for this billboard.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a5">AreEventsEnabled</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of the billboard.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a5">SetBillboardName</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if events are enabled.  <a href="#a5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the name of the billboard.  <a href="#a5"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Billboard property class. 
@@ -94,7 +94,7 @@ layer (string, read/write): layer name. </li>
 
 <p>
 Definition at line <a class="el" href="propclass_2billboard_8h-source.html#l00063">63</a> of file <a class="el" href="propclass_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcBillboard::AreEventsEnabled" ref="a5" args="() const =0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcBillboard::AreEventsEnabled" ref="a0" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -123,7 +123,7 @@ Return true if events are enabled.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcBillboard::EnableEvents" ref="a4" args="(bool e)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcBillboard::EnableEvents" ref="a1" args="(bool e)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -153,7 +153,7 @@ Enable or disable listening for events for this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcBillboard::GetBillboard" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcBillboard::GetBillboard" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -182,7 +182,7 @@ Get the billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcBillboard::GetBillboardName" ref="a2" args="()=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcBillboard::GetBillboardName" ref="a3" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -211,7 +211,7 @@ Get the name of the billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcBillboard::SetBillboardName" ref="a1" args="(const char *name)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcBillboard::SetBillboardName" ref="a5" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

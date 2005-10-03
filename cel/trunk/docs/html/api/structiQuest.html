@@ -23,21 +23,21 @@
 <a href="structiQuest-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a0">SwitchState</a> (const char *state)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequence.html">iQuestSequence</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a0">FindSequence</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch this quest to some specific state.  <a href="#a0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a sequence.  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a1">GetCurrentState</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get current state name of this quest.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a2">LoadState</a> (const char *state, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a special version of <a class="el" href="structiQuest.html#a0">SwitchState()</a> that needs to be used in case you are loading a quest from a CEL databuffer (persistence).  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a special version of <a class="el" href="structiQuest.html#a4">SwitchState()</a> that needs to be used in case you are loading a quest from a CEL databuffer (persistence).  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a3">SaveState</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the state to the persistence layer.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequence.html">iQuestSequence</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a4">FindSequence</a> (const char *name)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuest.html#a4">SwitchState</a> (const char *state)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a sequence.  <a href="#a4"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Switch this quest to some specific state.  <a href="#a4"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A quest instance. 
@@ -47,7 +47,7 @@ This is created (by the quest manager) from a quest factory using the trigger an
 
 <p>
 Definition at line <a class="el" href="questmanager_8h-source.html#l00424">424</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iQuest::FindSequence" ref="a4" args="(const char *name)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iQuest::FindSequence" ref="a0" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -140,7 +140,7 @@ Get current state name of this quest.
     <td>
 
 <p>
-This is a special version of <a class="el" href="structiQuest.html#a0">SwitchState()</a> that needs to be used in case you are loading a quest from a CEL databuffer (persistence). 
+This is a special version of <a class="el" href="structiQuest.html#a4">SwitchState()</a> that needs to be used in case you are loading a quest from a CEL databuffer (persistence). 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>false on failure (data in buffer doesn't match what we want).</dd></dl>
     </td>
@@ -176,7 +176,7 @@ Save the state to the persistence layer.
 To restore later use <a class="el" href="structiQuest.html#a2">LoadState()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iQuest::SwitchState" ref="a0" args="(const char *state)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iQuest::SwitchState" ref="a4" args="(const char *state)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

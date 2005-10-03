@@ -23,24 +23,24 @@
 <a href="structiPcSpawn-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a0">SetEnabled</a> (bool e)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a0">AddEntityType</a> (float chance, const char *name, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *behaviour, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable spawning.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a1">IsEnabled</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a1">ClearEntityList</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is spawning enabled.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a2">AddEntityType</a> (float chance, const char *name, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *behaviour, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the list of entities to create.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a2">IsEnabled</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a3">ClearEntityList</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is spawning enabled.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a3">Reset</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the list of entities to create.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a4">SetTiming</a> (bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset timing.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a4">SetEnabled</a> (bool e)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set timing information.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a5">Reset</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable spawning.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a5">SetTiming</a> (bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset timing.  <a href="#a5"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set timing information.  <a href="#a5"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Spawn property class. 
@@ -55,7 +55,7 @@ pcspawn_newentity: new entity has been created (entity,behaviour) </li>
 
 <p>
 Definition at line <a class="el" href="spawn_8h-source.html#l00038">38</a> of file <a class="el" href="spawn_8h-source.html">spawn.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSpawn::AddEntityType" ref="a2" args="(float chance, const char *name, iCelBlLayer *bl, const char *behaviour, const char *msg_id, iCelParameterBlock *params,...)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSpawn::AddEntityType" ref="a0" args="(float chance, const char *name, iCelBlLayer *bl, const char *behaviour, const char *msg_id, iCelParameterBlock *params,...)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -135,7 +135,7 @@ Add an entry to the list of entities that can be created by this property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcSpawn::ClearEntityList" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcSpawn::ClearEntityList" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -164,7 +164,7 @@ Clear the list of entities to create.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcSpawn::IsEnabled" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSpawn::IsEnabled" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -193,7 +193,7 @@ Is spawning enabled.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcSpawn::Reset" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcSpawn::Reset" ref="a3" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -222,7 +222,7 @@ Reset timing.
 In case of a non repeating spawner this will enable the spawn again so that it will do a new spawn in the specified time. In case of a repeating spawner it will simply reset the time to zero. In case of non random selection this function will also set the sequence of entities back to the first one.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSpawn::SetEnabled" ref="a0" args="(bool e)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcSpawn::SetEnabled" ref="a4" args="(bool e)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -249,10 +249,10 @@ In case of a non repeating spawner this will enable the spawn again so that it w
 <p>
 Enable/disable spawning. 
 <p>
-Enabled by default although the spawner will only start working after the first <a class="el" href="structiPcSpawn.html#a4">SetTiming()</a> call.    </td>
+Enabled by default although the spawner will only start working after the first <a class="el" href="structiPcSpawn.html#a5">SetTiming()</a> call.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcSpawn::SetTiming" ref="a4" args="(bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcSpawn::SetTiming" ref="a5" args="(bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -302,7 +302,7 @@ Set timing information.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>repeat</em>&nbsp;</td><td>if true then this spawner will keep spawning. Otherwise it spawns only once unless <a class="el" href="structiPcSpawn.html#a5">Reset()</a> is called. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>repeat</em>&nbsp;</td><td>if true then this spawner will keep spawning. Otherwise it spawns only once unless <a class="el" href="structiPcSpawn.html#a3">Reset()</a> is called. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>random</em>&nbsp;</td><td>if true then we will select a random entity from our list. Otherwise we select sequentially. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>mindelay</em>&nbsp;</td><td>is the minimum delay to wait before spawning. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>maxdelay</em>&nbsp;</td><td>is the maximum delay to wait before spawning.</td></tr>

@@ -23,18 +23,18 @@
 <a href="structiQuestSeqOp-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a0">Init</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a0">Do</a> (float time)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Init the operation.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a1">Load</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Do the operation.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a1">Init</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load the sequence operation from persisted data.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a2">Save</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Init the operation.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a2">Load</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the sequence operation to persisted data.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a3">Do</a> (float time)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load the sequence operation from persisted data.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSeqOp.html#a3">Save</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Do the operation.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the sequence operation to persisted data.  <a href="#a3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a sequence operation in a quest. 
@@ -44,7 +44,7 @@ A sequence operation represents an operation that has a duration or an operation
 
 <p>
 Definition at line <a class="el" href="questmanager_8h-source.html#l00278">278</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestSeqOp::Do" ref="a3" args="(float time)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestSeqOp::Do" ref="a0" args="(float time)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -74,7 +74,7 @@ Do the operation.
 The parameter is a value between 0 and 1 which will be interpolated over a specified time (specified in the sequence). In case this is a single-shot operation the value will always be 1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestSeqOp::Init" ref="a0" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestSeqOp::Init" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -100,10 +100,10 @@ The parameter is a value between 0 and 1 which will be interpolated over a speci
 <p>
 Init the operation. 
 <p>
-This is called before the operation is actually performed the first time. This function is not called in case the operation is loaded from persisted data. In that case <a class="el" href="structiQuestSeqOp.html#a1">Load()</a> is called instead.    </td>
+This is called before the operation is actually performed the first time. This function is not called in case the operation is loaded from persisted data. In that case <a class="el" href="structiQuestSeqOp.html#a2">Load()</a> is called instead.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestSeqOp::Load" ref="a1" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestSeqOp::Load" ref="a2" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -133,7 +133,7 @@ Load the sequence operation from persisted data.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestSeqOp::Save" ref="a2" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestSeqOp::Save" ref="a3" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

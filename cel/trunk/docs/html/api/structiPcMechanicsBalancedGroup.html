@@ -23,30 +23,30 @@
 <a href="structiPcMechanicsBalancedGroup-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a0">SetType</a> (celAxisType type)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a0">AddThruster</a> (<a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *thruster, float multiplier)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set this group's type.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celAxisType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a1">GetType</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a thruster to this thruster group.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a1">AvailableThrust</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get this group's type.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a2">AddThruster</a> (<a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *thruster, float multiplier)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">What is the maximum amount of thrust that can be applied to the thrusters in this group?  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a2">AvailableThrustForce</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a thruster to this thruster group.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a3">RemoveThruster</a> (const char *tag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force that the maximum thrust for this group would produce.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a3">ChangeThrust</a> (float deltathrust)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a thruster.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply the given thrust to all thrusters in this balanced group.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a4">GetThruster</a> (const char *tag)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated thruster.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a5">AvailableThrust</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celAxisType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a5">GetType</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">What is the maximum amount of thrust that can be applied to the thrusters in this group?  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a6">AvailableThrustForce</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get this group's type.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a6">RemoveThruster</a> (const char *tag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force that the maximum thrust for this group would produce.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a7">ChangeThrust</a> (float deltathrust)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a thruster.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a7">SetType</a> (celAxisType type)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply the given thrust to all thrusters in this balanced group.  <a href="#a7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set this group's type.  <a href="#a7"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a balanced group of thrusters that can translate or rotate the object in a certain axis. 
@@ -54,7 +54,7 @@
 
 <p>
 Definition at line <a class="el" href="mechthruster_8h-source.html#l00106">106</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AddThruster" ref="a2" args="(iPcMechanicsThruster *thruster, float multiplier)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AddThruster" ref="a0" args="(iPcMechanicsThruster *thruster, float multiplier)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -99,7 +99,7 @@ At least one is required. <dl compact><dt><b>Parameters:</b></dt><dd>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AvailableThrust" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AvailableThrust" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -128,7 +128,7 @@ What is the maximum amount of thrust that can be applied to the thrusters in thi
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AvailableThrustForce" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AvailableThrustForce" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -157,7 +157,7 @@ Get the amount of force that the maximum thrust for this group would produce.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::ChangeThrust" ref="a7" args="(float deltathrust)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::ChangeThrust" ref="a3" args="(float deltathrust)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -227,7 +227,7 @@ Get the associated thruster.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::GetType" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::GetType" ref="a5" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -256,7 +256,7 @@ Get this group's type.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::RemoveThruster" ref="a3" args="(const char *tag)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::RemoveThruster" ref="a6" args="(const char *tag)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -291,7 +291,7 @@ Remove a thruster.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::SetType" ref="a0" args="(celAxisType type)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::SetType" ref="a7" args="(celAxisType type)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
