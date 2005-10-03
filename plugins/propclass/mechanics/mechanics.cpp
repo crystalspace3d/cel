@@ -1209,7 +1209,8 @@ void celPcMechanicsObject::AttachColliderMesh ()
   GetMesh ();
   if (!pcmesh) return;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
-  body->AttachColliderMesh (mesh, mesh->GetMovable ()->GetFullTransform (),
+  csReversibleTransform tr;
+  body->AttachColliderMesh (mesh, tr,
   	friction, density, elasticity, softness);
   body->AdjustTotalMass (mass);
   body->SetTransform (mesh->GetMovable ()->GetFullTransform ());

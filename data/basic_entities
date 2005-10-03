@@ -27,12 +27,11 @@
             <texture>marble</texture>
         </material>
     </materials>
-<!--
     <sounds>
     	<sound name="loopbzzt" mode3d="absolute"
-	  file="/lib/std/loopbzzt.wav" />
+	  file="/this/sounds/outdoor/ambient/wind_flute_building_l_c.ogg" />
+	  <!--file="/lib/std/loopbzzt.wav" -->
     </sounds>
--->
 
     <sector name="room">
     	<addon plugin="cel.addons.questdef">
@@ -445,7 +444,6 @@
 	    </propclass>
 	</addon>
 
-<!--
 	<addon plugin="cel.addons.celentity" entityname="loopbzzt">
 	    <propclass name="pcsoundsource">
 	    	<property name="soundname" string="loopbzzt" />
@@ -456,6 +454,5 @@
 	    	<action name="Unpause" />
 	    </propclass>
 	</addon>
--->
     </sector>
 </world>
