@@ -105,37 +105,37 @@
 <a name="l00152"></a><a class="code" href="classcelGameInfo.html">00152</a> <span class="keyword">class </span><a class="code" href="classcelGameInfo.html">celGameInfo</a>
 <a name="l00153"></a>00153 {
 <a name="l00154"></a>00154  <span class="keyword">public</span>:
-<a name="l00156"></a><a class="code" href="classcelGameInfo.html#o0">00156</a>   uint32 <a class="code" href="classcelGameInfo.html#o0">game_id</a>;
+<a name="l00156"></a><a class="code" href="classcelGameInfo.html#o2">00156</a>   uint32 <a class="code" href="classcelGameInfo.html#o2">game_id</a>;
 <a name="l00157"></a>00157 
-<a name="l00159"></a><a class="code" href="classcelGameInfo.html#o1">00159</a>   csString <a class="code" href="classcelGameInfo.html#o1">game_name</a>;
+<a name="l00159"></a><a class="code" href="classcelGameInfo.html#o3">00159</a>   csString <a class="code" href="classcelGameInfo.html#o3">game_name</a>;
 <a name="l00160"></a>00160 
-<a name="l00162"></a><a class="code" href="classcelGameInfo.html#o2">00162</a>   csString <a class="code" href="classcelGameInfo.html#o2">hostname</a>;
+<a name="l00162"></a><a class="code" href="classcelGameInfo.html#o4">00162</a>   csString <a class="code" href="classcelGameInfo.html#o4">hostname</a>;
 <a name="l00163"></a>00163 
-<a name="l00165"></a><a class="code" href="classcelGameInfo.html#o3">00165</a>   uint8 <a class="code" href="classcelGameInfo.html#o3">ip_address</a>[32];
+<a name="l00165"></a><a class="code" href="classcelGameInfo.html#o5">00165</a>   uint8 <a class="code" href="classcelGameInfo.html#o5">ip_address</a>[32];
 <a name="l00166"></a>00166 
-<a name="l00168"></a><a class="code" href="classcelGameInfo.html#o4">00168</a>   uint16 <a class="code" href="classcelGameInfo.html#o4">port_nb</a>;
+<a name="l00168"></a><a class="code" href="classcelGameInfo.html#o8">00168</a>   uint16 <a class="code" href="classcelGameInfo.html#o8">port_nb</a>;
 <a name="l00169"></a>00169 
-<a name="l00171"></a><a class="code" href="classcelGameInfo.html#o5">00171</a>   size_t <a class="code" href="classcelGameInfo.html#o5">max_players</a>;
+<a name="l00171"></a><a class="code" href="classcelGameInfo.html#o6">00171</a>   size_t <a class="code" href="classcelGameInfo.html#o6">max_players</a>;
 <a name="l00172"></a>00172 
-<a name="l00174"></a><a class="code" href="classcelGameInfo.html#o6">00174</a>   size_t <a class="code" href="classcelGameInfo.html#o6">current_num_players</a>;
+<a name="l00174"></a><a class="code" href="classcelGameInfo.html#o0">00174</a>   size_t <a class="code" href="classcelGameInfo.html#o0">current_num_players</a>;
 <a name="l00175"></a>00175 
 <a name="l00177"></a><a class="code" href="classcelGameInfo.html#o7">00177</a>   csString <a class="code" href="classcelGameInfo.html#o7">password</a>;
 <a name="l00178"></a>00178 
-<a name="l00183"></a><a class="code" href="classcelGameInfo.html#o8">00183</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelGameInfo.html#o8">custom_data</a>;
+<a name="l00183"></a><a class="code" href="classcelGameInfo.html#o1">00183</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelGameInfo.html#o1">custom_data</a>;
 <a name="l00184"></a>00184 
 <a name="l00185"></a><a class="code" href="classcelGameInfo.html#a0">00185</a>   <a class="code" href="classcelGameInfo.html#a0">celGameInfo</a> ()
 <a name="l00186"></a>00186   {
-<a name="l00187"></a>00187     <a class="code" href="classcelGameInfo.html#o0">game_id</a> = 0;
-<a name="l00188"></a>00188     memset (<a class="code" href="classcelGameInfo.html#o3">ip_address</a>, 0, 32);
-<a name="l00189"></a>00189     <a class="code" href="classcelGameInfo.html#o4">port_nb</a> = 0;
-<a name="l00190"></a>00190     <a class="code" href="classcelGameInfo.html#o5">max_players</a> = 0;
-<a name="l00191"></a>00191     <a class="code" href="classcelGameInfo.html#o6">current_num_players</a> = 0;
-<a name="l00192"></a>00192     <a class="code" href="classcelGameInfo.html#o8">custom_data</a> = 0;
+<a name="l00187"></a>00187     <a class="code" href="classcelGameInfo.html#o2">game_id</a> = 0;
+<a name="l00188"></a>00188     memset (<a class="code" href="classcelGameInfo.html#o5">ip_address</a>, 0, 32);
+<a name="l00189"></a>00189     <a class="code" href="classcelGameInfo.html#o8">port_nb</a> = 0;
+<a name="l00190"></a>00190     <a class="code" href="classcelGameInfo.html#o6">max_players</a> = 0;
+<a name="l00191"></a>00191     <a class="code" href="classcelGameInfo.html#o0">current_num_players</a> = 0;
+<a name="l00192"></a>00192     <a class="code" href="classcelGameInfo.html#o1">custom_data</a> = 0;
 <a name="l00193"></a>00193   }
 <a name="l00194"></a>00194 
-<a name="l00198"></a>00198   <span class="keywordtype">bool</span> <a class="code" href="classcelGameInfo.html#a1">MatchFilter</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* filter);
+<a name="l00198"></a>00198   <span class="keywordtype">bool</span> <a class="code" href="classcelGameInfo.html#a2">MatchFilter</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* filter);
 <a name="l00199"></a>00199 
-<a name="l00206"></a>00206   <span class="keywordtype">int</span> <a class="code" href="classcelGameInfo.html#a2">Compare</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* other, <a class="code" href="classcelGameInfoList.html">celGameInfoList</a>* filters);
+<a name="l00206"></a>00206   <span class="keywordtype">int</span> <a class="code" href="classcelGameInfo.html#a1">Compare</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* other, <a class="code" href="classcelGameInfoList.html">celGameInfoList</a>* filters);
 <a name="l00207"></a>00207 };
 <a name="l00208"></a>00208 
 <a name="l00212"></a><a class="code" href="classcelGameInfoList.html">00212</a> <span class="keyword">class </span><a class="code" href="classcelGameInfoList.html">celGameInfoList</a>
@@ -149,7 +149,7 @@
 <a name="l00220"></a>00220   <span class="keyword">virtual</span> <span class="keywordtype">void</span> RemoveAll () = 0;
 <a name="l00221"></a>00221   <span class="keyword">virtual</span> size_t Find (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* player) <span class="keyword">const </span>= 0;
 <a name="l00222"></a>00222 
-<a name="l00227"></a>00227   <span class="keywordtype">void</span> <a class="code" href="classcelGameInfoList.html#a7">Filter</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* game_info);
+<a name="l00227"></a>00227   <span class="keywordtype">void</span> <a class="code" href="classcelGameInfoList.html#a1">Filter</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* game_info);
 <a name="l00228"></a>00228 
 <a name="l00233"></a>00233   <span class="keywordtype">void</span> <a class="code" href="classcelGameInfoList.html#a8">Sort</a> (<a class="code" href="classcelGameInfoList.html">celGameInfoList</a>* filters);
 <a name="l00234"></a>00234 };
@@ -157,38 +157,38 @@
 <a name="l00239"></a><a class="code" href="classcelPlayer.html">00239</a> <span class="keyword">class </span><a class="code" href="classcelPlayer.html">celPlayer</a>
 <a name="l00240"></a>00240 {
 <a name="l00241"></a>00241  <span class="keyword">public</span>:
-<a name="l00243"></a><a class="code" href="classcelPlayer.html#o0">00243</a>   uint32 <a class="code" href="classcelPlayer.html#o0">player_id</a>;
+<a name="l00243"></a><a class="code" href="classcelPlayer.html#o2">00243</a>   uint32 <a class="code" href="classcelPlayer.html#o2">player_id</a>;
 <a name="l00244"></a>00244 
-<a name="l00246"></a><a class="code" href="classcelPlayer.html#o1">00246</a>   csString <a class="code" href="classcelPlayer.html#o1">player_name</a>;
+<a name="l00246"></a><a class="code" href="classcelPlayer.html#o3">00246</a>   csString <a class="code" href="classcelPlayer.html#o3">player_name</a>;
 <a name="l00247"></a>00247 
-<a name="l00249"></a><a class="code" href="classcelPlayer.html#o2">00249</a>   csString <a class="code" href="classcelPlayer.html#o2">hostname</a>;
+<a name="l00249"></a><a class="code" href="classcelPlayer.html#o0">00249</a>   csString <a class="code" href="classcelPlayer.html#o0">hostname</a>;
 <a name="l00250"></a>00250 
-<a name="l00252"></a><a class="code" href="classcelPlayer.html#o3">00252</a>   uint8 <a class="code" href="classcelPlayer.html#o3">ip_address</a>[32];
+<a name="l00252"></a><a class="code" href="classcelPlayer.html#o1">00252</a>   uint8 <a class="code" href="classcelPlayer.html#o1">ip_address</a>[32];
 <a name="l00253"></a>00253 
 <a name="l00255"></a><a class="code" href="classcelPlayer.html#o4">00255</a>   uint16 <a class="code" href="classcelPlayer.html#o4">port_nb</a>;
 <a name="l00256"></a>00256 
 <a name="l00257"></a><a class="code" href="classcelPlayer.html#a0">00257</a>   <a class="code" href="classcelPlayer.html#a0">celPlayer</a> ()
 <a name="l00258"></a>00258   {
-<a name="l00259"></a>00259     <a class="code" href="classcelPlayer.html#o0">player_id</a> = 0;
-<a name="l00260"></a>00260     memset (<a class="code" href="classcelPlayer.html#o3">ip_address</a>, 0, 32);
+<a name="l00259"></a>00259     <a class="code" href="classcelPlayer.html#o2">player_id</a> = 0;
+<a name="l00260"></a>00260     memset (<a class="code" href="classcelPlayer.html#o1">ip_address</a>, 0, 32);
 <a name="l00261"></a>00261     <a class="code" href="classcelPlayer.html#o4">port_nb</a> = 0;
 <a name="l00262"></a>00262   }
 <a name="l00263"></a>00263 
 <a name="l00264"></a><a class="code" href="classcelPlayer.html#a1">00264</a>   <span class="keywordtype">bool</span> <a class="code" href="classcelPlayer.html#a1">operator == </a>(<span class="keyword">const</span> <a class="code" href="classcelPlayer.html">celPlayer</a>&amp; other)<span class="keyword"> const</span>
 <a name="l00265"></a>00265 <span class="keyword">  </span>{
-<a name="l00266"></a>00266     <span class="keywordflow">return</span> <a class="code" href="classcelPlayer.html#o2">hostname</a>.Compare(other.<a class="code" href="classcelPlayer.html#o2">hostname</a>) &amp;&amp; <a class="code" href="classcelPlayer.html#o4">port_nb</a> == other.<a class="code" href="classcelPlayer.html#o4">port_nb</a>;
+<a name="l00266"></a>00266     <span class="keywordflow">return</span> <a class="code" href="classcelPlayer.html#o0">hostname</a>.Compare(other.<a class="code" href="classcelPlayer.html#o0">hostname</a>) &amp;&amp; <a class="code" href="classcelPlayer.html#o4">port_nb</a> == other.<a class="code" href="classcelPlayer.html#o4">port_nb</a>;
 <a name="l00267"></a>00267   }
 <a name="l00268"></a>00268 
 <a name="l00269"></a><a class="code" href="classcelPlayer.html#a2">00269</a>   <span class="keywordtype">void</span> <a class="code" href="classcelPlayer.html#a2">PrintDebugInfo</a> ()
 <a name="l00270"></a>00270   {
 <a name="l00271"></a>00271     printf(<span class="stringliteral">"Player data:\n"</span>);
-<a name="l00272"></a>00272     printf(<span class="stringliteral">"\tID: %d\n"</span>, <a class="code" href="classcelPlayer.html#o0">player_id</a>);
-<a name="l00273"></a>00273     printf(<span class="stringliteral">"\tname: %s\n"</span>, <a class="code" href="classcelPlayer.html#o1">player_name</a>.GetData());
-<a name="l00274"></a>00274     printf(<span class="stringliteral">"\thostname: %s\n"</span>, <a class="code" href="classcelPlayer.html#o2">hostname</a>.GetData());
+<a name="l00272"></a>00272     printf(<span class="stringliteral">"\tID: %d\n"</span>, <a class="code" href="classcelPlayer.html#o2">player_id</a>);
+<a name="l00273"></a>00273     printf(<span class="stringliteral">"\tname: %s\n"</span>, <a class="code" href="classcelPlayer.html#o3">player_name</a>.GetData());
+<a name="l00274"></a>00274     printf(<span class="stringliteral">"\thostname: %s\n"</span>, <a class="code" href="classcelPlayer.html#o0">hostname</a>.GetData());
 <a name="l00275"></a>00275     printf(<span class="stringliteral">"\taddress: "</span>);
 <a name="l00276"></a>00276     <span class="keywordtype">int</span> i = 0;
 <a name="l00277"></a>00277     <span class="keywordflow">for</span> ( ; i &lt; 32; i++)
-<a name="l00278"></a>00278       printf(<span class="stringliteral">"%d"</span>, <a class="code" href="classcelPlayer.html#o3">ip_address</a>[i]);
+<a name="l00278"></a>00278       printf(<span class="stringliteral">"%d"</span>, <a class="code" href="classcelPlayer.html#o1">ip_address</a>[i]);
 <a name="l00279"></a>00279     printf(<span class="stringliteral">"\n"</span>);
 <a name="l00280"></a>00280     printf(<span class="stringliteral">"\tport: %d\n"</span>, <a class="code" href="classcelPlayer.html#o4">port_nb</a>);
 <a name="l00281"></a>00281   }
@@ -212,11 +212,11 @@
 <a name="l00305"></a><a class="code" href="classcelServerEventData.html">00305</a> <span class="keyword">class </span><a class="code" href="classcelServerEventData.html">celServerEventData</a>
 <a name="l00306"></a>00306 {
 <a name="l00307"></a>00307  <span class="keyword">public</span>:
-<a name="l00311"></a><a class="code" href="classcelServerEventData.html#o0">00311</a>   celServerEventType <a class="code" href="classcelServerEventData.html#o0">event_type</a>;
+<a name="l00311"></a><a class="code" href="classcelServerEventData.html#o2">00311</a>   celServerEventType <a class="code" href="classcelServerEventData.html#o2">event_type</a>;
 <a name="l00312"></a>00312 
 <a name="l00316"></a><a class="code" href="classcelServerEventData.html#o1">00316</a>   csTicks <a class="code" href="classcelServerEventData.html#o1">event_time</a>;
 <a name="l00317"></a>00317 
-<a name="l00321"></a><a class="code" href="classcelServerEventData.html#o2">00321</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelServerEventData.html#o2">event_data</a>;
+<a name="l00321"></a><a class="code" href="classcelServerEventData.html#o0">00321</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelServerEventData.html#o0">event_data</a>;
 <a name="l00322"></a>00322 
 <a name="l00327"></a><a class="code" href="classcelServerEventData.html#o3">00327</a>   <span class="keywordtype">bool</span> <a class="code" href="classcelServerEventData.html#o3">reliable</a>;
 <a name="l00328"></a>00328 };
@@ -224,25 +224,25 @@
 <a name="l00333"></a><a class="code" href="classcelClientEventData.html">00333</a> <span class="keyword">class </span><a class="code" href="classcelClientEventData.html">celClientEventData</a>
 <a name="l00334"></a>00334 {
 <a name="l00335"></a>00335  <span class="keyword">public</span>:
-<a name="l00339"></a><a class="code" href="classcelClientEventData.html#o0">00339</a>   celClientEventType <a class="code" href="classcelClientEventData.html#o0">event_type</a>;
+<a name="l00339"></a><a class="code" href="classcelClientEventData.html#o2">00339</a>   celClientEventType <a class="code" href="classcelClientEventData.html#o2">event_type</a>;
 <a name="l00340"></a>00340 
 <a name="l00344"></a><a class="code" href="classcelClientEventData.html#o1">00344</a>   csTicks <a class="code" href="classcelClientEventData.html#o1">event_time</a>;
 <a name="l00345"></a>00345 
-<a name="l00349"></a><a class="code" href="classcelClientEventData.html#o2">00349</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelClientEventData.html#o2">event_data</a>;
+<a name="l00349"></a><a class="code" href="classcelClientEventData.html#o0">00349</a>   csRef&lt;iCelDataBuffer&gt; <a class="code" href="classcelClientEventData.html#o0">event_data</a>;
 <a name="l00350"></a>00350 
 <a name="l00354"></a><a class="code" href="classcelClientEventData.html#o3">00354</a>   <span class="keywordtype">bool</span> <a class="code" href="classcelClientEventData.html#o3">reliable</a>;
 <a name="l00355"></a>00355 
-<a name="l00356"></a><a class="code" href="classcelClientEventData.html#a0">00356</a>   <a class="code" href="classcelClientEventData.html#a0">celClientEventData</a> () :
-<a name="l00357"></a>00357     <a class="code" href="classcelClientEventData.html#o0">event_type</a> (0),
+<a name="l00356"></a><a class="code" href="classcelClientEventData.html#a1">00356</a>   <a class="code" href="classcelClientEventData.html#a1">celClientEventData</a> () :
+<a name="l00357"></a>00357     <a class="code" href="classcelClientEventData.html#o2">event_type</a> (0),
 <a name="l00358"></a>00358     <a class="code" href="classcelClientEventData.html#o1">event_time</a> (0),
-<a name="l00359"></a>00359     <a class="code" href="classcelClientEventData.html#o2">event_data</a> (0),
+<a name="l00359"></a>00359     <a class="code" href="classcelClientEventData.html#o0">event_data</a> (0),
 <a name="l00360"></a>00360     <a class="code" href="classcelClientEventData.html#o3">reliable</a> (true)
 <a name="l00361"></a>00361     {}
 <a name="l00362"></a>00362 
-<a name="l00363"></a><a class="code" href="classcelClientEventData.html#a1">00363</a>   <a class="code" href="classcelClientEventData.html#a0">celClientEventData</a> (<a class="code" href="classcelClientEventData.html">celClientEventData</a> &amp;event) :
-<a name="l00364"></a>00364     <a class="code" href="classcelClientEventData.html#o0">event_type</a> (event.<a class="code" href="classcelClientEventData.html#o0">event_type</a>),
+<a name="l00363"></a><a class="code" href="classcelClientEventData.html#a0">00363</a>   <a class="code" href="classcelClientEventData.html#a1">celClientEventData</a> (<a class="code" href="classcelClientEventData.html">celClientEventData</a> &amp;event) :
+<a name="l00364"></a>00364     <a class="code" href="classcelClientEventData.html#o2">event_type</a> (event.<a class="code" href="classcelClientEventData.html#o2">event_type</a>),
 <a name="l00365"></a>00365     <a class="code" href="classcelClientEventData.html#o1">event_time</a> (event.<a class="code" href="classcelClientEventData.html#o1">event_time</a>),
-<a name="l00366"></a>00366     <a class="code" href="classcelClientEventData.html#o2">event_data</a> (event.<a class="code" href="classcelClientEventData.html#o2">event_data</a>),
+<a name="l00366"></a>00366     <a class="code" href="classcelClientEventData.html#o0">event_data</a> (event.<a class="code" href="classcelClientEventData.html#o0">event_data</a>),
 <a name="l00367"></a>00367     <a class="code" href="classcelClientEventData.html#o3">reliable</a> (event.<a class="code" href="classcelClientEventData.html#o3">reliable</a>)
 <a name="l00368"></a>00368     {}
 <a name="l00369"></a>00369 };
@@ -254,18 +254,18 @@
 <a name="l00381"></a>00381 
 <a name="l00385"></a><a class="code" href="classcelNetworkLinkData.html#o1">00385</a>   csRef&lt;iCelEntity&gt; <a class="code" href="classcelNetworkLinkData.html#o1">linked_entity</a>;
 <a name="l00386"></a>00386 
-<a name="l00390"></a><a class="code" href="classcelNetworkLinkData.html#o2">00390</a>   csBitArray <a class="code" href="classcelNetworkLinkData.html#o2">persistence_mask</a>;
+<a name="l00390"></a><a class="code" href="classcelNetworkLinkData.html#o3">00390</a>   csBitArray <a class="code" href="classcelNetworkLinkData.html#o3">persistence_mask</a>;
 <a name="l00391"></a>00391 
-<a name="l00397"></a><a class="code" href="classcelNetworkLinkData.html#o3">00397</a>   csTicks <a class="code" href="classcelNetworkLinkData.html#o3">period</a>;
+<a name="l00397"></a><a class="code" href="classcelNetworkLinkData.html#o2">00397</a>   csTicks <a class="code" href="classcelNetworkLinkData.html#o2">period</a>;
 <a name="l00398"></a>00398 
-<a name="l00399"></a><a class="code" href="classcelNetworkLinkData.html#a0">00399</a>   <a class="code" href="classcelNetworkLinkData.html#a0">celNetworkLinkData</a> () {}
+<a name="l00399"></a><a class="code" href="classcelNetworkLinkData.html#a1">00399</a>   <a class="code" href="classcelNetworkLinkData.html#a1">celNetworkLinkData</a> () {}
 <a name="l00400"></a>00400 
-<a name="l00401"></a><a class="code" href="classcelNetworkLinkData.html#a1">00401</a>   <a class="code" href="classcelNetworkLinkData.html#a0">celNetworkLinkData</a> (celNetworkLinkType _link_type, <a class="code" href="structiCelEntity.html">iCelEntity</a>* _linked_entity,
+<a name="l00401"></a><a class="code" href="classcelNetworkLinkData.html#a0">00401</a>   <a class="code" href="classcelNetworkLinkData.html#a1">celNetworkLinkData</a> (celNetworkLinkType _link_type, <a class="code" href="structiCelEntity.html">iCelEntity</a>* _linked_entity,
 <a name="l00402"></a>00402                       csBitArray _persistence_mask, csTicks _period) :
 <a name="l00403"></a>00403     <a class="code" href="classcelNetworkLinkData.html#o0">link_type</a> (_link_type),
 <a name="l00404"></a>00404     <a class="code" href="classcelNetworkLinkData.html#o1">linked_entity</a> (_linked_entity),
-<a name="l00405"></a>00405     <a class="code" href="classcelNetworkLinkData.html#o2">persistence_mask</a> (_persistence_mask),
-<a name="l00406"></a>00406     <a class="code" href="classcelNetworkLinkData.html#o3">period</a> (_period)
+<a name="l00405"></a>00405     <a class="code" href="classcelNetworkLinkData.html#o3">persistence_mask</a> (_persistence_mask),
+<a name="l00406"></a>00406     <a class="code" href="classcelNetworkLinkData.html#o2">period</a> (_period)
 <a name="l00407"></a>00407     {}
 <a name="l00408"></a>00408 
 <a name="l00409"></a><a class="code" href="classcelNetworkLinkData.html#a2">00409</a>   <a class="code" href="classcelNetworkLinkData.html#a2">~celNetworkLinkData</a> () {}
@@ -274,11 +274,11 @@
 <a name="l00416"></a><a class="code" href="structcelNetworkServerStats.html">00416</a> <span class="keyword">struct </span><a class="code" href="structcelNetworkServerStats.html">celNetworkServerStats</a>
 <a name="l00417"></a>00417 {
 <a name="l00418"></a>00418   <span class="comment">// The latency of the network transmission to the player</span>
-<a name="l00419"></a><a class="code" href="structcelNetworkServerStats.html#o0">00419</a>   csTicks <a class="code" href="structcelNetworkServerStats.html#o0">latency</a>;
+<a name="l00419"></a><a class="code" href="structcelNetworkServerStats.html#o1">00419</a>   csTicks <a class="code" href="structcelNetworkServerStats.html#o1">latency</a>;
 <a name="l00420"></a>00420   <span class="comment">// The state of the connection</span>
-<a name="l00421"></a><a class="code" href="structcelNetworkServerStats.html#o1">00421</a>   celServerNetworkState <a class="code" href="structcelNetworkServerStats.html#o1">network_state</a>;
+<a name="l00421"></a><a class="code" href="structcelNetworkServerStats.html#o2">00421</a>   celServerNetworkState <a class="code" href="structcelNetworkServerStats.html#o2">network_state</a>;
 <a name="l00422"></a>00422   <span class="comment">// Instant flow of the data sent by the client, in bytes per second</span>
-<a name="l00423"></a><a class="code" href="structcelNetworkServerStats.html#o2">00423</a>   size_t <a class="code" href="structcelNetworkServerStats.html#o2">incoming_bandwidth</a>;
+<a name="l00423"></a><a class="code" href="structcelNetworkServerStats.html#o0">00423</a>   size_t <a class="code" href="structcelNetworkServerStats.html#o0">incoming_bandwidth</a>;
 <a name="l00424"></a>00424   <span class="comment">// Instant flow of the data sent by the server to this client, in bytes</span>
 <a name="l00425"></a>00425   <span class="comment">// per second</span>
 <a name="l00426"></a><a class="code" href="structcelNetworkServerStats.html#o3">00426</a>   size_t <a class="code" href="structcelNetworkServerStats.html#o3">outgoing_bandwidth</a>;
@@ -287,9 +287,9 @@
 <a name="l00433"></a><a class="code" href="structcelNetworkPlayerStats.html">00433</a> <span class="keyword">struct </span><a class="code" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a>
 <a name="l00434"></a>00434 {
 <a name="l00435"></a>00435   <span class="comment">// The latency of the network transmission to the player</span>
-<a name="l00436"></a><a class="code" href="structcelNetworkPlayerStats.html#o0">00436</a>   csTicks <a class="code" href="structcelNetworkPlayerStats.html#o0">latency</a>;
+<a name="l00436"></a><a class="code" href="structcelNetworkPlayerStats.html#o1">00436</a>   csTicks <a class="code" href="structcelNetworkPlayerStats.html#o1">latency</a>;
 <a name="l00437"></a>00437   <span class="comment">// Instant flow of the data sent by the client, in bytes per second</span>
-<a name="l00438"></a><a class="code" href="structcelNetworkPlayerStats.html#o1">00438</a>   size_t <a class="code" href="structcelNetworkPlayerStats.html#o1">incoming_bandwidth</a>;
+<a name="l00438"></a><a class="code" href="structcelNetworkPlayerStats.html#o0">00438</a>   size_t <a class="code" href="structcelNetworkPlayerStats.html#o0">incoming_bandwidth</a>;
 <a name="l00439"></a>00439   <span class="comment">// Instant flow of the data sent by the server to this client, in bytes</span>
 <a name="l00440"></a>00440   <span class="comment">// per second</span>
 <a name="l00441"></a><a class="code" href="structcelNetworkPlayerStats.html#o2">00441</a>   size_t <a class="code" href="structcelNetworkPlayerStats.html#o2">outgoing_bandwidth</a>;

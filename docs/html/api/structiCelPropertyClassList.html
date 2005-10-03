@@ -23,45 +23,45 @@
 <a href="structiCelPropertyClassList-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a0">GetCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a0">Add</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of property classes in this list.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a1">Get</a> (size_t n) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a property class.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a1">Find</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return a property class by index.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a2">Add</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class and return its index.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a2">FindByInterface</a> (scfInterfaceID id, int version) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a property class.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a3">Remove</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by SCF interface.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a3">FindByInterfaceAndTag</a> (scfInterfaceID id, int version, const char *tag) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a property class.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a4">Remove</a> (size_t n)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by SCF interface and tag.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a4">FindByName</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the nth property class.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a5">RemoveByInterface</a> (scfInterfaceID scf_id, int iVersion)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by name.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a5">FindByNameAndTag</a> (const char *name, const char *tag) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes with given interface (ignores tag).  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a6">RemoveByInterfaceAndTag</a> (scfInterfaceID scf_id, int iVersion, const char *tag)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by name and tag.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a6">Get</a> (size_t n) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes with given interface and with the given tag.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a7">RemoveAll</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return a property class by index.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a7">GetCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a8">Find</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of property classes in this list.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a8">Remove</a> (size_t n)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class and return its index.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a9">FindByName</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the nth property class.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a9">Remove</a> (<a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *obj)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by name.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a10">FindByNameAndTag</a> (const char *name, const char *tag) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a property class.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a10">RemoveAll</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by name and tag.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a11">FindByInterface</a> (scfInterfaceID id, int version) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a11">RemoveByInterface</a> (scfInterfaceID scf_id, int iVersion)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by SCF interface.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a12">FindByInterfaceAndTag</a> (scfInterfaceID id, int version, const char *tag) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes with given interface (ignores tag).  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassList.html#a12">RemoveByInterfaceAndTag</a> (scfInterfaceID scf_id, int iVersion, const char *tag)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class by SCF interface and tag.  <a href="#a12"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all property classes with given interface and with the given tag.  <a href="#a12"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A list of property classes. 
@@ -69,7 +69,7 @@ A list of property classes.
 
 <p>
 Definition at line <a class="el" href="propclas_8h-source.html#l00379">379</a> of file <a class="el" href="propclas_8h-source.html">propclas.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPropertyClassList::Add" ref="a2" args="(iCelPropertyClass *obj)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPropertyClassList::Add" ref="a0" args="(iCelPropertyClass *obj)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -99,7 +99,7 @@ Add a property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPropertyClassList::Find" ref="a8" args="(iCelPropertyClass *obj) const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClassList::Find" ref="a1" args="(iCelPropertyClass *obj) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -129,7 +129,7 @@ Find a property class and return its index.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPropertyClassList::FindByInterface" ref="a11" args="(scfInterfaceID id, int version) const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPropertyClassList::FindByInterface" ref="a2" args="(scfInterfaceID id, int version) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -168,7 +168,7 @@ Find a property class by SCF interface.
 Return that interface with ref-count incremented with one. This function will first try to find a property class that implements the interface but has tag not set (0). If such a property class cannot be found then it will return a random one that implements the given interface.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPropertyClassList::FindByInterfaceAndTag" ref="a12" args="(scfInterfaceID id, int version, const char *tag) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPropertyClassList::FindByInterfaceAndTag" ref="a3" args="(scfInterfaceID id, int version, const char *tag) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -213,7 +213,7 @@ Find a property class by SCF interface and tag.
 If tag is 0 then it will find the default property class.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPropertyClassList::FindByName" ref="a9" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPropertyClassList::FindByName" ref="a4" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -243,7 +243,7 @@ Find a property class by name.
 This function will first try to find a property class with the given name that has tag not set (0). If such a property class is not found it will return a random one with the given name.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iCelPropertyClassList::FindByNameAndTag" ref="a10" args="(const char *name, const char *tag) const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPropertyClassList::FindByNameAndTag" ref="a5" args="(const char *name, const char *tag) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -282,7 +282,7 @@ Find a property class by name and tag.
 If tag is 0 then it will find the default property class.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClassList::Get" ref="a1" args="(size_t n) const =0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPropertyClassList::Get" ref="a6" args="(size_t n) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -312,7 +312,7 @@ Return a property class by index.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPropertyClassList::GetCount" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPropertyClassList::GetCount" ref="a7" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -341,7 +341,7 @@ Return the number of property classes in this list.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPropertyClassList::Remove" ref="a4" args="(size_t n)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPropertyClassList::Remove" ref="a8" args="(size_t n)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -371,7 +371,7 @@ Remove the nth property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPropertyClassList::Remove" ref="a3" args="(iCelPropertyClass *obj)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPropertyClassList::Remove" ref="a9" args="(iCelPropertyClass *obj)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -401,7 +401,7 @@ Remove a property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPropertyClassList::RemoveAll" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iCelPropertyClassList::RemoveAll" ref="a10" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -430,7 +430,7 @@ Remove all property classes.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPropertyClassList::RemoveByInterface" ref="a5" args="(scfInterfaceID scf_id, int iVersion)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPropertyClassList::RemoveByInterface" ref="a11" args="(scfInterfaceID scf_id, int iVersion)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -469,7 +469,7 @@ Remove all property classes with given interface (ignores tag).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPropertyClassList::RemoveByInterfaceAndTag" ref="a6" args="(scfInterfaceID scf_id, int iVersion, const char *tag)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPropertyClassList::RemoveByInterfaceAndTag" ref="a12" args="(scfInterfaceID scf_id, int iVersion, const char *tag)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

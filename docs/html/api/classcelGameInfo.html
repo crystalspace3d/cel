@@ -26,40 +26,40 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a0"></a><!-- doxytag: member="celGameInfo::celGameInfo" ref="a0" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#a0">celGameInfo</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#a1">MatchFilter</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *filter)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#a1">Compare</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *other, <a class="el" href="classcelGameInfoList.html">celGameInfoList</a> *filters)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if this game info matches the filter, false otherwise.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#a2">Compare</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *other, <a class="el" href="classcelGameInfoList.html">celGameInfoList</a> *filters)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return 0 if this game info is equal to the other, a negative value if it is smaller, and a positive value if it is bigger.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#a2">MatchFilter</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *filter)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return 0 if this game info is equal to the other, a negative value if it is smaller, and a positive value if it is bigger.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if this game info matches the filter, false otherwise.  <a href="#a2"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Public Attributes</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">uint32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o0">game_id</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o0">current_num_players</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The ID of the game.  <a href="#o0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o1">game_name</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The current number of players.  <a href="#o0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">csRef&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o1">custom_data</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The name of the game.  <a href="#o1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o2">hostname</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Some custom data specific to the application.  <a href="#o1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">uint32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o2">game_id</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The hostname of the server if available.  <a href="#o2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">uint8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o3">ip_address</a> [32]</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The ID of the game.  <a href="#o2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o3">game_name</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The IP address of the game/server, large enough to hold IPv6 address.  <a href="#o3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">uint16&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o4">port_nb</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The name of the game.  <a href="#o3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o4">hostname</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The port number of the server.  <a href="#o4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o5">max_players</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The hostname of the server if available.  <a href="#o4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">uint8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o5">ip_address</a> [32]</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum number of players for this game.  <a href="#o5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o6">current_num_players</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The IP address of the game/server, large enough to hold IPv6 address.  <a href="#o5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o6">max_players</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The current number of players.  <a href="#o6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The maximum number of players for this game.  <a href="#o6"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">csString&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o7">password</a></td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The password needed to connect to the game.  <a href="#o7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">csRef&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o8">custom_data</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">uint16&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameInfo.html#o8">port_nb</a></td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Some custom data specific to the application.  <a href="#o8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The port number of the server.  <a href="#o8"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 General information on a game. 
@@ -67,7 +67,7 @@ General information on a game.
 
 <p>
 Definition at line <a class="el" href="nettypes_8h-source.html#l00152">152</a> of file <a class="el" href="nettypes_8h-source.html">nettypes.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="celGameInfo::Compare" ref="a2" args="(celGameInfo *other, celGameInfoList *filters)" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="celGameInfo::Compare" ref="a1" args="(celGameInfo *other, celGameInfoList *filters)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -106,7 +106,7 @@ Return 0 if this game info is equal to the other, a negative value if it is smal
 This can be used to sort a list of celGameInfo and display it to the user according to his criterion.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="celGameInfo::MatchFilter" ref="a1" args="(celGameInfo *filter)" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="celGameInfo::MatchFilter" ref="a2" args="(celGameInfo *filter)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -137,13 +137,13 @@ Return true if this game info matches the filter, false otherwise.
   </tr>
 </table>
 <hr><h2>Member Data Documentation</h2>
-<a class="anchor" name="o6"></a><!-- doxytag: member="celGameInfo::current_num_players" ref="o6" args="" --><p>
+<a class="anchor" name="o0"></a><!-- doxytag: member="celGameInfo::current_num_players" ref="o0" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">size_t <a class="el" href="classcelGameInfo.html#o6">celGameInfo::current_num_players</a>          </td>
+          <td class="md" nowrap valign="top">size_t <a class="el" href="classcelGameInfo.html#o0">celGameInfo::current_num_players</a>          </td>
         </tr>
       </table>
     </td>
@@ -166,13 +166,13 @@ Definition at line <a class="el" href="nettypes_8h-source.html#l00174">174</a> o
 Referenced by <a class="el" href="nettypes_8h-source.html#l00185">celGameInfo()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o8"></a><!-- doxytag: member="celGameInfo::custom_data" ref="o8" args="" --><p>
+<a class="anchor" name="o1"></a><!-- doxytag: member="celGameInfo::custom_data" ref="o1" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">csRef&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; <a class="el" href="classcelGameInfo.html#o8">celGameInfo::custom_data</a>          </td>
+          <td class="md" nowrap valign="top">csRef&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; <a class="el" href="classcelGameInfo.html#o1">celGameInfo::custom_data</a>          </td>
         </tr>
       </table>
     </td>
@@ -195,13 +195,13 @@ Definition at line <a class="el" href="nettypes_8h-source.html#l00183">183</a> o
 Referenced by <a class="el" href="nettypes_8h-source.html#l00185">celGameInfo()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o0"></a><!-- doxytag: member="celGameInfo::game_id" ref="o0" args="" --><p>
+<a class="anchor" name="o2"></a><!-- doxytag: member="celGameInfo::game_id" ref="o2" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">uint32 <a class="el" href="classcelGameInfo.html#o0">celGameInfo::game_id</a>          </td>
+          <td class="md" nowrap valign="top">uint32 <a class="el" href="classcelGameInfo.html#o2">celGameInfo::game_id</a>          </td>
         </tr>
       </table>
     </td>
@@ -224,13 +224,13 @@ Definition at line <a class="el" href="nettypes_8h-source.html#l00156">156</a> o
 Referenced by <a class="el" href="nettypes_8h-source.html#l00185">celGameInfo()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o1"></a><!-- doxytag: member="celGameInfo::game_name" ref="o1" args="" --><p>
+<a class="anchor" name="o3"></a><!-- doxytag: member="celGameInfo::game_name" ref="o3" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">csString <a class="el" href="classcelGameInfo.html#o1">celGameInfo::game_name</a>          </td>
+          <td class="md" nowrap valign="top">csString <a class="el" href="classcelGameInfo.html#o3">celGameInfo::game_name</a>          </td>
         </tr>
       </table>
     </td>
@@ -251,13 +251,13 @@ The name of the game.
 Definition at line <a class="el" href="nettypes_8h-source.html#l00159">159</a> of file <a class="el" href="nettypes_8h-source.html">nettypes.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o2"></a><!-- doxytag: member="celGameInfo::hostname" ref="o2" args="" --><p>
+<a class="anchor" name="o4"></a><!-- doxytag: member="celGameInfo::hostname" ref="o4" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">csString <a class="el" href="classcelGameInfo.html#o2">celGameInfo::hostname</a>          </td>
+          <td class="md" nowrap valign="top">csString <a class="el" href="classcelGameInfo.html#o4">celGameInfo::hostname</a>          </td>
         </tr>
       </table>
     </td>
@@ -278,13 +278,13 @@ The hostname of the server if available.
 Definition at line <a class="el" href="nettypes_8h-source.html#l00162">162</a> of file <a class="el" href="nettypes_8h-source.html">nettypes.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o3"></a><!-- doxytag: member="celGameInfo::ip_address" ref="o3" args="[32]" --><p>
+<a class="anchor" name="o5"></a><!-- doxytag: member="celGameInfo::ip_address" ref="o5" args="[32]" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">uint8 <a class="el" href="classcelGameInfo.html#o3">celGameInfo::ip_address</a>[32]          </td>
+          <td class="md" nowrap valign="top">uint8 <a class="el" href="classcelGameInfo.html#o5">celGameInfo::ip_address</a>[32]          </td>
         </tr>
       </table>
     </td>
@@ -307,13 +307,13 @@ Definition at line <a class="el" href="nettypes_8h-source.html#l00165">165</a> o
 Referenced by <a class="el" href="nettypes_8h-source.html#l00185">celGameInfo()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o5"></a><!-- doxytag: member="celGameInfo::max_players" ref="o5" args="" --><p>
+<a class="anchor" name="o6"></a><!-- doxytag: member="celGameInfo::max_players" ref="o6" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">size_t <a class="el" href="classcelGameInfo.html#o5">celGameInfo::max_players</a>          </td>
+          <td class="md" nowrap valign="top">size_t <a class="el" href="classcelGameInfo.html#o6">celGameInfo::max_players</a>          </td>
         </tr>
       </table>
     </td>
@@ -363,13 +363,13 @@ The password needed to connect to the game.
 Definition at line <a class="el" href="nettypes_8h-source.html#l00177">177</a> of file <a class="el" href="nettypes_8h-source.html">nettypes.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="o4"></a><!-- doxytag: member="celGameInfo::port_nb" ref="o4" args="" --><p>
+<a class="anchor" name="o8"></a><!-- doxytag: member="celGameInfo::port_nb" ref="o8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">uint16 <a class="el" href="classcelGameInfo.html#o4">celGameInfo::port_nb</a>          </td>
+          <td class="md" nowrap valign="top">uint16 <a class="el" href="classcelGameInfo.html#o8">celGameInfo::port_nb</a>          </td>
         </tr>
       </table>
     </td>

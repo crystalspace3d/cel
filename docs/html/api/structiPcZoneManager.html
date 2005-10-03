@@ -23,66 +23,66 @@
 <a href="structiPcZoneManager-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a0">EnableColliderWrappers</a> (bool en)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a0">CreateRegion</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">By default the zone manager will create collider wrappers (csColliderWrapper) for all objects that are loaded.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a1">IsColliderWrappers</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a region.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a1">CreateZone</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is collider wrapper creation enabled?  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a2">Load</a> (iDocumentNode *node)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a zone.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a2">EnableColliderWrappers</a> (bool en)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a zone definition from an XML node.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a3">Load</a> (const char *path, const char *file)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">By default the zone manager will create collider wrappers (csColliderWrapper) for all objects that are loaded.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a3">FindRegion</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a zone definition from an XML file.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a4">CreateZone</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a4">FindStartLocations</a> (iStringArray *regionnames, iStringArray *startnames)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a zone.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a5">GetZoneCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all valid starting locations in all current loaded regions.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a5">FindZone</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of zones.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a6">GetZone</a> (int idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified zone.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a6">GetLastStartLocation</a> (iString *regionname, iString *startname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified zone.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a7">FindZone</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the last used region and startname for <a class="el" href="structiPcZoneManager.html#a14">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#a15">PointMesh()</a>.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a7">GetRegion</a> (int idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified zone.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a8">RemoveZone</a> (<a class="el" href="structiCelZone.html">iCelZone</a> *zone)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a8">GetRegionCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given zone.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a9">RemoveAllZones</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of regions.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelZone.html">iCelZone</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a9">GetZone</a> (int idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all zones.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a10">CreateRegion</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified zone.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a10">GetZoneCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a region.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a11">GetRegionCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of zones.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a11">IsColliderWrappers</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of regions.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a12">GetRegion</a> (int idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is collider wrapper creation enabled?  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a12">Load</a> (const char *path, const char *file)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a13">FindRegion</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a zone definition from an XML file.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a13">Load</a> (iDocumentNode *node)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a14">RemoveRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a zone definition from an XML node.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a14">PointCamera</a> (const char *entity, const char *regionname, const char *startname=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given region.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a15">RemoveAllRegions</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Take the specified region (by name), load all zones associated with that region and then setup the given pccamera so that it points to the specified starting posision in this region.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a15">PointMesh</a> (const char *entity, const char *regionname, const char *startname=0)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all regions from this zone.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a16">FindStartLocations</a> (iStringArray *regionnames, iStringArray *startnames)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Take the specified region (by name), load all zones associated with that region and then place the given pcmesh so that it is positioned at the specified starting posision in this region.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a16">RemoveAllRegions</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all valid starting locations in all current loaded regions.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a17">GetLastStartLocation</a> (iString *regionname, iString *startname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all regions from this zone.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a17">RemoveAllZones</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the last used region and startname for <a class="el" href="structiPcZoneManager.html#a18">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#a19">PointMesh()</a>.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a18">PointCamera</a> (const char *entity, const char *regionname, const char *startname=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all zones.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a18">RemoveRegion</a> (<a class="el" href="structiCelRegion.html">iCelRegion</a> *region)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Take the specified region (by name), load all zones associated with that region and then setup the given pccamera so that it points to the specified starting posision in this region.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a19">PointMesh</a> (const char *entity, const char *regionname, const char *startname=0)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given region.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a19">RemoveZone</a> (<a class="el" href="structiCelZone.html">iCelZone</a> *zone)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Take the specified region (by name), load all zones associated with that region and then place the given pcmesh so that it is positioned at the specified starting posision in this region.  <a href="#a19"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given zone.  <a href="#a19"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the zone manager. 
@@ -118,7 +118,7 @@ pczonemanager_errorloading: loading of regions stops with error (region) </li>
 
 <p>
 Definition at line <a class="el" href="zone_8h-source.html#l00236">236</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcZoneManager::CreateRegion" ref="a10" args="(const char *name)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcZoneManager::CreateRegion" ref="a0" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -148,7 +148,7 @@ Create a region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcZoneManager::CreateZone" ref="a4" args="(const char *name)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcZoneManager::CreateZone" ref="a1" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -178,7 +178,7 @@ Create a zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcZoneManager::EnableColliderWrappers" ref="a0" args="(bool en)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcZoneManager::EnableColliderWrappers" ref="a2" args="(bool en)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -208,7 +208,7 @@ By default the zone manager will create collider wrappers (csColliderWrapper) fo
 If you don't want that behaviour you can disable it here.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcZoneManager::FindRegion" ref="a13" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcZoneManager::FindRegion" ref="a3" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -238,7 +238,7 @@ Get the specified region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcZoneManager::FindStartLocations" ref="a16" args="(iStringArray *regionnames, iStringArray *startnames)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcZoneManager::FindStartLocations" ref="a4" args="(iStringArray *regionnames, iStringArray *startnames)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -277,7 +277,7 @@ Find all valid starting locations in all current loaded regions.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcZoneManager::FindZone" ref="a7" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcZoneManager::FindZone" ref="a5" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -307,7 +307,7 @@ Get the specified zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iPcZoneManager::GetLastStartLocation" ref="a17" args="(iString *regionname, iString *startname)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcZoneManager::GetLastStartLocation" ref="a6" args="(iString *regionname, iString *startname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -341,12 +341,12 @@ Get the specified zone.
     <td>
 
 <p>
-Return the last used region and startname for <a class="el" href="structiPcZoneManager.html#a18">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#a19">PointMesh()</a>. 
+Return the last used region and startname for <a class="el" href="structiPcZoneManager.html#a14">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#a15">PointMesh()</a>. 
 <p>
 Returns an empty region name if those functions have not been called yet.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcZoneManager::GetRegion" ref="a12" args="(int idx) const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcZoneManager::GetRegion" ref="a7" args="(int idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -376,7 +376,7 @@ Get the specified region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcZoneManager::GetRegionCount" ref="a11" args="() const =0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcZoneManager::GetRegionCount" ref="a8" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -405,7 +405,7 @@ Get the count of regions.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcZoneManager::GetZone" ref="a6" args="(int idx) const =0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcZoneManager::GetZone" ref="a9" args="(int idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -435,7 +435,7 @@ Get the specified zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcZoneManager::GetZoneCount" ref="a5" args="() const =0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcZoneManager::GetZoneCount" ref="a10" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -464,7 +464,7 @@ Get the count of zones.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcZoneManager::IsColliderWrappers" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcZoneManager::IsColliderWrappers" ref="a11" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -493,7 +493,7 @@ Is collider wrapper creation enabled?
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcZoneManager::Load" ref="a3" args="(const char *path, const char *file)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcZoneManager::Load" ref="a12" args="(const char *path, const char *file)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -539,7 +539,7 @@ The XML file should contain a 'level' or 'world' node. In case it is a 'world' f
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcZoneManager::Load" ref="a2" args="(iDocumentNode *node)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcZoneManager::Load" ref="a13" args="(iDocumentNode *node)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -575,7 +575,7 @@ Load a zone definition from an XML node.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iPcZoneManager::PointCamera" ref="a18" args="(const char *entity, const char *regionname, const char *startname=0)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcZoneManager::PointCamera" ref="a14" args="(const char *entity, const char *regionname, const char *startname=0)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -637,7 +637,7 @@ CEL_ZONEERROR_LOAD: error loading zone </li>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iPcZoneManager::PointMesh" ref="a19" args="(const char *entity, const char *regionname, const char *startname=0)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcZoneManager::PointMesh" ref="a15" args="(const char *entity, const char *regionname, const char *startname=0)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -699,7 +699,7 @@ CEL_ZONEERROR_LOAD: error loading zone </li>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcZoneManager::RemoveAllRegions" ref="a15" args="()=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcZoneManager::RemoveAllRegions" ref="a16" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -728,7 +728,7 @@ Remove all regions from this zone.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcZoneManager::RemoveAllZones" ref="a9" args="()=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iPcZoneManager::RemoveAllZones" ref="a17" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -757,7 +757,7 @@ Remove all zones.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcZoneManager::RemoveRegion" ref="a14" args="(iCelRegion *region)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iPcZoneManager::RemoveRegion" ref="a18" args="(iCelRegion *region)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -787,7 +787,7 @@ Delete the given region.
 Returns false if the region could not be found in this zone.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcZoneManager::RemoveZone" ref="a8" args="(iCelZone *zone)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iPcZoneManager::RemoveZone" ref="a19" args="(iCelZone *zone)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

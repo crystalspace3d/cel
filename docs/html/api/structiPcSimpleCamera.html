@@ -28,21 +28,21 @@
 <a href="structiPcSimpleCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a0">SetDrawMesh</a> (bool draw)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a0">Draw</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a flag to determine whether or not the attached mesh and its children will be drawn in this camera view.  <a href="#a0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a1">SetCameraOffset</a> (const csVector3 &amp;offset)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the position of the camera.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a2">SetLookAtOffset</a> (const csVector3 &amp;lookat)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a2">SetDrawMesh</a> (bool draw)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the point the camera should look at.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a3">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a flag to determine whether or not the attached mesh and its children will be drawn in this camera view.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a3">SetLookAtOffset</a> (const csVector3 &amp;lookat)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to follow.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a4">Draw</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the point the camera should look at.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSimpleCamera.html#a4">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a4"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to follow.  <a href="#a4"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A class representing a simple camera, with capabilities for both first-person and third-person modes. 
@@ -50,7 +50,7 @@ A class representing a simple camera, with capabilities for both first-person an
 
 <p>
 Definition at line <a class="el" href="simpcam_8h-source.html#l00033">33</a> of file <a class="el" href="simpcam_8h-source.html">simpcam.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcSimpleCamera::Draw" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSimpleCamera::Draw" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -78,7 +78,7 @@ Render.
 <p>
 This will clear the screen then draw on top of it.
 <p>
-Implements <a class="el" href="structiPcCamera.html#a20">iPcCamera</a>.    </td>
+Implements <a class="el" href="structiPcCamera.html#a1">iPcCamera</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="iPcSimpleCamera::SetCameraOffset" ref="a1" args="(const csVector3 &amp;offset)=0" --><p>
@@ -116,7 +116,7 @@ Sets the offset from the center of the mesh's iMovable to the position of the ca
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcSimpleCamera::SetDrawMesh" ref="a0" args="(bool draw)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSimpleCamera::SetDrawMesh" ref="a2" args="(bool draw)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -151,7 +151,7 @@ Set a flag to determine whether or not the attached mesh and its children will b
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcSimpleCamera::SetLookAtOffset" ref="a2" args="(const csVector3 &amp;lookat)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcSimpleCamera::SetLookAtOffset" ref="a3" args="(const csVector3 &amp;lookat)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -186,7 +186,7 @@ Sets the offset from the center of the mesh's iMovable to the point the camera s
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcSimpleCamera::SetMesh" ref="a3" args="(iPcMesh *mesh)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcSimpleCamera::SetMesh" ref="a4" args="(iPcMesh *mesh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

@@ -50,42 +50,42 @@
 <a name="l00031"></a>00031 
 <a name="l00043"></a><a class="code" href="structiCelEntity.html">00043</a> <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a> : <span class="keyword">public</span> iBase
 <a name="l00044"></a>00044 {
-<a name="l00050"></a>00050   <span class="keyword">virtual</span> iObject* <a class="code" href="structiCelEntity.html#a0">QueryObject</a> () = 0;
+<a name="l00050"></a>00050   <span class="keyword">virtual</span> iObject* <a class="code" href="structiCelEntity.html#a4">QueryObject</a> () = 0;
 <a name="l00051"></a>00051 
-<a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelEntity.html#a1">GetName</a> () <span class="keyword">const </span>= 0;
+<a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelEntity.html#a2">GetName</a> () <span class="keyword">const </span>= 0;
 <a name="l00057"></a>00057 
-<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a2">SetName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* n) = 0;
+<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a7">SetName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* n) = 0;
 <a name="l00063"></a>00063 
-<a name="l00068"></a>00068   <span class="keyword">virtual</span> uint <a class="code" href="structiCelEntity.html#a3">GetID</a> () <span class="keyword">const </span>= 0;
+<a name="l00068"></a>00068   <span class="keyword">virtual</span> uint <a class="code" href="structiCelEntity.html#a1">GetID</a> () <span class="keyword">const </span>= 0;
 <a name="l00069"></a>00069 
-<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a4">SetID</a> (uint n) = 0;
+<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a6">SetID</a> (uint n) = 0;
 <a name="l00077"></a>00077 
-<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a>* <a class="code" href="structiCelEntity.html#a5">GetPropertyClassList</a> () = 0;
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClassList.html">iCelPropertyClassList</a>* <a class="code" href="structiCelEntity.html#a3">GetPropertyClassList</a> () = 0;
 <a name="l00084"></a>00084 
-<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a6">SetBehaviour</a> (<a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* behaviour) = 0;
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntity.html#a5">SetBehaviour</a> (<a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* behaviour) = 0;
 <a name="l00091"></a>00091 
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> <a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* <a class="code" href="structiCelEntity.html#a7">GetBehaviour</a> () = 0;
+<a name="l00097"></a>00097   <span class="keyword">virtual</span> <a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>* <a class="code" href="structiCelEntity.html#a0">GetBehaviour</a> () = 0;
 <a name="l00098"></a>00098 };
 <a name="l00099"></a>00099 
 <a name="l00100"></a>00100 SCF_VERSION (<a class="code" href="structiCelEntityList.html">iCelEntityList</a>, 0, 0, 1);
 <a name="l00101"></a>00101 
 <a name="l00110"></a><a class="code" href="structiCelEntityList.html">00110</a> <span class="keyword">struct </span><a class="code" href="structiCelEntityList.html">iCelEntityList</a> : <span class="keyword">public</span> iBase
 <a name="l00111"></a>00111 {
-<a name="l00117"></a>00117   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a0">GetCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00117"></a>00117   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a4">GetCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00118"></a>00118 
-<a name="l00127"></a>00127   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelEntityList.html#a1">Get</a> (size_t n) <span class="keyword">const </span>= 0;
+<a name="l00127"></a>00127   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelEntityList.html#a3">Get</a> (size_t n) <span class="keyword">const </span>= 0;
 <a name="l00128"></a>00128 
-<a name="l00137"></a>00137   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a2">Add</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) = 0;
+<a name="l00137"></a>00137   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a0">Add</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) = 0;
 <a name="l00138"></a>00138 
-<a name="l00147"></a>00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelEntityList.html#a3">Remove</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) = 0;
+<a name="l00147"></a>00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelEntityList.html#a6">Remove</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) = 0;
 <a name="l00148"></a>00148 
-<a name="l00157"></a>00157   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelEntityList.html#a3">Remove</a> (size_t n) = 0;
+<a name="l00157"></a>00157   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelEntityList.html#a6">Remove</a> (size_t n) = 0;
 <a name="l00158"></a>00158 
-<a name="l00164"></a>00164   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityList.html#a5">RemoveAll</a> () = 0;
+<a name="l00164"></a>00164   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityList.html#a7">RemoveAll</a> () = 0;
 <a name="l00165"></a>00165 
-<a name="l00174"></a>00174   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a6">Find</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) <span class="keyword">const </span>= 0;
+<a name="l00174"></a>00174   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelEntityList.html#a1">Find</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* obj) <span class="keyword">const </span>= 0;
 <a name="l00175"></a>00175 
-<a name="l00184"></a>00184   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelEntityList.html#a7">FindByName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *Name) <span class="keyword">const </span>= 0;
+<a name="l00184"></a>00184   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelEntityList.html#a2">FindByName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *Name) <span class="keyword">const </span>= 0;
 <a name="l00185"></a>00185 };
 <a name="l00186"></a>00186 
 <a name="l00187"></a>00187 <span class="preprocessor">#endif // __CEL_PL_ENTITY__</span>

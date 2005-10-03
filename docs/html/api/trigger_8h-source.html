@@ -53,11 +53,11 @@
 <a name="l00034"></a>00034 
 <a name="l00038"></a><a class="code" href="structiPcTriggerListener.html">00038</a> <span class="keyword">struct </span><a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a> : <span class="keyword">public</span> iBase
 <a name="l00039"></a>00039 {
-<a name="l00043"></a>00043   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a0">EntityEnters</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00043"></a>00043   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a1">EntityEnters</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00044"></a>00044 
-<a name="l00048"></a>00048   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a1">EntityLeaves</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00048"></a>00048   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a2">EntityLeaves</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00049"></a>00049 
-<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a2">EnterTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a0">EnterTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00054"></a>00054 
 <a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#a3">LeaveTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00059"></a>00059 };
@@ -67,35 +67,35 @@
 <a name="l00100"></a><a class="code" href="structiPcTrigger.html">00100</a> <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a> : <span class="keyword">public</span> iBase
 <a name="l00101"></a>00101 {
 <a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a0">AddTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a1">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a9">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
 <a name="l00111"></a>00111 
-<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a2">SetupTriggerSphere</a> (iSector* sector,
+<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a14">SetupTriggerSphere</a> (iSector* sector,
 <a name="l00116"></a>00116         <span class="keyword">const</span> csVector3&amp; center, <span class="keywordtype">float</span> radius) = 0;
 <a name="l00117"></a>00117 
-<a name="l00122"></a>00122   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a2">SetupTriggerSphere</a> (iSector* sector,
+<a name="l00122"></a>00122   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a14">SetupTriggerSphere</a> (iSector* sector,
 <a name="l00123"></a>00123         <span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> radius) = 0;
 <a name="l00124"></a>00124 
-<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a4">SetupTriggerBox</a> (iSector* sector, <span class="keyword">const</span> csBox3&amp; box) = 0;
+<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a12">SetupTriggerBox</a> (iSector* sector, <span class="keyword">const</span> csBox3&amp; box) = 0;
 <a name="l00129"></a>00129 
-<a name="l00134"></a>00134   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a5">SetupTriggerAboveMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh, <span class="keywordtype">float</span> maxdistance) = 0;
+<a name="l00134"></a>00134   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a11">SetupTriggerAboveMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh, <span class="keywordtype">float</span> maxdistance) = 0;
 <a name="l00135"></a>00135 
-<a name="l00143"></a>00143   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a6">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
+<a name="l00143"></a>00143   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a8">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
 <a name="l00144"></a>00144 
-<a name="l00149"></a>00149   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#a7">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
+<a name="l00149"></a>00149   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#a6">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
 <a name="l00150"></a>00150 
-<a name="l00158"></a>00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a8">SetMonitorDelay</a> (csTicks delay, csTicks jitter) = 0;
+<a name="l00158"></a>00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a10">SetMonitorDelay</a> (csTicks delay, csTicks jitter) = 0;
 <a name="l00159"></a>00159 
-<a name="l00166"></a>00166   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a9">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00166"></a>00166   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a3">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
 <a name="l00167"></a>00167 
-<a name="l00174"></a>00174   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a10">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00174"></a>00174   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a2">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
 <a name="l00175"></a>00175 
-<a name="l00179"></a>00179   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a11">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00179"></a>00179   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#a4">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
 <a name="l00180"></a>00180 
-<a name="l00184"></a>00184   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a12">IsEnabled</a> () <span class="keyword">const </span>= 0;
+<a name="l00184"></a>00184   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a7">IsEnabled</a> () <span class="keyword">const </span>= 0;
 <a name="l00185"></a>00185 
-<a name="l00190"></a>00190   <span class="keyword">virtual</span> <span class="keyword">const</span> csWeakRefArray&lt;iCelEntity&gt;&amp; <a class="code" href="structiPcTrigger.html#a13">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
+<a name="l00190"></a>00190   <span class="keyword">virtual</span> <span class="keyword">const</span> csWeakRefArray&lt;iCelEntity&gt;&amp; <a class="code" href="structiPcTrigger.html#a5">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
 <a name="l00191"></a>00191 
-<a name="l00196"></a>00196   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a14">Check</a> () = 0;
+<a name="l00196"></a>00196   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#a1">Check</a> () = 0;
 <a name="l00197"></a>00197 };
 <a name="l00198"></a>00198 
 <a name="l00199"></a>00199 <span class="preprocessor">#endif // __CEL_PF_TRIGGER__</span>

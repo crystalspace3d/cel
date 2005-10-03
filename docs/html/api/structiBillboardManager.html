@@ -26,57 +26,57 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a0">CreateBillboard</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new billboard with the given name.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a1">FindBillboard</a> (const char *name) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a1">CreateBillboardLayer</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a billboard with a given name.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a2">RemoveBillboard</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new billboard layer with the given name.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a2">FindBillboard</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a3">GetBillboardCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a billboard with a given name.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a3">FindBillboardLayer</a> (const char *name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboards.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a billboard layer with a given name.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a4">GetBillboard</a> (size_t idx) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a billboard by index.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a5">CreateBillboardLayer</a> (const char *name)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a5">GetBillboardCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new billboard layer with the given name.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a6">FindBillboardLayer</a> (const char *name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboards.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a6">GetBillboardLayer</a> (size_t idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a billboard layer with a given name.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a7">RemoveBillboardLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a billboard layer by index.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a7">GetBillboardLayerCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard layer.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a8">GetBillboardLayerCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboard layers.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a8">RemoveAll</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of all billboard layers.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a9">GetBillboardLayer</a> (size_t idx) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all billboards.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a9">RemoveBillboard</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *billboard)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a billboard layer by index.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a10">RemoveAll</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a10">RemoveBillboardLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all billboards.  <a href="#a10"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard layer.  <a href="#a10"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a11">SetFlags</a> (uint32 flags, uint32 mask)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flags for all billboards.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a12">StackTop</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a12">StackAfter</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard to the top of the stack (first visible).  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a13">StackBottom</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard after the given other billboard.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a13">StackBefore</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard to the bottom of the stack.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a14">StackUp</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard before the given other billboard.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a14">StackBottom</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard one closer to the top.  <a href="#a14"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard to the bottom of the stack.  <a href="#a14"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a15">StackDown</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard one closer to the bottom.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a16">StackBefore</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a16">StackTop</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard before the given other billboard.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a17">StackAfter</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard to the top of the stack (first visible).  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a17">StackUp</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard after the given other billboard.  <a href="#a17"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring a billboard one closer to the top.  <a href="#a17"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#a18">TestCollision</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb1, <a class="el" href="structiBillboard.html">iBillboard</a> *bb2)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if two billboards collide with each other and return true if they do.  <a href="#a18"></a><br></td></tr>
@@ -119,7 +119,7 @@ Create a new billboard with the given name.
 Returns 0 on failure. By default a new billboard will be visible and not movable.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iBillboardManager::CreateBillboardLayer" ref="a5" args="(const char *name)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboardManager::CreateBillboardLayer" ref="a1" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -149,7 +149,7 @@ Create a new billboard layer with the given name.
 Returns 0 on failure. Note that there is always a layer with name 'default' which is used for new billboards.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboardManager::FindBillboard" ref="a1" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboardManager::FindBillboard" ref="a2" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -179,7 +179,7 @@ Find a billboard with a given name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iBillboardManager::FindBillboardLayer" ref="a6" args="(const char *name) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboardManager::FindBillboardLayer" ref="a3" args="(const char *name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -239,7 +239,7 @@ Get a billboard by index.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboardManager::GetBillboardCount" ref="a3" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iBillboardManager::GetBillboardCount" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -268,7 +268,7 @@ Get the number of all billboards.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iBillboardManager::GetBillboardLayer" ref="a9" args="(size_t idx) const =0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iBillboardManager::GetBillboardLayer" ref="a6" args="(size_t idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -298,7 +298,7 @@ Get a billboard layer by index.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iBillboardManager::GetBillboardLayerCount" ref="a8" args="() const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iBillboardManager::GetBillboardLayerCount" ref="a7" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -327,7 +327,7 @@ Get the number of all billboard layers.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iBillboardManager::RemoveAll" ref="a10" args="()=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iBillboardManager::RemoveAll" ref="a8" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -356,7 +356,7 @@ Remove all billboards.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboardManager::RemoveBillboard" ref="a2" args="(iBillboard *billboard)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iBillboardManager::RemoveBillboard" ref="a9" args="(iBillboard *billboard)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -386,7 +386,7 @@ Remove a billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iBillboardManager::RemoveBillboardLayer" ref="a7" args="(iBillboardLayer *layer)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iBillboardManager::RemoveBillboardLayer" ref="a10" args="(iBillboardLayer *layer)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -455,7 +455,7 @@ Set flags for all billboards.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iBillboardManager::StackAfter" ref="a17" args="(iBillboard *bb, iBillboard *other)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iBillboardManager::StackAfter" ref="a12" args="(iBillboard *bb, iBillboard *other)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -494,7 +494,7 @@ Put a billboard after the given other billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iBillboardManager::StackBefore" ref="a16" args="(iBillboard *bb, iBillboard *other)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iBillboardManager::StackBefore" ref="a13" args="(iBillboard *bb, iBillboard *other)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -533,7 +533,7 @@ Put a billboard before the given other billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iBillboardManager::StackBottom" ref="a13" args="(iBillboard *bb)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iBillboardManager::StackBottom" ref="a14" args="(iBillboard *bb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -593,7 +593,7 @@ Bring a billboard one closer to the bottom.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iBillboardManager::StackTop" ref="a12" args="(iBillboard *bb)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iBillboardManager::StackTop" ref="a16" args="(iBillboard *bb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -623,7 +623,7 @@ Bring a billboard to the top of the stack (first visible).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iBillboardManager::StackUp" ref="a14" args="(iBillboard *bb)=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iBillboardManager::StackUp" ref="a17" args="(iBillboard *bb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

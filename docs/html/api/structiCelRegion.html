@@ -23,33 +23,33 @@
 <a href="structiCelRegion-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a0">AssociateEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this region.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a1">SetCachePath</a> (const char *path)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register an entity that should be removed as soon as this region is unloaded.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelMapFile.html">iCelMapFile</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a1">CreateMapFile</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the VFS path that will be used during the call to engine-&gt;Prepare() after loading this region.  <a href="#a1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a map file for this region and associate it with this region.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a2">GetCachePath</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the VFS path for the cache manager.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelMapFile.html">iCelMapFile</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a3">CreateMapFile</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelMapFile.html">iCelMapFile</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a3">GetMapFile</a> (int idx) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a map file for this region and associate it with this region.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified map file.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a4">GetMapFileCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the count of map files in this region.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelMapFile.html">iCelMapFile</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a5">GetMapFile</a> (int idx) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a5">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified map file.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a6">RemoveMapFile</a> (<a class="el" href="structiCelMapFile.html">iCelMapFile</a> *mapfile)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this region.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a6">RemoveAllMapFiles</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given map file from this region.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a7">RemoveAllMapFiles</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all map files from this region.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a7">RemoveMapFile</a> (<a class="el" href="structiCelMapFile.html">iCelMapFile</a> *mapfile)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all map files from this region.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a8">AssociateEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given map file from this region.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#a8">SetCachePath</a> (const char *path)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register an entity that should be removed as soon as this region is unloaded.  <a href="#a8"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the VFS path that will be used during the call to engine-&gt;Prepare() after loading this region.  <a href="#a8"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A region. 
@@ -59,7 +59,7 @@ A region is a collection of map files which will be loaded in one CS region (iRe
 
 <p>
 Definition at line <a class="el" href="zone_8h-source.html#l00088">88</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelRegion::AssociateEntity" ref="a8" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelRegion::AssociateEntity" ref="a0" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -89,7 +89,7 @@ Register an entity that should be removed as soon as this region is unloaded.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelRegion::CreateMapFile" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelRegion::CreateMapFile" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -147,7 +147,7 @@ Get the VFS path for the cache manager.
 Returns 0 if path is not used.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelRegion::GetMapFile" ref="a5" args="(int idx) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelRegion::GetMapFile" ref="a3" args="(int idx) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -206,7 +206,7 @@ Get the count of map files in this region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelRegion::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelRegion::GetName" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -235,7 +235,7 @@ Get the name of this region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelRegion::RemoveAllMapFiles" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelRegion::RemoveAllMapFiles" ref="a6" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -264,7 +264,7 @@ Remove all map files from this region.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelRegion::RemoveMapFile" ref="a6" args="(iCelMapFile *mapfile)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelRegion::RemoveMapFile" ref="a7" args="(iCelMapFile *mapfile)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -294,7 +294,7 @@ Delete the given map file from this region.
 Returns false if the map file could not be found in this region.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelRegion::SetCachePath" ref="a1" args="(const char *path)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelRegion::SetCachePath" ref="a8" args="(const char *path)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

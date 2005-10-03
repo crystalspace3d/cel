@@ -23,27 +23,27 @@
 <a href="structiPcDynamicSystem-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iDynamicSystem *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a0">GetDynamicSystem</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a0">AddForceDuration</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody, const csVector3 &amp;force, float seconds)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a1">SetStepTime</a> (float delta)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in milliseconds) add the force every step to the given body.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a1">AddForceFrame</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody, const csVector3 &amp;force)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the time we want for one step.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a2">GetStepTime</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a2">ClearAllForces</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the step time.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a3">AddForceDuration</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody, const csVector3 &amp;force, float seconds)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all forces.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a3">ClearForces</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in milliseconds) add the force every step to the given body.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a4">AddForceFrame</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody, const csVector3 &amp;force)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the given body from the force queues (filled with <a class="el" href="structiPcDynamicSystem.html#a1">AddForceFrame()</a> and <a class="el" href="structiPcDynamicSystem.html#a0">AddForceDuration()</a>).  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iDynamicSystem *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a4">GetDynamicSystem</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a5">ClearForces</a> (<a class="el" href="structiPcDynamicBody.html">iPcDynamicBody</a> *pcbody)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a5">GetStepTime</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the given body from the force queues (filled with <a class="el" href="structiPcDynamicSystem.html#a4">AddForceFrame()</a> and <a class="el" href="structiPcDynamicSystem.html#a3">AddForceDuration()</a>).  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a6">ClearAllForces</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the step time.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicSystem.html#a6">SetStepTime</a> (float delta)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all forces.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the time we want for one step.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a dynamic system. 
@@ -51,7 +51,7 @@
 
 <p>
 Definition at line <a class="el" href="dynmove_8h-source.html#l00040">40</a> of file <a class="el" href="dynmove_8h-source.html">dynmove.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcDynamicSystem::AddForceDuration" ref="a3" args="(iPcDynamicBody *pcbody, const csVector3 &amp;force, float seconds)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcDynamicSystem::AddForceDuration" ref="a0" args="(iPcDynamicBody *pcbody, const csVector3 &amp;force, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -93,10 +93,10 @@ Definition at line <a class="el" href="dynmove_8h-source.html#l00040">40</a> of 
 <p>
 During the specified time (in milliseconds) add the force every step to the given body. 
 <p>
-This function is called if you do pcbody-&gt;<a class="el" href="structiPcDynamicSystem.html#a3">AddForceDuration()</a>.    </td>
+This function is called if you do pcbody-&gt;<a class="el" href="structiPcDynamicSystem.html#a0">AddForceDuration()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcDynamicSystem::AddForceFrame" ref="a4" args="(iPcDynamicBody *pcbody, const csVector3 &amp;force)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcDynamicSystem::AddForceFrame" ref="a1" args="(iPcDynamicBody *pcbody, const csVector3 &amp;force)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -132,10 +132,10 @@ This function is called if you do pcbody-&gt;<a class="el" href="structiPcDynami
 <p>
 During the next frame add the force every step. 
 <p>
-This function is called if you do pcbody-&gt;<a class="el" href="structiPcDynamicSystem.html#a4">AddForceFrame()</a>.    </td>
+This function is called if you do pcbody-&gt;<a class="el" href="structiPcDynamicSystem.html#a1">AddForceFrame()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcDynamicSystem::ClearAllForces" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcDynamicSystem::ClearAllForces" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -164,7 +164,7 @@ Clear all forces.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcDynamicSystem::ClearForces" ref="a5" args="(iPcDynamicBody *pcbody)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcDynamicSystem::ClearForces" ref="a3" args="(iPcDynamicBody *pcbody)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -189,12 +189,12 @@ Clear all forces.
     <td>
 
 <p>
-Remove the given body from the force queues (filled with <a class="el" href="structiPcDynamicSystem.html#a4">AddForceFrame()</a> and <a class="el" href="structiPcDynamicSystem.html#a3">AddForceDuration()</a>). 
+Remove the given body from the force queues (filled with <a class="el" href="structiPcDynamicSystem.html#a1">AddForceFrame()</a> and <a class="el" href="structiPcDynamicSystem.html#a0">AddForceDuration()</a>). 
 <p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcDynamicSystem::GetDynamicSystem" ref="a0" args="()=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcDynamicSystem::GetDynamicSystem" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -223,7 +223,7 @@ Get the dynamic system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcDynamicSystem::GetStepTime" ref="a2" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcDynamicSystem::GetStepTime" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -252,7 +252,7 @@ Get the step time.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcDynamicSystem::SetStepTime" ref="a1" args="(float delta)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcDynamicSystem::SetStepTime" ref="a6" args="(float delta)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

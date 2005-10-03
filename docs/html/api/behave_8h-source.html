@@ -53,7 +53,7 @@
 <a name="l00034"></a>00034 
 <a name="l00041"></a><a class="code" href="structiCelParameterBlock.html">00041</a> <span class="keyword">struct </span><a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a> : <span class="keyword">public</span> iBase
 <a name="l00042"></a>00042 {
-<a name="l00046"></a>00046   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelParameterBlock.html#a0">GetParameterCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00046"></a>00046   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelParameterBlock.html#a2">GetParameterCount</a> () <span class="keyword">const </span>= 0;
 <a name="l00047"></a>00047 
 <a name="l00052"></a>00052   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelParameterBlock.html#a1">GetParameter</a> (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
 <a name="l00053"></a>00053         celDataType&amp; t) <span class="keyword">const </span>= 0;
@@ -65,19 +65,19 @@
 <a name="l00065"></a>00065 {
 <a name="l00066"></a>00066   SCF_INTERFACE (<a class="code" href="structiCelBehaviour.html">iCelBehaviour</a>, 0, 0, 2);
 <a name="l00067"></a>00067 
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelBehaviour.html#a1">GetName</a> () <span class="keyword">const </span>= 0;
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelBehaviour.html#a2">GetName</a> () <span class="keyword">const </span>= 0;
 <a name="l00073"></a>00073 
-<a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelBlLayer.html">iCelBlLayer</a>* <a class="code" href="structiCelBehaviour.html#a2">GetBehaviourLayer</a> () <span class="keyword">const </span>= 0;
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelBlLayer.html">iCelBlLayer</a>* <a class="code" href="structiCelBehaviour.html#a0">GetBehaviourLayer</a> () <span class="keyword">const </span>= 0;
 <a name="l00078"></a>00078 
-<a name="l00084"></a>00084   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelBehaviour.html#a3">SendMessage</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg_id,
+<a name="l00084"></a>00084   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelBehaviour.html#a4">SendMessage</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg_id,
 <a name="l00085"></a>00085         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc,
 <a name="l00086"></a>00086         <a class="code" href="structcelData.html">celData</a>&amp; ret, <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params, ...) = 0;
 <a name="l00087"></a>00087 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelBehaviour.html#a4">SendMessageV</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg_id,
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelBehaviour.html#a5">SendMessageV</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msg_id,
 <a name="l00093"></a>00093         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc,
 <a name="l00094"></a>00094         <a class="code" href="structcelData.html">celData</a>&amp; ret, <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params, va_list arg) = 0;
 <a name="l00095"></a>00095 
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="structiCelBehaviour.html#a5">GetInternalObject</a> () = 0;
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="structiCelBehaviour.html#a1">GetInternalObject</a> () = 0;
 <a name="l00105"></a>00105 };
 <a name="l00106"></a>00106 
 <a name="l00107"></a>00107 <span class="preprocessor">#endif // __CEL_BL_BEHAVE__</span>

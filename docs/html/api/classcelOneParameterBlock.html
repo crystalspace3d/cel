@@ -31,24 +31,24 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a0"></a><!-- doxytag: member="celOneParameterBlock::celOneParameterBlock" ref="a0" args="()" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a0">celOneParameterBlock</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a1"></a><!-- doxytag: member="celOneParameterBlock::~celOneParameterBlock" ref="a1" args="()" -->
-virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a1">~celOneParameterBlock</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structcelData.html">celData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a1">GetParameter</a> (csStringID id) const </td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a2"></a><!-- doxytag: member="celOneParameterBlock::SetParameterDef" ref="a2" args="(csStringID id, const char *parname)" -->
-void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a2">SetParameterDef</a> (csStringID id, const char *parname)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter given an id.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a2">GetParameter</a> (size_t idx, csStringID &amp;id, celDataType &amp;t) const </td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter with index.  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a3"></a><!-- doxytag: member="celOneParameterBlock::GetParameter" ref="a3" args="(int)" -->
 <a class="el" href="structcelData.html">celData</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a3">GetParameter</a> (int)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a4">GetParameterCount</a> () const </td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get number of parameters.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a5">GetParameter</a> (size_t idx, csStringID &amp;id, celDataType &amp;t) const </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a5"></a><!-- doxytag: member="celOneParameterBlock::SetParameterDef" ref="a5" args="(csStringID id, const char *parname)" -->
+void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a5">SetParameterDef</a> (csStringID id, const char *parname)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter with index.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="el" href="structcelData.html">celData</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a6">GetParameter</a> (csStringID id) const </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="a6"></a><!-- doxytag: member="celOneParameterBlock::~celOneParameterBlock" ref="a6" args="()" -->
+virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#a6">~celOneParameterBlock</a> ()</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get parameter given an id.  <a href="#a6"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="anchor" name="o0"></a><!-- doxytag: member="celOneParameterBlock::SCF_DECLARE_IBASE" ref="o0" args="" -->
 &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelOneParameterBlock.html#o0">SCF_DECLARE_IBASE</a></td></tr>
@@ -60,7 +60,7 @@ Parameter block implementation if only one parameter is desired.
 
 <p>
 Definition at line <a class="el" href="stdparams_8h-source.html#l00188">188</a> of file <a class="el" href="stdparams_8h-source.html">stdparams.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a6"></a><!-- doxytag: member="celOneParameterBlock::GetParameter" ref="a6" args="(csStringID id) const " --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="celOneParameterBlock::GetParameter" ref="a1" args="(csStringID id) const " --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -89,12 +89,12 @@ Get parameter given an id.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelParameterBlock.html#a2">iCelParameterBlock</a>.
+Implements <a class="el" href="structiCelParameterBlock.html#a0">iCelParameterBlock</a>.
 <p>
 Definition at line <a class="el" href="stdparams_8h-source.html#l00231">231</a> of file <a class="el" href="stdparams_8h-source.html">stdparams.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="celOneParameterBlock::GetParameter" ref="a5" args="(size_t idx, csStringID &amp;id, celDataType &amp;t) const " --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="celOneParameterBlock::GetParameter" ref="a2" args="(size_t idx, csStringID &amp;id, celDataType &amp;t) const " --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -173,7 +173,7 @@ Get number of parameters.
 <p>
 
 <p>
-Implements <a class="el" href="structiCelParameterBlock.html#a0">iCelParameterBlock</a>.
+Implements <a class="el" href="structiCelParameterBlock.html#a2">iCelParameterBlock</a>.
 <p>
 Definition at line <a class="el" href="stdparams_8h-source.html#l00217">217</a> of file <a class="el" href="stdparams_8h-source.html">stdparams.h</a>.    </td>
   </tr>

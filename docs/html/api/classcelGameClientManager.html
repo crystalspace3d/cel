@@ -23,27 +23,27 @@
 <a href="classcelGameClientManager-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a0">PlayerValidated</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a0">ClientEnd</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The data of the player has been validated by the server.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a1">HandleServerEvent</a> (celServerEventType event_type, csTicks event_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *event_data)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The client will be closed.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a1">CreateNetworkLinkTarget</a> (celNetworkLinkType link_type, csTicks creation_time, <a class="el" href="structiCelPersistentDataList.html">iCelPersistentDataList</a> *creation_data, bool player_controlled)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server event has been catched.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a2">CreateNetworkLinkTarget</a> (celNetworkLinkType link_type, csTicks creation_time, <a class="el" href="structiCelPersistentDataList.html">iCelPersistentDataList</a> *creation_data, bool player_controlled)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A network link has been set up on the server side between a server entity and this client.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a2">HandleServerEvent</a> (celServerEventType event_type, csTicks event_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *event_data)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A network link has been set up on the server side between a server entity and this client.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a3">NetworkLinkControlChanged</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, bool player_controlled)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server event has been catched.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a3">LevelChanged</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *new_game)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">There is a change in the way the entity is controlled, ie if it is controlled by the client or by the server side.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a4">NetworkLinkRemoved</a> (csTicks deletion_time, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The level has changed.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a4">NetworkLinkControlChanged</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, bool player_controlled)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The network link to the specified entity is closing.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a5">LevelChanged</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *new_game)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">There is a change in the way the entity is controlled, ie if it is controlled by the client or by the server side.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a5">NetworkLinkRemoved</a> (csTicks deletion_time, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The level has changed.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a6">ClientEnd</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The network link to the specified entity is closing.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameClientManager.html#a6">PlayerValidated</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The client will be closed.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The data of the player has been validated by the server.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an interface you should implement in order to manage the events from the client. 
@@ -65,7 +65,7 @@ close the client. </li>
 
 <p>
 Definition at line <a class="el" href="network_8h-source.html#l00664">664</a> of file <a class="el" href="network_8h-source.html">network.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a6"></a><!-- doxytag: member="celGameClientManager::ClientEnd" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="celGameClientManager::ClientEnd" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -94,7 +94,7 @@ The client will be closed.
 You should delete here the physical layer of the client.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="celGameClientManager::CreateNetworkLinkTarget" ref="a2" args="(celNetworkLinkType link_type, csTicks creation_time, iCelPersistentDataList *creation_data, bool player_controlled)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="celGameClientManager::CreateNetworkLinkTarget" ref="a1" args="(celNetworkLinkType link_type, csTicks creation_time, iCelPersistentDataList *creation_data, bool player_controlled)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -155,7 +155,7 @@ If the server is available in the same process, you can simply use the entity of
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="celGameClientManager::HandleServerEvent" ref="a1" args="(celServerEventType event_type, csTicks event_time, iCelDataBuffer *event_data)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="celGameClientManager::HandleServerEvent" ref="a2" args="(celServerEventType event_type, csTicks event_time, iCelDataBuffer *event_data)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -200,7 +200,7 @@ A server event has been catched.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="celGameClientManager::LevelChanged" ref="a5" args="(celGameInfo *new_game)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="celGameClientManager::LevelChanged" ref="a3" args="(celGameInfo *new_game)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -227,10 +227,10 @@ A server event has been catched.
 <p>
 The level has changed. 
 <p>
-The client need to do <a class="el" href="structiCelGameClient.html#a6">iCelGameClient::SetReady</a> when the new level is loaded.    </td>
+The client need to do <a class="el" href="structiCelGameClient.html#a9">iCelGameClient::SetReady</a> when the new level is loaded.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="celGameClientManager::NetworkLinkControlChanged" ref="a3" args="(iCelEntity *entity, bool player_controlled)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="celGameClientManager::NetworkLinkControlChanged" ref="a4" args="(iCelEntity *entity, bool player_controlled)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -276,7 +276,7 @@ If the entity is now controlled on the server side, you should then remove any b
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="celGameClientManager::NetworkLinkRemoved" ref="a4" args="(csTicks deletion_time, iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="celGameClientManager::NetworkLinkRemoved" ref="a5" args="(csTicks deletion_time, iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -315,7 +315,7 @@ The network link to the specified entity is closing.
 The client can remove the entity from the physical layer.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="celGameClientManager::PlayerValidated" ref="a0" args="(celPlayer *player)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="celGameClientManager::PlayerValidated" ref="a6" args="(celPlayer *player)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

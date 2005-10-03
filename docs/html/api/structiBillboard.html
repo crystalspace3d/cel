@@ -23,84 +23,84 @@
 <a href="structiBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a0">AddEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this billboard.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csFlags &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a1">GetFlags</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an event handler to this billboard.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a1">GetColor</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get flags for this billboard.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a2">SetMaterialName</a> (const char *matname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the color for this billboard (default white).  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csFlags &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a2">GetFlags</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set material for this billboard.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a3">SetMaterialNameFast</a> (const char *matname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get flags for this billboard.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a3">GetImageSize</a> (int &amp;w, int &amp;h)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set material for this billboard.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a4">GetMaterialName</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of the image on this billboard in billboard space.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a4">GetLayer</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get material name.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a5">SetSize</a> (int w, int h)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the layer that is used by this billboard.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a5">GetMaterialName</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the size of this billboard in pixels.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a6">GetSize</a> (int &amp;w, int &amp;h)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get material name.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a6">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of this billboard in billboard space.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a7">GetImageSize</a> (int &amp;w, int &amp;h)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this billboard.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a7">GetPosition</a> (int &amp;x, int &amp;y) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of the image on this billboard in billboard space.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a8">SetPosition</a> (int x, int y)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the position of the top-left corner of this billboard.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a8">GetSize</a> (int &amp;w, int &amp;h)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the position of the top-left corner of this billboard.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a9">MoveToPosition</a> (csTicks delta, int x, int y)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of this billboard in billboard space.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a9">GetUVBottomRight</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the given time, slowly move the billboard to the given position.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a10">GetPosition</a> (int &amp;x, int &amp;y) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bottom-right coordinate of the texture (default 1,1).  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a10">GetUVTopLeft</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the position of the top-left corner of this billboard.  <a href="#a10"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the top-left coordinate of the texture (default 0,0).  <a href="#a10"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a11">Move</a> (int dx, int dy)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Relative move.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a12">StackTop</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a12">MoveToPosition</a> (csTicks delta, int x, int y)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard to the top of the stack (first visible).  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a13">StackBottom</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the given time, slowly move the billboard to the given position.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a13">RemoveEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard to the bottom of the stack.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a14">StackUp</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an event handler from this billboard.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a14">SetColor</a> (const csColor &amp;c)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard one closer to the top of the stack (first visible).  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a15">StackDown</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the color for this billboard (default white).  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a15">SetLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard one closer to the bottom of the stack.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a16">SetUVTopLeft</a> (const csVector2 &amp;uv)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the layer to use for this billboard.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a16">SetMaterialName</a> (const char *matname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the top-left coordinate of the texture (default 0,0).  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a17">GetUVTopLeft</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set material for this billboard.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a17">SetMaterialNameFast</a> (const char *matname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the top-left coordinate of the texture (default 0,0).  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a18">SetUVBottomRight</a> (const csVector2 &amp;uv)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set material for this billboard.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a18">SetPosition</a> (int x, int y)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the bottom-right coordinate of the texture (default 1,1).  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a19">GetUVBottomRight</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the position of the top-left corner of this billboard.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a19">SetSize</a> (int w, int h)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bottom-right coordinate of the texture (default 1,1).  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a20">SetColor</a> (const csColor &amp;c)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the size of this billboard in pixels.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a20">SetUVBottomRight</a> (const csVector2 &amp;uv)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the color for this billboard (default white).  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a21">GetColor</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the bottom-right coordinate of the texture (default 1,1).  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a21">SetUVTopLeft</a> (const csVector2 &amp;uv)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the color for this billboard (default white).  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a22">SetLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the top-left coordinate of the texture (default 0,0).  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a22">StackBottom</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the layer to use for this billboard.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a23">GetLayer</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard to the bottom of the stack.  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a23">StackDown</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the layer that is used by this billboard.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a24">AddEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard one closer to the bottom of the stack.  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a24">StackTop</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an event handler to this billboard.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a25">RemoveEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard to the top of the stack (first visible).  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a25">StackUp</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an event handler from this billboard.  <a href="#a25"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Bring this billboard one closer to the top of the stack (first visible).  <a href="#a25"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A billboard (2D image on screen). 
@@ -110,7 +110,7 @@ Billboards work in a coordinate system independent of the size of the screen. Th
 
 <p>
 Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00127">127</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a24"></a><!-- doxytag: member="iBillboard::AddEventHandler" ref="a24" args="(iBillboardEventHandler *evh)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iBillboard::AddEventHandler" ref="a0" args="(iBillboardEventHandler *evh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -140,7 +140,7 @@ Add an event handler to this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="iBillboard::GetColor" ref="a21" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboard::GetColor" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -169,7 +169,7 @@ Get the color for this billboard (default white).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iBillboard::GetFlags" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboard::GetFlags" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -198,7 +198,7 @@ Get flags for this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iBillboard::GetImageSize" ref="a7" args="(int &amp;w, int &amp;h)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboard::GetImageSize" ref="a3" args="(int &amp;w, int &amp;h)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -237,7 +237,7 @@ Get the size of the image on this billboard in billboard space.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="iBillboard::GetLayer" ref="a23" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iBillboard::GetLayer" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -266,7 +266,7 @@ Get the layer that is used by this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iBillboard::GetMaterialName" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iBillboard::GetMaterialName" ref="a5" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -295,7 +295,7 @@ Get material name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iBillboard::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iBillboard::GetName" ref="a6" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -324,7 +324,7 @@ Get the name of this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iBillboard::GetPosition" ref="a10" args="(int &amp;x, int &amp;y) const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iBillboard::GetPosition" ref="a7" args="(int &amp;x, int &amp;y) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -363,7 +363,7 @@ Get the position of the top-left corner of this billboard.
 Uses billboard space.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iBillboard::GetSize" ref="a6" args="(int &amp;w, int &amp;h)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iBillboard::GetSize" ref="a8" args="(int &amp;w, int &amp;h)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -402,7 +402,7 @@ Get the size of this billboard in billboard space.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iBillboard::GetUVBottomRight" ref="a19" args="() const =0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iBillboard::GetUVBottomRight" ref="a9" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -431,7 +431,7 @@ Get the bottom-right coordinate of the texture (default 1,1).
 Range from 0,0 - 1,1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iBillboard::GetUVTopLeft" ref="a17" args="() const =0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iBillboard::GetUVTopLeft" ref="a10" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -499,7 +499,7 @@ Relative move.
 Uses billboard space.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iBillboard::MoveToPosition" ref="a9" args="(csTicks delta, int x, int y)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iBillboard::MoveToPosition" ref="a12" args="(csTicks delta, int x, int y)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -541,10 +541,10 @@ Uses billboard space.    </td>
 <p>
 During the given time, slowly move the billboard to the given position. 
 <p>
-If 'delta' is 0 then this function is equivalent to calling <a class="el" href="structiBillboard.html#a8">SetPosition()</a>. Calling this function while another move is in progress has the effect of clearing that previous move. Uses billboard space.    </td>
+If 'delta' is 0 then this function is equivalent to calling <a class="el" href="structiBillboard.html#a18">SetPosition()</a>. Calling this function while another move is in progress has the effect of clearing that previous move. Uses billboard space.    </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="iBillboard::RemoveEventHandler" ref="a25" args="(iBillboardEventHandler *evh)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iBillboard::RemoveEventHandler" ref="a13" args="(iBillboardEventHandler *evh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -574,7 +574,7 @@ Remove an event handler from this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iBillboard::SetColor" ref="a20" args="(const csColor &amp;c)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iBillboard::SetColor" ref="a14" args="(const csColor &amp;c)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -604,7 +604,7 @@ Set the color for this billboard (default white).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="iBillboard::SetLayer" ref="a22" args="(iBillboardLayer *layer)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iBillboard::SetLayer" ref="a15" args="(iBillboardLayer *layer)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -634,7 +634,7 @@ Set the layer to use for this billboard.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iBillboard::SetMaterialName" ref="a2" args="(const char *matname)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iBillboard::SetMaterialName" ref="a16" args="(const char *matname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -664,7 +664,7 @@ Set material for this billboard.
 Returns false on failure.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iBillboard::SetMaterialNameFast" ref="a3" args="(const char *matname)=0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iBillboard::SetMaterialNameFast" ref="a17" args="(const char *matname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -694,7 +694,7 @@ Set material for this billboard.
 Returns false on failure. This is a faster version which does not recompute the clickmap (unless there is no clickmap yet).    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iBillboard::SetPosition" ref="a8" args="(int x, int y)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iBillboard::SetPosition" ref="a18" args="(int x, int y)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -733,7 +733,7 @@ Set the position of the top-left corner of this billboard.
 Uses billboard space.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iBillboard::SetSize" ref="a5" args="(int w, int h)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iBillboard::SetSize" ref="a19" args="(int w, int h)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -772,7 +772,7 @@ Set the size of this billboard in pixels.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iBillboard::SetUVBottomRight" ref="a18" args="(const csVector2 &amp;uv)=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iBillboard::SetUVBottomRight" ref="a20" args="(const csVector2 &amp;uv)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -802,7 +802,7 @@ Set the bottom-right coordinate of the texture (default 1,1).
 Range from 0,0 - 1,1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iBillboard::SetUVTopLeft" ref="a16" args="(const csVector2 &amp;uv)=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iBillboard::SetUVTopLeft" ref="a21" args="(const csVector2 &amp;uv)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -832,7 +832,7 @@ Set the top-left coordinate of the texture (default 0,0).
 Range from 0,0 - 1,1.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iBillboard::StackBottom" ref="a13" args="()=0" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="iBillboard::StackBottom" ref="a22" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -861,7 +861,7 @@ Bring this billboard to the bottom of the stack.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iBillboard::StackDown" ref="a15" args="()=0" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="iBillboard::StackDown" ref="a23" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -890,7 +890,7 @@ Bring this billboard one closer to the bottom of the stack.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iBillboard::StackTop" ref="a12" args="()=0" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="iBillboard::StackTop" ref="a24" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -919,7 +919,7 @@ Bring this billboard to the top of the stack (first visible).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iBillboard::StackUp" ref="a14" args="()=0" --><p>
+<a class="anchor" name="a25"></a><!-- doxytag: member="iBillboard::StackUp" ref="a25" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

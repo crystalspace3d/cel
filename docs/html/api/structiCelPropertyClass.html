@@ -23,126 +23,126 @@
 <a href="structiCelPropertyClass-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a1">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a0">AddPropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this property class.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a2">SetTag</a> (const char *tagname)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a callback which will be fired when a property changes.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a1">GetEntity</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the optional tag of this property class.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a3">GetTag</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the parent entity associated with this property class.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a2">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the tag of this property class or return 0 if there is no tag.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a4">GetEntity</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this property class.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a3">GetPersistentData</a> (celPersistenceType persistence_type)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the parent entity associated with this property class.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a5">SetEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the persistent data of this property class.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a4">GetPropertyAndActionCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the entity for this property class.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a6">SaveFirstPass</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of supported properties and actions.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a5">GetPropertyBool</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a7">LoadFirstPass</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as bool.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a6">GetPropertyColor</a> (csStringID propertyID, csColor &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this object from a data buffer.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a8">Save</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a color.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a7">GetPropertyEntity</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a9">Load</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as entity.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a8">GetPropertyFloat</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this object from a data buffer.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a10">AddPropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as float.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a9">GetPropertyLong</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a callback which will be fired when a property changes.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a11">RemovePropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as long.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a10">GetPropertyOrActionDescription</a> (csStringID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a callback.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a12">SetProperty</a> (csStringID propertyID, long value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the description of the given property or action.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csStringID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a11">GetPropertyOrActionID</a> (size_t i)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a13">SetProperty</a> (csStringID propertyID, float value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the ID of the given property or action.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celDataType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a12">GetPropertyOrActionType</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a14">SetProperty</a> (csStringID propertyID, bool value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the type of the given property or action.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a13">GetPropertyPClass</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a15">SetProperty</a> (csStringID propertyID, const char *value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as property class.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a14">GetPropertyString</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a16">SetProperty</a> (csStringID propertyID, const csVector2 &amp;value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as string.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a15">GetPropertyVector</a> (csStringID propertyID, csVector3 &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a16"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a17">SetProperty</a> (csStringID propertyID, const csVector3 &amp;value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 3D vector.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a16">GetPropertyVector</a> (csStringID propertyID, csVector2 &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a18">SetProperty</a> (csStringID propertyID, const csColor &amp;value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 2D vector.  <a href="#a16"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a17">GetTag</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a18"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a19">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *value)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the tag of this property class or return 0 if there is no tag.  <a href="#a17"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a18">IsPropertyReadOnly</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a19"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a20">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if a property is read-only.  <a href="#a18"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a19">Load</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a20"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celDataType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a21">GetPropertyOrActionType</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this object from a data buffer.  <a href="#a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a20">LoadFirstPass</a> (<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *databuf)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the type of the given property or action.  <a href="#a21"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a22">IsPropertyReadOnly</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this object from a data buffer.  <a href="#a20"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a21">PerformAction</a> (csStringID actionID, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if a property is read-only.  <a href="#a22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a23">GetPropertyLong</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Perform an action with a generic string parameter.  <a href="#a21"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a22">PropertyClassesHaveChanged</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as long.  <a href="#a23"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a24">GetPropertyFloat</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This method is called by the parent entity when there is a change in property class setting.  <a href="#a22"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a23">RemovePropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as float.  <a href="#a24"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a25">GetPropertyBool</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a callback.  <a href="#a23"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a24">Save</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as bool.  <a href="#a25"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a26">GetPropertyString</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#a24"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a25">SaveFirstPass</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as string.  <a href="#a26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a27">GetPropertyVector</a> (csStringID propertyID, csVector2 &amp;v)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#a25"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a27">SetEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 2D vector.  <a href="#a27"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a28">GetPropertyVector</a> (csStringID propertyID, csVector3 &amp;v)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the entity for this property class.  <a href="#a27"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPersistenceResult&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a28">SetPersistentData</a> (csTicks data_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *data, celPersistenceType persistence_type)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 3D vector.  <a href="#a28"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a29">GetPropertyColor</a> (csStringID propertyID, csColor &amp;v)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Read the state of this property class from some persistent data.  <a href="#a28"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a29">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a color.  <a href="#a29"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a30">GetPropertyPClass</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a29"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a30">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as property class.  <a href="#a30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a31">GetPropertyEntity</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a30"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a31">SetProperty</a> (csStringID propertyID, const csColor &amp;value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as entity.  <a href="#a31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a32">PerformAction</a> (csStringID actionID, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a31"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a32">SetProperty</a> (csStringID propertyID, const csVector3 &amp;value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Perform an action with a generic string parameter.  <a href="#a32"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a33">GetPropertyAndActionCount</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a32"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a33">SetProperty</a> (csStringID propertyID, const csVector2 &amp;value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of supported properties and actions.  <a href="#a33"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csStringID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a34">GetPropertyOrActionID</a> (size_t i)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a33"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a34">SetProperty</a> (csStringID propertyID, const char *value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the ID of the given property or action.  <a href="#a34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a35">GetPropertyOrActionDescription</a> (csStringID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a34"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a35">SetProperty</a> (csStringID propertyID, bool value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the description of the given property or action.  <a href="#a35"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a36">PropertyClassesHaveChanged</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a35"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a36">SetProperty</a> (csStringID propertyID, float value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This method is called by the parent entity when there is a change in property class setting.  <a href="#a36"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a37">TickEveryFrame</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a36"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a37">SetProperty</a> (csStringID propertyID, long value)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a37"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a38">TickOnce</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#a37"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a38">SetTag</a> (const char *tagname)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a38"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a39">GetPersistentData</a> (celPersistenceType persistence_type)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the optional tag of this property class.  <a href="#a38"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a39">TickEveryFrame</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the persistent data of this property class.  <a href="#a39"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPersistenceResult&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a40">SetPersistentData</a> (csTicks data_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *data, celPersistenceType persistence_type)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a39"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a40">TickOnce</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Read the state of this property class from some persistent data.  <a href="#a40"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function is called by the physical layer when a broadcast is needed.  <a href="#a40"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class for an entity. 
@@ -152,7 +152,7 @@ A property class describe physical attributes of an entity.
 
 <p>
 Definition at line <a class="el" href="propclas_8h-source.html#l00105">105</a> of file <a class="el" href="propclas_8h-source.html">propclas.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iCelPropertyClass::AddPropertyChangeCallback" ref="a10" args="(iCelPropertyChangeCallback *cb)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPropertyClass::AddPropertyChangeCallback" ref="a0" args="(iCelPropertyChangeCallback *cb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -182,7 +182,7 @@ Add a callback which will be fired when a property changes.
 Not all property class implementations actually have properties. It is safe to call this function with the same callback (nothing will happen in that case and false will be returned). Otherwise this function will IncRef the callback.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPropertyClass::GetEntity" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClass::GetEntity" ref="a1" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -213,7 +213,7 @@ Get the parent entity associated with this property class.
 Referenced by <a class="el" href="persisthelper_8h-source.html#l00070">celStandardLocalEntitySet::IsLocal()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClass::GetName" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPropertyClass::GetName" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -242,7 +242,7 @@ Get the name of this property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a39"></a><!-- doxytag: member="iCelPropertyClass::GetPersistentData" ref="a39" args="(celPersistenceType persistence_type)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPropertyClass::GetPersistentData" ref="a3" args="(celPersistenceType persistence_type)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -272,7 +272,7 @@ Return the persistent data of this property class.
 Note: this function replaces the Save function.    </td>
   </tr>
 </table>
-<a class="anchor" name="a33"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyAndActionCount" ref="a33" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyAndActionCount" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -301,7 +301,7 @@ Return the number of supported properties and actions.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyBool" ref="a25" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyBool" ref="a5" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -331,7 +331,7 @@ Get a property as bool.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a29"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyColor" ref="a29" args="(csStringID propertyID, csColor &amp;v)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyColor" ref="a6" args="(csStringID propertyID, csColor &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -370,7 +370,7 @@ Get a property as a color.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a31"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyEntity" ref="a31" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyEntity" ref="a7" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -400,7 +400,7 @@ Get a property as entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a24"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyFloat" ref="a24" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyFloat" ref="a8" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -430,7 +430,7 @@ Get a property as float.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyLong" ref="a23" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyLong" ref="a9" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -460,7 +460,7 @@ Get a property as long.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a35"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionDescription" ref="a35" args="(csStringID)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionDescription" ref="a10" args="(csStringID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -490,7 +490,7 @@ Get the description of the given property or action.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a34"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionID" ref="a34" args="(size_t i)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionID" ref="a11" args="(size_t i)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -520,7 +520,7 @@ Get the ID of the given property or action.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionType" ref="a21" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyOrActionType" ref="a12" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -572,7 +572,7 @@ CEL_DATA_ENTITY </li>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a30"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyPClass" ref="a30" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyPClass" ref="a13" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -602,7 +602,7 @@ Get a property as property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a26"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyString" ref="a26" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyString" ref="a14" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -632,7 +632,7 @@ Get a property as string.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a28"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyVector" ref="a28" args="(csStringID propertyID, csVector3 &amp;v)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyVector" ref="a15" args="(csStringID propertyID, csVector3 &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -671,7 +671,7 @@ Get a property as a 3D vector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a27"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyVector" ref="a27" args="(csStringID propertyID, csVector2 &amp;v)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyVector" ref="a16" args="(csStringID propertyID, csVector2 &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -710,7 +710,7 @@ Get a property as a 2D vector.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelPropertyClass::GetTag" ref="a3" args="() const =0" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="iCelPropertyClass::GetTag" ref="a17" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -739,7 +739,7 @@ Get the tag of this property class or return 0 if there is no tag.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="iCelPropertyClass::IsPropertyReadOnly" ref="a22" args="(csStringID propertyID)=0" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="iCelPropertyClass::IsPropertyReadOnly" ref="a18" args="(csStringID propertyID)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -769,7 +769,7 @@ Return true if a property is read-only.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iCelPropertyClass::Load" ref="a9" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="iCelPropertyClass::Load" ref="a19" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -799,7 +799,7 @@ Load this object from a data buffer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelPropertyClass::LoadFirstPass" ref="a7" args="(iCelDataBuffer *databuf)=0" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="iCelPropertyClass::LoadFirstPass" ref="a20" args="(iCelDataBuffer *databuf)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -829,7 +829,7 @@ Load this object from a data buffer.
 This is the first pass version. Most property classes will return 0 here.    </td>
   </tr>
 </table>
-<a class="anchor" name="a32"></a><!-- doxytag: member="iCelPropertyClass::PerformAction" ref="a32" args="(csStringID actionID, iCelParameterBlock *params)=0" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="iCelPropertyClass::PerformAction" ref="a21" args="(csStringID actionID, iCelParameterBlock *params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -868,7 +868,7 @@ Perform an action with a generic string parameter.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a36"></a><!-- doxytag: member="iCelPropertyClass::PropertyClassesHaveChanged" ref="a36" args="()=0" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="iCelPropertyClass::PropertyClassesHaveChanged" ref="a22" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -897,7 +897,7 @@ This method is called by the parent entity when there is a change in property cl
 i.e. another property class has been added or removed from the entity. This allows this property class to make adjustments to the references it keeps internally for other property classes.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iCelPropertyClass::RemovePropertyChangeCallback" ref="a11" args="(iCelPropertyChangeCallback *cb)=0" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="iCelPropertyClass::RemovePropertyChangeCallback" ref="a23" args="(iCelPropertyChangeCallback *cb)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -927,7 +927,7 @@ Remove a callback.
 It is safe to call this function for a callback that is not registered. Nothing will happen in that case (except that false is returned). This function will DecRef the callback if it was present.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iCelPropertyClass::Save" ref="a8" args="()=0" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="iCelPropertyClass::Save" ref="a24" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -956,7 +956,7 @@ Save this object to a data buffer.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelPropertyClass::SaveFirstPass" ref="a6" args="()=0" --><p>
+<a class="anchor" name="a25"></a><!-- doxytag: member="iCelPropertyClass::SaveFirstPass" ref="a25" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -985,7 +985,7 @@ Save this object to a data buffer.
 This routine is the first pass saving routine. Few property classes need to implement this. The idea is that here information is saved which is important to make other property classes work. This can be information related to level data that is essential for other property classes. Most property classes will return 0 here.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelPropertyClass::SetEntity" ref="a5" args="(iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a27"></a><!-- doxytag: member="iCelPropertyClass::SetEntity" ref="a27" args="(iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1015,7 +1015,7 @@ Set the entity for this property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a40"></a><!-- doxytag: member="iCelPropertyClass::SetPersistentData" ref="a40" args="(csTicks data_time, iCelDataBuffer *data, celPersistenceType persistence_type)=0" --><p>
+<a class="anchor" name="a28"></a><!-- doxytag: member="iCelPropertyClass::SetPersistentData" ref="a28" args="(csTicks data_time, iCelDataBuffer *data, celPersistenceType persistence_type)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1068,7 +1068,7 @@ Note: this function replaces the Load function. <dl compact><dt><b>Parameters:</
     </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a20" args="(csStringID propertyID, iCelEntity *entity)=0" --><p>
+<a class="anchor" name="a29"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a29" args="(csStringID propertyID, iCelEntity *entity)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1107,7 +1107,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a19" args="(csStringID propertyID, iCelPropertyClass *value)=0" --><p>
+<a class="anchor" name="a30"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a30" args="(csStringID propertyID, iCelPropertyClass *value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1146,7 +1146,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a18" args="(csStringID propertyID, const csColor &amp;value)=0" --><p>
+<a class="anchor" name="a31"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a31" args="(csStringID propertyID, const csColor &amp;value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1185,7 +1185,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a17" args="(csStringID propertyID, const csVector3 &amp;value)=0" --><p>
+<a class="anchor" name="a32"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a32" args="(csStringID propertyID, const csVector3 &amp;value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1224,7 +1224,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a16" args="(csStringID propertyID, const csVector2 &amp;value)=0" --><p>
+<a class="anchor" name="a33"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a33" args="(csStringID propertyID, const csVector2 &amp;value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1263,7 +1263,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a15" args="(csStringID propertyID, const char *value)=0" --><p>
+<a class="anchor" name="a34"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a34" args="(csStringID propertyID, const char *value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1302,7 +1302,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a14" args="(csStringID propertyID, bool value)=0" --><p>
+<a class="anchor" name="a35"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a35" args="(csStringID propertyID, bool value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1341,7 +1341,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a13" args="(csStringID propertyID, float value)=0" --><p>
+<a class="anchor" name="a36"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a36" args="(csStringID propertyID, float value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1380,7 +1380,7 @@ Set a generic property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a12" args="(csStringID propertyID, long value)=0" --><p>
+<a class="anchor" name="a37"></a><!-- doxytag: member="iCelPropertyClass::SetProperty" ref="a37" args="(csStringID propertyID, long value)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1421,7 +1421,7 @@ This function returns false if the property could not be set for some reason. <p
 The physical layer maintains a registry of ID's to use. The convention is to use property names like: 'cel.property.num'.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelPropertyClass::SetTag" ref="a2" args="(const char *tagname)=0" --><p>
+<a class="anchor" name="a38"></a><!-- doxytag: member="iCelPropertyClass::SetTag" ref="a38" args="(const char *tagname)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1451,7 +1451,7 @@ Set the optional tag of this property class.
 Multiple property classes of the same type (same name) can be attached to the same entity. To do that you need to add a tag so that you can uniquely identify them.    </td>
   </tr>
 </table>
-<a class="anchor" name="a37"></a><!-- doxytag: member="iCelPropertyClass::TickEveryFrame" ref="a37" args="()=0" --><p>
+<a class="anchor" name="a39"></a><!-- doxytag: member="iCelPropertyClass::TickEveryFrame" ref="a39" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1480,7 +1480,7 @@ This function is called by the physical layer when a broadcast is needed.
 Use iCelPlLayer-&gt;CallbackPCEveryFrame() to register a PC for this.    </td>
   </tr>
 </table>
-<a class="anchor" name="a38"></a><!-- doxytag: member="iCelPropertyClass::TickOnce" ref="a38" args="()=0" --><p>
+<a class="anchor" name="a40"></a><!-- doxytag: member="iCelPropertyClass::TickOnce" ref="a40" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

@@ -23,12 +23,12 @@
 <a href="structiCelBlLayer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBlLayer.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBlLayer.html#a0">CreateBehaviour</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The name of this behaviour layer.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBlLayer.html#a1">CreateBehaviour</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new behaviour layer entity.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelBlLayer.html#a1">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new behaviour layer entity.  <a href="#a1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The name of this behaviour layer.  <a href="#a1"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the Behaviour Layer itself. 
@@ -36,7 +36,7 @@ This is the Behaviour Layer itself.
 
 <p>
 Definition at line <a class="el" href="bl_8h-source.html#l00034">34</a> of file <a class="el" href="bl_8h-source.html">bl.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelBlLayer::CreateBehaviour" ref="a1" args="(iCelEntity *entity, const char *name)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelBlLayer::CreateBehaviour" ref="a0" args="(iCelEntity *entity, const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -75,7 +75,7 @@ Create a new behaviour layer entity.
 The given name is specific to the BL implementation. It can be the name of a script for example. This function will also call entity-&gt;SetBehaviour() with the new behaviour.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelBlLayer::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelBlLayer::GetName" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

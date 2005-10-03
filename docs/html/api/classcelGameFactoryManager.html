@@ -25,25 +25,25 @@
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a0">GameInfoReceived</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *game_info, csTicks server_latency)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The game factory is searching for available games (it has been started with <a class="el" href="structiCelGameFactory.html#a5">iCelGameFactory::StartSearchForGameList</a>), and a game has been found.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a1">ServerNetworkStateChanged</a> (celServerNetworkState new_state, celServerNetworkState previous_state, csString reason=&quot;&quot;)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The game factory is searching for available games (it has been started with <a class="el" href="structiCelGameFactory.html#a11">iCelGameFactory::StartSearchForGameList</a>), and a game has been found.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a1">GetClientEventBaseline</a> (celClientEventType event_type)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The state of the network connection from the client to the server has changed.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a2">InitClient</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a client event.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a2">GetNetworkLinkBaseline</a> (celNetworkLinkType link_type)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A client is created and has to be initialized.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a3">InitServer</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a network link.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a3">GetServerEventBaseline</a> (celServerEventType event_type)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server is created and has to be initialized.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a4">GetClientEventBaseline</a> (celClientEventType event_type)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a server event.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a4">InitClient</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a client event.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a5">GetServerEventBaseline</a> (celServerEventType event_type)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A client is created and has to be initialized.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a5">InitServer</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a server event.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a6">GetNetworkLinkBaseline</a> (celNetworkLinkType link_type)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server is created and has to be initialized.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#a6">ServerNetworkStateChanged</a> (celServerNetworkState new_state, celServerNetworkState previous_state, csString reason=&quot;&quot;)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a network link.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The state of the network connection from the client to the server has changed.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an interface you should implement in order to manage the events from the factory of game sessions. 
@@ -97,7 +97,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00240">240</a> of
     <td>
 
 <p>
-The game factory is searching for available games (it has been started with <a class="el" href="structiCelGameFactory.html#a5">iCelGameFactory::StartSearchForGameList</a>), and a game has been found. 
+The game factory is searching for available games (it has been started with <a class="el" href="structiCelGameFactory.html#a11">iCelGameFactory::StartSearchForGameList</a>), and a game has been found. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -110,7 +110,7 @@ The game factory is searching for available games (it has been started with <a c
 Definition at line <a class="el" href="network_8h-source.html#l00251">251</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="celGameFactoryManager::GetClientEventBaseline" ref="a4" args="(celClientEventType event_type)" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="celGameFactoryManager::GetClientEventBaseline" ref="a1" args="(celClientEventType event_type)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -143,7 +143,7 @@ It is not obligatory to provide the baselines and this function can return 0, bu
 Definition at line <a class="el" href="network_8h-source.html#l00304">304</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="celGameFactoryManager::GetNetworkLinkBaseline" ref="a6" args="(celNetworkLinkType link_type)" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="celGameFactoryManager::GetNetworkLinkBaseline" ref="a2" args="(celNetworkLinkType link_type)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -175,7 +175,7 @@ It is not obligatory to provide the baselines and this function can return 0, bu
 Definition at line <a class="el" href="network_8h-source.html#l00320">320</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="celGameFactoryManager::GetServerEventBaseline" ref="a5" args="(celServerEventType event_type)" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="celGameFactoryManager::GetServerEventBaseline" ref="a3" args="(celServerEventType event_type)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -207,7 +207,7 @@ It is not obligatory to provide the baselines and this function can return 0, bu
 Definition at line <a class="el" href="network_8h-source.html#l00312">312</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="celGameFactoryManager::InitClient" ref="a2" args="(iCelGame *game)" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="celGameFactoryManager::InitClient" ref="a4" args="(iCelGame *game)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -241,7 +241,7 @@ You should register here the client manager.
 Definition at line <a class="el" href="network_8h-source.html#l00285">285</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="celGameFactoryManager::InitServer" ref="a3" args="(iCelGame *game)" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="celGameFactoryManager::InitServer" ref="a5" args="(iCelGame *game)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -275,7 +275,7 @@ You should register here the server manager.
 Definition at line <a class="el" href="network_8h-source.html#l00294">294</a> of file <a class="el" href="network_8h-source.html">network.h</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="celGameFactoryManager::ServerNetworkStateChanged" ref="a1" args="(celServerNetworkState new_state, celServerNetworkState previous_state, csString reason=&quot;&quot;)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="celGameFactoryManager::ServerNetworkStateChanged" ref="a6" args="(celServerNetworkState new_state, celServerNetworkState previous_state, csString reason=&quot;&quot;)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

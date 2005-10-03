@@ -23,15 +23,15 @@
 <a href="structiPcQuest-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a0">NewQuest</a> (const char *name, celQuestParams &amp;params)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuest.html">iQuest</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a0">GetQuest</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize this quest with a new named quest.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a1">StopQuest</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the quest represented by this property class.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a1">NewQuest</a> (const char *name, celQuestParams &amp;params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Stop the current quest.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuest.html">iQuest</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a2">GetQuest</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize this quest with a new named quest.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a2">StopQuest</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the quest represented by this property class.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Stop the current quest.  <a href="#a2"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class represents a quest. 
@@ -60,7 +60,7 @@ state (string, read/write): name of the current state. </li>
 
 <p>
 Definition at line <a class="el" href="quest_8h-source.html#l00057">57</a> of file <a class="el" href="quest_8h-source.html">quest.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcQuest::GetQuest" ref="a2" args="() const =0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcQuest::GetQuest" ref="a0" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -89,7 +89,7 @@ Get the quest represented by this property class.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcQuest::NewQuest" ref="a0" args="(const char *name, celQuestParams &amp;params)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcQuest::NewQuest" ref="a1" args="(const char *name, celQuestParams &amp;params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -129,7 +129,7 @@ The quest manager will be used to find a quest factory that has the given name. 
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcQuest::StopQuest" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcQuest::StopQuest" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

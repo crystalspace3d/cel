@@ -23,57 +23,57 @@
 <a href="structiPcDynamicBody-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a0">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a0">AddForceDuration</a> (const csVector3 &amp;force, float seconds)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh which this body will control.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a1">GetMesh</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in seconds) add the force every step.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a1">AddForceFrame</a> (const csVector3 &amp;force)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the mesh.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a2">SetDynamicSystem</a> (<a class="el" href="structiPcDynamicSystem.html">iPcDynamicSystem</a> *dynsys)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a2">AddForceOnce</a> (const csVector3 &amp;force)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system to use.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcDynamicSystem.html">iPcDynamicSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a3">GetDynamicSystem</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force once to the given object.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a3">AttachColliderBox</a> (const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRigidBody *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a4">GetBody</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a box rigid body.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a4">AttachColliderCylinder</a> (float length, float radius, const csOrthoTransform &amp;trans)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the rigid body.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a5">SetParameters</a> (float friction, float density, float elasticity, float softness, float mass)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a cylinder rigid body.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a5">AttachColliderMesh</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup various parameters for the collider.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a6">MakeStatic</a> (bool stat)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a mesh rigid body.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a6">AttachColliderPlane</a> (const csPlane3 &amp;plane)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Make static.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a7">IsStatic</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a plane rigid body.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a7">AttachColliderSphere</a> (float radius, const csVector3 &amp;offset)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if static.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a8">AttachColliderSphere</a> (float radius, const csVector3 &amp;offset)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a sphere rigid body.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a8">ClearForces</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a sphere rigid body.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a9">AttachColliderCylinder</a> (float length, float radius, const csOrthoTransform &amp;trans)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the permanent forces on this body.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRigidBody *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a9">GetBody</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a cylinder rigid body.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a10">AttachColliderBox</a> (const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the rigid body.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcDynamicSystem.html">iPcDynamicSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a10">GetDynamicSystem</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a box rigid body.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a11">AttachColliderPlane</a> (const csPlane3 &amp;plane)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a11">GetMesh</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a plane rigid body.  <a href="#a11"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a12">AttachColliderMesh</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the mesh.  <a href="#a11"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a12">IsStatic</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a mesh rigid body.  <a href="#a12"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a13">AddForceOnce</a> (const csVector3 &amp;force)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if static.  <a href="#a12"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a13">MakeStatic</a> (bool stat)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force once to the given object.  <a href="#a13"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a14">AddForceDuration</a> (const csVector3 &amp;force, float seconds)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Make static.  <a href="#a13"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a14">SetDynamicSystem</a> (<a class="el" href="structiPcDynamicSystem.html">iPcDynamicSystem</a> *dynsys)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in seconds) add the force every step.  <a href="#a14"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a15">AddForceFrame</a> (const csVector3 &amp;force)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system to use.  <a href="#a14"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a15">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#a15"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a16">ClearForces</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh which this body will control.  <a href="#a15"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcDynamicBody.html#a16">SetParameters</a> (float friction, float density, float elasticity, float softness, float mass)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the permanent forces on this body.  <a href="#a16"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup various parameters for the collider.  <a href="#a16"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A dynamic body. 
@@ -81,7 +81,7 @@ A dynamic body.
 
 <p>
 Definition at line <a class="el" href="dynmove_8h-source.html#l00083">83</a> of file <a class="el" href="dynmove_8h-source.html">dynmove.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a14"></a><!-- doxytag: member="iPcDynamicBody::AddForceDuration" ref="a14" args="(const csVector3 &amp;force, float seconds)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcDynamicBody::AddForceDuration" ref="a0" args="(const csVector3 &amp;force, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -120,7 +120,7 @@ During the specified time (in seconds) add the force every step.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="iPcDynamicBody::AddForceFrame" ref="a15" args="(const csVector3 &amp;force)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcDynamicBody::AddForceFrame" ref="a1" args="(const csVector3 &amp;force)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -150,7 +150,7 @@ During the next frame add the force every step.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="iPcDynamicBody::AddForceOnce" ref="a13" args="(const csVector3 &amp;force)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcDynamicBody::AddForceOnce" ref="a2" args="(const csVector3 &amp;force)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -180,7 +180,7 @@ Add a force once to the given object.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderBox" ref="a10" args="(const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderBox" ref="a3" args="(const csVector3 &amp;size, const csOrthoTransform &amp;trans)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -219,7 +219,7 @@ Create a box rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderCylinder" ref="a9" args="(float length, float radius, const csOrthoTransform &amp;trans)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderCylinder" ref="a4" args="(float length, float radius, const csOrthoTransform &amp;trans)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -264,7 +264,7 @@ Create a cylinder rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderMesh" ref="a12" args="()=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderMesh" ref="a5" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -293,7 +293,7 @@ Create a mesh rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderPlane" ref="a11" args="(const csPlane3 &amp;plane)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderPlane" ref="a6" args="(const csPlane3 &amp;plane)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -323,7 +323,7 @@ Create a plane rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderSphere" ref="a8" args="(float radius, const csVector3 &amp;offset)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcDynamicBody::AttachColliderSphere" ref="a7" args="(float radius, const csVector3 &amp;offset)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -362,7 +362,7 @@ Create a sphere rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="iPcDynamicBody::ClearForces" ref="a16" args="()=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcDynamicBody::ClearForces" ref="a8" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -391,7 +391,7 @@ Clear the permanent forces on this body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcDynamicBody::GetBody" ref="a4" args="()=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcDynamicBody::GetBody" ref="a9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -420,7 +420,7 @@ Get the rigid body.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcDynamicBody::GetDynamicSystem" ref="a3" args="()=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcDynamicBody::GetDynamicSystem" ref="a10" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -449,7 +449,7 @@ Get the dynamic system.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcDynamicBody::GetMesh" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcDynamicBody::GetMesh" ref="a11" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -478,7 +478,7 @@ Get the mesh.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcDynamicBody::IsStatic" ref="a7" args="() const =0" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="iPcDynamicBody::IsStatic" ref="a12" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -507,7 +507,7 @@ Return true if static.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcDynamicBody::MakeStatic" ref="a6" args="(bool stat)=0" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="iPcDynamicBody::MakeStatic" ref="a13" args="(bool stat)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -537,7 +537,7 @@ Make static.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcDynamicBody::SetDynamicSystem" ref="a2" args="(iPcDynamicSystem *dynsys)=0" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="iPcDynamicBody::SetDynamicSystem" ref="a14" args="(iPcDynamicSystem *dynsys)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -567,7 +567,7 @@ Set the dynamic system to use.
 This is required.    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcDynamicBody::SetMesh" ref="a0" args="(iPcMesh *mesh)=0" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="iPcDynamicBody::SetMesh" ref="a15" args="(iPcMesh *mesh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -597,7 +597,7 @@ Set the mesh which this body will control.
 If not called then this property class will automatically look for 'pcmesh'.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcDynamicBody::SetParameters" ref="a5" args="(float friction, float density, float elasticity, float softness, float mass)=0" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="iPcDynamicBody::SetParameters" ref="a16" args="(float friction, float density, float elasticity, float softness, float mass)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

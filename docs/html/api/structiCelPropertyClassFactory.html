@@ -23,12 +23,12 @@
 <a href="structiCelPropertyClassFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassFactory.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassFactory.html#a0">CreatePropertyClass</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this property class factory.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassFactory.html#a1">CreatePropertyClass</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a property class of some type.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClassFactory.html#a1">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a property class of some type.  <a href="#a1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this property class factory.  <a href="#a1"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a factory for property classes. 
@@ -38,7 +38,7 @@ One factory can support multiple types of property classes.
 
 <p>
 Definition at line <a class="el" href="propfact_8h-source.html#l00034">34</a> of file <a class="el" href="propfact_8h-source.html">propfact.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClassFactory::CreatePropertyClass" ref="a1" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPropertyClassFactory::CreatePropertyClass" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -67,7 +67,7 @@ Create a property class of some type.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelPropertyClassFactory::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelPropertyClassFactory::GetName" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

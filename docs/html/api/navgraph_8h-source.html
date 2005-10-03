@@ -53,15 +53,15 @@
 <a name="l00034"></a>00034 
 <a name="l00038"></a><a class="code" href="structiPcNavGraphRules.html">00038</a> <span class="keyword">struct </span><a class="code" href="structiPcNavGraphRules.html">iPcNavGraphRules</a> : <span class="keyword">public</span> iBase
 <a name="l00039"></a>00039 {
-<a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcNavGraphRules.html#a0">TraverseLink</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, iSector* sector,
+<a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiPcNavGraphRules.html#a3">TraverseLink</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, iSector* sector,
 <a name="l00045"></a>00045         <a class="code" href="structiPcNavLink.html">iPcNavLink</a>* plink, <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent ) = 0;
 <a name="l00046"></a>00046 
-<a name="l00051"></a>00051   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNavGraphRules.html#a1">OptimiseGraph</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph) = 0;
+<a name="l00051"></a>00051   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNavGraphRules.html#a2">OptimiseGraph</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph) = 0;
 <a name="l00052"></a>00052 
-<a name="l00057"></a>00057   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a2">FindShortestPath</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, size_t iNodeStart,
+<a name="l00057"></a>00057   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a1">FindShortestPath</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, size_t iNodeStart,
 <a name="l00058"></a>00058         size_t iNodeEnd, size_t* &amp;ipath) = 0;
 <a name="l00059"></a>00059 
-<a name="l00064"></a>00064   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a3">FindNearestNode</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, csVector3* point,
+<a name="l00064"></a>00064   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNavGraphRules.html#a0">FindNearestNode</a> (<a class="code" href="structiPcNavGraph.html">iPcNavGraph</a>* graph, csVector3* point,
 <a name="l00065"></a>00065         iSector* sector, <a class="code" href="structiCelEntity.html">iCelEntity</a>* ent) = 0;
 <a name="l00066"></a>00066 };
 <a name="l00067"></a>00067 

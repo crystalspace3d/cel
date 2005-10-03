@@ -23,30 +23,30 @@
 <a href="structiCelEntityList-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a0">GetCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a0">Add</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entities in this list.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a1">Get</a> (size_t n) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a1">Find</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return an entity class by index.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a2">Add</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity and return its index.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a2">FindByName</a> (const char *Name) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entity.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a3">Remove</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity by name.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a3">Get</a> (size_t n) const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a4">Remove</a> (size_t n)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return an entity class by index.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a4">GetCount</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the nth entity.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a5">RemoveAll</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entities in this list.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a5">Remove</a> (size_t n)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a6">Find</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the nth entity.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a6">Remove</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *obj)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity and return its index.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a7">FindByName</a> (const char *Name) const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an entity.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityList.html#a7">RemoveAll</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find an entity by name.  <a href="#a7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all entities.  <a href="#a7"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A list of entities. 
@@ -56,7 +56,7 @@ An iCelEntityList represents a list of entities. It defines an interface to Add 
 
 <p>
 Definition at line <a class="el" href="entity_8h-source.html#l00110">110</a> of file <a class="el" href="entity_8h-source.html">entity.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelEntityList::Add" ref="a2" args="(iCelEntity *obj)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelEntityList::Add" ref="a0" args="(iCelEntity *obj)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -93,7 +93,7 @@ Add will take a pointer to an <a class="el" href="structiCelEntity.html">iCelEnt
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelEntityList::Find" ref="a6" args="(iCelEntity *obj) const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelEntityList::Find" ref="a1" args="(iCelEntity *obj) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -130,7 +130,7 @@ Find will return the index to the Entity pointed to by obj in the list.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelEntityList::FindByName" ref="a7" args="(const char *Name) const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelEntityList::FindByName" ref="a2" args="(const char *Name) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -167,7 +167,7 @@ FindByName will return the index to the Entity named by Name in the list.<p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelEntityList::Get" ref="a1" args="(size_t n) const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelEntityList::Get" ref="a3" args="(size_t n) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -204,7 +204,7 @@ Get will return a pointer to the <a class="el" href="structiCelEntity.html">iCel
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelEntityList::GetCount" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelEntityList::GetCount" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -234,7 +234,7 @@ Get the number of entities in this list.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelEntityList::Remove" ref="a4" args="(size_t n)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelEntityList::Remove" ref="a5" args="(size_t n)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -271,7 +271,7 @@ Remove will remove the <a class="el" href="structiCelEntity.html">iCelEntity</a>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelEntityList::Remove" ref="a3" args="(iCelEntity *obj)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelEntityList::Remove" ref="a6" args="(iCelEntity *obj)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -308,7 +308,7 @@ Remove will remove the <a class="el" href="structiCelEntity.html">iCelEntity</a>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelEntityList::RemoveAll" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelEntityList::RemoveAll" ref="a7" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

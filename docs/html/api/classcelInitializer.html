@@ -23,18 +23,18 @@
 <a href="classcelInitializer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e0">SetupCelPluginDirs</a> (iObjectRegistry *r)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e0">RequestPlugins</a> (iObjectRegistry *, csArray&lt; csPluginRequest &gt; const &amp;)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Instructs SCF to also scan the CEL plugin directory or directories.  <a href="#e0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e3">celInitializer::SetupCelPluginDirs()</a>.  <a href="#e0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e1">RequestPlugins</a> (iObjectRegistry *,...)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e0">celInitializer::SetupCelPluginDirs()</a>.  <a href="#e1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e3">celInitializer::SetupCelPluginDirs()</a>.  <a href="#e1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e2">RequestPluginsV</a> (iObjectRegistry *, va_list)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is just like RequestPlugins(.  <a href="#e2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e3">RequestPlugins</a> (iObjectRegistry *, csArray&lt; csPluginRequest &gt; const &amp;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#e3">SetupCelPluginDirs</a> (iObjectRegistry *r)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e0">celInitializer::SetupCelPluginDirs()</a>.  <a href="#e3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Instructs SCF to also scan the CEL plugin directory or directories.  <a href="#e3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This class contains static member functions which can help set up an application to use the Crystal Entity Layer. 
@@ -44,7 +44,7 @@ It is possible to do all the setup on your own but using these utility methods w
 
 <p>
 Definition at line <a class="el" href="initapp_8h-source.html#l00039">39</a> of file <a class="el" href="initapp_8h-source.html">initapp.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="e3"></a><!-- doxytag: member="celInitializer::RequestPlugins" ref="e3" args="(iObjectRegistry *, csArray&lt; csPluginRequest &gt; const &amp;)" --><p>
+<a class="anchor" name="e0"></a><!-- doxytag: member="celInitializer::RequestPlugins" ref="e0" args="(iObjectRegistry *, csArray&lt; csPluginRequest &gt; const &amp;)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -78,7 +78,7 @@ Definition at line <a class="el" href="initapp_8h-source.html#l00039">39</a> of 
     <td>
 
 <p>
-A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e0">celInitializer::SetupCelPluginDirs()</a>. 
+A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e3">celInitializer::SetupCelPluginDirs()</a>. 
 <p>
 Unlike the variable-argument RequestPlugins(...) method which expects you to know the list of requested plugins at compile-time, this overload allows you to construct an array of plugins at run-time. You do this by constructing a csArray&lt;&gt; of csPluginRequest records (see &lt;cstool/initapp.h&gt;). For example: <div class="fragment"><pre class="fragment"> csArray&lt;csPluginRequest&gt; a;
  a.Push(csPluginRequest(CS_REQUEST_VFS));
@@ -122,7 +122,7 @@ Unlike the variable-argument RequestPlugins(...) method which expects you to kno
     <td>
 
 <p>
-A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e0">celInitializer::SetupCelPluginDirs()</a>. 
+A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#e3">celInitializer::SetupCelPluginDirs()</a>. 
 <p>
 The variable arguments should contain four entries for every plugin you wish to load: SCF class name, SCF interface name, inteface ID, and interface version. To make this easier it is recommended that you use one of the CS_REQUEST_xxx macros (see &lt;cstool/initapp.h&gt;). <b>WARNING</b> Be sure to terminate the list with CS_REQUEST_END!    </td>
   </tr>
@@ -166,7 +166,7 @@ This is just like RequestPlugins(.
 ..), which accepts a variable list of arguments at compile-time, except that arguments are passed as a `va_list'.    </td>
   </tr>
 </table>
-<a class="anchor" name="e0"></a><!-- doxytag: member="celInitializer::SetupCelPluginDirs" ref="e0" args="(iObjectRegistry *r)" --><p>
+<a class="anchor" name="e3"></a><!-- doxytag: member="celInitializer::SetupCelPluginDirs" ref="e3" args="(iObjectRegistry *r)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

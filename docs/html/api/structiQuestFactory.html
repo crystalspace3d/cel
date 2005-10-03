@@ -23,27 +23,27 @@
 <a href="structiQuestFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a0">GetName</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiQuest.html">iQuest</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a0">CreateQuest</a> (const celQuestParams &amp;params)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this factory.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiQuest.html">iQuest</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a1">CreateQuest</a> (const celQuestParams &amp;params)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Instantiate a quest from this factory.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a1">CreateSequence</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Instantiate a quest from this factory.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a2">Load</a> (iDocumentNode *node)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new sequence factory in this factory.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestStateFactory.html">iQuestStateFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a2">CreateState</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this factory from a document node.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestStateFactory.html">iQuestStateFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a3">GetState</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new state in this factory.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a3">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a state from this factory.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestStateFactory.html">iQuestStateFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a4">CreateState</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this factory.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a4">GetSequence</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new state in this factory.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a5">GetSequence</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a sequence factory in this factory.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestStateFactory.html">iQuestStateFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a5">GetState</a> (const char *name)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a sequence factory in this factory.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestSequenceFactory.html">iQuestSequenceFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a6">CreateSequence</a> (const char *name)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a state from this factory.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestFactory.html#a6">Load</a> (iDocumentNode *node)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new sequence factory in this factory.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this factory from a document node.  <a href="#a6"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A quest factory. 
@@ -59,7 +59,7 @@ Every quest state factory has one or more trigger response factories. These resp
 
 <p>
 Definition at line <a class="el" href="questmanager_8h-source.html#l00550">550</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestFactory::CreateQuest" ref="a1" args="(const celQuestParams &amp;params)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestFactory::CreateQuest" ref="a0" args="(const celQuestParams &amp;params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -94,7 +94,7 @@ This instance will have the same structure as this factory but it will be made o
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iQuestFactory::CreateSequence" ref="a6" args="(const char *name)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iQuestFactory::CreateSequence" ref="a1" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -124,7 +124,7 @@ Create a new sequence factory in this factory.
 Return 0 on failure (name already exists).    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iQuestFactory::CreateState" ref="a4" args="(const char *name)=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestFactory::CreateState" ref="a2" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -154,7 +154,7 @@ Create a new state in this factory.
 Return 0 on failure (name already exists).    </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iQuestFactory::GetName" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestFactory::GetName" ref="a3" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -183,7 +183,7 @@ Get the name of this factory.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iQuestFactory::GetSequence" ref="a5" args="(const char *name)=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iQuestFactory::GetSequence" ref="a4" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -213,7 +213,7 @@ Get a sequence factory in this factory.
 Return 0 if the factory doesn't exist.    </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iQuestFactory::GetState" ref="a3" args="(const char *name)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iQuestFactory::GetState" ref="a5" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -243,7 +243,7 @@ Get a state from this factory.
 Return 0 if the state doesn't exist.    </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iQuestFactory::Load" ref="a2" args="(iDocumentNode *node)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iQuestFactory::Load" ref="a6" args="(iDocumentNode *node)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

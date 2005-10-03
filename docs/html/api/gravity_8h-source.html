@@ -52,32 +52,32 @@
 <a name="l00033"></a>00033 
 <a name="l00050"></a><a class="code" href="structiPcGravity.html">00050</a> <span class="keyword">struct </span><a class="code" href="structiPcGravity.html">iPcGravity</a> : <span class="keyword">public</span> iBase
 <a name="l00051"></a>00051 {
-<a name="l00057"></a>00057   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a0">CreateGravityCollider</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
+<a name="l00057"></a>00057   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a5">CreateGravityCollider</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
 <a name="l00058"></a>00058 
-<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a0">CreateGravityCollider</a> (<span class="keyword">const</span> csVector3&amp; dim,
+<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a5">CreateGravityCollider</a> (<span class="keyword">const</span> csVector3&amp; dim,
 <a name="l00063"></a>00063         <span class="keyword">const</span> csVector3&amp; offs) = 0;
 <a name="l00064"></a>00064 
-<a name="l00069"></a>00069   <span class="keyword">virtual</span> iCollider* <a class="code" href="structiPcGravity.html#a2">GetGravityCollider</a> () = 0;
+<a name="l00069"></a>00069   <span class="keyword">virtual</span> iCollider* <a class="code" href="structiPcGravity.html#a6">GetGravityCollider</a> () = 0;
 <a name="l00070"></a>00070 
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a3">SetMovable</a> (<a class="code" href="structiPcMovable.html">iPcMovable</a>* movable) = 0;
-<a name="l00079"></a>00079   <span class="keyword">virtual</span> <a class="code" href="structiPcMovable.html">iPcMovable</a>* <a class="code" href="structiPcGravity.html#a4">GetMovable</a> () = 0;
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a14">SetMovable</a> (<a class="code" href="structiPcMovable.html">iPcMovable</a>* movable) = 0;
+<a name="l00079"></a>00079   <span class="keyword">virtual</span> <a class="code" href="structiPcMovable.html">iPcMovable</a>* <a class="code" href="structiPcGravity.html#a7">GetMovable</a> () = 0;
 <a name="l00080"></a>00080 
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a5">SetSolid</a> (<a class="code" href="structiPcSolid.html">iPcSolid</a>* solid) = 0;
-<a name="l00090"></a>00090   <span class="keyword">virtual</span> <a class="code" href="structiPcSolid.html">iPcSolid</a>* <a class="code" href="structiPcGravity.html#a6">GetSolid</a> () = 0;
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a15">SetSolid</a> (<a class="code" href="structiPcSolid.html">iPcSolid</a>* solid) = 0;
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <a class="code" href="structiPcSolid.html">iPcSolid</a>* <a class="code" href="structiPcGravity.html#a8">GetSolid</a> () = 0;
 <a name="l00091"></a>00091 
-<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a7">SetWeight</a> (<span class="keywordtype">float</span> w) = 0;
-<a name="l00099"></a>00099   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcGravity.html#a8">GetWeight</a> () <span class="keyword">const </span>= 0;
+<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a16">SetWeight</a> (<span class="keywordtype">float</span> w) = 0;
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcGravity.html#a9">GetWeight</a> () <span class="keyword">const </span>= 0;
 <a name="l00100"></a>00100 
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a9">ClearForces</a> () = 0;
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a10">ClearPermanentForces</a> () = 0;
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a11">ResetSpeed</a> () = 0;
-<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a12">ApplyForce</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">float</span> time) = 0;
-<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a13">ApplyPermanentForce</a> (<span class="keyword">const</span> csVector3&amp; force) = 0;
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a2">ClearForces</a> () = 0;
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a3">ClearPermanentForces</a> () = 0;
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a12">ResetSpeed</a> () = 0;
+<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a0">ApplyForce</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">float</span> time) = 0;
+<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a1">ApplyPermanentForce</a> (<span class="keyword">const</span> csVector3&amp; force) = 0;
 <a name="l00121"></a>00121 
-<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcGravity.html#a14">IsResting</a> () <span class="keyword">const </span>= 0;
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcGravity.html#a11">IsResting</a> () <span class="keyword">const </span>= 0;
 <a name="l00127"></a>00127 
-<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a15">SetActive</a> (<span class="keywordtype">bool</span> activate) = 0;
-<a name="l00135"></a>00135   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcGravity.html#a16">IsActive</a> () <span class="keyword">const </span>= 0;
+<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcGravity.html#a13">SetActive</a> (<span class="keywordtype">bool</span> activate) = 0;
+<a name="l00135"></a>00135   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcGravity.html#a10">IsActive</a> () <span class="keyword">const </span>= 0;
 <a name="l00136"></a>00136 };
 <a name="l00137"></a>00137 
 <a name="l00138"></a>00138 <span class="preprocessor">#endif // __CEL_PF_GRAVITY__</span>

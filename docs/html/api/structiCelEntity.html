@@ -23,30 +23,30 @@
 <a href="structiCelEntity-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iObject *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a0">QueryObject</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a0">GetBehaviour</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the iObject for this entity (if supported).  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a1">GetName</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the behaviour layer entity associated with this entity.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual uint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a1">GetID</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this entity.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a2">SetName</a> (const char *n)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the (unique) ID of the entity.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a2">GetName</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the name of this entity.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual uint&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a3">GetID</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this entity.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassList.html">iCelPropertyClassList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a3">GetPropertyClassList</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the (unique) ID of the entity.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a4">SetID</a> (uint n)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the list of property classes.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iObject *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a4">QueryObject</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the (unique) ID of the entity.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassList.html">iCelPropertyClassList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a5">GetPropertyClassList</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the iObject for this entity (if supported).  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a5">SetBehaviour</a> (<a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *behaviour)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the list of property classes.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a6">SetBehaviour</a> (<a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *behaviour)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the behaviour layer entity associated with this entity.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a6">SetID</a> (uint n)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the behaviour layer entity associated with this entity.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBehaviour.html">iCelBehaviour</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a7">GetBehaviour</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the (unique) ID of the entity.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntity.html#a7">SetName</a> (const char *n)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the behaviour layer entity associated with this entity.  <a href="#a7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the name of this entity.  <a href="#a7"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an entity in the CEL layer at the PL (physical layer) side. 
@@ -57,7 +57,7 @@ Entities are generally created, and destroyed, as required by the Physical Layer
 
 <p>
 Definition at line <a class="el" href="entity_8h-source.html#l00043">43</a> of file <a class="el" href="entity_8h-source.html">entity.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iCelEntity::GetBehaviour" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iCelEntity::GetBehaviour" ref="a0" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -87,7 +87,7 @@ Get the behaviour layer entity associated with this entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iCelEntity::GetID" ref="a3" args="() const =0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iCelEntity::GetID" ref="a1" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -117,7 +117,7 @@ Return the (unique) ID of the entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iCelEntity::GetName" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iCelEntity::GetName" ref="a2" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -147,7 +147,7 @@ Get the name of this entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iCelEntity::GetPropertyClassList" ref="a5" args="()=0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iCelEntity::GetPropertyClassList" ref="a3" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -177,7 +177,7 @@ Get the list of property classes.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iCelEntity::QueryObject" ref="a0" args="()=0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iCelEntity::QueryObject" ref="a4" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -207,7 +207,7 @@ Get the iObject for this entity (if supported).
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iCelEntity::SetBehaviour" ref="a6" args="(iCelBehaviour *behaviour)=0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iCelEntity::SetBehaviour" ref="a5" args="(iCelBehaviour *behaviour)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -242,7 +242,7 @@ Set the behaviour layer entity associated with this entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iCelEntity::SetID" ref="a4" args="(uint n)=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iCelEntity::SetID" ref="a6" args="(uint n)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -277,7 +277,7 @@ Set the (unique) ID of the entity.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iCelEntity::SetName" ref="a2" args="(const char *n)=0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iCelEntity::SetName" ref="a7" args="(const char *n)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">

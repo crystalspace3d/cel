@@ -23,45 +23,45 @@
 <a href="structiPcNewCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Types</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#w3">_CEL_CAMERA_MODE</a> </td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#w0">_CEL_CAMERA_MODE</a> </td></tr>
 
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a0">GetBasePos</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a0">AttachCameraMode</a> (CEL_CAMERA_MODE mode)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base position of the camera in world coordinates.  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a1">GetBaseDir</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attaches a built-in camera mode to this camera.  <a href="#a0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a1">AttachCameraMode</a> (<a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *mode)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base direction of the camera.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a2">GetBaseUp</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attaches a camera mode to this camera.  <a href="#a1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a2">Draw</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base up vector of the camera.  <a href="#a2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a3">SetPositionOffset</a> (const csVector3 &amp;offset)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a2"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a3">GetBaseDir</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the position of the camera.  <a href="#a3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a4">AttachCameraMode</a> (<a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *mode)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base direction of the camera.  <a href="#a3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a4">GetBasePos</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attaches a camera mode to this camera.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a5">AttachCameraMode</a> (CEL_CAMERA_MODE mode)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base position of the camera in world coordinates.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a5">GetBaseUp</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attaches a built-in camera mode to this camera.  <a href="#a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a6">GetCurrentCameraModeIndex</a> () const =0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base up vector of the camera.  <a href="#a5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a6">GetCurrentCameraMode</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the index of the current camera mode.  <a href="#a6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a7">GetCurrentCameraMode</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current camera mode.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a7">GetCurrentCameraModeIndex</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current camera mode.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a8">SetCurrentCameraMode</a> (size_t modeIndex)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the index of the current camera mode.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a8">NextCameraMode</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode.  <a href="#a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a9">NextCameraMode</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the next available mode.  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a9">PrevCameraMode</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the next available mode.  <a href="#a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a10">PrevCameraMode</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the previous available mode.  <a href="#a9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a10">SetCurrentCameraMode</a> (size_t modeIndex)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the previous available mode.  <a href="#a10"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a11">Draw</a> ()=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode.  <a href="#a10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a11">SetPositionOffset</a> (const csVector3 &amp;offset)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#a11"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the position of the camera.  <a href="#a11"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a camera property class. 
@@ -69,7 +69,7 @@ This is a camera property class.
 
 <p>
 Definition at line <a class="el" href="newcamera_8h-source.html#l00116">116</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="a5"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="a5" args="(CEL_CAMERA_MODE mode)=0" --><p>
+<a class="anchor" name="a0"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="a0" args="(CEL_CAMERA_MODE mode)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -105,7 +105,7 @@ Attaches a built-in camera mode to this camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="a4" args="(iCelCameraMode *mode)=0" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="a1" args="(iCelCameraMode *mode)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -141,7 +141,7 @@ Attaches a camera mode to this camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="iPcNewCamera::Draw" ref="a11" args="()=0" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="iPcNewCamera::Draw" ref="a2" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -170,7 +170,7 @@ Render.
 This will clear the screen then draw on top of it.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="iPcNewCamera::GetBaseDir" ref="a1" args="() const =0" --><p>
+<a class="anchor" name="a3"></a><!-- doxytag: member="iPcNewCamera::GetBaseDir" ref="a3" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -200,7 +200,7 @@ Gets the base direction of the camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a0"></a><!-- doxytag: member="iPcNewCamera::GetBasePos" ref="a0" args="() const =0" --><p>
+<a class="anchor" name="a4"></a><!-- doxytag: member="iPcNewCamera::GetBasePos" ref="a4" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -230,7 +230,7 @@ Gets the base position of the camera in world coordinates.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="iPcNewCamera::GetBaseUp" ref="a2" args="() const =0" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="iPcNewCamera::GetBaseUp" ref="a5" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -260,7 +260,7 @@ Gets the base up vector of the camera.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="iPcNewCamera::GetCurrentCameraMode" ref="a7" args="()=0" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="iPcNewCamera::GetCurrentCameraMode" ref="a6" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -290,7 +290,7 @@ Gets the current camera mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="iPcNewCamera::GetCurrentCameraModeIndex" ref="a6" args="() const =0" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="iPcNewCamera::GetCurrentCameraModeIndex" ref="a7" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -320,7 +320,7 @@ Gets the index of the current camera mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="iPcNewCamera::NextCameraMode" ref="a9" args="()=0" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="iPcNewCamera::NextCameraMode" ref="a8" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -349,7 +349,7 @@ Sets the current camera mode to the next available mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="iPcNewCamera::PrevCameraMode" ref="a10" args="()=0" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="iPcNewCamera::PrevCameraMode" ref="a9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -378,7 +378,7 @@ Sets the current camera mode to the previous available mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="iPcNewCamera::SetCurrentCameraMode" ref="a8" args="(size_t modeIndex)=0" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="iPcNewCamera::SetCurrentCameraMode" ref="a10" args="(size_t modeIndex)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -414,7 +414,7 @@ Sets the current camera mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a3"></a><!-- doxytag: member="iPcNewCamera::SetPositionOffset" ref="a3" args="(const csVector3 &amp;offset)=0" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="iPcNewCamera::SetPositionOffset" ref="a11" args="(const csVector3 &amp;offset)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
