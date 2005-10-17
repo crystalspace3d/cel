@@ -22,6 +22,8 @@
 
 #include "propclass/camera.h"
 
+struct iPcMesh;
+
 SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
 
 /**
@@ -62,6 +64,13 @@ public:
 
     CameraMode_count
   };
+
+  /**
+   * Set the destination mesh manually. If this is not set then the
+   * camera will attempt to fetch a mesh from current entity.
+   * If 'mesh' is 0 it will go back to use the ones from the current entity.
+   */
+  virtual void SetMesh (iPcMesh* mesh) = 0;
 
   /**
    * Set camera mode.

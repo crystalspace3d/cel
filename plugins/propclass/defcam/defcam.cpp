@@ -344,6 +344,8 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   useCameraCD = true;
   lastActorSector = 0;
 
+  manual_pcmesh = false;
+
   if (action_setcamera == csInvalidStringID)
   {
     action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
@@ -453,13 +455,42 @@ bool celPcDefaultCamera::PerformAction (csStringID actionId,
   return false;
 }
 
+void celPcDefaultCamera::SetMesh (iPcMesh* mesh)
+{
+  pcmesh = mesh;
+  if (pcmesh)
+  {
+    pclinmove = 0;
+    manual_pcmesh = true;
+  }
+  else
+  {
+    manual_pcmesh = false;
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+  }
+}
+
 void celPcDefaultCamera::FindSiblingPropertyClasses ()
 {
+  if (manual_pcmesh) return;
   if (HavePropertyClassesChanged ())
   {
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
+}
+
+static float GetAngle (float x, float y)
+{
+  if (x > 1.0f)  x = 1.0f;
+  if (x < -1.0f) x = -1.0f;
+
+  float angle = acos (x);
+  if (y < 0)
+    angle = 2*PI - angle;
+
+  return angle;
 }
 
 void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
@@ -478,7 +509,9 @@ void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
     iMovable* movable = pcmesh->GetMesh()->GetMovable();
     actor_pos = movable->GetFullPosition ();
     actor_sector = movable->GetSectors ()->Get (0);
-    actor_yrot = 0;
+    csVector3 fwd = movable->GetFullTransform ().GetFront ();
+    float a = GetAngle (fwd.z, fwd.x);
+    actor_yrot = FixAngle (a);
   }
   else
   {

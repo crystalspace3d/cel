@@ -202,6 +202,7 @@ public://@@@
 
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
+  bool manual_pcmesh;
   void FindSiblingPropertyClasses ();
 
   CameraData camData[iPcDefaultCamera::CameraMode_count];
@@ -309,6 +310,8 @@ public:
     FindSiblingPropertyClasses ();
     return pclinmove;
   }
+
+  void SetMesh (iPcMesh* mesh);
 
   /**
    * Sets the current position of the camera (different for each mode)
@@ -742,6 +745,10 @@ public:
     virtual void SetAutoDraw (bool auto_draw)
     {
       scfParent->SetAutoDraw (auto_draw);
+    }
+    virtual void SetMesh (iPcMesh* mesh)
+    {
+      scfParent->SetMesh (mesh);
     }
     virtual bool SetMode (CameraMode m, bool use_cd)
     {
