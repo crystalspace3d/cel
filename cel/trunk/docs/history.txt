@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Oct-2005
+	- Jorrit added SetMesh() to the default camera so that you can
+	  change the mesh that the camera will point too.
+	- Jorrit added some support for extracting rotation from the
+	  mesh in case linmove is not used. That fixes thirdperson mode
+	  for meshes with no linmove (but it doesn't fix some of the other
+	  modes like lara_thirdperson).
 3-Oct-2005
 	- Jorrit fixed a bug in the mechanics plugin. In AttachColliderMesh()
 	  it would pass the movable transform into the creation of the
