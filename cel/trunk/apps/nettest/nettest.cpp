@@ -518,10 +518,10 @@ bool NetTest::OnInitialize (int argc, char* argv[])
     csPrintf ("  a client and a server.\n");
     csPrintf ("\n");
     csPrintf ("Examples:\n");
-    csPrintf ("  nettst -server -path=cellib/lev -file=basic_world\n");
-    csPrintf ("  nettst -server -path=lev/terrainf -file=world\n");
-    csPrintf ("  nettst -client -player=Marc -serverhost=192.168.1.15\n");
-    csPrintf ("  nettst -client -serverhost=localhost\n");
+    csPrintf ("  nettest -server -path=cellib/lev -file=basic_world\n");
+    csPrintf ("  nettest -server -path=lev/terrainf -file=world\n");
+    csPrintf ("  nettest -client -player=Marc -serverhost=192.168.1.15\n");
+    csPrintf ("  nettest -client -serverhost=localhost\n");
     csPrintf ("\n");
     csPrintf ("WARNING:\n");
     csPrintf ("  Under MS Windows and if you are using MSYS, when you specify \n");
