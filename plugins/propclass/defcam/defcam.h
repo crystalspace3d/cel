@@ -32,6 +32,7 @@
 #include "celtool/stdparams.h"
 #include "propclass/defcam.h"
 #include "propclass/linmove.h"
+#include "propclass/mechsys.h"
 #include "propclass/mesh.h"
 
 struct iKeyboardDriver;
@@ -201,8 +202,9 @@ public://@@@
   CameraAlgorithm* camalgo;
 
   csWeakRef<iPcLinearMovement> pclinmove;
+  csWeakRef<iPcMechanicsObject> pcmechobj;
   csWeakRef<iPcMesh> pcmesh;
-  bool manual_pcmesh;
+  csWeakRef<iCelEntity> follow_entity;
   void FindSiblingPropertyClasses ();
 
   CameraData camData[iPcDefaultCamera::CameraMode_count];
@@ -311,7 +313,13 @@ public:
     return pclinmove;
   }
 
-  void SetMesh (iPcMesh* mesh);
+  iPcMechanicsObject* GetMechObj ()
+  {
+    FindSiblingPropertyClasses ();
+    return pcmechobj;
+  }
+
+  void SetFollowEntity (iCelEntity* entity);
 
   /**
    * Sets the current position of the camera (different for each mode)
@@ -746,9 +754,9 @@ public:
     {
       scfParent->SetAutoDraw (auto_draw);
     }
-    virtual void SetMesh (iPcMesh* mesh)
+    virtual void SetFollowEntity (iCelEntity* entity)
     {
-      scfParent->SetMesh (mesh);
+      scfParent->SetFollowEntity (entity);
     }
     virtual bool SetMode (CameraMode m, bool use_cd)
     {

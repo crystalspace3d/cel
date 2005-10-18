@@ -6,6 +6,11 @@ The history order is reversed so that new features are at the top.
 18-Oct-2005
 	- Jorrit changed the velocity for lara camera to 1 in case there
 	  is no linmove. That at least makes that camera mode work better now.
+	- Jorrit changed iPcDefaultCamera->SetMesh() to SetEntity() as this
+	  is more general and also allows the camera to fetch the linmove
+	  from that other entity (and not only the mesh).
+	- Jorrit changed the default camera so that it now also considers
+	  objects that use the mechanics system (instead of linmove).
 17-Oct-2005
 	- Jorrit added SetMesh() to the default camera so that you can
 	  change the mesh that the camera will point too.
