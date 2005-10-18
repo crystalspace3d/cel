@@ -182,7 +182,7 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
   }
   else
   {
-    velNormSquared = 0;
+    velNormSquared = 1.0f;
   }
   parent->SetTarget (actor_eye);
   if (velNormSquared > 0.01f)
