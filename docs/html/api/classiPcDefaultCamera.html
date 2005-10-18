@@ -81,6 +81,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classiPcDefaultCamera.html#bed449f1b0af97486a42ec5a44f279ec">SetFirstPersonOffset</a> (const csVector3 &amp;offset)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set offset for first person camera (offset for camera relative to player model).  <a href="#bed449f1b0af97486a42ec5a44f279ec"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classiPcDefaultCamera.html#ddab32f33b80c46c71bd02ea8e716c62">SetMesh</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the destination mesh manually.  <a href="#ddab32f33b80c46c71bd02ea8e716c62"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classiPcDefaultCamera.html#85865fd317d9ba2e387a31a2ee3489c1">SetMinMaxCameraDistance</a> (float minDistance, float maxDistance)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the minimum and maximum distance between camera and player.  <a href="#85865fd317d9ba2e387a31a2ee3489c1"></a><br></td></tr>
@@ -129,7 +132,7 @@ SetZoneManager: parameters 'entity' (string), 'entity' (region) and 'start' (str
 <p>
 
 <p>
-Definition at line <a class="el" href="defcam_8h-source.html#l00044">44</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.<hr><h2>Member Enumeration Documentation</h2>
+Definition at line <a class="el" href="defcam_8h-source.html#l00046">46</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.<hr><h2>Member Enumeration Documentation</h2>
 <a class="anchor" name="b0f88e39425b1a29a510762981561431"></a><!-- doxytag: member="iPcDefaultCamera::CameraMode" ref="b0f88e39425b1a29a510762981561431" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -154,7 +157,7 @@ Camera modes.
 <p>
 
 <p>
-Definition at line <a class="el" href="defcam_8h-source.html#l00050">50</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.    </td>
+Definition at line <a class="el" href="defcam_8h-source.html#l00052">52</a> of file <a class="el" href="defcam_8h-source.html">defcam.h</a>.    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
@@ -555,6 +558,36 @@ The camera algorithms are responsible for calculating the actual position of the
 Set offset for first person camera (offset for camera relative to player model). 
 <p>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="ddab32f33b80c46c71bd02ea8e716c62"></a><!-- doxytag: member="iPcDefaultCamera::SetMesh" ref="ddab32f33b80c46c71bd02ea8e716c62" args="(iPcMesh *mesh)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcDefaultCamera::SetMesh           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>mesh</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the destination mesh manually. 
+<p>
+If this is not set then the camera will attempt to fetch a mesh from current entity. If 'mesh' is 0 it will go back to use the ones from the current entity.     </td>
   </tr>
 </table>
 <a class="anchor" name="85865fd317d9ba2e387a31a2ee3489c1"></a><!-- doxytag: member="iPcDefaultCamera::SetMinMaxCameraDistance" ref="85865fd317d9ba2e387a31a2ee3489c1" args="(float minDistance, float maxDistance)=0" --><p>
