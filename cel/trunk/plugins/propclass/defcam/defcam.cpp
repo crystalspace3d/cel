@@ -180,6 +180,11 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
     parent->GetLinMove ()->GetVelocity (velocity);
     velNormSquared = velocity.SquaredNorm ();
   }
+  else if (parent->GetMechObj ())
+  {
+    csVector3 velocity = parent->GetMechObj ()->GetLinearVelocity ();
+    velNormSquared = velocity.SquaredNorm ();
+  }
   else
   {
     velNormSquared = 1.0f;
@@ -344,8 +349,6 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   useCameraCD = true;
   lastActorSector = 0;
 
-  manual_pcmesh = false;
-
   if (action_setcamera == csInvalidStringID)
   {
     action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
@@ -455,28 +458,30 @@ bool celPcDefaultCamera::PerformAction (csStringID actionId,
   return false;
 }
 
-void celPcDefaultCamera::SetMesh (iPcMesh* mesh)
+void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)
 {
-  pcmesh = mesh;
-  if (pcmesh)
+  follow_entity = entity;
+  if (follow_entity)
   {
-    pclinmove = 0;
-    manual_pcmesh = true;
+    pclinmove = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMechanicsObject);
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (follow_entity, iPcMesh);
   }
   else
   {
-    manual_pcmesh = false;
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
 
 void celPcDefaultCamera::FindSiblingPropertyClasses ()
 {
-  if (manual_pcmesh) return;
+  if (follow_entity) return;
   if (HavePropertyClassesChanged ())
   {
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }
 }
@@ -503,6 +508,15 @@ void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
   {
     pclinmove->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
     actor_yrot = FixAngle (actor_yrot);
+  }
+  else if (pcmechobj)
+  {
+    iMovable* movable = pcmechobj->GetMesh()->GetMesh ()->GetMovable();
+    actor_pos = movable->GetFullPosition ();
+    actor_sector = movable->GetSectors ()->Get (0);
+    csVector3 fwd = movable->GetFullTransform ().GetFront ();
+    float a = GetAngle (fwd.z, fwd.x);
+    actor_yrot = FixAngle (a);
   }
   else if (pcmesh)
   {

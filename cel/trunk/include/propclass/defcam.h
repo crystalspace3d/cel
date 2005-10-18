@@ -22,7 +22,7 @@
 
 #include "propclass/camera.h"
 
-struct iPcMesh;
+struct iCelEntity;
 
 SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
 
@@ -66,11 +66,11 @@ public:
   };
 
   /**
-   * Set the destination mesh manually. If this is not set then the
-   * camera will attempt to fetch a mesh from current entity.
-   * If 'mesh' is 0 it will go back to use the ones from the current entity.
+   * Set the destination entity manually. If this is not set then the
+   * camera will attempt to fetch mesh, linmove, mechobj from current entity.
+   * If 'entity' is 0 it will go back to use the ones from the current entity.
    */
-  virtual void SetMesh (iPcMesh* mesh) = 0;
+  virtual void SetFollowEntity (iCelEntity* entity) = 0;
 
   /**
    * Set camera mode.
