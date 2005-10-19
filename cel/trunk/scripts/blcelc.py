@@ -1458,7 +1458,7 @@ class iPcDefaultCamera(iPcCamera):
     transition = _blcelc.iPcDefaultCamera_transition
     camerror = _blcelc.iPcDefaultCamera_camerror
     CameraMode_count = _blcelc.iPcDefaultCamera_CameraMode_count
-    def SetMesh(*args): return _blcelc.iPcDefaultCamera_SetMesh(*args)
+    def SetFollowEntity(*args): return _blcelc.iPcDefaultCamera_SetFollowEntity(*args)
     def SetMode(*args): return _blcelc.iPcDefaultCamera_SetMode(*args)
     def GetMode(*args): return _blcelc.iPcDefaultCamera_GetMode(*args)
     def SetModeName(*args): return _blcelc.iPcDefaultCamera_SetModeName(*args)

@@ -18754,19 +18754,19 @@ static PyObject *_wrap_scfQuery_iPcCamera(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcDefaultCamera_SetMesh(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcDefaultCamera_SetFollowEntity(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcDefaultCamera *arg1 = (iPcDefaultCamera *) 0 ;
-    iPcMesh *arg2 = (iPcMesh *) 0 ;
+    iCelEntity *arg2 = (iCelEntity *) 0 ;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDefaultCamera_SetMesh",&obj0,&obj1)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDefaultCamera_SetFollowEntity",&obj0,&obj1)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcDefaultCamera, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iPcMesh, SWIG_POINTER_EXCEPTION | 0);
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntity, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(2)) SWIG_fail;
-    (arg1)->SetMesh(arg2);
+    (arg1)->SetFollowEntity(arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -25474,7 +25474,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celCreateCamera", _wrap_celCreateCamera, METH_VARARGS, NULL},
 	 { (char *)"celGetCamera", _wrap_celGetCamera, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcCamera", _wrap_scfQuery_iPcCamera, METH_VARARGS, NULL},
-	 { (char *)"iPcDefaultCamera_SetMesh", _wrap_iPcDefaultCamera_SetMesh, METH_VARARGS, NULL},
+	 { (char *)"iPcDefaultCamera_SetFollowEntity", _wrap_iPcDefaultCamera_SetFollowEntity, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_SetMode", _wrap_iPcDefaultCamera_SetMode, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_GetMode", _wrap_iPcDefaultCamera_GetMode, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_SetModeName", _wrap_iPcDefaultCamera_SetModeName, METH_VARARGS, NULL},
