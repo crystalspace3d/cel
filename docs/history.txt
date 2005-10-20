@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Oct-2005
+	- Jorrit fixed the default camera so that it is more tolerant
+	  when there is no mesh.
 18-Oct-2005
 	- Jorrit changed the velocity for lara camera to 1 in case there
 	  is no linmove. That at least makes that camera mode work better now.

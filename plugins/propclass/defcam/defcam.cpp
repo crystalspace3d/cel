@@ -511,7 +511,17 @@ void celPcDefaultCamera::GetLastFullPosition (csVector3& actor_pos,
   }
   else if (pcmechobj)
   {
-    iMovable* movable = pcmechobj->GetMesh()->GetMesh ()->GetMovable();
+    iPcMesh* pcmesh = pcmechobj->GetMesh();
+    iMeshWrapper* mesh = 0;
+    if (pcmesh) mesh = pcmesh->GetMesh ();
+    if (!mesh)
+    {
+      actor_pos.Set (0, 0, 0);
+      actor_yrot = 0;
+      actor_sector = 0;
+      return;
+    }
+    iMovable* movable = mesh->GetMovable();
     actor_pos = movable->GetFullPosition ();
     actor_sector = movable->GetSectors ()->Get (0);
     csVector3 fwd = movable->GetFullTransform ().GetFront ();
