@@ -255,10 +255,54 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector3, 1);
 				break;
 			}
-			/* Still to be done (and some more) */
-			case CEL_DATA_PCLASS:
 			case CEL_DATA_ENTITY:
+			{
+				iCelEntity *result;
+				result = (iCelEntity *)(data->value.ent);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntity, 0);
+				break;
+			}
+			case CEL_DATA_PCLASS:
+			{
+				iCelPropertyClass *result;
+				result = (iCelPropertyClass *)(data->value.pc);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelPropertyClass, 0);
+				break;
+			}
 			case CEL_DATA_ACTION:
+			{
+				char *result;
+				result = (char*)((iString const *)(data->value.s)->GetData());
+				obj = SWIG_FromCharPtr(result);
+				break;
+			}
+			case CEL_DATA_IBASE:
+			{
+				iBase *result;
+				result = (iBase *)(data->value.pc);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iBase, 0);
+				break;
+			}
+			case CEL_DATA_COLOR:
+			{
+				csColor *result;
+				result = new csColor(data->value.col.red,data->value.col.green,data->value.col.blue);
+				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 1);
+				break;
+			}
+			/* Still to be done (and some more) */
+			case CEL_DATA_BYTE:
+				/*data->value.s (iString)*/
+			case CEL_DATA_WORD:
+				/*data->value.w (int16)*/
+			case CEL_DATA_LONG:
+				/*data->value.l (int32)*/
+			case CEL_DATA_UWORD:
+				/*data->value.uw (uint16)*/
+			case CEL_DATA_ULONG:
+				/*data->value.ul (uint32)*/
+			case CEL_DATA_PARAMETER:
+				/*data->value.par (iString+celDataType)*/
 			default:
 				obj = Py_None;
 				break;

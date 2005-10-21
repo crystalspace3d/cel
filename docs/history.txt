@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- caedes corrected trigger property class so it sends a parameter
 	  of type CEL_DATA_ENTITY instead of CEL_DATA_IBASE in its 
 	  messages to behaviours.
+	- caedes added some more types to CelParameterBlock::GetParameterValue
+	  python extension (entity, ibase, color, propertyclass, action).
 20-Oct-2005
 	- David Bronke added SetMesh and SetPosition actions to the simple camera.
 	- David Bronke fixed a diagnostic message in
