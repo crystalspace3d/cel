@@ -135,7 +135,7 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
     if (!p_thruster)
     {
-      Report (object_reg, "Couldn't get multiplier for thruster!");
+      Report (object_reg, "Couldn't get thruster tag!");
       return false;
     }
     CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
