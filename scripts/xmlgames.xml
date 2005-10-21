@@ -550,12 +550,12 @@
         <material name="number_9"> <texture>number_9</texture> </material>
     </materials>
     <sounds>
-        <sound name="boing"> <file>/cellib/sounds/boing_x.wav</file> </sound>
-        <sound name="click"> <file>/cellib/sounds/click_x.wav</file> </sound>
-        <sound name="yay"> <file>/cellib/sounds/yay_x.wav</file> </sound>
-        <sound name="clang"> <file>/cellib/sounds/clang_x.wav</file> </sound>
-        <sound name="bloop"> <file>/cellib/sounds/bloop_x.wav</file> </sound>
-        <sound name="explosion"> <file>/cellib/sounds/explosion_x.wav</file> </sound>
+        <sound name="boing" file="/cellib/sounds/boing_x.wav" mode3d="disable" />
+        <sound name="click" file="/cellib/sounds/click_x.wav" mode3d="disable" />
+        <sound name="yay" file="/cellib/sounds/yay_x.wav" mode3d="disable" />
+        <sound name="clang" file="/cellib/sounds/clang_x.wav" mode3d="disable" />
+        <sound name="bloop" file="/cellib/sounds/bloop_x.wav" mode3d="disable" />
+        <sound name="explosion" file="/cellib/sounds/explosion_x.wav" mode3d="disable" />
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
