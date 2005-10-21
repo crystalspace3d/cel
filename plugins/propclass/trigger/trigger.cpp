@@ -800,7 +800,7 @@ bool celPcTrigger::PerformAction (csStringID actionId,
 void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,
 	iCelEntity* ent, const char* msgid)
 {
-  if (ent) params->GetParameter (0).SetIBase (ent);
+  if (ent) params->GetParameter (0).Set (ent);
   iCelBehaviour* bh = destentity->GetBehaviour ();
   if (bh)
   {
