@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Oct-2005
+	- caedes added python bindings for the sound property classes.
 20-Oct-2005
 	- David Bronke added SetMesh and SetPosition actions to the simple camera.
 	- David Bronke fixed a diagnostic message in
