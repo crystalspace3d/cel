@@ -64,11 +64,16 @@ class celPcSimpleCamera : public celPcCameraCommon
 private:
   // Actions
   static csStringID action_initcam;
+  static csStringID action_setpos;
+  static csStringID action_setmesh;
 
   // Parameters for action_initcam
   static csStringID param_campos;
   static csStringID param_lookat;
   static csStringID param_drawmesh;
+
+  // Parameters for action_setmesh
+  static csStringID param_mesh;
 
   //bool use_cd;
   bool drawmesh;
