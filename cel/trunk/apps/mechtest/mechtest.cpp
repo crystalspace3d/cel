@@ -263,15 +263,15 @@ csPtr<iCelEntity> MechTest::CreateDynActor (const char* name,
   pccamera->SetTurnSpeed (1.0f);
   pccamera->SetMode (iPcDefaultCamera::lara_thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
+  pccamera->SetMinMaxCameraDistance (4.0f, 12.0f);
   pccamera->SetTurnSpeed (1.0f);
-  pccamera->SetSwingCoef (0.7f);
+  pccamera->SetSwingCoef (0.1f);
   pccamera->SetMode (iPcDefaultCamera::freelook);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
-  pccamera->SetModeName ("thirdperson");
+  pccamera->SetModeName ("lara_thirdperson");
 
   csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcMechanicsObject);

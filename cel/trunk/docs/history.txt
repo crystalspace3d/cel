@@ -10,8 +10,14 @@ The history order is reversed so that new features are at the top.
 	  messages to behaviours.
 	- caedes added some more types to CelParameterBlock::GetParameterValue
 	  python extension (entity, ibase, color, propertyclass, action).
+	- Jorrit fixed mechtest to use lara camera mode. That works a lot
+	  better after the camera is now correctly trying to stay behind
+	  the ball (a fix of a few days earlier).
+	- Jorrit added support for attaching lights and cameras to
+	  rigid bodies (in addition to meshes).
 20-Oct-2005
-	- David Bronke added SetMesh and SetPosition actions to the simple camera.
+	- David Bronke added SetMesh and SetPosition actions to the simple
+	  camera.
 	- David Bronke fixed a diagnostic message in
 	  iPcMechanicsThrusterController.
 	- Jorrit fixed the default camera so that it is more tolerant

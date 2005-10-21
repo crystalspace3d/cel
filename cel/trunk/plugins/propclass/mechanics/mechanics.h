@@ -36,6 +36,8 @@
 #include "celtool/stdparams.h"
 #include "propclass/mechsys.h"
 #include "propclass/mesh.h"
+#include "propclass/light.h"
+#include "propclass/camera.h"
 #include "ivaria/dynamics.h"
 
 struct iVirtualClock;
@@ -280,6 +282,8 @@ private:
 
   csWeakRef<iPcMechanicsSystem> mechsystem;
   csWeakRef<iPcMesh> pcmesh;
+  csWeakRef<iPcLight> pclight;
+  csWeakRef<iPcCamera> pccamera;
   csWeakRef<iRigidBody> body;
   int btype;
   body_data* bdata;
@@ -296,6 +300,10 @@ private:
 
   void GetMechSystem ();
 
+  void FindMeshLightCamera ();
+  csReversibleTransform GetFullTransform ();
+  void AttachObject ();
+
 public:
   celPcMechanicsObject (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsObject ();
@@ -303,8 +311,24 @@ public:
   virtual void SetMesh (iPcMesh* mesh)
   {
     pcmesh = mesh;
+    pclight = 0;
+    pccamera = 0;
   }
   virtual iPcMesh* GetMesh ();
+  virtual void SetLight (iPcLight* light)
+  {
+    pcmesh = 0;
+    pclight = light;
+    pccamera = 0;
+  }
+  virtual iPcLight* GetLight ();
+  virtual void SetCamera (iPcCamera* camera)
+  {
+    pcmesh = 0;
+    pclight = 0;
+    pccamera = camera;
+  }
+  virtual iPcCamera* GetCamera ();
 
   virtual void SetMechanicsSystem (iPcMechanicsSystem* dynsys)
   {
