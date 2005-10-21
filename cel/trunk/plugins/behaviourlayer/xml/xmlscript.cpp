@@ -26,10 +26,12 @@
 #include "ivaria/reporter.h"
 #include "cstool/sndwrap.h"
 
-#include "isound/source.h"
-#include "isound/handle.h"
-#include "isound/renderer.h"
+#include "csgeom/vector3.h"
+#include "isndsys/ss_source.h"
+#include "isndsys/ss_manager.h"
+#include "isndsys/ss_renderer.h"
 #include "iengine/engine.h"
+#include "iutil/plugin.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -709,7 +711,7 @@ bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
 }
 
 // @@@ BAD!!!
-csRef<iSoundSource> sound_source;
+csRef<iSndSysSource> sound_source;
 
 bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
 	celBehaviourXml* behave, bool& rc)
@@ -3922,15 +3924,40 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_name = stack.Pop ();
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s\n", i-1, A2S (a_name),
 	  	A2S (a_loop)));
-	  csRef<iSoundRender> snd = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iSoundRender);
-	  if (!snd) break;
+	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
+	  	behave->GetObjectRegistry (), iSndSysManager);
+	  if (!sndmngr)
+	    return ReportError (behave, "Error! No sound manager!");
 	  csRef<iEngine> engine = CS_QUERY_REGISTRY (
 	  	behave->GetObjectRegistry (), iEngine);
-	  if (!engine) break;
-	  csRef<iSoundWrapper> w = CS_GET_NAMED_CHILD_OBJECT (
-		engine->QueryObject (), iSoundWrapper, ArgToString (a_name));
-	  if (w) sound_source = w->GetSound ()->Play (ArgToBool (a_loop));
+	  if (!engine)
+	    return ReportError (behave, "Error! No engine!");
+	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
+	  if (w) 
+	  {
+	  	csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
+	  		behave->GetObjectRegistry (), iSndSysRenderer);
+		if (!renderer)
+	  	{
+	    	  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
+			    iPluginManager);
+	    	  renderer = CS_LOAD_PLUGIN (plugin_mgr,
+			    "crystalspace.sndsys.renderer.software", iSndSysRenderer);
+	    	  if (renderer)
+	    	  {
+		    behave->GetObjectRegistry ()->Register (renderer, "iSndSysRenderer");
+	    	  }
+	    	  else
+	    	  {
+		    return ReportError (behave, "Error! No sound renderer!");
+	    	  }
+	  	}
+		sound_source = renderer->CreateSource(w->GetStream());
+	  	sound_source->SetVolume (1); //XXX this should also be a parameter
+	  	sound_source->GetStream ()->ResetPosition ();
+		sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
+	  	sound_source->GetStream ()->Unpause ();
+	  }
 	}
         break;
     }

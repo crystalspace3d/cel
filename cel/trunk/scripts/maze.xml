@@ -45,7 +45,7 @@
         <material name="mushroom"> <texture>mushroom</texture> </material>
     </materials>
     <sounds>
-        <sound name="bloop"> <file>/cellib/sounds/bloop_x.wav</file> </sound>
+        <sound name="bloop" file="/cellib/sounds/bloop_x.wav" mode3d="disable" />
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>

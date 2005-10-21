@@ -9,7 +9,7 @@
 	<material name="picture1"> <texture>picture1</texture> </material>
     </materials>
     <sounds>
-        <sound name="click"> <file>/cellib/sounds/click_x.wav</file> </sound>
+        <sound name="click" file="/cellib/sounds/click_x.wav" mode3d="disable" />
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
