@@ -4,6 +4,9 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 21-Oct-2005
+	- David Bronke added a forward declaration of iCelPlLayer to
+	  include/celtool/persisthelper.h to fix a compilation issue when that
+	  header was included without pl.h.
 	- caedes added python bindings for the sound property classes.
 	- caedes corrected trigger property class so it sends a parameter
 	  of type CEL_DATA_ENTITY instead of CEL_DATA_IBASE in its 
