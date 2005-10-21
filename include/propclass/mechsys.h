@@ -14,6 +14,8 @@ struct iDynamicSystem;
 struct iRigidBody;
 struct iSector;
 struct iPcMesh;
+struct iPcLight;
+struct iPcCamera;
 struct iPcMechanicsObject;
 struct iJoint;
 
@@ -201,8 +203,8 @@ struct iPcMechanicsObject : public virtual iBase
 
   /**
    * Set the mesh which this body will control.
-   * If not called then this property class will automatically
-   * look for 'pcmesh'.
+   * If this is used then this overrides the default behaviour of
+   * trying to find 'pcmesh', 'pclight', and 'pccamera' in that order.
    * \param mesh a pointer to the iPcMesh to control.
    */
   virtual void SetMesh (iPcMesh* mesh) = 0;
@@ -211,6 +213,32 @@ struct iPcMechanicsObject : public virtual iBase
    * Get the associated mesh property class.
    */
   virtual iPcMesh* GetMesh () = 0;
+
+  /**
+   * Set the light which this body will control.
+   * If this is used then this overrides the default behaviour of
+   * trying to find 'pcmesh', 'pclight', and 'pccamera' in that order.
+   * \param light a pointer to the iPcLight to control.
+   */
+  virtual void SetLight (iPcLight* light) = 0;
+
+  /**
+   * Get the associated light property class.
+   */
+  virtual iPcLight* GetLight () = 0;
+
+  /**
+   * Set the camera which this body will control.
+   * If this is used then this overrides the default behaviour of
+   * trying to find 'pcmesh', 'pclight', and 'pccamera' in that order.
+   * \param camera a pointer to the iPcCamera to control.
+   */
+  virtual void SetCamera (iPcCamera* camera) = 0;
+
+  /**
+   * Get the associated camera property class.
+   */
+  virtual iPcCamera* GetCamera () = 0;
 
   /**
    * Set the mechanics system to use. If you don't do this then the

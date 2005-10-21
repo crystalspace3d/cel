@@ -30,6 +30,8 @@
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
 #include "iengine/mesh.h"
+#include "iengine/light.h"
+#include "iengine/camera.h"
 #include "iengine/movable.h"
 #include "ivaria/reporter.h"
 #include "ivaria/dynamics.h"
@@ -1044,13 +1046,57 @@ iRigidBody* celPcMechanicsObject::GetBody ()
   return body;
 }
 
-iPcMesh* celPcMechanicsObject::GetMesh ()
+void celPcMechanicsObject::FindMeshLightCamera ()
 {
+  if (pcmesh || pclight || pccamera) return;
+  pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   if (!pcmesh)
   {
-    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+    pclight = CEL_QUERY_PROPCLASS_ENT (entity, iPcLight);
+    if (!pclight)
+    {
+      pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
+    }
+    else
+    {
+      pccamera = 0;
+    }
   }
+  else
+  {
+    pclight = 0;
+    pccamera = 0;
+  }
+}
+
+csReversibleTransform celPcMechanicsObject::GetFullTransform ()
+{
+  if (pcmesh)
+    return pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ();
+  else if (pclight)
+    return pclight->GetLight ()->GetMovable ()->GetFullTransform ();
+  else if (pccamera)
+    return pccamera->GetCamera ()->GetTransform ();
+  else
+    return csReversibleTransform ();
+}
+
+iPcMesh* celPcMechanicsObject::GetMesh ()
+{
+  FindMeshLightCamera ();
   return pcmesh;
+}
+
+iPcLight* celPcMechanicsObject::GetLight ()
+{
+  FindMeshLightCamera ();
+  return pclight;
+}
+
+iPcCamera* celPcMechanicsObject::GetCamera ()
+{
+  FindMeshLightCamera ();
+  return pccamera;
 }
 
 void celPcMechanicsObject::SetFriction (float friction)
@@ -1127,19 +1173,32 @@ void celPcMechanicsObject::MakeStatic (bool stat)
   }
 }
 
+void celPcMechanicsObject::AttachObject ()
+{
+  if (pcmesh)
+  {
+    body->AttachMesh (pcmesh->GetMesh ());
+  }
+  if (pclight)
+  {
+    body->AttachLight (pclight->GetLight ());
+  }
+  if (pccamera)
+  {
+    body->AttachCamera (pccamera->GetCamera ());
+  }
+}
+
 void celPcMechanicsObject::AttachColliderSphere (float radius,
 	const csVector3& offset)
 {
   if (!GetBody ()) return;
-  GetMesh ();
+  FindMeshLightCamera ();
   body->AttachColliderSphere (radius, offset, friction, density,
   	elasticity, softness);
   body->AdjustTotalMass (mass);
-  if (pcmesh)
-  {
-    body->SetTransform (pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ());
-    body->AttachMesh (pcmesh->GetMesh ());
-  }
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
 
   delete bdata;
   bdata = new sphere_data (radius, offset);
@@ -1150,15 +1209,12 @@ void celPcMechanicsObject::AttachColliderCylinder (float length, float radius,
 	const csOrthoTransform& trans)
 {
   if (!GetBody ()) return;
-  GetMesh ();
+  FindMeshLightCamera ();
   body->AttachColliderCylinder (length, radius, trans, friction, density,
   	elasticity, softness);
   body->AdjustTotalMass (mass);
-  if (pcmesh)
-  {
-    body->SetTransform (pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ());
-    body->AttachMesh (pcmesh->GetMesh ());
-  }
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
 
   delete bdata;
   bdata = new cylinder_data (length, radius, trans);
@@ -1169,16 +1225,12 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
   	const csOrthoTransform& trans)
 {
   if (!GetBody ()) return;
-  GetMesh ();
+  FindMeshLightCamera ();
   body->AttachColliderBox (size, trans, friction, density, elasticity,
   	softness);
   body->AdjustTotalMass (mass);
-  if (pcmesh)
-  {
-    CS_ASSERT (pcmesh->GetMesh () != 0);
-    body->SetTransform (pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ());
-    body->AttachMesh (pcmesh->GetMesh ());
-  }
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
 
   delete bdata;
   bdata = new box_data (size, trans);
@@ -1188,15 +1240,12 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
 void celPcMechanicsObject::AttachColliderPlane (const csPlane3& plane)
 {
   if (!GetBody ()) return;
-  GetMesh ();
+  FindMeshLightCamera ();
   body->AttachColliderPlane (plane, friction, density, elasticity,
   	softness);
   body->AdjustTotalMass (mass);
-  if (pcmesh)
-  {
-    body->SetTransform (pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ());
-    body->AttachMesh (pcmesh->GetMesh ());
-  }
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
 
   delete bdata;
   bdata = new plane_data (plane);
@@ -1206,7 +1255,7 @@ void celPcMechanicsObject::AttachColliderPlane (const csPlane3& plane)
 void celPcMechanicsObject::AttachColliderMesh ()
 {
   if (!GetBody ()) return;
-  GetMesh ();
+  FindMeshLightCamera ();
   if (!pcmesh) return;
   iMeshWrapper* mesh = pcmesh->GetMesh ();
   csReversibleTransform tr;
