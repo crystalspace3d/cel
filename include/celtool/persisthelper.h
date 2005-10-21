@@ -30,6 +30,8 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/propclas.h"
 
+struct iCelPlLayer;
+
 /**
  * Standard implementation of iCelLocalEntitySet. This
  * version uses the name of the entity as a unique identifier for
