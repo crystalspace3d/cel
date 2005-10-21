@@ -31,6 +31,7 @@
 #include "propclass/dynmove.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
+#include "propclass/sound.h"
 #include "propclass/mechthruster.h"
 #include "propclass/tooltip.h"
 #include "plugins/behaviourlayer/python/blpython.h"
@@ -431,6 +432,12 @@ CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
 
 %include "propclass/tooltip.h"
 CEL_PC(iPcTooltip, ToolTip, pctooltip)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/sound.h"
+CEL_PC(iPcSoundSource, SoundSource, pcsoundsource)
+CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
 
 //-----------------------------------------------------------------------------
 
