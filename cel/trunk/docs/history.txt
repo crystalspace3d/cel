@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 21-Oct-2005
 	- caedes added python bindings for the sound property classes.
+	- caedes corrected trigger property class so it sends a parameter
+	  of type CEL_DATA_ENTITY instead of CEL_DATA_IBASE in its 
+	  messages to behaviours.
 20-Oct-2005
 	- David Bronke added SetMesh and SetPosition actions to the simple camera.
 	- David Bronke fixed a diagnostic message in
