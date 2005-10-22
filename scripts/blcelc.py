@@ -635,6 +635,10 @@ class iPcMechanicsObject(cspace.iBase):
         return "<%s.%s; proxy of C++ iPcMechanicsObject instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def SetMesh(*args): return _blcelc.iPcMechanicsObject_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcMechanicsObject_GetMesh(*args)
+    def SetLight(*args): return _blcelc.iPcMechanicsObject_SetLight(*args)
+    def GetLight(*args): return _blcelc.iPcMechanicsObject_GetLight(*args)
+    def SetCamera(*args): return _blcelc.iPcMechanicsObject_SetCamera(*args)
+    def GetCamera(*args): return _blcelc.iPcMechanicsObject_GetCamera(*args)
     def SetMechanicsSystem(*args): return _blcelc.iPcMechanicsObject_SetMechanicsSystem(*args)
     def GetMechanicsSystem(*args): return _blcelc.iPcMechanicsObject_GetMechanicsSystem(*args)
     def GetBody(*args): return _blcelc.iPcMechanicsObject_GetBody(*args)
@@ -2045,6 +2049,68 @@ celCreateToolTip = _blcelc.celCreateToolTip
 celGetToolTip = _blcelc.celGetToolTip
 
 scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
+class iPcSoundListener(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSoundListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundListener, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcSoundListener instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcSoundListener):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcSoundListenerPtr(iPcSoundListener):
+    def __init__(self, this):
+        _swig_setattr(self, iPcSoundListener, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcSoundListener, 'thisown', 0)
+        _swig_setattr(self, iPcSoundListener,self.__class__,iPcSoundListener)
+_blcelc.iPcSoundListener_swigregister(iPcSoundListenerPtr)
+
+class iPcSoundSource(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcSoundSource, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundSource, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcSoundSource instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetSoundSource(*args): return _blcelc.iPcSoundSource_GetSoundSource(*args)
+    def SetSoundName(*args): return _blcelc.iPcSoundSource_SetSoundName(*args)
+    def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcSoundSource):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcSoundSourcePtr(iPcSoundSource):
+    def __init__(self, this):
+        _swig_setattr(self, iPcSoundSource, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcSoundSource, 'thisown', 0)
+        _swig_setattr(self, iPcSoundSource,self.__class__,iPcSoundSource)
+_blcelc.iPcSoundSource_swigregister(iPcSoundSourcePtr)
+
+
+celCreateSoundSource = _blcelc.celCreateSoundSource
+
+celGetSoundSource = _blcelc.celGetSoundSource
+
+scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
+
+celCreateSoundListener = _blcelc.celCreateSoundListener
+
+celGetSoundListener = _blcelc.celGetSoundListener
+
+scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
