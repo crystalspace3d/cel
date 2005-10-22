@@ -78,6 +78,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRigidBody *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#fb36b4fdd3b421643fd99d2aef30245d">GetBody</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated rigid body.  <a href="#fb36b4fdd3b421643fd99d2aef30245d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcCamera.html">iPcCamera</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#09a738bad52615063593bb98a004c2df">GetCamera</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated camera property class.  <a href="#09a738bad52615063593bb98a004c2df"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a8604fa7217af5315d299a4cf5df33a6">GetDensity</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's density.  <a href="#a8604fa7217af5315d299a4cf5df33a6"></a><br></td></tr>
@@ -93,6 +96,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#6c7f6ab8983da4c5a1e401657d9da139">GetLift</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the object's lift.  <a href="#6c7f6ab8983da4c5a1e401657d9da139"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcLight.html">iPcLight</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#50f6f01705dd9e06e825a9997a820b6d">GetLight</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the associated light property class.  <a href="#50f6f01705dd9e06e825a9997a820b6d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#f468e970093e8a50cdeaaf3388df6cd5">GetLinearVelocity</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current linear velocity (movement) of the object.  <a href="#f468e970093e8a50cdeaaf3388df6cd5"></a><br></td></tr>
@@ -123,6 +129,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#3c423394ca9900b84de0fef0358ef363">SetAngularVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial angular velocity (rotation) of the object.  <a href="#3c423394ca9900b84de0fef0358ef363"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#503cebb97f7cc3c5e1b21059d60588fd">SetCamera</a> (<a class="el" href="structiPcCamera.html">iPcCamera</a> *camera)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the camera which this body will control.  <a href="#503cebb97f7cc3c5e1b21059d60588fd"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#3bd507ef1c73e2d8d8bb63a8706fd461">SetDensity</a> (float density)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's density.  <a href="#3bd507ef1c73e2d8d8bb63a8706fd461"></a><br></td></tr>
@@ -138,6 +147,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#023089d10430944536fde19156538b76">SetLift</a> (const csVector3 &amp;lift)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's lift.  <a href="#023089d10430944536fde19156538b76"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#7b124e217b590db446bad5ccb8333903">SetLight</a> (<a class="el" href="structiPcLight.html">iPcLight</a> *light)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the light which this body will control.  <a href="#7b124e217b590db446bad5ccb8333903"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#a7fb89198f7f7f22e72a2132b556474d">SetLinearVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the initial linear velocity (movement) of the object.  <a href="#a7fb89198f7f7f22e72a2132b556474d"></a><br></td></tr>
@@ -165,7 +177,7 @@ pcdynamicbody_collision: an entity has collided with this entity. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="mechsys_8h-source.html#l00198">198</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechsys_8h-source.html#l00200">200</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="511a4859d1cdd22573dae5fb25d996cb"></a><!-- doxytag: member="iPcMechanicsObject::AddForceDuration" ref="511a4859d1cdd22573dae5fb25d996cb" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -746,6 +758,35 @@ Get the associated rigid body.
     </td>
   </tr>
 </table>
+<a class="anchor" name="09a738bad52615063593bb98a004c2df"></a><!-- doxytag: member="iPcMechanicsObject::GetCamera" ref="09a738bad52615063593bb98a004c2df" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiPcCamera.html">iPcCamera</a>* iPcMechanicsObject::GetCamera           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the associated camera property class. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a8604fa7217af5315d299a4cf5df33a6"></a><!-- doxytag: member="iPcMechanicsObject::GetDensity" ref="a8604fa7217af5315d299a4cf5df33a6" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -889,6 +930,35 @@ Must be called before Attach..., otherwise defaults to 1.     </td>
 Get the object's lift. 
 <p>
 Must be called before Attach..., otherwise defaults to 0.     </td>
+  </tr>
+</table>
+<a class="anchor" name="50f6f01705dd9e06e825a9997a820b6d"></a><!-- doxytag: member="iPcMechanicsObject::GetLight" ref="50f6f01705dd9e06e825a9997a820b6d" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiPcLight.html">iPcLight</a>* iPcMechanicsObject::GetLight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the associated light property class. 
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="f468e970093e8a50cdeaaf3388df6cd5"></a><!-- doxytag: member="iPcMechanicsObject::GetLinearVelocity" ref="f468e970093e8a50cdeaaf3388df6cd5" args="()=0" --><p>
@@ -1205,6 +1275,41 @@ Set the initial angular velocity (rotation) of the object.
     </td>
   </tr>
 </table>
+<a class="anchor" name="503cebb97f7cc3c5e1b21059d60588fd"></a><!-- doxytag: member="iPcMechanicsObject::SetCamera" ref="503cebb97f7cc3c5e1b21059d60588fd" args="(iPcCamera *camera)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsObject::SetCamera           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcCamera.html">iPcCamera</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>camera</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the camera which this body will control. 
+<p>
+If this is used then this overrides the default behaviour of trying to find 'pcmesh', 'pclight', and 'pccamera' in that order. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>camera</em>&nbsp;</td><td>a pointer to the <a class="el" href="structiPcCamera.html">iPcCamera</a> to control. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="3bd507ef1c73e2d8d8bb63a8706fd461"></a><!-- doxytag: member="iPcMechanicsObject::SetDensity" ref="3bd507ef1c73e2d8d8bb63a8706fd461" args="(float density)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1380,6 +1485,41 @@ Must be called before Attach..., otherwise defaults to 0. <dl compact><dt><b>Par
     </td>
   </tr>
 </table>
+<a class="anchor" name="7b124e217b590db446bad5ccb8333903"></a><!-- doxytag: member="iPcMechanicsObject::SetLight" ref="7b124e217b590db446bad5ccb8333903" args="(iPcLight *light)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcMechanicsObject::SetLight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiPcLight.html">iPcLight</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>light</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the light which this body will control. 
+<p>
+If this is used then this overrides the default behaviour of trying to find 'pcmesh', 'pclight', and 'pccamera' in that order. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>light</em>&nbsp;</td><td>a pointer to the <a class="el" href="structiPcLight.html">iPcLight</a> to control. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="a7fb89198f7f7f22e72a2132b556474d"></a><!-- doxytag: member="iPcMechanicsObject::SetLinearVelocity" ref="a7fb89198f7f7f22e72a2132b556474d" args="(const csVector3 &amp;vel)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1512,7 +1652,7 @@ If you don't do this then the object will look in the object registry for a suit
 <p>
 Set the mesh which this body will control. 
 <p>
-If not called then this property class will automatically look for 'pcmesh'. <dl compact><dt><b>Parameters:</b></dt><dd>
+If this is used then this overrides the default behaviour of trying to find 'pcmesh', 'pclight', and 'pccamera' in that order. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>mesh</em>&nbsp;</td><td>a pointer to the <a class="el" href="structiPcMesh.html">iPcMesh</a> to control. </td></tr>
   </table>
