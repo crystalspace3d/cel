@@ -258,7 +258,7 @@
             </params>
         </meshobj>
 	<meshobj name="box">
-	    <file>/this/data/box</file>
+	    <file>/cellib/objects/box</file>
 	    <plugin>spr3d</plugin>
 	    <params>
 	        <factory>box</factory>
