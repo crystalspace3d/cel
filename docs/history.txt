@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Oct-2005
+	- caedes changed reference to box factory in portal_world from
+	  /this/data/box to /cellib/objects/box so smallgame does not
+	  depend on running it from cel directory.
 21-Oct-2005
 	- David Bronke added a forward declaration of iCelPlLayer to
 	  include/celtool/persisthelper.h to fix a compilation issue when that
