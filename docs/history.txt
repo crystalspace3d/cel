@@ -14,6 +14,10 @@ The history order is reversed so that new features are at the top.
 	    <region name=...>
 	      <cache path="/gamedata/cache" />
 	    </region>
+	- caedes added iCelRegion::DissociateEntity(iCelEntity),
+	  iCelZoneManager::GetLastStartRegionName() and 
+	  iCelZoneManager::GetLastStartName(). For easier access to this
+	  parameters from scripts.
 22-Oct-2005
 	- caedes changed reference to box factory in portal_world from
 	  /this/data/box to /cellib/objects/box so smallgame does not

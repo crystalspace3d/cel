@@ -137,6 +137,11 @@ struct iCelRegion : public iBase
    * region is unloaded.
    */
   virtual void AssociateEntity (iCelEntity* entity) = 0;
+  
+  /**
+   * Unregister an entity from this region.
+   */
+  virtual void DissociateEntity (iCelEntity* entity) = 0;
 };
 
 SCF_VERSION (iCelZone, 0, 1, 0);
@@ -344,6 +349,18 @@ struct iPcZoneManager : public iBase
    */
   virtual void GetLastStartLocation (iString* regionname,
   	iString* startname) = 0;
+  /**
+   * Return the last used region name for PointCamera() or
+   * PointMesh(). Returns an empty region name if those functions
+   * have not been called yet.
+   */
+  virtual const char *GetLastStartRegionName () = 0;
+
+  /**
+   * Return the last used startname name for PointCamera() or
+   * PointMesh(). 
+   */
+  virtual const char *GetLastStartName () = 0;
 
   /**
    * Take the specified region (by name), load all zones associated

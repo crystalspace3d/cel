@@ -334,6 +334,10 @@ void celRegion::AssociateEntity (iCelEntity* entity)
 {
   entities.Push (entity);
 }
+void celRegion::DissociateEntity (iCelEntity* entity)
+{
+  entities.Delete (entity);
+}
 
 //---------------------------------------------------------------------------
 
@@ -973,6 +977,14 @@ void celPcZoneManager::GetLastStartLocation (iString* regionname,
   regionname->Append (last_regionname);
   startname->Truncate (0);
   startname->Append (last_startname);
+}
+const char *celPcZoneManager::GetLastStartRegionName ()
+{
+	return last_regionname;
+}
+const char *celPcZoneManager::GetLastStartName ()
+{
+	return last_startname;
 }
 
 int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
