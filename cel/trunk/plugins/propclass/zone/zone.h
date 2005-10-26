@@ -185,6 +185,7 @@ public:
   virtual bool RemoveMapFile (iCelMapFile* mapfile);
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
+  virtual void DissociateEntity (iCelEntity* entity);
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
@@ -339,6 +340,8 @@ public:
 
   void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
   void GetLastStartLocation (iString* regionname, iString* startname);
+  const char *GetLastStartRegionName ();
+  const char *GetLastStartName ();
 
   int PointCamera (const char* entity, const char* regionname,
   	const char* startname);
@@ -422,6 +425,14 @@ public:
   	iString* startname)
     {
       scfParent->GetLastStartLocation (regionname, startname);
+    }
+    virtual const char *GetLastStartRegionName ()
+    {
+      return scfParent->GetLastStartRegionName ();
+    }
+    virtual const char *GetLastStartName ()
+    {
+      return scfParent->GetLastStartName ();
     }
     virtual int PointCamera (const char* entity, const char* regionname,
   	const char* startname = 0)
