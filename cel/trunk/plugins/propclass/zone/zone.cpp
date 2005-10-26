@@ -621,6 +621,15 @@ bool celPcZoneManager::ParseRegion (iDocumentNode* regionnode,
 	  mapfile->SetFile (file);
 	}
         break;
+      case XMLTOKEN_CACHE:
+        {
+	  const char* path = child->GetAttributeValue ("path");
+	  if (!path)
+            return Report (object_reg,
+	    	"'path' attribute is missing for the cache!");
+	  region->SetCachePath (path);
+        }
+        break;
       default:
         return Report (object_reg, "Unknown token '%s' in the region!", value);
     }
