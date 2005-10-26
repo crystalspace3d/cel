@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Oct-2005
+	- caedes corrected a minor bug in the tooltip property class that
+	  prevented setting the background colour to transparent.
 22-Oct-2005
 	- caedes changed reference to box factory in portal_world from
 	  /this/data/box to /cellib/objects/box so smallgame does not

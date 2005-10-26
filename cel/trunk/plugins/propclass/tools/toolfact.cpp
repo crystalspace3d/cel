@@ -193,7 +193,7 @@ void celPcTooltip::TickEveryFrame ()
   }
   CS_ASSERT (fnt != 0);
   int fgcolor = G2D->FindRGB (text_r, text_g, text_b);
-  int bgcolor = bg_r == -1 ? 0 : G2D->FindRGB (bg_r, bg_g, bg_b);
+  int bgcolor = bg_r == -1 ? -1 : G2D->FindRGB (bg_r, bg_g, bg_b);
   if (bg_r != -1)
   {
     G2D->DrawBox (x, y, width, height, bgcolor);
