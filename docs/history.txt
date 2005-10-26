@@ -8,6 +8,12 @@ The history order is reversed so that new features are at the top.
 	  prevented setting the background colour to transparent.
 	- caedes adapted both bootstap and blxml to use celParameterBlock
 	  type of arguments for SendMessage.
+	- Jorrit added XML support for setting a lightmap cache for a region
+	  in the zone manager. This was already possible in code. The syntax
+	  is:
+	    <region name=...>
+	      <cache path="/gamedata/cache" />
+	    </region>
 22-Oct-2005
 	- caedes changed reference to box factory in portal_world from
 	  /this/data/box to /cellib/objects/box so smallgame does not
