@@ -236,14 +236,25 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
-  if (!strcmp (msg_id, "load"))
-  {
-    const char* path = va_arg (arg, const char*);
-    printf ("path=%s\n", path); fflush (stdout);
-    const char* worldname = va_arg (arg, const char*);
-    printf ("worldname=%s\n", worldname); fflush (stdout);
-
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    if (!strcmp (msg_id, "load"))
+    {
+     csString path,worldname;
+     if (params)
+     {
+       const celData* cd;
+       cd = params->GetParameter (
+    	  pl->FetchStringID ("cel.parameter.parameter1"));
+       if (cd)
+         path = csString(((iString const *)(cd->value.s))->GetData());
+       cd = params->GetParameter (
+    	 pl->FetchStringID ("cel.parameter.parameter2"));
+       if (cd)
+         worldname = csString(((iString const *)(cd->value.s))->GetData());
+    }
+    printf ("path=%s\n", path.GetData()); fflush (stdout);
+    printf ("worldname=%s\n", worldname.GetData()); fflush (stdout);
+
     pl->LoadPropertyClassFactory ("cel.pcfactory.region");
     pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera");
     iCelPropertyClass* pc;
@@ -264,7 +275,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.behaviour.xml",
-	  "Couldn't load '%s' at '%s'!", worldname, path);
+	  "Couldn't load '%s' at '%s'!", worldname.GetData(), path.GetData());
       return false;
     }
 

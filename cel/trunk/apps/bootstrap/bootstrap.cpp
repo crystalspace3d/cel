@@ -46,6 +46,7 @@
 #include "celtool/initapp.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
+#include "celtool/stdparams.h"
 
 CS_IMPLEMENT_APPLICATION
 
@@ -246,16 +247,36 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     const char* extra_arg2 = cmdline->GetName (4);
     const char* extra_arg3 = cmdline->GetName (5);
     celData ret;
-    // @@@ TODO:  Support iCelParameterBlock system!
+    celGenericParameterBlock* params = NULL;
+    csStringID id_par1 = pl->FetchStringID ("cel.parameter.parameter1");
+    csStringID id_par2 = pl->FetchStringID ("cel.parameter.parameter2");
+    csStringID id_par3 = pl->FetchStringID ("cel.parameter.parameter3");
+    
     if (extra_arg3)
-      behave->SendMessage (extra_method, 0, ret, 0,
-      	extra_arg1, extra_arg2, extra_arg3);
+    {
+      params = new celGenericParameterBlock (3);
+      params->SetParameterDef (0, id_par1, "parameter1");
+      params->SetParameterDef (1, id_par2, "parameter2");
+      params->SetParameterDef (2, id_par3, "parameter3");
+      params->GetParameter(0).Set(extra_arg1);
+      params->GetParameter(1).Set(extra_arg2);
+      params->GetParameter(2).Set(extra_arg3);
+    }
     else if (extra_arg2)
-      behave->SendMessage (extra_method, 0, ret, 0, extra_arg1, extra_arg2);
+    {
+      params = new celGenericParameterBlock (2);
+      params->SetParameterDef (0, id_par1, "parameter1");
+      params->SetParameterDef (1, id_par2, "parameter2");
+      params->GetParameter(0).Set(extra_arg1);
+      params->GetParameter(1).Set(extra_arg2);
+    }
     else if (extra_arg1)
-      behave->SendMessage (extra_method, 0, ret, 0, extra_arg1);
-    else
-      behave->SendMessage (extra_method, 0, ret, 0);
+    {
+      params = new celGenericParameterBlock (1);
+      params->SetParameterDef (0, id_par1, "parameter1");
+      params->GetParameter(0).Set(extra_arg1);
+    }
+    behave->SendMessage (extra_method, 0, ret, params);
   }
 
   return true;
