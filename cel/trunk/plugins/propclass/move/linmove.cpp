@@ -42,6 +42,7 @@
 #include <iengine/mesh.h>
 #include <iengine/engine.h>
 #include <iengine/sector.h>
+#include <iengine/scenenode.h>
 #include <imesh/object.h>
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
@@ -311,7 +312,8 @@ void celPcLinearMovement::LoadAnchor (iPcMesh* a)
     else
     {
       iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-      anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
+      pcmesh->GetMesh ()->QuerySceneNode ()->SetParent (
+		      anchor->GetMesh ()->QuerySceneNode ());
       movable->UpdateMove ();
     }
   }
@@ -328,7 +330,7 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   // Clear the previous anchor first if any.
   if (anchor && anchor != a)
   {
-    anchor->GetMesh ()->GetChildren ()->Remove (pcmesh->GetMesh ());
+    pcmesh->GetMesh ()->QuerySceneNode ()->SetParent (0);
     movable->SetTransform (trans);
     movable->ClearSectors ();
     movable->SetSector (anchor->GetMesh ()->GetMovable ()
@@ -338,7 +340,8 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   // Set the new anchor if needed.
   if (anchor)
   {
-    anchor->GetMesh ()->GetChildren ()->Add (pcmesh->GetMesh ());
+    pcmesh->GetMesh ()->QuerySceneNode ()->SetParent (
+		      anchor->GetMesh ()->QuerySceneNode ());
     csReversibleTransform newtrans = trans / anchor->GetMesh ()
     	->GetMovable ()->GetFullTransform ();
     movable->SetTransform (newtrans);

@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 27-Oct-2005
+	- Jorrit fixed CEL for the latest CS changes (object hierarchy).
         - aarobber added some half-done work to the new camera system.
 	- caedes changed celPcMechanicsObject::AddForceTagged to return the
 	  forceid instad of setting it by reference using an alias.
