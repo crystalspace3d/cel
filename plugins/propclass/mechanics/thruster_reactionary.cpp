@@ -176,8 +176,8 @@ void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
     thrust = thrust + deltathrust;
     if (thrust > 0)
     {
-      mechanicsobject->AddForceTagged (orientation * (thrust <= maxthrust ?
-	thrust : maxthrust), true, position, lastforceid);
+      lastforceid = mechanicsobject->AddForceTagged (orientation * (thrust <= maxthrust ?
+	thrust : maxthrust), true, position);
     }
     else
     {

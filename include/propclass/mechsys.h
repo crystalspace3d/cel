@@ -480,10 +480,11 @@ struct iPcMechanicsObject : public virtual iBase
    * \param relative if set to true, the given force and position are both in
    * object space; otherwise they are in world space.
    * \param position the position of the force.
-   * \param forceid is set to the ID of this force.
+   * return value is the force id tag (use it to remove the force later).
    */
-  virtual void AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, uint32& forceid) = 0;
+
+  virtual uint32 AddForceTagged (const csVector3& force, bool relative, 
+	const csVector3& position) = 0;
 
   /**
    * Remove the force with the given tag.

@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Oct-2005
+	- caedes changed celPcMechanicsObject::AddForceTagged to return the
+	  forceid instad of setting it by reference using an alias.
+	  (so the function now takes one less parameter, might break some
+	  existing code, but api for this function was not ok).
 26-Oct-2005
 	- caedes corrected a minor bug in the tooltip property class that
 	  prevented setting the background colour to transparent.

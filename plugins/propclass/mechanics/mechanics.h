@@ -380,8 +380,8 @@ public:
   virtual void AttachColliderPlane (const csPlane3& plane);
   virtual void AttachColliderMesh ();
 
-  virtual void AddForceTagged (const csVector3& force, bool relative,
-	const csVector3& position, uint32& forceid);
+  virtual uint32 AddForceTagged (const csVector3& force, bool relative, 
+	const csVector3& position);
   virtual void RemoveForceTagged (uint32 forceid);
   virtual void AddForceOnce (const csVector3& force, bool relative,
 	const csVector3& position);
