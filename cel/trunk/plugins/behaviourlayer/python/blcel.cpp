@@ -13848,6 +13848,27 @@ static PyObject *_wrap_iCelRegion_AssociateEntity(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iCelRegion_DissociateEntity(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelRegion *arg1 = (iCelRegion *) 0 ;
+    iCelEntity *arg2 = (iCelEntity *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelRegion_DissociateEntity",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelRegion, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntity, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    (arg1)->DissociateEntity(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iCelRegion(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelRegion *arg1 = (iCelRegion *) 0 ;
@@ -14508,6 +14529,42 @@ static PyObject *_wrap_iPcZoneManager_GetLastStartLocation(PyObject *, PyObject 
     (arg1)->GetLastStartLocation(arg2,arg3);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_GetLastStartRegionName(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcZoneManager_GetLastStartRegionName",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (char *)(arg1)->GetLastStartRegionName();
+    
+    resultobj = SWIG_FromCharPtr(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_GetLastStartName(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcZoneManager_GetLastStartName",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (char *)(arg1)->GetLastStartName();
+    
+    resultobj = SWIG_FromCharPtr(result);
     return resultobj;
     fail:
     return NULL;
@@ -25741,6 +25798,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelRegion_RemoveMapFile", _wrap_iCelRegion_RemoveMapFile, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_RemoveAllMapFiles", _wrap_iCelRegion_RemoveAllMapFiles, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_AssociateEntity", _wrap_iCelRegion_AssociateEntity, METH_VARARGS, NULL},
+	 { (char *)"iCelRegion_DissociateEntity", _wrap_iCelRegion_DissociateEntity, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelRegion", _wrap_delete_iCelRegion, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_swigregister", iCelRegion_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iCelZone_GetName", _wrap_iCelZone_GetName, METH_VARARGS, NULL},
@@ -25769,6 +25827,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcZoneManager_RemoveAllRegions", _wrap_iPcZoneManager_RemoveAllRegions, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_FindStartLocations", _wrap_iPcZoneManager_FindStartLocations, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_GetLastStartLocation", _wrap_iPcZoneManager_GetLastStartLocation, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_GetLastStartRegionName", _wrap_iPcZoneManager_GetLastStartRegionName, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_GetLastStartName", _wrap_iPcZoneManager_GetLastStartName, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_PointCamera", _wrap_iPcZoneManager_PointCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_PointMesh", _wrap_iPcZoneManager_PointMesh, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcZoneManager", _wrap_delete_iPcZoneManager, METH_VARARGS, NULL},
