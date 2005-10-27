@@ -1270,12 +1270,13 @@ void celPcMechanicsObject::AttachColliderMesh ()
   btype = CEL_BODY_MESH;
 }
 
-void celPcMechanicsObject::AddForceTagged (const csVector3& force,
-	bool relative, const csVector3& position, uint32& forceid)
+uint32 celPcMechanicsObject::AddForceTagged (const csVector3& force,
+	bool relative, const csVector3& position)
 {
-  forceid = forceidseed++;
+  uint32 forceid = forceidseed++;
   mechsystem->AddForceTagged ((iPcMechanicsObject*)this, force, relative,
 	position, forceid);
+  return forceid;
 }
 
 void celPcMechanicsObject::RemoveForceTagged (uint32 forceid)
