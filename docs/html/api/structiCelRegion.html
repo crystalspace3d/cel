@@ -42,6 +42,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelMapFile.html">iCelMapFile</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#4bd4f44bcafa0df61374ba791ceb02c9">CreateMapFile</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a map file for this region and associate it with this region.  <a href="#4bd4f44bcafa0df61374ba791ceb02c9"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#2663a427518c247efa50d68994d0fa88">DissociateEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unregister an entity from this region.  <a href="#2663a427518c247efa50d68994d0fa88"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRegion.html#1538e33a9fd457ae3301fc7a91e32c37">GetCachePath</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the VFS path for the cache manager.  <a href="#1538e33a9fd457ae3301fc7a91e32c37"></a><br></td></tr>
@@ -127,6 +130,36 @@ Register an entity that should be removed as soon as this region is unloaded.
 
 <p>
 Create a map file for this region and associate it with this region. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="2663a427518c247efa50d68994d0fa88"></a><!-- doxytag: member="iCelRegion::DissociateEntity" ref="2663a427518c247efa50d68994d0fa88" args="(iCelEntity *entity)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iCelRegion::DissociateEntity           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>entity</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Unregister an entity from this region. 
 <p>
     </td>
   </tr>
