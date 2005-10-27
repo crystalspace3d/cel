@@ -24,6 +24,7 @@
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/newcam.h"
 #include "plugins/propclass/newcamera/firstpersoncameramode.h"
+#include "plugins/propclass/newcamera/thirdpersoncameramode.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -65,9 +66,15 @@ CEL_IMPLEMENT_FACTORY(NewCamera, "pcnewcamera")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT(celPcNewCamera)
-  SCF_IMPLEMENTS_INTERFACE(iPcNewCamera)
+SCF_IMPLEMENT_IBASE_EXT (celPcNewCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcNewCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNewCamera::PcNewCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcNewCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 void celPcNewCamera::UpdateMeshVisibility()
 {
@@ -84,27 +91,28 @@ void celPcNewCamera::UpdateMeshVisibility()
 	CS_ENTITY_INVISIBLE);
 }
 
-void celPcNewCamera::GetActorTransform(csReversibleTransform& actor_trans,
-	iSector*& actor_sector)
+void celPcNewCamera::GetActorTransform()
 {
   // Try to get position and sector from the mesh.
   if (pcmesh)
   {
     iMovable* movable = pcmesh->GetMesh()->GetMovable();
-    actor_trans = movable->GetFullTransform();
-    actor_sector = movable->GetSectors()->Get(0);
+    baseTrans = movable->GetFullTransform();
+    baseSector = movable->GetSectors()->Get(0);
   }
   else
   {
-    actor_trans.SetT2O(csMatrix3());
-    actor_sector = 0;
+    baseTrans.SetT2O(csMatrix3());
+    baseSector = 0;
   }
 }
 
 celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
-  : celPcCommon(object_reg)
+  : celPcCameraCommon(object_reg)
 {
-  SCF_CONSTRUCT_IBASE(0);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
+
   engine = CS_QUERY_REGISTRY(object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY(object_reg, iGraphics3D);
   view = csPtr<iView>(new csView(engine, g3d));
@@ -114,12 +122,12 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   basePosOffset.Set(0,0,0);
 
   currMode = (size_t)-1;
-  AttachCameraMode(CCM_FIRST_PERSON);
 }
 
 celPcNewCamera::~celPcNewCamera()
 {
-  SCF_DESTRUCT_IBASE();
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcNewCamera::PropertyClassesHaveChanged()
@@ -145,6 +153,11 @@ const csVector3 & celPcNewCamera::GetBaseUp() const
   return baseUp;
 }
 
+const csReversibleTransform & celPcNewCamera::GetBaseTrans() const
+{
+  return baseTrans;
+}
+
 void celPcNewCamera::SetPositionOffset(const csVector3& offset)
 {
   basePosOffset = offset;
@@ -153,17 +166,19 @@ void celPcNewCamera::SetPositionOffset(const csVector3& offset)
 size_t celPcNewCamera::AttachCameraMode(iCelCameraMode * mode)
 {
   cameraModes.Push(mode);
-  mode->SetParentCamera(this);
+  mode->SetParentCamera((iPcNewCamera *)&scfiPcNewCamera);
 
   return (cameraModes.Length()-1);
 }
 
-size_t celPcNewCamera::AttachCameraMode(CEL_CAMERA_MODE mode)
+size_t celPcNewCamera::AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode)
 {
   switch (mode)
   {
-    case CCM_FIRST_PERSON:
+    case iPcNewCamera::CCM_FIRST_PERSON:
       return AttachCameraMode(new celFirstPersonCameraMode());
+    case iPcNewCamera::CCM_THIRD_PERSON:
+      return AttachCameraMode(new celThirdPersonCameraMode());
     default:
       return (size_t)-1;
   }
@@ -222,22 +237,20 @@ void celPcNewCamera::Draw()
   }
   iCelCameraMode * mode = cameraModes[currMode];
   
-  csReversibleTransform actorTrans;
-  iSector * camSector;
-  GetActorTransform(actorTrans, camSector);
-  if (!camSector)
+  GetActorTransform();
+  if (!baseSector)
     return;
 
-  basePos = actorTrans.GetOrigin() + actorTrans.This2OtherRelative(basePosOffset);
-  baseDir = actorTrans.This2OtherRelative(csVector3(0,0,-1));
-  baseUp  = actorTrans.This2OtherRelative(csVector3(0,1,0));
+  basePos = baseTrans.GetOrigin() + baseTrans.This2OtherRelative(basePosOffset);
+  baseDir = baseTrans.This2OtherRelative(csVector3(0,0,-1));
+  baseUp  = baseTrans.This2OtherRelative(csVector3(0,1,0));
     
   if (!mode->DecideCameraState())
     return;
 
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
-  camTrans.SetOrigin(basePos + mode->GetPositionOffset());
+  camTrans.SetOrigin(mode->GetPosition());
   camTrans.LookAt(mode->GetDirection(), 
       mode->GetUp());
 
@@ -247,16 +260,16 @@ void celPcNewCamera::Draw()
 	basePos.x, basePos.y, basePos.z,
 	baseDir.x, baseDir.y, baseDir.z,
 	baseUp.x, baseUp.y, baseUp.z,
-	camSector->QueryObject()->GetName());
+	baseSector->QueryObject()->GetName());
   */
 
   iCamera * c = view->GetCamera();
   
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
-  if (c->GetSector() != camSector)
-    c->SetSector(camSector);
-  c->SetTransform(camTrans);
+  if (c->GetSector() != baseSector)
+    c->SetSector(baseSector);
+  c->SetTransform(baseTrans);
   c->OnlyPortals(true);
 
   // Tell 3D driver we're going to display 3D things.

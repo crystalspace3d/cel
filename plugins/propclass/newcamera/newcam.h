@@ -32,9 +32,11 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
+#include "celtool/camera.h"
 #include "propclass/newcamera.h"
 #include "propclass/region.h"
 #include "propclass/mesh.h"
+#include "csgeom/transfrm.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -47,7 +49,6 @@ struct iCollideSystem;
 struct iView;
 class csView;
 class celPcNewCamera;
-class csReversibleTransform;
 class iPcZoneManager;
 
 /**
@@ -58,7 +59,7 @@ CEL_DECLARE_FACTORY(NewCamera)
 /**
  * This is a camera property class.
  */
-class celPcNewCamera : public celPcCommon, public iPcNewCamera
+class celPcNewCamera : public celPcCameraCommon
 {
 private:
   csRef<iGraphics3D> g3d;
@@ -74,14 +75,15 @@ private:
   csVector3 baseDir;
   csVector3 baseUp;
   csVector3 basePosOffset;
+  csReversibleTransform baseTrans;
+  iSector * baseSector;
 
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
   void UpdateMeshVisibility();
 
-  void GetActorTransform(csReversibleTransform & 
-      actor_trans, iSector *& actor_sector);
+  void GetActorTransform();
 
 public:
   celPcNewCamera(iObjectRegistry * object_reg);
@@ -120,6 +122,12 @@ public:
   virtual const csVector3 & GetBaseUp() const;
   
   /**
+   * Gets the base transform of the camera.
+   * \return	The base transform of the camera.
+   */
+  virtual const csReversibleTransform & GetBaseTrans() const;
+
+  /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
@@ -137,7 +145,7 @@ public:
    *  \param mode 	The id of the built-in camera mode to attach.
    *  \return 		A unique id for the attached camera mode.
    */
-  virtual size_t AttachCameraMode(CEL_CAMERA_MODE mode);
+  virtual size_t AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode);
 
   /** Gets the index of the current camera mode.
    *  \return 	The index of the current camera mode.
@@ -170,6 +178,147 @@ public:
   virtual void TickEveryFrame();
 
   SCF_DECLARE_IBASE_EXT(celPcCommon);
+
+  struct PcNewCamera : public iPcNewCamera
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcNewCamera);
+    virtual bool SetRegion (iPcRegion* region, bool point = true,
+        const char* name = 0)
+    {
+      return scfParent->SetRegion (region, point, name);
+    }
+    virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+        const char* regionname, const char* name = 0)
+    {
+      return scfParent->SetZoneManager (zonemgr, point, regionname, name);
+    }
+    virtual bool SetZoneManager (const char* entityname, bool point,
+        const char* regionname, const char* name = 0)
+    {
+      return scfParent->SetZoneManager (entityname, point, regionname, name);
+    }
+    virtual void SetRectangle (int x, int y, int w, int h)
+    {
+      scfParent->SetRectangle (x, y, w, h);
+    }
+    virtual iCamera* GetCamera () const
+    {
+      return scfParent->GetCamera ();
+    }
+    virtual iView* GetView () const
+    {
+      return scfParent->GetView ();
+    }
+    virtual void SetClearZBuffer (bool flag)
+    {
+      scfParent->SetClearZBuffer (flag);
+    }
+    virtual bool GetClearZBuffer () const
+    {
+      return scfParent->GetClearZBuffer ();
+    }
+    virtual void SetClearScreen (bool flag)
+    {
+      scfParent->SetClearScreen (flag);
+    }
+    virtual bool GetClearScreen () const
+    {
+      return scfParent->GetClearScreen ();
+    }
+    virtual void DisableDistanceClipping ()
+    {
+      scfParent->DisableDistanceClipping ();
+    }
+    virtual void EnableFixedDistanceClipping (float dist)
+    {
+      scfParent->EnableFixedDistanceClipping (dist);
+    }
+    virtual void EnableAdaptiveDistanceClipping (float min_fps,
+        float max_fps, float min_dist)
+    {
+      scfParent->EnableAdaptiveDistanceClipping (min_fps, max_fps, min_dist);
+    }
+    virtual bool UseDistanceClipping () const
+    {
+      return scfParent->UseDistanceClipping ();
+    }
+    virtual bool UseFixedDistanceClipping () const
+    {
+      return scfParent->UseFixedDistanceClipping ();
+    }
+    virtual float GetFixedDistance () const
+    {
+      return scfParent->GetFixedDistance ();
+    }
+    virtual float GetAdaptiveMinFPS () const
+    {
+      return scfParent->GetAdaptiveMinFPS ();
+    }
+    virtual float GetAdaptiveMaxFPS () const
+    {
+      return scfParent->GetAdaptiveMaxFPS ();
+    }
+    virtual float GetAdaptiveMinDistance () const
+    {
+      return scfParent->GetAdaptiveMinDistance ();
+    }
+    virtual void SetAutoDraw (bool auto_draw)
+    {
+      scfParent->SetAutoDraw (auto_draw);
+    }
+    virtual const csVector3 & GetBasePos() const
+    {
+      return scfParent->GetBasePos();
+    }
+    virtual const csVector3 & GetBaseDir() const
+    {
+      return scfParent->GetBaseDir();
+    }
+    virtual const csVector3 & GetBaseUp() const
+    {
+      return scfParent->GetBaseUp();
+    }
+    virtual const csReversibleTransform & GetBaseTrans() const
+    {
+      return scfParent->GetBaseTrans();
+    }
+    virtual void SetPositionOffset(const csVector3 & offset)
+    {
+      scfParent->SetPositionOffset(offset);
+    }
+    virtual size_t AttachCameraMode(iCelCameraMode * mode)
+    {
+      return scfParent->AttachCameraMode(mode);
+    }
+    virtual size_t AttachCameraMode(CEL_CAMERA_MODE mode)
+    {
+      return scfParent->AttachCameraMode(mode);
+    }
+    virtual size_t GetCurrentCameraModeIndex() const
+    {
+      return scfParent->GetCurrentCameraModeIndex();
+    }
+    virtual iCelCameraMode * GetCurrentCameraMode()
+    {
+      return scfParent->GetCurrentCameraMode();
+    }
+    virtual bool SetCurrentCameraMode(size_t modeIndex)
+    {
+      return scfParent->SetCurrentCameraMode(modeIndex);
+    }
+    virtual void NextCameraMode()
+    {
+      scfParent->NextCameraMode();
+    }
+    virtual void PrevCameraMode()
+    {
+      scfParent->PrevCameraMode();
+    }
+    virtual void Draw()
+    {
+      scfParent->Draw();
+    }
+  } scfiPcNewCamera, scfiPcCamera;
 };
 
 #endif // __CEL_PF_NEW_CAMERA_FACTORY__

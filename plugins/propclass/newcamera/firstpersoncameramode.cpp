@@ -24,99 +24,12 @@
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/firstpersoncameramode.h"
 #include "propclass/newcamera.h"
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/persist.h"
-#include "physicallayer/datatype.h"
-#include "behaviourlayer/behave.h"
-#include "csutil/util.h"
-#include "csutil/debug.h"
-#include "csutil/flags.h"
-#include "iutil/objreg.h"
-#include "iutil/object.h"
-#include "iutil/vfs.h"
-#include "iutil/virtclk.h"
-#include "iutil/csinput.h"
-#include "iutil/eventq.h"
-#include "iutil/event.h"
-#include "iutil/evdefs.h"
-#include "imap/loader.h"
-#include "iengine/engine.h"
-#include "iengine/mesh.h"
-#include "iengine/movable.h"
-#include "iengine/camera.h"
-#include "iengine/region.h"
-#include "iengine/campos.h"
-#include "iengine/sector.h"
-#include "cstool/csview.h"
-#include "cstool/collider.h"
-#include "csgeom/transfrm.h"
-#include "ivaria/view.h"
-#include "ivaria/collider.h"
-#include "ivaria/reporter.h"
-#include "ivideo/graph3d.h"
-#include "csqsqrt.h"
 
 celFirstPersonCameraMode::celFirstPersonCameraMode()
+	: celCameraMode()
 {
-  posOffset = csVector3(0,0,0);
-
-  parentCamera = 0;
 }
 
 celFirstPersonCameraMode::~celFirstPersonCameraMode()
 {
 }
-
-void celFirstPersonCameraMode::SetParentCamera(iPcNewCamera * camera)
-{
-  parentCamera = camera;
-}
-
-bool celFirstPersonCameraMode::UseSpringPhysics() const
-{
-  return false;
-}
-
-bool celFirstPersonCameraMode::DrawAttachedMesh() const
-{
-  return false;
-}
-
-float celFirstPersonCameraMode::GetSpringCoefficient() const
-{
-  return 0;
-}
-
-float celFirstPersonCameraMode::GetSpringLength() const
-{
-  return 0;
-}
-
-float celFirstPersonCameraMode::GetInertialDampeningCoefficient() const
-{
-  return 0;
-}
-
-const csVector3 & celFirstPersonCameraMode::GetPositionOffset() const
-{
-  return posOffset;
-}
-
-const csVector3 & celFirstPersonCameraMode::GetDirection() const
-{
-  return parentCamera->GetBaseDir();
-}
-
-const csVector3 & celFirstPersonCameraMode::GetUp() const
-{
-  return parentCamera->GetBaseUp();
-}
-
-bool celFirstPersonCameraMode::DecideCameraState()
-{
-  if (!parentCamera)
-    return false;
-  return true;
-}
-
