@@ -1110,6 +1110,7 @@ class iCelRegion(cspace.iBase):
     def RemoveMapFile(*args): return _blcelc.iCelRegion_RemoveMapFile(*args)
     def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
+    def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
     def __del__(self, destroy=_blcelc.delete_iCelRegion):
         try:
             if self.thisown: destroy(self)
@@ -1184,6 +1185,8 @@ class iPcZoneManager(cspace.iBase):
     def RemoveAllRegions(*args): return _blcelc.iPcZoneManager_RemoveAllRegions(*args)
     def FindStartLocations(*args): return _blcelc.iPcZoneManager_FindStartLocations(*args)
     def GetLastStartLocation(*args): return _blcelc.iPcZoneManager_GetLastStartLocation(*args)
+    def GetLastStartRegionName(*args): return _blcelc.iPcZoneManager_GetLastStartRegionName(*args)
+    def GetLastStartName(*args): return _blcelc.iPcZoneManager_GetLastStartName(*args)
     def PointCamera(*args): return _blcelc.iPcZoneManager_PointCamera(*args)
     def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
     def __del__(self, destroy=_blcelc.delete_iPcZoneManager):
