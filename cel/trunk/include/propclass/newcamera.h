@@ -86,11 +86,10 @@ struct iCelCameraMode
    */
   virtual float GetInertialDampeningCoefficient() const = 0;
   
-  /** Gets the desired camera position as an offset of the player's position.
-   *  \return 	The desired camera position as an offset of the player's
-   *  		position.
+  /** Gets the desired camera position.
+   *  \return 	The desired camera position.
    */
-  virtual const csVector3 & GetPositionOffset() const = 0;
+  virtual const csVector3 & GetPosition() const = 0;
 
   /** Gets the desired camera direction.
    *  \return 	The desired camera direction.
@@ -113,7 +112,7 @@ SCF_VERSION(iPcNewCamera, 0, 0, 1);
 /**
  * This is a camera property class.
  */
-struct iPcNewCamera : public iBase
+struct iPcNewCamera : public iPcCamera
 {
   /**
    * Gets the base position of the camera in world coordinates.
@@ -134,6 +133,12 @@ struct iPcNewCamera : public iBase
   virtual const csVector3 & GetBaseUp() const = 0;
 
   /**
+   * Gets the base transform of the camera.
+   * \return	The base transform of the camera.
+   */
+  virtual const csReversibleTransform & GetBaseTrans() const = 0;
+
+  /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
@@ -150,6 +155,7 @@ struct iPcNewCamera : public iBase
   typedef enum _CEL_CAMERA_MODE
   {
     CCM_FIRST_PERSON,
+    CCM_THIRD_PERSON,
 
     CCM_COUNT
   } CEL_CAMERA_MODE;

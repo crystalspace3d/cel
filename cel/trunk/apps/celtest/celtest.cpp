@@ -17,6 +17,8 @@
     MA 02111-1307, USA.
 */
 
+//#define CEL_USE_NEW_CAMERA
+
 #include "cssysdef.h"
 #include "celtest.h"
 #include "csutil/sysfunc.h"
@@ -80,6 +82,9 @@
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
 #include "propclass/defcam.h"
+#ifdef CEL_USE_NEW_CAMERA
+#include "propclass/newcamera.h"
+#endif
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
@@ -185,7 +190,11 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pccommandinput",
+#ifdef CEL_USE_NEW_CAMERA
+	"pcnewcamera",
+#else
 	"pcdefaultcamera",
+#endif
 	"pcactormove",
 	"pcmesh",
 	"pcmeshselect",
@@ -211,6 +220,16 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
+#ifdef CEL_USE_NEW_CAMERA
+  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
+	entity_cam, iPcNewCamera);
+  //size_t first_idx = 
+  //  newcamera->AttachCameraMode(iPcNewCamera::CCM_FIRST_PERSON);
+  size_t third_idx =
+    newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
+  //newcamera->SetCurrentCameraMode(third_idx); 
+  newcamera->SetPositionOffset(csVector3(0,2,0));
+#else
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
@@ -232,6 +251,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1, 3));
   pccamera->SetModeName ("thirdperson");
+#endif
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -424,6 +444,10 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
     return false;
+#ifdef CEL_USE_NEW_CAMERA
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
+    return false;
+#endif
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
