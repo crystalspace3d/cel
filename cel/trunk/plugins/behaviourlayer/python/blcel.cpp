@@ -9914,14 +9914,13 @@ static PyObject *_wrap_iPcMechanicsObject_AddForceTagged(PyObject *, PyObject *a
     csVector3 *arg2 = 0 ;
     bool arg3 ;
     csVector3 *arg4 = 0 ;
-    uint32 *arg5 = 0 ;
+    uint32 result;
     PyObject * obj0 = 0 ;
     PyObject * obj1 = 0 ;
     PyObject * obj2 = 0 ;
     PyObject * obj3 = 0 ;
-    PyObject * obj4 = 0 ;
     
-    if(!PyArg_ParseTuple(args,(char *)"OOOOO:iPcMechanicsObject_AddForceTagged",&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcMechanicsObject_AddForceTagged",&obj0,&obj1,&obj2,&obj3)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
@@ -9944,17 +9943,11 @@ static PyObject *_wrap_iPcMechanicsObject_AddForceTagged(PyObject *, PyObject *a
         }
         if (SWIG_arg_fail(4)) SWIG_fail;
     }
-    {
-        SWIG_Python_ConvertPtr(obj4, (void **)&arg5, SWIGTYPE_p_unsigned_int, SWIG_POINTER_EXCEPTION | 0);
-        if (SWIG_arg_fail(5)) SWIG_fail;
-        if (arg5 == NULL) {
-            SWIG_null_ref("uint32");
-        }
-        if (SWIG_arg_fail(5)) SWIG_fail;
-    }
-    (arg1)->AddForceTagged((csVector3 const &)*arg2,arg3,(csVector3 const &)*arg4,*arg5);
+    result = (uint32)(arg1)->AddForceTagged((csVector3 const &)*arg2,arg3,(csVector3 const &)*arg4);
     
-    Py_INCREF(Py_None); resultobj = Py_None;
+    {
+        resultobj = SWIG_From_unsigned_SS_int((unsigned int)(result)); 
+    }
     return resultobj;
     fail:
     return NULL;
