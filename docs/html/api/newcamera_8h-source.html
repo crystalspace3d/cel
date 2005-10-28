@@ -91,52 +91,55 @@
 <a name="l00083"></a>00083 
 <a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiCelCameraMode.html#3b1be70d0b26162a686681a83ad8472f">GetInertialDampeningCoefficient</a>() <span class="keyword">const </span>= 0;
 <a name="l00088"></a>00088   
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#80eb948f437e867c4269be1790255766">GetPositionOffset</a>() <span class="keyword">const </span>= 0;
-<a name="l00094"></a>00094 
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#7722c9ce7d0f4ca58622a30cce5f2f01">GetDirection</a>() <span class="keyword">const </span>= 0;
-<a name="l00099"></a>00099   
-<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#60837d8f58787e530b67c08a9ee1251a">GetUp</a>() <span class="keyword">const </span>= 0;
-<a name="l00104"></a>00104 
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelCameraMode.html#b361143b321cc142c2a0b553b9d3f05f">DecideCameraState</a>() = 0; 
-<a name="l00110"></a>00110 };
-<a name="l00111"></a>00111 
-<a name="l00112"></a>00112 SCF_VERSION(<a class="code" href="structiPcNewCamera.html">iPcNewCamera</a>, 0, 0, 1);
-<a name="l00116"></a><a class="code" href="structiPcNewCamera.html">00116</a> <span class="keyword">struct </span><a class="code" href="structiPcNewCamera.html">iPcNewCamera</a> : <span class="keyword">public</span> iBase
-<a name="l00117"></a>00117 {
-<a name="l00122"></a>00122   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#77b9ca36d52738a739c8abcc511ec1f8">GetBasePos</a>() <span class="keyword">const </span>= 0;
-<a name="l00123"></a>00123 
-<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#c669c0e4ea77cc31b624dddbbf22ef59">GetBaseDir</a>() <span class="keyword">const </span>= 0;
-<a name="l00129"></a>00129 
-<a name="l00134"></a>00134   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#fd2b19526bf37bc3192f96b585fe1092">GetBaseUp</a>() <span class="keyword">const </span>= 0;
-<a name="l00135"></a>00135 
-<a name="l00142"></a>00142   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#5fb11b938c15ae08e0d1abc14b597ced">SetPositionOffset</a>(<span class="keyword">const</span> csVector3 &amp; offset) = 0;
-<a name="l00143"></a>00143 
-<a name="l00148"></a>00148   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#616414f7db1189dcbf1cae912ab549c2">AttachCameraMode</a>(<a class="code" href="structiCelCameraMode.html">iCelCameraMode</a> * mode) = 0;
-<a name="l00149"></a>00149 
-<a name="l00150"></a><a class="code" href="structiPcNewCamera.html#61c48b5b40fb61480dec1d70c6fa78a0">00150</a>   <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="structiPcNewCamera.html#61c48b5b40fb61480dec1d70c6fa78a0">_CEL_CAMERA_MODE</a>
-<a name="l00151"></a>00151   {
-<a name="l00152"></a>00152     CCM_FIRST_PERSON,
-<a name="l00153"></a>00153 
-<a name="l00154"></a>00154     CCM_COUNT
-<a name="l00155"></a>00155   } CEL_CAMERA_MODE;
-<a name="l00156"></a>00156 
-<a name="l00161"></a>00161   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#616414f7db1189dcbf1cae912ab549c2">AttachCameraMode</a>(CEL_CAMERA_MODE mode) = 0;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#209589d929928b99dfe034263850a654">GetPosition</a>() <span class="keyword">const </span>= 0;
+<a name="l00093"></a>00093 
+<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#7722c9ce7d0f4ca58622a30cce5f2f01">GetDirection</a>() <span class="keyword">const </span>= 0;
+<a name="l00098"></a>00098   
+<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiCelCameraMode.html#60837d8f58787e530b67c08a9ee1251a">GetUp</a>() <span class="keyword">const </span>= 0;
+<a name="l00103"></a>00103 
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelCameraMode.html#b361143b321cc142c2a0b553b9d3f05f">DecideCameraState</a>() = 0; 
+<a name="l00109"></a>00109 };
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 SCF_VERSION(<a class="code" href="structiPcNewCamera.html">iPcNewCamera</a>, 0, 0, 1);
+<a name="l00115"></a><a class="code" href="structiPcNewCamera.html">00115</a> <span class="keyword">struct </span><a class="code" href="structiPcNewCamera.html">iPcNewCamera</a> : <span class="keyword">public</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>
+<a name="l00116"></a>00116 {
+<a name="l00121"></a>00121   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#77b9ca36d52738a739c8abcc511ec1f8">GetBasePos</a>() <span class="keyword">const </span>= 0;
+<a name="l00122"></a>00122 
+<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#c669c0e4ea77cc31b624dddbbf22ef59">GetBaseDir</a>() <span class="keyword">const </span>= 0;
+<a name="l00128"></a>00128 
+<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 &amp; <a class="code" href="structiPcNewCamera.html#fd2b19526bf37bc3192f96b585fe1092">GetBaseUp</a>() <span class="keyword">const </span>= 0;
+<a name="l00134"></a>00134 
+<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keyword">const</span> csReversibleTransform &amp; <a class="code" href="structiPcNewCamera.html#f556081591847b2cbbe9638dcfb14e02">GetBaseTrans</a>() <span class="keyword">const </span>= 0;
+<a name="l00140"></a>00140 
+<a name="l00147"></a>00147   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#5fb11b938c15ae08e0d1abc14b597ced">SetPositionOffset</a>(<span class="keyword">const</span> csVector3 &amp; offset) = 0;
+<a name="l00148"></a>00148 
+<a name="l00153"></a>00153   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#616414f7db1189dcbf1cae912ab549c2">AttachCameraMode</a>(<a class="code" href="structiCelCameraMode.html">iCelCameraMode</a> * mode) = 0;
+<a name="l00154"></a>00154 
+<a name="l00155"></a><a class="code" href="structiPcNewCamera.html#61c48b5b40fb61480dec1d70c6fa78a0">00155</a>   <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="structiPcNewCamera.html#61c48b5b40fb61480dec1d70c6fa78a0">_CEL_CAMERA_MODE</a>
+<a name="l00156"></a>00156   {
+<a name="l00157"></a>00157     CCM_FIRST_PERSON,
+<a name="l00158"></a>00158     CCM_THIRD_PERSON,
+<a name="l00159"></a>00159 
+<a name="l00160"></a>00160     CCM_COUNT
+<a name="l00161"></a>00161   } CEL_CAMERA_MODE;
 <a name="l00162"></a>00162 
-<a name="l00166"></a>00166   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#26a026bd213458ed81fbd2b4708f83e8">GetCurrentCameraModeIndex</a>() <span class="keyword">const </span>= 0;
-<a name="l00167"></a>00167 
-<a name="l00171"></a>00171   <span class="keyword">virtual</span> <a class="code" href="structiCelCameraMode.html">iCelCameraMode</a> * <a class="code" href="structiPcNewCamera.html#9c10f43d4ca01db06f2ad612eb8d214e">GetCurrentCameraMode</a>() = 0;
-<a name="l00172"></a>00172 
-<a name="l00177"></a>00177   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcNewCamera.html#e197a33c97c0dbecb195fd3fd16177b3">SetCurrentCameraMode</a>(size_t modeIndex) = 0;
+<a name="l00167"></a>00167   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#616414f7db1189dcbf1cae912ab549c2">AttachCameraMode</a>(CEL_CAMERA_MODE mode) = 0;
+<a name="l00168"></a>00168 
+<a name="l00172"></a>00172   <span class="keyword">virtual</span> size_t <a class="code" href="structiPcNewCamera.html#26a026bd213458ed81fbd2b4708f83e8">GetCurrentCameraModeIndex</a>() <span class="keyword">const </span>= 0;
+<a name="l00173"></a>00173 
+<a name="l00177"></a>00177   <span class="keyword">virtual</span> <a class="code" href="structiCelCameraMode.html">iCelCameraMode</a> * <a class="code" href="structiPcNewCamera.html#9c10f43d4ca01db06f2ad612eb8d214e">GetCurrentCameraMode</a>() = 0;
 <a name="l00178"></a>00178 
-<a name="l00181"></a>00181   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#2a9645255515df48837d12814b8ec739">NextCameraMode</a>() = 0;
-<a name="l00182"></a>00182 
-<a name="l00185"></a>00185   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#73919d77bf2ed50eb98028994d0da557">PrevCameraMode</a>() = 0;
-<a name="l00186"></a>00186 
-<a name="l00190"></a>00190   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#f995f2e4fa381701f2579b5023c31469">Draw</a>() = 0;
-<a name="l00191"></a>00191 };
+<a name="l00183"></a>00183   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcNewCamera.html#e197a33c97c0dbecb195fd3fd16177b3">SetCurrentCameraMode</a>(size_t modeIndex) = 0;
+<a name="l00184"></a>00184 
+<a name="l00187"></a>00187   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#2a9645255515df48837d12814b8ec739">NextCameraMode</a>() = 0;
+<a name="l00188"></a>00188 
+<a name="l00191"></a>00191   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#73919d77bf2ed50eb98028994d0da557">PrevCameraMode</a>() = 0;
 <a name="l00192"></a>00192 
-<a name="l00193"></a>00193 <span class="preprocessor">#endif // __CEL_PF_NEW_CAMERA__</span>
-<a name="l00194"></a>00194 <span class="preprocessor"></span>
+<a name="l00196"></a>00196   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcNewCamera.html#f995f2e4fa381701f2579b5023c31469">Draw</a>() = 0;
+<a name="l00197"></a>00197 };
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 <span class="preprocessor">#endif // __CEL_PF_NEW_CAMERA__</span>
+<a name="l00200"></a>00200 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.5 
 </small></address> </div></body> </html>
