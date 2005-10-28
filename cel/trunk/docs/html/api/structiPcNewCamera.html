@@ -28,11 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcNewCamera Struct Reference</h1><!-- doxytag: class="iPcNewCamera" -->This is a camera property class.  
+<h1>iPcNewCamera Struct Reference</h1><!-- doxytag: class="iPcNewCamera" --><!-- doxytag: inherits="iPcCamera" -->This is a camera property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="newcamera_8h-source.html">propclass/newcamera.h</a>&gt;</code>
 <p>
+<p>Inheritance diagram for iPcNewCamera:
+<p><center><img src="structiPcNewCamera.png" usemap="#iPcNewCamera_map" border="0" alt=""></center>
+<map name="iPcNewCamera_map">
+<area href="structiPcCamera.html" alt="iPcCamera" shape="rect" coords="0,0,99,24">
+</map>
 <a href="structiPcNewCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Types</h2></td></tr>
@@ -54,6 +59,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#77b9ca36d52738a739c8abcc511ec1f8">GetBasePos</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base position of the camera in world coordinates.  <a href="#77b9ca36d52738a739c8abcc511ec1f8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csReversibleTransform &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#f556081591847b2cbbe9638dcfb14e02">GetBaseTrans</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base transform of the camera.  <a href="#f556081591847b2cbbe9638dcfb14e02"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#fd2b19526bf37bc3192f96b585fe1092">GetBaseUp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base up vector of the camera.  <a href="#fd2b19526bf37bc3192f96b585fe1092"></a><br></td></tr>
@@ -81,7 +89,7 @@ This is a camera property class.
 <p>
 
 <p>
-Definition at line <a class="el" href="newcamera_8h-source.html#l00116">116</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="newcamera_8h-source.html#l00115">115</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="16167b7e71aea9632dfd6cd22c441803"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="16167b7e71aea9632dfd6cd22c441803" args="(CEL_CAMERA_MODE mode)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -180,7 +188,9 @@ Attaches a camera mode to this camera.
 <p>
 Render. 
 <p>
-This will clear the screen then draw on top of it.     </td>
+This will clear the screen then draw on top of it. 
+<p>
+Implements <a class="el" href="structiPcCamera.html#f995f2e4fa381701f2579b5023c31469">iPcCamera</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="c669c0e4ea77cc31b624dddbbf22ef59"></a><!-- doxytag: member="iPcNewCamera::GetBaseDir" ref="c669c0e4ea77cc31b624dddbbf22ef59" args="() const =0" --><p>
@@ -240,6 +250,36 @@ Gets the base direction of the camera.
 Gets the base position of the camera in world coordinates. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>The base position of the camera in world coordinates. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f556081591847b2cbbe9638dcfb14e02"></a><!-- doxytag: member="iPcNewCamera::GetBaseTrans" ref="f556081591847b2cbbe9638dcfb14e02" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csReversibleTransform&amp; iPcNewCamera::GetBaseTrans           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the base transform of the camera. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The base transform of the camera. </dd></dl>
     </td>
   </tr>
 </table>

@@ -199,25 +199,25 @@
 <a name="l00474"></a>00474   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#66253c14e92864f150c2878988d2612c">AddForceFrame</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
 <a name="l00475"></a>00475         <span class="keyword">const</span> csVector3&amp; position) = 0;
 <a name="l00476"></a>00476 
-<a name="l00485"></a>00485   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#0a63502f080f20145a1b1f858ae070ff">AddForceTagged</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
-<a name="l00486"></a>00486         <span class="keyword">const</span> csVector3&amp; position, uint32&amp; forceid) = 0;
-<a name="l00487"></a>00487 
-<a name="l00492"></a>00492   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#b4a7fbca397f4bed16f6af26efc5d527">RemoveForceTagged</a> (uint32 forceid) = 0;
-<a name="l00493"></a>00493 
-<a name="l00497"></a>00497   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#ac5d56b5e6b2eb736104d2733bb9ef9f">ClearForces</a> () = 0;
-<a name="l00498"></a>00498 
+<a name="l00486"></a>00486   <span class="keyword">virtual</span> uint32 <a class="code" href="structiPcMechanicsObject.html#61a2a43667672c94ff436e1139577a84">AddForceTagged</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, 
+<a name="l00487"></a>00487         <span class="keyword">const</span> csVector3&amp; position) = 0;
+<a name="l00488"></a>00488 
+<a name="l00493"></a>00493   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#b4a7fbca397f4bed16f6af26efc5d527">RemoveForceTagged</a> (uint32 forceid) = 0;
+<a name="l00494"></a>00494 
+<a name="l00498"></a>00498   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#ac5d56b5e6b2eb736104d2733bb9ef9f">ClearForces</a> () = 0;
 <a name="l00499"></a>00499 
-<a name="l00501"></a>00501   <span class="comment">//Groups and Joints</span>
-<a name="l00502"></a>00502 
-<a name="l00508"></a>00508   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#d6ed523c441434f5d906f631b853463b">AddToGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
-<a name="l00509"></a>00509 
-<a name="l00514"></a>00514   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#f01c6d5a305c4e82fb119c6bc8b186d1">RemoveFromGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
-<a name="l00515"></a>00515 
-<a name="l00519"></a>00519   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsObject.html#d2698a5ed94657aa78e72f7af7569f46">CreateJoint</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* other) = 0;
-<a name="l00520"></a>00520 };
-<a name="l00521"></a>00521 
-<a name="l00522"></a>00522 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
-<a name="l00523"></a>00523 <span class="preprocessor"></span>
+<a name="l00500"></a>00500 
+<a name="l00502"></a>00502   <span class="comment">//Groups and Joints</span>
+<a name="l00503"></a>00503 
+<a name="l00509"></a>00509   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#d6ed523c441434f5d906f631b853463b">AddToGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00510"></a>00510 
+<a name="l00515"></a>00515   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#f01c6d5a305c4e82fb119c6bc8b186d1">RemoveFromGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00516"></a>00516 
+<a name="l00520"></a>00520   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsObject.html#d2698a5ed94657aa78e72f7af7569f46">CreateJoint</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* other) = 0;
+<a name="l00521"></a>00521 };
+<a name="l00522"></a>00522 
+<a name="l00523"></a>00523 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
+<a name="l00524"></a>00524 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.5 
 </small></address> </div></body> </html>
