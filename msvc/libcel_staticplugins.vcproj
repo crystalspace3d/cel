@@ -1094,6 +1094,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\propclass\newcamera\celcameramode.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_newcamera_celcameramode.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_newcamera_celcameramode.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1121,6 +1136,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_newcamera_newcam.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\thirdpersoncameramode.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_newcamera_thirdpersoncameramode.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_newcamera_thirdpersoncameramode.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1809,10 +1839,16 @@
 				RelativePath="..\plugins\propclass\mover\moverfact.h">
 			</File>
 			<File
+				RelativePath="..\plugins\propclass\newcamera\celcameramode.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\newcamera\newcam.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\thirdpersoncameramode.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\portal\portalfact.h">
