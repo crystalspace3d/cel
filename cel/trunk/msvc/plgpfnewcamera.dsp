@@ -104,11 +104,19 @@ SOURCE="$(InputPath)"
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\newcamera\celcameramode.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\newcamera\newcam.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\thirdpersoncameramode.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -116,11 +124,19 @@ SOURCE=..\plugins\propclass\newcamera\newcam.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\plugins\propclass\newcamera\celcameramode.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\newcamera\newcam.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\thirdpersoncameramode.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

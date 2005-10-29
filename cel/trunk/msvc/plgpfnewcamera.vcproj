@@ -169,20 +169,32 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\newcamera\celcameramode.cpp">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.cpp">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\newcamera\newcam.cpp">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\thirdpersoncameramode.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\plugins\propclass\newcamera\celcameramode.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\newcamera\firstpersoncameramode.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\newcamera\newcam.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\newcamera\thirdpersoncameramode.h">
 			</File>
 		</Filter>
 		<Filter

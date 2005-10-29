@@ -352,11 +352,19 @@ SOURCE=..\plugins\propclass\mover\moverfact.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\propclass\newcamera\celcameramode.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\newcamera\newcam.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\thirdpersoncameramode.cpp
 # End Source File
 # Begin Source File
 
@@ -648,11 +656,19 @@ SOURCE=..\plugins\propclass\mover\moverfact.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\propclass\newcamera\celcameramode.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\newcamera\firstpersoncameramode.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\plugins\propclass\newcamera\newcam.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\newcamera\thirdpersoncameramode.h
 # End Source File
 # Begin Source File
 
