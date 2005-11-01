@@ -10,7 +10,6 @@ SubInclude TOP plugins propclass mesh ;
 SubInclude TOP plugins propclass light ;
 SubInclude TOP plugins propclass portal ;
 SubInclude TOP plugins propclass move ;
-SubInclude TOP plugins propclass dynmove ;
 SubInclude TOP plugins propclass mechanics ;
 SubInclude TOP plugins propclass test ;
 SubInclude TOP plugins propclass tools ;
