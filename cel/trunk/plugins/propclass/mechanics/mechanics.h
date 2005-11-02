@@ -76,12 +76,19 @@ private:
   // Actions
   static csStringID action_setsystem;
   static csStringID action_setgravity;
+  static csStringID action_quickstep;
+  static csStringID action_enablestepfast;
+  static csStringID action_disablestepfast;
+  static csStringID action_setsteptime;
 
   // Parameters for action_setsystem (mechsystem)
   static csStringID param_dynsys;
 
   // Parameters for action_setgravity
   static csStringID param_gravity;
+
+  // Parameters for action_setsteptime
+  static csStringID param_time;
  
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;

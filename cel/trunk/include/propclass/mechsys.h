@@ -28,6 +28,10 @@ struct iJoint;
  * <ul>
  * <li>SetSystem: parameters 'dynsys' (string).
  * <li>SetGravity: parameters 'gravity' (float).
+ * <li>SetStepTime: parameters 'time' (float).
+ * <li>QuickStep: no parameters.
+ * <li>EnableStepFast: no parameters.
+ * <li>DisableStepFast: no parameters.
  * </ul>
  */
 struct iPcMechanicsSystem : public virtual iBase

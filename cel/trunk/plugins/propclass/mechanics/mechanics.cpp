@@ -55,12 +55,19 @@ CEL_IMPLEMENT_FACTORY(MechanicsObject, "pcmechobject")
 // Actions
 csStringID celPcMechanicsSystem::action_setsystem = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_setgravity = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_quickstep = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_enablestepfast = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_disablestepfast = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_setsteptime = csInvalidStringID;
 
 // Parameters for action_setsystem
 csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
 
 // Parameters for action_setgravity
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
+
+// Parameters for action_setsteptime
+csStringID celPcMechanicsSystem::param_time = csInvalidStringID;
 
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -80,11 +87,17 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     // Actions
     action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
     action_setgravity  = pl->FetchStringID ("cel.action.SetGravity");
+    action_quickstep = pl->FetchStringID ("cel.action.QuickStep");
+    action_enablestepfast = pl->FetchStringID ("cel.action.EnableStepFast");
+    action_disablestepfast = pl->FetchStringID ("cel.action.DisableStepFast");
+    action_setsteptime = pl->FetchStringID ("cel.action.SetStepTime");
   
     // Parameters for action_setsystem
     param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
     // Parameters for action_setgravity
     param_gravity = pl->FetchStringID ("cel.parameter.gravity");
+    // Parameters for action_setsteptime
+    param_time = pl->FetchStringID ("cel.parameter.time");
   }
 }
 
@@ -292,7 +305,29 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
       return false;
     }
   }
-  if (actionId == action_setgravity)
+  else if (actionId == action_quickstep)
+  {
+    EnableQuickStep ();
+  }
+  else if (actionId == action_enablestepfast)
+  {
+    EnableStepFast ();
+  }
+  else if (actionId == action_disablestepfast)
+  {
+    DisableStepFast ();
+  }
+  else if (actionId == action_setsteptime)
+  {
+    CEL_FETCH_FLOAT_PAR (time,params,param_time);
+    if (!p_time)
+    {
+      Report (object_reg, "Couldn't get 'time' parameter for SetStepTime!");
+      return false;
+    }
+    SetStepTime (time);
+  }
+  else if (actionId == action_setgravity)
   {
     CEL_FETCH_VECTOR3_PAR (gravity,params,param_gravity);
     if (p_gravity)
