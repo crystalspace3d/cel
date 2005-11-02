@@ -804,38 +804,24 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_FLOAT_PAR (friction,params,param_friction);
     if (p_friction)
       SetFriction (friction);
-    else
-      Report (object_reg, "Couldn't get friction!");
     CEL_FETCH_FLOAT_PAR (mass,params,param_mass);
     if (p_mass)
       SetMass (mass);
-    else
-      Report (object_reg, "Couldn't get mass!");
     CEL_FETCH_FLOAT_PAR (elasticity,params,param_elasticity);
     if (p_elasticity)
       SetElasticity (elasticity);
-    else
-      Report (object_reg, "Couldn't get elasticity!");
     CEL_FETCH_FLOAT_PAR (density,params,param_density);
     if (p_density)
       SetDensity (density);
-    else
-      Report (object_reg, "Couldn't get density!");
     CEL_FETCH_FLOAT_PAR (softness,params,param_softness);
     if (p_softness)
       SetSoftness (softness);
-    else
-      Report (object_reg, "Couldn't get softness!");
     CEL_FETCH_VECTOR3_PAR (lift,params,param_lift);
     if (p_lift)
       SetLift (lift);
-    else
-      Report (object_reg, "Couldn't get lift!");
     CEL_FETCH_FLOAT_PAR (drag,params,param_drag);
     if (p_drag)
       SetDrag (drag);
-    else
-      Report (object_reg, "Couldn't get drag!");
     return true;
   }
   else if (actionId == action_makestatic)

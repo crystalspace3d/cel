@@ -26,6 +26,7 @@ The history order is reversed so that new features are at the top.
 	      - angle for SetColliderBox (default 0).
 	      - axis for SetColliderBox (default 0,0,0).
 	      - offset for SetColliderPlane (default 0).
+	- Jorrit made all parameters for InitPhys optional.
 1-Nov-2005
 	- Jorrit removes the now obsolete dynmove property class. Use
 	  mechanics instead.
