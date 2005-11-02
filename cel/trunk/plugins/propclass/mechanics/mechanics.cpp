@@ -873,12 +873,11 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   else if (actionId == action_setmesh)
   {
     CEL_FETCH_STRING_PAR (meshpctag,params,param_meshpctag);
+    csRef<iPcMesh> pcmesh;
     if (!p_meshpctag)
-    {
-      Report (object_reg, "Couldn't get mesh tag!");
-      return false;
-    }
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMesh,
+      pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity (),iPcMesh);
+    else
+      pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMesh,
 		    meshpctag);
     SetMesh (pcmesh);
     return true;
@@ -886,17 +885,9 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   else if (actionId == action_setcollidersphere)
   {
     CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
-    if (!p_radius)
-    {
-      Report (object_reg, "Couldn't get radius!");
-      return false;
-    }
+    if (!p_radius) radius = 1.0f;
     CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-    if (!p_offset)
-    {
-      Report (object_reg, "Couldn't get offset!");
-      return false;
-    }
+    if (!p_offset) offset.Set (0, 0, 0);
     AttachColliderSphere (radius, offset);
     return true;
   }
@@ -909,29 +900,13 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
       return false;
     }
     CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
-    if (!p_radius)
-    {
-      Report (object_reg, "Couldn't get radius!");
-      return false;
-    }
+    if (!p_radius) radius = 1.0f;
     CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
-    if (!p_axis)
-    {
-      Report (object_reg, "Couldn't get axis!");
-      return false;
-    }
+    if (!p_axis) axis.Set (0, 0, 0);
     CEL_FETCH_FLOAT_PAR (angle,params,param_angle);
-    if (!p_angle)
-    {
-      Report (object_reg, "Couldn't get angle!");
-      return false;
-    }
+    if (!p_angle) angle = 0;
     CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-    if (!p_offset)
-    {
-      Report (object_reg, "Couldn't get offset!");
-      return false;
-    }
+    if (!p_offset) offset.Set (0, 0, 0);
     AttachColliderCylinder (length, radius, csOrthoTransform (csMatrix3
 	(axis.x, axis.y, axis.z, angle), offset));
     return true;
@@ -939,29 +914,13 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   else if (actionId == action_setcolliderbox)
   {
     CEL_FETCH_VECTOR3_PAR (size,params,param_size);
-    if (!p_size)
-    {
-      Report (object_reg, "Couldn't get size!");
-      return false;
-    }
+    if (!p_size) size.Set (1, 1, 1);
     CEL_FETCH_VECTOR3_PAR (axis,params,param_axis);
-    if (!p_axis)
-    {
-      Report (object_reg, "Couldn't get axis!");
-      return false;
-    }
+    if (!p_axis) axis.Set (0, 0, 0);
     CEL_FETCH_FLOAT_PAR (angle,params,param_angle);
-    if (!p_angle)
-    {
-      Report (object_reg, "Couldn't get angle!");
-      return false;
-    }
+    if (!p_angle) angle = 0;
     CEL_FETCH_VECTOR3_PAR (offset,params,param_offset);
-    if (!p_offset)
-    {
-      Report (object_reg, "Couldn't get offset!");
-      return false;
-    }
+    if (!p_offset) offset.Set (0, 0, 0);
     AttachColliderBox (size, csOrthoTransform (csMatrix3 (axis.x, axis.y,
 	axis.z, angle), offset));
     return true;
@@ -975,11 +934,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
       return false;
     }
     CEL_FETCH_FLOAT_PAR (offset,params,param_offset);
-    if (!p_offset)
-    {
-      Report (object_reg, "Couldn't get offset!");
-      return false;
-    }
+    if (!p_offset) offset = 0;
     AttachColliderPlane (csPlane3 (normal, offset));
     return true;
   }
