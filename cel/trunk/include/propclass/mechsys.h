@@ -21,6 +21,14 @@ struct iJoint;
 
 /**
  * Property class representing a dynamic system.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetSystem: parameters 'dynsys' (string).
+ * <li>SetGravity: parameters 'gravity' (float).
+ * </ul>
  */
 struct iPcMechanicsSystem : public virtual iBase
 {
@@ -195,6 +203,25 @@ struct iPcMechanicsSystem : public virtual iBase
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcdynamicbody_collision: an entity has collided with this entity.
+ * </ul>
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>InitPhys: parameters 'friction' (float), 'elasticity' (float),
+ * 	'density' (float), 'softness' (float), 'lift' (vector3), and
+ * 	'drag' (float).
+ * <li>MakeStatic: parameters 'static' (bool).
+ * <li>SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
+ * <li>SetMesh: parameters 'mechpctag' (string).
+ * <li>SetColliderSphere: parameters 'radius' (float) and 'offset' (vector3).
+ * <li>SetColliderCylinder: parameters 'length' (float), 'radius' (float)
+ *     'axis' (vector3), 'offset' (vector3), and 'angle' (float).
+ * <li>SetColliderBox: parameters 'size' (vector3), 'axis' (vector3),
+ *     'angle' (float), and 'offset' (vector3).
+ * <li>SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float).
+ * <li>SetColliderMesh: no parameters.
  * </ul>
  */
 struct iPcMechanicsObject : public virtual iBase
