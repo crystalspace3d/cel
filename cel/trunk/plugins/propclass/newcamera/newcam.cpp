@@ -107,6 +107,26 @@ void celPcNewCamera::GetActorTransform()
   }
 }
 
+void celPcNewCamera::CalcElasticVec(const csVector3 & curr, const csVector3 & ideal,
+    float deltaTime, float springCoef, csVector3 & newVec)
+{
+  csVector3 deltaVec;
+
+  deltaVec = curr - ideal;
+  if (deltaVec.SquaredNorm() <= 0.001f)
+  {
+    newVec = curr;
+	return;
+  }
+  
+  float len = deltaVec.Norm();
+  deltaVec *= springCoef * len * deltaTime;
+  if (deltaVec.SquaredNorm() >= len*len)
+    newVec = curr;
+  else
+	newVec = curr - deltaVec;
+}
+
 celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   : celPcCameraCommon(object_reg)
 {
@@ -115,11 +135,16 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
 
   engine = CS_QUERY_REGISTRY(object_reg, iEngine);
   g3d = CS_QUERY_REGISTRY(object_reg, iGraphics3D);
+  vc = CS_QUERY_REGISTRY(object_reg, iVirtualClock);
   view = csPtr<iView>(new csView(engine, g3d));
 
   pl->CallbackEveryFrame((iCelTimerListener*)this, cscmdProcess);
 
   basePosOffset.Set(0,0,0);
+
+  lastIdealPos.Set(0,0,0);
+  lastIdealDir.Set(0,0,0);
+  lastIdealUp.Set(0,0,0);
 
   currMode = (size_t)-1;
 }
@@ -135,6 +160,16 @@ void celPcNewCamera::PropertyClassesHaveChanged()
   celPcCommon::PropertyClassesHaveChanged();
 
   pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
+
+  // reset the camera values
+  if (pcmesh && pcmesh->GetMesh())
+  {
+    iMovable * movable = pcmesh->GetMesh()->GetMovable();
+    camPos = lastIdealPos = movable->GetTransform().GetOrigin();
+    camDir = lastIdealDir = movable->GetTransform().This2OtherRelative(csVector3(0,0,-1));
+    camUp  = lastIdealUp = movable->GetTransform().This2OtherRelative(csVector3(0,1,0));
+  }
+
   UpdateMeshVisibility();
 }
 
@@ -156,6 +191,21 @@ const csVector3 & celPcNewCamera::GetBaseUp() const
 const csReversibleTransform & celPcNewCamera::GetBaseTrans() const
 {
   return baseTrans;
+}
+
+const csVector3 & celPcNewCamera::GetPos() const
+{
+  return camPos;
+}
+
+const csVector3 & celPcNewCamera::GetDir() const
+{
+  return camDir;
+}
+
+const csVector3 & celPcNewCamera::GetUp() const
+{
+  return camUp;
 }
 
 void celPcNewCamera::SetPositionOffset(const csVector3& offset)
@@ -229,6 +279,9 @@ void celPcNewCamera::PrevCameraMode()
 
 void celPcNewCamera::Draw()
 {
+  csTicks elapsedTime = vc->GetElapsedTicks();
+  float elapsedSecs = elapsedTime / 1000.0f;
+
   if (currMode >= cameraModes.Length())
   {
     SetCurrentCameraMode(cameraModes.Length()-1);
@@ -250,27 +303,38 @@ void celPcNewCamera::Draw()
 
   // Adjust camera transform for relative position and lookat position.
   csReversibleTransform camTrans;
-  camTrans.SetOrigin(mode->GetPosition());
-  camTrans.LookAt(mode->GetDirection(), 
-      mode->GetUp());
-
-  /*
-  printf("CAM_ORIGIN[%7.3f,%7.3f,%7.3f], CAM_DIR[%7.3f,%7.3f,%7.3f], "
-      "CAM_UP[%7.3f,%7.3f,%7.3f], CAM_SECTOR[%s]\n",
-	basePos.x, basePos.y, basePos.z,
-	baseDir.x, baseDir.y, baseDir.z,
-	baseUp.x, baseUp.y, baseUp.z,
-	baseSector->QueryObject()->GetName());
-  */
+  camTrans.SetOrigin(baseTrans.GetOrigin());
+  camTrans.LookAt(mode->GetDirection(), mode->GetUp());
 
   iCamera * c = view->GetCamera();
+
+  if (mode->UseSpringPos())
+    CalcElasticVec(camPos, mode->GetPosition(), elapsedSecs, mode->GetSpringCoefficient(), camPos);
+  else
+	camPos = mode->GetPosition();
+
+  if (mode->UseSpringDir())
+    CalcElasticVec(camDir, mode->GetDirection(), elapsedSecs, mode->GetSpringCoefficient(), camDir);
+  else
+    camDir = mode->GetDirection();
+
+  if (mode->UseSpringUp())
+    CalcElasticVec(camUp, mode->GetUp(), elapsedSecs, mode->GetSpringCoefficient(), camUp);
+  else
+    camUp = mode->GetUp();
   
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
   if (c->GetSector() != baseSector)
     c->SetSector(baseSector);
-  c->SetTransform(baseTrans);
+  c->SetTransform(camTrans);
   c->OnlyPortals(true);
+
+  // to increase the chances of the camera being in the correct sector, first
+  // move to from the attached mesh origin to the camera's base position, then
+  // move to the desired position traversing portals as we go
+  c->MoveWorld(basePos - c->GetTransform().GetOrigin(), false);
+  c->MoveWorld(camPos - c->GetTransform().GetOrigin(), false);
 
   // Tell 3D driver we're going to display 3D things.
   if (g3d->BeginDraw(engine->GetBeginDrawFlags() | CSDRAW_3DGRAPHICS

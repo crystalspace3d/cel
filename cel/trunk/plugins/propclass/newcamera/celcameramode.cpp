@@ -75,7 +75,17 @@ void celCameraMode::SetParentCamera(iPcNewCamera * camera)
   parentCamera = camera;
 }
 
-bool celCameraMode::UseSpringPhysics() const
+bool celCameraMode::UseSpringPos() const
+{
+  return false;
+}
+
+bool celCameraMode::UseSpringDir() const
+{
+  return false;
+}
+
+bool celCameraMode::UseSpringUp() const
 {
   return false;
 }
@@ -87,17 +97,7 @@ bool celCameraMode::DrawAttachedMesh() const
 
 float celCameraMode::GetSpringCoefficient() const
 {
-  return 0;
-}
-
-float celCameraMode::GetSpringLength() const
-{
-  return 0;
-}
-
-float celCameraMode::GetInertialDampeningCoefficient() const
-{
-  return 0;
+  return 1.0f;
 }
 
 const csVector3 & celCameraMode::GetPosition() const

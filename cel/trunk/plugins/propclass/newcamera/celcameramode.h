@@ -53,10 +53,20 @@ public:
    */
   virtual void SetParentCamera(iPcNewCamera * camera);
 
-  /** Decides if this camera mode should use spring physics or not.
+  /** Decides if this camera mode should use spring physics for the camera's position.
    *  \return 	True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringPhysics() const;
+  virtual bool UseSpringPos() const;
+
+  /** Decides if this camera mode should use spring physics for the camera's direction.
+   *  \return 	True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringDir() const;
+
+  /** Decides if this camera mode should use spring physics for the camera's up vector.
+   *  \return 	True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringUp() const;
   
   /** 
    * Decides if the mesh the camera is attached to should be drawn or not in
@@ -70,16 +80,6 @@ public:
    */
   virtual float GetSpringCoefficient() const;
 
-  /** Gets the spring length to use for the spring physics.
-   *  \return 	The spring length of this camera mode.
-   */
-  virtual float GetSpringLength() const;
-
-  /** Gets the inertial dampening coefficient to use for the spring physics.
-   *  \return 	The inertial dampening coefficient of this camera.
-   */
-  virtual float GetInertialDampeningCoefficient() const;
-  
   /** Gets the desired camera position.
    *  \return 	The desired camera position.
    */

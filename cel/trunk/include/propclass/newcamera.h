@@ -59,10 +59,20 @@ struct iCelCameraMode
    */
   virtual void SetParentCamera(iPcNewCamera * camera) = 0;
 
-  /** Decides if this camera mode should use spring physics or not.
+  /** Decides if this camera mode should use spring physics for the camera's position.
    *  \return 	True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringPhysics() const = 0;
+  virtual bool UseSpringPos() const = 0;
+
+  /** Decides if this camera mode should use spring physics for the camera's direction.
+   *  \return 	True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringDir() const = 0;
+
+  /** Decides if this camera mode should use spring physics for the camera's up vector.
+   *  \return 	True if this camera mode uses spring physics.
+   */
+  virtual bool UseSpringUp() const = 0;
 
   /** 
    * Decides if the mesh the camera is attached to should be drawn or not in
@@ -76,16 +86,6 @@ struct iCelCameraMode
    */
   virtual float GetSpringCoefficient() const = 0;
 
-  /** Gets the spring length to use for the spring physics.
-   *  \return 	The spring length of this camera mode.
-   */
-  virtual float GetSpringLength() const = 0;
-
-  /** Gets the inertial dampening coefficient to use for the spring physics.
-   *  \return 	The inertial dampening coefficient of this camera.
-   */
-  virtual float GetInertialDampeningCoefficient() const = 0;
-  
   /** Gets the desired camera position.
    *  \return 	The desired camera position.
    */
@@ -137,6 +137,24 @@ struct iPcNewCamera : public iPcCamera
    * \return	The base transform of the camera.
    */
   virtual const csReversibleTransform & GetBaseTrans() const = 0;
+
+  /**
+   * Gets the current position of the camera.
+   * \return    The current position of the camera.
+   */
+  virtual const csVector3 & GetPos() const = 0;
+
+  /**
+   * Gets the current direction of the camera.
+   * \return    The current direction of the camera.
+   */
+  virtual const csVector3 & GetDir() const = 0;
+
+  /**
+   * Gets the current up vector of the camera.
+   * \return    The current up vector of the camera.
+   */
+  virtual const csVector3 & GetUp() const = 0;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
