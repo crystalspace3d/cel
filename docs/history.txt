@@ -12,6 +12,20 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed all methods that search on tag (like
 	  CEL_QUERY_PROPCLASS_TAG) so that they now consider the empty string
 	  as a null tag as well (i.e. "" is equivalent to 0).
+	- Jorrit made the following parameters optional for the mechanics
+	  object:
+	      - meshpctag for SetMesh, default 0.
+	      - radius for SetColliderSphere (default 1).
+	      - offset for SetColliderSphere (default 0,0,0).
+	      - radius for SetColliderCylinder (default 1).
+	      - offset for SetColliderCylinder (default 0,0,0).
+	      - angle for SetColliderCylinder (default 0).
+	      - axis for SetColliderCylinder (default 0,0,0).
+	      - size for SetColliderBox (default 1,1,1).
+	      - offset for SetColliderBox (default 0,0,0).
+	      - angle for SetColliderBox (default 0).
+	      - axis for SetColliderBox (default 0,0,0).
+	      - offset for SetColliderPlane (default 0).
 1-Nov-2005
 	- Jorrit removes the now obsolete dynmove property class. Use
 	  mechanics instead.
