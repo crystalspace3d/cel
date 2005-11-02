@@ -77,13 +77,24 @@ private:
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector * baseSector;
-
+  csVector3 camPos, camDir, camUp;
+  csVector3 lastIdealPos, lastIdealDir, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
 
   void UpdateMeshVisibility();
 
   void GetActorTransform();
+
+  /** Calculates an elastic vector based on an ideal vector and a current one.
+   *  \param curr         The current vector value.
+   *  \param ideal        The ideal/target vector value.
+   *  \param deltaTime    The change in time since last frame.
+   *  \param springCoef   The spring coefficient to use in our calculations.
+   *  \param newVec       A container to hold the new value of the vector.
+   */
+  static void CalcElasticVec(const csVector3 & curr, const csVector3 & ideal,
+                      float deltaTime, float springCoef, csVector3 & newVec);
 
 public:
   celPcNewCamera(iObjectRegistry * object_reg);
@@ -126,6 +137,24 @@ public:
    * \return	The base transform of the camera.
    */
   virtual const csReversibleTransform & GetBaseTrans() const;
+
+  /**
+   * Gets the current position of the camera.
+   * \return    The current position of the camera.
+   */
+  virtual const csVector3 & GetPos() const;
+
+  /**
+   * Gets the current direction of the camera.
+   * \return    The current direction of the camera.
+   */
+  virtual const csVector3 & GetDir() const;
+
+  /**
+   * Gets the current up vector of the camera.
+   * \return    The current up vector of the camera.
+   */
+  virtual const csVector3 & GetUp() const;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
@@ -281,6 +310,18 @@ public:
     virtual const csReversibleTransform & GetBaseTrans() const
     {
       return scfParent->GetBaseTrans();
+    }
+    virtual const csVector3 & GetPos() const
+    {
+      return scfParent->GetPos();
+    }
+    virtual const csVector3 & GetDir() const
+    {
+      return scfParent->GetDir();
+    }
+    virtual const csVector3 & GetUp() const
+    {
+      return scfParent->GetUp();
     }
     virtual void SetPositionOffset(const csVector3 & offset)
     {

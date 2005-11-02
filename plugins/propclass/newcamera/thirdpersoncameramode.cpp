@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <math.h>
+#include <csgeom/transfrm.h>
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
@@ -28,6 +29,7 @@
 celThirdPersonCameraMode::celThirdPersonCameraMode()
 	: celCameraMode()
 {
+	posOffset.Set(0,0.5,4);
 }
 
 celThirdPersonCameraMode::~celThirdPersonCameraMode()
@@ -39,13 +41,33 @@ void celThirdPersonCameraMode::SetPositionOffset(const csVector3 & offset)
   posOffset = offset;
 }
 
+bool celThirdPersonCameraMode::UseSpringPos() const
+{
+  return true;
+}
+
+bool celThirdPersonCameraMode::UseSpringDir() const
+{
+  return true;
+}
+
+bool celThirdPersonCameraMode::UseSpringUp() const
+{
+  return true;
+}
+
+bool celThirdPersonCameraMode::DrawAttachedMesh() const
+{
+  return true;
+}
+
 bool celThirdPersonCameraMode::DecideCameraState()
 {
   if (!parentCamera)
     return false;
 
-  pos = parentCamera->GetBasePos();
-  dir = parentCamera->GetBaseDir();
+  pos = parentCamera->GetBasePos() + parentCamera->GetBaseTrans().This2OtherRelative(posOffset);
+  dir = parentCamera->GetBasePos() - parentCamera->GetPos();
   up  = parentCamera->GetBaseUp();
   return true;
 }
