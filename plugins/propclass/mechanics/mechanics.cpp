@@ -223,6 +223,7 @@ iDynamicSystem* celPcMechanicsSystem::GetDynamicSystem ()
       return 0;
     }
     dynsystem = dynamics->CreateSystem ();
+    dynsystem->QueryObject ()->SetName ("cel.mechanics.system");
     dynsystem->SetGravity (csVector3 (0, -9.8f, 0));
 
     EnableStepFast ();
