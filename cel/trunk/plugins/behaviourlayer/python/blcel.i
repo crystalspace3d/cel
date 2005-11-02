@@ -28,7 +28,6 @@
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/input.h"
-#include "propclass/dynmove.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
 #include "propclass/sound.h"
@@ -336,14 +335,6 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
   bool SetPropertyVector3 (csStringID id, const csVector3& v)
   { return self->SetProperty (id, v); }
 }
-
-//-----------------------------------------------------------------------------
-
-%include "propclass/dynmove.h"
-CEL_PC(iPcDynamicSystem, DynamicSystem, pcdynsys)
-CEL_PC_QUERY_CLASSLIST(iPcDynamicSystem)
-CEL_PC(iPcDynamicBody, DynamicBody, pcdynbody)
-CEL_PC_QUERY_CLASSLIST(iPcDynamicBody)
 
 //-----------------------------------------------------------------------------
 

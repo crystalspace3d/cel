@@ -4,8 +4,6 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 2-Nov-2005
-    - aarobber added working first person + third person camera modes to
-      the new camera along with some spring physics.
 	- Jorrit added proper documentation to the mechanics system
 	  API about the actions that are supported by iPcMechanicsSystem
 	  and iPcMechanicsObject.
@@ -29,6 +27,10 @@ The history order is reversed so that new features are at the top.
 	      - axis for SetColliderBox (default 0,0,0).
 	      - offset for SetColliderPlane (default 0).
 	- Jorrit made all parameters for InitPhys optional.
+	- aarobber added working first person + third person camera modes to
+	  the new camera along with some spring physics.
+	- Eric Sunshine fixed blcel.i to take into account the removal of
+	  dynmove.
 1-Nov-2005
 	- Jorrit removes the now obsolete dynmove property class. Use
 	  mechanics instead.
