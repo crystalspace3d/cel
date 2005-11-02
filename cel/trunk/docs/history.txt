@@ -31,6 +31,8 @@ The history order is reversed so that new features are at the top.
 	  the new camera along with some spring physics.
 	- Eric Sunshine fixed blcel.i to take into account the removal of
 	  dynmove.
+	- Jorrit changed the mechanics plugin so that the system is called
+	  'cel.mechanics.system'.
 1-Nov-2005
 	- Jorrit removes the now obsolete dynmove property class. Use
 	  mechanics instead.
