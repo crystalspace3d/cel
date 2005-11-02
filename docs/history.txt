@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Nov-2005
+	- Jorrit added proper documentation to the mechanics system
+	  API about the actions that are supported by iPcMechanicsSystem
+	  and iPcMechanicsObject.
+	- Jorrit fixed the iPcMechanicsObject->SetMesh() so that it
+	  actually uses the mechpctag parameter.
+	- Jorrit fixed all methods that search on tag (like
+	  CEL_QUERY_PROPCLASS_TAG) so that they now consider the empty string
+	  as a null tag as well (i.e. "" is equivalent to 0).
 1-Nov-2005
 	- Jorrit removes the now obsolete dynmove property class. Use
 	  mechanics instead.

@@ -878,7 +878,8 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
       Report (object_reg, "Couldn't get mesh tag!");
       return false;
     }
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity (),iPcMesh);
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),iPcMesh,
+		    meshpctag);
     SetMesh (pcmesh);
     return true;
   }
