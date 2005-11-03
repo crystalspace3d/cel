@@ -530,8 +530,14 @@ csStringID celPcMechanicsObject::action_setcollidercylinder = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcolliderbox = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcolliderplane = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcollidermesh = csInvalidStringID;
+csStringID celPcMechanicsObject::action_setlinearvelocity = csInvalidStringID;
+csStringID celPcMechanicsObject::action_setangularvelocity = csInvalidStringID;
+csStringID celPcMechanicsObject::action_addforceonce = csInvalidStringID;
+csStringID celPcMechanicsObject::action_addforceduration = csInvalidStringID;
+csStringID celPcMechanicsObject::action_addforceframe = csInvalidStringID;
+csStringID celPcMechanicsObject::action_clearforces = csInvalidStringID;
 
-// Parameters for action_initphys
+// Parameters.
 csStringID celPcMechanicsObject::param_friction = csInvalidStringID;
 csStringID celPcMechanicsObject::param_mass = csInvalidStringID;
 csStringID celPcMechanicsObject::param_elasticity = csInvalidStringID;
@@ -539,40 +545,23 @@ csStringID celPcMechanicsObject::param_density = csInvalidStringID;
 csStringID celPcMechanicsObject::param_softness = csInvalidStringID;
 csStringID celPcMechanicsObject::param_lift = csInvalidStringID;
 csStringID celPcMechanicsObject::param_drag = csInvalidStringID;
-
-// Parameters for action_makestatic
 csStringID celPcMechanicsObject::param_static = csInvalidStringID;
-
-// Parameters for action_setsystem
 csStringID celPcMechanicsObject::param_systempcent = csInvalidStringID;
 csStringID celPcMechanicsObject::param_systempctag = csInvalidStringID;
-
-// Parameters for action_setmesh
 csStringID celPcMechanicsObject::param_meshpctag = csInvalidStringID;
-
-// Parameters for action_setcollidersphere
 csStringID celPcMechanicsObject::param_radius = csInvalidStringID;
 csStringID celPcMechanicsObject::param_offset = csInvalidStringID;
-
-// Parameters for action_setcollidercylinder
 csStringID celPcMechanicsObject::param_length = csInvalidStringID;
-//param_radius shared
 csStringID celPcMechanicsObject::param_axis = csInvalidStringID;
 csStringID celPcMechanicsObject::param_angle = csInvalidStringID;
-//param_offset shared
-
-// Parameters for action_setcolliderbox
 csStringID celPcMechanicsObject::param_size = csInvalidStringID;
-//param_axis shared
-//param_angle shared
-//param_offset shared
-
-// Parameters for action_setcolliderplane
 csStringID celPcMechanicsObject::param_normal = csInvalidStringID;
-//param_offset shared
-
-// Parameters for message pcdynamicbody_collision
 csStringID celPcMechanicsObject::param_otherbody = csInvalidStringID;
+csStringID celPcMechanicsObject::param_force = csInvalidStringID;
+csStringID celPcMechanicsObject::param_relative = csInvalidStringID;
+csStringID celPcMechanicsObject::param_position = csInvalidStringID;
+csStringID celPcMechanicsObject::param_seconds = csInvalidStringID;
+csStringID celPcMechanicsObject::param_velocity = csInvalidStringID;
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
@@ -615,8 +604,14 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBox");
     action_setcolliderplane = pl->FetchStringID ("cel.action.SetColliderPlane");
     action_setcollidermesh = pl->FetchStringID ("cel.action.SetColliderMesh");
+    action_setlinearvelocity = pl->FetchStringID ("cel.action.SetLinearVelocity");
+    action_setangularvelocity = pl->FetchStringID ("cel.action.SetAngularVelocity");
+    action_addforceonce = pl->FetchStringID ("cel.action.AddForceOnce");
+    action_addforceduration = pl->FetchStringID ("cel.action.AddForceDuration");
+    action_addforceframe = pl->FetchStringID ("cel.action.AddForceFrame");
+    action_clearforces = pl->FetchStringID ("cel.action.ClearForces");
 
-    // Parameters for action_initphys
+    // Parameters.
     param_friction = pl->FetchStringID ("cel.parameter.friction");
     param_mass = pl->FetchStringID ("cel.parameter.mass");
     param_elasticity = pl->FetchStringID ("cel.parameter.elasticity");
@@ -624,40 +619,23 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_softness = pl->FetchStringID ("cel.parameter.softness");
     param_lift = pl->FetchStringID ("cel.parameter.lift");
     param_drag = pl->FetchStringID ("cel.parameter.drag");
-
-    // Parameters for action_makestatic
     param_static = pl->FetchStringID ("cel.parameter.static");
-
-    // Parameters for action_setsystem
     param_systempcent = pl->FetchStringID ("cel.parameter.systempcent");
     param_systempctag = pl->FetchStringID ("cel.parameter.systempctag");
-
-    // Parameters for action_setmesh
     param_meshpctag = pl->FetchStringID ("cel.parameter.meshpctag");
-
-    // Parameters for action_setcollidersphere
     param_radius = pl->FetchStringID ("cel.parameter.radius");
     param_offset = pl->FetchStringID ("cel.parameter.offset");
-
-    // Parameters for action_setcollidercylinder
     param_length = pl->FetchStringID ("cel.parameter.length");
-    //param_radius shared
     param_axis = pl->FetchStringID ("cel.parameter.axis");
     param_angle = pl->FetchStringID ("cel.parameter.angle");
-    //param_offset shared
-
-    // Parameters for action_setcolliderbox
     param_size = pl->FetchStringID ("cel.parameter.size");
-    //param_axis shared
-    //param_angle shared
-    //param_offset shared
-
-    // Parameters for action_setcolliderplane
     param_normal = pl->FetchStringID ("cel.parameter.normal");
-    //param_offset shared
-
-    // Parameters for message pcdynamicbody_collision
     param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
+    param_force = pl->FetchStringID ("cel.parameter.force");
+    param_relative = pl->FetchStringID ("cel.parameter.relative");
+    param_position = pl->FetchStringID ("cel.parameter.position");
+    param_seconds = pl->FetchStringID ("cel.parameter.seconds");
+    param_velocity = pl->FetchStringID ("cel.parameter.velocity");
   }
 
   params = new celOneParameterBlock ();
@@ -835,7 +813,79 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
 bool celPcMechanicsObject::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
-  if (actionId == action_initphys)
+  if (actionId == action_setlinearvelocity)
+  {
+    CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
+    if (!p_velocity)
+    {
+      Report (object_reg, "'velocity' missing!");
+      return false;
+    }
+    SetLinearVelocity (velocity);
+  }
+  else if (actionId == action_setangularvelocity)
+  {
+    CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
+    if (!p_velocity)
+    {
+      Report (object_reg, "'velocity' missing!");
+      return false;
+    }
+    SetAngularVelocity (velocity);
+  }
+  else if (actionId == action_addforceonce)
+  {
+    CEL_FETCH_VECTOR3_PAR (force,params,param_force);
+    if (!p_force)
+    {
+      Report (object_reg, "'force' missing!");
+      return false;
+    }
+    CEL_FETCH_BOOL_PAR (relative,params,param_relative);
+    if (!p_relative) relative = false;
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_force) position.Set (0, 0, 0);
+    AddForceOnce (force, relative, position);
+  }
+  else if (actionId == action_addforceduration)
+  {
+    CEL_FETCH_VECTOR3_PAR (force,params,param_force);
+    if (!p_force)
+    {
+      Report (object_reg, "'force' missing!");
+      return false;
+    }
+    CEL_FETCH_BOOL_PAR (relative,params,param_relative);
+    if (!p_relative) relative = false;
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_force) position.Set (0, 0, 0);
+    CEL_FETCH_FLOAT_PAR (seconds,params,param_seconds);
+    if (!p_seconds)
+    {
+      Report (object_reg, "'seconds' missing!");
+      return false;
+    }
+    AddForceDuration (force, relative, position, seconds);
+  }
+  else if (actionId == action_addforceframe)
+  {
+    CEL_FETCH_VECTOR3_PAR (force,params,param_force);
+    if (!p_force)
+    {
+      Report (object_reg, "'force' missing!");
+      return false;
+    }
+    CEL_FETCH_BOOL_PAR (relative,params,param_relative);
+    if (!p_relative) relative = false;
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_force) position.Set (0, 0, 0);
+    AddForceFrame (force, relative, position);
+  }
+  else if (actionId == action_clearforces)
+  {
+    ClearForces ();
+  }
+  else if (actionId == action_initphys)
   {
     CEL_FETCH_FLOAT_PAR (friction,params,param_friction);
     if (p_friction)
