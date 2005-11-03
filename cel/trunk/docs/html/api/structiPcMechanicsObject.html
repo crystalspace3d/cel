@@ -173,11 +173,32 @@ This property class can send out the following messages to the behaviour (add pr
 <li>
 pcdynamicbody_collision: an entity has collided with this entity. </li>
 </ul>
+<p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+InitPhys: parameters 'friction' (float), 'elasticity' (float), 'density' (float), 'softness' (float), 'lift' (vector3), and 'drag' (float). </li>
+<li>
+MakeStatic: parameters 'static' (bool). </li>
+<li>
+SetSystem: parameters 'syspcent' (string) and 'syspctag' (string). </li>
+<li>
+SetMesh: parameters 'mechpctag' (string). </li>
+<li>
+SetColliderSphere: parameters 'radius' (float) and 'offset' (vector3). </li>
+<li>
+SetColliderCylinder: parameters 'length' (float), 'radius' (float) 'axis' (vector3), 'offset' (vector3), and 'angle' (float). </li>
+<li>
+SetColliderBox: parameters 'size' (vector3), 'axis' (vector3), 'angle' (float), and 'offset' (vector3). </li>
+<li>
+SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float). </li>
+<li>
+SetColliderMesh: no parameters. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mechsys_8h-source.html#l00200">200</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechsys_8h-source.html#l00231">231</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="511a4859d1cdd22573dae5fb25d996cb"></a><!-- doxytag: member="iPcMechanicsObject::AddForceDuration" ref="511a4859d1cdd22573dae5fb25d996cb" args="(const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
