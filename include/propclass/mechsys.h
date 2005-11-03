@@ -226,6 +226,15 @@ struct iPcMechanicsSystem : public virtual iBase
  *     'angle' (float), and 'offset' (vector3).
  * <li>SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float).
  * <li>SetColliderMesh: no parameters.
+ * <li>SetLinearVelocity: parameters 'velocity' (vector3).
+ * <li>SetAngularVelocity: parameters 'velocity' (vector3).
+ * <li>AddForceOnce: parameters 'force' (vector3), 'relative' (bool),
+ *     and 'position' (vector3).
+ * <li>AddForceDuration: parameters 'force' (vector3), 'relative' (bool),
+ *     'position' (vector3), and 'seconds' (float).
+ * <li>AddForceFrame: parameters 'force' (vector3), 'relative' (bool),
+ *     and 'position' (vector3).
+ * <li>ClearForces: no parameters.
  * </ul>
  */
 struct iPcMechanicsObject : public virtual iBase

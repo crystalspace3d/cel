@@ -239,6 +239,12 @@ private:
   static csStringID action_setcolliderbox;
   static csStringID action_setcolliderplane;
   static csStringID action_setcollidermesh;
+  static csStringID action_setlinearvelocity;
+  static csStringID action_setangularvelocity;
+  static csStringID action_addforceonce;
+  static csStringID action_addforceduration;
+  static csStringID action_addforceframe;
+  static csStringID action_clearforces;
 
   // Parameters for action_initphys
   static csStringID param_friction;
@@ -249,39 +255,25 @@ private:
   static csStringID param_lift;
   static csStringID param_drag;
 
-  // Parameters for action_makestatic
+  // Parameters.
   static csStringID param_static;
-
-  // Parameters for action_setsystem
   static csStringID param_systempcent;
   static csStringID param_systempctag;
-
-  // Parameters for action_setmesh
   static csStringID param_meshpctag;
-
-  // Parameters for action_setcollidersphere
   static csStringID param_radius;
   static csStringID param_offset;
-
-  // Parameters for action_setcollidercylinder
   static csStringID param_length;
-  //param_radius shared
   static csStringID param_axis;
   static csStringID param_angle;
-  //param_offset shared
-
-  // Parameters for action_setcolliderbox
   static csStringID param_size;
-  //param_axis shared
-  //param_angle shared
-  //param_offset shared
-
-  // Parameters for action_setcolliderplane
   static csStringID param_normal;
-  //param_offset shared
-
-  // Parameters for message pcdynamicbody_collision
   static csStringID param_otherbody;
+  static csStringID param_force;
+  static csStringID param_relative;
+  static csStringID param_position;
+  static csStringID param_seconds;
+  static csStringID param_velocity;
+
   celOneParameterBlock* params;
 
   // Last assigned force id for this object
