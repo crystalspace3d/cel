@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	    - AddForceDuration
 	    - AddForceFrame
 	    - ClearForces
+	- David Bronke added documentation to the mechanics API for the actions
+	  supported by iPcMechanicsThruster, iPcMechanicsThrusterGroup, and
+	  iPcMechanicsThrusterController.
 2-Nov-2005
 	- Jorrit added proper documentation to the mechanics system
 	  API about the actions that are supported by iPcMechanicsSystem
