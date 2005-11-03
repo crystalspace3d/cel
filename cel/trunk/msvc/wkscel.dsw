@@ -123,9 +123,6 @@ Package=<4>
     Project_Dep_Name plgpfdefcam
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name plgpfdynmove
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name plgpfengine
     End Project Dependency
     Begin Project Dependency
@@ -268,9 +265,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfdefcam
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name plgpfdynmove
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name plgpfengine
@@ -496,21 +490,6 @@ Package=<4>
 ###############################################################################
 
 Project: "plgpfdefcam"=.\plgpfdefcam.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name libceltool
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "plgpfdynmove"=.\plgpfdynmove.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

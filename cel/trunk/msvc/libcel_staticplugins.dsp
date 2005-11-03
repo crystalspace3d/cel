@@ -152,10 +152,6 @@ SOURCE=..\msvc\libpfdefcam_staticreg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\msvc\libpfdynmove_staticreg.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\msvc\libpfengine_staticreg.cpp
 # End Source File
 # Begin Source File
@@ -289,10 +285,6 @@ SOURCE=..\plugins\propclass\billboard\billboard.cpp
 # Begin Source File
 
 SOURCE=..\plugins\propclass\defcam\defcam.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\propclass\dynmove\dynmove.cpp
 # End Source File
 # Begin Source File
 
@@ -585,10 +577,6 @@ SOURCE=..\plugins\propclass\billboard\billboard.h
 # Begin Source File
 
 SOURCE=..\plugins\propclass\defcam\defcam.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\plugins\propclass\dynmove\dynmove.h
 # End Source File
 # Begin Source File
 

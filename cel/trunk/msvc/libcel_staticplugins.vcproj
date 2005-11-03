@@ -344,21 +344,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\msvc\libpfdynmove_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\out\release\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\out\debug\build\libcel_staticplugins\msvc_libpfdynmove_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\msvc\libpfengine_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -866,21 +851,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_defcam_defcam.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\dynmove\dynmove.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_dynmove_dynmove.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1786,9 +1756,6 @@
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\defcam\defcam.h">
-			</File>
-			<File
-				RelativePath="..\plugins\propclass\dynmove\dynmove.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\engine\engfact.h">
