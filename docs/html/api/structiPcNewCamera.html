@@ -71,6 +71,15 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#26a026bd213458ed81fbd2b4708f83e8">GetCurrentCameraModeIndex</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the index of the current camera mode.  <a href="#26a026bd213458ed81fbd2b4708f83e8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#35e2447852b8a89a472dddb3720f3f5e">GetDir</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current direction of the camera.  <a href="#35e2447852b8a89a472dddb3720f3f5e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#f36d4444a36b7986405bb521b62459e4">GetPos</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current position of the camera.  <a href="#f36d4444a36b7986405bb521b62459e4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#60837d8f58787e530b67c08a9ee1251a">GetUp</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current up vector of the camera.  <a href="#60837d8f58787e530b67c08a9ee1251a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#2a9645255515df48837d12814b8ec739">NextCameraMode</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the next available mode.  <a href="#2a9645255515df48837d12814b8ec739"></a><br></td></tr>
@@ -370,6 +379,96 @@ Gets the current camera mode.
 Gets the index of the current camera mode. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>The index of the current camera mode. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="35e2447852b8a89a472dddb3720f3f5e"></a><!-- doxytag: member="iPcNewCamera::GetDir" ref="35e2447852b8a89a472dddb3720f3f5e" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csVector3&amp; iPcNewCamera::GetDir           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the current direction of the camera. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The current direction of the camera. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f36d4444a36b7986405bb521b62459e4"></a><!-- doxytag: member="iPcNewCamera::GetPos" ref="f36d4444a36b7986405bb521b62459e4" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csVector3&amp; iPcNewCamera::GetPos           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the current position of the camera. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The current position of the camera. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="60837d8f58787e530b67c08a9ee1251a"></a><!-- doxytag: member="iPcNewCamera::GetUp" ref="60837d8f58787e530b67c08a9ee1251a" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csVector3&amp; iPcNewCamera::GetUp           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the current up vector of the camera. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The current up vector of the camera. </dd></dl>
     </td>
   </tr>
 </table>
