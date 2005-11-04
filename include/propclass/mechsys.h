@@ -32,6 +32,12 @@ struct iJoint;
  * <li>QuickStep: no parameters.
  * <li>EnableStepFast: no parameters.
  * <li>DisableStepFast: no parameters.
+ * <li>CreateJoint: parameters 'body1' (string), 'body2' (string),
+ *     'position' (vector3), 'constraindistx' (bool), 'constraindisty' (bool),
+ *     'constraindistz' (bool), 'mindistance' (vector3),
+ *     'maxdistance' (vector3), 'constrainanglex' (bool),
+ *     'constrainangley' (bool), 'constrainanglez' (bool),
+ *     'minangle' (vector3), and 'maxangle' (vector3).
  * </ul>
  */
 struct iPcMechanicsSystem : public virtual iBase

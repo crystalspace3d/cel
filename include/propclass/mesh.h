@@ -43,6 +43,8 @@ class csVector3;
  * <li>SetMesh: parameters 'name' (string). This sets an already existing
  *     mesh for this pcmesh.
  * <li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
+ *     'filename' is optional. If not given then the factory should already
+ *     be in memory.
  * <li>LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *     and 'factoryname' (string).
  * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).

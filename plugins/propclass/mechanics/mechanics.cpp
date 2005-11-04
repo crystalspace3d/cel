@@ -59,15 +59,25 @@ csStringID celPcMechanicsSystem::action_quickstep = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_enablestepfast = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_disablestepfast = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_setsteptime = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_createjoint = csInvalidStringID;
 
-// Parameters for action_setsystem
+// Parameters.
 csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
-
-// Parameters for action_setgravity
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
-
-// Parameters for action_setsteptime
 csStringID celPcMechanicsSystem::param_time = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_body1 = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_body2 = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_position = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constraindistx = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constraindisty = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constraindistz = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_mindistance = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_maxdistance = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constrainanglex = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constrainangley = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_constrainanglez = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_minangle = csInvalidStringID;
+csStringID celPcMechanicsSystem::param_maxangle = csInvalidStringID;
 
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -91,13 +101,25 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     action_enablestepfast = pl->FetchStringID ("cel.action.EnableStepFast");
     action_disablestepfast = pl->FetchStringID ("cel.action.DisableStepFast");
     action_setsteptime = pl->FetchStringID ("cel.action.SetStepTime");
+    action_createjoint = pl->FetchStringID ("cel.action.CreateJoint");
   
-    // Parameters for action_setsystem
+    // Parameters.
     param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
-    // Parameters for action_setgravity
     param_gravity = pl->FetchStringID ("cel.parameter.gravity");
-    // Parameters for action_setsteptime
     param_time = pl->FetchStringID ("cel.parameter.time");
+    param_body1 = pl->FetchStringID ("cel.parameter.body1");
+    param_body2 = pl->FetchStringID ("cel.parameter.body2");
+    param_position = pl->FetchStringID ("cel.parameter.position");
+    param_constraindistx = pl->FetchStringID ("cel.parameter.constraindistx");
+    param_constraindisty = pl->FetchStringID ("cel.parameter.constraindisty");
+    param_constraindistz = pl->FetchStringID ("cel.parameter.constraindistz");
+    param_mindistance = pl->FetchStringID ("cel.parameter.mindistance");
+    param_maxdistance = pl->FetchStringID ("cel.parameter.maxdistance");
+    param_constrainanglex = pl->FetchStringID ("cel.parameter.constrainanglex");
+    param_constrainangley = pl->FetchStringID ("cel.parameter.constrainangley");
+    param_constrainanglez = pl->FetchStringID ("cel.parameter.constrainanglez");
+    param_minangle = pl->FetchStringID ("cel.parameter.minangle");
+    param_maxangle = pl->FetchStringID ("cel.parameter.maxangle");
   }
 }
 
@@ -289,6 +311,16 @@ const csVector3 celPcMechanicsSystem::GetGravity ()
   return dynsystem->GetGravity ();
 }
 
+iRigidBody* celPcMechanicsSystem::FindBody (const char* entityname)
+{
+  iCelEntity* ent = pl->FindEntity (entityname);
+  if (!ent) return 0;
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+  	ent, iPcMechanicsObject);
+  if (!pcmechobj) return 0;
+  return pcmechobj->GetBody ();
+}
+
 bool celPcMechanicsSystem::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
@@ -341,6 +373,67 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
       Report (object_reg, "Couldn't get gravity!");
       return false;
     }
+  }
+  else if (actionId == action_createjoint)
+  {
+    CEL_FETCH_STRING_PAR (body1,params,param_body1);
+    if (!body1)
+    {
+      Report (object_reg, "'body1' missing!");
+      return false;
+    }
+    CEL_FETCH_STRING_PAR (body2,params,param_body2);
+    if (!body2)
+    {
+      Report (object_reg, "'body2' missing!");
+      return false;
+    }
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_position) position.Set (0, 0, 0);
+    CEL_FETCH_BOOL_PAR (constraindistx,params,param_constraindistx);
+    if (!p_constraindistx) constraindistx = false;
+    CEL_FETCH_BOOL_PAR (constraindisty,params,param_constraindisty);
+    if (!p_constraindisty) constraindisty = false;
+    CEL_FETCH_BOOL_PAR (constraindistz,params,param_constraindistz);
+    if (!p_constraindistz) constraindistz = false;
+    CEL_FETCH_VECTOR3_PAR (mindistance,params,param_mindistance);
+    if (!p_mindistance) mindistance.Set (0, 0, 0);
+    CEL_FETCH_VECTOR3_PAR (maxdistance,params,param_maxdistance);
+    if (!p_maxdistance) maxdistance.Set (0, 0, 0);
+    CEL_FETCH_BOOL_PAR (constrainanglex,params,param_constrainanglex);
+    if (!p_constrainanglex) constrainanglex = false;
+    CEL_FETCH_BOOL_PAR (constrainangley,params,param_constrainangley);
+    if (!p_constrainangley) constrainangley = false;
+    CEL_FETCH_BOOL_PAR (constrainanglez,params,param_constrainanglez);
+    if (!p_constrainanglez) constrainanglez = false;
+    CEL_FETCH_VECTOR3_PAR (minangle,params,param_minangle);
+    if (!p_minangle) minangle.Set (0, 0, 0);
+    CEL_FETCH_VECTOR3_PAR (maxangle,params,param_maxangle);
+    if (!p_maxangle) maxangle.Set (0, 0, 0);
+    iRigidBody* pbody1 = FindBody (body1);
+    if (!pbody1)
+    {
+      Report (object_reg,
+      	"Can't find entity '%s' for body (or entity doesn't have a body)!", body1);
+      return false;
+    }
+    iRigidBody* pbody2 = FindBody (body2);
+    if (!pbody2)
+    {
+      Report (object_reg,
+      	"Can't find entity '%s' for body (or entity doesn't have a body)!", body2);
+      return false;
+    }
+    iJoint* j = CreateJoint (pbody1, pbody2);
+    csOrthoTransform trans;
+    trans.SetOrigin (position);
+    j->SetTransform (trans);
+    j->SetTransConstraints (constraindistx, constraindisty, constraindistz);
+    j->SetMinimumDistance (mindistance);
+    j->SetMaximumDistance (maxdistance);
+    j->SetRotConstraints (constrainanglex, constrainangley, constrainanglez);
+    j->SetMinimumAngle (minangle);
+    j->SetMaximumAngle (maxangle);
   }
   return true;
 }
@@ -1081,21 +1174,18 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
   iCelBehaviour* behaviour = entity->GetBehaviour ();
   if (!behaviour) return;
   celData ret;
-  //@@@ Find the other body's iPcMechanicsObject.
-  /*csRef<iObject> obj = otherbody->QueryObject ();
-  if (obj != 0)
+  // Find the other body's iPcMechanicsObject.
+  params->GetParameter (0).Set (0);
+  if (otherbody)
   {
-    csRef<iCelEntity> ent = pl->FindAttachedEntity (obj);
-    if (ent == 0)
+    iObject* obj = otherbody->QueryObject ();
+    if (obj)
     {
-      Report (object_reg, "No entity found using given iObject!\n");
+      iCelEntity* ent = pl->FindAttachedEntity (obj);
+      if (ent)
+        params->GetParameter (0).Set (ent->GetName ());
     }
-    //params->GetParameter (0).Set (othermechobjtag);
   }
-  else
-  {
-    Report (object_reg, "No iObject found!\n");
-  }*/
   behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
 }
 
@@ -1120,6 +1210,7 @@ iRigidBody* celPcMechanicsObject::GetBody ()
       {
         body = dynsys->CreateBody ();
 	body->QueryObject ()->SetName (entity->GetName ());
+	pl->AttachEntity (body->QueryObject (), entity);
         body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
       }
     }
