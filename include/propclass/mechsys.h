@@ -234,7 +234,17 @@ struct iPcMechanicsSystem : public virtual iBase
  *     'position' (vector3), and 'seconds' (float).
  * <li>AddForceFrame: parameters 'force' (vector3), 'relative' (bool),
  *     and 'position' (vector3).
+ * <li>AddForceTagged: parameters 'force' (vector3), 'relative' (bool),
+ *     and 'position' (vector3). The tag will be set in the property
+ *     'cel.property.lasttag'.
+ * <li>RemoveForceTagged: parameters 'tag' (long).
  * <li>ClearForces: no parameters.
+ * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>lasttag (long, read): last tag returned by AddForceTagged action.
  * </ul>
  */
 struct iPcMechanicsObject : public virtual iBase

@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+4-Nov-2005
+	- Jorrit changed the mechanics plugin so that the name of the
+	  body that is created is set to the name of the entity.
+	- Jorrit added the actions AddForceTagged and RemoveForceTagged to
+	  iPcMechanicsObject. The tag is returned in the 'lasttag' property.
+	- Jorrit fixed a bug in AddForceTagged in the mechanics plugin.
+	  The first force added with AddForceTagged wouldn't work because the
+	  forceid would be 0 and the function that performs all forces checks
+	  on this. Fixed it by setting the forceidseed to 1 instead of 0 so
+	  that the first forceid will be 1 instead of 0.
 3-Nov-2005
 	- Jorrit added the following actions to iPcMechanicsObject:
 	    - SetLinearVelocity
