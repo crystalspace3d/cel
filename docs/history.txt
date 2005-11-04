@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 4-Nov-2005
+	- David Bronke added documentation of the actions available for
+	  iPcSimpleCamera.
 	- Jorrit changed the mechanics plugin so that the name of the
 	  body that is created is set to the name of the entity.
 	- Jorrit added the actions AddForceTagged and RemoveForceTagged to

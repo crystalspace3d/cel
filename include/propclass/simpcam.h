@@ -29,6 +29,15 @@ SCF_VERSION (iPcSimpleCamera, 0, 0, 3);
 /**
  * A class representing a simple camera, with capabilities for both
  * first-person and third-person modes.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>InitCamera: parameters 'campos' (vector3), 'lookat' (vector3), 'drawmesh' (bool).
+ * <li>SetPosition: parameters 'campos' (vector3), 'lookat' (vector3).
+ * <li>SetMesh: parameters 'meshpctag' (string).
+ * </ul>
  */
 struct iPcSimpleCamera : public iPcCamera
 {
