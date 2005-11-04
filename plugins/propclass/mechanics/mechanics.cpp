@@ -927,7 +927,6 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
     if (!p_force) position.Set (0, 0, 0);
     last_tag = AddForceTagged (force, relative, position);
-    printf ("last %d\n", last_tag); fflush (stdout);
   }
   else if (actionId == action_removeforcetagged)
   {
