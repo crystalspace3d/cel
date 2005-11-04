@@ -90,6 +90,15 @@ private:
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();
 
+  // For properties.
+  enum propids
+  {
+    propid_position = 0
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
+
 public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
@@ -151,6 +160,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool GetPropertyVector (csStringID, csVector3&);
 };
 
 /**

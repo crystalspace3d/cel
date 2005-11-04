@@ -49,6 +49,12 @@ class csVector3;
  *     and 'factoryname' (string).
  * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).
  * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>position (vector3, read): current position.
+ * </ul>
  */
 struct iPcMesh : public virtual iBase
 {

@@ -111,11 +111,54 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
   }
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_position] = 0;		// Handled in this class.
 }
 
 celPcMesh::~celPcMesh ()
 {
   Clear ();
+}
+
+Property* celPcMesh::properties = 0;
+size_t celPcMesh::propertycount = 0;
+
+void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_position].id = pl->FetchStringID (
+    	"cel.property.position");
+    properties[propid_position].datatype = CEL_DATA_VECTOR3;
+    properties[propid_position].readonly = true;
+    properties[propid_position].desc = "Current position of mesh.";
+  }
+}
+
+bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_position].id)
+  {
+    if (mesh)
+      v = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+    else
+      v.Set (0, 0, 0);
+    return true;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyVector (propid_position, v);
+  }
 }
 
 void celPcMesh::Clear ()

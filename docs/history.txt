@@ -20,6 +20,7 @@ The history order is reversed so that new features are at the top.
 	  the iObject system).
 	- Jorrit fixed the 'otherbody' parameter for the pcdynamicbody_collision
 	  message.
+	- Jorrit added support for the 'position' property to iPcMesh.
 3-Nov-2005
 	- Jorrit added the following actions to iPcMechanicsObject:
 	    - SetLinearVelocity
