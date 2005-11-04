@@ -535,6 +535,8 @@ csStringID celPcMechanicsObject::action_setangularvelocity = csInvalidStringID;
 csStringID celPcMechanicsObject::action_addforceonce = csInvalidStringID;
 csStringID celPcMechanicsObject::action_addforceduration = csInvalidStringID;
 csStringID celPcMechanicsObject::action_addforceframe = csInvalidStringID;
+csStringID celPcMechanicsObject::action_addforcetagged = csInvalidStringID;
+csStringID celPcMechanicsObject::action_removeforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_clearforces = csInvalidStringID;
 
 // Parameters.
@@ -562,6 +564,7 @@ csStringID celPcMechanicsObject::param_relative = csInvalidStringID;
 csStringID celPcMechanicsObject::param_position = csInvalidStringID;
 csStringID celPcMechanicsObject::param_seconds = csInvalidStringID;
 csStringID celPcMechanicsObject::param_velocity = csInvalidStringID;
+csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
@@ -580,7 +583,8 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   pcmesh = 0;
   mechsystem = 0;
 
-  forceidseed = 0;
+  forceidseed = 1;
+  last_tag = csArrayItemNotFound;
 
   friction = 1;
   elasticity = 0;
@@ -609,6 +613,8 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_addforceonce = pl->FetchStringID ("cel.action.AddForceOnce");
     action_addforceduration = pl->FetchStringID ("cel.action.AddForceDuration");
     action_addforceframe = pl->FetchStringID ("cel.action.AddForceFrame");
+    action_addforcetagged = pl->FetchStringID ("cel.action.AddForceTagged");
+    action_removeforcetagged = pl->FetchStringID ("cel.action.RemoveForceTagged");
     action_clearforces = pl->FetchStringID ("cel.action.ClearForces");
 
     // Parameters.
@@ -636,10 +642,18 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_position = pl->FetchStringID ("cel.parameter.position");
     param_seconds = pl->FetchStringID ("cel.parameter.seconds");
     param_velocity = pl->FetchStringID ("cel.parameter.velocity");
+    param_tag = pl->FetchStringID ("cel.parameter.tag");
   }
 
   params = new celOneParameterBlock ();
   params->SetParameterDef (param_otherbody, "otherbody");
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_lasttag] = &last_tag;	// Automatically handled.
 }
 
 celPcMechanicsObject::~celPcMechanicsObject ()
@@ -647,6 +661,25 @@ celPcMechanicsObject::~celPcMechanicsObject ()
   delete bdata;
   if (mechsystem)
     mechsystem->ClearForces ((iPcMechanicsObject*)this);
+}
+
+Property* celPcMechanicsObject::properties = 0;
+size_t celPcMechanicsObject::propertycount = 0;
+
+void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_lasttag].id = pl->FetchStringID (
+    	"cel.property.lasttag");
+    properties[propid_lasttag].datatype = CEL_DATA_LONG;
+    properties[propid_lasttag].readonly = true;
+    properties[propid_lasttag].desc = "Last tag from AddForceTagged.";
+  }
 }
 
 #define DYNBODY_SERIAL 1
@@ -881,6 +914,31 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     if (!p_force) position.Set (0, 0, 0);
     AddForceFrame (force, relative, position);
   }
+  else if (actionId == action_addforcetagged)
+  {
+    CEL_FETCH_VECTOR3_PAR (force,params,param_force);
+    if (!p_force)
+    {
+      Report (object_reg, "'force' missing!");
+      return false;
+    }
+    CEL_FETCH_BOOL_PAR (relative,params,param_relative);
+    if (!p_relative) relative = false;
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_force) position.Set (0, 0, 0);
+    last_tag = AddForceTagged (force, relative, position);
+    printf ("last %d\n", last_tag); fflush (stdout);
+  }
+  else if (actionId == action_removeforcetagged)
+  {
+    CEL_FETCH_LONG_PAR (tag,params,param_tag);
+    if (!p_tag)
+    {
+      Report (object_reg, "'tag' missing!");
+      return false;
+    }
+    RemoveForceTagged ((uint32)tag);
+  }
   else if (actionId == action_clearforces)
   {
     ClearForces ();
@@ -1062,6 +1120,7 @@ iRigidBody* celPcMechanicsObject::GetBody ()
       if (dynsys)
       {
         body = dynsys->CreateBody ();
+	body->QueryObject ()->SetName (entity->GetName ());
         body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
       }
     }

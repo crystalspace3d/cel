@@ -244,6 +244,8 @@ private:
   static csStringID action_addforceonce;
   static csStringID action_addforceduration;
   static csStringID action_addforceframe;
+  static csStringID action_addforcetagged;
+  static csStringID action_removeforcetagged;
   static csStringID action_clearforces;
 
   // Parameters for action_initphys
@@ -273,11 +275,15 @@ private:
   static csStringID param_position;
   static csStringID param_seconds;
   static csStringID param_velocity;
+  static csStringID param_tag;
 
   celOneParameterBlock* params;
 
   // Last assigned force id for this object
   uint32 forceidseed;
+  // Last used tag for AddForceTagged() (only set through
+  // PerformAction).
+  uint32 last_tag;
 
   csWeakRef<iPcMechanicsSystem> mechsystem;
   csWeakRef<iPcMesh> pcmesh;
@@ -302,6 +308,15 @@ private:
   void FindMeshLightCamera ();
   csReversibleTransform GetFullTransform ();
   void AttachObject ();
+
+  // For properties.
+  enum propids
+  {
+    propid_lasttag = 0,
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcMechanicsObject (iObjectRegistry* object_reg);
