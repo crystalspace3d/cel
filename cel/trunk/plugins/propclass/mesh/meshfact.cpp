@@ -161,9 +161,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
   else if (actionId == action_loadmesh)
   {
     CEL_FETCH_STRING_PAR (file,params,id_filename);
-    if (!file)
-      return Report (object_reg,
-      	"Missing parameter 'filename' for action LoadMesh!");
     CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
     if (!factory)
       return Report (object_reg,
@@ -411,7 +408,7 @@ bool celPcMesh::SetMesh (const char* factname, const char* filename)
   RemoveMesh ();
   creation_flag = CEL_CREATE_FACTORY;
 
-  if (!factName.IsEmpty () && !fileName.IsEmpty ())
+  if (!factName.IsEmpty ())
   {
     csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
 				        	->FindByName (factname);

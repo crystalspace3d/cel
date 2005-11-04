@@ -80,15 +80,25 @@ private:
   static csStringID action_enablestepfast;
   static csStringID action_disablestepfast;
   static csStringID action_setsteptime;
+  static csStringID action_createjoint;
 
-  // Parameters for action_setsystem (mechsystem)
+  // Parameters.
   static csStringID param_dynsys;
-
-  // Parameters for action_setgravity
   static csStringID param_gravity;
-
-  // Parameters for action_setsteptime
   static csStringID param_time;
+  static csStringID param_body1;
+  static csStringID param_body2;
+  static csStringID param_position;
+  static csStringID param_constraindistx;
+  static csStringID param_constraindisty;
+  static csStringID param_constraindistz;
+  static csStringID param_mindistance;
+  static csStringID param_maxdistance;
+  static csStringID param_constrainanglex;
+  static csStringID param_constrainangley;
+  static csStringID param_constrainanglez;
+  static csStringID param_minangle;
+  static csStringID param_maxangle;
  
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
@@ -101,6 +111,8 @@ private:
 
   void ProcessForces (float dt);
   iDynamics *GetDynamics ();
+
+  iRigidBody* FindBody (const char* entityname);
 
 public:
   celPcMechanicsSystem (iObjectRegistry* object_reg);
@@ -248,7 +260,7 @@ private:
   static csStringID action_removeforcetagged;
   static csStringID action_clearforces;
 
-  // Parameters for action_initphys
+  // Parameters.
   static csStringID param_friction;
   static csStringID param_mass;
   static csStringID param_elasticity;
@@ -256,8 +268,6 @@ private:
   static csStringID param_softness;
   static csStringID param_lift;
   static csStringID param_drag;
-
-  // Parameters.
   static csStringID param_static;
   static csStringID param_systempcent;
   static csStringID param_systempctag;

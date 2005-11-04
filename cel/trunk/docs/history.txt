@@ -13,6 +13,13 @@ The history order is reversed so that new features are at the top.
 	  forceid would be 0 and the function that performs all forces checks
 	  on this. Fixed it by setting the forceidseed to 1 instead of 0 so
 	  that the first forceid will be 1 instead of 0.
+	- Jorrit fixed iPcMesh::SetMesh() and the LoadMesh action so that it
+	  really works when the filename is set to 0.
+	- Jorrit added new 'CreateJoint' action to iPcMechanicsSystem.
+	- Jorrit made sure that bodies are also attached to entities now (through
+	  the iObject system).
+	- Jorrit fixed the 'otherbody' parameter for the pcdynamicbody_collision
+	  message.
 3-Nov-2005
 	- Jorrit added the following actions to iPcMechanicsObject:
 	    - SetLinearVelocity
