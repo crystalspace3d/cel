@@ -970,7 +970,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
     if (!p_relative) relative = false;
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-    if (!p_force) position.Set (0, 0, 0);
+    if (!p_position) position.Set (0, 0, 0);
     AddForceOnce (force, relative, position);
   }
   else if (actionId == action_addforceduration)
@@ -984,7 +984,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
     if (!p_relative) relative = false;
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-    if (!p_force) position.Set (0, 0, 0);
+    if (!p_position) position.Set (0, 0, 0);
     CEL_FETCH_FLOAT_PAR (seconds,params,param_seconds);
     if (!p_seconds)
     {
@@ -1004,7 +1004,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
     if (!p_relative) relative = false;
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-    if (!p_force) position.Set (0, 0, 0);
+    if (!p_position) position.Set (0, 0, 0);
     AddForceFrame (force, relative, position);
   }
   else if (actionId == action_addforcetagged)
@@ -1018,7 +1018,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
     if (!p_relative) relative = false;
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
-    if (!p_force) position.Set (0, 0, 0);
+    if (!p_position) position.Set (0, 0, 0);
     last_tag = AddForceTagged (force, relative, position);
   }
   else if (actionId == action_removeforcetagged)

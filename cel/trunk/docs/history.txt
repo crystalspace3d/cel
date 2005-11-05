@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Nov-2005
+	- Jorrit fixed a bug in the force actions of the mechanics
+	  plugin.
 4-Nov-2005
 	- David Bronke added documentation of the actions available for
 	  iPcSimpleCamera.
