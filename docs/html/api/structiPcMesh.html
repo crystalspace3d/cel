@@ -81,17 +81,22 @@ This property class supports the following actions (add prefix 'cel.action.' to 
 <li>
 SetMesh: parameters 'name' (string). This sets an already existing mesh for this pcmesh. </li>
 <li>
-LoadMesh: parameters 'filename' (string) and 'factoryname' (string). </li>
+LoadMesh: parameters 'filename' (string) and 'factoryname' (string). 'filename' is optional. If not given then the factory should already be in memory. </li>
 <li>
 LoadMeshPath: parameters 'path' (string), 'filename' (string) and 'factoryname' (string). </li>
 <li>
 MoveMesh: parameters 'sector' (string) and 'position' (vector3). </li>
 </ul>
+<p>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+position (vector3, read): current position. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mesh_8h-source.html#l00051">51</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mesh_8h-source.html#l00059">59</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="dbf68e523dc6be75798393300310280b"></a><!-- doxytag: member="iPcMesh::CreateEmptyThing" ref="dbf68e523dc6be75798393300310280b" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
