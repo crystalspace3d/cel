@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed XML behaviour so that camera is created before
 	  the region. That way the camera can already be used from within
 	  initialization portions of the scripts.
+	- Jorrit fixed pcmeshselect so that it works again now that
+	  mouse move events no longer send the button.
+	- Jorrit added a SetPosition action to iPcMechanicsObject.
 5-Nov-2005
 	- Jorrit fixed a bug in the force actions of the mechanics
 	  plugin.

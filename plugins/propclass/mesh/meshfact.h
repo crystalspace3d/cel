@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
+#include "iutil/csinput.h"
 #include "csutil/scf.h"
 #include "csutil/weakref.h"
 #include "physicallayer/propclas.h"
@@ -171,6 +172,8 @@ class celPcMeshSelect : public scfImplementationExt1<
 {
 private:
   csWeakRef<iPcCamera> pccamera;
+
+  csRef<iMouseDriver> mousedrv;
 
   /// Listeners.
   csRefArray<iPcMeshSelectListener> listeners;

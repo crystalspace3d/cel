@@ -259,6 +259,7 @@ private:
   static csStringID action_addforcetagged;
   static csStringID action_removeforcetagged;
   static csStringID action_clearforces;
+  static csStringID action_setposition;
 
   // Parameters.
   static csStringID param_friction;
