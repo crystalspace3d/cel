@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Nov-2005
+	- Jorrit fixed XML behaviour so that camera is created before
+	  the region. That way the camera can already be used from within
+	  initialization portions of the scripts.
 5-Nov-2005
 	- Jorrit fixed a bug in the force actions of the mechanics
 	  plugin.
@@ -21,8 +25,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed iPcMesh::SetMesh() and the LoadMesh action so that it
 	  really works when the filename is set to 0.
 	- Jorrit added new 'CreateJoint' action to iPcMechanicsSystem.
-	- Jorrit made sure that bodies are also attached to entities now (through
-	  the iObject system).
+	- Jorrit made sure that bodies are also attached to entities now
+	  (through the iObject system).
 	- Jorrit fixed the 'otherbody' parameter for the pcdynamicbody_collision
 	  message.
 	- Jorrit added support for the 'position' property to iPcMesh.

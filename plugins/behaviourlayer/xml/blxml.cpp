@@ -687,7 +687,8 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	  while (token != CEL_TOKEN_CLOSE)
 	  {
 	    // Get parameter name.
-            if (!ParseID (input, local_vars, child, h, name, str, XMLFUNCTION_PARID))
+            if (!ParseID (input, local_vars, child, h, name, str,
+				    XMLFUNCTION_PARID))
 	      return false;
 	    input = celXmlParseToken (input, token);
 	    if (token != CEL_TOKEN_ASSIGN)
@@ -845,7 +846,8 @@ bool celBlXml::ParseExpressionInt (
           input = celXmlParseToken (input, token);
 	  if (token == CEL_TOKEN_VECTOR)
 	  {
-	    // Special case of dereferencing an array (?entity.array[index] notation).
+	    // Special case of dereferencing an array
+	    // (?entity.array[index] notation).
             if (!ParseExpression (input, local_vars, child, h, name, 0))
 	      return false;
             input = celXmlParseToken (input, token);
@@ -1058,17 +1060,20 @@ bool celBlXml::ParseExpressionInt (
       }
       break;
     case CEL_TOKEN_MINUS:
-      if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ONETERM))
+      if (!ParseExpression (input, local_vars, child, h, name,
+			      CEL_PRIORITY_ONETERM))
         return false;
       h->AddOperation (CEL_OPERATION_UNARYMINUS);
       break;
     case CEL_TOKEN_BITNOT:
-      if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ONETERM))
+      if (!ParseExpression (input, local_vars, child, h, name,
+			      CEL_PRIORITY_ONETERM))
         return false;
       h->AddOperation (CEL_OPERATION_BITNOT);
       break;
     case CEL_TOKEN_LOGNOT:
-      if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ONETERM))
+      if (!ParseExpression (input, local_vars, child, h, name,
+			      CEL_PRIORITY_ONETERM))
         return false;
       h->AddOperation (CEL_OPERATION_LOGNOT);
       break;
@@ -1129,74 +1134,86 @@ bool celBlXml::ParseExpressionInt (
 	break;
       case CEL_TOKEN_BITAND:
         if (stoppri >= CEL_PRIORITY_BITAND) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_BITAND))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_BITAND))
 	  return false;
         h->AddOperation (CEL_OPERATION_BITAND);
         break;
       case CEL_TOKEN_BITOR:
         if (stoppri >= CEL_PRIORITY_BITOR) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_BITOR))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_BITOR))
 	  return false;
         h->AddOperation (CEL_OPERATION_BITOR);
         break;
       case CEL_TOKEN_BITXOR:
         if (stoppri >= CEL_PRIORITY_BITXOR) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_BITXOR))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_BITXOR))
 	  return false;
         h->AddOperation (CEL_OPERATION_BITXOR);
         break;
       case CEL_TOKEN_LOGAND:
         if (stoppri >= CEL_PRIORITY_LOGAND) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LOGAND))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LOGAND))
 	  return false;
         h->AddOperation (CEL_OPERATION_LOGAND);
         break;
       case CEL_TOKEN_LOGOR:
         if (stoppri >= CEL_PRIORITY_LOGOR) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LOGOR))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LOGOR))
 	  return false;
         h->AddOperation (CEL_OPERATION_LOGOR);
         break;
       case CEL_TOKEN_EQ:
         if (stoppri >= CEL_PRIORITY_EQUAL) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_EQUAL))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_EQUAL))
 	  return false;
         h->AddOperation (CEL_OPERATION_EQ);
         break;
       case CEL_TOKEN_NE:
         if (stoppri >= CEL_PRIORITY_EQUAL) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_EQUAL))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_EQUAL))
 	  return false;
         h->AddOperation (CEL_OPERATION_NE);
         break;
       case CEL_TOKEN_LT:
         if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LTGT))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LTGT))
 	  return false;
         h->AddOperation (CEL_OPERATION_LT);
         break;
       case CEL_TOKEN_LE:
         if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LTGT))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LTGT))
 	  return false;
         h->AddOperation (CEL_OPERATION_LE);
         break;
       case CEL_TOKEN_GT:
         if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LTGT))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LTGT))
 	  return false;
         h->AddOperation (CEL_OPERATION_GT);
         break;
       case CEL_TOKEN_GE:
         if (stoppri >= CEL_PRIORITY_LTGT) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_LTGT))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_LTGT))
 	  return false;
         h->AddOperation (CEL_OPERATION_GE);
         break;
       case CEL_TOKEN_MINUS:
         {
           if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
-          if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
+          if (!ParseExpression (input, local_vars, child, h, name,
+				  CEL_PRIORITY_ADDSUB))
 	    return false;
 	  if (h->GetLastOperation () == CEL_OPERATION_PUSH)
 	  {
@@ -1211,7 +1228,8 @@ bool celBlXml::ParseExpressionInt (
       case CEL_TOKEN_ADD:
         {
           if (stoppri >= CEL_PRIORITY_ADDSUB) { input = pinput; return true; }
-          if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_ADDSUB))
+          if (!ParseExpression (input, local_vars, child, h, name,
+				  CEL_PRIORITY_ADDSUB))
 	    return false;
 	  if (h->GetLastOperation () == CEL_OPERATION_PUSH)
 	  {
@@ -1229,19 +1247,22 @@ bool celBlXml::ParseExpressionInt (
         break;
       case CEL_TOKEN_MULT:
         if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_MULTDIV))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_MULTDIV))
 	  return false;
         h->AddOperation (CEL_OPERATION_MULT);
         break;
       case CEL_TOKEN_DIV:
         if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_MULTDIV))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_MULTDIV))
 	  return false;
         h->AddOperation (CEL_OPERATION_DIV);
         break;
       case CEL_TOKEN_MODULO:
         if (stoppri >= CEL_PRIORITY_MULTDIV) { input = pinput; return true; }
-        if (!ParseExpression (input, local_vars, child, h, name, CEL_PRIORITY_MULTDIV))
+        if (!ParseExpression (input, local_vars, child, h, name,
+				CEL_PRIORITY_MULTDIV))
 	  return false;
         h->AddOperation (CEL_OPERATION_MODULO);
         break;
@@ -1357,11 +1378,15 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  {
             if (!ParseExpression (local_vars, child, h, "delta", "bb_move"))
 	      return false;
-	    h->AddOperation (pc ? CEL_OPERATION_BB_MOVEDELTA_E : CEL_OPERATION_BB_MOVEDELTA);
+	    h->AddOperation (pc
+			    ? CEL_OPERATION_BB_MOVEDELTA_E
+			    : CEL_OPERATION_BB_MOVEDELTA);
 	  }
 	  else
 	  {
-	    h->AddOperation (pc ? CEL_OPERATION_BB_MOVE_E : CEL_OPERATION_BB_MOVE);
+	    h->AddOperation (pc
+			    ? CEL_OPERATION_BB_MOVE_E
+			    : CEL_OPERATION_BB_MOVE);
 	  }
 	}
         break;
@@ -1600,11 +1625,13 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         {
 	  if (!ParseExpression (local_vars, child, h, "name", "createentity"))
 	    return false;
-	  if (!ParseExpression (local_vars, child, h, "behaviour", "createentity"))
+	  if (!ParseExpression (local_vars, child, h, "behaviour",
+				  "createentity"))
 	    return false;
 	  if (child->GetAttributeValue ("layer"))
 	  {
-	    if (!ParseExpression (local_vars, child, h, "layer", "createentity"))
+	    if (!ParseExpression (local_vars, child, h, "layer",
+				    "createentity"))
 	      return false;
 	    h->AddOperation (CEL_OPERATION_CREATEENTITYL);
 	  }
@@ -1615,7 +1642,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	else if (child->GetAttributeValue ("template"))
 	{
-	  if (!ParseExpression (local_vars, child, h, "template", "createentity"))
+	  if (!ParseExpression (local_vars, child, h, "template",
+				  "createentity"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_CREATEENTITYTPL);
 	}
@@ -1660,7 +1688,8 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
             if (!ParseExpression (local_vars, child, h, "entity", "var"))
 	      return false;
 	  char* str;
-          if (!ParseExpressionOrConstantString (local_vars, child, h, "name", "var", str))
+          if (!ParseExpressionOrConstantString (local_vars, child, h, "name",
+				  "var", str))
 	    return false;
           if (!ParseExpression (local_vars, child, h, "value", "var"))
 	    return false;
@@ -1927,7 +1956,9 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
     else if (!strcmp (value, "superscript"))
     {
       const char* supername = child->GetAttributeValue ("name");
-      celXmlScript* superscript = supername ? scripts_hash.Get (supername, 0) : 0;
+      celXmlScript* superscript = supername
+	      ? scripts_hash.Get (supername, 0)
+	      : 0;
       if (!superscript)
       {
         delete script;

@@ -259,26 +259,6 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera");
     iCelPropertyClass* pc;
 
-    csRef<iPcRegion> pcregion;
-    pc = pl->CreatePropertyClass (entity, "pcregion");
-    if (!pc)
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "crystalspace.cel.behaviour.xml",
-	  "Couldn't create 'pcregion' property class!");
-      return false;
-    }
-    pcregion = SCF_QUERY_INTERFACE (pc, iPcRegion);
-    pcregion->SetWorldFile (path, worldname);
-    pcregion->SetRegionName (worldname);
-    if (!pcregion->Load ())
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "crystalspace.cel.behaviour.xml",
-	  "Couldn't load '%s' at '%s'!", worldname.GetData(), path.GetData());
-      return false;
-    }
-
     csRef<iPcCamera> pccamera;
     pc = pl->CreatePropertyClass (entity, "pcdefaultcamera");
     if (!pc)
@@ -290,6 +270,27 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     }
     pccamera = SCF_QUERY_INTERFACE (pc, iPcCamera);
     //pccamera->SetMode (iPcCamera::firstperson);
+
+    csRef<iPcRegion> pcregion;
+    pc = pl->CreatePropertyClass (entity, "pcregion");
+    if (!pc)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.behaviour.xml",
+	  "Couldn't create 'pcregion' property class!");
+      return false;
+    }
+
+    pcregion = SCF_QUERY_INTERFACE (pc, iPcRegion);
+    pcregion->SetWorldFile (path, worldname);
+    pcregion->SetRegionName (worldname);
+    if (!pcregion->Load ())
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.behaviour.xml",
+	  "Couldn't load '%s' at '%s'!", worldname.GetData(), path.GetData());
+      return false;
+    }
     pccamera->SetRegion (pcregion);
 
     return true;
