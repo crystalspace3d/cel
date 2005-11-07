@@ -631,6 +631,7 @@ csStringID celPcMechanicsObject::action_addforceframe = csInvalidStringID;
 csStringID celPcMechanicsObject::action_addforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_removeforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_clearforces = csInvalidStringID;
+csStringID celPcMechanicsObject::action_setposition = csInvalidStringID;
 
 // Parameters.
 csStringID celPcMechanicsObject::param_friction = csInvalidStringID;
@@ -709,6 +710,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_addforcetagged = pl->FetchStringID ("cel.action.AddForceTagged");
     action_removeforcetagged = pl->FetchStringID ("cel.action.RemoveForceTagged");
     action_clearforces = pl->FetchStringID ("cel.action.ClearForces");
+    action_setposition = pl->FetchStringID ("cel.action.SetPosition");
 
     // Parameters.
     param_friction = pl->FetchStringID ("cel.parameter.friction");
@@ -1034,6 +1036,16 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   else if (actionId == action_clearforces)
   {
     ClearForces ();
+  }
+  else if (actionId == action_setposition)
+  {
+    CEL_FETCH_VECTOR3_PAR (position,params,param_position);
+    if (!p_position)
+    {
+      Report (object_reg, "'position' missing!");
+      return false;
+    }
+    GetBody ()->SetPosition (position);
   }
   else if (actionId == action_initphys)
   {

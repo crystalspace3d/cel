@@ -604,6 +604,8 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendup = true;
   do_senddown = true;
   do_sendmove = false;
+
+  mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   
   // Initialize the maximum selection distance to a very large number
   max_distance = 100000.0f;
@@ -872,7 +874,19 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   if (!pccamera) return false;
   iCamera* camera = pccamera->GetCamera ();
 
-  int mouse_but = csMouseEventHelper::GetButton(&ev);
+  int mouse_but;
+  if (ev.Type == csevMouseMove)
+  {
+    if (mousedrv->GetLastButton (1)) mouse_but = 1;
+    else if (mousedrv->GetLastButton (2)) mouse_but = 2;
+    else if (mousedrv->GetLastButton (3)) mouse_but = 3;
+    else mouse_but = 0;
+  }
+  else
+  {
+    mouse_but = csMouseEventHelper::GetButton(&ev);
+  }
+
   int but = 1<<(mouse_but-1);
   if (do_follow || do_drag)
   {
