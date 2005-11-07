@@ -913,6 +913,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   // same vector.
   csVector3 vo, vw;
 
+  csVector3 dragoffs;
+
   if (mouse_down || do_follow_always || ((do_follow || do_drag) && sel_entity))
   {
     // Setup perspective vertex, invert mouse Y axis.
@@ -932,6 +934,10 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       {
         iObject* sel_obj = sel->QueryObject ();
         new_sel = pl->FindAttachedEntity (sel_obj);
+	if (new_sel)
+	{
+	  dragoffs = isect - sel->GetMovable ()->GetFullPosition ();
+	}
       }
     } 
   }
@@ -965,6 +971,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     }
     csVector3 isect;
     float dist;
+    isect -= drag_offset;
     if (csIntersect3::SegmentPlane (v0, v1, drag_normal, mp, isect, dist))
     {
       if (drag_normal_camera)
@@ -986,7 +993,14 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (mouse_down)
     {
       if (do_global || new_sel == entity)
+      {
+	if (sel_entity != new_sel)
+	{
+	  drag_offset = dragoffs;
+	  printf ("drag_offset=%g,%g,%g\n", drag_offset.x, drag_offset.y, drag_offset.z); fflush (stdout);
+	}
         sel_entity = new_sel;
+      }
       if (do_senddown && sel_entity)
         SendMessage (MSSM_TYPE_DOWN, sel_entity,
 		mouse_x, mouse_y, mouse_but);
@@ -1018,7 +1032,14 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (mouse_down)
     {
       if (do_global || new_sel == entity)
+      {
+	if (sel_entity != new_sel)
+	{
+	  drag_offset = dragoffs;
+	  printf ("2:drag_offset=%g,%g,%g\n", drag_offset.x, drag_offset.y, drag_offset.z); fflush (stdout);
+	}
         sel_entity = new_sel;
+      }
       if (do_senddown && sel_entity)
         SendMessage (MSSM_TYPE_DOWN, sel_entity,
 		mouse_x, mouse_y, mouse_but);
