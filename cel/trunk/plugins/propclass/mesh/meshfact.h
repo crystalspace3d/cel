@@ -198,6 +198,10 @@ private:
   // If true then it is possible to drag the selected object.
   bool do_drag;
 
+  // Drag offset: this is the offset between the selection point
+  // and the origin of the object.
+  csVector3 drag_offset;
+
   // Normal of the plane that is used to constrain dragging.
   csVector3 drag_normal;
   // If drag_normal is given in camera or world space coordinates.

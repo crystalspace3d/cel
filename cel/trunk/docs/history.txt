@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pcmeshselect so that it works again now that
 	  mouse move events no longer send the button.
 	- Jorrit added a SetPosition action to iPcMechanicsObject.
+	- Jorrit fixed mesh selection so that the selection offset is
+	  properly kept (meaning the object will not jump to origin
+	  when you drag it).
 5-Nov-2005
 	- Jorrit fixed a bug in the force actions of the mechanics
 	  plugin.
