@@ -345,7 +345,7 @@ struct iCelLocalEntitySet : public iBase
   virtual iCelPropertyClass* FindExternalPC (iCelDataBuffer* databuf) = 0;
 };
 
-SCF_VERSION (iCelPersistence, 0, 1, 0);
+SCF_VERSION (iCelPersistence, 0, 1, 1);
 
 /**
  * This interface describes a module that can
@@ -353,15 +353,6 @@ SCF_VERSION (iCelPersistence, 0, 1, 0);
  */
 struct iCelPersistence : public iBase
 {
-  /**
-   * Load a local entity set from an iFile.
-   * \param set is an empty local entity set that will be filled
-   * by this routine.
-   * \param file the iFile to load the entity set from.
-   * \return false on error. Reporting will be already done.
-   */
-  virtual bool Load (iCelLocalEntitySet* set, iFile* file) = 0;
-
   /**
    * Load a local entity set. 'name' is a name relevant for the
    * given type of persistence. It can be a filename for example
@@ -374,14 +365,6 @@ struct iCelPersistence : public iBase
   virtual bool Load (iCelLocalEntitySet* set, const char* name) = 0;
 
   /**
-   * Save a local entity set to an iFile.
-   * \param set is a local entity set with entities to be saved.
-   * \param file the iFile to save the entity set to.
-   * \return false on error. Reporting will be already done.
-   */
-  virtual bool Save (iCelLocalEntitySet* set, iFile* file) = 0;
-
-  /**
    * Save a local entity set. 'name' is a name relevant for the
    * given type of persistence. It can be a filename for example
    * (VFS).
@@ -390,6 +373,23 @@ struct iCelPersistence : public iBase
    * \return false on error. Reporting will be already done.
    */
   virtual bool Save (iCelLocalEntitySet* set, const char* name) = 0;
+
+  /**
+   * Load a local entity set from an iFile.
+   * \param set is an empty local entity set that will be filled
+   * by this routine.
+   * \param file the iFile to load the entity set from.
+   * \return false on error. Reporting will be already done.
+   */
+  virtual bool Load (iCelLocalEntitySet* set, iFile* file) = 0;
+
+  /**
+   * Save a local entity set to an iFile.
+   * \param set is a local entity set with entities to be saved.
+   * \param file the iFile to save the entity set to.
+   * \return false on error. Reporting will be already done.
+   */
+  virtual bool Save (iCelLocalEntitySet* set, iFile* file) = 0;
 };
 
 #endif // __CEL_PL_PERSIST__
