@@ -807,14 +807,9 @@ bool celPersistClassic::ReadFirstPass (iCelEntity* entity)
 //------------------------------------------------------------------------
 
 #define CEL_MARKER "CEL1"
-bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
+bool celPersistClassic::Load (iCelLocalEntitySet* set, iFile* file)
 {
-  csRef<iDataBuffer> data = vfs->ReadFile (name);
-  if (!data)
-    return false;
-
-  csMemFile mf ((const char*) data->GetData(), data->GetSize());
-  file = &mf;
+  this->file = file;
   celPersistClassic::set = set;
 
   if (!CheckMarker (CEL_MARKER))
@@ -858,11 +853,17 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
   return true;
 }
 
-bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
+bool celPersistClassic::Load (iCelLocalEntitySet* set, const char* name)
 {
-  csMemFile m;
-  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
-  file = mf;
+  csRef<iFile> file = vfs->Open (name, VFS_FILE_READ);
+  if (!file)
+    return Report ("Failed to read file '%s'!", name);
+  return Load (set, file);
+}
+
+bool celPersistClassic::Save (iCelLocalEntitySet* set, iFile* file)
+{
+  this->file = file;
   celPersistClassic::set = set;
 
   if (!WriteMarker (CEL_MARKER)) return false;
@@ -888,9 +889,23 @@ bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
     if (!Write (ent, true)) return false;
   }
 
-  vfs->WriteFile (name, m.GetData (), m.GetSize ());
-
   return true;
+}
+
+bool celPersistClassic::Save (iCelLocalEntitySet* set, const char* name)
+{
+  csMemFile m;
+  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
+
+  if (Save (set, mf))
+  {
+    vfs->WriteFile (name, m.GetData (), m.GetSize ());
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 //------------------------------------------------------------------------
