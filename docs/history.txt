@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 8-Nov-2005
+	- David Bronke moved the new Load and Save methods to the end of the
+	  interface and bumped the micro version number on iCelPersistence.
 	- David Bronke added overloaded Load and Save methods to the
 	  iCelPersistence interface and all persistence plugins to implement
 	  saving to and loading from an iFile.
