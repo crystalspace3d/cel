@@ -53,6 +53,7 @@ class csColliderWrapper;
  */
 CEL_DECLARE_FACTORY (MechanicsSystem)
 CEL_DECLARE_FACTORY (MechanicsObject)
+CEL_DECLARE_FACTORY (MechanicsJoint)
 
 struct celForce
 {
@@ -80,25 +81,11 @@ private:
   static csStringID action_enablestepfast;
   static csStringID action_disablestepfast;
   static csStringID action_setsteptime;
-  static csStringID action_createjoint;
 
   // Parameters.
   static csStringID param_dynsys;
   static csStringID param_gravity;
   static csStringID param_time;
-  static csStringID param_body1;
-  static csStringID param_body2;
-  static csStringID param_position;
-  static csStringID param_constraindistx;
-  static csStringID param_constraindisty;
-  static csStringID param_constraindistz;
-  static csStringID param_mindistance;
-  static csStringID param_maxdistance;
-  static csStringID param_constrainanglex;
-  static csStringID param_constrainangley;
-  static csStringID param_constrainanglez;
-  static csStringID param_minangle;
-  static csStringID param_maxangle;
  
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
@@ -435,6 +422,49 @@ public:
       scfParent->Collision (thisbody, otherbody);
     }
   } scfiDynamicsCollisionCallback;
+};
+
+/**
+ * This is a joint property class.
+ */
+class celPcMechanicsJoint : public scfImplementationExt1<
+	celPcMechanicsJoint, celPcCommon, iPcMechanicsJoint>
+{
+private:
+  // Actions
+  static csStringID action_setparentbody;
+  static csStringID action_setposition;
+  static csStringID action_setconstraindist;
+  static csStringID action_setdistances;
+  static csStringID action_setconstrainangle;
+  static csStringID action_setangles;
+
+  // Parameters.
+  static csStringID param_body;
+  static csStringID param_position;
+  static csStringID param_min;
+  static csStringID param_max;
+  static csStringID param_x;
+  static csStringID param_y;
+  static csStringID param_z;
+
+  celOneParameterBlock* params;
+
+  csWeakRef<iCelEntity> parent_body;
+  csRef<iJoint> joint;
+
+  void CreateJoint ();
+
+public:
+  celPcMechanicsJoint (iObjectRegistry* object_reg);
+  virtual ~celPcMechanicsJoint ();
+
+  virtual iJoint* GetJoint () { return joint; }
+
+  virtual const char* GetName () const { return "pcmechjoint"; }
+  virtual csPtr<iCelDataBuffer> Save ();
+  virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 };
 
 #endif // __CEL_PF_MECHANICS_SYSTEM_FACTORY__

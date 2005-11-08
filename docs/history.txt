@@ -6,6 +6,11 @@ The history order is reversed so that new features are at the top.
 8-Nov-2005
 	- Jorrit fixed pcmeshselect so that it really correctly
 	  accounts for offset. Both in world as in camera space.
+	- Jorrit added LGPL notice to all mechanics headers.
+	- Jorrit fixed a small memory leak in pcmechobject.
+	- Jorrit added a new iPcMechanicsJoint property class.
+	- Jorrit removed the now obsolete CreateJoint action in
+	  the mechanics system.
 7-Nov-2005
 	- Jorrit fixed XML behaviour so that camera is created before
 	  the region. That way the camera can already be used from within
