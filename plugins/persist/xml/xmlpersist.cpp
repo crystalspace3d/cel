@@ -579,30 +579,26 @@ bool celPersistXML::ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity)
 
 //------------------------------------------------------------------------
 
-bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
+bool celPersistXML::Load (iCelLocalEntitySet* set, iFile* file)
 {
-  csRef<iDataBuffer> data = vfs->ReadFile (name);
-  if (!data)
-    return Report ("Failed to read file '%s'!", name);
-
   csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
   if (!xml)
     xml.AttachNew (new csTinyDocumentSystem ());
   csRef<iDocument> doc = xml->CreateDocument ();
-  const char* error = doc->Parse (data, true);
+  const char* error = doc->Parse (file, true);
   if (error != 0)
-    return Report ("Error parsing document '%s': '%s'!", name, error);
+    return Report ("Error parsing document: '%s'!", error);
   celPersistXML::set = set;
   csRef<iDocumentNode> parent = doc->GetRoot ()->GetNode ("celentities");
   if (!parent)
-    return Report ("File '%s' doesn't seem to be a valid XML save file!", name);
+    return Report ("File doesn't seem to be a valid XML save file!");
 
   csRef<iDocumentNode> firstpass = parent->GetNode ("firstpass");
   if (!firstpass)
-    return Report ("File '%s' not valid: 'firstpass' missing!", name);
+    return Report ("File not valid: 'firstpass' missing!");
   csRef<iDocumentNode> secondpass = parent->GetNode ("secondpass");
   if (!secondpass)
-    return Report ("File '%s' not valid: 'secondpass' missing!", name);
+    return Report ("File not valid: 'secondpass' missing!");
 
   size_t idx = 0;
   entities_map.DeleteAll ();
@@ -624,8 +620,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
         return false;
     }
     else
-      return Report ("File '%s' doesn't seem to be valid: expected 'entity'!",
-      	name);
+      return Report ("File doesn't seem to be valid: expected 'entity'!");
   }
 
   // --- Second pass ----------------------------------
@@ -646,7 +641,24 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
   return true;
 }
 
-bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
+bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
+{
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.persist.xml", "Loading file '%s'.", name);
+  else
+  {
+    csPrintf ("Loading file '%s'.\n", name);
+    fflush (stdout);
+  }
+  csRef<iFile> file = vfs->Open (name, VFS_FILE_READ);
+  if (!file)
+    return Report ("Failed to read file '%s'!", name);
+  return Load (set, file);
+}
+
+
+bool celPersistXML::Save (iCelLocalEntitySet* set, iFile* file)
 {
   celPersistXML::set = set;
   csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
@@ -673,7 +685,7 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
     	CS_NODE_ELEMENT, 0);
     entnode->SetValue ("entity");
     if (!WriteFirstPass (entnode, ent))
-      return Report ("Error writing entity in '%s'!", name);
+      return Report ("Error writing entity!");
   }
 
   // --- Second pass ----------------------------------
@@ -687,13 +699,37 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
     	CS_NODE_ELEMENT, 0);
     entnode->SetValue ("entity");
     if (!Write (entnode, ent, true))
-      return Report ("Error writing entity in '%s'!", name);
+      return Report ("Error writing entity!");
   }
 
-  if (doc->Write (vfs, name) != 0)
-    return Report ("Error writing file '%s'!", name);
+  if (doc->Write (file) != 0)
+    return Report ("Error writing file!");
 
   return true;
+}
+
+bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
+{
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.persist.xml", "Saving to file '%s'.", name);
+  else
+  {
+    csPrintf ("Saving to file '%s'.\n", name);
+    fflush (stdout);
+  }
+  csMemFile m;
+  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
+
+  if (Save (set, mf))
+  {
+    vfs->WriteFile (name, m.GetData (), m.GetSize ());
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 //------------------------------------------------------------------------

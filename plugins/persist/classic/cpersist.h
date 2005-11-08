@@ -91,7 +91,9 @@ public:
   virtual ~celPersistClassic ();
   bool Initialize (iObjectRegistry* object_reg);
 
+  virtual bool Load (iCelLocalEntitySet* set, iFile* file);
   virtual bool Load (iCelLocalEntitySet* set, const char* name);
+  virtual bool Save (iCelLocalEntitySet* set, iFile* file);
   virtual bool Save (iCelLocalEntitySet* set, const char* name);
 
   struct Component : public iComponent
