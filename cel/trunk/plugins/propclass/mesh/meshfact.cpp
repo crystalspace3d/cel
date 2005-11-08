@@ -913,7 +913,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   // same vector.
   csVector3 vo, vw;
 
-  csVector3 dragoffs;
+  csVector3 dragoffs (0);
 
   if (mouse_down || do_follow_always || ((do_follow || do_drag) && sel_entity))
   {
@@ -955,7 +955,11 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     CS_ASSERT (pcmesh != 0);
     iMeshWrapper* mesh = pcmesh->GetMesh ();
     CS_ASSERT (mesh != 0);
+
+    // We get the position of the point on the mesh where we clicked
+    // in world space (that's why drag_offset is added).
     csVector3 mp = mesh->GetMovable ()->GetPosition ();
+    mp += drag_offset;
 
     csVector3 v0, v1;
     if (drag_normal_camera)
@@ -971,19 +975,19 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     }
     csVector3 isect;
     float dist;
-    isect -= drag_offset;
     if (csIntersect3::SegmentPlane (v0, v1, drag_normal, mp, isect, dist))
     {
       if (drag_normal_camera)
         isect = camera->GetTransform ().This2Other (isect);
       if (pcmovable)
       {
-        pcmovable->Move (isect-mp);
+        pcmovable->Move (isect-mp-drag_offset);
       }
       else
       {
         iSector* sector = mesh->GetMovable ()->GetSectors ()->Get (0);
-        pcmesh->MoveMesh (sector, isect);
+	// Subtract the drag offset again.
+        pcmesh->MoveMesh (sector, isect-drag_offset);
       }
     }
   }
