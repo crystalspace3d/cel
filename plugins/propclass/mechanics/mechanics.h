@@ -247,6 +247,8 @@ private:
   static csStringID action_removeforcetagged;
   static csStringID action_clearforces;
   static csStringID action_setposition;
+  static csStringID action_clearrotation;
+  static csStringID action_lookat;
 
   // Parameters.
   static csStringID param_friction;
@@ -274,6 +276,8 @@ private:
   static csStringID param_seconds;
   static csStringID param_velocity;
   static csStringID param_tag;
+  static csStringID param_forward;
+  static csStringID param_up;
 
   celOneParameterBlock* params;
 

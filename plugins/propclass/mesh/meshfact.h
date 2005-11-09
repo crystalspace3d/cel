@@ -87,6 +87,10 @@ private:
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID action_movemesh;
+  static csStringID action_clearrotation;
+  static csStringID action_lookat;
+  static csStringID id_forward;
+  static csStringID id_up;
 
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();

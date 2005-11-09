@@ -545,6 +545,8 @@ csStringID celPcMechanicsObject::action_addforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_removeforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_clearforces = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setposition = csInvalidStringID;
+csStringID celPcMechanicsObject::action_clearrotation = csInvalidStringID;
+csStringID celPcMechanicsObject::action_lookat = csInvalidStringID;
 
 // Parameters.
 csStringID celPcMechanicsObject::param_friction = csInvalidStringID;
@@ -572,6 +574,8 @@ csStringID celPcMechanicsObject::param_position = csInvalidStringID;
 csStringID celPcMechanicsObject::param_seconds = csInvalidStringID;
 csStringID celPcMechanicsObject::param_velocity = csInvalidStringID;
 csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
+csStringID celPcMechanicsObject::param_forward = csInvalidStringID;
+csStringID celPcMechanicsObject::param_up = csInvalidStringID;
 
 SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
@@ -624,6 +628,8 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_removeforcetagged = pl->FetchStringID ("cel.action.RemoveForceTagged");
     action_clearforces = pl->FetchStringID ("cel.action.ClearForces");
     action_setposition = pl->FetchStringID ("cel.action.SetPosition");
+    action_clearrotation = pl->FetchStringID ("cel.action.ClearRotation");
+    action_lookat = pl->FetchStringID ("cel.action.LookAt");
 
     // Parameters.
     param_friction = pl->FetchStringID ("cel.parameter.friction");
@@ -651,6 +657,8 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_seconds = pl->FetchStringID ("cel.parameter.seconds");
     param_velocity = pl->FetchStringID ("cel.parameter.velocity");
     param_tag = pl->FetchStringID ("cel.parameter.tag");
+    param_forward = pl->FetchStringID ("cel.parameter.forward");
+    param_up = pl->FetchStringID ("cel.parameter.up");
   }
 
   params = new celOneParameterBlock ();
@@ -960,6 +968,20 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
       return false;
     }
     GetBody ()->SetPosition (position);
+  }
+  else if (actionId == action_clearrotation)
+  {
+    GetBody ()->SetOrientation (csMatrix3 ());
+  }
+  else if (actionId == action_lookat)
+  {
+    CEL_FETCH_VECTOR3_PAR (forward,params,param_forward);
+    if (!p_forward) forward.Set (0, 0, 1);
+    CEL_FETCH_VECTOR3_PAR (up,params,param_up);
+    if (!p_up) up.Set (0, 1, 0);
+    csReversibleTransform t;
+    t.LookAt (forward, up);
+    GetBody ()->SetOrientation (t.GetO2T ());
   }
   else if (actionId == action_initphys)
   {

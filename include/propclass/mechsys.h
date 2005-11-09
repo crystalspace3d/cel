@@ -259,6 +259,8 @@ struct iPcMechanicsSystem : public virtual iBase
  * <li>RemoveForceTagged: parameters 'tag' (long).
  * <li>ClearForces: no parameters.
  * <li>SetPosition: parameters 'position' (vector3).
+ * <li>ClearRotation: no parameters.
+ * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix
