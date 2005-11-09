@@ -93,6 +93,8 @@ csStringID celPcMesh::action_clearrotation = csInvalidStringID;
 csStringID celPcMesh::action_lookat = csInvalidStringID;
 csStringID celPcMesh::id_forward = csInvalidStringID;
 csStringID celPcMesh::id_up = csInvalidStringID;
+csStringID celPcMesh::action_setvisible = csInvalidStringID;
+csStringID celPcMesh::id_visible = csInvalidStringID;
 
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -118,6 +120,8 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     action_lookat = pl->FetchStringID ("cel.action.LookAt");
     id_forward = pl->FetchStringID ("cel.parameter.forward");
     id_up = pl->FetchStringID ("cel.parameter.up");
+    action_setvisible = pl->FetchStringID ("cel.action.SetVisible");
+    id_visible = pl->FetchStringID ("cel.parameter.visible");
   }
 
   // For properties.
@@ -207,6 +211,18 @@ bool celPcMesh::PerformAction (csStringID actionId,
       return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
       	name);
     SetMesh (m, false);
+  }
+  else if (actionId == action_setvisible)
+  {
+    CEL_FETCH_BOOL_PAR (visible,params,id_visible);
+    if (!p_visible) visible = true;
+    if (mesh)
+    {
+      if (visible)
+        mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+      else
+        mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+    }
   }
   else if (actionId == action_loadmesh)
   {

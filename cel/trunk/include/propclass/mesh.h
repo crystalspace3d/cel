@@ -50,6 +50,7 @@ class csVector3;
  * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).
  * <li>ClearRotation: no parameters.
  * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
+ * <li>SetVisible: parameters 'visible' (bool).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix

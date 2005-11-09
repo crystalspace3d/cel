@@ -91,6 +91,8 @@ private:
   static csStringID action_lookat;
   static csStringID id_forward;
   static csStringID id_up;
+  static csStringID action_setvisible;
+  static csStringID id_visible;
 
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();
