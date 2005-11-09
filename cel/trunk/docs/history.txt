@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added ClearRotation and LookAt actions to pcmesh
 	  and pcmechobject property classes.
 	- Jorrit added SetVisible action to pcmesh.
+	- Jorrit changed the iJoint reference in the joint property
+	  class to a weakref to prevent crashes at exit when
+	  odedynam has been destroyed but the joint property class
+	  has not.
 8-Nov-2005
 	- David Bronke moved the new Load and Save methods to the end of the
 	  interface and bumped the micro version number on iCelPersistence.

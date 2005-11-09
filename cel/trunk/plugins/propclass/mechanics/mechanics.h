@@ -455,7 +455,7 @@ private:
   celOneParameterBlock* params;
 
   csWeakRef<iCelEntity> parent_body;
-  csRef<iJoint> joint;
+  csWeakRef<iJoint> joint;
 
   void CreateJoint ();
 
