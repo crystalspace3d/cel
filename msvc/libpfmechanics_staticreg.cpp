@@ -38,6 +38,14 @@ static char const metainfo_pfmechanics[] =
 "	</requires>"
 "      </class>"
 "      <class>"
+"        <name>cel.pcfactory.mechjoint</name>"
+"        <implementation>celPfMechanicsJoint</implementation>"
+"	<description>CEL Mechanics Joint Class Factory</description>"
+"	<requires>"
+"	  <class>cel.physicallayer</class>"
+"	</requires>"
+"      </class>"
+"      <class>"
 "        <name>cel.pcfactory.mechbalancedgroup</name>"
 "        <implementation>celPfMechanicsBalancedGroup</implementation>"
 "	<description>CEL Mechanics Balanced Thruster Group Class Factory</description>"
@@ -73,6 +81,10 @@ static char const metainfo_pfmechanics[] =
   #define celPfMechanicsObject_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsObject) 
   #endif
+  #ifndef celPfMechanicsJoint_FACTORY_REGISTER_DEFINED 
+  #define celPfMechanicsJoint_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsJoint) 
+  #endif
   #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
   #define celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsBalancedGroup) 
@@ -96,6 +108,10 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #ifndef celPfMechanicsObject_FACTORY_REGISTERED 
   #define celPfMechanicsObject_FACTORY_REGISTERED 
     celPfMechanicsObject_StaticInit celPfMechanicsObject_static_init__; 
+  #endif
+  #ifndef celPfMechanicsJoint_FACTORY_REGISTERED 
+  #define celPfMechanicsJoint_FACTORY_REGISTERED 
+    celPfMechanicsJoint_StaticInit celPfMechanicsJoint_static_init__; 
   #endif
   #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
   #define celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
