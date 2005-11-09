@@ -603,6 +603,30 @@ class iPcMechanicsObjectPtr(iPcMechanicsObject):
         _swig_setattr(self, iPcMechanicsObject,self.__class__,iPcMechanicsObject)
 _blcelc.iPcMechanicsObject_swigregister(iPcMechanicsObjectPtr)
 
+class iPcMechanicsJoint(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcMechanicsJoint, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsJoint, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcMechanicsJoint instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcMechanicsJoint):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcMechanicsJointPtr(iPcMechanicsJoint):
+    def __init__(self, this):
+        _swig_setattr(self, iPcMechanicsJoint, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcMechanicsJoint, 'thisown', 0)
+        _swig_setattr(self, iPcMechanicsJoint,self.__class__,iPcMechanicsJoint)
+_blcelc.iPcMechanicsJoint_swigregister(iPcMechanicsJointPtr)
+
 
 celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
 
