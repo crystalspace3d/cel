@@ -48,6 +48,8 @@ class csVector3;
  * <li>LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *     and 'factoryname' (string).
  * <li>MoveMesh: parameters 'sector' (string) and 'position' (vector3).
+ * <li>ClearRotation: no parameters.
+ * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix

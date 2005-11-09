@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Nov-2005
+	- Jorrit added ClearRotation and LookAt actions to pcmesh
+	  and pcmechobject property classes.
 8-Nov-2005
 	- David Bronke moved the new Load and Save methods to the end of the
 	  interface and bumped the micro version number on iCelPersistence.

@@ -89,6 +89,10 @@ csStringID celPcMesh::id_factoryname = csInvalidStringID;
 csStringID celPcMesh::action_movemesh = csInvalidStringID;
 csStringID celPcMesh::id_sector = csInvalidStringID;
 csStringID celPcMesh::id_position = csInvalidStringID;
+csStringID celPcMesh::action_clearrotation = csInvalidStringID;
+csStringID celPcMesh::action_lookat = csInvalidStringID;
+csStringID celPcMesh::id_forward = csInvalidStringID;
+csStringID celPcMesh::id_up = csInvalidStringID;
 
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -110,6 +114,10 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     action_movemesh = pl->FetchStringID ("cel.action.MoveMesh");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
+    action_clearrotation = pl->FetchStringID ("cel.action.ClearRotation");
+    action_lookat = pl->FetchStringID ("cel.action.LookAt");
+    id_forward = pl->FetchStringID ("cel.parameter.forward");
+    id_up = pl->FetchStringID ("cel.parameter.up");
   }
 
   // For properties.
@@ -199,7 +207,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
       return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
       	name);
     SetMesh (m, false);
-    return true;
   }
   else if (actionId == action_loadmesh)
   {
@@ -212,7 +219,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
     if (!rc)
       return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
       	factory, file);
-    return true;
   }
   else if (actionId == action_loadmeshpath)
   {
@@ -234,7 +240,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
       return Report (object_reg,
       	"Can't load mesh '%s/%s' (path '%s') for action LoadMeshPath!",
       	(const char*)factory, (const char*)file, (const char*)path);
-    return true;
   }
   else if (actionId == action_movemesh)
   {
@@ -251,9 +256,29 @@ bool celPcMesh::PerformAction (csStringID actionId,
       return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
       	sector);
     MoveMesh (sect, position);
-    return true;
   }
-  return false;
+  else if (actionId == action_clearrotation)
+  {
+    if (mesh)
+    {
+      mesh->GetMovable ()->SetTransform (csMatrix3 ());
+      mesh->GetMovable ()->UpdateMove ();
+    }
+  }
+  else if (actionId == action_lookat)
+  {
+    CEL_FETCH_VECTOR3_PAR (forward,params,id_forward);
+    if (!p_forward) forward.Set (0, 0, 1);
+    CEL_FETCH_VECTOR3_PAR (up,params,id_up);
+    if (!p_up) up.Set (0, 1, 0);
+    if (mesh)
+    {
+      mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
+      mesh->GetMovable ()->UpdateMove ();
+    }
+  }
+  else return false;
+  return true;
 }
 
 #define MESH_SERIAL 2
