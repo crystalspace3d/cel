@@ -51,6 +51,7 @@ class csVector3;
  * <li>ClearRotation: no parameters.
  * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * <li>SetVisible: parameters 'visible' (bool).
+ * <li>SetMaterial: parameters 'material' (string).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix

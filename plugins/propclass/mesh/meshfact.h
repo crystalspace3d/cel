@@ -93,6 +93,8 @@ private:
   static csStringID id_up;
   static csStringID action_setvisible;
   static csStringID id_visible;
+  static csStringID action_setmaterial;
+  static csStringID id_material;
 
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();
