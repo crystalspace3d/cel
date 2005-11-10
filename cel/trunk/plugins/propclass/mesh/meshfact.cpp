@@ -95,6 +95,8 @@ csStringID celPcMesh::id_forward = csInvalidStringID;
 csStringID celPcMesh::id_up = csInvalidStringID;
 csStringID celPcMesh::action_setvisible = csInvalidStringID;
 csStringID celPcMesh::id_visible = csInvalidStringID;
+csStringID celPcMesh::action_setmaterial = csInvalidStringID;
+csStringID celPcMesh::id_material = csInvalidStringID;
 
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -122,6 +124,8 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_up = pl->FetchStringID ("cel.parameter.up");
     action_setvisible = pl->FetchStringID ("cel.action.SetVisible");
     id_visible = pl->FetchStringID ("cel.parameter.visible");
+    action_setmaterial = pl->FetchStringID ("cel.action.SetMaterial");
+    id_material = pl->FetchStringID ("cel.parameter.material");
   }
 
   // For properties.
@@ -222,6 +226,19 @@ bool celPcMesh::PerformAction (csStringID actionId,
         mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
       else
         mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+    }
+  }
+  else if (actionId == action_setmaterial)
+  {
+    CEL_FETCH_STRING_PAR (material,params,id_material);
+    if (!p_material)
+      return Report (object_reg, "'material' parameter missing for SetMaterial!");
+    iMaterialWrapper* mat = engine->FindMaterial (material);
+    if (!mat)
+      return Report (object_reg, "Can't find material '%s' for SetMaterial!", material);
+    if (mesh)
+    {
+      mesh->GetMeshObject ()->SetMaterialWrapper (mat);
     }
   }
   else if (actionId == action_loadmesh)
