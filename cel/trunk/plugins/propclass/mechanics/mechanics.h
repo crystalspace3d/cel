@@ -420,12 +420,23 @@ public:
 
   struct DynamicsCollisionCallback : public iDynamicsCollisionCallback
   {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsObject);
+    celPcMechanicsObject* parent;
+    DynamicsCollisionCallback (celPcMechanicsObject* parent)
+    {
+      SCF_CONSTRUCT_IBASE (0);
+      DynamicsCollisionCallback::parent = parent;
+    }
+    virtual ~DynamicsCollisionCallback ()
+    {
+      SCF_DESTRUCT_IBASE ();
+    }
+    SCF_DECLARE_IBASE;
+
     virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody)
     {
-      scfParent->Collision (thisbody, otherbody);
+      parent->Collision (thisbody, otherbody);
     }
-  } scfiDynamicsCollisionCallback;
+  } *scfiDynamicsCollisionCallback;
 };
 
 /**

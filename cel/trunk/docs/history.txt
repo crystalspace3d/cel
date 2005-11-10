@@ -5,14 +5,19 @@ The history order is reversed so that new features are at the top.
 
 10-Nov-2005
 	- Jorrit added SetMaterial action for pcmesh.
+	- Jorrit fixed the pcmechjoint property class so that it removes the
+	  joint at destruction time.
+	- Jorrit fixed the pcmechobject property class so that it removes
+	  the body at destruction time.
+	- Jorrit fixed a big leak in pcmechobject. It was having an
+	  embedded callback object that caused a circular leak.
 9-Nov-2005
-	- Jorrit added ClearRotation and LookAt actions to pcmesh
-	  and pcmechobject property classes.
+	- Jorrit added ClearRotation and LookAt actions to pcmesh and
+	  pcmechobject property classes.
 	- Jorrit added SetVisible action to pcmesh.
-	- Jorrit changed the iJoint reference in the joint property
-	  class to a weakref to prevent crashes at exit when
-	  odedynam has been destroyed but the joint property class
-	  has not.
+	- Jorrit changed the iJoint reference in the joint property class to
+	  a weakref to prevent crashes at exit when odedynam has been
+	  destroyed but the joint property class has not.
 8-Nov-2005
 	- David Bronke moved the new Load and Save methods to the end of the
 	  interface and bumped the micro version number on iCelPersistence.

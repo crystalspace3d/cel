@@ -577,15 +577,16 @@ csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
 csStringID celPcMechanicsObject::param_forward = csInvalidStringID;
 csStringID celPcMechanicsObject::param_up = csInvalidStringID;
 
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
+SCF_IMPLEMENT_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
+SCF_IMPLEMENT_IBASE_END
 
 celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiDynamicsCollisionCallback);
   DG_TYPE (this, "celPcMechanicsObject()");
+
+  scfiDynamicsCollisionCallback = new DynamicsCollisionCallback (this);
 
   btype = CEL_BODY_INVALID;
   bdata = 0;
@@ -674,10 +675,20 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 
 celPcMechanicsObject::~celPcMechanicsObject ()
 {
-  delete params;
-  delete bdata;
   if (mechsystem)
     mechsystem->ClearForces ((iPcMechanicsObject*)this);
+  if (body)
+  {
+    pl->UnattachEntity (body->QueryObject (), entity);
+    body->SetCollisionCallback (0);
+    if (mechsystem)
+      mechsystem->RemoveBody (body);
+  }
+  if (scfiDynamicsCollisionCallback)
+    scfiDynamicsCollisionCallback->DecRef ();
+
+  delete params;
+  delete bdata;
 }
 
 Property* celPcMechanicsObject::properties = 0;
@@ -1152,7 +1163,7 @@ iRigidBody* celPcMechanicsObject::GetBody ()
         body = dynsys->CreateBody ();
 	body->QueryObject ()->SetName (entity->GetName ());
 	pl->AttachEntity (body->QueryObject (), entity);
-        body->SetCollisionCallback (&scfiDynamicsCollisionCallback);
+        body->SetCollisionCallback (scfiDynamicsCollisionCallback);
       }
     }
     else
@@ -1507,6 +1518,12 @@ celPcMechanicsJoint::celPcMechanicsJoint (iObjectRegistry* object_reg)
 
 celPcMechanicsJoint::~celPcMechanicsJoint ()
 {
+  if (joint)
+  {
+    csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
+    if (mechsystem)
+      mechsystem->RemoveJoint (joint);
+  }
   delete params;
 }
 
