@@ -165,7 +165,7 @@ void celPcMover::SendMessage (const char* msg)
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = entity;
+    csRef<iCelEntity> ref = (iCelEntity*)entity;
     celData ret;
     bh->SendMessage (msg, this, ret, 0);
   }
