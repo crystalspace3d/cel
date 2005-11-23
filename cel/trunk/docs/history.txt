@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Nov-2005
+	- Jorrit added a new pcawswin property class. This property class
+	  corresponds to an AWS window. It is still unfinished though. A
+	  few things still need some work.
 10-Nov-2005
 	- Jorrit added SetMaterial action for pcmesh.
 	- Jorrit fixed the pcmechjoint property class so that it removes the
