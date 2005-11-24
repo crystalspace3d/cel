@@ -71,6 +71,8 @@ celPcAwsWin::celPcAwsWin (iObjectRegistry* object_reg)
   }
 
   awssink = 0;
+  strset = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+      "crystalspace.shared.stringset", iStringSet);
 }
 
 celPcAwsWin::~celPcAwsWin ()
@@ -113,6 +115,23 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   va_end (arg);
   return false;
+}
+
+void celPcAwsWin::Trigger (unsigned long id, iAwsSource* source)
+{
+  const char* trigname = strset->Request (id);
+  if (!trigname) return;
+  csString msg = "pcawswin_";
+  msg += trigname;
+  celData ret;
+  iCelBehaviour* bh = entity->GetBehaviour();
+  if (bh) bh->SendMessage (msg, this, ret, 0);
+}
+
+static void TriggerFunc (unsigned long id, intptr_t sink, iAwsSource* source)
+{
+  celPcAwsWin* pc = (celPcAwsWin*)sink;
+  pc->Trigger (id, source);
 }
 
 bool celPcAwsWin::PerformAction (csStringID actionId,
@@ -165,7 +184,11 @@ bool celPcAwsWin::PerformAction (csStringID actionId,
     if (!p_trigger)
       return Report (object_reg,
       	"Missing parameter 'trigger' for action RegisterTrigger!");
+    if (!awssink)
+      return Report (object_reg,
+      	"Missing sink! Please use CreateSink first!");
     triggers.Add (trigger);
+    awssink->RegisterTrigger (trigger, &TriggerFunc);
     return true;
   }
   else if (actionId == action_show)
