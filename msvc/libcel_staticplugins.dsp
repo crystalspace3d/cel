@@ -144,6 +144,10 @@ SOURCE=..\msvc\libpfactormove_staticreg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\msvc\libpfawswin_staticreg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\msvc\libpfbillboard_staticreg.cpp
 # End Source File
 # Begin Source File
@@ -277,6 +281,10 @@ SOURCE=..\plugins\persist\xml\xmlpersist.cpp
 # Begin Source File
 
 SOURCE=..\plugins\propclass\actormove\actormove.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\awswin\awswin.cpp
 # End Source File
 # Begin Source File
 
@@ -569,6 +577,10 @@ SOURCE=..\plugins\persist\xml\xmlpersist.h
 # Begin Source File
 
 SOURCE=..\plugins\propclass\actormove\actormove.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\awswin\awswin.h
 # End Source File
 # Begin Source File
 
