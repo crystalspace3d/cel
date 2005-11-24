@@ -20,18 +20,19 @@
 #ifndef __CEL_PF_AWSWINFACT__
 #define __CEL_PF_AWSWINFACT__
 
-#include "cstypes.h"
-#include "iutil/comp.h"
-#include "csutil/scf.h"
+#include <cstypes.h>
+#include <iutil/comp.h>
+#include <csutil/scf.h>
+#include <csutil/set.h>
+#include <iutil/strset.h>
+#include <iaws/aws.h>
+
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/awswin.h"
-
-#include <csutil/set.h>
-#include <iaws/aws.h>
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -48,6 +49,7 @@ class celPcAwsWin : public scfImplementationExt1<
 	celPcAwsWin, celPcCommon, iPcAwsWindow>
 {
 private:
+  csRef<iStringSet> strset;
   csRef<iAws> aws;
   csRef<iAwsWindow> awswindow;
   iAwsSink* awssink;
@@ -71,6 +73,8 @@ private:
 public:
   celPcAwsWin (iObjectRegistry* object_reg);
   virtual ~celPcAwsWin ();
+
+  void Trigger (unsigned long id, iAwsSource* source);
 
   virtual iAws* GetAWS ();
   virtual iAwsWindow* CreateWindow (const char* name);

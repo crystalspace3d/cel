@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Nov-2005
+	- Jorrit worked a bit further on the pcawswin property class.
 23-Nov-2005
 	- Jorrit added a new pcawswin property class. This property class
 	  corresponds to an AWS window. It is still unfinished though. A
