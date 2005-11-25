@@ -17,17 +17,19 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "cssysdef.h"
-#include "iutil/objreg.h"
-#include "csutil/debug.h"
+#include <cssysdef.h>
+#include <iutil/objreg.h>
+#include <csutil/debug.h>
+#include <ivaria/reporter.h>
+#include <iutil/plugin.h>
+#include <ivideo/graph3d.h>
+#include <ivideo/graph2d.h>
+
 #include "plugins/propclass/awswin/awswin.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
-
-#include <ivaria/reporter.h>
-#include <iutil/plugin.h>
 
 //---------------------------------------------------------------------------
 
@@ -214,6 +216,27 @@ bool celPcAwsWin::PerformAction (csStringID actionId,
   return false;
 }
 
+class awswinTimerListener : public scfImplementation1<awswinTimerListener,
+			    iCelTimerListener>
+{
+private:
+  iGraphics3D* g3d;
+  iAws* aws;
+
+public:
+  awswinTimerListener (iGraphics3D* g3d, iAws* aws) :
+    scfImplementationType (this), g3d (g3d), aws (aws) { }
+  virtual void TickEveryFrame ()
+  {
+    if (g3d->BeginDraw (CSDRAW_2DGRAPHICS))
+    {
+      aws->Redraw ();
+      aws->Print (g3d, 64);
+    }
+  }
+  virtual void TickOnce () { }
+};
+
 iAws* celPcAwsWin::GetAWS ()
 {
   if (!aws)
@@ -232,6 +255,21 @@ iAws* celPcAwsWin::GetAWS ()
       }
       object_reg->Register (aws, "iAws");
     }
+    if (aws)
+    {
+      csRef<iGraphics3D> g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+      iGraphics2D* g2d = g3d->GetDriver2D ();
+      aws->SetupCanvas (0, g2d, g3d);
+      csRef<iCelTimerListener> timer = CS_QUERY_REGISTRY_TAG_INTERFACE (
+	  object_reg, "cel.awswindow.timer", iCelTimerListener);
+      if (!timer)
+      {
+        csRef<awswinTimerListener> lst;
+        lst.AttachNew (new awswinTimerListener (g3d, aws));
+	object_reg->Register ((iCelTimerListener*)lst, "cel.awswindow.timer");
+	pl->CallbackEveryFrame (lst, cscmdPostProcess);
+      }
+    }
   }
   return aws;
 }
@@ -247,7 +285,7 @@ iAwsSink* celPcAwsWin::CreateSink (const char* name)
 {
   if (!GetAWS ()) return 0;
   if (awssink) aws->GetSinkMgr ()->RemoveSink (awssink);
-  awssink = aws->GetSinkMgr ()->CreateSink ((intptr_t)0);
+  awssink = aws->GetSinkMgr ()->CreateSink ((intptr_t)this);
   aws->GetSinkMgr ()->RegisterSink (name, awssink);
   return awssink;
 }
