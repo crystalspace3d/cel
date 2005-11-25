@@ -336,19 +336,6 @@ struct iCelPropertyClass : public virtual iBase
   virtual void PropertyClassesHaveChanged () = 0;
 
   /**
-   * This function is called by the physical layer when a broadcast
-   * is needed. Use iCelPlLayer->CallbackPCEveryFrame() to register a PC
-   * for this.
-   */
-  virtual void TickEveryFrame () = 0;
-
-  /**
-   * This function is called by the physical layer when a broadcast
-   * is needed. Use iCelPlLayer->CallbackPCOnce() to register a PC for this.
-   */
-  virtual void TickOnce () = 0;
-
-  /**
    * Return the persistent data of this property class.
    * <P>Note: this function replaces the Save function.
    */
