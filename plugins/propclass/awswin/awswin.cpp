@@ -18,12 +18,15 @@
 */
 
 #include <cssysdef.h>
-#include <iutil/objreg.h>
 #include <csutil/debug.h>
-#include <ivaria/reporter.h>
+#include <csutil/event.h>
+#include <iutil/objreg.h>
 #include <iutil/plugin.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
 #include <ivideo/graph3d.h>
 #include <ivideo/graph2d.h>
+#include <ivaria/reporter.h>
 
 #include "plugins/propclass/awswin/awswin.h"
 #include "physicallayer/pl.h"
@@ -216,25 +219,30 @@ bool celPcAwsWin::PerformAction (csStringID actionId,
   return false;
 }
 
-class awswinTimerListener : public scfImplementation1<awswinTimerListener,
-			    iCelTimerListener>
+class awswinEventHandler : public scfImplementation1<awswinEventHandler,
+			    iEventHandler>
 {
 private:
   iGraphics3D* g3d;
   iAws* aws;
 
 public:
-  awswinTimerListener (iGraphics3D* g3d, iAws* aws) :
+  awswinEventHandler (iGraphics3D* g3d, iAws* aws) :
     scfImplementationType (this), g3d (g3d), aws (aws) { }
-  virtual void TickEveryFrame ()
+  virtual bool HandleEvent (iEvent& ev)
   {
-    if (g3d->BeginDraw (CSDRAW_2DGRAPHICS))
+    if (ev.Type == csevBroadcast
+    	&& csCommandEventHelper::GetCode (&ev) == cscmdPostProcess)
     {
       aws->Redraw ();
       aws->Print (g3d, 64);
+      return true;
+    }
+    else
+    {
+      return aws->HandleEvent (ev);
     }
   }
-  virtual void TickOnce () { }
 };
 
 iAws* celPcAwsWin::GetAWS ()
@@ -260,14 +268,20 @@ iAws* celPcAwsWin::GetAWS ()
       csRef<iGraphics3D> g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
       iGraphics2D* g2d = g3d->GetDriver2D ();
       aws->SetupCanvas (0, g2d, g3d);
-      csRef<iCelTimerListener> timer = CS_QUERY_REGISTRY_TAG_INTERFACE (
-	  object_reg, "cel.awswindow.timer", iCelTimerListener);
-      if (!timer)
+      csRef<iEventHandler> handler = CS_QUERY_REGISTRY_TAG_INTERFACE (
+	  object_reg, "cel.awswindow.eventhandler",
+	  iEventHandler);
+      if (!handler)
       {
-        csRef<awswinTimerListener> lst;
-        lst.AttachNew (new awswinTimerListener (g3d, aws));
-	object_reg->Register ((iCelTimerListener*)lst, "cel.awswindow.timer");
-	pl->CallbackEveryFrame (lst, cscmdPostProcess);
+        csRef<awswinEventHandler> lst;
+        lst.AttachNew (new awswinEventHandler (g3d, aws));
+	object_reg->Register ((iEventHandler*)lst,
+		"cel.awswindow.eventhandler");
+	csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+	q->RegisterListener (lst, CSMASK_Nothing | CSMASK_Broadcast |
+		CSMASK_MouseDown |
+		CSMASK_MouseUp | CSMASK_MouseMove | CSMASK_Keyboard |
+		CSMASK_MouseDoubleClick);
       }
     }
   }
