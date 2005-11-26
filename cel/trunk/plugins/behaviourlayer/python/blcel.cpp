@@ -6748,40 +6748,6 @@ static PyObject *_wrap_iCelPropertyClass_PropertyClassesHaveChanged(PyObject *, 
 }
 
 
-static PyObject *_wrap_iCelPropertyClass_TickEveryFrame(PyObject *, PyObject *args) {
-    PyObject *resultobj;
-    iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iCelPropertyClass_TickEveryFrame",&obj0)) goto fail;
-    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(1)) SWIG_fail;
-    (arg1)->TickEveryFrame();
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iCelPropertyClass_TickOnce(PyObject *, PyObject *args) {
-    PyObject *resultobj;
-    iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iCelPropertyClass_TickOnce",&obj0)) goto fail;
-    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(1)) SWIG_fail;
-    (arg1)->TickOnce();
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
 static PyObject *_wrap_iCelPropertyClass_GetPersistentData(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
@@ -24660,8 +24626,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPropertyClass_GetPropertyOrActionID", _wrap_iCelPropertyClass_GetPropertyOrActionID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyOrActionDescription", _wrap_iCelPropertyClass_GetPropertyOrActionDescription, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_PropertyClassesHaveChanged", _wrap_iCelPropertyClass_PropertyClassesHaveChanged, METH_VARARGS, NULL},
-	 { (char *)"iCelPropertyClass_TickEveryFrame", _wrap_iCelPropertyClass_TickEveryFrame, METH_VARARGS, NULL},
-	 { (char *)"iCelPropertyClass_TickOnce", _wrap_iCelPropertyClass_TickOnce, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPersistentData", _wrap_iCelPropertyClass_GetPersistentData, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_SetPersistentData", _wrap_iCelPropertyClass_SetPersistentData, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_SetPropertyLong", _wrap_iCelPropertyClass_SetPropertyLong, METH_VARARGS, NULL},

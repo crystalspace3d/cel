@@ -436,8 +436,6 @@ class iCelPropertyClass(cspace.iBase):
     def GetPropertyOrActionID(*args): return _blcelc.iCelPropertyClass_GetPropertyOrActionID(*args)
     def GetPropertyOrActionDescription(*args): return _blcelc.iCelPropertyClass_GetPropertyOrActionDescription(*args)
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
-    def TickEveryFrame(*args): return _blcelc.iCelPropertyClass_TickEveryFrame(*args)
-    def TickOnce(*args): return _blcelc.iCelPropertyClass_TickOnce(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
     def SetPropertyLong(*args): return _blcelc.iCelPropertyClass_SetPropertyLong(*args)
