@@ -254,6 +254,7 @@ private:
   csRefArray<celRegion> regions;
 
   bool do_colliderwrappers;
+  int loading_mode;
 
   // The active sector.
   csWeakRef<iSector> active_sector;
@@ -321,6 +322,9 @@ public:
 
   void EnableColliderWrappers (bool en) { do_colliderwrappers = en; }
   bool IsColliderWrappers () const { return do_colliderwrappers; }
+  void SetLoadingMode (int mode);
+  int GetLoadingMode () const { return loading_mode; }
+
   bool Load (iDocumentNode* node);
   bool Load (const char* path, const char* file);
 
@@ -359,6 +363,14 @@ public:
     virtual bool IsColliderWrappers () const
     {
       return scfParent->IsColliderWrappers ();
+    }
+    virtual void SetLoadingMode (int mode)
+    {
+      return scfParent->SetLoadingMode (mode);
+    }
+    virtual int GetLoadingMode () const
+    {
+      return scfParent->GetLoadingMode ();
     }
     virtual bool Load (iDocumentNode* node)
     {

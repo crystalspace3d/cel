@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Nov-2005
+	- Jorrit added iPcZoneManager->SetLoadingMode(). With this you
+	  can set three modes for the zone manager:
+	    - CEL_ZONE_NORMAL: load/unload regions as needed
+	      (default).
+	    - CEL_ZONE_KEEP: load regions as needed but keep them
+	      in memory.
+	    - CEL_ZONE_LOADALL: load all regions immediatelly.
 25-Nov-2005
 	- Jorrit removed the unneeded TickEveryFrame() and TickOnce()
 	  methods from iCelPropertyClass. These were moved to
