@@ -203,6 +203,20 @@ struct iCelZone : public iBase
 #define CEL_ZONEERROR_LOAD 3
 /** @} */
 
+/** \name SetLoadingMode error codes
+ * @{ */
+
+/// Load/unload regions as needed (default).
+#define CEL_ZONE_NORMAL 0
+
+/// Load regions as needed but keep them in memory.
+#define CEL_ZONE_KEEP 1
+
+/// Load all regions immediatelly.
+#define CEL_ZONE_LOADALL 2
+
+/** @} */
+
 SCF_VERSION (iPcZoneManager, 0, 1, 1);
 
 /**
@@ -251,6 +265,21 @@ struct iPcZoneManager : public iBase
    * Is collider wrapper creation enabled?
    */
   virtual bool IsColliderWrappers () const = 0;
+
+  /**
+   * Set different loading mode:
+   * - CEL_ZONE_NORMAL: load/unload regions as needed (default).
+   * - CEL_ZONE_KEEP: load regions as needed but keep them in memory.
+   * - CEL_ZONE_LOADALL: load all regions immediatelly.
+   * Setting CEL_ZONE_LOADALL will immediatelly cause all regions
+   * to be loaded.
+   */
+  virtual void SetLoadingMode (int mode) = 0;
+
+  /**
+   * Get the current loading mode.
+   */
+  virtual int GetLoadingMode () const = 0;
 
   /**
    * Load a zone definition from an XML node.

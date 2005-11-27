@@ -412,6 +412,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   do_colliderwrappers = true;
+  loading_mode = CEL_ZONE_NORMAL;
 
   if (id_region == csInvalidStringID)
   {
@@ -436,12 +437,13 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
 celPcZoneManager::~celPcZoneManager ()
 {
   // Unload everything.
+  loading_mode = CEL_ZONE_NORMAL;
   ActivateRegion (0);
   delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
-#define ZONEMANAGER_SERIAL 1
+#define ZONEMANAGER_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
 {
@@ -454,6 +456,8 @@ csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
   }
 
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ZONEMANAGER_SERIAL);
+  databuf->Add (do_colliderwrappers);
+  databuf->Add ((uint16)loading_mode);
   databuf->Add (camera_entity);
   databuf->Add (mesh_entity);
   databuf->Add (last_regionname);
@@ -481,6 +485,9 @@ bool celPcZoneManager::LoadFirstPass (iCelDataBuffer* databuf)
     return Report (object_reg, "serialnr != ZONEMANAGER_SERIAL.  Cannot load.");
 
   iString* s;
+
+  do_colliderwrappers = databuf->GetBool ();
+  loading_mode = databuf->GetUInt16 ();
 
   s = databuf->GetString ();
   camera_entity.Empty ();
@@ -711,6 +718,13 @@ bool celPcZoneManager::ParseStart (iDocumentNode* startnode)
   return true;
 }
 
+void celPcZoneManager::SetLoadingMode (int mode)
+{
+  loading_mode = mode;
+  if (loading_mode == CEL_ZONE_LOADALL)
+    ActivateRegion (0);
+}
+
 bool celPcZoneManager::Load (const char* path, const char* file)
 {
   celPcZoneManager::path = path;
@@ -740,7 +754,14 @@ bool celPcZoneManager::Load (const char* path, const char* file)
 
   csRef<iDocumentNode> levelnode = doc->GetRoot ()->GetNode ("level");
   if (levelnode)
-    return Load (levelnode);
+  {
+    bool rc = Load (levelnode);
+    if (!rc) return false;
+    if (loading_mode == CEL_ZONE_LOADALL)
+      if (!ActivateRegion (0))
+	return false;
+    return true;
+  }
 
   csRef<iDocumentNode> worldnode = doc->GetRoot ()->GetNode ("world");
   if (worldnode)
@@ -755,6 +776,9 @@ bool celPcZoneManager::Load (const char* path, const char* file)
     zone->LinkRegion (region);
     last_regionname = "main";
     last_startname.Empty ();
+    if (loading_mode == CEL_ZONE_LOADALL)
+      if (!ActivateRegion (0))
+	return false;
     return true;
   }
 
@@ -892,7 +916,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region,
   // First we make a set of all regions that we need to load.
   csSet<csPtrKey<celRegion> > loadable_regions;
   for (i = 0 ; i < zones.Length () ; i++)
-    if (zones[i]->ContainsRegion (region))
+    if (loading_mode == CEL_ZONE_LOADALL || zones[i]->ContainsRegion (region))
     {
       size_t j;
       for (j = 0 ; j < zones[i]->GetRegionCount () ; j++)
@@ -920,7 +944,8 @@ bool celPcZoneManager::ActivateRegion (celRegion* region,
     }
     else
     {
-      r->Unload ();
+      if (loading_mode == CEL_ZONE_NORMAL)
+        r->Unload ();
     }
   }
 
