@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	    - CEL_ZONE_KEEP: load regions as needed but keep them
 	      in memory.
 	    - CEL_ZONE_LOADALL: load all regions immediatelly.
+	- Jorrit fixed another case where CreateEntity() was called
+	  with 0 integer instead of 0 pointer. This is wrong on 64-bit
+	  computers.
 25-Nov-2005
 	- Jorrit removed the unneeded TickEveryFrame() and TickOnce()
 	  methods from iCelPropertyClass. These were moved to
