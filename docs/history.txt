@@ -4,8 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 28-Nov-2005
-	- res Sunshine updated the Autoconf, Jam, and msvcgen files from the
-	  master copies in the CS repository.
+	- res updated the Autoconf, Jam, and msvcgen files from the master 
+	  copies in the CS repository.
 27-Nov-2005
 	- Jorrit added iPcZoneManager->SetLoadingMode(). With this you
 	  can set three modes for the zone manager:
