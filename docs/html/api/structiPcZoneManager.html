@@ -64,6 +64,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#a02f13182d1878f165735019673a472f">GetLastStartRegionName</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the last used region name for <a class="el" href="structiPcZoneManager.html#815427621438199fb92c02c30ada4415">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#1e218df70c8cc016806d6cbe5aff66f4">PointMesh()</a>.  <a href="#a02f13182d1878f165735019673a472f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#93083ce1767b9d224148e1315ba5bebf">GetLoadingMode</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current loading mode.  <a href="#93083ce1767b9d224148e1315ba5bebf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelRegion.html">iCelRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#d6092d4ab47e90c1446251589283ce3a">GetRegion</a> (int idx) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the specified region.  <a href="#d6092d4ab47e90c1446251589283ce3a"></a><br></td></tr>
@@ -103,6 +106,11 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#7ae2da70516d909ef9a95a9ebe3d0587">RemoveZone</a> (<a class="el" href="structiCelZone.html">iCelZone</a> *zone)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Delete the given zone.  <a href="#7ae2da70516d909ef9a95a9ebe3d0587"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcZoneManager.html#5ad5161d6e7ff8512cdf1b7339e622c8">SetLoadingMode</a> (int mode)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set different loading mode:<ul>
+<li>CEL_ZONE_NORMAL: load/unload regions as needed (default). </li></ul>
+ <a href="#5ad5161d6e7ff8512cdf1b7339e622c8"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the zone manager. 
@@ -137,7 +145,7 @@ pczonemanager_errorloading: loading of regions stops with error (region) </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="zone_8h-source.html#l00241">241</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="zone_8h-source.html#l00255">255</a> of file <a class="el" href="zone_8h-source.html">zone.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a261b3c4dca97f3b35b6f31fb5cad620"></a><!-- doxytag: member="iPcZoneManager::CreateRegion" ref="a261b3c4dca97f3b35b6f31fb5cad620" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -422,6 +430,35 @@ Return the last used startname name for <a class="el" href="structiPcZoneManager
 Return the last used region name for <a class="el" href="structiPcZoneManager.html#815427621438199fb92c02c30ada4415">PointCamera()</a> or <a class="el" href="structiPcZoneManager.html#1e218df70c8cc016806d6cbe5aff66f4">PointMesh()</a>. 
 <p>
 Returns an empty region name if those functions have not been called yet.     </td>
+  </tr>
+</table>
+<a class="anchor" name="93083ce1767b9d224148e1315ba5bebf"></a><!-- doxytag: member="iPcZoneManager::GetLoadingMode" ref="93083ce1767b9d224148e1315ba5bebf" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iPcZoneManager::GetLoadingMode           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the current loading mode. 
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="d6092d4ab47e90c1446251589283ce3a"></a><!-- doxytag: member="iPcZoneManager::GetRegion" ref="d6092d4ab47e90c1446251589283ce3a" args="(int idx) const =0" --><p>
@@ -893,6 +930,40 @@ Returns false if the region could not be found in this zone.     </td>
 Delete the given zone. 
 <p>
 Returns false if the zone could not be found.     </td>
+  </tr>
+</table>
+<a class="anchor" name="5ad5161d6e7ff8512cdf1b7339e622c8"></a><!-- doxytag: member="iPcZoneManager::SetLoadingMode" ref="5ad5161d6e7ff8512cdf1b7339e622c8" args="(int mode)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcZoneManager::SetLoadingMode           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>mode</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set different loading mode:<ul>
+<li>CEL_ZONE_NORMAL: load/unload regions as needed (default). </li></ul>
+
+<p>
+<ul>
+<li>CEL_ZONE_KEEP: load regions as needed but keep them in memory.</li><li>CEL_ZONE_LOADALL: load all regions immediatelly. Setting CEL_ZONE_LOADALL will immediatelly cause all regions to be loaded. </li></ul>
+    </td>
   </tr>
 </table>
 <hr>The documentation for this struct was generated from the following file:<ul>
