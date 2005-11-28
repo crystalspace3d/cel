@@ -62,7 +62,7 @@ END -%]
 				PrecompiledHeaderFile="[% workbuild([my.doc.project.0,'.pch']) %]"
 				AssemblerListingLocation="[% workbuild([]) %]"
 				ObjectFile="[% workbuild([]) %]"
-				ProgramDataBaseFileName="[% workbuild([my.doc.project.0,'.pdb']) %]"
+				ProgramDataBaseFileName="[% workbuild([my.doc.rawtarget.0,'.pdb']) %]"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -79,8 +79,7 @@ END -%]
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="[% composedirs('libdirs', []) %]"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="[% workbuild([my.doc.project.0,'.pdb']) %]"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="[% workbuild([my.doc.rawtarget.0,'.pdb']) %]"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
