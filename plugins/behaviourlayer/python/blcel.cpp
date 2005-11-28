@@ -13230,6 +13230,49 @@ static PyObject *_wrap_iPcZoneManager_IsColliderWrappers(PyObject *, PyObject *a
 }
 
 
+static PyObject *_wrap_iPcZoneManager_SetLoadingMode(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    int arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcZoneManager_SetLoadingMode",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetLoadingMode(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_GetLoadingMode(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcZoneManager_GetLoadingMode",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (int)((iPcZoneManager const *)arg1)->GetLoadingMode();
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcZoneManager_Load__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
@@ -24900,6 +24943,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelZone_swigregister", iCelZone_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_EnableColliderWrappers", _wrap_iPcZoneManager_EnableColliderWrappers, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_IsColliderWrappers", _wrap_iPcZoneManager_IsColliderWrappers, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_SetLoadingMode", _wrap_iPcZoneManager_SetLoadingMode, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_GetLoadingMode", _wrap_iPcZoneManager_GetLoadingMode, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_Load", _wrap_iPcZoneManager_Load, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_CreateZone", _wrap_iPcZoneManager_CreateZone, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_GetZoneCount", _wrap_iPcZoneManager_GetZoneCount, METH_VARARGS, NULL},
@@ -26795,6 +26840,15 @@ SWIGEXPORT(void) SWIG_init(void) {
     }
     {
         PyDict_SetItemString(d,"CEL_ZONEERROR_LOAD", SWIG_From_int((int)(3))); 
+    }
+    {
+        PyDict_SetItemString(d,"CEL_ZONE_NORMAL", SWIG_From_int((int)(0))); 
+    }
+    {
+        PyDict_SetItemString(d,"CEL_ZONE_KEEP", SWIG_From_int((int)(1))); 
+    }
+    {
+        PyDict_SetItemString(d,"CEL_ZONE_LOADALL", SWIG_From_int((int)(2))); 
     }
     {
         PyDict_SetItemString(d,"iPcDefaultCamera_freelook", SWIG_From_int((int)(iPcDefaultCamera::freelook))); 
