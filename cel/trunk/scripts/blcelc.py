@@ -1094,6 +1094,9 @@ CEL_ZONEERROR_OK = _blcelc.CEL_ZONEERROR_OK
 CEL_ZONEERROR_BADREGION = _blcelc.CEL_ZONEERROR_BADREGION
 CEL_ZONEERROR_BADSTART = _blcelc.CEL_ZONEERROR_BADSTART
 CEL_ZONEERROR_LOAD = _blcelc.CEL_ZONEERROR_LOAD
+CEL_ZONE_NORMAL = _blcelc.CEL_ZONE_NORMAL
+CEL_ZONE_KEEP = _blcelc.CEL_ZONE_KEEP
+CEL_ZONE_LOADALL = _blcelc.CEL_ZONE_LOADALL
 class iPcZoneManager(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1106,6 +1109,8 @@ class iPcZoneManager(cspace.iBase):
         return "<%s.%s; proxy of C++ iPcZoneManager instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def EnableColliderWrappers(*args): return _blcelc.iPcZoneManager_EnableColliderWrappers(*args)
     def IsColliderWrappers(*args): return _blcelc.iPcZoneManager_IsColliderWrappers(*args)
+    def SetLoadingMode(*args): return _blcelc.iPcZoneManager_SetLoadingMode(*args)
+    def GetLoadingMode(*args): return _blcelc.iPcZoneManager_GetLoadingMode(*args)
     def Load(*args): return _blcelc.iPcZoneManager_Load(*args)
     def CreateZone(*args): return _blcelc.iPcZoneManager_CreateZone(*args)
     def GetZoneCount(*args): return _blcelc.iPcZoneManager_GetZoneCount(*args)
