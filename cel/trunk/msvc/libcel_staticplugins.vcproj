@@ -19,12 +19,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="4"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
+				Optimization="3"
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
@@ -37,7 +32,7 @@
 				PrecompiledHeaderFile="..\out\release\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\out\release\build\libcel_staticplugins\"
 				ObjectFile="..\out\release\build\libcel_staticplugins\"
-				ProgramDataBaseFileName="..\out\release\build\libcel_staticplugins\libcel_staticplugins.pdb"
+				ProgramDataBaseFileName="..\out\release\build\libcel_staticplugins\cel_staticplugins.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -57,8 +52,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\libcel_staticplugins\libcel_staticplugins.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\release\build\libcel_staticplugins\cel_staticplugins.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -109,7 +103,7 @@
 				PrecompiledHeaderFile="..\out\debug\build\libcel_staticplugins\libcel_staticplugins.pch"
 				AssemblerListingLocation="..\out\debug\build\libcel_staticplugins\"
 				ObjectFile="..\out\debug\build\libcel_staticplugins\"
-				ProgramDataBaseFileName="..\out\debug\build\libcel_staticplugins\libcel_staticplugins.pdb"
+				ProgramDataBaseFileName="..\out\debug\build\libcel_staticplugins\cel_staticplugins.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,8 +121,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\libcel_staticplugins\libcel_staticplugins.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\debug\build\libcel_staticplugins\cel_staticplugins.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"

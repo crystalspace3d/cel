@@ -19,12 +19,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="4"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
+				Optimization="3"
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
@@ -37,7 +32,7 @@
 				PrecompiledHeaderFile="..\out\release\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\out\release\build\libceltool\"
 				ObjectFile="..\out\release\build\libceltool\"
-				ProgramDataBaseFileName="..\out\release\build\libceltool\libceltool.pdb"
+				ProgramDataBaseFileName="..\out\release\build\libceltool\celtool.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -57,8 +52,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\release\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\libceltool\libceltool.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\release\build\libceltool\celtool.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -109,7 +103,7 @@
 				PrecompiledHeaderFile="..\out\debug\build\libceltool\libceltool.pch"
 				AssemblerListingLocation="..\out\debug\build\libceltool\"
 				ObjectFile="..\out\debug\build\libceltool\"
-				ProgramDataBaseFileName="..\out\debug\build\libceltool\libceltool.pdb"
+				ProgramDataBaseFileName="..\out\debug\build\libceltool\celtool.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,8 +121,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug\libs;..\..\..\CS\libs\csutil\win32;$(CRYSTAL)\out\debug\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\libceltool\libceltool.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\debug\build\libceltool\celtool.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
