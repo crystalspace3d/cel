@@ -29,6 +29,7 @@ FILEFLAGS 0x0
 }
 // This file is generated automatically.
 
+#ifndef _VC80_UPGRADE
 1 24
 {
   "<?xml version=""1.0"" encoding=""UTF-8"" standalone=""yes""?>\r\n",
@@ -38,7 +39,7 @@ FILEFLAGS 0x0
   "0.99.0.0",
   """\r\n",
   "    processorArchitecture=""X86""\r\n",
-  "    name=""Crystal Entity Layer""\r\n",
+  "    name=""cel""\r\n",
   "    type=""win32""\r\n",
   "/>\r\n",
   "<description>bootstrap</description>\r\n",
@@ -56,3 +57,4 @@ FILEFLAGS 0x0
   "</dependency>\r\n",
   "</assembly>\r\n"
 }
+#endif

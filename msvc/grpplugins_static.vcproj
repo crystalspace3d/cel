@@ -19,12 +19,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="4"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
+				Optimization="3"
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
@@ -37,7 +32,7 @@
 				PrecompiledHeaderFile="..\out\release\build\grpplugins_static\grpplugins_static.pch"
 				AssemblerListingLocation="..\out\release\build\grpplugins_static\"
 				ObjectFile="..\out\release\build\grpplugins_static\"
-				ProgramDataBaseFileName="..\out\release\build\grpplugins_static\grpplugins_static.pdb"
+				ProgramDataBaseFileName="..\out\release\build\grpplugins_static\plugins_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -57,8 +52,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\release\build\grpplugins_static\grpplugins_static.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\release\build\grpplugins_static\plugins_static.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -109,7 +103,7 @@
 				PrecompiledHeaderFile="..\out\debug\build\grpplugins_static\grpplugins_static.pch"
 				AssemblerListingLocation="..\out\debug\build\grpplugins_static\"
 				ObjectFile="..\out\debug\build\grpplugins_static\"
-				ProgramDataBaseFileName="..\out\debug\build\grpplugins_static\grpplugins_static.pdb"
+				ProgramDataBaseFileName="..\out\debug\build\grpplugins_static\plugins_static.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -127,8 +121,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				ProgramDatabaseFile="..\out\debug\build\grpplugins_static\grpplugins_static.pdb"
-				GenerateManifest="FALSE"
+				ProgramDatabaseFile="..\out\debug\build\grpplugins_static\plugins_static.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
