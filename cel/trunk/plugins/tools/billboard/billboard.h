@@ -32,6 +32,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/billboard.h"
+#include "ivideo/fontserv.h"
 
 struct iObjectRegistry;
 struct iImage;
@@ -139,6 +140,10 @@ private:
   void SetClickMap (int tx, int ty, bool v);
   void TranslateScreenToTexture (int sx, int sy, int& tx, int& ty);
 
+  csString text;
+  int text_dx, text_dy;
+  csRef<iFont> font;
+
 public:
   celBillboard (celBillboardManager* mgr, celBillboardLayer* layer);
   virtual ~celBillboard ();
@@ -164,6 +169,13 @@ public:
   void FireMouseDown (int sx, int sy, int button);
   void FireMouseMove (int sx, int sy, int button);
   void FireMouseDoubleClick (int sx, int sy, int button);
+
+  // Return the text for this billboard.
+  const char* GetText () const
+  { if (text.IsEmpty ()) return 0; else return text.GetData (); }
+  iFont* GetFont () const { return font; }
+  int GetTextDX () const { return text_dx; }
+  int GetTextDY () const { return text_dy; }
 
   SCF_DECLARE_IBASE;
 
@@ -200,6 +212,8 @@ public:
 
   virtual void AddEventHandler (iBillboardEventHandler* evh);
   virtual void RemoveEventHandler (iBillboardEventHandler* evh);
+  virtual void SetText (const char* txt, int dx = 0, int dy = 0);
+  virtual bool SetupFont (const char* fontname);
 };
 
 /**
@@ -239,6 +253,8 @@ private:
 
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
+  csRef<iFont> default_font;
+
 public:
   csRef<iEngine> engine;
 
@@ -266,19 +282,28 @@ public:
   bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
 
+  iGraphics3D* GetGraphics3D () const { return g3d; }
+
   SCF_DECLARE_IBASE;
+
+  virtual int ScreenToBillboardX (int x) const { return x * screen_w_fact; }
+  virtual int ScreenToBillboardY (int y) const { return y * screen_h_fact; }
+  virtual int BillboardToScreenX (int x) const { return x / screen_w_fact; }
+  virtual int BillboardToScreenY (int y) const { return y / screen_h_fact; }
 
   virtual iBillboard* CreateBillboard (const char* name);
   virtual iBillboard* FindBillboard (const char* name) const;
   virtual void RemoveBillboard (iBillboard* billboard);
   virtual size_t GetBillboardCount () const { return billboards.Length (); }
-  virtual iBillboard* GetBillboard (size_t idx) const { return billboards[idx]; }
+  virtual iBillboard* GetBillboard (size_t idx) const
+  { return billboards[idx]; }
 
   virtual iBillboardLayer* CreateBillboardLayer (const char* name);
   virtual iBillboardLayer* FindBillboardLayer (const char* name) const;
   virtual void RemoveBillboardLayer (iBillboardLayer* layer);
   virtual size_t GetBillboardLayerCount () const { return layers.Length (); }
-  virtual iBillboardLayer* GetBillboardLayer (size_t idx) const { return layers[idx]; }
+  virtual iBillboardLayer* GetBillboardLayer (size_t idx) const
+  { return layers[idx]; }
 
   virtual void RemoveAll ();
   virtual void SetFlags (uint32 flags, uint32 mask);
@@ -291,6 +316,7 @@ public:
   virtual void StackAfter (iBillboard* bb, iBillboard* other);
 
   virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2);
+  virtual bool SetupDefaultFont (const char* fontname);
 
   struct Component : public iComponent
   {

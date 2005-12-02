@@ -24,7 +24,9 @@
 #include "csutil/scf.h"
 #include "csutil/weakref.h"
 #include "csutil/util.h"
+#include "iutil/csinput.h"
 #include "behaviourlayer/behave.h"
+#include "tools/billboard.h"
 
 struct iCelEntity;
 struct iPcProperties;
@@ -42,6 +44,8 @@ protected:
   iCelBlLayer* bl;
   csWeakRef<iPcProperties> props;	// Optimization.
   csWeakRef<iPcBillboard> billboard;	// Optimization.
+  csRef<iMouseDriver> mouse;
+  csRef<iBillboardManager> billboard_mgr;
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
@@ -61,6 +65,13 @@ public:
   }
   iPcProperties* GetProperties ();
   iPcBillboard* GetBillboard ();
+  iMouseDriver* GetMouseDriver () { return mouse; }
+  iBillboardManager* GetBillboardManager ()
+  {
+    if (!billboard_mgr)
+      billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
+    return billboard_mgr;
+  }
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
 
   SCF_DECLARE_IBASE;

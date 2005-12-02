@@ -27,9 +27,9 @@
 #include "csutil/parray.h"
 #include "csutil/hash.h"
 #include "csutil/strhash.h"
+#include "csutil/cscolor.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
-#include "csutil/cscolor.h"
 
 #include "physicallayer/datatype.h"
 
@@ -185,6 +185,10 @@ enum
   CEL_OPERATION_INT,		// A:-		S:?		OS:I
   CEL_OPERATION_FLOAT,		// A:-		S:?		OS:F
   CEL_OPERATION_RAND,		// A:-		S:?		OS:F
+  CEL_OPERATION_MOUSEX,		// A:-		S:-		OS:I
+  CEL_OPERATION_MOUSEY,		// A:-		S:-		OS:I
+  CEL_OPERATION_BB_MOUSEX,	// A:-		S:-		OS:I
+  CEL_OPERATION_BB_MOUSEY,	// A:-		S:-		OS:I
 
   CEL_OPERATION_SOUND,		// A:-		S:S,B		OS:-
   CEL_OPERATION_READFILE,	// A:-		S:S,S		OS:I

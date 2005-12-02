@@ -25,6 +25,7 @@
 #include "iutil/event.h"
 #include "igraphic/image.h"
 #include "ivideo/graph3d.h"
+#include "ivideo/graph2d.h"
 #include "ivideo/material.h"
 #include "ivideo/texture.h"
 #include "iengine/engine.h"
@@ -67,6 +68,8 @@ celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
   is_moving = false;
 
   celBillboard::layer = layer;
+
+  SetText (0, 0, 0);
 }
 
 celBillboard::~celBillboard ()
@@ -262,6 +265,21 @@ void celBillboard::SetupMaterial ()
   }
   if (image_w != -1 && has_clickmap && bb_w != -1 && material)
     material_ok = true;
+}
+
+void celBillboard::SetText (const char* txt, int dx, int dy)
+{
+  if (txt) text = txt;
+  text_dx = dx;
+  text_dy = dy;
+}
+
+bool celBillboard::SetupFont (const char* fontname)
+{
+  iFontServer* fntsvr = mgr->GetGraphics3D ()
+  	->GetDriver2D ()->GetFontServer ();
+  font = fntsvr->LoadFont (fontname);
+  return font != 0;
 }
 
 bool celBillboard::SetMaterialName (const char* matname)
@@ -669,6 +687,9 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
 
+  if (!SetupDefaultFont (CSFONT_COURIER))
+    return false;
+
   return true;
 }
 
@@ -712,7 +733,8 @@ void celBillboardManager::RemoveMovingBillboard (celBillboard* bb)
   bb->is_moving = false;
 }
 
-void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta, int x, int y)
+void celBillboardManager::MoveToPosition (celBillboard* bb, csTicks delta,
+	int x, int y)
 {
   if (bb->is_moving)
   {
@@ -775,6 +797,13 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
   return 0;
 }
 
+bool celBillboardManager::SetupDefaultFont (const char* fontname)
+{
+  iFontServer* fntsvr = g3d->GetDriver2D ()->GetFontServer ();
+  default_font = fntsvr->LoadFont (fontname);
+  return default_font != 0;
+}
+
 bool celBillboardManager::HandleEvent (iEvent& ev)
 {
   switch (ev.Type)
@@ -796,7 +825,30 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	  g3d->SetWorldToCamera (csReversibleTransform ());
           for (i = 0 ; i < billboards.Length () ; i++)
           {
-            billboards[i]->Draw (g3d, z);
+	    celBillboard* bb = billboards[i];
+            bb->Draw (g3d, z);
+	    const char* t = bb->GetText ();
+	    if (t)
+	    {
+	      iFont* font = bb->GetFont ();
+	      if (!font) font = default_font;
+	      if (font)
+	      {
+	  mesh_draw (g3d);
+	        g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+#if 1
+		csRect r;
+		billboards[i]->GetRect (r);
+  //if (sx >= r.xmin && sx <= r.xmax && sy >= r.ymin && sy <= r.ymax)
+  int fg = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
+  int bg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
+	        g3d->GetDriver2D ()->Write (font,
+			r.xmin+bb->GetTextDX (), r.ymin+bb->GetTextDY (),
+			fg, bg, t);
+#endif
+	        g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+	      }
+	    }
 	    z -= dz;
           }
 	  mesh_draw (g3d);
@@ -807,8 +859,9 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPositionScreen (csMouseEventHelper::GetX(&ev) + moving_dx,
-					       csMouseEventHelper::GetY(&ev) + moving_dy);
+	  moving_billboard->SetPositionScreen (
+	  	csMouseEventHelper::GetX(&ev) + moving_dx,
+		csMouseEventHelper::GetY(&ev) + moving_dy);
 	  moving_billboard = 0;
 	}
 
@@ -816,15 +869,17 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 					  csMouseEventHelper::GetY(&ev),
 					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseUp (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev), 
-			   csMouseEventHelper::GetButton(&ev));
+	  bb->FireMouseUp (
+	  	csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev), 
+		csMouseEventHelper::GetButton(&ev));
       }
       break;
     case csevMouseDown:
       {
         celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
 					  csMouseEventHelper::GetY(&ev),
-					  CEL_BILLBOARD_CLICKABLE | CEL_BILLBOARD_MOVABLE);
+					  CEL_BILLBOARD_CLICKABLE |
+					  CEL_BILLBOARD_MOVABLE);
 	if (bb)
 	{
 	  if (bb->GetFlags ().Check (CEL_BILLBOARD_RESTACK))
@@ -849,21 +904,24 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       {
         if (moving_billboard)
 	{
-	  moving_billboard->SetPositionScreen (csMouseEventHelper::GetX(&ev) + moving_dx,
-					       csMouseEventHelper::GetY(&ev) + moving_dy);
+	  moving_billboard->SetPositionScreen (
+	  	csMouseEventHelper::GetX(&ev) + moving_dx,
+		csMouseEventHelper::GetY(&ev) + moving_dy);
 	}
 
         celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
 					  csMouseEventHelper::GetY(&ev),
 					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
-	  bb->FireMouseMove (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev), 
+	  bb->FireMouseMove (csMouseEventHelper::GetX(&ev),
+	  		     csMouseEventHelper::GetY(&ev), 
 			     csMouseEventHelper::GetButton(&ev));
       }
       break;
     case csevMouseDoubleClick:
       {
-        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), csMouseEventHelper::GetY(&ev),
+        celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev),
+					  csMouseEventHelper::GetY(&ev),
 					  CEL_BILLBOARD_CLICKABLE);
 	if (bb)
 	  bb->FireMouseDoubleClick (csMouseEventHelper::GetX(&ev), 

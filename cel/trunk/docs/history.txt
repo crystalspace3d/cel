@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Dec-2005
+	- Jorrit added new 'mousex' and 'mousey' functions to the
+	  XML behaviour layer.
+	- Jorrit added a few functions to the billboard manager to convert
+	  screen to billboard space and vice versa.
+	- Jorrit added new 'bb_mousex' and 'bb_mousey' functions to the
+	  XML behaviour layer. They return mouse position in billboard
+	  space.
+	- Jorrit added support for attaching text to billboards. Not
+	  working properly yet.
 28-Nov-2005
 	- res updated the Autoconf, Jam, and msvcgen files from the master 
 	  copies in the CS repository.

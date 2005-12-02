@@ -269,6 +269,17 @@ struct iBillboard : public iBase
    * Remove an event handler from this billboard.
    */
   virtual void RemoveEventHandler (iBillboardEventHandler* evh) = 0;
+
+  /**
+   * Setup the font to use for text.
+   */
+  virtual bool SetupFont (const char* fontname) = 0;
+
+  /**
+   * Set the text to use for this billboard. Also with offset.
+   * Use 'txt' is 0 to clear the text.
+   */
+  virtual void SetText (const char* txt, int dx = 0, int dy = 0) = 0;
 };
 
 SCF_VERSION (iBillboardManager, 0, 0, 1);
@@ -279,6 +290,26 @@ SCF_VERSION (iBillboardManager, 0, 0, 1);
  */
 struct iBillboardManager : public iBase
 {
+  /**
+   * Convert a screen X position to billboard space.
+   */
+  virtual int ScreenToBillboardX (int x) const = 0;
+
+  /**
+   * Convert a screen Y position to billboard space.
+   */
+  virtual int ScreenToBillboardY (int y) const = 0;
+
+  /**
+   * Convert a billboard X position to screen space.
+   */
+  virtual int BillboardToScreenX (int x) const = 0;
+
+  /**
+   * Convert a billboard Y position to screen space.
+   */
+  virtual int BillboardToScreenY (int y) const = 0;
+
   /**
    * Create a new billboard with the given name. Returns 0 on failure.
    * By default a new billboard will be visible and not movable.
@@ -379,6 +410,11 @@ struct iBillboardManager : public iBase
    * if they do.
    */
   virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2) = 0;
+
+  /**
+   * Setup the default font to use for text.
+   */
+  virtual bool SetupDefaultFont (const char* fontname) = 0;
 };
 
 #endif // __CEL_MGR_BILLBOARD__
