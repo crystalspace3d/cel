@@ -52,6 +52,8 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   SCF_CONSTRUCT_IBASE (0);
   celBehaviourXml::entity = entity;
   celBehaviourXml::object_reg = object_reg;
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
   name = 0;
   script = 0;
 }

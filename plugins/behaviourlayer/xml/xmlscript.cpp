@@ -23,6 +23,7 @@
 #include "csutil/databuf.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
+#include "iutil/csinput.h"
 #include "ivaria/reporter.h"
 #include "cstool/sndwrap.h"
 
@@ -1420,6 +1421,40 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (elg), A2S (elb)));
 	  top.SetColor (csColor (ArgToFloat (top),
 	  	ArgToFloat (elg), ArgToFloat (elb)));
+	}
+	break;
+      case CEL_OPERATION_MOUSEX:
+        {
+          DUMP_EXEC ((":%04d: mousex ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  int mousex = behave->GetMouseDriver ()->GetLastX ();
+	  stack[si].SetInt32 (mousex);
+	}
+	break;
+      case CEL_OPERATION_MOUSEY:
+        {
+          DUMP_EXEC ((":%04d: mousey ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  int mousey = behave->GetMouseDriver ()->GetLastY ();
+	  stack[si].SetInt32 (mousey);
+	}
+	break;
+      case CEL_OPERATION_BB_MOUSEX:
+        {
+          DUMP_EXEC ((":%04d: bb_mousex ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  int mousex = behave->GetMouseDriver ()->GetLastX ();
+	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  stack[si].SetInt32 (bbmgr->ScreenToBillboardX (mousex));
+	}
+	break;
+      case CEL_OPERATION_BB_MOUSEY:
+        {
+          DUMP_EXEC ((":%04d: bb_mousey ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  int mousey = behave->GetMouseDriver ()->GetLastY ();
+	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  stack[si].SetInt32 (bbmgr->ScreenToBillboardY (mousey));
 	}
 	break;
       case CEL_OPERATION_ENTNAME:
@@ -3108,9 +3143,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1,
 	  	A2S (a_layer),
 	  	A2S (a_x), A2S (a_y)));
-	  // @@@ Efficiency?
-	  csRef<iBillboardManager> bbmgr = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iBillboardManager);
+	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
 	  const char* layername = ArgToString (a_layer);
 	  iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
 	  if (!layer)
@@ -3287,8 +3320,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!bb)
 	    return ReportError (behave,
 	    	"This entity does not have a pcbillboard!\n");
-	  csRef<iBillboardManager> bbmgr = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iBillboardManager);
+	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
 	  if (!bbmgr)
 	    return ReportError (behave,
 	    	"Billboard manager is missing!\n");
