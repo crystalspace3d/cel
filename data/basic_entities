@@ -445,6 +445,7 @@
 	    </propclass>
 	</addon>
 
+<!--
     	<addon plugin="cel.addons.celentity" entityname="aws" >
 	    <propclass name="pcawswindow">
 	        <action name="CreateSink">
@@ -486,6 +487,7 @@
 	        <action name="Show"/>
 	    </propclass>
 	</addon>
+-->
 
 <!--
 	<addon plugin="cel.addons.celentity" entityname="loopbzzt">
