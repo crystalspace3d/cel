@@ -11325,6 +11325,193 @@ static PyObject *_wrap_iBillboard_RemoveEventHandler(PyObject *, PyObject *args)
 }
 
 
+static PyObject *_wrap_iBillboard_SetupFont(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboard_SetupFont",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (bool)(arg1)->SetupFont((char const *)arg2);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_SetText__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *arg2 = (char *) 0 ;
+    int arg3 ;
+    int arg4 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iBillboard_SetText",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (int)(SWIG_As_int(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    {
+        arg4 = (int)(SWIG_As_int(obj3)); 
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    (arg1)->SetText((char const *)arg2,arg3,arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_SetText__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *arg2 = (char *) 0 ;
+    int arg3 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iBillboard_SetText",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (int)(SWIG_As_int(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    (arg1)->SetText((char const *)arg2,arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_SetText__SWIG_2(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *arg2 = (char *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboard_SetText",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    (arg1)->SetText((char const *)arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_SetText(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[5];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iBillboard, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                return _wrap_iBillboard_SetText__SWIG_2(self,args);
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iBillboard, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_int(argv[2]);
+                if (_v) {
+                    return _wrap_iBillboard_SetText__SWIG_1(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iBillboard, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_int(argv[2]);
+                if (_v) {
+                    _v = SWIG_Check_int(argv[3]);
+                    if (_v) {
+                        return _wrap_iBillboard_SetText__SWIG_0(self,args);
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iBillboard_SetText'");
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iBillboard(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -11349,6 +11536,110 @@ static PyObject * iBillboard_swigregister(PyObject *, PyObject *args) {
     Py_INCREF(obj);
     return Py_BuildValue((char *)"");
 }
+static PyObject *_wrap_iBillboardManager_ScreenToBillboardX(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    int arg2 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboardManager_ScreenToBillboardX",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (int)((iBillboardManager const *)arg1)->ScreenToBillboardX(arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_ScreenToBillboardY(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    int arg2 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboardManager_ScreenToBillboardY",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (int)((iBillboardManager const *)arg1)->ScreenToBillboardY(arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_BillboardToScreenX(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    int arg2 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboardManager_BillboardToScreenX",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (int)((iBillboardManager const *)arg1)->BillboardToScreenX(arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_BillboardToScreenY(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    int arg2 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboardManager_BillboardToScreenY",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (int)((iBillboardManager const *)arg1)->BillboardToScreenY(arg2);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboardManager_CreateBillboard(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
@@ -11769,6 +12060,31 @@ static PyObject *_wrap_iBillboardManager_TestCollision(PyObject *, PyObject *arg
     SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(3)) SWIG_fail;
     result = (bool)(arg1)->TestCollision(arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_SetupDefaultFont(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iBillboardManager_SetupDefaultFont",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (bool)(arg1)->SetupDefaultFont((char const *)arg2);
     
     {
         resultobj = SWIG_From_bool((bool)(result)); 
@@ -24858,8 +25174,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboard_GetLayer", _wrap_iBillboard_GetLayer, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_AddEventHandler", _wrap_iBillboard_AddEventHandler, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_RemoveEventHandler", _wrap_iBillboard_RemoveEventHandler, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_SetupFont", _wrap_iBillboard_SetupFont, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_SetText", _wrap_iBillboard_SetText, METH_VARARGS, NULL},
 	 { (char *)"delete_iBillboard", _wrap_delete_iBillboard, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_swigregister", iBillboard_swigregister, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_ScreenToBillboardX", _wrap_iBillboardManager_ScreenToBillboardX, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_ScreenToBillboardY", _wrap_iBillboardManager_ScreenToBillboardY, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_BillboardToScreenX", _wrap_iBillboardManager_BillboardToScreenX, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_BillboardToScreenY", _wrap_iBillboardManager_BillboardToScreenY, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_CreateBillboard", _wrap_iBillboardManager_CreateBillboard, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_FindBillboard", _wrap_iBillboardManager_FindBillboard, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_RemoveBillboard", _wrap_iBillboardManager_RemoveBillboard, METH_VARARGS, NULL},
@@ -24879,6 +25201,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboardManager_StackBefore", _wrap_iBillboardManager_StackBefore, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_StackAfter", _wrap_iBillboardManager_StackAfter, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_TestCollision", _wrap_iBillboardManager_TestCollision, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_SetupDefaultFont", _wrap_iBillboardManager_SetupDefaultFont, METH_VARARGS, NULL},
 	 { (char *)"delete_iBillboardManager", _wrap_delete_iBillboardManager, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_swigregister", iBillboardManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcBillboard_SetBillboardName", _wrap_iPcBillboard_SetBillboardName, METH_VARARGS, NULL},

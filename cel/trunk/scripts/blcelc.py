@@ -862,6 +862,8 @@ class iBillboard(cspace.iBase):
     def GetLayer(*args): return _blcelc.iBillboard_GetLayer(*args)
     def AddEventHandler(*args): return _blcelc.iBillboard_AddEventHandler(*args)
     def RemoveEventHandler(*args): return _blcelc.iBillboard_RemoveEventHandler(*args)
+    def SetupFont(*args): return _blcelc.iBillboard_SetupFont(*args)
+    def SetText(*args): return _blcelc.iBillboard_SetText(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboard):
         try:
             if self.thisown: destroy(self)
@@ -885,6 +887,10 @@ class iBillboardManager(cspace.iBase):
     def __init__(self): raise RuntimeError, "No constructor defined"
     def __repr__(self):
         return "<%s.%s; proxy of C++ iBillboardManager instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def ScreenToBillboardX(*args): return _blcelc.iBillboardManager_ScreenToBillboardX(*args)
+    def ScreenToBillboardY(*args): return _blcelc.iBillboardManager_ScreenToBillboardY(*args)
+    def BillboardToScreenX(*args): return _blcelc.iBillboardManager_BillboardToScreenX(*args)
+    def BillboardToScreenY(*args): return _blcelc.iBillboardManager_BillboardToScreenY(*args)
     def CreateBillboard(*args): return _blcelc.iBillboardManager_CreateBillboard(*args)
     def FindBillboard(*args): return _blcelc.iBillboardManager_FindBillboard(*args)
     def RemoveBillboard(*args): return _blcelc.iBillboardManager_RemoveBillboard(*args)
@@ -904,6 +910,7 @@ class iBillboardManager(cspace.iBase):
     def StackBefore(*args): return _blcelc.iBillboardManager_StackBefore(*args)
     def StackAfter(*args): return _blcelc.iBillboardManager_StackAfter(*args)
     def TestCollision(*args): return _blcelc.iBillboardManager_TestCollision(*args)
+    def SetupDefaultFont(*args): return _blcelc.iBillboardManager_SetupDefaultFont(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboardManager):
         try:
             if self.thisown: destroy(self)
