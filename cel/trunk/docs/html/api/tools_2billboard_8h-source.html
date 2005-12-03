@@ -149,53 +149,67 @@
 <a name="l00266"></a>00266   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboard.html#5ec215bd71295f6c8dc739204b1724c9">AddEventHandler</a> (<a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a>* evh) = 0;
 <a name="l00267"></a>00267 
 <a name="l00271"></a>00271   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboard.html#9913b58bbcf70f3b5de567e7b3bead37">RemoveEventHandler</a> (<a class="code" href="structiBillboardEventHandler.html">iBillboardEventHandler</a>* evh) = 0;
-<a name="l00272"></a>00272 };
-<a name="l00273"></a>00273 
-<a name="l00274"></a>00274 SCF_VERSION (<a class="code" href="structiBillboardManager.html">iBillboardManager</a>, 0, 0, 1);
-<a name="l00275"></a>00275 
-<a name="l00280"></a><a class="code" href="structiBillboardManager.html">00280</a> <span class="keyword">struct </span><a class="code" href="structiBillboardManager.html">iBillboardManager</a> : <span class="keyword">public</span> iBase
-<a name="l00281"></a>00281 {
-<a name="l00286"></a>00286   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#92270450e1eea37fb87a3ce7a33b329e">CreateBillboard</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00287"></a>00287 
-<a name="l00291"></a>00291   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#0de5e4903aa72f67afe680d1f9906450">FindBillboard</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
-<a name="l00292"></a>00292 
-<a name="l00296"></a>00296   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#46b3e9c00036a2bf67fb0e83b27edb6c">RemoveBillboard</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard) = 0;
+<a name="l00272"></a>00272 
+<a name="l00276"></a>00276   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiBillboard.html#85bd34d4899df44c31aeb9e6fa4ad31b">SetupFont</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* fontname) = 0;
+<a name="l00277"></a>00277 
+<a name="l00282"></a>00282   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboard.html#4789e19129525a3ac86203d967897ce0">SetText</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* txt, <span class="keywordtype">int</span> dx = 0, <span class="keywordtype">int</span> dy = 0) = 0;
+<a name="l00283"></a>00283 };
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 SCF_VERSION (<a class="code" href="structiBillboardManager.html">iBillboardManager</a>, 0, 0, 1);
+<a name="l00286"></a>00286 
+<a name="l00291"></a><a class="code" href="structiBillboardManager.html">00291</a> <span class="keyword">struct </span><a class="code" href="structiBillboardManager.html">iBillboardManager</a> : <span class="keyword">public</span> iBase
+<a name="l00292"></a>00292 {
+<a name="l00296"></a>00296   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#327ccf24b1b02767627c3a4923a48d1d">ScreenToBillboardX</a> (<span class="keywordtype">int</span> x) <span class="keyword">const </span>= 0;
 <a name="l00297"></a>00297 
-<a name="l00301"></a>00301   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#bb75ebe152fb40160dd83ef5260714b4">GetBillboardCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00301"></a>00301   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#759eea48d790576e6a11de638846348f">ScreenToBillboardY</a> (<span class="keywordtype">int</span> y) <span class="keyword">const </span>= 0;
 <a name="l00302"></a>00302 
-<a name="l00306"></a>00306   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#ef1f073d700a263fbf267102a6fefc05">GetBillboard</a> (size_t idx) <span class="keyword">const </span>= 0;
+<a name="l00306"></a>00306   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#e870d79d4c6ebeb88539196fa47dd861">BillboardToScreenX</a> (<span class="keywordtype">int</span> x) <span class="keyword">const </span>= 0;
 <a name="l00307"></a>00307 
-<a name="l00313"></a>00313   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#2505c0d0c14d1370628b9cd700c23604">CreateBillboardLayer</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00314"></a>00314 
-<a name="l00318"></a>00318   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#5b48fd6a961e9e4442f9f4df3f1d0aff">FindBillboardLayer</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
-<a name="l00319"></a>00319 
-<a name="l00325"></a>00325   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#65e47b6bc374dd35410cc4023f4ff604">RemoveBillboardLayer</a> (<a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* layer) = 0;
-<a name="l00326"></a>00326 
-<a name="l00330"></a>00330   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#d1728005e47bf06cb223156940152346">GetBillboardLayerCount</a> () <span class="keyword">const </span>= 0;
-<a name="l00331"></a>00331 
-<a name="l00335"></a>00335   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#0b5b62845b0fb6184a5abeb3fd941603">GetBillboardLayer</a> (size_t idx) <span class="keyword">const </span>= 0;
-<a name="l00336"></a>00336 
-<a name="l00340"></a>00340   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#c65ad7fa2adbc5bb95cbfb15d702487b">RemoveAll</a> () = 0;
-<a name="l00341"></a>00341 
-<a name="l00345"></a>00345   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#d59a1b584f666a6304bef76c27f303d5">SetFlags</a> (uint32 flags, uint32 mask) = 0;
-<a name="l00346"></a>00346 
-<a name="l00350"></a>00350   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#9c6347ac92e31ca187409ee326e0ed34">StackTop</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
-<a name="l00351"></a>00351 
-<a name="l00355"></a>00355   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#2e291290051b7a8ada0a5c73f418d8bf">StackBottom</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
-<a name="l00356"></a>00356 
-<a name="l00360"></a>00360   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#839af7c20bddf3a6c7ab8998f4b27997">StackUp</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
-<a name="l00361"></a>00361 
-<a name="l00365"></a>00365   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#00496f2514f9d9f3e658a0e0b47c5187">StackDown</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
-<a name="l00366"></a>00366 
-<a name="l00370"></a>00370   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#f4dbda222abb9df433d9e8e571f10a4a">StackBefore</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb, <a class="code" href="structiBillboard.html">iBillboard</a>* other) = 0;
-<a name="l00371"></a>00371 
-<a name="l00375"></a>00375   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#3f2911d726cf10082bb3a375b0b24779">StackAfter</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb, <a class="code" href="structiBillboard.html">iBillboard</a>* other) = 0;
-<a name="l00376"></a>00376 
-<a name="l00381"></a>00381   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiBillboardManager.html#a7d5a6e11138b7d703b76f9a21e22c0c">TestCollision</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb1, <a class="code" href="structiBillboard.html">iBillboard</a>* bb2) = 0;
-<a name="l00382"></a>00382 };
-<a name="l00383"></a>00383 
-<a name="l00384"></a>00384 <span class="preprocessor">#endif // __CEL_MGR_BILLBOARD__</span>
-<a name="l00385"></a>00385 <span class="preprocessor"></span>
+<a name="l00311"></a>00311   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="structiBillboardManager.html#b7ca3067b9780072e16213d2a6277e69">BillboardToScreenY</a> (<span class="keywordtype">int</span> y) <span class="keyword">const </span>= 0;
+<a name="l00312"></a>00312 
+<a name="l00317"></a>00317   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#92270450e1eea37fb87a3ce7a33b329e">CreateBillboard</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00318"></a>00318 
+<a name="l00322"></a>00322   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#0de5e4903aa72f67afe680d1f9906450">FindBillboard</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+<a name="l00323"></a>00323 
+<a name="l00327"></a>00327   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#46b3e9c00036a2bf67fb0e83b27edb6c">RemoveBillboard</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* billboard) = 0;
+<a name="l00328"></a>00328 
+<a name="l00332"></a>00332   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#bb75ebe152fb40160dd83ef5260714b4">GetBillboardCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00333"></a>00333 
+<a name="l00337"></a>00337   <span class="keyword">virtual</span> <a class="code" href="structiBillboard.html">iBillboard</a>* <a class="code" href="structiBillboardManager.html#ef1f073d700a263fbf267102a6fefc05">GetBillboard</a> (size_t idx) <span class="keyword">const </span>= 0;
+<a name="l00338"></a>00338 
+<a name="l00344"></a>00344   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#2505c0d0c14d1370628b9cd700c23604">CreateBillboardLayer</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00345"></a>00345 
+<a name="l00349"></a>00349   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#5b48fd6a961e9e4442f9f4df3f1d0aff">FindBillboardLayer</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
+<a name="l00350"></a>00350 
+<a name="l00356"></a>00356   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#65e47b6bc374dd35410cc4023f4ff604">RemoveBillboardLayer</a> (<a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* layer) = 0;
+<a name="l00357"></a>00357 
+<a name="l00361"></a>00361   <span class="keyword">virtual</span> size_t <a class="code" href="structiBillboardManager.html#d1728005e47bf06cb223156940152346">GetBillboardLayerCount</a> () <span class="keyword">const </span>= 0;
+<a name="l00362"></a>00362 
+<a name="l00366"></a>00366   <span class="keyword">virtual</span> <a class="code" href="structiBillboardLayer.html">iBillboardLayer</a>* <a class="code" href="structiBillboardManager.html#0b5b62845b0fb6184a5abeb3fd941603">GetBillboardLayer</a> (size_t idx) <span class="keyword">const </span>= 0;
+<a name="l00367"></a>00367 
+<a name="l00371"></a>00371   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#c65ad7fa2adbc5bb95cbfb15d702487b">RemoveAll</a> () = 0;
+<a name="l00372"></a>00372 
+<a name="l00376"></a>00376   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#d59a1b584f666a6304bef76c27f303d5">SetFlags</a> (uint32 flags, uint32 mask) = 0;
+<a name="l00377"></a>00377 
+<a name="l00381"></a>00381   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#9c6347ac92e31ca187409ee326e0ed34">StackTop</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
+<a name="l00382"></a>00382 
+<a name="l00386"></a>00386   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#2e291290051b7a8ada0a5c73f418d8bf">StackBottom</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
+<a name="l00387"></a>00387 
+<a name="l00391"></a>00391   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#839af7c20bddf3a6c7ab8998f4b27997">StackUp</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
+<a name="l00392"></a>00392 
+<a name="l00396"></a>00396   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#00496f2514f9d9f3e658a0e0b47c5187">StackDown</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb) = 0;
+<a name="l00397"></a>00397 
+<a name="l00401"></a>00401   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#f4dbda222abb9df433d9e8e571f10a4a">StackBefore</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb, <a class="code" href="structiBillboard.html">iBillboard</a>* other) = 0;
+<a name="l00402"></a>00402 
+<a name="l00406"></a>00406   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiBillboardManager.html#3f2911d726cf10082bb3a375b0b24779">StackAfter</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb, <a class="code" href="structiBillboard.html">iBillboard</a>* other) = 0;
+<a name="l00407"></a>00407 
+<a name="l00412"></a>00412   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiBillboardManager.html#a7d5a6e11138b7d703b76f9a21e22c0c">TestCollision</a> (<a class="code" href="structiBillboard.html">iBillboard</a>* bb1, <a class="code" href="structiBillboard.html">iBillboard</a>* bb2) = 0;
+<a name="l00413"></a>00413 
+<a name="l00417"></a>00417   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiBillboardManager.html#d38dd2aa3effd56478bfed12b14c26b4">SetupDefaultFont</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* fontname) = 0;
+<a name="l00418"></a>00418 };
+<a name="l00419"></a>00419 
+<a name="l00420"></a>00420 <span class="preprocessor">#endif // __CEL_MGR_BILLBOARD__</span>
+<a name="l00421"></a>00421 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.5 
 </small></address> </div></body> </html>
