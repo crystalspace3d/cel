@@ -97,6 +97,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#0e5561bd3b7e5e6ee4b313a2fb7d8177">SetSize</a> (int w, int h)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the size of this billboard in pixels.  <a href="#0e5561bd3b7e5e6ee4b313a2fb7d8177"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#4789e19129525a3ac86203d967897ce0">SetText</a> (const char *txt, int dx=0, int dy=0)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the text to use for this billboard.  <a href="#4789e19129525a3ac86203d967897ce0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#85bd34d4899df44c31aeb9e6fa4ad31b">SetupFont</a> (const char *fontname)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the font to use for text.  <a href="#85bd34d4899df44c31aeb9e6fa4ad31b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#73c46ba4f6961888ffc54ca0e08aecb6">SetUVBottomRight</a> (const csVector2 &amp;uv)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the bottom-right coordinate of the texture (default 1,1).  <a href="#73c46ba4f6961888ffc54ca0e08aecb6"></a><br></td></tr>
@@ -782,6 +788,81 @@ Uses billboard space.     </td>
 
 <p>
 Set the size of this billboard in pixels. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="4789e19129525a3ac86203d967897ce0"></a><!-- doxytag: member="iBillboard::SetText" ref="4789e19129525a3ac86203d967897ce0" args="(const char *txt, int dx=0, int dy=0)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iBillboard::SetText           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>txt</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>int&nbsp;</td>
+          <td class="mdname" nowrap> <em>dx</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>int&nbsp;</td>
+          <td class="mdname" nowrap> <em>dy</em> = <code>0</code></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set the text to use for this billboard. 
+<p>
+Also with offset. Use 'txt' is 0 to clear the text.     </td>
+  </tr>
+</table>
+<a class="anchor" name="85bd34d4899df44c31aeb9e6fa4ad31b"></a><!-- doxytag: member="iBillboard::SetupFont" ref="85bd34d4899df44c31aeb9e6fa4ad31b" args="(const char *fontname)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iBillboard::SetupFont           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fontname</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the font to use for text. 
 <p>
     </td>
   </tr>

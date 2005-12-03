@@ -37,6 +37,12 @@
 <a href="structiBillboardManager-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#e870d79d4c6ebeb88539196fa47dd861">BillboardToScreenX</a> (int x) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a billboard X position to screen space.  <a href="#e870d79d4c6ebeb88539196fa47dd861"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#b7ca3067b9780072e16213d2a6277e69">BillboardToScreenY</a> (int y) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a billboard Y position to screen space.  <a href="#b7ca3067b9780072e16213d2a6277e69"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboard.html">iBillboard</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#92270450e1eea37fb87a3ce7a33b329e">CreateBillboard</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new billboard with the given name.  <a href="#92270450e1eea37fb87a3ce7a33b329e"></a><br></td></tr>
@@ -70,9 +76,18 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#65e47b6bc374dd35410cc4023f4ff604">RemoveBillboardLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a billboard layer.  <a href="#65e47b6bc374dd35410cc4023f4ff604"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#327ccf24b1b02767627c3a4923a48d1d">ScreenToBillboardX</a> (int x) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a screen X position to billboard space.  <a href="#327ccf24b1b02767627c3a4923a48d1d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#759eea48d790576e6a11de638846348f">ScreenToBillboardY</a> (int y) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a screen Y position to billboard space.  <a href="#759eea48d790576e6a11de638846348f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#d59a1b584f666a6304bef76c27f303d5">SetFlags</a> (uint32 flags, uint32 mask)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flags for all billboards.  <a href="#d59a1b584f666a6304bef76c27f303d5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#d38dd2aa3effd56478bfed12b14c26b4">SetupDefaultFont</a> (const char *fontname)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default font to use for text.  <a href="#d38dd2aa3effd56478bfed12b14c26b4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#3f2911d726cf10082bb3a375b0b24779">StackAfter</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard after the given other billboard.  <a href="#3f2911d726cf10082bb3a375b0b24779"></a><br></td></tr>
@@ -102,7 +117,67 @@ This is used in combination with the billboard property class.
 <p>
 
 <p>
-Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00280">280</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00291">291</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="e870d79d4c6ebeb88539196fa47dd861"></a><!-- doxytag: member="iBillboardManager::BillboardToScreenX" ref="e870d79d4c6ebeb88539196fa47dd861" args="(int x) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboardManager::BillboardToScreenX           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>x</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a billboard X position to screen space. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="b7ca3067b9780072e16213d2a6277e69"></a><!-- doxytag: member="iBillboardManager::BillboardToScreenY" ref="b7ca3067b9780072e16213d2a6277e69" args="(int y) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboardManager::BillboardToScreenY           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>y</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a billboard Y position to screen space. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="92270450e1eea37fb87a3ce7a33b329e"></a><!-- doxytag: member="iBillboardManager::CreateBillboard" ref="92270450e1eea37fb87a3ce7a33b329e" args="(const char *name)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -430,6 +505,66 @@ Remove a billboard layer.
 Note that all billboards that use this layer will be put back on the default layer. Also note that you can't remove the default layer.     </td>
   </tr>
 </table>
+<a class="anchor" name="327ccf24b1b02767627c3a4923a48d1d"></a><!-- doxytag: member="iBillboardManager::ScreenToBillboardX" ref="327ccf24b1b02767627c3a4923a48d1d" args="(int x) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboardManager::ScreenToBillboardX           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>x</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a screen X position to billboard space. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="759eea48d790576e6a11de638846348f"></a><!-- doxytag: member="iBillboardManager::ScreenToBillboardY" ref="759eea48d790576e6a11de638846348f" args="(int y) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboardManager::ScreenToBillboardY           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>y</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a screen Y position to billboard space. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="d59a1b584f666a6304bef76c27f303d5"></a><!-- doxytag: member="iBillboardManager::SetFlags" ref="d59a1b584f666a6304bef76c27f303d5" args="(uint32 flags, uint32 mask)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -465,6 +600,36 @@ Note that all billboards that use this layer will be put back on the default lay
 
 <p>
 Set flags for all billboards. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="d38dd2aa3effd56478bfed12b14c26b4"></a><!-- doxytag: member="iBillboardManager::SetupDefaultFont" ref="d38dd2aa3effd56478bfed12b14c26b4" args="(const char *fontname)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iBillboardManager::SetupDefaultFont           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>fontname</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the default font to use for text. 
 <p>
     </td>
   </tr>
