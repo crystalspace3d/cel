@@ -56,6 +56,9 @@ private:
   static csStringID id_x, id_y, id_button;
   celGenericParameterBlock* params;
 
+  float font_size;
+  float default_font_size;
+
   enum propids
   {
     propid_billboardname = 0,
@@ -79,9 +82,11 @@ private:
     propid_text_offset,
     propid_text_fg_color,
     propid_text_bg_color,
+    propid_text_font_size,
     propid_text_font,
     propid_text_default_fg_color,
     propid_text_default_bg_color,
+    propid_text_default_font_size,
     propid_text_default_font
   };
 

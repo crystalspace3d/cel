@@ -220,7 +220,7 @@ public:
   virtual const char* GetText () const
   { if (text.IsEmpty ()) return 0; else return text.GetData (); }
   virtual void SetTextOffset (int dx, int dy);
-  virtual bool SetTextFont (const char* fontname);
+  virtual bool SetTextFont (const char* fontname, float size);
   virtual void SetTextFgColor (const csColor& color);
   virtual void ClearTextFgColor ();
   virtual void SetTextBgColor (const csColor& color);
@@ -330,7 +330,7 @@ public:
   virtual void StackAfter (iBillboard* bb, iBillboard* other);
 
   virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2);
-  virtual bool SetDefaultTextFont (const char* fontname);
+  virtual bool SetDefaultTextFont (const char* fontname, float size);
   virtual void SetDefaultTextFgColor (const csColor& color);
   virtual void SetDefaultTextBgColor (const csColor& color);
   virtual void SetDefaultTextBgTransparent ();

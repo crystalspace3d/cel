@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 25;
+    propertycount = 27;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -186,6 +186,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_text_bg_color].readonly = true;
     properties[propid_text_bg_color].desc = "Background text color.";
 
+    properties[propid_text_font_size].id = pl->FetchStringID (
+	"cel.property.text_font_size");
+    properties[propid_text_font_size].datatype = CEL_DATA_FLOAT;
+    properties[propid_text_font_size].readonly = true;
+    properties[propid_text_font_size].desc = "Text font size.";
+
     properties[propid_text_font].id = pl->FetchStringID (
 	"cel.property.text_font");
     properties[propid_text_font].datatype = CEL_DATA_STRING;
@@ -205,6 +211,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_text_default_bg_color].readonly = true;
     properties[propid_text_default_bg_color].desc =
       "Default background text color.";
+
+    properties[propid_text_default_font_size].id = pl->FetchStringID (
+	"cel.property.text_default_font_size");
+    properties[propid_text_default_font_size].datatype = CEL_DATA_FLOAT;
+    properties[propid_text_default_font_size].readonly = true;
+    properties[propid_text_default_font_size].desc = "Default text font size.";
 
     properties[propid_text_default_font].id = pl->FetchStringID (
 	"cel.property.text_default_font");
@@ -232,6 +244,9 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
 
+  font_size = 10.0f;
+  default_font_size = 10.0f;
+
   props = properties;
   propcount = &propertycount;
 
@@ -256,9 +271,11 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_text_offset] = 0;
   propdata[propid_text_fg_color] = 0;
   propdata[propid_text_bg_color] = 0;
+  propdata[propid_text_font_size] = 0;
   propdata[propid_text_font] = 0;
   propdata[propid_text_default_fg_color] = 0;
   propdata[propid_text_default_bg_color] = 0;
+  propdata[propid_text_default_font_size] = 0;
   propdata[propid_text_default_font] = 0;
 
   if (id_x == csInvalidStringID)
@@ -313,6 +330,16 @@ bool celPcBillboard::SetProperty (csStringID propertyId, float b)
       billboard->GetSize (w, h);
       billboard->SetSize (w, int (ih * b));
     }
+    return true;
+  }
+  else if (propertyId == properties[propid_text_font_size].id)
+  {
+    font_size = b;
+    return true;
+  }
+  else if (propertyId == properties[propid_text_default_font_size].id)
+  {
+    default_font_size = b;
     return true;
   }
   else
@@ -579,7 +606,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     GetBillboard ();
     if (billboard)
     {
-      billboard->SetTextFont (s);
+      billboard->SetTextFont (s, font_size);
       return true;
     }
     return false;
@@ -589,7 +616,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     GetBillboard ();
     if (billboard)
     {
-      billboard_mgr->SetDefaultTextFont (s);
+      billboard_mgr->SetDefaultTextFont (s, default_font_size);
       return true;
     }
     return false;
