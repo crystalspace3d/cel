@@ -271,15 +271,55 @@ struct iBillboard : public iBase
   virtual void RemoveEventHandler (iBillboardEventHandler* evh) = 0;
 
   /**
-   * Setup the font to use for text.
-   */
-  virtual bool SetupFont (const char* fontname) = 0;
-
-  /**
-   * Set the text to use for this billboard. Also with offset.
+   * Set the text to use for this billboard.
    * Use 'txt' is 0 to clear the text.
    */
-  virtual void SetText (const char* txt, int dx = 0, int dy = 0) = 0;
+  virtual void SetText (const char* txt) = 0;
+
+  /**
+   * Get the text.
+   */
+  virtual const char* GetText () const = 0;
+
+  /**
+   * Set the text offset in billboard space.
+   */
+  virtual void SetTextOffset (int dx, int dy) = 0;
+
+  /**
+   * Setup the font to use for text.
+   */
+  virtual bool SetTextFont (const char* fontname) = 0;
+
+  /**
+   * Set the foreground color for the text.
+   * If not set then the default foreground color will be used
+   */
+  virtual void SetTextFgColor (const csColor& color) = 0;
+
+  /**
+   * Clear the foreground color for the text so that the
+   * default color will be used instead.
+   */
+  virtual void ClearTextFgColor () = 0;
+
+  /**
+   * Set the background color for the text.
+   * If not set then the default background color will be used
+   */
+  virtual void SetTextBgColor (const csColor& color) = 0;
+
+  /**
+   * Set the background color for the text to transparent.
+   * If not set then the default background transparency will be used
+   */
+  virtual void SetTextBgTransparent () = 0;
+
+  /**
+   * Clear the background color for the text so that the
+   * default color will be used instead.
+   */
+  virtual void ClearTextBgColor () = 0;
 };
 
 SCF_VERSION (iBillboardManager, 0, 0, 1);
@@ -414,7 +454,22 @@ struct iBillboardManager : public iBase
   /**
    * Setup the default font to use for text.
    */
-  virtual bool SetupDefaultFont (const char* fontname) = 0;
+  virtual bool SetDefaultTextFont (const char* fontname) = 0;
+
+  /**
+   * Setup the default foreground color to use for text.
+   */
+  virtual void SetDefaultTextFgColor (const csColor& color) = 0;
+
+  /**
+   * Setup the default background color to use for text.
+   */
+  virtual void SetDefaultTextBgColor (const csColor& color) = 0;
+
+  /**
+   * Setup the default text background to use transparency.
+   */
+  virtual void SetDefaultTextBgTransparent () = 0;
 };
 
 #endif // __CEL_MGR_BILLBOARD__

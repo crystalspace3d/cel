@@ -143,6 +143,8 @@ private:
   csString text;
   int text_dx, text_dy;
   csRef<iFont> font;
+  int fg_color, bg_color;
+  bool do_fg_color, do_bg_color;
 
 public:
   celBillboard (celBillboardManager* mgr, celBillboardLayer* layer);
@@ -171,11 +173,13 @@ public:
   void FireMouseDoubleClick (int sx, int sy, int button);
 
   // Return the text for this billboard.
-  const char* GetText () const
-  { if (text.IsEmpty ()) return 0; else return text.GetData (); }
   iFont* GetFont () const { return font; }
   int GetTextDX () const { return text_dx; }
   int GetTextDY () const { return text_dy; }
+  int GetTextFgColor () const { return fg_color; }
+  int GetTextBgColor () const { return bg_color; }
+  bool UseTextFgColor () const { return do_fg_color; }
+  bool UseTextBgColor () const { return do_bg_color; }
 
   SCF_DECLARE_IBASE;
 
@@ -212,8 +216,16 @@ public:
 
   virtual void AddEventHandler (iBillboardEventHandler* evh);
   virtual void RemoveEventHandler (iBillboardEventHandler* evh);
-  virtual void SetText (const char* txt, int dx = 0, int dy = 0);
-  virtual bool SetupFont (const char* fontname);
+  virtual void SetText (const char* txt);
+  virtual const char* GetText () const
+  { if (text.IsEmpty ()) return 0; else return text.GetData (); }
+  virtual void SetTextOffset (int dx, int dy);
+  virtual bool SetTextFont (const char* fontname);
+  virtual void SetTextFgColor (const csColor& color);
+  virtual void ClearTextFgColor ();
+  virtual void SetTextBgColor (const csColor& color);
+  virtual void SetTextBgTransparent ();
+  virtual void ClearTextBgColor ();
 };
 
 /**
@@ -254,6 +266,8 @@ private:
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
   csRef<iFont> default_font;
+  int default_fg_color;
+  int default_bg_color;
 
 public:
   csRef<iEngine> engine;
@@ -316,7 +330,10 @@ public:
   virtual void StackAfter (iBillboard* bb, iBillboard* other);
 
   virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2);
-  virtual bool SetupDefaultFont (const char* fontname);
+  virtual bool SetDefaultTextFont (const char* fontname);
+  virtual void SetDefaultTextFgColor (const csColor& color);
+  virtual void SetDefaultTextBgColor (const csColor& color);
+  virtual void SetDefaultTextBgTransparent ();
 
   struct Component : public iComponent
   {
