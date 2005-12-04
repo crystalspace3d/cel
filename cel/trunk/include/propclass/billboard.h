@@ -62,11 +62,15 @@ struct iBillboard;
  * <li>text_offset (vector2, write): offset for text in billboard space.
  * <li>text_fg_color (color, write): foreground color.
  * <li>text_bg_color (color, write): background color.
+ * <li>text_font_size (float, write): font size. Set this before setting
+ *     text_font. Otherwise default is 10.
  * <li>text_font (string, write): font.
  * <li>text_default_fg_color (color, write): default foreground color (for
  *     all billboards).
  * <li>text_default_bg_color (color, write): default background color (for
  *     all billboards).
+ * <li>text_default_font_size (float, write): font size. Set this before
+ *     setting text_default_font. Otherwise default is 10.
  * <li>text_default_font (string, write): default font (for
  *     all billboards).
  * </ul>

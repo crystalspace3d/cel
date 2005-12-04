@@ -283,11 +283,11 @@ void celBillboard::SetTextOffset (int dx, int dy)
   text_dy = dy;
 }
 
-bool celBillboard::SetTextFont (const char* fontname)
+bool celBillboard::SetTextFont (const char* fontname, float fontsize)
 {
   iFontServer* fntsvr = mgr->GetGraphics3D ()
   	->GetDriver2D ()->GetFontServer ();
-  font = fntsvr->LoadFont (fontname);
+  font = fntsvr->LoadFont (fontname, fontsize);
   return font != 0;
 }
 
@@ -730,7 +730,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
 
-  if (!SetDefaultTextFont (CSFONT_COURIER))
+  if (!SetDefaultTextFont (CSFONT_COURIER, 10.0f))
     return false;
   default_fg_color = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
   default_bg_color = -1;
@@ -842,10 +842,11 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
   return 0;
 }
 
-bool celBillboardManager::SetDefaultTextFont (const char* fontname)
+bool celBillboardManager::SetDefaultTextFont (const char* fontname,
+    float fontsize)
 {
   iFontServer* fntsvr = g3d->GetDriver2D ()->GetFontServer ();
-  default_font = fntsvr->LoadFont (fontname);
+  default_font = fntsvr->LoadFont (fontname, fontsize);
   return default_font != 0;
 }
 

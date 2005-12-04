@@ -289,7 +289,7 @@ struct iBillboard : public iBase
   /**
    * Setup the font to use for text.
    */
-  virtual bool SetTextFont (const char* fontname) = 0;
+  virtual bool SetTextFont (const char* fontname, float fontsize) = 0;
 
   /**
    * Set the foreground color for the text.
@@ -454,7 +454,7 @@ struct iBillboardManager : public iBase
   /**
    * Setup the default font to use for text.
    */
-  virtual bool SetDefaultTextFont (const char* fontname) = 0;
+  virtual bool SetDefaultTextFont (const char* fontname, float fontsize) = 0;
 
   /**
    * Setup the default foreground color to use for text.
