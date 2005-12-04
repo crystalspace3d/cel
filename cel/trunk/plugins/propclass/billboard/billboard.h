@@ -74,7 +74,15 @@ private:
     propid_y,
     propid_uv_topleft,
     propid_uv_botright,
-    propid_layer
+    propid_layer,
+    propid_text,
+    propid_text_offset,
+    propid_text_fg_color,
+    propid_text_bg_color,
+    propid_text_font,
+    propid_text_default_fg_color,
+    propid_text_default_bg_color,
+    propid_text_default_font
   };
 
   static Property* properties;

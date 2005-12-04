@@ -55,7 +55,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 17;
+    propertycount = 25;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -161,6 +161,56 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_layer].datatype = CEL_DATA_STRING;
     properties[propid_layer].readonly = false;
     properties[propid_layer].desc = "Layer for this billboard.";
+
+    properties[propid_text].id = pl->FetchStringID (
+	"cel.property.text");
+    properties[propid_text].datatype = CEL_DATA_STRING;
+    properties[propid_text].readonly = false;
+    properties[propid_text].desc = "Text placed on the billboard.";
+
+    properties[propid_text_offset].id = pl->FetchStringID (
+	"cel.property.text_offset");
+    properties[propid_text_offset].datatype = CEL_DATA_VECTOR2;
+    properties[propid_text_offset].readonly = true;
+    properties[propid_text_offset].desc = "Offset for the text in bb space.";
+
+    properties[propid_text_fg_color].id = pl->FetchStringID (
+	"cel.property.text_fg_color");
+    properties[propid_text_fg_color].datatype = CEL_DATA_COLOR;
+    properties[propid_text_fg_color].readonly = true;
+    properties[propid_text_fg_color].desc = "Foreground text color";
+
+    properties[propid_text_bg_color].id = pl->FetchStringID (
+	"cel.property.text_bg_color");
+    properties[propid_text_bg_color].datatype = CEL_DATA_COLOR;
+    properties[propid_text_bg_color].readonly = true;
+    properties[propid_text_bg_color].desc = "Background text color.";
+
+    properties[propid_text_font].id = pl->FetchStringID (
+	"cel.property.text_font");
+    properties[propid_text_font].datatype = CEL_DATA_STRING;
+    properties[propid_text_font].readonly = true;
+    properties[propid_text_font].desc = "Text font.";
+
+    properties[propid_text_default_fg_color].id = pl->FetchStringID (
+	"cel.property.text_default_fg_color");
+    properties[propid_text_default_fg_color].datatype = CEL_DATA_COLOR;
+    properties[propid_text_default_fg_color].readonly = true;
+    properties[propid_text_default_fg_color].desc =
+      "Default foreground text color.";
+
+    properties[propid_text_default_bg_color].id = pl->FetchStringID (
+	"cel.property.text_default_bg_color");
+    properties[propid_text_default_bg_color].datatype = CEL_DATA_COLOR;
+    properties[propid_text_default_bg_color].readonly = true;
+    properties[propid_text_default_bg_color].desc =
+      "Default background text color.";
+
+    properties[propid_text_default_font].id = pl->FetchStringID (
+	"cel.property.text_default_font");
+    properties[propid_text_default_font].datatype = CEL_DATA_STRING;
+    properties[propid_text_default_font].readonly = true;
+    properties[propid_text_default_font].desc = "Default text font.";
   }
 }
 
@@ -186,21 +236,30 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propcount = &propertycount;
 
   propdata[propid_billboardname] = &billboard_name;
-  propdata[propid_materialname] = 0;	// Handled in this class.
-  propdata[propid_materialnamefast] = 0;// Handled in this class.
-  propdata[propid_clickable] = 0;	// Handled in this class.
-  propdata[propid_movable] = 0;		// Handled in this class.
-  propdata[propid_visible] = 0;		// Handled in this class.
-  propdata[propid_restack] = 0;		// Handled in this class.
-  propdata[propid_color] = 0;		// Handled in this class.
-  propdata[propid_width] = 0;		// Handled in this class.
-  propdata[propid_height] = 0;		// Handled in this class.
-  propdata[propid_widthpct] = 0;	// Handled in this class.
-  propdata[propid_heightpct] = 0;	// Handled in this class.
-  propdata[propid_x] = 0;		// Handled in this class.
-  propdata[propid_y] = 0;		// Handled in this class.
-  propdata[propid_uv_topleft] = 0;	// Handled in this class.
-  propdata[propid_uv_botright] = 0;	// Handled in this class.
+  propdata[propid_materialname] = 0;
+  propdata[propid_materialnamefast] = 0;
+  propdata[propid_clickable] = 0;
+  propdata[propid_movable] = 0;
+  propdata[propid_visible] = 0;
+  propdata[propid_restack] = 0;
+  propdata[propid_color] = 0;
+  propdata[propid_width] = 0;
+  propdata[propid_height] = 0;
+  propdata[propid_widthpct] = 0;
+  propdata[propid_heightpct] = 0;
+  propdata[propid_x] = 0;
+  propdata[propid_y] = 0;
+  propdata[propid_uv_topleft] = 0;
+  propdata[propid_uv_botright] = 0;
+  propdata[propid_layer] = 0;
+  propdata[propid_text] = 0;
+  propdata[propid_text_offset] = 0;
+  propdata[propid_text_fg_color] = 0;
+  propdata[propid_text_bg_color] = 0;
+  propdata[propid_text_font] = 0;
+  propdata[propid_text_default_fg_color] = 0;
+  propdata[propid_text_default_bg_color] = 0;
+  propdata[propid_text_default_font] = 0;
 
   if (id_x == csInvalidStringID)
   {
@@ -505,6 +564,36 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
+  else if (propertyId == properties[propid_text].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetText (s);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_font].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetTextFont (s);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_default_font].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard_mgr->SetDefaultTextFont (s);
+      return true;
+    }
+    return false;
+  }
   else
   {
     return celPcCommon::SetProperty (propertyId, s);
@@ -527,6 +616,13 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
     GetBillboard ();
     if (billboard)
       return billboard->GetLayer ()->GetName ();
+    return 0;
+  }
+  else if (propertyId == properties[propid_text].id)
+  {
+    GetBillboard ();
+    if (billboard)
+      return billboard->GetText ();
     return 0;
   }
   else
@@ -554,6 +650,16 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
     if (billboard)
     {
       billboard->SetUVBottomRight (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_offset].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetTextOffset (int (c.x), int (c.y));
       return true;
     }
     return false;
@@ -602,6 +708,46 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
     if (billboard)
     {
       billboard->SetColor (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_fg_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetTextFgColor (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_bg_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      billboard->SetTextBgColor (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_default_fg_color].id)
+  {
+    GetBillboard ();
+    if (billboard_mgr)
+    {
+      billboard_mgr->SetDefaultTextFgColor (c);
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_default_bg_color].id)
+  {
+    GetBillboard ();
+    if (billboard_mgr)
+    {
+      billboard_mgr->SetDefaultTextBgColor (c);
       return true;
     }
     return false;
