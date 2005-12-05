@@ -82,12 +82,21 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#759eea48d790576e6a11de638846348f">ScreenToBillboardY</a> (int y) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a screen Y position to billboard space.  <a href="#759eea48d790576e6a11de638846348f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#e48c6b378a289c96a5b8ae103741e05a">SetDefaultTextBgColor</a> (const csColor &amp;color)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default background color to use for text.  <a href="#e48c6b378a289c96a5b8ae103741e05a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#f4c409c9d454eb1779301a6d28f7c2b5">SetDefaultTextBgTransparent</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default text background to use transparency.  <a href="#f4c409c9d454eb1779301a6d28f7c2b5"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#06f39b7a804bee3dff4cc556bfdbb06b">SetDefaultTextFgColor</a> (const csColor &amp;color)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default foreground color to use for text.  <a href="#06f39b7a804bee3dff4cc556bfdbb06b"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#1bc186c9533ab45365ff93f39b7526cb">SetDefaultTextFont</a> (const char *fontname, float fontsize)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default font to use for text.  <a href="#1bc186c9533ab45365ff93f39b7526cb"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#d59a1b584f666a6304bef76c27f303d5">SetFlags</a> (uint32 flags, uint32 mask)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flags for all billboards.  <a href="#d59a1b584f666a6304bef76c27f303d5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#d38dd2aa3effd56478bfed12b14c26b4">SetupDefaultFont</a> (const char *fontname)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the default font to use for text.  <a href="#d38dd2aa3effd56478bfed12b14c26b4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#3f2911d726cf10082bb3a375b0b24779">StackAfter</a> (<a class="el" href="structiBillboard.html">iBillboard</a> *bb, <a class="el" href="structiBillboard.html">iBillboard</a> *other)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Put a billboard after the given other billboard.  <a href="#3f2911d726cf10082bb3a375b0b24779"></a><br></td></tr>
@@ -117,7 +126,7 @@ This is used in combination with the billboard property class.
 <p>
 
 <p>
-Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00291">291</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00331">331</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="e870d79d4c6ebeb88539196fa47dd861"></a><!-- doxytag: member="iBillboardManager::BillboardToScreenX" ref="e870d79d4c6ebeb88539196fa47dd861" args="(int x) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -565,6 +574,134 @@ Convert a screen Y position to billboard space.
     </td>
   </tr>
 </table>
+<a class="anchor" name="e48c6b378a289c96a5b8ae103741e05a"></a><!-- doxytag: member="iBillboardManager::SetDefaultTextBgColor" ref="e48c6b378a289c96a5b8ae103741e05a" args="(const csColor &amp;color)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iBillboardManager::SetDefaultTextBgColor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const csColor &amp;&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>color</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the default background color to use for text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f4c409c9d454eb1779301a6d28f7c2b5"></a><!-- doxytag: member="iBillboardManager::SetDefaultTextBgTransparent" ref="f4c409c9d454eb1779301a6d28f7c2b5" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iBillboardManager::SetDefaultTextBgTransparent           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the default text background to use transparency. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="06f39b7a804bee3dff4cc556bfdbb06b"></a><!-- doxytag: member="iBillboardManager::SetDefaultTextFgColor" ref="06f39b7a804bee3dff4cc556bfdbb06b" args="(const csColor &amp;color)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iBillboardManager::SetDefaultTextFgColor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const csColor &amp;&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>color</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the default foreground color to use for text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="1bc186c9533ab45365ff93f39b7526cb"></a><!-- doxytag: member="iBillboardManager::SetDefaultTextFont" ref="1bc186c9533ab45365ff93f39b7526cb" args="(const char *fontname, float fontsize)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iBillboardManager::SetDefaultTextFont           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>fontname</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>fontsize</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Setup the default font to use for text. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="d59a1b584f666a6304bef76c27f303d5"></a><!-- doxytag: member="iBillboardManager::SetFlags" ref="d59a1b584f666a6304bef76c27f303d5" args="(uint32 flags, uint32 mask)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -600,36 +737,6 @@ Convert a screen Y position to billboard space.
 
 <p>
 Set flags for all billboards. 
-<p>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="d38dd2aa3effd56478bfed12b14c26b4"></a><!-- doxytag: member="iBillboardManager::SetupDefaultFont" ref="d38dd2aa3effd56478bfed12b14c26b4" args="(const char *fontname)=0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual bool iBillboardManager::SetupDefaultFont           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const char *&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>fontname</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Setup the default font to use for text. 
 <p>
     </td>
   </tr>
