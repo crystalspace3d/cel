@@ -862,8 +862,15 @@ class iBillboard(cspace.iBase):
     def GetLayer(*args): return _blcelc.iBillboard_GetLayer(*args)
     def AddEventHandler(*args): return _blcelc.iBillboard_AddEventHandler(*args)
     def RemoveEventHandler(*args): return _blcelc.iBillboard_RemoveEventHandler(*args)
-    def SetupFont(*args): return _blcelc.iBillboard_SetupFont(*args)
     def SetText(*args): return _blcelc.iBillboard_SetText(*args)
+    def GetText(*args): return _blcelc.iBillboard_GetText(*args)
+    def SetTextOffset(*args): return _blcelc.iBillboard_SetTextOffset(*args)
+    def SetTextFont(*args): return _blcelc.iBillboard_SetTextFont(*args)
+    def SetTextFgColor(*args): return _blcelc.iBillboard_SetTextFgColor(*args)
+    def ClearTextFgColor(*args): return _blcelc.iBillboard_ClearTextFgColor(*args)
+    def SetTextBgColor(*args): return _blcelc.iBillboard_SetTextBgColor(*args)
+    def SetTextBgTransparent(*args): return _blcelc.iBillboard_SetTextBgTransparent(*args)
+    def ClearTextBgColor(*args): return _blcelc.iBillboard_ClearTextBgColor(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboard):
         try:
             if self.thisown: destroy(self)
@@ -910,7 +917,10 @@ class iBillboardManager(cspace.iBase):
     def StackBefore(*args): return _blcelc.iBillboardManager_StackBefore(*args)
     def StackAfter(*args): return _blcelc.iBillboardManager_StackAfter(*args)
     def TestCollision(*args): return _blcelc.iBillboardManager_TestCollision(*args)
-    def SetupDefaultFont(*args): return _blcelc.iBillboardManager_SetupDefaultFont(*args)
+    def SetDefaultTextFont(*args): return _blcelc.iBillboardManager_SetDefaultTextFont(*args)
+    def SetDefaultTextFgColor(*args): return _blcelc.iBillboardManager_SetDefaultTextFgColor(*args)
+    def SetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_SetDefaultTextBgColor(*args)
+    def SetDefaultTextBgTransparent(*args): return _blcelc.iBillboardManager_SetDefaultTextBgTransparent(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboardManager):
         try:
             if self.thisown: destroy(self)
