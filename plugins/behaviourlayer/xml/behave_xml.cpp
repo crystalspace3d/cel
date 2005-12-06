@@ -23,6 +23,7 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
+#include "ivideo/graph3d.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/propclas.h"
@@ -53,6 +54,7 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   celBehaviourXml::entity = entity;
   celBehaviourXml::object_reg = object_reg;
   mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
   name = 0;
   script = 0;
