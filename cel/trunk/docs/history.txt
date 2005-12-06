@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Dec-2005
+	- Jorrit added scr_width and scr_height functions to the XML
+	  behaviour layer.
 4-Dec-2005
 	- Jorrit added new font, and color options to the billboard.
 	  Also extended the billboard property class with properties

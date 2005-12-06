@@ -123,6 +123,8 @@ enum
   XMLFUNCTION_STRSUB,
   XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
+  XMLFUNCTION_SCR_WIDTH,
+  XMLFUNCTION_SCR_HEIGHT,
   XMLFUNCTION_READFILE,
   XMLFUNCTION_WRITEFILE,
 
@@ -233,6 +235,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
+  functions.Register ("scr_width", XMLFUNCTION_SCR_WIDTH);
+  functions.Register ("scr_height", XMLFUNCTION_SCR_HEIGHT);
   functions.Register ("readfile", XMLFUNCTION_READFILE);
   functions.Register ("writefile", XMLFUNCTION_WRITEFILE);
 
@@ -492,34 +496,28 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       }
       break;
     case XMLFUNCTION_INVENTORY_COUNT:
-      {
-	h->AddOperation (CEL_OPERATION_INVENTORY_COUNT);
-      }
+      h->AddOperation (CEL_OPERATION_INVENTORY_COUNT);
       break;
     case XMLFUNCTION_ENTNAME:
-      {
-	h->AddOperation (CEL_OPERATION_ENTNAME);
-      }
+      h->AddOperation (CEL_OPERATION_ENTNAME);
       break;
     case XMLFUNCTION_MOUSEX:
-      {
-	h->AddOperation (CEL_OPERATION_MOUSEX);
-      }
+      h->AddOperation (CEL_OPERATION_MOUSEX);
       break;
     case XMLFUNCTION_MOUSEY:
-      {
-	h->AddOperation (CEL_OPERATION_MOUSEY);
-      }
+      h->AddOperation (CEL_OPERATION_MOUSEY);
       break;
     case XMLFUNCTION_BB_MOUSEX:
-      {
-	h->AddOperation (CEL_OPERATION_BB_MOUSEX);
-      }
+      h->AddOperation (CEL_OPERATION_BB_MOUSEX);
       break;
     case XMLFUNCTION_BB_MOUSEY:
-      {
-	h->AddOperation (CEL_OPERATION_BB_MOUSEY);
-      }
+      h->AddOperation (CEL_OPERATION_BB_MOUSEY);
+      break;
+    case XMLFUNCTION_SCR_WIDTH:
+      h->AddOperation (CEL_OPERATION_SCR_WIDTH);
+      break;
+    case XMLFUNCTION_SCR_HEIGHT:
+      h->AddOperation (CEL_OPERATION_SCR_HEIGHT);
       break;
     case XMLFUNCTION_ENT:
       {

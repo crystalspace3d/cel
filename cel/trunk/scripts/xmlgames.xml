@@ -767,6 +767,7 @@
 	      - Select this button. Fire up the right game.
 	      -->
 	    <event name="pcbillboard_select">
+	    <print value="test" />
 	    	<sound name="boing" loop="false" />
 		<var entity="menu" name="game" value="?game" />
 		<var entity="menu" name="game_bh" value="?game_bh" />

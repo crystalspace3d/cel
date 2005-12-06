@@ -445,6 +445,39 @@
 	    </propclass>
 	</addon>
 
+    	<addon plugin="cel.addons.celentity" entityname="aws" >
+	    <propclass name="pcawswindow">
+	        <action name="CreateSink">
+		    <par name="name" string="testButtonSink" />
+		</action>
+	        <action name="RegisterTrigger">
+		    <par name="trigger" string="RedClicked" />
+		</action>
+	        <action name="RegisterTrigger">
+		    <par name="trigger" string="GreenClicked" />
+		</action>
+	        <action name="RegisterTrigger">
+		    <par name="trigger" string="BlueClicked" />
+		</action>
+	        <action name="RegisterTrigger">
+		    <par name="trigger" string="FillBarChart" />
+		</action>
+	        <action name="RegisterTrigger">
+		    <par name="trigger" string="FillListBox" />
+		</action>
+	        <action name="LoadDefinitionFile">
+		    <par name="filename" string="/aws/awstest.def" />
+		</action>
+	        <action name="SelectDefaultSkin">
+		    <par name="name" string="Normal Windows" />
+		</action>
+	        <action name="CreateWindow">
+		    <par name="name" string="Layout Test" />
+		</action>
+	        <action name="Show" />
+	    </propclass>
+	</addon>
+
 <!--
     	<addon plugin="cel.addons.celentity" entityname="aws" >
 	    <propclass name="pcawswindow">

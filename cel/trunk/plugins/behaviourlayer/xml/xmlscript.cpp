@@ -25,6 +25,7 @@
 #include "iutil/vfs.h"
 #include "iutil/csinput.h"
 #include "ivaria/reporter.h"
+#include "ivideo/graph3d.h"
 #include "cstool/sndwrap.h"
 
 #include "csgeom/vector3.h"
@@ -1455,6 +1456,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int mousey = behave->GetMouseDriver ()->GetLastY ();
 	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
 	  stack[si].SetInt32 (bbmgr->ScreenToBillboardY (mousey));
+	}
+	break;
+      case CEL_OPERATION_SCR_WIDTH:
+        {
+          DUMP_EXEC ((":%04d: scr_width ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  stack[si].SetInt32 (behave->GetG3D ()->GetWidth ());
+	}
+	break;
+      case CEL_OPERATION_SCR_HEIGHT:
+        {
+          DUMP_EXEC ((":%04d: scr_height ()\n", i-1));
+	  size_t si = stack.Push (celXmlArg ());
+	  stack[si].SetInt32 (behave->GetG3D ()->GetHeight ());
 	}
 	break;
       case CEL_OPERATION_ENTNAME:
