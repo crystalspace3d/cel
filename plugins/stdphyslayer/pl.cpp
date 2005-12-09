@@ -99,9 +99,17 @@ celPlLayer::~celPlLayer ()
 
 bool celPlLayer::HandleEvent (iEvent& ev)
 {
-  if (ev.Type != csevBroadcast) return false;
+  int where;
+  if (ev.Name == csevPreProcess (object_reg))
+    where = CEL_EVENT_PRE;
+  else if (ev.Name == csevProcess (object_reg))
+    where = CEL_EVENT_VIEW;
+  else if (ev.Name == csevPostProcess (object_reg))
+    where = CEL_EVENT_POST;
+  else
+    return false;
 
-  CallbackInfo* cbinfo = GetCBInfo (csCommandEventHelper::GetCode(&ev));
+  CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return false;
 
   // First fire all property classes that must be fired every frame.
@@ -155,8 +163,14 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
+  csEventID esub[] = { 
+    csevPreProcess (object_reg),   // this goes away...
+    csevPostProcess (object_reg),  // this goes away...
+    csevProcess (object_reg),      // this goes away...
+    csevFrame (object_reg),        // this replaces the above!
+    CS_EVENTLIST_END 
+  };
+  q->RegisterListener (scfiEventHandler, esub);
 
   return true;
 }
@@ -1078,10 +1092,9 @@ CallbackInfo* celPlLayer::GetCBInfo (int where)
 {
   switch (where)
   {
-    case cscmdPreProcess: return &callbacks_pre;
-    case cscmdProcess: return &callbacks_process;
-    case cscmdPostProcess: return &callbacks_post;
-    case cscmdFinalProcess: return &callbacks_final;
+    case CEL_EVENT_PRE: return &callbacks_pre;
+    case CEL_EVENT_VIEW: return &callbacks_view;
+    case CEL_EVENT_POST: return &callbacks_post;
     default: return 0;
   }
 }
@@ -1125,10 +1138,9 @@ void celPlLayer::CompressCallbackInfo ()
     map[store[i].idx] = i;
 
   // Now change the indices in all lists.
-  int p[4] = { cscmdPreProcess, cscmdProcess, cscmdPostProcess,
-  	cscmdFinalProcess };
+  int p[3] = { CEL_EVENT_PRE, CEL_EVENT_VIEW, CEL_EVENT_POST };
   int where;
-  for (where = 0 ; where < 4 ; where++)
+  for (where = 0 ; where < 3 ; where++)
   {
     CallbackInfo* cbinfo = GetCBInfo (p[where]);
     csSet<size_t> newset;

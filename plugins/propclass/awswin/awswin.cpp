@@ -223,16 +223,18 @@ class awswinEventHandler : public scfImplementation1<awswinEventHandler,
 			    iEventHandler>
 {
 private:
+  iObjectRegistry* object_reg;
   iGraphics3D* g3d;
   iAws* aws;
 
 public:
-  awswinEventHandler (iGraphics3D* g3d, iAws* aws) :
-    scfImplementationType (this), g3d (g3d), aws (aws) { }
+  awswinEventHandler (iObjectRegistry* object_reg,
+  	iGraphics3D* g3d, iAws* aws) :
+    scfImplementationType (this), object_reg (object_reg),
+    g3d (g3d), aws (aws) { }
   virtual bool HandleEvent (iEvent& ev)
   {
-    if (ev.Type == csevBroadcast
-    	&& csCommandEventHelper::GetCode (&ev) == cscmdPostProcess)
+    if (ev.Name == csevPostProcess (object_reg))
     {
       aws->Redraw ();
       aws->Print (g3d, 64);
@@ -243,6 +245,8 @@ public:
       return aws->HandleEvent (ev);
     }
   }
+  CS_EVENTHANDLER_NAMES("cel.propclass.pcawswin")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
 iAws* celPcAwsWin::GetAWS ()
@@ -274,14 +278,20 @@ iAws* celPcAwsWin::GetAWS ()
       if (!handler)
       {
         csRef<awswinEventHandler> lst;
-        lst.AttachNew (new awswinEventHandler (g3d, aws));
+        lst.AttachNew (new awswinEventHandler (object_reg, g3d, aws));
 	object_reg->Register ((iEventHandler*)lst,
 		"cel.awswindow.eventhandler");
 	csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-	q->RegisterListener (lst, CSMASK_Nothing | CSMASK_Broadcast |
-		CSMASK_MouseDown |
-		CSMASK_MouseUp | CSMASK_MouseMove | CSMASK_Keyboard |
-		CSMASK_MouseDoubleClick);
+	csEventID esub[] = { 
+	  csevKeyboardEvent (object_reg),
+	  csevMouseEvent (object_reg),
+	  csevPreProcess (object_reg),
+	  csevPostProcess (object_reg),
+	  csevProcess (object_reg),
+	  csevFrame (object_reg),
+	  CS_EVENTLIST_END 
+ 	};
+	q->RegisterListener (lst, esub);
       }
     }
   }

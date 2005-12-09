@@ -104,7 +104,7 @@ bool celPcTimer::PerformAction (csStringID actionId,
   }
   else if (actionId == action_wakeupframe)
   {
-    WakeUpFrame ();
+    WakeUpFrame (CEL_EVENT_PRE);
     return true;
   }
   else if (actionId == action_clear)
@@ -146,16 +146,16 @@ void celPcTimer::Clear ()
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
 void celPcTimer::WakeUp (csTicks t, bool repeat)
 {
   enabled = true;
   wakeuponce = true;
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, cscmdPreProcess);
-  pl->CallbackOnce ((iCelTimerListener*)this, t, cscmdPreProcess);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->CallbackOnce ((iCelTimerListener*)this, t, CEL_EVENT_PRE);
 
   celPcTimer::repeat = repeat;
   wakeup = t;
@@ -199,7 +199,7 @@ void celPcTimer::TickOnce ()
   {
     if (repeat)
     {
-      pl->CallbackOnce ((iCelTimerListener*)this, wakeup, cscmdPreProcess);
+      pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);
     }
     else
     {

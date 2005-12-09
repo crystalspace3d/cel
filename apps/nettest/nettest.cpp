@@ -176,11 +176,11 @@ bool NetTest::OnKeyboard (iEvent &ev)
     {
       // The user pressed escape. For now we will simply exit the
       // application. The proper way to quit a Crystal Space application
-      // is by broadcasting a cscmdQuit event. That will cause the
+      // is by broadcasting a csevQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
       csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-      q->GetEventOutlet ()->Broadcast (cscmdQuit);
+      q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
 
     if (gfm && gfm->IsClientAvailable ())
@@ -561,10 +561,12 @@ bool NetTest::OnInitialize (int argc, char* argv[])
     return ReportError ("Can't initialize plugins!");
   }
 
+  csBaseEventHandler::Initialize (object_reg);
+
   // Now we need to setup an event handler for our application.
   // Crystal Space is fully event-driven. Everything (except for this
   // initialization) happens in an event.
-  if (!RegisterQueue (object_reg))
+  if (!RegisterQueue (object_reg, csevAllEvents (object_reg)))
     return ReportError ("Can't setup event handler!");
   return true;
 }

@@ -79,7 +79,7 @@ private:
 public:
   /**
    * Setup everything that needs to be rendered on screen. This routine
-   * is called from the event handler in response to a cscmdProcess
+   * is called from the event handler in response to a csevProcess
    * broadcast message.
    */
   virtual void ProcessFrame ();
@@ -87,7 +87,7 @@ public:
 
   /**
    * Finally render the screen. This routine is called from the event
-   * handler in response to a cscmdFinalProcess broadcast message.
+   * handler in response to a csevFinalProcess broadcast message.
    */
   virtual void FinishFrame ();
 
@@ -131,6 +131,9 @@ public:
    * function. Only when the program exits this function will return.
    */
   virtual bool Application ();
+
+  CS_EVENTHANDLER_NAMES("cel.apps.nettest")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
 #endif // __NETTEST_H__

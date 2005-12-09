@@ -237,6 +237,7 @@ private:
   iObjectRegistry* object_reg;
   csRef<iGraphics3D> g3d;
   csRef<iVirtualClock> vc;
+  csRef<iEventNameRegistry> name_reg;
 
   // Note: the billboard at the end of the following array is the top of
   // the stack.
@@ -364,6 +365,8 @@ public:
     {
       return parent->HandleEvent (ev);
     }
+    CS_EVENTHANDLER_NAMES("cel.tools.billboardmgr")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 };
 

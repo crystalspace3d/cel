@@ -138,7 +138,7 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   vc = CS_QUERY_REGISTRY(object_reg, iVirtualClock);
   view = csPtr<iView>(new csView(engine, g3d));
 
-  pl->CallbackEveryFrame((iCelTimerListener*)this, cscmdProcess);
+  pl->CallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
   basePosOffset.Set(0,0,0);
 

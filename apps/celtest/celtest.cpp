@@ -142,7 +142,7 @@ bool CelTest::OnKeyboard (iEvent &ev)
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
       csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-      q->GetEventOutlet ()->Broadcast (cscmdQuit);
+      q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
     else if (code == 's')
     {
@@ -380,10 +380,12 @@ bool CelTest::OnInitialize (int argc, char* argv[])
     return ReportError ("Can't initialize plugins!");
   }
 
+  csBaseEventHandler::Initialize (object_reg);
+
   // Now we need to setup an event handler for our application.
   // Crystal Space is fully event-driven. Everything (except for this
   // initialization) happens in an event.
-  if (!RegisterQueue (object_reg))
+  if (!RegisterQueue (object_reg, csevAllEvents (object_reg)))
     return ReportError ("Can't setup event handler!");
   return true;
 }

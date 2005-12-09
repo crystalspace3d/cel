@@ -147,7 +147,7 @@ bool celQuestSequence::Start (csTicks delay)
 {
   if (IsRunning ()) return false;
   idx = 0;
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   start_time = vc->GetCurrentTicks () + delay;
   return true;
 }
@@ -161,7 +161,7 @@ void celQuestSequence::Finish ()
 void celQuestSequence::Abort ()
 {
   if (!IsRunning ()) return;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   idx = csArrayItemNotFound;
   ops_in_progress.Empty ();
 }
@@ -717,7 +717,7 @@ void celQuestStateResponse::TriggerFired (iQuestTrigger* trigger)
   reward_counter++;
   if (reward_counter == 1)
   {
-    pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
   }
 }
 
@@ -730,7 +730,7 @@ void celQuestStateResponse::TickEveryFrame ()
       rewards[i]->Reward ();
     reward_counter--;
   }
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPreProcess);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
 //---------------------------------------------------------------------------

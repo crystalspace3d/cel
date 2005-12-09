@@ -664,6 +664,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_sendmove = false;
 
   mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  name_reg = csEventNameRegistry::GetRegistry (object_reg);
   
   // Initialize the maximum selection distance to a very large number
   max_distance = 100000.0f;
@@ -793,9 +794,15 @@ void celPcMeshSelect::SetupEventHandler ()
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
-  unsigned int trigger = CSMASK_MouseDown | CSMASK_MouseUp;
-  if (do_drag || do_follow || do_sendmove) trigger |= CSMASK_MouseMove;
-  q->RegisterListener (scfiEventHandler, trigger);
+  csEventID esub[] = { 
+    csevMouseDown (object_reg, 0),
+    csevMouseUp (object_reg, 0),
+    (do_drag || do_follow || do_sendmove)
+    	? csevMouseMove (object_reg, 0)
+	: CS_EVENTLIST_END,
+    CS_EVENTLIST_END 
+  };
+  q->RegisterListener (scfiEventHandler, esub);
 }
 
 #define MESHSEL_SERIAL 1
@@ -933,7 +940,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   iCamera* camera = pccamera->GetCamera ();
 
   int mouse_but;
-  if (ev.Type == csevMouseMove)
+  if (ev.Name == csevMouseMove (name_reg, 0))
   {
     if (mousedrv->GetLastButton (1)) mouse_but = 1;
     else if (mousedrv->GetLastButton (2)) mouse_but = 2;
@@ -955,8 +962,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (!(mouse_buttons & but)) return false;
   }
 
-  bool mouse_down = ev.Type == csevMouseDown;
-  bool mouse_up = ev.Type == csevMouseUp;
+  bool mouse_down = ev.Name == csevMouseDown (name_reg, 0);
+  bool mouse_up = ev.Name == csevMouseUp (name_reg, 0);
   int mouse_x = csMouseEventHelper::GetX(&ev);
   int mouse_y = csMouseEventHelper::GetY(&ev);
 

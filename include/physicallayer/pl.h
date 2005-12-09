@@ -41,6 +41,10 @@ class csVector3;
 class csBox3;
 class csString;
 
+#define CEL_EVENT_PRE 0
+#define CEL_EVENT_VIEW 1
+#define CEL_EVENT_POST 2
+
 /// Parameters used to create an entity from a template.
 typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
 
@@ -445,8 +449,8 @@ struct iCelPlLayer : public iBase
    * Register this listener as one that is interested in getting
    * an event every frame. This will call TickEveryFrame().
    * \param listener is the iCelTimerListener listener.
-   * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
-   * or cscmdFinalProcess.
+   * \param where should be CEL_EVENT_PRE, CEL_EVENT_VIEW,
+   * or CEL_EVENT_POST.
    */
   virtual void CallbackEveryFrame (iCelTimerListener* listener, int where) = 0;
 
@@ -455,8 +459,8 @@ struct iCelPlLayer : public iBase
    * an event in 'delta' milliseconds. This will call Tick().
    * \param listener is the iCelTimerListener listener.
    * \param delta is the time to wait before firing in milliseconds.
-   * \param where should be cscmdPreProcess, cscmdProcess, cscmdPostProcess,
-   * or cscmdFinalProcess.
+   * \param where should be CEL_EVENT_PRE, CEL_EVENT_VIEW,
+   * or CEL_EVENT_POST.
    */
   virtual void CallbackOnce (iCelTimerListener* listener, csTicks delta,
   	int where) = 0;

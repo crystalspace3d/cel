@@ -82,25 +82,26 @@ void Bootstrap::FinishFrame ()
 
 bool Bootstrap::HandleEvent (iEvent& ev)
 {
-  if (ev.Type == csevBroadcast && csCommandEventHelper::GetCode(&ev) == cscmdProcess)
+  if (ev.Name == csevProcess (object_reg))
   {
     bootstrap->SetupFrame ();
     return true;
   }
-  else if (ev.Type == csevBroadcast && csCommandEventHelper::GetCode(&ev) == cscmdFinalProcess)
+  else if (ev.Name == csevFinalProcess (object_reg))
   {
     bootstrap->FinishFrame ();
     return true;
   }
-  else if (ev.Type == csevKeyboard
-	&& csKeyEventHelper::GetEventType (&ev) == csKeyEventTypeDown)
+
+  csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
+  if (eventtype == csKeyEventTypeDown)
   {
     utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
     if (code == CSKEY_ESC)
     {
       csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
       if (q)
-        q->GetEventOutlet()->Broadcast (cscmdQuit);
+        q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
       return true;
     }
   }
