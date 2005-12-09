@@ -88,6 +88,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     Report (object_reg, "Can't find the graphics2d plugin!");
     return;
   }
+  name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   Activate ();
 
@@ -230,7 +231,13 @@ void celPcCommandInput::Activate (bool activate)
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
-    q->RegisterListener (scfiEventHandler, CSMASK_Input);
+    csEventID esub[] = { 
+      csevKeyboardEvent (object_reg),
+      csevMouseEvent (object_reg),
+      csevJoystickEvent (object_reg),
+      CS_EVENTLIST_END 
+    };
+    q->RegisterListener (scfiEventHandler, esub);
   }
   else
   {
@@ -253,7 +260,9 @@ bool celPcCommandInput::LoadConfig (const char* /*fname*/)
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
-  int type, numeric;
+  csEventID type;
+  uint device;
+  int numeric;
   csString strtrigger = csString (triggername);
   bool centered = false;
   size_t centerpos = strtrigger.FindStr ("_centered");
@@ -264,11 +273,12 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   }
   const char* trig = strtrigger.GetData ();
   csKeyModifiers modifiers;
-  csInputDefinition::ParseOther (trig, &type, &numeric, &modifiers);
-  if (type == csevKeyboard)
+  csInputDefinition::ParseOther (name_reg, trig, &type, &device,
+  	&numeric, &modifiers);
+  if (type == csevKeyboardEvent (object_reg))
   {
     utf32_char key, cooked;
-    csInputDefinition::ParseKey (trig, &key, &cooked, &modifiers);
+    csInputDefinition::ParseKey (name_reg, trig, &key, &cooked, &modifiers);
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
 
     // only bind single keys
@@ -310,20 +320,23 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   else
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    if (type == csevMouseMove || type == csevJoystickMove)
+    if (type == csevMouseMove (name_reg, device) ||
+        type == csevJoystickMove (name_reg, device))
     {
       celAxisMap* newamap;
-      if (!(newamap = GetAxisMap (type, numeric, mods)))
+      if (!(newamap = GetAxisMap (type, device, numeric, mods)))
       {
         newamap = new celAxisMap;
         // Add a new entry to axis mapping list
         newamap->next = axislist;
         newamap->prev = 0;
         newamap->type = type;
+	newamap->device = device;
 	newamap->numeric = numeric;
         newamap->modifiers = mods;
 	newamap->recenter = centered;
-        newamap->command = new char[strlen ("pccommandinput_")+strlen(command)+1];
+        newamap->command = new char[
+		strlen ("pccommandinput_")+strlen(command)+1];
         strcpy (newamap->command, "pccommandinput_");
         strcat (newamap->command, command);
 
@@ -335,7 +348,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       {
         delete [] newamap->command;
 	newamap->recenter = centered;
-        newamap->command = new char[strlen ("pccommandinput_")+strlen(command)+1];
+        newamap->command = new char[
+		strlen ("pccommandinput_")+strlen(command)+1];
         strcpy (newamap->command, "pccommandinput_");
         strcat (newamap->command, command);
       }
@@ -343,16 +357,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     else
     {
       celButtonMap* newbmap;
-      if (!(newbmap = GetButtonMap (type, numeric, mods)))
+      if (!(newbmap = GetButtonMap (type, device, numeric, mods)))
       {
         newbmap = new celButtonMap;
         // Add a new entry to button mapping list
         newbmap->next=buttonlist;
         newbmap->prev=0;
         newbmap->type=type;
+	newbmap->device=device;
 	newbmap->numeric=numeric;
         newbmap->modifiers=mods;
-        newbmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+        newbmap->command = new char[
+		strlen ("pccommandinput_")+strlen(command)+2];
         strcpy (newbmap->command, "pccommandinput_");
         strcat (newbmap->command, command);
         newbmap->command_end = strchr (newbmap->command, 0);
@@ -366,7 +382,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       else
       {
         delete [] newbmap->command;
-        newbmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+        newbmap->command = new char[
+		strlen ("pccommandinput_")+strlen(command)+2];
         strcpy (newbmap->command, "pccommandinput_");
         strcat (newbmap->command, command);
         newbmap->command_end = strchr (newbmap->command, 0);
@@ -381,9 +398,12 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
 const char* celPcCommandInput::GetBind (const char* triggername) const
 {
   utf32_char key, cooked;
-  int type, numeric;
+  csEventID type;
+  uint device;
+  int numeric;
   csKeyModifiers modifiers;
-  if (csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  if (csInputDefinition::ParseKey (name_reg, triggername, &key,
+  	&cooked, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     celKeyMap* map;
@@ -391,20 +411,22 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
       return 0;
     return map->command+15;
   }
-  else if (csInputDefinition::ParseOther (triggername, &type, &numeric, &modifiers))
+  else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
+  	&device, &numeric, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    if (type == csevMouseMove || type == csevJoystickMove)
+    if (type == csevMouseMove (name_reg, device) ||
+        type == csevJoystickMove (name_reg, device))
     {
       celAxisMap* amap;
-      if (!(amap = GetAxisMap (type, numeric, mods)))
+      if (!(amap = GetAxisMap (type, device, numeric, mods)))
         return 0;
       return amap->command+15;
     }
     else
     {
       celButtonMap* bmap;
-      if (!(bmap = GetButtonMap (type, numeric, mods)))
+      if (!(bmap = GetButtonMap (type, device, numeric, mods)))
         return 0;
       return bmap->command+15;
     }
@@ -416,9 +438,12 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     const char* command)
 {
   utf32_char key, cooked;
-  int type, numeric;
+  csEventID type;
+  uint device;
+  int numeric;
   csKeyModifiers modifiers;
-  if (csInputDefinition::ParseKey (triggername, &key, &cooked, &modifiers))
+  if (csInputDefinition::ParseKey (name_reg, triggername, &key,
+  	&cooked, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     celKeyMap *pmap = 0, *map = keylist;
@@ -435,19 +460,20 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
     }
     return false;
   }
-  else if (csInputDefinition::ParseOther (triggername, &type, &numeric,
-  	&modifiers))
+  else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
+  	&device, &numeric, &modifiers))
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
-    if (type == csevMouseMove || type == csevJoystickMove)
+    if (type == csevMouseMove (name_reg, device) ||
+        type == csevJoystickMove (name_reg, device))
     {
       celAxisMap *pamap = 0, *amap = axislist;
       while (amap)
       {
-        if (amap->type == type && amap->numeric == numeric
-		&& amap->modifiers == mods)
+        if (amap->type == type && amap->device == device &&
+		amap->numeric == numeric && amap->modifiers == mods)
         {
-        pamap->next = amap->next;
+          pamap->next = amap->next;
           delete amap;
           return true;
         }
@@ -461,8 +487,8 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
       celButtonMap *pbmap = 0, *bmap = buttonlist;
       while (bmap)
       {
-        if (bmap->type == type && bmap->numeric == numeric
-		&& bmap->modifiers == mods)
+        if (bmap->type == type && bmap->device == device &&
+		bmap->numeric == numeric && bmap->modifiers == mods)
         {
           pbmap->next = bmap->next;
           delete bmap;
@@ -526,13 +552,14 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
   return p;
 }
 
-celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric,
-	uint32 mods) const
+celAxisMap* celPcCommandInput::GetAxisMap (csEventID type, uint device,
+	int numeric, uint32 mods) const
 {
   celAxisMap *p=axislist;
   while (p)
   {
-    if (p->type==type && p->numeric==numeric && p->modifiers==mods)
+    if (p->type==type && p->device==device &&
+    	p->numeric==numeric && p->modifiers==mods)
       break;
     p=p->next;
   }
@@ -540,13 +567,14 @@ celAxisMap* celPcCommandInput::GetAxisMap (int type, int numeric,
   return p;
 }
 
-celButtonMap* celPcCommandInput::GetButtonMap (int type, int numeric,
-	uint32 mods) const
+celButtonMap* celPcCommandInput::GetButtonMap (csEventID type, uint device,
+	int numeric, uint32 mods) const
 {
   celButtonMap *p=buttonlist;
   while (p)
   {
-    if (p->type==type && p->numeric==numeric && p->modifiers==mods)
+    if (p->type==type && p->device == device &&
+    	p->numeric==numeric && p->modifiers==mods)
       break;
     p=p->next;
   }
@@ -577,7 +605,7 @@ float celPcCommandInput::CenteredToScreen (float centeredcoord, float axis)
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
-  if (CS_IS_KEYBOARD_EVENT(ev))
+  if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
     utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
     csKeyModifiers key_modifiers;
@@ -641,9 +669,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
     }
   }
-  else if (CS_IS_MOUSE_EVENT(ev))
+  else if (CS_IS_MOUSE_EVENT(name_reg, ev))
   {
-    if (ev.Type == csevMouseMove)
+    uint device = csMouseEventHelper::GetNumber(&ev);
+    if (ev.Name == csevMouseMove (name_reg, device))
     {
       //mouse move event
       int modifiers = csMouseEventHelper::GetModifiers(&ev);
@@ -687,13 +716,16 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       //mouse button event
       int button = csMouseEventHelper::GetButton(&ev);
+      uint device = csMouseEventHelper::GetNumber(&ev);
       int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
+      csEventID mouse_id = csevMouseMove (object_reg, device);
       while (p)
       {
-        if ((p->numeric == button) && ((modifiers & p->modifiers)
-		== p->modifiers) && ((1 << p->type) & CSMASK_Mouse))
+        if ((p->numeric == button) && (p->device == device) &&
+		((modifiers & p->modifiers) == p->modifiers) &&
+		csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id))
         {
           break;
         }
@@ -702,7 +734,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       if (!p)
         return false;
 
-      if (ev.Type == (uint8) csevMouseUp)
+      if (ev.Name == csevMouseUp (object_reg, device))
       {
         if (p->is_on)
         {
@@ -746,9 +778,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
     }
   }
-  else if (CS_IS_JOYSTICK_EVENT(ev))
+  else if (CS_IS_JOYSTICK_EVENT(name_reg,ev))
   {
-    if (ev.Type == csevJoystickMove)
+    uint device = csJoystickEventHelper::GetNumber(&ev);
+    if (ev.Name == csevJoystickMove (name_reg, device))
     {
       //joystick move event
       int modifiers = csJoystickEventHelper::GetModifiers(&ev);
@@ -790,13 +823,16 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       //joystick button event
       int button = csJoystickEventHelper::GetButton(&ev);
+      uint device = csJoystickEventHelper::GetNumber(&ev);
       int modifiers = csJoystickEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
+      csEventID joy_id = csevJoystickMove (object_reg, device);
       while (p)
       {
-        if ((p->numeric == button) && ((modifiers & p->modifiers)
-		== p->modifiers) && ((1 << p->type) & CSMASK_Joystick))
+        if ((p->numeric == button) && (p->device == device) &&
+		((modifiers & p->modifiers) == p->modifiers) &&
+		csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id))
         {
           break;
         }
@@ -805,7 +841,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       if (!p)
         return false;
 
-      if (ev.Type == csevJoystickUp)
+      if (ev.Name == csevJoystickUp (name_reg, device))
       {
         if (p->is_on)
         {

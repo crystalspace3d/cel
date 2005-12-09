@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Dec-2005
+	- Jorrit made CEL compile again after the latest CS event
+	  changes. However, CEL remains broken until the function
+	  csInputDefinition::ParseOther() in CS is fixed!!!
 6-Dec-2005
 	- Jorrit added scr_width and scr_height functions to the XML
 	  behaviour layer.

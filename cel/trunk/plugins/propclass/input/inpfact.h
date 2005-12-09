@@ -53,7 +53,9 @@ struct celKeyMap
 struct celButtonMap
 {
   celButtonMap *next, *prev;
-  int type, numeric;
+  csEventID type;
+  uint device;
+  int numeric;
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
@@ -63,7 +65,9 @@ struct celButtonMap
 struct celAxisMap
 {
   celAxisMap *next, *prev;
-  int type, numeric;
+  csEventID type;
+  uint device;
+  int numeric;
   uint32 modifiers;
   bool recenter;
   char *command;
@@ -84,6 +88,7 @@ private:
   static csStringID action_bind;
   bool screenspace;
   csRef<iGraphics2D> g2d;
+  csRef<iEventNameRegistry> name_reg;
 
 public:
   celPcCommandInput (iObjectRegistry* object_reg);
@@ -128,12 +133,16 @@ public:
     {
       return parent->HandleEvent (ev);
     }
+    CS_EVENTHANDLER_NAMES("cel.propclass.pccommandinput")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 
 protected:
   celKeyMap *GetMap (utf32_char key, uint32 modifiers) const;
-  celAxisMap *GetAxisMap (int type, int numeric, uint32 modifiers) const;
-  celButtonMap *GetButtonMap (int type, int numeric, uint32 modifiers) const;
+  celAxisMap *GetAxisMap (csEventID type, uint device, int numeric,
+  	uint32 modifiers) const;
+  celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
+  	uint32 modifiers) const;
 };
 
 #endif // __CEL_PF_TESTFACT__

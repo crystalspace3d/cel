@@ -169,7 +169,7 @@ void celPcTooltip::Hide ()
 {
   if (!visible) return;
   visible = false;
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, cscmdPostProcess);
+  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
 }
 
 void celPcTooltip::Show (int x, int y)
@@ -178,7 +178,7 @@ void celPcTooltip::Show (int x, int y)
   celPcTooltip::y = y;
   if (visible) return;
   visible = true;
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, cscmdPostProcess);
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_POST);
 }
 
 void celPcTooltip::TickEveryFrame ()

@@ -549,7 +549,7 @@ celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   checked_spritestate = false;
-  pl->CallbackOnce ((iCelTimerListener*)this, 50, cscmdPreProcess);
+  pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
 }
 
 celPcNpcMove::~celPcNpcMove ()

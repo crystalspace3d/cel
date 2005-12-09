@@ -182,6 +182,7 @@ private:
   csWeakRef<iPcCamera> pccamera;
 
   csRef<iMouseDriver> mousedrv;
+  csRef<iEventNameRegistry> name_reg;
 
   /// Listeners.
   csRefArray<iPcMeshSelectListener> listeners;
@@ -363,6 +364,8 @@ public:
     {
       return parent->HandleEvent (ev);
     }
+    CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 };
 

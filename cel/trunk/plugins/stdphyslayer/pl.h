@@ -82,14 +82,13 @@ private:
   // Where is listener in weak_listeners.
   csHash<size_t, csPtrKey<iCelTimerListener> > weak_listeners_hash;
   CallbackInfo callbacks_pre;
-  CallbackInfo callbacks_process;
+  CallbackInfo callbacks_view;
   CallbackInfo callbacks_post;
-  CallbackInfo callbacks_final;
   int compress_delay;
   void CompressCallbackInfo ();
   // Register a listener to weak ref table and return index.
   size_t WeakRegListener (iCelTimerListener* listener);
-  // 'where' is one of the cscmdProcess flags.
+  // 'where' is one of the CEL_EVENT_ flags.
   CallbackInfo* GetCBInfo (int where);
 
   // List of trackers.
@@ -236,6 +235,8 @@ public:
     {
       return parent->HandleEvent (ev);
     }
+    CS_EVENTHANDLER_NAMES("cel.physicallayer")
+    CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 };
 

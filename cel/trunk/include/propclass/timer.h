@@ -57,7 +57,7 @@ struct iPcTimer : public iBase
   /**
    * Wake up the Behaviour every frame.
    */
-  virtual void WakeUpFrame (int where = cscmdPreProcess) = 0;
+  virtual void WakeUpFrame (int where) = 0;
 
   /**
    * Clear this timer.

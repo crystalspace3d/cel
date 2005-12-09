@@ -71,7 +71,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 {
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   scfiCelTimerListener = new CelTimerListener (this);
-  pl->CallbackEveryFrame (scfiCelTimerListener, cscmdPreProcess);
+  pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
   dynsystem_error_reported = false;
   delta = 0.01f;
