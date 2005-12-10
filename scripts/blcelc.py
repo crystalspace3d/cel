@@ -70,6 +70,9 @@ celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
 
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
 
+CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
+CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
+CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
 class iCelNewEntityCallback(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)

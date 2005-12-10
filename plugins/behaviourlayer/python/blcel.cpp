@@ -1569,6 +1569,11 @@ SWIGINTERNSHORT PyObject*
 }
 
 
+  /*@/usr/share/swig1.3/python/pymacros.swg,66,SWIG_define@*/
+#define SWIG_From_int PyInt_FromLong
+/*@@*/
+
+
 #include <limits.h>
 
 
@@ -2018,11 +2023,6 @@ SWIG_FromCharPtr(const char* cptr)
   Py_INCREF(Py_None);
   return Py_None;
 }
-
-
-  /*@/usr/share/swig1.3/python/pymacros.swg,66,SWIG_define@*/
-#define SWIG_From_int PyInt_FromLong
-/*@@*/
 
 
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
@@ -21356,7 +21356,7 @@ static PyObject *_wrap_iPcTimer_WakeUp(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcTimer_WakeUpFrame__SWIG_0(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcTimer_WakeUpFrame(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcTimer *arg1 = (iPcTimer *) 0 ;
     int arg2 ;
@@ -21375,71 +21375,6 @@ static PyObject *_wrap_iPcTimer_WakeUpFrame__SWIG_0(PyObject *, PyObject *args) 
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iPcTimer_WakeUpFrame__SWIG_1(PyObject *, PyObject *args) {
-    PyObject *resultobj;
-    iPcTimer *arg1 = (iPcTimer *) 0 ;
-    PyObject * obj0 = 0 ;
-    
-    if(!PyArg_ParseTuple(args,(char *)"O:iPcTimer_WakeUpFrame",&obj0)) goto fail;
-    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcTimer, SWIG_POINTER_EXCEPTION | 0);
-    if (SWIG_arg_fail(1)) SWIG_fail;
-    (arg1)->WakeUpFrame();
-    
-    Py_INCREF(Py_None); resultobj = Py_None;
-    return resultobj;
-    fail:
-    return NULL;
-}
-
-
-static PyObject *_wrap_iPcTimer_WakeUpFrame(PyObject *self, PyObject *args) {
-    int argc;
-    PyObject *argv[3];
-    int ii;
-    
-    argc = PyObject_Length(args);
-    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
-        argv[ii] = PyTuple_GetItem(args,ii);
-    }
-    if (argc == 1) {
-        int _v;
-        {
-            void *ptr;
-            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcTimer, 0) == -1) {
-                _v = 0;
-                PyErr_Clear();
-            } else {
-                _v = 1;
-            }
-        }
-        if (_v) {
-            return _wrap_iPcTimer_WakeUpFrame__SWIG_1(self,args);
-        }
-    }
-    if (argc == 2) {
-        int _v;
-        {
-            void *ptr;
-            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcTimer, 0) == -1) {
-                _v = 0;
-                PyErr_Clear();
-            } else {
-                _v = 1;
-            }
-        }
-        if (_v) {
-            _v = SWIG_Check_int(argv[1]);
-            if (_v) {
-                return _wrap_iPcTimer_WakeUpFrame__SWIG_0(self,args);
-            }
-        }
-    }
-    
-    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcTimer_WakeUpFrame'");
     return NULL;
 }
 
@@ -27233,6 +27168,15 @@ SWIGEXPORT(void) SWIG_init(void) {
     }
     SWIG_InstallConstants(d,swig_const_table);
     
+    {
+        PyDict_SetItemString(d,"CEL_EVENT_PRE", SWIG_From_int((int)(0))); 
+    }
+    {
+        PyDict_SetItemString(d,"CEL_EVENT_VIEW", SWIG_From_int((int)(1))); 
+    }
+    {
+        PyDict_SetItemString(d,"CEL_EVENT_POST", SWIG_From_int((int)(2))); 
+    }
     {
         PyDict_SetItemString(d,"CEL_AT_NONE", SWIG_From_int((int)(CEL_AT_NONE))); 
     }
