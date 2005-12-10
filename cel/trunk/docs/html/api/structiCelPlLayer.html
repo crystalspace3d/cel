@@ -214,7 +214,7 @@ This is the Physical Layer itself.
 <p>
 
 <p>
-Definition at line <a class="el" href="pl_8h-source.html#l00100">100</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="pl_8h-source.html#l00104">104</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="b497b82d9cac5c70653feccf54500f3f"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="b497b82d9cac5c70653feccf54500f3f" args="(iCelEntityRemoveCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -422,7 +422,7 @@ Register this listener as one that is interested in getting an event every frame
 This will call TickEveryFrame(). <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>listener</em>&nbsp;</td><td>is the <a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> listener. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be cscmdPreProcess, cscmdProcess, cscmdPostProcess, or cscmdFinalProcess. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be CEL_EVENT_PRE, CEL_EVENT_VIEW, or CEL_EVENT_POST. </td></tr>
   </table>
 </dl>
     </td>
@@ -474,7 +474,7 @@ This will call Tick(). <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>listener</em>&nbsp;</td><td>is the <a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> listener. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>delta</em>&nbsp;</td><td>is the time to wait before firing in milliseconds. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be cscmdPreProcess, cscmdProcess, cscmdPostProcess, or cscmdFinalProcess. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>where</em>&nbsp;</td><td>should be CEL_EVENT_PRE, CEL_EVENT_VIEW, or CEL_EVENT_POST. </td></tr>
   </table>
 </dl>
     </td>
