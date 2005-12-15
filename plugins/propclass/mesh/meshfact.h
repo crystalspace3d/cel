@@ -282,6 +282,7 @@ public:
   virtual void SetCamera (iPcCamera* pccamera);
 
   virtual void SetMouseButtons (int buttons) { mouse_buttons = buttons; }
+  virtual void SetMouseButtons (const char* buttons);
   virtual int GetMouseButtons () const { return mouse_buttons; }
 
   virtual void SetGlobalSelection (bool glob) { do_global = glob; }

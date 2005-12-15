@@ -942,14 +942,15 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
   int mouse_but;
   if (ev.Name == csevMouseMove (name_reg, 0))
   {
-    if (mousedrv->GetLastButton (1)) mouse_but = 1;
-    else if (mousedrv->GetLastButton (2)) mouse_but = 2;
-    else if (mousedrv->GetLastButton (3)) mouse_but = 3;
+    if (mousedrv->GetLastButton (csmbLeft)) mouse_but = 1;
+    else if (mousedrv->GetLastButton (csmbRight)) mouse_but = 2;
+    else if (mousedrv->GetLastButton (csmbMiddle)) mouse_but = 3;
     else mouse_but = 0;
   }
   else
   {
     mouse_but = csMouseEventHelper::GetButton(&ev);
+    mouse_but++;	// CS uses 0,1,2.
   }
 
   int but = 1<<(mouse_but-1);
@@ -1222,6 +1223,20 @@ bool celPcMeshSelect::GetPropertyBool (csStringID propertyId)
     return celPcCommon::GetPropertyBool (propertyId);
 }
 
+void celPcMeshSelect::SetMouseButtons (const char* buttons)
+{
+  int but = 0;
+  const char* b = buttons;
+  while (*b)
+  {
+    if (*b == 'l' || *b == 'L') but |= CEL_MOUSE_BUTTON1;
+    else if (*b == 'r' || *b == 'R') but |= CEL_MOUSE_BUTTON2;
+    else if (*b == 'm' || *b == 'M') but |= CEL_MOUSE_BUTTON3;
+    b++;
+  }
+  SetMouseButtons (but);
+}
+
 bool celPcMeshSelect::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
@@ -1244,11 +1259,19 @@ bool celPcMeshSelect::PerformAction (csStringID actionId,
   }
   else if (actionId == action_setmousebuttons)
   {
-    CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
-    if (!p_buttons)
-      return Report (object_reg,
-      	"Missing parameter 'buttons' for action SetMouseButtons!");
-    SetMouseButtons (buttons);
+    CEL_FETCH_STRING_PAR (buttons_str,params,id_buttons);
+    if (p_buttons_str)
+    {
+      SetMouseButtons (buttons_str);
+    }
+    else
+    {
+      CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
+      if (!p_buttons)
+        return Report (object_reg,
+      	  "Missing parameter 'buttons' for action SetMouseButtons!");
+      SetMouseButtons (buttons);
+    }
     return true;
   }
   else if (actionId == action_setdragplanenormal)

@@ -75,7 +75,8 @@ struct iPcMeshSelectListener : public virtual iBase
  * to get the ID of the parameter):
  * <ul>
  * <li>SetCamera: parameters 'entity' (string).
- * <li>SetMouseButtons: parameters 'buttons' (long).
+ * <li>SetMouseButtons: parameters 'buttons' (string or long). In case
+ *     of string it should be a string with 'l', 'm', or 'r' (or a combination).
  * <li>SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
  * </ul>
  * <p>
@@ -114,10 +115,17 @@ struct iPcMeshSelect : public virtual iBase
 
   /**
    * Indicate (with a bit-mask) for which buttons this
-   * mesh selector will work. By default this is mouse button one.
+   * mesh selector will work. By default this is the left button.
    * Use a combination of CEL_MOUSE_... flags.
    */
   virtual void SetMouseButtons (int buttons) = 0;
+
+  /**
+   * Indicate (with a string) for which buttons this
+   * mesh selector will work. By default this is the left button.
+   * Use a combination of the 'l', 'r', or 'm' characters.
+   */
+  virtual void SetMouseButtons (const char* buttons) = 0;
   /**
    * Get the bit-mask for the supported buttons.
    */
