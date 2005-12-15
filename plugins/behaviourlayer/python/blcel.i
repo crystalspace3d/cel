@@ -289,17 +289,29 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 1);
 				break;
 			}
+			case CEL_DATA_WORD:
+			{
+				obj = SWIG_From_int((int)data->value.w);
+				break;
+			}
+			case CEL_DATA_LONG:
+			{
+				obj = SWIG_From_long((long)data->value.l);
+				break;
+			}
+			case CEL_DATA_ULONG:
+			{
+				obj = PyLong_FromUnsignedLong((ulong)data->value.ul);
+				break;
+			}
+			{
+				break;
+			}
 			/* Still to be done (and some more) */
 			case CEL_DATA_BYTE:
-				/*data->value.s (iString)*/
-			case CEL_DATA_WORD:
-				/*data->value.w (int16)*/
-			case CEL_DATA_LONG:
-				/*data->value.l (int32)*/
+				/*data->value.b (int8)*/
 			case CEL_DATA_UWORD:
 				/*data->value.uw (uint16)*/
-			case CEL_DATA_ULONG:
-				/*data->value.ul (uint32)*/
 			case CEL_DATA_PARAMETER:
 				/*data->value.par (iString+celDataType)*/
 			default:

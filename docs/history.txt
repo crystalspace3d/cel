@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 15-Dec-2005
 	- caedes fixed the python behaviourlayer to compile again with
 	  the changes in CS event system.
+	- caedes added some more parameter types to GetParameterValue
+	  extension to iCelParameterBlock in blcel.i.
 9-Dec-2005
 	- Jorrit made CEL compile again after the latest CS event
 	  changes. However, CEL remains broken until the function
