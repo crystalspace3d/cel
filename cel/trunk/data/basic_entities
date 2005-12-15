@@ -321,7 +321,7 @@
 		    <par name="entity" string="camera" />
 		</action>
 	        <action name="SetMouseButtons">
-		    <par name="buttons" long="2" />
+		    <par name="buttons" string="r" />
 		</action>
 	    </propclass>
 	    <propclass name="pctest">
@@ -360,7 +360,7 @@
 		    <par name="entity" string="camera" />
 		</action>
 	        <action name="SetMouseButtons">
-		    <par name="buttons" long="2" />
+		    <par name="buttons" string="r" />
 		</action>
 	    </propclass>
 	    <propclass name="pctest">
@@ -431,7 +431,7 @@
 		    <par name="entity" string="camera" />
 		</action>
 	        <action name="SetMouseButtons">
-		    <par name="buttons" long="1" />
+		    <par name="buttons" string="l" />
 		</action>
 	        <action name="SetDragPlaneNormal">
 		    <par name="normal" vector="0,1,0" />

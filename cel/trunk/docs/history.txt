@@ -8,6 +8,10 @@ The history order is reversed so that new features are at the top.
 	  the changes in CS event system.
 	- caedes added some more parameter types to GetParameterValue
 	  extension to iCelParameterBlock in blcel.i.
+	- Jorrit fixed pcmeshselect so that it normalizes the mouse
+	  buttons to the new values in CS again. Also added a new
+	  method to set mouse buttons which uses 'l', 'r', and 'm'.
+	  This is also accessible from XML.
 9-Dec-2005
 	- Jorrit made CEL compile again after the latest CS event
 	  changes. However, CEL remains broken until the function
