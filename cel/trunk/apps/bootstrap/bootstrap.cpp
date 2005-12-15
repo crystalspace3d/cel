@@ -110,7 +110,10 @@ bool Bootstrap::HandleEvent (iEvent& ev)
 
 bool Bootstrap::BootstrapEventHandler (iEvent& ev)
 {
-  return bootstrap->HandleEvent (ev);
+  if (bootstrap)
+    return bootstrap->HandleEvent (ev);
+  else
+    return false;
 }
 
 bool Bootstrap::Initialize (int argc, const char* const argv[])
@@ -300,6 +303,7 @@ int main (int argc, char* argv[])
 
   iObjectRegistry* object_reg = bootstrap->object_reg;
   delete bootstrap;
+  bootstrap = 0;
 
   csInitializer::DestroyApplication (object_reg);
   return 0;
