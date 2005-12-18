@@ -93,6 +93,8 @@ class celTCPGameFactory : public iCelGameFactory
     { return scfParent->Initialize (p); }
   } scfiComponent;
 
+  CS_DECLARE_EVENT_SHORTCUTS;
+
   // Not an embedded interface to avoid circular references!!!
   class EventHandler : public iEventHandler
   {
@@ -115,6 +117,8 @@ class celTCPGameFactory : public iCelGameFactory
     {
       return parent->HandleEvent (ev);
     }
+    CS_EVENTHANDLER_NAMES("cel.network.tcp");
+    CS_EVENTHANDLER_NIL_CONSTRAINTS;
   } *scfiEventHandler;
 };
 
