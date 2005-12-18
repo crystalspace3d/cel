@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Dec-2005
+	- Vincent Knecht updated tcp network plugin for new CS event
+	  system. nettest still doesn't react to movement keys though.
 15-Dec-2005
 	- caedes fixed the python behaviourlayer to compile again with
 	  the changes in CS event system.

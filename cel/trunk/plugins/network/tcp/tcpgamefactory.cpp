@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "ivaria/reporter.h"
+#include "csutil/eventnames.h"
 #include "csutil/cseventq.h"
 #include "csutil/event.h"
 
@@ -84,11 +85,13 @@ bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
   celTCPGameFactory::object_reg = object_reg;
   BufferReporter::SetRegistry (object_reg);
 
+  CS_INITIALIZE_EVENT_SHORTCUTS (object_reg);
+
   // register callback to every frame
   scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-  unsigned int trigger = CSMASK_Nothing;
-  q->RegisterListener (scfiEventHandler, trigger);
+  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+  csEventID events[] = { PreProcess, PostProcess, CS_EVENTLIST_END };
+  q->RegisterListener (scfiEventHandler, events);
 
   // init network library
   if (!nlInit ())
@@ -101,8 +104,6 @@ bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
 
 bool celTCPGameFactory::HandleEvent (iEvent& ev)
 {
-  if (ev.Type != csevBroadcast) return false;
-
   // TODO: listen for game info received
 
   // update client and server
