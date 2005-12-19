@@ -273,8 +273,12 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   }
   const char* trig = strtrigger.GetData ();
   csKeyModifiers modifiers;
-  csInputDefinition::ParseOther (name_reg, trig, &type, &device,
-  	&numeric, &modifiers);
+  if (!csInputDefinition::ParseOther (name_reg, trig, &type, &device,
+  	&numeric, &modifiers))
+  {
+    Report (object_reg, "Bad input specification '%s'!", trig);
+    return false;
+  }
   if (type == csevKeyboardEvent (object_reg))
   {
     utf32_char key, cooked;
