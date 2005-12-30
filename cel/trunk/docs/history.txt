@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Dec-2005
+	- caedes replaced an apparition of ulong in blcel.i by unsigned long, 
+	  as this is not recognized on some platforms.
 19-Dec-2005
 	- Jorrit fixed pccommandinput so that it tests if ParseOther()
 	  fails and reports an error. This will make it easier to debug
