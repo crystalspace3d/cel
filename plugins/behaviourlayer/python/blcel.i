@@ -301,7 +301,7 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 			}
 			case CEL_DATA_ULONG:
 			{
-				obj = PyLong_FromUnsignedLong((ulong)data->value.ul);
+				obj = PyLong_FromUnsignedLong((unsigned long)data->value.ul);
 				break;
 			}
 			{
