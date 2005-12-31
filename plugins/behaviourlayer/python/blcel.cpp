@@ -2177,7 +2177,7 @@ static PyObject *iCelParameterBlock_GetParameterValue(iCelParameterBlock *self,c
 			}
 			case CEL_DATA_ULONG:
 			{
-				obj = PyLong_FromUnsignedLong((ulong)data->value.ul);
+				obj = PyLong_FromUnsignedLong((unsigned long)data->value.ul);
 				break;
 			}
 			{
