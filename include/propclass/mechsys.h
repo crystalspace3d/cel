@@ -590,6 +590,15 @@ struct iPcMechanicsObject : public virtual iBase
    * Create a joint between this object and another.
    */
   virtual iJoint* CreateJoint (iPcMechanicsObject* other) = 0;
+
+  /**
+   * Convert a vector from this objects local system to world coord system
+   */
+  virtual csVector3 LocalToWorld(csVector3 local) = 0;
+  /**
+   * Convert a vector from world coord system to this objects local system
+   */
+  virtual csVector3 WorldToLocal(csVector3 world) = 0;
 };
 
 /**

@@ -418,6 +418,9 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
+  virtual csVector3 LocalToWorld(csVector3 local);
+  virtual csVector3 WorldToLocal(csVector3 world);
+
   struct DynamicsCollisionCallback : public iDynamicsCollisionCallback
   {
     celPcMechanicsObject* parent;
