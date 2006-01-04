@@ -1469,6 +1469,19 @@ iJoint* celPcMechanicsObject::CreateJoint (iPcMechanicsObject* other)
   return mechsystem->CreateJoint (GetBody (), other->GetBody ());
 }
 
+csVector3 celPcMechanicsObject::LocalToWorld(csVector3 local)
+{
+  iRigidBody *rb = GetBody();
+  csReversibleTransform rt(rb->GetOrientation() , rb->GetPosition());
+  return rt.This2OtherRelative(local);
+}
+csVector3 celPcMechanicsObject::WorldToLocal(csVector3 world)
+{
+  iRigidBody *rb = GetBody();
+  csReversibleTransform rt(rb->GetOrientation() , rb->GetPosition());
+  return rt.Other2ThisRelative(world);
+}
+
 //---------------------------------------------------------------------------
 
 // Actions
