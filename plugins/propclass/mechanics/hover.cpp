@@ -49,7 +49,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
   scfiCelTimerListener = new CelTimerListener (this);
-  pl->CallbackEveryFrame (scfiCelTimerListener, cscmdPreProcess);
+  pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 }
 
 celPcHover::~celPcHover ()
