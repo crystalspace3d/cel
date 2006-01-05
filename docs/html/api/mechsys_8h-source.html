@@ -231,17 +231,20 @@
 <a name="l00587"></a>00587   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#731d9dd3a3e1c64104583444feed417e">RemoveFromGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
 <a name="l00588"></a>00588 
 <a name="l00592"></a>00592   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsObject.html#e295f74a80e9fc47f28ac51b73d170a9">CreateJoint</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* other) = 0;
-<a name="l00593"></a>00593 };
-<a name="l00594"></a>00594 
-<a name="l00610"></a><a class="code" href="structiPcMechanicsJoint.html">00610</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00611"></a>00611 {
-<a name="l00612"></a>00612   SCF_INTERFACE (<a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a>, 0, 0, 1);
-<a name="l00613"></a>00613 
-<a name="l00617"></a>00617   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> () = 0;
-<a name="l00618"></a>00618 };
-<a name="l00619"></a>00619 
-<a name="l00620"></a>00620 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
-<a name="l00621"></a>00621 <span class="preprocessor"></span>
+<a name="l00593"></a>00593 
+<a name="l00597"></a>00597   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#7378de779bcec920f07db72e1346d54d">LocalToWorld</a>(csVector3 local) = 0;
+<a name="l00601"></a>00601   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#25d8e05d726463657108700d5ff72d45">WorldToLocal</a>(csVector3 world) = 0;
+<a name="l00602"></a>00602 };
+<a name="l00603"></a>00603 
+<a name="l00619"></a><a class="code" href="structiPcMechanicsJoint.html">00619</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00620"></a>00620 {
+<a name="l00621"></a>00621   SCF_INTERFACE (<a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a>, 0, 0, 1);
+<a name="l00622"></a>00622 
+<a name="l00626"></a>00626   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> () = 0;
+<a name="l00627"></a>00627 };
+<a name="l00628"></a>00628 
+<a name="l00629"></a>00629 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
+<a name="l00630"></a>00630 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>

@@ -117,6 +117,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#ca764cfe8f9c31eb3fce75b177fbf10c">IsStatic</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if static.  <a href="#ca764cfe8f9c31eb3fce75b177fbf10c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#7378de779bcec920f07db72e1346d54d">LocalToWorld</a> (csVector3 local)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a vector from this objects local system to world coord system.  <a href="#7378de779bcec920f07db72e1346d54d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#3b3ef562b296bda150af14742088f1aa">MakeStatic</a> (bool stat)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Make static.  <a href="#3b3ef562b296bda150af14742088f1aa"></a><br></td></tr>
@@ -165,6 +168,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#61d2c45b20737be6f5041d6f92bdd9de">SetSoftness</a> (float softness)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the object's softness.  <a href="#61d2c45b20737be6f5041d6f92bdd9de"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsObject.html#25d8e05d726463657108700d5ff72d45">WorldToLocal</a> (csVector3 world)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a vector from world coord system to this objects local system.  <a href="#25d8e05d726463657108700d5ff72d45"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A dynamic body. 
@@ -1176,6 +1182,36 @@ Return true if static.
     </td>
   </tr>
 </table>
+<a class="anchor" name="7378de779bcec920f07db72e1346d54d"></a><!-- doxytag: member="iPcMechanicsObject::LocalToWorld" ref="7378de779bcec920f07db72e1346d54d" args="(csVector3 local)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual csVector3 iPcMechanicsObject::LocalToWorld           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">csVector3&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>local</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a vector from this objects local system to world coord system. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="3b3ef562b296bda150af14742088f1aa"></a><!-- doxytag: member="iPcMechanicsObject::MakeStatic" ref="3b3ef562b296bda150af14742088f1aa" args="(bool stat)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1733,6 +1769,36 @@ Must be called before Attach..., otherwise defaults to 0. <dl compact><dt><b>Par
     <tr><td valign="top"></td><td valign="top"><em>softness</em>&nbsp;</td><td>the softness of this object. </td></tr>
   </table>
 </dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="25d8e05d726463657108700d5ff72d45"></a><!-- doxytag: member="iPcMechanicsObject::WorldToLocal" ref="25d8e05d726463657108700d5ff72d45" args="(csVector3 world)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual csVector3 iPcMechanicsObject::WorldToLocal           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">csVector3&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>world</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Convert a vector from world coord system to this objects local system. 
+<p>
     </td>
   </tr>
 </table>
