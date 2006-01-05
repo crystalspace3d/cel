@@ -591,6 +591,8 @@ class iPcMechanicsObject(cspace.iBase):
     def AddToGroup(*args): return _blcelc.iPcMechanicsObject_AddToGroup(*args)
     def RemoveFromGroup(*args): return _blcelc.iPcMechanicsObject_RemoveFromGroup(*args)
     def CreateJoint(*args): return _blcelc.iPcMechanicsObject_CreateJoint(*args)
+    def LocalToWorld(*args): return _blcelc.iPcMechanicsObject_LocalToWorld(*args)
+    def WorldToLocal(*args): return _blcelc.iPcMechanicsObject_WorldToLocal(*args)
     def __del__(self, destroy=_blcelc.delete_iPcMechanicsObject):
         try:
             if self.thisown: destroy(self)
