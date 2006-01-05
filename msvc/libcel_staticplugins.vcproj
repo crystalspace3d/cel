@@ -937,6 +937,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\plugins\propclass\mechanics\hover.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_mechanics_hover.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_mechanics_hover.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\mechanics\mechanics.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -949,6 +964,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_mechanics_mechanics.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\mechanics\stabiliser_dist.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\release\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\out\debug\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1802,7 +1832,13 @@
 				RelativePath="..\plugins\propclass\mechanics\environment.h">
 			</File>
 			<File
+				RelativePath="..\plugins\propclass\mechanics\hover.h">
+			</File>
+			<File
 				RelativePath="..\plugins\propclass\mechanics\mechanics.h">
+			</File>
+			<File
+				RelativePath="..\plugins\propclass\mechanics\stabiliser_dist.h">
 			</File>
 			<File
 				RelativePath="..\plugins\propclass\mechanics\thruster_controller.h">

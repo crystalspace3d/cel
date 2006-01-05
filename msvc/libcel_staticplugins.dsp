@@ -312,7 +312,15 @@ SOURCE=..\plugins\propclass\light\lightfact.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\propclass\mechanics\hover.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\mechanics\mechanics.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\mechanics\stabiliser_dist.cpp
 # End Source File
 # Begin Source File
 
@@ -616,7 +624,15 @@ SOURCE=..\plugins\propclass\mechanics\environment.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\plugins\propclass\mechanics\hover.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\plugins\propclass\mechanics\mechanics.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\plugins\propclass\mechanics\stabiliser_dist.h
 # End Source File
 # Begin Source File
 
