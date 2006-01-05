@@ -25,7 +25,7 @@
 #include "csutil/scf.h"
 
 struct iPcMesh;
-struct StabiliserFunction;
+class StabiliserFunction;
 
 /**
  * Hover stabiliser property class.

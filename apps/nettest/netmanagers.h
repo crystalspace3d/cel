@@ -25,9 +25,9 @@
 #include "nettest.h"
 
 struct iCelGame;
-struct NetTest;
-struct GameServerManager;
-struct GameClientManager;
+class NetTest;
+class GameServerManager;
+class GameClientManager;
 struct iCelEntity;
 
 class GameFactoryManager : public celGameFactoryManager

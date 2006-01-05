@@ -47,7 +47,7 @@ struct iCelPlLayer;
 struct iCelBlLayer;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
-struct GameFactoryManager;
+class GameFactoryManager;
 struct iCelGameFactory;
 
 /**

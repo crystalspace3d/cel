@@ -49,7 +49,7 @@ struct iCollideSystem;
 struct iView;
 class csView;
 class celPcSimpleCamera;
-class iPcZoneManager;
+struct iPcZoneManager;
 
 /**
  * Factory for engine stuff.

@@ -790,7 +790,7 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 // we can find the iCelEntity again.
 
 SCF_VERSION (celEntityFinder, 0, 0, 1);
-class celEntityFinder : public csObject
+struct celEntityFinder : public csObject
 {
 private:
   iCelEntity* entity;
