@@ -45,7 +45,7 @@ struct iMouseDriver;
 struct iCollideSystem;
 class csView;
 class celPcCamera;
-class iPcZoneManager;
+struct iPcZoneManager;
 
 /**
  * Factory for engine stuff.

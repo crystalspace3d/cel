@@ -3,9 +3,12 @@
 #include "stabiliser_dist.h"
 
 #include <cmath>
+#include <math.h>
 #include <stdio.h>
 #include <propclass/mechsys.h>
 #include <csgeom/vector3.h>
+
+#define M_E 2.71828182845904523536
 
 IntervalMetaDistribution::~IntervalMetaDistribution()
 {

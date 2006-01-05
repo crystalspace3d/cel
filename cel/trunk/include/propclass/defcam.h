@@ -43,7 +43,7 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  *    'start' (string).
  * </ul>
  */
-class iPcDefaultCamera : public iPcCamera
+struct iPcDefaultCamera : public iPcCamera
 {
 public:
   /**

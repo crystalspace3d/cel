@@ -88,14 +88,14 @@ void celPcHover::SetWorld(const char *name)
 void celPcHover::AmirsCheatingDefaults()
 {
   IntervalMetaDistribution *i = new IntervalMetaDistribution();
-  i->Add(new ReturnConstantValue(70.0) , -9999999999.0 , 0.0001);
-  i->Add(new SquareDistribution(1.0001 , 30.0 , 3.0 , 20.0) , 0.0001 , 3.0);
-  i->Add(new ReturnConstantValue(0.0) , 3.0 , 9999999999.0);
+  i->Add(new ReturnConstantValue(70.0) , -9999999999.0f , 0.0001f);
+  i->Add(new SquareDistribution(1.0001f , 30.0f , 3.0f , 20.0f) , 0.0001f , 3.0f);
+  i->Add(new ReturnConstantValue(0.0) , 3.0f , 9999999999.0f);
 
   IntervalMetaDistribution *e = new IntervalMetaDistribution();
-  e->Add(new ReturnConstantValue(30.0) , -9999999999.0 , 0.0001);
-  e->Add(new SquareDistribution(1.0001 , 9.8 , 3.0 , 9.0) , 0.0001 , 3.0);
-  e->Add(new ReturnConstantValue(0.0) , 3.0 , 9999999999.0);
+  e->Add(new ReturnConstantValue(30.0) , -9999999999.0f , 0.0001f);
+  e->Add(new SquareDistribution(1.0001f , 9.8f , 3.0f , 9.0f) , 0.0001f , 3.0f);
+  e->Add(new ReturnConstantValue(0.0) , 3.0f , 9999999999.0f);
 
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   func = new IfFallingDistribution(ship_mech , i , e , 0.0);
@@ -138,7 +138,7 @@ void celPcHover::PerformStabilising()
   float force = func->Force (height);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01);
+  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01f);
 
   // the ships roll should try to remain level (levels faster when closer to ground)
   if(height < ang_cutoff_height) {
@@ -176,5 +176,5 @@ float celPcHover::ReverseHeight(csVector3 &start)
   if(bres.hit)
     return -height_beam_cutoff * bres.r;
   else
-    return 999999999;
+    return 999999999.0f;
 }

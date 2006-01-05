@@ -30,11 +30,11 @@
 #include "celtool/persisthelper.h"
 
 struct iCelEntity;
-struct celGameInfoList;
+class celGameInfoList;
 struct celGameInfoListIterator;
 struct iCelGameServer;
 struct iCelGameClient;
-struct csBitArray;
+class csBitArray;
 struct celPlayerListIterator;
 
 /**
@@ -286,7 +286,7 @@ SCF_VERSION (iCelPlayerList, 0, 0, 1);
 /**
  * A list of players.
  */
-class iCelPlayerList
+struct iCelPlayerList
 {
  public:
   virtual size_t GetCount () const = 0;
