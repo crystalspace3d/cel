@@ -1623,7 +1623,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (top.type)
 	  {
 	    case CEL_DATA_LONG: top.arg.i = -top.arg.i; break;
-	    case CEL_DATA_ULONG: top.arg.ui = top.arg.ui; break;
+	    case CEL_DATA_ULONG: top.arg.ui = (unsigned int)(-(int)top.arg.ui); break; 
 	    case CEL_DATA_FLOAT: top.arg.f = -top.arg.f; break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_COLOR:
