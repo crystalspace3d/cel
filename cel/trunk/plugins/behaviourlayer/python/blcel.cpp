@@ -9159,6 +9159,74 @@ static PyObject *_wrap_iPcMechanicsObject_CreateJoint(PyObject *, PyObject *args
 }
 
 
+static PyObject *_wrap_iPcMechanicsObject_LocalToWorld(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    csVector3 arg2 ;
+    csVector3 result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsObject_LocalToWorld",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    result = (arg1)->LocalToWorld(arg2);
+    
+    {
+        csVector3 * resultptr;
+        resultptr = new csVector3((csVector3 &)(result));
+        resultobj = SWIG_NewPointerObj((void *)(resultptr), SWIGTYPE_p_csVector3, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_WorldToLocal(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    csVector3 arg2 ;
+    csVector3 result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsObject_WorldToLocal",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    result = (arg1)->WorldToLocal(arg2);
+    
+    {
+        csVector3 * resultptr;
+        resultptr = new csVector3((csVector3 &)(result));
+        resultobj = SWIG_NewPointerObj((void *)(resultptr), SWIGTYPE_p_csVector3, 1);
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iPcMechanicsObject(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
@@ -25188,6 +25256,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMechanicsObject_AddToGroup", _wrap_iPcMechanicsObject_AddToGroup, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_RemoveFromGroup", _wrap_iPcMechanicsObject_RemoveFromGroup, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_CreateJoint", _wrap_iPcMechanicsObject_CreateJoint, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsObject_LocalToWorld", _wrap_iPcMechanicsObject_LocalToWorld, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsObject_WorldToLocal", _wrap_iPcMechanicsObject_WorldToLocal, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcMechanicsObject", _wrap_delete_iPcMechanicsObject, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_swigregister", iPcMechanicsObject_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsJoint_GetJoint", _wrap_iPcMechanicsJoint_GetJoint, METH_VARARGS, NULL},
