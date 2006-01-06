@@ -8,7 +8,9 @@
 #include <propclass/mechsys.h>
 #include <csgeom/vector3.h>
 
-#define M_E 2.71828182845904523536
+#ifndef M_E
+    #define M_E 2.71828182845904523536
+#endif
 
 IntervalMetaDistribution::~IntervalMetaDistribution()
 {
