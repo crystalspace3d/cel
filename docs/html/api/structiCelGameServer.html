@@ -42,7 +42,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#2226fe2e45a5ed5218fe1902cdf0952c">ChangeLinkControl</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="classcelPlayer.html">celPlayer</a> *player, bool player_controlled)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define if it is the client or the server that will update the entity.  <a href="#2226fe2e45a5ed5218fe1902cdf0952c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (csStringID channel_id)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (csStringID channel_id)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a channel, ie a list of players.  <a href="#d9f84d3748644041a79a77ffc52b0101"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classcelPlayer.html">celPlayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#2b1eec275a973437b25f4194df7afca3">GetAdministrator</a> ()=0</td></tr>
@@ -54,7 +54,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#f65fd31e91d224e8a7f1d031b0248f0a">GetNetworkTotalStats</a> (<a class="el" href="structcelNetworkPlayerTotalStats.html">celNetworkPlayerTotalStats</a> &amp;stats) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the network stats of this server.  <a href="#f65fd31e91d224e8a7f1d031b0248f0a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#c664ae438691d8e81ab1eca933ac8ddf">GetPlayerList</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPlayerList.html">iCelPlayerList</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#c664ae438691d8e81ab1eca933ac8ddf">GetPlayerList</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the list of players connected to the server.  <a href="#c664ae438691d8e81ab1eca933ac8ddf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPlayerNetworkState&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelGameServer.html#1fdd2b3ad82217d20ff4ab1e32e9ae00">GetPlayerState</a> (<a class="el" href="classcelPlayer.html">celPlayer</a> *player)=0</td></tr>
@@ -215,7 +215,7 @@ A network link between the player and the entity must be present. <dl compact><d
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a>* iCelGameServer::CreateChannel           </td>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelPlayerList.html">iCelPlayerList</a>* iCelGameServer::CreateChannel           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">csStringID&nbsp;</td>
           <td class="mdname1" valign="top" nowrap> <em>channel_id</em>          </td>
@@ -348,7 +348,7 @@ Return the network stats of this server.
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual <a class="el" href="classiCelPlayerList.html">iCelPlayerList</a>* iCelGameServer::GetPlayerList           </td>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelPlayerList.html">iCelPlayerList</a>* iCelGameServer::GetPlayerList           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>

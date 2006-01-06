@@ -53,15 +53,15 @@
 <a name="l00030"></a>00030 <span class="keyword">enum</span> celServerNetworkState;
 <a name="l00031"></a>00031 <span class="keyword">enum</span> celPlayerNetworkState;
 <a name="l00032"></a>00032 <span class="keyword">struct </span>celGame;
-<a name="l00033"></a>00033 <span class="keyword">struct </span><a class="code" href="classcelGameInfo.html">celGameInfo</a>;
-<a name="l00034"></a>00034 <span class="keyword">struct </span><a class="code" href="classcelPlayer.html">celPlayer</a>;
-<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="classiCelPlayerList.html">iCelPlayerList</a>;
-<a name="l00036"></a>00036 <span class="keyword">struct </span><a class="code" href="classcelServerEventData.html">celServerEventData</a>;
-<a name="l00037"></a>00037 <span class="keyword">struct </span><a class="code" href="classcelClientEventData.html">celClientEventData</a>;
-<a name="l00038"></a>00038 <span class="keyword">struct </span><a class="code" href="classcelNetworkLinkData.html">celNetworkLinkData</a>;
-<a name="l00039"></a>00039 <span class="keyword">struct </span><a class="code" href="classcelGameFactoryManager.html">celGameFactoryManager</a>;
-<a name="l00040"></a>00040 <span class="keyword">struct </span><a class="code" href="classcelGameClientManager.html">celGameClientManager</a>;
-<a name="l00041"></a>00041 <span class="keyword">struct </span><a class="code" href="classcelGameServerManager.html">celGameServerManager</a>;
+<a name="l00033"></a>00033 <span class="keyword">class </span><a class="code" href="classcelGameInfo.html">celGameInfo</a>;
+<a name="l00034"></a>00034 <span class="keyword">class </span><a class="code" href="classcelPlayer.html">celPlayer</a>;
+<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="structiCelPlayerList.html">iCelPlayerList</a>;
+<a name="l00036"></a>00036 <span class="keyword">class </span><a class="code" href="classcelServerEventData.html">celServerEventData</a>;
+<a name="l00037"></a>00037 <span class="keyword">class </span><a class="code" href="classcelClientEventData.html">celClientEventData</a>;
+<a name="l00038"></a>00038 <span class="keyword">class </span><a class="code" href="classcelNetworkLinkData.html">celNetworkLinkData</a>;
+<a name="l00039"></a>00039 <span class="keyword">class </span><a class="code" href="classcelGameFactoryManager.html">celGameFactoryManager</a>;
+<a name="l00040"></a>00040 <span class="keyword">class </span><a class="code" href="classcelGameClientManager.html">celGameClientManager</a>;
+<a name="l00041"></a>00041 <span class="keyword">class </span><a class="code" href="classcelGameServerManager.html">celGameServerManager</a>;
 <a name="l00042"></a>00042 <span class="keyword">struct </span><a class="code" href="structcelNetworkServerStats.html">celNetworkServerStats</a>;
 <a name="l00043"></a>00043 <span class="keyword">struct </span><a class="code" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a>;
 <a name="l00044"></a>00044 <span class="keyword">struct </span>celNetworkServerTotalStats;
@@ -155,13 +155,13 @@
 <a name="l00354"></a>00354 
 <a name="l00359"></a>00359   <span class="keyword">virtual</span> <a class="code" href="classcelPlayer.html">celPlayer</a>* <a class="code" href="structiCelGameServer.html#2b1eec275a973437b25f4194df7afca3">GetAdministrator</a> () = 0;
 <a name="l00360"></a>00360 
-<a name="l00364"></a>00364   <span class="keyword">virtual</span> <a class="code" href="classiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#c664ae438691d8e81ab1eca933ac8ddf">GetPlayerList</a> () = 0;
+<a name="l00364"></a>00364   <span class="keyword">virtual</span> <a class="code" href="structiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#c664ae438691d8e81ab1eca933ac8ddf">GetPlayerList</a> () = 0;
 <a name="l00365"></a>00365 
 <a name="l00369"></a>00369   <span class="keyword">virtual</span> celPlayerNetworkState <a class="code" href="structiCelGameServer.html#1fdd2b3ad82217d20ff4ab1e32e9ae00">GetPlayerState</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player) = 0;
 <a name="l00370"></a>00370 
 <a name="l00376"></a>00376   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#bd922c17680290d9ff56ae952a02fb17">KickPlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, csString reason) = 0;
 <a name="l00377"></a>00377 
-<a name="l00385"></a>00385   <span class="keyword">virtual</span> <a class="code" href="classiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (csStringID channel_id) = 0;
+<a name="l00385"></a>00385   <span class="keyword">virtual</span> <a class="code" href="structiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (csStringID channel_id) = 0;
 <a name="l00386"></a>00386 
 <a name="l00391"></a>00391   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#45b7b85b7722f300a32a8e4c7f356bf6">RemoveChannel</a> (csStringID channel_id) = 0;
 <a name="l00392"></a>00392 
