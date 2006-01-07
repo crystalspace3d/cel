@@ -52,15 +52,6 @@
 	</requires>
       </class>
       <class>
-        <name>cel.pcfactory.craftcontroller</name>
-        <implementation>celPfCraftController</implementation>
-        <description>CEL Thruster type Craft Class Factory</description>
-        <requires>
-          <class>cel.physicallayer</class>
-          <class>cel.mechobject</class>
-        </requires>
-      </class>
-      <class>
         <name>cel.pcfactory.hover</name>
         <implementation>celPfHover</implementation>
         <description>CEL Hover type Class Factory</description>
