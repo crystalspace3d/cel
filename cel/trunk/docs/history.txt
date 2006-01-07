@@ -3,11 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+07-Jan-2006
+        - Genjix added a hover property class plugin. For a given
+          entity this will hover an object over the given mesh object.
+          Plan to document soon.
 05-Jan-2006
         - Arianna fixed some warnings (MSVC 7.1 - 64 bits).
 
 30-Dec-2005
-	- caedes replaced an apparition of ulong in blcel.i by unsigned long, 
+	- caedes replaced an apparition of ulong in blcel.i by unsigned long,
 	  as this is not recognized on some platforms.
 19-Dec-2005
 	- Jorrit fixed pccommandinput so that it tests if ParseOther()
@@ -51,7 +55,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for attaching text to billboards. Not
 	  working properly yet.
 28-Nov-2005
-	- res updated the Autoconf, Jam, and msvcgen files from the master 
+	- res updated the Autoconf, Jam, and msvcgen files from the master
 	  copies in the CS repository.
 27-Nov-2005
 	- Jorrit added iPcZoneManager->SetLoadingMode(). With this you
@@ -203,7 +207,7 @@ The history order is reversed so that new features are at the top.
 	      <cache path="/gamedata/cache" />
 	    </region>
 	- caedes added iCelRegion::DissociateEntity(iCelEntity),
-	  iCelZoneManager::GetLastStartRegionName() and 
+	  iCelZoneManager::GetLastStartRegionName() and
 	  iCelZoneManager::GetLastStartName(). For easier access to this
 	  parameters from scripts.
 22-Oct-2005
@@ -216,7 +220,7 @@ The history order is reversed so that new features are at the top.
 	  header was included without pl.h.
 	- caedes added python bindings for the sound property classes.
 	- caedes corrected trigger property class so it sends a parameter
-	  of type CEL_DATA_ENTITY instead of CEL_DATA_IBASE in its 
+	  of type CEL_DATA_ENTITY instead of CEL_DATA_IBASE in its
 	  messages to behaviours.
 	- caedes added some more types to CelParameterBlock::GetParameterValue
 	  python extension (entity, ibase, color, propertyclass, action).
@@ -225,7 +229,7 @@ The history order is reversed so that new features are at the top.
 	  the ball (a fix of a few days earlier).
 	- Jorrit added support for attaching lights and cameras to
 	  rigid bodies (in addition to meshes).
-	- caedes updated blxml, bootstrap and xmlgames to use the new sound 
+	- caedes updated blxml, bootstrap and xmlgames to use the new sound
 	  system.
 20-Oct-2005
 	- David Bronke added SetMesh and SetPosition actions to the simple
@@ -312,18 +316,18 @@ The history order is reversed so that new features are at the top.
 	- Eric Sunshine eliminated a bunch of compilation warnings reported by
 	  MSVC 7.1 about possible numeric truncation.
 5-Sep-2005
-	- Andrew Dai added SetHugGround(bool) to allow the pcmesh to be 
-	  transformed according to the contour of the ground, this defaults 
+	- Andrew Dai added SetHugGround(bool) to allow the pcmesh to be
+	  transformed according to the contour of the ground, this defaults
 	  to false unless the model's z dimension is greater than 1.
 	- caedes extended python interface for iCelParameterBlock with
 	  GetParameterValue function. This gets a csStringID as parameter and
 	  returns the appropiate python object according to celData contents.
-	- caedes corrected a bug in pfinput where parameters for mouse and 
-	  joystick messages where being set in return value instead of passed 
+	- caedes corrected a bug in pfinput where parameters for mouse and
+	  joystick messages where being set in return value instead of passed
 	  parameter block when messaging entities.
 4-Sep-2005
 	- Andrew Dai improved celPcLinearMovement so that it can transform
-	  the pcmesh to follow the contour of the ground it is standing on, 
+	  the pcmesh to follow the contour of the ground it is standing on,
 	  with HugGround().
 	- Eric Sunshine added a pthread check to configure.ac, and upgraded the
 	  HawkNL check to utilize the pthread results since pthread is needed
@@ -549,7 +553,7 @@ The history order is reversed so that new features are at the top.
 	- Dariusz Dawidowski added new XML actions for pcdefaultcamera:
 	  SetCamera and SetZoneManager.
 23-Jun-2005
-	- Dariusz Dawidowski overloaded SetZoneManager for camera which 
+	- Dariusz Dawidowski overloaded SetZoneManager for camera which
 	  now also accepts entity name instead of pointer to iPcZoneManager.
 	- Dariusz Dawidowski added XML actions for pcactormove:
 	  Forward, Backward, StrafeLeft, StrafeRight, RotateLeft, RotateRight,
@@ -565,7 +569,7 @@ The history order is reversed so that new features are at the top.
 	  <createentity template="..." />
 21-Jun-2005
 	- Andrew Dai added CollisionDetectIterative to celPcCollisionDetection
-	  which allows the maximum position an object can move to to be found. 
+	  which allows the maximum position an object can move to to be found.
 20-Jun-2005
 	- Eric Sunshine applied a patche from Pablo <caedes@sindominio.net>:
 	    - Added iPcTooltip to the blcel.i.
@@ -575,7 +579,7 @@ The history order is reversed so that new features are at the top.
 	      inclusion).
 	    - Added a line to actor.py for responding adequately to camera
 	      change action.
-	- res applied a change from Pablo <caedes@sindominio.net> to add 
+	- res applied a change from Pablo <caedes@sindominio.net> to add
 	  iPcZoneManager to blcel.i.
 19-Jun-2005
 	- Andrew Dai changed celPcLinearMovement and reliant classes to use a
@@ -756,7 +760,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pclinmove so that clearing the anchor actually works.
 26-May-2005
         - Cirilo fixes the soft DR update.  The original version was
-	  causing accumulated position errors. 
+	  causing accumulated position errors.
 	- Eric Sunshine eliminated some compilation warnings.
 25-May-2005
 	- Jorrit applied a patch from Cirilo Bernardo which enables soft
@@ -1444,7 +1448,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed celtest to use SetPath() so that the relative path
 	  works.
 	- res made the following changes:
-	    - Made blcel.i use %import instead of %include for the cspace 
+	    - Made blcel.i use %import instead of %include for the cspace
 	      stuff.
 	    - Ported SWIG_init -> SWIG_init_<module> change from CS.
 	    - Augmented blpython to include the SWIG stuff from the cspycommon
@@ -1600,7 +1604,7 @@ The history order is reversed so that new features are at the top.
 	  implementation so if your property class implementation uses
 	  celPcCommon it will be ok.
 	  Note that the original methods FindByInterface() and FindByName()
-	  from iCelPropertyClassList have been modified so that they will 
+	  from iCelPropertyClassList have been modified so that they will
 	  preferably return the property class with no tag (tag is 0). If no
 	  such property class is present then it will pick a random one
 	  from the property classes that have a tag.
@@ -1630,13 +1634,13 @@ The history order is reversed so that new features are at the top.
 	- Andrew Dai made it so that it is possible for gravity to be applied
 	  to linear movement even if collision detection is turned off. This
 	  can be done by forcing onground to be false.
-	- Luca removed the constness of 
+	- Luca removed the constness of
 	  celEnterSectorTriggerFactory::entity_name_par and
-	  celEnterSectorTriggerFactory::sector_name_par and 
+	  celEnterSectorTriggerFactory::sector_name_par and
 	  celDebugPrintRewardFactory::msg_par and created a new string using
-	  csStrNew() every time a string is assigned to one of those 
+	  csStrNew() every time a string is assigned to one of those
 	  variables. This way we do not try anymore to delete in the destructor
-	  of those classes a string already created and destroyed elsewhere 
+	  of those classes a string already created and destroyed elsewhere
 	  (this happened when we were deleting the string returned by
 	  an iDocumentNode::GetAttributeValue() call).
 7-Dec-2004
@@ -1755,7 +1759,7 @@ The history order is reversed so that new features are at the top.
 	  SetDistance() method of celPcCamera via iPcCamera.
 19-Nov-2004
 	- Keith Fulton fixed a bug which caused entities with a pccolldet
-	  present but CD disabled from ever having their positions updated 
+	  present but CD disabled from ever having their positions updated
 	  when moving.
 13-Nov-2004
 	- Andrew Dai fixed a bug with the field lastDRUpdate not being
@@ -1942,10 +1946,10 @@ The history order is reversed so that new features are at the top.
 27-Aug-2004
         - Remi Bonnet fixed CEL_QUERY_PROPCLASS so that it use the new
           scfInterface<Interface>::GetID() function instead of the old
-	  one that can't be used inside templates (stringify an 
+	  one that can't be used inside templates (stringify an
 	  argument)
 24-Aug-2004
-	- Remi Bonnet added a GetRegion() function to the pcregion 
+	- Remi Bonnet added a GetRegion() function to the pcregion
 	  propclass and fixed some functions that searched for sectors
 	  in the whole engine instead of only the region.
 20-Aug-2004
@@ -2328,7 +2332,7 @@ The history order is reversed so that new features are at the top.
 	      dependence will be eliminated in the future, allowing these files
 	      to be retired).
 	    - Fixed broken @node and @menu directives in cel.txi.
-	- res updated the msvcgen settings to utilize the new "debug settings" 
+	- res updated the msvcgen settings to utilize the new "debug settings"
 	  feature.
 	- res fixed some double vs float MSVC warnings.
 	- res fixed the celtool jamfile to employ ExternalLibs for CS.
@@ -2433,7 +2437,7 @@ The history order is reversed so that new features are at the top.
 12-Mar-2004
 	- Keith Fulton committed a patch from res2k to fix CEL for CS changes.
 28-Feb-2004
-	- Norman Kraemer added some macros to the swig file that cut down 
+	- Norman Kraemer added some macros to the swig file that cut down
 	  overall size of the file by a third.
 	  He also changed augmented the list of include paths given to swig
 	  to include the $(TOP)/include
@@ -2452,7 +2456,7 @@ The history order is reversed so that new features are at the top.
           Furthermore action CelConfigGen created empty if/then/else
 	  branches in cel-config.
 	  He also modified cel.m4. Function CS_PATH_CEL sent it's parameters
-	  unembraced to CS_PATH_CEL_HELPER, so if, say, the FAILED-ACTION 
+	  unembraced to CS_PATH_CEL_HELPER, so if, say, the FAILED-ACTION
 	  block contains an errormessage which in turn contains commatas the
 	   resulting output (the configure script) will be royally screwed.
 18-Feb-2004
@@ -2963,7 +2967,7 @@ The history order is reversed so that new features are at the top.
 	  system.
 	- Jorrit converted 'var' operation to the new system.
 30-Nov-2003
-	- Jorrit made attribute parsing in the XML behaviour layer and 
+	- Jorrit made attribute parsing in the XML behaviour layer and
 	  the celentity addon a bit more efficient.
 	- Jorrit enhanced 'getproperty', 'property', and 'action' in the XML
 	  behaviour layer so that they have an optional 'entity' parameter
@@ -3192,7 +3196,7 @@ The history order is reversed so that new features are at the top.
 	  To fire up the xmltest.xml example you can use the following
 	  command (on one line):
 	    bootstrap cel.behaviourlayer.xml bootstrap load /this/scripts
-	    	xmltest.xml 
+	    	xmltest.xml
 	- Jorrit fixed a bug in the property list of the pcregion property
 	  class. It set 5 properties but only 4 are defined. In addition
 	  there was a bogus first property set which was immediatelly
