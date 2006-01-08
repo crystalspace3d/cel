@@ -53,8 +53,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  framec = 0;
-
+  step_limit = 3;
   step_time = 5;
   remaining_time = 0;
 
@@ -87,15 +86,14 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
 
 void celPcHover::TickEveryFrame ()
 {
-  framec++;
-  if (framec < 5)
-    return;
-
   /*                                     *
    *   Is there not an easier way to get *
    *   my object to pause periodically?  *
    *                                     */
   float elapsed_time = vc->GetElapsedTicks () + remaining_time;
+
+  if (elapsed_time > step_limit * step_time)
+    return;
 
   // step however many times since last frame encompasses
   while (elapsed_time >= step_time)
