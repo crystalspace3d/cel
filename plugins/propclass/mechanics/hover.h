@@ -34,6 +34,7 @@
 
 struct iPcMesh;
 struct iPcMechanicsObject;
+struct iVirtualClock;
 
 /**
  * Factory for hover.
@@ -55,9 +56,10 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickEveryFrame ();
 
   /**
-   * Should Tick every frame and update the objects
+   * Should Tick every delta and update the objects
    * height
    */
   virtual void PerformStabilising();
@@ -69,19 +71,20 @@ public:
   virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
   virtual void SetStabiliserFunction(StabiliserFunction *sfunc) { func = sfunc; }
+  virtual void SetStepTime(float steptime) { step_time = steptime; }
 
   /**
    * Debug function (provides presets)
    */
-  virtual void AmirsCheatingDefaults();
+  virtual void DefaultHeightFunction();
 
   struct PcHover : public iPcHover
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcHover);
 
-    virtual void AmirsCheatingDefaults()
+    virtual void DefaultHeightFunction()
     {
-      scfParent->AmirsCheatingDefaults();
+      scfParent->DefaultHeightFunction();
     }
     virtual void SetWorldMesh(csRef<iPcMesh> wmesh)
     {
@@ -111,6 +114,10 @@ public:
     {
       scfParent->SetStabiliserFunction(sfunc);
     }
+    virtual void SetStepTime(float step_time)
+    {
+      scfParent->SetStepTime(step_time);
+    }
   } scfiPcHover;
 
   // Made independent to avoid circular refs and leaks.
@@ -123,7 +130,7 @@ public:
     virtual ~CelTimerListener () { }
     virtual void TickEveryFrame ()
     {
-      parent->PerformStabilising ();
+      parent->TickEveryFrame ();
     }
     virtual void TickOnce ()
     {
@@ -167,6 +174,15 @@ private:
   float height_beam_cutoff;
   /// function which computes upthrust depending on height
   StabiliserFunction *func;
+
+  /// hover step time
+  float step_time;
+  /// remaining time
+  float remaining_time;
+  /// virtual clock used for calculating the passed time
+  csRef<iVirtualClock> vc;
+  /// maximum amount of steps allowed per frame
+  float step_limit;
 };
 
 #endif
