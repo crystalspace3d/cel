@@ -70,15 +70,6 @@ static char const metainfo_pfmechanics[] =
 "	</requires>"
 "      </class>"
 "      <class>"
-"        <name>cel.pcfactory.craftcontroller</name>"
-"        <implementation>celPfCraftController</implementation>"
-"        <description>CEL Thruster type Craft Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"          <class>cel.mechobject</class>"
-"        </requires>"
-"      </class>"
-"      <class>"
 "        <name>cel.pcfactory.hover</name>"
 "        <implementation>celPfHover</implementation>"
 "        <description>CEL Hover type Class Factory</description>"
@@ -115,10 +106,6 @@ static char const metainfo_pfmechanics[] =
   #define celPfMechanicsThrusterReactionary_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterReactionary) 
   #endif
-  #ifndef celPfCraftController_FACTORY_REGISTER_DEFINED 
-  #define celPfCraftController_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCraftController) 
-  #endif
   #ifndef celPfHover_FACTORY_REGISTER_DEFINED 
   #define celPfHover_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfHover) 
@@ -150,10 +137,6 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #ifndef celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
   #define celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
     celPfMechanicsThrusterReactionary_StaticInit celPfMechanicsThrusterReactionary_static_init__; 
-  #endif
-  #ifndef celPfCraftController_FACTORY_REGISTERED 
-  #define celPfCraftController_FACTORY_REGISTERED 
-    celPfCraftController_StaticInit celPfCraftController_static_init__; 
   #endif
   #ifndef celPfHover_FACTORY_REGISTERED 
   #define celPfHover_FACTORY_REGISTERED 
