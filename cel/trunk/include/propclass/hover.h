@@ -37,7 +37,7 @@ struct iPcHover : public virtual iBase
   /**
    * Debug function (provides presets)
    */
-  virtual void AmirsCheatingDefaults() = 0;
+  virtual void DefaultHeightFunction() = 0;
 
   /**
    * Set the mesh to do the height tests on (the ground)
@@ -83,6 +83,11 @@ struct iPcHover : public virtual iBase
    * height of ship
    */
   virtual void SetStabiliserFunction(StabiliserFunction *sfunc) = 0;
+
+  /**
+    * Set the tick time the ship is updated.
+    */
+  virtual void SetStepTime(float step_time) = 0;
 };
 
 #endif
