@@ -160,7 +160,6 @@ void celPcHover::PerformStabilising ()
   float height = Height();
 
   float force = func->Force (height);
-  printf("%f\t%f\n",height,force);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01f);
