@@ -1,104 +1,102 @@
 #ifndef STABILISER_DISTRIBUTIONS_H
 #define STABILISER_DISTRIBUTIONS_H
 
+#include <csutil/array.h>
 #include <csutil/ref.h>
-#include <vector>
+#include <csutil/refcount.h>
 
 struct iPcMechanicsObject;
 
-class StabiliserFunction
+class StabiliserFunction : public csRefCount
 {
-    public:
-	virtual ~StabiliserFunction() {};
-	virtual float Force(float height) = 0;
+public:
+  virtual ~StabiliserFunction() {};
+  virtual float Force(float height) = 0;
 };
 
 class IntervalMetaDistribution : public StabiliserFunction
 {
-    public:
-	~IntervalMetaDistribution();
-	void Add(StabiliserFunction *func , float low_int , float high_int);
+public:
+  void Add(csRef<StabiliserFunction> func , float low_int , float high_int);
 
-	float Force(float h);
-    private:
-	struct Interval
-	{
-		float low , high;
-		StabiliserFunction *func;
-	};
+  float Force(float h);
+private:
+  struct Interval
+  {
+    float low , high;
+    csRef<StabiliserFunction> func;
+  };
 
-	std::vector<Interval> funcs;
+  csArray<Interval> funcs;
 };
 
 class IfFallingDistribution : public StabiliserFunction
 {
-    public:
-	IfFallingDistribution(csRef<iPcMechanicsObject> ship,
-		StabiliserFunction *ifdist , StabiliserFunction *elsedist , float adelta = -1.0);
-	~IfFallingDistribution();
+public:
+  IfFallingDistribution(csRef<iPcMechanicsObject> ship,
+    csRef<StabiliserFunction> ifdist , csRef<StabiliserFunction> elsedist , float adelta = -1.0);
 
-	float Force(float h);
-    private:
-	csRef<iPcMechanicsObject> ship_mech;
-	StabiliserFunction *if_dist , *else_dist;
-	float delta;
+  float Force(float h);
+private:
+  csRef<iPcMechanicsObject> ship_mech;
+  csRef<StabiliserFunction> if_dist , else_dist;
+  float delta;
 };
 
 class FallingMultiplierDistribution : public StabiliserFunction
 {
-    public:
-	FallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , StabiliserFunction *adist);
-	~FallingMultiplierDistribution();
+public:
+  FallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<StabiliserFunction> adist);
 
-	float Force(float h);
-    private:
-	csRef<iPcMechanicsObject> ship_mech;
-	StabiliserFunction *dist;
+  float Force(float h);
+private:
+  csRef<iPcMechanicsObject> ship_mech;
+  csRef<StabiliserFunction> dist;
 };
 
 class ReturnConstantValue : public StabiliserFunction
 {
-    public:
-	ReturnConstantValue(float avalue = 0.0);
+public:
+  ReturnConstantValue(float avalue = 0.0);
 
-	float Force(float h);
+  float Force(float h);
 
-	float value;
+  float value;
 };
 
 class LinearGradient : public StabiliserFunction
 {
-    public:
-	LinearGradient(float m , float c) : m(m) , c(c) {}
+public:
+  LinearGradient(float m , float c) : m(m) , c(c) {}
 
-	float Force(float h) { return m*h + c; }
+  float Force(float h) { return m*h + c; }
 
-	float m , c;
+  float m , c;
 };
 
 class InversePowerDistribution : public StabiliserFunction
 {
-    public:
-	InversePowerDistribution(float h0 , float f0 , float h1 , float f1);
+public:
+  InversePowerDistribution(float h0 , float f0 , float h1 , float f1);
 
-	float Force(float h);
-    private:
-	static float ComputeK(float h0 , float f0 , float h1 , float f1);
-	static float ComputeX(float h , float f , float k);
+  float Force(float h);
+private:
+  static float ComputeK(float h0 , float f0 , float h1 , float f1);
+  static float ComputeX(float h , float f , float k);
 
-	float Formula(float h);
+  float Formula(float h);
 
-	float k , x;
+  float k , x;
 };
 
 class SquareDistribution : public StabiliserFunction
 {
-    public:
-	SquareDistribution(float h0 , float f0 , float h1 , float f1);
+public:
+  SquareDistribution(float h0 , float f0 , float h1 , float f1);
 
-	float Force(float h);
-    private:
-	float a , k;
+  float Force(float h);
+private:
+  float a , k;
 };
 
 #endif
