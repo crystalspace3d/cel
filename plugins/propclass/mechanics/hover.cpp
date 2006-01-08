@@ -31,6 +31,7 @@
 
 #include <iengine/mesh.h>
 #include <ivaria/dynamics.h>
+#include <iutil/virtclk.h>
 
 //---------------------------------------------------------------------------
 
@@ -50,6 +51,17 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
   scfiCelTimerListener = new CelTimerListener (this);
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
+
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  framec = 0;
+
+  step_time = 5;
+  remaining_time = 0;
+
+  ang_beam_offset = 2;
+  ang_cutoff_height = 5;
+  ang_mult = 1;
+  height_beam_cutoff = 200;
 }
 
 celPcHover::~celPcHover ()
@@ -60,32 +72,51 @@ celPcHover::~celPcHover ()
 
 csPtr<iCelDataBuffer> celPcHover::Save ()
 {
-  printf("celPcHover::Save\n");
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
   return csPtr<iCelDataBuffer> (databuf);
 }
 bool celPcHover::Load (iCelDataBuffer* databuf)
 {
-  printf("celPcHover::Load\n");
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   return true;
 }
 bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
 {
-  printf("celPcHover::PerformAction\n");
   return true;
 }
 
-
-void celPcHover::SetWorld(const char *name)
+void celPcHover::TickEveryFrame ()
 {
-  printf("celPcHover::SetWorld(const char *name)\n");
+  framec++;
+  if (framec < 5)
+    return;
+
+  /*                                     *
+   *   Is there not an easier way to get *
+   *   my object to pause periodically?  *
+   *                                     */
+  float elapsed_time = vc->GetElapsedTicks () + remaining_time;
+
+  // step however many times since last frame encompasses
+  while (elapsed_time >= step_time)
+  {
+    PerformStabilising ();
+    elapsed_time -= step_time;
+  }
+
+  // so we don't redo already done steps
+  remaining_time = elapsed_time;
+}
+
+
+void celPcHover::SetWorld (const char *name)
+{
   iCelEntity *went = pl->FindEntity (name);
   if(!went)  return;
   world_mesh = CEL_QUERY_PROPCLASS_ENT (went , iPcMesh);
 }
 
-void celPcHover::AmirsCheatingDefaults()
+void celPcHover::DefaultHeightFunction ()
 {
   IntervalMetaDistribution *i = new IntervalMetaDistribution();
   i->Add(new ReturnConstantValue(70.0) , -9999999999.0f , 0.0001f);
@@ -99,14 +130,9 @@ void celPcHover::AmirsCheatingDefaults()
 
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   func = new IfFallingDistribution(ship_mech , i , e , 0.0);
-
-  ang_beam_offset = 2;
-  ang_cutoff_height = 5;
-  ang_mult = 1;
-  height_beam_cutoff = 200;
 }
 
-float celPcHover::AngularAlignment(csVector3 offset , float height)
+float celPcHover::AngularAlignment (csVector3 offset, float height)
 {
 	csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity() , iPcMechanicsObject);
 	offset *= ang_beam_offset;
@@ -131,11 +157,12 @@ float celPcHover::AngularAlignment(csVector3 offset , float height)
 	return (r_down + r_up) / 2;	// 2 good rotation values - average them
 }
 
-void celPcHover::PerformStabilising()
+void celPcHover::PerformStabilising ()
 {
   float height = Height();
 
   float force = func->Force (height);
+  printf("%f\t%f\n",height,force);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01f);
@@ -148,7 +175,7 @@ void celPcHover::PerformStabilising()
   }
 }
 
-float celPcHover::Height(csVector3 offset)
+float celPcHover::Height (csVector3 offset)
 {
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   csVector3 start = ship_mech->GetBody()->GetPosition() + offset;
@@ -165,7 +192,7 @@ float celPcHover::Height(csVector3 offset)
   else
     return ReverseHeight(start);
 }
-float celPcHover::ReverseHeight(csVector3 &start)
+float celPcHover::ReverseHeight (csVector3 &start)
 {
   csVector3 end = start + csVector3(0,height_beam_cutoff,0);
 #ifdef NEW_HEIGHTCALC
