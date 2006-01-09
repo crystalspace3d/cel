@@ -54,7 +54,7 @@
 <a name="l00034"></a>00034 {
 <a name="l00035"></a>00035   SCF_INTERFACE (<a class="code" href="structiPcHover.html">iPcHover</a>, 0, 0, 1);
 <a name="l00036"></a>00036 
-<a name="l00040"></a>00040   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#f78e62fce9ecebbf0520843fbde733ab">AmirsCheatingDefaults</a>() = 0;
+<a name="l00040"></a>00040   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#9a3ce83e7087a6f0e7a9ec9b124b9c6f">DefaultHeightFunction</a>() = 0;
 <a name="l00041"></a>00041 
 <a name="l00046"></a>00046   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#4db747e68cc9006ac05d50f5ff13709e">SetWorldMesh</a>(csRef&lt;iPcMesh&gt; wmesh) = 0;
 <a name="l00047"></a>00047 
@@ -69,9 +69,11 @@
 <a name="l00079"></a>00079   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#1b6dbf7f13686acaf93a70c5ed6df6a9">SetAngularCorrectionStrength</a>(<span class="keywordtype">float</span> mul) = 0;
 <a name="l00080"></a>00080 
 <a name="l00085"></a>00085   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#ad2593ea41082a35383a78245acdcc6d">SetStabiliserFunction</a>(StabiliserFunction *sfunc) = 0;
-<a name="l00086"></a>00086 };
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 <span class="preprocessor">#endif</span>
+<a name="l00086"></a>00086 
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcHover.html#a1b60d0edcf0448194eb36aaa871f218">SetStepTime</a>(<span class="keywordtype">float</span> step_time) = 0;
+<a name="l00091"></a>00091 };
+<a name="l00092"></a>00092 
+<a name="l00093"></a>00093 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
