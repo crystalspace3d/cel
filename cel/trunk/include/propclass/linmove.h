@@ -55,7 +55,7 @@ public:
     virtual void Callback () = 0;
 };
 
-SCF_VERSION (iPcLinearMovement, 0, 0, 1);
+SCF_VERSION (iPcLinearMovement, 0, 0, 2);
 
 /**
  * This property class controls movement of an entity in a realistic
@@ -73,7 +73,8 @@ SCF_VERSION (iPcLinearMovement, 0, 0, 1);
  * <li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3).
  * <li>InitCDMesh: parameters 'percentage' (float).
- * <li>SetPosition: parameters 'sector' (string), 'position' (vector3), and
+ * <li>SetPosition: parameters 'sector' (string), 'position' (vector3 or
+ *     string (name of mapnode in that case)), and
  *     'yrot' (y rotation degrees).
  * </ul>
  * <p>
@@ -175,24 +176,22 @@ struct iPcLinearMovement : public iBase
    */
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0) = 0;
 
-   /// Returns the difference in time between now and when the last DR update or extrapolation took place
-  virtual csTicks TimeDiff(void) = 0;
+  /**
+   * Returns the difference in time between now and when the last DR update
+   * or extrapolation took place
+   */
+  virtual csTicks TimeDiff (void) = 0;
 
   /// Return all necessary data for Dead Reckoning
-  virtual void GetDRData(bool& on_ground,
-                         float& speed,
-                         csVector3& pos,
-                         float& yrot,
-                         iSector*& sector,
-                         csVector3& vel,
-                         csVector3& worldVel,
-                         float& ang_vel) = 0;
+  virtual void GetDRData (bool& on_ground, float& speed, csVector3& pos,
+  	float& yrot, iSector*& sector, csVector3& vel, csVector3& worldVel,
+  	float& ang_vel) = 0;
 
 
   /// Sets all relevant dead reckoning data on this entity
-  virtual void SetDRData(bool on_ground,float speed,
-                         csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel,csVector3& worldVel,float ang_vel) = 0;
+  virtual void SetDRData (bool on_ground,float speed, csVector3& pos,
+  	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
+  	float ang_vel) = 0;
 
   /**
    * Sets dead reckoning data in a 'soft' way.  Instead of immediately
@@ -200,9 +199,9 @@ struct iPcLinearMovement : public iBase
    * current position and the new position.  Over the period of 1 second,
    * the position will be offset until this position error is zero.
    */
-  virtual void SetSoftDRData(bool on_ground,float speed,
-                         csVector3& pos,float yrot,iSector *sector,
-                         csVector3& vel, csVector3& worldVel,float ang_vel) = 0;
+  virtual void SetSoftDRData (bool on_ground,float speed, csVector3& pos,
+  	float yrot,iSector *sector, csVector3& vel, csVector3& worldVel,
+  	float ang_vel) = 0;
 
   /**
    * Set full position and sector. The position is absolute and will
@@ -231,7 +230,7 @@ struct iPcLinearMovement : public iBase
   	iSector*& sector) = 0;
 
   /// Is a csPath active now or standard DR movement?
-  virtual bool IsPath() const = 0;
+  virtual bool IsPath () const = 0;
 
   /**
    * Get sector.
@@ -312,9 +311,9 @@ struct iPcLinearMovement : public iBase
 
   virtual void SetGravity (float grav) = 0;
 
-  virtual float GetGravity() = 0;
+  virtual float GetGravity () = 0;
 
-  virtual void ResetGravity() = 0;
+  virtual void ResetGravity () = 0;
 
   /**
    * Shedules a callback when gravity has grasped an object
@@ -330,10 +329,24 @@ struct iPcLinearMovement : public iBase
   virtual void RemoveGravityCallback (iPcGravityCallback* callback) = 0;
 
   /// Get the total displacement caused by space warping portals.
-  virtual csVector3 GetPortalDisplacement() = 0;
+  virtual csVector3 GetPortalDisplacement () = 0;
 
   /// Clear the total displacement caused by space warping portals.
-  virtual void ClearPortalDisplacement() = 0;
+  virtual void ClearPortalDisplacement () = 0;
+
+  /**
+   * Set full position and sector. The position is absolute and will
+   * be corrected to fit on the anchor if there is one.
+   * Use node name as center.
+   */
+  virtual void SetFullPosition (const char* center_name, float yrot,
+  	iSector* sector) = 0;
+  /**
+   * Set position and sector. The position is relative to the
+   * anchor (if there is one). Use node name as center.
+   */
+  virtual void SetPosition (const char* center_name, float yrot,
+  	iSector* sector) = 0;
 };
 
 #endif
