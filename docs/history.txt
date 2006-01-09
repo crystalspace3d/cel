@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8
           projects, just as CS now does.
+	- Dariusz Dawidowski added overloaded iPcLinearMovement::SetPosition
+  	  method with name of the node instead of position vector.
 07-Jan-2006
         - Genjix added a hover property class plugin. For a given
           entity this will hover an object over the given mesh object.

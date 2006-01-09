@@ -47,6 +47,7 @@
 #include <cstool/collider.h>
 #include <ivaria/collider.h>
 #include <ivaria/reporter.h>
+#include "ivaria/mapnode.h"
 
 #include <imesh/thing.h>
 #include <csgeom/polymesh.h>
@@ -179,7 +180,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   path = 0;
   path_speed = 0;
   path_time  = 0;
-  
+
   offset_err = 0;
   offset_rate = 0;
 
@@ -451,10 +452,6 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
   }
   else if (actionId == action_setposition)
   {
-    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position)
-      return MoveReport (object_reg,
-      	"Missing parameter 'position' for action SetPosition!");
     CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
     if (!p_yrot)
       return MoveReport (object_reg,
@@ -467,7 +464,26 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
     if (!sect)
       return MoveReport (object_reg,
       	"Can't find sector '%s' for action SetPosition!", sector);
-    SetPosition (position, yrot, sect);
+    const celData* p_position = params->GetParameter (id_position);
+    if (!p_position)
+      return MoveReport (object_reg,
+      	"Missing parameter 'position' for action SetPosition!");
+    if (p_position->type == CEL_DATA_VECTOR3)
+    {
+      csVector3 vpos;
+      vpos.x = p_position->value.v.x;
+      vpos.y = p_position->value.v.y;
+      vpos.z = p_position->value.v.z;
+      SetPosition (vpos, yrot, sect);
+    }
+    else if (p_position->type == CEL_DATA_STRING)
+    {
+      const char* cpos = p_position->value.s->GetData ();
+      SetPosition (cpos, yrot, sect);
+    }
+    else
+      return MoveReport (object_reg,
+      	"'position' must be string or vector for SetPosition!");
     return true;
   }
   return false;
@@ -686,19 +702,19 @@ bool celPcLinearMovement::MoveSprite (float delta)
 void celPcLinearMovement::OffsetSprite (float delta)
 {
   if (offset_err.IsZero()) return;  // no offset correction to perform
-  
+
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csVector3 oldpos = movable->GetPosition ();
   csVector3 newpos;
-  
+
   csVector3 del_offset = offset_rate;
   del_offset *= delta;
-  
+
   // Check for NaN conditions:
   if (del_offset.x != del_offset.x) del_offset.x = 0;
   if (del_offset.y != del_offset.y) del_offset.y = 0;
   if (del_offset.z != del_offset.z) del_offset.z = 0;
-  
+
   // Calculate error correction for this time interval
   if ((del_offset.x > offset_err.x && del_offset.x > 0) ||
       (del_offset.x < offset_err.x && del_offset.x < 0))
@@ -721,7 +737,7 @@ void celPcLinearMovement::OffsetSprite (float delta)
   offset_err -= del_offset;
 
   newpos = oldpos + del_offset;
-  
+
   movable->GetTransform ().SetOrigin (newpos);
 }
 
@@ -732,7 +748,7 @@ bool celPcLinearMovement::MoveV (float delta)
   	&& (!pccolldet || pccolldet->IsOnGround()))
     return false;  // didn't move anywhere
 
-  
+
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
 
   csMatrix3 mat;
@@ -754,7 +770,7 @@ bool celPcLinearMovement::MoveV (float delta)
       newpos = oldpos;
       //return false;                   // We haven't moved so return early
 
-  
+
   csVector3 origNewpos = newpos;
   bool mirror = false;
 
@@ -996,7 +1012,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     path_time += delta;
     path->CalculateAtTime(path_time);
     csVector3 pos,look,up;
-    
+
     path->GetInterpolatedPosition(pos);
     path->GetInterpolatedUp(up);
     path->GetInterpolatedForward(look);
@@ -1113,7 +1129,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   if(bottomSize.z > 1)
     hugGround = true;
-  
+
   intervalSize.x = MIN(topSize.x, bottomSize.x);
   intervalSize.y = MIN(topSize.y, bottomSize.y);
   intervalSize.z = MIN(topSize.z, bottomSize.z);
@@ -1262,7 +1278,7 @@ void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
 }
 
 void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
-	const  iSector* sector)
+	const iSector* sector)
 {
   FindSiblingPropertyClasses ();
   // Position
@@ -1287,8 +1303,24 @@ void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,
   pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 }
 
+void celPcLinearMovement::SetFullPosition (const char* center_name, float yrot,
+	iSector* sector)
+{
+  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, center_name);
+  if (mapnode)
+  {
+    SetFullPosition (mapnode->GetPosition (), yrot, sector);
+  }
+  else
+  {
+    MoveReport (object_reg, "Can't find node '%s'!",
+    	(const char*)center_name);
+  }
+}
+
 void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
-	const  iSector* sector)
+	const iSector* sector)
 {
   FindSiblingPropertyClasses ();
   // Position
@@ -1300,6 +1332,22 @@ void celPcLinearMovement::SetPosition (const csVector3& pos, float yrot,
 
   // Sector
   pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+}
+
+void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
+	iSector* sector)
+{
+  csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+  	sector->QueryObject (), iMapNode, center_name);
+  if (mapnode)
+  {
+    SetPosition (mapnode->GetPosition (), yrot, sector);
+  }
+  else
+  {
+    MoveReport (object_reg, "Can't find node '%s'!",
+    	(const char*)center_name);
+  }
 }
 
 void celPcLinearMovement::SetDRData(bool on_ground,float speed,
@@ -1347,7 +1395,7 @@ void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
     offset_rate = offset_err = csVector3(0,0,0);
     SetPosition(pos,yrot,sector);
   }
-  
+
   this->speed = speed;
   SetVelocity(vel);
   ClearWorldVelocity();
@@ -1385,11 +1433,11 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
   databuf->Add (vel);
   databuf->Add (worldVel);
   databuf->Add (ang_vel);
-  
+
   return csPtr<iCelDataBuffer> (databuf);
 }
 
-celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time, 
+celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
         iCelDataBuffer* databuf, celPersistenceType persistence_type)
 {
   int serialnr = databuf->GetSerialNumber ();
@@ -1424,7 +1472,7 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
 
   // TODO: use data_time for DR data time
   // TODO: send also sector
-  SetSoftDRData (dr_on_ground, dr_speed, dr_pos, dr_yrot, GetSector (), 
+  SetSoftDRData (dr_on_ground, dr_speed, dr_pos, dr_yrot, GetSector (),
   		 dr_vel, dr_worldVel, dr_ang_vel);
 
   return CEL_PERSIST_RESULT_OK;
