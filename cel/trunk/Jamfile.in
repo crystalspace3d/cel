@@ -21,8 +21,9 @@ Clean maintainerclean : configure aclocal.m4 config.h.in ;
 Depends maintainerclean : distclean ;
 
 # Enable msvcgen
-MsvcGenSubDir TOP msvc : 6 ;
-MsvcGenSubDir TOP msvc : 7 ;
+MsvcGenSubDir TOP msvc 7 : 7 ;
+MsvcGenSubDir TOP msvc 71 : 71 ;
+MsvcGenSubDir TOP msvc 8 : 8 ;
 MsvcGenTemplateDir TOP mk msvcgen ;
 # What the typical user will need. 
 MsvcGenWorkspace cel : : "grp.+_(?!cel$)" static ;
@@ -43,17 +44,17 @@ MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ]
   [ ConcatDirs "$(hash)(CRYSTAL)" include csutil win32 ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS :
-  [ ConcatDirs .. .. .. CS out release libs ]
-  [ ConcatDirs .. .. .. CS libs csutil win32 ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" out release libs ]
+  [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
 MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
-  [ ConcatDirs .. .. .. CS out debug libs ]
-  [ ConcatDirs .. .. .. CS libs csutil win32 ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" out debug libs ]
+  [ ConcatDirs .. .. .. CS out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS libs csutil win32 libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
-  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 ] ;
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
 
 MsvcGenConfig PYTHON.AVAILABLE : no ;
 
