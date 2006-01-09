@@ -3,13 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+09-Jan-2006
+        - res updated mk/autoconf and mk/jam from the CS master copies.
+        - res adjusted the VC project generation to generate VC7, 7.1 and VC8
+          projects, just as CS now does.
 07-Jan-2006
         - Genjix added a hover property class plugin. For a given
           entity this will hover an object over the given mesh object.
           Plan to document soon.
 05-Jan-2006
         - Arianna fixed some warnings (MSVC 7.1 - 64 bits).
-
 30-Dec-2005
 	- caedes replaced an apparition of ulong in blcel.i by unsigned long,
 	  as this is not recognized on some platforms.

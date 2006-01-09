@@ -5330,6 +5330,9 @@ fi
 # Check for external libraries.
 #----------------------------------------------------------------------------
 
+    case $host_os in
+    mingw*|cygwin*)
+
     if test "$cs_prog_path_prepared" != yes; then
   cs_prog_path_prepared=yes
 	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
@@ -5422,28 +5425,29 @@ done
   CSLIBS_CONFIG=$ac_ct_CSLIBS_CONFIG
 fi
 
-    if test $ac_compiler_gnu = yes; then
-  cs_cv_cslibs_compiler="--compiler gcc-`$CXX -dumpversion`"
+        if test $ac_compiler_gnu = yes; then
+  cs_cv_cslibs_compiler="--compiler gcc-`$CXX -dumpversion |
+	      sed 's/\([0-9]\?\)\.\([0-9]\?\)\.[0-9]\?/\1.\2/'`"
 fi
 
-    echo "$as_me:$LINENO: checking for cslibs package" >&5
+        echo "$as_me:$LINENO: checking for cslibs package" >&5
 echo $ECHO_N "checking for cslibs package... $ECHO_C" >&6
 if test "${cs_cv_cslibs+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   if test -n "$CSLIBS_CONFIG"; then
   cs_cv_cslibs=yes
-	    cs_cv_cslibs_cflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --cflags \$cs_cv_cslibs_compiler") >&5
+	       cs_cv_cslibs_cflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --cflags \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --cflags $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	    cs_cv_cslibs_lflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --lflags \$cs_cv_cslibs_compiler") >&5
+	       cs_cv_cslibs_lflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --lflags \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --lflags $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	    cs_cv_cslibs_binpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --binpath \$cs_cv_cslibs_compiler") >&5
+	       cs_cv_cslibs_binpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --binpath \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --binpath $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -5455,13 +5459,15 @@ fi
 fi
 echo "$as_me:$LINENO: result: $cs_cv_cslibs" >&5
 echo "${ECHO_T}$cs_cv_cslibs" >&6
-    if test $cs_cv_cslibs = yes; then
+        if test $cs_cv_cslibs = yes; then
   CFLAGS="$CFLAGS $cs_cv_cslibs_cflags"
-	CPPFLAGS="$CPPFLAGS $cs_cv_cslibs_cflags"
-	LDFLAGS="$LDFLAGS $cs_cv_cslibs_lflags"
-	PATH="$cs_cv_cslibs_binpath$PATH_SEPARATOR$PATH"
+	    CPPFLAGS="$CPPFLAGS $cs_cv_cslibs_cflags"
+	    LDFLAGS="$LDFLAGS $cs_cv_cslibs_lflags"
+	    PATH="$cs_cv_cslibs_binpath$PATH_SEPARATOR$PATH"
 fi
 
+        ;;
+    esac
 
     case $host_os in
 
