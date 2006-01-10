@@ -105,6 +105,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d144753dbf091089abfd47a2dc46109c">SetDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, csVector3 &amp;worldVel, float ang_vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets all relevant dead reckoning data on this entity.  <a href="#d144753dbf091089abfd47a2dc46109c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#f00c129526ae72ed91239e0a54e529e8">SetFullPosition</a> (const char *center_name, float yrot, iSector *sector)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set full position and sector.  <a href="#f00c129526ae72ed91239e0a54e529e8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set full position and sector.  <a href="#c2e794bf145fbd5230bc731d0a3bc8e1"></a><br></td></tr>
@@ -126,6 +129,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#05c5ee10d53720176bb591f1a910c6bb">SetPathTime</a> (float timeval)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the current position on the path for use when time deltas are added later.  <a href="#05c5ee10d53720176bb591f1a910c6bb"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#aa9d43289e9a440d8c733691f5b3c4c0">SetPosition</a> (const char *center_name, float yrot, iSector *sector)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#aa9d43289e9a440d8c733691f5b3c4c0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#a665242aafa97f3204e4118595c93442"></a><br></td></tr>
@@ -159,7 +165,7 @@ InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset' (vector3). <
 <li>
 InitCDMesh: parameters 'percentage' (float). </li>
 <li>
-SetPosition: parameters 'sector' (string), 'position' (vector3), and 'yrot' (y rotation degrees). </li>
+SetPosition: parameters 'sector' (string), 'position' (vector3 or string (name of mapnode in that case)), and 'yrot' (y rotation degrees). </li>
 </ul>
 <p>
 This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
@@ -170,7 +176,7 @@ anchor (string, read/write): name of the entity on which we are anchored. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="linmove_8h-source.html#l00087">87</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="linmove_8h-source.html#l00088">88</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="d3277adf4f3f41f2b0723b05ca7be340"></a><!-- doxytag: member="iPcLinearMovement::AddGravityCallback" ref="d3277adf4f3f41f2b0723b05ca7be340" args="(iPcGravityCallback *callback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1053,6 +1059,51 @@ Sets all relevant dead reckoning data on this entity.
     </td>
   </tr>
 </table>
+<a class="anchor" name="f00c129526ae72ed91239e0a54e529e8"></a><!-- doxytag: member="iPcLinearMovement::SetFullPosition" ref="f00c129526ae72ed91239e0a54e529e8" args="(const char *center_name, float yrot, iSector *sector)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::SetFullPosition           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>center_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>yrot</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>iSector *&nbsp;</td>
+          <td class="mdname" nowrap> <em>sector</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set full position and sector. 
+<p>
+The position is absolute and will be corrected to fit on the anchor if there is one. Use node name as center.     </td>
+  </tr>
+</table>
 <a class="anchor" name="c2e794bf145fbd5230bc731d0a3bc8e1"></a><!-- doxytag: member="iPcLinearMovement::SetFullPosition" ref="c2e794bf145fbd5230bc731d0a3bc8e1" args="(const csVector3 &amp;pos, float yrot, const iSector *sector)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -1285,6 +1336,51 @@ Speed=0 makes the entity stationary. Speed=1 is normal traversal of the path.   
 This function sets the current position on the path for use when time deltas are added later. 
 <p>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="aa9d43289e9a440d8c733691f5b3c4c0"></a><!-- doxytag: member="iPcLinearMovement::SetPosition" ref="aa9d43289e9a440d8c733691f5b3c4c0" args="(const char *center_name, float yrot, iSector *sector)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcLinearMovement::SetPosition           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>center_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>yrot</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>iSector *&nbsp;</td>
+          <td class="mdname" nowrap> <em>sector</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Set position and sector. 
+<p>
+The position is relative to the anchor (if there is one). Use node name as center.     </td>
   </tr>
 </table>
 <a class="anchor" name="a665242aafa97f3204e4118595c93442"></a><!-- doxytag: member="iPcLinearMovement::SetPosition" ref="a665242aafa97f3204e4118595c93442" args="(const csVector3 &amp;pos, float yrot, const iSector *sector)=0" --><p>
