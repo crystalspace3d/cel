@@ -16304,7 +16304,7 @@ static PyObject *_wrap_iPcLinearMovement_SetSoftDRData(PyObject *, PyObject *arg
 }
 
 
-static PyObject *_wrap_iPcLinearMovement_SetFullPosition(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcLinearMovement_SetFullPosition__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
     csVector3 *arg2 = 0 ;
@@ -16341,7 +16341,7 @@ static PyObject *_wrap_iPcLinearMovement_SetFullPosition(PyObject *, PyObject *a
 }
 
 
-static PyObject *_wrap_iPcLinearMovement_SetPosition(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcLinearMovement_SetPosition__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
     csVector3 *arg2 = 0 ;
@@ -16948,6 +16948,244 @@ static PyObject *_wrap_iPcLinearMovement_ClearPortalDisplacement(PyObject *, PyO
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_SetFullPosition__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    char *arg2 = (char *) 0 ;
+    float arg3 ;
+    iSector *arg4 = (iSector *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcLinearMovement_SetFullPosition",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    SWIG_Python_ConvertPtr(obj3, (void **)&arg4, SWIGTYPE_p_iSector, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(4)) SWIG_fail;
+    (arg1)->SetFullPosition((char const *)arg2,arg3,arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_SetFullPosition(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[5];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcLinearMovement, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        } else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iPcLinearMovement_SetFullPosition__SWIG_0(self,args);
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcLinearMovement, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        } else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iPcLinearMovement_SetFullPosition__SWIG_1(self,args);
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcLinearMovement_SetFullPosition'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_SetPosition__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+    char *arg2 = (char *) 0 ;
+    float arg3 ;
+    iSector *arg4 = (iSector *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcLinearMovement_SetPosition",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcLinearMovement, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    SWIG_Python_ConvertPtr(obj3, (void **)&arg4, SWIGTYPE_p_iSector, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(4)) SWIG_fail;
+    (arg1)->SetPosition((char const *)arg2,arg3,arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcLinearMovement_SetPosition(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[5];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcLinearMovement, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        } else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iPcLinearMovement_SetPosition__SWIG_0(self,args);
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcLinearMovement, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    {
+                        void *ptr;
+                        if (SWIG_ConvertPtr(argv[3], &ptr, SWIGTYPE_p_iSector, 0) == -1) {
+                            _v = 0;
+                            PyErr_Clear();
+                        } else {
+                            _v = 1;
+                        }
+                    }
+                    if (_v) {
+                        return _wrap_iPcLinearMovement_SetPosition__SWIG_1(self,args);
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcLinearMovement_SetPosition'");
     return NULL;
 }
 
@@ -25518,8 +25756,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_GetDRData", _wrap_iPcLinearMovement_GetDRData, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetDRData", _wrap_iPcLinearMovement_SetDRData, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_SetSoftDRData", _wrap_iPcLinearMovement_SetSoftDRData, METH_VARARGS, NULL},
-	 { (char *)"iPcLinearMovement_SetFullPosition", _wrap_iPcLinearMovement_SetFullPosition, METH_VARARGS, NULL},
-	 { (char *)"iPcLinearMovement_SetPosition", _wrap_iPcLinearMovement_SetPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetLastPosition", _wrap_iPcLinearMovement_GetLastPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetLastFullPosition", _wrap_iPcLinearMovement_GetLastFullPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_IsPath", _wrap_iPcLinearMovement_IsPath, METH_VARARGS, NULL},
@@ -25544,6 +25780,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_RemoveGravityCallback", _wrap_iPcLinearMovement_RemoveGravityCallback, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetPortalDisplacement", _wrap_iPcLinearMovement_GetPortalDisplacement, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_ClearPortalDisplacement", _wrap_iPcLinearMovement_ClearPortalDisplacement, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_SetFullPosition", _wrap_iPcLinearMovement_SetFullPosition, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_SetPosition", _wrap_iPcLinearMovement_SetPosition, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcLinearMovement", _wrap_delete_iPcLinearMovement, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_swigregister", iPcLinearMovement_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateLinearMovement", _wrap_celCreateLinearMovement, METH_VARARGS, NULL},

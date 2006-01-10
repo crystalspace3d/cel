@@ -1258,8 +1258,6 @@ class iPcLinearMovement(cspace.iBase):
     def GetDRData(*args): return _blcelc.iPcLinearMovement_GetDRData(*args)
     def SetDRData(*args): return _blcelc.iPcLinearMovement_SetDRData(*args)
     def SetSoftDRData(*args): return _blcelc.iPcLinearMovement_SetSoftDRData(*args)
-    def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
-    def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
     def GetLastPosition(*args): return _blcelc.iPcLinearMovement_GetLastPosition(*args)
     def GetLastFullPosition(*args): return _blcelc.iPcLinearMovement_GetLastFullPosition(*args)
     def IsPath(*args): return _blcelc.iPcLinearMovement_IsPath(*args)
@@ -1284,6 +1282,8 @@ class iPcLinearMovement(cspace.iBase):
     def RemoveGravityCallback(*args): return _blcelc.iPcLinearMovement_RemoveGravityCallback(*args)
     def GetPortalDisplacement(*args): return _blcelc.iPcLinearMovement_GetPortalDisplacement(*args)
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
+    def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
+    def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
     def __del__(self, destroy=_blcelc.delete_iPcLinearMovement):
         try:
             if self.thisown: destroy(self)
