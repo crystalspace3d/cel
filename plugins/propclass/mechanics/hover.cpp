@@ -92,7 +92,7 @@ void celPcHover::DefaultHeightFunction ()
 {
   csRef<celIntervalMetaDistribution> i(new celIntervalMetaDistribution());
   csRef<celReturnConstantValue> a(new celReturnConstantValue(70.0));
-  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f , 30.0f , 3.0f , 20.0f));
+  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f , 60.0f , 3.0f , 20.0f));
   csRef<celReturnConstantValue> c(new celReturnConstantValue(0.0));
 
   i->Add(a, -9999999999.0f , 0.0001f);
@@ -101,7 +101,7 @@ void celPcHover::DefaultHeightFunction ()
 
   csRef<celIntervalMetaDistribution> e(new celIntervalMetaDistribution());
   csRef<celReturnConstantValue> m(new celReturnConstantValue(30.0));
-  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 9.8f , 3.0f , 9.0f));
+  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 15.0f , 3.0f , 9.0f));
   csRef<celReturnConstantValue> o(new celReturnConstantValue(0.0));
 
   e->Add(m, -9999999999.0f , 0.0001f);
