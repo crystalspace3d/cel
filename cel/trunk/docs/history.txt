@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Jan-2006
+        - Genjix converted hover property class objects to have cel prefix.
+          Stabiliser function base class is now reference counted.
 09-Jan-2006
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8
