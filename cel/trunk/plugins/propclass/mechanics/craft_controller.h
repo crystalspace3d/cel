@@ -78,6 +78,9 @@ public:
   virtual void SetMaxTurn(float turn) { turn_max = turn; }
   virtual void SetMaxUpDown(float mud) { updwn_max = mud; }
 
+  virtual void ThrustOn() { thrust_on = true; }
+  virtual void ThrustOff() { thrust_on = false; }
+
   struct PcCraftController : public iPcCraftController
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
@@ -132,6 +135,15 @@ public:
     {
       scfParent->SetMaxUpDown(mud);
     }
+
+    virtual void ThrustOn()
+    {
+      scfParent->ThrustOn();
+    }
+    virtual void ThrustOff()
+    {
+      scfParent->ThrustOff();
+    }
   } scfiPcCraftController;
 
 private:
@@ -145,6 +157,9 @@ private:
 
   float turn_acc, updwn_acc;
   float turn_max, updwn_max;
+
+  bool thrust_on;
+  float thrust;
 };
 
 #endif
