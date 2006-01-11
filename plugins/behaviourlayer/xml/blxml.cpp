@@ -88,6 +88,8 @@ enum
   XMLTOKEN_TRACEON,
   XMLTOKEN_TRACEOFF,
   XMLTOKEN_STOP,
+  XMLTOKEN_RANDOMIZE,
+  XMLTOKEN_QUIT,
 
   XMLTOKEN_LAST
 };
@@ -205,6 +207,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("traceoff", XMLTOKEN_TRACEOFF);
   xmltokens.Register ("callstack", XMLTOKEN_CALLSTACK);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
+  xmltokens.Register ("randomize", XMLTOKEN_RANDOMIZE);
+  xmltokens.Register ("quit", XMLTOKEN_QUIT);
 
   functions.Register ("pc", XMLFUNCTION_PC);
   functions.Register ("param", XMLFUNCTION_PARAM);
@@ -1499,6 +1503,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_STOP:
         h->AddOperation (CEL_OPERATION_END);
+        break;
+      case XMLTOKEN_RANDOMIZE:
+        h->AddOperation (CEL_OPERATION_RANDOMIZE);
+        break;
+      case XMLTOKEN_QUIT:
+        h->AddOperation (CEL_OPERATION_QUIT);
         break;
       case XMLTOKEN_CREATEPROPCLASS:
         if (!ParseExpression (local_vars, child, h, "name", "createpropclass"))

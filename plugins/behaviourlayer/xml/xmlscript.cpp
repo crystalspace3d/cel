@@ -1479,15 +1479,36 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  stack[si].SetString (entity->GetName (), true);
 	}
 	break;
+      case CEL_OPERATION_RANDOMIZE:
+        {
+          DUMP_EXEC ((":%04d: randomize\n", i-1));
+          behave->Randomize ();
+        }
+      break;
       case CEL_OPERATION_RAND:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: rand (%s)\n", i-1, A2S (top)));
-	  float f = ArgToFloat (top);
-	  top.SetFloat (float (rand () % 10000) * f / 10000.0);
-	}
-	break;
+          int32 rndi;
+          uint32 rndu;
+          float rndf;
+          switch (top.type)
+          {
+            case CEL_DATA_LONG:
+              rndi = ArgToInt32 (top);
+              top.SetInt32 (behave->GetRandInt32 (rndi));
+            break;
+            case CEL_DATA_ULONG:
+              rndu = ArgToUInt32 (top);
+              top.SetUInt32 (behave->GetRandUInt32 (rndu));
+            break;
+            default:
+              rndf = ArgToFloat (top);
+              top.SetFloat (behave->GetRandFloat (rndf));
+          }
+        }
+      break;
       case CEL_OPERATION_FLOAT:
         {
 	  CHECK_STACK(1)
@@ -1623,7 +1644,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (top.type)
 	  {
 	    case CEL_DATA_LONG: top.arg.i = -top.arg.i; break;
-	    case CEL_DATA_ULONG: top.arg.ui = (unsigned int)(-(int)top.arg.ui); break; 
+	    case CEL_DATA_ULONG: top.arg.ui = (unsigned int)(-(int)top.arg.ui); break;
 	    case CEL_DATA_FLOAT: top.arg.f = -top.arg.f; break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_COLOR:
@@ -3115,6 +3136,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_QUIT:
+        {
+          DUMP_EXEC ((":%04d: quit\n", i-1));
+          behave->Quit ();
+        }
+      break;
       case CEL_OPERATION_ACTION:
         {
 	  CHECK_STACK(2)
@@ -3980,7 +4007,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!engine)
 	    return ReportError (behave, "Error! No engine!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
-	  if (w) 
+	  if (w)
 	  {
 	  	csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
 	  		behave->GetObjectRegistry (), iSndSysRenderer);
