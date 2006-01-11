@@ -7,77 +7,77 @@
 
 struct iPcMechanicsObject;
 
-class StabiliserFunction : public csRefCount
+class celStabiliserFunction : public csRefCount
 {
 public:
-  virtual ~StabiliserFunction() {};
+  virtual ~celStabiliserFunction() {};
   virtual float Force(float height) = 0;
 };
 
-class IntervalMetaDistribution : public StabiliserFunction
+class celIntervalMetaDistribution : public celStabiliserFunction
 {
 public:
-  void Add(csRef<StabiliserFunction> func , float low_int , float high_int);
+  void Add(csRef<celStabiliserFunction> func , float low_int , float high_int);
 
   float Force(float h);
 private:
   struct Interval
   {
     float low , high;
-    csRef<StabiliserFunction> func;
+    csRef<celStabiliserFunction> func;
   };
 
   csArray<Interval> funcs;
 };
 
-class IfFallingDistribution : public StabiliserFunction
+class celIfFallingDistribution : public celStabiliserFunction
 {
 public:
-  IfFallingDistribution(csRef<iPcMechanicsObject> ship,
-    csRef<StabiliserFunction> ifdist , csRef<StabiliserFunction> elsedist , float adelta = -1.0);
+  celIfFallingDistribution(csRef<iPcMechanicsObject> ship,
+    csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta = -1.0);
 
   float Force(float h);
 private:
   csRef<iPcMechanicsObject> ship_mech;
-  csRef<StabiliserFunction> if_dist , else_dist;
+  csRef<celStabiliserFunction> if_dist , else_dist;
   float delta;
 };
 
-class FallingMultiplierDistribution : public StabiliserFunction
+class celFallingMultiplierDistribution : public celStabiliserFunction
 {
 public:
-  FallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<StabiliserFunction> adist);
+  celFallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<celStabiliserFunction> adist);
 
   float Force(float h);
 private:
   csRef<iPcMechanicsObject> ship_mech;
-  csRef<StabiliserFunction> dist;
+  csRef<celStabiliserFunction> dist;
 };
 
-class ReturnConstantValue : public StabiliserFunction
+class celReturnConstantValue : public celStabiliserFunction
 {
 public:
-  ReturnConstantValue(float avalue = 0.0);
+  celReturnConstantValue(float avalue = 0.0);
 
   float Force(float h);
 
   float value;
 };
 
-class LinearGradient : public StabiliserFunction
+class celLinearGradient : public celStabiliserFunction
 {
 public:
-  LinearGradient(float m , float c) : m(m) , c(c) {}
+  celLinearGradient(float m , float c) : m(m) , c(c) {}
 
   float Force(float h) { return m*h + c; }
 
   float m , c;
 };
 
-class InversePowerDistribution : public StabiliserFunction
+class celInversePowerDistribution : public celStabiliserFunction
 {
 public:
-  InversePowerDistribution(float h0 , float f0 , float h1 , float f1);
+  celInversePowerDistribution(float h0 , float f0 , float h1 , float f1);
 
   float Force(float h);
 private:
@@ -89,10 +89,10 @@ private:
   float k , x;
 };
 
-class SquareDistribution : public StabiliserFunction
+class celSquareDistribution : public celStabiliserFunction
 {
 public:
-  SquareDistribution(float h0 , float f0 , float h1 , float f1);
+  celSquareDistribution(float h0 , float f0 , float h1 , float f1);
 
   float Force(float h);
 private:

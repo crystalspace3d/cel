@@ -70,7 +70,7 @@ public:
   virtual void SetAngularBeamOffset(float abo) { ang_beam_offset = abo; }
   virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
-  virtual void SetStabiliserFunction(StabiliserFunction *sfunc) { func = sfunc; }
+  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func = sfunc; }
   virtual void SetStepTime(float steptime) { step_time = steptime; }
 
   /**
@@ -110,7 +110,7 @@ public:
     {
       scfParent->SetAngularCorrectionStrength(mul);
     }
-    virtual void SetStabiliserFunction(StabiliserFunction *sfunc)
+    virtual void SetStabiliserFunction(celStabiliserFunction *sfunc)
     {
       scfParent->SetStabiliserFunction(sfunc);
     }
@@ -173,7 +173,7 @@ private:
   /// cutoff height at which height test returns inf
   float height_beam_cutoff;
   /// function which computes upthrust depending on height
-  StabiliserFunction *func;
+  csRef<celStabiliserFunction> func;
 
   /// hover step time
   float step_time;

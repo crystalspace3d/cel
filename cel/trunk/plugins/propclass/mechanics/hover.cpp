@@ -65,7 +65,6 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
 
 celPcHover::~celPcHover ()
 {
-  delete func;
   scfiCelTimerListener->DecRef ();
 }
 
@@ -116,43 +115,54 @@ void celPcHover::SetWorld (const char *name)
 
 void celPcHover::DefaultHeightFunction ()
 {
-  IntervalMetaDistribution *i = new IntervalMetaDistribution();
-  i->Add(new ReturnConstantValue(70.0) , -9999999999.0f , 0.0001f);
-  i->Add(new SquareDistribution(1.0001f , 30.0f , 3.0f , 20.0f) , 0.0001f , 3.0f);
-  i->Add(new ReturnConstantValue(0.0) , 3.0f , 9999999999.0f);
+  csRef<celIntervalMetaDistribution> i(new celIntervalMetaDistribution());
+  csRef<celReturnConstantValue> a(new celReturnConstantValue(70.0));
+  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f , 30.0f , 3.0f , 20.0f));
+  csRef<celReturnConstantValue> c(new celReturnConstantValue(0.0));
 
-  IntervalMetaDistribution *e = new IntervalMetaDistribution();
-  e->Add(new ReturnConstantValue(30.0) , -9999999999.0f , 0.0001f);
-  e->Add(new SquareDistribution(1.0001f , 9.8f , 3.0f , 9.0f) , 0.0001f , 3.0f);
-  e->Add(new ReturnConstantValue(0.0) , 3.0f , 9999999999.0f);
+  i->Add(a, -9999999999.0f , 0.0001f);
+  i->Add(b, 0.0001f , 3.0f);
+  i->Add(c, 3.0f , 9999999999.0f);
+
+  csRef<celIntervalMetaDistribution> e(new celIntervalMetaDistribution());
+  csRef<celReturnConstantValue> m(new celReturnConstantValue(30.0));
+  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 9.8f , 3.0f , 9.0f));
+  csRef<celReturnConstantValue> o(new celReturnConstantValue(0.0));
+
+  e->Add(m, -9999999999.0f , 0.0001f);
+  e->Add(n, 0.0001f , 3.0f);
+  e->Add(o, 3.0f , 9999999999.0f);
 
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  func = new IfFallingDistribution(ship_mech , i , e , 0.0);
+  func = new celIfFallingDistribution(ship_mech , i , e , 0.0);
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
 {
-	csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity() , iPcMechanicsObject);
-	offset *= ang_beam_offset;
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity() , iPcMechanicsObject);
+  offset *= ang_beam_offset;
 
-	// do first rotation test - simple trigonmetry
-	float hd_up = Height (pcmechobj->LocalToWorld (offset));
-	float r_up = atan ((height - hd_up) / ang_beam_offset);
+  // do first rotation test - simple trigonmetry
+  float hd_up = Height (pcmechobj->LocalToWorld (offset));
+  float r_up = atan ((height - hd_up) / ang_beam_offset);
 
-	float hd_down = Height (pcmechobj->LocalToWorld (-1 * offset));
-	float r_down = atan ((height - hd_down) / -ang_beam_offset);
+  float hd_down = Height (pcmechobj->LocalToWorld (-1 * offset));
+  float r_down = atan ((height - hd_down) / -ang_beam_offset);
 
-	if (hd_up >= 10000000) {
-		if(hd_down >= 10000000)
-			return 0.0;	// worst case, both heights were infinite
-		return r_down;
-	}
-	else if (hd_down >= 10000000) {
-		return r_up;
-	}
+  if (hd_up >= 10000000)
+  {
+    if(hd_down >= 10000000)
+      return 0.0;	// worst case, both heights were infinite
 
-	//! is one value more likely to be better than another?
-	return (r_down + r_up) / 2;	// 2 good rotation values - average them
+    return r_down;
+  }
+  else if (hd_down >= 10000000)
+  {
+    return r_up;
+  }
+
+  //! is one value more likely to be better than another?
+  return (r_down + r_up) / 2;	// 2 good rotation values - average them
 }
 
 void celPcHover::PerformStabilising ()

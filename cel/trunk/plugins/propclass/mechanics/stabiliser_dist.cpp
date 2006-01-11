@@ -31,7 +31,7 @@
     #define M_E 2.71828182845904523536
 #endif
 
-void IntervalMetaDistribution::Add(csRef<StabiliserFunction> func , float low_int , float high_int)
+void celIntervalMetaDistribution::Add(csRef<celStabiliserFunction> func , float low_int , float high_int)
 {
   Interval i;
   i.low = low_int;
@@ -41,7 +41,7 @@ void IntervalMetaDistribution::Add(csRef<StabiliserFunction> func , float low_in
   funcs.Push(i);
 }
 
-float IntervalMetaDistribution::Force(float h)
+float celIntervalMetaDistribution::Force(float h)
 {
   for(csArray<Interval>::Iterator it = funcs.GetIterator() ; it.HasNext() ; ) {
     Interval i = it.Next();
@@ -54,8 +54,8 @@ float IntervalMetaDistribution::Force(float h)
 }
 
 
-IfFallingDistribution::IfFallingDistribution(csRef<iPcMechanicsObject> ship,
-  csRef<StabiliserFunction> ifdist , csRef<StabiliserFunction> elsedist , float adelta)
+celIfFallingDistribution::celIfFallingDistribution(csRef<iPcMechanicsObject> ship,
+  csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta)
 {
   ship_mech = ship;
   if_dist = ifdist;
@@ -63,7 +63,7 @@ IfFallingDistribution::IfFallingDistribution(csRef<iPcMechanicsObject> ship,
   delta = adelta;
 }
 
-float IfFallingDistribution::Force(float h)
+float celIfFallingDistribution::Force(float h)
 {
   //printf("fall: %f\t",ship_mech->WorldToLocal(ship_mech->GetLinearVelocity()).y);
   if(ship_mech->WorldToLocal(ship_mech->GetLinearVelocity()).y < delta)
@@ -71,60 +71,60 @@ float IfFallingDistribution::Force(float h)
   return else_dist->Force(h);
 }
 
-FallingMultiplierDistribution::FallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<StabiliserFunction> adist)
+celFallingMultiplierDistribution::celFallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<celStabiliserFunction> adist)
 {
   dist = adist;
   ship_mech = ship;
 }
 
-float FallingMultiplierDistribution::Force(float h)
+float celFallingMultiplierDistribution::Force(float h)
 {
   return ship_mech->WorldToLocal(ship_mech->GetLinearVelocity()).y * dist->Force(h);
 }
 
-ReturnConstantValue::ReturnConstantValue(float avalue)
+celReturnConstantValue::celReturnConstantValue(float avalue)
 {
   value = avalue;
 }
 
-float ReturnConstantValue::Force(float h)
+float celReturnConstantValue::Force(float h)
 {
   return value;
 }
 
 
-InversePowerDistribution::InversePowerDistribution(float h0 , float f0 , float h1 , float f1)
+celInversePowerDistribution::celInversePowerDistribution(float h0 , float f0 , float h1 , float f1)
 {
   k = ComputeK(h0, f0, h1, f1);
   x = ComputeX(h0, f0, k);  // h0 == 1 will fail
 }
-float InversePowerDistribution::Force(float h)
+float celInversePowerDistribution::Force(float h)
 {
   return Formula(h);
 }
 
-float InversePowerDistribution::ComputeK(float h0 , float f0 , float h1 , float f1)
+float celInversePowerDistribution::ComputeK(float h0 , float f0 , float h1 , float f1)
 {
   return std::pow(float(M_E), (( std::log(h1)*std::log(f0) - std::log(h0)*std::log(f1) ) /
           ( std::log(h1) - std::log(h0) )) );
 }
-float InversePowerDistribution::ComputeX(float h , float f , float k)
+float celInversePowerDistribution::ComputeX(float h , float f , float k)
 {
   return std::log(k / f) / std::log(h);
 }
 
-float InversePowerDistribution::Formula(float h)
+float celInversePowerDistribution::Formula(float h)
 {
   return k / std::pow(h , x);
 }
 
 
-SquareDistribution::SquareDistribution(float h0 , float f0 , float h1 , float f1)
+celSquareDistribution::celSquareDistribution(float h0 , float f0 , float h1 , float f1)
 {
   k = (f1 - f0) / (h1*h1 - h0*h0);
   a = f1 - k*h1*h1;
 }
-float SquareDistribution::Force(float h)
+float celSquareDistribution::Force(float h)
 {
   return a + k*h*h;
 }
