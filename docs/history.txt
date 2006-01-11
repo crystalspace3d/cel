@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
         - Added New craft controller property class for turning craft type
           objects left and right, and up and down.
           No thruster part, nor functions for setting angular damping yet.
+        - Functions for setting turning settings (turn speed, turn max speed)
 09-Jan-2006
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8
