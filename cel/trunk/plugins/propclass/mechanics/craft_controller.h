@@ -71,6 +71,11 @@ public:
   virtual void StartTurnDown() { turn_down = true; }
   virtual void StopTurnDown() { turn_down = false; }
 
+  virtual void SetAccTurn(float tacc) { turn_acc = tacc; }
+  virtual void SetAccUpDown(float uacc) { updwn_acc = uacc; }
+  virtual void SetMaxTurn(float turn) { turn_max = turn; }
+  virtual void SetMaxUpDown(float mud) { updwn_max = mud; }
+
   struct PcCraftController : public iPcCraftController
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
@@ -107,6 +112,23 @@ public:
     virtual void StopTurnDown()
     {
       scfParent->StopTurnDown();
+    }
+
+    virtual void SetAccTurn(float tacc)
+    {
+      scfParent->SetAccTurn(tacc);
+    }
+    virtual void SetAccUpDown(float uacc)
+    {
+      scfParent->SetAccUpDown(uacc);
+    }
+    virtual void SetMaxTurn(float turn)
+    {
+      scfParent->SetMaxTurn(turn);
+    }
+    virtual void SetMaxUpDown(float mud)
+    {
+      scfParent->SetMaxUpDown(mud);
     }
   } scfiPcCraftController;
 

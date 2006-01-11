@@ -68,6 +68,28 @@ struct iPcCraftController : public virtual iBase
    * Stop the object turning down
    */
   virtual void StopTurnDown() = 0;
+
+  /**
+   * Set the objects left and right
+   * turning acceleration;
+   */
+  virtual void SetAccTurn(float tacc) = 0;
+  /**
+   * Set the objects up and down
+   * turning acceleration;
+   */
+  virtual void SetAccUpDown(float uacc) = 0;
+
+  /**
+   * Set the objects maximum
+   * left and right turning velocity;
+   */
+  virtual void SetMaxTurn(float turn) = 0;
+  /**
+   * Set the objects maximum
+   * up and down turning velocity;
+   */
+  virtual void SetMaxUpDown(float mud) = 0;
 };
 
 #endif

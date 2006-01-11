@@ -52,7 +52,19 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
   turn_left = false;
-  turn_right = true;
+  turn_right = false;
+  turn_up = false;
+  turn_down = false;
+
+  current_turning_left = 0;
+  current_turning_right = 0;
+  current_up = 0;
+  current_down = 0;
+
+  turn_acc = 0;
+  updwn_acc = 0;
+  turn_max = 0;
+  updwn_max = 0;
 }
 
 celPcCraftController::~celPcCraftController ()
