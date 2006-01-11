@@ -62,7 +62,7 @@
       </class>
       <class>
         <name>cel.pcfactory.craft</name>
-        <implementation>celPfCraft</implementation>
+        <implementation>celPfCraftController</implementation>
         <description>CEL Craft Controller Class Factory</description>
         <requires>
           <class>cel.physicallayer</class>
