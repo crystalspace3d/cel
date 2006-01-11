@@ -31,6 +31,7 @@
 #include "propclass/hover.h"
 
 #include "stabiliser_dist.h"
+#include "ticktimer.h"
 
 struct iPcMesh;
 struct iPcMechanicsObject;
@@ -44,7 +45,7 @@ CEL_DECLARE_FACTORY (Hover)
 /**
  * Hover stabiliser property class.
  */
-class celPcHover : public celPcCommon
+class celPcHover : public celPcCommon , public celPeriodicTimer
 {
 public:
   celPcHover (iObjectRegistry* object_reg);
@@ -56,7 +57,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
-  virtual void TickEveryFrame ();
+  virtual void Tick ();
 
   /**
    * Should Tick every delta and update the objects
@@ -71,7 +72,7 @@ public:
   virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func = sfunc; }
-  virtual void SetStepTime(float steptime) { step_time = steptime; }
+  //virtual void SetStepTime(float steptime) { step_time = steptime; }
 
   /**
    * Debug function (provides presets)
@@ -114,29 +115,8 @@ public:
     {
       scfParent->SetStabiliserFunction(sfunc);
     }
-    virtual void SetStepTime(float step_time)
-    {
-      scfParent->SetStepTime(step_time);
-    }
   } scfiPcHover;
 
-  // Made independent to avoid circular refs and leaks.
-  struct CelTimerListener : public scfImplementation1<
-  	CelTimerListener, iCelTimerListener>
-  {
-    celPcHover* parent;
-    CelTimerListener (celPcHover* parent) :
-    	scfImplementationType (this), parent (parent) { }
-    virtual ~CelTimerListener () { }
-    virtual void TickEveryFrame ()
-    {
-      parent->TickEveryFrame ();
-    }
-    virtual void TickOnce ()
-    {
-      return;
-    }
-  } * scfiCelTimerListener;
 private:
   /**
    * Calculate height of object to ground (world mesh)
@@ -174,15 +154,6 @@ private:
   float height_beam_cutoff;
   /// function which computes upthrust depending on height
   csRef<celStabiliserFunction> func;
-
-  /// hover step time
-  float step_time;
-  /// remaining time
-  float remaining_time;
-  /// virtual clock used for calculating the passed time
-  csRef<iVirtualClock> vc;
-  /// maximum amount of steps allowed per frame
-  float step_limit;
 };
 
 #endif

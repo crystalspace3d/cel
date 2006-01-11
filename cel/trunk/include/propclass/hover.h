@@ -25,7 +25,7 @@
 #include "csutil/scf.h"
 
 struct iPcMesh;
-class StabiliserFunction;
+class celStabiliserFunction;
 
 /**
  * Hover stabiliser property class.
@@ -82,12 +82,12 @@ struct iPcHover : public virtual iBase
    * Set the distribution functions which decide upthrust depending on
    * height of ship
    */
-  virtual void SetStabiliserFunction(StabiliserFunction *sfunc) = 0;
+  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) = 0;
 
   /**
     * Set the tick time the ship is updated.
     */
-  virtual void SetStepTime(float step_time) = 0;
+//  virtual void SetStepTime(float step_time) = 0;
 };
 
 #endif
