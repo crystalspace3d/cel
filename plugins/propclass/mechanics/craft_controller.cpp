@@ -45,11 +45,9 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCraftController::PcCraftController)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCraftController);
-  scfiCelTimerListener = new CelTimerListener (this);
-  pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
   turn_left = false;
   turn_right = false;
@@ -69,25 +67,27 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 
 celPcCraftController::~celPcCraftController ()
 {
-  scfiCelTimerListener->DecRef ();
 }
 
 csPtr<iCelDataBuffer> celPcCraftController::Save ()
 {
-  printf("celPcCraftController::Save\n");
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
   return csPtr<iCelDataBuffer> (databuf);
 }
 bool celPcCraftController::Load (iCelDataBuffer* databuf)
 {
-  printf("celPcCraftController::Load\n");
   return true;
 }
 bool celPcCraftController::PerformAction (csStringID actionId, iCelParameterBlock* params)
 {
-  printf("celPcCraftController::PerformAction\n");
   return true;
 }
+
+void celPcCraftController::Tick ()
+{
+  UpdateBody ();
+}
+
 
 void celPcCraftController::DoTurningCalc (bool isturning, float &turn, float acc, float max)
 {

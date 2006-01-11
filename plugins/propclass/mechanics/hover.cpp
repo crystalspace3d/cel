@@ -46,7 +46,7 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg) , celPeriodicTimer (pl)
+	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
 

@@ -29,6 +29,7 @@
 #include "celtool/stdparams.h"
 
 #include "propclass/craft.h"
+#include "ticktimer.h"
 
 /**
  * Factory for hover.
@@ -38,7 +39,7 @@ CEL_DECLARE_FACTORY (CraftController)
 /**
  * Hover stabiliser property class.
  */
-class celPcCraftController : public celPcCommon
+class celPcCraftController : public celPcCommon , public celPeriodicTimer
 {
 public:
   celPcCraftController (iObjectRegistry* object_reg);
@@ -50,6 +51,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void Tick ();
 
   /**
    * Should Tick every frame and update the objects
@@ -132,23 +134,6 @@ public:
     }
   } scfiPcCraftController;
 
-  // Made independent to avoid circular refs and leaks.
-  struct CelTimerListener : public scfImplementation1<
-  	CelTimerListener, iCelTimerListener>
-  {
-    celPcCraftController* parent;
-    CelTimerListener (celPcCraftController* parent) :
-    	scfImplementationType (this), parent (parent) { }
-    virtual ~CelTimerListener () { }
-    virtual void TickEveryFrame ()
-    {
-      parent->UpdateBody ();
-    }
-    virtual void TickOnce ()
-    {
-      return;
-    }
-  } * scfiCelTimerListener;
 private:
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
 
