@@ -46,16 +46,9 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: celPcCommon (object_reg) , celPeriodicTimer (pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
-  scfiCelTimerListener = new CelTimerListener (this);
-  pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
-
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  step_limit = 3;
-  step_time = 5;
-  remaining_time = 0;
 
   ang_beam_offset = 2;
   ang_cutoff_height = 5;
@@ -65,7 +58,6 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
 
 celPcHover::~celPcHover ()
 {
-  scfiCelTimerListener->DecRef ();
 }
 
 csPtr<iCelDataBuffer> celPcHover::Save ()
@@ -83,26 +75,9 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
   return true;
 }
 
-void celPcHover::TickEveryFrame ()
+void celPcHover::Tick ()
 {
-  /*                                     *
-   *   Is there not an easier way to get *
-   *   my object to pause periodically?  *
-   *                                     */
-  float elapsed_time = vc->GetElapsedTicks () + remaining_time;
-
-  if (elapsed_time > step_limit * step_time)
-    return;
-
-  // step however many times since last frame encompasses
-  while (elapsed_time >= step_time)
-  {
-    PerformStabilising ();
-    elapsed_time -= step_time;
-  }
-
-  // so we don't redo already done steps
-  remaining_time = elapsed_time;
+  PerformStabilising ();
 }
 
 

@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
           objects left and right, and up and down.
           No thruster part, nor functions for setting angular damping yet.
         - Functions for setting turning settings (turn speed, turn max speed)
+        - Timer base class for CEL property classes that wish to have
+          periodic ticking (just inherit and pass pl reference to constructor)
 09-Jan-2006
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8
