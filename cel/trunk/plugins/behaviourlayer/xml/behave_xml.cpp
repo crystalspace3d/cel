@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "iutil/eventq.h"
 #include "ivaria/reporter.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
@@ -58,6 +59,7 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
   name = 0;
   script = 0;
+  rng.Initialize (1234567);
 }
 
 iPcBillboard* celBehaviourXml::GetBillboard ()
@@ -202,6 +204,12 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
     }
   }
   return h != 0;
+}
+
+void celBehaviourXml::Quit ()
+{
+  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+  q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
 }
 
 //---------------------------------------------------------------------------

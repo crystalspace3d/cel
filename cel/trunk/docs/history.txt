@@ -12,6 +12,10 @@ The history order is reversed so that new features are at the top.
         - Functions for setting turning settings (turn speed, turn max speed)
         - Timer base class for CEL property classes that wish to have
           periodic ticking (just inherit and pass pl reference to constructor)
+	- Dariusz Dawidowski make a few updates in xml behaviour:
+	  rand() function - using csRandomGen instead of standard cpp rand().
+	  Added <randomize /> - sets new seed.
+	  Added <quit /> - exit to OS.
 09-Jan-2006
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8
