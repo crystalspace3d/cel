@@ -21,6 +21,7 @@ Clean maintainerclean : configure aclocal.m4 config.h.in ;
 Depends maintainerclean : distclean ;
 
 # Enable msvcgen
+MsvcGenSubDir TOP msvc : common ;
 MsvcGenSubDir TOP msvc 7 : 7 ;
 MsvcGenSubDir TOP msvc 71 : 71 ;
 MsvcGenSubDir TOP msvc 8 : 8 ;
@@ -55,6 +56,8 @@ MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
   [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
   [ ConcatDirs "$(hash)(CRYSTAL)" libs csutil win32 libs ] ;
+MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/crystalspace_staticplugins_msvc.jam ;
+MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
 
 MsvcGenConfig PYTHON.AVAILABLE : no ;
 

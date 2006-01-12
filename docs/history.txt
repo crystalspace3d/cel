@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	  rand() function - using csRandomGen instead of standard cpp rand().
 	  Added <randomize /> - sets new seed.
 	  Added <quit /> - exit to OS.
+        - res updated mk/autoconf and mk/jam from the CS master copies.
+        - res improved static linking with VC.
 09-Jan-2006
         - res updated mk/autoconf and mk/jam from the CS master copies.
         - res adjusted the VC project generation to generate VC7, 7.1 and VC8

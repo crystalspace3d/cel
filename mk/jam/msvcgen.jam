@@ -241,10 +241,18 @@ rule msvcgen_template_dir
 { return [ ConcatDirs [ msvcgen_resolve_dir $(<) ] ] ; }
 rule msvcgen_version_check
 {
-  if ! [ IsElem $(<) : $(MSVCGEN_SUPPORTED_VERSIONS) ]
+  if $(<) != common && ! [ IsElem $(<) : $(MSVCGEN_SUPPORTED_VERSIONS) ]
   {
     exit "Error: `$(<)' is not a supported msvcgen version number; valid "
       "numbers are:" $(MSVCGEN_SUPPORTED_VERSIONS) ;
+  }
+}
+
+rule MsvcRmTemps
+{
+  if $(MSVCGEN_KEEPTEMPS) != yes
+  {
+    RmTemps $(<) : $(>) ;
   }
 }
 
@@ -318,20 +326,30 @@ rule MsvcGenTarget
 {
   local path = $(1) ;
   local version = $(2) ;
-  MsvcGenUmbrella ;
-  Always msvc$(version)gen ;
-  NotFile msvc$(version)gen ;
-  MSVC_VERSION on msvc$(version)gen = $(version) ;
-  MsvcGen msvc$(version)gen ;
-  Depends msvcgen : msvc$(version)gen ;
-  Help msvc$(version)gen : "Create MSVC$(version) project files" ;
-  MSVCGEN_TARGETS += msvc$(version)gen ;
-  CleanDir msvc$(version)clean :
-    [ msvcgen_target_dir $(path) ]
-    [ msvcgen_build_dir $(version) ]
-    [ msvcgen_work_dir $(version) ] ;
-  Depends msvcclean : msvc$(version)clean ;
-  Help msvc$(version)clean : "Remove built MSVC$(version) project files" ;
+  if $(version) = common
+  {
+    CleanDir msvccommonclean : [ msvcgen_target_dir $(path) ] ;
+    Depends msvcclean : msvccommonclean ;
+  }
+  else
+  {
+    MsvcGenUmbrella ;
+    Always msvc$(version)gen ;
+    NotFile msvc$(version)gen ;
+    MSVC_VERSION on msvc$(version)gen = $(version) ;
+    MsvcGen msvc$(version)gen ;
+    Depends msvcgen : msvc$(version)gen ;
+    Help msvc$(version)gen : "Create MSVC$(version) project files" ;
+    MSVCGEN_TARGETS += msvc$(version)gen ;
+    local commonworkdir = [ msvcgen_work_dir common ] ;
+    CleanDir msvc$(version)clean :
+      [ msvcgen_target_dir $(path) ]
+      [ msvcgen_build_dir $(version) ]
+      [ msvcgen_work_dir $(version) ] 
+      $(commonworkdir) ;
+    Depends msvcclean : msvc$(version)clean ;
+    Help msvc$(version)clean : "Remove built MSVC$(version) project files" ;
+  }
 }
 
 actions MsvcGen bind MSVCGEN_CONFIG_FILES
@@ -511,14 +529,6 @@ MSVC.PREFIX.workspace ?= wks ;
 SetProperty build : projgen : msvc ;
 SetProperty build : projgen_version : $(MSVC_VERSION) ;
 
-rule MsvcRmTemps
-{
-  if $(MSVCGEN_KEEPTEMPS) != yes
-  {
-    RmTemps $(<) : $(>) ;
-  }
-}
-
 # MsvcAddPrefix name : type
 rule MsvcAddPrefix
 {
@@ -640,8 +650,14 @@ rule MsvcProject
   local sources = $(4) ;
   local relpath = [ Property msvcgen : relpath$(MSVC_VERSION) ] ;
   local outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
+  local outdircommon = [ Property msvcgen : outdircommon ] ;
+  if "$(outdircommon)" = ""
+  {
+    outdircommon = $(outdir) ;
+  }
   local builddir = [ msvcgen_build_dir $(MSVC_VERSION) ] ;
   local workdir = [ msvcgen_work_dir $(MSVC_VERSION) ] ;
+  local workdircommon = [ msvcgen_work_dir common ] ;
 
   local msvcname = $(MSVC.NAME_OVERRIDE.$(rawname)) ;
   if ! $(msvcname) { msvcname = [ MsvcAddPrefix $(rawname) : $(type) ] ; }
@@ -715,28 +731,29 @@ rule MsvcProject
   {
     local resource = $(msvcname:S=.rc) ;
     Depends msvcgen : $(resource) ;
-    MakeLocate $(resource) : $(outdir) ;
-    SEARCH on $(resource) = $(outdir) ;
+    MakeLocate $(resource) : $(outdircommon) ;
+    SEARCH on $(resource) = $(outdircommon) ;
     NAME on $(resource) = $(rawname) ;
     $(rawname)_RCNAME = $(resource) ;
-    ResponseFile $(respfile) : "file|$(resource:R=$(outdir))" : notfile :
+    ResponseFile $(respfile) : "file|$(resource:R=$(outdircommon))" : notfile :
       $(respdir) ;
   
     local versionrc = $(resource:S=.vrctmp) ;
-    MakeLocate $(versionrc) : $(workdir) ;
+    MakeLocate $(versionrc) : $(workdircommon) ;
     MakeVersionRc $(versionrc) : $(rawname) ;
-    Always $(versionrc) ;
+    Depends $(versionrc) : $(TOP)/Jamconfig ;
+    Depends $(versionrc) : $(SUBDIR)/Jamfile ;
     Win32Resource $(rawname) : $(versionrc) ;
     MsvcRmTemps $(resource) : $(versionrc) ;
     
     if $(type) = "plugin" 
     {
       local metarc = $(resource:S=.mrctmp) ;
-      MakeLocate $(metarc) : $(workdir) ;
+      MakeLocate $(metarc) : $(workdircommon) ;
       SEARCH on $(metarc) = $(SEARCH_SOURCE) ;
       Depends $(metarc) : $($(rawname)_METAFILE) ;
       GenerateWin32MetadataRc $(metarc) : $($(rawname)_METAFILE) ;
-      Always $(metarc) ;
+      
       Win32Resource $(rawname) : $(metarc) ;
       MsvcRmTemps $(resource) : $(metarc) ;
       ResponseFile $(respfile) :
@@ -746,10 +763,27 @@ rule MsvcProject
 
     if [ IsElem $(type) : appgui appcon ]
     {
+      local manifest = $(msvcname:S=.manifest) ; 
+      MakeLocate $(manifest) : $(outdircommon) ;
+      MakeManifestFile $(manifest) : $(rawname) ;
+      Depends $(manifest) : $(TOP)/Jamconfig ;
+      Depends $(manifest) : $(SUBDIR)/Jamfile ;
+      Depends msvcgen : $(manifest) ;
+      
       local manifestrc = $(resource:S=.mfrctmp) ;
-      MakeLocate $(manifestrc) : $(workdir) ;
-      MakeManifestRc $(manifestrc) : $(rawname) ;
-      Always $(manifestrc) ;
+      MakeLocate $(manifestrc) : $(workdircommon) ;
+      MANIFEST_NAME on $(manifestrc) = $(manifest) ;
+      GenerateWin32ManifestRc $(manifestrc) ;
+      Depends $(manifestrc) : $(manifest) ;
+      if $(MSVC_VERSION) = 8
+      {
+        # VC8: Manifest appears in project along other files, a special build
+        # tool cares about the embedding into a resource. (The resource goop
+        # still has to be generated since it is shared with other VCs.)
+	ResponseFile $(respfile) : "file|$(manifest:R=$(outdircommon))" : notfile :
+	  $(respdir) ;
+      }
+      
       Win32Resource $(rawname) : $(manifestrc) ;
       MsvcRmTemps $(resource) : $(manifestrc) ;
       
@@ -766,16 +800,14 @@ rule MsvcProject
 	# RELPATH includes trailing slash (hence the "" in ConcatDirs).
 	RELPATH on $(iconrc) =
 	  [ ConcatDirs [ Property msvcgen : relpath$(MSVC_VERSION) ] "" ] ;
-	MakeLocate $(iconrc) : $(workdir) ;
+	MakeLocate $(iconrc) : $(workdircommon) ;
 	Depends $(iconrc) : $(icon) ;
+        Depends $(iconrc) : $(SUBDIR)/Jamfile ;
         GenerateIconRc $(iconrc) : $(icon) ;
-	Always $(iconrc) ;
 	Win32Resource $(rawname) : $(iconrc) ;
 	MsvcRmTemps $(resource) : $(iconrc) ;
       }
     }
-
-    Always $(resource) ;
   }
   
   local inckeys = "include" includedebug ;
@@ -853,9 +885,6 @@ rule LinkStaticPlugins
   optplugins = $(3) ;
   package = $(4) ;
   
-  # link with static plugins
-  LinkWith $(target) : $(STATICPLUGINS.LIBRARY) ;
-
   if $(package)
   {
     # External static plugins.
@@ -892,6 +921,9 @@ rule LinkStaticPlugins
   }
   else
   {
+    # link with static plugins
+    LinkWith $(target) : $(STATICPLUGINS.LIBRARY) ;
+    
     # Local static plugins
     local libs p ;
     # Collect optional plugins
@@ -918,7 +950,11 @@ rule LinkStaticPlugins
   }
 
   # Generate static plugin instantiation
-  local outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
+  local outdir = [ Property msvcgen : outdircommon ] ;
+  if "$(outdir)" = ""
+  {
+    outdir = [ Property msvcgen : outdir ] ;
+  }
   local staticuse_out ;
   if $(package)
   {
@@ -934,7 +970,6 @@ rule LinkStaticPlugins
   SEARCH on $(staticuse_out) = $(outdir) ;
   
   GenerateStaticPluginInstantiation $(staticuse_out) : $(plugins) ;
-  Always $(staticuse_out) ;
   Depends msvcgen : $(staticuse_out) ;
 
   # Add usefile to project
@@ -980,12 +1015,11 @@ rule Plugin
 
   # Generate static variant of plugin
   #  Static registry
-  local outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
+  local outdir = [ Property msvcgen : outdircommon ] ;
   local staticreg_out = $(MSVC.PREFIX.library)$(<)_staticreg.cpp ;
   MakeLocate $(staticreg_out) : $(outdir) ;
   SEARCH on $(staticreg_out) = $(outdir) ;
   GenerateStaticPluginRegistration $(staticreg_out) : $(metafile) ;
-  Always $(staticreg_out) ;
   Depends msvcgen : $(staticreg_out) ;
   STATICPLUGINS.SOURCES.$(<) += $(outdir)/$(staticreg_out) ;
 }
@@ -1022,14 +1056,18 @@ rule StaticPluginLibrary
   _MsvcDefine $(name) : $(STATICPLUGINS.MSVC_DEFINES) ;
 
   # Write out needed CFLAGS, LFLAGS
-  local outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
+  local outdir = [ Property msvcgen : outdircommon ] ;
+  if $(outdir) = ""
+  {
+    outdir = [ Property msvcgen : outdir$(MSVC_VERSION) ] ;
+  }
   STATICPLUGINS.DEPENDENCIES = $(name)_msvc.jam ;
   MakeLocate $(STATICPLUGINS.DEPENDENCIES) : $(outdir) ;
   SEARCH on $(STATICPLUGINS.DEPENDENCIES) = $(outdir) ;
   for t in $(targets)
   {
     NotFile $(t) ;
-    WriteDependencies $(STATICPLUGINS.DEPENDENCIES) : $(t) ;
+    WriteDependencies $(STATICPLUGINS.DEPENDENCIES) : $(t) : $(name) ;
   }
   Always $(STATICPLUGINS.DEPENDENCIES) ;
   Depends msvcgen : $(STATICPLUGINS.DEPENDENCIES) ;
@@ -1044,14 +1082,19 @@ rule WriteDependencies
   local lflags.debug lflags.release ;
   local depfile = $(<) ;
   local plugin = $(>) ;
+  local libname = $(3) ;
   local depfile_gristed = $(depfile:G=$(plugin)) ;
   MakeLocate $(depfile_gristed) : [ on $(depfile) GetVar LOCATE ] ;
   
-  # Collect flags
+  # "Artificially" insert static library itself
+  lflags.debug += $(MSVC.PREFIX.library)$(libname)_d.lib ;
+  lflags.release += $(MSVC.PREFIX.library)$(libname).lib ;
+  # Collect other libs
   local libs = [ ResolveLibs $($(plugin).NEEDLIBS) ] ;
   lflags.debug += $(MSVC.PREFIX.library)$(libs)_d.lib ;
   lflags.release += $(MSVC.PREFIX.library)$(libs).lib ;
   
+  # Defines
   local l ;
   for l in $($(plugin).EXTERNALLIBS)
   {
@@ -1066,6 +1109,7 @@ rule WriteDependencies
       cflags.release += "\"/D $($(l).DEFINES)\"" ;
     }
   }
+  # Link flags
   local mode ;
   for mode in debug release
   {
@@ -1074,8 +1118,11 @@ rule WriteDependencies
   }
   CFLAGS.DEBUG on $(depfile_gristed) = "$(cflags.debug)" ;
   CFLAGS.RELEASE on $(depfile_gristed) = "$(cflags.release)" ;
+  lflags.debug = [ RemoveDups $(lflags.debug) ] ;
   LFLAGS.DEBUG on $(depfile_gristed) = "$(lflags.debug)" ;
+  lflags.release = [ RemoveDups $(lflags.release) ] ;
   LFLAGS.RELEASE on $(depfile_gristed) = "$(lflags.release)" ;
+  LIBNAME on $(depfile_gristed) = $(libname) ;
   
   if $($(depfile).FIRSTTIME) != "yes"
   {
@@ -1093,6 +1140,11 @@ rule WriteDependencies
 actions WriteDepFlags1 
 {
   cat << EOT > $(<)
+# This file is automatically generated to be used together with $(LIBNAME)
+# and must be integrated by setting the correct values for the 
+# HAVE_STATICDEPS.<package> and <package>.STATICDEPS via MsvcGenConfig.
+# Furthermore, this file might require manual updates from the master copy 
+# (usually found in the package's source repository) every now and then.
 STATICPLUGINS.AVAILABLE += $(>) ;
 STATICPLUGIN.$(>).CFLAGS.debug = $(CFLAGS.DEBUG) ;
 STATICPLUGIN.$(>).CFLAGS.release = $(CFLAGS.RELEASE) ;
