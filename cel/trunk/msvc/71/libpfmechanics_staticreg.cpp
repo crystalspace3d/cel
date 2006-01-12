@@ -78,6 +78,15 @@ static char const metainfo_pfmechanics[] =
 "          <class>cel.mechobject</class>"
 "        </requires>"
 "      </class>"
+"      <class>"
+"        <name>cel.pcfactory.craft</name>"
+"        <implementation>celPfCraftController</implementation>"
+"        <description>CEL Craft Controller Class Factory</description>"
+"        <requires>"
+"          <class>cel.physicallayer</class>"
+"          <class>cel.mechobject</class>"
+"        </requires>"
+"      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
@@ -110,6 +119,10 @@ static char const metainfo_pfmechanics[] =
   #define celPfHover_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfHover) 
   #endif
+  #ifndef celPfCraftController_FACTORY_REGISTER_DEFINED 
+  #define celPfCraftController_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCraftController) 
+  #endif
 
 class pfmechanics
 {
@@ -141,6 +154,10 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #ifndef celPfHover_FACTORY_REGISTERED 
   #define celPfHover_FACTORY_REGISTERED 
     celPfHover_StaticInit celPfHover_static_init__; 
+  #endif
+  #ifndef celPfCraftController_FACTORY_REGISTERED 
+  #define celPfCraftController_FACTORY_REGISTERED 
+    celPfCraftController_StaticInit celPfCraftController_static_init__; 
   #endif
 public:
  pfmechanics();
