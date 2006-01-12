@@ -11,7 +11,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   
   Application celtst_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
   CFlags celtst_static : [ FDefines CS_STATIC_LINKED ] ;
-  LFlags celtst_static : -lcrystalspace_staticplugins ;
+  MsvcDefine celtst_static : CS_STATIC_LINKED ;
   LinkWith celtst_static : cel_staticplugins celtool ;
   LinkStaticPlugins celtst_static :
     addon_celentity
@@ -48,6 +48,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     csfont
     csgifimg
     csjpgimg
+    csopcode
     csparser
     cspngimg
     cssynldr
@@ -67,7 +68,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     genmesh
     gl3d 
     glshader_arb 
+    glshader_cg
     glshader_fixed
+    glshader_ps1
     gmeshanim
     gmeshldr
     gmeshskelanim
@@ -76,7 +79,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     ieplex
     imgplex
     nullmesh
-    opcode
     protomesh
     protomeshldr
     rain
