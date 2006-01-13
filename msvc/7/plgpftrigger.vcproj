@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpftrigger"
+	ProjectGUID="{7819CFB4-1D16-C2CA-3B58-319C41E552DF}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpftrigger.rc">
+				RelativePath="..\..\msvc\plgpftrigger.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\trigger\pftrigger.csplugin">

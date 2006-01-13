@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpftest"
+	ProjectGUID="{6452026D-0C54-4DCD-DA11-047FAC2224D7}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpftest.rc">
+				RelativePath="..\..\msvc\plgpftest.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\test\pftest.csplugin">

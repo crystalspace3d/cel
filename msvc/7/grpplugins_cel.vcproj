@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="grpplugins_cel"
+	ProjectGUID="{866C2A26-400D-A8C9-8F7B-B780A879B604}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

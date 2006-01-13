@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpfportal"
+	ProjectGUID="{E4F5830C-8CAF-CBC0-C5E5-B189CECF556A}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpfportal.rc">
+				RelativePath="..\..\msvc\plgpfportal.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\portal\pfportal.csplugin">

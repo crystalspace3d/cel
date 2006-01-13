@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="appbootstrap"
+	ProjectGUID="{FF4C7AD7-84CA-8A2F-7EBF-2B1FA775848F}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\appbootstrap.rc">
+				RelativePath="..\..\msvc\appbootstrap.rc">
 			</File>
 		</Filter>
 	</Files>

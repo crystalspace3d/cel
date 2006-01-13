@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfdefcam"
+	ProjectGUID="{10B1A9B3-DB3C-98CB-62C9-DB10F9F43396}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfdefcam.rc">
+				RelativePath="..\..\msvc\plgpfdefcam.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\defcam\pfdefcam.csplugin">

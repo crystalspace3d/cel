@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfinv"
+	ProjectGUID="{CB5A4EF1-E092-959D-EFD1-E0442F3119F1}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfinv.rc">
+				RelativePath="..\..\msvc\plgpfinv.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\inv\pfinv.csplugin">

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="grplibs_cel"
+	ProjectGUID="{106A7F99-1E5C-1E40-BA5B-83418069F01C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

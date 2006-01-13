@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpfinput"
+	ProjectGUID="{5281C5BB-2394-E384-DEDF-73F9F661705D}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpfinput.rc">
+				RelativePath="..\..\msvc\plgpfinput.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\input\pfinput.csplugin">

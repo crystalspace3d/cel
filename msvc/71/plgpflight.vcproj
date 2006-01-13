@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpflight"
+	ProjectGUID="{23D61ADF-182D-DD0F-43F2-2E474EE1FB00}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpflight.rc">
+				RelativePath="..\..\msvc\plgpflight.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\light\pflight.csplugin">

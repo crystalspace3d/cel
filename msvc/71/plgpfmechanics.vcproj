@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfmechanics"
+	ProjectGUID="{89822485-8A94-469B-7CA5-A2839C03D271}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -215,7 +216,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfmechanics.rc">
+				RelativePath="..\..\msvc\plgpfmechanics.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\pfmechanics.csplugin">

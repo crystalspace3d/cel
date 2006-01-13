@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="appceltst"
+	ProjectGUID="{E7FA7509-300D-FB19-912A-61D2694C9BD0}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -179,7 +180,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\appceltst.rc">
+				RelativePath="..\..\msvc\appceltst.rc">
 			</File>
 		</Filter>
 	</Files>

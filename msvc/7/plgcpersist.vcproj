@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgcpersist"
+	ProjectGUID="{403E853A-59C3-FBA1-AF01-2BF89B0DA2F7}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgcpersist.rc">
+				RelativePath="..\..\msvc\plgcpersist.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\persist\classic\cpersist.csplugin">

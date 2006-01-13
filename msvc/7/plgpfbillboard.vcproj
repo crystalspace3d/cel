@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpfbillboard"
+	ProjectGUID="{8E2C61D0-0DDE-9AC3-AB7E-8EE3B4EE09D4}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpfbillboard.rc">
+				RelativePath="..\..\msvc\plgpfbillboard.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\pfbillboard.csplugin">

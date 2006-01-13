@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgpfmover"
+	ProjectGUID="{6AE42D83-4035-6C15-089B-D65BCF171A11}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgpfmover.rc">
+				RelativePath="..\..\msvc\plgpfmover.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mover\pfmover.csplugin">

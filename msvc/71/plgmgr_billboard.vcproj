@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgmgr_billboard"
+	ProjectGUID="{32B86666-15E0-F234-58EC-50D3CC10AD59}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgmgr_billboard.rc">
+				RelativePath="..\..\msvc\plgmgr_billboard.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\billboard\mgr_billboard.csplugin">

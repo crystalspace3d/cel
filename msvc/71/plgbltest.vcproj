@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgbltest"
+	ProjectGUID="{E15D3136-619B-861B-D8FF-561A1F846B6C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -182,7 +183,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgbltest.rc">
+				RelativePath="..\..\msvc\plgbltest.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\test\bltest.csplugin">

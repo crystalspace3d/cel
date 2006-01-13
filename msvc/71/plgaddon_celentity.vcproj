@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgaddon_celentity"
+	ProjectGUID="{3EF52631-4486-D72B-BB17-DB8FCF36DDBA}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgaddon_celentity.rc">
+				RelativePath="..\..\msvc\plgaddon_celentity.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\celentity\addon_celentity.csplugin">

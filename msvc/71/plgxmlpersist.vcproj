@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgxmlpersist"
+	ProjectGUID="{274174A0-7101-29E3-D06A-6C0B009A3DDD}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgxmlpersist.rc">
+				RelativePath="..\..\msvc\plgxmlpersist.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.csplugin">
