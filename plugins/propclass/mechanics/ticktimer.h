@@ -27,7 +27,7 @@
 class celPeriodicTimer
 {
 public:
-  celPeriodicTimer (csWeakRef<iCelPlLayer> pl) : tick (20), wref_physical_layer (pl)
+  celPeriodicTimer (csWeakRef<iCelPlLayer> pl) : tick (10), wref_physical_layer (pl)
   {
     scfiCelTimerListener = new CelTimerListener (this);
     pl->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
