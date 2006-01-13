@@ -30,7 +30,7 @@
 
 #include "propclass/hover.h"
 
-#include "stabiliser_dist.h"
+#include "tools/stabiliser_dist.h"
 #include "ticktimer.h"
 
 struct iPcMesh;
