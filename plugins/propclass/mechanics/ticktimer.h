@@ -27,15 +27,15 @@
 class celPeriodicTimer
 {
 public:
-  celPeriodicTimer (csWeakRef<iCelPlLayer> pl) : tick (0), wref_physical_layer (pl)
+  celPeriodicTimer (csWeakRef<iCelPlLayer> pl) : tick (1), wref_physical_layer (pl)
   {
     scfiCelTimerListener = new CelTimerListener (this);
-    pl->CallbackOnce (scfiCelTimerListener, 1, CEL_EVENT_PRE);
+    pl->CallbackOnce (scfiCelTimerListener, tick, CEL_EVENT_PRE);
   }
   virtual ~celPeriodicTimer () { scfiCelTimerListener->DecRef (); }
 
   virtual void Tick () = 0;
-  virtual void SetTickTime(float tck) { tick = tck; }
+  virtual void SetTickTime (csTicks tck) { tick = tck; }
 
 private:
   // Made independent to avoid circular refs and leaks.
@@ -52,12 +52,12 @@ private:
     }
     virtual void TickOnce ()
     {
-      parent->wref_physical_layer->CallbackOnce (this, 1, CEL_EVENT_PRE);
+      parent->wref_physical_layer->CallbackOnce (this, parent->tick, CEL_EVENT_PRE);
       parent->Tick ();
     }
   } * scfiCelTimerListener;
 
-  float tick;
+  csTicks tick;
   csWeakRef<iCelPlLayer> wref_physical_layer;
 };
 
