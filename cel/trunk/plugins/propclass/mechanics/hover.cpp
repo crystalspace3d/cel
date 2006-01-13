@@ -91,7 +91,7 @@ void celPcHover::SetWorld (const char *name)
 void celPcHover::DefaultHeightFunction ()
 {
   csRef<celIntervalMetaDistribution> i(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> a(new celReturnConstantValue(7.0));
+  csRef<celReturnConstantValue> a(new celReturnConstantValue(6.5));
   csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f , 6.0f , 3.0f , 2.0f));
   csRef<celReturnConstantValue> c(new celReturnConstantValue(0.0));
 
@@ -100,7 +100,7 @@ void celPcHover::DefaultHeightFunction ()
   i->Add(c, 3.0f , 9999999999.0f);
 
   csRef<celIntervalMetaDistribution> e(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> m(new celReturnConstantValue(3.0));
+  csRef<celReturnConstantValue> m(new celReturnConstantValue(1.6));
   csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 1.5f , 3.0f , 0.9f));
   csRef<celReturnConstantValue> o(new celReturnConstantValue(0.0));
 
@@ -147,7 +147,7 @@ void celPcHover::PerformStabilising ()
   float force = func->Force (height);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.2f);
+  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.3f);
 
   // the ships roll should try to remain level (levels faster when closer to ground)
   if(height < ang_cutoff_height) {
