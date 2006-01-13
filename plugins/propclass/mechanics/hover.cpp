@@ -90,20 +90,20 @@ void celPcHover::SetWorld (const char *name)
 
 void celPcHover::DefaultHeightFunction ()
 {
-  csRef<celIntervalMetaDistribution> i(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> a(new celReturnConstantValue(200.0f));
-  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f, 400.0f, 3.0f, 200.0f));
-  csRef<celReturnConstantValue> c(new celReturnConstantValue(0.0));
+  csRef<celIntervalMetaDistribution> i;  i.AttachNew(new celIntervalMetaDistribution());
+  csRef<celReturnConstantValue> a;  a.AttachNew(new celReturnConstantValue(200.0f));
+  csRef<celSquareDistribution>  b;  b.AttachNew(new celSquareDistribution(1.0001f, 400.0f, 3.0f, 200.0f));
+  csRef<celReturnConstantValue> c;  c.AttachNew(new celReturnConstantValue(0.0));
 
   // between heights -0.9999999 and 0.0001 call function a
   i->Add(a, -9999999999.0f , 0.0001f);
   i->Add(b, 0.0001f , 3.0f);
   i->Add(c, 3.0f , 9999999999.0f);
 
-  csRef<celIntervalMetaDistribution> e(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> m(new celReturnConstantValue(180.0f));
-  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 300.0f, 3.0f , 180.0f));
-  csRef<celReturnConstantValue> o(new celReturnConstantValue(0.0));
+  csRef<celIntervalMetaDistribution> e; e.AttachNew(new celIntervalMetaDistribution());
+  csRef<celReturnConstantValue> m;  m.AttachNew(new celReturnConstantValue(180.0f));
+  csRef<celSquareDistribution>  n;  n.AttachNew(new celSquareDistribution(1.0001f , 300.0f, 3.0f , 180.0f));
+  csRef<celReturnConstantValue> o;  o.AttachNew(new celReturnConstantValue(0.0));
 
   e->Add(m, -9999999999.0f , 0.0001f);
   e->Add(n, 0.0001f , 3.0f);
