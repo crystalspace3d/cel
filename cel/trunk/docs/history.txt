@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Jan-2006
+        - ticker being frame dependent was solved (ticking too fast).
+        - Apply upthrust once for time being while improving correlation
+          between slow and fast machines.
+        - Continuity corrections between lower bounds of
+          DefaultHeightFunction ()
+        - stabiliser distributions was moved, so outside apps can link to it.
 11-Jan-2006
         - Genjix converted hover property class objects to have cel prefix.
           Stabiliser function base class is now reference counted.
