@@ -19,7 +19,7 @@
 
 #include <cssysdef.h>
 
-#include "stabiliser_dist.h"
+#include "tools/stabiliser_dist.h"
 
 #include <cmath>
 #include <math.h>
