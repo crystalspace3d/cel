@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
         - Genjix provided Continuity corrections between lower bounds of
           DefaultHeightFunction ()
         - Genjix moved stabiliser distributions, so outside apps can link to it.
+        - res2k pointed out a leak in ref pointers.
 11-Jan-2006
         - Genjix converted hover property class objects to have cel prefix.
           Stabiliser function base class is now reference counted.
