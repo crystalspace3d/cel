@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="libcel_staticplugins"
+	ProjectGUID="{F8C56937-E665-838E-0B34-DB3EF026DE9C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -157,483 +158,483 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\libaddon_celentity_staticreg.cpp">
+				RelativePath="..\..\msvc\libaddon_celentity_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libaddon_celentity_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_celentity_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libaddon_celentity_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_celentity_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libaddon_celentitytpl_staticreg.cpp">
+				RelativePath="..\..\msvc\libaddon_celentitytpl_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libaddon_celentitytpl_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_celentitytpl_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libaddon_celentitytpl_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_celentitytpl_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libaddon_questdef_staticreg.cpp">
+				RelativePath="..\..\msvc\libaddon_questdef_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libaddon_questdef_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_questdef_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libaddon_questdef_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_questdef_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libaddon_xmlscripts_staticreg.cpp">
+				RelativePath="..\..\msvc\libaddon_xmlscripts_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libaddon_xmlscripts_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_xmlscripts_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libaddon_xmlscripts_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_xmlscripts_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libbltest_staticreg.cpp">
+				RelativePath="..\..\msvc\libbltest_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libbltest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libbltest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libbltest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libblxml_staticreg.cpp">
+				RelativePath="..\..\msvc\libblxml_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libblxml_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libblxml_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libblxml_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libblxml_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libcpersist_staticreg.cpp">
+				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libcpersist_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libcpersist_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libcpersist_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libcpersist_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libmgr_billboard_staticreg.cpp">
+				RelativePath="..\..\msvc\libmgr_billboard_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libmgr_billboard_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libmgr_billboard_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libmgr_billboard_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libmgr_billboard_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libmgr_quests_staticreg.cpp">
+				RelativePath="..\..\msvc\libmgr_quests_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libmgr_quests_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libmgr_quests_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libmgr_quests_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libmgr_quests_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfactormove_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfactormove_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfactormove_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfactormove_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfactormove_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfactormove_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfawswin_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfawswin_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfawswin_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfawswin_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfbillboard_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfbillboard_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfbillboard_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfbillboard_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfbillboard_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfbillboard_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfdefcam_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfdefcam_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfdefcam_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfdefcam_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfdefcam_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfdefcam_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfengine_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfengine_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfengine_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfengine_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfengine_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfengine_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfinput_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfinput_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfinput_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfinput_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfinput_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfinput_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfinv_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfinv_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfinv_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfinv_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfinv_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfinv_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpflight_staticreg.cpp">
+				RelativePath="..\..\msvc\libpflight_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpflight_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpflight_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpflight_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpflight_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfmechanics_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfmechanics_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfmechanics_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmechanics_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfmechanics_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmechanics_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfmesh_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfmesh_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfmesh_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmesh_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfmesh_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmesh_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfmove_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfmove_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfmove_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmove_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfmove_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmove_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfmover_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfmover_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfmover_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmover_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfmover_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmover_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfnewcamera_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfnewcamera_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfnewcamera_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfnewcamera_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfnewcamera_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfnewcamera_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfportal_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfportal_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfportal_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfportal_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfportal_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfportal_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfquest_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfquest_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfquest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfquest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfquest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfquest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfsimpcam_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfsimpcam_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfsimpcam_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfsimpcam_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfsimpcam_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfsimpcam_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfsound_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfsound_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfsound_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfsound_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfsound_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfsound_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpftest_staticreg.cpp">
+				RelativePath="..\..\msvc\libpftest_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpftest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpftest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpftest_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpftest_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpftools_staticreg.cpp">
+				RelativePath="..\..\msvc\libpftools_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpftools_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpftools_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpftools_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpftools_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpftrigger_staticreg.cpp">
+				RelativePath="..\..\msvc\libpftrigger_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpftrigger_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpftrigger_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpftrigger_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpftrigger_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libpfzone_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfzone_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libpfzone_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfzone_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libpfzone_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfzone_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libstdphyslayer_staticreg.cpp">
+				RelativePath="..\..\msvc\libstdphyslayer_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libstdphyslayer_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libstdphyslayer_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libstdphyslayer_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libstdphyslayer_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\8\libxmlpersist_staticreg.cpp">
+				RelativePath="..\..\msvc\libxmlpersist_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_8_libxmlpersist_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libxmlpersist_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_8_libxmlpersist_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libxmlpersist_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File

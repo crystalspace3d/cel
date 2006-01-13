@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgaddon_xmlscripts"
+	ProjectGUID="{BA7BEDE4-D74D-62E9-2A70-F3E2461698BB}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgaddon_xmlscripts.rc">
+				RelativePath="..\..\msvc\plgaddon_xmlscripts.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\xmlscripts\addon_xmlscripts.csplugin">

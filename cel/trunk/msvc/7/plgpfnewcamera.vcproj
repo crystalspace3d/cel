@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpfnewcamera"
+	ProjectGUID="{097814E8-8395-28B7-6CCF-374BA0D10503}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -194,7 +195,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpfnewcamera.rc">
+				RelativePath="..\..\msvc\plgpfnewcamera.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\pfnewcamera.csplugin">

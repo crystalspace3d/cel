@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="grpall_cel"
+	ProjectGUID="{36C62D61-808A-D8D0-D561-3EE6C506C350}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

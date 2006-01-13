@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfengine"
+	ProjectGUID="{F523A3D9-0D90-E985-CA29-10E441393BAE}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfengine.rc">
+				RelativePath="..\..\msvc\plgpfengine.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\engine\pfengine.csplugin">

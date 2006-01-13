@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfsound"
+	ProjectGUID="{E91FEE10-2BA4-53FC-07FA-0A5B3649595F}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfsound.rc">
+				RelativePath="..\..\msvc\plgpfsound.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\sound\pfsound.csplugin">

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfactormove"
+	ProjectGUID="{8EBBE255-F364-3793-8E84-4ACE0FB487A1}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfactormove.rc">
+				RelativePath="..\..\msvc\plgpfactormove.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\pfactormove.csplugin">

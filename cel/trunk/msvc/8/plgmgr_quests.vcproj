@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgmgr_quests"
+	ProjectGUID="{96C3E65A-7CC9-961B-0681-395F51BC9CE2}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -284,7 +285,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgmgr_quests.rc">
+				RelativePath="..\..\msvc\plgmgr_quests.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\mgr_quests.csplugin">

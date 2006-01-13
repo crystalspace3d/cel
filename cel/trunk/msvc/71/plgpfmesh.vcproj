@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfmesh"
+	ProjectGUID="{7577CC57-FF93-6E33-EC99-846E898BED29}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfmesh.rc">
+				RelativePath="..\..\msvc\plgpfmesh.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mesh\pfmesh.csplugin">

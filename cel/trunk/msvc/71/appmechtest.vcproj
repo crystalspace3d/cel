@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="appmechtest"
+	ProjectGUID="{BCD3DA6A-1AA3-888D-89E5-CFBFF01BA09C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -179,7 +180,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\appmechtest.rc">
+				RelativePath="..\..\msvc\appmechtest.rc">
 			</File>
 		</Filter>
 	</Files>

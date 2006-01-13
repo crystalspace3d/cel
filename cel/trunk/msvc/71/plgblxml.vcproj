@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgblxml"
+	ProjectGUID="{D4C2A921-6257-1D72-592F-450E19AA3E20}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -194,7 +195,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgblxml.rc">
+				RelativePath="..\..\msvc\plgblxml.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\behaviourlayer\xml\blxml.csplugin">

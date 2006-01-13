@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="grpapps_cel"
+	ProjectGUID="{E2ECEB01-C66F-C40A-F57D-14B5700CED7A}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

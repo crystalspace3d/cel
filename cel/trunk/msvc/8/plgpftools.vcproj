@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgpftools"
+	ProjectGUID="{058AAD6E-A940-FA17-F583-B3676E4DAC6C}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -194,7 +195,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgpftools.rc">
+				RelativePath="..\..\msvc\plgpftools.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\tools\pftools.csplugin">

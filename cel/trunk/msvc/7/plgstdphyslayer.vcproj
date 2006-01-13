@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgstdphyslayer"
+	ProjectGUID="{66C683AA-084B-50DD-3B04-ED38799342BA}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -215,7 +216,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgstdphyslayer.rc">
+				RelativePath="..\..\msvc\plgstdphyslayer.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\stdphyslayer.csplugin">

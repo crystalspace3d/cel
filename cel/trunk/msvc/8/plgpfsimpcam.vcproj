@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgpfsimpcam"
+	ProjectGUID="{967105F5-9828-18D8-0AB3-AB33A96DF792}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgpfsimpcam.rc">
+				RelativePath="..\..\msvc\plgpfsimpcam.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\simpcam\pfsimpcam.csplugin">

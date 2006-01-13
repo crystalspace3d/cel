@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="libceltool"
+	ProjectGUID="{FE8C31C7-8C7C-B982-16AE-C6CA39940D52}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="appnettest"
+	ProjectGUID="{810EE67A-EF58-EF92-1367-E6FD972356CE}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -188,7 +189,10 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\appnettest.rc">
+				RelativePath="..\..\msvc\appnettest.manifest">
+			</File>
+			<File
+				RelativePath="..\..\msvc\appnettest.rc">
 			</File>
 		</Filter>
 	</Files>

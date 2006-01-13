@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="plgpfquest"
+	ProjectGUID="{3AB21594-2130-A5AE-9E11-272637C9F9B6}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\7\plgpfquest.rc">
+				RelativePath="..\..\msvc\plgpfquest.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\quest\pfquest.csplugin">

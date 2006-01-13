@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="plgpfawswin"
+	ProjectGUID="{E10987F1-14F9-76D8-4B18-F031272542F2}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\8\plgpfawswin.rc">
+				RelativePath="..\..\msvc\plgpfawswin.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\awswin\pfawswin.csplugin">

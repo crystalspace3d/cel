@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="plgpfzone"
+	ProjectGUID="{9B942FB3-91A0-9E4F-1514-1286B4872502}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -176,7 +177,7 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\71\plgpfzone.rc">
+				RelativePath="..\..\msvc\plgpfzone.rc">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\pfzone.csplugin">
