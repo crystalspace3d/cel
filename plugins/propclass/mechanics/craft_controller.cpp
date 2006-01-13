@@ -59,13 +59,13 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   current_up = 0;
   current_down = 0;
 
-  turn_acc = 0.04;
-  updwn_acc = 0.04;
-  turn_max = 3.5;
-  updwn_max = 0.5;
+  turn_acc = 0.4;
+  updwn_acc = 0.4;
+  turn_max = 35.0;
+  updwn_max = 5.0;
 
   thrust_on = false;
-  thrust = 1;
+  thrust = 10.0;
 }
 
 celPcCraftController::~celPcCraftController ()

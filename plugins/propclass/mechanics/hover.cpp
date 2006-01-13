@@ -91,17 +91,18 @@ void celPcHover::SetWorld (const char *name)
 void celPcHover::DefaultHeightFunction ()
 {
   csRef<celIntervalMetaDistribution> i(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> a(new celReturnConstantValue(65.0f));
-  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f , 60.0f , 3.0f , 20.0f));
+  csRef<celReturnConstantValue> a(new celReturnConstantValue(200.0f));
+  csRef<celSquareDistribution>  b(new celSquareDistribution(1.0001f, 400.0f, 3.0f, 200.0f));
   csRef<celReturnConstantValue> c(new celReturnConstantValue(0.0));
 
+  // between heights -0.9999999 and 0.0001 call function a
   i->Add(a, -9999999999.0f , 0.0001f);
   i->Add(b, 0.0001f , 3.0f);
   i->Add(c, 3.0f , 9999999999.0f);
 
   csRef<celIntervalMetaDistribution> e(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> m(new celReturnConstantValue(16.0f));
-  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 15.0f , 3.0f , 9.0f));
+  csRef<celReturnConstantValue> m(new celReturnConstantValue(180.0f));
+  csRef<celSquareDistribution>  n(new celSquareDistribution(1.0001f , 300.0f, 3.0f , 180.0f));
   csRef<celReturnConstantValue> o(new celReturnConstantValue(0.0));
 
   e->Add(m, -9999999999.0f , 0.0001f);
@@ -109,6 +110,7 @@ void celPcHover::DefaultHeightFunction ()
   e->Add(o, 3.0f , 9999999999.0f);
 
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  // if ship is falling call i, else call e
   func = new celIfFallingDistribution(ship_mech , i , e , 0.0);
 }
 
@@ -145,6 +147,7 @@ void celPcHover::PerformStabilising ()
   float height = Height();
 
   float force = func->Force (height);
+  //printf("h: %f\tF: %f\n",height,force);
 
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   //pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01f);
