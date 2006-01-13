@@ -14,11 +14,12 @@ The history order is reversed so that new features are at the top.
 11-Jan-2006
         - Genjix converted hover property class objects to have cel prefix.
           Stabiliser function base class is now reference counted.
-        - Added New craft controller property class for turning craft type
+        - Genjix added New craft controller property class for turning craft type
           objects left and right, and up and down.
           No thruster part, nor functions for setting angular damping yet.
-        - Functions for setting turning settings (turn speed, turn max speed)
-        - Timer base class for CEL property classes that wish to have
+        - Genjix created functions for setting turning settings
+          (turn speed, turn max speed)
+        - Genjix made Timer base class for CEL property classes that wish to have
           periodic ticking (just inherit and pass pl reference to constructor)
 	- Dariusz Dawidowski make a few updates in xml behaviour:
 	  rand() function - using csRandomGen instead of standard cpp rand().
