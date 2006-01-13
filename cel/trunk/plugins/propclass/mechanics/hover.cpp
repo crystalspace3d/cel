@@ -111,7 +111,7 @@ void celPcHover::DefaultHeightFunction ()
 
   csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   // if ship is falling call i, else call e
-  func = new celIfFallingDistribution(ship_mech , i , e , 0.0);
+  func.AttachNew(new celIfFallingDistribution(ship_mech , i , e , 0.0));
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
