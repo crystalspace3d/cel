@@ -167,6 +167,9 @@
 				RelativePath="..\..\libs\celtool\persisthelper.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\stabiliser_dist.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\stdparams.cpp">
 			</File>
 			<File

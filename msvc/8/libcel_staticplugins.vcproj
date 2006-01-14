@@ -983,21 +983,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\stabiliser_dist.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1855,9 +1840,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\stabiliser_dist.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.h">
