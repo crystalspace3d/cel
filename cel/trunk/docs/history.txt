@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Jan-2006
+        - Genjix uploaded new hover changes. These include a slower
+          ticking time and more information on the objects state.
 13-Jan-2006
         - Genjix fixed ticker being frame dependent was solved (ticking
           too fast).
