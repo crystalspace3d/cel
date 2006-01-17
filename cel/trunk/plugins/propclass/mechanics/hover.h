@@ -154,6 +154,9 @@ private:
   float height_beam_cutoff;
   /// function which computes upthrust depending on height
   csRef<celStabiliserFunction> func;
+
+  /// for calculating acceleration
+  float last_time_velocity;
 };
 
 #endif
