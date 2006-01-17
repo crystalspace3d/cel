@@ -50,6 +50,8 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
 
+  last_time_velocity = 0.0;
+
   ang_beam_offset = 2;
   ang_cutoff_height = 5;
   ang_mult = 1;
@@ -90,28 +92,6 @@ void celPcHover::SetWorld (const char *name)
 
 void celPcHover::DefaultHeightFunction ()
 {
-  csRef<celIntervalMetaDistribution> i;  i.AttachNew(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> a;  a.AttachNew(new celReturnConstantValue(200.0f));
-  csRef<celSquareDistribution>  b;  b.AttachNew(new celSquareDistribution(1.0001f, 400.0f, 3.0f, 200.0f));
-  csRef<celReturnConstantValue> c;  c.AttachNew(new celReturnConstantValue(0.0));
-
-  // between heights -0.9999999 and 0.0001 call function a
-  i->Add(a, -9999999999.0f , 0.0001f);
-  i->Add(b, 0.0001f , 3.0f);
-  i->Add(c, 3.0f , 9999999999.0f);
-
-  csRef<celIntervalMetaDistribution> e; e.AttachNew(new celIntervalMetaDistribution());
-  csRef<celReturnConstantValue> m;  m.AttachNew(new celReturnConstantValue(180.0f));
-  csRef<celSquareDistribution>  n;  n.AttachNew(new celSquareDistribution(1.0001f , 300.0f, 3.0f , 180.0f));
-  csRef<celReturnConstantValue> o;  o.AttachNew(new celReturnConstantValue(0.0));
-
-  e->Add(m, -9999999999.0f , 0.0001f);
-  e->Add(n, 0.0001f , 3.0f);
-  e->Add(o, 3.0f , 9999999999.0f);
-
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  // if ship is falling call i, else call e
-  func.AttachNew(new celIfFallingDistribution(ship_mech , i , e , 0.0));
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
@@ -144,19 +124,24 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 void celPcHover::PerformStabilising ()
 {
-  float height = Height();
-
-  float force = func->Force (height);
-  //printf("h: %f\tF: %f\n",height,force);
-
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  //pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.01f);
-  pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
+
+  celHoverObjectInfo obj_info;
+  obj_info.height = Height();
+  obj_info.yvel = pcmechobj->WorldToLocal(pcmechobj->GetLinearVelocity()).y;
+  obj_info.acceleration = obj_info.yvel - last_time_velocity;
+  last_time_velocity = obj_info.yvel;
+
+  float force = func->Force (obj_info);
+
+  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.1f);
+  //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
+  //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
 
   // the ships roll should try to remain level (levels faster when closer to ground)
-  if(height < ang_cutoff_height) {
-    float rx = AngularAlignment (csVector3 (0,0,-1), height);
-    float rz = AngularAlignment (csVector3 (1,0,0), height);
+  if(obj_info.height < ang_cutoff_height) {
+    float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
+    float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() + pcmechobj->LocalToWorld(csVector3(rx,0,rz) * ang_mult));
   }
 }

@@ -23,22 +23,29 @@
 #include <csutil/array.h>
 #include <csutil/ref.h>
 #include <csutil/refcount.h>
+#include <ivaria/script.h>
 
 struct iPcMechanicsObject;
+
+struct celHoverObjectInfo
+{
+  float height, yvel, acceleration;
+};
+
 
 class celStabiliserFunction : public csRefCount
 {
 public:
-  virtual ~celStabiliserFunction() {};
-  virtual float Force(float height) = 0;
+  virtual ~celStabiliserFunction () {};
+  virtual float Force (celHoverObjectInfo obj_info) = 0;
 };
 
 class celIntervalMetaDistribution : public celStabiliserFunction
 {
 public:
-  void Add(csRef<celStabiliserFunction> func , float low_int , float high_int);
+  void Add (csRef<celStabiliserFunction> func , float low_int , float high_int);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 private:
   struct Interval
   {
@@ -52,12 +59,10 @@ private:
 class celIfFallingDistribution : public celStabiliserFunction
 {
 public:
-  celIfFallingDistribution(csRef<iPcMechanicsObject> ship,
-    csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta = -1.0);
+  celIfFallingDistribution (csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta = -1.0);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 private:
-  csRef<iPcMechanicsObject> ship_mech;
   csRef<celStabiliserFunction> if_dist , else_dist;
   float delta;
 };
@@ -65,20 +70,30 @@ private:
 class celFallingMultiplierDistribution : public celStabiliserFunction
 {
 public:
-  celFallingMultiplierDistribution(csRef<iPcMechanicsObject> ship , csRef<celStabiliserFunction> adist);
+  celFallingMultiplierDistribution (csRef<celStabiliserFunction> fdist, csRef<celStabiliserFunction> hdist);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 private:
-  csRef<iPcMechanicsObject> ship_mech;
-  csRef<celStabiliserFunction> dist;
+  csRef<celStabiliserFunction> falling_dist, height_dist;
+};
+
+class celScriptedHeightFunction : public celStabiliserFunction
+{
+public:
+  celScriptedHeightFunction (csRef<iScript> iscript, csString module);
+
+  float Force (celHoverObjectInfo obj_info);
+private:
+  csString module;
+  csRef<iScript> iscript;
 };
 
 class celReturnConstantValue : public celStabiliserFunction
 {
 public:
-  celReturnConstantValue(float avalue = 0.0);
+  celReturnConstantValue (float avalue = 0.0);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 
   float value;
 };
@@ -86,9 +101,9 @@ public:
 class celLinearGradient : public celStabiliserFunction
 {
 public:
-  celLinearGradient(float m , float c) : m(m) , c(c) {}
+  celLinearGradient (float m , float c) : m (m) , c (c) {}
 
-  float Force(float h) { return m*h + c; }
+  float Force (celHoverObjectInfo obj_info) { return m*obj_info.height + c; }
 
   float m , c;
 };
@@ -96,14 +111,14 @@ public:
 class celInversePowerDistribution : public celStabiliserFunction
 {
 public:
-  celInversePowerDistribution(float h0 , float f0 , float h1 , float f1);
+  celInversePowerDistribution (float h0, float f0, float h1, float f1);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 private:
-  static float ComputeK(float h0 , float f0 , float h1 , float f1);
-  static float ComputeX(float h , float f , float k);
+  static float ComputeK (float h0, float f0, float h1, float f1);
+  static float ComputeX (float h, float f, float k);
 
-  float Formula(float h);
+  float Formula (float h);
 
   float k , x;
 };
@@ -111,9 +126,9 @@ private:
 class celSquareDistribution : public celStabiliserFunction
 {
 public:
-  celSquareDistribution(float h0 , float f0 , float h1 , float f1);
+  celSquareDistribution (float h0, float f0, float h1, float f1);
 
-  float Force(float h);
+  float Force (celHoverObjectInfo obj_info);
 private:
   float a , k;
 };
