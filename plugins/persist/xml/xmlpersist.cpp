@@ -317,7 +317,7 @@ bool celPersistXML::Read (iDocumentNode* node, celData* cd)
   const char* value = node->GetValue ();
   if (!strcmp ("bool", value))
   {
-    cd->Set ((bool)(node->GetAttributeValueAsInt ("v")));
+    cd->Set ((node->GetAttributeValueAsInt ("v")));
   }
   else if (!strcmp ("byte", value))
   {

@@ -328,7 +328,7 @@ bool celPcCommon::GetPropertyBool (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_BOOL)
       {
-	return ((long*)(propdata[i]))[0];
+          return ((((long*)(propdata[i]))[0])? true:false);
       }
       else return false;
   }

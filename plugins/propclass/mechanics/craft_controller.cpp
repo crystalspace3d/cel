@@ -59,13 +59,13 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   current_up = 0;
   current_down = 0;
 
-  turn_acc = 0.4;
-  updwn_acc = 0.4;
-  turn_max = 35.0;
-  updwn_max = 5.0;
+  turn_acc = 0.4f;
+  updwn_acc = 0.4f;
+  turn_max = 35.0f;
+  updwn_max = 5.0f;
 
   thrust_on = false;
-  thrust = 10.0;
+  thrust = 10.0f;
 }
 
 celPcCraftController::~celPcCraftController ()
@@ -125,12 +125,12 @@ void celPcCraftController::UpdateBody ()
   if(height > 0.1f)
     angular_supressant /= height;
   else
-    angular_supressant /= 0.1;
+    angular_supressant /= 0.1f;
 
   ship_mech->SetAngularVelocity(ship_mech->LocalToWorld(turning) + angular_supressant);
 
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
   if (thrust_on && !(-lv.z > 20.0))
-    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.2);
+    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.2f);
 }
