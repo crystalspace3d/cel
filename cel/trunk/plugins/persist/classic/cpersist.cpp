@@ -209,41 +209,41 @@ bool celPersistClassic::Write (celData* data)
 bool celPersistClassic::Write (uint32 v)
 {
   v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 4);
+  return (file->Write ((const char*) &v, 4)? true:false);
 }
 
 bool celPersistClassic::Write (int32 v)
 {
   v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 4);
+  return (file->Write ((const char*) &v, 4)?true : false);
 }
 
 bool celPersistClassic::Write (uint16 v)
 {
   v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 2);
+  return (file->Write ((const char*) &v, 2)?true : false);
 }
 
 bool celPersistClassic::Write (int16 v)
 {
   v = csConvertEndian(v);
-  return file->Write ((const char*) &v, 2);
+  return (file->Write ((const char*) &v, 2)? true : false);
 }
 
 bool celPersistClassic::Write (uint8 v)
 {
-  return file->Write ((const char*) &v, 1);
+    return (file->Write ((const char*) &v, 1)? true : false);
 }
 
 bool celPersistClassic::Write (int8 v)
 {
-  return file->Write ((const char*) &v, 1);
+    return (file->Write ((const char*) &v, 1)? true : false);
 }
 
 bool celPersistClassic::Write (float f)
 {
   f = csConvertEndian (f);
-  return file->Write ((const char*)&f, 4);
+  return (file->Write ((const char*)&f, 4)? true: false);
 }
 
 bool celPersistClassic::Write (iCelPropertyClass* pc, bool savelocal)
@@ -503,7 +503,7 @@ bool celPersistClassic::Read (celData* cd)
       return Report ("Bad type in persisted data!");
     case CEL_DATA_BOOL:
       if (!Read (ub)) return false;
-      cd->Set ((bool)ub);
+      cd->Set (ub);
       break;
     case CEL_DATA_BYTE:
       if (!Read (b)) return false;

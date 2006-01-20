@@ -558,8 +558,8 @@ static bool ArgToBool (const celXmlArg& a)
 {
   switch (a.type)
   {
-    case CEL_DATA_LONG: return bool (a.arg.i);
-    case CEL_DATA_ULONG: return bool (a.arg.ui);
+    case CEL_DATA_LONG: return (a.arg.i)? true : false;
+    case CEL_DATA_ULONG: return (a.arg.ui)? true : false;
     case CEL_DATA_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
     case CEL_DATA_BOOL: return a.arg.b;
     case CEL_DATA_ENTITY: return a.arg.entity != 0;
@@ -937,7 +937,7 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
 {
   switch (in.type)
   {
-    case CEL_DATA_BOOL: out.Set (in.value.b); break;
+  case CEL_DATA_BOOL: out.Set ((in.value.b? true : false)); break;
     case CEL_DATA_FLOAT: out.SetFloat (in.value.f); break;
     case CEL_DATA_STRING: out.SetString (in.value.s->GetData (), true); break;
     case CEL_DATA_LONG: out.SetInt32 (in.value.l); break;
@@ -2147,8 +2147,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetFloat (ArgToVector3 (top) * ArgToVector3 (elb));
 	      break;
 	    case CEL_DATA_BOOL:
-	      top.Set (bool (int (ArgToBool (top))
-	      	* int (ArgToBool (elb))));
+	      top.Set ((int (ArgToBool (top))
+              * int (ArgToBool (elb)))? true:false);
 	      break;
 	    default:
 	      return ReportError (behave, "Can't multiply these types!");
@@ -2367,7 +2367,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_STRING:
 	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)));
+              ArgToString (elb))? true : false);
 	      break;
 	    default:
 	      return ReportError (behave, "Can't compare these types!");
