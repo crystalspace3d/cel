@@ -29,6 +29,7 @@
 #include "celtool/stdparams.h"
 
 #include "propclass/hover.h"
+#include "propclass/mesh.h"
 
 #include "tools/stabiliser_dist.h"
 #include "ticktimer.h"
