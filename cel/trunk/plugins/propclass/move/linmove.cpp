@@ -227,6 +227,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 celPcLinearMovement::~celPcLinearMovement ()
 {
   SetAnchor (0);
+  delete [] propdata;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 }
 
