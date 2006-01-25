@@ -1,4 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
+# Visual C++ Express 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appbootstrap", "appbootstrap.vcproj", "{FF4C7AD7-84CA-8A2F-7EBF-2B1FA775848F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appceltst", "appceltst.vcproj", "{E7FA7509-300D-FB19-912A-61D2694C9BD0}"
