@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Jan-2006
+        - Magodra fixed two memory leaks where propclass linmove and
+          meshfact didn't free a propdata table.
 17-Jan-2006
         - Genjix uploaded new hover changes. These include a slower
           ticking time and more information on the objects state.

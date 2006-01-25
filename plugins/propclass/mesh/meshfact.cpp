@@ -139,6 +139,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 celPcMesh::~celPcMesh ()
 {
   Clear ();
+  delete [] propdata;
 }
 
 Property* celPcMesh::properties = 0;
