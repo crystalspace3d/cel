@@ -149,6 +149,7 @@ public:
 private:
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
 
+  // turning variables
   bool turn_left, turn_right;
   bool turn_up, turn_down;
 
@@ -158,8 +159,12 @@ private:
   float turn_acc, updwn_acc;
   float turn_max, updwn_max;
 
+  // thruster variables
   bool thrust_on;
   float thrust;
+
+  // airbrake variables
+  float speed_ratio_change, dangle;
 };
 
 #endif
