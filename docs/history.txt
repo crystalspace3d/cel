@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Jan-2006
+        - Genjix added a delta change to angular correction code
+          (hard coded 0.3).
 25-Jan-2006
         - Magodra fixed two memory leaks where propclass linmove and
           meshfact didn't free a propdata table.
