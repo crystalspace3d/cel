@@ -72,7 +72,7 @@ public:
   virtual void SetAngularBeamOffset(float abo) { ang_beam_offset = abo; }
   virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
-  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func = sfunc; }
+  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func.AttachNew(sfunc); }
   //virtual void SetStepTime(float steptime) { step_time = steptime; }
 
   /**
