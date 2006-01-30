@@ -26,7 +26,6 @@
 #include "iutil/csinput.h"
 #include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
-#include "cstool/sndwrap.h"
 
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
