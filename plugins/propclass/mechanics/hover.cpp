@@ -140,7 +140,7 @@ void celPcHover::PerformStabilising ()
 
   // the ships roll should try to remain level (levels faster when closer to ground)
   if(obj_info.height < ang_cutoff_height) {
-    float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height) + 0.3;
+    float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() + pcmechobj->LocalToWorld(csVector3(rx,0,rz) * ang_mult));
   }

@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Jan-2006
+        - Genjix removed 27 Jan change.
 29-Jan-2006
         - Genjix corrected assignment error in csRef.
 27-Jan-2006
