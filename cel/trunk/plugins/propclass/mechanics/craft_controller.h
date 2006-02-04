@@ -78,6 +78,7 @@ public:
   virtual void SetMaxTurn(float turn) { turn_max = turn; }
   virtual void SetMaxUpDown(float mud) { updwn_max = mud; }
   virtual void SetThrustForce(float tf) { thrust = tf; }
+  virtual void SetTopSpeed(float tspeed) { topspeed = tspeed; }
 
   virtual void ThrustOn() { thrust_on = true; }
   virtual void ThrustOff() { thrust_on = false; }
@@ -140,6 +141,10 @@ public:
     {
       scfParent->SetThrustForce(tf);
     }
+    virtual void SetTopSpeed(float tspeed)
+    {
+      scfParent->SetTopSpeed(tspeed);
+    }
 
     virtual void ThrustOn()
     {
@@ -167,6 +172,8 @@ private:
   // thruster variables
   bool thrust_on;
   float thrust;
+  ///< speed at which the thruster turns off
+  float topspeed;
 
   // airbrake variables
   float speed_ratio_change, dangle;
