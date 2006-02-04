@@ -66,6 +66,7 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 
   thrust_on = false;
   thrust = 10.0f;
+  topspeed = 20.0f;
 }
 
 celPcCraftController::~celPcCraftController ()
@@ -131,7 +132,6 @@ void celPcCraftController::UpdateBody ()
 
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
-  if (thrust_on && !(-lv.z > 20.0))
-    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true,
-        csVector3 (0,0,0), 0.1f);
+  if (thrust_on && !(-lv.z > topspeed))
+    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.1f);
 }
