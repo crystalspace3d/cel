@@ -63,25 +63,25 @@ public:
        TurnLeft(float isturning);
      so that later on they can easily be extended with
      initial reactionaries */
-  virtual void StartTurnLeft() { turn_left = true; }
-  virtual void StopTurnLeft() { turn_left = false; }
-  virtual void StartTurnRight() { turn_right = true; }
-  virtual void StopTurnRight() { turn_right = false; }
+  virtual void StartTurnLeft () { turn_left = true; }
+  virtual void StopTurnLeft () { turn_left = false; }
+  virtual void StartTurnRight () { turn_right = true; }
+  virtual void StopTurnRight () { turn_right = false; }
 
-  virtual void StartTurnUp() { turn_up = true; }
-  virtual void StopTurnUp() { turn_up = false; }
-  virtual void StartTurnDown() { turn_down = true; }
-  virtual void StopTurnDown() { turn_down = false; }
+  virtual void StartTurnUp () { turn_up = true; }
+  virtual void StopTurnUp () { turn_up = false; }
+  virtual void StartTurnDown () { turn_down = true; }
+  virtual void StopTurnDown () { turn_down = false; }
 
-  virtual void SetAccTurn(float tacc) { turn_acc = tacc; }
-  virtual void SetAccUpDown(float uacc) { updwn_acc = uacc; }
-  virtual void SetMaxTurn(float turn) { turn_max = turn; }
-  virtual void SetMaxUpDown(float mud) { updwn_max = mud; }
-  virtual void SetThrustForce(float tf) { thrust = tf; }
-  virtual void SetTopSpeed(float tspeed) { topspeed = tspeed; }
+  virtual void SetAccTurn (float tacc) { turn_acc = tacc; }
+  virtual void SetMaxTurn (float turn) { turn_max = turn; }
+  virtual void SetAccPitch (float uacc) { pitch_acc = uacc; }
+  virtual void SetMaxPitch (float mud) { pitch_max = mud; }
+  virtual void SetThrustForce (float tf) { thrust = tf; }
+  virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
 
-  virtual void ThrustOn() { thrust_on = true; }
-  virtual void ThrustOff() { thrust_on = false; }
+  virtual void ThrustOn () { thrust_on = true; }
+  virtual void ThrustOff () { thrust_on = false; }
 
   struct PcCraftController : public iPcCraftController
   {
@@ -125,17 +125,17 @@ public:
     {
       scfParent->SetAccTurn(tacc);
     }
-    virtual void SetAccUpDown(float uacc)
+    virtual void SetAccPitch(float uacc)
     {
-      scfParent->SetAccUpDown(uacc);
+      scfParent->SetAccPitch(uacc);
     }
     virtual void SetMaxTurn(float turn)
     {
       scfParent->SetMaxTurn(turn);
     }
-    virtual void SetMaxUpDown(float mud)
+    virtual void SetMaxPitch(float mud)
     {
-      scfParent->SetMaxUpDown(mud);
+      scfParent->SetMaxPitch(mud);
     }
     virtual void SetThrustForce(float tf)
     {
@@ -166,8 +166,8 @@ private:
   float current_turning_left, current_turning_right;
   float current_up, current_down;
 
-  float turn_acc, updwn_acc;
-  float turn_max, updwn_max;
+  float turn_acc, pitch_acc;
+  float turn_max, pitch_max;
 
   // thruster variables
   bool thrust_on;

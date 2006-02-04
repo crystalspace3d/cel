@@ -60,9 +60,9 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   current_down = 0;
 
   turn_acc = 0.4f;
-  updwn_acc = 0.4f;
+  pitch_acc = 0.4f;
   turn_max = 1.5f;
-  updwn_max = 0.5f;
+  pitch_max = 0.5f;
 
   thrust_on = false;
   thrust = 10.0f;
@@ -110,8 +110,8 @@ void celPcCraftController::UpdateBody ()
 {
   DoTurningCalc (turn_left, current_turning_left, turn_acc, turn_max);
   DoTurningCalc (turn_right, current_turning_right, turn_acc, turn_max);
-  DoTurningCalc (turn_up, current_up, updwn_acc, updwn_max);
-  DoTurningCalc (turn_down, current_down, updwn_acc, updwn_max);
+  DoTurningCalc (turn_up, current_up, pitch_acc, pitch_max);
+  DoTurningCalc (turn_down, current_down, pitch_acc, pitch_max);
 
   /*! at the moment roll in the ships turning is disabled
       until I write a self angular stabilising component */

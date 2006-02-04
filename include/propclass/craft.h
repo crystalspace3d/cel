@@ -78,7 +78,7 @@ struct iPcCraftController : public virtual iBase
    * Set the objects up and down
    * turning acceleration;
    */
-  virtual void SetAccUpDown(float uacc) = 0;
+  virtual void SetAccPitch(float uacc) = 0;
 
   /**
    * Set the objects maximum
@@ -89,7 +89,7 @@ struct iPcCraftController : public virtual iBase
    * Set the objects maximum
    * up and down turning velocity;
    */
-  virtual void SetMaxUpDown(float mud) = 0;
+  virtual void SetMaxPitch(float mud) = 0;
   /**
    * Set the thrust force of the craft
    */
