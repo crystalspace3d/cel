@@ -94,6 +94,11 @@ struct iPcCraftController : public virtual iBase
    * Set the thrust force of the craft
    */
   virtual void SetThrustForce(float tf) = 0;
+  /**
+   * Set the Top Speed of the thruster.
+   * Above this speed the thruster will not work.
+   */
+  virtual void SetTopSpeed(float tspeed) = 0;
 
   /**
    * Turn on thruster
