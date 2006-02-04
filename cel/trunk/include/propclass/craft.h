@@ -90,16 +90,16 @@ struct iPcCraftController : public virtual iBase
    * up and down turning velocity;
    */
   virtual void SetMaxUpDown(float mud) = 0;
+  /**
+   * Set the thrust force of the craft
+   */
+  virtual void SetThrustForce(float tf) = 0;
 
   /**
-   * Temporary: will have seperate interface soon
-   *
    * Turn on thruster
    */
   virtual void ThrustOn() = 0;
   /**
-   * Temporary: will have seperate interface soon
-   *
    * Turn off thruster
    */
   virtual void ThrustOff() = 0;
