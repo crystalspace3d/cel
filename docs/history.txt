@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+04-Feb-2006
+        - Genjix made height beam calc tests in pchover along local
+          coord system.
+        - Genjix optimised pchover to store queried ship_mech once.
 30-Jan-2006
         - Genjix removed 27 Jan change.
 29-Jan-2006

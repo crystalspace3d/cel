@@ -124,17 +124,19 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 void celPcHover::PerformStabilising ()
 {
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  if (!ship_mech)
+    ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
 
   celHoverObjectInfo obj_info;
   obj_info.height = Height();
-  obj_info.yvel = pcmechobj->WorldToLocal(pcmechobj->GetLinearVelocity()).y;
+  obj_info.yvel = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ()).y;
   obj_info.acceleration = obj_info.yvel - last_time_velocity;
   last_time_velocity = obj_info.yvel;
 
   float force = func->Force (obj_info);
 
-  pcmechobj->AddForceDuration (csVector3 (0,force,0), false, csVector3 (0,0,0), 0.1f);
+  ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
+      csVector3 (0,0,0), 0.1f);
   //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
   //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
 
@@ -142,20 +144,16 @@ void celPcHover::PerformStabilising ()
   if(obj_info.height < ang_cutoff_height) {
     float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
-    pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() + pcmechobj->LocalToWorld(csVector3(rx,0,rz) * ang_mult));
+    ship_mech->SetAngularVelocity (ship_mech->GetAngularVelocity() +
+        ship_mech->LocalToWorld (csVector3 (rx,0,rz) * ang_mult));
   }
 }
 
 float celPcHover::Height (csVector3 offset)
 {
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
   csVector3 start = ship_mech->GetBody()->GetPosition() + offset;
-  csVector3 end = start + csVector3(0,-height_beam_cutoff,0);
-#ifdef NEW_HEIGHTCALC
-  // having this verified would be nice
-  // move vector down along ships coord sys (not world coords)
-  end = ship_mech->LocalToWorld(end);
-#endif
+  csVector3 end = start +
+    ship_mech->LocalToWorld (csVector3 (0,-height_beam_cutoff,0));
 
   csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
   if(bres.hit)
@@ -165,10 +163,8 @@ float celPcHover::Height (csVector3 offset)
 }
 float celPcHover::ReverseHeight (csVector3 &start)
 {
-  csVector3 end = start + csVector3(0,height_beam_cutoff,0);
-#ifdef NEW_HEIGHTCALC
-  end = ship_mech->LocalToWorld(end);
-#endif
+  csVector3 end = start +
+    ship_mech->LocalToWorld (csVector3 (0,height_beam_cutoff,0));
 
   csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
   if(bres.hit)
