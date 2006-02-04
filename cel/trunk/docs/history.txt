@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
           coord system.
         - Genjix optimised pchover to store queried ship_mech once.
         - Genjix created thrust setting functions in iPcCraftController.
+        - Genjix added top speed to thruster in pccraft.
+          Should theoretically give a form of speed control (cannot thrust
+          when above certain speed), although practically it is limited.
 30-Jan-2006
         - Genjix removed 27 Jan change.
 29-Jan-2006
