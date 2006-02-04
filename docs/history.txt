@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
         - Genjix made height beam calc tests in pchover along local
           coord system.
         - Genjix optimised pchover to store queried ship_mech once.
+        - Genjix created thrust setting functions in iPcCraftController.
 30-Jan-2006
         - Genjix removed 27 Jan change.
 29-Jan-2006

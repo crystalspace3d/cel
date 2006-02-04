@@ -132,5 +132,6 @@ void celPcCraftController::UpdateBody ()
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
   if (thrust_on && !(-lv.z > 20.0))
-    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.2f);
+    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true,
+        csVector3 (0,0,0), 0.1f);
 }

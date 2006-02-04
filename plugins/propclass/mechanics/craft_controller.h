@@ -77,6 +77,7 @@ public:
   virtual void SetAccUpDown(float uacc) { updwn_acc = uacc; }
   virtual void SetMaxTurn(float turn) { turn_max = turn; }
   virtual void SetMaxUpDown(float mud) { updwn_max = mud; }
+  virtual void SetThrustForce(float tf) { thrust = tf; }
 
   virtual void ThrustOn() { thrust_on = true; }
   virtual void ThrustOff() { thrust_on = false; }
@@ -134,6 +135,10 @@ public:
     virtual void SetMaxUpDown(float mud)
     {
       scfParent->SetMaxUpDown(mud);
+    }
+    virtual void SetThrustForce(float tf)
+    {
+      scfParent->SetThrustForce(tf);
     }
 
     virtual void ThrustOn()
