@@ -143,7 +143,7 @@ private:
   float AngularAlignment(csVector3 offset , float height);
 
   /// mesh used for height calculation
-  csRef<iPcMesh> world_mesh;
+  csWeakRef<iPcMesh> world_mesh;
 
   /// offset used for calculating alignment wrt to ground
   float ang_beam_offset;
@@ -158,6 +158,9 @@ private:
 
   /// for calculating acceleration
   float last_time_velocity;
+
+  /// stored ship mech interface
+  csWeakRef<iPcMechanicsObject> ship_mech;
 };
 
 #endif
