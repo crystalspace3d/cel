@@ -36,11 +36,6 @@ struct iPcHover : public virtual iBase
   SCF_INTERFACE (iPcHover, 0, 0, 1);
 
   /**
-   * Debug function (provides presets)
-   */
-  virtual void DefaultHeightFunction() = 0;
-
-  /**
    * Set the mesh to do the height tests on (the ground)
    * @param wmesh ground object
    */
@@ -84,11 +79,6 @@ struct iPcHover : public virtual iBase
    * height of ship
    */
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) = 0;
-
-  /**
-    * Set the tick time the ship is updated.
-    */
-//  virtual void SetStepTime(float step_time) = 0;
 };
 
 #endif

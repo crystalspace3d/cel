@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
         - Genjix added top speed to thruster in pccraft.
           Should theoretically give a form of speed control (cannot thrust
           when above certain speed), although practically it is limited.
+        - Genjix improved pchover comments
 30-Jan-2006
         - Genjix removed 27 Jan change.
 29-Jan-2006

@@ -29,7 +29,7 @@ struct iPcMechanicsObject;
 
 struct celHoverObjectInfo
 {
-  float height, yvel, acceleration;
+  float height, yvel;
 };
 
 

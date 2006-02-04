@@ -73,21 +73,11 @@ public:
   virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func.AttachNew(sfunc); }
-  //virtual void SetStepTime(float steptime) { step_time = steptime; }
-
-  /**
-   * Debug function (provides presets)
-   */
-  virtual void DefaultHeightFunction();
 
   struct PcHover : public iPcHover
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcHover);
 
-    virtual void DefaultHeightFunction()
-    {
-      scfParent->DefaultHeightFunction();
-    }
     virtual void SetWorldMesh(csRef<iPcMesh> wmesh)
     {
       scfParent->SetWorldMesh(wmesh);

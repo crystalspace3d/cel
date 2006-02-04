@@ -50,8 +50,6 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
 
-  last_time_velocity = 0.0;
-
   ang_beam_offset = 2;
   ang_cutoff_height = 5;
   ang_mult = 1;
@@ -85,21 +83,32 @@ void celPcHover::Tick ()
 
 void celPcHover::SetWorld (const char *name)
 {
+  /* at the moment this doesn't seem to work */
   iCelEntity *went = pl->FindEntity (name);
   if(!went)  return;
   world_mesh = CEL_QUERY_PROPCLASS_ENT (went , iPcMesh);
 }
 
-void celPcHover::DefaultHeightFunction ()
-{
-}
-
 float celPcHover::AngularAlignment (csVector3 offset, float height)
 {
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity() , iPcMechanicsObject);
-  offset *= ang_beam_offset;
+  offset *= ang_beam_offset;  // this will convert the (0,0,1) to (0,0,K) vector
 
   // do first rotation test - simple trigonmetry
+  /*
+    here we do 2 rotation tests, to see how far the object
+    needs to be rotated to be aligned with the terrain.
+
+    You can visualize this as being hd_up, being the height
+    in front of the object, and hd_down being the height behind.
+
+    Then using a bit of trig we calculate the angle the
+    object has to rotate through to be aligned with the
+    terrain.
+
+    Of course this is also done sideways, so just substitue
+    hd_up with hd_right in your head.
+  */
   float hd_up = Height (pcmechobj->LocalToWorld (offset));
   float r_up = atan ((height - hd_up) / ang_beam_offset);
 
@@ -111,10 +120,13 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
     if(hd_down >= 10000000)
       return 0.0;	// worst case, both heights were infinite
 
+    /* height test 'behind' is the only
+        trustable height */
     return r_down;
   }
   else if (hd_down >= 10000000)
   {
+    // height test in front is used
     return r_up;
   }
 
@@ -127,23 +139,30 @@ void celPcHover::PerformStabilising ()
   if (!ship_mech)
     ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
 
+  /* here we get ship info which can be used to calculate
+      upthrust force, from functor object */
   celHoverObjectInfo obj_info;
+  // ships height
   obj_info.height = Height();
+  // ships local vertical velocity
   obj_info.yvel = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ()).y;
-  obj_info.acceleration = obj_info.yvel - last_time_velocity;
-  last_time_velocity = obj_info.yvel;
 
+  /* get functor object to calculate upthrust force
+      from ships info */
   float force = func->Force (obj_info);
 
-  ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
+  // apply the force
+  ship_mech->AddForceDuration(csVector3 (0, force, 0), true,
       csVector3 (0,0,0), 0.1f);
   //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
   //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
 
-  // the ships roll should try to remain level (levels faster when closer to ground)
+  // the ships roll and pitch should try to remain level
   if(obj_info.height < ang_cutoff_height) {
     float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
+
+    // align the ship by getting it to rotate in whatever direction
     ship_mech->SetAngularVelocity (ship_mech->GetAngularVelocity() +
         ship_mech->LocalToWorld (csVector3 (rx,0,rz) * ang_mult));
   }
@@ -151,18 +170,25 @@ void celPcHover::PerformStabilising ()
 
 float celPcHover::Height (csVector3 offset)
 {
+  /* height is calculated using a hitbeam from objects
+      position down along the objects coord system
+      through height_beam_cutoff */
   csVector3 start = ship_mech->GetBody()->GetPosition() + offset;
   csVector3 end = start +
     ship_mech->LocalToWorld (csVector3 (0,-height_beam_cutoff,0));
 
   csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
   if(bres.hit)
+    // beam height * proportion of beam hit
     return height_beam_cutoff * bres.r;
   else
+    /* beam didn't hit so we try going upwards
+        from object */
     return ReverseHeight(start);
 }
 float celPcHover::ReverseHeight (csVector3 &start)
 {
+  // instead of downwards the beam goes upwards
   csVector3 end = start +
     ship_mech->LocalToWorld (csVector3 (0,height_beam_cutoff,0));
 
