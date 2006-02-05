@@ -152,7 +152,7 @@ void celPcHover::PerformStabilising ()
   float force = func->Force (obj_info);
 
   // apply the force
-  ship_mech->AddForceDuration(csVector3 (0, force, 0), true,
+  ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
       csVector3 (0,0,0), 0.1f);
   //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
   //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
@@ -174,8 +174,7 @@ float celPcHover::Height (csVector3 offset)
       position down along the objects coord system
       through height_beam_cutoff */
   csVector3 start = ship_mech->GetBody()->GetPosition() + offset;
-  csVector3 end = start +
-    ship_mech->LocalToWorld (csVector3 (0,-height_beam_cutoff,0));
+  csVector3 end = start + csVector3 (0,-height_beam_cutoff,0);
 
   csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
   if(bres.hit)
@@ -189,8 +188,7 @@ float celPcHover::Height (csVector3 offset)
 float celPcHover::ReverseHeight (csVector3 &start)
 {
   // instead of downwards the beam goes upwards
-  csVector3 end = start +
-    ship_mech->LocalToWorld (csVector3 (0,height_beam_cutoff,0));
+  csVector3 end = start + csVector3 (0,height_beam_cutoff,0);
 
   csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
   if(bres.hit)
