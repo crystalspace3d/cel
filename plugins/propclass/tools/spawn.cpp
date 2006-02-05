@@ -171,7 +171,7 @@ void celPcSpawn::TickOnce ()
   }
 
   csRef<iCelEntity> newent = pl->CreateEntity (spawninfo[idx].name,
-      	spawninfo[idx].bl, spawninfo[idx].behaviour, (void*)0);
+      	spawninfo[idx].bl, spawninfo[idx].behaviour, CEL_PROPCLASS_END);
   size_t i;
   csStringArray& pcs = spawninfo[idx].pcs;
   for (i = 0 ; i < pcs.Length () ; i++)

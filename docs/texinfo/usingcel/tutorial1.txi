@@ -7,12 +7,58 @@
 @cindex @code{csBaseEventHandler}
 
 This is a tutorial to show how you can use Crystal Entity Layer in your
-own applications. The game data needed by this tutorial can be downloaded
-from:
+own applications. The original game data and the Blender level and model
+source used to create the artwork of this tutorial can be downloaded from:
 
 @uref{http://www.crystalspace3d.org/celtutorial.zip}
 
-Here are the five source files of this tutorial:
+The source files of this tutorial can be found in the
+@file{apps/tutorial/walktut} directory that is included with @sc{cel}.
+The world and entity file can be found in the @file{data} directory
+(@file{walktut_world} and @file{walktut_entities}).
+
+Remember that the first time you run this application you have to
+add the @samp{-relight} commandline option so that the lightmaps are
+correctly updated.
+
+During the game you can use the following inputs:
+@itemize @bullet
+@item
+@samp{arrow keys}: movement.
+@item
+@samp{m}: camera mode (first person, third person, @dots{}).
+@item
+@samp{left mouse button}: pick up an item and put in inventory.
+@item
+@samp{d}: drop the last item picked up.
+@end itemize
+
+This tutorial features:
+
+@itemize @bullet
+@item
+Camera handling using the @samp{pcdefaultcamera} property class.
+@item
+Movement of an actor in a game using the @samp{pclinearmovement} property
+class.
+@item
+Visualization of the player using the @samp{pcmesh} property class.
+@item
+Handling of the player inventory using the @samp{pcinventory} property class.
+@item
+Handling of keyboard and mouse input using the @samp{pccommandinput}
+property class.
+@item
+Loading world and entity file using the @samp{pczonemanager} property
+class.
+@item
+Usage of the @samp{celentity} addon to add entities from an @sc{xml} map
+file.
+@item
+How to create behaviours in C++ for game logic.
+@end itemize
+
+Here is the tutorial:
 
 @menu
 * Tutorial Main:: main.cpp
@@ -257,16 +303,17 @@ errors to the user.
 After creating the entity we need to setup the property classes. In this
 case this means the zone manager. It is possible to setup the zone manager
 from an @sc{xml} descriptor file but in this case we set it up manually
-to load two files: one @file{world} file which is created in @samp{Blender}
-and contains the 3D geometry and one @file{entities} file which we created
-manually. The entities file contains definitions for entities in our game.
+to load two files: one @file{walktut_world} file which is created in
+@samp{Blender} and contains the 3D geometry and one @file{walktut_entities}
+file which we created manually. The entities file contains definitions
+for entities in our game.
 
 @example
 bool MainApp::LoadLevel ()
 @{
   level_entity = pl->CreateEntity ("level", bl, "level_behave",
     "pczonemanager",
-    0);
+    CEL_PROPCLASS_END);
   if (!level_entity)
     return ReportError ("Error creating level entity!");
 
@@ -278,12 +325,12 @@ bool MainApp::LoadLevel ()
   zone->LinkRegion (region);
 
   iCelMapFile* mapfile = region->CreateMapFile ();
-  mapfile->SetPath ("/this/level");
-  mapfile->SetFile ("world");
+  mapfile->SetPath ("/cellib/lev");
+  mapfile->SetFile ("walktut_world");
 
   iCelMapFile* entitiesfile = region->CreateMapFile ();
-  entitiesfile->SetPath ("/this/level");
-  entitiesfile->SetFile ("entities");
+  entitiesfile->SetPath ("/cellib/lev");
+  entitiesfile->SetFile ("walktut_entities");
 
   return true;
 @}
@@ -326,7 +373,7 @@ bool MainApp::CreatePlayer ()
     "pcactormove",
     "pccommandinput",
     "pcinventory",
-    0);
+    CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");
 
@@ -343,7 +390,7 @@ bool MainApp::CreatePlayer ()
   // for our player.
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
   	player_entity, iPcMesh);
-  pcmesh->SetPath ("/this/model");
+  pcmesh->SetPath ("/cel/data");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
     return ReportError ("Error loading model!");
@@ -417,12 +464,13 @@ bool MainApp::OnKeyboard(iEvent& ev)
     @{
       // The user pressed escape to exit the application.
       // The proper way to quit a Crystal Space application
-      // is by broadcasting a cscmdQuit event. That will cause the
+      // is by broadcasting a csevQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
       csRef<iEventQueue> q =
         CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
-      if (q.IsValid()) q->GetEventOutlet()->Broadcast(cscmdQuit);
+      if (q.IsValid()) q->GetEventOutlet()->Broadcast(
+      	csevQuit(GetObjectRegistry()));
     @}
   @}
   return false;
@@ -471,7 +519,9 @@ bool MainApp::OnInitialize (int argc, char* argv[])
       CS_REQUEST_END))
     return ReportError ("Can't initialize plugins!");
 
-  if (!RegisterQueue (object_reg))
+  csBaseEventHandler::Initialize(object_reg);
+
+  if (!RegisterQueue(object_reg, csevAllEvents(object_reg)))
     return ReportError ("Can't setup event handler!");
 
   return true;
@@ -495,6 +545,9 @@ bool MainApp::Application ()
   // We also need to register it to the object registry.
   if (!object_reg->Register (bl, "iCelBlLayer"))
     return ReportError ("Can't register our behaviour layer!");
+
+  // Make sure the application dir is mounted at /cel
+  vfs->Mount ("cel", "$.$/");
 
   pl->RegisterBehaviourLayer (bl);
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))

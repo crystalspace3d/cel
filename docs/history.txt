@@ -3,7 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-04-Feb-2006
+5-Feb-2006
+	- Jorrit added a new CEL_PROPCLASS_END define that should
+	  be used together with CreateEntity() to end the variable list
+	  of property classes.
+	- Jorrit incorporated the cel tutorial in apps/tutorial/walktut.
+	- Jorrit updated the tutorial documentation.
+4-Feb-2006
         - Genjix made height beam calc tests in pchover along local
           coord system.
         - Genjix optimised pchover to store queried ship_mech once.

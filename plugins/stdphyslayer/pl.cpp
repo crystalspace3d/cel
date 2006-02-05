@@ -447,7 +447,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
   }
   csRef<iCelEntity> ent = CreateEntity (name, bl, cfact->GetBehaviour (),
-      (const char*)0);
+      CEL_PROPCLASS_END);
 
   const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
   size_t i;
