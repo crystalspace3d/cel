@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit updated the tutorial documentation.
 	- Jorrit reorganized the tutorial manual so that there is more
 	  room for other tutorials.
+	- Genjix decides to reverse the local coord height correction,
+	  as there are too many bugs associated with it.
 4-Feb-2006
         - Genjix made height beam calc tests in pchover along local
           coord system.
