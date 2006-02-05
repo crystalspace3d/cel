@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Property Classes, Addons, Tutorial, Using CEL
+@node Property Classes, Addons, Tutorials, Using CEL
 @section Property Classes
 @cindex property class
 

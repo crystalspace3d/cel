@@ -1,6 +1,6 @@
 @c -*-texinfo-*-
-@node Tutorial, Property Classes, The Basics, Using CEL
-@section Tutorial
+@node Tutorial WalkTut, , Tutorials, Tutorials
+@subsection WalkTut Tutorial
 @cindex zone manager
 @cindex entity creation
 @cindex @code{csApplicationFramework}
@@ -68,7 +68,7 @@ Here is the tutorial:
 * Tutorial Behave:: behave.cpp
 @end menu
 
-@subheading The XML Entity File
+@subsubheading The XML Entity File
 
 Except for the level and player entities all other entities are defined
 in the @file{entities} file. Here is an example of how such an entity
@@ -161,8 +161,8 @@ This is the generic movement system.
 
 We also create the entity with the @samp{badone_behave} behaviour.
 
-@node Tutorial Main, Tutorial App Header, Tutorial, Tutorial
-@subsection main.cpp
+@node Tutorial Main, Tutorial App Header, Tutorial WalkTut, Tutorial WalkTut
+@subsubsection main.cpp
 
 This is the main entry point for the application. It does nothing more then
 make an instance of @code{MainApp} and pass control to that.
@@ -180,8 +180,8 @@ int main (int argc, char *argv[])
 @}
 @end example
 
-@node Tutorial App Header, Tutorial App, Tutorial Main, Tutorial
-@subsection app.h
+@node Tutorial App Header, Tutorial App, Tutorial Main, Tutorial WalkTut
+@subsubsection app.h
 
 In this header file we declare our main application class. This is the class
 where we store references to commonly used modules from Crystal Space and
@@ -251,8 +251,8 @@ public:
 #endif
 @end example
 
-@node Tutorial App, Tutorial Behave Header, Tutorial App Header, Tutorial
-@subsection app.cpp
+@node Tutorial App, Tutorial Behave Header, Tutorial App Header, Tutorial WalkTut
+@subsubsection app.cpp
 
 Here is our main application source file.
 
@@ -586,8 +586,8 @@ bool MainApp::Application ()
 @}
 @end example
 
-@node Tutorial Behave Header, Tutorial Behave, Tutorial App, Tutorial
-@subsection behave.h
+@node Tutorial Behave Header, Tutorial Behave, Tutorial App, Tutorial WalkTut
+@subsubsection behave.h
 
 Here is the header for our behaviour layer. Here we define the behaviour
 layer and also the implementations of every behaviour.
@@ -803,8 +803,8 @@ public:
 #endif
 @end example
 
-@node Tutorial Behave, , Tutorial Behave Header, Tutorial
-@subsection behave.cpp
+@node Tutorial Behave, , Tutorial Behave Header, Tutorial WalkTut
+@subsubsection behave.cpp
 
 Here is the source for our behaviour layer. The @code{CreateBehaviour()}
 function in @code{BehaviourLayer} will compare the given name parameter

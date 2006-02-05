@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	  of property classes.
 	- Jorrit incorporated the cel tutorial in apps/tutorial/walktut.
 	- Jorrit updated the tutorial documentation.
+	- Jorrit reorganized the tutorial manual so that there is more
+	  room for other tutorials.
 4-Feb-2006
         - Genjix made height beam calc tests in pchover along local
           coord system.
