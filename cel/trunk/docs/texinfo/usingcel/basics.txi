@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node The Basics, Tutorial, Using CEL, Using CEL
+@node The Basics, Tutorials, Using CEL, Using CEL
 @section The Basics
 
 In this section the basic concepts behind Crystal Entity Layer are explained.

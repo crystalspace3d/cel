@@ -7,14 +7,14 @@ applications.
 
 @menu
 * The Basics::
-* Tutorial::
+* Tutorials::
 * Property Classes::
 * Addons::
 * XML Behaviour Layer:: The XML Behaviour Layer
 @end menu
 
 @imports{usingcel,basics.txi}
-@imports{usingcel,tutorial1.txi}
+@importss{usingcel,tutorials,chapter.txi}
 @importss{usingcel,propclasses,chapter.txi}
 @imports{usingcel,addons.txi}
 @imports{usingcel,behavexml.txi}
