@@ -184,7 +184,7 @@ csPtr<iCelEntity> MechTest::CreateDynSphere (const char* name,
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, 0,
 	"pcmesh",
 	"pcmechobject",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
@@ -206,7 +206,7 @@ csPtr<iCelEntity> MechTest::CreateDynBox (const char* name,
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, 0,
 	"pcmesh",
 	"pcmechobject",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
@@ -231,7 +231,7 @@ csPtr<iCelEntity> MechTest::CreateDynActor (const char* name,
 	"pcmesh",
 	"pcdefaultcamera",
 	"pcmechobject",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -295,7 +295,7 @@ bool MechTest::CreateRoom ()
 	"pcinventory",
 	"pcmechsys",
 	"pcmechobject",
-  	(void*)0);
+  	CEL_PROPCLASS_END);
 
   //===============================
   // Engine init.

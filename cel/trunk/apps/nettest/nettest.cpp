@@ -293,7 +293,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 	"pclinearmovement",
 	"pctooltip",
 	"pcinventory",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -389,7 +389,7 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 	"pcactormove",
 	"pcmesh",
 	"pclinearmovement",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   // Get the iPcActorMove interface so that we can set movement speed.
@@ -439,7 +439,7 @@ csPtr<iCelEntity> NetTest::CreateDefaultCamera (const char *name)
 {
   csRef<iCelEntity> default_camera = pl->CreateEntity (name, bltest, "actor",
 	"pcdefaultcamera",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!default_camera) return 0;
 
   scfString regionname, startname;
@@ -468,7 +468,7 @@ bool NetTest::CreateRoom (const csString path, const csString file)
   entity_room = pl->CreateEntity ("room", bltest, "room",
   	"pczonemanager",
 	"pcinventory",
-  	(void*)0);
+  	CEL_PROPCLASS_END);
 
   // Engine init.
   engine->Prepare ();

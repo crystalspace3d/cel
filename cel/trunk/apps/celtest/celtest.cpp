@@ -202,7 +202,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pctooltip",
 	"pcinventory",
 	"pcsoundlistener",
-	(void*)0);
+	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -297,7 +297,7 @@ bool CelTest::CreateRoom ()
   entity_room = pl->CreateEntity ("room", bltest, "room",
   	"pczonemanager",
 	"pcinventory",
-  	(void*)0);
+  	CEL_PROPCLASS_END);
 
   //===============================
   // Engine init.
@@ -509,7 +509,7 @@ bool CelTest::Application ()
   // Create Graph entity
   csRef<iCelEntity> graph = pl->CreateEntity ("navgraph1", 0, 0,
   	"pcgraph",
-  	(void*)0);
+  	CEL_PROPCLASS_END);
   if (!graph) return 0;
   csRef<iPcNavGraph> pcgraph = CEL_QUERY_PROPCLASS_ENT (graph, iPcNavGraph);
 
@@ -523,7 +523,7 @@ bool CelTest::Application ()
   // Create FPS rules for graph navigation
   csRef<iCelEntity> graphrulesfps = pl->CreateEntity ("graphrulesfps", 0, 0,
   	"pcgraphrulesfps",
-  	(void*)0);
+  	CEL_PROPCLASS_END);
   if (!graphrulesfps) return 0;
   csRef<iPcNavGraphRules> navrules = CEL_QUERY_PROPCLASS_ENT (graphrulesfps,
   	iPcNavGraphRules);

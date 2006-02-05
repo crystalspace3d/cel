@@ -30,7 +30,7 @@ csRef<iCelEntity> entity = pl->CreateEntity (entname, behaviourlayer,
 	behavename,
 	"pcmesh",
 	@dots{} (other property classes)
-	(void*)0);
+	CEL_PROPCLASS_END);
 @end example
 
 The second way creates a property class on an entity that is already created:

@@ -45,6 +45,8 @@ class csString;
 #define CEL_EVENT_VIEW 1
 #define CEL_EVENT_POST 2
 
+#define CEL_PROPCLASS_END (void*)0
+
 /// Parameters used to create an entity from a template.
 typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
 
@@ -132,7 +134,7 @@ struct iCelPlLayer : public iBase
    * the entity could not be created for some reason (or the behaviour
    * failed). In that case this function returns 0. This function will
    * also create a number of property classes for this entity. You have
-   * to end the list of property class names with (void*)0.
+   * to end the list of property class names with CEL_PROPCLASS_END.
    * The variable parameters should be property class strings.
    * \param entname can be 0. In that case no name will be set.
    * \param bl is the behaviour layer and can be 0.
