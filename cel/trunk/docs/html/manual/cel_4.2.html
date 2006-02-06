@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.2 Tutorial</title>
+<title>Crystal Entity Layer: 4.2 Tutorials</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.2 Tutorial">
-<meta name="keywords" content="Crystal Entity Layer: 4.2 Tutorial">
+<meta name="description" content="Crystal Entity Layer: 4.2 Tutorials">
+<meta name="keywords" content="Crystal Entity Layer: 4.2 Tutorials">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -40,7 +40,7 @@ ul.toc {list-style: none}
 
 <body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<a name="Tutorial"></a>
+<a name="Tutorials"></a>
 <a name="4.2"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.1.html#4.1" title="Previous section in reading order"> &lt; </a>]</td>
@@ -58,116 +58,14 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h2 class="section"> 4.2 Tutorial </h2>
+<h2 class="section"> 4.2 Tutorials </h2>
 
-<p>This is a tutorial to show how you can use Crystal Entity Layer in your
-own applications. The game data needed by this tutorial can be downloaded
-from:
-</p>
-<p><a href="http://www.crystalspace3d.org/celtutorial.zip">http://www.crystalspace3d.org/celtutorial.zip</a>
-</p>
-<p>Here are the five source files of this tutorial:
+<p>Here you will find a number of tutorials.
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="cel_4.2.1.html#4.2.1">4.2.1 main.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="cel_4.2.2.html#4.2.2">4.2.2 app.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="cel_4.2.3.html#4.2.3">4.2.3 app.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="cel_4.2.4.html#4.2.4">4.2.4 behave.h</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
-<tr><td align="left" valign="top"><a href="cel_4.2.5.html#4.2.5">4.2.5 behave.cpp</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.2.1.html#4.2.1">4.2.1 WalkTut Tutorial</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 </table>
 
-<a name="SEC35"></a>
-<h3 class="subheading"> The XML Entity File </h3>
-
-<p>Except for the level and player entities all other entities are defined
-in the <tt>`entities'</tt> file. Here is an example of how such an entity
-looks:
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">    &lt;addon plugin=&quot;celentity&quot; entityname=&quot;badone&quot;&gt;
-
-      &lt;propclass name=&quot;pcmesh&quot;&gt;
-        &lt;action name=&quot;LoadMeshPath&quot;&gt;
-	  &lt;par name=&quot;path&quot; string=&quot;/this/model&quot; /&gt;
-	  &lt;par name=&quot;filename&quot; string=&quot;monkey&quot; /&gt;
-	  &lt;par name=&quot;factoryname&quot; string=&quot;monkey&quot; /&gt;
-	&lt;/action&gt;
-      &lt;/propclass&gt;
-
-      &lt;propclass name=&quot;pcmeshselect&quot; /&gt;
-
-      &lt;propclass name=&quot;pcproperties&quot;&gt;
-        &lt;property name=&quot;pos1&quot; vector=&quot;9,2,8&quot; /&gt;
-        &lt;property name=&quot;pos2&quot; vector=&quot;6,2,8&quot; /&gt;
-        &lt;property name=&quot;pos3&quot; vector=&quot;6,2,12&quot; /&gt;
-        &lt;property name=&quot;pos4&quot; vector=&quot;7,5,10&quot; /&gt;
-        &lt;property name=&quot;pos5&quot; vector=&quot;8,1,7&quot; /&gt;
-        &lt;property name=&quot;pos6&quot; vector=&quot;9,2,8&quot; /&gt;
-        &lt;property name=&quot;up1&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;up2&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;up3&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;up4&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;up5&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;up6&quot; vector=&quot;0,1,0&quot; /&gt;
-        &lt;property name=&quot;forward1&quot; vector=&quot;-1,0,0&quot; /&gt;
-        &lt;property name=&quot;forward2&quot; vector=&quot;0,0,1&quot; /&gt;
-        &lt;property name=&quot;forward3&quot; vector=&quot;1,1,-1&quot; /&gt;
-        &lt;property name=&quot;forward4&quot; vector=&quot;1,-1,-1&quot; /&gt;
-        &lt;property name=&quot;forward5&quot; vector=&quot;1,1,1&quot; /&gt;
-        &lt;property name=&quot;forward6&quot; vector=&quot;-1,0,0&quot; /&gt;
-        &lt;property name=&quot;time1&quot; long=&quot;1000&quot; /&gt;
-        &lt;property name=&quot;time2&quot; long=&quot;1000&quot; /&gt;
-        &lt;property name=&quot;time3&quot; long=&quot;1000&quot; /&gt;
-        &lt;property name=&quot;time4&quot; long=&quot;1000&quot; /&gt;
-        &lt;property name=&quot;time5&quot; long=&quot;1000&quot; /&gt;
-        &lt;property name=&quot;time6&quot; long=&quot;1000&quot; /&gt;
-      &lt;/propclass&gt;
-
-      &lt;propclass name=&quot;pctimer&quot;&gt;
-        &lt;action name=&quot;WakeUp&quot;&gt;
-	  &lt;par name=&quot;time&quot; long=&quot;5000&quot; /&gt;
-	  &lt;par name=&quot;repeat&quot; bool=&quot;true&quot; /&gt;
-	&lt;/action&gt;
-      &lt;/propclass&gt;
-
-      &lt;propclass name=&quot;pclinearmovement&quot;&gt;
-        &lt;action name=&quot;InitCD&quot;&gt;
-	  &lt;par name=&quot;body&quot; vector=&quot;.2,.2,.2&quot; /&gt;
-	  &lt;par name=&quot;legs&quot; vector=&quot;.2,.2,.2&quot; /&gt;
-	  &lt;par name=&quot;offset&quot; vector=&quot;0,-.3,0&quot; /&gt;
-	&lt;/action&gt;
-        &lt;action name=&quot;SetPosition&quot;&gt;
-	  &lt;par name=&quot;position&quot; vector=&quot;9,3,8&quot; /&gt;
-	  &lt;par name=&quot;sector&quot; string=&quot;Scene&quot; /&gt;
-	  &lt;par name=&quot;yrot&quot; float=&quot;0&quot; /&gt;
-	&lt;/action&gt;
-      &lt;/propclass&gt;
-
-      &lt;behaviour name=&quot;badone_behave&quot; /&gt;
-
-    &lt;/addon&gt;
-</pre></td></tr></table>
-<p>In this particular example we use the <samp>`cel.addons.celentity'</samp> addon
-(see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>) to create an entity with the name <samp>`badone'</samp>.
-It has the following property classes:
-</p><ul>
-<li> <samp>`pcmesh'</samp> (see section <a href="cel_4.3.2.html#4.3.2">Mesh</a>).
-This mesh is setup with the <samp>`monkey'</samp> model that
-was made in <samp>`Blender'</samp>.
-</li><li> <samp>`pcmeshselect'</samp>
-Used for selection of mesh.
-</li><li> <samp>`pcproperties'</samp>
-This is a generic property class for storing named properties. In this
-particular case the <samp>`badone_behave'</samp> behaviour will read out the properties
-to construct the path for the catmull rom spline.
-</li><li> <samp>`pctimer'</samp> (see section <a href="cel_4.3.4.html#4.3.4">Timer</a>).
-This timer will be used to restart the movement along the path after
-5 seconds (5000 milliseconds).
-</li><li> <samp>`pclinearmovement'</samp> (see section <a href="cel_4.3.3.html#4.3.3">Linear Movement</a>).
-This is the generic movement system.
-</li></ul>
-
-<p>We also create the entity with the <samp>`badone_behave'</samp> behaviour.
-</p>
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.1.html#4.1" title="Previous section in reading order"> &lt; </a>]</td>

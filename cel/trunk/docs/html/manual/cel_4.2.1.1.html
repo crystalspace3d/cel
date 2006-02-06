@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.2.2 app.h</title>
+<title>Crystal Entity Layer: 4.2.1.1 main.cpp</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.2.2 app.h">
-<meta name="keywords" content="Crystal Entity Layer: 4.2.2 app.h">
+<meta name="description" content="Crystal Entity Layer: 4.2.1.1 main.cpp">
+<meta name="keywords" content="Crystal Entity Layer: 4.2.1.1 main.cpp">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -40,14 +40,14 @@ ul.toc {list-style: none}
 
 <body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<a name="Tutorial-App-Header"></a>
-<a name="4.2.2"></a>
+<a name="Tutorial-Main"></a>
+<a name="4.2.1.1"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.2.1.html#4.2.1" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.2.3.html#4.2.3" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.1.2.html#4.2.1.2" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.1.html#4.2.1" title="Up section"> Up </a>]</td>
 <td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
@@ -58,81 +58,29 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="subsection"> 4.2.2 app.h </h3>
+<h4 class="subsubsection"> 4.2.1.1 main.cpp </h4>
 
-<p>In this header file we declare our main application class. This is the class
-where we store references to commonly used modules from Crystal Space and
-Crystal Entity Layer. This is also the class that contains the main event
-handling loop.
+<p>This is the main entry point for the application. It does nothing more then
+make an instance of <code>MainApp</code> and pass control to that.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">#ifndef APP_H
-#define APP_H
+<table><tr><td>&nbsp;</td><td><pre class="example">#include &lt;crystalspace.h&gt;
+#include &quot;app.h&quot;
 
-#include &lt;physicallayer/entity.h&gt;
-#include &lt;physicallayer/pl.h&gt;
+CS_IMPLEMENT_APPLICATION
 
-/*
- * Our main application class inherits from csApplicationFramework
- * and csBaseEventHandler.
- */
-class MainApp : public csApplicationFramework,
-                public csBaseEventHandler
+int main (int argc, char *argv[])
 {
-private:
-  // References to modules from Crystal Space.
-  csRef&lt;iGraphics3D&gt; g3d;
-  csRef&lt;iEngine&gt; engine;
-  csRef&lt;iLoader&gt; loader;
-  csRef&lt;iVFS&gt; vfs;
-  csRef&lt;iVirtualClock&gt; vc;
-  csRef&lt;iKeyboardDriver&gt; kbd;
-
-  // References to modules from Crystal Entity Layer.
-  csRef&lt;iCelPlLayer&gt; pl;
-  csRef&lt;iCelBlLayer&gt; bl;
-
-  // Our level and player entity.
-  csRef&lt;iCelEntity&gt; level_entity;
-  csRef&lt;iCelEntity&gt; player_entity;
-
-  // Inherited from csBaseEventHandler: handle a keyboard event.
-  bool OnKeyboard (iEvent&amp;);
-
-  // Inherited from csBaseEventHandler: handle a signle frame.
-  void ProcessFrame ();
-  // Inherited from csBaseEventHandler: handle a signle frame.
-  void FinishFrame ();
-
-  // Create the level entity and load the level in it.
-  // Returns false on failure. The error has been already reported to
-  // the reporter in that case.
-  bool LoadLevel ();
-
-  // Create the player.
-  // Returns false on failure. The error has been already reported to
-  // the reporter in that case.
-  bool CreatePlayer ();
-
-public:
-  MainApp ();
-  virtual ~MainApp ();
-
-  // Inherited from csApplicationFramework: initialization.
-  virtual bool OnInitialize (int argc, char* argv[]);
-
-  // Inherited from csApplicationFramework: initialization.
-  virtual bool Application ();
-};
-
-#endif
+  MainApp app;
+  return app.Main (argc, argv);
+}
 </pre></td></tr></table>
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.2.1.html#4.2.1" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.2.3.html#4.2.3" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.1.2.html#4.2.1.2" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.2.html#4.2" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.2.1.html#4.2.1" title="Up section"> Up </a>]</td>
 <td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
 </tr></table>
 <p>

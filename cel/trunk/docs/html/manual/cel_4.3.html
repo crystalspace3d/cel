@@ -43,7 +43,7 @@ ul.toc {list-style: none}
 <a name="Property-Classes"></a>
 <a name="4.3"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="cel_4.2.5.html#4.2.5" title="Previous section in reading order"> &lt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="cel_4.2.1.5.html#4.2.1.5" title="Previous section in reading order"> &lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
@@ -62,7 +62,7 @@ ul.toc {list-style: none}
 
 <p>Here in this chapter the various property classes are documented.
 </p>
-<a name="SEC42"></a>
+<a name="SEC43"></a>
 <h3 class="subheading"> Using a Property Class in General </h3>
 
 <p>Here are a few generic guidelines on using property classes. Before you can
@@ -85,7 +85,7 @@ with the entity itself:
 	behavename,
 	&quot;pcmesh&quot;,
 	... (other property classes)
-	(void*)0);
+	CEL_PROPCLASS_END);
 </pre></td></tr></table>
 <p>The second way creates a property class on an entity that is already created:
 </p>
@@ -95,7 +95,7 @@ with the entity itself:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 </pre></td></tr></table>
-<a name="SEC43"></a>
+<a name="SEC44"></a>
 <h3 class="subheading"> Tagged Property Classes </h3>
 
 <p>Normally an entity only has one instance of a given property class
@@ -128,7 +128,7 @@ classes have a tag then it will return a random one.
 
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="cel_4.2.5.html#4.2.5" title="Previous section in reading order"> &lt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="cel_4.2.1.5.html#4.2.1.5" title="Previous section in reading order"> &lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
