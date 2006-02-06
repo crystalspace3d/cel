@@ -294,7 +294,7 @@ struct iPcZoneManager : public iBase
    * contain a 'level' or 'world' node. In case it is a 'world' file then
    * the zone manager will automatically create a region called 'main'
    * and a zone called 'main' with a default start location. This is a
-   * conveniance.
+   * convenience.
    * \param path is a VFS path. Current VFS dir will be set to that path.
    * Can be 0 if no path is desired.
    * \param file is a VFS file.
