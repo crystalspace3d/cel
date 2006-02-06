@@ -213,7 +213,7 @@ This is the Physical Layer itself.
 <p>
 
 <p>
-Definition at line <a class="el" href="pl_8h-source.html#l00104">104</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="pl_8h-source.html#l00106">106</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="040f187dbcebea19c47ec90477d385cc"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="040f187dbcebea19c47ec90477d385cc" args="(iCelEntityRemoveCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -667,7 +667,7 @@ Create an entity from a template.
 <p>
 Create a new physical layer entity. 
 <p>
-The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#8294af81e87ebf375501d9f1137a02f3">RemoveEntity()</a> to remove the entity. This version accepts a name for the entity and will also create a behaviour from the given behaviour layer. This function will use the reporter to report an error if the entity could not be created for some reason (or the behaviour failed). In that case this function returns 0. This function will also create a number of property classes for this entity. You have to end the list of property class names with (void*)0. The variable parameters should be property class strings. <dl compact><dt><b>Parameters:</b></dt><dd>
+The physical layer will keep a reference to this entity. You need to call <a class="el" href="structiCelPlLayer.html#8294af81e87ebf375501d9f1137a02f3">RemoveEntity()</a> to remove the entity. This version accepts a name for the entity and will also create a behaviour from the given behaviour layer. This function will use the reporter to report an error if the entity could not be created for some reason (or the behaviour failed). In that case this function returns 0. This function will also create a number of property classes for this entity. You have to end the list of property class names with CEL_PROPCLASS_END. The variable parameters should be property class strings. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>entname</em>&nbsp;</td><td>can be 0. In that case no name will be set. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>bl</em>&nbsp;</td><td>is the behaviour layer and can be 0. </td></tr>
