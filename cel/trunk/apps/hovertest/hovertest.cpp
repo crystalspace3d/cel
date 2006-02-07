@@ -311,8 +311,8 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4);
   pccraft->SetMaxPitch (0.5);
-  pccraft->SetThrustForce (1.0);
-  pccraft->SetTopSpeed (1.0);
+  pccraft->SetThrustForce (10.0);
+  pccraft->SetTopSpeed (20.0);
 
   return csPtr<iCelEntity> (entity_cam);
 }
