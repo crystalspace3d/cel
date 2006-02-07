@@ -24,6 +24,8 @@
 // CEL Includes
 #include "tools/stabiliser_dist.h"
 
+#include <cmath>
+
 /**
  *
  */
@@ -32,26 +34,37 @@ class xdShipUpthrusterFunction : public celStabiliserFunction
 public:
   float Force(celHoverObjectInfo obj_info)
   {
-    float force = 0.0;
+    float force = 0.0f;
 
-    if (obj_info.height < 0.1)
-      force = 30.0;
-    else if (obj_info.height < 2)
-      force = 19.8997 / std::pow(obj_info.height, float(0.1447533));
-    else if (obj_info.height < 6)
-      force = 16.0;
+    /* at smaller heights we provide constant
+        upthrust, because dividing by small numbers
+        gives extremely huge force up */
+    if (obj_info.height < 0.1f)
+      force = 30.0f;
+    else if (obj_info.height < 2.0f)
+      force = 40.0f / std::pow (obj_info.height, 0.1447533f);
+    else if (obj_info.height < 6.0f)
+      force = 16.0f;
 
-    //printf("Fr: %f\tVy: %f\n",force,obj_info.yvel);
+    /* above certain upward speeds
+        we don't want to push object up
+        anymore */
+    if (obj_info.yvel > 3.0f)
+      force *= 0.0f;
+    /* dampen upward speed when already
+        travelling up */
+    else if(obj_info.yvel > 0.5f)
+      force *= 0.25f;
+    /* encourage upward speed when travelling
+        downwards */
+    else if (obj_info.yvel < -0.1f)
+      force *= 1.2f;
+    /* linear equation so object doesn't
+        bounce harshly when falling */
+    else if (obj_info.yvel < -16.0f)
+      force *= -obj_info.yvel - 15.0f;
 
-    if (obj_info.yvel > 3)
-      force *= 0.0;
-    else if(obj_info.yvel > 0.5)
-      force *= 0.25;
-    else if (obj_info.yvel < -0.1)
-      force *= 1.2;
-    else if (obj_info.yvel < -16.0)
-      force *= -obj_info.yvel - 15.0;
-
+    //printf("Fr: %f\th: %f\tVy: %f\n",force,obj_info.height,obj_info.yvel);
     return force;
   }
 };
