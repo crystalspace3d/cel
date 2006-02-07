@@ -65,7 +65,7 @@ public:
       force *= -obj_info.yvel - 15.0f;
 
     //printf("Fr: %f\th: %f\tVy: %f\n",force,obj_info.height,obj_info.yvel);
-    return force;
+    return force / 1.4;  // adjust this divisor to adjust hover height and dampening
   }
 };
 
