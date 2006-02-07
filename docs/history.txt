@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 7-Feb-2006
         - Genjix added ang_correction_strength > 0 check to skip
           uneccessary calculations when not needed.
+        - Genjix commited initial hovertest demo.
+        - Genjix changed ball to orogor's ship and uploaded it.
+        - Genjix corrected plane vertex creation order for pcmesh.
 5-Feb-2006
 	- Jorrit added a new CEL_PROPCLASS_END define that should
 	  be used together with CreateEntity() to end the variable list

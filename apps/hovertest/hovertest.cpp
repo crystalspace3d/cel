@@ -55,6 +55,7 @@
 #include "ivideo/material.h"
 #include "ivideo/fontserv.h"
 #include "igraphic/imageio.h"
+#include "igeom/objmodel.h"
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
@@ -286,16 +287,18 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
 
   csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcMechanicsObject);
-  pcmechobject->AttachColliderBox (csVector3 (.4f, .3f, .3f),
-      csOrthoTransform ());
-  pcmechobject->SetMass (1.0);
+  csBox3 bbox;
+  pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
+      GetObjectBoundingBox(bbox);
+  pcmechobject->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  pcmechobject->SetMass (1.1);
   pcmechobject->SetDensity (3.0);
 
   csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
   pchover->SetStabiliserFunction (new xdShipUpthrusterFunction ());
-  pchover->SetAngularCorrectionStrength (0.0);
+  pchover->SetAngularCorrectionStrength (10.0);
   pchover->SetAngularCutoffHeight (8.0);
-  pchover->SetAngularBeamOffset (0.5);
+  pchover->SetAngularBeamOffset (0.1);
 
   // i need to get this working - not a priority right now
   //pchover->SetWorld ("world");
@@ -308,8 +311,8 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4);
   pccraft->SetMaxPitch (0.5);
-  pccraft->SetThrustForce (10.0);
-  pccraft->SetTopSpeed (20.0);
+  pccraft->SetThrustForce (1.0);
+  pccraft->SetTopSpeed (1.0);
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -373,13 +376,13 @@ bool HoverTest::CreateRoom ()
   csRef<iThingFactoryState> mesh_state =
       scfQueryInterface<iThingFactoryState> (mesh_factory);
   mesh_state->AddQuad (
-      csVector3 (-100, 0, -100),
-      csVector3 (100, 0, -100),
-      csVector3 (1, 0, 100),
-      csVector3 (-100, 0, 100));
+      csVector3 (-1000.0, -1.0, -1000.0),
+      csVector3 (-1000.0, -1.0, 1000.0),
+      csVector3 (1000.0,  -1.0, 1000.0),
+      csVector3 (1000.0,  -1.0, -1000.0));
 
   game = entity_room;
-  entity_dummy = CreateDynActor ("dyn", "room", csVector3 (0,2.0f,1.0f));
+  entity_dummy = CreateDynActor ("dyn", "room", csVector3 (0,5.0f,1.0f));
   if (!entity_dummy) return false;
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
