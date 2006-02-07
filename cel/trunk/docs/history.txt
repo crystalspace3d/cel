@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Feb-2006
+        - Genjix added ang_correction_strength > 0 check to skip
+          uneccessary calculations when not needed.
 5-Feb-2006
 	- Jorrit added a new CEL_PROPCLASS_END define that should
 	  be used together with CreateEntity() to end the variable list

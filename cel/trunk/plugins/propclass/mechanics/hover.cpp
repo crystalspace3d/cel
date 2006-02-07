@@ -158,7 +158,7 @@ void celPcHover::PerformStabilising ()
   //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
 
   // the ships roll and pitch should try to remain level
-  if(obj_info.height < ang_cutoff_height) {
+  if ((ang_mult > 0.0) && (obj_info.height < ang_cutoff_height)) {
     float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
 
