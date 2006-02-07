@@ -258,7 +258,7 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("Sphere", "sphere");
+  pcmesh->SetMesh ("craft", "orogor");
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
