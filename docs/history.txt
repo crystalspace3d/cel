@@ -3,13 +3,19 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-7-Feb-2006
+10-Feb-2006
+	- Genjix added the 'track4.zip' map and its '/cellib/track4' mount
+	  point for hovertest demo.
+	- Vincent added the missing 'chkb-b-y.png' texture to track4 map.
+	  To use the track4 map, invoke 'hovertest' like this:
+	  'hovertest /cellib/track4/track4 world'.
+07-Feb-2006
         - Genjix added ang_correction_strength > 0 check to skip
           uneccessary calculations when not needed.
         - Genjix commited initial hovertest demo.
         - Genjix changed ball to orogor's ship and uploaded it.
         - Genjix corrected plane vertex creation order for pcmesh.
-5-Feb-2006
+05-Feb-2006
 	- Jorrit added a new CEL_PROPCLASS_END define that should
 	  be used together with CreateEntity() to end the variable list
 	  of property classes.
@@ -19,7 +25,7 @@ The history order is reversed so that new features are at the top.
 	  room for other tutorials.
 	- Genjix decides to reverse the local coord height correction,
 	  as there are too many bugs associated with it.
-4-Feb-2006
+04-Feb-2006
         - Genjix made height beam calc tests in pchover along local
           coord system.
         - Genjix optimised pchover to store queried ship_mech once.
