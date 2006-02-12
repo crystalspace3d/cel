@@ -33,6 +33,7 @@
 #include "propclass/sound.h"
 #include "propclass/mechthruster.h"
 #include "propclass/tooltip.h"
+#include "propclass/prop.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "propclass/zone.h"
@@ -485,6 +486,11 @@ CEL_PC(iPcTooltip, ToolTip, pctooltip)
 %include "propclass/sound.h"
 CEL_PC(iPcSoundSource, SoundSource, pcsoundsource)
 CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/prop.h"
+CEL_PC(iPcProperties, Properties, pcproperties)
 
 //-----------------------------------------------------------------------------
 

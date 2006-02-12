@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Feb-2006
+	- caedes added pcproperties pcclass to blcel.i.
 10-Feb-2006
 	- Genjix added the 'track4.zip' map and its '/cellib/track4' mount
 	  point for hovertest demo.
