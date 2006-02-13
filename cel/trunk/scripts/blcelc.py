@@ -2077,6 +2077,78 @@ celCreateSoundListener = _blcelc.celCreateSoundListener
 celGetSoundListener = _blcelc.celGetSoundListener
 
 scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
+class iPcPropertyListener(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcPropertyListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcPropertyListener, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcPropertyListener instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def PropertyChanged(*args): return _blcelc.iPcPropertyListener_PropertyChanged(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcPropertyListener):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcPropertyListenerPtr(iPcPropertyListener):
+    def __init__(self, this):
+        _swig_setattr(self, iPcPropertyListener, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcPropertyListener, 'thisown', 0)
+        _swig_setattr(self, iPcPropertyListener,self.__class__,iPcPropertyListener)
+_blcelc.iPcPropertyListener_swigregister(iPcPropertyListenerPtr)
+
+class iPcProperties(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcProperties, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcProperties, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcProperties instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def AddPropertyListener(*args): return _blcelc.iPcProperties_AddPropertyListener(*args)
+    def RemovePropertyListener(*args): return _blcelc.iPcProperties_RemovePropertyListener(*args)
+    def SetProperty(*args): return _blcelc.iPcProperties_SetProperty(*args)
+    def GetPropertyIndex(*args): return _blcelc.iPcProperties_GetPropertyIndex(*args)
+    def SetPropertyIndex(*args): return _blcelc.iPcProperties_SetPropertyIndex(*args)
+    def GetPropertyType(*args): return _blcelc.iPcProperties_GetPropertyType(*args)
+    def GetPropertyFloat(*args): return _blcelc.iPcProperties_GetPropertyFloat(*args)
+    def GetPropertyLong(*args): return _blcelc.iPcProperties_GetPropertyLong(*args)
+    def GetPropertyBool(*args): return _blcelc.iPcProperties_GetPropertyBool(*args)
+    def GetPropertyVector(*args): return _blcelc.iPcProperties_GetPropertyVector(*args)
+    def GetPropertyColor(*args): return _blcelc.iPcProperties_GetPropertyColor(*args)
+    def GetPropertyString(*args): return _blcelc.iPcProperties_GetPropertyString(*args)
+    def GetPropertyPClass(*args): return _blcelc.iPcProperties_GetPropertyPClass(*args)
+    def GetPropertyEntity(*args): return _blcelc.iPcProperties_GetPropertyEntity(*args)
+    def ClearProperty(*args): return _blcelc.iPcProperties_ClearProperty(*args)
+    def Clear(*args): return _blcelc.iPcProperties_Clear(*args)
+    def GetPropertyCount(*args): return _blcelc.iPcProperties_GetPropertyCount(*args)
+    def GetPropertyName(*args): return _blcelc.iPcProperties_GetPropertyName(*args)
+    def Dump(*args): return _blcelc.iPcProperties_Dump(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcProperties):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcPropertiesPtr(iPcProperties):
+    def __init__(self, this):
+        _swig_setattr(self, iPcProperties, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcProperties, 'thisown', 0)
+        _swig_setattr(self, iPcProperties,self.__class__,iPcProperties)
+_blcelc.iPcProperties_swigregister(iPcPropertiesPtr)
+
+
+celCreateProperties = _blcelc.celCreateProperties
+
+celGetProperties = _blcelc.celGetProperties
+
+scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
