@@ -20,6 +20,8 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/eventq.h"
+#include "iutil/vfs.h"
+#include "csutil/scfstringarray.h"
 #include "ivaria/reporter.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
@@ -292,7 +294,24 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	  "Couldn't create 'pcregion' property class!");
       return false;
     }
-
+    // find path
+    csStringArray paths;
+    paths.Push ("/lev/");
+    csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
+    VFS->PushDir ();
+    if (!VFS->ChDirAuto (path.GetData(),&paths,0,worldname.GetData()))
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	  "crystalspace.cel.behaviour.xml",
+	  "Error setting directory '%s'!",path.GetData());
+      VFS->PopDir ();
+      return false;
+    }
+    // get back the path we mounted and get out
+    path=VFS->GetCwd();
+    VFS->PopDir ();
+		
+    // load with pcregion
     pcregion = SCF_QUERY_INTERFACE (pc, iPcRegion);
     pcregion->SetWorldFile (path, worldname);
     pcregion->SetRegionName (worldname);
