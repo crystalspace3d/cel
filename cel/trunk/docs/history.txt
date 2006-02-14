@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Feb-2006
+	- caedes changed load message in bootstrap behaviour in the blxml so
+	  it can now also load a zip file from system path.
 12-Feb-2006
 	- caedes added pcproperties pcclass to blcel.i.
 10-Feb-2006
