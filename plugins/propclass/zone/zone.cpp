@@ -43,7 +43,6 @@
 #include "iutil/string.h"
 #include "iutil/stringarray.h"
 #include "iutil/document.h"
-#include "iutil/vfs.h"
 #include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -564,7 +563,6 @@ bool celPcZoneManager::PerformAction (csStringID actionId,
   else if (actionId == action_load)
   {
     CEL_FETCH_STRING_PAR (path,params,id_path);
-    if (!p_path) return false;
     CEL_FETCH_STRING_PAR (file,params,id_file);
     if (!p_file) return false;
     if (!Load (path, file))
