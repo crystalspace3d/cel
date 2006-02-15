@@ -48,6 +48,7 @@ celEntity::celEntity (celPlLayer* pl)
 celEntity::~celEntity ()
 {
   delete plist;
+
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntity);
 }
 

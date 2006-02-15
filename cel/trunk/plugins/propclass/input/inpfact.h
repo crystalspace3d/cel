@@ -114,7 +114,9 @@ public:
   class EventHandler : public iEventHandler
   {
   private:
-    celPcCommandInput* parent;
+    // This is a weak ref so that we can ignore the events
+    // that occur when our parent has been deleted.
+    csWeakRef<celPcCommandInput> parent;
 
   public:
     EventHandler (celPcCommandInput* parent)
@@ -131,7 +133,10 @@ public:
 
     virtual bool HandleEvent (iEvent& ev)
     {
-      return parent->HandleEvent (ev);
+      if (parent)
+        return parent->HandleEvent (ev);
+      else
+	return false;
     }
     CS_EVENTHANDLER_NAMES("cel.propclass.pccommandinput")
     CS_EVENTHANDLER_NIL_CONSTRAINTS
