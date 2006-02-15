@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Feb-2006
+	- Jorrit fixes a problem in the input property class when
+	  the input property class is deleted from within the event
+	  handler itself (for example, deleting the entity as the result
+	  of a keypress). The key release event is already in the event
+	  queue and will fire later even though the input property class
+	  has already been deleted. Fixed this by making the input
+	  property class a weak reference in the event handler.
 14-Feb-2006
 	- caedes changed load message in bootstrap behaviour in the blxml so
 	  it can now also load a zip file from system path.
