@@ -79,6 +79,12 @@ struct iPcHover : public virtual iBase
    * height of ship
    */
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) = 0;
+
+  /**
+   * Use a default stabiliser function - not recommended unless
+   * not possible to create own, use SetStabiliserFunction instead.
+   */
+  virtual void UseDefaultFunction () = 0;
 };
 
 #endif

@@ -27,110 +27,51 @@
 
 struct iPcMechanicsObject;
 
+/**
+ * Contains info about a hovering object,
+ * and is used to feed information to the
+ * upthrust calculation functor.
+ */
 struct celHoverObjectInfo
 {
-  float height, yvel;
+  /**
+   * The height of the object above the
+   * ground in along the world's y axis.
+   */
+  float height;
+  /**
+   * The vertical velocity of the object
+   * along the objects local y axis.
+   */
+  float yvel;
 };
 
-
+/**
+ * A function object where the returned
+ * force will be applied to an object upwards.
+ * along world axis.
+ */
 class celStabiliserFunction : public csRefCount
 {
 public:
   virtual ~celStabiliserFunction () {};
+  /**
+   * The force upwards to apply.
+   */
   virtual float Force (celHoverObjectInfo obj_info) = 0;
 };
 
-class celIntervalMetaDistribution : public celStabiliserFunction
+/**
+ * This function will be used when
+ * UseDefaultStabiliserFunction is called.
+ *
+ * See libs/celtool/stabiliser_dist.cpp for
+ * the implementation.
+ */
+class celDefaultHoverUpthruster : public celStabiliserFunction
 {
 public:
-  void Add (csRef<celStabiliserFunction> func , float low_int , float high_int);
-
   float Force (celHoverObjectInfo obj_info);
-private:
-  struct Interval
-  {
-    float low , high;
-    csRef<celStabiliserFunction> func;
-  };
-
-  csArray<Interval> funcs;
-};
-
-class celIfFallingDistribution : public celStabiliserFunction
-{
-public:
-  celIfFallingDistribution (csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta = -1.0);
-
-  float Force (celHoverObjectInfo obj_info);
-private:
-  csRef<celStabiliserFunction> if_dist , else_dist;
-  float delta;
-};
-
-class celFallingMultiplierDistribution : public celStabiliserFunction
-{
-public:
-  celFallingMultiplierDistribution (csRef<celStabiliserFunction> fdist, csRef<celStabiliserFunction> hdist);
-
-  float Force (celHoverObjectInfo obj_info);
-private:
-  csRef<celStabiliserFunction> falling_dist, height_dist;
-};
-
-class celScriptedHeightFunction : public celStabiliserFunction
-{
-public:
-  celScriptedHeightFunction (csRef<iScript> iscript, csString module);
-
-  float Force (celHoverObjectInfo obj_info);
-private:
-  csString module;
-  csRef<iScript> iscript;
-};
-
-class celReturnConstantValue : public celStabiliserFunction
-{
-public:
-  celReturnConstantValue (float avalue = 0.0);
-
-  float Force (celHoverObjectInfo obj_info);
-
-  float value;
-};
-
-class celLinearGradient : public celStabiliserFunction
-{
-public:
-  celLinearGradient (float m , float c) : m (m) , c (c) {}
-
-  float Force (celHoverObjectInfo obj_info) { return m*obj_info.height + c; }
-
-  float m , c;
-};
-
-class celInversePowerDistribution : public celStabiliserFunction
-{
-public:
-  celInversePowerDistribution (float h0, float f0, float h1, float f1);
-
-  float Force (celHoverObjectInfo obj_info);
-private:
-  static float ComputeK (float h0, float f0, float h1, float f1);
-  static float ComputeX (float h, float f, float k);
-
-  float Formula (float h);
-
-  float k , x;
-};
-
-class celSquareDistribution : public celStabiliserFunction
-{
-public:
-  celSquareDistribution (float h0, float f0, float h1, float f1);
-
-  float Force (celHoverObjectInfo obj_info);
-private:
-  float a , k;
 };
 
 #endif
