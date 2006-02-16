@@ -26,12 +26,13 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 
-#include <propclass/mechsys.h>
-#include <propclass/mesh.h>
+#include "propclass/mechsys.h"
+#include "propclass/mesh.h"
 
-#include <iengine/mesh.h>
-#include <ivaria/dynamics.h>
-#include <iutil/virtclk.h>
+#include "iengine/mesh.h"
+#include "ivaria/dynamics.h"
+#include "ivaria/reporter.h"
+#include "iutil/virtclk.h"
 
 //---------------------------------------------------------------------------
 
@@ -45,6 +46,21 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
   SCF_IMPLEMENTS_INTERFACE (iPcHover)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+// Actions
+csStringID celPcHover::action_setworld = csInvalidStringID;
+csStringID celPcHover::action_sethbeamcutoff = csInvalidStringID;
+csStringID celPcHover::action_setangoff = csInvalidStringID;
+csStringID celPcHover::action_setangheight = csInvalidStringID;
+csStringID celPcHover::action_setangstr = csInvalidStringID;
+csStringID celPcHover::action_usedeffunc = csInvalidStringID;
+
+// Parameters.
+csStringID celPcHover::param_world = csInvalidStringID;
+csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
+csStringID celPcHover::param_angoff = csInvalidStringID;
+csStringID celPcHover::param_angheight = csInvalidStringID;
+csStringID celPcHover::param_angstr = csInvalidStringID;
+
 celPcHover::celPcHover (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
@@ -54,6 +70,24 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   ang_cutoff_height = 5;
   ang_mult = 1;
   height_beam_cutoff = 200;
+
+  if (action_setworld == csInvalidStringID)
+  {
+     // Actions
+     action_setworld = pl->FetchStringID ("cel.action.SetWorld");
+     action_sethbeamcutoff = pl->FetchStringID ("cel.action.SetHeightBeamCutoff");
+     action_setangoff = pl->FetchStringID ("cel.action.SetAngularBeamOffset");
+     action_setangheight = pl->FetchStringID ("cel.action.SetAngularCutoffHeight");
+     action_setangstr = pl->FetchStringID ("cel.action.SetAngularCorrectionStrength");
+     action_usedeffunc = pl->FetchStringID ("cel.action.UseDefaultStabiliserFunction");
+
+     // Parameters.
+     param_world = pl->FetchStringID ("cel.parameter.world");
+     param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
+     param_angoff = pl->FetchStringID ("cel.parameter.offset");
+     param_angheight = pl->FetchStringID ("cel.parameter.angheight");
+     param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
+  }
 }
 
 celPcHover::~celPcHover ()
@@ -72,6 +106,67 @@ bool celPcHover::Load (iCelDataBuffer* databuf)
 }
 bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
 {
+  if (actionId == action_setworld)
+  {
+    CEL_FETCH_STRING_PAR (world, params, param_world);
+    if (!world)
+    {
+      // Report (object_reg, "Couldn't get 'world' parameter for SetWorld!");
+      printf("Couldn't get 'world' parameter for SetWorld!\n");
+      return false;
+    }
+    SetWorld (world);
+  }
+  else if (actionId == action_sethbeamcutoff)
+  {
+    CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
+    if (!heightcutoff)
+    {
+      //Report (object_reg, "Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
+      printf("Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
+      return false;
+    }
+    SetHeightBeamCutoff (heightcutoff);
+  }
+  else if (actionId == action_setangoff)
+  {
+    CEL_FETCH_FLOAT_PAR (offset, params, param_angoff);
+    if (!offset)
+    {
+      //Report (object_reg, "Couldn't get 'offset' parameter for SetAngularBeamOffset!");
+      printf("Couldn't get 'offset' parameter for SetAngularBeamOffset!");
+      return false;
+    }
+    SetAngularBeamOffset (offset);
+  }
+  else if (actionId == action_setangheight)
+  {
+    CEL_FETCH_FLOAT_PAR (angheight, params, param_angheight);
+    if (!angheight)
+    {
+      //Report (object_reg, "Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
+      printf("Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
+      return false;
+    }
+    SetAngularCutoffHeight (angheight);
+  }
+  else if (actionId == action_setangstr)
+  {
+    CEL_FETCH_FLOAT_PAR (angstrength, params, param_angstr);
+    if (!angstrength)
+    {
+      //Report (object_reg, "Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
+      printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
+      return false;
+    }
+    SetAngularCorrectionStrength (angstrength);
+  }
+  else if (actionId == action_usedeffunc)
+  {
+    UseDefaultFunction ();
+  }
+  else return false;
+
   return true;
 }
 
@@ -87,6 +182,11 @@ void celPcHover::SetWorld (const char *name)
   iCelEntity *went = pl->FindEntity (name);
   if(!went)  return;
   world_mesh = CEL_QUERY_PROPCLASS_ENT (went , iPcMesh);
+}
+
+void celPcHover::UseDefaultFunction ()
+{
+  func.AttachNew(new celDefaultHoverUpthruster ());
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)

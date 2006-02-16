@@ -21,132 +21,38 @@
 
 #include "tools/stabiliser_dist.h"
 
-#include <cmath>
-#include <math.h>
-#include <stdio.h>
-#include <propclass/mechsys.h>
-#include <csgeom/vector3.h>
-
-#ifndef M_E
-    #define M_E 2.71828182845904523536
-#endif
-
-void celIntervalMetaDistribution::Add (csRef<celStabiliserFunction> func , float low_int , float high_int)
+float celDefaultHoverUpthruster::Force (celHoverObjectInfo obj_info)
 {
-  Interval i;
-  i.low = low_int;
-  i.high = high_int;
-  i.func = func;
+  float force = 0.0f;
 
-  funcs.Push (i);
-}
+  /* at smaller heights we provide constant
+      upthrust, because dividing by small numbers
+      gives extremely huge force up */
+  if (obj_info.height < 0.1f)
+    force = 30.0f;
+  else if (obj_info.height < 2.0f)
+    force = 40.0f / std::pow (obj_info.height, 0.1447533f);
+  else if (obj_info.height < 6.0f)
+    force = 16.0f;
 
-float celIntervalMetaDistribution::Force (celHoverObjectInfo obj_info)
-{
-  for (csArray<Interval>::Iterator it = funcs.GetIterator () ; it.HasNext () ; ) {
-    Interval i = it.Next ();
+  /* above certain upward speeds
+      we don't want to push object up
+      anymore */
+  if (obj_info.yvel > 3.0f)
+    force *= 0.0f;
+  /* dampen upward speed when already
+      travelling up */
+  else if(obj_info.yvel > 0.5f)
+    force *= 0.25f;
+  /* encourage upward speed when travelling
+      downwards */
+  else if (obj_info.yvel < -0.1f)
+    force *= 1.2f;
+  /* linear equation so object doesn't
+      bounce harshly when falling */
+  else if (obj_info.yvel < -16.0f)
+    force *= -obj_info.yvel - 15.0f;
 
-    if( ((i.low < obj_info.height) && (i.high > obj_info.height)) || (i.low == obj_info.height) || (i.high == obj_info.height) )
-      return i.func->Force (obj_info);
-  }
-
-  return 0;
-}
-
-
-celIfFallingDistribution::celIfFallingDistribution (csRef<celStabiliserFunction> ifdist , csRef<celStabiliserFunction> elsedist , float adelta)
-{
-  if_dist = ifdist;
-  else_dist = elsedist;
-  delta = adelta;
-}
-
-float celIfFallingDistribution::Force(celHoverObjectInfo obj_info)
-{
-  //printf("fall: %f\t",ship_mech->WorldToLocal(ship_mech->GetLinearVelocity()).y);
-  if(obj_info.yvel < delta)
-    return if_dist->Force (obj_info);
-  return else_dist->Force (obj_info);
-}
-
-celFallingMultiplierDistribution::celFallingMultiplierDistribution (csRef<celStabiliserFunction> fdist, csRef<celStabiliserFunction> hdist)
-{
-  height_dist = hdist;
-  falling_dist = fdist;
-}
-
-float celFallingMultiplierDistribution::Force(celHoverObjectInfo obj_info)
-{
-  celHoverObjectInfo fall;
-  fall.height = obj_info.yvel;
-  fall.yvel = obj_info.height;
-
-  float falling_mult = falling_dist->Force(fall),
-
-        reaction_force = height_dist->Force(obj_info),
-
-        force = falling_mult * reaction_force;
-
-  return force;
-}
-
-celScriptedHeightFunction::celScriptedHeightFunction (csRef<iScript> iscript, csString module)
- : module (module),
-    iscript (iscript)
-{
-}
-float celScriptedHeightFunction::Force (celHoverObjectInfo obj_info)
-{
-  float force = 0.0;
-  if (!iscript->Call(module, force, "%f%f", obj_info.height, obj_info.yvel))
-    printf("error: %s does not exist!\n", (const char*)module);
-  printf("F: %f\n",force);
-  return force;
-}
-
-celReturnConstantValue::celReturnConstantValue (float avalue)
-{
-  value = avalue;
-}
-
-float celReturnConstantValue::Force (celHoverObjectInfo obj_info)
-{
-  return value;
-}
-
-
-celInversePowerDistribution::celInversePowerDistribution (float h0, float f0, float h1, float f1)
-{
-  k = ComputeK (h0, f0, h1, f1);
-  x = ComputeX (h0, f0, k);  // h0 == 1 will fail
-}
-float celInversePowerDistribution::Force (celHoverObjectInfo obj_info)
-{
-  return Formula(obj_info.height);
-}
-
-float celInversePowerDistribution::ComputeK (float h0, float f0, float h1, float f1)
-{
-  return std::pow (float (M_E), (( std::log (h1)*std::log (f0) - std::log (h0)*std::log (f1) ) /
-          ( std::log (h1) - std::log (h0) )) );
-}
-float celInversePowerDistribution::ComputeX (float h , float f , float k)
-{
-  return std::log(k / f) / std::log(h);
-}
-
-float celInversePowerDistribution::Formula (float h)
-{
-  return k / std::pow(h , x);
-}
-
-
-celSquareDistribution::celSquareDistribution (float h0, float f0, float h1, float f1)
-{
-  k = (f1 - f0) / (h1*h1 - h0*h0);
-  a = f1 - k*h1*h1;
-}
-float celSquareDistribution::Force (celHoverObjectInfo obj_info)
-{
-  return a + k * obj_info.height * obj_info.height;
+  //printf("Fr: %f\th: %f\tVy: %f\n",force,obj_info.height,obj_info.yvel);
+  return force / 1.4;  // adjust this divisor to adjust hover height and dampening
 }

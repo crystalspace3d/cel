@@ -74,41 +74,63 @@ public:
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func.AttachNew(sfunc); }
 
+  virtual void UseDefaultFunction ();
+
   struct PcHover : public iPcHover
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcHover);
 
-    virtual void SetWorldMesh(csRef<iPcMesh> wmesh)
+    virtual void SetWorldMesh (csRef<iPcMesh> wmesh)
     {
-      scfParent->SetWorldMesh(wmesh);
+      scfParent->SetWorldMesh (wmesh);
     }
-    virtual void SetWorld(const char *name)
+    virtual void SetWorld (const char *name)
     {
-      scfParent->SetWorld(name);
+      scfParent->SetWorld (name);
     }
-    virtual void SetHeightBeamCutoff(float chm)
+    virtual void SetHeightBeamCutoff (float chm)
     {
-      scfParent->SetHeightBeamCutoff(chm);
+      scfParent->SetHeightBeamCutoff (chm);
     }
-    virtual void SetAngularBeamOffset(float abo)
+    virtual void SetAngularBeamOffset (float abo)
     {
-      scfParent->SetAngularBeamOffset(abo);
+      scfParent->SetAngularBeamOffset (abo);
     }
-    virtual void SetAngularCutoffHeight(float ach)
+    virtual void SetAngularCutoffHeight (float ach)
     {
-      scfParent->SetAngularCutoffHeight(ach);
+      scfParent->SetAngularCutoffHeight (ach);
     }
-    virtual void SetAngularCorrectionStrength(float mul)
+    virtual void SetAngularCorrectionStrength (float mul)
     {
-      scfParent->SetAngularCorrectionStrength(mul);
+      scfParent->SetAngularCorrectionStrength (mul);
     }
-    virtual void SetStabiliserFunction(celStabiliserFunction *sfunc)
+    virtual void SetStabiliserFunction (celStabiliserFunction *sfunc)
     {
-      scfParent->SetStabiliserFunction(sfunc);
+      scfParent->SetStabiliserFunction (sfunc);
+    }
+
+    virtual void UseDefaultFunction ()
+    {
+      scfParent->UseDefaultFunction ();
     }
   } scfiPcHover;
 
 private:
+  // Actions
+  static csStringID action_setworld;
+  static csStringID action_sethbeamcutoff;
+  static csStringID action_setangoff;
+  static csStringID action_setangheight;
+  static csStringID action_setangstr;
+  static csStringID action_usedeffunc;
+
+  // Parameters.
+  static csStringID param_world;
+  static csStringID param_hbeamcutoff;
+  static csStringID param_angoff;
+  static csStringID param_angheight;
+  static csStringID param_angstr;
+
   /**
    * Calculate height of object to ground (world mesh)
    */
