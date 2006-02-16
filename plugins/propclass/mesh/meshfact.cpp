@@ -245,6 +245,9 @@ bool celPcMesh::PerformAction (csStringID actionId,
   else if (actionId == action_loadmesh)
   {
     CEL_FETCH_STRING_PAR (file,params,id_filename);
+    if (!file)
+      return Report (object_reg,
+      	"Missing parameter 'file' for action LoadMesh!");
     CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
     if (!factory)
       return Report (object_reg,
@@ -666,7 +669,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 
   mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
-  
+
   // Initialize the maximum selection distance to a very large number
   max_distance = 100000.0f;
 
@@ -795,13 +798,13 @@ void celPcMeshSelect::SetupEventHandler ()
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
-  csEventID esub[] = { 
+  csEventID esub[] = {
     csevMouseDown (object_reg, 0),
     csevMouseUp (object_reg, 0),
     (do_drag || do_follow || do_sendmove)
     	? csevMouseMove (object_reg, 0)
 	: CS_EVENTLIST_END,
-    CS_EVENTLIST_END 
+    CS_EVENTLIST_END
   };
   q->RegisterListener (scfiEventHandler, esub);
 }
@@ -973,7 +976,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   // The following vectors are only set if needed.
 
-  // Vector from (0,0,0) to 'vc' in camera space corresponding to 
+  // Vector from (0,0,0) to 'vc' in camera space corresponding to
   // the point we clicked on.
   csVector3 vc;
   // Vector from 'vo' to 'vw' in world space corresponding to
@@ -1006,7 +1009,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 	  dragoffs = isect - sel->GetMovable ()->GetFullPosition ();
 	}
       }
-    } 
+    }
   }
 
   if (do_drag && sel_entity)
@@ -1147,7 +1150,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   	  iCelPropertyClass));
     DG_UNLINK (this, pc);
   }
-#endif                                                   
+#endif
   celPcMeshSelect::pccamera = pccamera;
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
   if (pccamera)
