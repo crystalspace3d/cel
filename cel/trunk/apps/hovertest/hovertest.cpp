@@ -240,8 +240,8 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
 	"pcmesh",
 	"pcdefaultcamera",
 	"pcmechobject",
-	"pchover",
-	"pccraft",
+	//"pchover",
+	//"pccraft",
 	(void*)0);
   if (!entity_cam) return 0;
 
@@ -260,8 +260,6 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   pcmesh->SetPath ("/cel/data");
   pcmesh->SetMesh ("craft", "orogor");
-  iSector* room = engine->FindSector (roomname);
-  pcmesh->MoveMesh (room, pos);
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
@@ -294,7 +292,7 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pcmechobject->SetMass (1.1);
   pcmechobject->SetDensity (3.0);
 
-  csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
+  /*csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
   pchover->SetStabiliserFunction (new xdShipUpthrusterFunction ());
   pchover->SetAngularCorrectionStrength (10.0);
   pchover->SetAngularCutoffHeight (8.0);
@@ -312,7 +310,7 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pccraft->SetAccPitch (0.4);
   pccraft->SetMaxPitch (0.5);
   pccraft->SetThrustForce (10.0);
-  pccraft->SetTopSpeed (20.0);
+  pccraft->SetTopSpeed (20.0);*/
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -333,11 +331,6 @@ bool HoverTest::CreateRoom ()
 	"pcmesh",
 	(void*)0);
 
-  //===============================
-  // Engine init.
-  //===============================
-  engine->Prepare ();
-
   csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
   	iCommandLineParser);
   csString path, file;
@@ -349,65 +342,64 @@ bool HoverTest::CreateRoom ()
   }
   else
   {
-    path = "/cellib/lev";
-    file = "mech_level.xml";
+    path = "/cellib/track4";
+    file = "world";
   }
 
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  csStringArray paths;
-  paths.Push ("/cellib/lev/");
-  if (!vfs->ChDirAuto (path, &paths, 0, file))
+  if (!vfs->ChDirAuto (path, 0, 0, file))
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
   csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcZoneManager);
-  if (!pczonemgr->Load (0, file))
+  pczonemgr->SetLoadingMode (CEL_ZONE_NORMAL);
+  if (!pczonemgr->Load ("/cellib/track4", "world"))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
   scfString regionname, startname;
-  pczonemgr->GetLastStartLocation (&regionname, &startname);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcMesh);
-  pcmesh->CreateEmptyThing ();
-  csRef<iMeshObject> mesh_object = pcmesh->GetMesh ()->GetMeshObject ();
-  csRef<iMeshObjectFactory> mesh_factory = mesh_object->GetFactory ();
-  csRef<iThingFactoryState> mesh_state =
-      scfQueryInterface<iThingFactoryState> (mesh_factory);
-  mesh_state->AddQuad (
-      csVector3 (-1000.0, -1.0, -1000.0),
-      csVector3 (-1000.0, -1.0, 1000.0),
-      csVector3 (1000.0,  -1.0, 1000.0),
-      csVector3 (1000.0,  -1.0, -1000.0));
-
-  game = entity_room;
-  entity_dummy = CreateDynActor ("dyn", "room", csVector3 (0,5.0f,1.0f));
-  if (!entity_dummy) return false;
-
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
-  if (!pccamera) return false;
-  pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
-  if (pczonemgr->PointMesh ("dyn", regionname, startname)
-  	!= CEL_ZONEERROR_OK)
-    return ReportError ("Error finding start position!");
-
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
-  	iPcInventory);
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  //pczonemgr->GetLastStartLocation (&regionname, &startname);
+  regionname = "main";
+  startname = "Camera";
+  //printf("%s %s\n",(const char*)regionname,(const char*)startname);
 
   csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.02f);
 
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcMesh);
+  pcmesh->SetPath ("/cellib/track4");
+  if (!pcmesh->SetMesh("TerrainFact", "world"))
+    return ReportError("could not load TerrainFact mesh factory!");
+
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsObject);
-  csPlane3 ground (0, -1, 0, -1);
-  pcmechobj->AttachColliderPlane (ground);
-  pcmechobj->MakeStatic (true);
+  pcmechobj->AttachColliderMesh();
+  pcmechobj->MakeStatic(true);
 
-  entity_dummy = CreateDynSphere ("sphere1", "room", csVector3 (.5f,0, -8.0f));
+  game = entity_room;
+  entity_dummy = CreateDynActor ("dyn", "TerrainFact", csVector3 (0,5.0f,1.0f));
+  if (!entity_dummy) return false;
+
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
+  if (!pccamera) return false;
+  pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
+  if (pczonemgr->PointMesh ("dyn", regionname, startname) != CEL_ZONEERROR_OK)
+    return ReportError ("Error finding start position!");
+
+  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  	iPcInventory);
+  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+
+  //===============================
+  // Engine init.
+  //===============================
+  // do I really need this line?
+  //engine->Prepare ();
+
+/*  entity_dummy = CreateDynSphere ("sphere1", "room", csVector3 (.5f,0, -8.0f));
   entity_dummy = CreateDynSphere ("sphere2", "room", csVector3 (0,0,-7.0f));
   entity_dummy = CreateDynSphere ("sphere3", "room", csVector3 (-.5f,0,-8.0f));
   entity_dummy = CreateDynSphere ("sphere4", "room", csVector3 (0,.5f,-7.5f));
@@ -474,7 +466,7 @@ bool HoverTest::CreateRoom ()
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5f,1.06f,-10.0f));
   entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.0f,1.06f,-10.0f));
   entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5f,1.06f,-10.0f));
-
+*/
   return true;
 }
 
