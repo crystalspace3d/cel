@@ -245,9 +245,6 @@ bool celPcMesh::PerformAction (csStringID actionId,
   else if (actionId == action_loadmesh)
   {
     CEL_FETCH_STRING_PAR (file,params,id_filename);
-    if (!file)
-      return Report (object_reg,
-      	"Missing parameter 'file' for action LoadMesh!");
     CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
     if (!factory)
       return Report (object_reg,
