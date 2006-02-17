@@ -664,6 +664,8 @@ struct iQuestManager : public iBase
    *     See iSequenceQuestRewardFactory.
    * <li>cel.questreward.sequencefinish: finish sequence.
    *     See iSequenceFinishQuestRewardFactory.
+   * <li>cel.questreward.message: send a message to some entity.
+   *     See iMessageQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -1401,6 +1403,37 @@ struct iSequenceFinishQuestRewardFactory : public iBase
    * with '$').
    */
   virtual void SetSequenceParameter (const char* sequence) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that sends a message
+ * to some entity (the behaviour will get this message).
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.message'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity to send the message too.
+ * <li><em>id</em>: id of the message to send.
+ * </ul>
+ */
+struct iMessageQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the message id.
+   * \param id is the message id or a parameter (starts with '$').
+   */
+  virtual void SetIDParameter (const char* id) = 0;
 };
 
 //-------------------------------------------------------------------------
