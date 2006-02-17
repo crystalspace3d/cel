@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Mesh, PropClass LinMove, PropClass Quest Manager, Property Classes
+@node PropClass Hover, , PropClass ZoneMgr, Property Classes
 @subsection Hover
 @cindex pchover property class
 @cindex pchover
@@ -55,10 +55,10 @@ own reactionary calculator.
 #include "tools/stabiliser_dist.h"
 
 class CustomUpthrusterFunction : public celStabiliserFunction
-{
+@{
 public:
   float Force(celHoverObjectInfo obj_info)
-  {
+  @{
     /* when the height of the object
         is less then 2, use an
         upthrust force of 8 */
@@ -66,8 +66,8 @@ public:
       return 8.0;
 
     return 0.0;
-  }
-};
+  @}
+@};
 @end example
 
 Then to insert into the property class you would do
@@ -81,7 +81,7 @@ will get called with information with the objects information on its state.
 
 @example
 struct celHoverObjectInfo
-{
+@{
   /**
    * The height of the object above the
    * ground in along the world's y axis.
@@ -93,7 +93,7 @@ struct celHoverObjectInfo
    * along the objects local y axis.
    */
   float yvel;
-};
+@};
 @end example
 
 @subsubheading angular correction

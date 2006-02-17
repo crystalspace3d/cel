@@ -18,6 +18,9 @@ The history order is reversed so that new features are at the top.
 	  only to specific values).
 	- Jorrit added a new reward to the quest manager so that you can
 	  send messages to behaviours.
+        - Genjix added safety check to stop seg faults in iPcHover.
+        - Genjix set iPcHover to use Default stabiliser function.
+        - Genjix started pchover tex property class documentation.
 16-Feb-2006
         - Genjix cleaned the stabiliser_dist headers.
         - Genjix added action's to pchover

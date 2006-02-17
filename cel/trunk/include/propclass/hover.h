@@ -49,7 +49,7 @@ struct iPcHover : public virtual iBase
   virtual void SetWorld(const char *name) = 0;
 
   /**
-   * The height for hit beams. Above this height, the height tests
+   * The height for hit beams. Above this height, all height tests
    * return infinity
    */
   virtual void SetHeightBeamCutoff(float chm) = 0;
