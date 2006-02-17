@@ -67,6 +67,9 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 
 celPcProperties::~celPcProperties ()
 {
+  // First we clear the listeners so that we will not fire any
+  // further events.
+  listeners.DeleteAll ();
   Clear ();
   delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcProperties);
