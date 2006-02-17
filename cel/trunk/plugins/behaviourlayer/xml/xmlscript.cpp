@@ -1323,10 +1323,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: pcthis %s\n", i-1, A2S (top)));
+          DUMP_EXEC ((":%04d: pcthis pc=%s\n", i-1, A2S (top)));
 
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
 	  	FindByName (ArgToString (top));
+	  top.SetPC (other_pc);	// Can be 0.
+	}
+	break;
+      case CEL_OPERATION_PCTAGTHIS:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_tag = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: pctagthis pc=%s tag=%s\n",
+	  	i-1, A2S (top), A2S (a_tag)));
+
+          iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
+	  	FindByNameAndTag (ArgToString (top), ArgToString (a_tag));
 	  top.SetPC (other_pc);	// Can be 0.
 	}
 	break;
@@ -1387,6 +1400,26 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
           iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
 	  	FindByName (ArgToString (a_pc));
+	  top.SetPC (other_pc);	// Can be 0.
+	}
+        break;
+      case CEL_OPERATION_PCTAG:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_tag = stack.Pop ();
+	  celXmlArg a_pc = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: pctag ent=%s pc=%s tag=%s\n",
+	  	i-1, A2S (top), A2S (a_pc), A2S (a_tag)));
+
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	  {
+	    top.SetPC ((iCelPropertyClass*)0);
+	    break;
+	  }
+          iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
+	  	FindByNameAndTag (ArgToString (a_pc), ArgToString (a_tag));
 	  top.SetPC (other_pc);	// Can be 0.
 	}
         break;
@@ -2847,11 +2880,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
 	break;
 
-      case CEL_OPERATION_CREATEPROPCLASS:
+      case CEL_OPERATION_CREATEPC:
         {
 	  CHECK_STACK(1)
 	  celXmlArg top = stack.Pop ();
-          DUMP_EXEC ((":%04d: createpropclass %s\n", i-1, A2S (top)));
+          DUMP_EXEC ((":%04d: createpropclass pc=%s\n", i-1, A2S (top)));
 	  if (varprop_trace)
 	  {
 	    printf (":%s/%04lu: createpropclass %s\n",
@@ -2864,6 +2897,30 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!pc)
 	    return ReportError (behave, "Couldn't create property class '%s'!",
 	    	s);
+	}
+        break;
+      case CEL_OPERATION_CREATEPCTAG:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg atag = stack.Pop ();
+	  celXmlArg apc = stack.Pop ();
+          DUMP_EXEC ((":%04d: createpropclasstag pc=%s tag=%s\n",
+	  	i-1, A2S (apc), A2S (atag)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: createpropclasstag pc=%s tag=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (apc), A2S (atag));
+	    fflush (stdout);
+	  }
+	  const char* s = ArgToString (apc);
+	  const char* tag = ArgToString (atag);
+	  iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, s,
+	  	tag);
+	  if (!pc)
+	    return ReportError (behave,
+	    	"Couldn't create property class '%s' with tag '%s'!",
+	    	s, tag);
 	}
         break;
 

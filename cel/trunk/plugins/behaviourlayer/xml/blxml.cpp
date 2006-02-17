@@ -97,6 +97,7 @@ enum
 enum
 {
   XMLFUNCTION_PC,
+  XMLFUNCTION_PCTAG,
   XMLFUNCTION_PARAM,
   XMLFUNCTION_PROPERTY,
   XMLFUNCTION_ID,
@@ -211,6 +212,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("quit", XMLTOKEN_QUIT);
 
   functions.Register ("pc", XMLFUNCTION_PC);
+  functions.Register ("pctag", XMLFUNCTION_PCTAG);
   functions.Register ("param", XMLFUNCTION_PARAM);
   functions.Register ("property", XMLFUNCTION_PROPERTY);
   functions.Register ("id", XMLFUNCTION_ID);
@@ -659,6 +661,30 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	  // We have only one argument to pc(). This means we search
 	  // for a property class for the current entity.
           h->AddOperation (CEL_OPERATION_PCTHIS);
+	}
+      }
+      break;
+    case XMLFUNCTION_PCTAG:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+          h->AddOperation (CEL_OPERATION_PCTAG);
+	}
+	else
+	{
+	  input = pinput;	// Set back to ')'
+	  // We have only two arguments to pctag(). This means we search
+	  // for a property class for the current entity.
+          h->AddOperation (CEL_OPERATION_PCTAGTHIS);
 	}
       }
       break;
@@ -1484,7 +1510,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	else
 	{
-	  h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
+	  h->AddOperation (CEL_OPERATION_CREATEPC);
 	  h->GetArgument ().Set (false);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
@@ -1511,9 +1537,23 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         h->AddOperation (CEL_OPERATION_QUIT);
         break;
       case XMLTOKEN_CREATEPROPCLASS:
-        if (!ParseExpression (local_vars, child, h, "name", "createpropclass"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_CREATEPROPCLASS);
+        {
+          if (!ParseExpression (local_vars, child, h, "name",
+	  	"createpropclass"))
+	    return false;
+	  const char* tagname = child->GetAttributeValue ("tag");
+	  if (tagname)
+	  {
+            if (!ParseExpression (local_vars, child, h, "tag",
+	    	"createpropclass"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_CREATEPCTAG);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_CREATEPC);
+	  }
+        }
 	break;
       case XMLTOKEN_SUPER:
         {
