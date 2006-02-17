@@ -272,6 +272,8 @@ bool celPropertyChangeTrigger::Check ()
   if (!properties) return false;
   size_t idx = properties->GetPropertyIndex (prop);
   if (idx == csArrayItemNotFound) return false;
+  // Check() returns false in case there is no value.
+  if (!value) return false;
   return TestProperty (idx);
 }
 
