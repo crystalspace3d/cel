@@ -71,6 +71,9 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   ang_mult = 1;
   height_beam_cutoff = 200;
 
+  // init a default upthruster func
+  UseDefaultFunction ();
+
   if (action_setworld == csInvalidStringID)
   {
      // Actions
@@ -236,8 +239,8 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 void celPcHover::PerformStabilising ()
 {
-  // if these haven't been init, return safely
-  if ((!world_mesh) || (!func))
+  // if this hasn't been init, return safely
+  if (!world_mesh)
     return;
   if (!ship_mech)
     ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
