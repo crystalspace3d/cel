@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Feb-2006
+	- Jorrit fixed a bug in the billboard manager. Blue and green
+	  were swapped for text color.
 16-Feb-2006
         - Genjix cleaned the stabiliser_dist headers.
         - Genjix added action's to pchover
