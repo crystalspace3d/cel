@@ -296,8 +296,8 @@ void celBillboard::SetTextFgColor (const csColor& color)
   do_fg_color = true;
   fg_color = mgr->GetGraphics3D ()->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
-	    int (color.blue * 255.0f),
-	    int (color.green * 255.0f));
+	    int (color.green * 255.0f),
+	    int (color.blue * 255.0f));
 }
 
 void celBillboard::ClearTextFgColor ()
@@ -310,8 +310,8 @@ void celBillboard::SetTextBgColor (const csColor& color)
   do_bg_color = true;
   bg_color = mgr->GetGraphics3D ()->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
-	    int (color.blue * 255.0f),
-	    int (color.green * 255.0f));
+	    int (color.green * 255.0f),
+	    int (color.blue * 255.0f));
 }
 
 void celBillboard::SetTextBgTransparent ()
