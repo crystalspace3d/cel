@@ -43,6 +43,7 @@
 #include "plugins/tools/quests/reward_inventory.h"
 #include "plugins/tools/quests/reward_sequence.h"
 #include "plugins/tools/quests/reward_sequencefinish.h"
+#include "plugins/tools/quests/reward_message.h"
 #include "plugins/tools/quests/seqop_debugprint.h"
 #include "plugins/tools/quests/seqop_transform.h"
 #include "plugins/tools/quests/seqop_movepath.h"
@@ -1032,6 +1033,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celSequenceFinishRewardType* type = new celSequenceFinishRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
+    celMessageRewardType* type = new celMessageRewardType (
     	object_reg);
     RegisterRewardType (type);
     type->DecRef ();
