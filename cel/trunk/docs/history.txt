@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  to the XML behaviour layer (use tag='bla' in the xml).
 	- Jorrit added support for finding tagged property classes
 	  to the XML behaviour layer (use 'pctag' function).
+	- Jorrit changed the billboard manager so that it works fine
+	  with billboards that have no material. This is useful in case the
+	  billboard will only show text.
 16-Feb-2006
         - Genjix cleaned the stabiliser_dist headers.
         - Genjix added action's to pchover

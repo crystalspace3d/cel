@@ -143,6 +143,14 @@ void celBillboard::SetupMaterial ()
 {
   if (material_ok) return;
 
+  if (!materialname)
+  {
+    // There is no material specified. This is ok.
+    material_ok = true;
+    material = 0;
+    return;
+  }
+
   if (!material)
   {
     material = mgr->engine->FindMaterial (materialname);
