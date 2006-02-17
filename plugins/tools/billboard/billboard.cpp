@@ -861,16 +861,16 @@ void celBillboardManager::SetDefaultTextFgColor (const csColor& color)
 {
   default_fg_color = g3d->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
-	    int (color.blue * 255.0f),
-	    int (color.green * 255.0f));
+	    int (color.green * 255.0f),
+	    int (color.blue * 255.0f));
 }
 
 void celBillboardManager::SetDefaultTextBgColor (const csColor& color)
 {
   default_bg_color = g3d->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
-	    int (color.blue * 255.0f),
-	    int (color.green * 255.0f));
+	    int (color.green * 255.0f),
+	    int (color.blue * 255.0f));
 }
 
 void celBillboardManager::SetDefaultTextBgTransparent ()
