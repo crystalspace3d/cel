@@ -880,7 +880,9 @@ SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
  * <li><em>entity_tag</em>: optional tag used to find the right
  *     property class from the entity.
  * <li><em>property</em>: the name of the property.
- * <li><em>value</em>: the value on which this trigger will fire.
+ * <li><em>value</em>: the value on which this trigger will fire. If this
+ *     value is not given then the trigger will fire whenever the value
+ *     changes.
  * </ul>
  */
 struct iPropertyChangeQuestTriggerFactory : public iBase
@@ -903,7 +905,9 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
   virtual void SetPropertyParameter (const char* prop) = 0;
 
   /**
-   * Set the value of the property on which this trigger will fire.
+   * Set the value of the property on which this trigger will fire. If
+   * this value is not given the the trigger will fire whenever the value
+   * changes.
    * \param value is the varlue or a parameter (starts with '$').
    */
   virtual void SetValueParameter (const char* value) = 0;

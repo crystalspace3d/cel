@@ -110,9 +110,6 @@ bool celPropertyChangeTriggerFactory::Load (iDocumentNode* node)
     return Report (type->object_reg,
       "'property' attribute is missing for the propertychange trigger!");
   value_par = csStrNew (node->GetAttributeValue ("value"));
-  if (!value_par)
-    return Report (type->object_reg,
-      "'value' attribute is missing for the propertychange trigger!");
   return true;
 }
 
@@ -170,7 +167,10 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   prop = csStrNew (qm->ResolveParameter (params, prop_par));
-  value = csStrNew (qm->ResolveParameter (params, value_par));
+  if (value_par)
+    value = csStrNew (qm->ResolveParameter (params, value_par));
+  else
+    value = 0;
 }
 
 celPropertyChangeTrigger::~celPropertyChangeTrigger ()
@@ -195,6 +195,7 @@ void celPropertyChangeTrigger::ClearCallback ()
 
 bool celPropertyChangeTrigger::TestProperty (size_t idx)
 {
+  if (!value) return true;
   celDataType type = properties->GetPropertyType (idx);
   switch (type)
   {
