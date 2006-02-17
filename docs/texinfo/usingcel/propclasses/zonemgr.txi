@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass ZoneMgr, , PropClass Timer, Property Classes
+@node PropClass ZoneMgr, PropClass Hover, PropClass Timer, Property Classes
 @subsection Zone Manager
 @cindex pczonemanager property class
 @cindex pczonemanager
