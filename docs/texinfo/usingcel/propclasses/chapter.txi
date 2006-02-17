@@ -84,4 +84,5 @@ classes have a tag then it will return a random one.
 @importss{usingcel,propclasses,linmove.txi}
 @importss{usingcel,propclasses,timer.txi}
 @importss{usingcel,propclasses,zonemgr.txi}
+@importss{usingcel,propclasses,hover.txi}
 
