@@ -236,8 +236,8 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 void celPcHover::PerformStabilising ()
 {
-  // if this hasn't been init, return safely
-  if (!world_mesh)
+  // if these haven't been init, return safely
+  if ((!world_mesh) || (!func))
     return;
   if (!ship_mech)
     ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
