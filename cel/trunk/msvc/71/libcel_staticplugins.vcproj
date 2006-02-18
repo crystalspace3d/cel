@@ -1538,6 +1538,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_message.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_quests_reward_message.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_quests_reward_message.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_newstate.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1951,6 +1966,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_message.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_newstate.h">
