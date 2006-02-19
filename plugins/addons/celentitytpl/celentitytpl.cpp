@@ -64,6 +64,8 @@ enum
   XMLTOKEN_STRING,
   XMLTOKEN_LONG,
   XMLTOKEN_VECTOR,
+  XMLTOKEN_VECTOR2,
+  XMLTOKEN_VECTOR3,
   XMLTOKEN_COLOR
 };
 
@@ -112,6 +114,8 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("string", XMLTOKEN_STRING);
   xmltokens.Register ("long", XMLTOKEN_LONG);
   xmltokens.Register ("vector", XMLTOKEN_VECTOR);
+  xmltokens.Register ("vector2", XMLTOKEN_VECTOR2);
+  xmltokens.Register ("vector3", XMLTOKEN_VECTOR3);
   xmltokens.Register ("color", XMLTOKEN_COLOR);
 
   return true;
@@ -205,7 +209,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 		break;
 	      case XMLTOKEN_VECTOR:
 	        if (do_par)
-		  pc->SetPropertyVariable (propid, CEL_DATA_VECTOR3, attr_value+1);	// @@@ Vector2?
+		  pc->SetPropertyVariable (propid, CEL_DATA_VECTOR3, attr_value+1);
 		else
 	        {
 		  csVector3 v;
@@ -219,6 +223,29 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 		    csScanStr (attr->GetValue (), "%f,%f", &v2.x, &v2.y);
 		    pc->SetProperty (propid, v2);
 		  }
+		}
+		break;
+	      case XMLTOKEN_VECTOR2:
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_VECTOR2,
+		      attr_value+1);
+		else
+	        {
+		  csVector2 v;
+		  csScanStr (attr->GetValue (), "%f,%f", &v.x, &v.y);
+		  pc->SetProperty (propid, v);
+		}
+		break;
+	      case XMLTOKEN_VECTOR3:
+	        if (do_par)
+		  pc->SetPropertyVariable (propid, CEL_DATA_VECTOR3,
+		      attr_value+1);
+		else
+	        {
+		  csVector3 v;
+		  csScanStr (attr->GetValue (), "%f,%f,%f", &v.x, &v.y,
+		      &v.z);
+		  pc->SetProperty (propid, v);
 		}
 		break;
 	      case XMLTOKEN_COLOR:
@@ -273,7 +300,7 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 	      {
 		if (*vec_value == '$')
 	          params->GetParameter (par_idx-1).SetParameter (vec_value+1,
-		  	CEL_DATA_VECTOR3);	//@@@?
+		  	CEL_DATA_VECTOR3);
 		else
 		{
 		  csVector3 v;
@@ -286,6 +313,34 @@ bool celAddOnCelEntityTemplate::ParseProperties (iCelPropertyClassTemplate* pc,
 		    csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
 		    params->GetParameter (par_idx-1).Set (v2);
 		  }
+		}
+	        continue;
+	      }
+	      const char* vec2_value = par_child->GetAttributeValue ("vector2");
+	      if (vec2_value)
+	      {
+		if (*vec2_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (vec2_value+1,
+		  	CEL_DATA_VECTOR2);
+		else
+		{
+		  csVector2 v;
+		  csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
+		  params->GetParameter (par_idx-1).Set (v);
+		}
+	        continue;
+	      }
+	      const char* vec3_value = par_child->GetAttributeValue ("vector3");
+	      if (vec3_value)
+	      {
+		if (*vec3_value == '$')
+	          params->GetParameter (par_idx-1).SetParameter (vec3_value+1,
+		  	CEL_DATA_VECTOR3);
+		else
+		{
+		  csVector3 v;
+		  csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+		  params->GetParameter (par_idx-1).Set (v);
 		}
 	        continue;
 	      }
