@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 19-Feb-2006
 	- Jorrit extended the message reward in the quest manager
 	  so that it can now also send parameters.
+	- Jorrit changed the celentitytpl addon so that in addition
+	  to vector you can now also specify vector2 and vector3.
 18-Feb-2006
         - Arianna fixed a compiling error: a missing include file.
 17-Feb-2006
