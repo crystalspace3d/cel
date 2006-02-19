@@ -33,12 +33,21 @@
 
 struct iObjectRegistry;
 struct iEvent;
+class celVariableParameterBlock;
 
 /**
  * A standard reward type that sends a message to an entity.
  * This reward type listens to the name 'cel.questreward.message'.
  */
 CEL_DECLARE_REWARDTYPE(Message,"cel.questreward.message")
+
+struct parSpec
+{
+  celDataType type;
+  csStringID id;
+  csString name;
+  csString value;
+};
 
 /**
  * The 'message' reward factory.
@@ -51,6 +60,7 @@ private:
   celMessageRewardType* type;
   char* entity_par;
   char* id_par;
+  csArray<parSpec> parameters;
 
 public:
   celMessageRewardFactory (celMessageRewardType* type);
@@ -65,6 +75,8 @@ public:
   //----------------- iMessageQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual void SetIDParameter (const char* id);
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value);
 };
 
 /**
@@ -78,12 +90,14 @@ private:
   char* entity;
   char* id;
   csWeakRef<iCelEntity> ent;
+  celVariableParameterBlock* msg_params;
 
 public:
   celMessageReward (celMessageRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
-	const char* id_par);
+	const char* id_par,
+	const csArray<parSpec>& parameters);
   virtual ~celMessageReward ();
 
   SCF_DECLARE_IBASE;

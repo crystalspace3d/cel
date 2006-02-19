@@ -3,9 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Feb-2006
+	- Jorrit extended the message reward in the quest manager
+	  so that it can now also send parameters.
 18-Feb-2006
         - Arianna fixed a compiling error: a missing include file.
-
 17-Feb-2006
 	- Jorrit fixed a bug in the billboard manager. Blue and green
 	  were swapped for text color.

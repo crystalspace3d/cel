@@ -1434,6 +1434,18 @@ struct iMessageQuestRewardFactory : public iBase
    * \param id is the message id or a parameter (starts with '$').
    */
   virtual void SetIDParameter (const char* id) = 0;
+
+  /**
+   * Add a parameter to send with the message.
+   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
+   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
+   * \param name is the name of the parameter.
+   * \param value is the value string or a parameter for it (starts with '$').
+   */
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
 };
 
 //-------------------------------------------------------------------------
