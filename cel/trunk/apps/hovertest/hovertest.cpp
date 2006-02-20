@@ -55,7 +55,7 @@
 #include "ivideo/material.h"
 #include "ivideo/fontserv.h"
 #include "igraphic/imageio.h"
-#include "igeom/objmodel.h"
+#include "imesh/objmodel.h"
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
