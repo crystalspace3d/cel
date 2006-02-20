@@ -843,7 +843,7 @@ iCelEntity* celPlLayer::FindAttachedEntity (iObject* object)
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csBox3& box)
+	const csBox3& box, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -852,9 +852,12 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   while (objit->HasNext ())
   {
     iMeshWrapper* m = objit->Next ();
-    bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-    if (invisible)
-      continue;
+    if (!do_invisible)
+    {
+      bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
+      if (invisible)
+        continue;
+    }
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {
@@ -865,7 +868,7 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
-	const csVector3& pos, float radius)
+	const csVector3& pos, float radius, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?
   celEntityList* list = new celEntityList ();
@@ -874,9 +877,12 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
   while (objit->HasNext ())
   {
     iMeshWrapper* m = objit->Next ();
-    bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
-    if (invisible)
-      continue;
+    if (!do_invisible)
+    {
+      bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
+      if (invisible)
+        continue;
+    }
     iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
     if (ent)
     {

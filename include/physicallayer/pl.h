@@ -245,16 +245,18 @@ struct iCelPlLayer : public iBase
   /**
    * Find all entities that are within a certain radius of
    * a given position. This uses the attached entities from above.
+   * \param do_invisible if true then also return invisible entities.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius) = 0;
+  	const csVector3& pos, float radius, bool do_invisible = false) = 0;
 
   /**
    * Find all entities that are in a given box.
    * This uses the attached entities from above.
+   * \param do_invisible if true then also return invisible entities.
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csBox3& box) = 0;
+  	const csBox3& box, bool do_invisible = false) = 0;
 
   /**
    * Given a position on screen find the nearest entity to the camera.
