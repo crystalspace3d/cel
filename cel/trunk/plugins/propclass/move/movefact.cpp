@@ -50,7 +50,7 @@
 #include "ivaria/collider.h"
 #include "csgeom/polymesh.h"
 #include "igeom/polymesh.h"
-#include "igeom/objmodel.h"
+#include "imesh/objmodel.h"
 #include "imesh/object.h"
 
 //---------------------------------------------------------------------------
@@ -592,7 +592,7 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
     databuf->Add (f->force);
     databuf->Add (f->time_remaining);
   }
-  
+
   return csPtr<iCelDataBuffer> (databuf);
 }
 
