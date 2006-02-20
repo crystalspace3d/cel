@@ -2,4 +2,5 @@ SubDir TOP plugins tools quests ;
 
 Plugin mgr_quests : [ Wildcard *.cpp *.h ] ;
 ExternalLibs mgr_quests : CRYSTAL ;
+LinkWith mgr_quests : celtool ;
 
