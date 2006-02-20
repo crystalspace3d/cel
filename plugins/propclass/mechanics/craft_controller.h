@@ -79,6 +79,7 @@ public:
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
+  virtual void SetRedirectVelocityRatio (float rdvr) { redirect_vel_ratio = rdvr; }
 
   virtual void ThrustOn () { thrust_on = true; }
   virtual void ThrustOff () { thrust_on = false; }
@@ -87,72 +88,76 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
 
-    virtual void StartTurnLeft()
+    virtual void StartTurnLeft ()
     {
-      scfParent->StartTurnLeft();
+      scfParent->StartTurnLeft ();
     }
-    virtual void StopTurnLeft()
+    virtual void StopTurnLeft ()
     {
-      scfParent->StopTurnLeft();
+      scfParent->StopTurnLeft ();
     }
-    virtual void StartTurnRight()
+    virtual void StartTurnRight ()
     {
-      scfParent->StartTurnRight();
+      scfParent->StartTurnRight ();
     }
-    virtual void StopTurnRight()
+    virtual void StopTurnRight ()
     {
-      scfParent->StopTurnRight();
-    }
-
-    virtual void StartTurnUp()
-    {
-      scfParent->StartTurnUp();
-    }
-    virtual void StopTurnUp()
-    {
-      scfParent->StopTurnUp();
-    }
-    virtual void StartTurnDown()
-    {
-      scfParent->StartTurnDown();
-    }
-    virtual void StopTurnDown()
-    {
-      scfParent->StopTurnDown();
+      scfParent->StopTurnRight ();
     }
 
-    virtual void SetAccTurn(float tacc)
+    virtual void StartTurnUp ()
     {
-      scfParent->SetAccTurn(tacc);
+      scfParent->StartTurnUp ();
     }
-    virtual void SetAccPitch(float uacc)
+    virtual void StopTurnUp ()
     {
-      scfParent->SetAccPitch(uacc);
+      scfParent->StopTurnUp ();
     }
-    virtual void SetMaxTurn(float turn)
+    virtual void StartTurnDown ()
     {
-      scfParent->SetMaxTurn(turn);
+      scfParent->StartTurnDown ();
     }
-    virtual void SetMaxPitch(float mud)
+    virtual void StopTurnDown ()
     {
-      scfParent->SetMaxPitch(mud);
-    }
-    virtual void SetThrustForce(float tf)
-    {
-      scfParent->SetThrustForce(tf);
-    }
-    virtual void SetTopSpeed(float tspeed)
-    {
-      scfParent->SetTopSpeed(tspeed);
+      scfParent->StopTurnDown ();
     }
 
-    virtual void ThrustOn()
+    virtual void SetAccTurn (float tacc)
     {
-      scfParent->ThrustOn();
+      scfParent->SetAccTurn (tacc);
     }
-    virtual void ThrustOff()
+    virtual void SetAccPitch (float uacc)
     {
-      scfParent->ThrustOff();
+      scfParent->SetAccPitch (uacc);
+    }
+    virtual void SetMaxTurn (float turn)
+    {
+      scfParent->SetMaxTurn (turn);
+    }
+    virtual void SetMaxPitch (float mud)
+    {
+      scfParent->SetMaxPitch (mud);
+    }
+    virtual void SetThrustForce (float tf)
+    {
+      scfParent->SetThrustForce (tf);
+    }
+    virtual void SetTopSpeed (float tspeed)
+    {
+      scfParent->SetTopSpeed (tspeed);
+    }
+    virtual void SetRedirectVelocityRatio (float rdvr)
+    {
+      scfParent->SetRedirectVelocityRatio (rdvr);
+    }
+
+    virtual void ThrustOn ()
+    {
+      scfParent->ThrustOn ();
+    }
+    virtual void ThrustOff ()
+    {
+      scfParent->ThrustOff ();
     }
   } scfiPcCraftController;
 
@@ -177,6 +182,8 @@ private:
 
   // airbrake variables
   float speed_ratio_change, dangle;
+
+  float redirect_vel_ratio;
 };
 
 #endif
