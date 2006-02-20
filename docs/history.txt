@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  invisible entities).
 	- Genjix added some experimental freefly code to pchover.
 	  Disabled by default.
+	- Genjix changed the igeom/objectmesh.h include's to imesh
 19-Feb-2006
 	- Jorrit extended the message reward in the quest manager
 	  so that it can now also send parameters.
