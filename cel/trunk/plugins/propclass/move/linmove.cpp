@@ -52,7 +52,7 @@
 #include <imesh/thing.h>
 #include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
-#include <igeom/objmodel.h>
+#include <imesh/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
 #include <csgeom/math3d.h>
