@@ -150,9 +150,9 @@ public:
   virtual void UnattachEntity (iObject* object, iCelEntity* entity);
   virtual iCelEntity* FindAttachedEntity (iObject* object);
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csVector3& pos, float radius);
+  	const csVector3& pos, float radius, bool do_invisible = false);
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
-  	const csBox3& box);
+  	const csBox3& box, bool do_invisible = false);
   virtual iCelEntity* GetHitEntity (iCamera* camera, int x, int y);
   virtual csPtr<iCelEntityList> CreateEmptyEntityList ();
   virtual iCelEntityTracker* CreateEntityTracker (const char* name);
