@@ -48,7 +48,7 @@
 #include <imesh/terrain.h>
 #include <csgeom/polymesh.h>
 #include <igeom/polymesh.h>
-#include <igeom/objmodel.h>
+#include <imesh/objmodel.h>
 
 //CEL includes
 #include "physicallayer/pl.h"
