@@ -99,6 +99,10 @@ struct iPcCraftController : public virtual iBase
    * Above this speed the thruster will not work.
    */
   virtual void SetTopSpeed(float tspeed) = 0;
+  /**
+   * Do Not forget to document!
+   */
+  virtual void SetRedirectVelocityRatio (float rdvr) = 0;
 
   /**
    * Turn on thruster

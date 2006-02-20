@@ -67,6 +67,8 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   thrust_on = false;
   thrust = 10.0f;
   topspeed = 20.0f;
+
+  redirect_vel_ratio = 0.0;
 }
 
 celPcCraftController::~celPcCraftController ()
@@ -129,6 +131,14 @@ void celPcCraftController::UpdateBody ()
     angular_supressant /= 0.1f;
 
   ship_mech->SetAngularVelocity(ship_mech->LocalToWorld(turning) + angular_supressant);
+
+  // normalize velocity vector
+  if (redirect_vel_ratio > 0.0)
+  {
+    float speed = ship_mech->GetLinearVelocity ().Norm ();
+    ship_mech->SetLinearVelocity ((1.0 - redirect_vel_ratio) * ship_mech->GetLinearVelocity () +
+        redirect_vel_ratio * ship_mech->LocalToWorld (csVector3 (0,0,-speed)));
+  }
 
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
