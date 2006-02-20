@@ -41,7 +41,9 @@ struct iBillboard;
  * 'cel.property.' to get the ID of the property:
  * <ul>
  * <li>name (string, read/write): name of the billboard.
- * <li>materialname (string, read/write): name of the material.
+ * <li>materialname (string, read/write): name of the material. Warning!
+ *     It is important to make sure the materials using the billboard
+ *     have the <keepimage/> flag set!
  * <li>materialnamefast (string, read/write): name of the material (faster
  *     way to set).
  * <li>clickable (bool, read/write): clickable yes or no.

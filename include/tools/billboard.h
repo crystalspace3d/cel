@@ -138,6 +138,8 @@ struct iBillboard : public iBase
 
   /**
    * Set material for this billboard. Returns false on failure.
+   * Important! Make sure that the material uses the <keepimage/>
+   * flag! The billboard manager depends on this.
    */
   virtual bool SetMaterialName (const char* matname) = 0;
 
