@@ -5,7 +5,7 @@ The history order is reversed so that new features are at the top.
 
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
-	- Jorrit added a 'no_invisible' parameter to
+	- Jorrit added a 'do_invisible' parameter to
 	  iCelPlLayer->FindNearbyEntities() so that you can also use it to
 	  find invisible entities (by default it will still ignore
 	  invisible entities).
