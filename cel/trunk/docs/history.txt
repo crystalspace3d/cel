@@ -18,6 +18,18 @@ The history order is reversed so that new features are at the top.
 	      those passed on commandline. Also explicitly set ship's mech
 	      body position at the first start position found in map since
 	      iPcZoneManager->PointMesh() seems not sufficient.
+	- Jorrit added a new feature to entity templates. You can now
+	  specify messages to be sent to the behaviour layer after the
+	  entity is created and the property classes are created. The
+	  entitytpl addon also supports this new feature. You can use
+	  it as follows:
+	      <call event="myhandler">
+	          <par name="par1" string="test" />
+	          <par name="par2" long="31415" />
+	      </call>
+	  This is especially handy in combination with the XML behaviour
+	  layer. This new 'call' syntax currently only works for entity
+	  templates. Not yet for entities themselves.
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
 	- Jorrit added a 'do_invisible' parameter to

@@ -35,6 +35,12 @@ struct ccfPropAct
   csRef<iCelParameterBlock> params;
 };
 
+struct ccfMessage
+{
+  csString msgid;
+  csRef<iCelParameterBlock> params;
+};
+
 class celPropertyClassTemplate : public iCelPropertyClassTemplate
 {
 private:
@@ -83,10 +89,13 @@ class celEntityTemplate : public csObject
 private:
   csRefArray<celPropertyClassTemplate> propclasses;
   csString layer, behaviour;
+  csArray<ccfMessage> messages;
 
 public:
   celEntityTemplate ();
   virtual ~celEntityTemplate ();
+
+  const csArray<ccfMessage>& GetMessages () const { return messages; }
 
   iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
   void SetBehaviour (const char* layer, const char* behaviour)
@@ -94,6 +103,7 @@ public:
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
+  void AddMessage (const char* msgid, iCelParameterBlock* params);
   const char* GetLayer () const { return layer; }
   const char* GetBehaviour () const { return behaviour; }
   const csRefArray<celPropertyClassTemplate> GetPropClasses () const
@@ -121,6 +131,10 @@ public:
     virtual void SetBehaviour (const char* layer, const char* behaviour)
     {
       scfParent->SetBehaviour (layer, behaviour);
+    }
+    virtual void AddMessage (const char* msgid, iCelParameterBlock* params)
+    {
+      scfParent->AddMessage (msgid, params);
     }
   } scfiCelEntityTemplate;
   friend struct CelEntityTemplate;

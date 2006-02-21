@@ -595,6 +595,17 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
   }
 
+  if (ent->GetBehaviour ())
+  {
+    const csArray<ccfMessage>& messages = cfact->GetMessages ();
+    for (i = 0 ; i < messages.Length () ; i++)
+    {
+      const ccfMessage& msg = messages[i];
+      celData ret;
+      ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, msg.params);
+    }
+  }
+
   return ent;
 }
 
