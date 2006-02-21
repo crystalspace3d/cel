@@ -161,5 +161,5 @@ STATICPLUGIN.mgr_billboard.LFLAGS.release = libcel_staticplugins.lib libcrystals
 STATICPLUGINS.AVAILABLE += mgr_quests ;
 STATICPLUGIN.mgr_quests.CFLAGS.debug =  ;
 STATICPLUGIN.mgr_quests.CFLAGS.release =  ;
-STATICPLUGIN.mgr_quests.LFLAGS.debug = libcel_staticplugins_d.lib libcrystalspace_d.lib ;
-STATICPLUGIN.mgr_quests.LFLAGS.release = libcel_staticplugins.lib libcrystalspace.lib ;
+STATICPLUGIN.mgr_quests.LFLAGS.debug = libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib ;
+STATICPLUGIN.mgr_quests.LFLAGS.release = libcel_staticplugins.lib libceltool.lib libcrystalspace.lib ;
