@@ -48,6 +48,7 @@
 #include "imesh/thing.h"
 #include "imesh/sprite3d.h"
 #include "imesh/object.h"
+#include "ivaria/dynamics.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/graph2d.h"
 #include "ivideo/txtmgr.h"
@@ -240,8 +241,8 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
 	"pcmesh",
 	"pcdefaultcamera",
 	"pcmechobject",
-	//"pchover",
-	//"pccraft",
+	"pchover",
+	"pccraft",
 	(void*)0);
   if (!entity_cam) return 0;
 
@@ -291,12 +292,14 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pcmechobject->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
   pcmechobject->SetMass (1.1);
   pcmechobject->SetDensity (3.0);
+  // explicitly setting body position seems to be mandatory
+  pcmechobject->GetBody ()->SetPosition (pos);
 
-  /*csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
+  csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
   pchover->SetStabiliserFunction (new xdShipUpthrusterFunction ());
-  pchover->SetAngularCorrectionStrength (10.0);
+  pchover->SetAngularCorrectionStrength (0.5);
   pchover->SetAngularCutoffHeight (8.0);
-  pchover->SetAngularBeamOffset (0.1);
+  pchover->SetAngularBeamOffset (0.5);
 
   // i need to get this working - not a priority right now
   //pchover->SetWorld ("world");
@@ -304,13 +307,14 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   csRef<iPcMesh> wmesh = CEL_QUERY_PROPCLASS_ENT (game, iPcMesh);
   pchover->SetWorldMesh (wmesh);
 
-  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcCraftController);
+  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (entity_cam,
+        iPcCraftController);
   pccraft->SetAccTurn (0.4);
   pccraft->SetMaxTurn (1.5);
   pccraft->SetAccPitch (0.4);
   pccraft->SetMaxPitch (0.5);
   pccraft->SetThrustForce (10.0);
-  pccraft->SetTopSpeed (20.0);*/
+  pccraft->SetTopSpeed (20.0);
 
   return csPtr<iCelEntity> (entity_cam);
 }
@@ -343,7 +347,7 @@ bool HoverTest::CreateRoom ()
   else
   {
     path = "/cellib/track4";
-    file = "world";
+    file = "level.xml";
   }
 
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
@@ -354,15 +358,15 @@ bool HoverTest::CreateRoom ()
   csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcZoneManager);
   pczonemgr->SetLoadingMode (CEL_ZONE_NORMAL);
-  if (!pczonemgr->Load ("/cellib/track4", "world"))
+  if (!pczonemgr->Load (path.GetData (), file.GetData ()))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
   scfString regionname, startname;
-  //pczonemgr->GetLastStartLocation (&regionname, &startname);
-  regionname = "main";
-  startname = "Camera";
-  //printf("%s %s\n",(const char*)regionname,(const char*)startname);
+  pczonemgr->GetLastStartLocation (&regionname, &startname);
+  //regionname = "main";
+  //startname = "Camera";
+  printf("Start at: %s %s\n",(const char*)regionname,(const char*)startname);
 
   csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
   	iPcMechanicsSystem);
@@ -370,7 +374,7 @@ bool HoverTest::CreateRoom ()
   pcmechsys->SetStepTime (0.02f);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcMesh);
-  pcmesh->SetPath ("/cellib/track4");
+  pcmesh->SetPath (path.GetData ());
   if (!pcmesh->SetMesh("TerrainFact", "world"))
     return ReportError("could not load TerrainFact mesh factory!");
 
@@ -379,8 +383,13 @@ bool HoverTest::CreateRoom ()
   pcmechobj->AttachColliderMesh();
   pcmechobj->MakeStatic(true);
 
+  iCameraPosition* campos;
+  campos = engine->GetCameraPositions ()->Get (0);
+  printf("campos %f %f %f\n", campos->GetPosition ().x,
+        campos->GetPosition ().y, campos->GetPosition ().z);
+
   game = entity_room;
-  entity_dummy = CreateDynActor ("dyn", "TerrainFact", csVector3 (0,5.0f,1.0f));
+  entity_dummy = CreateDynActor ("dyn", "TerrainFact", campos->GetPosition ());
   if (!entity_dummy) return false;
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
