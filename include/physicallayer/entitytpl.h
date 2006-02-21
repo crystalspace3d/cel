@@ -71,6 +71,13 @@ struct iCelEntityTemplate : public iBase
    * \param behaviour is the name of the behaviour.
    */
   virtual void SetBehaviour (const char* layer, const char* behaviour) = 0;
+
+  /**
+   * Add a message to be sent to the created behaviour. The parameters
+   * here support CEL_DATA_PARAMETER. Note that all messages will be sent
+   * after all properties and property classes are created.
+   */
+  virtual void AddMessage (const char* msgid, iCelParameterBlock* params) = 0;
 };
 
 SCF_VERSION (iCelPropertyClassTemplate, 0, 0, 1);

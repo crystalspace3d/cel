@@ -53,8 +53,8 @@ ccfPropAct& celPropertyClassTemplate::FindCreate (csStringID id)
   return properties[i];
 }
 
-void celPropertyClassTemplate::SetPropertyVariable (csStringID propertyID, celDataType type,
-  	const char* varname)
+void celPropertyClassTemplate::SetPropertyVariable (csStringID propertyID,
+    celDataType type, const char* varname)
 {
   FindCreate (propertyID).data.SetParameter (varname, type);
 }
@@ -142,6 +142,14 @@ iCelPropertyClassTemplate* celEntityTemplate::CreatePropertyClassTemplate ()
   propclasses.Push (f);
   f->DecRef ();
   return f;
+}
+
+void celEntityTemplate::AddMessage (const char* msgid,
+    iCelParameterBlock* params)
+{
+  size_t i = messages.Push (ccfMessage ());
+  messages[i].msgid = msgid;
+  messages[i].params = params;
 }
 
 //---------------------------------------------------------------------------
