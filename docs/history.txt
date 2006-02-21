@@ -11,6 +11,13 @@ The history order is reversed so that new features are at the top.
 	  some property classes. So now this function will first check
 	  if the property class already exists.
 	- Genjix disabled turning decceleration.
+	- Vincent made the following changes:
+	    - Removed track4/ subdirectory from track4.zip, and added
+	      a level.xml file.
+	    - Fixed hovertest so that it correctly loads default track and
+	      those passed on commandline. Also explicitly set ship's mech
+	      body position at the first start position found in map since
+	      iPcMesh->PointMesh() seems not sufficient.
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
 	- Jorrit added a 'do_invisible' parameter to
