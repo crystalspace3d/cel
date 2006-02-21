@@ -117,12 +117,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#1b643503028bbff6a8f6f85e36572656">FindEntityTracker</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a tracker by name.  <a href="#1b643503028bbff6a8f6f85e36572656"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#998a69fd26bb3d1e28265e0212a1bde1">FindNearbyEntities</a> (iSector *sector, const csBox3 &amp;box)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#86824f68f537d12621668f3f0b7747ea">FindNearbyEntities</a> (iSector *sector, const csBox3 &amp;box, bool do_invisible=false)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are in a given box.  <a href="#998a69fd26bb3d1e28265e0212a1bde1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#70813b1b7a4ef68a21f3d57c476a0b09">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;pos, float radius)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are in a given box.  <a href="#86824f68f537d12621668f3f0b7747ea"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#b8fea33a9d9a08479bd303fd7633a634">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;pos, float radius, bool do_invisible=false)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are within a certain radius of a given position.  <a href="#70813b1b7a4ef68a21f3d57c476a0b09"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are within a certain radius of a given position.  <a href="#b8fea33a9d9a08479bd303fd7633a634"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#ce043764d8d16e99f9399588b083a885">FindPropertyClassFactory</a> (const char *name) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a property class factory by name.  <a href="#ce043764d8d16e99f9399588b083a885"></a><br></td></tr>
@@ -1165,7 +1165,7 @@ Find a tracker by name.
     </td>
   </tr>
 </table>
-<a class="anchor" name="998a69fd26bb3d1e28265e0212a1bde1"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="998a69fd26bb3d1e28265e0212a1bde1" args="(iSector *sector, const csBox3 &amp;box)=0" --><p>
+<a class="anchor" name="86824f68f537d12621668f3f0b7747ea"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="86824f68f537d12621668f3f0b7747ea" args="(iSector *sector, const csBox3 &amp;box, bool do_invisible=false)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1180,7 +1180,13 @@ Find a tracker by name.
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
           <td class="md" nowrap>const csBox3 &amp;&nbsp;</td>
-          <td class="mdname" nowrap> <em>box</em></td>
+          <td class="mdname" nowrap> <em>box</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>do_invisible</em> = <code>false</code></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -1201,10 +1207,15 @@ Find a tracker by name.
 <p>
 Find all entities that are in a given box. 
 <p>
-This uses the attached entities from above.     </td>
+This uses the attached entities from above. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>do_invisible</em>&nbsp;</td><td>if true then also return invisible entities. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
-<a class="anchor" name="70813b1b7a4ef68a21f3d57c476a0b09"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="70813b1b7a4ef68a21f3d57c476a0b09" args="(iSector *sector, const csVector3 &amp;pos, float radius)=0" --><p>
+<a class="anchor" name="b8fea33a9d9a08479bd303fd7633a634"></a><!-- doxytag: member="iCelPlLayer::FindNearbyEntities" ref="b8fea33a9d9a08479bd303fd7633a634" args="(iSector *sector, const csVector3 &amp;pos, float radius, bool do_invisible=false)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -1225,7 +1236,13 @@ This uses the attached entities from above.     </td>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
           <td class="md" nowrap>float&nbsp;</td>
-          <td class="mdname" nowrap> <em>radius</em></td>
+          <td class="mdname" nowrap> <em>radius</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>bool&nbsp;</td>
+          <td class="mdname" nowrap> <em>do_invisible</em> = <code>false</code></td>
         </tr>
         <tr>
           <td class="md"></td>
@@ -1246,7 +1263,12 @@ This uses the attached entities from above.     </td>
 <p>
 Find all entities that are within a certain radius of a given position. 
 <p>
-This uses the attached entities from above.     </td>
+This uses the attached entities from above. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>do_invisible</em>&nbsp;</td><td>if true then also return invisible entities. </td></tr>
+  </table>
+</dl>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="ce043764d8d16e99f9399588b083a885"></a><!-- doxytag: member="iCelPlLayer::FindPropertyClassFactory" ref="ce043764d8d16e99f9399588b083a885" args="(const char *name) const =0" --><p>
