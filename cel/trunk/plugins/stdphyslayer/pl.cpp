@@ -455,7 +455,9 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   {
     celPropertyClassTemplate* pcc = pcs[i];
     const char* pcname = pcc->GetName ();
-    iCelPropertyClass* pc = CreatePropertyClass (ent, pcname);
+    iCelPropertyClass* pc = ent->GetPropertyClassList ()->FindByNameAndTag (
+    	pcname, 0);
+    if (!pc) pc = CreatePropertyClass (ent, pcname);
     if (!pc)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
