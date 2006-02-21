@@ -17,7 +17,7 @@ The history order is reversed so that new features are at the top.
 	    - Fixed hovertest so that it correctly loads default track and
 	      those passed on commandline. Also explicitly set ship's mech
 	      body position at the first start position found in map since
-	      iPcMesh->PointMesh() seems not sufficient.
+	      iPcZoneManager->PointMesh() seems not sufficient.
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
 	- Jorrit added a 'do_invisible' parameter to
