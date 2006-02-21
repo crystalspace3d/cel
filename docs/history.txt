@@ -4,6 +4,12 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 21-Feb-2006
+	- Jorrit fixed a bug in the iCelPlLayer->CreateEntity() version
+	  that creates entities from templates. It would always create
+	  the property classes unconditionally but that wouldn't work
+	  well in case the constructor of the behaviour already created
+	  some property classes. So now this function will first check
+	  if the property class already exists.
 	- Genjix disabled turning decceleration.
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
