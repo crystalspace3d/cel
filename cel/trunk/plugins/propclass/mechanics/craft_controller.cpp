@@ -100,7 +100,8 @@ void celPcCraftController::DoTurningCalc (bool isturning, float &turn, float acc
   if(isturning)
     turn += acc;
   else
-    turn -= acc;
+    //turn -= acc;
+    turn = 0.0f;
 
   if(turn > max)
     turn = max;
