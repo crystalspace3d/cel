@@ -46,8 +46,6 @@
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
 
-#include "celtool/stdparams.h"
-
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -323,21 +321,20 @@ iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
   return f ? &(f->scfiCelEntityTemplate) : 0;
 }
 
-bool celPlLayer::PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
-  	const celEntityTemplateParams& params,
-	iCelEntity* ent, iCelEntityTemplate* factory)
+csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
+    iCelParameterBlock* act_params, const celEntityTemplateParams& params)
 {
   csRef<celVariableParameterBlock> converted_params;
-  if (act.params)
+  if (act_params)
   {
     converted_params.AttachNew (new celVariableParameterBlock ());
     size_t k;
-    for (k = 0 ; k < act.params->GetParameterCount () ; k++)
+    for (k = 0 ; k < act_params->GetParameterCount () ; k++)
     {
       csStringID id;
       celDataType t;
-      const char* parname = act.params->GetParameter (k, id, t);
-      const celData* par = act.params->GetParameter (id);
+      const char* parname = act_params->GetParameter (k, id, t);
+      const celData* par = act_params->GetParameter (id);
       converted_params->SetParameterDef (k, id, parname);
       if (t == CEL_DATA_PARAMETER)
       {
@@ -404,6 +401,16 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass
       }
     }
   }
+  return converted_params;
+}
+
+bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
+    	iCelPropertyClass* pc,
+  	const celEntityTemplateParams& params,
+	iCelEntity* ent, iCelEntityTemplate* factory)
+{
+  csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
+    act.params, params);
   if (!pc->PerformAction (act.id, converted_params))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -602,7 +609,9 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     {
       const ccfMessage& msg = messages[i];
       celData ret;
-      ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, msg.params);
+      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
+	msg.params, params);
+      ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
   }
 

@@ -30,6 +30,8 @@ The history order is reversed so that new features are at the top.
 	  This is especially handy in combination with the XML behaviour
 	  layer. This new 'call' syntax currently only works for entity
 	  templates. Not yet for entities themselves.
+	- Jorrit implemented proper parameter support for 'call' in
+	  entity templates.
 20-Feb-2006
 	- Jorrit fixed the quest manager so that it links with celtool.
 	- Jorrit added a 'do_invisible' parameter to

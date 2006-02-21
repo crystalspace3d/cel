@@ -30,6 +30,8 @@
 #include "physicallayer/pl.h"
 #include "plugins/stdphyslayer/numreg.h"
 
+#include "celtool/stdparams.h"
+
 struct iObjectRegistry;
 struct iEngine;
 struct iVirtualClock;
@@ -93,6 +95,9 @@ private:
 
   // List of trackers.
   csRefArray<iCelEntityTracker> trackers;
+
+  csRef<celVariableParameterBlock> ConvertTemplateParams (
+    iCelParameterBlock* act_params, const celEntityTemplateParams& params);
 
   // Perform an action from a template on a real property class.
   bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
