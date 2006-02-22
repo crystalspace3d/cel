@@ -85,6 +85,9 @@ private:
   static csStringID action_setuptriggerbox;
   static csStringID id_minbox;
   static csStringID id_maxbox;
+  static csStringID action_setuptriggerbeam;
+  static csStringID id_start;
+  static csStringID id_end;
   static csStringID action_setuptriggerabovemesh;
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
@@ -96,17 +99,24 @@ private:
   // Box to use for checking.
   iSector* box_sector;
   csBox3 box_area;
+  // Beam to use for checking.
+  iSector* beam_sector;
+  csVector3 beam_start, beam_end;
   // Test if we're directly above some mesh.
   csWeakRef<iPcMesh> above_mesh;
   iCollider* above_collider;
   float above_maxdist;
+
+  // Monitor invisible entities too.
+  bool monitor_invisible;
 
   // For properties.
   enum propids
   {
     propid_delay = 0,
     propid_jitter,
-    propid_monitor
+    propid_monitor,
+    propid_invisible
   };
   static Property* properties;
   static size_t propertycount;
@@ -138,6 +148,8 @@ public:
   // for the properties.
   virtual bool SetProperty (csStringID, long);
   virtual long GetPropertyLong (csStringID);
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool GetPropertyBool (csStringID);
   virtual bool SetProperty (csStringID, const char*);
   virtual const char* GetPropertyString (csStringID);
 
@@ -149,10 +161,13 @@ public:
   void SetupTriggerSphere (iSector* sector,
   	const char* center_name, float radius);
   void SetupTriggerBox (iSector* sector, const csBox3& box);
+  void SetupTriggerBeam (iSector* sector, const csVector3& start,
+  	const csVector3& end);
   void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
   void MonitorEntity (const char* entityname);
   const char* GetMonitorEntity () const { return monitor_entity; }
   void SetMonitorDelay (csTicks delay, csTicks jitter);
+  void EnableMonitorInvisible (bool en) { monitor_invisible = en; }
   void EnableMessagesToSelf (bool en) { send_to_self = en; }
   void EnableMessagesToOthers (bool en) { send_to_others = en; }
   void EnableTrigger (bool en);
@@ -194,6 +209,11 @@ public:
     {
       scfParent->SetupTriggerBox (sector, box);
     }
+    virtual void SetupTriggerBeam (iSector* sector, const csVector3& start,
+    	const csVector3& end)
+    {
+      scfParent->SetupTriggerBeam (sector, start, end);
+    }
     virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance)
     {
       scfParent->SetupTriggerAboveMesh (mesh, maxdistance);
@@ -209,6 +229,10 @@ public:
     virtual void SetMonitorDelay (csTicks delay, csTicks jitter)
     {
       scfParent->SetMonitorDelay (delay, jitter);
+    }
+    virtual void EnableMonitorInvisible (bool en)
+    {
+      scfParent->EnableMonitorInvisible (en);
     }
     virtual void EnableMessagesToSelf (bool en)
     {

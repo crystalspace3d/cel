@@ -13,6 +13,13 @@ The history order is reversed so that new features are at the top.
 	  behaviour is now created after the property classes. That way
 	  the constructor of the behaviour can already use the information
 	  from those property classes.
+	- Jorrit added a version of iCelPlLayer->FindNearbyEntities() that
+	  returns entities that are on a beam.
+	- Jorrit enhanced the pctrigger property class with the ability
+	  to check on beams (in addition to box and sphere).
+	- Jorrit added an 'invisible' property for pctrigger so that it
+	  can also check on invisible objects in case monitoring is
+	  not on an individual object.
 21-Feb-2006
 	- Jorrit fixed a bug in the iCelPlLayer->CreateEntity() version
 	  that creates entities from templates. It would always create
