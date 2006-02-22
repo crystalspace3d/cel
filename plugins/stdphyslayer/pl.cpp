@@ -902,6 +902,31 @@ csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 }
 
 csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
+	const csVector3& start, const csVector3& end, bool do_invisible)
+{
+  // @@@ Some kind of optimization to cache entity lists?
+  celEntityList* list = new celEntityList ();
+  csRef<iMeshWrapperIterator> objit = engine->GetNearbyMeshes (
+  	sector, start, end);
+  while (objit->HasNext ())
+  {
+    iMeshWrapper* m = objit->Next ();
+    if (!do_invisible)
+    {
+      bool invisible = m->GetFlags ().Check (CS_ENTITY_INVISIBLE);
+      if (invisible)
+        continue;
+    }
+    iCelEntity* ent = FindAttachedEntity (m->QueryObject ());
+    if (ent)
+    {
+      list->Add (ent);
+    }
+  }
+  return list;
+}
+
+csPtr<iCelEntityList> celPlLayer::FindNearbyEntities (iSector* sector,
 	const csVector3& pos, float radius, bool do_invisible)
 {
   // @@@ Some kind of optimization to cache entity lists?

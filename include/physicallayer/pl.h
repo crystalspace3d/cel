@@ -259,6 +259,15 @@ struct iCelPlLayer : public iBase
   	const csBox3& box, bool do_invisible = false) = 0;
 
   /**
+   * Find all entities that are intersected by a beam.
+   * This uses the attached entities from above.
+   * \param do_invisible if true then also return invisible entities.
+   */
+  virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
+  	const csVector3& start, const csVector3& end,
+	bool do_invisible = false) = 0;
+
+  /**
    * Given a position on screen find the nearest entity to the camera.
    * Returns 0 if no entity found. This function depends on the
    * attached entities.

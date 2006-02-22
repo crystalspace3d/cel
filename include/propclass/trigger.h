@@ -76,6 +76,8 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  *     and 'radius' (float).
  * <li>SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
  *     and 'maxbox' (vector3).
+ * <li>SetupTriggerBeam: parameters 'sector' (string), 'start' (vector3),
+ *     and 'end' (vector3).
  * <li>SetupTriggerAboveMesh: parameters 'entity' (string) and
  *     'maxdistance' (float),
  * </ul>
@@ -95,6 +97,7 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * <li>delay (long, read/write): update delay for checking trigger.
  * <li>jitter (long, read/write): random jitter added to update delay.
  * <li>monitor (string, read/write): name of entity to monitor.
+ * <li>insivible (bool, read/write): also check on invisible entities (default off).
  * </ul>
  */
 struct iPcTrigger : public iBase
@@ -128,6 +131,12 @@ struct iPcTrigger : public iBase
   virtual void SetupTriggerBox (iSector* sector, const csBox3& box) = 0;
 
   /**
+   * Setup a beam trigger zone.
+   */
+  virtual void SetupTriggerBeam (iSector* sector, const csVector3& start,
+  	const csVector3& end) = 0;
+
+  /**
    * Setup a trigger to fire if this mesh ends up above another mesh.
    * This works by tracing a beam down from the center of the mesh.
    */
@@ -156,6 +165,13 @@ struct iPcTrigger : public iBase
    * to 200/20 (i.e. roughly five times per second).
    */
   virtual void SetMonitorDelay (csTicks delay, csTicks jitter) = 0;
+
+  /**
+   * Enable monitoring on invisible entities. Default off.
+   * This option is only useful in case many entities are monitored
+   * (not only a single entity).
+   */
+  virtual void EnableMonitorInvisible (bool en) = 0;
 
   /**
    * Enable/disable sending messages to the entity containing
