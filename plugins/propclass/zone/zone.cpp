@@ -745,7 +745,7 @@ bool celPcZoneManager::Load (const char* path, const char* file)
 
   if (!buf)
     return Report (object_reg, "Error opening file '%s'!", file);
-  const char* error = doc->Parse (buf);
+  const char* error = doc->Parse (buf, true);
   if (error != 0)
     return Report (object_reg, "XML parse error for file '%s': %s!",
     	file, error);
