@@ -38,6 +38,7 @@ struct iCelPlLayer;
 struct iCelPropertyClass;
 struct iCelParameterBlock;
 struct iPcInventory;
+struct iPcCamera;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 class celVariableParameterBlock;
@@ -201,6 +202,7 @@ enum
   CEL_OPERATION_READFILE,	// A:-		S:S,S		OS:I
   CEL_OPERATION_WRITEFILE,	// A:-		S:S,S,I,I	OS:B
   CEL_OPERATION_REPORTERROR,	// A:-		S:S		OS:-
+  CEL_OPERATION_SELECTENTITY,	// A:-		S:I,I,F,S,S	OS:-
 
   CEL_OPERATION_STRSUB,		// A:-		S:S,I,I		OS:S
   CEL_OPERATION_STRIDX,		// A:-		S:S,S		OS:I
@@ -378,6 +380,8 @@ private:
   bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);
   void DumpCallStack (celBehaviourXml* behave);
   void DumpVariables (celBehaviourXml* behave);
+  void FindMouseTarget (iPcCamera* pccam, int screenx, int screeny,
+    float maxdist, csVector3& isect, iCelEntity*& selent);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);

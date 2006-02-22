@@ -22,6 +22,16 @@ The history order is reversed so that new features are at the top.
 	  not on an individual object.
 	- Jorrit changed the zone manager so that it calls the XML reader
 	  with the condense space option enabled.
+	- Jorrit added a new 'selectentity' XML operation to the XML
+	  scripting language. Works like this:
+	    <selectentity pc="pc(ent_player,pccamera)"
+	    	screenx="mousex()" screeny="mousey()"
+	    	maxdist="10" isectvar="isect" entvar="sel" />
+	  'isect' and 'sel' are variables that will be filled with the
+	  intersection point and selected entity respectively.
+	  If nothing was selected then 'sel' will be 0 and isect will be
+	  set to the end of the beam at the given distance (10 in above
+	  example).
 21-Feb-2006
 	- Jorrit fixed a bug in the iCelPlLayer->CreateEntity() version
 	  that creates entities from templates. It would always create
