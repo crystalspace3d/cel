@@ -9,6 +9,10 @@ The history order is reversed so that new features are at the top.
 	  allow calling the same action multiple times. Only the last
 	  one was remembered (i.e. calling Bind() multiple times
 	  didn't work).
+	- Jorrit changed entity creation from templates so that the
+	  behaviour is now created after the property classes. That way
+	  the constructor of the behaviour can already use the information
+	  from those property classes.
 21-Feb-2006
 	- Jorrit fixed a bug in the iCelPlLayer->CreateEntity() version
 	  that creates entities from templates. It would always create

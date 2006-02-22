@@ -453,8 +453,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
       return 0;
     }
   }
-  csRef<iCelEntity> ent = CreateEntity (name, bl, cfact->GetBehaviour (),
-      CEL_PROPCLASS_END);
+  csRef<iCelEntity> ent = CreateEntity (name, 0, 0, CEL_PROPCLASS_END);
 
   const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
   size_t i;
@@ -602,6 +601,19 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
   }
 
+  if (bl && cfact->GetBehaviour ())
+  {
+    iCelBehaviour* behave = bl->CreateBehaviour (ent, cfact->GetBehaviour ());
+    if (!behave)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.physicallayer",
+	"Error creating behaviour '%s' for entity '%s'!",
+	cfact->GetBehaviour (), name);
+      RemoveEntity (ent);
+      return 0;
+    }
+  }
   if (ent->GetBehaviour ())
   {
     const csArray<ccfMessage>& messages = cfact->GetMessages ();
@@ -609,8 +621,8 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     {
       const ccfMessage& msg = messages[i];
       celData ret;
-      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-	msg.params, params);
+      csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams
+      	(msg.params, params);
       ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
   }
