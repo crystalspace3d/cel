@@ -87,6 +87,7 @@ enum
   XMLTOKEN_VARIABLES,
   XMLTOKEN_TRACEON,
   XMLTOKEN_TRACEOFF,
+  XMLTOKEN_SELECTENTITY,
   XMLTOKEN_STOP,
   XMLTOKEN_RANDOMIZE,
   XMLTOKEN_QUIT,
@@ -207,6 +208,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("traceon", XMLTOKEN_TRACEON);
   xmltokens.Register ("traceoff", XMLTOKEN_TRACEOFF);
   xmltokens.Register ("callstack", XMLTOKEN_CALLSTACK);
+  xmltokens.Register ("selectentity", XMLTOKEN_SELECTENTITY);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
   xmltokens.Register ("randomize", XMLTOKEN_RANDOMIZE);
   xmltokens.Register ("quit", XMLTOKEN_QUIT);
@@ -327,6 +329,14 @@ bool celBlXml::ParseExpression (const csStringArray& local_vars,
       case CEL_DATA_STRING:
 	h->AddOperation (CEL_OPERATION_PUSHSTR);
 	h->GetArgument ().SetString (0, false);
+	break;
+      case CEL_DATA_LONG:
+	h->AddOperation (CEL_OPERATION_PUSH);
+	h->GetArgument ().SetInt32 (0);
+	break;
+      case CEL_DATA_FLOAT:
+	h->AddOperation (CEL_OPERATION_PUSH);
+	h->GetArgument ().SetFloat (0.0f);
 	break;
       case CEL_DATA_PCLASS:
 	h->AddOperation (CEL_OPERATION_PUSH);
@@ -1782,6 +1792,29 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    	? CEL_OPERATION_VARENT
 		: CEL_OPERATION_VAR);
 	  }
+	}
+	break;
+      case XMLTOKEN_SELECTENTITY:
+	{
+          if (!ParseExpression (local_vars, child, h, "pc",
+		"selectentity"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "screenx",
+		"selectentity"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "screeny",
+		"selectentity"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "maxdist",
+		"selectentity"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "isectvar",
+		"selectentity"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "entvar",
+		"selectentity"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_SELECTENTITY);
 	}
 	break;
       case XMLTOKEN_WHILE:

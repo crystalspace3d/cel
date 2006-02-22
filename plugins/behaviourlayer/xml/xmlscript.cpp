@@ -26,6 +26,9 @@
 #include "iutil/csinput.h"
 #include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
+#include "iengine/camera.h"
+#include "iengine/sector.h"
+#include "iengine/mesh.h"
 
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
@@ -44,6 +47,7 @@
 #include "propclass/prop.h"
 #include "propclass/billboard.h"
 #include "propclass/inv.h"
+#include "propclass/camera.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
 
@@ -1021,7 +1025,8 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id, celXmlArg& o
   return true;
 }
 
-static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props, const char* varname)
+static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props,
+    const char* varname)
 {
   switch (val.type)
   {
@@ -1078,7 +1083,8 @@ static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props, const ch
   return true;
 }
 
-static bool celData2prop (const celData& val, iPcProperties* props, const char* varname)
+static bool celData2prop (const celData& val, iPcProperties* props,
+    const char* varname)
 {
   switch (val.type)
   {
@@ -4065,32 +4071,102 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
 	  if (w)
 	  {
-	  	csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
+	    csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
 	  		behave->GetObjectRegistry (), iSndSysRenderer);
-		if (!renderer)
-	  	{
-	    	  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
-			    iPluginManager);
-	    	  renderer = CS_LOAD_PLUGIN (plugin_mgr,
-			    "crystalspace.sndsys.renderer.software", iSndSysRenderer);
-	    	  if (renderer)
-	    	  {
-		    behave->GetObjectRegistry ()->Register (renderer, "iSndSysRenderer");
-	    	  }
-	    	  else
-	    	  {
-		    return ReportError (behave, "Error! No sound renderer!");
-	    	  }
-	  	}
-		sound_source = renderer->CreateSource(w->GetStream());
-	  	sound_source->SetVolume (1); //XXX this should also be a parameter
-	  	sound_source->GetStream ()->ResetPosition ();
-		sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
-	  	sound_source->GetStream ()->Unpause ();
+	    if (!renderer)
+	    {
+	      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (
+		      behave->GetObjectRegistry (), iPluginManager);
+	      renderer = CS_LOAD_PLUGIN (plugin_mgr,
+		    "crystalspace.sndsys.renderer.software", iSndSysRenderer);
+	      if (renderer)
+	       behave->GetObjectRegistry ()->Register (renderer,
+			"iSndSysRenderer");
+	      else
+	        return ReportError (behave, "Error! No sound renderer!");
+	    }
+	    sound_source = renderer->CreateSource(w->GetStream());
+	    sound_source->SetVolume (1); //XXX this should also be a parameter
+	    sound_source->GetStream ()->ResetPosition ();
+	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
+	    sound_source->GetStream ()->Unpause ();
 	  }
 	}
         break;
+      case CEL_OPERATION_SELECTENTITY:
+        {
+	  CHECK_STACK(6)
+	  celXmlArg a_entvar = stack.Pop ();
+	  celXmlArg a_isectvar = stack.Pop ();
+	  celXmlArg a_maxdist = stack.Pop ();
+	  celXmlArg a_screeny = stack.Pop ();
+	  celXmlArg a_screenx = stack.Pop ();
+	  celXmlArg a_pc = stack.Pop ();
+	  DUMP_EXEC ((":%04d: selectentity pc=%s sx=%s sy=%s md=%s isectv=%s entv=%s\n",
+		i-1, A2S (a_pc), A2S (a_screenx), A2S (a_screeny),
+		A2S (a_maxdist), A2S (a_isectvar), A2S (a_entvar)));
+
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* entvarname = ArgToString (a_entvar);
+	  if (!entvarname)
+	    return ReportError (behave,
+		"Illegal variable name for 'selectentity'!");
+	  const char* isectvarname = ArgToString (a_isectvar);
+	  if (!isectvarname)
+	    return ReportError (behave,
+		"Illegal variable name for 'selectentity'!");
+
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc)
+	    return ReportError (behave,
+		"Illegal property class for 'selectentity'!");
+	  csRef<iPcCamera> pccam = scfQueryInterface<iPcCamera> (pc);
+	  if (!pccam)
+	    return ReportError (behave,
+		"Property class is not a pccamera for 'selectentity'!");
+	  int screenx = ArgToInt32 (a_screenx);
+	  int screeny = ArgToInt32 (a_screeny);
+	  float maxdist = ArgToFloat (a_maxdist);
+	  if (maxdist < 0.000001f) maxdist = 1000000000.0f;
+	  iCelEntity* selent;
+	  csVector3 isect;
+	  FindMouseTarget (pccam, screenx, screeny, maxdist, isect, selent);
+
+	  props->SetProperty (entvarname, selent);
+	  props->SetProperty (isectvarname, isect);
+	}
+	break;
     }
+  }
+}
+
+void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
+    int screenx, int screeny,
+    float maxdist, csVector3& isect, iCelEntity*& selent)
+{
+  iCamera* camera = pccam->GetCamera ();
+  csVector3 v;
+  // Setup perspective vertex, invert mouse Y axis.
+  csVector2 p (screenx, screeny * 2 - screeny);
+
+  camera->InvPerspective (p, maxdist, v);
+  csVector3 end = camera->GetTransform ().This2Other (v);
+
+  iSector* sector = camera->GetSector ();
+  CS_ASSERT (sector != 0);
+  csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
+  origin = origin + (end-origin) * 0.02;
+
+  iMeshWrapper* sel = sector->HitBeamPortals (origin, end, isect, 0);
+  if (sel == 0)
+  {
+    isect = end;
+    selent = 0;
+  }
+  else
+  {
+    selent = pl->FindAttachedEntity (sel->QueryObject ());
   }
 }
 
