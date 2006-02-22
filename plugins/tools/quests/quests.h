@@ -40,7 +40,13 @@ class celQuestFactory;
 class celQuest;
 
 //---------------------------------------------------------------------------
-
+struct parSpec
+{
+  celDataType type;
+  csStringID id;
+  csString name;
+  csString value;
+};
 /**
  * Sequence operation.
  */

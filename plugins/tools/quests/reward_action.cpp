@@ -34,11 +34,11 @@
 #include "physicallayer/propclas.h"
 
 #include "plugins/tools/quests/quests.h"
-#include "plugins/tools/quests/reward_message.h"
+#include "plugins/tools/quests/reward_action.h"
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_REWARDTYPE(Message)
+CEL_IMPLEMENT_REWARDTYPE(Action)
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -47,7 +47,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.message",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.action",
     	msg, arg);
   else
   {
@@ -62,21 +62,23 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMessageRewardFactory)
+SCF_IMPLEMENT_IBASE (celActionRewardFactory)
   SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iMessageQuestRewardFactory)
+  SCF_IMPLEMENTS_INTERFACE (iActionQuestRewardFactory)
 SCF_IMPLEMENT_IBASE_END
 
-celMessageRewardFactory::celMessageRewardFactory (
-	celMessageRewardType* type)
+celActionRewardFactory::celActionRewardFactory (
+	celActionRewardType* type)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celMessageRewardFactory::type = type;
+  celActionRewardFactory::type = type;
   entity_par = 0;
+  pcclass_par = 0;
+  tag_par = 0;
   id_par = 0;
 }
 
-celMessageRewardFactory::~celMessageRewardFactory ()
+celActionRewardFactory::~celActionRewardFactory ()
 {
   delete[] entity_par;
   delete[] id_par;
@@ -84,26 +86,33 @@ celMessageRewardFactory::~celMessageRewardFactory ()
   SCF_DESTRUCT_IBASE ();
 }
 
-csPtr<iQuestReward> celMessageRewardFactory::CreateReward (
+csPtr<iQuestReward> celActionRewardFactory::CreateReward (
     iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
-  celMessageReward* trig = new celMessageReward (type,
-  	params, entity_par, id_par, parameters);
+  celActionReward* trig = new celActionReward (type,
+  	params, entity_par, id_par, pcclass_par, tag_par, parameters);
   return trig;
 }
 
-bool celMessageRewardFactory::Load (iDocumentNode* node)
+bool celActionRewardFactory::Load (iDocumentNode* node)
 {
   delete[] entity_par; entity_par = 0;
   delete[] id_par; id_par = 0;
+  delete[] pcclass_par; entity_par = 0;
+  delete[] tag_par; id_par = 0;
   entity_par = csStrNew (node->GetAttributeValue ("entity"));
+  pcclass_par = csStrNew (node->GetAttributeValue ("pc"));
+  tag_par = csStrNew (node->GetAttributeValue ("tag"));
   id_par = csStrNew (node->GetAttributeValue ("id"));
   if (!entity_par)
     return Report (type->object_reg,
-      "'entity' attribute is missing for the message reward!");
+      "'entity' attribute is missing for the action reward!");
   if (!id_par)
     Report (type->object_reg,
-      "'id' attribute is missing for the message reward!");
+      "'id' attribute is missing for the action reward!");
+  if (!pcclass_par)
+    Report (type->object_reg,
+      "'pc' attribute is missing for the action reward!");
   csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
@@ -116,7 +125,7 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
       const char* name = child->GetAttributeValue ("name");
       if (!name)
         return Report (type->object_reg,
-          "Missing name attribute in a parameter for the message reward!");
+          "Missing name attribute in a parameter for the action reward!");
       csString fullname = "cel.parameter.";
       fullname += name;
       csStringID id = pl->FetchStringID (fullname);
@@ -157,18 +166,18 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
 	continue;
       }
       return Report (type->object_reg,
-        "Unknown parameter type for message reward!");
+        "Unknown parameter type for action reward!");
     }
     else
     {
       return Report (type->object_reg,
-        "Unexpected child '%s' in the message reward!", value);
+        "Unexpected child '%s' in the action reward!", value);
     }
   }
   return true;
 }
 
-void celMessageRewardFactory::SetEntityParameter (
+void celActionRewardFactory::SetEntityParameter (
 	const char* entity)
 {
   if (entity_par != entity)
@@ -178,7 +187,7 @@ void celMessageRewardFactory::SetEntityParameter (
   }
 }
 
-void celMessageRewardFactory::SetIDParameter (
+void celActionRewardFactory::SetIDParameter (
 	const char* id)
 {
   if (id_par == id) return;
@@ -186,7 +195,27 @@ void celMessageRewardFactory::SetIDParameter (
   id_par = csStrNew (id);
 }
 
-void celMessageRewardFactory::AddParameter (celDataType type,
+void celActionRewardFactory::SetPropertyClassParameter (
+	const char* propertyclass)
+{
+  if (pcclass_par != propertyclass)
+  {
+    delete[] pcclass_par;
+    pcclass_par = csStrNew (propertyclass);
+  }
+}
+
+void celActionRewardFactory::SetTagParameter (
+	const char* pctag)
+{
+  if (tag_par != pctag)
+  {
+    delete[] tag_par;
+    tag_par = csStrNew (pctag);
+  }
+}
+
+void celActionRewardFactory::AddParameter (celDataType type,
     csStringID id, const char* name, const char* value)
 {
   size_t idx = parameters.Push (parSpec ());
@@ -198,73 +227,77 @@ void celMessageRewardFactory::AddParameter (celDataType type,
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMessageReward)
+SCF_IMPLEMENT_IBASE (celActionReward)
   SCF_IMPLEMENTS_INTERFACE (iQuestReward)
 SCF_IMPLEMENT_IBASE_END
 
-celMessageReward::celMessageReward (
-	celMessageRewardType* type,
+celActionReward::celActionReward (
+	celActionRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
 	const char* id_par,
+	const char* pcclass_par,
+	const char* tag_par,
 	const csArray<parSpec>& parameters)
 {
   SCF_CONSTRUCT_IBASE (0);
-  celMessageReward::type = type;
+  celActionReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  pcclass = csStrNew (qm->ResolveParameter (params, pcclass_par));
+  tag = csStrNew (qm->ResolveParameter (params, tag_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   id = csStrNew (qm->ResolveParameter (params, id_par));
-  msg_params = new celVariableParameterBlock ();
+  act_params = new celVariableParameterBlock ();
   size_t i;
   for (i = 0 ; i < parameters.Length () ; i++)
   {
     csString v = qm->ResolveParameter (params, parameters[i].value);
-    msg_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
+    act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);
     switch (parameters[i].type)
     {
       case CEL_DATA_STRING:
-	msg_params->GetParameter (i).Set ((const char*)v);
+	act_params->GetParameter (i).Set ((const char*)v);
 	break;
       case CEL_DATA_LONG:
 	{
 	  long f;
 	  csScanStr (v, "%d", &f);
-	  msg_params->GetParameter (i).Set ((int32)f);
+	  act_params->GetParameter (i).Set ((int32)f);
 	}
 	break;
       case CEL_DATA_FLOAT:
 	{
 	  float f;
 	  csScanStr (v, "%f", &f);
-	  msg_params->GetParameter (i).Set (f);
+	  act_params->GetParameter (i).Set (f);
 	}
 	break;
       case CEL_DATA_BOOL:
 	{
 	  bool f;
 	  csScanStr (v, "%b", &f);
-	  msg_params->GetParameter (i).Set (f);
+	  act_params->GetParameter (i).Set (f);
 	}
 	break;
       case CEL_DATA_VECTOR2:
 	{
 	  csVector2 vec;
 	  csScanStr (v, "%f,%f", &vec.x, &vec.y);
-	  msg_params->GetParameter (i).Set (vec);
+	  act_params->GetParameter (i).Set (vec);
 	}
 	break;
       case CEL_DATA_VECTOR3:
 	{
 	  csVector3 vec;
 	  csScanStr (v, "%f,%f,%f", &vec.x, &vec.y, &vec.z);
-	  msg_params->GetParameter (i).Set (vec);
+	  act_params->GetParameter (i).Set (vec);
 	}
 	break;
       case CEL_DATA_COLOR:
 	{
 	  csColor vec;
 	  csScanStr (v, "%f,%f,%f", &vec.red, &vec.green, &vec.blue);
-	  msg_params->GetParameter (i).Set (vec);
+	  act_params->GetParameter (i).Set (vec);
 	}
 	break;
       default:
@@ -274,15 +307,17 @@ celMessageReward::celMessageReward (
   }
 }
 
-celMessageReward::~celMessageReward ()
+celActionReward::~celActionReward ()
 {
+  delete[] pcclass;
+  delete[] tag;
   delete[] entity;
   delete[] id;
-  delete msg_params;
+  delete act_params;
   SCF_DESTRUCT_IBASE ();
 }
 
-void celMessageReward::Reward ()
+void celActionReward::Reward ()
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   if (!ent)
@@ -290,13 +325,22 @@ void celMessageReward::Reward ()
     ent = pl->FindEntity (entity);
     if (!ent) return;
   }
-
-  iCelBehaviour* behave = ent->GetBehaviour ();
-  if (behave)
+  csRef<iCelPropertyClass> propertyclass;
+  propertyclass = ent->GetPropertyClassList()->FindByNameAndTag(pcclass,tag);
+  if (propertyclass)
   {
-    celData ret;
-    behave->SendMessage (id, 0, ret, msg_params);
+    csString fullname = "cel.action.";
+    fullname += id;
+    csStringID actionID = pl->FetchStringID(fullname);
+    if (actionID)
+    	propertyclass->PerformAction(actionID, act_params);
+    else
+        Report (type->object_reg,
+		"No action  'cel.action.%s' in the specified pc!", id);
   }
+  else
+    Report (type->object_reg,
+            "No propertyclass  '%s' in the specified entity!", pcclass);
 }
 
 //---------------------------------------------------------------------------

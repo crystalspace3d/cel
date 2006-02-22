@@ -17,8 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#ifndef __CEL_TOOLS_QUESTS_REWARD_MESSAGE__
-#define __CEL_TOOLS_QUESTS_REWARD_MESSAGE__
+#ifndef __CEL_TOOLS_QUESTS_REWARD_ACTION__
+#define __CEL_TOOLS_QUESTS_REWARD_ACTION__
 
 #include "csutil/util.h"
 #include "csutil/refarr.h"
@@ -36,29 +36,29 @@ struct iEvent;
 class celVariableParameterBlock;
 
 /**
- * A standard reward type that sends a message to an entity.
- * This reward type listens to the name 'cel.questreward.message'.
+ * A standard reward type that sends an action to an entity.
+ * This reward type listens to the name 'cel.questreward.action'.
  */
-CEL_DECLARE_REWARDTYPE(Message,"cel.questreward.message")
-
-
+CEL_DECLARE_REWARDTYPE(Action,"cel.questreward.action")
 
 /**
- * The 'message' reward factory.
+ * The 'action' reward factory.
  */
-class celMessageRewardFactory :
+class celActionRewardFactory :
 	public iQuestRewardFactory,
-	public iMessageQuestRewardFactory
+	public iActionQuestRewardFactory
 {
 private:
-  celMessageRewardType* type;
+  celActionRewardType* type;
   char* entity_par;
   char* id_par;
+  char* pcclass_par;
+  char* tag_par;
   csArray<parSpec> parameters;
 
 public:
-  celMessageRewardFactory (celMessageRewardType* type);
-  virtual ~celMessageRewardFactory ();
+  celActionRewardFactory (celActionRewardType* type);
+  virtual ~celActionRewardFactory ();
 
   SCF_DECLARE_IBASE;
 
@@ -66,38 +66,44 @@ public:
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
 
-  //----------------- iMessageQuestRewardFactory -----------------------
+  //----------------- iActionQuestRewardFactory -----------------------
   virtual void SetEntityParameter (const char* entity);
   virtual void SetIDParameter (const char* id);
+  virtual void SetPropertyClassParameter (const char* propertyclass);
+  virtual void SetTagParameter (const char* pctag);
   virtual void AddParameter (celDataType type, csStringID id,
       const char* name, const char* value);
 };
 
 /**
- * The 'message' reward.
+ * The 'action' reward.
  */
-class celMessageReward :
+class celActionReward :
 	public iQuestReward
 {
 private:
-  celMessageRewardType* type;
+  celActionRewardType* type;
+  char* pcclass;
+  char* tag;
   char* entity;
   char* id;
   csWeakRef<iCelEntity> ent;
-  celVariableParameterBlock* msg_params;
+  celVariableParameterBlock* act_params;
 
 public:
-  celMessageReward (celMessageRewardType* type,
+  celActionReward (celActionRewardType* type,
   	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
+	const char* pcclass_par,
+	const char* tag_par,
 	const csArray<parSpec>& parameters);
-  virtual ~celMessageReward ();
+  virtual ~celActionReward ();
 
   SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };
 
-#endif // __CEL_TOOLS_QUESTS_REWARD_MESSAGE__
+#endif // __CEL_TOOLS_QUESTS_REWARD_ACTION__
 
