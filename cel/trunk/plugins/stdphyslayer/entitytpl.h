@@ -48,7 +48,7 @@ private:
   csString tag;
   csArray<ccfPropAct> properties;
 
-  ccfPropAct& FindCreate (csStringID id);
+  ccfPropAct& Create (csStringID id);
 
 public:
   celPropertyClassTemplate ();
