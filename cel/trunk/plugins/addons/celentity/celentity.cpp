@@ -31,7 +31,6 @@
 #include "physicallayer/entity.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
-#include "celtool/stdparams.h"
 
 #include "celentity.h"
 
@@ -59,6 +58,7 @@ enum
   XMLTOKEN_ACTION,
   XMLTOKEN_PAR,
   XMLTOKEN_PARAMS,
+  XMLTOKEN_CALL,
 
   XMLTOKEN_FLOAT,
   XMLTOKEN_BOOL,
@@ -108,6 +108,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("action", XMLTOKEN_ACTION);
   xmltokens.Register ("par", XMLTOKEN_PAR);
   xmltokens.Register ("params", XMLTOKEN_PARAMS);
+  xmltokens.Register ("call", XMLTOKEN_CALL);
 
   xmltokens.Register ("float", XMLTOKEN_FLOAT);
   xmltokens.Register ("bool", XMLTOKEN_BOOL);
@@ -147,6 +148,85 @@ csStringID celAddOnCelEntity::GetAttributeID (iDocumentNode* child,
   csString p (prefix);
   p += rc;
   return pl->FetchStringID ((const char*)p);
+}
+
+csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
+	iDocumentNode* child)
+{
+  celVariableParameterBlock* params = new celVariableParameterBlock ();
+  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
+  size_t par_idx = 0;
+  while (par_it->HasNext ())
+  {
+    csRef<iDocumentNode> par_child = par_it->Next ();
+    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
+    const char* par_value = par_child->GetValue ();
+    csStringID par_id = xmltokens.Request (par_value);
+    if (par_id == XMLTOKEN_PAR)
+    {
+      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
+      	"name");
+      if (parid == csInvalidStringID) return 0;
+      params->SetParameterDef (par_idx, parid,
+      	par_child->GetAttributeValue ("name"));
+      par_idx++;
+      const char* str_value = par_child->GetAttributeValue ("string");
+      if (str_value)
+      {
+        params->GetParameter (par_idx-1).Set (str_value);
+	continue;
+      }
+      const char* vec_value = par_child->GetAttributeValue ("vector");
+      if (vec_value)
+      {
+	csVector3 v;
+	int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	if (rc == 3)
+	  params->GetParameter (par_idx-1).Set (v);
+	else
+	{
+	  csVector2 v2;
+	  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
+	  params->GetParameter (par_idx-1).Set (v2);
+	}
+        continue;
+      }
+      const char* float_value = par_child->GetAttributeValue ("float");
+      if (float_value)
+      {
+	float f;
+	csScanStr (float_value, "%f", &f);
+	params->GetParameter (par_idx-1).Set (f);
+        continue;
+      }
+      const char* bool_value = par_child->GetAttributeValue ("bool");
+      if (bool_value)
+      {
+	bool b;
+	csScanStr (bool_value, "%b", &b);
+	params->GetParameter (par_idx-1).Set (b);
+        continue;
+      }
+      const char* long_value = par_child->GetAttributeValue ("long");
+      if (long_value)
+      {
+	int32 l;
+	csScanStr (long_value, "%d", &l);
+	params->GetParameter (par_idx-1).Set (l);
+        continue;
+      }
+      synldr->ReportError (
+        "cel.addons.celentity",
+        par_child, "Type for parameter not yet supported!");
+      return 0;
+    }
+    else
+    {
+      synldr->ReportBadToken (par_child);
+      return 0;
+    }
+  }
+  return params;
 }
 
 bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
@@ -222,81 +302,9 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
         {
 	  csStringID propid = GetAttributeID (child, "cel.action.", "name");
 	  if (propid == csInvalidStringID) return false;
-	  celVariableParameterBlock* params = new celVariableParameterBlock ();
-	  csRef<iDocumentNodeIterator> par_it = child->GetNodes ();
-	  size_t par_idx = 0;
-	  while (par_it->HasNext ())
-	  {
-	    csRef<iDocumentNode> par_child = par_it->Next ();
-	    if (par_child->GetType () != CS_NODE_ELEMENT) continue;
-	    const char* par_value = par_child->GetValue ();
-	    csStringID par_id = xmltokens.Request (par_value);
-	    if (par_id == XMLTOKEN_PAR)
-	    {
-	      csStringID parid = GetAttributeID (par_child, "cel.parameter.",
-	      	"name");
-	      if (parid == csInvalidStringID) return false;
-	      params->SetParameterDef (par_idx, parid,
-	      	par_child->GetAttributeValue ("name"));
-	      par_idx++;
-	      const char* str_value = par_child->GetAttributeValue ("string");
-	      if (str_value)
-	      {
-	        params->GetParameter (par_idx-1).Set (str_value);
-		continue;
-	      }
-	      const char* vec_value = par_child->GetAttributeValue ("vector");
-	      if (vec_value)
-	      {
-		csVector3 v;
-		int rc = csScanStr (vec_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-		if (rc == 3)
-		  params->GetParameter (par_idx-1).Set (v);
-		else
-		{
-		  csVector2 v2;
-		  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
-		  params->GetParameter (par_idx-1).Set (v2);
-		}
-	        continue;
-	      }
-	      const char* float_value = par_child->GetAttributeValue ("float");
-	      if (float_value)
-	      {
-		float f;
-		csScanStr (float_value, "%f", &f);
-		params->GetParameter (par_idx-1).Set (f);
-	        continue;
-	      }
-	      const char* bool_value = par_child->GetAttributeValue ("bool");
-	      if (bool_value)
-	      {
-		bool b;
-		csScanStr (bool_value, "%b", &b);
-		params->GetParameter (par_idx-1).Set (b);
-	        continue;
-	      }
-	      const char* long_value = par_child->GetAttributeValue ("long");
-	      if (long_value)
-	      {
-		int32 l;
-		csScanStr (long_value, "%d", &l);
-		params->GetParameter (par_idx-1).Set (l);
-	        continue;
-	      }
-	      synldr->ReportError (
-	        "cel.addons.celentity",
-	        par_child, "Type for parameter not yet supported!");
-	      return false;
-	    }
-	    else
-	    {
-	      synldr->ReportBadToken (par_child);
-	      return false;
-	    }
-	  }
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (
+	  	child);
 	  pc->PerformAction (propid, params);
-	  params->DecRef ();
 	}
 	break;
       default:
@@ -467,6 +475,29 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	    return 0;
 	  if (tag)
 	    pc->SetTag (tag);
+	}
+        break;
+      case XMLTOKEN_CALL:
+        {
+	  if (!ent->GetBehaviour ())
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "Behaviour is missing for 'call'!");
+	    return 0;
+	  }
+	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
+	  if (!params) return 0;
+	  const char* msgid = child->GetAttributeValue ("event");
+	  if (!msgid)
+	  {
+	    synldr->ReportError (
+	        "cel.addons.celentity",
+	        child, "'event' name is missing for call!");
+	    return 0;
+	  }
+	  celData ret;
+	  ent->GetBehaviour ()->SendMessage (msgid, 0, ret, params);
 	}
         break;
       case XMLTOKEN_PARAMS:

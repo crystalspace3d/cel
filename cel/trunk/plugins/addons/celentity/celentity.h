@@ -26,6 +26,7 @@
 #include "csutil/weakref.h"
 
 #include "tools/entityloader.h"
+#include "celtool/stdparams.h"
 
 struct iObjectRegistry;
 struct iDocumentNode;
@@ -49,6 +50,7 @@ private:
 	const char* propname);
   csStringID GetAttributeID (iDocumentNode* child,
 	const char* prefix, const char* propname);
+  csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
   bool ParseProperties (iCelPropertyClass* pc, iDocumentNode* child);
 
 public:

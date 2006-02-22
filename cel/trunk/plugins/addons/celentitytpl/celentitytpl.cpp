@@ -153,8 +153,8 @@ csStringID celAddOnCelEntityTemplate::GetAttributeID (iDocumentNode* child,
   return pl->FetchStringID ((const char*)p);
 }
 
-csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock (
-    iDocumentNode* child)
+csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
+	(iDocumentNode* child)
 {
   csRef<celVariableParameterBlock> params;
   params.AttachNew (new celVariableParameterBlock ());
@@ -484,14 +484,14 @@ iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)
       case XMLTOKEN_CALL:
         {
 	  csRef<celVariableParameterBlock> params = ParseParameterBlock (child);
-	  if (!params) return false;
+	  if (!params) return 0;
 	  const char* msgid = child->GetAttributeValue ("event");
 	  if (!msgid)
 	  {
 	    synldr->ReportError (
 	        "cel.addons.celentitytpl",
 	        child, "'event' name is missing for call!");
-	    return false;
+	    return 0;
 	  }
 	  ent->AddMessage (msgid, params);
 	}
