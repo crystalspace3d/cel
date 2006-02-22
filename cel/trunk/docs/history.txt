@@ -32,6 +32,11 @@ The history order is reversed so that new features are at the top.
 	  If nothing was selected then 'sel' will be 0 and isect will be
 	  set to the end of the beam at the given distance (10 in above
 	  example).
+	- caedes added an "action" reward. Works as follows:
+	   <reward type="action" entity="$this" pc="pcactormove" id="Forward">
+	      <par name="start" bool="yes" />
+	   </reward>
+	  Optionally a tag can also be added inside the op node.
 21-Feb-2006
 	- Jorrit fixed a bug in the iCelPlLayer->CreateEntity() version
 	  that creates entities from templates. It would always create

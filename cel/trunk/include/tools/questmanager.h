@@ -666,6 +666,8 @@ struct iQuestManager : public iBase
    *     See iSequenceFinishQuestRewardFactory.
    * <li>cel.questreward.message: send a message to some entity.
    *     See iMessageQuestRewardFactory.
+   * <li>cel.questreward.action: send an action to some property class
+   *     on an entity. See iActionQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -1447,6 +1449,66 @@ struct iMessageQuestRewardFactory : public iBase
   virtual void AddParameter (celDataType type, csStringID id,
       const char* name, const char* value) = 0;
 };
+
+/**
+ * This interface is implemented by the reward that sends an action
+ * to some entity property class with an optional tag.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.action'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity to send the action to.
+ * <li><em>id</em>: name of the action to activate.
+ * <li><em>pc</em>: the name of the property class to send the action to.
+ * <li><em>tag</em>: the tag of the property class to send the action to.
+ * </ul>
+ */
+struct iActionQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
+
+  /**
+   * Set the action name (without the cel.action part).
+   * \param id is the action name or a parameter (starts with '$').
+   */
+  virtual void SetIDParameter (const char* id) = 0;
+
+  /**
+   * Set the name of the property class.
+   * \param propertyclass is the name of the propertyclass or a parameter (starts
+   * with '$').
+   */
+  virtual void SetPropertyClassParameter (const char* propertyclass) = 0;
+
+  /**
+   * Set the tag for the propertyclass.
+   * \param tag is the tag for the propertyclass or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTagParameter (const char* tag) = 0;
+
+  /**
+   * Add a parameter to send with the action.
+   * \param type is one of CEL_DATA_STRING, CEL_DATA_FLOAT, CEL_DATA_LONG,
+   * CEL_DATA_BOOL, or CEL_DATA_VECTOR3.
+   * \param id is the id of the parameter (calculated from the string
+   * "cel.parameter." appended with the name).
+   * \param name is the name of the parameter.
+   * \param value is the value string or a parameter for it (starts with '$').
+   */
+  virtual void AddParameter (celDataType type, csStringID id,
+      const char* name, const char* value) = 0;
+};
+
 
 //-------------------------------------------------------------------------
 // Specific sequence operation implementations.
