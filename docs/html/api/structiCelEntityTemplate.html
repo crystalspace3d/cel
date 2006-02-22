@@ -36,6 +36,9 @@
 <a href="structiCelEntityTemplate-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#4ce4b28d3043533bf9a88f0b0e2cce1b">AddMessage</a> (const char *msgid, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a message to be sent to the created behaviour.  <a href="#4ce4b28d3043533bf9a88f0b0e2cce1b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#c47fe787a2379374ea60eb6fe3c5025b">CreatePropertyClassTemplate</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new property class template for this entity.  <a href="#c47fe787a2379374ea60eb6fe3c5025b"></a><br></td></tr>
@@ -60,6 +63,45 @@ It can be used to create other entities.
 
 <p>
 Definition at line <a class="el" href="entitytpl_8h-source.html#l00042">42</a> of file <a class="el" href="entitytpl_8h-source.html">entitytpl.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="4ce4b28d3043533bf9a88f0b0e2cce1b"></a><!-- doxytag: member="iCelEntityTemplate::AddMessage" ref="4ce4b28d3043533bf9a88f0b0e2cce1b" args="(const char *msgid, iCelParameterBlock *params)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iCelEntityTemplate::AddMessage           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>msgid</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>params</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a message to be sent to the created behaviour. 
+<p>
+The parameters here support CEL_DATA_PARAMETER. Note that all messages will be sent after all properties and property classes are created.     </td>
+  </tr>
+</table>
 <a class="anchor" name="c47fe787a2379374ea60eb6fe3c5025b"></a><!-- doxytag: member="iCelEntityTemplate::CreatePropertyClassTemplate" ref="c47fe787a2379374ea60eb6fe3c5025b" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>

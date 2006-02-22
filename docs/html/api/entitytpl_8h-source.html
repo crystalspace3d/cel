@@ -70,48 +70,50 @@
 <a name="l00065"></a>00065   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a>* <a class="code" href="structiCelEntityTemplate.html#c47fe787a2379374ea60eb6fe3c5025b">CreatePropertyClassTemplate</a> () = 0;
 <a name="l00066"></a>00066 
 <a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityTemplate.html#b01c190812566b105f23b081cdcbdb96">SetBehaviour</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* layer, <span class="keyword">const</span> <span class="keywordtype">char</span>* behaviour) = 0;
-<a name="l00074"></a>00074 };
-<a name="l00075"></a>00075 
-<a name="l00076"></a>00076 SCF_VERSION (<a class="code" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a>, 0, 0, 1);
-<a name="l00077"></a>00077 
-<a name="l00082"></a><a class="code" href="structiCelPropertyClassTemplate.html">00082</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a> : <span class="keyword">public</span> iBase
-<a name="l00083"></a>00083 {
-<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#38e9716d2b02a6bef28e2988d8356821">SetName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00088"></a>00088 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClassTemplate.html#268416c398135fd21b319aa2d7026b81">GetName</a> () <span class="keyword">const </span>= 0;
-<a name="l00093"></a>00093 
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#4945212278c4b8b9636467eb16f627a9">SetTag</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tagname) = 0;
-<a name="l00101"></a>00101 
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClassTemplate.html#6fbc67be394ba9f9f97587abd25e8b34">GetTag</a> () <span class="keyword">const </span>= 0;
-<a name="l00107"></a>00107 
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#1fc047ea3b4ffd5b7648ceecc844106c">SetPropertyVariable</a> (csStringID propertyID, celDataType type,
-<a name="l00113"></a>00113         <span class="keyword">const</span> <span class="keywordtype">char</span>* varname) = 0;
+<a name="l00074"></a>00074 
+<a name="l00080"></a>00080   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelEntityTemplate.html#4ce4b28d3043533bf9a88f0b0e2cce1b">AddMessage</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* msgid, <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
+<a name="l00081"></a>00081 };
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083 SCF_VERSION (<a class="code" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a>, 0, 0, 1);
+<a name="l00084"></a>00084 
+<a name="l00089"></a><a class="code" href="structiCelPropertyClassTemplate.html">00089</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyClassTemplate.html">iCelPropertyClassTemplate</a> : <span class="keyword">public</span> iBase
+<a name="l00090"></a>00090 {
+<a name="l00094"></a>00094   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#38e9716d2b02a6bef28e2988d8356821">SetName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00095"></a>00095 
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClassTemplate.html#268416c398135fd21b319aa2d7026b81">GetName</a> () <span class="keyword">const </span>= 0;
+<a name="l00100"></a>00100 
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#4945212278c4b8b9636467eb16f627a9">SetTag</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* tagname) = 0;
+<a name="l00108"></a>00108 
+<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiCelPropertyClassTemplate.html#6fbc67be394ba9f9f97587abd25e8b34">GetTag</a> () <span class="keyword">const </span>= 0;
 <a name="l00114"></a>00114 
-<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">long</span> value) = 0;
-<a name="l00129"></a>00129 
-<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">float</span> value) = 0;
-<a name="l00134"></a>00134 
-<a name="l00138"></a>00138   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">bool</span> value) = 0;
-<a name="l00139"></a>00139 
-<a name="l00143"></a>00143   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
-<a name="l00144"></a>00144 
-<a name="l00148"></a>00148   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector2&amp; value) = 0;
-<a name="l00149"></a>00149 
-<a name="l00153"></a>00153   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector3&amp; value) = 0;
-<a name="l00154"></a>00154 
-<a name="l00158"></a>00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csColor&amp; value) = 0;
-<a name="l00159"></a>00159 
-<a name="l00163"></a>00163   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID,
-<a name="l00164"></a>00164         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* value) = 0;
-<a name="l00165"></a>00165 
-<a name="l00169"></a>00169   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-<a name="l00170"></a>00170 
-<a name="l00175"></a>00175   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#3cb921a9955f02448c7ceb79e394aa9c">PerformAction</a> (csStringID actionID,
-<a name="l00176"></a>00176         <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
-<a name="l00177"></a>00177 };
-<a name="l00178"></a>00178 
-<a name="l00179"></a>00179 <span class="preprocessor">#endif // __CEL_PL_ENTITYTEMP__</span>
-<a name="l00180"></a>00180 <span class="preprocessor"></span>
+<a name="l00119"></a>00119   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#1fc047ea3b4ffd5b7648ceecc844106c">SetPropertyVariable</a> (csStringID propertyID, celDataType type,
+<a name="l00120"></a>00120         <span class="keyword">const</span> <span class="keywordtype">char</span>* varname) = 0;
+<a name="l00121"></a>00121 
+<a name="l00135"></a>00135   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">long</span> value) = 0;
+<a name="l00136"></a>00136 
+<a name="l00140"></a>00140   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">float</span> value) = 0;
+<a name="l00141"></a>00141 
+<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keywordtype">bool</span> value) = 0;
+<a name="l00146"></a>00146 
+<a name="l00150"></a>00150   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
+<a name="l00151"></a>00151 
+<a name="l00155"></a>00155   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector2&amp; value) = 0;
+<a name="l00156"></a>00156 
+<a name="l00160"></a>00160   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csVector3&amp; value) = 0;
+<a name="l00161"></a>00161 
+<a name="l00165"></a>00165   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <span class="keyword">const</span> csColor&amp; value) = 0;
+<a name="l00166"></a>00166 
+<a name="l00170"></a>00170   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID,
+<a name="l00171"></a>00171         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* value) = 0;
+<a name="l00172"></a>00172 
+<a name="l00176"></a>00176   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#0db2427faa00c60b8c371e632828afd7">SetProperty</a> (csStringID propertyID, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00177"></a>00177 
+<a name="l00182"></a>00182   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyClassTemplate.html#3cb921a9955f02448c7ceb79e394aa9c">PerformAction</a> (csStringID actionID,
+<a name="l00183"></a>00183         <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) = 0;
+<a name="l00184"></a>00184 };
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186 <span class="preprocessor">#endif // __CEL_PL_ENTITYTEMP__</span>
+<a name="l00187"></a>00187 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
