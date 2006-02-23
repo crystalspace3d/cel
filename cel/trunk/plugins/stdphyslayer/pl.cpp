@@ -423,6 +423,24 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 }
 
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
+  	const char* name, ...)
+{
+  celEntityTemplateParams params;
+  va_list args;
+  va_start (args, name);
+  char const* par = va_arg (args, char*);
+  while (par != 0)
+  {
+    char const* val = va_arg (args, char*);
+    if (val == 0) break;
+    params.Put (par, val);
+    par = va_arg (args, char*);
+  }
+  va_end (args);
+  return CreateEntity (factory, name, params);
+}
+
+iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params)
 {
   celEntityTemplate* cfact = ((celEntityTemplate::CelEntityTemplate*)
