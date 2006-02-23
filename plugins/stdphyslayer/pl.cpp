@@ -23,7 +23,6 @@
 #include "csgeom/vector3.h"
 #include "plugins/stdphyslayer/pl.h"
 #include "plugins/stdphyslayer/entity.h"
-#include "plugins/stdphyslayer/message.h"
 #include "plugins/stdphyslayer/etracker.h"
 #include "plugins/stdphyslayer/entitytpl.h"
 #include "physicallayer/propfact.h"
@@ -747,16 +746,6 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
   pc->SetTag (tagname);
   entity->GetPropertyClassList()->Add (pc);
   return pc;
-}
-
-csPtr<iCelMessage> celPlLayer::CreateMessage (const char* msg_string, ...)
-{
-  va_list arg;
-  va_start (arg, msg_string);
-  csRef<celMessage> msg =
-    csPtr<celMessage> (new celMessage (msg_string, arg));
-  va_end (arg);
-  return csPtr<iCelMessage> (msg);
 }
 
 // Implementation of iCelDataBuffer.

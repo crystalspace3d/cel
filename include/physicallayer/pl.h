@@ -185,11 +185,6 @@ struct iCelPlLayer : public iBase
   	const char* name, const celEntityTemplateParams& params) = 0;
 
   /**
-   * Create a message.
-   */
-  virtual csPtr<iCelMessage> CreateMessage (const char* msg_string, ...) = 0;
-
-  /**
    * Create a data buffer. Usually property class implementations
    * will call this to create a data buffer for their own persistent
    * data. The use of this is not required. A property class can just
