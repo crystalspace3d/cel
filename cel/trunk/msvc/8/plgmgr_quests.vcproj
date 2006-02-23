@@ -166,6 +166,9 @@
 				RelativePath="..\..\plugins\tools\quests\quests.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_action.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp">
 			</File>
 			<File
@@ -228,6 +231,9 @@
 			Filter="">
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_action.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
