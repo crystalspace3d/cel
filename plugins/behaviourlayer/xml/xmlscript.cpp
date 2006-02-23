@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/math3d.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
 #include "csutil/databuf.h"
@@ -1606,6 +1607,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_NORMALIZE:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: normalize %s\n", i-1, A2S (top)));
+	  csVector3 v = ArgToVector3 (top);
+	  v.Normalize ();
+	  top.SetVector (v);
+	}
+	break;
       case CEL_OPERATION_SIGN:
         {
 	  CHECK_STACK(1)
@@ -1620,6 +1631,30 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (behave,
 	      	"Can't calculate 'sign' for element on stack!");
 	  }
+	}
+	break;
+      case CEL_OPERATION_SQRT:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: sqrt %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  if (f < 0.0f)
+	    return ReportError (behave,
+	      "Attempting to calculate sqrt of a negative number (%g)!", f);
+	  top.SetFloat (sqrt (f));
+	}
+	break;
+      case CEL_OPERATION_SQDIST:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg p2 = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: sqdist p1=%s p2=%s\n", i-1, A2S (top), A2S (p2)));
+	  csVector3 v1 = ArgToVector3 (top);
+	  csVector3 v2 = ArgToVector3 (p2);
+	  float sqdist = csSquaredDist::PointPoint (v1, v2);
+	  top.SetFloat (sqdist);
 	}
 	break;
       case CEL_OPERATION_ABS:

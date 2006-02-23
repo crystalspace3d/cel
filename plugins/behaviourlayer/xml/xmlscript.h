@@ -55,6 +55,7 @@ class celVariableParameterBlock;
 // C: code location
 // PC: property class
 // I: integer
+// V: vector
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
@@ -186,6 +187,9 @@ enum
   CEL_OPERATION_MIN,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MAX,		// A:-		S:?,?		OS:?
   CEL_OPERATION_SIGN,		// A:-		S:?		OS:I
+  CEL_OPERATION_SQRT,		// A:-		S:F		OS:F
+  CEL_OPERATION_SQDIST,		// A:-		S:V,V		OS:F
+  CEL_OPERATION_NORMALIZE,	// A:-		S:V		OS:V
   CEL_OPERATION_INTPOL,		// A:-		S:F,?,?		OS:?
   CEL_OPERATION_INT,		// A:-		S:?		OS:I
   CEL_OPERATION_FLOAT,		// A:-		S:?		OS:F
