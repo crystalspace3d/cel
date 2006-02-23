@@ -111,9 +111,12 @@ enum
   XMLFUNCTION_MAX,
   XMLFUNCTION_MOUSEX,
   XMLFUNCTION_MOUSEY,
+  XMLFUNCTION_NORMALIZE,
   XMLFUNCTION_BB_MOUSEX,
   XMLFUNCTION_BB_MOUSEY,
   XMLFUNCTION_SIGN,
+  XMLFUNCTION_SQRT,
+  XMLFUNCTION_SQDIST,
   XMLFUNCTION_INTPOL,
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
@@ -227,9 +230,12 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("max", XMLFUNCTION_MAX);
   functions.Register ("mousex", XMLFUNCTION_MOUSEX);
   functions.Register ("mousey", XMLFUNCTION_MOUSEY);
+  functions.Register ("normalize", XMLFUNCTION_NORMALIZE);
   functions.Register ("bb_mousex", XMLFUNCTION_BB_MOUSEX);
   functions.Register ("bb_mousey", XMLFUNCTION_BB_MOUSEY);
   functions.Register ("sign", XMLFUNCTION_SIGN);
+  functions.Register ("sqrt", XMLFUNCTION_SQRT);
+  functions.Register ("sqdist", XMLFUNCTION_SQDIST);
   functions.Register ("intpol", XMLFUNCTION_INTPOL);
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
@@ -599,11 +605,35 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         h->AddOperation (CEL_OPERATION_MAX);
       }
       break;
+    case XMLFUNCTION_NORMALIZE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_NORMALIZE);
+      }
+      break;
     case XMLFUNCTION_SIGN:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
         h->AddOperation (CEL_OPERATION_SIGN);
+      }
+      break;
+    case XMLFUNCTION_SQRT:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_SQRT);
+      }
+      break;
+    case XMLFUNCTION_SQDIST:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_SQDIST);
       }
       break;
     case XMLFUNCTION_INTPOL:

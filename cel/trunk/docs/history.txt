@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	  forgotten.
 	- Jorrit added a new conveniance function to create entities
 	  from templates using variable parameters.
+	- Jorrit added the sqrt, sqdist, and normalize functions to the
+	  XML behaviour layer.
 22-Feb-2006
 	- Jorrit added 'call' support for the celentity addon as well.
 	- Jorrit fixed a problem in entity templates. They would not
