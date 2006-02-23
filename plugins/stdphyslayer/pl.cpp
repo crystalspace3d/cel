@@ -338,6 +338,14 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
       if (t == CEL_DATA_PARAMETER)
       {
 	const char* value = params.Get (par->value.par.parname->GetData (), 0);
+	if (value == 0)
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	    "crystalspace.cel.physicallayer",
+	    "Value for parameter '%s' is missing!",
+	    par->value.par.parname->GetData ());
+	  return 0;
+	}
 	celData& converted_par = converted_params->GetParameter (k);
 	switch (par->value.par.partype)
 	{
