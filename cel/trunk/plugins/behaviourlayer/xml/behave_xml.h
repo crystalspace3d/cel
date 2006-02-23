@@ -34,6 +34,7 @@ struct iPcProperties;
 struct iPcBillboard;
 struct iObjectRegistry;
 struct iGraphics3D;
+struct iEngine;
 class celXmlScript;
 
 /**
@@ -47,6 +48,7 @@ protected:
   csWeakRef<iPcProperties> props;	// Optimization.
   csWeakRef<iPcBillboard> billboard;	// Optimization.
   csRef<iGraphics3D> g3d;
+  csRef<iEngine> engine;
   csRef<iMouseDriver> mouse;
   csRef<iBillboardManager> billboard_mgr;
   iObjectRegistry* object_reg;
@@ -71,6 +73,7 @@ public:
   iPcBillboard* GetBillboard ();
   iMouseDriver* GetMouseDriver () { return mouse; }
   iGraphics3D* GetG3D () { return g3d; }
+  iEngine* GetEngine () { return engine; }
   iBillboardManager* GetBillboardManager ()
   {
     if (!billboard_mgr)

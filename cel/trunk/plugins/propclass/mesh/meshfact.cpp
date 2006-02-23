@@ -134,6 +134,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_position] = 0;		// Handled in this class.
+  propdata[propid_sector] = 0;			// Handled in this class.
 }
 
 celPcMesh::~celPcMesh ()
@@ -150,7 +151,7 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 1;
+    propertycount = 2;
     properties = new Property[propertycount];
 
     properties[propid_position].id = pl->FetchStringID (
@@ -158,6 +159,12 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_position].datatype = CEL_DATA_VECTOR3;
     properties[propid_position].readonly = true;
     properties[propid_position].desc = "Current position of mesh.";
+
+    properties[propid_sector].id = pl->FetchStringID (
+    	"cel.property.sector");
+    properties[propid_sector].datatype = CEL_DATA_STRING;
+    properties[propid_sector].readonly = true;
+    properties[propid_sector].desc = "Current sector of mesh.";
   }
 }
 
@@ -174,7 +181,29 @@ bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
   }
   else
   {
-    return celPcCommon::GetPropertyVector (propid_position, v);
+    return celPcCommon::GetPropertyVector (propertyId, v);
+  }
+}
+
+const char* celPcMesh::GetPropertyString (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_sector].id)
+  {
+    if (mesh)
+    {
+      iSectorList* sl = mesh->GetMovable ()->GetSectors ();
+      if (sl->GetCount () > 0)
+        return sl->Get (0)->QueryObject ()->GetName ();
+      else
+        return 0;
+    }
+    else
+      return 0;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyString (propertyId);
   }
 }
 

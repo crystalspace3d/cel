@@ -58,6 +58,7 @@ class csVector3;
  * 'cel.property.' to get the ID of the property:
  * <ul>
  * <li>position (vector3, read): current position.
+ * <li>sector (string, read): current sector.
  * </ul>
  */
 struct iPcMesh : public virtual iBase

@@ -102,7 +102,8 @@ private:
   // For properties.
   enum propids
   {
-    propid_position = 0
+    propid_position = 0,
+    propid_sector
   };
   static Property* properties;
   static size_t propertycount;
@@ -170,6 +171,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
   virtual bool GetPropertyVector (csStringID, csVector3&);
+  virtual const char* GetPropertyString (csStringID propertyId);
 };
 
 /**

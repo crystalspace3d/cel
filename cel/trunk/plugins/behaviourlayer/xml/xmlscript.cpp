@@ -4105,8 +4105,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	behave->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
 	    return ReportError (behave, "Error! No sound manager!");
-	  csRef<iEngine> engine = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iEngine);
+	  iEngine* engine = behave->GetEngine ();
 	  if (!engine)
 	    return ReportError (behave, "Error! No engine!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
@@ -4134,6 +4133,48 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
         break;
+      case CEL_OPERATION_HITBEAM:
+        {
+	  CHECK_STACK(5)
+	  celXmlArg a_entvar = stack.Pop ();
+	  celXmlArg a_isectvar = stack.Pop ();
+	  celXmlArg a_end = stack.Pop ();
+	  celXmlArg a_start = stack.Pop ();
+	  celXmlArg a_sector = stack.Pop ();
+	  DUMP_EXEC ((":%04d: hitbeam sector=%s start=%s end=%s isectv=%s entv=%s\n",
+		i-1, A2S (a_sector), A2S (a_start), A2S (a_end),
+		A2S (a_isectvar), A2S (a_entvar)));
+
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  const char* entvarname = ArgToString (a_entvar);
+	  if (!entvarname)
+	    return ReportError (behave,
+		"Illegal variable name for 'hitbeam'!");
+	  const char* isectvarname = ArgToString (a_isectvar);
+	  if (!isectvarname)
+	    return ReportError (behave,
+		"Illegal variable name for 'hitbeam'!");
+
+	  const char* sectorname = ArgToString (a_sector);
+	  if (!sectorname)
+	    return ReportError (behave,
+		"'sectorname' is missing or invalid for 'hitbeam'!");
+	  iEngine* engine = behave->GetEngine ();
+	  iSector* sector = engine->FindSector (sectorname);
+	  if (!sector)
+	    return ReportError (behave,
+		"Can't find sector '%s' for 'hitbeam'!", sectorname);
+	  csVector3 start = ArgToVector3 (a_start);
+	  csVector3 end = ArgToVector3 (a_end);
+	  iCelEntity* selent;
+	  csVector3 isect;
+	  HitBeam (sector, start, end, isect, selent);
+
+	  props->SetProperty (entvarname, selent);
+	  props->SetProperty (isectvarname, isect);
+	}
+	break;
       case CEL_OPERATION_SELECTENTITY:
         {
 	  CHECK_STACK(6)
@@ -4200,6 +4241,22 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
   origin = origin + (end-origin) * 0.02;
 
   iMeshWrapper* sel = sector->HitBeamPortals (origin, end, isect, 0);
+  if (sel == 0)
+  {
+    isect = end;
+    selent = 0;
+  }
+  else
+  {
+    selent = pl->FindAttachedEntity (sel->QueryObject ());
+  }
+}
+
+void celXmlScriptEventHandler::HitBeam (iSector* sector,
+	const csVector3& start,
+	const csVector3& end, csVector3& isect, iCelEntity*& selent)
+{
+  iMeshWrapper* sel = sector->HitBeamPortals (start, end, isect, 0);
   if (sel == 0)
   {
     isect = end;

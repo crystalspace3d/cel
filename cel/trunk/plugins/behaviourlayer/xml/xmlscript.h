@@ -39,6 +39,7 @@ struct iCelPropertyClass;
 struct iCelParameterBlock;
 struct iPcInventory;
 struct iPcCamera;
+struct iSector;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 class celVariableParameterBlock;
@@ -207,6 +208,7 @@ enum
   CEL_OPERATION_WRITEFILE,	// A:-		S:S,S,I,I	OS:B
   CEL_OPERATION_REPORTERROR,	// A:-		S:S		OS:-
   CEL_OPERATION_SELECTENTITY,	// A:-		S:I,I,F,S,S	OS:-
+  CEL_OPERATION_HITBEAM,	// A:-		S:V,V,S,S	OS:-
 
   CEL_OPERATION_STRSUB,		// A:-		S:S,I,I		OS:S
   CEL_OPERATION_STRIDX,		// A:-		S:S,S		OS:I
@@ -386,6 +388,9 @@ private:
   void DumpVariables (celBehaviourXml* behave);
   void FindMouseTarget (iPcCamera* pccam, int screenx, int screeny,
     float maxdist, csVector3& isect, iCelEntity*& selent);
+  void HitBeam (iSector* sector,
+  	const csVector3& start, const csVector3& end,
+  	csVector3& isect, iCelEntity*& selent);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);
