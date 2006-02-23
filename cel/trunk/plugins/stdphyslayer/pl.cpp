@@ -338,33 +338,25 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
       if (t == CEL_DATA_PARAMETER)
       {
 	const char* value = params.Get (par->value.par.parname->GetData (), 0);
-	if (value == 0)
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "crystalspace.cel.physicallayer",
-	    "Value for parameter '%s' is missing!",
-	    par->value.par.parname->GetData ());
-	  return 0;
-	}
 	celData& converted_par = converted_params->GetParameter (k);
 	switch (par->value.par.partype)
 	{
 	  case CEL_DATA_LONG:
 	    {
-	      long l; sscanf (value, "%ld", &l);
+	      long l; if (value) sscanf (value, "%ld", &l); else l = 0;
 	      converted_par.Set ((int32)l);
 	    }
 	    break;
 	  case CEL_DATA_FLOAT:
 	    {
-	      float f; sscanf (value, "%f", &f);
+	      float f; if (value) sscanf (value, "%f", &f); else f = 0;
 	      converted_par.Set (f);
 	    }
 	    break;
 	  case CEL_DATA_BOOL:
 	    {
 	      bool b;
-	      csScanStr (value, "%b", &b);
+	      if (value) csScanStr (value, "%b", &b); else b = false;
 	      converted_par.Set (b);
 	    }
 	    break;
@@ -374,29 +366,37 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
 	  case CEL_DATA_VECTOR2:
 	    {
 	      csVector2 v;
-	      sscanf (value, "%f,%f", &v.x, &v.y);
+	      if (value)
+	        sscanf (value, "%f,%f", &v.x, &v.y);
+	      else
+	        v.Set (0, 0);
 	      converted_par.Set (v);
 	    }
 	    break;
 	  case CEL_DATA_VECTOR3:
 	    {
 	      csVector3 v;
-	      sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	      if (value)
+	        sscanf (value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	      else
+	        v.Set (0, 0, 0);
 	      converted_par.Set (v);
 	    }
 	    break;
 	  case CEL_DATA_COLOR:
 	    {
 	      csColor v;
-	      sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	      if (value)
+	        sscanf (value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	      else
+	        v.Set (0, 0, 0);
 	      converted_par.Set (v);
 	    }
  	    break;
 	  case CEL_DATA_ENTITY:
 	    {
-	      iCelEntity* ent = FindEntity (value);
-	      if (ent)
-		converted_par.Set (ent);
+	      iCelEntity* ent = value ? FindEntity (value) : 0;
+	      converted_par.Set (ent);
 	    }
 	    break;
 	  default: break;
@@ -440,7 +440,6 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   while (par != 0)
   {
     char const* val = va_arg (args, char*);
-    if (val == 0) break;
     params.Put (par, val);
     par = va_arg (args, char*);
   }
