@@ -46,6 +46,7 @@ class csString;
 #define CEL_EVENT_POST 2
 
 #define CEL_PROPCLASS_END (void*)0
+#define CEL_PARAM_END (void*)0
 
 /// Parameters used to create an entity from a template.
 typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
@@ -183,6 +184,18 @@ struct iCelPlLayer : public iBase
    */
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params) = 0;
+
+  /**
+   * Create an entity from a template.
+   * \param factory is the template to create from.
+   * \param name is the name of the new entity.
+   * After that comes a list of parameter pairs (two strings) with the
+   * last one being equal to CEL_PARAM_END. This will construct
+   * a celEntityTemplateParams instance from these parameters and
+   * then call the other CreateEntity() variant.
+   */
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
+  	const char* name, ...) = 0;
 
   /**
    * Create a data buffer. Usually property class implementations

@@ -143,6 +143,8 @@ public:
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params);
+  virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
+  	const char* name, ...);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
 	  const char* propname);
