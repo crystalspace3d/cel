@@ -23,6 +23,7 @@
 #include "iutil/vfs.h"
 #include "csutil/scfstringarray.h"
 #include "ivaria/reporter.h"
+#include "iengine/engine.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
@@ -58,6 +59,7 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   celBehaviourXml::object_reg = object_reg;
   mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
   name = 0;
   script = 0;

@@ -69,6 +69,7 @@ enum
   XMLTOKEN_PRINT,
   XMLTOKEN_CALL,
   XMLTOKEN_CASE,
+  XMLTOKEN_HITBEAM,
   XMLTOKEN_INHERIT,
   XMLTOKEN_DESTROYENTITY,
   XMLTOKEN_CREATEENTITY,
@@ -193,6 +194,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("print", XMLTOKEN_PRINT);
   xmltokens.Register ("call", XMLTOKEN_CALL);
   xmltokens.Register ("case", XMLTOKEN_CASE);
+  xmltokens.Register ("hitbeam", XMLTOKEN_HITBEAM);
   xmltokens.Register ("inherit", XMLTOKEN_INHERIT);
   xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
@@ -1822,6 +1824,26 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    	? CEL_OPERATION_VARENT
 		: CEL_OPERATION_VAR);
 	  }
+	}
+	break;
+      case XMLTOKEN_HITBEAM:
+	{
+          if (!ParseExpression (local_vars, child, h, "sector",
+		"hitbeam"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "start",
+		"hitbeam"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "end",
+		"hitbeam"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "isectvar",
+		"hitbeam"))
+	    return false;
+          if (!ParseExpression (local_vars, child, h, "entvar",
+		"hitbeam"))
+	    return false;
+	  h->AddOperation (CEL_OPERATION_HITBEAM);
 	}
 	break;
       case XMLTOKEN_SELECTENTITY:
