@@ -40,6 +40,9 @@
 
 CS_IMPLEMENT_PLUGIN
 
+CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
+{
+
 CEL_IMPLEMENT_FACTORY (CommandInput, "pccommandinput")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
@@ -634,6 +637,13 @@ float celPcCommandInput::CenteredToScreen (float centeredcoord, float axis)
     return (centeredcoord + 1) / 2 * g2d->GetHeight ();
 }
 
+static bool KeyEqual (utf32_char key1, utf32_char key2)
+{
+  return (key1 == key2) 
+    || (CSKEY_IS_MODIFIER (key1) && CSKEY_IS_MODIFIER (key2)
+      && CSKEY_MODIFIER_COMPARE_CODE (key1, key2));
+}
+
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
@@ -649,8 +659,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     celKeyMap *p = keylist;
     while (p)
     {
-      if ((p->key == key) && (!do_cooked || ((modifiers & p->modifiers)
-      	== p->modifiers)))
+      if (KeyEqual (p->key, key)
+        && (!do_cooked || ((modifiers & p->modifiers) == p->modifiers)))
       {
         break;
       }
@@ -880,3 +890,5 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
 //---------------------------------------------------------------------------
 
+}
+CS_PLUGIN_NAMESPACE_END(pfInput)

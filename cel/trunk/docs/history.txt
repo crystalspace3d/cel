@@ -25,6 +25,8 @@ The history order is reversed so that new features are at the top.
 	  pccommandinput. This can be done using
 	  iPcCommandInput->SetCookedMode() or by setting the 'cooked'
 	  property.
+	- res changed celPcCommandInput to employ the 
+	  CSKEY_MODIFIER_COMPARE_CODE macro to compare modifier keys.
 23-Feb-2006
 	- Jorrit removed a message system from CEL that was
 	  not used at all and for which the purpose has long been

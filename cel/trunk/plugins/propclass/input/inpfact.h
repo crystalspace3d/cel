@@ -35,6 +35,9 @@ struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
 
+CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
+{
+
 /**
  * Factory for test.
  */
@@ -160,5 +163,7 @@ protected:
   	uint32 modifiers) const;
 };
 
-#endif // __CEL_PF_TESTFACT__
+}
+CS_PLUGIN_NAMESPACE_END(pfInput)
 
+#endif // __CEL_PF_TESTFACT__
