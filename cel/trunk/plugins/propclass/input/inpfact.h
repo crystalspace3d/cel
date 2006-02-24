@@ -44,10 +44,9 @@ struct celKeyMap
 {
   celKeyMap *next, *prev;
   utf32_char key;
-  //uint32 modifiers;
+  uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  bool is_on;
 };
 
 struct celButtonMap
@@ -59,7 +58,6 @@ struct celButtonMap
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  bool is_on;
 };
 
 struct celAxisMap
@@ -89,6 +87,16 @@ private:
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
+  bool do_cooked;
+
+  // For properties.
+  enum propids
+  {
+    propid_cooked = 0
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcCommandInput (iObjectRegistry* object_reg);
@@ -102,6 +110,8 @@ public:
   bool HandleEvent (iEvent& ev);
 
   virtual void Activate (bool activate = true);
+  virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }
+  virtual bool GetCookedMode () const { return do_cooked; }
   virtual void ScreenCoordinates (bool screen = true);
   virtual float ScreenToCentered (float screencoord, float axis = 0);
   virtual float CenteredToScreen (float centeredcoord, float axis = 0);

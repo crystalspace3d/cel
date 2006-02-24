@@ -10,11 +10,21 @@ The history order is reversed so that new features are at the top.
 	      - Bindings like 'shift' no longer work. You need to specify
 	        'lshift' and 'rshift'.
 	      - Binding 'a' will now work for both 'a' and 'A'.
+	      - Binding modified keys like shift-f3 no longer works.
 	  This change fixes problems with CEL not being able to detect
 	  that a key was released if a modifier was pressed when the
 	  first key was also being pressed. i.e. press 'w' then 'shift'
 	  to speed up, then release 'w' and CEL wouldn't notice that 'w'
 	  is released.
+	- Jorrit simplified (and made safer) handling of autorepeat with
+	  keyboard events. pccommandinput no longer tries to detect
+	  autorepeat itself but instead relies on the autorepeat field
+	  from the keyboard event. Also removed support for autorepeat
+	  for mouse and joystick events.
+	- Jorrit added support for switching back to 'cooked' mode to
+	  pccommandinput. This can be done using
+	  iPcCommandInput->SetCookedMode() or by setting the 'cooked'
+	  property.
 23-Feb-2006
 	- Jorrit removed a message system from CEL that was
 	  not used at all and for which the purpose has long been
