@@ -41,6 +41,13 @@
  * <li>pccommandinput_<key>_: key is pressed and auto-repeating
  * <li>pccommandinput_<axis>: movement on the given axis
  * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>cooked (bool, read/write): use cooked mode instead of raw (default
+ *     is raw.
+ * </ul>
  */
 struct iPcCommandInput : public virtual iBase
 {
@@ -50,6 +57,24 @@ struct iPcCommandInput : public virtual iBase
    * Activates the input to get Commands
    */
   virtual void Activate (bool activate=true) = 0;
+
+  /**
+   * Enable/disable cooked mode. By default raw mode is used
+   * which means that keyboard events are parsed in raw mode. That
+   * implies the following:
+   * - You can't bind on key combinations like Shift-F3
+   * - Binding on 'a' is the same as 'A'.
+   * - You have to use 'lshift', 'rctrl', 'lalt' and so on instead of
+   *   'shift', 'ctrl', 'alt'.
+   * In cooked mode you can bind on key combinations and on keys
+   * like 'shift'.
+   */
+  virtual void SetCookedMode (bool cooked) = 0;
+
+  /**
+   * Get cooked or raw.
+   */
+  virtual bool GetCookedMode () const = 0;
 
   /**
    * Send screen coordinates instead of coordinates between -1 and 1 for axis

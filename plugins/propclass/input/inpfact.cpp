@@ -81,6 +81,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   buttonlist = 0;
   scfiEventHandler = 0;
   screenspace = false;
+  do_cooked = false;
 
   g2d = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
   if (!g2d)
@@ -97,6 +98,33 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     action_bind = pl->FetchStringID ("cel.action.Bind");
     id_trigger = pl->FetchStringID ("cel.parameter.trigger");
     id_command = pl->FetchStringID ("cel.parameter.command");
+  }
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_cooked] = &do_cooked;	// Automatically handled.
+
+}
+
+Property* celPcCommandInput::properties = 0;
+size_t celPcCommandInput::propertycount = 0;
+
+void celPcCommandInput::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_cooked].id = pl->FetchStringID (
+    	"cel.property.cooked");
+    properties[propid_cooked].datatype = CEL_DATA_BOOL;
+    properties[propid_cooked].readonly = false;
+    properties[propid_cooked].desc = "Cooked mode.";
   }
 }
 
@@ -159,11 +187,12 @@ bool celPcCommandInput::PerformAction (csStringID actionId,
   return false;
 }
 
-#define COMMANDINPUT_SERIAL 1
+#define COMMANDINPUT_SERIAL 2
 
 csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
+  databuf->Add (do_cooked);
   int cnt = 0;
   celKeyMap* m = keylist;
   while (m)
@@ -194,6 +223,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     Report (object_reg,"serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
     return false;
   }
+  do_cooked = databuf->GetBool ();
   int cnt = databuf->GetInt32 ();
   int i;
 
@@ -213,7 +243,6 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     newmap->command_end = strchr (newmap->command, 0);
     *(newmap->command_end+1) = 0;	// Make sure there is an end there too.
 
-    newmap->is_on = false;
     if (keylist)
       keylist->prev = newmap;
     keylist = newmap;
@@ -297,14 +326,13 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       newkmap->next=keylist;
       newkmap->prev=0;
       newkmap->key=key;
-      //newkmap->modifiers=mods;
+      newkmap->modifiers=mods;	// Only used in cooked mode.
       newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
       newkmap->command_end = strchr (newkmap->command, 0);
       *(newkmap->command_end+1) = 0;	// Make sure there is an end there too.
 
-      newkmap->is_on=false;
       if (keylist)
         keylist->prev = newkmap;
       keylist = newkmap;
@@ -378,7 +406,6 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         newbmap->command_end = strchr (newbmap->command, 0);
         *(newbmap->command_end+1) = 0;	// Make sure there is an end there too.
 
-        newbmap->is_on=false;
         if (buttonlist)
           buttonlist->prev = newbmap;
         buttonlist = newbmap;
@@ -449,11 +476,11 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   if (csInputDefinition::ParseKey (name_reg, triggername, &key,
   	&cooked, &modifiers))
   {
-    //uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     celKeyMap *pmap = 0, *map = keylist;
     while (map)
     {
-      if (map->key == key) //### && map->modifiers == mods)
+      if (map->key == key && map->modifiers == mods)
       {
         pmap->next = map->next;
 	delete map;
@@ -548,7 +575,7 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
   celKeyMap *p=keylist;
   while (p)
   {
-    if (p->key==key)//### && p->modifiers==mods)
+    if (p->key==key && p->modifiers==mods)
       break;
     p=p->next;
   }
@@ -612,16 +639,18 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
     utf32_char key = csKeyEventHelper::GetRawCode (&ev);
-    //csKeyModifiers key_modifiers;
-    //csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    //uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    csKeyModifiers key_modifiers;
+    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
     uint32 type = csKeyEventHelper::GetEventType (&ev);
+    bool autorep = csKeyEventHelper::GetAutoRepeat (&ev);
 
     //find mapping
     celKeyMap *p = keylist;
     while (p)
     {
-      if ((p->key == key))//### && ((modifiers & p->modifiers) == p->modifiers))
+      if ((p->key == key) && (!do_cooked || ((modifiers & p->modifiers)
+      	== p->modifiers)))
       {
         break;
       }
@@ -632,22 +661,18 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
     if (type == csKeyEventTypeUp)
     {
-      if (p->is_on)
+      iCelBehaviour* bh = entity->GetBehaviour();
+      if (bh)
       {
-        p->is_on = false;
-        iCelBehaviour* bh = entity->GetBehaviour();
-	if (bh)
-	{
-          *(p->command_end) = '0';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
-        }
+        *(p->command_end) = '0';
+        celData ret;
+        bh->SendMessage (p->command, this, ret, 0);
+        *(p->command_end) = 0;
       }
     }
     else
     {
-      if (p->is_on)
+      if (autorep)
       {
         // Send auto-repeat message.
         iCelBehaviour* bh = entity->GetBehaviour();
@@ -661,7 +686,6 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
       else
       {
-        p->is_on = true;
         iCelBehaviour* bh = entity->GetBehaviour();
 	if (bh)
 	{
@@ -740,45 +764,25 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
       if (ev.Name == csevMouseUp (object_reg, device))
       {
-        if (p->is_on)
-        {
-          p->is_on = false;
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '0';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
+        iCelBehaviour* bh = entity->GetBehaviour();
+	if (bh)
+	{
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+	}
       }
       else
       {
-        if (p->is_on)
-        {
-          // Send auto-repeat message.
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '_';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
-        else
-        {
-          p->is_on = true;
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '1';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
+        iCelBehaviour* bh = entity->GetBehaviour();
+	if (bh)
+	{
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+	}
       }
     }
   }
@@ -847,45 +851,25 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
-        if (p->is_on)
-        {
-          p->is_on = false;
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '0';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
+        iCelBehaviour* bh = entity->GetBehaviour();
+	if (bh)
+	{
+          *(p->command_end) = '0';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+	}
       }
       else
       {
-        if (p->is_on)
-        {
-          // Send auto-repeat message.
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '_';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
-        else
-        {
-          p->is_on = true;
-          iCelBehaviour* bh = entity->GetBehaviour();
-	  if (bh)
-	  {
-            *(p->command_end) = '1';
-            celData ret;
-            bh->SendMessage (p->command, this, ret, 0);
-            *(p->command_end) = 0;
-	  }
-        }
+        iCelBehaviour* bh = entity->GetBehaviour();
+	if (bh)
+	{
+          *(p->command_end) = '1';
+          celData ret;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
+	}
       }
     }
   }
