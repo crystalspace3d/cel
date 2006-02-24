@@ -66,6 +66,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#fcbc3c2ab071a8177a235dcbca73bd9d">CreateEmptyEntityList</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty entity list for personal use.  <a href="#fcbc3c2ab071a8177a235dcbca73bd9d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#d7303ad91e99d4f76b34831630601068">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name,...)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity from a template.  <a href="#d7303ad91e99d4f76b34831630601068"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#2531016dcaa8eb64ee592842266d4e6b">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name, const celEntityTemplateParams &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity from a template.  <a href="#2531016dcaa8eb64ee592842266d4e6b"></a><br></td></tr>
@@ -87,9 +90,6 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#ae30a227a251adf27ba737b7f7758870">CreateEntityTracker</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity tracker that you can use to keep track of specific sets of entities.  <a href="#ae30a227a251adf27ba737b7f7758870"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelMessage.html">iCelMessage</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#c5263928807f70d3b7e9ead780f75383">CreateMessage</a> (const char *msg_string,...)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a message.  <a href="#c5263928807f70d3b7e9ead780f75383"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#95e93943fb4720befa95f2f2102427c0">CreatePropertyClass</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, const char *propname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to create a property class from a registered class factory.  <a href="#95e93943fb4720befa95f2f2102427c0"></a><br></td></tr>
@@ -216,7 +216,7 @@ This is the Physical Layer itself.
 <p>
 
 <p>
-Definition at line <a class="el" href="pl_8h-source.html#l00106">106</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="pl_8h-source.html#l00107">107</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="040f187dbcebea19c47ec90477d385cc"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="040f187dbcebea19c47ec90477d385cc" args="(iCelEntityRemoveCallback *clback)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -570,6 +570,57 @@ Create an empty entity list for personal use.
     </td>
   </tr>
 </table>
+<a class="anchor" name="d7303ad91e99d4f76b34831630601068"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="d7303ad91e99d4f76b34831630601068" args="(iCelEntityTemplate *factory, const char *name,...)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a>* iCelPlLayer::CreateEntity           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>factory</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>&nbsp;</td>
+          <td class="mdname" nowrap> <em>...</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Create an entity from a template. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>factory</em>&nbsp;</td><td>is the template to create from. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>is the name of the new entity. After that comes a list of parameter pairs (two strings) with the last one being equal to CEL_PARAM_END. This will construct a celEntityTemplateParams instance from these parameters and then call the other <a class="el" href="structiCelPlLayer.html#e45f263656dcaa3b54d110df9a3ead31">CreateEntity()</a> variant. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="2531016dcaa8eb64ee592842266d4e6b"></a><!-- doxytag: member="iCelPlLayer::CreateEntity" ref="2531016dcaa8eb64ee592842266d4e6b" args="(iCelEntityTemplate *factory, const char *name, const celEntityTemplateParams &amp;params)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -832,45 +883,6 @@ Create an entity template.
 Create an entity tracker that you can use to keep track of specific sets of entities. 
 <p>
 Call <a class="el" href="structiCelPlLayer.html#1948170e0e685980e8d018faf7ddaa9d">RemoveEntityTracker()</a> to remove it.     </td>
-  </tr>
-</table>
-<a class="anchor" name="c5263928807f70d3b7e9ead780f75383"></a><!-- doxytag: member="iCelPlLayer::CreateMessage" ref="c5263928807f70d3b7e9ead780f75383" args="(const char *msg_string,...)=0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual csPtr&lt;<a class="el" href="structiCelMessage.html">iCelMessage</a>&gt; iCelPlLayer::CreateMessage           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">const char *&nbsp;</td>
-          <td class="mdname" nowrap> <em>msg_string</em>, </td>
-        </tr>
-        <tr>
-          <td class="md" nowrap align="right"></td>
-          <td class="md"></td>
-          <td class="md" nowrap>&nbsp;</td>
-          <td class="mdname" nowrap> <em>...</em></td>
-        </tr>
-        <tr>
-          <td class="md"></td>
-          <td class="md">)&nbsp;</td>
-          <td class="md" colspan="2"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Create a message. 
-<p>
-    </td>
   </tr>
 </table>
 <a class="anchor" name="95e93943fb4720befa95f2f2102427c0"></a><!-- doxytag: member="iCelPlLayer::CreatePropertyClass" ref="95e93943fb4720befa95f2f2102427c0" args="(iCelEntity *entity, const char *propname)=0" --><p>
