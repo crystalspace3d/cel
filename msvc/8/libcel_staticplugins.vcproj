@@ -1403,21 +1403,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\stdphyslayer\message.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_stdphyslayer_message.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_stdphyslayer_message.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\stdphyslayer\numreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1954,9 +1939,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\etracker.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\stdphyslayer\message.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\numreg.h">

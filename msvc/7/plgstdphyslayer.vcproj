@@ -175,9 +175,6 @@
 				RelativePath="..\..\plugins\stdphyslayer\etracker.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\stdphyslayer\message.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\stdphyslayer\numreg.cpp">
 			</File>
 			<File
@@ -198,9 +195,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\etracker.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\stdphyslayer\message.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\stdphyslayer\numreg.h">
