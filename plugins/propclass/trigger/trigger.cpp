@@ -701,7 +701,7 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
   else if (above_mesh)
   {
     databuf->Add ((uint8)3);
-    databuf->Add (above_mesh);
+    databuf->Add (above_mesh != 0);
     databuf->Add (above_maxdist);
   }
   else if (beam_sector)
@@ -723,7 +723,7 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
     databuf->Add (entities_in_trigger[i]);
   }
   databuf->Add (monitoring_entity);
-  databuf->Add (monitoring_entity_pcmesh);
+  databuf->Add (monitoring_entity_pcmesh != 0);
 
   return csPtr<iCelDataBuffer> (databuf);
 }

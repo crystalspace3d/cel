@@ -27,6 +27,11 @@ The history order is reversed so that new features are at the top.
 	  property.
 	- res changed celPcCommandInput to employ the 
 	  CSKEY_MODIFIER_COMPARE_CODE macro to compare modifier keys.
+	- res fixed some VC8 warnings.
+	- res updated the MSVC templates and VC static plugins file from the 
+	  CS master copies.
+	- res added a PACKAGE_NAME=CEL #define for use by the 
+	  CS_PLUGIN_NAMESPACE_* macros.
 23-Feb-2006
 	- Jorrit removed a message system from CEL that was
 	  not used at all and for which the purpose has long been
