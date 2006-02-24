@@ -164,7 +164,6 @@ class iCelPlLayer(cspace.iBase):
     def RemoveEntityTemplates(*args): return _blcelc.iCelPlLayer_RemoveEntityTemplates(*args)
     def FindEntityTemplate(*args): return _blcelc.iCelPlLayer_FindEntityTemplate(*args)
     def CreateEntity(*args): return _blcelc.iCelPlLayer_CreateEntity(*args)
-    def CreateMessage(*args): return _blcelc.iCelPlLayer_CreateMessage(*args)
     def CreateDataBuffer(*args): return _blcelc.iCelPlLayer_CreateDataBuffer(*args)
     def AttachEntity(*args): return _blcelc.iCelPlLayer_AttachEntity(*args)
     def UnattachEntity(*args): return _blcelc.iCelPlLayer_UnattachEntity(*args)
@@ -2149,6 +2148,89 @@ celCreateProperties = _blcelc.celCreateProperties
 celGetProperties = _blcelc.celGetProperties
 
 scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
+class iPcHover(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcHover, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcHover, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcHover instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetWorldMesh(*args): return _blcelc.iPcHover_SetWorldMesh(*args)
+    def SetWorld(*args): return _blcelc.iPcHover_SetWorld(*args)
+    def SetHeightBeamCutoff(*args): return _blcelc.iPcHover_SetHeightBeamCutoff(*args)
+    def SetAngularBeamOffset(*args): return _blcelc.iPcHover_SetAngularBeamOffset(*args)
+    def SetAngularCutoffHeight(*args): return _blcelc.iPcHover_SetAngularCutoffHeight(*args)
+    def SetAngularCorrectionStrength(*args): return _blcelc.iPcHover_SetAngularCorrectionStrength(*args)
+    def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
+    def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcHover):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcHoverPtr(iPcHover):
+    def __init__(self, this):
+        _swig_setattr(self, iPcHover, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcHover, 'thisown', 0)
+        _swig_setattr(self, iPcHover,self.__class__,iPcHover)
+_blcelc.iPcHover_swigregister(iPcHoverPtr)
+
+
+celCreateHover = _blcelc.celCreateHover
+
+celGetHover = _blcelc.celGetHover
+
+scfQuery_iPcHover = _blcelc.scfQuery_iPcHover
+class iPcCraftController(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcCraftController, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcCraftController, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcCraftController instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def StartTurnLeft(*args): return _blcelc.iPcCraftController_StartTurnLeft(*args)
+    def StopTurnLeft(*args): return _blcelc.iPcCraftController_StopTurnLeft(*args)
+    def StartTurnRight(*args): return _blcelc.iPcCraftController_StartTurnRight(*args)
+    def StopTurnRight(*args): return _blcelc.iPcCraftController_StopTurnRight(*args)
+    def StartTurnUp(*args): return _blcelc.iPcCraftController_StartTurnUp(*args)
+    def StopTurnUp(*args): return _blcelc.iPcCraftController_StopTurnUp(*args)
+    def StartTurnDown(*args): return _blcelc.iPcCraftController_StartTurnDown(*args)
+    def StopTurnDown(*args): return _blcelc.iPcCraftController_StopTurnDown(*args)
+    def SetAccTurn(*args): return _blcelc.iPcCraftController_SetAccTurn(*args)
+    def SetAccPitch(*args): return _blcelc.iPcCraftController_SetAccPitch(*args)
+    def SetMaxTurn(*args): return _blcelc.iPcCraftController_SetMaxTurn(*args)
+    def SetMaxPitch(*args): return _blcelc.iPcCraftController_SetMaxPitch(*args)
+    def SetThrustForce(*args): return _blcelc.iPcCraftController_SetThrustForce(*args)
+    def SetTopSpeed(*args): return _blcelc.iPcCraftController_SetTopSpeed(*args)
+    def SetRedirectVelocityRatio(*args): return _blcelc.iPcCraftController_SetRedirectVelocityRatio(*args)
+    def ThrustOn(*args): return _blcelc.iPcCraftController_ThrustOn(*args)
+    def ThrustOff(*args): return _blcelc.iPcCraftController_ThrustOff(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcCraftController):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcCraftControllerPtr(iPcCraftController):
+    def __init__(self, this):
+        _swig_setattr(self, iPcCraftController, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcCraftController, 'thisown', 0)
+        _swig_setattr(self, iPcCraftController,self.__class__,iPcCraftController)
+_blcelc.iPcCraftController_swigregister(iPcCraftControllerPtr)
+
+
+celCreateCraftController = _blcelc.celCreateCraftController
+
+celGetCraftController = _blcelc.celGetCraftController
+
+scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
 CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
