@@ -3,6 +3,18 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Feb-2006
+	- Jorrit did an important change to pccommandinput with regards
+	  to keyhandling. It is now using 'raw' keycodes as opposed to
+	  'cooked' keycodes. This has a few consequences:
+	      - Bindings like 'shift' no longer work. You need to specify
+	        'lshift' and 'rshift'.
+	      - Binding 'a' will now work for both 'a' and 'A'.
+	  This change fixes problems with CEL not being able to detect
+	  that a key was released if a modifier was pressed when the
+	  first key was also being pressed. i.e. press 'w' then 'shift'
+	  to speed up, then release 'w' and CEL wouldn't notice that 'w'
+	  is released.
 23-Feb-2006
 	- Jorrit removed a message system from CEL that was
 	  not used at all and for which the purpose has long been

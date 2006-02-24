@@ -297,7 +297,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       newkmap->next=keylist;
       newkmap->prev=0;
       newkmap->key=key;
-      newkmap->modifiers=mods;
+      //newkmap->modifiers=mods;
       newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
@@ -449,11 +449,11 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   if (csInputDefinition::ParseKey (name_reg, triggername, &key,
   	&cooked, &modifiers))
   {
-    uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
+    //uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     celKeyMap *pmap = 0, *map = keylist;
     while (map)
     {
-      if (map->key == key && map->modifiers == mods)
+      if (map->key == key) //### && map->modifiers == mods)
       {
         pmap->next = map->next;
 	delete map;
@@ -548,7 +548,7 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
   celKeyMap *p=keylist;
   while (p)
   {
-    if (p->key==key && p->modifiers==mods)
+    if (p->key==key)//### && p->modifiers==mods)
       break;
     p=p->next;
   }
@@ -611,17 +611,17 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
-    utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
-    csKeyModifiers key_modifiers;
-    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
+    utf32_char key = csKeyEventHelper::GetRawCode (&ev);
+    //csKeyModifiers key_modifiers;
+    //csKeyEventHelper::GetModifiers (&ev, key_modifiers);
+    //uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
     uint32 type = csKeyEventHelper::GetEventType (&ev);
 
     //find mapping
     celKeyMap *p = keylist;
     while (p)
     {
-      if ((p->key == key) && ((modifiers & p->modifiers) == p->modifiers))
+      if ((p->key == key))//### && ((modifiers & p->modifiers) == p->modifiers))
       {
         break;
       }

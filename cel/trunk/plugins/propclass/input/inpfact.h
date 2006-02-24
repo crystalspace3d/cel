@@ -44,7 +44,7 @@ struct celKeyMap
 {
   celKeyMap *next, *prev;
   utf32_char key;
-  uint32 modifiers;
+  //uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
   bool is_on;
