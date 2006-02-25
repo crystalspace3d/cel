@@ -754,11 +754,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       //mouse button event
       int button = csMouseEventHelper::GetButton(&ev);
-      uint device = csMouseEventHelper::GetNumber(&ev);
       int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
-      csEventID mouse_id = csevMouseMove (object_reg, device);
+      csEventID mouse_id = csevMouseButton (object_reg, device);
       while (p)
       {
         if ((p->numeric == button) && (p->device == device) &&
