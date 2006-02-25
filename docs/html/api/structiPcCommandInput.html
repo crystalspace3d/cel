@@ -48,6 +48,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#2baa7df6e7cf5d936024fd98ea6bc9e6">GetBind</a> (const char *triggername) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">returns the command bind to a key  <a href="#2baa7df6e7cf5d936024fd98ea6bc9e6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#1467dbf47394bc873e1308f76a1d6e68">GetCookedMode</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get cooked or raw.  <a href="#1467dbf47394bc873e1308f76a1d6e68"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#6904cb34815350d81a2ea8ee35120f88">LoadConfig</a> (const char *fname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loads a Config File binding triggers(for example keys) to commands.  <a href="#6904cb34815350d81a2ea8ee35120f88"></a><br></td></tr>
@@ -63,6 +66,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#3beb5793d0086d6cb141013a38882405">ScreenToCentered</a> (float screencoord, float axis=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a coordinate from screen-space to a value between -1 and 1.  <a href="#3beb5793d0086d6cb141013a38882405"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#ac16ee5acf3f980493e598fc5961aec3">SetCookedMode</a> (bool cooked)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable cooked mode.  <a href="#ac16ee5acf3f980493e598fc5961aec3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Input propery class. 
@@ -82,11 +88,16 @@ pccommandinput_&lt;key&gt;_: key is pressed and auto-repeating </li>
 <li>
 pccommandinput_&lt;axis&gt;: movement on the given axis </li>
 </ul>
+<p>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+cooked (bool, read/write): use cooked mode instead of raw (default is raw. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="input_8h-source.html#l00045">45</a> of file <a class="el" href="input_8h-source.html">input.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="input_8h-source.html#l00052">52</a> of file <a class="el" href="input_8h-source.html">input.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="10455cb15dd2925bb181019348789668"></a><!-- doxytag: member="iPcCommandInput::Activate" ref="10455cb15dd2925bb181019348789668" args="(bool activate=true)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -227,6 +238,35 @@ Convert a coordinate from a value between -1 and 1 to screen-space.
 
 <p>
 returns the command bind to a key 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="1467dbf47394bc873e1308f76a1d6e68"></a><!-- doxytag: member="iPcCommandInput::GetCookedMode" ref="1467dbf47394bc873e1308f76a1d6e68" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcCommandInput::GetCookedMode           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get cooked or raw. 
 <p>
     </td>
   </tr>
@@ -401,6 +441,38 @@ Convert a coordinate from screen-space to a value between -1 and 1.
     <tr><td valign="top"></td><td valign="top"><em>axis</em>&nbsp;</td><td>the screen axis to use for the conversion (0 = x, 1 = y) </td></tr>
   </table>
 </dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="ac16ee5acf3f980493e598fc5961aec3"></a><!-- doxytag: member="iPcCommandInput::SetCookedMode" ref="ac16ee5acf3f980493e598fc5961aec3" args="(bool cooked)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcCommandInput::SetCookedMode           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">bool&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>cooked</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Enable/disable cooked mode. 
+<p>
+By default raw mode is used which means that keyboard events are parsed in raw mode. That implies the following:<ul>
+<li>You can't bind on key combinations like Shift-F3</li><li>Binding on 'a' is the same as 'A'.</li><li>You have to use 'lshift', 'rctrl', 'lalt' and so on instead of 'shift', 'ctrl', 'alt'. In cooked mode you can bind on key combinations and on keys like 'shift'. </li></ul>
     </td>
   </tr>
 </table>
