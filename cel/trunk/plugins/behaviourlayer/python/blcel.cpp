@@ -15175,6 +15175,49 @@ static PyObject *_wrap_iPcCommandInput_Activate(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iPcCommandInput_SetCookedMode(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+    bool arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcCommandInput_SetCookedMode",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCommandInput, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (bool)(SWIG_As_bool(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetCookedMode(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCommandInput_GetCookedMode(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_GetCookedMode",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCommandInput, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (bool)((iPcCommandInput const *)arg1)->GetCookedMode();
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcCommandInput_ScreenCoordinates__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
@@ -28599,6 +28642,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celGetZoneManager", _wrap_celGetZoneManager, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcZoneManager", _wrap_scfQuery_iPcZoneManager, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_Activate", _wrap_iPcCommandInput_Activate, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_SetCookedMode", _wrap_iPcCommandInput_SetCookedMode, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_GetCookedMode", _wrap_iPcCommandInput_GetCookedMode, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_ScreenCoordinates", _wrap_iPcCommandInput_ScreenCoordinates, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_ScreenToCentered", _wrap_iPcCommandInput_ScreenToCentered, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_CenteredToScreen", _wrap_iPcCommandInput_CenteredToScreen, METH_VARARGS, NULL},

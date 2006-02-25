@@ -1181,6 +1181,8 @@ class iPcCommandInput(cspace.iBase):
     def __repr__(self):
         return "<%s.%s; proxy of C++ iPcCommandInput instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
+    def SetCookedMode(*args): return _blcelc.iPcCommandInput_SetCookedMode(*args)
+    def GetCookedMode(*args): return _blcelc.iPcCommandInput_GetCookedMode(*args)
     def ScreenCoordinates(*args): return _blcelc.iPcCommandInput_ScreenCoordinates(*args)
     def ScreenToCentered(*args): return _blcelc.iPcCommandInput_ScreenToCentered(*args)
     def CenteredToScreen(*args): return _blcelc.iPcCommandInput_CenteredToScreen(*args)
