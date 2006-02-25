@@ -64,8 +64,6 @@ struct iPcCommandInput : public virtual iBase
    * implies the following:
    * - You can't bind on key combinations like Shift-F3
    * - Binding on 'a' is the same as 'A'.
-   * - You have to use 'lshift', 'rctrl', 'lalt' and so on instead of
-   *   'shift', 'ctrl', 'alt'.
    * In cooked mode you can bind on key combinations and on keys
    * like 'shift'.
    */
