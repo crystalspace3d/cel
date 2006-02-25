@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Feb-2006
+	- Jorrit fixed pccommandinput so that mouse button events work
+	  propery again.
 24-Feb-2006
 	- Jorrit did an important change to pccommandinput with regards
 	  to keyhandling. It is now using 'raw' keycodes as opposed to
