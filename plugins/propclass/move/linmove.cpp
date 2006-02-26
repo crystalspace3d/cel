@@ -1032,6 +1032,17 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     {
       spstate->SetAction(path_actions[path->GetCurrentIndex()]);
     }
+    if (path_time>path->GetTime(path->Length()-1))
+    {
+	    path=0;
+	    path_time=0;
+	    iCelBehaviour* behaviour = entity->GetBehaviour ();
+	    if (behaviour)
+	    {
+	    	celData ret;
+	    	behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
+	    }
+    }
   }
   else
   {

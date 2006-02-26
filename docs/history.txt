@@ -16,6 +16,9 @@ The history order is reversed so that new features are at the top.
 	- caedes added a SetPath(csPath&) to pclinmove in blcel.i (as a swig
 	  extension) as otherwise swig is not detecting the inheritance here 
 	  and complaints it wants an iPath.
+	- caedes added a test in linmove to see if we are at the end of the
+	  assigned path, if so unsets the path and sends a
+	  pclinearmovement_arrived message to the behaviour.
 25-Feb-2006
 	- Jorrit fixed pccommandinput so that mouse button events work
 	  propery again.
