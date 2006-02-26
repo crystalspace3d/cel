@@ -45,6 +45,8 @@
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * <ul>
+ * <li>screenspace (bool, read/write): use screenspace instead of -1/1
+ *     normalized coordinates (-1/1 is default).
  * <li>cooked (bool, read/write): use cooked mode instead of raw (default
  *     is raw.
  * </ul>

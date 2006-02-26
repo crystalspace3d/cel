@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  events.
 	- Jorrit fixed mouse move events so that they send an x and
 	  y location instead of only one axis at the time.
+	- Jorrit added 'screenspace' as a property to pccommandinput
+	  so that you can set it from XML.
 25-Feb-2006
 	- Jorrit fixed pccommandinput so that mouse button events work
 	  propery again.

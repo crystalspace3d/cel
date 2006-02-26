@@ -100,7 +100,8 @@ private:
   // For properties.
   enum propids
   {
-    propid_cooked = 0
+    propid_cooked = 0,
+    propid_screenspace
   };
   static Property* properties;
   static size_t propertycount;

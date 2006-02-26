@@ -113,6 +113,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_cooked] = &do_cooked;	// Automatically handled.
+  propdata[propid_screenspace] = &screenspace;	// Automatically handled.
 
   mouse_params = new celGenericParameterBlock (2);
   mouse_params->SetParameterDef (0, id_x, "x");
@@ -127,7 +128,7 @@ void celPcCommandInput::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 1;
+    propertycount = 2;
     properties = new Property[propertycount];
 
     properties[propid_cooked].id = pl->FetchStringID (
@@ -135,6 +136,12 @@ void celPcCommandInput::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_cooked].datatype = CEL_DATA_BOOL;
     properties[propid_cooked].readonly = false;
     properties[propid_cooked].desc = "Cooked mode.";
+
+    properties[propid_screenspace].id = pl->FetchStringID (
+    	"cel.property.screenspace");
+    properties[propid_screenspace].datatype = CEL_DATA_BOOL;
+    properties[propid_screenspace].readonly = false;
+    properties[propid_screenspace].desc = "Screenspace mode.";
   }
 }
 
@@ -199,12 +206,13 @@ bool celPcCommandInput::PerformAction (csStringID actionId,
   return false;
 }
 
-#define COMMANDINPUT_SERIAL 2
+#define COMMANDINPUT_SERIAL 3
 
 csPtr<iCelDataBuffer> celPcCommandInput::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (COMMANDINPUT_SERIAL);
   databuf->Add (do_cooked);
+  databuf->Add (screenspace);
   int cnt = 0;
   celKeyMap* m = keylist;
   while (m)
@@ -236,6 +244,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     return false;
   }
   do_cooked = databuf->GetBool ();
+  screenspace = databuf->GetBool ();
   int cnt = databuf->GetInt32 ();
   int i;
 
@@ -627,7 +636,7 @@ celButtonMap* celPcCommandInput::GetButtonMap (csEventID type, uint device,
 
 void celPcCommandInput::ScreenCoordinates (bool screen)
 {
-	screenspace = screen;
+  screenspace = screen;
 }
 
 float celPcCommandInput::ScreenToCentered (float screencoord, float axis)
