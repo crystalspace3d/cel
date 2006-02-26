@@ -358,6 +358,8 @@ CEL_PC(iPcMechanicsSystem, MechanicsSystem, pcmechsys)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsSystem)
 CEL_PC(iPcMechanicsObject, MechanicsObject, pcmechobject)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsObject)
+CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcmechjoint)
+CEL_PC_QUERY_CLASSLIST(iPcMechanicsJoint)
 
 %include "propclass/mechthruster.h"
 CEL_PC(iPcMechanicsThruster, MechanicsThrusterReactionary,
@@ -419,7 +421,10 @@ CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 
 %include "propclass/linmove.h"
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
-
+%extend iPcLinearMovement {
+  void SetPath (csPath &p )
+  { self->SetPath (&p); }
+}
 //-----------------------------------------------------------------------------
 %include "propclass/actormove.h"
 CEL_PC(iPcActorMove, ActorMove, pcactormove)

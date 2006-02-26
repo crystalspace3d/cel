@@ -11,7 +11,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added 'screenspace' as a property to pccommandinput
 	  so that you can set it from XML.
 	- caedes added a conditional at celPcSoundSource::GetSource so the
-	  sound source is not created if it exists. 
+	  sound source is not created if it exists.
+	- caedes added pcmechanicsjoint to blcel.i for the python bl.
+	- caedes added a SetPath(csPath&) to pclinmove in blcel.i (as a swig
+	  extension) as otherwise swig is not detecting the inheritance here 
+	  and complaints it wants an iPath.
 25-Feb-2006
 	- Jorrit fixed pccommandinput so that mouse button events work
 	  propery again.
