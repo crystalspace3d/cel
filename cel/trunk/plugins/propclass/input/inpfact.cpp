@@ -737,6 +737,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	    else
 	      params->GetParameter(0).Set(ScreenToCentered (val, p->numeric));
             bh->SendMessage (p->command, this, ret, params);
+	    params->DecRef ();
 	  }
 	  if (p->recenter)
 	  {
@@ -828,6 +829,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	    else
 	      params->GetParameter(0).Set(val);
             bh->SendMessage (p->command, this, ret, params);
+	    params->DecRef ();
 	  }
         }
         p = p->next;

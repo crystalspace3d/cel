@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Feb-2006
+	- Jorrit fixed a memory leak with the mouse and keyboard
+	  events.
 25-Feb-2006
 	- Jorrit fixed pccommandinput so that mouse button events work
 	  propery again.
