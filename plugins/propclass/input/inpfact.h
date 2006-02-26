@@ -34,6 +34,7 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
+class celGenericParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 {
@@ -87,10 +88,14 @@ private:
   static csStringID id_trigger;
   static csStringID id_command;
   static csStringID action_bind;
+  static csStringID id_x;
+  static csStringID id_y;
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
   bool do_cooked;
+
+  celGenericParameterBlock* mouse_params;
 
   // For properties.
   enum propids

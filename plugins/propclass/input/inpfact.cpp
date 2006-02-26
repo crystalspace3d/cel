@@ -69,6 +69,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 csStringID celPcCommandInput::id_trigger = csInvalidStringID;
 csStringID celPcCommandInput::id_command = csInvalidStringID;
 csStringID celPcCommandInput::action_bind = csInvalidStringID;
+csStringID celPcCommandInput::id_x = csInvalidStringID;
+csStringID celPcCommandInput::id_y = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE (celPcCommandInput::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
@@ -101,6 +103,8 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     action_bind = pl->FetchStringID ("cel.action.Bind");
     id_trigger = pl->FetchStringID ("cel.parameter.trigger");
     id_command = pl->FetchStringID ("cel.parameter.command");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
   }
 
   // For properties.
@@ -110,6 +114,9 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   propcount = &propertycount;
   propdata[propid_cooked] = &do_cooked;	// Automatically handled.
 
+  mouse_params = new celGenericParameterBlock (2);
+  mouse_params->SetParameterDef (0, id_x, "x");
+  mouse_params->SetParameterDef (1, id_y, "y");
 }
 
 Property* celPcCommandInput::properties = 0;
@@ -133,6 +140,8 @@ void celPcCommandInput::UpdateProperties (iObjectRegistry* object_reg)
 
 celPcCommandInput::~celPcCommandInput ()
 {
+  mouse_params->DecRef ();
+  
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
@@ -723,21 +732,21 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 	  iCelBehaviour* bh = entity->GetBehaviour ();
 	  if (bh)
 	  {
-	    float val;
-	    if (p->numeric == 0)
-              val = (float) csMouseEventHelper::GetX(&ev);
-	    else
-              val = (float) csMouseEventHelper::GetY(&ev);
+	    float x, y;
+            x = (float) csMouseEventHelper::GetX(&ev);
+            y = (float) csMouseEventHelper::GetY(&ev);
             celData ret;
-	    csStringID id_mouseval = pl->FetchStringID ("cel.parameter.value");
-	    celGenericParameterBlock *params = new celGenericParameterBlock (1);
-	    params->SetParameterDef (0, id_mouseval, "value");
 	    if (screenspace)
-	      params->GetParameter(0).Set(val);
+	    {
+	      mouse_params->GetParameter(0).Set(x);
+	      mouse_params->GetParameter(1).Set(y);
+	    }
 	    else
-	      params->GetParameter(0).Set(ScreenToCentered (val, p->numeric));
-            bh->SendMessage (p->command, this, ret, params);
-	    params->DecRef ();
+	    {
+	      mouse_params->GetParameter(0).Set(ScreenToCentered (x, 0));
+	      mouse_params->GetParameter(1).Set(ScreenToCentered (y, 1));
+	    }
+            bh->SendMessage (p->command, this, ret, mouse_params);
 	  }
 	  if (p->recenter)
 	  {
