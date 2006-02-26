@@ -52,29 +52,29 @@
 <a name="l00055"></a>00055 
 <a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#10455cb15dd2925bb181019348789668">Activate</a> (<span class="keywordtype">bool</span> activate=<span class="keyword">true</span>) = 0;
 <a name="l00060"></a>00060 
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#ac16ee5acf3f980493e598fc5961aec3">SetCookedMode</a> (<span class="keywordtype">bool</span> cooked) = 0;
-<a name="l00073"></a>00073 
-<a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#1467dbf47394bc873e1308f76a1d6e68">GetCookedMode</a> () <span class="keyword">const </span>= 0;
-<a name="l00078"></a>00078 
-<a name="l00083"></a>00083   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#af5ba714f8082294c28ea9621fb5d34e">ScreenCoordinates</a> (<span class="keywordtype">bool</span> screen=<span class="keyword">true</span>) = 0;
-<a name="l00084"></a>00084 
-<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcCommandInput.html#3beb5793d0086d6cb141013a38882405">ScreenToCentered</a> (<span class="keywordtype">float</span> screencoord, <span class="keywordtype">float</span> axis = 0) = 0;
-<a name="l00091"></a>00091 
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcCommandInput.html#5cf4e27b34bff47c64755eca16f981ee">CenteredToScreen</a> (<span class="keywordtype">float</span> centeredcoord, <span class="keywordtype">float</span> axis = 0) = 0;
-<a name="l00098"></a>00098 
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#6904cb34815350d81a2ea8ee35120f88">LoadConfig</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* fname) = 0;
-<a name="l00103"></a>00103 
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#ee8718df1f1f1f0f8275f1169c1bf3fb">Bind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername, <span class="keyword">const</span> <span class="keywordtype">char</span>* command) = 0;
-<a name="l00108"></a>00108 
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcCommandInput.html#2baa7df6e7cf5d936024fd98ea6bc9e6">GetBind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername) <span class="keyword">const </span>= 0;
-<a name="l00111"></a>00111 
-<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#8a7b076a802ce4f4d4c62723f67a3a00">RemoveBind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername, <span class="keyword">const</span> <span class="keywordtype">char</span>* command) = 0;
-<a name="l00114"></a>00114   
-<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#eac12bb61088c945c3da288a8b6b77b8">RemoveAllBinds</a> () = 0;
-<a name="l00117"></a>00117 };
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119 <span class="preprocessor">#endif // __CEL_PF_INPUT__</span>
-<a name="l00120"></a>00120 <span class="preprocessor"></span>
+<a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#ac16ee5acf3f980493e598fc5961aec3">SetCookedMode</a> (<span class="keywordtype">bool</span> cooked) = 0;
+<a name="l00071"></a>00071 
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#1467dbf47394bc873e1308f76a1d6e68">GetCookedMode</a> () <span class="keyword">const </span>= 0;
+<a name="l00076"></a>00076 
+<a name="l00081"></a>00081   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#af5ba714f8082294c28ea9621fb5d34e">ScreenCoordinates</a> (<span class="keywordtype">bool</span> screen=<span class="keyword">true</span>) = 0;
+<a name="l00082"></a>00082 
+<a name="l00088"></a>00088   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcCommandInput.html#3beb5793d0086d6cb141013a38882405">ScreenToCentered</a> (<span class="keywordtype">float</span> screencoord, <span class="keywordtype">float</span> axis = 0) = 0;
+<a name="l00089"></a>00089 
+<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcCommandInput.html#5cf4e27b34bff47c64755eca16f981ee">CenteredToScreen</a> (<span class="keywordtype">float</span> centeredcoord, <span class="keywordtype">float</span> axis = 0) = 0;
+<a name="l00096"></a>00096 
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#6904cb34815350d81a2ea8ee35120f88">LoadConfig</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* fname) = 0;
+<a name="l00101"></a>00101 
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#ee8718df1f1f1f0f8275f1169c1bf3fb">Bind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername, <span class="keyword">const</span> <span class="keywordtype">char</span>* command) = 0;
+<a name="l00106"></a>00106 
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcCommandInput.html#2baa7df6e7cf5d936024fd98ea6bc9e6">GetBind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername) <span class="keyword">const </span>= 0;
+<a name="l00109"></a>00109 
+<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCommandInput.html#8a7b076a802ce4f4d4c62723f67a3a00">RemoveBind</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* triggername, <span class="keyword">const</span> <span class="keywordtype">char</span>* command) = 0;
+<a name="l00112"></a>00112   
+<a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCommandInput.html#eac12bb61088c945c3da288a8b6b77b8">RemoveAllBinds</a> () = 0;
+<a name="l00115"></a>00115 };
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 <span class="preprocessor">#endif // __CEL_PF_INPUT__</span>
+<a name="l00118"></a>00118 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
