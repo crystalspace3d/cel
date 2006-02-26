@@ -564,6 +564,7 @@ void celPcSoundSource::GetSoundWrap ()
 
 bool celPcSoundSource::GetSource ()
 {
+  if (source) return true;
   GetSoundWrap ();
   if (!soundwrap) return false;
   csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (object_reg,
