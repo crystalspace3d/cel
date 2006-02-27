@@ -1815,6 +1815,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  else top.SetInt32 (0);
 	}
 	break;
+      case CEL_OPERATION_TESTVAR:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: testvar (%s)\n", i-1, A2S (top)));
+	  const char* str = ArgToString (top);
+	  iPcProperties* props = behave->GetProperties ();
+	  CS_ASSERT (props != 0);
+	  size_t idx = props->GetPropertyIndex (str);
+          if (idx == csArrayItemNotFound)
+	    top.Set (false);
+	  else
+	    top.Set (true);
+	}
+	break;
       case CEL_OPERATION_INTPOL:
         {
 	  CHECK_STACK(3)
