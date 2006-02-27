@@ -316,7 +316,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   csString strtrigger = csString (triggername);
   bool centered = false;
   size_t centerpos = strtrigger.FindStr ("_centered");
-  if (centerpos < (size_t)-1)
+  if (centerpos != (size_t)-1)
   {
     centered = true;
     strtrigger.Truncate (centerpos);
