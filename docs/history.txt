@@ -14,6 +14,14 @@ The history order is reversed so that new features are at the top.
 	- caedes added default parameters for quests. Can be added to quests
 	  using: <default name="timeout" string="100"/> inside the <quest>
 	  node.
+	- Jorrit added a new celconsole plugin. This is an input/output
+	  console that you can embed in any application that uses CEL.
+	  You will be able to use it to perform commands on entities
+	  at runtime (like send messages to a behaviour, list all
+	  available entities, perform actions, ...). It will also allow
+	  for user-defined commands so that games can add their own
+	  console commands. Currently work in progress so it doesn't
+	  fully work yet.
 26-Feb-2006
 	- Jorrit fixed a memory leak with the mouse and keyboard
 	  events.
