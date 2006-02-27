@@ -231,6 +231,7 @@ private:
   char* name;
   celQuestFactoryStates states;
   celQuestFactorySequences sequences;
+  celQuestParams defaults;
 
   bool LoadTriggerResponse (iQuestTriggerResponseFactory* respfact,
   	iQuestTriggerFactory* trigfact, iDocumentNode* node);
@@ -257,6 +258,9 @@ public:
   virtual iQuestStateFactory* CreateState (const char* name);
   virtual iQuestSequenceFactory* GetSequence (const char* name);
   virtual iQuestSequenceFactory* CreateSequence (const char* name);
+  virtual const char* GetDefaultParameter (const char* name) const;
+  virtual void SetDefaultParameter (const char* name,const char* value);
+  virtual void ClearDefaultParameters ();
 };
 
 /**

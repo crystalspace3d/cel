@@ -593,6 +593,24 @@ struct iQuestFactory : public iBase
    * Return 0 on failure (name already exists).
    */
   virtual iQuestSequenceFactory* CreateSequence (const char* name) = 0;
+
+  /**
+   * Get a default parameter from this factory.
+   * Return 0 if the parameter does not exist.
+   */
+  virtual const char* GetDefaultParameter (const char* name) const = 0;
+
+  /**
+   * Set a default parameter on this factory.
+   * If the parameter exists it will be overwritten.
+   */
+  virtual void SetDefaultParameter (const char* name,const char* value) = 0;
+  
+  /**
+   * Clear all default parameters on this factory.
+   */
+  virtual void ClearDefaultParameters () = 0;
+
 };
 
 //-------------------------------------------------------------------------
