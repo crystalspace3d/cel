@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	  now load quests from external files (on VFS). Just use 'file'
 	  attribute instead of 'name' and the file should start with
 	  the <quest name="bla"> node.
+	- caedes added default parameters for quests. Can be added to quests
+	  using: <default name="timeout" string="100"/> inside the <quest>
+	  node.
 26-Feb-2006
 	- Jorrit fixed a memory leak with the mouse and keyboard
 	  events.

@@ -361,6 +361,7 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
 	  AddDelay (time);
 	}
         break;
+
       default:
         csReport (parent_factory->GetQuestManager ()->object_reg,
 		CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
@@ -447,11 +448,47 @@ celQuestFactory::~celQuestFactory ()
   SCF_DESTRUCT_IBASE ();
 }
 
+const char* celQuestFactory::GetDefaultParameter (const char* name) const
+{
+  return defaults.Get(name,0);
+}
+
+void celQuestFactory::SetDefaultParameter (const char* name,const char* value)
+{
+  defaults.PutUnique(name,value);
+}
+
+void celQuestFactory::ClearDefaultParameters ()
+{
+  defaults.DeleteAll();
+}
+
 csPtr<iQuest> celQuestFactory::CreateQuest (
       const celQuestParams& params)
 {
   celQuest* q = new celQuest (questmgr->pl);
-
+  // Set defaults
+  const celQuestParams *p_params;
+  celQuestParams result_params;
+  if (params.GetSize() && defaults.GetSize())
+  {
+     result_params=params;
+     celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
+     csStrKey it_key;
+     const char* name;
+     while (def_it.HasNext ())
+     {
+        name = def_it.Next (it_key);
+        if (!params.Contains(it_key))
+          result_params.PutUnique(it_key,name);
+     }
+     p_params=&result_params;
+  }
+  else if (defaults.GetSize())
+    p_params=&defaults;
+  else
+    p_params=&params;
+  // Set states
   celQuestFactoryStates::GlobalIterator sta_it = states.GetIterator ();
   while (sta_it.HasNext ())
   {
@@ -469,25 +506,26 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
 
       size_t respidx = q->AddStateResponse (stateidx);
       csRef<iQuestTrigger> trig = trigfact->CreateTrigger ((iQuest*)q,
-      		params);
+      		*p_params);
       if (!trig) return 0;	// @@@ Report
       q->SetStateTrigger (stateidx, respidx, trig);
       size_t j;
       for (j = 0 ; j < rewfacts.Length () ; j++)
       {
         csRef<iQuestReward> rew = rewfacts[j]->CreateReward ((iQuest*)q,
-		params);
+		*p_params);
 	if (!rew) return 0;
         q->AddStateReward (stateidx, respidx, rew);
       }
     }
   }
 
+  // Set sequences
   celQuestFactorySequences::GlobalIterator seq_it = sequences.GetIterator ();
   while (seq_it.HasNext ())
   {
     celQuestSequenceFactory* sf = seq_it.Next ();
-    csRef<celQuestSequence> seq = sf->CreateSequence (params);
+    csRef<celQuestSequence> seq = sf->CreateSequence (*p_params);
     q->AddSequence (seq);
   }
 
@@ -604,6 +642,14 @@ bool celQuestFactory::Load (iDocumentNode* node)
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case celQuestFactory::XMLTOKEN_DEFAULT:
+        {
+	  const char* name = child->GetAttributeValue ("name");
+	  const char* value = child->GetAttributeValue ("string");
+	  if (name)
+	  	SetDefaultParameter(name,value);
+	}
+        break;
       case XMLTOKEN_STATE:
         {
 	  const char* statename = child->GetAttributeValue ("name");
