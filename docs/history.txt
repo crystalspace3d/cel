@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Feb-2006
+	- Jorrit added a 'testvar' function to the XML behaviour layer
+	  which can be used to test if a var is defined.
+	- Jorrit added a 'gravity' property to pclinmove.
 26-Feb-2006
 	- Jorrit fixed a memory leak with the mouse and keyboard
 	  events.

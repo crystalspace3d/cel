@@ -133,6 +133,7 @@ enum
   XMLFUNCTION_STRLEN,
   XMLFUNCTION_SCR_WIDTH,
   XMLFUNCTION_SCR_HEIGHT,
+  XMLFUNCTION_TESTVAR,
   XMLFUNCTION_READFILE,
   XMLFUNCTION_WRITEFILE,
 
@@ -253,6 +254,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
   functions.Register ("scr_width", XMLFUNCTION_SCR_WIDTH);
   functions.Register ("scr_height", XMLFUNCTION_SCR_HEIGHT);
+  functions.Register ("testvar", XMLFUNCTION_TESTVAR);
   functions.Register ("readfile", XMLFUNCTION_READFILE);
   functions.Register ("writefile", XMLFUNCTION_WRITEFILE);
 
@@ -480,6 +482,13 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
 	h->AddOperation (CEL_OPERATION_WRITEFILE);
+      }
+      break;
+    case XMLFUNCTION_TESTVAR:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_TESTVAR);
       }
       break;
     case XMLFUNCTION_STRLEN:

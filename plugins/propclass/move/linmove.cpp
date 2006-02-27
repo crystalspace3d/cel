@@ -212,6 +212,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_anchor] = 0;		// Handled in this class.
+  propdata[propid_gravity] = &gravity;	// Handled automatically.
 
   ResetGravity();
 
@@ -231,7 +232,7 @@ celPcLinearMovement::~celPcLinearMovement ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 }
 
-#define LINMOVE_SERIAL 2
+#define LINMOVE_SERIAL 3
 
 csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 {
@@ -256,6 +257,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
     pc = 0;
   databuf->Add (pc);
 
+  databuf->Add (gravity);
   databuf->Add (topSize);
   databuf->Add (bottomSize);
   databuf->Add (shift);
@@ -286,6 +288,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
     LoadAnchor (new_anchor);
   }
 
+  gravity = databuf->GetFloat ();
   databuf->GetVector3 (topSize);
   databuf->GetVector3 (bottomSize);
   databuf->GetVector3 (shift);
@@ -360,7 +363,7 @@ void celPcLinearMovement::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 1;
+    propertycount = 2;
     properties = new Property[propertycount];
 
     properties[propid_anchor].id = pl->FetchStringID (
@@ -368,6 +371,12 @@ void celPcLinearMovement::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_anchor].datatype = CEL_DATA_STRING;
     properties[propid_anchor].readonly = false;
     properties[propid_anchor].desc = "Mesh Anchor.";
+
+    properties[propid_gravity].id = pl->FetchStringID (
+    	"cel.property.gravity");
+    properties[propid_gravity].datatype = CEL_DATA_FLOAT;
+    properties[propid_gravity].readonly = false;
+    properties[propid_gravity].desc = "Gravity.";
   }
 }
 

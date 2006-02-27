@@ -160,7 +160,8 @@ protected:
   // For properties.
   enum propids
   {
-    propid_anchor = 0
+    propid_anchor = 0,
+    propid_gravity
   };
   static Property* properties;
   static size_t propertycount;
