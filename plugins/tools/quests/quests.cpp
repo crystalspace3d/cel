@@ -21,6 +21,7 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "csutil/xmltiny.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
@@ -1171,12 +1172,35 @@ bool celQuestManager::Load (iDocumentNode* node)
     const char* value = child->GetValue ();
     if (strcmp ("quest", value) == 0)
     {
-      const char* questname = child->GetAttributeValue ("name");
+      const char* filename = child->GetAttributeValue ("file");
+      csRef<iDocumentNode> questnode;
+      csRef<iDocument> doc;
+      if (filename)
+      {
+        // Load quest from a file.
+	csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg,
+		iDocumentSystem);
+	if (!xml)
+	  xml.AttachNew (new csTinyDocumentSystem ());
+	doc = xml->CreateDocument ();
+	const char* error = doc->Parse (filename, true);
+	if (error != 0)
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.questmanager",
+		"Can't open file '%s': %s!", filename, error);
+        }
+	questnode = doc->GetRoot ()->GetNode ("quest");
+      }
+      else
+        questnode = child;
+
+      const char* questname = questnode->GetAttributeValue ("name");
       iQuestFactory* questfact = CreateQuestFactory (questname);
       // It is possible that questfact is 0. That means that the factory
       // already existed.
       if (questfact)
-        if (!questfact->Load (child))
+        if (!questfact->Load (questnode))
           return false;
     }
     else
