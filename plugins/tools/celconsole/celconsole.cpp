@@ -55,6 +55,57 @@ public:
 
 //--------------------------------------------------------------------------
 
+class cmdHelp : public scfImplementation1<cmdHelp, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdHelp (celConsole* parent) : scfImplementationType (this), parent (parent)
+  {
+  }
+  virtual ~cmdHelp () { }
+  virtual const char* GetCommand () { return "help"; }
+  virtual const char* GetDescription () { return "Get help."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: help <command>\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    if (args.Length () <= 1)
+      parent->ListCommands ();
+    else
+      parent->HelpCommand (args[1]);
+  }
+};
+
+class cmdListEnt : public scfImplementation1<cmdListEnt, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdListEnt (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdListEnt () { }
+  virtual const char* GetCommand () { return "listent"; }
+  virtual const char* GetDescription () { return "List entities."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: listent\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->ListEntities ();
+  }
+};
+
+
+//--------------------------------------------------------------------------
+
 celConsole::celConsole (iBase* parent)
   : scfImplementationType (this, parent)
 {
@@ -110,6 +161,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   ConsoleExecCallback* cb = new ConsoleExecCallback (this);
   conin->SetExecuteCallback (cb);
   cb->DecRef ();
+  conout->SetVisible (false);
 
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
@@ -128,6 +180,12 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
 
+  csRef<iCelConsoleCommand> cmd;
+  cmd.AttachNew (new cmdHelp (this));
+  RegisterCommand (cmd);
+  cmd.AttachNew (new cmdListEnt (this));
+  RegisterCommand (cmd);
+
   return true;
 }
 
@@ -136,7 +194,7 @@ bool celConsole::HandleEvent (iEvent& ev)
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
     utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
-    if (key == CSKEY_TAB)
+    if (key == '~')
     {
       uint32 type = csKeyEventHelper::GetEventType (&ev);
       if (type == csKeyEventTypeDown)
@@ -155,20 +213,86 @@ bool celConsole::HandleEvent (iEvent& ev)
   }
   if (ev.Name == csevPostProcess (name_reg))
   {
-    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
     if (conout->GetVisible ())
+    {
+      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
       conout->Draw2D (0);
-    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
-    if (conout->GetVisible ())
+      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
       conout->Draw3D (0);
+    }
   }
   return false;
 }
 
+iCelPlLayer* celConsole::GetPL ()
+{
+  if (!pl)
+  {
+    pl = csQueryRegistry<iCelPlLayer> (object_reg);
+    if (!pl)
+      conout->PutText ("Can't find physical layer!\n");
+  }
+  return pl;
+}
+
+void celConsole::ListEntities ()
+{
+  if (!GetPL ()) return;
+  size_t cnt = pl->GetEntityCount ();
+  size_t i;
+  for (i = 0 ; i < cnt ; i++)
+  {
+    iCelEntity* ent = pl->GetEntityByIndex (i);
+    iCelBehaviour* bh = ent->GetBehaviour ();
+    conout->PutText ("Entity %u: %s (%s)\n", (unsigned int)i,
+	ent->GetName (), bh ? bh->GetName () : "<no behaviour>");
+  }
+}
+
+void celConsole::ListCommands ()
+{
+  csHash<csRef<iCelConsoleCommand>, csStrKey>::GlobalIterator it =
+    commands.GetIterator ();
+  while (it.HasNext ())
+  {
+    const csRef<iCelConsoleCommand>& cmd = it.Next ();
+    conout->PutText ("%s: %s\n", cmd->GetCommand (), cmd->GetDescription ());
+  }
+}
+
+void celConsole::HelpCommand (const char* cmd)
+{
+  csRef<iCelConsoleCommand> command = commands.Get (cmd, 0);
+  if (!command)
+  {
+    conout->PutText ("Unknown command '%s'!\n", cmd);
+  }
+  else
+  {
+    command->Help ();
+  }
+}
+
 void celConsole::Execute (const char* cmd)
 {
-  printf ("Exec %s\n", cmd);
-  fflush (stdout);
+  csStringArray args;
+  args.SplitString (cmd, " \t", csStringArray::delimIgnore);
+  if (args.Length () <= 0) return;
+  if (!args[0] || !*args[0]) return;
+  csRef<iCelConsoleCommand> command = commands.Get (args[0], 0);
+  if (!command)
+  {
+    conout->PutText ("Unknown command '%s'!\n", args[0]);
+  }
+  else
+  {
+    command->Execute (args);
+  }
+}
+
+void celConsole::RegisterCommand (iCelConsoleCommand* command)
+{
+  commands.Put (command->GetCommand (), command);
 }
 
 //---------------------------------------------------------------------------
