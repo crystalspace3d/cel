@@ -30,6 +30,7 @@
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
 #include "behaviourlayer/behave.h"
 #include "tools/celconsole.h"
 
@@ -61,6 +62,8 @@ public:
   void ListCommands ();
   void HelpCommand (const char* cmd);
   void ListEntities ();
+  void ListTemplates ();
+  void CreateEntityFromTemplate (const csStringArray& args);
 
   virtual iConsoleInput* GetInputConsole () { return conin; }
   virtual iConsoleOutput* GetOutputConsole () { return conout; }

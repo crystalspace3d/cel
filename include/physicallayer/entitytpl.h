@@ -73,6 +73,16 @@ struct iCelEntityTemplate : public iBase
   virtual void SetBehaviour (const char* layer, const char* behaviour) = 0;
 
   /**
+   * Get the layer for this template.
+   */
+  virtual const char* GetBehaviourLayer () const = 0;
+
+  /**
+   * Get the behaviour for this template.
+   */
+  virtual const char* GetBehaviour () const = 0;
+
+  /**
    * Add a message to be sent to the created behaviour. The parameters
    * here support CEL_DATA_PARAMETER. Note that all messages will be sent
    * after all properties and property classes are created.

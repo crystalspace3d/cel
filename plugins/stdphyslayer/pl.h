@@ -141,6 +141,8 @@ public:
   virtual void RemoveEntityTemplate (iCelEntityTemplate* entfact);
   virtual void RemoveEntityTemplates ();
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname);
+  virtual size_t GetEntityTemplateCount () const;
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const;
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params);
   virtual iCelEntity* CreateEntity (iCelEntityTemplate* factory,
