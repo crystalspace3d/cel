@@ -248,6 +248,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libcelconsole_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libcelconsole_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libcelconsole_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libcpersist_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1463,6 +1478,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\celconsole\celconsole.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_tools_celconsole_celconsole.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_tools_celconsole_celconsole.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\quests.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1951,6 +1981,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\billboard\billboard.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\celconsole\celconsole.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\quests.h">
