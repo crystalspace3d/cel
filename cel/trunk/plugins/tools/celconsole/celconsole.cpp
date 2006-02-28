@@ -69,7 +69,7 @@ public:
   virtual const char* GetDescription () { return "Get help."; }
   virtual void Help ()
   {
-    parent->GetOutputConsole ()->PutText ("Usage: help <command>\n");
+    parent->GetOutputConsole ()->PutText ("Usage: help [ <command> ]\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -96,10 +96,59 @@ public:
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: listent\n");
+    parent->GetOutputConsole ()->PutText ("  List all entities and the name of the associated behaviour.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
     parent->ListEntities ();
+  }
+};
+
+class cmdListTpl : public scfImplementation1<cmdListTpl, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdListTpl (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdListTpl () { }
+  virtual const char* GetCommand () { return "listtpl"; }
+  virtual const char* GetDescription () { return "List entity templates."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: listtpl\n");
+    parent->GetOutputConsole ()->PutText ("  List all entity templates and the name of the associated behaviour.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->ListTemplates ();
+  }
+};
+
+class cmdCreateEntTpl : public scfImplementation1<cmdCreateEntTpl, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdCreateEntTpl (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdCreateEntTpl () { }
+  virtual const char* GetCommand () { return "createenttpl"; }
+  virtual const char* GetDescription () { return "Create an entity from a template."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: createenttpl <tpl> <entname> { <parname> <value> ... } \n");
+    parent->GetOutputConsole ()->PutText ("  Create an entity from a template with the given parameters\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->CreateEntityFromTemplate (args);
   }
 };
 
@@ -181,10 +230,10 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
 
   csRef<iCelConsoleCommand> cmd;
-  cmd.AttachNew (new cmdHelp (this));
-  RegisterCommand (cmd);
-  cmd.AttachNew (new cmdListEnt (this));
-  RegisterCommand (cmd);
+  cmd.AttachNew (new cmdHelp (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdListEnt (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdListTpl (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdCreateEntTpl (this)); RegisterCommand (cmd);
 
   return true;
 }
@@ -246,6 +295,52 @@ void celConsole::ListEntities ()
     iCelBehaviour* bh = ent->GetBehaviour ();
     conout->PutText ("Entity %u: %s (%s)\n", (unsigned int)i,
 	ent->GetName (), bh ? bh->GetName () : "<no behaviour>");
+  }
+}
+
+void celConsole::ListTemplates ()
+{
+  if (!GetPL ()) return;
+  size_t cnt = pl->GetEntityTemplateCount ();
+  size_t i;
+  for (i = 0 ; i < cnt ; i++)
+  {
+    iCelEntityTemplate* tpl = pl->GetEntityTemplate (i);
+    const char* name = tpl->GetName ();
+    const char* layer = tpl->GetBehaviourLayer ();
+    const char* bh = tpl->GetBehaviour ();
+    conout->PutText ("Template %u: %s (%s/%s)\n", (unsigned int)i,
+	name, layer, bh);
+  }
+}
+
+void celConsole::CreateEntityFromTemplate (const csStringArray& args)
+{
+  if (args.Length () < 3)
+  {
+    conout->PutText ("Too few parameters for 'createenttpl'!\n");
+    return;
+  }
+  if (!GetPL ()) return;
+  const char* tplname = args[1];
+  iCelEntityTemplate* tpl = pl->FindEntityTemplate (tplname);
+  if (!tpl)
+  {
+    conout->PutText ("Can't find entity template '%s'!\n", tplname);
+    return;
+  }
+  const char* entname = args[2];
+  celEntityTemplateParams params;
+  size_t i;
+  for (i = 3 ; i < args.Length ()-1 ; i += 2)
+  {
+    params.Put (args[i], args[i+1]);
+  }
+  iCelEntity* ent = pl->CreateEntity (tpl, entname, params);
+  if (!ent)
+  {
+    conout->PutText ("Can't create entity!\n");
+    return;
   }
 }
 

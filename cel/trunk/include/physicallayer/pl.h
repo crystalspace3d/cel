@@ -176,6 +176,16 @@ struct iCelPlLayer : public iBase
   virtual iCelEntityTemplate* FindEntityTemplate (const char* factname) = 0;
 
   /**
+   * Get the number of entity templates.
+   */
+  virtual size_t GetEntityTemplateCount () const = 0;
+
+  /**
+   * Get a specific entity template.
+   */
+  virtual iCelEntityTemplate* GetEntityTemplate (size_t idx) const = 0;
+
+  /**
    * Create an entity from a template.
    * \param factory is the template to create from.
    * \param name is the name of the new entity.

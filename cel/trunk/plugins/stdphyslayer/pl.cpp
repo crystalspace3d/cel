@@ -320,6 +320,27 @@ iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
   return f ? &(f->scfiCelEntityTemplate) : 0;
 }
 
+size_t celPlLayer::GetEntityTemplateCount () const
+{
+  return entity_templates.GetSize ();
+}
+
+iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
+{
+  // @@@ This is not an efficient routine. Use only for debugging purposes!
+  size_t i;
+  csHash<csRef<celEntityTemplate>, csStrKey>::GlobalIterator it =
+    entity_templates.GetIterator ();
+  iCelEntityTemplate* temp = 0;
+  for (i = 0 ; i <= idx ; i++)
+  {
+    if (!it.HasNext ()) return 0;
+    const csRef<celEntityTemplate>& tpl = it.Next ();
+    temp = &(((celEntityTemplate*)tpl)->scfiCelEntityTemplate);
+  }
+  return temp;
+}
+
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
     iCelParameterBlock* act_params, const celEntityTemplateParams& params)
 {

@@ -132,6 +132,14 @@ public:
     {
       scfParent->SetBehaviour (layer, behaviour);
     }
+    virtual const char* GetBehaviourLayer () const
+    {
+      return scfParent->GetLayer ();
+    }
+    virtual const char* GetBehaviour () const
+    {
+      return scfParent->GetBehaviour ();
+    }
     virtual void AddMessage (const char* msgid, iCelParameterBlock* params)
     {
       scfParent->AddMessage (msgid, params);
