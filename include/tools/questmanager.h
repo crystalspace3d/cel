@@ -686,6 +686,8 @@ struct iQuestManager : public iBase
    *     See iMessageQuestRewardFactory.
    * <li>cel.questreward.action: send an action to some property class
    *     on an entity. See iActionQuestRewardFactory.
+   * <li>cel.questreward.destroyentity: remove an entity from the physical.
+   *     layer. See iDestroyEntityQuestRewardFactory.
    * </ul>
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
@@ -1525,6 +1527,29 @@ struct iActionQuestRewardFactory : public iBase
    */
   virtual void AddParameter (celDataType type, csStringID id,
       const char* name, const char* value) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that destroys an entity.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ * <p>
+ * The predefined name of this reward type is 'cel.questreward.destroyentity'.
+ * <p>
+ * In XML, factories recognize the following attribute on the 'op' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the entity to send the message too.
+ * </ul>
+ */
+struct iDestroyEntityQuestRewardFactory : public iBase
+{
+  /**
+   * Set the name of the entity.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity) = 0;
 };
 
 

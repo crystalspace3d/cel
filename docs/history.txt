@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the pseudo-variable $this to entity templates. It
 	  refers to the name of the entity that is being created from
 	  the template.
+	- caedes added destroyentity reward to the quest manager. Use like
+	  this: <reward type="destroyentity" entity="$this"/>
 27-Feb-2006
 	- Jorrit added a 'testvar' function to the XML behaviour layer
 	  which can be used to test if a var is defined.
