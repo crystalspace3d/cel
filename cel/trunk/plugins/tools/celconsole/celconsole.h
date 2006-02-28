@@ -21,12 +21,16 @@
 #define __CEL_TOOLS_CELCONSOLE__
 
 #include "csutil/util.h"
+#include "csutil/hash.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
 #include "ivaria/conin.h"
 #include "ivaria/conout.h"
 
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "behaviourlayer/behave.h"
 #include "tools/celconsole.h"
 
 /**
@@ -41,6 +45,11 @@ private:
   csRef<iConsoleOutput> conout;
   csRef<iEventNameRegistry> name_reg;
   csRef<iGraphics3D> g3d;
+  csRef<iCelPlLayer> pl;
+
+  csHash<csRef<iCelConsoleCommand>, csStrKey> commands;
+
+  iCelPlLayer* GetPL ();
 
 public:
   celConsole (iBase* parent);
@@ -49,6 +58,13 @@ public:
   bool HandleEvent (iEvent& ev);
 
   void Execute (const char* cmd);
+  void ListCommands ();
+  void HelpCommand (const char* cmd);
+  void ListEntities ();
+
+  virtual iConsoleInput* GetInputConsole () { return conin; }
+  virtual iConsoleOutput* GetOutputConsole () { return conout; }
+  virtual void RegisterCommand (iCelConsoleCommand* command);
 
   // Not an embedded interface to avoid circular references!!!
   class EventHandler : public scfImplementation1<EventHandler,

@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Feb-2006
+	- Jorrit completed the basic implementation of the cel console.
+	  It is now possible to add your own commands to it by implementing
+	  iCelConsoleCommand. At this moment only two basic commands
+	  are implemented: 'help' and 'listent'. More will follow.
 27-Feb-2006
 	- Jorrit added a 'testvar' function to the XML behaviour layer
 	  which can be used to test if a var is defined.
