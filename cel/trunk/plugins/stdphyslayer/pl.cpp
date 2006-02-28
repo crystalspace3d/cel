@@ -342,6 +342,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 }
 
 csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
+    const char* entname,
     iCelParameterBlock* act_params, const celEntityTemplateParams& params)
 {
   csRef<celVariableParameterBlock> converted_params;
@@ -358,8 +359,15 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
       converted_params->SetParameterDef (k, id, parname);
       if (t == CEL_DATA_PARAMETER)
       {
-	const char* value = params.Get (par->value.par.parname->GetData (), 0);
 	celData& converted_par = converted_params->GetParameter (k);
+	const char* parvalue = par->value.par.parname->GetData ();
+	if (!strcmp ("this", parvalue))
+	{
+	  // Special case.
+	  converted_par.Set (entname);
+	  continue;
+	}
+	const char* value = params.Get (parvalue, 0);
 	switch (par->value.par.partype)
 	{
 	  case CEL_DATA_LONG:
@@ -438,7 +446,7 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 	iCelEntity* ent, iCelEntityTemplate* factory)
 {
   csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
-    act.params, params);
+    ent->GetName (), act.params, params);
   if (!pc->PerformAction (act.id, converted_params))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -667,7 +675,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
       const ccfMessage& msg = messages[i];
       celData ret;
       csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams
-      	(msg.params, params);
+      	(name, msg.params, params);
       ent->GetBehaviour ()->SendMessage (msg.msgid, 0, ret, converted_params);
     }
   }
