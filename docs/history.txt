@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  are implemented: 'help' and 'listent'. More will follow.
 	- Jorrit added commands 'listtpl' and 'createenttpl' to the
 	  cel console.
+	- Jorrit added iCelEntityTemplate functions to get behaviour and
+	  layer name.
+	- Jorrit added functions to iCelPlLayer to get entity templates.
 27-Feb-2006
 	- Jorrit added a 'testvar' function to the XML behaviour layer
 	  which can be used to test if a var is defined.
