@@ -97,6 +97,7 @@ private:
   csRefArray<iCelEntityTracker> trackers;
 
   csRef<celVariableParameterBlock> ConvertTemplateParams (
+    const char* entname,
     iCelParameterBlock* act_params, const celEntityTemplateParams& params);
 
   // Perform an action from a template on a real property class.
