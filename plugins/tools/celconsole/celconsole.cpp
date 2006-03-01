@@ -176,6 +176,55 @@ public:
   }
 };
 
+class cmdSnapshot : public scfImplementation1<cmdSnapshot, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdSnapshot (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdSnapshot () { }
+  virtual const char* GetCommand () { return "snapshot"; }
+  virtual const char* GetDescription () { return "Snapshot current entities."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: snapshot\n");
+    parent->GetOutputConsole ()->PutText ("  Keeps track of all entities currently in memory.\n");
+    parent->GetOutputConsole ()->PutText ("  Use 'snapdiff' to check if entities got deleted or added since the snapshot.\n");
+  }
+  virtual void Execute (const csStringArray&)
+  {
+    parent->Snapshot ();
+  }
+};
+
+class cmdSnapDiff : public scfImplementation1<cmdSnapDiff, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdSnapDiff (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdSnapDiff () { }
+  virtual const char* GetCommand () { return "snapdiff"; }
+  virtual const char* GetDescription () { return "Show difference since snapshot."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: snapdiff\n");
+    parent->GetOutputConsole ()->PutText ("  Shows all entity operations since snapshot.\n");
+  }
+  virtual void Execute (const csStringArray&)
+  {
+    parent->SnapshotDiff ();
+  }
+};
+
 
 //--------------------------------------------------------------------------
 
@@ -183,10 +232,12 @@ celConsole::celConsole (iBase* parent)
   : scfImplementationType (this, parent)
 {
   scfiEventHandler = 0;
+  snapshot = 0;
 }
 
 celConsole::~celConsole ()
 {
+  delete snapshot;
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
@@ -259,6 +310,8 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdListTpl (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdCreateEntTpl (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdInfoEnt (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdSnapshot (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdSnapDiff (this)); RegisterCommand (cmd);
 
   return true;
 }
@@ -309,6 +362,140 @@ iCelPlLayer* celConsole::GetPL ()
       conout->PutText ("Can't find physical layer!\n");
   }
   return pl;
+}
+
+void celConsole::Snapshot ()
+{
+  if (!GetPL ()) return;
+  delete snapshot;
+  snapshot = new celSnapshot ();
+  size_t count = pl->GetEntityCount ();
+  size_t i;
+  for (i = 0 ; i < count ; i++)
+  {
+    iCelEntity* ent = pl->GetEntityByIndex (i);
+    snapshot->entities.Push (ent);
+    snapshot->entities_refcount.Push (ent->GetRefCount ());
+    snapshot->entities_names.Push (ent->GetName ());
+    iCelPropertyClassList* plist = ent->GetPropertyClassList ();
+    size_t pccount = plist->GetCount ();
+    size_t j;
+    for (j = 0 ; j < pccount ; j++)
+    {
+      iCelPropertyClass* pc = plist->Get (j);
+      snapshot->pcs.Push (pc);
+      snapshot->pcs_refcount.Push (pc->GetRefCount ());
+    }
+  }
+}
+
+void celConsole::SnapshotDiffPC (iCelEntity* ent)
+{
+  iCelPropertyClassList* plist = ent->GetPropertyClassList ();
+  size_t pccount = plist->GetCount ();
+  size_t i, j;
+  for (i = 0 ; i < pccount ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    size_t foundidx = csArrayItemNotFound;
+    for (j = 0 ; j < snapshot->pcs.Length () ; j++)
+    {
+      if (snapshot->pcs[j] == pc) { foundidx = j; break; }
+    }
+    if (foundidx == csArrayItemNotFound)
+    {
+      conout->PutText ("  NEW PC %p/%s (ref=%d)\n", pc, pc->GetName (),
+      	pc->GetRefCount ());
+    }
+    else if (snapshot->pcs_refcount[foundidx] != pc->GetRefCount ())
+    {
+      conout->PutText ("REF PC %p/%s (ref orig=%d now=%d)\n",
+      	pc, pc->GetName (), snapshot->pcs_refcount[foundidx],
+	pc->GetRefCount ());
+    }
+  }
+#if 0
+  // @@@ TODO
+  for (i = 0 ; i < snapshot->pcs.Length () ; i++)
+  {
+    iCelPropertyClass* pc = snapshot->pcs[i];
+    if (pc == 0)
+    {
+      conout->PutText ("DEL PC %s\n", snapshot->pcs_names[i]);
+    }
+    else
+    {
+      size_t foundidx = csArrayItemNotFound;
+      for (j = 0 ; j < count ; j++)
+      {
+        if (ent == pl->GetEntityByIndex (j)) { foundidx = j; break; }
+      }
+      if (foundidx == csArrayItemNotFound)
+      {
+        conout->PutText ("LEAK Entity %p/%s (ref orig=%d now=%d)\n",
+      	  ent, ent->GetName (), snapshot->entities_refcount[foundidx],
+	  ent->GetRefCount ());
+        SnapshotDiffPC (ent);
+      }
+    }
+  }
+#endif
+}
+
+void celConsole::SnapshotDiff ()
+{
+  if (!snapshot)
+  {
+    conout->PutText ("There is no snapshot!\n");
+    return;
+  }
+  if (!GetPL ()) return;
+  size_t count = pl->GetEntityCount ();
+  size_t i, j;
+  for (i = 0 ; i < count ; i++)
+  {
+    iCelEntity* ent = pl->GetEntityByIndex (i);
+    size_t foundidx = csArrayItemNotFound;
+    for (j = 0 ; j < snapshot->entities.Length () ; j++)
+    {
+      if (snapshot->entities[j] == ent) { foundidx = j; break; }
+    }
+    if (foundidx == csArrayItemNotFound)
+    {
+      conout->PutText ("NEW Entity %p/%s (ref=%d)\n", ent, ent->GetName (),
+      	ent->GetRefCount ());
+    }
+    else if (snapshot->entities_refcount[foundidx] != ent->GetRefCount ())
+    {
+      conout->PutText ("REF Entity %p/%s (ref orig=%d now=%d)\n",
+      	ent, ent->GetName (), snapshot->entities_refcount[foundidx],
+	ent->GetRefCount ());
+    }
+    SnapshotDiffPC (ent);
+  }
+  for (i = 0 ; i < snapshot->entities.Length () ; i++)
+  {
+    iCelEntity* ent = snapshot->entities[i];
+    if (ent == 0)
+    {
+      conout->PutText ("DEL Entity %s\n", snapshot->entities_names[i]);
+    }
+    else
+    {
+      size_t foundidx = csArrayItemNotFound;
+      for (j = 0 ; j < count ; j++)
+      {
+        if (ent == pl->GetEntityByIndex (j)) { foundidx = j; break; }
+      }
+      if (foundidx == csArrayItemNotFound)
+      {
+        conout->PutText ("LEAK Entity %p/%s (ref orig=%d now=%d)\n",
+      	  ent, ent->GetName (), snapshot->entities_refcount[foundidx],
+	  ent->GetRefCount ());
+        SnapshotDiffPC (ent);
+      }
+    }
+  }
 }
 
 void celConsole::ListInfoEntity (const csStringArray& args)
