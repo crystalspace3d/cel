@@ -147,6 +147,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#9a7a8f7df3284399428593b3db26eba3">GetEntityCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total number of entities.  <a href="#9a7a8f7df3284399428593b3db26eba3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#13b53ab77476d0fb0f6ffad908e872f3">GetEntityTemplate</a> (size_t idx) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific entity template.  <a href="#13b53ab77476d0fb0f6ffad908e872f3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#09fb0df557f52cb0a53f47ac510f1c56">GetEntityTemplateCount</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entity templates.  <a href="#09fb0df557f52cb0a53f47ac510f1c56"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#00cca50f1c79efbaebda3651cec0bbc9">GetHitEntity</a> (iCamera *camera, int x, int y)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given a position on screen find the nearest entity to the camera.  <a href="#00cca50f1c79efbaebda3651cec0bbc9"></a><br></td></tr>
@@ -1546,6 +1552,65 @@ Get the specific entity by index (not by ID).
 
 <p>
 Get the total number of entities. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="13b53ab77476d0fb0f6ffad908e872f3"></a><!-- doxytag: member="iCelPlLayer::GetEntityTemplate" ref="13b53ab77476d0fb0f6ffad908e872f3" args="(size_t idx) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a>* iCelPlLayer::GetEntityTemplate           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">size_t&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>idx</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get a specific entity template. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="09fb0df557f52cb0a53f47ac510f1c56"></a><!-- doxytag: member="iCelPlLayer::GetEntityTemplateCount" ref="09fb0df557f52cb0a53f47ac510f1c56" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual size_t iCelPlLayer::GetEntityTemplateCount           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the number of entity templates. 
 <p>
     </td>
   </tr>
