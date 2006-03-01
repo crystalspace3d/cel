@@ -697,7 +697,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
   }
 }
 
-bool celPcBillboard::GetPropertyColor (csStringID propertyId, csVector2& c)
+bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
 {
   UpdateProperties (object_reg);
   if (propertyId == properties[propid_uv_topleft].id)
@@ -716,6 +716,17 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csVector2& c)
     if (billboard)
     {
       c = billboard->GetUVBottomRight ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_offset].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      //@@@c = billboard->GetTextOffset ();
+      c.Set (0, 0);
       return true;
     }
     return false;

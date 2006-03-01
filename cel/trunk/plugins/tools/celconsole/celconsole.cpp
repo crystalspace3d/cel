@@ -152,6 +152,30 @@ public:
   }
 };
 
+class cmdInfoEnt : public scfImplementation1<cmdInfoEnt, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdInfoEnt (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdInfoEnt () { }
+  virtual const char* GetCommand () { return "infoent"; }
+  virtual const char* GetDescription () { return "List information about an entity."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: infoent <entname>\n");
+    parent->GetOutputConsole ()->PutText ("  List information about an entity.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->ListInfoEntity (args);
+  }
+};
+
 
 //--------------------------------------------------------------------------
 
@@ -234,6 +258,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdListEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdListTpl (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdCreateEntTpl (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdInfoEnt (this)); RegisterCommand (cmd);
 
   return true;
 }
@@ -257,7 +282,9 @@ bool celConsole::HandleEvent (iEvent& ev)
     else
     {
       if (conout->GetVisible ())
-        conin->HandleEvent (ev);
+      {
+        return conin->HandleEvent (ev);
+      }
     }
   }
   if (ev.Name == csevPostProcess (name_reg))
@@ -282,6 +309,115 @@ iCelPlLayer* celConsole::GetPL ()
       conout->PutText ("Can't find physical layer!\n");
   }
   return pl;
+}
+
+void celConsole::ListInfoEntity (const csStringArray& args)
+{
+  if (args.Length () < 2)
+  {
+    conout->PutText ("Too few parameters for 'infoent'!\n");
+    return;
+  }
+  if (!GetPL ()) return;
+  iCelEntity* entity = pl->FindEntity (args[1]);
+  if (!entity)
+  {
+    conout->PutText ("Can't find entity '%s'!\n", args[1]);
+    return;
+  }
+  conout->PutText ("Entity: %p/%s refcount=%d id=%u\n", entity,
+      entity->GetName (), entity->GetRefCount (), entity->GetID ());
+  iCelBehaviour* behave = entity->GetBehaviour ();
+  if (behave)
+  {
+    conout->PutText ("Behaviour: %p/%s (layer %s)\n",
+	behave, behave->GetName (),
+	behave->GetBehaviourLayer ()->GetName ());
+  }
+  iCelPropertyClassList* plist = entity->GetPropertyClassList ();
+  size_t count = plist->GetCount ();
+  size_t i;
+  for (i = 0 ; i < count ; i++)
+  {
+    iCelPropertyClass* pc = plist->Get (i);
+    conout->PutText ("    PC: %p/%s (tag %s)\n", pc, pc->GetName (),
+	pc->GetTag ());
+    size_t propcount = pc->GetPropertyAndActionCount ();
+    size_t j;
+    for (j = 0 ; j < propcount ; j++)
+    {
+      csStringID id = pc->GetPropertyOrActionID (j);
+      celDataType type = pc->GetPropertyOrActionType (id);
+      const char* desc = pc->GetPropertyOrActionDescription (id);
+      const char* idstr = pl->FetchString (id);
+      int ro = int (pc->IsPropertyReadOnly (id));
+      switch (type)
+      {
+	case CEL_DATA_LONG:
+	  conout->PutText ("        prop: LONG id=%u/%s ro=%d v=%ld (%s)\n",
+	      id, idstr, ro, pc->GetPropertyLong (id), desc);
+	  break;
+	case CEL_DATA_FLOAT:
+	  conout->PutText ("        prop: FLOAT id=%u/%s ro=%d v=%g (%s)\n",
+	      id, idstr, ro, pc->GetPropertyFloat (id), desc);
+	  break;
+	case CEL_DATA_BOOL:
+	  conout->PutText ("        prop: BOOL id=%u/%s ro=%d v=%d (%s)\n",
+	      id, idstr, ro, pc->GetPropertyBool (id), desc);
+	  break;
+	case CEL_DATA_STRING:
+	  conout->PutText ("        prop: STRING id=%u/%s ro=%d v=%s (%s)\n",
+	      id, idstr, ro, pc->GetPropertyString (id), desc);
+	  break;
+	case CEL_DATA_VECTOR2:
+	  {
+	    csVector2 v;
+	    pc->GetPropertyVector (id, v);
+	    conout->PutText ("        prop: VECTOR2 id=%u/%s ro=%d v=%g,%g (%s)\n",
+	      id, idstr, ro, v.x, v.y, desc);
+	  }
+	  break;
+	case CEL_DATA_VECTOR3:
+	  {
+	    csVector3 v;
+	    pc->GetPropertyVector (id, v);
+	    conout->PutText ("        prop: VECTOR3 id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
+	      id, idstr, ro, v.x, v.y, v.z, desc);
+	  }
+	  break;
+	case CEL_DATA_COLOR:
+	  {
+	    csColor v;
+	    pc->GetPropertyColor (id, v);
+	    conout->PutText ("        prop: COLOR id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
+	      id, idstr, ro, v.red, v.green, v.blue, desc);
+	  }
+	  break;
+	case CEL_DATA_ACTION:
+	  conout->PutText ("        prop: ACTION id=%u/%s ro=%d (%s)\n",
+	      id, idstr, ro, desc);
+	  break;
+	case CEL_DATA_PCLASS:
+	  {
+	    iCelPropertyClass* p = pc->GetPropertyPClass (id);;
+	    conout->PutText ("        prop: PC id=%u/%s ro=%d v=%p/%s (%s)\n",
+	      id, idstr, ro, p, p ? p->GetName () : "0", desc);
+	  }
+	  break;
+	case CEL_DATA_ENTITY:
+	  {
+	    iCelEntity* p = pc->GetPropertyEntity (id);;
+	    conout->PutText ("        prop: ENTITY id=%u/%s ro=%d v=%p/%s (%s)\n",
+	      id, idstr, ro, p, p ? p->GetName () : "0", desc);
+	  }
+	  break;
+	default:
+	  conout->PutText ("        prop: ? id=%u/%s ro=%d (%s)\n",
+	      id, idstr, ro, desc);
+	  break;
+      }
+    }
+  }
 }
 
 void celConsole::ListEntities ()
