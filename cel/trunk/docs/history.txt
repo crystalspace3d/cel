@@ -13,6 +13,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit protected celPcCommon so that it no longer crashes
 	  (but gives a warning instead) if the property table is not
 	  properly set up.
+	- Jorrit added config files for bootstrap and celtest (in
+	  data/config directory). These config files now open the cel
+	  console by default so all bootstrap and celtest applications
+	  will get the console for free.
+	- Jorrit changed the binding of the cel console from '~' to '`'
+	  (backtick).
 28-Feb-2006
 	- Jorrit completed the basic implementation of the cel console.
 	  It is now possible to add your own commands to it by implementing
