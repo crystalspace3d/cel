@@ -1826,27 +1826,6 @@ SWIG_AsCharPtr(PyObject *obj, char **val)
 }
 
 
-SWIGINTERNSHORT long
-SWIG_As_long(PyObject* obj)
-{
-  long v;
-  if (!SWIG_AsVal_long(obj, &v)) {
-    /*
-      this is needed to make valgrind/purify happier. 
-     */
-    memset((void*)&v, 0, sizeof(long));
-  }
-  return v;
-}
-
-  
-SWIGINTERNSHORT int
-SWIG_Check_long(PyObject* obj)
-{
-  return SWIG_AsVal_long(obj, (long*)0);
-}
-
-
 SWIGINTERNSHORT PyObject* 
   SWIG_From_unsigned_SS_long(unsigned long value)
 {
@@ -1874,6 +1853,27 @@ SWIGINTERNSHORT int
 SWIG_Check_unsigned_SS_long(PyObject* obj)
 {
   return SWIG_AsVal_unsigned_SS_long(obj, (unsigned long*)0);
+}
+
+
+SWIGINTERNSHORT long
+SWIG_As_long(PyObject* obj)
+{
+  long v;
+  if (!SWIG_AsVal_long(obj, &v)) {
+    /*
+      this is needed to make valgrind/purify happier. 
+     */
+    memset((void*)&v, 0, sizeof(long));
+  }
+  return v;
+}
+
+  
+SWIGINTERNSHORT int
+SWIG_Check_long(PyObject* obj)
+{
+  return SWIG_AsVal_long(obj, (long*)0);
 }
 
 
@@ -3522,6 +3522,50 @@ static PyObject *_wrap_iCelPlLayer_FindEntityTemplate(PyObject *, PyObject *args
         SWIG_arg_fail(2);SWIG_fail;
     }
     result = (iCelEntityTemplate *)(arg1)->FindEntityTemplate((char const *)arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntityTemplate, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_GetEntityTemplateCount(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iCelPlLayer_GetEntityTemplateCount",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = ((iCelPlLayer const *)arg1)->GetEntityTemplateCount();
+    
+    {
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iCelPlLayer_GetEntityTemplate(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+    size_t arg2 ;
+    iCelEntityTemplate *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_GetEntityTemplate",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPlLayer, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (iCelEntityTemplate *)((iCelPlLayer const *)arg1)->GetEntityTemplate(arg2);
     
     resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntityTemplate, 0);
     return resultobj;
@@ -28405,6 +28449,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPlLayer_RemoveEntityTemplate", _wrap_iCelPlLayer_RemoveEntityTemplate, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_RemoveEntityTemplates", _wrap_iCelPlLayer_RemoveEntityTemplates, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_FindEntityTemplate", _wrap_iCelPlLayer_FindEntityTemplate, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_GetEntityTemplateCount", _wrap_iCelPlLayer_GetEntityTemplateCount, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_GetEntityTemplate", _wrap_iCelPlLayer_GetEntityTemplate, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_CreateEntity", _wrap_iCelPlLayer_CreateEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_CreateDataBuffer", _wrap_iCelPlLayer_CreateDataBuffer, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_AttachEntity", _wrap_iCelPlLayer_AttachEntity, METH_VARARGS, NULL},
