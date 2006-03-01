@@ -357,6 +357,13 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 {
   csDebuggingGraph::SetupGraph (object_reg);
 
+  if (!csInitializer::SetupConfigManager (object_reg,
+  	"/celconfig/celtest.cfg"))
+  {
+    return ReportError ("Can't setup config file!");
+  }
+
+
   if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,

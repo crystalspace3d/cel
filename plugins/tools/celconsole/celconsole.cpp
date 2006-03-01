@@ -268,7 +268,7 @@ bool celConsole::HandleEvent (iEvent& ev)
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
     utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
-    if (key == '~')
+    if (key == '`')
     {
       uint32 type = csKeyEventHelper::GetEventType (&ev);
       if (type == csKeyEventTypeDown)

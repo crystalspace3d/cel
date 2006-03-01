@@ -121,6 +121,15 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
 
+  if (!csInitializer::SetupConfigManager (object_reg,
+  	"/celconfig/bootstrap.cfg"))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+	"Can't initialize config!");
+    return false;
+  }
+
   if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
 	CS_REQUEST_OPENGL3D,
