@@ -2182,6 +2182,7 @@
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pccommandinput" />
 		<default propclass="pc(pccommandinput)" />
+		<property id="propid(cooked)" value="true" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
@@ -4632,6 +4633,7 @@
 	        <property id="propid(layer)" value="game" />
 	        <createpropclass name="pccommandinput" />
 		<default propclass="pc(pccommandinput)" />
+		<property id="propid(cooked)" value="true" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
 		    <par id="parid(command)" value="move_right" />
