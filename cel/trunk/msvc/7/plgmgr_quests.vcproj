@@ -175,6 +175,9 @@
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_inventory.cpp">
 			</File>
 			<File
@@ -240,6 +243,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_destroyentity.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_inventory.h">
