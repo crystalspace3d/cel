@@ -142,7 +142,11 @@ private:
 
   csString text;
   int text_dx, text_dy;
+  csString font_name;
+  float font_size;
   csRef<iFont> font;
+  csColor fg_color_remember;
+  csColor bg_color_remember;
   int fg_color, bg_color;
   bool do_fg_color, do_bg_color;
 
@@ -176,8 +180,8 @@ public:
   iFont* GetFont () const { return font; }
   int GetTextDX () const { return text_dx; }
   int GetTextDY () const { return text_dy; }
-  int GetTextFgColor () const { return fg_color; }
-  int GetTextBgColor () const { return bg_color; }
+  int GetTextFgColorNum () const { return fg_color; }
+  int GetTextBgColorNum () const { return bg_color; }
   bool UseTextFgColor () const { return do_fg_color; }
   bool UseTextBgColor () const { return do_bg_color; }
 
@@ -220,11 +224,21 @@ public:
   virtual const char* GetText () const
   { if (text.IsEmpty ()) return 0; else return text.GetData (); }
   virtual void SetTextOffset (int dx, int dy);
+  virtual int GetTextOffsetDX () const { return text_dx; }
+  virtual int GetTextOffsetDY () const { return text_dy; }
   virtual bool SetTextFont (const char* fontname, float size);
+  virtual const char* GetTextFont () const { return font_name.GetData (); }
+  virtual float GetTextFontSize () const { return font_size; }
   virtual void SetTextFgColor (const csColor& color);
+  virtual const csColor& GetTextFgColor () const { return fg_color_remember; }
   virtual void ClearTextFgColor ();
   virtual void SetTextBgColor (const csColor& color);
+  virtual const csColor& GetTextBgColor () const { return bg_color_remember; }
   virtual void SetTextBgTransparent ();
+  virtual bool IsTextBgTransparent () const
+  {
+    return bg_color == -1;
+  }
   virtual void ClearTextBgColor ();
 };
 
@@ -266,6 +280,10 @@ private:
 
   celBillboard* FindBillboard (int x, int y, uint32 desired_flags);
 
+  csColor default_fg_color_remember;
+  csColor default_bg_color_remember;
+  csString default_font_name;
+  float default_font_size;
   csRef<iFont> default_font;
   int default_fg_color;
   int default_bg_color;
@@ -332,8 +350,15 @@ public:
 
   virtual bool TestCollision (iBillboard* bb1, iBillboard* bb2);
   virtual bool SetDefaultTextFont (const char* fontname, float size);
+  virtual const char* GetDefaultTextFont () const
+  { return default_font_name.GetData (); }
+  virtual float GetDefaultTextFontSize () const { return default_font_size; }
   virtual void SetDefaultTextFgColor (const csColor& color);
+  virtual const csColor& GetDefaultTextFgColor () const
+  { return default_fg_color_remember; }
   virtual void SetDefaultTextBgColor (const csColor& color);
+  virtual const csColor& GetDefaultTextBgColor () const
+  { return default_bg_color_remember; }
   virtual void SetDefaultTextBgTransparent ();
 
   struct Component : public iComponent

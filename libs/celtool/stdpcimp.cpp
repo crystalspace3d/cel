@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "csutil/util.h"
 #include "iutil/objreg.h"
+#include "ivaria/reporter.h"
 #include "celtool/stdpcimp.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -96,6 +97,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, long l)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_LONG) 
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((long*)(propdata[i]))[0] = l;
 	return true;
       }
@@ -115,6 +124,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, float f)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_FLOAT)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((float*)(propdata[i]))[0] = f;
 	return true;
       }
@@ -134,6 +151,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, bool b)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_BOOL)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((bool*)(propdata[i]))[0] = b;
 	return true;
       }
@@ -153,6 +178,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_STRING)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	char** ptr = (char**) propdata[i];
 	if  (*ptr != s)
 	  delete[] (*ptr);
@@ -175,6 +208,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR2)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((csVector2*)(propdata[i]))[0] = v;
 	return true;
       }
@@ -194,6 +235,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR3)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((csVector3*)(propdata[i]))[0] = v;
 	return true;
       }
@@ -213,6 +262,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_COLOR)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((csColor*)(propdata[i]))[0] = v;
 	return true;
       }
@@ -232,6 +289,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_PCLASS)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((iCelPropertyClass**)(propdata[i]))[0] = v;
 	return true;
       }
@@ -251,6 +316,14 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelEntity* v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_ENTITY)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	((iCelEntity**)(propdata[i]))[0] = v;
 	return true;
       }
@@ -292,6 +365,14 @@ long celPcCommon::GetPropertyLong (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_LONG)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return 0;
+	}
 	return ((long*)(propdata[i]))[0];
       }
       else return 0;
@@ -310,6 +391,14 @@ float celPcCommon::GetPropertyFloat (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_FLOAT)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return 0;
+	}
 	return ((float*)(propdata[i]))[0];
       }
       else return 0;
@@ -328,7 +417,15 @@ bool celPcCommon::GetPropertyBool (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_BOOL)
       {
-          return ((((long*)(propdata[i]))[0])? true:false);
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
+        return ((((long*)(propdata[i]))[0])? true:false);
       }
       else return false;
   }
@@ -346,6 +443,14 @@ const char* celPcCommon::GetPropertyString (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_STRING)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return 0;
+	}
 	return ((const char**)(propdata[i]))[0];
       }
       else return 0;
@@ -364,6 +469,14 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR2)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	v = ((csVector2*)(propdata[i]))[0];
 	return true;
       }
@@ -383,6 +496,14 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR3)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	v = ((csVector3*)(propdata[i]))[0];
 	return true;
       }
@@ -402,6 +523,14 @@ bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_COLOR)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return false;
+	}
 	v = ((csColor*)(propdata[i]))[0];
 	return true;
       }
@@ -421,6 +550,14 @@ iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_PCLASS)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return 0;
+	}
 	return ((iCelPropertyClass**)(propdata[i]))[0];
       }
       else return 0;
@@ -439,6 +576,14 @@ iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_ENTITY)
       {
+        if (!propdata[i])
+	{
+	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.getproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+	  return 0;
+	}
 	return ((iCelEntity**)(propdata[i]))[0];
       }
       else return 0;
