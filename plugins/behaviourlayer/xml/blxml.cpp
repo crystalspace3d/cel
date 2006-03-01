@@ -39,16 +39,6 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBlXml)
 
-SCF_IMPLEMENT_IBASE (celBlXml)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlLayerGenerate)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBlXml::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 enum
 {
   XMLTOKEN_PROPERTY,
@@ -140,10 +130,8 @@ enum
   XMLFUNCTION_LAST
 };
 
-celBlXml::celBlXml (iBase* parent)
+celBlXml::celBlXml (iBase* parent) : scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   varprop_trace = false;
 }
 
@@ -158,8 +146,6 @@ celBlXml::~celBlXml ()
   }
   fflush (stdout);
 #endif
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlXml::Initialize (iObjectRegistry* object_reg)
