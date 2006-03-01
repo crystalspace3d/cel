@@ -24,6 +24,7 @@ The history order is reversed so that new features are at the top.
 	  but it doesn't yet detect if PC's are removed but still in memory.
 	- caedes changed the binding of the cel console from '`' to tab,
 	  as backtick is a bit conflictive with some keyboards.
+	- Jorrit changed blxml to use new SCF.
 28-Feb-2006
 	- Jorrit completed the basic implementation of the cel console.
 	  It is now possible to add your own commands to it by implementing

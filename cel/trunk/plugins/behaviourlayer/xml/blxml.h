@@ -43,7 +43,8 @@ class csStringArray;
 /**
  * This is the Behaviour Layer itself.
  */
-class celBlXml : public iCelBlLayer, public iCelBlLayerGenerate
+class celBlXml : public scfImplementation3<celBlXml, iCelBlLayer,
+		 	iCelBlLayerGenerate, iComponent>
 {
 public:
   // This is the call stack: useful for debugging.
@@ -88,8 +89,10 @@ private:
 	const char* name, char* str, csStringID fun_id);
   bool ParseFunction (const char*& input, const char* pinput,
   	const csStringArray& local_vars,
-  	iDocumentNode* child, celXmlScriptEventHandler* h, const char* name);
-  bool ParseExpression (const csStringArray& local_vars, iDocumentNode* child,
+  	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name);
+  bool ParseExpression (const csStringArray& local_vars,
+        iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
   bool ParseExpressionOrConstantString (const csStringArray& local_vars,
@@ -112,12 +115,11 @@ private:
 public:
   celBlXml (iBase* parent);
   virtual ~celBlXml ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
+  virtual bool Initialize (iObjectRegistry* object_reg);
 
   virtual const char* GetName () const { return "blxml"; }
-  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
+  virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
+      const char* name);
 
   virtual bool CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node);
@@ -125,13 +127,6 @@ public:
   	const char* string);
   virtual bool CreateBehaviourScriptFromFile (const char* name,
   	const char* filename);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBlXml);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_BLXML_BL__

@@ -25,8 +25,6 @@
 
 struct iDocumentNode;
 
-SCF_VERSION (iCelBlLayerGenerate, 0, 0, 1);
-
 /**
  * This is an interface that behaviour layers can optionally
  * implement. If they do implement this interface then it is possible
@@ -35,6 +33,8 @@ SCF_VERSION (iCelBlLayerGenerate, 0, 0, 1);
  */
 struct iCelBlLayerGenerate : virtual public iBase
 {
+  SCF_INTERFACE (iCelBlLayerGenerate, 0, 0, 1);
+
   /**
    * Create a new named behaviour layer script from a document node.
    * Returns false on error (will use reporter to report the error).
