@@ -289,15 +289,40 @@ struct iBillboard : public iBase
   virtual void SetTextOffset (int dx, int dy) = 0;
 
   /**
+   * Get the text offset in billboard space.
+   */
+  virtual int GetTextOffsetDX () const = 0;
+
+  /**
+   * Get the text offset in billboard space.
+   */
+  virtual int GetTextOffsetDY () const = 0;
+
+  /**
    * Setup the font to use for text.
    */
   virtual bool SetTextFont (const char* fontname, float fontsize) = 0;
+
+  /**
+   * Get the font to use for text.
+   */
+  virtual const char* GetTextFont () const = 0;
+
+  /**
+   * Get the font size to use for text.
+   */
+  virtual float GetTextFontSize () const = 0;
 
   /**
    * Set the foreground color for the text.
    * If not set then the default foreground color will be used
    */
   virtual void SetTextFgColor (const csColor& color) = 0;
+
+  /**
+   * Get the foreground color for the text.
+   */
+  virtual const csColor& GetTextFgColor () const = 0;
 
   /**
    * Clear the foreground color for the text so that the
@@ -312,10 +337,20 @@ struct iBillboard : public iBase
   virtual void SetTextBgColor (const csColor& color) = 0;
 
   /**
+   * Get the background color for the text.
+   */
+  virtual const csColor& GetTextBgColor () const = 0;
+
+  /**
    * Set the background color for the text to transparent.
    * If not set then the default background transparency will be used
    */
   virtual void SetTextBgTransparent () = 0;
+
+  /**
+   * Get true if the background color for the text is transparent.
+   */
+  virtual bool IsTextBgTransparent () const = 0;
 
   /**
    * Clear the background color for the text so that the
@@ -459,14 +494,34 @@ struct iBillboardManager : public iBase
   virtual bool SetDefaultTextFont (const char* fontname, float fontsize) = 0;
 
   /**
+   * Get the default font to use for text.
+   */
+  virtual const char* GetDefaultTextFont () const = 0;
+
+  /**
+   * Get the default font size to use for text.
+   */
+  virtual float GetDefaultTextFontSize () const = 0;
+
+  /**
    * Setup the default foreground color to use for text.
    */
   virtual void SetDefaultTextFgColor (const csColor& color) = 0;
 
   /**
+   * Get the default foreground color to use for text.
+   */
+  virtual const csColor& GetDefaultTextFgColor () const = 0;
+
+  /**
    * Setup the default background color to use for text.
    */
   virtual void SetDefaultTextBgColor (const csColor& color) = 0;
+
+  /**
+   * Get the default background color to use for text.
+   */
+  virtual const csColor& GetDefaultTextBgColor () const = 0;
 
   /**
    * Setup the default text background to use transparency.

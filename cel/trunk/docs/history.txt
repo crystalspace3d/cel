@@ -8,6 +8,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in the billboard property class which would
 	  crash if you tried to read some of the vector2 properties.
 	  Still some properties to fix though.
+	- Jorrit fixed the billboard property class so that you can now
+	  properly set/read all properties.
+	- Jorrit protected celPcCommon so that it no longer crashes
+	  (but gives a warning instead) if the property table is not
+	  properly set up.
 28-Feb-2006
 	- Jorrit completed the basic implementation of the cel console.
 	  It is now possible to add your own commands to it by implementing

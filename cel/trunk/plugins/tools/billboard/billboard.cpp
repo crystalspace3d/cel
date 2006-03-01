@@ -293,6 +293,8 @@ void celBillboard::SetTextOffset (int dx, int dy)
 
 bool celBillboard::SetTextFont (const char* fontname, float fontsize)
 {
+  font_name = fontname;
+  font_size = fontsize;
   iFontServer* fntsvr = mgr->GetGraphics3D ()
   	->GetDriver2D ()->GetFontServer ();
   font = fntsvr->LoadFont (fontname, fontsize);
@@ -302,6 +304,7 @@ bool celBillboard::SetTextFont (const char* fontname, float fontsize)
 void celBillboard::SetTextFgColor (const csColor& color)
 {
   do_fg_color = true;
+  fg_color_remember = color;
   fg_color = mgr->GetGraphics3D ()->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
 	    int (color.green * 255.0f),
@@ -316,6 +319,7 @@ void celBillboard::ClearTextFgColor ()
 void celBillboard::SetTextBgColor (const csColor& color)
 {
   do_bg_color = true;
+  bg_color_remember = color;
   bg_color = mgr->GetGraphics3D ()->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
 	    int (color.green * 255.0f),
@@ -747,6 +751,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 
   if (!SetDefaultTextFont (CSFONT_COURIER, 10.0f))
     return false;
+  default_fg_color_remember.Set (1, 1, 1);
   default_fg_color = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
   default_bg_color = -1;
 
@@ -867,6 +872,7 @@ bool celBillboardManager::SetDefaultTextFont (const char* fontname,
 
 void celBillboardManager::SetDefaultTextFgColor (const csColor& color)
 {
+  default_fg_color_remember = color;
   default_fg_color = g3d->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
 	    int (color.green * 255.0f),
@@ -875,6 +881,7 @@ void celBillboardManager::SetDefaultTextFgColor (const csColor& color)
 
 void celBillboardManager::SetDefaultTextBgColor (const csColor& color)
 {
+  default_bg_color_remember = color;
   default_bg_color = g3d->GetDriver2D ()
     	->FindRGB (int (color.red * 255.0f),
 	    int (color.green * 255.0f),
@@ -917,9 +924,9 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
 	    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
 	    csRect r;
 	    bb->GetRect (r);
-	    int fg = bb->UseTextFgColor () ? bb->GetTextFgColor () :
+	    int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
 		  	default_fg_color;
-	    int bg = bb->UseTextBgColor () ? bb->GetTextBgColor () :
+	    int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
 		  	default_bg_color;
 	    g3d->GetDriver2D ()->Write (font,
 			r.xmin+bb->GetTextDX (), r.ymin+bb->GetTextDY (),

@@ -377,6 +377,17 @@ float celPcBillboard::GetPropertyFloat (csStringID propertyId)
     }
     return 0;
   }
+  else if (propertyId == properties[propid_text_font_size].id)
+  {
+    GetBillboard ();
+    if (billboard)
+      return billboard->GetTextFontSize ();
+    return 0;
+  }
+  else if (propertyId == properties[propid_text_default_font_size].id)
+  {
+    return default_font_size;
+  }
   else
   {
     return celPcCommon::GetPropertyFloat (propertyId);
@@ -652,6 +663,24 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
       return billboard->GetText ();
     return 0;
   }
+  else if (propertyId == properties[propid_text_font].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      return billboard->GetTextFont ();
+    }
+    return 0;
+  }
+  else if (propertyId == properties[propid_text_default_font].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      return billboard_mgr->GetDefaultTextFont ();
+    }
+    return 0;
+  }
   else
   {
     return celPcCommon::GetPropertyString (propertyId);
@@ -725,8 +754,8 @@ bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
     GetBillboard ();
     if (billboard)
     {
-      //@@@c = billboard->GetTextOffset ();
-      c.Set (0, 0);
+      c.x = billboard->GetTextOffsetDX ();
+      c.y = billboard->GetTextOffsetDY ();
       return true;
     }
     return false;
@@ -805,6 +834,46 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
     if (billboard)
     {
       c = billboard->GetColor ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_fg_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      c = billboard->GetTextFgColor ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_bg_color].id)
+  {
+    GetBillboard ();
+    if (billboard)
+    {
+      c = billboard->GetTextBgColor ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_default_fg_color].id)
+  {
+    GetBillboard ();
+    if (billboard_mgr)
+    {
+      c = billboard_mgr->GetDefaultTextFgColor ();
+      return true;
+    }
+    return false;
+  }
+  else if (propertyId == properties[propid_text_default_bg_color].id)
+  {
+    GetBillboard ();
+    if (billboard_mgr)
+    {
+      c = billboard_mgr->GetDefaultTextBgColor ();
       return true;
     }
     return false;
