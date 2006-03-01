@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Mar-2006
+	- Jorrit added new 'infoent' command to the cel console.
+	- Jorrit fixed a bug in the billboard property class which would
+	  crash if you tried to read some of the vector2 properties.
+	  Still some properties to fix though.
 28-Feb-2006
 	- Jorrit completed the basic implementation of the cel console.
 	  It is now possible to add your own commands to it by implementing

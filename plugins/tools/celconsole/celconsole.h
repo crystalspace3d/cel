@@ -31,7 +31,9 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/entitytpl.h"
+#include "physicallayer/propclas.h"
 #include "behaviourlayer/behave.h"
+#include "behaviourlayer/bl.h"
 #include "tools/celconsole.h"
 
 /**
@@ -63,6 +65,7 @@ public:
   void HelpCommand (const char* cmd);
   void ListEntities ();
   void ListTemplates ();
+  void ListInfoEntity (const csStringArray& args);
   void CreateEntityFromTemplate (const csStringArray& args);
 
   virtual iConsoleInput* GetInputConsole () { return conin; }

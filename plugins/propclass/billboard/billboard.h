@@ -120,7 +120,7 @@ public:
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual bool GetPropertyColor (csStringID, csColor&);
-  virtual bool GetPropertyColor (csStringID, csVector2&);
+  virtual bool GetPropertyVector (csStringID, csVector2&);
   virtual long GetPropertyLong (csStringID);
   virtual float GetPropertyFloat (csStringID);
 
