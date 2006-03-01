@@ -19,6 +19,9 @@ The history order is reversed so that new features are at the top.
 	  will get the console for free.
 	- Jorrit changed the binding of the cel console from '~' to '`'
 	  (backtick).
+	- Jorrit added 'snapshot' and 'snapdiff' commands to help with
+	  debugging entity and PC related memory leaks. Almost complete
+	  but it doesn't yet detect if PC's are removed but still in memory.
 	- caedes changed the binding of the cel console from '`' to tab,
 	  as backtick is a bit conflictive with some keyboards.
 28-Feb-2006

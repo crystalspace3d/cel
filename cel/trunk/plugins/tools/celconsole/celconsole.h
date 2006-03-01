@@ -22,6 +22,8 @@
 
 #include "csutil/util.h"
 #include "csutil/hash.h"
+#include "csutil/weakrefarr.h"
+#include "csutil/stringarray.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -35,6 +37,19 @@
 #include "behaviourlayer/behave.h"
 #include "behaviourlayer/bl.h"
 #include "tools/celconsole.h"
+
+/**
+ * A snapshot.
+ */
+class celSnapshot
+{
+public:
+  csWeakRefArray<iCelEntity> entities;
+  csArray<int> entities_refcount;
+  csStringArray entities_names;
+  csWeakRefArray<iCelPropertyClass> pcs;
+  csArray<int> pcs_refcount;
+};
 
 /**
  * This is a input/output console for CEL.
@@ -51,6 +66,7 @@ private:
   csRef<iCelPlLayer> pl;
 
   csHash<csRef<iCelConsoleCommand>, csStrKey> commands;
+  celSnapshot* snapshot;
 
   iCelPlLayer* GetPL ();
 
@@ -67,6 +83,9 @@ public:
   void ListTemplates ();
   void ListInfoEntity (const csStringArray& args);
   void CreateEntityFromTemplate (const csStringArray& args);
+  void Snapshot ();
+  void SnapshotDiffPC (iCelEntity* ent);
+  void SnapshotDiff ();
 
   virtual iConsoleInput* GetInputConsole () { return conin; }
   virtual iConsoleOutput* GetOutputConsole () { return conout; }
