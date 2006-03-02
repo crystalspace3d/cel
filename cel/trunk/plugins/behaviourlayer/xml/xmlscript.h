@@ -39,6 +39,7 @@ struct iCelPropertyClass;
 struct iCelParameterBlock;
 struct iPcInventory;
 struct iPcCamera;
+struct iPcProperties;
 struct iSector;
 class celBlXml;
 class celBehaviourXml;
@@ -408,6 +409,9 @@ public:
   int GetOperation (size_t idx) { return operations[idx].op; }
   void ChangeOperation (size_t idx, int newop) { operations[idx].op = newop; }
   void ReplaceLastOperation (int op) { operations.Top ().op = op; }
+
+  iPcProperties* GetProperties (iCelEntity* entity,
+      celBehaviourXml* behave);
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();

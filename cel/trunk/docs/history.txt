@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  Added a 'expr' command to the celconsole to evaluate expressions.
 	  Works more or less although there are still a few issues
 	  (crashes) if you try to access properties from current entity.
+	- Jorrit protected the expression parser so it no longer crashes
+	  if there is no current entity.
 1-Mar-2006
 	- Jorrit added new 'infoent' command to the cel console.
 	- Jorrit fixed a bug in the billboard property class which would
