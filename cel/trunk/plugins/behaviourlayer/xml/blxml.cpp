@@ -22,6 +22,7 @@
 #include "iutil/document.h"
 #include "imap/services.h"
 #include "ivaria/reporter.h"
+#include "iengine/engine.h"
 #include "csutil/scanstr.h"
 #include "csutil/stringarray.h"
 
@@ -162,6 +163,10 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   }
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   pl = (iCelPlLayer*)player;
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
@@ -2186,4 +2191,69 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
   return behave;
 }
 
+static bool celXmlArg2celData (const celXmlArg& in, celData& out)
+{
+  switch (in.type)
+  {
+    case CEL_DATA_BOOL: out.Set ((in.arg.b? true : false)); break;
+    case CEL_DATA_FLOAT: out.Set (in.arg.f); break;
+    case CEL_DATA_STRING: out.Set (in.arg.str.s); break;
+    case CEL_DATA_LONG: out.Set (in.arg.i); break;
+    case CEL_DATA_ULONG: out.Set (in.arg.ui); break;
+    case CEL_DATA_PCLASS: out.Set (in.arg.pc); break;
+    case CEL_DATA_ENTITY: out.Set (in.arg.entity); break;
+    case CEL_DATA_COLOR:
+      {
+        csColor col (in.arg.col.red, in.arg.col.green,
+	  in.arg.col.blue);
+        out.Set (col);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v (in.arg.vec.x, in.arg.vec.y);
+	out.Set (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 v (in.arg.vec.x, in.arg.vec.y, in.arg.vec.z);
+	out.Set (v);
+      }
+      break;
+    default:
+      out.Clear ();
+      return false;
+  }
+  return true;
+}
+
+bool celExpression::Execute (iCelEntity* entity, celData& ret)
+{
+  celData r;
+  bool rc = handler->Execute (entity, cbl, 0, r, 0, 0, true, 1);
+  if (rc)
+  {
+    const csArray<celXmlArg>& stack = handler->GetStack ();
+    const celXmlArg& a = stack.Top ();
+    celXmlArg2celData (a, ret);
+  }
+  return rc;
+}
+
+csPtr<iCelExpression> celBlXml::Parse (const char* string)
+{
+  celExpression* exp = new celExpression (this);
+  celXmlScriptEventHandler* handler = new celXmlScriptEventHandler (pl);
+  exp->handler = handler;
+  csStringArray local_vars;
+  if (!ParseExpression (string, local_vars, 0, handler, "expression",
+	CEL_PRIORITY_NORMAL))
+  {
+    delete exp;
+    return 0;
+  }
+  handler->AddOperation (CEL_OPERATION_END);
+  return exp;
+}
 

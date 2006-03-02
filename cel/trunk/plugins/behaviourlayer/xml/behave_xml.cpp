@@ -57,10 +57,6 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   SCF_CONSTRUCT_IBASE (0);
   celBehaviourXml::entity = entity;
   celBehaviourXml::object_reg = object_reg;
-  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
   name = 0;
   script = 0;
   rng.Initialize (1234567);
@@ -149,7 +145,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
     else idx--;
     csTicks start = csGetTicks ();
 #endif
-    h->Execute (entity, this, ret, params);
+    h->Execute (entity, cbl, this, ret, params);
 #if DO_PROFILE
     csTicks stop = csGetTicks ();
     celBlXml::celProfileInfo& pi = cbl->profile_info[idx];
@@ -189,7 +185,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
     else idx--;
     csTicks start = csGetTicks ();
 #endif
-	h->Execute (entity, this, ret, params);
+	h->Execute (entity, cbl, this, ret, params);
 #if DO_PROFILE
         csTicks stop = csGetTicks ();
         celBlXml::celProfileInfo& pi = cbl->profile_info[idx];

@@ -27,6 +27,7 @@
 #include "ivaria/reporter.h"
 #include "ivaria/conin.h"
 
+#include "tools/expression.h"
 #include "plugins/tools/celconsole/celconsole.h"
 
 CS_IMPLEMENT_PLUGIN
@@ -225,6 +226,30 @@ public:
   }
 };
 
+class cmdExpr : public scfImplementation1<cmdExpr, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdExpr (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdExpr () { }
+  virtual const char* GetCommand () { return "expr"; }
+  virtual const char* GetDescription () { return "Evaluate an expression and print value."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: expr <expression>\n");
+    parent->GetOutputConsole ()->PutText ("  Evaluate the expression and print the result.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->EvalulateExpression (args);
+  }
+};
+
 
 //--------------------------------------------------------------------------
 
@@ -312,6 +337,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdInfoEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdSnapshot (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdSnapDiff (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdExpr (this)); RegisterCommand (cmd);
 
   return true;
 }
@@ -362,6 +388,90 @@ iCelPlLayer* celConsole::GetPL ()
       conout->PutText ("Can't find physical layer!\n");
   }
   return pl;
+}
+
+void celConsole::EvalulateExpression (const csStringArray& args)
+{
+  if (args.Length () < 1)
+  {
+    conout->PutText ("Too few parameters for 'expr'!\n");
+    return;
+  }
+  csRef<iObjectRegistryIterator> it = object_reg->Get (
+      scfInterfaceTraits<iCelExpressionParser>::GetID (),
+      scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
+  iBase* b = it->Next ();
+  csRef<iCelExpressionParser> parser;
+  if (b)
+  {
+    parser = scfQueryInterface<iCelExpressionParser> (b);
+  }
+  if (!parser)
+  {
+    csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
+	object_reg);
+    parser = CS_LOAD_PLUGIN (plugmgr, "cel.behaviourlayer.xml",
+	iCelExpressionParser);
+    if (!parser)
+    {
+      conout->PutText ("Cannot find the expression parser!\n");
+      return;
+    }
+    object_reg->Register (parser, "iCelExpressionParser");
+  }
+  csRef<iCelExpression> expr = parser->Parse (args[1]);
+  if (!expr)
+  {
+    conout->PutText ("Error parsing expression!\n");
+    return;
+  }
+  celData ret;
+  if (!expr->Execute (0, ret))
+  {
+    conout->PutText ("Error running expression!\n");
+    return;
+  }
+  switch (ret.type)
+  {
+    case CEL_DATA_LONG:
+      conout->PutText ("LONG: %d\n", ret.value.l);
+      break;
+    case CEL_DATA_ULONG:
+      conout->PutText ("ULONG: %u\n", ret.value.ul);
+      break;
+    case CEL_DATA_BOOL:
+      conout->PutText ("BOOL: %d\n", ret.value.b);
+      break;
+    case CEL_DATA_FLOAT:
+      conout->PutText ("FLOAT: %g\n", ret.value.f);
+      break;
+    case CEL_DATA_STRING:
+      conout->PutText ("STRING: %s\n", ret.value.s->GetData ());
+      break;
+    case CEL_DATA_PCLASS:
+      conout->PutText ("PC: %p/%s\n", ret.value.pc,
+	  ret.value.pc ? ret.value.pc->GetName () : "<null>");
+      break;
+    case CEL_DATA_ENTITY:
+      conout->PutText ("ENTITY: %p/%s\n", ret.value.ent,
+	  ret.value.ent ? ret.value.ent->GetName () : "<null>");
+      break;
+    case CEL_DATA_COLOR:
+      conout->PutText ("COLOR: %g,%g,%g\n", ret.value.col.red,
+	  ret.value.col.green, ret.value.col.blue);
+      break;
+    case CEL_DATA_VECTOR3:
+      conout->PutText ("VECTOR3: %g,%g,%g\n", ret.value.v.x,
+	  ret.value.v.y, ret.value.v.z);
+      break;
+    case CEL_DATA_VECTOR2:
+      conout->PutText ("VECTOR2: %g,%g\n", ret.value.v.x,
+	  ret.value.v.y);
+      break;
+    default:
+      conout->PutText ("UNKNOWN\n");
+      break;
+  }
 }
 
 void celConsole::Snapshot ()
