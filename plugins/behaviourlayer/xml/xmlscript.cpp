@@ -703,14 +703,14 @@ static int GetCalculationType (const celXmlArg& a, const celXmlArg& b)
   return CEL_DATA_NONE;
 }
 
-bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
+bool celXmlScriptEventHandler::ReportError (celBlXml* cbl,
 	const char* msg, ...)
 {
   //DumpVariables (behave);
-  DumpCallStack (behave);
+  DumpCallStack (cbl);
   va_list arg;
   va_start (arg, msg);
-  csReportV (behave->GetObjectRegistry (), CS_REPORTER_SEVERITY_ERROR,
+  csReportV (cbl->GetObjectRegistry (), CS_REPORTER_SEVERITY_ERROR,
   	"cel.behaviourlayer.xml", msg, arg);
   va_end (arg);
   return false;
@@ -719,8 +719,8 @@ bool celXmlScriptEventHandler::ReportError (celBehaviourXml* behave,
 // @@@ BAD!!!
 csRef<iSndSysSource> sound_source;
 
-bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
-	celBehaviourXml* behave, bool& rc)
+bool celXmlScriptEventHandler::EvaluateTrue (
+    const celXmlArg& eval, celBlXml* cbl, bool& rc)
 {
   switch (eval.type)
   {
@@ -773,7 +773,7 @@ bool celXmlScriptEventHandler::EvaluateTrue (const celXmlArg& eval,
       rc = ArgToUInt32 (eval) != 0;
       break;
     default:
-      return ReportError (behave, "Can't test on this type!");
+      return ReportError (cbl, "Can't test on this type!");
   }
   return true;
 }
@@ -941,7 +941,7 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
 {
   switch (in.type)
   {
-  case CEL_DATA_BOOL: out.Set ((in.value.b? true : false)); break;
+    case CEL_DATA_BOOL: out.Set ((in.value.b? true : false)); break;
     case CEL_DATA_FLOAT: out.SetFloat (in.value.f); break;
     case CEL_DATA_STRING: out.SetString (in.value.s->GetData (), true); break;
     case CEL_DATA_LONG: out.SetInt32 (in.value.l); break;
@@ -973,7 +973,8 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
   return true;
 }
 
-static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id, celXmlArg& out)
+static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
+    celXmlArg& out)
 {
   celDataType t = pc->GetPropertyOrActionType (id);
   switch (t)
@@ -1142,14 +1143,14 @@ static bool celData2prop (const celData& val, iPcProperties* props,
   return true;
 }
 
-void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
+void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
 {
-  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
   size_t i;
   printf ("### Callstack ###\n");
   for (i = 0 ; i < cbl->call_stack.Length () ; i++)
   {
-    printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i], cbl->call_stack_entity[i]->GetName ());
+    printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i],
+	cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
     {
       size_t j;
@@ -1162,7 +1163,8 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 	parm = p->GetParameter (j, id, t);
 	const char* idstr = pl->FetchString (id);
 	const celData* param = p->GetParameter (id);
-        printf ("  par:%lu name=%s id=%s val=%s\n", (unsigned long)j, parm, idstr, D2S (*param));
+        printf ("  par:%lu name=%s id=%s val=%s\n", (unsigned long)j,
+	    parm, idstr, D2S (*param));
       }
     }
   }
@@ -1171,6 +1173,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBehaviourXml* behave)
 
 void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 {
+  if (!behave) return;
   size_t i;
   printf ("### Variables ###\n");
   iPcProperties* props = behave->GetProperties ();
@@ -1233,27 +1236,27 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
   if (stack.Length () < i) \
-    return ReportError (behave, "Stack underflow!");
+    return ReportError (cbl, "Stack underflow!");
 #else
 #define CHECK_STACK(i)
 #endif
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
+    	celBlXml* cbl,
 	celBehaviourXml* behave, celData& ret, iCelParameterBlock* params,
-	size_t startop, bool newscope)
+	size_t startop, bool newscope, int expected_stack_size)
 {
   // We keep a reference to the entity here to prevent
   // deletion of that entity during script execution.
   csRef<iCelEntity> e = entity;
-  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
   bool varprop_trace = cbl->varprop_trace;
 
-  size_t stack_size = stack.Length ();
+  size_t stack_size = stack.Length () + expected_stack_size;
   size_t i = startop;
   if (startop == 0)
   {
     DUMP_EXEC ((":::: entity=%s behave=%s\n", entity->GetName (),
-  	behave->GetName ()));
+  	behave ? behave->GetName () : "<null>"));
   }
 #ifdef CS_DEBUG
   // Force cleaning of local variables in debug mode to
@@ -1273,25 +1276,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_END:
         if (stack_size != stack.Length ())
 	{
-	  return ReportError (behave, "Stack size mismatch!");
+	  return ReportError (cbl, "Stack size mismatch!");
 	}
         return true;
       case CEL_OPERATION_CALLSTACK:
-	DumpCallStack (behave);
+	DumpCallStack (cbl);
         break;
       case CEL_OPERATION_VARIABLES:
 	DumpVariables (behave);
         break;
       case CEL_OPERATION_TRACEON:
         {
-	  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
 	  cbl->varprop_trace = true;
 	  varprop_trace = true;
 	}
         break;
       case CEL_OPERATION_TRACEOFF:
         {
-	  celBlXml* cbl = (celBlXml*)(behave->GetBehaviourLayer ());
 	  cbl->varprop_trace = false;
 	  varprop_trace = false;
 	}
@@ -1304,12 +1305,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csStringID id = ArgToID (a_arg);
 	  size_t si = stack.Push (celXmlArg ());
 	  if (!params)
-	    return ReportError (behave, "No parameters were supplied while calling this event!");
+	    return ReportError (cbl, "No parameters were supplied while calling this event!");
 	  const celData* data = params->GetParameter (id);
 	  if (!data)
-	    return ReportError (behave, "Can't find parameter!");
+	    return ReportError (cbl, "Can't find parameter!");
 	  if (!celData2celXmlArg (*data, stack[si]))
-	    return ReportError (behave, "Type not supported for 'param'!");
+	    return ReportError (cbl, "Type not supported for 'param'!");
 	}
 	break;
       case CEL_OPERATION_PUSH:
@@ -1467,7 +1468,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           DUMP_EXEC ((":%04d: mousex ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  int mousex = behave->GetMouseDriver ()->GetLastX ();
+	  int mousex = cbl->GetMouseDriver ()->GetLastX ();
 	  stack[si].SetInt32 (mousex);
 	}
 	break;
@@ -1475,7 +1476,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           DUMP_EXEC ((":%04d: mousey ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  int mousey = behave->GetMouseDriver ()->GetLastY ();
+	  int mousey = cbl->GetMouseDriver ()->GetLastY ();
 	  stack[si].SetInt32 (mousey);
 	}
 	break;
@@ -1483,8 +1484,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           DUMP_EXEC ((":%04d: bb_mousex ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  int mousex = behave->GetMouseDriver ()->GetLastX ();
-	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  int mousex = cbl->GetMouseDriver ()->GetLastX ();
+	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
 	  stack[si].SetInt32 (bbmgr->ScreenToBillboardX (mousex));
 	}
 	break;
@@ -1492,8 +1493,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           DUMP_EXEC ((":%04d: bb_mousey ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  int mousey = behave->GetMouseDriver ()->GetLastY ();
-	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  int mousey = cbl->GetMouseDriver ()->GetLastY ();
+	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
 	  stack[si].SetInt32 (bbmgr->ScreenToBillboardY (mousey));
 	}
 	break;
@@ -1501,14 +1502,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
           DUMP_EXEC ((":%04d: scr_width ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetInt32 (behave->GetG3D ()->GetWidth ());
+	  stack[si].SetInt32 (cbl->GetG3D ()->GetWidth ());
 	}
 	break;
       case CEL_OPERATION_SCR_HEIGHT:
         {
           DUMP_EXEC ((":%04d: scr_height ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetInt32 (behave->GetG3D ()->GetHeight ());
+	  stack[si].SetInt32 (cbl->GetG3D ()->GetHeight ());
 	}
 	break;
       case CEL_OPERATION_ENTNAME:
@@ -1570,7 +1571,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't convert element on stack to 'float'!");
 	  }
 	}
@@ -1602,7 +1603,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't convert element on stack to 'int'!");
 	  }
 	}
@@ -1628,7 +1629,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG: top.SetInt32 (top.arg.ui > 0 ? 1 : 0); break;
 	    case CEL_DATA_FLOAT: top.SetInt32 (SIGN (top.arg.f)); break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't calculate 'sign' for element on stack!");
 	  }
 	}
@@ -1640,7 +1641,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: sqrt %s\n", i-1, A2S (top)));
 	  float f = ArgToFloat (top);
 	  if (f < 0.0f)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	      "Attempting to calculate sqrt of a negative number (%g)!", f);
 	  top.SetFloat (sqrt (f));
 	}
@@ -1668,7 +1669,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG: break;
 	    case CEL_DATA_FLOAT: top.arg.f = ABS (top.arg.f); break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't calculate 'abs' for element on stack!");
 	  }
 	}
@@ -1690,7 +1691,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (!ArgToBool (top));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't log-not element on stack!");
+	      return ReportError (cbl, "Can't log-not element on stack!");
 	  }
 	}
 	break;
@@ -1705,7 +1706,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ULONG: top.arg.ui = ~top.arg.ui; break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    default:
-	      return ReportError (behave, "Can't bit-not element on stack!");
+	      return ReportError (cbl, "Can't bit-not element on stack!");
 	  }
 	}
 	break;
@@ -1735,7 +1736,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.arg.vec.y = -top.arg.vec.y;
 	      break;
 	    default:
-	      return ReportError (behave, "Can't negate element on stack!");
+	      return ReportError (cbl, "Can't negate element on stack!");
 	  }
 	}
 	break;
@@ -1887,7 +1888,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't 'interpolate' these types!");
 	  }
 	}
@@ -1933,7 +1934,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't calculate 'min' of these types!");
 	  }
 	}
@@ -1979,7 +1980,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't calculate 'max' of these types!");
 	  }
 	}
@@ -1993,11 +1994,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_NONE:
-	      return ReportError (behave, "Can't subtract these types!");
+	      return ReportError (cbl, "Can't subtract these types!");
 	    case CEL_DATA_BOOL:
-	      return ReportError (behave, "Can't subtract booleans!");
+	      return ReportError (cbl, "Can't subtract booleans!");
 	    case CEL_DATA_STRING:
-	      return ReportError (behave, "Can't subtract strings!");
+	      return ReportError (cbl, "Can't subtract strings!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (top) - ArgToFloat (op.arg));
 	      break;
@@ -2029,11 +2030,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_NONE:
-	      return ReportError (behave, "Can't subtract these types!");
+	      return ReportError (cbl, "Can't subtract these types!");
 	    case CEL_DATA_BOOL:
-	      return ReportError (behave, "Can't subtract booleans!");
+	      return ReportError (cbl, "Can't subtract booleans!");
 	    case CEL_DATA_STRING:
-	      return ReportError (behave, "Can't subtract strings!");
+	      return ReportError (cbl, "Can't subtract strings!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (top) - ArgToFloat (elb));
 	      break;
@@ -2064,7 +2065,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      return ReportError (behave, "Can't add booleans!");
+	      return ReportError (cbl, "Can't add booleans!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (op.arg) + ArgToFloat (top));
 	      break;
@@ -2123,7 +2124,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (t)
 	  {
 	    case CEL_DATA_BOOL:
-	      return ReportError (behave, "Can't add booleans!");
+	      return ReportError (cbl, "Can't add booleans!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (top) + ArgToFloat (elb));
 	      break;
@@ -2213,12 +2214,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		}
 	      }
 	      else
-	        return ReportError (behave, "Can't multiply these types!");
+	        return ReportError (cbl, "Can't multiply these types!");
 	      break;
 	    case CEL_DATA_STRING:
-	      return ReportError (behave, "Can't multiply strings!");
+	      return ReportError (cbl, "Can't multiply strings!");
 	    case CEL_DATA_COLOR:
-	      return ReportError (behave, "Can't multiply colors!");
+	      return ReportError (cbl, "Can't multiply colors!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (top) * ArgToFloat (elb));
 	      break;
@@ -2239,7 +2240,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
               * int (ArgToBool (elb)))? true:false);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't multiply these types!");
+	      return ReportError (cbl, "Can't multiply these types!");
 	  }
 	}
 	break;
@@ -2262,7 +2263,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetUInt32 (ArgToUInt32 (top) % ArgToUInt32 (elb));
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Can't compute modulo or cross of these types!");
 	  }
 	}
@@ -2288,22 +2289,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		    top.SetVector (ArgToVector3 (top) / ArgToFloat (elb));
 		    break;
 		  default:
-	            return ReportError (behave, "Can't divide these types!");
+	            return ReportError (cbl, "Can't divide these types!");
 		}
 	      }
 	      else
-	        return ReportError (behave, "Can't divide these types!");
+	        return ReportError (cbl, "Can't divide these types!");
 	      break;
 	    case CEL_DATA_STRING:
-	      return ReportError (behave, "Can't divide strings!");
+	      return ReportError (cbl, "Can't divide strings!");
 	    case CEL_DATA_BOOL:
-	      return ReportError (behave, "Can't divide booleans!");
+	      return ReportError (cbl, "Can't divide booleans!");
 	    case CEL_DATA_VECTOR2:
-	      return ReportError (behave, "Can't divide vectors!");
+	      return ReportError (cbl, "Can't divide vectors!");
 	    case CEL_DATA_VECTOR3:
-	      return ReportError (behave, "Can't divide vectors!");
+	      return ReportError (cbl, "Can't divide vectors!");
 	    case CEL_DATA_COLOR:
-	      return ReportError (behave, "Can't divide colors!");
+	      return ReportError (cbl, "Can't divide colors!");
 	    case CEL_DATA_FLOAT:
 	      top.SetFloat (ArgToFloat (top) / ArgToFloat (elb));
 	      break;
@@ -2314,7 +2315,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetUInt32 (ArgToUInt32 (top) / ArgToUInt32 (elb));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't divide these types!");
+	      return ReportError (cbl, "Can't divide these types!");
 	  }
 	}
 	break;
@@ -2337,7 +2338,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetUInt32 (ArgToUInt32 (top) & ArgToUInt32 (elb));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't bit-and these types!");
+	      return ReportError (cbl, "Can't bit-and these types!");
 	  }
 	}
 	break;
@@ -2360,7 +2361,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetUInt32 (ArgToUInt32 (top) | ArgToUInt32 (elb));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't bit-or these types!");
+	      return ReportError (cbl, "Can't bit-or these types!");
 	  }
 	}
 	break;
@@ -2383,7 +2384,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.SetUInt32 (ArgToUInt32 (top) ^ ArgToUInt32 (elb));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't bit-or these types!");
+	      return ReportError (cbl, "Can't bit-or these types!");
 	  }
 	}
 	break;
@@ -2458,7 +2459,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
               ArgToString (elb))? true : false);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2515,7 +2516,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	ArgToString (elb)));
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2542,7 +2543,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	ArgToString (elb)) < 0);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2569,7 +2570,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	ArgToString (elb)) <= 0);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2596,7 +2597,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	ArgToString (elb)) > 0);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2623,7 +2624,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      	ArgToString (elb)) >= 0);
 	      break;
 	    default:
-	      return ReportError (behave, "Can't compare these types!");
+	      return ReportError (cbl, "Can't compare these types!");
 	  }
 	}
 	break;
@@ -2665,21 +2666,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (op.arg), A2S (a_index1), A2S (a_index2)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFARRENT2:
@@ -2693,21 +2694,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (a_array), A2S (a_index1), A2S (a_index2)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent2_str'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = ArgToString (ArgToString (a_array), ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
 
@@ -2723,9 +2724,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (top), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFARR2:
@@ -2741,9 +2742,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (ArgToString (top), ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
 
@@ -2756,21 +2757,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (op.arg), A2S (a_index)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = ArgToString (op.arg.arg.str.s, a_index);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFARRENT:
@@ -2783,21 +2784,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (a_array), A2S (a_index)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefarrent_str'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = ArgToString (ArgToString (a_array), a_index);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
 
@@ -2812,9 +2813,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (op.arg.arg.str.s, top);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFARR:
@@ -2829,9 +2830,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (ArgToString (top), a_index);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
 
@@ -2843,10 +2844,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = op.arg.arg.str.s;
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  size_t si = stack.Push (celXmlArg ());
 	  if (!prop2celXmlArg (props, idx, stack[si]))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVAR:
@@ -2859,9 +2860,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* varname = ArgToString (top);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave, "Can't find variable '%s'!", varname);
+	    return ReportError (cbl, "Can't find variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVARENT_STR:
@@ -2872,22 +2873,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		A2S (top), A2S (op.arg)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefvarent_str'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = op.arg.arg.str.s;
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity doesn't have variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_DEREFVARENT:
@@ -2899,22 +2900,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (a_var)));
 	  iCelEntity* other_ent = ArgToEntity (top, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefvarent'!",
 	    	EntityNameForError (top));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
 	  const char* varname = ArgToString (a_var);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity doesn't have variable '%s'!", varname);
 	  if (!prop2celXmlArg (props, idx, top))
-	    return ReportError (behave, "Property '%s' has wrong type!", varname);
+	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
       case CEL_OPERATION_ENTTHIS:
@@ -2930,7 +2931,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  iCelEntity* ent = ArgToEntity (top, pl);
 	  if (!ent)
-	    return ReportError (behave, "Can't find entity '%s'!",
+	    return ReportError (cbl, "Can't find entity '%s'!",
 	    	EntityNameForError (top));
 	  top.SetEntity (ent);
 	}
@@ -2951,7 +2952,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* s = ArgToString (top);
 	  iCelPropertyClass* pc = pl->CreatePropertyClass (entity, s);
 	  if (!pc)
-	    return ReportError (behave, "Couldn't create property class '%s'!",
+	    return ReportError (cbl, "Couldn't create property class '%s'!",
 	    	s);
 	}
         break;
@@ -2974,7 +2975,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, s,
 	  	tag);
 	  if (!pc)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't create property class '%s' with tag '%s'!",
 	    	s, tag);
 	}
@@ -3001,13 +3002,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* layername = ArgToString (alayer);
 	  iCelBlLayer* bl = pl->FindBehaviourLayer (layername);
 	  if (!bl)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find behaviour layer '%s'!", layername);
 
 	  const char* bhname = ArgToString (abh);
 	  iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
 	  if (!bh)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't create behaviour '%s' for '%s' and layer '%s'!",
 	    	bhname, entname, layername);
 	}
@@ -3030,15 +3031,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* entname = ArgToString (aent);
 	  if (entname) ent->SetName (entname);
 	  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iCelBlLayer);
+	  	cbl->GetObjectRegistry (), iCelBlLayer);
 	  if (!bl)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find default behaviour layer!");
 
 	  const char* bhname = ArgToString (abh);
 	  iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
 	  if (!bh)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't create behaviour '%s' for '%s'!",
 	    	bhname, entname);
 	}
@@ -3059,7 +3060,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* entname = ArgToString (atpl);
 	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (entname);
 	  if (!entpl)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity template '%s'!", entname);
 	  celEntityTemplateParams entpl_params;
 	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname, entpl_params);
@@ -3074,7 +3075,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  cbl->call_stack.Push (handler->GetName ());
 	  cbl->call_stack_params.Push (params);
 	  cbl->call_stack_entity.Push (entity);
-	  if (!handler->Execute (entity, behave, ret, params))
+	  if (!handler->Execute (entity, cbl, behave, ret, params))
 	    return false;
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
@@ -3090,7 +3091,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (aevent)));
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'callent'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
@@ -3109,7 +3110,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		A2S (aent), A2S (aevent), A2S (aret)));
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'callent'!",
 	    	EntityNameForError (aent));
 	  const char* eventname = ArgToString (aevent);
@@ -3120,9 +3121,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celData2prop (ret, props, varname))
-	    return ReportError (behave, "Bad type of value for call/return!");
+	    return ReportError (cbl, "Bad type of value for call/return!");
 	}
         break;
       case CEL_OPERATION_CALL:
@@ -3144,7 +3145,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (op.arg)));
 	  iCelEntity* ent = ArgToEntity (top, pl);
 	  if (!ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'callent_restack'!",
 	    	EntityNameForError (top));
 	  const char* eventname = op.arg.arg.str.s;
@@ -3162,7 +3163,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	A2S (top), A2S (op.arg)));
 	  iCelEntity* ent = ArgToEntity (top, pl);
 	  if (!ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'callent_restack'!",
 	    	EntityNameForError (top));
 	  const char* eventname = op.arg.arg.str.s;
@@ -3198,9 +3199,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celData2prop (ret, props, varname))
-	    return ReportError (behave, "Bad type of value for call/return!");
+	    return ReportError (cbl, "Bad type of value for call/return!");
 	}
         break;
       case CEL_OPERATION_RETURN:
@@ -3244,7 +3245,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value for return!");
+	      return ReportError (cbl, "Bad type of value for return!");
 	  }
 	}
 	break;
@@ -3264,7 +3265,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  if (!pc)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	  "No valid property class for 'action'!");
 	  csStringID id = ArgToID (a_id);
 	  csRef<iCelParameterBlock> ref = action_params;
@@ -3285,7 +3286,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	  iCelEntity* ent = ArgToEntity (aent, pl);
 	  if (!ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	  "Couldn't find entity with name '%s' for 'destroyentity'!",
 		  EntityNameForError (aent));
 	  pl->RemoveEntity (ent);
@@ -3300,7 +3301,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1,
 	  	A2S (a_layer),
 	  	A2S (a_x), A2S (a_y)));
-	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
 	  const char* layername = ArgToString (a_layer);
 	  iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
 	  if (!layer)
@@ -3322,10 +3323,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 delta = ArgToInt32 (adelta);
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->MoveToPosition (delta, x, y);
         }
@@ -3376,10 +3377,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_tofront_e pc=%s\n", i-1, A2S (top)));
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->StackTop ();
 	}
@@ -3391,10 +3392,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_toback_e pc=%s\n", i-1, A2S (top)));
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->StackBottom ();
 	}
@@ -3406,10 +3407,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_up_e pc=%s\n", i-1, A2S (top)));
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->StackUp ();
 	}
@@ -3421,10 +3422,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_down_e pc=%s\n", i-1, A2S (top)));
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->StackDown ();
 	}
@@ -3451,10 +3452,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  int32 y = ArgToInt32 (ay);
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  other_bb->GetBillboard ()->SetPosition (x, y);
 	}
@@ -3466,20 +3467,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (top)));
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Bad property class!\n");
+	    return ReportError (cbl, "Bad property class!\n");
 
 	  // @@@ Efficiency?
 	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
 	  iPcBillboard* bb = behave->GetBillboard ();
 	  if (!bb)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"This entity does not have a pcbillboard!\n");
-	  iBillboardManager* bbmgr = behave->GetBillboardManager ();
+	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
 	  if (!bbmgr)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Billboard manager is missing!\n");
 	  top.Set (bbmgr->TestCollision (bb->GetBillboard (),
 	  	other_bb->GetBillboard ()));
@@ -3497,7 +3498,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (a_var);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  int32 start = ArgToInt32 (a_start);
 	  int32 end = ArgToInt32 (a_end);
 	  int32 v;
@@ -3510,7 +3511,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (varname, (long)v);
-	    if (!truebranch->Execute (entity, behave, ret, params))
+	    if (!truebranch->Execute (entity, cbl, behave, ret, params))
 	      return false;
 	  }
 	  cbl->call_stack_entity.Pop ();
@@ -3530,7 +3531,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (a_var);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  char* copy_varname = csStrNew (varname);
 	  int32 start = ArgToInt32 (a_start);
 	  int32 end = ArgToInt32 (a_end);
@@ -3543,7 +3544,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  for (v = start ; v <= end ; v++)
 	  {
 	    props->SetProperty (copy_varname, (long)v);
-	    if (!Execute (entity, behave, ret, params, i, false))
+	    if (!Execute (entity, cbl, behave, ret, params, i, false))
 	      return false;
 	  }
 	  cbl->call_stack_entity.Pop ();
@@ -3562,7 +3563,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: iffun eval=%s true=%s false=%s\n", i-1,
 	  	A2S (eval), A2S (ela), A2S (elb)));
 	  bool rc = false;
-	  if (!EvaluateTrue (eval, behave, rc)) return false;
+	  if (!EvaluateTrue (eval, cbl, rc)) return false;
 	  if (rc)
 	    stack.Push (ela);
 	  else
@@ -3603,7 +3604,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: ifgoto %s :%d:\n", i-1, A2S (eval),
 	  	op.arg.arg.codelocation));
 	  bool rc = false;
-	  if (!EvaluateTrue (eval, behave, rc)) return false;
+	  if (!EvaluateTrue (eval, cbl, rc)) return false;
 	  if (!rc)
 	  {
 	    i = op.arg.arg.codelocation;
@@ -3616,7 +3617,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg eval = stack.Pop ();
 	  DUMP_EXEC ((":%04d: if %s\n", i-1, A2S (eval)));
 	  bool rc = false;
-	  if (!EvaluateTrue (eval, behave, rc)) return false;
+	  if (!EvaluateTrue (eval, cbl, rc)) return false;
 	  celData ret;
 	  if (rc)
 	  {
@@ -3626,7 +3627,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      cbl->call_stack.Push (truebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
 	      cbl->call_stack_entity.Push (entity);
-	      if (!truebranch->Execute (entity, behave, ret, params))
+	      if (!truebranch->Execute (entity, cbl, behave, ret, params))
 	        return false;
 	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
@@ -3641,7 +3642,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      cbl->call_stack.Push (falsebranch->GetName ());
 	      cbl->call_stack_params.Push (params);
 	      cbl->call_stack_entity.Push (entity);
-	      if (!falsebranch->Execute (entity, behave, ret, params))
+	      if (!falsebranch->Execute (entity, cbl, behave, ret, params))
 	        return false;
 	      cbl->call_stack_entity.Pop ();
 	      cbl->call_stack_params.Pop ();
@@ -3721,7 +3722,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    default:
-	      return ReportError (behave, "Bad type of value for action/param!");
+	      return ReportError (cbl, "Bad type of value for action/param!");
 	  }
         }
         break;
@@ -3735,21 +3736,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'varent_str'!",
 	    	EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 			EntityNameForError (a_ent));
 
 	  const char* varname = op.arg.arg.str.s;
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celXmlArg2prop (val, props, varname))
-	    return ReportError (behave, "Bad type of value for var!");
+	    return ReportError (cbl, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VARENT:
@@ -3770,21 +3771,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'varent'!",
 		EntityNameForError (a_ent));
 	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
 	  	other_ent->GetPropertyClassList (), iPcProperties);
 	  if (!props)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 			EntityNameForError (a_ent));
 
 	  const char* varname = ArgToString (var);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celXmlArg2prop (val, props, varname))
-	    return ReportError (behave, "Bad type of value for var!");
+	    return ReportError (cbl, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VAR_STR:
@@ -3805,9 +3806,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = op.arg.arg.str.s;
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celXmlArg2prop (val, props, varname))
-	    return ReportError (behave, "Bad type of value for var!");
+	    return ReportError (cbl, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_VAR:
@@ -3829,9 +3830,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* varname = ArgToString (var);
 	  if (!varname)
-	    return ReportError (behave, "Illegal variable name!");
+	    return ReportError (cbl, "Illegal variable name!");
 	  if (!celXmlArg2prop (val, props, varname))
-	    return ReportError (behave, "Bad type of value for var!");
+	    return ReportError (cbl, "Bad type of value for var!");
 	}
 	break;
       case CEL_OPERATION_GETPROPERTY1:
@@ -3843,10 +3844,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelPropertyClass* pc = default_pc;
 	  if (!pc)
-	    return ReportError (behave, "Default property class is 0!");
+	    return ReportError (cbl, "Default property class is 0!");
 	  csStringID id = ArgToID (a_id);
 	  if (!pcProp2celXmlArg (pc, id, stack[si]))
-	    return ReportError (behave, "Type not supported for getproperty1!");
+	    return ReportError (cbl, "Type not supported for getproperty1!");
 	}
 	break;
       case CEL_OPERATION_GETPROPERTY:
@@ -3859,10 +3860,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (behave, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0!");
 	  csStringID id = ArgToID (a_id);
 	  if (!pcProp2celXmlArg (pc, id, top))
-	    return ReportError (behave, "Type not supported for getproperty!");
+	    return ReportError (cbl, "Type not supported for getproperty!");
 	}
 	break;
       case CEL_OPERATION_INVENTORY_ADD:
@@ -3880,11 +3881,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for inventory_add'!",
 		EntityNameForError (a_ent));
 	  if (!default_inv)
-	    return ReportError (behave, "Default inventory isn't set!");
+	    return ReportError (cbl, "Default inventory isn't set!");
 	  default_inv->AddEntity (other_ent);
 	}
 	break;
@@ -3903,11 +3904,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
 	  if (!other_ent)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'inventory_rem'!",
 		EntityNameForError (a_ent));
 	  if (!default_inv)
-	    return ReportError (behave, "Default inventory isn't set!");
+	    return ReportError (cbl, "Default inventory isn't set!");
 	  default_inv->RemoveEntity (other_ent);
 	}
 	break;
@@ -3915,7 +3916,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  DUMP_EXEC ((":%04d: inventory_count ()\n", i-1));
 	  if (!default_inv)
-	    return ReportError (behave, "Default inventory isn't set!");
+	    return ReportError (cbl, "Default inventory isn't set!");
 	  size_t si = stack.Push (celXmlArg ());
 	  stack[si].SetInt32 ((int32)default_inv->GetEntityCount ());
 	}
@@ -3926,7 +3927,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: inventory_get idx=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
-	    return ReportError (behave, "Default inventory isn't set!");
+	    return ReportError (cbl, "Default inventory isn't set!");
 	  top.SetEntity (default_inv->GetEntity (ArgToInt32 (top)));
 	}
 	break;
@@ -3937,10 +3938,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultinv pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (behave, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0!");
 	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
 	  if (!inv)
-	    return ReportError (behave, "Property class is not an inventory!");
+	    return ReportError (cbl, "Property class is not an inventory!");
 	  default_inv = inv;
 	}
 	break;
@@ -3951,7 +3952,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (behave, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0!");
 	  default_pc = pc;
 	}
 	break;
@@ -3973,7 +3974,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc) pc = default_pc;
 	  if (!pc)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 	    	  "No valid property class for 'property'!");
 	  csStringID id = ArgToID (a_id);
 	  celDataType t = pc->GetPropertyOrActionType (id);
@@ -4010,7 +4011,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      pc->SetProperty (id, a_val.arg.entity);
 	      break;
 	    default:
-	      return ReportError (behave,
+	      return ReportError (cbl,
 	      	"Bad type for setting property value!");
 	  }
 	}
@@ -4022,7 +4023,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: readfile vararray=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
 	  	iVFS);
 	  csRef<iDataBuffer> buf = vfs->ReadFile (ArgToString (a_file));
 	  if (!buf)
@@ -4073,7 +4074,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: writefile vararray=%s file=%s start=%s stop=%s\n",
 	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
-	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (behave->GetObjectRegistry (),
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
 	  	iVFS);
 	  iPcProperties* props = behave->GetProperties ();
 	  CS_ASSERT (props != 0);
@@ -4091,7 +4092,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    sprintf (varnum, "%d", i);
 	    size_t idx = props->GetPropertyIndex (var);
             if (idx == csArrayItemNotFound)
-	      return ReportError (behave, "Can't find variable '%s'!", var);
+	      return ReportError (cbl, "Can't find variable '%s'!", var);
 	    const char* l = props->GetPropertyString (idx);
 	    data += l;
 	    data += "\n";
@@ -4106,7 +4107,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg a_msg = stack.Pop ();
 	  DUMP_EXEC ((":%04d: reporterror msg=%s\n", i-1, A2S (a_msg)));
-	  return ReportError (behave, ArgToString (a_msg));
+	  return ReportError (cbl, ArgToString (a_msg));
 	}
 	break;
       case CEL_OPERATION_SOUND:
@@ -4117,28 +4118,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s\n", i-1, A2S (a_name),
 	  	A2S (a_loop)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
-	  	behave->GetObjectRegistry (), iSndSysManager);
+	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
-	    return ReportError (behave, "Error! No sound manager!");
-	  iEngine* engine = behave->GetEngine ();
+	    return ReportError (cbl, "Error! No sound manager!");
+	  iEngine* engine = cbl->GetEngine ();
 	  if (!engine)
-	    return ReportError (behave, "Error! No engine!");
+	    return ReportError (cbl, "Error! No engine!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
 	  if (w)
 	  {
 	    csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
-	  		behave->GetObjectRegistry (), iSndSysRenderer);
+	  		cbl->GetObjectRegistry (), iSndSysRenderer);
 	    if (!renderer)
 	    {
 	      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (
-		      behave->GetObjectRegistry (), iPluginManager);
+		      cbl->GetObjectRegistry (), iPluginManager);
 	      renderer = CS_LOAD_PLUGIN (plugin_mgr,
 		    "crystalspace.sndsys.renderer.software", iSndSysRenderer);
 	      if (renderer)
-	       behave->GetObjectRegistry ()->Register (renderer,
+	       cbl->GetObjectRegistry ()->Register (renderer,
 			"iSndSysRenderer");
 	      else
-	        return ReportError (behave, "Error! No sound renderer!");
+	        return ReportError (cbl, "Error! No sound renderer!");
 	    }
 	    sound_source = renderer->CreateSource(w->GetStream());
 	    sound_source->SetVolume (1); //XXX this should also be a parameter
@@ -4164,21 +4165,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* entvarname = ArgToString (a_entvar);
 	  if (!entvarname)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Illegal variable name for 'hitbeam'!");
 	  const char* isectvarname = ArgToString (a_isectvar);
 	  if (!isectvarname)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Illegal variable name for 'hitbeam'!");
 
 	  const char* sectorname = ArgToString (a_sector);
 	  if (!sectorname)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"'sectorname' is missing or invalid for 'hitbeam'!");
-	  iEngine* engine = behave->GetEngine ();
+	  iEngine* engine = cbl->GetEngine ();
 	  iSector* sector = engine->FindSector (sectorname);
 	  if (!sector)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Can't find sector '%s' for 'hitbeam'!", sectorname);
 	  csVector3 start = ArgToVector3 (a_start);
 	  csVector3 end = ArgToVector3 (a_end);
@@ -4207,20 +4208,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CS_ASSERT (props != 0);
 	  const char* entvarname = ArgToString (a_entvar);
 	  if (!entvarname)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Illegal variable name for 'selectentity'!");
 	  const char* isectvarname = ArgToString (a_isectvar);
 	  if (!isectvarname)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Illegal variable name for 'selectentity'!");
 
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Illegal property class for 'selectentity'!");
 	  csRef<iPcCamera> pccam = scfQueryInterface<iPcCamera> (pc);
 	  if (!pccam)
-	    return ReportError (behave,
+	    return ReportError (cbl,
 		"Property class is not a pccamera for 'selectentity'!");
 	  int screenx = ArgToInt32 (a_screenx);
 	  int screeny = ArgToInt32 (a_screeny);

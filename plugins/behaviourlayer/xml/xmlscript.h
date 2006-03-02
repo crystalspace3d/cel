@@ -40,6 +40,7 @@ struct iCelParameterBlock;
 struct iPcInventory;
 struct iPcCamera;
 struct iSector;
+class celBlXml;
 class celBehaviourXml;
 class celXmlScriptEventHandler;
 class celVariableParameterBlock;
@@ -383,9 +384,9 @@ private:
   // Temporary variable to keep parameters for actions.
   csRef<iCelParameterBlock> action_params;
 
-  bool ReportError (celBehaviourXml* behave, const char* msg, ...);
-  bool EvaluateTrue (const celXmlArg& eval, celBehaviourXml* behave, bool& rc);
-  void DumpCallStack (celBehaviourXml* behave);
+  bool ReportError (celBlXml* cbl, const char* msg, ...);
+  bool EvaluateTrue (const celXmlArg& eval, celBlXml* cbl, bool& rc);
+  void DumpCallStack (celBlXml* cbl);
   void DumpVariables (celBehaviourXml* behave);
   void FindMouseTarget (iPcCamera* pccam, int screenx, int screeny,
     float maxdist, csVector3& isect, iCelEntity*& selent);
@@ -399,6 +400,8 @@ public:
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
+
+  const csArray<celXmlArg>& GetStack () const { return stack; }
 
   void AddOperation (int op);
   int GetLastOperation () { return operations.Top ().op; }
@@ -418,9 +421,9 @@ public:
   // Get a local variable with index.
   celXmlArg& GetLocalVariable (size_t idx) { return local_vars[idx]; }
 
-  bool Execute (iCelEntity* entity, celBehaviourXml* behave,
+  bool Execute (iCelEntity* entity, celBlXml* cbl, celBehaviourXml* behave,
   	celData& ret, iCelParameterBlock* params, size_t startop = 0,
-	bool newscope = true);
+	bool newscope = true, int expected_stack_size = 0);
 };
 
 /**

@@ -86,6 +86,7 @@ public:
   void Snapshot ();
   void SnapshotDiffPC (iCelEntity* ent);
   void SnapshotDiff ();
+  void EvalulateExpression (const csStringArray& args);
 
   virtual iConsoleInput* GetInputConsole () { return conin; }
   virtual iConsoleOutput* GetOutputConsole () { return conout; }

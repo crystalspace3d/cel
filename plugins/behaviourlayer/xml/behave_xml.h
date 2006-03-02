@@ -33,8 +33,6 @@ struct iCelEntity;
 struct iPcProperties;
 struct iPcBillboard;
 struct iObjectRegistry;
-struct iGraphics3D;
-struct iEngine;
 class celXmlScript;
 
 /**
@@ -47,10 +45,6 @@ protected:
   iCelBlLayer* bl;
   csWeakRef<iPcProperties> props;	// Optimization.
   csWeakRef<iPcBillboard> billboard;	// Optimization.
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iMouseDriver> mouse;
-  csRef<iBillboardManager> billboard_mgr;
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
@@ -71,15 +65,6 @@ public:
   }
   iPcProperties* GetProperties ();
   iPcBillboard* GetBillboard ();
-  iMouseDriver* GetMouseDriver () { return mouse; }
-  iGraphics3D* GetG3D () { return g3d; }
-  iEngine* GetEngine () { return engine; }
-  iBillboardManager* GetBillboardManager ()
-  {
-    if (!billboard_mgr)
-      billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
-    return billboard_mgr;
-  }
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
   void Randomize () { rng.Initialize (csGetTicks ()); }
   float GetRandFloat (float f) { return rng.Get () * f; }

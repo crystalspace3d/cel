@@ -28,23 +28,48 @@
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/blgen.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
+#include "tools/expression.h"
 
 struct iObjectRegistry;
 struct iCelEntity;
 struct iCelParameterBlock;
 struct iSyntaxService;
 struct iCelPlLayer;
+struct iBillboardManager;
+struct iGraphics3D;
+struct iEngine;
+struct iMouseDriver;
 class celXmlScript;
 class celXmlScriptEventHandler;
 class csStringArray;
 
 #define DO_PROFILE 0
 
+class celExpression : public scfImplementation1<celExpression,
+			   iCelExpression>
+{
+public:
+  celBlXml* cbl;
+  celXmlScriptEventHandler* handler;
+
+public:
+  celExpression (celBlXml* cbl) : scfImplementationType (this), cbl (cbl)
+  {
+    handler = 0;
+  }
+  virtual ~celExpression ()
+  {
+    delete handler;
+  }
+  virtual bool Execute (iCelEntity* entity, celData& ret);
+};
+
 /**
  * This is the Behaviour Layer itself.
  */
-class celBlXml : public scfImplementation3<celBlXml, iCelBlLayer,
-		 	iCelBlLayerGenerate, iComponent>
+class celBlXml : public scfImplementation4<celBlXml, iCelBlLayer,
+		 	iCelBlLayerGenerate, iCelExpressionParser,
+			iComponent>
 {
 public:
   // This is the call stack: useful for debugging.
@@ -67,6 +92,11 @@ public:
 
 private:
   iObjectRegistry* object_reg;
+  csRef<iGraphics3D> g3d;
+  csRef<iEngine> engine;
+  csRef<iMouseDriver> mouse;
+  csRef<iBillboardManager> billboard_mgr;
+
   csRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
@@ -117,6 +147,17 @@ public:
   virtual ~celBlXml ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
+  iObjectRegistry* GetObjectRegistry () { return object_reg; }
+  iMouseDriver* GetMouseDriver () { return mouse; }
+  iGraphics3D* GetG3D () { return g3d; }
+  iEngine* GetEngine () { return engine; }
+  iBillboardManager* GetBillboardManager ()
+  {
+    if (!billboard_mgr)
+      billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
+    return billboard_mgr;
+  }
+
   virtual const char* GetName () const { return "blxml"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity,
       const char* name);
@@ -127,6 +168,8 @@ public:
   	const char* string);
   virtual bool CreateBehaviourScriptFromFile (const char* name,
   	const char* filename);
+
+  virtual csPtr<iCelExpression> Parse (const char* string);
 };
 
 #endif // __CEL_BLXML_BL__
