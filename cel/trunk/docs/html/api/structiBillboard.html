@@ -72,12 +72,33 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#c1ee04a3b92a3c53a5af4c6dafb27335">GetText</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text.  <a href="#c1ee04a3b92a3c53a5af4c6dafb27335"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#cb58b4daf978eb32d8926dc5d731d27d">GetTextBgColor</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the background color for the text.  <a href="#cb58b4daf978eb32d8926dc5d731d27d"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#f104f091488c3c459b059dd4e165b8ca">GetTextFgColor</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the foreground color for the text.  <a href="#f104f091488c3c459b059dd4e165b8ca"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e66da7559f3f304c0598316596d2c141">GetTextFont</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the font to use for text.  <a href="#e66da7559f3f304c0598316596d2c141"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#c6449fb3e1e8b4fd7574c502b8914492">GetTextFontSize</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the font size to use for text.  <a href="#c6449fb3e1e8b4fd7574c502b8914492"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e6050a64a931987c3816321e40ee5fdf">GetTextOffsetDX</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text offset in billboard space.  <a href="#e6050a64a931987c3816321e40ee5fdf"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a00c86d18fa65fbd4eb988b85b82b119">GetTextOffsetDY</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text offset in billboard space.  <a href="#a00c86d18fa65fbd4eb988b85b82b119"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#9d7dd5b1cd0f0d2eda54963aa355d91c">GetUVBottomRight</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bottom-right coordinate of the texture (default 1,1).  <a href="#9d7dd5b1cd0f0d2eda54963aa355d91c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#980d0360b7b8d69ca636347e3e68f6db">GetUVTopLeft</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the top-left coordinate of the texture (default 0,0).  <a href="#980d0360b7b8d69ca636347e3e68f6db"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#67208fe89e88d5e9bc1f19b23afda5f8">IsTextBgTransparent</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get true if the background color for the text is transparent.  <a href="#67208fe89e88d5e9bc1f19b23afda5f8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#bdbe158aa8ac1e5d2bb9c28457742439">Move</a> (int dx, int dy)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Relative move.  <a href="#bdbe158aa8ac1e5d2bb9c28457742439"></a><br></td></tr>
@@ -529,6 +550,180 @@ Get the text.
     </td>
   </tr>
 </table>
+<a class="anchor" name="cb58b4daf978eb32d8926dc5d731d27d"></a><!-- doxytag: member="iBillboard::GetTextBgColor" ref="cb58b4daf978eb32d8926dc5d731d27d" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csColor&amp; iBillboard::GetTextBgColor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the background color for the text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f104f091488c3c459b059dd4e165b8ca"></a><!-- doxytag: member="iBillboard::GetTextFgColor" ref="f104f091488c3c459b059dd4e165b8ca" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csColor&amp; iBillboard::GetTextFgColor           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the foreground color for the text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="e66da7559f3f304c0598316596d2c141"></a><!-- doxytag: member="iBillboard::GetTextFont" ref="e66da7559f3f304c0598316596d2c141" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const char* iBillboard::GetTextFont           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the font to use for text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="c6449fb3e1e8b4fd7574c502b8914492"></a><!-- doxytag: member="iBillboard::GetTextFontSize" ref="c6449fb3e1e8b4fd7574c502b8914492" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iBillboard::GetTextFontSize           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the font size to use for text. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="e6050a64a931987c3816321e40ee5fdf"></a><!-- doxytag: member="iBillboard::GetTextOffsetDX" ref="e6050a64a931987c3816321e40ee5fdf" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboard::GetTextOffsetDX           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the text offset in billboard space. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a00c86d18fa65fbd4eb988b85b82b119"></a><!-- doxytag: member="iBillboard::GetTextOffsetDY" ref="a00c86d18fa65fbd4eb988b85b82b119" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iBillboard::GetTextOffsetDY           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the text offset in billboard space. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="9d7dd5b1cd0f0d2eda54963aa355d91c"></a><!-- doxytag: member="iBillboard::GetUVBottomRight" ref="9d7dd5b1cd0f0d2eda54963aa355d91c" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -585,6 +780,35 @@ Range from 0,0 - 1,1.     </td>
 Get the top-left coordinate of the texture (default 0,0). 
 <p>
 Range from 0,0 - 1,1.     </td>
+  </tr>
+</table>
+<a class="anchor" name="67208fe89e88d5e9bc1f19b23afda5f8"></a><!-- doxytag: member="iBillboard::IsTextBgTransparent" ref="67208fe89e88d5e9bc1f19b23afda5f8" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iBillboard::IsTextBgTransparent           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get true if the background color for the text is transparent. 
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="bdbe158aa8ac1e5d2bb9c28457742439"></a><!-- doxytag: member="iBillboard::Move" ref="bdbe158aa8ac1e5d2bb9c28457742439" args="(int dx, int dy)=0" --><p>
