@@ -12144,6 +12144,46 @@ static PyObject *_wrap_iBillboard_SetTextOffset(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBillboard_GetTextOffsetDX(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextOffsetDX",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (int)((iBillboard const *)arg1)->GetTextOffsetDX();
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_GetTextOffsetDY(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextOffsetDY",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (int)((iBillboard const *)arg1)->GetTextOffsetDY();
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboard_SetTextFont(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -12175,6 +12215,44 @@ static PyObject *_wrap_iBillboard_SetTextFont(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBillboard_GetTextFont(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextFont",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (char *)((iBillboard const *)arg1)->GetTextFont();
+    
+    resultobj = SWIG_FromCharPtr(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_GetTextFontSize(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    float result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextFontSize",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (float)((iBillboard const *)arg1)->GetTextFontSize();
+    
+    {
+        resultobj = SWIG_From_float((float)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboard_SetTextFgColor(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -12196,6 +12274,27 @@ static PyObject *_wrap_iBillboard_SetTextFgColor(PyObject *, PyObject *args) {
     (arg1)->SetTextFgColor((csColor const &)*arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_GetTextFgColor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    csColor *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextFgColor",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csColor const &_result_ref = ((iBillboard const *)arg1)->GetTextFgColor();
+        result = (csColor *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 0);
     return resultobj;
     fail:
     return NULL;
@@ -12246,6 +12345,27 @@ static PyObject *_wrap_iBillboard_SetTextBgColor(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBillboard_GetTextBgColor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    csColor *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextBgColor",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csColor const &_result_ref = ((iBillboard const *)arg1)->GetTextBgColor();
+        result = (csColor *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboard_SetTextBgTransparent(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -12257,6 +12377,26 @@ static PyObject *_wrap_iBillboard_SetTextBgTransparent(PyObject *, PyObject *arg
     (arg1)->SetTextBgTransparent();
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboard_IsTextBgTransparent(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_IsTextBgTransparent",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (bool)((iBillboard const *)arg1)->IsTextBgTransparent();
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
     return resultobj;
     fail:
     return NULL;
@@ -12881,6 +13021,44 @@ static PyObject *_wrap_iBillboardManager_SetDefaultTextFont(PyObject *, PyObject
 }
 
 
+static PyObject *_wrap_iBillboardManager_GetDefaultTextFont(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    char *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetDefaultTextFont",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (char *)((iBillboardManager const *)arg1)->GetDefaultTextFont();
+    
+    resultobj = SWIG_FromCharPtr(result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_GetDefaultTextFontSize(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    float result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetDefaultTextFontSize",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (float)((iBillboardManager const *)arg1)->GetDefaultTextFontSize();
+    
+    {
+        resultobj = SWIG_From_float((float)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboardManager_SetDefaultTextFgColor(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
@@ -12908,6 +13086,27 @@ static PyObject *_wrap_iBillboardManager_SetDefaultTextFgColor(PyObject *, PyObj
 }
 
 
+static PyObject *_wrap_iBillboardManager_GetDefaultTextFgColor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    csColor *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetDefaultTextFgColor",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csColor const &_result_ref = ((iBillboardManager const *)arg1)->GetDefaultTextFgColor();
+        result = (csColor *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboardManager_SetDefaultTextBgColor(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboardManager *arg1 = (iBillboardManager *) 0 ;
@@ -12929,6 +13128,27 @@ static PyObject *_wrap_iBillboardManager_SetDefaultTextBgColor(PyObject *, PyObj
     (arg1)->SetDefaultTextBgColor((csColor const &)*arg2);
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_GetDefaultTextBgColor(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    csColor *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetDefaultTextBgColor",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csColor const &_result_ref = ((iBillboardManager const *)arg1)->GetDefaultTextBgColor();
+        result = (csColor *) &_result_ref;
+    }
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 0);
     return resultobj;
     fail:
     return NULL;
@@ -28771,11 +28991,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboard_SetText", _wrap_iBillboard_SetText, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetText", _wrap_iBillboard_GetText, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextOffset", _wrap_iBillboard_SetTextOffset, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextOffsetDX", _wrap_iBillboard_GetTextOffsetDX, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextOffsetDY", _wrap_iBillboard_GetTextOffsetDY, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextFont", _wrap_iBillboard_SetTextFont, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextFont", _wrap_iBillboard_GetTextFont, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextFontSize", _wrap_iBillboard_GetTextFontSize, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextFgColor", _wrap_iBillboard_SetTextFgColor, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextFgColor", _wrap_iBillboard_GetTextFgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_ClearTextFgColor", _wrap_iBillboard_ClearTextFgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextBgColor", _wrap_iBillboard_SetTextBgColor, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextBgColor", _wrap_iBillboard_GetTextBgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextBgTransparent", _wrap_iBillboard_SetTextBgTransparent, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_IsTextBgTransparent", _wrap_iBillboard_IsTextBgTransparent, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_ClearTextBgColor", _wrap_iBillboard_ClearTextBgColor, METH_VARARGS, NULL},
 	 { (char *)"delete_iBillboard", _wrap_delete_iBillboard, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_swigregister", iBillboard_swigregister, METH_VARARGS, NULL},
@@ -28803,8 +29030,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboardManager_StackAfter", _wrap_iBillboardManager_StackAfter, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_TestCollision", _wrap_iBillboardManager_TestCollision, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_SetDefaultTextFont", _wrap_iBillboardManager_SetDefaultTextFont, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_GetDefaultTextFont", _wrap_iBillboardManager_GetDefaultTextFont, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_GetDefaultTextFontSize", _wrap_iBillboardManager_GetDefaultTextFontSize, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_SetDefaultTextFgColor", _wrap_iBillboardManager_SetDefaultTextFgColor, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_GetDefaultTextFgColor", _wrap_iBillboardManager_GetDefaultTextFgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_SetDefaultTextBgColor", _wrap_iBillboardManager_SetDefaultTextBgColor, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_GetDefaultTextBgColor", _wrap_iBillboardManager_GetDefaultTextBgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_SetDefaultTextBgTransparent", _wrap_iBillboardManager_SetDefaultTextBgTransparent, METH_VARARGS, NULL},
 	 { (char *)"delete_iBillboardManager", _wrap_delete_iBillboardManager, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_swigregister", iBillboardManager_swigregister, METH_VARARGS, NULL},

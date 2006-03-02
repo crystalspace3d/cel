@@ -879,11 +879,18 @@ class iBillboard(cspace.iBase):
     def SetText(*args): return _blcelc.iBillboard_SetText(*args)
     def GetText(*args): return _blcelc.iBillboard_GetText(*args)
     def SetTextOffset(*args): return _blcelc.iBillboard_SetTextOffset(*args)
+    def GetTextOffsetDX(*args): return _blcelc.iBillboard_GetTextOffsetDX(*args)
+    def GetTextOffsetDY(*args): return _blcelc.iBillboard_GetTextOffsetDY(*args)
     def SetTextFont(*args): return _blcelc.iBillboard_SetTextFont(*args)
+    def GetTextFont(*args): return _blcelc.iBillboard_GetTextFont(*args)
+    def GetTextFontSize(*args): return _blcelc.iBillboard_GetTextFontSize(*args)
     def SetTextFgColor(*args): return _blcelc.iBillboard_SetTextFgColor(*args)
+    def GetTextFgColor(*args): return _blcelc.iBillboard_GetTextFgColor(*args)
     def ClearTextFgColor(*args): return _blcelc.iBillboard_ClearTextFgColor(*args)
     def SetTextBgColor(*args): return _blcelc.iBillboard_SetTextBgColor(*args)
+    def GetTextBgColor(*args): return _blcelc.iBillboard_GetTextBgColor(*args)
     def SetTextBgTransparent(*args): return _blcelc.iBillboard_SetTextBgTransparent(*args)
+    def IsTextBgTransparent(*args): return _blcelc.iBillboard_IsTextBgTransparent(*args)
     def ClearTextBgColor(*args): return _blcelc.iBillboard_ClearTextBgColor(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboard):
         try:
@@ -932,8 +939,12 @@ class iBillboardManager(cspace.iBase):
     def StackAfter(*args): return _blcelc.iBillboardManager_StackAfter(*args)
     def TestCollision(*args): return _blcelc.iBillboardManager_TestCollision(*args)
     def SetDefaultTextFont(*args): return _blcelc.iBillboardManager_SetDefaultTextFont(*args)
+    def GetDefaultTextFont(*args): return _blcelc.iBillboardManager_GetDefaultTextFont(*args)
+    def GetDefaultTextFontSize(*args): return _blcelc.iBillboardManager_GetDefaultTextFontSize(*args)
     def SetDefaultTextFgColor(*args): return _blcelc.iBillboardManager_SetDefaultTextFgColor(*args)
+    def GetDefaultTextFgColor(*args): return _blcelc.iBillboardManager_GetDefaultTextFgColor(*args)
     def SetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_SetDefaultTextBgColor(*args)
+    def GetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_GetDefaultTextBgColor(*args)
     def SetDefaultTextBgTransparent(*args): return _blcelc.iBillboardManager_SetDefaultTextBgTransparent(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboardManager):
         try:
