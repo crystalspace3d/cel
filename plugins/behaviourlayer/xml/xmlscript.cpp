@@ -1233,6 +1233,17 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
   fflush (stdout);
 }
 
+iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
+      celBehaviourXml* behave)
+{
+  if (behave) return behave->GetProperties ();
+  if (!entity) return 0;
+  csRef<iPcProperties> p;
+  p = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
+    	iPcProperties);
+  return p;
+}
+
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
   if (stack.Length () < i) \
@@ -1754,7 +1765,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* del = ArgToString (a_del);
 	  const char* rightvar = ArgToString (a_right);
 	  const char* s = strstr (str, del);
-	  iPcProperties* props = behave->GetProperties ();
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  if (s)
 	  {
             csString s1, s2;
@@ -1822,8 +1834,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: testvar (%s)\n", i-1, A2S (top)));
 	  const char* str = ArgToString (top);
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  size_t idx = props->GetPropertyIndex (str);
           if (idx == csArrayItemNotFound)
 	    top.Set (false);
@@ -2719,9 +2731,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefarr2_str arr=%s index1=%s index2=%s\n", i-1,
 	  	A2S (op.arg), A2S (top), A2S (a_index2)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
-	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (top), a_index2);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
+	  const char* varname = ArgToString (op.arg.arg.str.s,
+	      ArgToString (top), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
@@ -2737,9 +2750,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefarr2 arr=%s index1=%s index2=%s\n", i-1,
 	  	A2S (top), A2S (a_index1), A2S (a_index2)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
-	  const char* varname = ArgToString (ArgToString (top), ArgToString (a_index1), a_index2);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
+	  const char* varname = ArgToString (ArgToString (top),
+	      ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
@@ -2808,8 +2822,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefarr_str arr=%s index=%s\n", i-1,
 	  	A2S (op.arg), A2S (top)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (op.arg.arg.str.s, top);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
@@ -2825,8 +2839,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefarr arr=%s index=%s\n", i-1,
 	  	A2S (top), A2S (a_index)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (ArgToString (top), a_index);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
@@ -2839,8 +2853,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DEREFVAR_STR:
         {
           DUMP_EXEC ((":%04d: derefvar_str %s\n", i-1, A2S (op.arg)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = op.arg.arg.str.s;
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
@@ -2855,8 +2869,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: derefvar %s\n", i-1, A2S (top)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (top);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
@@ -3117,8 +3131,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -3195,8 +3209,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  behave->SendMessage (eventname, 0, ret, action_params);
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (aret);
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -3494,8 +3508,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_var = stack.Pop ();
 	  DUMP_EXEC ((":%04d: for var=%s start=%s end=%s\n", i-1, A2S (a_var),
 	  	A2S (a_start), A2S (a_end)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (a_var);
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -3527,8 +3541,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_var = stack.Pop ();
 	  DUMP_EXEC ((":%04d: fori var=%s start=%s end=%s\n", i-1, A2S (a_var),
 	  	A2S (a_start), A2S (a_end)));
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (a_var);
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -3802,8 +3816,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    fflush (stdout);
 	  }
 
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = op.arg.arg.str.s;
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -3826,8 +3840,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    fflush (stdout);
 	  }
 
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (var);
 	  if (!varname)
 	    return ReportError (cbl, "Illegal variable name!");
@@ -4032,8 +4046,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	  else
 	  {
-	    iPcProperties* props = behave->GetProperties ();
-	    CS_ASSERT (props != 0);
+	    iPcProperties* props = GetProperties (entity, behave);
+	    if (!props) return ReportError (cbl, "Can't find properties!");
 
 	    const char* vararray = ArgToString (top);
 	    char* var = new char[strlen (vararray)+10];
@@ -4076,8 +4090,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
 	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
 	  	iVFS);
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* vararray = ArgToString (top);
 	  char* var = new char[strlen (vararray)+10];
 	  strcpy (var, vararray);
@@ -4161,8 +4175,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		i-1, A2S (a_sector), A2S (a_start), A2S (a_end),
 		A2S (a_isectvar), A2S (a_entvar)));
 
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* entvarname = ArgToString (a_entvar);
 	  if (!entvarname)
 	    return ReportError (cbl,
@@ -4204,8 +4218,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		i-1, A2S (a_pc), A2S (a_screenx), A2S (a_screeny),
 		A2S (a_maxdist), A2S (a_isectvar), A2S (a_entvar)));
 
-	  iPcProperties* props = behave->GetProperties ();
-	  CS_ASSERT (props != 0);
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* entvarname = ArgToString (a_entvar);
 	  if (!entvarname)
 	    return ReportError (cbl,
