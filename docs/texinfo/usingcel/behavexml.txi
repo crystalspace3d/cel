@@ -112,7 +112,7 @@ Or on GNU/Linux:
 
 In this example we create two entities using the @samp{cel.addons.celentity}
 addon (@pxref{Addons CelEntity}). The @samp{red_chair} entity just
-has one property classes which is the @samp{pcbillboard} property class.
+has one property class which is the @samp{pcbillboard} property class.
 This property class is designed for simple 2D graphics.
 You can use it to build a complete 2D game (like the
 Boulderdash game that is included with Crystal Entity Layer) or else you can
@@ -128,7 +128,7 @@ can use it of course). In this particular example we use the
 @samp{cel.addons.xmlscripts} addon (@pxref{Addons XmlScripts}) to create the
 two scripts that we will use for the two entities. The @samp{chair_clicker}
 script simply waits until the billboard is clicked and increments a counter.
-If the counter is less then 10 then it will print out the count. Otherwise it
+If the counter is less than 10 then it will print out the count. Otherwise it
 issues a warning. The @samp{chair_mover} script simply waits until the timer
 fires and then it initiates a move of the billboard to another location.
 The @samp{bb_move} will make sure the billboard keeps moving gradually
@@ -147,7 +147,7 @@ classes this message is also translated to an event. In the example above
 the @samp{chair_clicker} script reacted on billboard selection which is
 a message from the billboard property class that is named
 @samp{pcbillboard_select}. The @samp{chair_mover} script reacted on timer
-events which is a message from the timer proerty class that is named
+events which is a message from the timer property class that is named
 @samp{pctimer_wakeup}.
 
 @subheading Variables
@@ -199,7 +199,7 @@ can set and access variables from other entities (notice how the
 variable from another entity):
 
 @example
-<var entity="other_entity" var="variable" value="'some string'" />
+<var entity="other_entity" name="variable" value="'some string'" />
 <print value="'x in other_entity is equal to '+?other_entity.x" />
 @end example
 
