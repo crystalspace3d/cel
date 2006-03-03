@@ -10,6 +10,7 @@ The history order is reversed so that new features are at the top.
 	  cel.property.follow is set to true on the pctrigger.
 	- Genjix made change so that pchover::SetWorld no longer
 	  needs entity to exist. Will only init when entity is created.
+	- Genjix added GetHeight function to pchover.
 2-Mar-2006
 	- Jorrit made the expression parser out of blxml usable standalone.
 	  Added a 'expr' command to the celconsole to evaluate expressions.

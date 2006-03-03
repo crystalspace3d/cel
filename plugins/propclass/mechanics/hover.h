@@ -75,6 +75,7 @@ public:
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func.AttachNew(sfunc); }
 
   virtual void UseDefaultFunction (float dampening);
+  virtual float GetHeight () { return object_height; }
 
   struct PcHover : public iPcHover
   {
@@ -112,6 +113,11 @@ public:
     virtual void UseDefaultFunction (float dampening)
     {
       scfParent->UseDefaultFunction (dampening);
+    }
+
+    virtual float GetHeight ()
+    {
+      return scfParent->GetHeight ();
     }
   } scfiPcHover;
 
@@ -175,8 +181,8 @@ private:
   /// function which computes upthrust depending on height
   csRef<celStabiliserFunction> func;
 
-  /// for calculating acceleration
-  float last_time_velocity;
+  /// last calculated height of object
+  float object_height;
 
   /// stored ship mech interface
   csWeakRef<iPcMechanicsObject> ship_mech;
