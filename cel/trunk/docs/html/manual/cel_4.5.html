@@ -163,7 +163,7 @@ directory and then do this on Windows:
 </pre></td></tr></table>
 <p>In this example we create two entities using the <samp>`cel.addons.celentity'</samp>
 addon (see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>). The <samp>`red_chair'</samp> entity just
-has one property classes which is the <samp>`pcbillboard'</samp> property class.
+has one property class which is the <samp>`pcbillboard'</samp> property class.
 This property class is designed for simple 2D graphics.
 You can use it to build a complete 2D game (like the
 Boulderdash game that is included with Crystal Entity Layer) or else you can
@@ -180,7 +180,7 @@ can use it of course). In this particular example we use the
 <samp>`cel.addons.xmlscripts'</samp> addon (see section <a href="cel_4.4.3.html#4.4.3">XML Scripts Addon</a>) to create the
 two scripts that we will use for the two entities. The <samp>`chair_clicker'</samp>
 script simply waits until the billboard is clicked and increments a counter.
-If the counter is less then 10 then it will print out the count. Otherwise it
+If the counter is less than 10 then it will print out the count. Otherwise it
 issues a warning. The <samp>`chair_mover'</samp> script simply waits until the timer
 fires and then it initiates a move of the billboard to another location.
 The <samp>`bb_move'</samp> will make sure the billboard keeps moving gradually
@@ -200,7 +200,7 @@ classes this message is also translated to an event. In the example above
 the <samp>`chair_clicker'</samp> script reacted on billboard selection which is
 a message from the billboard property class that is named
 <samp>`pcbillboard_select'</samp>. The <samp>`chair_mover'</samp> script reacted on timer
-events which is a message from the timer proerty class that is named
+events which is a message from the timer property class that is named
 <samp>`pctimer_wakeup'</samp>.
 </p>
 <a name="SEC86"></a>
@@ -246,7 +246,7 @@ can set and access variables from other entities (notice how the
 <samp>`?'</samp> operator is combined with the <samp>`.'</samp> operator to access the
 variable from another entity):
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">&lt;var entity=&quot;other_entity&quot; var=&quot;variable&quot; value=&quot;'some string'&quot; /&gt;
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;var entity=&quot;other_entity&quot; name=&quot;variable&quot; value=&quot;'some string'&quot; /&gt;
 &lt;print value=&quot;'x in other_entity is equal to '+?other_entity.x&quot; /&gt;
 </pre></td></tr></table>
 <p>In contrast with global variables you also have local variables. Local
