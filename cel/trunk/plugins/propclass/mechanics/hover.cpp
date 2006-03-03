@@ -260,7 +260,7 @@ void celPcHover::PerformStabilising ()
       upthrust force, from functor object */
   celHoverObjectInfo obj_info;
   // ships height
-  obj_info.height = Height();
+  object_height = obj_info.height = Height();
   // ships local vertical velocity
   obj_info.yvel = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ()).y;
 
