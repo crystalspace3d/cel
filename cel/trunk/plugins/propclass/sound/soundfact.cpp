@@ -25,13 +25,13 @@
 #include "iengine/engine.h"
 #include "plugins/propclass/sound/soundfact.h"
 #include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/persist.h"
-#include "behaviourlayer/behave.h"
-#include "isndsys/ss_data.h"
 #include "isndsys/ss_stream.h"
-#include "isndsys/ss_renderer.h"
 #include "isndsys/ss_manager.h"
+
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
+#include "csgeom/transfrm.h"
+#include "propclass/mesh.h"
 
 //---------------------------------------------------------------------------
 
@@ -39,6 +39,70 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (SoundListener, "pcsoundlistener")
 CEL_IMPLEMENT_FACTORY (SoundSource, "pcsoundsource")
+
+//---------------------------------------------------------------------------
+
+class celSoundSourceMovableListener : public scfImplementation1<celSoundSourceMovableListener,
+	iMovableListener>
+{
+private:
+  csWeakRef<iSndSysSourceSoftware3D> soundsource;
+
+public:
+  celSoundSourceMovableListener (iSndSysSourceSoftware3D* soundsource)
+  	: scfImplementationType (this), soundsource (soundsource)
+  {
+  }
+  virtual ~celSoundSourceMovableListener () { }
+  virtual void MovableChanged (iMovable* movable)
+  {
+    if (soundsource)
+    {
+      csReversibleTransform tr = movable->GetFullTransform ();
+      csVector3 pos = movable->GetPosition ();
+      csVector3 dir = tr.GetFront ();
+      soundsource->SetPosition (pos);
+      soundsource->SetDirection (dir);
+    }
+  }
+  virtual void MovableDestroyed (iMovable*) { }
+};
+
+void celPcSoundSource::CheckPropertyClasses ()
+{
+  if (HavePropertyClassesChanged ())
+	  UpdateListener ();
+}
+
+void celPcSoundSource::TickEveryFrame ()
+{
+  if (follow)
+    CheckPropertyClasses ();
+}
+
+void celPcSoundSource::UpdateListener ()
+{
+  // Remove listener if present
+  if (movlistener)
+  {
+    if (movable_for_listener)
+      movable_for_listener->RemoveListener (movlistener);
+    movlistener = 0;
+  }
+  // Create a new listener if possible and requested
+  if (!GetSource ()) return;
+  if (follow)
+  {
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    if (pcmesh)
+    {
+      movlistener.AttachNew (new celSoundSourceMovableListener (
+        source));
+      movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
+      movable_for_listener->AddListener (movlistener);
+    }
+  }
+}
 
 //---------------------------------------------------------------------------
 
@@ -291,6 +355,8 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   propdata[propid_minimumdistance] = 0;
   propdata[propid_maximumdistance] = 0;
   propdata[propid_loop] = 0;
+  propdata[propid_follow] = 0;
+  follow=0;
 }
 
 celPcSoundSource::~celPcSoundSource ()
@@ -305,7 +371,7 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 7;
+    propertycount = 8;
     properties = new Property[propertycount];
 
     properties[propid_soundname].id = pl->FetchStringID ("cel.property.soundname");
@@ -345,6 +411,11 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_loop].datatype = CEL_DATA_BOOL;
     properties[propid_loop].readonly = false;
     properties[propid_loop].desc = "Loop.";
+
+    properties[propid_follow].id = pl->FetchStringID ("cel.property.follow");
+    properties[propid_follow].datatype = CEL_DATA_BOOL;
+    properties[propid_follow].readonly = false;
+    properties[propid_follow].desc = "Whether to follow own entity pcmesh.";
   }
 }
 
@@ -442,6 +513,12 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, bool b)
   {
     source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
     	CS_SNDSYS_STREAM_DONTLOOP);
+    return true;
+  }
+  else if (propertyId == properties[propid_follow].id)
+  {
+    follow = b;
+    UpdateListener();
     return true;
   }
   else

@@ -21,11 +21,6 @@
 #define __CEL_PF_SOUNDFACT__
 
 #include "cstypes.h"
-#include "iutil/comp.h"
-#include "csutil/scf.h"
-#include "csutil/csstring.h"
-#include "physicallayer/propclas.h"
-#include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
@@ -37,7 +32,7 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
-
+class celSoundSourceMovableListener;
 /**
  * Factory for sound.
  */
@@ -65,6 +60,7 @@ private:
     propid_distancefactor,
     propid_rollofffactor
   };
+
   static Property* properties;
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
@@ -109,7 +105,8 @@ private:
     propid_position,
     propid_minimumdistance,
     propid_maximumdistance,
-    propid_loop
+    propid_loop,
+    propid_follow
   };
   static Property* properties;
   static size_t propertycount;
@@ -120,6 +117,13 @@ private:
   csRef<iSndSysWrapper> soundwrap;
   void GetSoundWrap ();
   bool GetSource ();
+
+  bool follow;
+  // Movable listener so we can update the sound source.
+  csWeakRef<iMovable> movable_for_listener;
+  csRef<celSoundSourceMovableListener> movlistener;
+  void UpdateListener ();
+  void CheckPropertyClasses ();
 
 public:
   celPcSoundSource (iObjectRegistry* object_reg);
@@ -142,6 +146,8 @@ public:
   virtual bool GetPropertyBool (csStringID);
   virtual bool SetProperty (csStringID, const char*);
   virtual const char* GetPropertyString (csStringID);
+
+  virtual void TickEveryFrame ();
 };
 
 #endif // __CEL_PF_SOUNDFACT__

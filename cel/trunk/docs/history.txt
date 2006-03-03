@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Mar-2006
+	- caedes made the pcsoundsource sync to pcmesh movable if 
+	  cel.property.follow is set to true on the pcsoundsource.
 2-Mar-2006
 	- Jorrit made the expression parser out of blxml usable standalone.
 	  Added a 'expr' command to the celconsole to evaluate expressions.
