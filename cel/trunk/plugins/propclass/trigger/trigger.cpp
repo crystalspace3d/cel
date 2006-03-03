@@ -88,6 +88,34 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+class celTriggerMovableListener : public scfImplementation1<celTriggerMovableListener,
+	iMovableListener>
+{
+private:
+  csWeakRef<celPcTrigger> pctrigger;
+
+public:
+  celTriggerMovableListener (celPcTrigger* pctrigger)
+  	: scfImplementationType (this), pctrigger (pctrigger)
+  {
+  }
+  virtual ~celTriggerMovableListener () { }
+  virtual void MovableChanged (iMovable* movable)
+  {
+    if (pctrigger)
+    {
+
+      csReversibleTransform tr = movable->GetFullTransform ();
+      csVector3 pos = movable->GetPosition ();
+      pctrigger->SetCenter (pos);
+    }
+  }
+  virtual void MovableDestroyed (iMovable*) { }
+};
+
+
+//---------------------------------------------------------------------------
+
 csStringID celPcTrigger::action_setuptriggersphere = csInvalidStringID;
 csStringID celPcTrigger::id_sector = csInvalidStringID;
 csStringID celPcTrigger::id_position = csInvalidStringID;
@@ -149,6 +177,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   propdata[propid_jitter] = 0;		// Handled in this class.
   propdata[propid_monitor] = 0;		// Handled in this class.
   propdata[propid_invisible] = 0;	// Handled in this class.
+  propdata[propid_follow] = 0;		// Handled in this class.
 
   enabled = true;
   send_to_self = true;
@@ -156,6 +185,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   monitor_entity = 0;
   above_collider = 0;
   SetMonitorDelay (200, 10);
+  follow = false;
 
   sphere_sector = 0;
   box_sector = 0;
@@ -186,7 +216,7 @@ void celPcTrigger::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT (pl != 0);
 
-    propertycount = 4;
+    propertycount = 5;
     properties = new Property[propertycount];
 
     properties[propid_delay].id = pl->FetchStringID (
@@ -212,7 +242,43 @@ void celPcTrigger::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_invisible].datatype = CEL_DATA_BOOL;
     properties[propid_invisible].readonly = false;
     properties[propid_invisible].desc = "Monitor invisible entities.";
+ 
+    properties[propid_follow].id = pl->FetchStringID (
+    	"cel.property.follow");
+    properties[propid_follow].datatype = CEL_DATA_BOOL;
+    properties[propid_follow].readonly = false;
+    properties[propid_follow].desc = "Follow own entity pcmesh.";
   }
+}
+
+void celPcTrigger::SetCenter (csVector3 &v)
+{
+  if (above_mesh)
+    return;
+  else if (box_sector)
+  {
+    box_area.SetCenter(v);
+  }
+  else if (sphere_sector)
+  {
+    sphere_center = v;
+  }
+  else if (beam_sector)
+  {
+    beam_end = v+(beam_end-beam_start);
+    beam_start = v;
+  }
+}
+void celPcTrigger::SetSector (iSector *sector)
+{
+  if (above_mesh)
+    return;
+  else if (box_sector)
+    box_sector = sector;
+  else if (sphere_sector)
+    box_sector = sector;
+  else if (beam_sector)
+    box_sector = sector;
 }
 
 bool celPcTrigger::SetProperty (csStringID propertyId, long b)
@@ -257,6 +323,12 @@ bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
   if (propertyId == properties[propid_invisible].id)
   {
     EnableMonitorInvisible (b);
+    return true;
+  }
+  else if (propertyId == properties[propid_follow].id)
+  {
+    follow = b;
+    UpdateListener();
     return true;
   }
   else
@@ -453,10 +525,35 @@ bool celPcTrigger::Check ()
   return false;
 }
 
+void celPcTrigger::UpdateListener ()
+{
+  // Remove listener if present
+  if (movlistener)
+  {
+    if (movable_for_listener)
+      movable_for_listener->RemoveListener (movlistener);
+    movlistener = 0;
+  }
+  // Create a new listener if possible and requested
+  if (follow && !above_mesh)
+  {
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    if (pcmesh)
+    {
+      movlistener.AttachNew (new celTriggerMovableListener (
+        this));
+      movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
+      movable_for_listener->AddListener (movlistener);
+    }
+  }
+}
+
 void celPcTrigger::TickOnce ()
 {
   // First find the information for the 'check above' case.
   csReversibleTransform above_trans;
+  if (HavePropertyClassesChanged ())
+	  UpdateListener ();
   if (above_mesh)
   {
     iMovable* m = above_mesh->GetMesh ()->GetMovable ();

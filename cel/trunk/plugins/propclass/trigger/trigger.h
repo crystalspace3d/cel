@@ -40,6 +40,7 @@
 #include "iengine/camera.h"
 #include "iengine/movable.h"
 
+class celTriggerMovableListener;
 struct iCelEntity;
 struct iObjectRegistry;
 struct iEngine;
@@ -71,6 +72,9 @@ private:
   char* monitor_entity;
   csWeakRef<iCelEntity> monitoring_entity;
   csWeakRef<iPcMesh> monitoring_entity_pcmesh;
+  // Movable listener so we can update trigger center
+  csWeakRef<iMovable> movable_for_listener;
+  csRef<celTriggerMovableListener> movlistener;
 
   // Listeners.
   csRefArray<iPcTriggerListener> listeners;
@@ -107,6 +111,9 @@ private:
   iCollider* above_collider;
   float above_maxdist;
 
+  // Whether to follow own entity movable
+  bool follow;
+
   // Monitor invisible entities too.
   bool monitor_invisible;
 
@@ -116,11 +123,14 @@ private:
     propid_delay = 0,
     propid_jitter,
     propid_monitor,
-    propid_invisible
+    propid_invisible,
+    propid_follow
   };
   static Property* properties;
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
+  // Create/Destroy the listener if necessary
+  void UpdateListener ();
 
   // Leave all entities (sends a message to self and others and then
   // clears 'entities_in_trigger').
@@ -143,6 +153,9 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
   virtual void TickOnce ();
+  // celPcTrigger only function to set center.
+  void SetCenter (csVector3 &v);
+  void SetSector (iSector *sector);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the properties.
