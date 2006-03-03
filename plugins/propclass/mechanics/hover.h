@@ -74,7 +74,7 @@ public:
   virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
   virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) { func.AttachNew(sfunc); }
 
-  virtual void UseDefaultFunction ();
+  virtual void UseDefaultFunction (float dampening);
 
   struct PcHover : public iPcHover
   {
@@ -109,9 +109,9 @@ public:
       scfParent->SetStabiliserFunction (sfunc);
     }
 
-    virtual void UseDefaultFunction ()
+    virtual void UseDefaultFunction (float dampening)
     {
-      scfParent->UseDefaultFunction ();
+      scfParent->UseDefaultFunction (dampening);
     }
   } scfiPcHover;
 
@@ -154,6 +154,13 @@ private:
    */
   float AngularAlignment(csVector3 offset , float height);
 
+  /**
+   * Looks up the world_mesh and gets the csWeakRef.
+   */
+  void LookUpWorldMesh ();
+
+  /// because the ref isn't gotten until first tick
+  csString world_mesh_name;
   /// mesh used for height calculation
   csWeakRef<iPcMesh> world_mesh;
 

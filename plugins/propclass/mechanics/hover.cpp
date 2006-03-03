@@ -72,7 +72,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   height_beam_cutoff = 200;
 
   // init a default upthruster func
-  UseDefaultFunction ();
+  UseDefaultFunction (1.5f);
 
   if (action_setworld == csInvalidStringID)
   {
@@ -166,7 +166,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
   }
   else if (actionId == action_usedeffunc)
   {
-    UseDefaultFunction ();
+    UseDefaultFunction (1.5f);
   }
   else return false;
 
@@ -181,15 +181,20 @@ void celPcHover::Tick ()
 
 void celPcHover::SetWorld (const char *name)
 {
+  world_mesh_name = name;
+}
+void celPcHover::LookUpWorldMesh ()
+{
   /* at the moment this doesn't seem to work */
-  iCelEntity *went = pl->FindEntity (name);
+  iCelEntity *went = pl->FindEntity (world_mesh_name);
   if(!went)  return;
   world_mesh = CEL_QUERY_PROPCLASS_ENT (went , iPcMesh);
+  world_mesh_name = 0;
 }
 
-void celPcHover::UseDefaultFunction ()
+void celPcHover::UseDefaultFunction (float dampening)
 {
-  func.AttachNew(new celDefaultHoverUpthruster ());
+  func.AttachNew(new celDefaultHoverUpthruster (dampening));
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
@@ -234,14 +239,20 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
   }
 
   //! is one value more likely to be better than another?
-  return (r_down + r_up) / 2;	// 2 good rotation values - average them
+  return (r_down + r_up) / 2.0f;	// 2 good rotation values - average them
 }
 
 void celPcHover::PerformStabilising ()
 {
   // if this hasn't been init, return safely
   if (!world_mesh)
-    return;
+  {
+    if (world_mesh_name)
+      LookUpWorldMesh ();
+    else
+      return;
+  }
+
   if (!ship_mech)
     ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
 
@@ -256,6 +267,7 @@ void celPcHover::PerformStabilising ()
   /* get functor object to calculate upthrust force
       from ships info */
   float force = func->Force (obj_info);
+  //printf ("%f %f\n",obj_info.height,force);
 
   // apply the force
   ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
