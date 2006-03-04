@@ -131,122 +131,24 @@ void HoverTest::FinishFrame ()
 
 bool HoverTest::OnKeyboard (iEvent &ev)
 {
-  // We got a keyboard event.
-  if (csKeyEventHelper::GetEventType (&ev) == csKeyEventTypeDown)
-  {
-    // The user pressed a key (as opposed to releasing it).
-    utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
-    if (code == CSKEY_ESC)
-    {
-      // The user pressed escape. For now we will simply exit the
-      // application. The proper way to quit a Crystal Space application
-      // is by broadcasting a csevQuit event. That will cause the
-      // main runloop to stop. To do that we get the event queue from
-      // the object registry and then post the event.
-      csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
-      q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
-    }
-    else if (code == 's')
-    {
-      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
-      	iCelPersistence);
-      celStandardLocalEntitySet set (pl);
-      size_t i;
-      for (i = 0 ; i < pl->GetEntityCount () ; i++)
-        set.AddEntity (pl->GetEntityByIndex (i));
-      if (!p->Save (&set, "/this/savefile"))
-      {
-        printf ("Error!\n");
-	fflush (stdout);
-      }
-      else
-      {
-        printf ("Saved to /this/savefile!\n");
-	fflush (stdout);
-	game = 0;
-	pl->RemoveEntities ();
-      }
-    }
-    else if (code == 'l')
-    {
-      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
-      	iCelPersistence);
-      celStandardLocalEntitySet set (pl);
-      if (!p->Load (&set, "/this/savefile"))
-      {
-        printf ("Error!\n");
-	fflush (stdout);
-      }
-      else
-      {
-        game = pl->FindEntity ("room");
-      }
-    }
-  }
   return false;
 }
 
-csPtr<iCelEntity> HoverTest::CreateDynSphere (const char* name,
-	const char* roomname, const csVector3& pos)
-{
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, 0,
-	"pcmesh",
-	"pcmechobject",
-	(void*)0);
-  if (!entity_cam) return 0;
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("Sphere", "sphere");
-  iSector* room = engine->FindSector (roomname);
-  pcmesh->MoveMesh (room, pos);
-
-  csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcMechanicsObject);
-  pcmechobject->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
-
-  return csPtr<iCelEntity> (entity_cam);
-}
-
-csPtr<iCelEntity> HoverTest::CreateDynBox (const char* name,
-	const char* roomname, const csVector3& pos)
-{
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, 0,
-	"pcmesh",
-	"pcmechobject",
-	(void*)0);
-  if (!entity_cam) return 0;
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("gmbox", "gmbox");
-  iSector* room = engine->FindSector (roomname);
-  pcmesh->MoveMesh (room, pos);
-
-  csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcMechanicsObject);
-  pcmechobject->AttachColliderBox (csVector3 (.4f, .3f, .3f), csOrthoTransform
-());
-
-  return csPtr<iCelEntity> (entity_cam);
-}
-
-csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
-	const char* roomname, const csVector3& pos)
+bool HoverTest::CreatePlayer (const csVector3 &pos)
 {
   // The Real Camera
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, behaviour_layer,
+  player = pl->CreateEntity ("ent_player", behaviour_layer,
         "dynactor",
-  	"pccommandinput",
-	"pcmesh",
-	"pcdefaultcamera",
-	"pcmechobject",
-	"pchover",
-	"pccraft",
-	(void*)0);
-  if (!entity_cam) return 0;
+          "pccommandinput",
+          "pcmesh",
+          "pcdefaultcamera",
+          "pcmechobject",
+          "pchover",
+          "pccraft",
+          (void*)0);
+  if (!player) return false;
 
-  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
+  csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (player,
   	iPcCommandInput);
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
@@ -258,12 +160,12 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player, iPcMesh);
   pcmesh->SetPath ("/cel/data");
   pcmesh->SetMesh ("craft", "orogor");
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	entity_cam, iPcDefaultCamera);
+  	player, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
@@ -284,30 +186,30 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
   pccamera->SetModeName ("lara_thirdperson");
 
-  csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+        iPcMechanicsObject);
   csBox3 bbox;
   pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->
       GetObjectBoundingBox(bbox);
-  pcmechobject->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
-  pcmechobject->SetMass (1.1);
-  pcmechobject->SetDensity (3.0);
-  // explicitly setting body position seems to be mandatory
-  pcmechobject->GetBody ()->SetPosition (pos);
+  //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
+  pcmechobj->SetFriction (0.05f);
+  pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  pcmechobj->SetSoftness (1.0f);
+  pcmechobj->SetMass (1.0f);
+  pcmechobj->SetDensity (3.0f);
 
-  csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcHover);
+  csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (player, iPcHover);
   pchover->SetStabiliserFunction (new xdShipUpthrusterFunction ());
-  pchover->SetAngularCorrectionStrength (0.5);
+  pchover->SetAngularCorrectionStrength (1.0);
   pchover->SetAngularCutoffHeight (8.0);
   pchover->SetAngularBeamOffset (0.5);
 
-  // i need to get this working - not a priority right now
-  //pchover->SetWorld ("world");
+  //pchover->SetWorld ("ent_scene");
 
-  csRef<iPcMesh> wmesh = CEL_QUERY_PROPCLASS_ENT (game, iPcMesh);
+  csRef<iPcMesh> wmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
   pchover->SetWorldMesh (wmesh);
 
-  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (entity_cam,
+  csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
         iPcCraftController);
   pccraft->SetAccTurn (0.4);
   pccraft->SetMaxTurn (1.5);
@@ -315,39 +217,41 @@ csPtr<iCelEntity> HoverTest::CreateDynActor (const char* name,
   pccraft->SetMaxPitch (0.5);
   pccraft->SetThrustForce (10.0);
   pccraft->SetTopSpeed (20.0);
+  pccraft->SetRedirectVelocityRatio (0.2);
 
-  return csPtr<iCelEntity> (entity_cam);
+  return true;
 }
 
 bool HoverTest::CreateRoom ()
 {
-  csRef<iCelEntity> entity_room;
-  csRef<iCelEntity> entity_dummy;
-
   //===============================
   // Create the room entity.
   //===============================
-  entity_room = pl->CreateEntity ("room", bltest, "room",
+  level = pl->CreateEntity ("ent_level", 0, 0,
 	"pczonemanager",
 	"pcinventory",
 	"pcmechsys",
-	"pcmechobject",
-	"pcmesh",
 	(void*)0);
 
   csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
   	iCommandLineParser);
-  csString path, file;
+  csString path, file, terrain, terrainfile;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
   {
     file = cmdline->GetName (1);
     if (file.IsEmpty ()) file = "level.xml";
+    terrain = cmdline->GetName (2);
+    if (terrain.IsEmpty ()) terrain = "TerrainFact";
+    terrainfile = cmdline->GetName (3);
+    if (terrainfile.IsEmpty ()) terrain = "world";
   }
   else
   {
     path = "/cellib/track4";
     file = "level.xml";
+    terrain = "TerrainFact";
+    terrainfile = "world";
   }
 
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
@@ -355,10 +259,10 @@ bool HoverTest::CreateRoom ()
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
-  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcZoneManager);
   pczonemgr->SetLoadingMode (CEL_ZONE_NORMAL);
-  if (!pczonemgr->Load (path.GetData (), file.GetData ()))
+  if (!pczonemgr->Load (0, file.GetData ()))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
 
@@ -368,17 +272,22 @@ bool HoverTest::CreateRoom ()
   //startname = "Camera";
   printf("Start at: %s %s\n",(const char*)regionname,(const char*)startname);
 
-  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcMechanicsSystem);
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.02f);
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_room, iPcMesh);
-  pcmesh->SetPath (path.GetData ());
-  if (!pcmesh->SetMesh("TerrainFact", "world"))
-    return ReportError("could not load TerrainFact mesh factory!");
+  scene = pl->CreateEntity("ent_scene", 0, 0,
+      "pcmesh",
+      "pcmechobject",
+      (void*)0);
 
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
+  pcmesh->SetPath (path.GetData ());
+  if (!pcmesh->SetMesh (terrain, terrainfile))
+    return ReportError ("could not load TerrainFact mesh factory!");
+
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (scene,
   	iPcMechanicsObject);
   pcmechobj->AttachColliderMesh();
   pcmechobj->MakeStatic(true);
@@ -388,162 +297,135 @@ bool HoverTest::CreateRoom ()
   printf("campos %f %f %f\n", campos->GetPosition ().x,
         campos->GetPosition ().y, campos->GetPosition ().z);
 
-  game = entity_room;
-  entity_dummy = CreateDynActor ("dyn", "TerrainFact", campos->GetPosition ());
-  if (!entity_dummy) return false;
+  if (!CreatePlayer (campos->GetPosition ()))
+    return ReportError ("Could not create entity 'ent_player'!");
 
-  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
+  csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
   if (!pccamera) return false;
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
-  if (pczonemgr->PointMesh ("dyn", regionname, startname) != CEL_ZONEERROR_OK)
+  if (pczonemgr->PointMesh ("ent_player", regionname, startname) != CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
-  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (entity_room,
+  csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcInventory);
-  if (!pcinv_room->AddEntity (entity_dummy)) return false;
+  if (!pcinv_room->AddEntity (player)) return false;
 
-  //===============================
-  // Engine init.
-  //===============================
-  // do I really need this line?
-  //engine->Prepare ();
-
-/*  entity_dummy = CreateDynSphere ("sphere1", "room", csVector3 (.5f,0, -8.0f));
-  entity_dummy = CreateDynSphere ("sphere2", "room", csVector3 (0,0,-7.0f));
-  entity_dummy = CreateDynSphere ("sphere3", "room", csVector3 (-.5f,0,-8.0f));
-  entity_dummy = CreateDynSphere ("sphere4", "room", csVector3 (0,.5f,-7.5f));
-
-  entity_dummy = CreateDynBox ("box1", "room", csVector3 (0.0f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (0.5f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.0f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.0f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.0f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.0f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5f,-.8f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (5.0f,-.8f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box1", "room", csVector3 (0.25f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (0.75f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25f,-.49f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.75f,-.49f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (0.5f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.0f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.0f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.0f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.0f,-.18f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.5f,-.18f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (0.75f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75f,.13f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.25f,.13f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.0f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.0f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.0f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5f,.44f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (4.0f,.44f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.25f,.75f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.75f,.75f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.25f,.75f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.75f,.75f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.25f,.75f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.75f,.75f,-10.0f));
-
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (1.5f,1.06f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.0f,1.06f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (2.5f,1.06f,-10.0f));
-  entity_dummy = CreateDynBox ("box3", "room", csVector3 (3.0f,1.06f,-10.0f));
-  entity_dummy = CreateDynBox ("box2", "room", csVector3 (3.5f,1.06f,-10.0f));
-*/
   return true;
 }
 
 bool HoverTest::OnInitialize (int argc, char* argv[])
 {
-  csDebuggingGraph::SetupGraph (object_reg);
+  iObjectRegistry* r = GetObjectRegistry();
 
-  if (!celInitializer::RequestPlugins (object_reg,
-  	CS_REQUEST_VFS,
-	CS_REQUEST_OPENGL3D,
-	CS_REQUEST_ENGINE,
-	CS_REQUEST_FONTSERVER,
-	CS_REQUEST_IMAGELOADER,
-	CS_REQUEST_LEVELLOADER,
-	CS_REQUEST_REPORTER,
-	CS_REQUEST_REPORTERLISTENER,
-	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
-		iCelBlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
-	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
-		iCollideSystem),
-	CS_REQUEST_END))
-  {
-    return ReportError ("Can't initialize plugins!");
-  }
+#ifdef USE_CEL
+  celInitializer::SetupCelPluginDirs(r);
+#endif
 
-  csBaseEventHandler::Initialize (object_reg);
+  // RequestPlugins() will load all plugins we specify.  In addition it will
+  // also check if there are plugins that need to be loaded from the
+  // configuration system (both the application configuration and CS or global
+  // configurations).  It also supports specifying plugins on the command line
+  // via the --plugin= option.
+  if (!csInitializer::RequestPlugins(r,
+      CS_REQUEST_VFS,
+      CS_REQUEST_OPENGL3D,
+      CS_REQUEST_ENGINE,
+      //CS_REQUEST_CONSOLEOUT,
+      CS_REQUEST_FONTSERVER,
+      CS_REQUEST_IMAGELOADER,
+      CS_REQUEST_LEVELLOADER,
+      CS_REQUEST_REPORTER,
+      CS_REQUEST_REPORTERLISTENER,
+      CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
+      CS_REQUEST_PLUGIN ("cel.behaviourlayer.test:iCelBlLayer.Test",
+          iCelBlLayer),
+      CS_REQUEST_PLUGIN ("cel.persistence.xml", iCelPersistence),
+      CS_REQUEST_PLUGIN ("cel.manager.quests", iQuestManager),
+      CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
+          iCollideSystem),
+      CS_REQUEST_END))
+    return ReportError("Failed to initialize plugins!");
 
-  // Now we need to setup an event handler for our application.
-  // Crystal Space is fully event-driven. Everything (except for this
-  // initialization) happens in an event.
-  if (!RegisterQueue (object_reg, csevAllEvents (object_reg)))
-    return ReportError ("Can't setup event handler!");
+  // "Warm up" the event handler so it can interact with the world
+  csBaseEventHandler::Initialize (r);
+
+  // Set up an event handler for the application.  Crystal Space is fully
+  // event-driven.  Everything (except for this initialization) happens in
+  // response to an event.
+  if (!RegisterQueue(r, csevAllEvents(r)))
+    return ReportError("Failed to set up event handler!");
+
   return true;
 }
 
-bool HoverTest::Application ()
+bool HoverTest::Application()
 {
-  // Open the main system. This will open all the previously loaded plug-ins.
-  // i.e. all windows will be opened.
-  if (!OpenApplication (object_reg))
-    return ReportError ("Error opening system!");
+  iObjectRegistry* r = GetObjectRegistry();
 
-  // The virtual clock.
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  if (!vc) return ReportError ("Can't find the virtual clock!");
+  // Open the main system. This will open all the previously loaded plugins
+  // (i.e. all windows will be opened).
+  if (!OpenApplication(r))
+    return ReportError("Error opening system!");
 
-  // Find the pointer to engine plugin
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  if (!engine) return ReportError ("No iEngine plugin!");
+  // Now get the pointer to various modules we need.  We fetch them from the
+  // object registry.  The RequestPlugins() call we did earlier registered all
+  // loaded plugins with the object registry.  It is also possible to load
+  // plugins manually on-demand.
 
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
-  if (!loader) return ReportError ("No iLoader plugin!");
-
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  if (!g3d) return ReportError ("No iGraphics3D plugin!");
-
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
-  if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
+  #define LOAD_PLUGIN(var,plugin)  var = csQueryRegistry<plugin> (r);\
+                                     if(!var)  return ReportError\
+                                     ("could not find the " #plugin " !");
+  LOAD_PLUGIN(vc, iVirtualClock);
+  LOAD_PLUGIN(engine, iEngine);
+  LOAD_PLUGIN(loader, iLoader);
+  LOAD_PLUGIN(g3d, iGraphics3D);
+  LOAD_PLUGIN(kbd, iKeyboardDriver);
+  LOAD_PLUGIN(pl,  iCelPlLayer);
 
   pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  if (!pl) return ReportError ("CEL physical layer missing!");
+  if (!pl)
+    return ReportError ("Can't find the CEL physical layer!");
 
-  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-  	"iCelBlLayer.Test", iCelBlLayer);
-  if (!bltest) return ReportError ("CEL test behaviour layer missing!");
-  pl->RegisterBehaviourLayer (bltest);
+  vfs = CS_QUERY_REGISTRY(r, iVFS);
+
+  #define LOAD_PROPERTY_CLASS(class)  if(!pl->LoadPropertyClassFactory(class))\
+                                        return ReportError("error loading property class "\
+                                        class "!");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.test");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.linmove");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.actormove");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.solid");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.colldet");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.region");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.zonemanager");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.defaultcamera");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.tooltip");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.timer");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.inventory");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.characteristics");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mesh");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.light");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.portal");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.meshselect");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.pccommandinput");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.quest");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.properties");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.trigger");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.billboard");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.graph");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.link");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.node");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrules");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrulesfps");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mechsys");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mechobject");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.hover");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.craft");
+
+  behaviour_layer.AttachNew (new htBehaviourLayer (this));
+  pl->RegisterBehaviourLayer (behaviour_layer);
+  if (!r->Register (behaviour_layer , "iCelBlLayer"))
+    return ReportError ("unable to register behaviour layer!");
 
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
 #if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
@@ -552,81 +434,11 @@ bool HoverTest::Application ()
   vfs->Mount ("cel", "$.$/");
 #endif // VFS_PKGDATADIR
 
-  // XXX: This should be in a config file...
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechsys"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechobject"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.hover"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.craft"))
-    return false;
-
-  behaviour_layer.AttachNew (new htBehaviourLayer (this));
-  pl->RegisterBehaviourLayer (behaviour_layer);
-  if (!object_reg->Register (behaviour_layer , "iCelBlLayer"))
-    return ReportError ("unable to register behaviour layer!");
-
   if (!CreateRoom ()) return false;
 
-  // This calls the default runloop. This will basically just keep
-  // broadcasting process events to keep the game going.
-  Run ();
+  // Start the default run/event loop.  This will return only when some code,
+  // such as OnKeyboard(), has asked the run loop to terminate.
+  Run();
 
   return true;
 }
-
