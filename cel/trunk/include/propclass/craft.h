@@ -112,6 +112,10 @@ struct iPcCraftController : public virtual iBase
    * Turn off thruster
    */
   virtual void ThrustOff() = 0;
+
+  virtual void SetAfterBurnerTopSpeed (float tspeed) = 0;
+  virtual void AfterBurnerOn () = 0;
+  virtual void AfterBurnerOff () = 0;
 };
 
 #endif

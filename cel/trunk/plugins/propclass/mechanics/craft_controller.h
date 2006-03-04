@@ -79,10 +79,14 @@ public:
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
+  virtual void SetAfterBurnerTopSpeed (float tspeed) { topburnerspeed = tspeed; }
   virtual void SetRedirectVelocityRatio (float rdvr) { redirect_vel_ratio = rdvr; }
 
   virtual void ThrustOn () { thrust_on = true; }
   virtual void ThrustOff () { thrust_on = false; }
+
+  virtual void AfterBurnerOn () { after_burner = true; }
+  virtual void AfterBurnerOff () { after_burner = false; }
 
   struct PcCraftController : public iPcCraftController
   {
@@ -146,6 +150,10 @@ public:
     {
       scfParent->SetTopSpeed (tspeed);
     }
+    virtual void SetAfterBurnerTopSpeed (float tspeed)
+    {
+      scfParent->SetAfterBurnerTopSpeed (tspeed);
+    }
     virtual void SetRedirectVelocityRatio (float rdvr)
     {
       scfParent->SetRedirectVelocityRatio (rdvr);
@@ -159,7 +167,16 @@ public:
     {
       scfParent->ThrustOff ();
     }
-  } scfiPcCraftController;
+
+    virtual void AfterBurnerOn ()
+    {
+      scfParent->AfterBurnerOn ();
+    }
+    virtual void AfterBurnerOff ()
+    {
+      scfParent->AfterBurnerOff ();
+    }
+} scfiPcCraftController;
 
 private:
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
@@ -179,6 +196,9 @@ private:
   float thrust;
   ///< speed at which the thruster turns off
   float topspeed;
+
+  bool after_burner;
+  float topburnerspeed;
 
   // airbrake variables
   float speed_ratio_change, dangle;
