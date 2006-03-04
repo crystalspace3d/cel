@@ -84,7 +84,12 @@ struct iPcHover : public virtual iBase
    * Use a default stabiliser function - not recommended unless
    * not possible to create own, use SetStabiliserFunction instead.
    */
-  virtual void UseDefaultFunction () = 0;
+  virtual void UseDefaultFunction (float dampening = 1.5f) = 0;
+
+  /**
+   * Get's the last calculated height for object.
+   */
+  virtual float GetHeight () = 0;
 };
 
 #endif
