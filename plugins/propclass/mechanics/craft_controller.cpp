@@ -68,6 +68,9 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   thrust = 10.0f;
   topspeed = 20.0f;
 
+  after_burner = false;
+  topburnerspeed = 40.0f;
+
   redirect_vel_ratio = 0.0;
 }
 
@@ -141,8 +144,10 @@ void celPcCraftController::UpdateBody ()
         redirect_vel_ratio * ship_mech->LocalToWorld (csVector3 (0,0,-speed)));
   }
 
+  float hspeed = after_burner ? topburnerspeed : topspeed;
+
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
-  if (thrust_on && !(-lv.z > topspeed))
+  if (thrust_on && !(-lv.z > hspeed))
     ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.1f);
 }
