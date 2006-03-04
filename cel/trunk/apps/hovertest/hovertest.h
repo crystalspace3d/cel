@@ -55,10 +55,11 @@ private:
   csRef<iGraphics3D> g3d;
   csRef<iKeyboardDriver> kbd;
   csRef<iVirtualClock> vc;
+  csRef<iVFS> vfs;
 
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bltest, behaviour_layer;
-  csRef<iCelEntity> game;
+  csRef<iCelBlLayer> behaviour_layer;
+  csRef<iCelEntity> player, scene, level;
 
   /**
    * Setup everything that needs to be rendered on screen. This routine
@@ -81,12 +82,7 @@ private:
   virtual bool OnKeyboard (iEvent &event);
 
   bool CreateRoom ();
-  csPtr<iCelEntity> CreateDynActor (const char *name, const char* roomname,
-	const csVector3& pos);
-  csPtr<iCelEntity> CreateDynBox (const char *name, const char* roomname,
-	const csVector3& pos);
-  csPtr<iCelEntity> CreateDynSphere (const char *name, const char* roomname,
-	const csVector3& pos);
+  bool CreatePlayer (const csVector3 &pos);
 
 public:
   HoverTest ();
