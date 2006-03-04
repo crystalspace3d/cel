@@ -10,6 +10,7 @@ The history order is reversed so that new features are at the top.
 	  misleading variable name was also fixed.
 	- Genjix cleaned up some pchover files.
 	- Genjix added afterburner to pccraft property class.
+	- Genjix made some clean up changes to hovertest demo.
 3-Mar-2006
 	- caedes made the pcsoundsource sync to pcmesh movable if
 	  cel.property.follow is set to true on the pcsoundsource.
