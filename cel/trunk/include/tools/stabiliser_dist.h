@@ -71,7 +71,12 @@ public:
 class celDefaultHoverUpthruster : public celStabiliserFunction
 {
 public:
+  celDefaultHoverUpthruster (float dampening)
+    : dampening (dampening) {}
+
   float Force (celHoverObjectInfo obj_info);
+private:
+  float dampening;
 };
 
 #endif
