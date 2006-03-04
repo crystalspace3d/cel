@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  joystick issues. Now, all axes are forwarded to the behaviour
 	  correctly, and the formatting is better in input.cpp. A certain
 	  misleading variable name was also fixed.
+	- Genjix cleaned up some pchover files.
 3-Mar-2006
 	- caedes made the pcsoundsource sync to pcmesh movable if
 	  cel.property.follow is set to true on the pcsoundsource.
