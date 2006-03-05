@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Mar-2006
+	- Jorrit added a dummy '__celconsole__' entity which the cel
+	  console creates and allows it to define variables.
+	- Jorrit added a new 'var' command to the celconsole.
+	- Jorrit switched the default output console used by the
+	  cel console from 'simple' to 'standard'. That allows it to
+	  use 'pgup'/'pgdn' to scroll back in the output.
+	- Jorrit added a new 'listquest' command to list all running
+	  quests.
 4-Mar-2006
 	- David H. Bronke and Chris Case conspired to free the world from
 	  joystick issues. Now, all axes are forwarded to the behaviour

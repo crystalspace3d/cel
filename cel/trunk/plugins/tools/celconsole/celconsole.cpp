@@ -81,6 +81,30 @@ public:
   }
 };
 
+class cmdListQuest : public scfImplementation1<cmdListQuest, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdListQuest (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdListQuest () { }
+  virtual const char* GetCommand () { return "listquest"; }
+  virtual const char* GetDescription () { return "List running quests."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: listquest\n");
+    parent->GetOutputConsole ()->PutText ("  List all running quests.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->ListQuests ();
+  }
+};
+
 class cmdListEnt : public scfImplementation1<cmdListEnt, iCelConsoleCommand>
 {
 private:
@@ -250,6 +274,30 @@ public:
   }
 };
 
+class cmdVar : public scfImplementation1<cmdVar, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdVar (celConsole* parent) : scfImplementationType (this),
+				    parent (parent)
+  {
+  }
+  virtual ~cmdVar () { }
+  virtual const char* GetCommand () { return "var"; }
+  virtual const char* GetDescription () { return "Evaluate an expression and assign to a variable."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: var <varname> <expression>\n");
+    parent->GetOutputConsole ()->PutText ("  Evaluate the expression and assign to a variable.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->AssignVar (args);
+  }
+};
+
 
 //--------------------------------------------------------------------------
 
@@ -262,6 +310,8 @@ celConsole::celConsole (iBase* parent)
 
 celConsole::~celConsole ()
 {
+  if (console_entity)
+    pl->RemoveEntity (console_entity);
   delete snapshot;
   if (scfiEventHandler)
   {
@@ -283,7 +333,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   if (!conout)
   {
     conout = CS_LOAD_PLUGIN (plugmgr,
-	"crystalspace.console.output.simple", iConsoleOutput);
+	"crystalspace.console.output.standard", iConsoleOutput);
     if (!conout)
     {
       csReport (object_reg,
@@ -333,13 +383,26 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdHelp (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdListEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdListTpl (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdListQuest (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdCreateEntTpl (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdInfoEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdSnapshot (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdSnapDiff (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdExpr (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdVar (this)); RegisterCommand (cmd);
 
   return true;
+}
+
+iCelEntity* celConsole::GetConsoleEntity ()
+{
+  if (!GetPL ()) return 0;
+  if (!console_entity)
+  {
+    console_entity = pl->CreateEntity ("__celconsole__", 0, 0,
+      "pcproperties", CEL_PROPCLASS_END);
+  }
+  return console_entity;
 }
 
 bool celConsole::HandleEvent (iEvent& ev)
@@ -390,13 +453,8 @@ iCelPlLayer* celConsole::GetPL ()
   return pl;
 }
 
-void celConsole::EvalulateExpression (const csStringArray& args)
+iCelExpressionParser* celConsole::GetParser ()
 {
-  if (args.Length () < 1)
-  {
-    conout->PutText ("Too few parameters for 'expr'!\n");
-    return;
-  }
   csRef<iObjectRegistryIterator> it = object_reg->Get (
       scfInterfaceTraits<iCelExpressionParser>::GetID (),
       scfInterfaceTraits<iCelExpressionParser>::GetVersion ());
@@ -415,10 +473,111 @@ void celConsole::EvalulateExpression (const csStringArray& args)
     if (!parser)
     {
       conout->PutText ("Cannot find the expression parser!\n");
-      return;
+      return 0;
     }
     object_reg->Register (parser, "iCelExpressionParser");
   }
+  return parser;
+}
+
+void celConsole::AssignVar (const csStringArray& args)
+{
+  if (args.Length () < 2)
+  {
+    conout->PutText ("Too few parameters for 'var'!\n");
+    return;
+  }
+  iCelExpressionParser* parser = GetParser ();
+  if (!parser) return;
+  csRef<iCelExpression> exprvar = parser->Parse (args[1]);
+  if (!exprvar)
+  {
+    conout->PutText ("Error parsing expression!\n");
+    return;
+  }
+  csRef<iCelExpression> expr = parser->Parse (args[2]);
+  if (!expr)
+  {
+    conout->PutText ("Error parsing expression!\n");
+    return;
+  }
+  celData retvar;
+  if (!exprvar->Execute (GetConsoleEntity (), retvar))
+  {
+    conout->PutText ("Error running expression!\n");
+    return;
+  }
+  celData ret;
+  if (!expr->Execute (GetConsoleEntity (), ret))
+  {
+    conout->PutText ("Error running expression!\n");
+    return;
+  }
+  if (retvar.type != CEL_DATA_STRING)
+  {
+    conout->PutText ("Variable expression must be a string!\n");
+    return;
+  }
+  if (!GetConsoleEntity ()) return;
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (console_entity,
+      iPcProperties);
+  switch (ret.type)
+  {
+    case CEL_DATA_LONG:
+      pcprop->SetProperty (retvar.value.s->GetData (), (long)ret.value.l);
+      break;
+    case CEL_DATA_ULONG:
+      pcprop->SetProperty (retvar.value.s->GetData (), (long)ret.value.ul);
+      break;
+    case CEL_DATA_BOOL:
+      pcprop->SetProperty (retvar.value.s->GetData (), (bool)ret.value.b);
+      break;
+    case CEL_DATA_FLOAT:
+      pcprop->SetProperty (retvar.value.s->GetData (), ret.value.f);
+      break;
+    case CEL_DATA_STRING:
+      pcprop->SetProperty (retvar.value.s->GetData (), ret.value.s->GetData ());
+      break;
+    case CEL_DATA_PCLASS:
+      pcprop->SetProperty (retvar.value.s->GetData (), ret.value.pc);
+      break;
+    case CEL_DATA_ENTITY:
+      pcprop->SetProperty (retvar.value.s->GetData (), ret.value.ent);
+      break;
+    case CEL_DATA_COLOR:
+      {
+	csColor col (ret.value.col.red, ret.value.col.green,
+	    ret.value.col.blue);
+	pcprop->SetProperty (retvar.value.s->GetData (), col);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+	csVector3 v (ret.value.v.x, ret.value.v.y, ret.value.v.z);
+        pcprop->SetProperty (retvar.value.s->GetData (), v);
+      }
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+	csVector2 v (ret.value.v.x, ret.value.v.y);
+        pcprop->SetProperty (retvar.value.s->GetData (), v);
+      }
+      break;
+    default:
+      conout->PutText ("Warning! Unknown type!\n");
+      break;
+  }
+}
+
+void celConsole::EvalulateExpression (const csStringArray& args)
+{
+  if (args.Length () < 1)
+  {
+    conout->PutText ("Too few parameters for 'expr'!\n");
+    return;
+  }
+  iCelExpressionParser* parser = GetParser ();
+  if (!parser) return;
   csRef<iCelExpression> expr = parser->Parse (args[1]);
   if (!expr)
   {
@@ -426,7 +585,7 @@ void celConsole::EvalulateExpression (const csStringArray& args)
     return;
   }
   celData ret;
-  if (!expr->Execute (0, ret))
+  if (!expr->Execute (GetConsoleEntity (), ret))
   {
     conout->PutText ("Error running expression!\n");
     return;
@@ -717,17 +876,55 @@ void celConsole::ListInfoEntity (const csStringArray& args)
   }
 }
 
+void celConsole::ListQuests ()
+{
+  if (!GetPL ()) return;
+  size_t cnt = pl->GetEntityCount ();
+  size_t i, j;
+  for (i = 0 ; i < cnt ; i++)
+  {
+    iCelEntity* ent = pl->GetEntityByIndex (i);
+    if (ent == console_entity) continue;
+    iCelPropertyClassList* plist = ent->GetPropertyClassList ();
+    for (j = 0 ; j < plist->GetCount () ; j++)
+    {
+      iCelPropertyClass* pc = plist->Get (j);
+      csRef<iPcQuest> pcquest = scfQueryInterface<iPcQuest> (pc);
+      if (pcquest)
+      {
+	if (pc->GetTag ())
+	{
+	  conout->PutText (
+	      "Quest '%s' (tag '%s') for entity %s -> state '%s'\n",
+	      pcquest->GetQuestName (), pc->GetTag (),
+	      ent->GetName (), pcquest->GetQuest ()->GetCurrentState ());
+	}
+	else
+	{
+	  conout->PutText (
+	      "Quest '%s' for entity %s -> state '%s'\n",
+	      pcquest->GetQuestName (),
+	      ent->GetName (), pcquest->GetQuest ()->GetCurrentState ());
+	}
+      }
+    }
+  }
+}
+
 void celConsole::ListEntities ()
 {
   if (!GetPL ()) return;
   size_t cnt = pl->GetEntityCount ();
+  int counter = 0;
   size_t i;
   for (i = 0 ; i < cnt ; i++)
   {
     iCelEntity* ent = pl->GetEntityByIndex (i);
+    if (ent == console_entity) continue;
     iCelBehaviour* bh = ent->GetBehaviour ();
-    conout->PutText ("Entity %u: %s (%s)\n", (unsigned int)i,
+    conout->PutText ("Entity %d: %s (%s)\n", counter,
 	ent->GetName (), bh ? bh->GetName () : "<no behaviour>");
+    counter++;
   }
 }
 
