@@ -76,6 +76,11 @@ struct iPcQuest : public iBase
    * Get the quest represented by this property class.
    */
   virtual iQuest* GetQuest () const = 0;
+
+  /**
+   * Get the name of the running quest.
+   */
+  virtual const char* GetQuestName () const = 0;
 };
 
 #endif // __CEL_PF_QUEST__

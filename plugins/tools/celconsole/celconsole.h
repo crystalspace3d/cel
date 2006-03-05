@@ -37,6 +37,10 @@
 #include "behaviourlayer/behave.h"
 #include "behaviourlayer/bl.h"
 #include "tools/celconsole.h"
+#include "propclass/prop.h"
+#include "propclass/quest.h"
+
+struct iCelExpressionParser;
 
 /**
  * A snapshot.
@@ -64,11 +68,14 @@ private:
   csRef<iEventNameRegistry> name_reg;
   csRef<iGraphics3D> g3d;
   csRef<iCelPlLayer> pl;
+  csRef<iCelEntity> console_entity;
 
   csHash<csRef<iCelConsoleCommand>, csStrKey> commands;
   celSnapshot* snapshot;
 
   iCelPlLayer* GetPL ();
+  iCelEntity* GetConsoleEntity ();
+  iCelExpressionParser* GetParser ();
 
 public:
   celConsole (iBase* parent);
@@ -79,6 +86,7 @@ public:
   void Execute (const char* cmd);
   void ListCommands ();
   void HelpCommand (const char* cmd);
+  void ListQuests ();
   void ListEntities ();
   void ListTemplates ();
   void ListInfoEntity (const csStringArray& args);
@@ -87,6 +95,7 @@ public:
   void SnapshotDiffPC (iCelEntity* ent);
   void SnapshotDiff ();
   void EvalulateExpression (const csStringArray& args);
+  void AssignVar (const csStringArray& args);
 
   virtual iConsoleInput* GetInputConsole () { return conin; }
   virtual iConsoleOutput* GetOutputConsole () { return conout; }

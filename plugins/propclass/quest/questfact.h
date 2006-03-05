@@ -81,6 +81,7 @@ public:
   bool NewQuest (const char* name, celQuestParams& params);
   void StopQuest ();
   iQuest* GetQuest () const { return quest; }
+  const char* GetQuestName () const { return questname; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -106,6 +107,10 @@ public:
     virtual iQuest* GetQuest () const
     {
       return scfParent->GetQuest ();
+    }
+    virtual const char* GetQuestName () const
+    {
+      return scfParent->GetQuestName ();
     }
   } scfiPcQuest;
 };
