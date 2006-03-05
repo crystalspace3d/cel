@@ -66,10 +66,15 @@
 <a name="l00071"></a><a class="code" href="classcelDefaultHoverUpthruster.html">00071</a> <span class="keyword">class </span><a class="code" href="classcelDefaultHoverUpthruster.html">celDefaultHoverUpthruster</a> : <span class="keyword">public</span> <a class="code" href="classcelStabiliserFunction.html">celStabiliserFunction</a>
 <a name="l00072"></a>00072 {
 <a name="l00073"></a>00073 <span class="keyword">public</span>:
-<a name="l00074"></a>00074   <span class="keywordtype">float</span> <a class="code" href="classcelDefaultHoverUpthruster.html#9528b9b8cc4f4bd936c9f9169d9ec8ce">Force</a> (<a class="code" href="structcelHoverObjectInfo.html">celHoverObjectInfo</a> obj_info);
-<a name="l00075"></a>00075 };
+<a name="l00074"></a><a class="code" href="classcelDefaultHoverUpthruster.html#e32b4814a2e9e29a66c8f39d13e9182a">00074</a>   <a class="code" href="classcelDefaultHoverUpthruster.html#e32b4814a2e9e29a66c8f39d13e9182a">celDefaultHoverUpthruster</a> (<span class="keywordtype">float</span> dampening)
+<a name="l00075"></a>00075     : dampening (dampening) {}
 <a name="l00076"></a>00076 
-<a name="l00077"></a>00077 <span class="preprocessor">#endif</span>
+<a name="l00077"></a>00077   <span class="keywordtype">float</span> <a class="code" href="classcelDefaultHoverUpthruster.html#9528b9b8cc4f4bd936c9f9169d9ec8ce">Force</a> (<a class="code" href="structcelHoverObjectInfo.html">celHoverObjectInfo</a> obj_info);
+<a name="l00078"></a>00078 <span class="keyword">private</span>:
+<a name="l00079"></a>00079   <span class="keywordtype">float</span> dampening;
+<a name="l00080"></a>00080 };
+<a name="l00081"></a>00081 
+<a name="l00082"></a>00082 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
