@@ -28134,7 +28134,30 @@ static PyObject *_wrap_iPcHover_SetStabiliserFunction(PyObject *, PyObject *args
 }
 
 
-static PyObject *_wrap_iPcHover_UseDefaultFunction(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcHover_UseDefaultFunction__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcHover *arg1 = (iPcHover *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcHover_UseDefaultFunction",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcHover, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->UseDefaultFunction(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcHover_UseDefaultFunction__SWIG_1(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcHover *arg1 = (iPcHover *) 0 ;
     PyObject * obj0 = 0 ;
@@ -28145,6 +28168,74 @@ static PyObject *_wrap_iPcHover_UseDefaultFunction(PyObject *, PyObject *args) {
     (arg1)->UseDefaultFunction();
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcHover_UseDefaultFunction(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcHover, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_iPcHover_UseDefaultFunction__SWIG_1(self,args);
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcHover, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_Check_float(argv[1]);
+            if (_v) {
+                return _wrap_iPcHover_UseDefaultFunction__SWIG_0(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcHover_UseDefaultFunction'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcHover_GetHeight(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcHover *arg1 = (iPcHover *) 0 ;
+    float result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcHover_GetHeight",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcHover, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (float)(arg1)->GetHeight();
+    
+    {
+        resultobj = SWIG_From_float((float)(result)); 
+    }
     return resultobj;
     fail:
     return NULL;
@@ -28556,6 +28647,63 @@ static PyObject *_wrap_iPcCraftController_ThrustOff(PyObject *, PyObject *args) 
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     (arg1)->ThrustOff();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_SetAfterBurnerTopSpeed(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcCraftController_SetAfterBurnerTopSpeed",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetAfterBurnerTopSpeed(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_AfterBurnerOn(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_AfterBurnerOn",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->AfterBurnerOn();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_AfterBurnerOff(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_AfterBurnerOff",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->AfterBurnerOff();
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -29515,6 +29663,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcHover_SetAngularCorrectionStrength", _wrap_iPcHover_SetAngularCorrectionStrength, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_SetStabiliserFunction", _wrap_iPcHover_SetStabiliserFunction, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_UseDefaultFunction", _wrap_iPcHover_UseDefaultFunction, METH_VARARGS, NULL},
+	 { (char *)"iPcHover_GetHeight", _wrap_iPcHover_GetHeight, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcHover", _wrap_delete_iPcHover, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_swigregister", iPcHover_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateHover", _wrap_celCreateHover, METH_VARARGS, NULL},
@@ -29537,6 +29686,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCraftController_SetRedirectVelocityRatio", _wrap_iPcCraftController_SetRedirectVelocityRatio, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOn", _wrap_iPcCraftController_ThrustOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOff", _wrap_iPcCraftController_ThrustOff, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SetAfterBurnerTopSpeed", _wrap_iPcCraftController_SetAfterBurnerTopSpeed, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_AfterBurnerOn", _wrap_iPcCraftController_AfterBurnerOn, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_AfterBurnerOff", _wrap_iPcCraftController_AfterBurnerOff, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcCraftController", _wrap_delete_iPcCraftController, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_swigregister", iPcCraftController_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateCraftController", _wrap_celCreateCraftController, METH_VARARGS, NULL},

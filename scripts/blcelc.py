@@ -2189,6 +2189,7 @@ class iPcHover(cspace.iBase):
     def SetAngularCorrectionStrength(*args): return _blcelc.iPcHover_SetAngularCorrectionStrength(*args)
     def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
     def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
+    def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
     def __del__(self, destroy=_blcelc.delete_iPcHover):
         try:
             if self.thisown: destroy(self)
@@ -2235,6 +2236,9 @@ class iPcCraftController(cspace.iBase):
     def SetRedirectVelocityRatio(*args): return _blcelc.iPcCraftController_SetRedirectVelocityRatio(*args)
     def ThrustOn(*args): return _blcelc.iPcCraftController_ThrustOn(*args)
     def ThrustOff(*args): return _blcelc.iPcCraftController_ThrustOff(*args)
+    def SetAfterBurnerTopSpeed(*args): return _blcelc.iPcCraftController_SetAfterBurnerTopSpeed(*args)
+    def AfterBurnerOn(*args): return _blcelc.iPcCraftController_AfterBurnerOn(*args)
+    def AfterBurnerOff(*args): return _blcelc.iPcCraftController_AfterBurnerOff(*args)
     def __del__(self, destroy=_blcelc.delete_iPcCraftController):
         try:
             if self.thisown: destroy(self)
