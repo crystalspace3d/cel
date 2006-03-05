@@ -36,6 +36,9 @@
 <a href="structiPcHover-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#a5e5f854391f2eee0f2b1ce5aa18b965">GetHeight</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get's the last calculated height for object.  <a href="#a5e5f854391f2eee0f2b1ce5aa18b965"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#9559ae347564f967355dd996f5466304">SetAngularBeamOffset</a> (float abo)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The offsets to the sides of the objects, to test height to calculate angular orientation with respect to the ground.  <a href="#9559ae347564f967355dd996f5466304"></a><br></td></tr>
@@ -57,9 +60,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#4db747e68cc9006ac05d50f5ff13709e">SetWorldMesh</a> (csRef&lt; <a class="el" href="structiPcMesh.html">iPcMesh</a> &gt; wmesh)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to do the height tests on (the ground).  <a href="#4db747e68cc9006ac05d50f5ff13709e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#d8cc2f4f325424efbc9f3fea67adc38f">UseDefaultFunction</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#bc3809ac5b44eff494e030e046376c50">UseDefaultFunction</a> (float dampening=1.5f)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Use a default stabiliser function - not recommended unless not possible to create own, use SetStabiliserFunction instead.  <a href="#d8cc2f4f325424efbc9f3fea67adc38f"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Use a default stabiliser function - not recommended unless not possible to create own, use SetStabiliserFunction instead.  <a href="#bc3809ac5b44eff494e030e046376c50"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Hover stabiliser property class. 
@@ -67,6 +70,35 @@ Hover stabiliser property class.
 
 <p>
 Definition at line <a class="el" href="hover_8h-source.html#l00034">34</a> of file <a class="el" href="hover_8h-source.html">hover.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="a5e5f854391f2eee0f2b1ce5aa18b965"></a><!-- doxytag: member="iPcHover::GetHeight" ref="a5e5f854391f2eee0f2b1ce5aa18b965" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iPcHover::GetHeight           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get's the last calculated height for object. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="9559ae347564f967355dd996f5466304"></a><!-- doxytag: member="iPcHover::SetAngularBeamOffset" ref="9559ae347564f967355dd996f5466304" args="(float abo)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -287,7 +319,7 @@ Set the mesh to do the height tests on (the ground).
     </td>
   </tr>
 </table>
-<a class="anchor" name="d8cc2f4f325424efbc9f3fea67adc38f"></a><!-- doxytag: member="iPcHover::UseDefaultFunction" ref="d8cc2f4f325424efbc9f3fea67adc38f" args="()=0" --><p>
+<a class="anchor" name="bc3809ac5b44eff494e030e046376c50"></a><!-- doxytag: member="iPcHover::UseDefaultFunction" ref="bc3809ac5b44eff494e030e046376c50" args="(float dampening=1.5f)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -295,7 +327,8 @@ Set the mesh to do the height tests on (the ground).
         <tr>
           <td class="md" nowrap valign="top">virtual void iPcHover::UseDefaultFunction           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>dampening</em> = <code>1.5f</code>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap><code> [pure virtual]</code></td>
         </tr>

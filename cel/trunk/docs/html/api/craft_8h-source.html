@@ -72,9 +72,13 @@
 <a name="l00106"></a>00106 
 <a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCraftController.html#121ab58ceb911a66ac396a0a92a512fe">ThrustOn</a>() = 0;
 <a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCraftController.html#2fabdff2be024425b9b3bc7d4e713983">ThrustOff</a>() = 0;
-<a name="l00115"></a>00115 };
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117 <span class="preprocessor">#endif</span>
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetAfterBurnerTopSpeed (<span class="keywordtype">float</span> tspeed) = 0;
+<a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AfterBurnerOn () = 0;
+<a name="l00118"></a>00118   <span class="keyword">virtual</span> <span class="keywordtype">void</span> AfterBurnerOff () = 0;
+<a name="l00119"></a>00119 };
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
