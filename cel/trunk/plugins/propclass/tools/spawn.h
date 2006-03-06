@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2004 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -48,21 +48,32 @@ CEL_DECLARE_FACTORY(Spawn)
 struct SpawnInfo
 {
   float chance;
+  char* templ;
   char* name;
   iCelBlLayer* bl;
   char* behaviour;
   char* msg_id;
   csRef<iCelParameterBlock> params;
   csStringArray pcs;
+  csRef<iCelEntity> newent;
+
+  SpawnInfo ()
+  {
+    templ = 0;
+    name = 0;
+    behaviour = 0;
+    msg_id = 0;
+  }
 
   ~SpawnInfo ()
   {
+    delete[] templ;
     delete[] name;
     delete[] behaviour;
     delete[] msg_id;
   }
 };
-	
+
 /**
  * This is a spawn property class.
  */
@@ -75,13 +86,34 @@ private:
   bool repeat;
   bool random;
   size_t sequence_cur;
-
   csArray<SpawnInfo> spawninfo;
   float total_chance;
+  int count;
+  int inhibit_count;
 
+  static csStringID action_addentitytype;
+  static csStringID action_addentitytpltype;
+  static csStringID action_settiming;
+  static csStringID action_resettiming;
+  static csStringID action_setenabled;
+  static csStringID action_clearentitylist;
+  static csStringID action_inhibit;
+  static csStringID action_spawn;
+  static csStringID id_repeat_param;
+  static csStringID id_random_param;
+  static csStringID id_mindelay_param;
+  static csStringID id_maxdelay_param;
+  static csStringID id_chance_param;
+  static csStringID id_entity_param;
+  static csStringID id_template_param;
+  static csStringID id_behaviour_param;
+  static csStringID id_layer_param;
+  static csStringID id_call_param;
+  static csStringID id_enabled_param;
+  static csStringID id_count_param;
+  celGenericParameterBlock* params;
   static csStringID id_entity;
   static csStringID id_behaviour;
-  celGenericParameterBlock* params;
 
 public:
   celPcSpawn (iObjectRegistry* object_reg);
@@ -90,12 +122,17 @@ public:
   void SetEnabled (bool e) { enabled = e; }
   bool IsEnabled () const { return enabled; }
   void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, const char* msg_id,
-		  iCelParameterBlock* params, va_list behaviours);
+  	const char* behaviour, const char* msg_id,
+  	iCelParameterBlock* params, va_list pcclasses);
+  void AddEntityTemplateType (float chance, const char* templ,
+  	const char* name, const char* msg_id,
+  	iCelParameterBlock* params);
   void ClearEntityList ();
   void SetTiming (bool repeat, bool random,
-		  csTicks mindelay, csTicks maxdelay);
-  void Reset ();
+  	csTicks mindelay, csTicks maxdelay);
+  void ResetTiming ();
+  void InhibitCount (int number);
+  void Spawn ();
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -104,6 +141,8 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
   virtual void TickOnce ();
+  virtual void SpawnEntityNr (size_t idx);
+  virtual void Reset ();
 
   struct PcSpawn : public iPcSpawn
   {
@@ -117,8 +156,8 @@ public:
       return scfParent->IsEnabled ();
     }
     virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
-		  const char* behaviour, const char* msg_id,
-		  iCelParameterBlock* params, ...)
+    	const char* behaviour, const char* msg_id,
+    	iCelParameterBlock* params, ...)
     {
       va_list arg;
       va_start (arg, params);
@@ -126,18 +165,32 @@ public:
       	params, arg);
       va_end (arg);
     }
+    virtual void AddEntityTemplateType (float chance, const char* templ,
+    	const char* name, const char* msg_id,
+    	iCelParameterBlock* params)
+    {
+      scfParent->AddEntityTemplateType (chance, templ, name, msg_id, params);
+    }
     virtual void ClearEntityList ()
     {
       scfParent->ClearEntityList ();
     }
     virtual void SetTiming (bool repeat, bool random,
-		  csTicks mindelay, csTicks maxdelay)
+    	csTicks mindelay, csTicks maxdelay)
     {
       scfParent->SetTiming (repeat, random, mindelay, maxdelay);
     }
-    virtual void Reset ()
+    virtual void ResetTiming ()
     {
-      scfParent->Reset ();
+      scfParent->ResetTiming ();
+    }
+    virtual void InhibitCount (int number)
+    {
+      scfParent->InhibitCount (number);
+    }
+    virtual void Spawn ()
+    {
+      scfParent->Spawn ();
     }
   } scfiPcSpawn;
 };

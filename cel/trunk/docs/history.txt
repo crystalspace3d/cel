@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Mar-2006
+	- Dariusz Dawidowski added to pcspawn: AddEntityTemplateType,
+	  InhibitCount and Spawn, XML interface for all methods.
+	  Reset renamed to ResetTiming.
 5-Mar-2006
 	- Jorrit added a dummy '__celconsole__' entity which the cel
 	  console creates and allows it to define variables.
