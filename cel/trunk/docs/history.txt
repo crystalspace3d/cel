@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Mar-2006
+        - Genjix added temporary fix to hovertest for when loading
+          different levels.
+          Namely using a sphere collider instead of a box, which
+          for some strange reason isn't working with thing meshes.
 6-Mar-2006
 	- Dariusz Dawidowski added to pcspawn: AddEntityTemplateType,
 	  InhibitCount and Spawn, XML interface for all methods.
