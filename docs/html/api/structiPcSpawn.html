@@ -36,24 +36,33 @@
 <a href="structiPcSpawn-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#b01ddfadde358f2a61c36ffe7235f94d">AddEntityTemplateType</a> (float chance, const char *templ, const char *name, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#b01ddfadde358f2a61c36ffe7235f94d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#236122722af95031a7372effc172174f">AddEntityType</a> (float chance, const char *name, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *behaviour, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#236122722af95031a7372effc172174f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8189e1e56b7a6c820cbea87333cd2e5f">ClearEntityList</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the list of entities to create.  <a href="#8189e1e56b7a6c820cbea87333cd2e5f"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#60ea847d706042989d6185563faf94c9">InhibitCount</a> (int number)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Inhibit respawn in case count will reach given number.  <a href="#60ea847d706042989d6185563faf94c9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8d2f4994d841866fb5c551f81d7f77c3">IsEnabled</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is spawning enabled.  <a href="#8d2f4994d841866fb5c551f81d7f77c3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a2883795fc083ae9dfb3b6c888a46449">Reset</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#762bb7143bb11f8adf31cd34908d02d9">ResetTiming</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset timing.  <a href="#a2883795fc083ae9dfb3b6c888a46449"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset timing.  <a href="#762bb7143bb11f8adf31cd34908d02d9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#c83ab975dd90bbb86794f14c6d949dc9">SetEnabled</a> (bool e)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable spawning.  <a href="#c83ab975dd90bbb86794f14c6d949dc9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#6582b9e9f285b1c20c20a61d1ca41f10">SetTiming</a> (bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set timing information.  <a href="#6582b9e9f285b1c20c20a61d1ca41f10"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#b6f7000f66d83fad00f0958aac7064c9">Spawn</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Spawn now random entity from list.  <a href="#b6f7000f66d83fad00f0958aac7064c9"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Spawn property class. 
@@ -68,6 +77,72 @@ pcspawn_newentity: new entity has been created (entity,behaviour) </li>
 
 <p>
 Definition at line <a class="el" href="spawn_8h-source.html#l00038">38</a> of file <a class="el" href="spawn_8h-source.html">spawn.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="b01ddfadde358f2a61c36ffe7235f94d"></a><!-- doxytag: member="iPcSpawn::AddEntityTemplateType" ref="b01ddfadde358f2a61c36ffe7235f94d" args="(float chance, const char *templ, const char *name, const char *msg_id, iCelParameterBlock *params)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcSpawn::AddEntityTemplateType           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname" nowrap> <em>chance</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>templ</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>msg_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>params</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add an entry to the list of entities that can be created by this property class. 
+<p>
+This version works with templates. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>chance</em>&nbsp;</td><td>is a number indicating the chance of this entity being selected (only relevant if 'random' selection is being used). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>templ</em>&nbsp;</td><td>is the name of the template from which to create entity. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>is the name of the entity that will be created. (can be 0 then got template name) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>msg_id</em>&nbsp;</td><td>if not 0 then we immediatelly send this message to the behaviour of the new entity after creating it. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>params</em>&nbsp;</td><td>is the parameter block that is used to send the message (can be 0). </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="236122722af95031a7372effc172174f"></a><!-- doxytag: member="iPcSpawn::AddEntityType" ref="236122722af95031a7372effc172174f" args="(float chance, const char *name, iCelBlLayer *bl, const char *behaviour, const char *msg_id, iCelParameterBlock *params,...)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -177,6 +252,36 @@ Clear the list of entities to create.
     </td>
   </tr>
 </table>
+<a class="anchor" name="60ea847d706042989d6185563faf94c9"></a><!-- doxytag: member="iPcSpawn::InhibitCount" ref="60ea847d706042989d6185563faf94c9" args="(int number)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcSpawn::InhibitCount           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>number</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Inhibit respawn in case count will reach given number. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="8d2f4994d841866fb5c551f81d7f77c3"></a><!-- doxytag: member="iPcSpawn::IsEnabled" ref="8d2f4994d841866fb5c551f81d7f77c3" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -206,13 +311,13 @@ Is spawning enabled.
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2883795fc083ae9dfb3b6c888a46449"></a><!-- doxytag: member="iPcSpawn::Reset" ref="a2883795fc083ae9dfb3b6c888a46449" args="()=0" --><p>
+<a class="anchor" name="762bb7143bb11f8adf31cd34908d02d9"></a><!-- doxytag: member="iPcSpawn::ResetTiming" ref="762bb7143bb11f8adf31cd34908d02d9" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">virtual void iPcSpawn::Reset           </td>
+          <td class="md" nowrap valign="top">virtual void iPcSpawn::ResetTiming           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="mdname1" valign="top" nowrap>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
@@ -315,12 +420,41 @@ Set timing information.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>repeat</em>&nbsp;</td><td>if true then this spawner will keep spawning. Otherwise it spawns only once unless <a class="el" href="structiPcSpawn.html#a2883795fc083ae9dfb3b6c888a46449">Reset()</a> is called. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>repeat</em>&nbsp;</td><td>if true then this spawner will keep spawning. Otherwise it spawns only once unless Reset() is called. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>random</em>&nbsp;</td><td>if true then we will select a random entity from our list. Otherwise we select sequentially. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>mindelay</em>&nbsp;</td><td>is the minimum delay to wait before spawning. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>maxdelay</em>&nbsp;</td><td>is the maximum delay to wait before spawning. </td></tr>
   </table>
 </dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="b6f7000f66d83fad00f0958aac7064c9"></a><!-- doxytag: member="iPcSpawn::Spawn" ref="b6f7000f66d83fad00f0958aac7064c9" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcSpawn::Spawn           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Spawn now random entity from list. 
+<p>
     </td>
   </tr>
 </table>
