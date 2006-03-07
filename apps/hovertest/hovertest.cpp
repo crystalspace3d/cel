@@ -193,7 +193,8 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
       GetObjectBoundingBox(bbox);
   //pcmechobj->GetBody ()->AttachColliderBox (bbox.GetSize (), csOrthoTransform (), 0.5, 3.0f, 1.0, 0.8);
   pcmechobj->SetFriction (0.05f);
-  pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  //pcmechobj->AttachColliderBox (bbox.GetSize (), csOrthoTransform ());
+  pcmechobj->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
   pcmechobj->SetSoftness (1.0f);
   pcmechobj->SetMass (1.0f);
   pcmechobj->SetDensity (3.0f);
@@ -309,6 +310,7 @@ bool HoverTest::CreateRoom ()
   csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcInventory);
   if (!pcinv_room->AddEntity (player)) return false;
+  if (!pcinv_room->AddEntity (scene)) return false;
 
   return true;
 }
