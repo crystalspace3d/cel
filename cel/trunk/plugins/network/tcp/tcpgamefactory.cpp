@@ -104,8 +104,10 @@ bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
 
 bool celTCPGameFactory::HandleEvent (iEvent& ev)
 {
-  // TODO: listen for game info received
+  if (!ev.Broadcast) return false;
 
+  // TODO: listen for game info received
+ 
   // update client and server
   if (game) {
     if (game->IsServerAvailable ()) game->server->UpdateNetwork ();

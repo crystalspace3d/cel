@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Mar-2006
+	- Vincent added 'ESC' key handling to hovertest (quit).
+	- Vincent re-enabled event broadcast test in tcpgamefactory, which was
+	  let aside when updated after event system overhaul. This improves
+	  latency quite a bit.
 7-Mar-2006
         - Genjix added temporary fix to hovertest for when loading
           different levels.
