@@ -131,6 +131,25 @@ void HoverTest::FinishFrame ()
 
 bool HoverTest::OnKeyboard (iEvent &ev)
 {
+  // We got a keyboard event.
+  if (csKeyEventHelper::GetEventType(&ev) == csKeyEventTypeDown)
+  {
+    // The user pressed a key (as opposed to releasing it).
+    utf32_char code = csKeyEventHelper::GetCookedCode(&ev);
+    if (code == CSKEY_ESC)
+    {
+      // We were in menu so terminate the application.  The proper way
+      // to terminate a Crystal Space application is by broadcasting a
+      // cscmdQuit event.  That will cause the main run loop to stop.  To do
+      // so we retrieve the event queue from the object registry and then
+      // post the event.
+      csRef<iEventQueue> q =
+        csQueryRegistry<iEventQueue> (GetObjectRegistry());
+      if (q.IsValid())
+        q->GetEventOutlet()->Broadcast(csevQuit(GetObjectRegistry ()));
+    }
+  }
+
   return false;
 }
 
@@ -139,13 +158,13 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   // The Real Camera
   player = pl->CreateEntity ("ent_player", behaviour_layer,
         "dynactor",
-          "pccommandinput",
-          "pcmesh",
-          "pcdefaultcamera",
-          "pcmechobject",
-          "pchover",
-          "pccraft",
-          (void*)0);
+        "pccommandinput",
+        "pcmesh",
+        "pcdefaultcamera",
+        "pcmechobject",
+        "pchover",
+        "pccraft",
+        (void*)0);
   if (!player) return false;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (player,
@@ -229,9 +248,9 @@ bool HoverTest::CreateRoom ()
   // Create the room entity.
   //===============================
   level = pl->CreateEntity ("ent_level", 0, 0,
-	"pczonemanager",
-	"pcinventory",
-	"pcmechsys",
+        "pczonemanager",
+        "pcinventory",
+        "pcmechsys",
 	(void*)0);
 
   csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
@@ -271,7 +290,8 @@ bool HoverTest::CreateRoom ()
   pczonemgr->GetLastStartLocation (&regionname, &startname);
   //regionname = "main";
   //startname = "Camera";
-  printf("Start at: %s %s\n",(const char*)regionname,(const char*)startname);
+  printf("Start position in region '%s', named '%s'\n",
+        (const char*)regionname, (const char*)startname);
 
   csRef<iPcMechanicsSystem> pcmechsys = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcMechanicsSystem);
@@ -279,9 +299,9 @@ bool HoverTest::CreateRoom ()
   pcmechsys->SetStepTime (0.02f);
 
   scene = pl->CreateEntity("ent_scene", 0, 0,
-      "pcmesh",
-      "pcmechobject",
-      (void*)0);
+        "pcmesh",
+        "pcmechobject",
+        (void*)0);
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
   pcmesh->SetPath (path.GetData ());
