@@ -159,6 +159,9 @@ public:
   virtual const char* GetName () const { return "pccharacteristics"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+
+  virtual bool SetProperty (csStringID, float);
+  virtual float GetPropertyFloat (csStringID);
 };
 
 #endif // __CEL_PF_INVFACT__
