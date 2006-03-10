@@ -28,6 +28,12 @@ struct iPcInventory;
 
 /**
  * This is a characteristics property class.
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li><name> (float, read/write): the specific characteristic.
+ * </ul>
  */
 struct iPcCharacteristics : public virtual iBase
 {

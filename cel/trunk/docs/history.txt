@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Mar-2006
+	- Jorrit made it possible to set characteristics from XML.
 8-Mar-2006
 	- Vincent added 'ESC' key handling to hovertest (quit).
 	- Vincent re-enabled event broadcast test in tcpgamefactory, which was

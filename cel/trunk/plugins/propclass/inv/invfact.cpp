@@ -737,6 +737,33 @@ celPcCharacteristics::~celPcCharacteristics ()
 {
 }
 
+bool celPcCharacteristics::SetProperty (csStringID propertyId, float b)
+{
+  const char* property = pl->FetchString (propertyId);
+  if (property)
+  {
+    if (!strncasecmp ("cel.property.", property, 13))
+    {
+      return SetCharacteristic (property+13, b);
+    }
+  }
+
+  return celPcCommon::SetProperty (propertyId, b);
+}
+
+float celPcCharacteristics::GetPropertyFloat (csStringID propertyId)
+{
+  const char* property = pl->FetchString (propertyId);
+  if (property)
+  {
+    if (!strncasecmp ("cel.property.", property, 13))
+    {
+      return GetLocalCharacteristic (property+13);
+    }
+  }
+  return celPcCommon::GetPropertyFloat (propertyId);
+}
+
 #define CHARACTERISTICS_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcCharacteristics::Save ()
