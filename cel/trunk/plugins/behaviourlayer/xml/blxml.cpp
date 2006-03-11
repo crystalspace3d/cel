@@ -523,7 +523,21 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       h->AddOperation (CEL_OPERATION_INVENTORY_COUNT);
       break;
     case XMLFUNCTION_ENTNAME:
-      h->AddOperation (CEL_OPERATION_ENTNAME);
+      {
+	celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_CLOSE)
+	{
+	  // No arguments: that means we want current entity.
+          h->AddOperation (CEL_OPERATION_ENTNAMETHIS);
+	}
+	else
+	{
+	  // One argument.
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+          h->AddOperation (CEL_OPERATION_ENTNAME);
+	}
+      }
       break;
     case XMLFUNCTION_MOUSEX:
       h->AddOperation (CEL_OPERATION_MOUSEX);

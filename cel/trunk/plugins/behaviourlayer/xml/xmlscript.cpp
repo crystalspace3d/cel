@@ -1523,11 +1523,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  stack[si].SetInt32 (cbl->GetG3D ()->GetHeight ());
 	}
 	break;
-      case CEL_OPERATION_ENTNAME:
+      case CEL_OPERATION_ENTNAMETHIS:
         {
-          DUMP_EXEC ((":%04d: entname ()\n", i-1));
+          DUMP_EXEC ((":%04d: entnamethis ()\n", i-1));
 	  size_t si = stack.Push (celXmlArg ());
 	  stack[si].SetString (entity->GetName (), true);
+	}
+	break;
+      case CEL_OPERATION_ENTNAME:
+        {
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: entname (%s)\n", i-1, A2S (top)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	  {
+	    return ReportError (cbl,
+	      	"Can't find entity '%s'!", A2S (top));
+	  }
+	  top.SetString (other_ent->GetName (), true);
 	}
 	break;
       case CEL_OPERATION_RANDOMIZE:
