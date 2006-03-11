@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  is now optional. If the child entity is not given the
 	  trigger will fire in case an item is added or dropped from
 	  the inventory.
+	- Jorrit extended the XML behaviour layer so that entname()
+	  can also be used to get the entity name of other entities.
 10-Mar-2006
 	- Jorrit made it possible to set characteristics from XML.
 8-Mar-2006
