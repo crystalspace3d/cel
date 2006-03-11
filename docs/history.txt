@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Mar-2006
+	- Jorrit changed the inventory trigger so that the child entity
+	  is now optional. If the child entity is not given the
+	  trigger will fire in case an item is added or dropped from
+	  the inventory.
 10-Mar-2006
 	- Jorrit made it possible to set characteristics from XML.
 8-Mar-2006

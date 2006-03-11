@@ -121,7 +121,8 @@ public:
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: listent\n");
-    parent->GetOutputConsole ()->PutText ("  List all entities and the name of the associated behaviour.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  List all entities and the name of the associated behaviour.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -145,7 +146,8 @@ public:
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: listtpl\n");
-    parent->GetOutputConsole ()->PutText ("  List all entity templates and the name of the associated behaviour.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  List all entity templates and the name of the associated behaviour.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -165,11 +167,14 @@ public:
   }
   virtual ~cmdCreateEntTpl () { }
   virtual const char* GetCommand () { return "createenttpl"; }
-  virtual const char* GetDescription () { return "Create an entity from a template."; }
+  virtual const char* GetDescription ()
+  { return "Create an entity from a template."; }
   virtual void Help ()
   {
-    parent->GetOutputConsole ()->PutText ("Usage: createenttpl <tpl> <entname> { <parname> <value> ... } \n");
-    parent->GetOutputConsole ()->PutText ("  Create an entity from a template with the given parameters\n");
+    parent->GetOutputConsole ()->PutText (
+	"Usage: createenttpl <tpl> <entname> { <parname> <value> ... } \n");
+    parent->GetOutputConsole ()->PutText (
+	"  Create an entity from a template with the given parameters\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -189,11 +194,13 @@ public:
   }
   virtual ~cmdInfoEnt () { }
   virtual const char* GetCommand () { return "infoent"; }
-  virtual const char* GetDescription () { return "List information about an entity."; }
+  virtual const char* GetDescription ()
+  { return "List information about an entity."; }
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: infoent <entname>\n");
-    parent->GetOutputConsole ()->PutText ("  List information about an entity.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  List information about an entity.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -213,12 +220,15 @@ public:
   }
   virtual ~cmdSnapshot () { }
   virtual const char* GetCommand () { return "snapshot"; }
-  virtual const char* GetDescription () { return "Snapshot current entities."; }
+  virtual const char* GetDescription ()
+  { return "Snapshot current entities."; }
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: snapshot\n");
-    parent->GetOutputConsole ()->PutText ("  Keeps track of all entities currently in memory.\n");
-    parent->GetOutputConsole ()->PutText ("  Use 'snapdiff' to check if entities got deleted or added since the snapshot.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Keeps track of all entities currently in memory.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Use 'snapdiff' to check if entities got deleted or added since the snapshot.\n");
   }
   virtual void Execute (const csStringArray&)
   {
@@ -238,11 +248,13 @@ public:
   }
   virtual ~cmdSnapDiff () { }
   virtual const char* GetCommand () { return "snapdiff"; }
-  virtual const char* GetDescription () { return "Show difference since snapshot."; }
+  virtual const char* GetDescription ()
+  { return "Show difference since snapshot."; }
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: snapdiff\n");
-    parent->GetOutputConsole ()->PutText ("  Shows all entity operations since snapshot.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Shows all entity operations since snapshot.\n");
   }
   virtual void Execute (const csStringArray&)
   {
@@ -262,11 +274,13 @@ public:
   }
   virtual ~cmdExpr () { }
   virtual const char* GetCommand () { return "expr"; }
-  virtual const char* GetDescription () { return "Evaluate an expression and print value."; }
+  virtual const char* GetDescription ()
+  { return "Evaluate an expression and print value."; }
   virtual void Help ()
   {
     parent->GetOutputConsole ()->PutText ("Usage: expr <expression>\n");
-    parent->GetOutputConsole ()->PutText ("  Evaluate the expression and print the result.\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Evaluate the expression and print the result.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -286,11 +300,14 @@ public:
   }
   virtual ~cmdVar () { }
   virtual const char* GetCommand () { return "var"; }
-  virtual const char* GetDescription () { return "Evaluate an expression and assign to a variable."; }
+  virtual const char* GetDescription ()
+  { return "Evaluate an expression and assign to a variable."; }
   virtual void Help ()
   {
-    parent->GetOutputConsole ()->PutText ("Usage: var <varname> <expression>\n");
-    parent->GetOutputConsole ()->PutText ("  Evaluate the expression and assign to a variable.\n");
+    parent->GetOutputConsole ()->PutText (
+	"Usage: var <varname> <expression>\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Evaluate the expression and assign to a variable.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
