@@ -988,7 +988,9 @@ SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
  *     pcinventory property class.
  * <li><em>entity_tag</em>: optional tag used to find the right
  *     property class from the entity.
- * <li><em>child_entity</em>: the name of the entity to watch for.
+ * <li><em>child_entity</em>: the name of the entity to watch for. If this
+ *     is not given then you will get triggere whenever something is
+ *     added or removed from the inventory.
  * </ul>
  */
 struct iInventoryQuestTriggerFactory : public iBase
@@ -1004,7 +1006,9 @@ struct iInventoryQuestTriggerFactory : public iBase
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 
   /**
-   * Set the name of the entity to watch for.
+   * Set the name of the entity to watch for. If this
+   * is not given then you will get triggered whenever something is
+   * added or removed from the inventory.
    * \param child_entity is the name of the entity or a parameter (starts
    * with '$').
    */

@@ -102,9 +102,6 @@ bool celInventoryTriggerFactory::Load (iDocumentNode* node)
     return Report (type->object_reg,
       "'entity' attribute is missing for the inventory trigger!");
   child_entity_par = csStrNew (node->GetAttributeValue ("child_entity"));
-  if (!child_entity_par)
-    return Report (type->object_reg,
-      "'child_entity' attribute is missing for the inventory trigger!");
   return true;
 }
 
@@ -151,7 +148,10 @@ celInventoryTrigger::celInventoryTrigger (
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
-  child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
+  if (child_entity_par)
+    child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));
+  else
+    child_entity = 0;
 }
 
 celInventoryTrigger::~celInventoryTrigger ()
@@ -199,6 +199,7 @@ void celInventoryTrigger::ActivateTrigger ()
 bool celInventoryTrigger::Check ()
 {
   if (!inventory) return false;
+  if (!child_entity) return false;
   size_t i;
   for (i = 0 ; i < inventory->GetEntityCount () ; i++)
   {
@@ -227,6 +228,13 @@ void celInventoryTrigger::SaveTriggerState (iCelDataBuffer*)
 
 void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
 {
+  if (!child_entity)
+  {
+    // Always fire in case we're not monitoring a specific entity.
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
+    return;
+  }
   if (entity->GetName () && strcmp (child_entity, entity->GetName ()) == 0)
   {
     DeactivateTrigger ();
@@ -236,6 +244,13 @@ void celInventoryTrigger::AddChild (iPcInventory* inventory, iCelEntity* entity)
 
 void celInventoryTrigger::RemoveChild (iPcInventory*, iCelEntity*)
 {
+  if (!child_entity)
+  {
+    // Always fire in case we're not monitoring a specific entity.
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
+    return;
+  }
 }
 
 //---------------------------------------------------------------------------
