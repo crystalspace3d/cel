@@ -4179,18 +4179,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_HITBEAM:
         {
-	  CHECK_STACK(5)
+	  CHECK_STACK(6)
+	  celXmlArg a_meshvar = stack.Pop ();
 	  celXmlArg a_entvar = stack.Pop ();
 	  celXmlArg a_isectvar = stack.Pop ();
 	  celXmlArg a_end = stack.Pop ();
 	  celXmlArg a_start = stack.Pop ();
 	  celXmlArg a_sector = stack.Pop ();
-	  DUMP_EXEC ((":%04d: hitbeam sector=%s start=%s end=%s isectv=%s entv=%s\n",
+	  DUMP_EXEC ((":%04d: hitbeam sector=%s start=%s end=%s isectv=%s entv=%s meshv=%s\n",
 		i-1, A2S (a_sector), A2S (a_start), A2S (a_end),
-		A2S (a_isectvar), A2S (a_entvar)));
+		A2S (a_isectvar), A2S (a_entvar), A2S (a_meshvar)));
 
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
+	  const char* meshvarname = ArgToString (a_meshvar);
+	  if (!meshvarname)
+	    return ReportError (cbl,
+		"Illegal variable name for 'hitbeam'!");
 	  const char* entvarname = ArgToString (a_entvar);
 	  if (!entvarname)
 	    return ReportError (cbl,
@@ -4213,10 +4218,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csVector3 end = ArgToVector3 (a_end);
 	  iCelEntity* selent;
 	  csVector3 isect;
-	  HitBeam (sector, start, end, isect, selent);
+	  iMeshWrapper* mesh;
+	  HitBeam (sector, start, end, isect, selent, mesh);
 
 	  props->SetProperty (entvarname, selent);
 	  props->SetProperty (isectvarname, isect);
+	  props->SetProperty (meshvarname,
+	  	mesh ? mesh->QueryObject ()->GetName () : "");
 	}
 	break;
       case CEL_OPERATION_SELECTENTITY:
@@ -4298,17 +4306,18 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
 
 void celXmlScriptEventHandler::HitBeam (iSector* sector,
 	const csVector3& start,
-	const csVector3& end, csVector3& isect, iCelEntity*& selent)
+	const csVector3& end, csVector3& isect, iCelEntity*& selent,
+	iMeshWrapper*& mesh)
 {
-  iMeshWrapper* sel = sector->HitBeamPortals (start, end, isect, 0);
-  if (sel == 0)
+  mesh = sector->HitBeamPortals (start, end, isect, 0);
+  if (mesh == 0)
   {
     isect = end;
     selent = 0;
   }
   else
   {
-    selent = pl->FindAttachedEntity (sel->QueryObject ());
+    selent = pl->FindAttachedEntity (mesh->QueryObject ());
   }
 }
 
