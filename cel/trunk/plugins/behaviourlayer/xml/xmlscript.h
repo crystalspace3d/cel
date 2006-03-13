@@ -211,7 +211,7 @@ enum
   CEL_OPERATION_WRITEFILE,	// A:-		S:S,S,I,I	OS:B
   CEL_OPERATION_REPORTERROR,	// A:-		S:S		OS:-
   CEL_OPERATION_SELECTENTITY,	// A:-		S:I,I,F,S,S	OS:-
-  CEL_OPERATION_HITBEAM,	// A:-		S:V,V,S,S	OS:-
+  CEL_OPERATION_HITBEAM,	// A:-		S:V,V,S,S,S	OS:-
   CEL_OPERATION_TESTVAR,	// A:-		S:S		OS:B
 
   CEL_OPERATION_STRSUB,		// A:-		S:S,I,I		OS:S
@@ -394,7 +394,8 @@ private:
     float maxdist, csVector3& isect, iCelEntity*& selent);
   void HitBeam (iSector* sector,
   	const csVector3& start, const csVector3& end,
-  	csVector3& isect, iCelEntity*& selent);
+  	csVector3& isect, iCelEntity*& selent,
+	iMeshWrapper*& mesh);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl);

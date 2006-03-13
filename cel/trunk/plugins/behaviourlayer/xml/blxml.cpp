@@ -1857,6 +1857,9 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (local_vars, child, h, "entvar",
 		"hitbeam"))
 	    return false;
+          if (!ParseExpression (local_vars, child, h, "meshvar",
+		"hitbeam"))
+	    return false;
 	  h->AddOperation (CEL_OPERATION_HITBEAM);
 	}
 	break;

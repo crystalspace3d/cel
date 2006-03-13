@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Mar-2006
+	- Jorrit added a new 'meshvar' variable to the hitbeam command
+	  in the XML behaviour layer. This variable will be filled
+	  with the name of the mesh that was hit.
 11-Mar-2006
 	- Jorrit changed the inventory trigger so that the child entity
 	  is now optional. If the child entity is not given the
