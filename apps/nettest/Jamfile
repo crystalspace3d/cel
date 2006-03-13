@@ -36,8 +36,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : blpython
   ;
   LinkStaticPlugins nettest_static : 
-    ball
-    ballldr
     bezier
     bezierldr
     bruteblock
@@ -48,6 +46,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     csfont
     csgifimg
     csjpgimg
+    csopcode
     csparser
     cspngimg
     cssynldr
@@ -73,10 +72,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     gmeshskelanim
     haze
     hazeldr
-    ieplex
     imgplex
     nullmesh
-    opcode
     protomesh
     protomeshldr
     rain

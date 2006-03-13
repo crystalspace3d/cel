@@ -36,8 +36,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   : blpython
   ;
   LinkStaticPlugins celtst_static : 
-    ball
-    ballldr
     bezier
     bezierldr
     bruteblock
@@ -76,7 +74,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     gmeshskelanim
     haze
     hazeldr
-    ieplex
     imgplex
     nullmesh
     protomesh
