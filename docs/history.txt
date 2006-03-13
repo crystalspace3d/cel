@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added a new 'meshvar' variable to the hitbeam command
 	  in the XML behaviour layer. This variable will be filled
 	  with the name of the mesh that was hit.
+	- caedes corrected a typo in pcspawn (inhibit action id was 
+	  assigned to spawn action).
 11-Mar-2006
 	- Jorrit changed the inventory trigger so that the child entity
 	  is now optional. If the child entity is not given the

@@ -124,7 +124,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
     action_setenabled = pl->FetchStringID ("cel.action.SetEnabled");
     action_clearentitylist = pl->FetchStringID ("cel.action.ClearEntityList");
     action_inhibit = pl->FetchStringID ("cel.action.Inhibit");
-    action_spawn = pl->FetchStringID ("cel.action.Inhibit");
+    action_spawn = pl->FetchStringID ("cel.action.Spawn");
     id_repeat_param = pl->FetchStringID ("cel.parameter.repeat");
     id_random_param = pl->FetchStringID ("cel.parameter.random");
     id_mindelay_param = pl->FetchStringID ("cel.parameter.mindelay");
