@@ -29,6 +29,7 @@
 #include "behaviourlayer/blgen.h"
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "tools/expression.h"
+#include "tools/billboard.h"
 
 struct iObjectRegistry;
 struct iCelEntity;
