@@ -422,6 +422,11 @@ iCelEntity* celPcInventory::GetEntity (size_t idx) const
   return ent;
 }
 
+bool celPcInventory::In (iCelEntity* entity) const
+{
+  return contents.Contains (entity);
+}
+
 iCelEntity* celPcInventory::GetEntitySlot (iCelParameterBlock* pparams) const
 {
   return space->GetEntity (pparams);

@@ -3959,6 +3959,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  top.SetEntity (default_inv->GetEntity (ArgToInt32 (top)));
 	}
 	break;
+      case CEL_OPERATION_INVENTORY_IN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: inventory_in ent=%s\n", i-1, A2S (top)));
+	  if (!default_inv)
+	    return ReportError (cbl, "Default inventory isn't set!");
+	  top.Set (default_inv->In (ArgToEntity (top, pl)));
+	}
+	break;
       case CEL_OPERATION_DEFAULTINV:
         {
 	  CHECK_STACK(1)
