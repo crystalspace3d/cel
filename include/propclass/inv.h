@@ -226,6 +226,11 @@ struct iPcInventory : public virtual iBase
   virtual iCelEntity* GetEntity (size_t idx) const = 0;
 
   /**
+   * Test if some entity is in the inventory.
+   */
+  virtual bool In (iCelEntity* entity) const = 0;
+
+  /**
    * Get an entity from a generic slot (space system).
    */
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const = 0;

@@ -86,6 +86,7 @@ public:
   virtual bool RemoveAll ();
   virtual size_t GetEntityCount () const { return contents.Length () ; }
   virtual iCelEntity* GetEntity (size_t idx) const;
+  virtual bool In (iCelEntity* entity) const;
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const;
   virtual bool SetStrictCharacteristics (const char* charName, bool strict);
   virtual bool HasStrictCharacteristics (const char* charName) const;

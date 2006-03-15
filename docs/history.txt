@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Mar-2006
+	- Jorrit added a new iPcInventory->In() method to test if
+	  an entity is in an inventory.
+	- Jorrit add a new 'inventory_in' function to the XML behaviour
+	  layer to check if an object is in the inventory.
 13-Mar-2006
 	- Jorrit added a new 'meshvar' variable to the hitbeam command
 	  in the XML behaviour layer. This variable will be filled

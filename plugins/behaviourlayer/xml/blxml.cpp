@@ -119,6 +119,7 @@ enum
   XMLFUNCTION_ENT,
   XMLFUNCTION_INVENTORY_GET,
   XMLFUNCTION_INVENTORY_COUNT,
+  XMLFUNCTION_INVENTORY_IN,
   XMLFUNCTION_STRSUB,
   XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
@@ -240,6 +241,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("ent", XMLFUNCTION_ENT);
   functions.Register ("inventory_get", XMLFUNCTION_INVENTORY_GET);
   functions.Register ("inventory_count", XMLFUNCTION_INVENTORY_COUNT);
+  functions.Register ("inventory_in", XMLFUNCTION_INVENTORY_IN);
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
@@ -517,6 +519,13 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
 	h->AddOperation (CEL_OPERATION_INVENTORY_GET);
+      }
+      break;
+    case XMLFUNCTION_INVENTORY_IN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_INVENTORY_IN);
       }
       break;
     case XMLFUNCTION_INVENTORY_COUNT:
