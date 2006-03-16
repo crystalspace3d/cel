@@ -123,37 +123,39 @@
 <a name="l00222"></a>00222 
 <a name="l00226"></a>00226   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiPcInventory.html#51d9e5bd68dfd0a7ce138e85f7b7323d">GetEntity</a> (size_t idx) <span class="keyword">const </span>= 0;
 <a name="l00227"></a>00227 
-<a name="l00231"></a>00231   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiPcInventory.html#7b90a84b0b511a6f4438711dca0e69db">GetEntitySlot</a> (<a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) <span class="keyword">const </span>= 0;
+<a name="l00231"></a>00231   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#19952f942aa82542a386c445011a078b">In</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) <span class="keyword">const </span>= 0;
 <a name="l00232"></a>00232 
-<a name="l00243"></a>00243   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#7de24939946dc84e64aef80144e953ba">SetStrictCharacteristics</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName, <span class="keywordtype">bool</span> strict) = 0;
-<a name="l00244"></a>00244 
-<a name="l00248"></a>00248   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#fe2db71149a9a75ba1449b2143e943a6">HasStrictCharacteristics</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) <span class="keyword">const </span>= 0;
+<a name="l00236"></a>00236   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiPcInventory.html#7b90a84b0b511a6f4438711dca0e69db">GetEntitySlot</a> (<a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* params) <span class="keyword">const </span>= 0;
+<a name="l00237"></a>00237 
+<a name="l00248"></a>00248   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#7de24939946dc84e64aef80144e953ba">SetStrictCharacteristics</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName, <span class="keywordtype">bool</span> strict) = 0;
 <a name="l00249"></a>00249 
-<a name="l00258"></a>00258   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#c4961aad36682ab5600cb8ab8f9e4fba">SetConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName,
-<a name="l00259"></a>00259         <span class="keywordtype">float</span> minValue, <span class="keywordtype">float</span> maxValue, <span class="keywordtype">float</span> totalMaxValue) = 0;
-<a name="l00260"></a>00260 
-<a name="l00265"></a>00265   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#c2a1b904eb4fd1b3db554dd0f93188f5">GetConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName,
-<a name="l00266"></a>00266         <span class="keywordtype">float</span>&amp; minValue, <span class="keywordtype">float</span>&amp; maxValue, <span class="keywordtype">float</span>&amp; totalMaxValue) <span class="keyword">const </span>= 0;
-<a name="l00267"></a>00267 
-<a name="l00271"></a>00271   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#0bd4364372136439a6948047ae3783fa">RemoveConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
+<a name="l00253"></a>00253   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#fe2db71149a9a75ba1449b2143e943a6">HasStrictCharacteristics</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) <span class="keyword">const </span>= 0;
+<a name="l00254"></a>00254 
+<a name="l00263"></a>00263   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#c4961aad36682ab5600cb8ab8f9e4fba">SetConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName,
+<a name="l00264"></a>00264         <span class="keywordtype">float</span> minValue, <span class="keywordtype">float</span> maxValue, <span class="keywordtype">float</span> totalMaxValue) = 0;
+<a name="l00265"></a>00265 
+<a name="l00270"></a>00270   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#c2a1b904eb4fd1b3db554dd0f93188f5">GetConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName,
+<a name="l00271"></a>00271         <span class="keywordtype">float</span>&amp; minValue, <span class="keywordtype">float</span>&amp; maxValue, <span class="keywordtype">float</span>&amp; totalMaxValue) <span class="keyword">const </span>= 0;
 <a name="l00272"></a>00272 
-<a name="l00276"></a>00276   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#6a672a6f3e9e54fccbff4cc9ccbb483b">RemoveAllConstraints</a> () = 0;
+<a name="l00276"></a>00276   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#0bd4364372136439a6948047ae3783fa">RemoveConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
 <a name="l00277"></a>00277 
-<a name="l00281"></a>00281   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcInventory.html#dc73f72657311cdbabe2001d24379671">GetCurrentCharacteristic</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) <span class="keyword">const </span>= 0;
-<a name="l00282"></a>00282   
-<a name="l00289"></a>00289   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#610fbc3e67be3080b20d4c0ed557fecb">MarkDirty</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
-<a name="l00290"></a>00290 
-<a name="l00296"></a>00296   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#e5101f45cf2cd0e2947baf020e89b0c3">TestConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
-<a name="l00297"></a>00297 
-<a name="l00302"></a>00302   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#565438b4a7bfa37ab9ded7043c539c1c">Dump</a> () = 0;
-<a name="l00303"></a>00303   
-<a name="l00308"></a>00308   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#c01ae1173b42cd9eb15ae265d390c579">SetSpace</a> (<a class="code" href="structiCelInventorySpace.html">iCelInventorySpace</a>* space) = 0;
-<a name="l00309"></a>00309 
-<a name="l00313"></a>00313   <span class="keyword">virtual</span> <a class="code" href="structiCelInventorySpace.html">iCelInventorySpace</a>* <a class="code" href="structiPcInventory.html#187de0b1cfda0eb99faf3a617dff2067">GetSpace</a> () = 0;
-<a name="l00314"></a>00314 };
-<a name="l00315"></a>00315 
-<a name="l00316"></a>00316 <span class="preprocessor">#endif // __CEL_PF_INV__</span>
-<a name="l00317"></a>00317 <span class="preprocessor"></span>
+<a name="l00281"></a>00281   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#6a672a6f3e9e54fccbff4cc9ccbb483b">RemoveAllConstraints</a> () = 0;
+<a name="l00282"></a>00282 
+<a name="l00286"></a>00286   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcInventory.html#dc73f72657311cdbabe2001d24379671">GetCurrentCharacteristic</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) <span class="keyword">const </span>= 0;
+<a name="l00287"></a>00287   
+<a name="l00294"></a>00294   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#610fbc3e67be3080b20d4c0ed557fecb">MarkDirty</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
+<a name="l00295"></a>00295 
+<a name="l00301"></a>00301   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcInventory.html#e5101f45cf2cd0e2947baf020e89b0c3">TestConstraints</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* charName) = 0;
+<a name="l00302"></a>00302 
+<a name="l00307"></a>00307   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#565438b4a7bfa37ab9ded7043c539c1c">Dump</a> () = 0;
+<a name="l00308"></a>00308   
+<a name="l00313"></a>00313   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcInventory.html#c01ae1173b42cd9eb15ae265d390c579">SetSpace</a> (<a class="code" href="structiCelInventorySpace.html">iCelInventorySpace</a>* space) = 0;
+<a name="l00314"></a>00314 
+<a name="l00318"></a>00318   <span class="keyword">virtual</span> <a class="code" href="structiCelInventorySpace.html">iCelInventorySpace</a>* <a class="code" href="structiPcInventory.html#187de0b1cfda0eb99faf3a617dff2067">GetSpace</a> () = 0;
+<a name="l00319"></a>00319 };
+<a name="l00320"></a>00320 
+<a name="l00321"></a>00321 <span class="preprocessor">#endif // __CEL_PF_INV__</span>
+<a name="l00322"></a>00322 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
