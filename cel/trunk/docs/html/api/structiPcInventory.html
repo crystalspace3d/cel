@@ -69,6 +69,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#fe2db71149a9a75ba1449b2143e943a6">HasStrictCharacteristics</a> (const char *charName) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the value of 'strict characteristics'.  <a href="#fe2db71149a9a75ba1449b2143e943a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#19952f942aa82542a386c445011a078b">In</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity) const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Test if some entity is in the inventory.  <a href="#19952f942aa82542a386c445011a078b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#610fbc3e67be3080b20d4c0ed557fecb">MarkDirty</a> (const char *charName)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Mark this characteristic as dirty for this inventory and all inventories this entity is in.  <a href="#610fbc3e67be3080b20d4c0ed557fecb"></a><br></td></tr>
@@ -474,6 +477,36 @@ Get the used space manager.
 
 <p>
 Return the value of 'strict characteristics'. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="19952f942aa82542a386c445011a078b"></a><!-- doxytag: member="iPcInventory::In" ref="19952f942aa82542a386c445011a078b" args="(iCelEntity *entity) const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcInventory::In           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>entity</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Test if some entity is in the inventory. 
 <p>
     </td>
   </tr>
