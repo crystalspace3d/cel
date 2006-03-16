@@ -424,7 +424,7 @@ iCelEntity* celPcInventory::GetEntity (size_t idx) const
 
 bool celPcInventory::In (iCelEntity* entity) const
 {
-  return contents.Contains (entity);
+  return contents.Contains (entity) != csArrayItemNotFound;
 }
 
 iCelEntity* celPcInventory::GetEntitySlot (iCelParameterBlock* pparams) const
