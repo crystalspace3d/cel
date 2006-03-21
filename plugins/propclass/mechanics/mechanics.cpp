@@ -1288,7 +1288,10 @@ const csVector3 celPcMechanicsObject::GetAngularVelocity ()
 
 void celPcMechanicsObject::MakeStatic (bool stat)
 {
-  if (stat == is_static) return;
+  //(vk) commented this test since is_static seems somehow not remembered;
+  // ie. make mechobj static at its creation and make it dynamic later,
+  // from behaviour or a CEL action from XML...
+  //if (stat == is_static) return;
   is_static = stat;
   if (!GetBody ()) return;
   if (is_static)
