@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Mar-2006
+	- Vincent commented "if (stat == is_static) return;" from
+	  celPcMechanicsObject::MakeStatic() since is_static seems somehow not
+	  remembered correctly; ie. setting mechobj static at its creation and
+	  setting it dynamic later from behaviour or a CEL action from XML
+	  failed.
 16-Mar-2006
 	- Jorrit fixed iPcInventory->In() so that it actually does
 	  what it advertizes.
