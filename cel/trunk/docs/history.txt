@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Mar-2006
+        - Magodra added check from CS to enable no-non-virtual-dtor for some 
+          g++ versions, to get rid of a very annoying warning.
 21-Mar-2006
 	- Vincent commented "if (stat == is_static) return;" from
 	  celPcMechanicsObject::MakeStatic() since is_static seems somehow not
