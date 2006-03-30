@@ -64,7 +64,8 @@ public:
   }
   virtual const char* GetName () const { return name; }
   virtual void SetTag (const char* tag) { celPropertyClassTemplate::tag = tag; }
-  virtual const char* GetTag () const { return tag; }
+  virtual const char* GetTag () const
+  { return tag.IsEmpty () ? 0 : (const char*)tag; }
   virtual void SetPropertyVariable (csStringID propertyID, celDataType type,
   	const char* varname);
   virtual void SetProperty (csStringID propertyID, long value);
