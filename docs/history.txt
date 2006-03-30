@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Mar-2006
+	- Jorrit fixed a bug in the creation of entities from templates.
+	  The tag in the property class definition of a template was
+	  ignored.
 27-Mar-2006
         - Magodra added check from CS to enable no-non-virtual-dtor for some 
           g++ versions, to get rid of a very annoying warning.

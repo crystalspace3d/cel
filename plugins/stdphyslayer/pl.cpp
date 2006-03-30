@@ -514,9 +514,10 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   {
     celPropertyClassTemplate* pcc = pcs[i];
     const char* pcname = pcc->GetName ();
+    const char* pctag = pcc->GetTag ();
     iCelPropertyClass* pc = ent->GetPropertyClassList ()->FindByNameAndTag (
-    	pcname, 0);
-    if (!pc) pc = CreatePropertyClass (ent, pcname);
+    	pcname, pctag);
+    if (!pc) pc = CreateTaggedPropertyClass (ent, pcname, pctag);
     if (!pc)
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -797,7 +798,8 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
     return 0;
-  pc->SetTag (tagname);
+  if (tagname)
+    pc->SetTag (tagname);
   entity->GetPropertyClassList()->Add (pc);
   return pc;
 }
