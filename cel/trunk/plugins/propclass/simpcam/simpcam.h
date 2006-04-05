@@ -130,6 +130,10 @@ public:
    */
   virtual void Draw();
 
+  virtual void UpdateCamera ();
+
+  virtual int GetDrawFlags ();
+
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcsimplecamera"; }
@@ -243,6 +247,14 @@ public:
     virtual void Draw()
     {
       scfParent->Draw ();
+    }
+    virtual void UpdateCamera ()
+    {
+      scfParent->UpdateCamera ();
+    }
+    virtual int GetDrawFlags ()
+    {
+      return scfParent->GetDrawFlags ();
     }
   } scfiPcSimpleCamera, scfiPcCamera;
 };

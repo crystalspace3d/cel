@@ -276,8 +276,7 @@ void celPcNewCamera::PrevCameraMode()
     newMode = cameraModes.Length()-1;
   SetCurrentCameraMode(newMode);
 }
-
-void celPcNewCamera::Draw()
+void celPcNewCamera::UpdateCamera ()
 {
   csTicks elapsedTime = vc->GetElapsedTicks();
   float elapsedSecs = elapsedTime / 1000.0f;
@@ -335,10 +334,17 @@ void celPcNewCamera::Draw()
   // move to the desired position traversing portals as we go
   c->MoveWorld(basePos - c->GetTransform().GetOrigin(), false);
   c->MoveWorld(camPos - c->GetTransform().GetOrigin(), false);
-
+}
+int celPcNewCamera::GetDrawFlags ()
+{
+  return engine->GetBeginDrawFlags() | CSDRAW_3DGRAPHICS
+    	| CSDRAW_CLEARZBUFFER;
+}
+void celPcNewCamera::Draw()
+{
+  UpdateCamera ();
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw(engine->GetBeginDrawFlags() | CSDRAW_3DGRAPHICS
-    	| CSDRAW_CLEARZBUFFER))
+  if (g3d->BeginDraw(GetDrawFlags ()))
     view->Draw();
 }
 

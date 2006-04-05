@@ -228,8 +228,7 @@ void celPcSimpleCamera::SetDrawMesh (bool draw)
     }
   }
 }
-
-void celPcSimpleCamera::Draw ()
+void celPcSimpleCamera::UpdateCamera ()
 {
   // Try to get position and sector from mesh.
   GetActorTransform ();
@@ -239,10 +238,10 @@ void celPcSimpleCamera::Draw ()
     csReversibleTransform cam_trans;
     cam_trans.SetOrigin (actor_trans.This2Other (objectcampos));
     cam_trans.LookAt (cam_trans.Other2This (actor_trans.This2Other (
-    	objectlookat)), actor_trans.This2OtherRelative (csVector3 (0, 1, 0)));
+      objectlookat)), actor_trans.This2OtherRelative (csVector3 (0, 1, 0)));
 
     iCamera* c = view->GetCamera ();
-  
+
     // First set the camera back on where the sector is.
     // We assume here that normal camera movement is good.
     if (c->GetSector () != actor_sector)
@@ -250,11 +249,18 @@ void celPcSimpleCamera::Draw ()
     c->SetTransform (cam_trans);
     c->OnlyPortals (true);
   }
-
+}
+int celPcSimpleCamera::GetDrawFlags ()
+{
+  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+    | (clear_screen ? CSDRAW_CLEARSCREEN : 0);
+}
+void celPcSimpleCamera::Draw ()
+{
+  UpdateCamera ();
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+  if (g3d->BeginDraw (GetDrawFlags ()))
     view->Draw ();
 }
 
