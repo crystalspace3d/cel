@@ -729,8 +729,7 @@ void celPcDefaultCamera::CenterCamera ()
   if (cammode == iPcDefaultCamera::freelook)
     SetPitch (0);
 }
-
-void celPcDefaultCamera::Draw()
+void celPcDefaultCamera::UpdateCamera ()
 {
   CheckModeChange ();
 
@@ -808,8 +807,6 @@ void celPcDefaultCamera::Draw()
 		      CS_ENTITY_INVISIBLE);
     }
   }
-
-
   iCamera* c = view->GetCamera ();
 
   // First set the camera back on where the sector is.
@@ -847,11 +844,19 @@ void celPcDefaultCamera::Draw()
   	iPcDefaultCamera::camerror);
   SetUp (GetUp (iPcDefaultCamera::actual_data) - GetUp (),
   	iPcDefaultCamera::camerror);
+}
+int celPcDefaultCamera::GetDrawFlags ()
+{
+  return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
+    | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+    | (clear_screen ? CSDRAW_CLEARSCREEN : 0);
+}
+void celPcDefaultCamera::Draw()
+{
+  UpdateCamera ();
 
   // Tell 3D driver we're going to display 3D things.
-  if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+  if (g3d->BeginDraw (GetDrawFlags ()))
     view->Draw ();
 }
 
@@ -1117,6 +1122,7 @@ void celPcDefaultCamera::SetSwingCoef (float swingCoef, int mode)
 }
 
 void celPcDefaultCamera::CheckModeChange ()
+
 {
   if (!modeset_needed) return;
   modeset_needed = false;

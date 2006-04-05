@@ -319,6 +319,9 @@ public:
     return pcmechobj;
   }
 
+  void UpdateCamera ();
+  int GetDrawFlags ();
+
   void SetFollowEntity (iCelEntity* entity);
 
   /**
@@ -857,6 +860,14 @@ public:
     virtual void Draw ()
     {
       scfParent->Draw ();
+    }
+    virtual void UpdateCamera ()
+    {
+      scfParent->UpdateCamera ();
+    }
+    virtual int GetDrawFlags ()
+    {
+      return scfParent->GetDrawFlags ();
     }
   } scfiPcDefaultCamera, scfiPcCamera;
 };

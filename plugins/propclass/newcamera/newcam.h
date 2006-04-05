@@ -205,6 +205,9 @@ public:
    */
   virtual void Draw();
   virtual void TickEveryFrame();
+  
+  void UpdateCamera ();
+  int GetDrawFlags ();
 
   SCF_DECLARE_IBASE_EXT(celPcCommon);
 
@@ -358,6 +361,14 @@ public:
     virtual void Draw()
     {
       scfParent->Draw();
+    }
+    virtual void UpdateCamera ()
+    {
+      scfParent->UpdateCamera ();
+    }
+    virtual int GetDrawFlags ()
+    {
+      return scfParent->GetDrawFlags ();
     }
   } scfiPcNewCamera, scfiPcCamera;
 };

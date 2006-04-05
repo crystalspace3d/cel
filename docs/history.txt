@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+
+5-Apr-2006
+	- Piotr Obrzut added functionality to change cel camera position 
+          and draw separate.
 30-Mar-2006
 	- Jorrit fixed a bug in the creation of entities from templates.
 	  The tag in the property class definition of a template was

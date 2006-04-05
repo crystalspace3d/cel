@@ -180,6 +180,17 @@ struct iPcCamera : public iBase
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw () = 0;
+
+  /**
+   * Update camera position. This method will update camera position without 
+   * rendering (you will have to call iView::Draw manual later).
+   */
+  virtual void UpdateCamera () = 0;
+
+  /**
+   * Get camera drawing flags.
+   */
+  virtual int GetDrawFlags () = 0;
 };
 
 #endif // __CEL_PF_CAMERA__
