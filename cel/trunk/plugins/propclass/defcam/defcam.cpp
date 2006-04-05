@@ -729,6 +729,7 @@ void celPcDefaultCamera::CenterCamera ()
   if (cammode == iPcDefaultCamera::freelook)
     SetPitch (0);
 }
+
 void celPcDefaultCamera::UpdateCamera ()
 {
   CheckModeChange ();
@@ -751,11 +752,7 @@ void celPcDefaultCamera::UpdateCamera ()
   GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   if (!actor_sector)
   {
-    // We have no actor, so just display with current camera settings.
-    if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    	  | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-	  | (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
-      view->Draw ();
+    // We have no actor, so just keep current camera settings.
     return;	// Can't do anything.
   }
 
@@ -845,12 +842,14 @@ void celPcDefaultCamera::UpdateCamera ()
   SetUp (GetUp (iPcDefaultCamera::actual_data) - GetUp (),
   	iPcDefaultCamera::camerror);
 }
+
 int celPcDefaultCamera::GetDrawFlags ()
 {
   return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
     | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
     | (clear_screen ? CSDRAW_CLEARSCREEN : 0);
 }
+
 void celPcDefaultCamera::Draw()
 {
   UpdateCamera ();
