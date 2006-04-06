@@ -19842,6 +19842,43 @@ static PyObject *_wrap_iPcCamera_Draw(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iPcCamera_UpdateCamera(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCamera *arg1 = (iPcCamera *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCamera_UpdateCamera",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->UpdateCamera();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCamera_GetDrawFlags(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCamera *arg1 = (iPcCamera *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCamera_GetDrawFlags",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (int)(arg1)->GetDrawFlags();
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iPcCamera(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcCamera *arg1 = (iPcCamera *) 0 ;
@@ -29417,6 +29454,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCamera_GetAdaptiveMinDistance", _wrap_iPcCamera_GetAdaptiveMinDistance, METH_VARARGS, NULL},
 	 { (char *)"iPcCamera_SetAutoDraw", _wrap_iPcCamera_SetAutoDraw, METH_VARARGS, NULL},
 	 { (char *)"iPcCamera_Draw", _wrap_iPcCamera_Draw, METH_VARARGS, NULL},
+	 { (char *)"iPcCamera_UpdateCamera", _wrap_iPcCamera_UpdateCamera, METH_VARARGS, NULL},
+	 { (char *)"iPcCamera_GetDrawFlags", _wrap_iPcCamera_GetDrawFlags, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcCamera", _wrap_delete_iPcCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcCamera_swigregister", iPcCamera_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateCamera", _wrap_celCreateCamera, METH_VARARGS, NULL},
