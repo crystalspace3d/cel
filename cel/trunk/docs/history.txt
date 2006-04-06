@@ -7,6 +7,11 @@ The history order is reversed so that new features are at the top.
 5-Apr-2006
 	- Piotr Obrzut added functionality to change cel camera position 
           and draw separate.
+	- David H. Bronke added some additional doxygen comments to iPcProperties
+	  documenting the available properties.
+	- David H. Bronke added ActivateRegion() to iPcZoneManager.
+	- David H. Bronke cleaned up the error reporting in the mechanics plugin,
+	  removing some extraneous output in the process.
 30-Mar-2006
 	- Jorrit fixed a bug in the creation of entities from templates.
 	  The tag in the property class definition of a template was

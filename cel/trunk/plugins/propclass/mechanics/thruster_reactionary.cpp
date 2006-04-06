@@ -111,7 +111,7 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MECHSYS_SERIAL)
   {
-    Report (object_reg, "serialnr != MECHSYS_SERIAL.  Cannot load.");
+    CS_REPORT(ERROR,"serialnr != MECHSYS_SERIAL.  Cannot load.");
     return false;
   }
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
@@ -146,7 +146,7 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
     if (p_position)
       SetPosition (position);
     else
-      Report (object_reg, "Couldn't get position for thruster!");
+      CS_REPORT(ERROR,"Couldn't get position for thruster!");
     CEL_FETCH_VECTOR3_PAR (orientation,params,param_orientation);
     if (p_orientation)
     {
@@ -155,13 +155,13 @@ bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
     }
     else
     {
-      Report (object_reg, "Couldn't get orientation for thruster!");
+      CS_REPORT(ERROR,"Couldn't get orientation for thruster!");
     }
     CEL_FETCH_FLOAT_PAR (maxthrust,params,param_maxthrust);
     if (p_maxthrust)
       SetMaxThrust (maxthrust);
     else
-      Report (object_reg, "Couldn't get maxthrust for thruster!");
+      CS_REPORT(ERROR,"Couldn't get maxthrust for thruster!");
     return true;
   }
   return false;
@@ -184,8 +184,6 @@ void celPcMechanicsThrusterReactionary::ThrustChange (float deltathrust)
       thrust = 0;
       lastforceid = 0;
     }
-  } else {
-    Report (object_reg, "Requested thrust change exceeds limits!");
   }
 }
 

@@ -22,44 +22,6 @@
 
 #include "ivaria/reporter.h"
 
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mechanics",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-
-#ifdef NOTIFY_UNUSED
-static void Notify (iObjectRegistry* object_reg, const char* msg, ...)
-{
-  va_list arg;
-  va_start (arg, msg);
-
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
-  if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.propclass.mechanics",
-    	msg, arg);
-  else
-  {
-    csPrintfV (msg, arg);
-    csPrintf ("\n");
-    fflush (stdout);
-  }
-
-  va_end (arg);
-}
-#endif
+#define CS_REPORT(severity,message) csReport (object_reg, CS_REPORTER_SEVERITY_##severity, "cel.propclass.mechanics", message);
 
 #endif //__MECHANICS_COMMON_H__

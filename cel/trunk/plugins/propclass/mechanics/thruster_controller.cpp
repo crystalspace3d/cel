@@ -135,13 +135,13 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
     if (!p_thruster)
     {
-      Report (object_reg, "Couldn't get thruster tag!");
+      CS_REPORT(ERROR,"Couldn't get thruster tag!");
       return false;
     }
     CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
     if (!p_mult)
     {
-      Report (object_reg, "Couldn't get multiplier for thruster!");
+      CS_REPORT(ERROR,"Couldn't get multiplier for thruster!");
       mult = 1.0f;
     }
     csRef<iPcMechanicsThruster> th = CEL_QUERY_PROPCLASS_TAG_ENT
@@ -150,7 +150,7 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
     {
       csString msg = "Couldn't find thruster with given tag: ";
       msg += thruster;
-      Report (object_reg, msg);
+      CS_REPORT(ERROR,msg);
       return false;
     }
     AddThruster (th, mult);
@@ -161,7 +161,7 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (type,params,param_type);
     if (!p_type)
     {
-      Report (object_reg, "Couldn't get thruster group type!");
+      CS_REPORT(ERROR,"Couldn't get thruster group type!");
       return false;
     }
     csStringID type_id = pl->FetchStringID (type);
@@ -172,7 +172,7 @@ bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
       gtype = CEL_AT_TRANSLATION;
     else
     {
-      Report (object_reg, "Invalid thruster group type!");
+      CS_REPORT(ERROR,"Invalid thruster group type!");
       return false;
     }
     SetType (gtype);
@@ -426,13 +426,13 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
     if (!p_axisname)
     {
-      Report (object_reg, "Couldn't get axis name!");
+      CS_REPORT(ERROR,"Couldn't get axis name!");
       return false;
     }
     CEL_FETCH_STRING_PAR (axistype,params,param_axistype);
     if (!p_axistype)
     {
-      Report (object_reg, "Couldn't get axis type!");
+      CS_REPORT(ERROR,"Couldn't get axis type!");
       return false;
     }
     csStringID type_id = pl->FetchStringID (axistype);
@@ -442,13 +442,13 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     else if (type_id == type_translation)
       atype = CEL_AT_TRANSLATION;
     else {
-      Report (object_reg, "Invalid axis type!");
+      CS_REPORT(ERROR,"Invalid axis type!");
       return false;
     }
     CEL_FETCH_VECTOR3_PAR (axisdir,params,param_axisdir);
     if (!p_axisdir)
     {
-      Report (object_reg, "Couldn't get axis direction!");
+      CS_REPORT(ERROR,"Couldn't get axis direction!");
       return false;
     }
     AddAxis (axisname, atype, axisdir);
@@ -459,13 +459,13 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
     if (!p_axisname)
     {
-      Report (object_reg, "Couldn't get axis name!");
+      CS_REPORT(ERROR,"Couldn't get axis name!");
       return false;
     }
     CEL_FETCH_FLOAT_PAR (thrust,params,param_thrust);
     if (!p_thrust)
     {
-      Report (object_reg, "Couldn't get thrust!");
+      CS_REPORT(ERROR,"Couldn't get thrust!");
       return false;
     }
     uint32 forceid;
@@ -477,13 +477,13 @@ bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
     if (!p_axisname)
     {
-      Report (object_reg, "Couldn't get axis name!");
+      CS_REPORT(ERROR,"Couldn't get axis name!");
       return false;
     }
     CEL_FETCH_STRING_PAR (balancedgrouppctag,params,param_balancedgroup);
     if (!p_balancedgrouppctag)
     {
-      Report (object_reg, "Couldn't get thruster group tag!");
+      CS_REPORT(ERROR,"Couldn't get thruster group tag!");
       return false;
     }
     csRef<iPcMechanicsBalancedGroup> tg = CEL_QUERY_PROPCLASS_TAG_ENT
@@ -610,7 +610,7 @@ float celPcMechanicsThrusterController::GetAxisMaxForce (const char* axisname)
       return maxstrength;
     }
   }
-  Report (object_reg, (csString ("Invalid axis specified: ") + axisname)
+  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") + axisname)
   	.GetData ());
   return 0;
 }
@@ -643,7 +643,7 @@ float celPcMechanicsThrusterController::GetAxisMaxThrust (const char* axisname)
       return 0;
     }
   }
-  Report (object_reg, (csString ("Invalid axis specified: ") + axisname)
+  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") + axisname)
   	.GetData ());
   return 0;
 }
@@ -665,7 +665,7 @@ void celPcMechanicsThrusterController::AddBalancedGroup
   if (ad)
     ad->balancedgroups.Push (balancedgroup);
   else
-    Report (object_reg, (csString ("Couldn't find specified axis: ")
+    CS_REPORT(ERROR,(csString ("Couldn't find specified axis: ")
     	+ axisname).GetData ());
 }
 
@@ -714,7 +714,7 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
     {
       if (ad->balancedgroups.IsEmpty ())
       {
-        Report (object_reg, "No groups in this axis!");
+        CS_REPORT(ERROR,"No groups in this axis!");
 	return;
       }
       csRefArray<iPcMechanicsBalancedGroup>::Iterator groupit
@@ -740,12 +740,12 @@ void celPcMechanicsThrusterController::ApplyThrust (float thrust,
       }
       else
       {
-        Report (object_reg, "No best group found. Something's wrong!");
+        CS_REPORT(ERROR,"No best group found. Something's wrong!");
       }
       return;
     }
   }
-  Report (object_reg, (csString ("Invalid axis specified: ") +
+  CS_REPORT(ERROR,(csString ("Invalid axis specified: ") +
 	axisname).GetData ());
 }
 

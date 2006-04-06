@@ -217,7 +217,7 @@ struct iCelZone : public iBase
 
 /** @} */
 
-SCF_VERSION (iPcZoneManager, 0, 1, 1);
+SCF_VERSION (iPcZoneManager, 0, 1, 2);
 
 /**
  * This is the zone manager. In this property class you can define
@@ -430,6 +430,14 @@ struct iPcZoneManager : public iBase
    */
   virtual int PointMesh (const char* entity, const char* regionname,
   	const char* startname = 0) = 0;
+
+  /**
+   * Activate some region. This will load all zones that contain
+   * the given region and unload all other zones. It is safe to call
+   * this too many times as it will check if a region or zone is already
+   * loaded or not and avoid doing unneeded work.
+   */
+  virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon = true) = 0;
 };
 
 #endif // __CEL_PF_ZONE__

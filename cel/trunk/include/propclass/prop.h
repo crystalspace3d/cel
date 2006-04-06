@@ -55,6 +55,13 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
  * <li>pcproperties_setproperty: sets the property (index)
  * <li>pcproperties_clearproperty: clears the property (index)
  * </ul>
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>SetProperty: parameters 'name' (string) and 'value' (string).
+ * </ul>
  */
 struct iPcProperties : public iBase
 {

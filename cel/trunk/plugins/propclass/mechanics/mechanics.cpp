@@ -162,7 +162,7 @@ iDynamics* celPcMechanicsSystem::GetDynamics ()
     if (!dynsystem_error_reported)
     {
       dynsystem_error_reported = true;
-      Report (object_reg, "Can't find dynamic subsystem!");
+      CS_REPORT(ERROR,"Can't find dynamic subsystem!");
     }
     return 0;
   }
@@ -306,7 +306,7 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
     }
     else
     {
-      Report (object_reg, "Couldn't get dynamics system name!");
+      CS_REPORT(ERROR,"Couldn't get dynamics system name!");
       return false;
     }
   }
@@ -327,7 +327,7 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
     CEL_FETCH_FLOAT_PAR (time,params,param_time);
     if (!p_time)
     {
-      Report (object_reg, "Couldn't get 'time' parameter for SetStepTime!");
+      CS_REPORT(ERROR,"Couldn't get 'time' parameter for SetStepTime!");
       return false;
     }
     SetStepTime (time);
@@ -343,7 +343,7 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
     }
     else
     {
-      Report (object_reg, "Couldn't get gravity!");
+      CS_REPORT(ERROR,"Couldn't get gravity!");
       return false;
     }
   }
@@ -369,13 +369,13 @@ bool celPcMechanicsSystem::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != MECHSYS_SERIAL)
   {
-    Report (object_reg, "serialnr != MECHSYS_SERIAL.  Cannot load.");
+    CS_REPORT(ERROR,"serialnr != MECHSYS_SERIAL.  Cannot load.");
     return false;
   }
 
   if (databuf->GetDataCount () != 4)
   {
-    Report (object_reg, "Msg does not specify the correct data. Cannot load.");
+    CS_REPORT(ERROR,"Msg does not specify the correct data. Cannot load.");
     return false;
   }
 
@@ -793,7 +793,7 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != DYNBODY_SERIAL)
   {
-    Report (object_reg, "serialnr != DYNBODY_SERIAL.  Cannot load.");
+    CS_REPORT(ERROR,"serialnr != DYNBODY_SERIAL.  Cannot load.");
     return false;
   }
   csRef<iPcMesh> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcMesh);
@@ -879,7 +879,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
     if (!p_velocity)
     {
-      Report (object_reg, "'velocity' missing!");
+      CS_REPORT(ERROR,"'velocity' missing!");
       return false;
     }
     SetLinearVelocity (velocity);
@@ -889,7 +889,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (velocity,params,param_velocity);
     if (!p_velocity)
     {
-      Report (object_reg, "'velocity' missing!");
+      CS_REPORT(ERROR,"'velocity' missing!");
       return false;
     }
     SetAngularVelocity (velocity);
@@ -899,7 +899,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (force,params,param_force);
     if (!p_force)
     {
-      Report (object_reg, "'force' missing!");
+      CS_REPORT(ERROR,"'force' missing!");
       return false;
     }
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
@@ -913,7 +913,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (force,params,param_force);
     if (!p_force)
     {
-      Report (object_reg, "'force' missing!");
+      CS_REPORT(ERROR,"'force' missing!");
       return false;
     }
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
@@ -923,7 +923,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_FLOAT_PAR (seconds,params,param_seconds);
     if (!p_seconds)
     {
-      Report (object_reg, "'seconds' missing!");
+      CS_REPORT(ERROR,"'seconds' missing!");
       return false;
     }
     AddForceDuration (force, relative, position, seconds);
@@ -933,7 +933,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (force,params,param_force);
     if (!p_force)
     {
-      Report (object_reg, "'force' missing!");
+      CS_REPORT(ERROR,"'force' missing!");
       return false;
     }
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
@@ -947,7 +947,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (force,params,param_force);
     if (!p_force)
     {
-      Report (object_reg, "'force' missing!");
+      CS_REPORT(ERROR,"'force' missing!");
       return false;
     }
     CEL_FETCH_BOOL_PAR (relative,params,param_relative);
@@ -961,7 +961,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_LONG_PAR (tag,params,param_tag);
     if (!p_tag)
     {
-      Report (object_reg, "'tag' missing!");
+      CS_REPORT(ERROR,"'tag' missing!");
       return false;
     }
     RemoveForceTagged ((uint32)tag);
@@ -975,7 +975,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
     if (!p_position)
     {
-      Report (object_reg, "'position' missing!");
+      CS_REPORT(ERROR,"'position' missing!");
       return false;
     }
     GetBody ()->SetPosition (position);
@@ -1023,7 +1023,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_BOOL_PAR (makestatic,params,param_static);
     if (!p_makestatic)
     {
-      Report (object_reg, "Couldn't get static!");
+      CS_REPORT(ERROR,"Couldn't get static!");
       return false;
     }
     MakeStatic (makestatic);
@@ -1033,13 +1033,13 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (syspcent,params,param_systempcent);
     if (!p_syspcent)
     {
-      Report (object_reg, "Couldn't get mechanics system entity!");
+      CS_REPORT(ERROR,"Couldn't get mechanics system entity!");
       return false;
     }
     CEL_FETCH_STRING_PAR (syspctag,params,param_systempctag);
     if (!p_syspctag)
     {
-      Report (object_reg, "Couldn't get mechanics system tag!");
+      CS_REPORT(ERROR,"Couldn't get mechanics system tag!");
       return false;
     }
     csRef<iCelEntity> sysent = pl->FindEntity (syspcent);
@@ -1073,7 +1073,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_FLOAT_PAR (length,params,param_length);
     if (!p_length)
     {
-      Report (object_reg, "Couldn't get length!");
+      CS_REPORT(ERROR,"Couldn't get length!");
       return false;
     }
     CEL_FETCH_FLOAT_PAR (radius,params,param_radius);
@@ -1105,7 +1105,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (normal,params,param_normal);
     if (!p_normal)
     {
-      Report (object_reg, "Couldn't get normal!");
+      CS_REPORT(ERROR,"Couldn't get normal!");
       return false;
     }
     CEL_FETCH_FLOAT_PAR (offset,params,param_offset);
@@ -1168,7 +1168,7 @@ iRigidBody* celPcMechanicsObject::GetBody ()
     }
     else
     {
-      Report (object_reg, "No mechsys!!!!!!!!!");
+      CS_REPORT(ERROR,"No mechsys!!!!!!!!!");
       return 0;
     }
   }
@@ -1557,7 +1557,7 @@ bool celPcMechanicsJoint::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != DYNJOINT_SERIAL)
   {
-    Report (object_reg, "serialnr != DYNJOINT_SERIAL.  Cannot load.");
+    CS_REPORT(ERROR,"serialnr != DYNJOINT_SERIAL.  Cannot load.");
     return false;
   }
   // @@@ TODO
@@ -1598,13 +1598,13 @@ bool celPcMechanicsJoint::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (body,params,param_body);
     if (!p_body)
     {
-      Report (object_reg, "'body' missing!");
+      CS_REPORT(ERROR,"'body' missing!");
       return false;
     }
     parent_body = pl->FindEntity (body);
     if (!parent_body)
     {
-      Report (object_reg, "Can't find entity '%s' for parent body!", body);
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mechanics", "Can't find entity '%s' for parent body!", body);
       return false;
     }
     CreateJoint ();
@@ -1614,7 +1614,7 @@ bool celPcMechanicsJoint::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (position,params,param_position);
     if (!p_position)
     {
-      Report (object_reg, "'position' missing!");
+      CS_REPORT(ERROR,"'position' missing!");
       return false;
     }
     CreateJoint ();

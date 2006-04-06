@@ -516,7 +516,7 @@ bool celPcZoneManager::LoadFirstPass (iCelDataBuffer* databuf)
   while (s && s->GetData ())
   {
     iCelRegion* r = FindRegion (s->GetData ());
-    ActivateRegion ((celRegion*)r, false);
+    ActivateRegion (r, false);
     s = databuf->GetString ();
   }
 
@@ -902,7 +902,7 @@ void celPcZoneManager::RemoveAllRegions ()
   regions.SetLength (0);
 }
 
-bool celPcZoneManager::ActivateRegion (celRegion* region,
+bool celPcZoneManager::ActivateRegion (iCelRegion* region,
 	bool allow_entity_addon)
 {
   // The 'first' flag is used to see if we need to do some loading
@@ -914,7 +914,7 @@ bool celPcZoneManager::ActivateRegion (celRegion* region,
   // First we make a set of all regions that we need to load.
   csSet<csPtrKey<celRegion> > loadable_regions;
   for (i = 0 ; i < zones.Length () ; i++)
-    if (loading_mode == CEL_ZONE_LOADALL || zones[i]->ContainsRegion (region))
+    if (loading_mode == CEL_ZONE_LOADALL || zones[i]->ContainsRegion ((celRegion*) region))
     {
       size_t j;
       for (j = 0 ; j < zones[i]->GetRegionCount () ; j++)
@@ -1033,7 +1033,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
 
   iCelRegion* region = FindRegion (regionname);
   if (!region) return CEL_ZONEERROR_BADREGION;
-  if (!ActivateRegion ((celRegion*)region))
+  if (!ActivateRegion (region))
     return CEL_ZONEERROR_LOAD;
 
   // Find the created region.
