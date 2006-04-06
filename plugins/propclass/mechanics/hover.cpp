@@ -114,7 +114,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
     CEL_FETCH_STRING_PAR (world, params, param_world);
     if (!world)
     {
-      // Report (object_reg, "Couldn't get 'world' parameter for SetWorld!");
+      // CS_REPORT(ERROR,"Couldn't get 'world' parameter for SetWorld!");
       printf("Couldn't get 'world' parameter for SetWorld!\n");
       return false;
     }
@@ -125,7 +125,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
     CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
     if (!heightcutoff)
     {
-      //Report (object_reg, "Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
+      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
       printf("Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
       return false;
     }
@@ -136,7 +136,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
     CEL_FETCH_FLOAT_PAR (offset, params, param_angoff);
     if (!offset)
     {
-      //Report (object_reg, "Couldn't get 'offset' parameter for SetAngularBeamOffset!");
+      //CS_REPORT(ERROR,"Couldn't get 'offset' parameter for SetAngularBeamOffset!");
       printf("Couldn't get 'offset' parameter for SetAngularBeamOffset!");
       return false;
     }
@@ -147,7 +147,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
     CEL_FETCH_FLOAT_PAR (angheight, params, param_angheight);
     if (!angheight)
     {
-      //Report (object_reg, "Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
+      //CS_REPORT(ERROR,"Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
       printf("Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
       return false;
     }
@@ -158,7 +158,7 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
     CEL_FETCH_FLOAT_PAR (angstrength, params, param_angstr);
     if (!angstrength)
     {
-      //Report (object_reg, "Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
+      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
       printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
       return false;
     }

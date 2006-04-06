@@ -273,12 +273,6 @@ private:
 
   celOneParameterBlock* params;
 
-  // Activate some region. This will load all zones that contain
-  // the given region and unload all other zones. It is safe to call
-  // this too many times as it will check if a region or zone is already
-  // loaded or not and avoid doing unneeded work.
-  bool ActivateRegion (celRegion* region, bool allow_entity_addon = true);
-
   // Last used region and start name (for PointCamera).
   csString last_regionname;
   csString last_startname;
@@ -303,6 +297,12 @@ public:
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }
+
+  // Activate some region. This will load all zones that contain
+  // the given region and unload all other zones. It is safe to call
+  // this too many times as it will check if a region or zone is already
+  // loaded or not and avoid doing unneeded work.
+  bool ActivateRegion (iCelRegion* region, bool allow_entity_addon = true);
 
   // Activate some sector. This will first find the region that this
   // sector is in and then it will activate that region.
@@ -455,6 +455,10 @@ public:
   	const char* startname = 0)
     {
       return scfParent->PointMesh (entity, regionname, startname);
+    }
+    virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon)
+    {
+      return scfParent->ActivateRegion (region, allow_entity_addon);
     }
   } scfiPcZoneManager;
 };
