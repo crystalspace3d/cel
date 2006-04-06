@@ -1411,6 +1411,8 @@ class iPcCamera(cspace.iBase):
     def GetAdaptiveMinDistance(*args): return _blcelc.iPcCamera_GetAdaptiveMinDistance(*args)
     def SetAutoDraw(*args): return _blcelc.iPcCamera_SetAutoDraw(*args)
     def Draw(*args): return _blcelc.iPcCamera_Draw(*args)
+    def UpdateCamera(*args): return _blcelc.iPcCamera_UpdateCamera(*args)
+    def GetDrawFlags(*args): return _blcelc.iPcCamera_GetDrawFlags(*args)
     def __del__(self, destroy=_blcelc.delete_iPcCamera):
         try:
             if self.thisown: destroy(self)
