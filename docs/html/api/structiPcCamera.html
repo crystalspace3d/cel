@@ -72,6 +72,9 @@ Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#264ed335bb9f38562cb9f10be704fb83">GetClearZBuffer</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#264ed335bb9f38562cb9f10be704fb83"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#f7a386dc347bba63a79cc0f53c671497">GetDrawFlags</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get camera drawing flags.  <a href="#f7a386dc347bba63a79cc0f53c671497"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0041a68464d819fc859febb39e14b847">GetFixedDistance</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#0041a68464d819fc859febb39e14b847"></a><br></td></tr>
@@ -99,6 +102,9 @@ Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#24ab3c2bc15ec89e66271f8090449210">SetZoneManager</a> (<a class="el" href="structiPcZoneManager.html">iPcZoneManager</a> *zonemgr, bool point, const char *regionname, const char *name=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a zone manager.  <a href="#24ab3c2bc15ec89e66271f8090449210"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#b7113f961b2aebee0108e8cd6a15663d">UpdateCamera</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update camera position.  <a href="#b7113f961b2aebee0108e8cd6a15663d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#dc6b621187072bac9875304b6d48a719">UseDistanceClipping</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns true if we use distance clipping (either fixed or adaptive).  <a href="#dc6b621187072bac9875304b6d48a719"></a><br></td></tr>
@@ -429,6 +435,35 @@ Get the clear screen flag.
 
 <p>
 Get the clear zbuffer flag. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="f7a386dc347bba63a79cc0f53c671497"></a><!-- doxytag: member="iPcCamera::GetDrawFlags" ref="f7a386dc347bba63a79cc0f53c671497" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual int iPcCamera::GetDrawFlags           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get camera drawing flags. 
 <p>
     </td>
   </tr>
@@ -823,6 +858,35 @@ Set Camera to a zone manager.
   </table>
 </dl>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="b7113f961b2aebee0108e8cd6a15663d"></a><!-- doxytag: member="iPcCamera::UpdateCamera" ref="b7113f961b2aebee0108e8cd6a15663d" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcCamera::UpdateCamera           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Update camera position. 
+<p>
+This method will update camera position without rendering (you will have to call iView::Draw manual later).     </td>
   </tr>
 </table>
 <a class="anchor" name="dc6b621187072bac9875304b6d48a719"></a><!-- doxytag: member="iPcCamera::UseDistanceClipping" ref="dc6b621187072bac9875304b6d48a719" args="() const =0" --><p>
