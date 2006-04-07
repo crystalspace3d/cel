@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 
 7-Apr-2006
 	- caedes added .cfg files installation to data/Jamfile.
+	- caedes added a fallback in celInitializer::setup_plugin_dirs so that
+	  it will also look for the cel plugins at /usr/lib/cel if CEL variable
+	  is not detected.
 5-Apr-2006
 	- Piotr Obrzut added functionality to change cel camera position 
           and draw separate.

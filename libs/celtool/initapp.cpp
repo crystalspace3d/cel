@@ -39,6 +39,10 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
       cel_path << CS_PATH_SEPARATOR << "cel";
       cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
     }
+    else
+    {
+      cel_paths.AddUniqueExpanded("/usr/lib/cel/", CEL_PLUGIN_SCAN_RECURSE, "cel");
+    }
 
     if (dir0 != 0)
       cel_paths.AddUniqueExpanded(dir0, CEL_PLUGIN_SCAN_RECURSE, "cel");
