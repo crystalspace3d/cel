@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	- caedes made pclinmove send pclinearmovement_collision and 
 	  pclinearmovement_stuck messages to behaviour when it collides with 
 	  something or couldn't move at all respectively.
+	- David H. Bronke added a copy constructor to celVariableParameterBlock.
 5-Apr-2006
 	- Piotr Obrzut added functionality to change cel camera position 
           and draw separate.
