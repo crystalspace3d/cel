@@ -1172,6 +1172,7 @@ class iPcZoneManager(cspace.iBase):
     def GetLastStartName(*args): return _blcelc.iPcZoneManager_GetLastStartName(*args)
     def PointCamera(*args): return _blcelc.iPcZoneManager_PointCamera(*args)
     def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
+    def ActivateRegion(*args): return _blcelc.iPcZoneManager_ActivateRegion(*args)
     def __del__(self, destroy=_blcelc.delete_iPcZoneManager):
         try:
             if self.thisown: destroy(self)

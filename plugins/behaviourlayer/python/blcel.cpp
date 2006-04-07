@@ -15381,6 +15381,130 @@ static PyObject *_wrap_iPcZoneManager_PointMesh(PyObject *self, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iPcZoneManager_ActivateRegion__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    iCelRegion *arg2 = (iCelRegion *) 0 ;
+    bool arg3 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iPcZoneManager_ActivateRegion",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelRegion, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    {
+        arg3 = (bool)(SWIG_As_bool(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    result = (bool)(arg1)->ActivateRegion(arg2,arg3);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_ActivateRegion__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+    iCelRegion *arg2 = (iCelRegion *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcZoneManager_ActivateRegion",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcZoneManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelRegion, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    result = (bool)(arg1)->ActivateRegion(arg2);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcZoneManager_ActivateRegion(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[4];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcZoneManager, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iCelRegion, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_iPcZoneManager_ActivateRegion__SWIG_1(self,args);
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcZoneManager, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iCelRegion, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_bool(argv[2]);
+                if (_v) {
+                    return _wrap_iPcZoneManager_ActivateRegion__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcZoneManager_ActivateRegion'");
+    return NULL;
+}
+
+
 static PyObject *_wrap_delete_iPcZoneManager(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
@@ -29332,6 +29456,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcZoneManager_GetLastStartName", _wrap_iPcZoneManager_GetLastStartName, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_PointCamera", _wrap_iPcZoneManager_PointCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_PointMesh", _wrap_iPcZoneManager_PointMesh, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_ActivateRegion", _wrap_iPcZoneManager_ActivateRegion, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcZoneManager", _wrap_delete_iPcZoneManager, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_swigregister", iPcZoneManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateZoneManager", _wrap_celCreateZoneManager, METH_VARARGS, NULL},
