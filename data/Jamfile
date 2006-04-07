@@ -15,5 +15,6 @@ InstallData
   : data ;
 
 InstallData [ Wildcard cally : *.caf *.cmf *.csf ] : data cally ;
+InstallData [ Wildcard config : *.cfg ] : data config ;
 InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
 InstallData [ Wildcard sounds : *.zip ] : data sounds ;
