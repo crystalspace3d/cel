@@ -614,10 +614,10 @@ bool celPcLinearMovement::RotateV (float delta)
 #define MIN_CD_INTERVAL 0.01
 
 
-bool celPcLinearMovement::MoveSprite (float delta)
+int celPcLinearMovement::MoveSprite (float delta)
 {
   //float local_max_interval;
-  bool rc = false;
+  int ret = CEL_MOVE_SUCCEED;
 
   csReversibleTransform fulltransf = pcmesh->GetMesh ()->GetMovable ()
   	->GetFullTransform ();
@@ -663,7 +663,7 @@ bool celPcLinearMovement::MoveSprite (float delta)
   {
     while (delta > local_max_interval)
     {
-      rc |= MoveV (local_max_interval);
+      ret = MoveV (local_max_interval);
 
       if (pccolldet->QueryRevert())
       {
@@ -674,12 +674,12 @@ bool celPcLinearMovement::MoveSprite (float delta)
       }
       else
       {
-          rc |= RotateV (local_max_interval);
+          RotateV (local_max_interval);
           yrot = Matrix2YRot (transf);
       }
 
-      if (!rc)
-          return rc;
+      if (ret == CEL_MOVE_FAIL)
+          return ret;
 
       // The velocity may have changed by now
       bodyVel = fulltransf.Other2ThisRelative(velWorld) + velBody;
@@ -701,11 +701,11 @@ bool celPcLinearMovement::MoveSprite (float delta)
 
   if (!pccolldet || delta)
   {
-    rc |= MoveV (delta);
-    rc |= RotateV(delta);
+    ret = MoveV (delta);
+    RotateV(delta);
   }
 
-  return rc;
+  return ret;
 }
 
 // Apply the gradual offset correction from SetSoftDRUpdate to the mesh position
@@ -752,13 +752,14 @@ void celPcLinearMovement::OffsetSprite (float delta)
 }
 
 // Do the actual move
-bool celPcLinearMovement::MoveV (float delta)
+int celPcLinearMovement::MoveV (float delta)
 {
   if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
   	&& (!pccolldet || pccolldet->IsOnGround()))
-    return false;  // didn't move anywhere
+    return CEL_MOVE_DONTMOVE;  // didn't move anywhere
 
 
+  int ret = CEL_MOVE_SUCCEED;
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
 
   csMatrix3 mat;
@@ -772,14 +773,24 @@ bool celPcLinearMovement::MoveV (float delta)
   csVector3 worldVel (fulltransf.This2OtherRelative (velBody) + velWorld);
   csVector3 oldpos (fulltransf.GetOrigin ());
   csVector3 newpos (worldVel*delta + oldpos);
+  csVector3 bufpos = newpos;
 
   // Check for collisions and adjust position
   if (pccolldet)
     if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
     	delta, movable))
+    {
+      ret = CEL_MOVE_FAIL;
       newpos = oldpos;
-      //return false;                   // We haven't moved so return early
-
+    }
+    else
+    {
+      // check if we collided
+      if ((newpos - bufpos).Norm()>0.000001)
+      {
+      	ret = CEL_MOVE_PARTIAL;
+      }
+    }
 
   csVector3 origNewpos = newpos;
   bool mirror = false;
@@ -872,7 +883,7 @@ bool celPcLinearMovement::MoveV (float delta)
 
   movable->UpdateMove ();
 
-  return true;
+  return ret;
 }
 void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
 {
@@ -1056,7 +1067,19 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   else
   {
     // bool rc =
-    MoveSprite (delta);
+    int move_result = MoveSprite (delta);
+    if (move_result==CEL_MOVE_FAIL || move_result==CEL_MOVE_PARTIAL)
+    {
+	    iCelBehaviour* behaviour = entity->GetBehaviour ();
+	    if (behaviour)
+	    {
+	    	celData ret;
+		if (move_result==CEL_MOVE_FAIL)
+	    	  behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
+		if (move_result==CEL_MOVE_PARTIAL)
+	    	  behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
+	    }
+    }
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
   }
