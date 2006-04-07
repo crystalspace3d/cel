@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	- caedes added a fallback in celInitializer::setup_plugin_dirs so that
 	  it will also look for the cel plugins at /usr/lib/cel if CEL variable
 	  is not detected.
+	- caedes made pclinmove send pclinearmovement_collision and 
+	  pclinearmovement_stuck messages to behaviour when it collides with 
+	  something or couldn't move at all respectively.
 5-Apr-2006
 	- Piotr Obrzut added functionality to change cel camera position 
           and draw separate.

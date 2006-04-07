@@ -48,6 +48,11 @@
 
 #define CEL_LINMOVE_FOLLOW_ONLY_PORTALS true
 
+#define CEL_MOVE_FAIL 0
+#define CEL_MOVE_SUCCEED 1
+#define CEL_MOVE_PARTIAL 2
+#define CEL_MOVE_DONTMOVE 3
+
 struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
@@ -134,8 +139,9 @@ protected:
   csVector3 offset_rate;   // Speed to bring error to ZERO within 1s
 
   // Move local entity
-  bool MoveV (float delta);
-  bool MoveSprite (float delta);
+  // both MoveV and MoveSprite return CEL_MOVE_* constants defined above
+  int MoveV (float delta);
+  int MoveSprite (float delta);
   void OffsetSprite (float delta);
 
   /// Transform pcmesh so that it follows the curvature of the ground at pos (sector)
