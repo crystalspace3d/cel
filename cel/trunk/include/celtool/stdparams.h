@@ -142,6 +142,25 @@ public:
   {
     SCF_CONSTRUCT_IBASE (0);
   }
+  /**
+   * Copy constructor.
+   */
+  celVariableParameterBlock (iCelParameterBlock* other)
+  {
+    SCF_CONSTRUCT_IBASE (0);
+    if (other != 0)
+    {
+      const char* name = 0;
+      csStringID id;
+      celDataType type;
+      for (size_t idx = 0; idx < other->GetParameterCount (); idx++)
+      {
+        name = other->GetParameter (idx, id, type);
+        SetParameterDef (idx, id, name);
+        data.GetExtend (idx) = *other->GetParameter (id);
+      }
+    }
+  }
   virtual ~celVariableParameterBlock ()
   {
     SCF_DESTRUCT_IBASE ();
