@@ -41,10 +41,10 @@ public:
    */
   virtual bool UseSpringPos() const;
 
-  /** Decides if this camera mode should use spring physics for the camera's direction.
+  /** Decides if this camera mode should use spring physics for the camera's target.
    *  \return 	True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringDir() const;
+  virtual bool UseSpringTarget() const;
 
   /** Decides if this camera mode should use spring physics for the camera's up vector.
    *  \return 	True if this camera mode uses spring physics.
@@ -59,7 +59,7 @@ public:
   virtual bool DrawAttachedMesh() const;
 
   /** Informs the camera mode that it should compute the desired position,
-   *  direction, up, etc. of the camera now.
+   *  target, up, etc. of the camera now.
    *  \return 	True on success.
    */
   virtual bool DecideCameraState(); 

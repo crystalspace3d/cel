@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Apr-2006
+    - Andrew Robberts added collision detection and smooth transitions
+      between camera modes to the new camera system.
 
 7-Apr-2006
 	- caedes added .cfg files installation to data/Jamfile.
