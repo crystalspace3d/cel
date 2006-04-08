@@ -66,6 +66,7 @@ private:
   csRef<iEngine> engine;
   csRef<iVirtualClock> vc;
   csRef<iView> view;
+  csRef<iCollideSystem> cdsys;
 
   csArray<iCelCameraMode *> cameraModes;
   
@@ -77,10 +78,18 @@ private:
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector * baseSector;
-  csVector3 camPos, camDir, camUp;
-  csVector3 lastIdealPos, lastIdealDir, lastIdealUp;
+  csVector3 camPos, camTarget, camUp;
+  csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
+
+  bool detectCollisions;
+  float collisionSpringCoef;
+
+  bool inTransition;
+  float transitionSpringCoef;
+  float transitionCutoffPosDist;
+  float transitionCutoffTargetDist;
 
   void UpdateMeshVisibility();
 
@@ -89,12 +98,13 @@ private:
   /** Calculates an elastic vector based on an ideal vector and a current one.
    *  \param curr         The current vector value.
    *  \param ideal        The ideal/target vector value.
+   *  \param deltaIdeal   The change in ideal value since last frame.
    *  \param deltaTime    The change in time since last frame.
    *  \param springCoef   The spring coefficient to use in our calculations.
    *  \param newVec       A container to hold the new value of the vector.
    */
   static void CalcElasticVec(const csVector3 & curr, const csVector3 & ideal,
-                      float deltaTime, float springCoef, csVector3 & newVec);
+      const csVector3 & deltaIdeal, float deltaTime, float springCoef, csVector3 & newVec);
 
 public:
   celPcNewCamera(iObjectRegistry * object_reg);
@@ -145,10 +155,10 @@ public:
   virtual const csVector3 & GetPos() const;
 
   /**
-   * Gets the current direction of the camera.
-   * \return    The current direction of the camera.
+   * Gets the current target of the camera.
+   * \return    The current target of the camera.
    */
-  virtual const csVector3 & GetDir() const;
+  virtual const csVector3 & GetTarget() const;
 
   /**
    * Gets the current up vector of the camera.
@@ -163,6 +173,74 @@ public:
    *        position.
    */
   virtual void SetPositionOffset(const csVector3 & offset);
+
+  /**
+   * Returns whether the camera will use collision detection to avoid moving through walls.
+   * \return True if collision detection is enabled.
+   */
+  virtual bool DetectCollisions() const;
+
+  /**
+   * Sets whether the camera will use collision detection to avoid moving through walls.
+   * \param detectCollisions True if the camera should detect collisions.
+   */
+  virtual void SetCollisionDetection(bool detectCollisions);
+
+  /**
+   * Sets the spring coefficient that will be used when a collision is detected.
+   * \param springCoef The new spring coefficient.
+   */
+  virtual void SetCollisionSpringCoefficient(float springCoef);
+
+  /**
+   * Returns the spring coefficient that is used when a collision is detection.
+   * \return The collision detection spring coefficient.
+   */
+  virtual float GetCollisionSpringCoefficient() const;
+
+  /**
+   * Determines whether the camera is currently in a transition from one camera
+   * mode to another.
+   * \return True if the camera is currently in a transition.
+   */
+  virtual bool InCameraTransition() const;
+
+  /**
+   * This controls the springyness of the transition to a new camera mode when
+   * a new camera mode is selected.
+   * \param springCoef The new spring coefficient of camera transitions.
+   */
+  virtual void SetTransitionSpringCoefficient(float springCoef);
+
+  /**
+   * This gets the springyness of the transition to a new camera mode when a new
+   * camera mode is selected.
+   * \return The spring coefficient of the camera transitions.
+   */
+  virtual float GetTransitionSpringCoefficient() const;
+
+  /**
+   * If the distance between the current camera position and the new camera mode
+   * is within this cutoff distance, then the camera will cease to be in a transition
+   * and be in the new camera mode.
+   * \param cutOffPosDist The camera transition mode cutoff distance from position to position.
+   * \param cutOffTargetDist The camera transition mode cutoff distance from target to target.
+   */
+  virtual void SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist);
+
+  /**
+   * Grabs the camera transition cutoff distance from position to position between the camera 
+   * and the camera mode.
+   * \return The camera transition cutoff distance from target to target.
+   */
+  virtual float GetTransitionCutoffPosDistance() const;
+
+  /**
+   * Grabs the camera transition cutoff distance from target to target between the camera 
+   * and the camera mode.
+   * \return The camera transition cutoff distance from position to position.
+   */
+  virtual float GetTransitionCutoffTargetDistance() const;
 
   /** Attaches a camera mode to this camera.
    *  \param mode 	The camera mode to attach.
@@ -318,9 +396,9 @@ public:
     {
       return scfParent->GetPos();
     }
-    virtual const csVector3 & GetDir() const
+    virtual const csVector3 & GetTarget() const
     {
-      return scfParent->GetDir();
+      return scfParent->GetTarget();
     }
     virtual const csVector3 & GetUp() const
     {
@@ -329,6 +407,46 @@ public:
     virtual void SetPositionOffset(const csVector3 & offset)
     {
       scfParent->SetPositionOffset(offset);
+    }
+    virtual bool DetectCollisions() const
+    {
+      return scfParent->DetectCollisions();
+    }
+    virtual void SetCollisionDetection(bool detectCollisions)
+    {
+      scfParent->SetCollisionDetection(detectCollisions);
+    }
+    virtual void SetCollisionSpringCoefficient(float springCoef)
+    {
+      scfParent->SetCollisionSpringCoefficient(springCoef);
+    }
+    virtual float GetCollisionSpringCoefficient() const
+    {
+      return scfParent->GetCollisionSpringCoefficient();
+    }
+    virtual bool InCameraTransition() const
+    {
+      return scfParent->InCameraTransition();
+    }
+    virtual void SetTransitionSpringCoefficient(float springCoef)
+    {
+      scfParent->SetTransitionSpringCoefficient(springCoef);
+    }
+    virtual float GetTransitionSpringCoefficient() const
+    {
+      return scfParent->GetTransitionSpringCoefficient();
+    }
+    virtual void SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist)
+    {
+      scfParent->SetTransitionCutoffDistance(cutOffPosDist, cutOffTargetDist);
+    }
+    virtual float GetTransitionCutoffPosDistance() const
+    {
+      return scfParent->GetTransitionCutoffPosDistance();
+    }
+    virtual float GetTransitionCutoffTargetDistance() const
+    {
+      return scfParent->GetTransitionCutoffTargetDistance();
     }
     virtual size_t AttachCameraMode(iCelCameraMode * mode)
     {

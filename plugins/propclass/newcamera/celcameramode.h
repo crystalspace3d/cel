@@ -42,7 +42,7 @@ class celCameraMode : public iCelCameraMode
 protected:
   iPcNewCamera * parentCamera;
 
-  csVector3 pos, dir, up;
+  csVector3 pos, target, up;
 
 public:
   celCameraMode();
@@ -58,16 +58,21 @@ public:
    */
   virtual bool UseSpringPos() const;
 
-  /** Decides if this camera mode should use spring physics for the camera's direction.
+  /** Decides if this camera mode should use spring physics for the camera's target.
    *  \return 	True if this camera mode uses spring physics.
    */
-  virtual bool UseSpringDir() const;
+  virtual bool UseSpringTarget() const;
 
   /** Decides if this camera mode should use spring physics for the camera's up vector.
    *  \return 	True if this camera mode uses spring physics.
    */
   virtual bool UseSpringUp() const;
   
+  /** Decides if collision detection should be allowed if for this mode the camera wants it.
+   *  \return   True if this camera mode allows collision detection.
+   */
+  virtual bool AllowCollisionDetection() const;
+
   /** 
    * Decides if the mesh the camera is attached to should be drawn or not in
    * this mode.
@@ -85,10 +90,10 @@ public:
    */
   virtual const csVector3 & GetPosition() const;
 
-  /** Gets the desired camera direction.
-   *  \return 	The desired camera direction.
+  /** Gets the desired camera target.
+   *  \return 	The desired camera target.
    */
-  virtual const csVector3 & GetDirection() const;
+  virtual const csVector3 & GetTarget() const;
   
   /** Gets the desired camera up vector.
    *  \return 	The desired camera up vector.
@@ -96,7 +101,7 @@ public:
   virtual const csVector3 & GetUp() const;
 
   /** Informs the camera mode that it should compute the desired position,
-   *  direction, up, etc. of the camera now.
+   *  target, up, etc. of the camera now.
    *  \return 	True on success.
    */
   virtual bool DecideCameraState(); 

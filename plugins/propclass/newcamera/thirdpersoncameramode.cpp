@@ -46,7 +46,7 @@ bool celThirdPersonCameraMode::UseSpringPos() const
   return true;
 }
 
-bool celThirdPersonCameraMode::UseSpringDir() const
+bool celThirdPersonCameraMode::UseSpringTarget() const
 {
   return true;
 }
@@ -67,7 +67,7 @@ bool celThirdPersonCameraMode::DecideCameraState()
     return false;
 
   pos = parentCamera->GetBasePos() + parentCamera->GetBaseTrans().This2OtherRelative(posOffset);
-  dir = parentCamera->GetBasePos() - parentCamera->GetPos();
+  target = parentCamera->GetBasePos();
   up  = parentCamera->GetBaseUp();
   return true;
 }

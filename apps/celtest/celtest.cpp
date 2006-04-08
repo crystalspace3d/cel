@@ -17,7 +17,7 @@
     MA 02111-1307, USA.
 */
 
-//#define CEL_USE_NEW_CAMERA
+#define CEL_USE_NEW_CAMERA
 
 #include "cssysdef.h"
 #include "celtest.h"
@@ -223,11 +223,12 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 #ifdef CEL_USE_NEW_CAMERA
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
 	entity_cam, iPcNewCamera);
-  //size_t first_idx = 
-  //  newcamera->AttachCameraMode(iPcNewCamera::CCM_FIRST_PERSON);
+  size_t first_idx = 
+    newcamera->AttachCameraMode(iPcNewCamera::CCM_FIRST_PERSON);
   size_t third_idx =
     newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  //newcamera->SetCurrentCameraMode(third_idx); 
+  newcamera->SetCurrentCameraMode(third_idx);
+  newcamera->SetCollisionDetection(true);
   newcamera->SetPositionOffset(csVector3(0,2,0));
 #else
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (

@@ -62,7 +62,7 @@ celCameraMode::celCameraMode()
   parentCamera = 0;
 
   pos = csVector3(0,0,0);
-  dir = csVector3(0,0,0);
+  target = csVector3(0,0,0);
   up = csVector3(0,1,0);
 }
 
@@ -77,17 +77,22 @@ void celCameraMode::SetParentCamera(iPcNewCamera * camera)
 
 bool celCameraMode::UseSpringPos() const
 {
-  return false;
+  return true;
 }
 
-bool celCameraMode::UseSpringDir() const
+bool celCameraMode::UseSpringTarget() const
 {
-  return false;
+  return true;
 }
 
 bool celCameraMode::UseSpringUp() const
 {
-  return false;
+  return true;
+}
+
+bool celCameraMode::AllowCollisionDetection() const
+{
+  return true;
 }
 
 bool celCameraMode::DrawAttachedMesh() const
@@ -97,7 +102,7 @@ bool celCameraMode::DrawAttachedMesh() const
 
 float celCameraMode::GetSpringCoefficient() const
 {
-  return 1.0f;
+  return 15.0f;
 }
 
 const csVector3 & celCameraMode::GetPosition() const
@@ -105,9 +110,9 @@ const csVector3 & celCameraMode::GetPosition() const
   return pos;
 }
 
-const csVector3 & celCameraMode::GetDirection() const
+const csVector3 & celCameraMode::GetTarget() const
 {
-  return dir;
+  return target;
 }
 
 const csVector3 & celCameraMode::GetUp() const
@@ -121,7 +126,7 @@ bool celCameraMode::DecideCameraState()
     return false;
 
   pos = parentCamera->GetBasePos();
-  dir = parentCamera->GetBaseDir();
+  target = pos + parentCamera->GetBaseDir();
   up  = parentCamera->GetBaseUp();
   return true;
 }

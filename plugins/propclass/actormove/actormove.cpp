@@ -270,6 +270,7 @@ void celPcActorMove::FindSiblingPropertyClasses ()
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pccamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcCamera);
     pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcDefaultCamera);
+    pcnewcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcNewCamera);
     pcsoundlistener = CEL_QUERY_PROPCLASS_ENT (entity, iPcSoundListener);
     checked_spritestate = false;
     
@@ -442,13 +443,16 @@ void celPcActorMove::HandleMovement (bool jump)
 void celPcActorMove::ToggleCameraMode ()
 {
   FindSiblingPropertyClasses ();
-  if (!pcdefcamera)
+  if (!pcdefcamera && !pcnewcamera)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pcdefaultcamera is missing!");
+		    "cel.pcactormove", "Must have either a pcdefaultcamera or pcnewcamera!");
     return;
   }
-  pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
+  if (pcdefcamera)
+      pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
+  if (pcnewcamera)
+      pcnewcamera->NextCameraMode();
 }
 
 csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (

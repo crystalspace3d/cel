@@ -41,6 +41,7 @@
 #include "propclass/linmove.h"
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
+#include "propclass/newcamera.h"
 #include "propclass/mesh.h"
 #include "propclass/sound.h"
 
@@ -69,6 +70,7 @@ private:
   csWeakRef<iPcMesh> pcmesh;
   csWeakRef<iPcCamera> pccamera;
   csWeakRef<iPcDefaultCamera> pcdefcamera;
+  csWeakRef<iPcNewCamera> pcnewcamera;
   csWeakRef<iPcSoundListener> pcsoundlistener;
 
   // Movable listener so we can update the sound listener.
