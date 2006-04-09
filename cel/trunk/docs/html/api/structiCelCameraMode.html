@@ -31,33 +31,36 @@
 <h1>iCelCameraMode Struct Reference</h1><!-- doxytag: class="iCelCameraMode" --><a href="structiCelCameraMode-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#2efd345d1e49017b25d3f205d2cf33a7">AllowCollisionDetection</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if collision detection should be allowed if for this mode the camera wants it.  <a href="#2efd345d1e49017b25d3f205d2cf33a7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#243c5dc5ecd9cae73bf61ac6c624b887">DecideCameraState</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Informs the camera mode that it should compute the desired position, direction, up, etc.  <a href="#243c5dc5ecd9cae73bf61ac6c624b887"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Informs the camera mode that it should compute the desired position, target, up, etc.  <a href="#243c5dc5ecd9cae73bf61ac6c624b887"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#1edb144e89482b3a9265edd72441b993">DrawAttachedMesh</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if the mesh the camera is attached to should be drawn or not in this mode.  <a href="#1edb144e89482b3a9265edd72441b993"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#4a55762620c32c2df2167c247702caf8">GetDirection</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the desired camera direction.  <a href="#4a55762620c32c2df2167c247702caf8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#a73245f3b5ef011be97205d4ff0ca12e">GetPosition</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the desired camera position.  <a href="#a73245f3b5ef011be97205d4ff0ca12e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#93850a4e5e6ed814ce60ca9eadd19374">GetSpringCoefficient</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the spring coefficient to use for the spring physics.  <a href="#93850a4e5e6ed814ce60ca9eadd19374"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#32db492377aafe00b6e94e906197a694">GetTarget</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the desired camera target.  <a href="#32db492377aafe00b6e94e906197a694"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#c8dcc88ac22790cb91e19db6c6312aa4">GetUp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the desired camera up vector.  <a href="#c8dcc88ac22790cb91e19db6c6312aa4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#79e5010a8268b38177de11acf9732b3c">SetParentCamera</a> (<a class="el" href="structiPcNewCamera.html">iPcNewCamera</a> *camera)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Tells the camera mode what camera has it attached.  <a href="#79e5010a8268b38177de11acf9732b3c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#6b33cf8bd3ee2b3cec9e5bb7593bf6e7">UseSpringDir</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if this camera mode should use spring physics for the camera's direction.  <a href="#6b33cf8bd3ee2b3cec9e5bb7593bf6e7"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#4c16fd9c89493239b148cf43bc764a84">UseSpringPos</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if this camera mode should use spring physics for the camera's position.  <a href="#4c16fd9c89493239b148cf43bc764a84"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#6eefc85446065be0c8435ad9533871bf">UseSpringTarget</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if this camera mode should use spring physics for the camera's target.  <a href="#6eefc85446065be0c8435ad9533871bf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelCameraMode.html#c6432c90bc47c69be77b2586743de3f1">UseSpringUp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Decides if this camera mode should use spring physics for the camera's up vector.  <a href="#c6432c90bc47c69be77b2586743de3f1"></a><br></td></tr>
@@ -68,6 +71,36 @@
 
 <p>
 Definition at line <a class="el" href="newcamera_8h-source.html#l00055">55</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="2efd345d1e49017b25d3f205d2cf33a7"></a><!-- doxytag: member="iCelCameraMode::AllowCollisionDetection" ref="2efd345d1e49017b25d3f205d2cf33a7" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iCelCameraMode::AllowCollisionDetection           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Decides if collision detection should be allowed if for this mode the camera wants it. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>True if this camera mode allows collision detection. </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="243c5dc5ecd9cae73bf61ac6c624b887"></a><!-- doxytag: member="iCelCameraMode::DecideCameraState" ref="243c5dc5ecd9cae73bf61ac6c624b887" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -92,7 +125,7 @@ Definition at line <a class="el" href="newcamera_8h-source.html#l00055">55</a> o
     <td>
 
 <p>
-Informs the camera mode that it should compute the desired position, direction, up, etc. 
+Informs the camera mode that it should compute the desired position, target, up, etc. 
 <p>
 of the camera now. <dl compact><dt><b>Returns:</b></dt><dd>True on success. </dd></dl>
     </td>
@@ -125,36 +158,6 @@ of the camera now. <dl compact><dt><b>Returns:</b></dt><dd>True on success. </dd
 Decides if the mesh the camera is attached to should be drawn or not in this mode. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>True if the attached mesh should be drawn. </dd></dl>
-    </td>
-  </tr>
-</table>
-<a class="anchor" name="4a55762620c32c2df2167c247702caf8"></a><!-- doxytag: member="iCelCameraMode::GetDirection" ref="4a55762620c32c2df2167c247702caf8" args="() const =0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual const csVector3&amp; iCelCameraMode::GetDirection           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Gets the desired camera direction. 
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>The desired camera direction. </dd></dl>
     </td>
   </tr>
 </table>
@@ -215,6 +218,36 @@ Gets the desired camera position.
 Gets the spring coefficient to use for the spring physics. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>The spring coefficient of this camera mode. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="32db492377aafe00b6e94e906197a694"></a><!-- doxytag: member="iCelCameraMode::GetTarget" ref="32db492377aafe00b6e94e906197a694" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csVector3&amp; iCelCameraMode::GetTarget           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the desired camera target. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The desired camera target. </dd></dl>
     </td>
   </tr>
 </table>
@@ -283,36 +316,6 @@ Tells the camera mode what camera has it attached.
     </td>
   </tr>
 </table>
-<a class="anchor" name="6b33cf8bd3ee2b3cec9e5bb7593bf6e7"></a><!-- doxytag: member="iCelCameraMode::UseSpringDir" ref="6b33cf8bd3ee2b3cec9e5bb7593bf6e7" args="() const =0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual bool iCelCameraMode::UseSpringDir           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Decides if this camera mode should use spring physics for the camera's direction. 
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>True if this camera mode uses spring physics. </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="4c16fd9c89493239b148cf43bc764a84"></a><!-- doxytag: member="iCelCameraMode::UseSpringPos" ref="4c16fd9c89493239b148cf43bc764a84" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -338,6 +341,36 @@ Decides if this camera mode should use spring physics for the camera's direction
 
 <p>
 Decides if this camera mode should use spring physics for the camera's position. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>True if this camera mode uses spring physics. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="6eefc85446065be0c8435ad9533871bf"></a><!-- doxytag: member="iCelCameraMode::UseSpringTarget" ref="6eefc85446065be0c8435ad9533871bf" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iCelCameraMode::UseSpringTarget           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Decides if this camera mode should use spring physics for the camera's target. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>True if this camera mode uses spring physics. </dd></dl>
     </td>
