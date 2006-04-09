@@ -49,6 +49,9 @@ Inheritance diagram for iPcNewCamera:<p><center><img src="structiPcNewCamera__in
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a0df564424e41b7a1cba482cf3fd8c0e">AttachCameraMode</a> (<a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *mode)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attaches a camera mode to this camera.  <a href="#a0df564424e41b7a1cba482cf3fd8c0e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#1ecf6110cb5969b50ead9ea468558cd3">DetectCollisions</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns whether the camera will use collision detection to avoid moving through walls.  <a href="#1ecf6110cb5969b50ead9ea468558cd3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#6606a8da72c7af93984b4fa974c5ad18">Draw</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#6606a8da72c7af93984b4fa974c5ad18"></a><br></td></tr>
@@ -64,40 +67,67 @@ Inheritance diagram for iPcNewCamera:<p><center><img src="structiPcNewCamera__in
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#c9241773e13bfdb33e1bd3f74bf85615">GetBaseUp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the base up vector of the camera.  <a href="#c9241773e13bfdb33e1bd3f74bf85615"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#a482e4b15174c03a316148d07aa3f699">GetCollisionSpringCoefficient</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the spring coefficient that is used when a collision is detection.  <a href="#a482e4b15174c03a316148d07aa3f699"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelCameraMode.html">iCelCameraMode</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#0670deb442ded4f73935bd8021cda342">GetCurrentCameraMode</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current camera mode.  <a href="#0670deb442ded4f73935bd8021cda342"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#2b6ac4c12fa4d7429dd75ce1a8266260">GetCurrentCameraModeIndex</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the index of the current camera mode.  <a href="#2b6ac4c12fa4d7429dd75ce1a8266260"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#c89b2053baf7dfc84f779d6769188dca">GetDir</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current direction of the camera.  <a href="#c89b2053baf7dfc84f779d6769188dca"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#d825a452433d9a47384633114fbaf5e0">GetPos</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current position of the camera.  <a href="#d825a452433d9a47384633114fbaf5e0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#cdbd2379316db3c5e891f8d6d4805a19">GetTarget</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current target of the camera.  <a href="#cdbd2379316db3c5e891f8d6d4805a19"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#fbf821620be2209fae7342e489a266a6">GetTransitionCutoffPosDistance</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Grabs the camera transition cutoff distance from position to position between the camera and the camera mode.  <a href="#fbf821620be2209fae7342e489a266a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#b4d30909bbf6d9129b48951fa983c14a">GetTransitionCutoffTargetDistance</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Grabs the camera transition cutoff distance from target to target between the camera and the camera mode.  <a href="#b4d30909bbf6d9129b48951fa983c14a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#39afc5f96614368c74480b335ffd6ebf">GetTransitionSpringCoefficient</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This gets the springyness of the transition to a new camera mode when a new camera mode is selected.  <a href="#39afc5f96614368c74480b335ffd6ebf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#7cb690a10297d3d15b52c495fe03b94c">GetUp</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the current up vector of the camera.  <a href="#7cb690a10297d3d15b52c495fe03b94c"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#3a52b2b2bbf6da5101a03c41f9b32076">InCameraTransition</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Determines whether the camera is currently in a transition from one camera mode to another.  <a href="#3a52b2b2bbf6da5101a03c41f9b32076"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#943b936d459ee16d1b94b7d46745f4eb">NextCameraMode</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the next available mode.  <a href="#943b936d459ee16d1b94b7d46745f4eb"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#52765a114a0a0f671a19c6d3b35d7729">PrevCameraMode</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode to the previous available mode.  <a href="#52765a114a0a0f671a19c6d3b35d7729"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#9e5dc22962c0cf4fb801c14db7173960">SetCollisionDetection</a> (bool detectCollisions)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets whether the camera will use collision detection to avoid moving through walls.  <a href="#9e5dc22962c0cf4fb801c14db7173960"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#d7307143efe9064a91f2432471e0263b">SetCollisionSpringCoefficient</a> (float springCoef)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the spring coefficient that will be used when a collision is detected.  <a href="#d7307143efe9064a91f2432471e0263b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#961145734074a0695ca120390b6145b5">SetCurrentCameraMode</a> (size_t modeIndex)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the current camera mode.  <a href="#961145734074a0695ca120390b6145b5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#daf1e44481d8ee79fc2decb9fdee3a30">SetPositionOffset</a> (const csVector3 &amp;offset)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the offset from the center of the mesh's iMovable to the position of the camera.  <a href="#daf1e44481d8ee79fc2decb9fdee3a30"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#012024bad35b695176db08861ee67344">SetTransitionCutoffDistance</a> (float cutOffPosDist, float cutOffTargetDist)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If the distance between the current camera position and the new camera mode is within this cutoff distance, then the camera will cease to be in a transition and be in the new camera mode.  <a href="#012024bad35b695176db08861ee67344"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNewCamera.html#fd9d916f3009e84c849072bb4630f8ab">SetTransitionSpringCoefficient</a> (float springCoef)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This controls the springyness of the transition to a new camera mode when a new camera mode is selected.  <a href="#fd9d916f3009e84c849072bb4630f8ab"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a camera property class. 
 <p>
 
 <p>
-Definition at line <a class="el" href="newcamera_8h-source.html#l00115">115</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="newcamera_8h-source.html#l00120">120</a> of file <a class="el" href="newcamera_8h-source.html">newcamera.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="829b195c79a5f3e0c5f84c8794513aaf"></a><!-- doxytag: member="iPcNewCamera::AttachCameraMode" ref="829b195c79a5f3e0c5f84c8794513aaf" args="(CEL_CAMERA_MODE mode)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -167,6 +197,36 @@ Attaches a camera mode to this camera.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>A unique id for the attached camera mode. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="1ecf6110cb5969b50ead9ea468558cd3"></a><!-- doxytag: member="iPcNewCamera::DetectCollisions" ref="1ecf6110cb5969b50ead9ea468558cd3" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcNewCamera::DetectCollisions           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns whether the camera will use collision detection to avoid moving through walls. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>True if collision detection is enabled. </dd></dl>
     </td>
   </tr>
 </table>
@@ -321,6 +381,36 @@ Gets the base up vector of the camera.
     </td>
   </tr>
 </table>
+<a class="anchor" name="a482e4b15174c03a316148d07aa3f699"></a><!-- doxytag: member="iPcNewCamera::GetCollisionSpringCoefficient" ref="a482e4b15174c03a316148d07aa3f699" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iPcNewCamera::GetCollisionSpringCoefficient           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Returns the spring coefficient that is used when a collision is detection. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The collision detection spring coefficient. </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="0670deb442ded4f73935bd8021cda342"></a><!-- doxytag: member="iPcNewCamera::GetCurrentCameraMode" ref="0670deb442ded4f73935bd8021cda342" args="()=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -381,36 +471,6 @@ Gets the index of the current camera mode.
     </td>
   </tr>
 </table>
-<a class="anchor" name="c89b2053baf7dfc84f779d6769188dca"></a><!-- doxytag: member="iPcNewCamera::GetDir" ref="c89b2053baf7dfc84f779d6769188dca" args="() const =0" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">virtual const csVector3&amp; iPcNewCamera::GetDir           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-Gets the current direction of the camera. 
-<p>
-<dl compact><dt><b>Returns:</b></dt><dd>The current direction of the camera. </dd></dl>
-    </td>
-  </tr>
-</table>
 <a class="anchor" name="d825a452433d9a47384633114fbaf5e0"></a><!-- doxytag: member="iPcNewCamera::GetPos" ref="d825a452433d9a47384633114fbaf5e0" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -441,6 +501,126 @@ Gets the current position of the camera.
     </td>
   </tr>
 </table>
+<a class="anchor" name="cdbd2379316db3c5e891f8d6d4805a19"></a><!-- doxytag: member="iPcNewCamera::GetTarget" ref="cdbd2379316db3c5e891f8d6d4805a19" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual const csVector3&amp; iPcNewCamera::GetTarget           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Gets the current target of the camera. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The current target of the camera. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="fbf821620be2209fae7342e489a266a6"></a><!-- doxytag: member="iPcNewCamera::GetTransitionCutoffPosDistance" ref="fbf821620be2209fae7342e489a266a6" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iPcNewCamera::GetTransitionCutoffPosDistance           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Grabs the camera transition cutoff distance from position to position between the camera and the camera mode. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The camera transition cutoff distance from target to target. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="b4d30909bbf6d9129b48951fa983c14a"></a><!-- doxytag: member="iPcNewCamera::GetTransitionCutoffTargetDistance" ref="b4d30909bbf6d9129b48951fa983c14a" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iPcNewCamera::GetTransitionCutoffTargetDistance           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Grabs the camera transition cutoff distance from target to target between the camera and the camera mode. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The camera transition cutoff distance from position to position. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="39afc5f96614368c74480b335ffd6ebf"></a><!-- doxytag: member="iPcNewCamera::GetTransitionSpringCoefficient" ref="39afc5f96614368c74480b335ffd6ebf" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual float iPcNewCamera::GetTransitionSpringCoefficient           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This gets the springyness of the transition to a new camera mode when a new camera mode is selected. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>The spring coefficient of the camera transitions. </dd></dl>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="7cb690a10297d3d15b52c495fe03b94c"></a><!-- doxytag: member="iPcNewCamera::GetUp" ref="7cb690a10297d3d15b52c495fe03b94c" args="() const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -468,6 +648,36 @@ Gets the current position of the camera.
 Gets the current up vector of the camera. 
 <p>
 <dl compact><dt><b>Returns:</b></dt><dd>The current up vector of the camera. </dd></dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="3a52b2b2bbf6da5101a03c41f9b32076"></a><!-- doxytag: member="iPcNewCamera::InCameraTransition" ref="3a52b2b2bbf6da5101a03c41f9b32076" args="() const =0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iPcNewCamera::InCameraTransition           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Determines whether the camera is currently in a transition from one camera mode to another. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>True if the camera is currently in a transition. </dd></dl>
     </td>
   </tr>
 </table>
@@ -526,6 +736,76 @@ Sets the current camera mode to the next available mode.
 <p>
 Sets the current camera mode to the previous available mode. 
 <p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="9e5dc22962c0cf4fb801c14db7173960"></a><!-- doxytag: member="iPcNewCamera::SetCollisionDetection" ref="9e5dc22962c0cf4fb801c14db7173960" args="(bool detectCollisions)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcNewCamera::SetCollisionDetection           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">bool&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>detectCollisions</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Sets whether the camera will use collision detection to avoid moving through walls. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>detectCollisions</em>&nbsp;</td><td>True if the camera should detect collisions. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="d7307143efe9064a91f2432471e0263b"></a><!-- doxytag: member="iPcNewCamera::SetCollisionSpringCoefficient" ref="d7307143efe9064a91f2432471e0263b" args="(float springCoef)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcNewCamera::SetCollisionSpringCoefficient           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>springCoef</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Sets the spring coefficient that will be used when a collision is detected. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>springCoef</em>&nbsp;</td><td>The new spring coefficient. </td></tr>
+  </table>
+</dl>
     </td>
   </tr>
 </table>
@@ -595,6 +875,86 @@ Sets the offset from the center of the mesh's iMovable to the position of the ca
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>offset</em>&nbsp;</td><td>the offset from the center of the mesh to the camera position. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="012024bad35b695176db08861ee67344"></a><!-- doxytag: member="iPcNewCamera::SetTransitionCutoffDistance" ref="012024bad35b695176db08861ee67344" args="(float cutOffPosDist, float cutOffTargetDist)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcNewCamera::SetTransitionCutoffDistance           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname" nowrap> <em>cutOffPosDist</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>cutOffTargetDist</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+If the distance between the current camera position and the new camera mode is within this cutoff distance, then the camera will cease to be in a transition and be in the new camera mode. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>cutOffPosDist</em>&nbsp;</td><td>The camera transition mode cutoff distance from position to position. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cutOffTargetDist</em>&nbsp;</td><td>The camera transition mode cutoff distance from target to target. </td></tr>
+  </table>
+</dl>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="fd9d916f3009e84c849072bb4630f8ab"></a><!-- doxytag: member="iPcNewCamera::SetTransitionSpringCoefficient" ref="fd9d916f3009e84c849072bb4630f8ab" args="(float springCoef)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcNewCamera::SetTransitionSpringCoefficient           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">float&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>springCoef</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+This controls the springyness of the transition to a new camera mode when a new camera mode is selected. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>springCoef</em>&nbsp;</td><td>The new spring coefficient of camera transitions. </td></tr>
   </table>
 </dl>
     </td>
