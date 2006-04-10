@@ -277,6 +277,9 @@ private:
   csString last_regionname;
   csString last_startname;
 
+  csStringArray region_names;
+  csStringArray start_names;
+
   // If Load(path,file) is used then the following two will be set.
   csString path, file;
 
