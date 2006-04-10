@@ -4,8 +4,14 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 8-Apr-2006
-    - Andrew Robberts added collision detection and smooth transitions
-      between camera modes to the new camera system.
+	- Andrew Robberts added collision detection and smooth transitions
+	  between camera modes to the new camera system.
+	- David H. Bronke fixed a problem in celPcZoneManager::ParseStart()
+	  and celPcZoneManager::FindStartLocations() where instead of adding
+	  the start locations to a list as they were parsed and returning
+	  that list later, it would try to find all the camera positions in
+	  each region, which didn't work if there weren't any regions
+	  currently in memory.
 
 7-Apr-2006
 	- caedes added .cfg files installation to data/Jamfile.

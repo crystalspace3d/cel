@@ -713,6 +713,9 @@ bool celPcZoneManager::ParseStart (iDocumentNode* startnode)
     }
   }
 
+  region_names.Push (last_regionname);
+  start_names.Push (last_startname);
+
   return true;
 }
 
@@ -975,21 +978,10 @@ void celPcZoneManager::FindStartLocations (iStringArray* regionnames,
   regionnames->DeleteAll ();
   startnames->DeleteAll ();
   size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < region_names.GetSize () ; i++)
   {
-    celRegion* reg = regions[i];
-    iRegion* cs_reg = engine->CreateRegion (reg->GetName ());
-    int j;
-    for (j = 0 ; j < engine->GetCameraPositions ()->GetCount () ; j++)
-    {
-      iCameraPosition* campos = engine->GetCameraPositions ()->Get (j);
-      iObject* o = campos->QueryObject ();
-      if (cs_reg->IsInRegion (o))
-      {
-        regionnames->Push (reg->GetName ());
-	startnames->Push (o->GetName ());
-      }
-    }
+    regionnames->Push (region_names.Get (i));
+    startnames->Push (start_names.Get (i));
   }
 }
 
