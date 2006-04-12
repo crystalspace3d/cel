@@ -437,7 +437,8 @@ struct iPcZoneManager : public iBase
    * this too many times as it will check if a region or zone is already
    * loaded or not and avoid doing unneeded work.
    */
-  virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon = true) = 0;
+  virtual bool ActivateRegion (iCelRegion* region,
+      bool allow_entity_addon = true) = 0;
 };
 
 #endif // __CEL_PF_ZONE__
