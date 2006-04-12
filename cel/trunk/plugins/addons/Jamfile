@@ -3,4 +3,5 @@ SubInclude TOP plugins addons celentity ;
 SubInclude TOP plugins addons celentitytpl ;
 SubInclude TOP plugins addons questdef ;
 SubInclude TOP plugins addons xmlscripts ;
+SubInclude TOP plugins addons ruledef ;
 

@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 12-Apr-2006
 	- Jorrit fixed the new camera so that meshselection dragging
 	  works correctly with it.
+	- Jorrit started work on a new rule system. Currently not functional
+	  yet. The idea is that this rule system can be used for things
+	  like boosters, health potions, rings of fire resistance,
+	  health packs, ...
 8-Apr-2006
 	- Andrew Robberts added collision detection and smooth transitions
 	  between camera modes to the new camera system.

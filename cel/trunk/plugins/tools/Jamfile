@@ -3,4 +3,5 @@ SubDir TOP plugins tools ;
 SubInclude TOP plugins tools billboard ;
 SubInclude TOP plugins tools celconsole ;
 SubInclude TOP plugins tools quests ;
+SubInclude TOP plugins tools rulebase ;
 
