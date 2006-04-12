@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Apr-2006
+	- Jorrit fixed the new camera so that meshselection dragging
+	  works correctly with it.
 8-Apr-2006
 	- Andrew Robberts added collision detection and smooth transitions
 	  between camera modes to the new camera system.
@@ -12,7 +15,6 @@ The history order is reversed so that new features are at the top.
 	  that list later, it would try to find all the camera positions in
 	  each region, which didn't work if there weren't any regions
 	  currently in memory.
-
 7-Apr-2006
 	- caedes added .cfg files installation to data/Jamfile.
 	- caedes added a fallback in celInitializer::setup_plugin_dirs so that
@@ -25,11 +27,11 @@ The history order is reversed so that new features are at the top.
 5-Apr-2006
 	- Piotr Obrzut added functionality to change cel camera position 
           and draw separate.
-	- David H. Bronke added some additional doxygen comments to iPcProperties
-	  documenting the available properties.
+	- David H. Bronke added some additional doxygen comments to
+	  iPcProperties documenting the available properties.
 	- David H. Bronke added ActivateRegion() to iPcZoneManager.
-	- David H. Bronke cleaned up the error reporting in the mechanics plugin,
-	  removing some extraneous output in the process.
+	- David H. Bronke cleaned up the error reporting in the mechanics
+	  plugin, removing some extraneous output in the process.
 30-Mar-2006
 	- Jorrit fixed a bug in the creation of entities from templates.
 	  The tag in the property class definition of a template was
