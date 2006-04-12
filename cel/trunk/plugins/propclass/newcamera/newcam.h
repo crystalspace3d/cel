@@ -62,10 +62,6 @@ CEL_DECLARE_FACTORY(NewCamera)
 class celPcNewCamera : public celPcCameraCommon
 {
 private:
-  csRef<iGraphics3D> g3d;
-  csRef<iEngine> engine;
-  csRef<iVirtualClock> vc;
-  csRef<iView> view;
   csRef<iCollideSystem> cdsys;
 
   csArray<iCelCameraMode *> cameraModes;

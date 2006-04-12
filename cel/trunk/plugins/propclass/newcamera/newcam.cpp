@@ -142,10 +142,6 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
-  engine = CS_QUERY_REGISTRY(object_reg, iEngine);
-  g3d = CS_QUERY_REGISTRY(object_reg, iGraphics3D);
-  vc = CS_QUERY_REGISTRY(object_reg, iVirtualClock);
-  view = csPtr<iView>(new csView(engine, g3d));
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   pl->CallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_VIEW);
