@@ -46,6 +46,7 @@
 #include "physicallayer/pl.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/prop.h"
+#include "propclass/rules.h"
 #include "propclass/billboard.h"
 #include "propclass/inv.h"
 #include "propclass/camera.h"
@@ -66,7 +67,7 @@ inline void dump_exec (const char* msg, ...)
 }
 
 #if DO_DUMP
-#define DUMP_EXEC(x) dump_exec ##x
+#define DUMP_EXEC(x) dump_exec x
 #else
 #define DUMP_EXEC(x)
 #endif
@@ -1233,14 +1234,23 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
   fflush (stdout);
 }
 
+iPcRules* celXmlScriptEventHandler::GetRules (iCelEntity* entity,
+      celBehaviourXml* behave)
+{
+  if (behave) return behave->GetRules ();
+  if (!entity) return 0;
+  csRef<iPcRules> p;
+  p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
+  return p;
+}
+
 iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
       celBehaviourXml* behave)
 {
   if (behave) return behave->GetProperties ();
   if (!entity) return 0;
   csRef<iPcProperties> p;
-  p = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-    	iPcProperties);
+  p = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
   return p;
 }
 
@@ -1269,13 +1279,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     DUMP_EXEC ((":::: entity=%s behave=%s\n", entity->GetName (),
   	behave ? behave->GetName () : "<null>"));
   }
-#ifdef CS_DEBUG
-  // Force cleaning of local variables in debug mode to
-  // ensure they are not being misused.
-  if (newscope) local_vars.Empty ();
-#else
-  (void)newscope;
-#endif
 
   for (;;)
   {
@@ -2864,6 +2867,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
         break;
 
+      case CEL_OPERATION_DEREFRVAR_STR:
+        {
+	  iPcRules* rules = GetRules (entity, behave);
+	  if (rules)
+	  {
+	    DUMP_EXEC ((":%04d: derefrvar_str %s\n", i-1, A2S (op.arg)));
+	    const char* varname = op.arg.arg.str.s;
+	    celData ret;
+	    rules->GetProperty (varname, ret);
+	    size_t si = stack.Push (celXmlArg ());
+	    if (!celData2celXmlArg (ret, stack[si]))
+	      return ReportError (cbl, "Property '%s' has wrong type!", varname);
+	    break;
+	  }
+	  // FALL THRU!
+	}
       case CEL_OPERATION_DEREFVAR_STR:
         {
           DUMP_EXEC ((":%04d: derefvar_str %s\n", i-1, A2S (op.arg)));
@@ -2878,6 +2897,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
+      case CEL_OPERATION_DEREFRVAR:
+        {
+	  iPcRules* rules = GetRules (entity, behave);
+	  if (rules)
+	  {
+	    CHECK_STACK(1)
+	    celXmlArg& top = stack.Top ();
+            DUMP_EXEC ((":%04d: derefrvar %s\n", i-1, A2S (top)));
+	    const char* varname = ArgToString (top);
+	    celData ret;
+	    rules->GetProperty (varname, ret);
+	    if (!celData2celXmlArg (ret, top))
+	      return ReportError (cbl, "Property '%s' has wrong type!", varname);
+	    break;
+	  }
+	  // FALL THRU!
+	}
       case CEL_OPERATION_DEREFVAR:
         {
 	  CHECK_STACK(1)
@@ -2893,6 +2929,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
+      case CEL_OPERATION_DEREFRVARENT_STR:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  iPcRules* rules = GetRules (other_ent, 0);
+	  if (rules)
+	  {
+            DUMP_EXEC ((":%04d: derefrvarent_str ent=%s var=%s\n", i-1,
+		A2S (top), A2S (op.arg)));
+	    const char* varname = op.arg.arg.str.s;
+	    celData ret;
+	    rules->GetProperty (varname, ret);
+	    if (!celData2celXmlArg (ret, top))
+	      return ReportError (cbl, "Property '%s' has wrong type!", varname);
+	    break;
+	  }
+	  // FALL THRU!
+	}
       case CEL_OPERATION_DEREFVARENT_STR:
         {
 	  CHECK_STACK(1)
@@ -2904,8 +2959,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity '%s' for 'derefvarent_str'!",
 	    	EntityNameForError (top));
-	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS (
-	  	other_ent->GetPropertyClassList (), iPcProperties);
+	  csRef<iPcProperties> props = CEL_QUERY_PROPCLASS_ENT (other_ent,
+	  	iPcProperties);
 	  if (!props)
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
@@ -2919,6 +2974,27 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl, "Property '%s' has wrong type!", varname);
 	}
         break;
+      case CEL_OPERATION_DEREFRVARENT:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg& s_ent = stack[stack.Length ()-2];
+	  iCelEntity* other_ent = ArgToEntity (s_ent, pl);
+	  iPcRules* rules = GetRules (other_ent, 0);
+	  if (rules)
+	  {
+	    celXmlArg a_var = stack.Pop ();
+	    celXmlArg& top = stack.Top ();
+            DUMP_EXEC ((":%04d: derefrvarent ent=%s var=%s\n", i-1, A2S (top),
+	  	A2S (a_var)));
+	    const char* varname = ArgToString (a_var);
+	    celData ret;
+	    rules->GetProperty (varname, ret);
+	    if (!celData2celXmlArg (ret, top))
+	      return ReportError (cbl, "Property '%s' has wrong type!", varname);
+	    break;
+	  }
+	  // FALL THRU!
+	}
       case CEL_OPERATION_DEREFVARENT:
         {
 	  CHECK_STACK(2)

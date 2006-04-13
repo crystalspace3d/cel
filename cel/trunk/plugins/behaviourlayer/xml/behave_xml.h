@@ -31,6 +31,7 @@
 
 struct iCelEntity;
 struct iPcProperties;
+struct iPcRules;
 struct iPcBillboard;
 struct iObjectRegistry;
 class celXmlScript;
@@ -44,6 +45,7 @@ protected:
   iCelEntity* entity;
   iCelBlLayer* bl;
   csWeakRef<iPcProperties> props;	// Optimization.
+  csWeakRef<iPcRules> rules;		// Optimization.
   csWeakRef<iPcBillboard> billboard;	// Optimization.
   iObjectRegistry* object_reg;
   celXmlScript* script;
@@ -64,6 +66,7 @@ public:
     celBehaviourXml::script = script;
   }
   iPcProperties* GetProperties ();
+  iPcRules* GetRules ();
   iPcBillboard* GetBillboard ();
   iObjectRegistry* GetObjectRegistry () { return object_reg; }
   void Randomize () { rng.Initialize (csGetTicks ()); }

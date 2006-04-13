@@ -40,6 +40,7 @@ struct iCelParameterBlock;
 struct iPcInventory;
 struct iPcCamera;
 struct iPcProperties;
+struct iPcRules;
 struct iSector;
 class celBlXml;
 class celBehaviourXml;
@@ -148,6 +149,10 @@ enum
   CEL_OPERATION_DEREFVARENT,	// A:-		S:E,S		OS:?
   CEL_OPERATION_DEREFVAR_STR,	// A:S		S:-		OS:?
   CEL_OPERATION_DEREFVARENT_STR,// A:S		S:E		OS:?
+  CEL_OPERATION_DEREFRVAR,	// A:-		S:S		OS:?
+  CEL_OPERATION_DEREFRVARENT,	// A:-		S:E,S		OS:?
+  CEL_OPERATION_DEREFRVAR_STR,	// A:S		S:-		OS:?
+  CEL_OPERATION_DEREFRVARENT_STR,// A:S		S:E		OS:?
   CEL_OPERATION_LVAR,		// A:I		S:?		OS:-
   CEL_OPERATION_VAR,		// A:-		S:S,?		OS:-
   CEL_OPERATION_VARENT,		// A:-		S:E,S,?		OS:-
@@ -413,6 +418,8 @@ public:
   void ChangeOperation (size_t idx, int newop) { operations[idx].op = newop; }
   void ReplaceLastOperation (int op) { operations.Top ().op = op; }
 
+  iPcRules* GetRules (iCelEntity* entity,
+      celBehaviourXml* behave);
   iPcProperties* GetProperties (iCelEntity* entity,
       celBehaviourXml* behave);
 

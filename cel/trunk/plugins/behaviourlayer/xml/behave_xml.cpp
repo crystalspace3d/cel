@@ -40,6 +40,7 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/prop.h"
+#include "propclass/rules.h"
 #include "propclass/billboard.h"
 #include "plugins/behaviourlayer/xml/blxml.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -66,9 +67,7 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
 {
   if (!billboard)
   {
-    csRef<iPcBillboard> b;
-    b = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-    	iPcBillboard);
+    csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -79,6 +78,23 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
     billboard = b;
   }
   return billboard;
+}
+
+iPcRules* celBehaviourXml::GetRules ()
+{
+  if (!rules)
+  {
+    csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
+    if (!p)
+    {
+      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
+      if (pc)
+	p = SCF_QUERY_INTERFACE (pc, iPcRules);
+    }
+    rules = p;
+  }
+  return rules;
 }
 
 iPcProperties* celBehaviourXml::GetProperties ()

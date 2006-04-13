@@ -284,7 +284,7 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
 }
 
 bool celBlXml::ParseExpressionOrConstantString (
-	const csStringArray& local_vars, iDocumentNode* child,
+	csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	char*& str)
 {
@@ -313,7 +313,7 @@ bool celBlXml::ParseExpressionOrConstantString (
   return true;
 }
 
-bool celBlXml::ParseExpression (const csStringArray& local_vars,
+bool celBlXml::ParseExpression (csStringArray& local_vars,
 	iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type)
@@ -367,7 +367,7 @@ bool celBlXml::ParseExpression (const csStringArray& local_vars,
   return true;
 }
 
-bool celBlXml::ParseID (const char*& input, const csStringArray& local_vars,
+bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
 	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, char* str, csStringID fun_id)
 {
@@ -441,7 +441,7 @@ bool celBlXml::SkipComma (const char*& input, iDocumentNode* child,
 }
 
 bool celBlXml::ParseFunction (const char*& input, const char* pinput,
-	const csStringArray& local_vars, iDocumentNode* child,
+	csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name)
 {
   int token;
@@ -871,7 +871,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 
 bool celBlXml::ParseExpressionInt (
 	const char*& input, const char* pinput, int token,
-	const csStringArray& local_vars,
+	csStringArray& local_vars,
 	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name,
 	int stoppri)
@@ -928,12 +928,65 @@ bool celBlXml::ParseExpressionInt (
 	  }
 	if (varidx == (size_t)-1)
 	{
-          synldr->ReportError ("cel.behaviour.xml", child,
-		    "Local variable '%s' is not defined!", str);
-          return false;
+	  varidx = local_vars.Push (str);
+          //synldr->ReportError ("cel.behaviour.xml", child,
+		    //"Local variable '%s' is not defined!", str);
+          //return false;
 	}
         h->AddOperation (CEL_OPERATION_DEREFLVAR);
 	h->GetArgument ().SetUInt32 ((uint32)varidx);
+      }
+      break;
+    case CEL_TOKEN_DEREFRVAR:
+      {
+        char* str;
+        if (!ParseExpressionOrConstantString (input, local_vars,
+		child, h, name, CEL_PRIORITY_ONETERM, str))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_DOT)
+        {
+	  // If we had a constant entity name we convert that to push anyway
+	  // and use check if 'name' is constant instead.
+	  if (str)
+	  {
+	    h->AddOperation (CEL_OPERATION_PUSHSTR);
+	    h->GetArgument ().SetStringPrealloc (str);
+            if (!ParseExpressionOrConstantString (input, local_vars,
+	    	child, h, name, CEL_PRIORITY_ONETERM, str))
+              return false;
+	  }
+	  else
+	  {
+            if (!ParseExpression (input, local_vars,
+	    	child, h, name, CEL_PRIORITY_ONETERM))
+              return false;
+	  }
+
+	  if (str)
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFRVARENT_STR);
+	    h->GetArgument ().SetStringPrealloc (str);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFRVARENT);
+	  }
+        }
+        else
+        {
+          input = pinput;	// Restore!
+	  if (str)
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFRVAR_STR);
+	    h->GetArgument ().SetStringPrealloc (str);
+	  }
+	  else
+	  {
+            h->AddOperation (CEL_OPERATION_DEREFRVAR);
+	  }
+        }
       }
       break;
     case CEL_TOKEN_DEREFVAR:
@@ -1398,7 +1451,7 @@ bool celBlXml::ParseExpressionInt (
 }
 
 bool celBlXml::ParseExpression (const char*& input,
-	const csStringArray& local_vars,
+	csStringArray& local_vars,
 	iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name,
 	int stoppri)
@@ -1412,7 +1465,7 @@ bool celBlXml::ParseExpression (const char*& input,
 }
 
 bool celBlXml::ParseExpressionOrConstantString (const char*& input,
-	const csStringArray& local_vars,
+	csStringArray& local_vars,
 	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, int stoppri, char*& str)
 {
@@ -2270,6 +2323,56 @@ bool celExpression::Execute (iCelEntity* entity, celData& ret)
 size_t celExpression::FindLocalVariable (const char* name) const
 {
   return local_vars.Find (name);
+}
+
+void celExpression::SetLocalVariable (size_t idx, const celData& value)
+{
+  switch (value.type)
+  {
+    case CEL_DATA_LONG:
+      handler->GetLocalVariable (idx).SetInt32 (value.value.l);
+      break;
+    case CEL_DATA_ULONG:
+      handler->GetLocalVariable (idx).SetUInt32 (value.value.ul);
+      break;
+    case CEL_DATA_FLOAT:
+      handler->GetLocalVariable (idx).SetFloat (value.value.f);
+      break;
+    case CEL_DATA_BOOL:
+      handler->GetLocalVariable (idx).Set (value.value.bo);
+      break;
+    case CEL_DATA_STRING:
+      handler->GetLocalVariable (idx).SetString (value.value.s->GetData (), true);
+      break;
+    case CEL_DATA_VECTOR2:
+      {
+        csVector2 v;
+	v.x = value.value.v.x;
+	v.y = value.value.v.y;
+        handler->GetLocalVariable (idx).SetVector (v);
+      }
+      break;
+    case CEL_DATA_VECTOR3:
+      {
+        csVector3 v;
+	v.x = value.value.v.x;
+	v.y = value.value.v.y;
+	v.z = value.value.v.z;
+        handler->GetLocalVariable (idx).SetVector (v);
+      }
+      break;
+    case CEL_DATA_COLOR:
+      {
+        csColor v;
+	v.red = value.value.col.red;
+	v.green = value.value.col.green;
+	v.blue = value.value.col.blue;
+        handler->GetLocalVariable (idx).SetColor (v);
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 void celExpression::SetLocalVariableLong (size_t idx, int32 value)
