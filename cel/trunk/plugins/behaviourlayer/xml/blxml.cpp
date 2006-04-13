@@ -2267,13 +2267,57 @@ bool celExpression::Execute (iCelEntity* entity, celData& ret)
   return rc;
 }
 
+size_t celExpression::FindLocalVariable (const char* name) const
+{
+  return local_vars.Find (name);
+}
+
+void celExpression::SetLocalVariableLong (size_t idx, int32 value)
+{
+  handler->GetLocalVariable (idx).SetInt32 (value);
+}
+
+void celExpression::SetLocalVariableULong (size_t idx, uint32 value)
+{
+  handler->GetLocalVariable (idx).SetUInt32 (value);
+}
+
+void celExpression::SetLocalVariableFloat (size_t idx, float value)
+{
+  handler->GetLocalVariable (idx).SetFloat (value);
+}
+
+void celExpression::SetLocalVariableBool (size_t idx, bool value)
+{
+  handler->GetLocalVariable (idx).Set (value);
+}
+
+void celExpression::SetLocalVariableString (size_t idx, const char* value)
+{
+  handler->GetLocalVariable (idx).SetString (value, true);
+}
+
+void celExpression::SetLocalVariableVector2 (size_t idx, const csVector2& value)
+{
+  handler->GetLocalVariable (idx).SetVector (value);
+}
+
+void celExpression::SetLocalVariableVector3 (size_t idx, const csVector3& value)
+{
+  handler->GetLocalVariable (idx).SetVector (value);
+}
+
+void celExpression::SetLocalVariableColor (size_t idx, const csColor& value)
+{
+  handler->GetLocalVariable (idx).SetColor (value);
+}
+
 csPtr<iCelExpression> celBlXml::Parse (const char* string)
 {
   celExpression* exp = new celExpression (this);
   celXmlScriptEventHandler* handler = new celXmlScriptEventHandler (pl);
   exp->handler = handler;
-  csStringArray local_vars;
-  if (!ParseExpression (string, local_vars, 0, handler, "expression",
+  if (!ParseExpression (string, exp->local_vars, 0, handler, "expression",
 	CEL_PRIORITY_NORMAL))
   {
     delete exp;

@@ -22,8 +22,13 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/stringarray.h"
 
 #include "physicallayer/datatype.h"
+
+class csVector2;
+class csVector3;
+class csColor;
 
 /**
  * Interface for a single expression.
@@ -39,6 +44,34 @@ struct iCelExpression : virtual public iBase
    * \return false if there is an error.
    */
   virtual bool Execute (iCelEntity* entity, celData& ret) = 0;
+
+  /**
+   * Find a local variable for this expression.
+   * Returns csArrayItemNotFound if local variable is not present.
+   */
+  virtual size_t FindLocalVariable (const char* name) const = 0;
+
+  /**
+   * Get an array of local variables.
+   */
+  virtual const csStringArray& GetLocalVariables () const = 0;
+
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableLong (size_t idx, int32 value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableULong (size_t idx, uint32 value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableFloat (size_t idx, float value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableBool (size_t idx, bool value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableString (size_t idx, const char* value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableVector2 (size_t idx, const csVector2& value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableVector3 (size_t idx, const csVector3& value) = 0;
+  /// Set the value of a local variable. Do this before calling Execute().
+  virtual void SetLocalVariableColor (size_t idx, const csColor& value) = 0;
 };
 
 

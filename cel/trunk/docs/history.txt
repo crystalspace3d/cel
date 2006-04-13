@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Apr-2006
+	- Jorrit added support for setting local variables prior to
+	  executing an expression in the iCelExpression interface.
 12-Apr-2006
 	- Jorrit fixed the new camera so that meshselection dragging
 	  works correctly with it.
