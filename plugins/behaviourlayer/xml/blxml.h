@@ -52,6 +52,7 @@ class celExpression : public scfImplementation1<celExpression,
 public:
   celBlXml* cbl;
   celXmlScriptEventHandler* handler;
+  csStringArray local_vars;
 
 public:
   celExpression (celBlXml* cbl) : scfImplementationType (this), cbl (cbl)
@@ -63,6 +64,16 @@ public:
     delete handler;
   }
   virtual bool Execute (iCelEntity* entity, celData& ret);
+  virtual size_t FindLocalVariable (const char* name) const;
+  virtual const csStringArray& GetLocalVariables () const { return local_vars; }
+  virtual void SetLocalVariableLong (size_t idx, int32 value);
+  virtual void SetLocalVariableULong (size_t idx, uint32 value);
+  virtual void SetLocalVariableFloat (size_t idx, float value);
+  virtual void SetLocalVariableBool (size_t idx, bool value);
+  virtual void SetLocalVariableString (size_t idx, const char* value);
+  virtual void SetLocalVariableVector2 (size_t idx, const csVector2& value);
+  virtual void SetLocalVariableVector3 (size_t idx, const csVector3& value);
+  virtual void SetLocalVariableColor (size_t idx, const csColor& value);
 };
 
 /**
