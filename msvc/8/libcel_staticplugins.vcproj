@@ -203,6 +203,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libaddon_ruledef_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libaddon_ruledef_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libaddon_ruledef_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libaddon_xmlscripts_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -623,6 +638,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\librulebase_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_librulebase_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_librulebase_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libstdphyslayer_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -695,6 +725,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_addons_questdef_questdef.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\addons\ruledef\ruledef.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_addons_ruledef_ruledef.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_addons_ruledef_ruledef.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1822,6 +1867,21 @@
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_quests_trig_trigger.cpp.obj"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rulebase\rulebase.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_rulebase_rulebase.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_rulebase_rulebase.cpp.obj"/>
+				</FileConfiguration>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1834,6 +1894,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\questdef\questdef.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\addons\ruledef\ruledef.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\addons\xmlscripts\xmlscripts.h">
@@ -2065,6 +2128,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_trigger.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\rulebase\rulebase.h">
 			</File>
 		</Filter>
 	</Files>
