@@ -33,6 +33,9 @@
 	  file="/this/sounds/outdoor/ambient/wind_flute_building_l_c.ogg" />
     </sounds>
     -->
+    <addon plugin="cel.addons.ruledef">
+        <rule name="add_strength" var="strength" priority="a" expr="#strength+1" />
+    </addon>
 
     <sector name="room">
     	<addon plugin="cel.addons.questdef">
@@ -442,6 +445,17 @@
 		<property name="followalways" bool="true" />
 		<property name="drag" bool="true" />
 		<property name="sendmove" bool="true" />
+	    </propclass>
+	</addon>
+
+    	<addon plugin="cel.addons.celentity" entityname="ruletest" >
+	    <propclass name="pcproperties">
+	    	<property name="strength" float="3.4" />
+	    </propclass>
+	    <propclass name="pcrules">
+		<action name="AddRule">
+		    <par name="name" string="add_strength" />
+		</action>
 	    </propclass>
 	</addon>
 

@@ -478,6 +478,8 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
     return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.rules"))
+    return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))

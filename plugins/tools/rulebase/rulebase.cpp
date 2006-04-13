@@ -33,6 +33,17 @@ SCF_IMPLEMENT_FACTORY (celRuleBase)
 
 //--------------------------------------------------------------------------
 
+size_t celRule::GetVariableIndex ()
+{
+  if (var_idx == csArrayItemNotFound)
+  {
+    var_idx = expr->FindLocalVariable (var);
+  }
+  return var_idx;
+}
+
+//--------------------------------------------------------------------------
+
 celRuleBase::celRuleBase (iBase* parent)
   : scfImplementationType (this, parent)
 {

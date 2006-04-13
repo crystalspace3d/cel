@@ -43,11 +43,13 @@ private:
   csString var;
   csRef<iCelExpression> expr;
   csStringID priority;
+  size_t var_idx;
 
 public:
   celRule (const char* name) : scfImplementationType (this), name (name)
   {
     priority = csArrayItemNotFound;
+    var_idx = csArrayItemNotFound;
   }
   virtual ~celRule () { }
 
@@ -56,11 +58,14 @@ public:
   virtual void SetVariable (const char* var)
   {
     celRule::var = var;
+    var_idx = csArrayItemNotFound;
   }
+  virtual size_t GetVariableIndex ();
   virtual iCelExpression* GetExpression () { return expr; }
   virtual void SetExpression (iCelExpression* expr)
   {
     celRule::expr = expr;
+    var_idx = csArrayItemNotFound;
   }
   virtual csStringID GetPriority () { return priority; }
   virtual void SetPriority (csStringID priority)

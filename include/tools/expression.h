@@ -56,6 +56,8 @@ struct iCelExpression : virtual public iBase
    */
   virtual const csStringArray& GetLocalVariables () const = 0;
 
+  /// Set the value of a local variable.
+  virtual void SetLocalVariable (size_t idx, const celData& value) = 0;
   /// Set the value of a local variable. Do this before calling Execute().
   virtual void SetLocalVariableLong (size_t idx, int32 value) = 0;
   /// Set the value of a local variable. Do this before calling Execute().

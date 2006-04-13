@@ -66,6 +66,7 @@ public:
   virtual bool Execute (iCelEntity* entity, celData& ret);
   virtual size_t FindLocalVariable (const char* name) const;
   virtual const csStringArray& GetLocalVariables () const { return local_vars; }
+  virtual void SetLocalVariable (size_t idx, const celData& value);
   virtual void SetLocalVariableLong (size_t idx, int32 value);
   virtual void SetLocalVariableULong (size_t idx, uint32 value);
   virtual void SetLocalVariableFloat (size_t idx, float value);
@@ -126,29 +127,29 @@ private:
 
   bool SkipComma (const char*& input, iDocumentNode* child,
 	const char* name);
-  bool ParseID (const char*& input, const csStringArray& local_vars,
+  bool ParseID (const char*& input, csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, char* str, csStringID fun_id);
   bool ParseFunction (const char*& input, const char* pinput,
-  	const csStringArray& local_vars,
+  	csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name);
-  bool ParseExpression (const csStringArray& local_vars,
+  bool ParseExpression (csStringArray& local_vars,
         iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,
 	int optional_type = CEL_DATA_NONE);
-  bool ParseExpressionOrConstantString (const csStringArray& local_vars,
+  bool ParseExpressionOrConstantString (csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* attrname, const char* name, char*& str);
   bool ParseExpressionInt (const char*& input, const char* pinput,
-	int token, const csStringArray& local_vars, iDocumentNode* child,
+	int token, csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name,
 	int stoppri);
-  bool ParseExpression (const char*& input, const csStringArray& local_vars,
+  bool ParseExpression (const char*& input, csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name, int stoppri);
   bool ParseExpressionOrConstantString (const char*& input,
-	const csStringArray& local_vars, iDocumentNode* child,
+	csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h,
 	const char* name, int stoppri, char*& str);
   celXmlScriptEventHandler* FindEventHandler (celXmlScript* script,

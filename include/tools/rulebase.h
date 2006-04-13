@@ -50,6 +50,12 @@ struct iCelRule : public virtual iBase
   virtual void SetVariable (const char* var) = 0 ;
 
   /**
+   * Get the index of the local variable that will be used by
+   * the expression for the variable that this rule influences.
+   */
+  virtual size_t GetVariableIndex () = 0;
+
+  /**
    * Get the expression corresponding with this rule.
    */
   virtual iCelExpression* GetExpression () = 0;

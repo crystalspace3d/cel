@@ -60,7 +60,6 @@ const char* celXmlParseToken (const char* input, int& token)
   switch (*input)
   {
     case 0: token = CEL_TOKEN_END; return input;
-    case '?': token = CEL_TOKEN_DEREFVAR; return input+1;
     case '#': token = CEL_TOKEN_DEREFLVAR; return input+1;
     case '@': token = CEL_TOKEN_DEREFPAR; return input+1;
     case '\'': token = CEL_TOKEN_STRINGLIT; return input+1;
@@ -76,6 +75,14 @@ const char* celXmlParseToken (const char* input, int& token)
     case '+': token = CEL_TOKEN_ADD; return input+1;
     case '~': token = CEL_TOKEN_BITNOT; return input+1;
     case '^': token = CEL_TOKEN_BITXOR; return input+1;
+    case '?':
+      if (*(input+1) == '?')
+      {
+        token = CEL_TOKEN_DEREFRVAR;
+	return input+2;
+      }
+      token = CEL_TOKEN_DEREFVAR;
+      return input+1;
     case ':':
       if (*(input+1) == ':')
       {

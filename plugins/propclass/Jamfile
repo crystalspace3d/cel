@@ -21,4 +21,5 @@ SubInclude TOP plugins propclass sound ;
 SubInclude TOP plugins propclass trigger ;
 SubInclude TOP plugins propclass quest ;
 SubInclude TOP plugins propclass awswin ;
+SubInclude TOP plugins propclass rules ;
 

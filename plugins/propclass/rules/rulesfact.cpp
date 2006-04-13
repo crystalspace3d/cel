@@ -1,0 +1,361 @@
+/*
+    Crystal Space Entity Layer
+    Copyright (C) 2006 by Jorrit Tyberghein
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+*/
+
+#include "cssysdef.h"
+#include "iutil/objreg.h"
+#include "iutil/plugin.h"
+#include "csutil/debug.h"
+#include "ivaria/reporter.h"
+#include "plugins/propclass/rules/rulesfact.h"
+#include "physicallayer/pl.h"
+#include "physicallayer/entity.h"
+#include "physicallayer/persist.h"
+#include "behaviourlayer/behave.h"
+#include "tools/expression.h"
+
+//---------------------------------------------------------------------------
+
+CS_IMPLEMENT_PLUGIN
+
+CEL_IMPLEMENT_FACTORY (Rules, "pcrules")
+
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
+{
+  va_list arg;
+  va_start (arg, msg);
+
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  if (rep)
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.rules",
+    	msg, arg);
+  else
+  {
+    csPrintfV (msg, arg);
+    csPrintf ("\n");
+    fflush (stdout);
+  }
+
+  va_end (arg);
+  return false;
+}
+
+//---------------------------------------------------------------------------
+
+csStringID celPcRules::action_addrule = csInvalidStringID;
+csStringID celPcRules::action_deleterule = csInvalidStringID;
+csStringID celPcRules::action_deleteallrules = csInvalidStringID;
+csStringID celPcRules::id_name = csInvalidStringID;
+
+SCF_IMPLEMENT_IBASE_EXT (celPcRules)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRules)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRules::PcRules)
+  SCF_IMPLEMENTS_INTERFACE (iPcRules)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPcRules::celPcRules (iObjectRegistry* object_reg)
+	: celPcCommon (object_reg)
+{
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
+
+  // For SendMessage parameters.
+  //params = new celOneParameterBlock ();
+  //params->SetParameterDef (id_message, "message");
+
+  // For PerformAction.
+  if (action_addrule == csInvalidStringID)
+  {
+    action_addrule = pl->FetchStringID ("cel.action.AddRule");
+    action_deleterule = pl->FetchStringID ("cel.action.DeleteRule");
+    action_deleteallrules = pl->FetchStringID ("cel.action.DeleteAllRules");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+  }
+
+  GetRuleBase ();
+}
+
+celPcRules::~celPcRules ()
+{
+  //delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRules);
+}
+
+#define RULES_SERIAL 1
+
+csPtr<iCelDataBuffer> celPcRules::Save ()
+{
+  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (RULES_SERIAL);
+  // @@@ TODO
+  return csPtr<iCelDataBuffer> (databuf);
+}
+
+bool celPcRules::Load (iCelDataBuffer* databuf)
+{
+  int serialnr = databuf->GetSerialNumber ();
+  if (serialnr != RULES_SERIAL)
+    return Report (object_reg, "Couldn't load pcrules!");
+  // @@@ TODO
+  return true;
+}
+
+bool celPcRules::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  GetRuleBase ();
+  if (!rulebase) return false;
+  if (actionId == action_addrule)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!p_name)
+      return Report (object_reg,
+      	"Missing parameter 'name' for action AddRule!");
+    iCelRule* rule = rulebase->FindRule (name);
+    if (!rule)
+      return Report (object_reg, "Can't find rule '%s'!", name);
+    AddRule (rule);
+    return true;
+  }
+  else if (actionId == action_deleterule)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!p_name)
+      return Report (object_reg,
+      	"Missing parameter 'name' for action AddRule!");
+    iCelRule* rule = rulebase->FindRule (name);
+    if (!rule)
+      return Report (object_reg, "Can't find rule '%s'!", name);
+    DeleteRule (rule);
+    return true;
+  }
+  else if (actionId == action_deleteallrules)
+  {
+    DeleteAllRules ();
+    return true;
+  }
+  return false;
+}
+
+void celPcRules::GetRuleBase ()
+{
+  if (!rulebase)
+  {
+    rulebase = CS_QUERY_REGISTRY (object_reg, iCelRuleBase);
+    if (!rulebase)
+    {
+      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+      	iPluginManager);
+      rulebase = CS_LOAD_PLUGIN (plugin_mgr, "cel.manager.rules",
+      	iCelRuleBase);
+      if (!rulebase)
+      {
+	Report (object_reg, "Can't find rule base plugin!");
+        return;
+      }
+      if (!object_reg->Register (rulebase, "iCelRuleBase"))
+      {
+	Report (object_reg, "Couldn't register rule base plugin!");
+        return;
+      }
+    }
+  }
+}
+
+void celPcRules::AddRule (iCelRule* rule)
+{
+  celActiveRule* active_rule = new celActiveRule ();
+  active_rule->rule = rule;
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (
+  	rule->GetVariable (), 0);
+  if (!av)
+  {
+    av = new celActiveRulesForVariable ();
+    active_rules_for_variable.Put (rule->GetVariable (), av);
+    av->DecRef ();
+  }
+  av->active_rules.Push (active_rule);
+}
+
+void celPcRules::DeleteRule (iCelRule* rule)
+{
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (
+  	rule->GetVariable (), 0);
+  if (av)
+  {
+    size_t i = av->active_rules.Length ();
+    while (i > 0)
+    {
+      i--;
+      if (av->active_rules[i]->rule == rule)
+      {
+        av->active_rules.DeleteIndex (i);
+      }
+    }
+  }
+}
+
+void celPcRules::DeleteAllRules ()
+{
+  active_rules_for_variable.DeleteAll ();
+}
+
+void celPcRules::GetProperties ()
+{
+  if (pcprop) return;
+  pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+}
+
+celDataType celPcRules::GetPropertyType (const char* name)
+{
+  GetProperties ();
+  if (pcprop)
+  {
+    size_t idx = pcprop->GetPropertyIndex (name);
+    if (idx == csArrayItemNotFound) return CEL_DATA_NONE;
+    return pcprop->GetPropertyType (idx);
+  }
+  return CEL_DATA_NONE;
+}
+
+bool celPcRules::GetProperty (const char* name, celData& ret)
+{
+  ret.Clear ();
+  GetProperties ();
+  if (pcprop)
+  {
+    size_t idx = pcprop->GetPropertyIndex (name);
+    if (idx != csArrayItemNotFound)
+    {
+      celDataType type = pcprop->GetPropertyType (idx);
+      switch (type)
+      {
+        case CEL_DATA_FLOAT: ret.Set (pcprop->GetPropertyFloat (idx)); break;
+        case CEL_DATA_LONG: ret.Set ((int32)pcprop->GetPropertyLong (idx)); break;
+        case CEL_DATA_BOOL: ret.Set (pcprop->GetPropertyBool (idx)); break;
+        case CEL_DATA_STRING: ret.Set (pcprop->GetPropertyString (idx)); break;
+        case CEL_DATA_VECTOR2:
+	  {
+	    csVector2 v;
+	    pcprop->GetPropertyVector (idx, v);
+	    ret.Set (v);
+          }
+	  break;
+        case CEL_DATA_VECTOR3:
+	  {
+	    csVector3 v;
+	    pcprop->GetPropertyVector (idx, v);
+	    ret.Set (v);
+          }
+	  break;
+        case CEL_DATA_COLOR:
+	  {
+	    csColor v;
+	    pcprop->GetPropertyColor (idx, v);
+	    ret.Set (v);
+          }
+	  break;
+        default:
+	  break;
+      }
+    }
+  }
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (name, 0);
+  if (av)
+  {
+    size_t i;
+    // @@@ Need to sort rules on priority!
+    for (i = 0 ; i < av->active_rules.Length () ; i++)
+    {
+      celActiveRule* ar = av->active_rules[i];
+      iCelExpression* expr = ar->rule->GetExpression ();
+      size_t idx = ar->rule->GetVariableIndex ();
+      if (idx != csArrayItemNotFound)
+        expr->SetLocalVariable (idx, ret);
+      expr->Execute (entity, ret);
+    }
+  }
+  return true;
+}
+
+float celPcRules::GetPropertyFloat (const char* name)
+{
+  GetProperties ();
+  float val;
+  if (pcprop)
+  {
+    size_t idx = pcprop->GetPropertyIndex (name);
+    if (idx == csArrayItemNotFound) val = 0.0f;
+    else val = pcprop->GetPropertyFloat (idx);
+  }
+  else val = 0.0f;
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (name, 0);
+  if (av)
+  {
+    size_t i;
+    // @@@ Need to sort rules on priority!
+    for (i = 0 ; i < av->active_rules.Length () ; i++)
+    {
+      celActiveRule* ar = av->active_rules[i];
+      iCelExpression* expr = ar->rule->GetExpression ();
+      size_t idx = ar->rule->GetVariableIndex ();
+      if (idx != csArrayItemNotFound)
+        expr->SetLocalVariableFloat (idx, val);
+      celData ret;
+      expr->Execute (entity, ret);
+      switch (ret.type)
+      {
+        case CEL_DATA_FLOAT: val = ret.value.f; break;
+	case CEL_DATA_BOOL: val = ret.value.bo ? 1.0f : 0.0f; break;
+	case CEL_DATA_LONG: val = float (ret.value.l); break;
+	case CEL_DATA_ULONG: val = float (ret.value.ul); break;
+	case CEL_DATA_STRING: sscanf (ret.value.s->GetData (), "%f", &val);
+	  break;
+        default: val = 0.0f; break;
+      }
+    }
+  }
+  return val;
+}
+
+long celPcRules::GetPropertyLong (const char* name)
+{
+}
+
+bool celPcRules::GetPropertyBool (const char* name)
+{
+}
+
+bool celPcRules::GetPropertyVector (const char* name, const csVector2& v)
+{
+}
+
+bool celPcRules::GetPropertyVector (const char* name, const csVector3& v)
+{
+}
+
+bool celPcRules::GetPropertyColor (const char* name, const csColor& v)
+{
+}
+
+const char* celPcRules::GetPropertyString (const char* name)
+{
+}
+
+//---------------------------------------------------------------------------
+
