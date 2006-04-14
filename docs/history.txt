@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	  from pcproperties changes or when a rule is added or
 	  removed.
 	- Jorrit added support for priorities in the rule system.
+	- Jorrit added support for timed rules.
 13-Apr-2006
 	- Jorrit added support for setting local variables prior to
 	  executing an expression in the iCelExpression interface.

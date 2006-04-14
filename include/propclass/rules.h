@@ -50,7 +50,7 @@ SCF_VERSION (iPcRules, 0, 0, 1);
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * <ul>
- * <li>AddRule: parameters 'name' (string).
+ * <li>AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
  * <li>DeleteRule: parameters 'name' (string).
  * <li>DeleteAllRules: no parameters.
  * </ul>
@@ -61,6 +61,11 @@ struct iPcRules : public iBase
    * Add a rule.
    */
   virtual void AddRule (iCelRule* rule) = 0;
+
+  /**
+   * Add a rule which times out after a specific amount of time.
+   */
+  virtual void AddRule (iCelRule* rule, csTicks time) = 0;
 
   /**
    * Delete a rule.

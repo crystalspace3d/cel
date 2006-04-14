@@ -71,6 +71,7 @@ csStringID celPcRules::action_addrule = csInvalidStringID;
 csStringID celPcRules::action_deleterule = csInvalidStringID;
 csStringID celPcRules::action_deleteallrules = csInvalidStringID;
 csStringID celPcRules::id_name = csInvalidStringID;
+csStringID celPcRules::id_time = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcRules)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRules)
@@ -85,7 +86,6 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
 
-
   // For PerformAction.
   if (action_addrule == csInvalidStringID)
   {
@@ -93,11 +93,14 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
     action_deleterule = pl->FetchStringID ("cel.action.DeleteRule");
     action_deleteallrules = pl->FetchStringID ("cel.action.DeleteAllRules");
     id_name = pl->FetchStringID ("cel.parameter.name");
+    id_time = pl->FetchStringID ("cel.parameter.time");
   }
 
   // For SendMessage parameters.
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_name, "name");
+
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
 
   GetRuleBase ();
 }
@@ -142,7 +145,11 @@ bool celPcRules::PerformAction (csStringID actionId,
     iCelRule* rule = rulebase->FindRule (name);
     if (!rule)
       return Report (object_reg, "Can't find rule '%s'!", name);
-    AddRule (rule);
+    CEL_FETCH_LONG_PAR (time,params,id_time);
+    if (p_time)
+      AddRule (rule, time);
+    else
+      AddRule (rule);
     return true;
   }
   else if (actionId == action_deleterule)
@@ -190,6 +197,17 @@ void celPcRules::GetRuleBase ()
   }
 }
 
+static int CompareTime (celTimedRule const& r1,
+	celTimedRule const& r2)
+{
+  // Reverse sort!
+  size_t p1 = r1.remove_time;
+  size_t p2 = r2.remove_time;
+  if (p1 < p2) return -1;
+  else if (p1 > p2) return 1;
+  else return 0;
+}
+
 static int ComparePriorityRule (celActiveRule* const& r1,
 	celActiveRule* const& r2)
 {
@@ -214,6 +232,7 @@ void celPcRules::AddRule (iCelRule* rule)
     av->DecRef ();
   }
   av->active_rules.InsertSorted (active_rule, ComparePriorityRule);
+  active_rule->DecRef ();
 
   iCelBehaviour* ble = entity->GetBehaviour ();
   if (ble)
@@ -221,6 +240,77 @@ void celPcRules::AddRule (iCelRule* rule)
     celData ret;
     params->GetParameter (0).Set (rule->GetVariable ());
     ble->SendMessage ("pcrules_modifypar", this, ret, params);
+  }
+}
+
+void celPcRules::TickEveryFrame ()
+{
+  if (timed_rules.Length () == 0) return;
+  csTicks current = vc->GetCurrentTicks ();
+  do
+  {
+    if (timed_rules[0].remove_time > current) return;
+    DeleteRule (timed_rules[0].rule);
+    timed_rules.DeleteIndex (0);
+  }
+  while (timed_rules.Length () > 0);
+}
+
+void celPcRules::AddRule (iCelRule* rule, csTicks time)
+{
+  pl->RemoveCallbackEveryFrame (this, CEL_EVENT_PRE);
+  pl->CallbackEveryFrame (this, CEL_EVENT_PRE);
+
+  celActiveRule* active_rule = new celActiveRule ();
+  active_rule->rule = rule;
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (
+  	rule->GetVariable (), 0);
+  if (!av)
+  {
+    av = new celActiveRulesForVariable ();
+    active_rules_for_variable.Put (rule->GetVariable (), av);
+    av->DecRef ();
+  }
+  av->active_rules.InsertSorted (active_rule, ComparePriorityRule);
+  celTimedRule timed_rule;
+  timed_rule.remove_time = vc->GetCurrentTicks () + time;
+  timed_rule.rule = active_rule;
+  timed_rules.InsertSorted (timed_rule, CompareTime);
+  active_rule->DecRef ();
+
+  iCelBehaviour* ble = entity->GetBehaviour ();
+  if (ble)
+  {
+    celData ret;
+    params->GetParameter (0).Set (rule->GetVariable ());
+    ble->SendMessage ("pcrules_modifypar", this, ret, params);
+  }
+}
+
+void celPcRules::DeleteRule (celActiveRule* rule)
+{
+  celActiveRulesForVariable* av = active_rules_for_variable.Get (
+  	rule->rule->GetVariable (), 0);
+  if (av)
+  {
+    size_t i = av->active_rules.Length ();
+    while (i > 0)
+    {
+      i--;
+      if (av->active_rules[i] == rule)
+      {
+        av->active_rules.DeleteIndex (i);
+	break;
+      }
+    }
+
+    iCelBehaviour* ble = entity->GetBehaviour ();
+    if (ble)
+    {
+      celData ret;
+      params->GetParameter (0).Set (rule->rule->GetVariable ());
+      ble->SendMessage ("pcrules_modifypar", this, ret, params);
+    }
   }
 }
 
