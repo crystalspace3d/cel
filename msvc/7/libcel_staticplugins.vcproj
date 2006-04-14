@@ -548,6 +548,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfrules_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfrules_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfrules_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfsimpcam_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1265,6 +1280,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_quest_questfact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\rules\rulesfact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_rules_rulesfact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_rules_rulesfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2011,6 +2041,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\quest\questfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\rules\rulesfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\simpcam\simpcam.h">
