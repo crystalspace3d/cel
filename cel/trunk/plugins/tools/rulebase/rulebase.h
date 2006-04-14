@@ -33,12 +33,15 @@
 #include "tools/rulebase.h"
 #include "tools/expression.h"
 
+class celRuleBase;
+
 /**
  * A rule.
  */
 class celRule : public scfImplementation1<celRule, iCelRule>
 {
 private:
+  celRuleBase* rulebase;
   csString name;
   csString var;
   csRef<iCelExpression> expr;
@@ -46,7 +49,8 @@ private:
   size_t var_idx;
 
 public:
-  celRule (const char* name) : scfImplementationType (this), name (name)
+  celRule (celRuleBase* rulebase, const char* name)
+  	: scfImplementationType (this), rulebase (rulebase), name (name)
   {
     priority = csArrayItemNotFound;
     var_idx = csArrayItemNotFound;
@@ -72,6 +76,7 @@ public:
   {
     celRule::priority = priority;
   }
+  virtual size_t GetPriorityNumber () const;
 };
 
 /**
@@ -88,6 +93,8 @@ private:
   csRef<iCelExpressionParser> parser;
 
   celRuleHash rules;
+  csArray<csStringID> priorities;
+  csHash<size_t, csStringID> priority_hash;
 
   iCelPlLayer* GetPL ();
   iCelExpressionParser* GetParser ();
@@ -97,10 +104,17 @@ public:
   virtual ~celRuleBase ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 
+  size_t GetPriorityNumber (csStringID priority) const
+  {
+    return priority_hash.Get (priority, csInvalidStringID);
+  }
+
   virtual iCelRule* CreateRule (const char* name);
   virtual iCelRule* FindRule (const char* name) { return rules.Get (name, 0); }
   virtual const celRuleHash& GetRules () const { return rules; }
   virtual void DeleteRule (iCelRule* rule);
+  virtual void ClearPriorityTable ();
+  virtual void AddPriority (csStringID priority);
 };
 
 #endif // __CEL_TOOLS_RULEBASE__

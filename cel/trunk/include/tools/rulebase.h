@@ -74,6 +74,11 @@ struct iCelRule : public virtual iBase
    * Set the priority ID for this rule.
    */
   virtual void SetPriority (csStringID priority) = 0;
+
+  /**
+   * Get a priority number as defined by the rule base.
+   */
+  virtual size_t GetPriorityNumber () const = 0;
 };
 
 /// Hash of rules.
@@ -105,6 +110,18 @@ struct iCelRuleBase : public virtual iBase
    * Delete a rule.
    */
   virtual void DeleteRule (iCelRule* rule) = 0;
+
+  /**
+   * Clear priority table.
+   */
+  virtual void ClearPriorityTable () = 0;
+
+  /**
+   * Add a priority. Call this function as many times as you want.
+   * Every new priority you use here will get a higher priority then
+   * the previous priorities.
+   */
+  virtual void AddPriority (csStringID priority) = 0;
 };
 
 #endif // __CEL_RULEBASE__
