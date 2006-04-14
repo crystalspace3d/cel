@@ -60,32 +60,34 @@
 <a name="l00046"></a>00046 
 <a name="l00050"></a>00050   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#e606769d885545319a75bd563bc37c7d">SetVariable</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* var) = 0 ;
 <a name="l00051"></a>00051 
-<a name="l00055"></a>00055   <span class="keyword">virtual</span> <a class="code" href="structiCelExpression.html">iCelExpression</a>* <a class="code" href="structiCelRule.html#6310d16348e2341e0f4990efa3325f75">GetExpression</a> () = 0;
-<a name="l00056"></a>00056 
-<a name="l00060"></a>00060   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#7833d49f741e627926e2d9cadf5fa5cf">SetExpression</a> (<a class="code" href="structiCelExpression.html">iCelExpression</a>* expr) = 0;
-<a name="l00061"></a>00061 
-<a name="l00065"></a>00065   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelRule.html#e28edbf087bbce17e7f9a388a1742cee">GetPriority</a> () = 0;
-<a name="l00066"></a>00066 
-<a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#0e6c7226d6cc796a7131000be0b4ea6d">SetPriority</a> (csStringID priority) = 0;
-<a name="l00071"></a>00071 };
+<a name="l00056"></a>00056   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelRule.html#b019185de00d43d488fd3df14886c32a">GetVariableIndex</a> () = 0;
+<a name="l00057"></a>00057 
+<a name="l00061"></a>00061   <span class="keyword">virtual</span> <a class="code" href="structiCelExpression.html">iCelExpression</a>* <a class="code" href="structiCelRule.html#6310d16348e2341e0f4990efa3325f75">GetExpression</a> () = 0;
+<a name="l00062"></a>00062 
+<a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#7833d49f741e627926e2d9cadf5fa5cf">SetExpression</a> (<a class="code" href="structiCelExpression.html">iCelExpression</a>* expr) = 0;
+<a name="l00067"></a>00067 
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelRule.html#e28edbf087bbce17e7f9a388a1742cee">GetPriority</a> () = 0;
 <a name="l00072"></a>00072 
-<a name="l00074"></a>00074 <span class="keyword">typedef</span> csHash&lt;csRef&lt;iCelRule&gt;,csStrKey&gt; celRuleHash;
-<a name="l00075"></a>00075 
-<a name="l00079"></a><a class="code" href="structiCelRuleBase.html">00079</a> <span class="keyword">struct </span><a class="code" href="structiCelRuleBase.html">iCelRuleBase</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00080"></a>00080 {
-<a name="l00081"></a>00081   SCF_INTERFACE (<a class="code" href="structiCelRuleBase.html">iCelRuleBase</a>, 0, 0, 1);
-<a name="l00082"></a>00082 
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <a class="code" href="structiCelRule.html">iCelRule</a>* <a class="code" href="structiCelRuleBase.html#5720b0fe3b5941787f54129b23758b5b">CreateRule</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00087"></a>00087 
-<a name="l00091"></a>00091   <span class="keyword">virtual</span> <a class="code" href="structiCelRule.html">iCelRule</a>* <a class="code" href="structiCelRuleBase.html#fc66ea6e4d704b9cce80ba5340df8a87">FindRule</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00092"></a>00092 
-<a name="l00096"></a>00096   <span class="keyword">virtual</span> <span class="keyword">const</span> celRuleHash&amp; <a class="code" href="structiCelRuleBase.html#23f67dd724a600f9454cf58f6c44c4d0">GetRules</a> () <span class="keyword">const </span>= 0;
-<a name="l00097"></a>00097 
-<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#73dcbd1292aa66a5e57108a2af5f6bda">DeleteRule</a> (<a class="code" href="structiCelRule.html">iCelRule</a>* rule) = 0;
-<a name="l00102"></a>00102 };
+<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#0e6c7226d6cc796a7131000be0b4ea6d">SetPriority</a> (csStringID priority) = 0;
+<a name="l00077"></a>00077 };
+<a name="l00078"></a>00078 
+<a name="l00080"></a>00080 <span class="keyword">typedef</span> csHash&lt;csRef&lt;iCelRule&gt;,csStrKey&gt; celRuleHash;
+<a name="l00081"></a>00081 
+<a name="l00085"></a><a class="code" href="structiCelRuleBase.html">00085</a> <span class="keyword">struct </span><a class="code" href="structiCelRuleBase.html">iCelRuleBase</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00086"></a>00086 {
+<a name="l00087"></a>00087   SCF_INTERFACE (<a class="code" href="structiCelRuleBase.html">iCelRuleBase</a>, 0, 0, 1);
+<a name="l00088"></a>00088 
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <a class="code" href="structiCelRule.html">iCelRule</a>* <a class="code" href="structiCelRuleBase.html#5720b0fe3b5941787f54129b23758b5b">CreateRule</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00093"></a>00093 
+<a name="l00097"></a>00097   <span class="keyword">virtual</span> <a class="code" href="structiCelRule.html">iCelRule</a>* <a class="code" href="structiCelRuleBase.html#fc66ea6e4d704b9cce80ba5340df8a87">FindRule</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00098"></a>00098 
+<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keyword">const</span> celRuleHash&amp; <a class="code" href="structiCelRuleBase.html#23f67dd724a600f9454cf58f6c44c4d0">GetRules</a> () <span class="keyword">const </span>= 0;
 <a name="l00103"></a>00103 
-<a name="l00104"></a>00104 <span class="preprocessor">#endif // __CEL_RULEBASE__</span>
-<a name="l00105"></a>00105 <span class="preprocessor"></span>
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#73dcbd1292aa66a5e57108a2af5f6bda">DeleteRule</a> (<a class="code" href="structiCelRule.html">iCelRule</a>* rule) = 0;
+<a name="l00108"></a>00108 };
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110 <span class="preprocessor">#endif // __CEL_RULEBASE__</span>
+<a name="l00111"></a>00111 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>

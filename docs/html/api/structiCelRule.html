@@ -48,6 +48,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRule.html#bab54d909be26632c2409994c8633238">GetVariable</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of the variable that this rule will influence.  <a href="#bab54d909be26632c2409994c8633238"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRule.html#b019185de00d43d488fd3df14886c32a">GetVariableIndex</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the index of the local variable that will be used by the expression for the variable that this rule influences.  <a href="#b019185de00d43d488fd3df14886c32a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelRule.html#7833d49f741e627926e2d9cadf5fa5cf">SetExpression</a> (<a class="el" href="structiCelExpression.html">iCelExpression</a> *expr)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the expression corresponding with this rule.  <a href="#7833d49f741e627926e2d9cadf5fa5cf"></a><br></td></tr>
@@ -176,6 +179,35 @@ Get the priority ID for this rule.
 
 <p>
 Get the name of the variable that this rule will influence. 
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="b019185de00d43d488fd3df14886c32a"></a><!-- doxytag: member="iCelRule::GetVariableIndex" ref="b019185de00d43d488fd3df14886c32a" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual size_t iCelRule::GetVariableIndex           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the index of the local variable that will be used by the expression for the variable that this rule influences. 
 <p>
     </td>
   </tr>
