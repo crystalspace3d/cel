@@ -246,7 +246,8 @@ bool celPcRules::GetProperty (const char* name, celData& ret)
       switch (type)
       {
         case CEL_DATA_FLOAT: ret.Set (pcprop->GetPropertyFloat (idx)); break;
-        case CEL_DATA_LONG: ret.Set ((int32)pcprop->GetPropertyLong (idx)); break;
+        case CEL_DATA_LONG:
+	  ret.Set ((int32)pcprop->GetPropertyLong (idx)); break;
         case CEL_DATA_BOOL: ret.Set (pcprop->GetPropertyBool (idx)); break;
         case CEL_DATA_STRING: ret.Set (pcprop->GetPropertyString (idx)); break;
         case CEL_DATA_VECTOR2:
@@ -295,66 +296,128 @@ bool celPcRules::GetProperty (const char* name, celData& ret)
 
 float celPcRules::GetPropertyFloat (const char* name)
 {
-  GetProperties ();
-  float val;
-  if (pcprop)
+  celData ret;
+  if (!GetProperty (name, ret)) return 0.0f;
+  switch (ret.type)
   {
-    size_t idx = pcprop->GetPropertyIndex (name);
-    if (idx == csArrayItemNotFound) val = 0.0f;
-    else val = pcprop->GetPropertyFloat (idx);
-  }
-  else val = 0.0f;
-  celActiveRulesForVariable* av = active_rules_for_variable.Get (name, 0);
-  if (av)
-  {
-    size_t i;
-    // @@@ Need to sort rules on priority!
-    for (i = 0 ; i < av->active_rules.Length () ; i++)
+    case CEL_DATA_FLOAT: return ret.value.f;
+    case CEL_DATA_BOOL: return ret.value.bo ? 1.0f : 0.0f;
+    case CEL_DATA_LONG: return float (ret.value.l);
+    case CEL_DATA_ULONG: return float (ret.value.ul);
+    case CEL_DATA_STRING:
     {
-      celActiveRule* ar = av->active_rules[i];
-      iCelExpression* expr = ar->rule->GetExpression ();
-      size_t idx = ar->rule->GetVariableIndex ();
-      if (idx != csArrayItemNotFound)
-        expr->SetLocalVariableFloat (idx, val);
-      celData ret;
-      expr->Execute (entity, ret);
-      switch (ret.type)
-      {
-        case CEL_DATA_FLOAT: val = ret.value.f; break;
-	case CEL_DATA_BOOL: val = ret.value.bo ? 1.0f : 0.0f; break;
-	case CEL_DATA_LONG: val = float (ret.value.l); break;
-	case CEL_DATA_ULONG: val = float (ret.value.ul); break;
-	case CEL_DATA_STRING: sscanf (ret.value.s->GetData (), "%f", &val);
-	  break;
-        default: val = 0.0f; break;
-      }
+      float val;
+      sscanf (ret.value.s->GetData (), "%f", &val);
+      return val;
     }
+    default: return 0.0f;
   }
-  return val;
 }
 
 long celPcRules::GetPropertyLong (const char* name)
 {
+  celData ret;
+  if (!GetProperty (name, ret)) return 0;
+  switch (ret.type)
+  {
+    case CEL_DATA_FLOAT: return (long)ret.value.f;
+    case CEL_DATA_BOOL: return ret.value.bo ? 1 : 0;
+    case CEL_DATA_LONG: return long (ret.value.l);
+    case CEL_DATA_ULONG: return long (ret.value.ul);
+    case CEL_DATA_STRING:
+    {
+      long val;
+      sscanf (ret.value.s->GetData (), "%ld", &val);
+      return val;
+    }
+    default: return 0;
+  }
 }
 
 bool celPcRules::GetPropertyBool (const char* name)
 {
+  celData ret;
+  if (!GetProperty (name, ret)) return false;
+  switch (ret.type)
+  {
+    case CEL_DATA_FLOAT: return fabs (ret.value.f) > 0.00001;
+    case CEL_DATA_BOOL: return ret.value.bo;
+    case CEL_DATA_LONG: return bool (ret.value.l);
+    case CEL_DATA_ULONG: return bool (ret.value.ul);
+    case CEL_DATA_STRING:
+    {
+      long val;
+      sscanf (ret.value.s->GetData (), "%ld", &val);
+      return bool (val);
+    }
+    default: return false;
+  }
 }
 
-bool celPcRules::GetPropertyVector (const char* name, const csVector2& v)
+bool celPcRules::GetPropertyVector (const char* name, csVector2& v)
 {
+  celData ret;
+  v.Set (0, 0);
+  if (!GetProperty (name, ret)) return true;
+  switch (ret.type)
+  {
+    case CEL_DATA_VECTOR2: v.Set (ret.value.v.x, ret.value.v.y); return true;
+    case CEL_DATA_STRING:
+    {
+      sscanf (ret.value.s->GetData (), "%f,%f", &v.x, &v.y);
+      return true;
+    }
+    default: return true;
+  }
 }
 
-bool celPcRules::GetPropertyVector (const char* name, const csVector3& v)
+bool celPcRules::GetPropertyVector (const char* name, csVector3& v)
 {
+  celData ret;
+  v.Set (0, 0, 0);
+  if (!GetProperty (name, ret)) return true;
+  switch (ret.type)
+  {
+    case CEL_DATA_VECTOR3:
+      v.Set (ret.value.v.x, ret.value.v.y, ret.value.v.z);
+      return true;
+    case CEL_DATA_STRING:
+    {
+      sscanf (ret.value.s->GetData (), "%f,%f,%f", &v.x, &v.y, &v.z);
+      return true;
+    }
+    default: return true;
+  }
 }
 
-bool celPcRules::GetPropertyColor (const char* name, const csColor& v)
+bool celPcRules::GetPropertyColor (const char* name, csColor& v)
 {
+  celData ret;
+  v.Set (0, 0, 0);
+  if (!GetProperty (name, ret)) return true;
+  switch (ret.type)
+  {
+    case CEL_DATA_COLOR:
+      v.Set (ret.value.col.red, ret.value.col.green, ret.value.col.blue);
+      return true;
+    case CEL_DATA_STRING:
+    {
+      sscanf (ret.value.s->GetData (), "%f,%f,%f", &v.red, &v.green, &v.blue);
+      return true;
+    }
+    default: return true;
+  }
 }
 
 const char* celPcRules::GetPropertyString (const char* name)
 {
+  celData ret;
+  if (!GetProperty (name, ret)) return "";
+  switch (ret.type)
+  {
+    case CEL_DATA_STRING: return ret.value.s->GetData ();
+    default: return "";
+  }
 }
 
 //---------------------------------------------------------------------------

@@ -103,9 +103,9 @@ public:
   float GetPropertyFloat (const char* name);
   long GetPropertyLong (const char* name);
   bool GetPropertyBool (const char* name);
-  bool GetPropertyVector (const char* name, const csVector2& v);
-  bool GetPropertyVector (const char* name, const csVector3& v);
-  bool GetPropertyColor (const char* name, const csColor& v);
+  bool GetPropertyVector (const char* name, csVector2& v);
+  bool GetPropertyVector (const char* name, csVector3& v);
+  bool GetPropertyColor (const char* name, csColor& v);
   const char* GetPropertyString (const char* name);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
@@ -150,15 +150,15 @@ public:
     {
       return scfParent->GetPropertyBool (name);
     }
-    virtual bool GetPropertyVector (const char* name, const csVector2& v)
+    virtual bool GetPropertyVector (const char* name, csVector2& v)
     {
       return scfParent->GetPropertyVector (name, v);
     }
-    virtual bool GetPropertyVector (const char* name, const csVector3& v)
+    virtual bool GetPropertyVector (const char* name, csVector3& v)
     {
       return scfParent->GetPropertyVector (name, v);
     }
-    virtual bool GetPropertyColor (const char* name, const csColor& v)
+    virtual bool GetPropertyColor (const char* name, csColor& v)
     {
       return scfParent->GetPropertyColor (name, v);
     }

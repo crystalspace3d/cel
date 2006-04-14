@@ -433,7 +433,8 @@ public:
   // Add a local variable. Return index.
   size_t AddLocalVariable ();
   // Get a local variable with index.
-  celXmlArg& GetLocalVariable (size_t idx) { return local_vars[idx]; }
+  celXmlArg& GetLocalVariable (size_t idx)
+  { return local_vars.GetExtend (idx); }
 
   bool Execute (iCelEntity* entity, celBlXml* cbl, celBehaviourXml* behave,
   	celData& ret, iCelParameterBlock* params, size_t startop = 0,
