@@ -83,11 +83,11 @@ struct iPcRules : public iBase
   /// Get a specific property.
   virtual bool GetPropertyBool (const char* name) = 0;
   /// Get a specific property.
-  virtual bool GetPropertyVector (const char* name, const csVector2& v) = 0;
+  virtual bool GetPropertyVector (const char* name, csVector2& v) = 0;
   /// Get a specific property.
-  virtual bool GetPropertyVector (const char* name, const csVector3& v) = 0;
+  virtual bool GetPropertyVector (const char* name, csVector3& v) = 0;
   /// Get a specific property.
-  virtual bool GetPropertyColor (const char* name, const csColor& v) = 0;
+  virtual bool GetPropertyColor (const char* name, csColor& v) = 0;
   /// Get a specific property.
   virtual const char* GetPropertyString (const char* name) = 0;
 };

@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Apr-2006
+	- Jorrit fixed a crash bug in the expression parser so that you
+	  can now pre-set local variables.
+	- Jorrit completed the set local variable methods in pcrules.
 13-Apr-2006
 	- Jorrit added support for setting local variables prior to
 	  executing an expression in the iCelExpression interface.
