@@ -265,7 +265,8 @@ bool celPcMesh::PerformAction (csStringID actionId,
       return Report (object_reg, "'material' parameter missing for SetMaterial!");
     iMaterialWrapper* mat = engine->FindMaterial (material);
     if (!mat)
-      return Report (object_reg, "Can't find material '%s' for SetMaterial!", material);
+      return Report (object_reg, "Can't find material '%s' for SetMaterial!",
+      	material);
     if (mesh)
     {
       mesh->GetMeshObject ()->SetMaterialWrapper (mat);

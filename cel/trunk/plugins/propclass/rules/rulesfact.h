@@ -27,6 +27,7 @@
 #include "csutil/parray.h"
 #include "csutil/refarr.h"
 #include "csutil/refcount.h"
+#include "iutil/virtclk.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -45,7 +46,7 @@ class celPcRules;
  */
 CEL_DECLARE_FACTORY (Rules)
 
-class celActiveRule
+class celActiveRule : public csRefCount
 {
 public:
   csRef<iCelRule> rule;
@@ -57,7 +58,8 @@ public:
 class celActiveRulesForVariable : public csRefCount
 {
 public:
-  csPDelArray<celActiveRule> active_rules;
+  // This array is sorted on priority.
+  csRefArray<celActiveRule> active_rules;
 
 public:
   celActiveRulesForVariable () { }
@@ -80,6 +82,12 @@ public:
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);
 };
 
+struct celTimedRule
+{
+  csTicks remove_time;
+  csRef<celActiveRule> rule;
+};
+
 /**
  * This is the rules property class.
  */
@@ -90,11 +98,11 @@ private:
   celOneParameterBlock* params;
 
   // For PerformAction.
-  // id_message is shared.
   static csStringID action_addrule;
   static csStringID action_deleterule;
   static csStringID action_deleteallrules;
   static csStringID id_name;
+  static csStringID id_time;
 
   // Other fields.
   csRef<iCelRuleBase> rulebase;
@@ -103,8 +111,13 @@ private:
   void GetProperties ();
   csRef<rulePropertyListener> prop_listener;
 
+  csRef<iVirtualClock> vc;
+
   // Active rules.
   celActiveRulesForVariableHash active_rules_for_variable;
+
+  // Rules that time out. This array is sorted on ticks.
+  csArray<celTimedRule> timed_rules;
 
 public:
   celPcRules (iObjectRegistry* object_reg);
@@ -113,7 +126,9 @@ public:
   void PropertyChanged (iPcProperties* pcprop, size_t idx);
 
   void AddRule (iCelRule* rule);
+  void AddRule (iCelRule* rule, csTicks time);
   void DeleteRule (iCelRule* rule);
+  void DeleteRule (celActiveRule* rule);
   void DeleteAllRules ();
   celDataType GetPropertyType (const char* name);
   bool GetProperty (const char* name, celData& ret);
@@ -131,6 +146,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual void TickEveryFrame ();
 
   struct PcRules : public iPcRules
   {
@@ -138,6 +154,10 @@ public:
     virtual void AddRule (iCelRule* rule)
     {
       scfParent->AddRule (rule);
+    }
+    virtual void AddRule (iCelRule* rule, csTicks time)
+    {
+      scfParent->AddRule (rule, time);
     }
     virtual void DeleteRule (iCelRule* rule)
     {

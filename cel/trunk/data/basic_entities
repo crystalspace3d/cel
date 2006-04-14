@@ -453,13 +453,14 @@
 	    </propclass>
 	</addon>
 
-    	<addon plugin="cel.addons.celentity" entityname="ruletest" >
+    	<addon plugin="cel.addons.celentity" entityname="rt" >
 	    <propclass name="pcproperties">
 	    	<property name="strength" float="3.4" />
 	    </propclass>
 	    <propclass name="pcrules">
 		<action name="AddRule">
 		    <par name="name" string="potion_strength" />
+		    <par name="time" long="10000" />
 		</action>
 		<action name="AddRule">
 		    <par name="name" string="ring_strength" />
