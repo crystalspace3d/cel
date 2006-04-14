@@ -38,6 +38,7 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+class celPcRules;
 
 /**
  * Factory for rules.
@@ -65,6 +66,20 @@ public:
 typedef csHash<csRef<celActiveRulesForVariable>, csStrKey>
 	celActiveRulesForVariableHash;
 
+class rulePropertyListener : public scfImplementation1<rulePropertyListener,
+	iPcPropertyListener>
+{
+private:
+  csWeakRef<celPcRules> pcrules;
+
+public:
+  rulePropertyListener (celPcRules* pcrules)
+  	: scfImplementationType (this), pcrules (pcrules) { }
+  virtual ~rulePropertyListener () { }
+
+  virtual void PropertyChanged (iPcProperties* pcprop, size_t idx);
+};
+
 /**
  * This is the rules property class.
  */
@@ -72,8 +87,7 @@ class celPcRules : public celPcCommon
 {
 private:
   // For SendMessage parameters.
-  //static csStringID id_message;
-  //celOneParameterBlock* params;
+  celOneParameterBlock* params;
 
   // For PerformAction.
   // id_message is shared.
@@ -87,6 +101,7 @@ private:
   void GetRuleBase ();
   csWeakRef<iPcProperties> pcprop;
   void GetProperties ();
+  csRef<rulePropertyListener> prop_listener;
 
   // Active rules.
   celActiveRulesForVariableHash active_rules_for_variable;
@@ -94,6 +109,8 @@ private:
 public:
   celPcRules (iObjectRegistry* object_reg);
   virtual ~celPcRules ();
+
+  void PropertyChanged (iPcProperties* pcprop, size_t idx);
 
   void AddRule (iCelRule* rule);
   void DeleteRule (iCelRule* rule);

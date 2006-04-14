@@ -42,6 +42,11 @@ size_t celRule::GetVariableIndex ()
   return var_idx;
 }
 
+size_t celRule::GetPriorityNumber () const
+{
+  return rulebase->GetPriorityNumber (priority);
+}
+
 //--------------------------------------------------------------------------
 
 celRuleBase::celRuleBase (iBase* parent)
@@ -99,7 +104,7 @@ iCelExpressionParser* celRuleBase::GetParser ()
 
 iCelRule* celRuleBase::CreateRule (const char* name)
 {
-  celRule* rule = new celRule (name);
+  celRule* rule = new celRule (this, name);
   rules.Put (name, rule);
   rule->DecRef ();
   return rule;
@@ -108,6 +113,18 @@ iCelRule* celRuleBase::CreateRule (const char* name)
 void celRuleBase::DeleteRule (iCelRule* rule)
 {
   rules.Delete (rule->GetName (), rule);
+}
+
+void celRuleBase::ClearPriorityTable ()
+{
+  priorities.DeleteAll ();
+  priority_hash.DeleteAll ();
+}
+
+void celRuleBase::AddPriority (csStringID priority)
+{
+  size_t idx = priorities.Push (priority);
+  priority_hash.Put (priority, idx);
 }
 
 //---------------------------------------------------------------------------

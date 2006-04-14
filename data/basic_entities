@@ -34,7 +34,12 @@
     </sounds>
     -->
     <addon plugin="cel.addons.ruledef">
-        <rule name="add_strength" var="strength" priority="a" expr="#strength+1" />
+    	<priorities>
+	    <priority name="ring" />
+	    <priority name="potion" />
+	</priorities>
+        <rule name="potion_strength" var="strength" priority="potion" expr="#strength*2" />
+        <rule name="ring_strength" var="strength" priority="ring" expr="#strength+1" />
     </addon>
 
     <sector name="room">
@@ -454,7 +459,10 @@
 	    </propclass>
 	    <propclass name="pcrules">
 		<action name="AddRule">
-		    <par name="name" string="add_strength" />
+		    <par name="name" string="potion_strength" />
+		</action>
+		<action name="AddRule">
+		    <par name="name" string="ring_strength" />
 		</action>
 	    </propclass>
 	</addon>

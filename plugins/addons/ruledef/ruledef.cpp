@@ -50,7 +50,9 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 enum
 {
-  XMLTOKEN_RULE
+  XMLTOKEN_RULE,
+  XMLTOKEN_PRIORITIES,
+  XMLTOKEN_PRIORITY
 };
 
 
@@ -80,6 +82,8 @@ bool celAddOnRuleDef::Initialize (iObjectRegistry* object_reg)
   }
 
   xmltokens.Register ("rule", XMLTOKEN_RULE);
+  xmltokens.Register ("priorities", XMLTOKEN_PRIORITIES);
+  xmltokens.Register ("priority", XMLTOKEN_PRIORITY);
 
   return true;
 }
@@ -147,6 +151,29 @@ csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
     csStringID id = xmltokens.Request (value);
     switch (id)
     {
+      case XMLTOKEN_PRIORITIES:
+        {
+	  rulebase->ClearPriorityTable ();
+	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+	  while (child_it->HasNext ())
+ 	  {
+ 	    csRef<iDocumentNode> child_child = child_it->Next ();
+	    if (child_child->GetType () != CS_NODE_ELEMENT) continue;
+	    const char* child_value = child_child->GetValue ();
+	    csStringID child_id = xmltokens.Request (child_value);
+	    if (child_id == XMLTOKEN_PRIORITY)
+	    {
+	      const char* name = child_child->GetAttributeValue ("name");
+	      rulebase->AddPriority (pl->FetchStringID (name));
+	    }
+	    else
+	    {
+	      synldr->ReportBadToken (child_child);
+	      return 0;
+	    }
+	  }
+	}
+	break;
       case XMLTOKEN_RULE:
         {
 	  const char* name = child->GetAttributeValue ("name");

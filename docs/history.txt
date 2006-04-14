@@ -7,6 +7,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a crash bug in the expression parser so that you
 	  can now pre-set local variables.
 	- Jorrit completed the set local variable methods in pcrules.
+	- Jorrit added a pcrules_modifypar message to the pcrules
+	  property class. It will fire whenever the underlying property
+	  from pcproperties changes or when a rule is added or
+	  removed.
+	- Jorrit added support for priorities in the rule system.
 13-Apr-2006
 	- Jorrit added support for setting local variables prior to
 	  executing an expression in the iCelExpression interface.

@@ -31,13 +31,13 @@ class csVector2;
 class csVector3;
 class csColor;
 
-SCF_VERSION (iPcPropertyListener, 0, 0, 1);
-
 /**
  * Listen for property changes.
  */
-struct iPcPropertyListener : public iBase
+struct iPcPropertyListener : public virtual iBase
 {
+  SCF_INTERFACE (iPcPropertyListener, 0, 0, 1);
+
   /**
    * Property was changed or cleared.
    */

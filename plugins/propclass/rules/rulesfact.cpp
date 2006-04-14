@@ -57,6 +57,16 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+void rulePropertyListener::PropertyChanged (iPcProperties* pcprop, size_t idx)
+{
+  if (pcrules)
+  {
+    pcrules->PropertyChanged (pcprop, idx);
+  }
+}
+
+//---------------------------------------------------------------------------
+
 csStringID celPcRules::action_addrule = csInvalidStringID;
 csStringID celPcRules::action_deleterule = csInvalidStringID;
 csStringID celPcRules::action_deleteallrules = csInvalidStringID;
@@ -75,9 +85,6 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
 
-  // For SendMessage parameters.
-  //params = new celOneParameterBlock ();
-  //params->SetParameterDef (id_message, "message");
 
   // For PerformAction.
   if (action_addrule == csInvalidStringID)
@@ -88,12 +95,18 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
     id_name = pl->FetchStringID ("cel.parameter.name");
   }
 
+  // For SendMessage parameters.
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_name, "name");
+
   GetRuleBase ();
 }
 
 celPcRules::~celPcRules ()
 {
-  //delete params;
+  if (pcprop && prop_listener)
+    pcprop->RemovePropertyListener (prop_listener);
+  delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRules);
 }
 
@@ -177,6 +190,17 @@ void celPcRules::GetRuleBase ()
   }
 }
 
+static int ComparePriorityRule (celActiveRule* const& r1,
+	celActiveRule* const& r2)
+{
+  // Reverse sort!
+  size_t p1 = r1->rule->GetPriorityNumber ();
+  size_t p2 = r2->rule->GetPriorityNumber ();
+  if (p1 < p2) return -1;
+  else if (p1 > p2) return 1;
+  else return 0;
+}
+
 void celPcRules::AddRule (iCelRule* rule)
 {
   celActiveRule* active_rule = new celActiveRule ();
@@ -189,7 +213,15 @@ void celPcRules::AddRule (iCelRule* rule)
     active_rules_for_variable.Put (rule->GetVariable (), av);
     av->DecRef ();
   }
-  av->active_rules.Push (active_rule);
+  av->active_rules.InsertSorted (active_rule, ComparePriorityRule);
+
+  iCelBehaviour* ble = entity->GetBehaviour ();
+  if (ble)
+  {
+    celData ret;
+    params->GetParameter (0).Set (rule->GetVariable ());
+    ble->SendMessage ("pcrules_modifypar", this, ret, params);
+  }
 }
 
 void celPcRules::DeleteRule (iCelRule* rule)
@@ -207,18 +239,72 @@ void celPcRules::DeleteRule (iCelRule* rule)
         av->active_rules.DeleteIndex (i);
       }
     }
+
+    iCelBehaviour* ble = entity->GetBehaviour ();
+    if (ble)
+    {
+      celData ret;
+      params->GetParameter (0).Set (rule->GetVariable ());
+      ble->SendMessage ("pcrules_modifypar", this, ret, params);
+    }
   }
 }
 
 void celPcRules::DeleteAllRules ()
 {
+  csStringArray vars;
+  celActiveRulesForVariableHash::GlobalIterator it =
+  	active_rules_for_variable.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStrKey var;
+    it.Next (var);
+    vars.Push (var);
+  }
+
   active_rules_for_variable.DeleteAll ();
+
+  iCelBehaviour* ble = entity->GetBehaviour ();
+  if (ble)
+  {
+    celData ret;
+    for (size_t i = 0 ; i < vars.Length () ; i++)
+    {
+      params->GetParameter (0).Set (vars[i]);
+      ble->SendMessage ("pcrules_modifypar", this, ret, params);
+    }
+  }
+}
+
+void celPcRules::PropertyChanged (iPcProperties* pcprop, size_t idx)
+{
+  iCelBehaviour* ble = entity->GetBehaviour ();
+  if (ble)
+  {
+    celData ret;
+    const char* var = pcprop->GetPropertyName (idx);
+    celActiveRulesForVariable* av = active_rules_for_variable.Get (var, 0);
+    if (av)
+    {
+      params->GetParameter (0).Set (var);
+      ble->SendMessage ("pcrules_modifypar", this, ret, params);
+    }
+  }
 }
 
 void celPcRules::GetProperties ()
 {
   if (pcprop) return;
   pcprop = CEL_QUERY_PROPCLASS_ENT (entity, iPcProperties);
+  if (pcprop)
+  {
+    prop_listener.AttachNew (new rulePropertyListener (this));
+    pcprop->AddPropertyListener (prop_listener);
+  }
+  else
+  {
+    prop_listener = 0;
+  }
 }
 
 celDataType celPcRules::GetPropertyType (const char* name)
