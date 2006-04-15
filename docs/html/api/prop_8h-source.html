@@ -54,10 +54,10 @@
 <a name="l00031"></a>00031 <span class="keyword">class </span>csVector3;
 <a name="l00032"></a>00032 <span class="keyword">class </span>csColor;
 <a name="l00033"></a>00033 
-<a name="l00034"></a>00034 SCF_VERSION (<a class="code" href="structiPcPropertyListener.html">iPcPropertyListener</a>, 0, 0, 1);
-<a name="l00035"></a>00035 
-<a name="l00039"></a><a class="code" href="structiPcPropertyListener.html">00039</a> <span class="keyword">struct </span><a class="code" href="structiPcPropertyListener.html">iPcPropertyListener</a> : <span class="keyword">public</span> iBase
-<a name="l00040"></a>00040 {
+<a name="l00037"></a><a class="code" href="structiPcPropertyListener.html">00037</a> <span class="keyword">struct </span><a class="code" href="structiPcPropertyListener.html">iPcPropertyListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00038"></a>00038 {
+<a name="l00039"></a>00039   SCF_INTERFACE (<a class="code" href="structiPcPropertyListener.html">iPcPropertyListener</a>, 0, 0, 1);
+<a name="l00040"></a>00040 
 <a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcPropertyListener.html#6844d47be750becebc1e4d79cb55442f">PropertyChanged</a> (<a class="code" href="structiPcProperties.html">iPcProperties</a>* pcprop, size_t idx) = 0;
 <a name="l00045"></a>00045 };
 <a name="l00046"></a>00046 
