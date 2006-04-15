@@ -36,6 +36,9 @@
 <a href="structiPcRules-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#b5bd651e9e104eb91d7c5da61e55a6f0">AddRule</a> (<a class="el" href="structiCelRule.html">iCelRule</a> *rule, csTicks time)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a rule which times out after a specific amount of time.  <a href="#b5bd651e9e104eb91d7c5da61e55a6f0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#89923097b616b94488007534c3497011">AddRule</a> (<a class="el" href="structiCelRule.html">iCelRule</a> *rule)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a rule.  <a href="#89923097b616b94488007534c3497011"></a><br></td></tr>
@@ -51,9 +54,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#d721cb91fe855ddcba36b078cabad4ce">GetPropertyBool</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#d721cb91fe855ddcba36b078cabad4ce"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#9a4ae9812ea42cbb7b5f2d0e76684975">GetPropertyColor</a> (const char *name, const csColor &amp;v)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#c489e0149af2f0e8e4cd03f919011861">GetPropertyColor</a> (const char *name, csColor &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#9a4ae9812ea42cbb7b5f2d0e76684975"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#c489e0149af2f0e8e4cd03f919011861"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#79059bc158ff5168925f8b377af1aec0">GetPropertyFloat</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#79059bc158ff5168925f8b377af1aec0"></a><br></td></tr>
@@ -66,20 +69,25 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celDataType&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#91217faf3dfd5936df82f32eb1c5eb0d">GetPropertyType</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the type of the property.  <a href="#91217faf3dfd5936df82f32eb1c5eb0d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#7d1e5c234d77efb85371e62bc3fb2753">GetPropertyVector</a> (const char *name, const csVector3 &amp;v)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#b5ca106e2739e8593f8764f7a877e323">GetPropertyVector</a> (const char *name, csVector3 &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#7d1e5c234d77efb85371e62bc3fb2753"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#d221e9064d5ce7492bb3f076af4c53f0">GetPropertyVector</a> (const char *name, const csVector2 &amp;v)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#b5ca106e2739e8593f8764f7a877e323"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRules.html#90c63a8378b8dd3bd6274ad03f7ffd90">GetPropertyVector</a> (const char *name, csVector2 &amp;v)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#d221e9064d5ce7492bb3f076af4c53f0"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a specific property.  <a href="#90c63a8378b8dd3bd6274ad03f7ffd90"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class represents a set of active rules for an entity. 
 <p>
 It uses the rule base system (<a class="el" href="structiCelRuleBase.html">iCelRuleBase</a>). Note that this property class will automatically load the rule base system if it is missing. When reading properties out of this pcrules it will check if there are any rules affecting the property. If not you will simply get the value from the associated 'pcproperties' property class (if present). Otherwise you will get a modified value according to the rules defined for this property (starting from the value out of pcproperties). If the 'pcproperties' is not present a default value is assumed (0 for numbers, empty string for string, 0-vector for vectors, and black for colors). <p>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
+<li>
+pcrules_modifypar: a parameter has been modified: parameters 'name' (name of the parameter). </li>
+</ul>
+<p>
 This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
 <li>
-AddRule: parameters 'name' (string). </li>
+AddRule: parameters 'name' (string). Optional 'time' (long) parameter. </li>
 <li>
 DeleteRule: parameters 'name' (string). </li>
 <li>
@@ -89,7 +97,46 @@ DeleteAllRules: no parameters. </li>
 <p>
 
 <p>
-Definition at line <a class="el" href="rules_8h-source.html#l00051">51</a> of file <a class="el" href="rules_8h-source.html">rules.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="rules_8h-source.html#l00058">58</a> of file <a class="el" href="rules_8h-source.html">rules.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="b5bd651e9e104eb91d7c5da61e55a6f0"></a><!-- doxytag: member="iPcRules::AddRule" ref="b5bd651e9e104eb91d7c5da61e55a6f0" args="(iCelRule *rule, csTicks time)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual void iPcRules::AddRule           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top"><a class="el" href="structiCelRule.html">iCelRule</a> *&nbsp;</td>
+          <td class="mdname" nowrap> <em>rule</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>csTicks&nbsp;</td>
+          <td class="mdname" nowrap> <em>time</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Add a rule which times out after a specific amount of time. 
+<p>
+    </td>
+  </tr>
+</table>
 <a class="anchor" name="89923097b616b94488007534c3497011"></a><!-- doxytag: member="iPcRules::AddRule" ref="89923097b616b94488007534c3497011" args="(iCelRule *rule)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -248,7 +295,7 @@ Get a specific property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="9a4ae9812ea42cbb7b5f2d0e76684975"></a><!-- doxytag: member="iPcRules::GetPropertyColor" ref="9a4ae9812ea42cbb7b5f2d0e76684975" args="(const char *name, const csColor &amp;v)=0" --><p>
+<a class="anchor" name="c489e0149af2f0e8e4cd03f919011861"></a><!-- doxytag: member="iPcRules::GetPropertyColor" ref="c489e0149af2f0e8e4cd03f919011861" args="(const char *name, csColor &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -262,7 +309,7 @@ Get a specific property.
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>const csColor &amp;&nbsp;</td>
+          <td class="md" nowrap>csColor &amp;&nbsp;</td>
           <td class="mdname" nowrap> <em>v</em></td>
         </tr>
         <tr>
@@ -407,7 +454,7 @@ Get the type of the property.
 This will base itself on the underlying pcproperties. If there is no pcproperties class with the right property in it then this will return CEL_DATA_NONE even though getting a specific typed value might work.     </td>
   </tr>
 </table>
-<a class="anchor" name="7d1e5c234d77efb85371e62bc3fb2753"></a><!-- doxytag: member="iPcRules::GetPropertyVector" ref="7d1e5c234d77efb85371e62bc3fb2753" args="(const char *name, const csVector3 &amp;v)=0" --><p>
+<a class="anchor" name="b5ca106e2739e8593f8764f7a877e323"></a><!-- doxytag: member="iPcRules::GetPropertyVector" ref="b5ca106e2739e8593f8764f7a877e323" args="(const char *name, csVector3 &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -421,7 +468,7 @@ This will base itself on the underlying pcproperties. If there is no pcpropertie
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>const csVector3 &amp;&nbsp;</td>
+          <td class="md" nowrap>csVector3 &amp;&nbsp;</td>
           <td class="mdname" nowrap> <em>v</em></td>
         </tr>
         <tr>
@@ -446,7 +493,7 @@ Get a specific property.
     </td>
   </tr>
 </table>
-<a class="anchor" name="d221e9064d5ce7492bb3f076af4c53f0"></a><!-- doxytag: member="iPcRules::GetPropertyVector" ref="d221e9064d5ce7492bb3f076af4c53f0" args="(const char *name, const csVector2 &amp;v)=0" --><p>
+<a class="anchor" name="90c63a8378b8dd3bd6274ad03f7ffd90"></a><!-- doxytag: member="iPcRules::GetPropertyVector" ref="90c63a8378b8dd3bd6274ad03f7ffd90" args="(const char *name, csVector2 &amp;v)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -460,7 +507,7 @@ Get a specific property.
         <tr>
           <td class="md" nowrap align="right"></td>
           <td class="md"></td>
-          <td class="md" nowrap>const csVector2 &amp;&nbsp;</td>
+          <td class="md" nowrap>csVector2 &amp;&nbsp;</td>
           <td class="mdname" nowrap> <em>v</em></td>
         </tr>
         <tr>
