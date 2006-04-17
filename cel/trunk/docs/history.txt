@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Apr-2006
+        - Arianna fixed some warnings found with MSVC 7.1 in 64-bits mode.
 14-Apr-2006
 	- Jorrit fixed a crash bug in the expression parser so that you
 	  can now pre-set local variables.

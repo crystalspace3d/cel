@@ -308,7 +308,7 @@ void celPcSpawn::Reset ()
 void celPcSpawn::Spawn ()
 {
   csRandomGen rng;
-  SpawnEntityNr (rng.Get(spawninfo.Length ()));
+  SpawnEntityNr (rng.Get((int)spawninfo.Length ()));
 }
 
 void celPcSpawn::SpawnEntityNr (size_t idx)
