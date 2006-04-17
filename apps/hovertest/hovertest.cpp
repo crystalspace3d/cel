@@ -231,13 +231,13 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
 
   csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
         iPcCraftController);
-  pccraft->SetAccTurn (0.4);
+  pccraft->SetAccTurn (0.4f);
   pccraft->SetMaxTurn (1.5);
-  pccraft->SetAccPitch (0.4);
+  pccraft->SetAccPitch (0.4f);
   pccraft->SetMaxPitch (0.5);
   pccraft->SetThrustForce (10.0);
   pccraft->SetTopSpeed (20.0);
-  pccraft->SetRedirectVelocityRatio (0.2);
+  pccraft->SetRedirectVelocityRatio (0.2f);
 
   return true;
 }

@@ -518,13 +518,13 @@ bool celPcRules::GetPropertyBool (const char* name)
   {
     case CEL_DATA_FLOAT: return fabs (ret.value.f) > 0.00001;
     case CEL_DATA_BOOL: return ret.value.bo;
-    case CEL_DATA_LONG: return bool (ret.value.l);
-    case CEL_DATA_ULONG: return bool (ret.value.ul);
+    case CEL_DATA_LONG: return (ret.value.l ? true : false);
+    case CEL_DATA_ULONG: return (ret.value.ul ? true : false);
     case CEL_DATA_STRING:
     {
       long val;
       sscanf (ret.value.s->GetData (), "%ld", &val);
-      return bool (val);
+      return (val ? true : false);
     }
     default: return false;
   }

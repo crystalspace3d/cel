@@ -547,7 +547,7 @@ void celConsole::AssignVar (const csStringArray& args)
       pcprop->SetProperty (retvar.value.s->GetData (), (long)ret.value.ul);
       break;
     case CEL_DATA_BOOL:
-      pcprop->SetProperty (retvar.value.s->GetData (), (bool)ret.value.b);
+        pcprop->SetProperty (retvar.value.s->GetData (), (ret.value.b ? true : false));
       break;
     case CEL_DATA_FLOAT:
       pcprop->SetProperty (retvar.value.s->GetData (), ret.value.f);
