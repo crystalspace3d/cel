@@ -128,6 +128,13 @@ enum
   XMLFUNCTION_TESTVAR,
   XMLFUNCTION_READFILE,
   XMLFUNCTION_WRITEFILE,
+  XMLFUNCTION_GETYROT,
+  XMLFUNCTION_VECX,
+  XMLFUNCTION_VECY,
+  XMLFUNCTION_VECZ,
+  XMLFUNCTION_COLRED,
+  XMLFUNCTION_COLGREEN,
+  XMLFUNCTION_COLBLUE,
 
   XMLFUNCTION_LAST
 };
@@ -250,6 +257,13 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("testvar", XMLFUNCTION_TESTVAR);
   functions.Register ("readfile", XMLFUNCTION_READFILE);
   functions.Register ("writefile", XMLFUNCTION_WRITEFILE);
+  functions.Register ("getyrot", XMLFUNCTION_GETYROT);
+  functions.Register ("vecx", XMLFUNCTION_VECX);
+  functions.Register ("vecy", XMLFUNCTION_VECY);
+  functions.Register ("vecz", XMLFUNCTION_VECZ);
+  functions.Register ("colred", XMLFUNCTION_COLRED);
+  functions.Register ("colgreen", XMLFUNCTION_COLGREEN);
+  functions.Register ("colblue", XMLFUNCTION_COLBLUE);
 
   return true;
 }
@@ -475,6 +489,58 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
 	h->AddOperation (CEL_OPERATION_WRITEFILE);
+      }
+      break;
+    case XMLFUNCTION_VECX:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_VECX);
+      }
+      break;
+    case XMLFUNCTION_VECY:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_VECY);
+      }
+      break;
+    case XMLFUNCTION_VECZ:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_VECZ);
+      }
+      break;
+    case XMLFUNCTION_COLRED:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_COLRED);
+      }
+      break;
+    case XMLFUNCTION_COLGREEN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_COLGREEN);
+      }
+      break;
+    case XMLFUNCTION_COLBLUE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_COLBLUE);
+      }
+      break;
+    case XMLFUNCTION_GETYROT:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_GETYROT);
       }
       break;
     case XMLFUNCTION_TESTVAR:

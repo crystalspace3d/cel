@@ -57,6 +57,7 @@ class celVariableParameterBlock;
 // F: float
 // EH: event handler
 // C: code location
+// CO: code location
 // PC: property class
 // I: integer
 // V: vector
@@ -171,6 +172,12 @@ enum
   CEL_OPERATION_COLOR,		// A:-		S:F,F,F		OS:C
   CEL_OPERATION_VECTOR2,	// A:-		S:F,F		OS:V2
   CEL_OPERATION_VECTOR3,	// A:-		S:F,F,F		OS:V3
+  CEL_OPERATION_VECX,		// A:-		S:V		OS:F
+  CEL_OPERATION_VECY,		// A:-		S:V		OS:F
+  CEL_OPERATION_VECZ,		// A:-		S:V		OS:F
+  CEL_OPERATION_COLRED,		// A:-		S:CO		OS:F
+  CEL_OPERATION_COLGREEN,	// A:-		S:CO		OS:F
+  CEL_OPERATION_COLBLUE,	// A:-		S:CO		OS:F
 
   CEL_OPERATION_UNARYMINUS,	// A:-		S:?		OS:?
   CEL_OPERATION_MINUS,		// A:-		S:?,?		OS:?
@@ -219,6 +226,7 @@ enum
   CEL_OPERATION_SELECTENTITY,	// A:-		S:I,I,F,S,S	OS:-
   CEL_OPERATION_HITBEAM,	// A:-		S:V,V,S,S,S	OS:-
   CEL_OPERATION_TESTVAR,	// A:-		S:S		OS:B
+  CEL_OPERATION_GETYROT,	// A:-		S:F,F		OS:F
 
   CEL_OPERATION_STRSUB,		// A:-		S:S,I,I		OS:S
   CEL_OPERATION_STRIDX,		// A:-		S:S,S		OS:I

@@ -1254,6 +1254,18 @@ iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
   return p;
 }
 
+static float GetAngle (float x, float y)
+{
+  if (x > 1.0 )  x = 1.0;
+  if (x < -1.0 ) x = -1.0;
+
+  float angle = acos (x);
+  if (y < 0)
+    angle = 2*PI - angle;
+
+  return angle;
+}
+
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
   if (stack.Length () < i) \
@@ -1445,6 +1457,76 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  top.SetPC (other_pc);	// Can be 0.
 	}
         break;
+      case CEL_OPERATION_VECX:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: vecx vec=%s\n", i-1, A2S (top)));
+	  if (top.type == CEL_DATA_VECTOR2)
+	  {
+	    csVector2 v = ArgToVector2 (top);
+	    top.SetFloat (v.x);
+	  }
+	  else
+	  {
+	    csVector3 v = ArgToVector3 (top);
+	    top.SetFloat (v.x);
+	  }
+	}
+	break;
+      case CEL_OPERATION_VECY:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: vecy vec=%s\n", i-1, A2S (top)));
+	  if (top.type == CEL_DATA_VECTOR2)
+	  {
+	    csVector2 v = ArgToVector2 (top);
+	    top.SetFloat (v.y);
+	  }
+	  else
+	  {
+	    csVector3 v = ArgToVector3 (top);
+	    top.SetFloat (v.y);
+	  }
+	}
+	break;
+      case CEL_OPERATION_VECZ:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: vecz vec=%s\n", i-1, A2S (top)));
+	  csVector3 v = ArgToVector3 (top);
+	  top.SetFloat (v.z);
+	}
+	break;
+      case CEL_OPERATION_COLRED:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: colred vec=%s\n", i-1, A2S (top)));
+	  csColor v = ArgToColor (top);
+	  top.SetFloat (v.red);
+	}
+	break;
+      case CEL_OPERATION_COLGREEN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: colgreen vec=%s\n", i-1, A2S (top)));
+	  csColor v = ArgToColor (top);
+	  top.SetFloat (v.green);
+	}
+	break;
+      case CEL_OPERATION_COLBLUE:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: colblue vec=%s\n", i-1, A2S (top)));
+	  csColor v = ArgToColor (top);
+	  top.SetFloat (v.blue);
+	}
+	break;
       case CEL_OPERATION_VECTOR2:
         {
 	  CHECK_STACK(2)
@@ -4355,6 +4437,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  props->SetProperty (entvarname, selent);
 	  props->SetProperty (isectvarname, isect);
+	}
+	break;
+      case CEL_OPERATION_GETYROT:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_dy = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: getyrot dx=%s dy=%s\n", i-1, A2S (top),
+	  	A2S (a_dy)));
+          float dx = ArgToFloat (top);
+          float dy = ArgToFloat (a_dy);
+	  top.SetFloat (GetAngle (dx, dy));
 	}
 	break;
     }
