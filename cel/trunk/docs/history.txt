@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Apr-2006
+	- Jorrit added new 'getyrot' function to the XML behaviour layer.
+	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
+	  and 'colblue' functions.
 17-Apr-2006
         - Arianna fixed some warnings found with MSVC 7.1 in 64-bits mode.
 14-Apr-2006
