@@ -94,6 +94,7 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
 
   objectlookat.Set (0, 0, 0);
   objectcampos.Set (0, 0, 0);
+  objectcampos_world = false;
 
   lastActorSector = 0;
   meshExplicitlySet = false;
@@ -236,7 +237,10 @@ void celPcSimpleCamera::UpdateCamera ()
   {
     // Adjust camera transform for relative position and lookat position.
     csReversibleTransform cam_trans;
-    cam_trans.SetOrigin (actor_trans.This2Other (objectcampos));
+    if (objectcampos_world)
+      cam_trans.SetOrigin (actor_trans.GetOrigin () + objectcampos);
+    else
+      cam_trans.SetOrigin (actor_trans.This2Other (objectcampos));
     cam_trans.LookAt (cam_trans.Other2This (actor_trans.This2Other (
       objectlookat)), actor_trans.This2OtherRelative (csVector3 (0, 1, 0)));
 
@@ -264,9 +268,10 @@ void celPcSimpleCamera::Draw ()
     view->Draw ();
 }
 
-void celPcSimpleCamera::SetCameraOffset (const csVector3& offset)
+void celPcSimpleCamera::SetCameraOffset (const csVector3& offset, bool world)
 {
   objectcampos = offset;
+  objectcampos_world = world;
 }
 
 void celPcSimpleCamera::SetLookAtOffset (const csVector3& lookat)

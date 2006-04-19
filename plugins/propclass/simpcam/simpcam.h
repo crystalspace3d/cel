@@ -78,6 +78,7 @@ private:
   //bool use_cd;
   bool drawmesh;
   csVector3 objectcampos;
+  bool objectcampos_world;
   csVector3 objectlookat;
 
   bool meshExplicitlySet;
@@ -109,7 +110,7 @@ public:
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetCameraOffset (const csVector3& offset);
+  virtual void SetCameraOffset (const csVector3& offset, bool world = false);
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the point the
@@ -232,9 +233,9 @@ public:
     {
       scfParent->SetDrawMesh (draw);
     }
-    virtual void SetCameraOffset (const csVector3& offset)
+    virtual void SetCameraOffset (const csVector3& offset, bool world = false)
     {
-      scfParent->SetCameraOffset (offset);
+      scfParent->SetCameraOffset (offset, world);
     }
     virtual void SetLookAtOffset (const csVector3& lookat)
     {

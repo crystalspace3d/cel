@@ -53,8 +53,10 @@ struct iPcSimpleCamera : public iPcCamera
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
    *        position.
+   * \param world if true then the offset is in world space so the camera
+   *        will always look from the same side.
    */
-  virtual void SetCameraOffset (const csVector3& offset) = 0;
+  virtual void SetCameraOffset (const csVector3& offset, bool world = false) = 0;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the point the

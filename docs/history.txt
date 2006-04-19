@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  (but with no mouse up).
 	- Jorrit changed 'getyrot' to use two vectors as parameters and
 	  also fixed it so that it is correct.
+	- Jorrit did another fix to 'getyrot'.
+	- Jorrit added a new option to the simple camera so that it moves
+	  relative to the actor in world space.
 18-Apr-2006
 	- Jorrit added new 'getyrot' function to the XML behaviour layer.
 	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
