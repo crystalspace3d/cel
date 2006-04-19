@@ -801,7 +801,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
           *(p->command_end) = 0;
         }
       }
-      else
+      else if (ev.Name == csevMouseDown (object_reg, device))
       {
         iCelBehaviour* bh = entity->GetBehaviour();
         if (bh)
