@@ -62,7 +62,9 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 //---------------------------------------------------------------------------
 
 csStringID celPcLight::action_setlight = csInvalidStringID;
+csStringID celPcLight::action_movelight = csInvalidStringID;
 csStringID celPcLight::id_name = csInvalidStringID;
+csStringID celPcLight::id_pos = csInvalidStringID;
 
 celPcLight::celPcLight (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -72,7 +74,9 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   if (action_setlight == csInvalidStringID)
   {
     action_setlight = pl->FetchStringID ("cel.action.SetLight");
+    action_movelight = pl->FetchStringID ("cel.action.MoveLight");
     id_name = pl->FetchStringID ("cel.parameter.name");
+    id_pos = pl->FetchStringID ("cel.parameter.pos");
   }
 }
 
@@ -86,8 +90,24 @@ bool celPcLight::PerformAction (csStringID actionId,
   if (actionId == action_setlight)
   {
     CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!name) return false;
+    if (!name)
+    {
+      Report (object_reg, "'name' parameter missing for the light!");
+      return false;
+    }
     SetLight (name);
+    return true;
+  }
+  else if (actionId == action_movelight)
+  {
+    CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
+    if (!p_pos)
+    {
+      Report (object_reg, "'pos' parameter missing for moving the light!");
+      return false;
+    }
+    if (light)
+      light->SetCenter (pos);
     return true;
   }
   return false;

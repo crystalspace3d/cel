@@ -36,6 +36,7 @@ class csVector3;
  * <ul>
  * <li>SetLight: parameters 'name' (string). This sets an already existing
  *     light for this pclight.
+ * <li>MoveLight: parameters 'pos' (vector3). Move a light.
  * </ul>
  */
 struct iPcLight : public virtual iBase

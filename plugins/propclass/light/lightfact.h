@@ -53,7 +53,9 @@ private:
   csWeakRef<iEngine> engine;
 
   static csStringID action_setlight;
+  static csStringID action_movelight;
   static csStringID id_name;
+  static csStringID id_pos;
 
 public:
   celPcLight (iObjectRegistry* object_reg);
