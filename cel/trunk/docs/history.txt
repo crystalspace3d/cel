@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit did another fix to 'getyrot'.
 	- Jorrit added a new option to the simple camera so that it moves
 	  relative to the actor in world space.
+	- Jorrit added a 'movelight' action to the pclight property class.
 18-Apr-2006
 	- Jorrit added new 'getyrot' function to the XML behaviour layer.
 	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
