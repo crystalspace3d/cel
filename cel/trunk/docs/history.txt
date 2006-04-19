@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Apr-2006
+	- Jorrit fixed a bug in pccommandinput with mouse button events.
+	  If you clicked quickly on a mouse button it would send first
+	  a mouse down, followed by a mouse up, and then a mouse down again
+	  (but with no mouse up).
 18-Apr-2006
 	- Jorrit added new 'getyrot' function to the XML behaviour layer.
 	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
