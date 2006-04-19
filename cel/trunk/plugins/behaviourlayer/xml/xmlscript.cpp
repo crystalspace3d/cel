@@ -1254,15 +1254,11 @@ iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
   return p;
 }
 
-static float GetAngle (float x, float y)
+static float GetAngle (const csVector3& v1, const csVector3& v2)
 {
-  if (x > 1.0 )  x = 1.0;
-  if (x < -1.0 ) x = -1.0;
-
-  float angle = acos (x);
-  if (y < 0)
-    angle = 2*PI - angle;
-
+  float len = sqrt (csSquaredDist::PointPoint (v1, v2));
+  float angle = acos ((v2.x-v1.x) / len);
+  if ((v2.z-v1.z) < 0) angle = 2*PI - angle;
   return angle;
 }
 
@@ -4446,9 +4442,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: getyrot dx=%s dy=%s\n", i-1, A2S (top),
 	  	A2S (a_dy)));
-          float dx = ArgToFloat (top);
-          float dy = ArgToFloat (a_dy);
-	  top.SetFloat (GetAngle (dx, dy));
+          csVector3 v1 = ArgToVector3 (top);
+          csVector3 v2 = ArgToVector3 (a_dy);
+	  top.SetFloat (GetAngle (v1, v2));
 	}
 	break;
     }
