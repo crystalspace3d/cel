@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  If you clicked quickly on a mouse button it would send first
 	  a mouse down, followed by a mouse up, and then a mouse down again
 	  (but with no mouse up).
+	- Jorrit changed 'getyrot' to use two vectors as parameters and
+	  also fixed it so that it is correct.
 18-Apr-2006
 	- Jorrit added new 'getyrot' function to the XML behaviour layer.
 	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
