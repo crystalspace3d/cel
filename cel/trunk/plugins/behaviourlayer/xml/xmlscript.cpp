@@ -1258,7 +1258,9 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
 {
   float len = sqrt (csSquaredDist::PointPoint (v1, v2));
   float angle = acos ((v2.x-v1.x) / len);
-  if ((v2.z-v1.z) < 0) angle = 2*PI - angle;
+  if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
+  angle += PI / 2.0f;
+  if (angle > 2*PI) angle -= 2*PI;
   return angle;
 }
 
