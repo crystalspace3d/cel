@@ -45,6 +45,11 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Billboard, "pcbillboard")
 
+csStringID celPcBillboard::action_drawmesh = csInvalidStringID;
+csStringID celPcBillboard::id_materialname = csInvalidStringID;
+csStringID celPcBillboard::id_factory = csInvalidStringID;
+csStringID celPcBillboard::id_distance = csInvalidStringID;
+
 Property* celPcBillboard::properties = 0;
 size_t celPcBillboard::propertycount = 0;
 
@@ -241,6 +246,14 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   scfiBillboardEventHandler = 0;
 
+  if (action_drawmesh == csInvalidStringID)
+  {
+    action_drawmesh = pl->FetchStringID ("cel.action.DrawMesh");
+    id_materialname = pl->FetchStringID ("cel.parameter.materialname");
+    id_factory = pl->FetchStringID ("cel.parameter.factory");
+    id_distance = pl->FetchStringID ("cel.parameter.distance");
+  }
+
   UpdateProperties (object_reg);
   propdata = new void* [propertycount];
 
@@ -301,6 +314,27 @@ celPcBillboard::~celPcBillboard ()
   delete[] billboard_name;
   delete params;
   delete scfiBillboardEventHandler;
+}
+
+bool celPcBillboard::PerformAction (csStringID actionId,
+	iCelParameterBlock* params)
+{
+  if (actionId == action_drawmesh)
+  {
+    CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
+    if (!p_materialname) return false;	// @@@ Error report!
+    CEL_FETCH_STRING_PAR (factory,params,id_factory);
+    if (!p_factory) return false;	// @@@ Error report!
+    CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
+    if (!p_distance) return false;	// @@@ Error report!
+    GetBillboard ();
+    if (billboard)
+    {
+      return billboard->DrawMesh (materialname, factory, distance);
+    }
+    return true;
+  }
+  return false;
 }
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)

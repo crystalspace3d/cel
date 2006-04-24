@@ -28,8 +28,11 @@
 #include "ivideo/graph2d.h"
 #include "ivideo/material.h"
 #include "ivideo/texture.h"
+#include "ivideo/txtmgr.h"
 #include "iengine/engine.h"
 #include "iengine/material.h"
+#include "iengine/sector.h"
+#include "iengine/mesh.h"
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -357,6 +360,53 @@ bool celBillboard::SetMaterialNameFast (const char* matname)
   material = 0;
   material_ok = false;
   SetupMaterial ();
+  return true;
+}
+
+bool celBillboard::DrawMesh (const char* material_name,
+	const char* factory, float distance)
+{
+  iMaterialWrapper* test = mgr->engine->FindMaterial (material_name);
+  if (test) { return SetMaterialName (material_name); }
+
+  iSector* showroom = mgr->GetShowroom ();
+  csMeshOnTexture* mesh_on_texture = mgr->GetMeshOnTexture ();
+  iMeshFactoryWrapper* factwrap = mgr->engine->FindMeshFactory (factory);
+  if (!factwrap) // @@@ Error report
+    return false;
+  csRef<iMeshWrapper> mesh = mgr->engine->CreateMeshWrapper (factwrap,
+  	"__bbmesh__", showroom);
+  if (!mesh) // @@@ Error report
+    return false;
+
+  iTextureHandle* handle;
+  if (!material_ok || material == 0)
+  {
+    int iw, ih;
+    GetImageSize (iw, ih);
+    iTextureWrapper* txt = mgr->engine->CreateBlackTexture (material_name,
+    	iw, ih, 0, CS_TEXTURE_2D | CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS);
+    txt->SetKeepImage (true);
+    material = mgr->engine->CreateMaterial (material_name, txt);
+    iTextureManager *txtmgr = mgr->GetGraphics3D ()->GetTextureManager ();
+    if (!txt->GetTextureHandle ()) txt->Register (txtmgr);
+    handle = txt->GetTextureHandle ();
+  }
+  else
+  {
+    csRef<iMaterialEngine> mateng = scfQueryInterface<iMaterialEngine> (
+    	material->GetMaterial ());
+    handle = mateng->GetTextureWrapper ()->GetTextureHandle ();
+  }
+
+  mesh_on_texture->ScaleCamera (mesh, distance);
+  bool rc = mesh_on_texture->Render (mesh, handle, true);
+
+  mgr->engine->RemoveObject (mesh);
+
+  if (!rc) return false;
+  if (!material_ok || material == 0)
+    return SetMaterialName (material_name);
   return true;
 }
 
@@ -708,10 +758,15 @@ celBillboardManager::celBillboardManager (iBase* parent)
   z_max = 10;
   default_layer = new celBillboardLayer ("default");
   layers.Push (default_layer);
+
+  mesh_on_texture = 0;
+  showroom = 0;
 }
 
 celBillboardManager::~celBillboardManager ()
 {
+  delete mesh_on_texture;
+
   if (scfiEventHandler)
   {
     csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
@@ -1194,6 +1249,29 @@ bool celBillboardManager::TestCollision (iBillboard* bb1, iBillboard* bb2)
   }
 
   return false;
+}
+
+csMeshOnTexture* celBillboardManager::GetMeshOnTexture ()
+{
+  GetShowroom ();
+  return mesh_on_texture;
+}
+
+iSector* celBillboardManager::GetShowroom ()
+{
+  if (showroom) return showroom;
+  delete mesh_on_texture;
+  mesh_on_texture = new csMeshOnTexture (object_reg);
+  showroom = engine->CreateSector ("cel.billboardmanager.showroom");
+
+  csRef<iLight> light;
+  iLightList* ll = showroom->GetLights ();
+
+  light = engine->CreateLight (0, csVector3(-10, 3, 0), 50, csColor(1, 1, 1));
+  ll->Add (light);
+  light = engine->CreateLight (0, csVector3(10, 3, 0), 50, csColor(1, 1, 1));
+  ll->Add (light);
+  return showroom;
 }
 
 //---------------------------------------------------------------------------
