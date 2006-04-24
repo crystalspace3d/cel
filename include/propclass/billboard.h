@@ -37,6 +37,14 @@ struct iBillboard;
  * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  * </ul>
  * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>DrawMesh: parameters 'materialname' (string),
+ *     'factory' (string), 'distance' (float).
+ * </ul>
+ * <p>
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * <ul>

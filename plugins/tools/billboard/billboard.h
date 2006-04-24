@@ -26,6 +26,7 @@
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
 #include "csutil/cscolor.h"
+#include "cstool/procmesh.h"
 #include "csgeom/csrect.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
@@ -192,6 +193,8 @@ public:
   virtual bool SetMaterialName (const char* matname);
   virtual bool SetMaterialNameFast (const char* matname);
   virtual const char* GetMaterialName () { return materialname; }
+  virtual bool DrawMesh (const char* material_name,
+  	const char* factory, float distance);
   virtual void SetSize (int w, int h);
   virtual void GetSize (int& w, int& h);
   virtual void GetImageSize (int& w, int& h);
@@ -260,6 +263,10 @@ private:
 
   csPDelArray<celBillboardLayer> layers;
   celBillboardLayer* default_layer;
+
+  // Created for rendering meshes on billboards.
+  csMeshOnTexture* mesh_on_texture;
+  iSector* showroom;
 
   struct movingBillboard
   {
@@ -360,6 +367,8 @@ public:
   virtual const csColor& GetDefaultTextBgColor () const
   { return default_bg_color_remember; }
   virtual void SetDefaultTextBgTransparent ();
+  csMeshOnTexture* GetMeshOnTexture ();
+  virtual iSector* GetShowroom ();
 
   struct Component : public iComponent
   {

@@ -56,6 +56,12 @@ private:
   static csStringID id_x, id_y, id_button;
   celGenericParameterBlock* params;
 
+  // For PerformAction.
+  static csStringID action_drawmesh;
+  static csStringID id_materialname;
+  static csStringID id_factory;
+  static csStringID id_distance;
+
   float font_size;
   float default_font_size;
 
@@ -108,6 +114,7 @@ public:
   virtual const char* GetName () const { return "pcbillboard"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the materialname property.

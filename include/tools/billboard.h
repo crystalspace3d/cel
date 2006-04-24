@@ -26,6 +26,7 @@
 
 struct iImage;
 struct iBillboard;
+struct iSector;
 class csColor;
 class csVector2;
 
@@ -154,6 +155,21 @@ struct iBillboard : public iBase
    * Get material name.
    */
   virtual const char* GetMaterialName () = 0;
+
+  /**
+   * Draw a mesh on this billboard. This mesh will be rendered in
+   * the 'showroom' (see the billboard manager).
+   * \param material_name is the name of the material that will be
+   * used. If this material already exists then a new one will
+   * not be created. If you want to force creation of a new material
+   * with the same name then you must first remove the material.
+   * \param factory is the name of the mesh factory.
+   * \param distance is the distance from the mesh where we put our
+   * camera.
+   * \return false on failure.
+   */
+  virtual bool DrawMesh (const char* material_name,
+  	const char* factory, float distance) = 0;
 
   /**
    * Set the size of this billboard in pixels.
@@ -527,6 +543,16 @@ struct iBillboardManager : public iBase
    * Setup the default text background to use transparency.
    */
   virtual void SetDefaultTextBgTransparent () = 0;
+
+  /**
+   * Get the showroom. This is a special sector that is used
+   * for rendering meshes in. If you call this function for the
+   * first time it will create a sector with two white lights (one
+   * at (-10, 3, 0) and one at (10, 3, 0) with radius 50. The object will
+   * be placed at (0,0,0). You can modify this sector freely
+   * (adding/removing lights, changing renderloop, ...)
+   */
+  virtual iSector* GetShowroom () = 0;
 };
 
 #endif // __CEL_MGR_BILLBOARD__

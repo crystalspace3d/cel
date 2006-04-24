@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Apr-2006
+	- Jorrit added preliminary and untested support for rendering
+	  a mesh on a billboard. That can be used for easy setup of
+	  inventory type windows where you want to show a billboard
+	  for a 3D mesh.
 19-Apr-2006
 	- Jorrit fixed a bug in pccommandinput with mouse button events.
 	  If you clicked quickly on a mouse button it would send first
@@ -18,6 +23,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added new 'getyrot' function to the XML behaviour layer.
 	- Jorrit added 'vecx', 'vecy', 'vecz', 'colred', 'colgreen',
 	  and 'colblue' functions.
+	- Jorrit reverted a change from caedes to std_lighting.cscg. This
+	  change breaks lightmapping.
 17-Apr-2006
         - Arianna fixed some warnings found with MSVC 7.1 in 64-bits mode.
 14-Apr-2006
