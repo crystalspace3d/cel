@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Apr-2006
+	- Jorrit added the read-only properties 'path', 'filename',
+	  and 'factory' to pcmesh.
 24-Apr-2006
 	- Jorrit added preliminary and untested support for rendering
 	  a mesh on a billboard. That can be used for easy setup of

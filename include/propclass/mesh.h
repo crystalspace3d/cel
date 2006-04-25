@@ -59,6 +59,9 @@ class csVector3;
  * <ul>
  * <li>position (vector3, read): current position.
  * <li>sector (string, read): current sector.
+ * <li>path (string, read): path for model.
+ * <li>factory (string, read): factory for model.
+ * <li>filename (string, read): filename for model.
  * </ul>
  */
 struct iPcMesh : public virtual iBase

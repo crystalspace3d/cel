@@ -135,6 +135,9 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   propcount = &propertycount;
   propdata[propid_position] = 0;		// Handled in this class.
   propdata[propid_sector] = 0;			// Handled in this class.
+  propdata[propid_path] = 0;			// Handled in this class.
+  propdata[propid_factory] = 0;			// Handled in this class.
+  propdata[propid_filename] = 0;		// Handled in this class.
 }
 
 celPcMesh::~celPcMesh ()
@@ -151,7 +154,7 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 2;
+    propertycount = 5;
     properties = new Property[propertycount];
 
     properties[propid_position].id = pl->FetchStringID (
@@ -165,6 +168,24 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_sector].datatype = CEL_DATA_STRING;
     properties[propid_sector].readonly = true;
     properties[propid_sector].desc = "Current sector of mesh.";
+
+    properties[propid_path].id = pl->FetchStringID (
+    	"cel.property.path");
+    properties[propid_path].datatype = CEL_DATA_STRING;
+    properties[propid_path].readonly = true;
+    properties[propid_path].desc = "VFS path for model.";
+
+    properties[propid_factory].id = pl->FetchStringID (
+    	"cel.property.factory");
+    properties[propid_factory].datatype = CEL_DATA_STRING;
+    properties[propid_factory].readonly = true;
+    properties[propid_factory].desc = "Factory name for the model.";
+
+    properties[propid_filename].id = pl->FetchStringID (
+    	"cel.property.filename");
+    properties[propid_filename].datatype = CEL_DATA_STRING;
+    properties[propid_filename].readonly = true;
+    properties[propid_filename].desc = "Filename for the model.";
   }
 }
 
@@ -200,6 +221,18 @@ const char* celPcMesh::GetPropertyString (csStringID propertyId)
     }
     else
       return 0;
+  }
+  else if (propertyId == properties[propid_path].id)
+  {
+    return path.GetData ();
+  }
+  else if (propertyId == properties[propid_factory].id)
+  {
+    return factName.GetData ();
+  }
+  else if (propertyId == properties[propid_filename].id)
+  {
+    return fileName.GetData ();
   }
   else
   {
