@@ -11574,6 +11574,42 @@ static PyObject *_wrap_iBillboard_GetMaterialName(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBillboard_DrawMesh(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    char *arg2 = (char *) 0 ;
+    char *arg3 = (char *) 0 ;
+    float arg4 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iBillboard_DrawMesh",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    {
+        arg4 = (float)(SWIG_As_float(obj3)); 
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    result = (bool)(arg1)->DrawMesh((char const *)arg2,(char const *)arg3,arg4);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboard_SetSize(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -13167,6 +13203,24 @@ static PyObject *_wrap_iBillboardManager_SetDefaultTextBgTransparent(PyObject *,
     (arg1)->SetDefaultTextBgTransparent();
     
     Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iBillboardManager_GetShowroom(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboardManager *arg1 = (iBillboardManager *) 0 ;
+    iSector *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboardManager_GetShowroom",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboardManager, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (iSector *)(arg1)->GetShowroom();
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iSector, 0);
     return resultobj;
     fail:
     return NULL;
@@ -29404,6 +29458,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboard_SetMaterialName", _wrap_iBillboard_SetMaterialName, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetMaterialNameFast", _wrap_iBillboard_SetMaterialNameFast, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetMaterialName", _wrap_iBillboard_GetMaterialName, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_DrawMesh", _wrap_iBillboard_DrawMesh, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetSize", _wrap_iBillboard_SetSize, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetSize", _wrap_iBillboard_GetSize, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetImageSize", _wrap_iBillboard_GetImageSize, METH_VARARGS, NULL},
@@ -29474,6 +29529,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboardManager_SetDefaultTextBgColor", _wrap_iBillboardManager_SetDefaultTextBgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_GetDefaultTextBgColor", _wrap_iBillboardManager_GetDefaultTextBgColor, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_SetDefaultTextBgTransparent", _wrap_iBillboardManager_SetDefaultTextBgTransparent, METH_VARARGS, NULL},
+	 { (char *)"iBillboardManager_GetShowroom", _wrap_iBillboardManager_GetShowroom, METH_VARARGS, NULL},
 	 { (char *)"delete_iBillboardManager", _wrap_delete_iBillboardManager, METH_VARARGS, NULL},
 	 { (char *)"iBillboardManager_swigregister", iBillboardManager_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iPcBillboard_SetBillboardName", _wrap_iPcBillboard_SetBillboardName, METH_VARARGS, NULL},
