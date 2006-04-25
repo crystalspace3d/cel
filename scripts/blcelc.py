@@ -855,6 +855,7 @@ class iBillboard(cspace.iBase):
     def SetMaterialName(*args): return _blcelc.iBillboard_SetMaterialName(*args)
     def SetMaterialNameFast(*args): return _blcelc.iBillboard_SetMaterialNameFast(*args)
     def GetMaterialName(*args): return _blcelc.iBillboard_GetMaterialName(*args)
+    def DrawMesh(*args): return _blcelc.iBillboard_DrawMesh(*args)
     def SetSize(*args): return _blcelc.iBillboard_SetSize(*args)
     def GetSize(*args): return _blcelc.iBillboard_GetSize(*args)
     def GetImageSize(*args): return _blcelc.iBillboard_GetImageSize(*args)
@@ -946,6 +947,7 @@ class iBillboardManager(cspace.iBase):
     def SetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_SetDefaultTextBgColor(*args)
     def GetDefaultTextBgColor(*args): return _blcelc.iBillboardManager_GetDefaultTextBgColor(*args)
     def SetDefaultTextBgTransparent(*args): return _blcelc.iBillboardManager_SetDefaultTextBgTransparent(*args)
+    def GetShowroom(*args): return _blcelc.iBillboardManager_GetShowroom(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboardManager):
         try:
             if self.thisown: destroy(self)
