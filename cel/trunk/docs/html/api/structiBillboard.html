@@ -45,6 +45,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#6a32acbf89fa9b42e13ccf543356dba0">ClearTextFgColor</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the foreground color for the text so that the default color will be used instead.  <a href="#6a32acbf89fa9b42e13ccf543356dba0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#3bdf84310a7dc822d8cbc9df4bf70674">DrawMesh</a> (const char *material_name, const char *factory, float distance)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draw a mesh on this billboard.  <a href="#3bdf84310a7dc822d8cbc9df4bf70674"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#4e6ca2e73a2611badcb3c3149b4ada01">GetColor</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the color for this billboard (default white).  <a href="#4e6ca2e73a2611badcb3c3149b4ada01"></a><br></td></tr>
@@ -170,7 +173,7 @@ Billboards work in a coordinate system independent of the size of the screen. Th
 <p>
 
 <p>
-Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00127">127</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00128">128</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="588b9d837abfa027fc0e6b7e5cf8889e"></a><!-- doxytag: member="iBillboard::AddEventHandler" ref="588b9d837abfa027fc0e6b7e5cf8889e" args="(iBillboardEventHandler *evh)=0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -256,6 +259,59 @@ Clear the background color for the text so that the default color will be used i
 <p>
 Clear the foreground color for the text so that the default color will be used instead. 
 <p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="3bdf84310a7dc822d8cbc9df4bf70674"></a><!-- doxytag: member="iBillboard::DrawMesh" ref="3bdf84310a7dc822d8cbc9df4bf70674" args="(const char *material_name, const char *factory, float distance)=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual bool iBillboard::DrawMesh           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>material_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>factory</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>float&nbsp;</td>
+          <td class="mdname" nowrap> <em>distance</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Draw a mesh on this billboard. 
+<p>
+This mesh will be rendered in the 'showroom' (see the billboard manager). <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>material_name</em>&nbsp;</td><td>is the name of the material that will be used. If this material already exists then a new one will not be created. If you want to force creation of a new material with the same name then you must first remove the material. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>factory</em>&nbsp;</td><td>is the name of the mesh factory. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>distance</em>&nbsp;</td><td>is the distance from the mesh where we put our camera. </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>false on failure. </dd></dl>
     </td>
   </tr>
 </table>

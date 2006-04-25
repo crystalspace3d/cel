@@ -78,6 +78,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#0241a12f5cf8d171fe1f9d6459ac7974">GetDefaultTextFontSize</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the default font size to use for text.  <a href="#0241a12f5cf8d171fe1f9d6459ac7974"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#ce3d2098b316cd1c616f3d0187adf112">GetShowroom</a> ()=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the showroom.  <a href="#ce3d2098b316cd1c616f3d0187adf112"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboardManager.html#f53361e66200934f767be514d2b2e1f9">RemoveAll</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all billboards.  <a href="#f53361e66200934f767be514d2b2e1f9"></a><br></td></tr>
@@ -137,7 +140,7 @@ This is used in combination with the billboard property class.
 <p>
 
 <p>
-Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00368">368</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="tools_2billboard_8h-source.html#l00384">384</a> of file <a class="el" href="tools_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="68760e60d07e75d999fa16dda2440e5c"></a><!-- doxytag: member="iBillboardManager::BillboardToScreenX" ref="68760e60d07e75d999fa16dda2440e5c" args="(int x) const =0" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -550,6 +553,35 @@ Get the default font to use for text.
 Get the default font size to use for text. 
 <p>
     </td>
+  </tr>
+</table>
+<a class="anchor" name="ce3d2098b316cd1c616f3d0187adf112"></a><!-- doxytag: member="iBillboardManager::GetShowroom" ref="ce3d2098b316cd1c616f3d0187adf112" args="()=0" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">virtual iSector* iBillboardManager::GetShowroom           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Get the showroom. 
+<p>
+This is a special sector that is used for rendering meshes in. If you call this function for the first time it will create a sector with two white lights (one at (-10, 3, 0) and one at (10, 3, 0) with radius 50. The object will be placed at (0,0,0). You can modify this sector freely (adding/removing lights, changing renderloop, ...)     </td>
   </tr>
 </table>
 <a class="anchor" name="f53361e66200934f767be514d2b2e1f9"></a><!-- doxytag: member="iBillboardManager::RemoveAll" ref="f53361e66200934f767be514d2b2e1f9" args="()=0" --><p>
