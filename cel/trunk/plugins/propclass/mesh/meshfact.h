@@ -103,7 +103,10 @@ private:
   enum propids
   {
     propid_position = 0,
-    propid_sector
+    propid_sector,
+    propid_path,
+    propid_factory,
+    propid_filename
   };
   static Property* properties;
   static size_t propertycount;
