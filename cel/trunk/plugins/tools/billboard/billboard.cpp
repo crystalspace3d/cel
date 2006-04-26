@@ -33,6 +33,7 @@
 #include "iengine/material.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
+#include "iengine/camera.h"
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -382,8 +383,8 @@ bool celBillboard::DrawMesh (const char* material_name,
   iTextureHandle* handle;
   if (!material_ok || material == 0)
   {
-    int iw, ih;
-    GetImageSize (iw, ih);
+    int iw = image_w, ih = image_h;
+    //GetImageSize (iw, ih);
     iTextureWrapper* txt = mgr->engine->CreateBlackTexture (material_name,
     	iw, ih, 0, CS_TEXTURE_2D | CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS);
     txt->SetKeepImage (true);
@@ -1263,6 +1264,7 @@ iSector* celBillboardManager::GetShowroom ()
   delete mesh_on_texture;
   mesh_on_texture = new csMeshOnTexture (object_reg);
   showroom = engine->CreateSector ("cel.billboardmanager.showroom");
+  mesh_on_texture->GetView ()->GetCamera ()->SetSector (showroom);
 
   csRef<iLight> light;
   iLightList* ll = showroom->GetLights ();

@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Apr-2006
+	- Jorrit fixed a small bug in the new DrawMesh() function
+	  for billboards. Still not operating nicely though.
 25-Apr-2006
 	- Jorrit added the read-only properties 'path', 'filename',
 	  and 'factory' to pcmesh.
