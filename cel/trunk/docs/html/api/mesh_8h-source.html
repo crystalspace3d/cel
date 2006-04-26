@@ -52,37 +52,37 @@
 <a name="l00029"></a>00029 
 <a name="l00034"></a>00034 <span class="preprocessor">#define CEL_PCMESH_PROPERTY_MESH 1</span>
 <a name="l00035"></a>00035 <span class="preprocessor"></span>
-<a name="l00064"></a><a class="code" href="structiPcMesh.html">00064</a> <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00065"></a>00065 {
-<a name="l00066"></a>00066   SCF_INTERFACE (<a class="code" href="structiPcMesh.html">iPcMesh</a>, 0, 0, 3);
-<a name="l00067"></a>00067 
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#91fc60c23d84087bfccfe0f76f649189">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
-<a name="l00076"></a>00076 
-<a name="l00084"></a>00084   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* factname, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename) = 0;
-<a name="l00085"></a>00085 
-<a name="l00095"></a>00095   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh</a> (iMeshWrapper* mesh, <span class="keywordtype">bool</span> do_remove = <span class="keyword">false</span>) = 0;
-<a name="l00096"></a>00096 
-<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#dbb5a95f78546cf908502e4ba32b07ea">CreateEmptyThing</a> () = 0;
-<a name="l00102"></a>00102 
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> iMeshWrapper* <a class="code" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh</a> () <span class="keyword">const </span>= 0;
-<a name="l00107"></a>00107 
-<a name="l00113"></a>00113   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#6e829a0c7fc5f2fa2c3f960793e31d7f">MoveMesh</a> (iSector* sector, <span class="keyword">const</span> csVector3&amp; pos) = 0;
-<a name="l00114"></a>00114 
-<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#1e85edbbe5f2d9b1918a2153afc54990">SetAction</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* actionName, <span class="keywordtype">bool</span> reset = <span class="keyword">false</span>) = 0;
-<a name="l00121"></a>00121 
-<a name="l00125"></a>00125   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcMesh.html#6ce41a2869d0c29b735c2fad34ab251e">GetAction</a> () = 0;
-<a name="l00126"></a>00126 
-<a name="l00132"></a>00132   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#1dd7280f6eb19bfcfafb47e098b86182">SetReverseAction</a> (<span class="keywordtype">bool</span> reverse = <span class="keyword">true</span>) = 0;
-<a name="l00133"></a>00133 
-<a name="l00137"></a>00137   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#27433c8c059562f24f77b7f2dbba902b">Hide</a> () = 0;
-<a name="l00138"></a>00138 
-<a name="l00142"></a>00142   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#63106a14cd825a75e85ff00e2cd8e3a9">Show</a> () = 0;
-<a name="l00143"></a>00143 
-<a name="l00147"></a>00147   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#9a5048289df31d088e40f0a1c4d40771">IsVisible</a> () <span class="keyword">const </span>= 0;
-<a name="l00148"></a>00148 };
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150 <span class="preprocessor">#endif // __CEL_PF_MESH__</span>
-<a name="l00151"></a>00151 <span class="preprocessor"></span>
+<a name="l00067"></a><a class="code" href="structiPcMesh.html">00067</a> <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00068"></a>00068 {
+<a name="l00069"></a>00069   SCF_INTERFACE (<a class="code" href="structiPcMesh.html">iPcMesh</a>, 0, 0, 3);
+<a name="l00070"></a>00070 
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#91fc60c23d84087bfccfe0f76f649189">SetPath</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* path) = 0;
+<a name="l00079"></a>00079 
+<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* factname, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename) = 0;
+<a name="l00088"></a>00088 
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh</a> (iMeshWrapper* mesh, <span class="keywordtype">bool</span> do_remove = <span class="keyword">false</span>) = 0;
+<a name="l00099"></a>00099 
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#dbb5a95f78546cf908502e4ba32b07ea">CreateEmptyThing</a> () = 0;
+<a name="l00105"></a>00105 
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> iMeshWrapper* <a class="code" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh</a> () <span class="keyword">const </span>= 0;
+<a name="l00110"></a>00110 
+<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#6e829a0c7fc5f2fa2c3f960793e31d7f">MoveMesh</a> (iSector* sector, <span class="keyword">const</span> csVector3&amp; pos) = 0;
+<a name="l00117"></a>00117 
+<a name="l00123"></a>00123   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#1e85edbbe5f2d9b1918a2153afc54990">SetAction</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* actionName, <span class="keywordtype">bool</span> reset = <span class="keyword">false</span>) = 0;
+<a name="l00124"></a>00124 
+<a name="l00128"></a>00128   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcMesh.html#6ce41a2869d0c29b735c2fad34ab251e">GetAction</a> () = 0;
+<a name="l00129"></a>00129 
+<a name="l00135"></a>00135   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#1dd7280f6eb19bfcfafb47e098b86182">SetReverseAction</a> (<span class="keywordtype">bool</span> reverse = <span class="keyword">true</span>) = 0;
+<a name="l00136"></a>00136 
+<a name="l00140"></a>00140   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#27433c8c059562f24f77b7f2dbba902b">Hide</a> () = 0;
+<a name="l00141"></a>00141 
+<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMesh.html#63106a14cd825a75e85ff00e2cd8e3a9">Show</a> () = 0;
+<a name="l00146"></a>00146 
+<a name="l00150"></a>00150   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMesh.html#9a5048289df31d088e40f0a1c4d40771">IsVisible</a> () <span class="keyword">const </span>= 0;
+<a name="l00151"></a>00151 };
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 <span class="preprocessor">#endif // __CEL_PF_MESH__</span>
+<a name="l00154"></a>00154 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
