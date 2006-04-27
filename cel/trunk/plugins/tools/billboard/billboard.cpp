@@ -34,6 +34,7 @@
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
 #include "iengine/camera.h"
+#include "iengine/movable.h"
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -379,6 +380,7 @@ bool celBillboard::DrawMesh (const char* material_name,
   	"__bbmesh__", showroom);
   if (!mesh) // @@@ Error report
     return false;
+  mesh->GetMovable ()->UpdateMove ();
 
   iTextureHandle* handle;
   if (!material_ok || material == 0)
@@ -400,13 +402,19 @@ bool celBillboard::DrawMesh (const char* material_name,
     handle = mateng->GetTextureWrapper ()->GetTextureHandle ();
   }
 
+  int iw, ih;
+  handle->GetRendererDimensions (iw, ih);
+
+  iCamera* cam = mesh_on_texture->GetView ()->GetCamera ();
+  cam->GetTransform ().SetOrigin (csVector3 (0, 0, -10.0f));
+
   mesh_on_texture->ScaleCamera (mesh, distance);
-  bool rc = mesh_on_texture->Render (mesh, handle, true);
+  bool rc = mesh_on_texture->Render (0, handle, true);
 
   mgr->engine->RemoveObject (mesh);
 
   if (!rc) return false;
-  if (!material_ok || material == 0)
+  //if (!material_ok || material == 0)
     return SetMaterialName (material_name);
   return true;
 }
