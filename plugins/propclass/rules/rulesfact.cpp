@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "csutil/debug.h"
+#include "cstool/initapp.h"
 #include "ivaria/reporter.h"
 #include "plugins/propclass/rules/rulesfact.h"
 #include "physicallayer/pl.h"
@@ -176,23 +177,12 @@ void celPcRules::GetRuleBase ()
 {
   if (!rulebase)
   {
-    rulebase = CS_QUERY_REGISTRY (object_reg, iCelRuleBase);
+    rulebase = csQueryRegistryOrLoad<iCelRuleBase> (object_reg,
+    	"cel.manager.rules");
     if (!rulebase)
     {
-      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      rulebase = CS_LOAD_PLUGIN (plugin_mgr, "cel.manager.rules",
-      	iCelRuleBase);
-      if (!rulebase)
-      {
-	Report (object_reg, "Can't find rule base plugin!");
-        return;
-      }
-      if (!object_reg->Register (rulebase, "iCelRuleBase"))
-      {
-	Report (object_reg, "Couldn't register rule base plugin!");
-        return;
-      }
+      Report (object_reg, "Can't find rule base plugin!");
+      return;
     }
   }
 }

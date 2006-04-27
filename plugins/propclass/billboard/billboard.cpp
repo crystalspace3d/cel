@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "cstool/initapp.h"
 #include "tools/billboard.h"
 #include "plugins/propclass/billboard/billboard.h"
 #include "physicallayer/pl.h"
@@ -1070,27 +1071,14 @@ iBillboard* celPcBillboard::GetBillboard ()
   if (billboard) return billboard;
   if (!billboard_mgr)
   {
-    billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
+    billboard_mgr = csQueryRegistryOrLoad<iBillboardManager> (object_reg,
+    	"cel.manager.billboard");
     if (!billboard_mgr)
     {
-      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      billboard_mgr = CS_LOAD_PLUGIN (plugin_mgr, "cel.manager.billboard",
-      	iBillboardManager);
-      if (!billboard_mgr)
-      {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "cel.propclass.billboard",
-	  "Can't find billboard manager plugin!");
-        return 0;
-      }
-      if (!object_reg->Register (billboard_mgr, "iBillboardManager"))
-      {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.propclass.billboard",
-	  "Couldn't register billboard manager plugin!");
-        return 0;
-      }
+	  "Couldn't load billboard manager plugin!");
+      return 0;
     }
   }
   billboard = billboard_mgr->CreateBillboard (billboard_name);

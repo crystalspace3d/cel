@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "cstool/initapp.h"
 #include "csutil/objreg.h"
 #include "csutil/event.h"
 #include "iutil/evdefs.h"
@@ -346,31 +347,23 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
       object_reg);
 
-  conout = csQueryRegistry<iConsoleOutput> (object_reg);
+  conout = csQueryRegistryOrLoad<iConsoleOutput> (object_reg,
+  	"crystalspace.console.output.standard");
   if (!conout)
   {
-    conout = CS_LOAD_PLUGIN (plugmgr,
-	"crystalspace.console.output.standard", iConsoleOutput);
-    if (!conout)
-    {
-      csReport (object_reg,
+    csReport (object_reg,
 	    	CS_REPORTER_SEVERITY_ERROR, "cel.console",
 		"Can't load the output console!");
-      return false;
-    }
+    return false;
   }
-  conin = csQueryRegistry<iConsoleInput> (object_reg);
+  conin = csQueryRegistryOrLoad<iConsoleInput> (object_reg,
+  	"crystalspace.console.input.standard");
   if (!conin)
   {
-    conin = CS_LOAD_PLUGIN (plugmgr,
-	"crystalspace.console.input.standard", iConsoleInput);
-    if (!conin)
-    {
-      csReport (object_reg,
+    csReport (object_reg,
 	    	CS_REPORTER_SEVERITY_ERROR, "cel.console",
 		"Can't load the input console!");
-      return false;
-    }
+    return false;
   }
   conin->Bind (conout);
   conin->SetPrompt ("cel> ");

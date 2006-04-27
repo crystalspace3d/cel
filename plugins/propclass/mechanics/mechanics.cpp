@@ -25,6 +25,7 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/object.h"
+#include "cstool/initapp.h"
 #include "csutil/debug.h"
 #include "csutil/objreg.h"
 #include "csgeom/vector3.h"
@@ -148,15 +149,8 @@ void celPcMechanicsSystem::ApplyForce (celForce& f)
 
 iDynamics* celPcMechanicsSystem::GetDynamics ()
 {
-  dynamics = CS_QUERY_REGISTRY (object_reg, iDynamics);
-  if (!dynamics && !dynsystem_error_reported)
-  {
-    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
-    	iPluginManager);
-    dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode", iDynamics);
-    if (dynamics)
-      object_reg->Register (dynamics, "iDynamics");
-  }
+  dynamics = csQueryRegistryOrLoad<iDynamics> (object_reg,
+  	"crystalspace.dynamics.ode");
   if (!dynamics)
   {
     if (!dynsystem_error_reported)

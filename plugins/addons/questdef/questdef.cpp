@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
+#include "cstool/initapp.h"
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
@@ -75,27 +76,14 @@ csPtr<iBase> celAddOnQuestDef::Parse (iDocumentNode* node,
 {
   if (!questmgr)
   {
-    questmgr = CS_QUERY_REGISTRY (object_reg, iQuestManager);
+    questmgr = csQueryRegistryOrLoad<iQuestManager> (object_reg,
+    	"cel.manager.quests");
     if (!questmgr)
     {
-      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      questmgr = CS_LOAD_PLUGIN (plugin_mgr, "cel.manager.quests",
-      	iQuestManager);
-      if (!questmgr)
-      {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "cel.addons.questdef",
-	  "Can't find quest manager plugin!");
-        return 0;
-      }
-      if (!object_reg->Register (questmgr, "iQuestManager"))
-      {
-	csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.addons.questdef",
-	  "Couldn't register quest manager plugin!");
-        return 0;
-      }
+	  "Can't load quest manager plugin!");
+      return 0;
     }
   }
 
@@ -105,7 +93,7 @@ csPtr<iBase> celAddOnQuestDef::Parse (iDocumentNode* node,
 	  "cel.addons.questdef",
 	  "Couldn't load quests!");
     return 0;
- }
+  }
 
   // IncRef because we return a csPtr. We have to return something
   // that is not 0 here.

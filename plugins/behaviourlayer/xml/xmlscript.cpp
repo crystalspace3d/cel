@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "cstool/initapp.h"
 #include "csgeom/math3d.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
@@ -4321,20 +4322,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
 	  if (w)
 	  {
-	    csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (
-	  		cbl->GetObjectRegistry (), iSndSysRenderer);
+	    csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
+	    	iSndSysRenderer> (cbl->GetObjectRegistry (),
+		"crystalspace.sndsys.renderer.software");
 	    if (!renderer)
-	    {
-	      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (
-		      cbl->GetObjectRegistry (), iPluginManager);
-	      renderer = CS_LOAD_PLUGIN (plugin_mgr,
-		    "crystalspace.sndsys.renderer.software", iSndSysRenderer);
-	      if (renderer)
-	       cbl->GetObjectRegistry ()->Register (renderer,
-			"iSndSysRenderer");
-	      else
-	        return ReportError (cbl, "Error! No sound renderer!");
-	    }
+	      return ReportError (cbl, "Error! No sound renderer!");
 	    sound_source = renderer->CreateSource(w->GetStream());
 	    sound_source->SetVolume (1); //XXX this should also be a parameter
 	    sound_source->GetStream ()->ResetPosition ();
