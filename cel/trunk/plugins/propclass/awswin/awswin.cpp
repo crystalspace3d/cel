@@ -18,6 +18,7 @@
 */
 
 #include <cssysdef.h>
+#include <cstool/initapp.h>
 #include <csutil/debug.h>
 #include <csutil/event.h>
 #include <iutil/objreg.h>
@@ -253,21 +254,14 @@ iAws* celPcAwsWin::GetAWS ()
 {
   if (!aws)
   {
-    aws = CS_QUERY_REGISTRY (object_reg, iAws);
+    aws = csQueryRegistryOrLoad<iAws> (object_reg,
+    	"crystalspace.window.alternatemanager");
     if (!aws)
     {
-      csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      aws = CS_LOAD_PLUGIN (plugmgr, "crystalspace.window.alternatemanager",
-      	iAws);
-      if (!aws)
-      {
-        Report (object_reg, "Couldn't load aws plugin!");
-	return 0;
-      }
-      object_reg->Register (aws, "iAws");
+      Report (object_reg, "Couldn't load aws plugin!");
+      return 0;
     }
-    if (aws)
+    else
     {
       csRef<iGraphics3D> g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
       iGraphics2D* g2d = g3d->GetDriver2D ();

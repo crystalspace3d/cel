@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/plugmgr.h"
+#include "cstool/initapp.h"
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
@@ -119,26 +120,14 @@ csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
 	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  csRef<iCelRuleBase> rulebase = CS_QUERY_REGISTRY (object_reg, iCelRuleBase);
+  csRef<iCelRuleBase> rulebase = csQueryRegistryOrLoad<iCelRuleBase> (
+  	object_reg, "cel.rulebase");
   if (!rulebase)
   {
-    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-    rulebase = CS_LOAD_PLUGIN (plugin_mgr, "cel.rulebase", iCelRuleBase);
-    if (!rulebase)
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "cel.addons.ruledef",
-	  "Can't find the rule base plugin!");
-      return 0;
-    }
-    if (!object_reg->Register (rulebase, "iCelRuleBase"))
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.addons.ruledef",
-	  "Couldn't register rule base plugin!");
-      return 0;
-    }
+	  "Can't load the rule base plugin!");
+    return 0;
   }
   iCelExpressionParser* parser = GetParser ();
 

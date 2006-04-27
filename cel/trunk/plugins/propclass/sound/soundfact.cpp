@@ -22,6 +22,7 @@
 #include "iutil/plugin.h"
 #include "iutil/object.h"
 #include "csutil/debug.h"
+#include "cstool/initapp.h"
 #include "iengine/engine.h"
 #include "plugins/propclass/sound/soundfact.h"
 #include "physicallayer/pl.h"
@@ -132,23 +133,13 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   propdata[propid_distancefactor] = 0;
   propdata[propid_rollofffactor] = 0;
 
-  renderer = CS_QUERY_REGISTRY (object_reg, iSndSysRenderer);
+  renderer = csQueryRegistryOrLoad<iSndSysRenderer> (object_reg,
+  	"crystalspace.sndsys.renderer.software");
   if (!renderer)
   {
-    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-    renderer = CS_LOAD_PLUGIN (plugin_mgr,
-    	"crystalspace.sndsys.renderer.software", iSndSysRenderer);
-    if (renderer)
-    {
-      object_reg->Register (renderer, "iSndSysRenderer");
-    }
-    else
-    {
-      // @@@ Error report.
-      printf ("Error! No sound renderer!\n"); fflush (stdout);
-      return;
-    }
+    // @@@ Error report.
+    printf ("Error! No sound renderer!\n"); fflush (stdout);
+    return;
   }
   listener = renderer->GetListener ();
 }
@@ -610,23 +601,13 @@ void celPcSoundSource::GetSoundWrap ()
 {
   if (!soundwrap)
   {
-    csRef<iSndSysManager> mgr = CS_QUERY_REGISTRY (object_reg, iSndSysManager);
+    csRef<iSndSysManager> mgr = csQueryRegistryOrLoad<iSndSysManager> (
+    	object_reg, "crystalspace.sndsys.manager");
     if (!mgr)
     {
-      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      mgr = CS_LOAD_PLUGIN (plugin_mgr, "crystalspace.sndsys.manager",
-    	iSndSysManager);
-      if (mgr)
-      {
-        object_reg->Register (mgr, "iSndSysManager");
-      }
-      else
-      {
-	// @@@ Error report.
-        printf ("Error! No sound manager!\n"); fflush (stdout);
-        return;
-      }
+      // @@@ Error report.
+      printf ("Error! No sound manager!\n"); fflush (stdout);
+      return;
     }
 
     soundwrap = mgr->FindSoundByName (soundname);
@@ -644,24 +625,13 @@ bool celPcSoundSource::GetSource ()
   if (source) return true;
   GetSoundWrap ();
   if (!soundwrap) return false;
-  csRef<iSndSysRenderer> renderer = CS_QUERY_REGISTRY (object_reg,
-  	iSndSysRenderer);
+  csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<iSndSysRenderer> (
+  	object_reg, "crystalspace.sndsys.renderer.software");
   if (!renderer)
   {
-    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-    renderer = CS_LOAD_PLUGIN (plugin_mgr,
-    	"crystalspace.sndsys.renderer.software", iSndSysRenderer);
-    if (renderer)
-    {
-      object_reg->Register (renderer, "iSndSysRenderer");
-    }
-    else
-    {
-      // @@@ Error report.
-      printf ("Error! No sound renderer!\n"); fflush (stdout);
-      return false;
-    }
+    // @@@ Error report.
+    printf ("Error! No sound renderer!\n"); fflush (stdout);
+    return false;
   }
   csRef<iSndSysSource> src = renderer->CreateSource (soundwrap->GetStream ());
   if (src)

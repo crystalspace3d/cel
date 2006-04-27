@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "csutil/debug.h"
+#include "cstool/initapp.h"
 #include "ivaria/reporter.h"
 #include "plugins/propclass/quest/questfact.h"
 #include "physicallayer/pl.h"
@@ -262,23 +263,12 @@ void celPcQuest::GetQuestManager ()
 {
   if (!quest_mgr)
   {
-    quest_mgr = CS_QUERY_REGISTRY (object_reg, iQuestManager);
+    quest_mgr = csQueryRegistryOrLoad<iQuestManager> (object_reg,
+    	"cel.manager.quests");
     if (!quest_mgr)
     {
-      csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-      	iPluginManager);
-      quest_mgr = CS_LOAD_PLUGIN (plugin_mgr, "cel.manager.quests",
-      	iQuestManager);
-      if (!quest_mgr)
-      {
-	Report (object_reg, "Can't find quest manager plugin!");
-        return;
-      }
-      if (!object_reg->Register (quest_mgr, "iQuestManager"))
-      {
-	Report (object_reg, "Couldn't register quest manager plugin!");
-        return;
-      }
+      Report (object_reg, "Can't load quest manager plugin!");
+      return;
     }
   }
 }

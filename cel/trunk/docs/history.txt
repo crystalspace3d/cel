@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Apr-2006
+	- Jorrit simplified a bit of code by using the new
+	  CS function: csQueryRegistryOrLoad.
 26-Apr-2006
 	- Jorrit fixed a small bug in the new DrawMesh() function
 	  for billboards. Still not operating nicely though.
