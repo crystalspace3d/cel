@@ -3,6 +3,21 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Apr-2006
+	- Jorrit fixed the billboard manager so that the 'distance'
+	  parameter with DrawMesh is now optional. If not given the
+	  mesh will be scaled to fit the billboard as much as possible.
+	- Jorrit added rotation parameters to DrawMesh so that you
+	  can rotate the mesh before adding it to the billboard.
+	- Jorrit made CEL_FETCH_FLOAT_PAR more forgiving by also
+	  accepting 'long' parameters (and converting them to float
+	  automatically).
+	- Jorrit made CEL_FETCH_LONG_PAR more forgiving by also
+	  accepting 'float' parameters (and converting them to long
+	  automatically).
+	- Jorrit made CEL_FETCH_BOOL_PAR more forgiving by also
+	  accepting 'long' parameters (and converting them to bool
+	  automatically).
 27-Apr-2006
 	- Jorrit simplified a bit of code by using the new
 	  CS function: csQueryRegistryOrLoad.

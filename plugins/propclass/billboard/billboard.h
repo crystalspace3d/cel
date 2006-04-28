@@ -61,6 +61,8 @@ private:
   static csStringID id_materialname;
   static csStringID id_factory;
   static csStringID id_distance;
+  static csStringID id_angle;
+  static csStringID id_rotate;
 
   float font_size;
   float default_font_size;

@@ -164,12 +164,17 @@ struct iBillboard : public iBase
    * not be created. If you want to force creation of a new material
    * with the same name then you must first remove the material.
    * \param factory is the name of the mesh factory.
+   * \param rotate is an optional rotation vector.
+   * \param angle is an optional angle around the rotation vector.
+   * If not given then there will be no rotation.
    * \param distance is the distance from the mesh where we put our
-   * camera.
+   * camera. This is optional. If you set this to negative then
+   * the mesh will be fit on the billboard as good as is possible.
    * \return false on failure.
    */
   virtual bool DrawMesh (const char* material_name,
-  	const char* factory, float distance) = 0;
+  	const char* factory, const csVector3& rotate = csVector3 (0, 0, 0),
+	float angle = 0.0f, float distance = -1.0f) = 0;
 
   /**
    * Set the size of this billboard in pixels.
