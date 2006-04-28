@@ -45,21 +45,33 @@
 #define CEL_FETCH_FLOAT_PAR(var,params,id) \
   const celData* p_##var = params->GetParameter (id); \
   float var = 0.0f; \
-  if (p_##var && p_##var->type == CEL_DATA_FLOAT) { \
-    var = p_##var->value.f; \
-  } else { p_##var = 0; }
+  if (p_##var) { \
+    if (p_##var->type == CEL_DATA_FLOAT) \
+      var = p_##var->value.f; \
+    else if (p_##var->type == CEL_DATA_LONG) \
+      var = float (p_##var->value.l); \
+    else p_##var = 0; \
+  }
 #define CEL_FETCH_LONG_PAR(var,params,id) \
   const celData* p_##var = params->GetParameter (id); \
   long var = 0; \
-  if (p_##var && p_##var->type == CEL_DATA_LONG) { \
-    var = p_##var->value.l; \
-  } else { p_##var = 0; }
+  if (p_##var) { \
+    if (p_##var->type == CEL_DATA_LONG) \
+      var = p_##var->value.l; \
+    else if (p_##var->type == CEL_DATA_FLOAT) \
+      var = long (p_##var->value.f); \
+    else p_##var = 0; \
+  }
 #define CEL_FETCH_BOOL_PAR(var,params,id) \
   const celData* p_##var = params->GetParameter (id); \
   bool var = false; \
-  if (p_##var && p_##var->type == CEL_DATA_BOOL) { \
-    var = p_##var->value.bo; \
-  } else { p_##var = 0; }
+  if (p_##var) { \
+    if (p_##var->type == CEL_DATA_BOOL) \
+      var = p_##var->value.bo; \
+    else if (p_##var->type == CEL_DATA_LONG) \
+      var = bool (p_##var->value.l); \
+    else p_##var = 0; \
+  }
 
 /**
  * Generic parameter block implementation.

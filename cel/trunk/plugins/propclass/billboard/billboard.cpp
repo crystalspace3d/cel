@@ -50,6 +50,8 @@ csStringID celPcBillboard::action_drawmesh = csInvalidStringID;
 csStringID celPcBillboard::id_materialname = csInvalidStringID;
 csStringID celPcBillboard::id_factory = csInvalidStringID;
 csStringID celPcBillboard::id_distance = csInvalidStringID;
+csStringID celPcBillboard::id_angle = csInvalidStringID;
+csStringID celPcBillboard::id_rotate = csInvalidStringID;
 
 Property* celPcBillboard::properties = 0;
 size_t celPcBillboard::propertycount = 0;
@@ -253,6 +255,8 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_materialname = pl->FetchStringID ("cel.parameter.materialname");
     id_factory = pl->FetchStringID ("cel.parameter.factory");
     id_distance = pl->FetchStringID ("cel.parameter.distance");
+    id_angle = pl->FetchStringID ("cel.parameter.angle");
+    id_rotate = pl->FetchStringID ("cel.parameter.rotate");
   }
 
   UpdateProperties (object_reg);
@@ -327,11 +331,16 @@ bool celPcBillboard::PerformAction (csStringID actionId,
     CEL_FETCH_STRING_PAR (factory,params,id_factory);
     if (!p_factory) return false;	// @@@ Error report!
     CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
-    if (!p_distance) return false;	// @@@ Error report!
+    if (!p_distance) distance = -1.0f;
+    CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);
+    if (!p_rotate) rotate.Set (0, 0, 0);
+    CEL_FETCH_FLOAT_PAR (angle,params,id_angle);
+    if (!p_angle) angle = 0.0f;
     GetBillboard ();
     if (billboard)
     {
-      return billboard->DrawMesh (materialname, factory, distance);
+      return billboard->DrawMesh (materialname, factory, rotate, angle,
+      	distance);
     }
     return true;
   }

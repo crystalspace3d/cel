@@ -42,7 +42,8 @@ struct iBillboard;
  * to get the ID of the parameter):
  * <ul>
  * <li>DrawMesh: parameters 'materialname' (string),
- *     'factory' (string), 'distance' (float).
+ *     'factory' (string), optional: 'distance' (float),
+ *     optional: 'rotate' (vector3), optional: 'angle' (float).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix

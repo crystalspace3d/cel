@@ -366,7 +366,8 @@ bool celBillboard::SetMaterialNameFast (const char* matname)
 }
 
 bool celBillboard::DrawMesh (const char* material_name,
-	const char* factory, float distance)
+	const char* factory, const csVector3& rotate,
+	float angle, float distance)
 {
   iMaterialWrapper* test = mgr->engine->FindMaterial (material_name);
   if (test) { return SetMaterialName (material_name); }
@@ -380,12 +381,17 @@ bool celBillboard::DrawMesh (const char* material_name,
   	"__bbmesh__", showroom);
   if (!mesh) // @@@ Error report
     return false;
-  mesh->GetMovable ()->UpdateMove ();
+  iMovable* movable = mesh->GetMovable ();
+  if (fabs (angle) > 0.001)
+    movable->GetTransform ().RotateThis (rotate, angle);
+  movable->UpdateMove ();
 
   iTextureHandle* handle;
   if (!material_ok || material == 0)
   {
     int iw = image_w, ih = image_h;
+    if (iw == -1) iw = 128;	// @@@ Make overridable?
+    if (ih == -1) ih = 128;	// @@@ Make overridable?
     //GetImageSize (iw, ih);
     iTextureWrapper* txt = mgr->engine->CreateBlackTexture (material_name,
     	iw, ih, 0, CS_TEXTURE_2D | CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS);
@@ -402,13 +408,19 @@ bool celBillboard::DrawMesh (const char* material_name,
     handle = mateng->GetTextureWrapper ()->GetTextureHandle ();
   }
 
-  int iw, ih;
-  handle->GetRendererDimensions (iw, ih);
-
   iCamera* cam = mesh_on_texture->GetView ()->GetCamera ();
   cam->GetTransform ().SetOrigin (csVector3 (0, 0, -10.0f));
 
-  mesh_on_texture->ScaleCamera (mesh, distance);
+  if (distance < 0.0f)
+  {
+    int iw, ih;
+    handle->GetRendererDimensions (iw, ih);
+    mesh_on_texture->ScaleCamera (mesh, iw, ih);
+  }
+  else
+  {
+    mesh_on_texture->ScaleCamera (mesh, distance);
+  }
   bool rc = mesh_on_texture->Render (0, handle, true);
 
   mgr->engine->RemoveObject (mesh);
