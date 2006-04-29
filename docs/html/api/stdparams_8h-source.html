@@ -68,205 +68,217 @@
 <a name="l00045"></a>00045 <span class="preprocessor"></span><span class="preprocessor">#define CEL_FETCH_FLOAT_PAR(var,params,id) \</span>
 <a name="l00046"></a>00046 <span class="preprocessor">  const celData* p_##var = params-&gt;GetParameter (id); \</span>
 <a name="l00047"></a>00047 <span class="preprocessor">  float var = 0.0f; \</span>
-<a name="l00048"></a>00048 <span class="preprocessor">  if (p_##var &amp;&amp; p_##var-&gt;type == CEL_DATA_FLOAT) { \</span>
-<a name="l00049"></a>00049 <span class="preprocessor">    var = p_##var-&gt;value.f; \</span>
-<a name="l00050"></a>00050 <span class="preprocessor">  } else { p_##var = 0; }</span>
-<a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#define CEL_FETCH_LONG_PAR(var,params,id) \</span>
-<a name="l00052"></a>00052 <span class="preprocessor">  const celData* p_##var = params-&gt;GetParameter (id); \</span>
-<a name="l00053"></a>00053 <span class="preprocessor">  long var = 0; \</span>
-<a name="l00054"></a>00054 <span class="preprocessor">  if (p_##var &amp;&amp; p_##var-&gt;type == CEL_DATA_LONG) { \</span>
-<a name="l00055"></a>00055 <span class="preprocessor">    var = p_##var-&gt;value.l; \</span>
-<a name="l00056"></a>00056 <span class="preprocessor">  } else { p_##var = 0; }</span>
-<a name="l00057"></a>00057 <span class="preprocessor"></span><span class="preprocessor">#define CEL_FETCH_BOOL_PAR(var,params,id) \</span>
-<a name="l00058"></a>00058 <span class="preprocessor">  const celData* p_##var = params-&gt;GetParameter (id); \</span>
-<a name="l00059"></a>00059 <span class="preprocessor">  bool var = false; \</span>
-<a name="l00060"></a>00060 <span class="preprocessor">  if (p_##var &amp;&amp; p_##var-&gt;type == CEL_DATA_BOOL) { \</span>
-<a name="l00061"></a>00061 <span class="preprocessor">    var = p_##var-&gt;value.bo; \</span>
-<a name="l00062"></a>00062 <span class="preprocessor">  } else { p_##var = 0; }</span>
-<a name="l00063"></a>00063 <span class="preprocessor"></span>
-<a name="l00067"></a><a class="code" href="classcelGenericParameterBlock.html">00067</a> <span class="keyword">class </span><a class="code" href="classcelGenericParameterBlock.html">celGenericParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
-<a name="l00068"></a>00068 {
-<a name="l00069"></a>00069 <span class="keyword">private</span>:
-<a name="l00070"></a>00070   size_t count;
-<a name="l00071"></a>00071   csStringID* ids;
-<a name="l00072"></a>00072   <a class="code" href="structcelData.html">celData</a>* data;
-<a name="l00073"></a>00073   <span class="keywordtype">char</span>** names;
-<a name="l00074"></a>00074 
-<a name="l00075"></a>00075 <span class="keyword">public</span>:
-<a name="l00076"></a><a class="code" href="classcelGenericParameterBlock.html#faa8497bb7608e1a6e3751c2304b299e">00076</a>   <a class="code" href="classcelGenericParameterBlock.html#faa8497bb7608e1a6e3751c2304b299e">celGenericParameterBlock</a> (size_t count)
-<a name="l00077"></a>00077   {
-<a name="l00078"></a>00078     SCF_CONSTRUCT_IBASE (0);
-<a name="l00079"></a>00079     celGenericParameterBlock::count = count;
-<a name="l00080"></a>00080     ids = <span class="keyword">new</span> csStringID[count];
-<a name="l00081"></a>00081     data = <span class="keyword">new</span> <a class="code" href="structcelData.html">celData</a>[count];
-<a name="l00082"></a>00082     names = <span class="keyword">new</span> <span class="keywordtype">char</span>*[count];
-<a name="l00083"></a>00083     memset (names, 0, <span class="keyword">sizeof</span> (<span class="keywordtype">char</span>*)*count);
-<a name="l00084"></a>00084   }
-<a name="l00085"></a><a class="code" href="classcelGenericParameterBlock.html#778957f5c85ea71e71733cc1d84dc918">00085</a>   <span class="keyword">virtual</span> <a class="code" href="classcelGenericParameterBlock.html#778957f5c85ea71e71733cc1d84dc918">~celGenericParameterBlock</a> ()
-<a name="l00086"></a>00086   {
-<a name="l00087"></a>00087     <span class="keyword">delete</span>[] ids;
-<a name="l00088"></a>00088     <span class="keyword">delete</span>[] data;
-<a name="l00089"></a>00089     size_t i;
-<a name="l00090"></a>00090     <span class="keywordflow">for</span> (i = 0 ; i &lt; count ; i++)
-<a name="l00091"></a>00091       <span class="keyword">delete</span>[] names[i];
-<a name="l00092"></a>00092     <span class="keyword">delete</span>[] names;
-<a name="l00093"></a>00093     SCF_DESTRUCT_IBASE ();
-<a name="l00094"></a>00094   }
-<a name="l00095"></a>00095 
-<a name="l00096"></a><a class="code" href="classcelGenericParameterBlock.html#b15bd8a9fffbe04456aa52d83700c167">00096</a>   <span class="keywordtype">void</span> <a class="code" href="classcelGenericParameterBlock.html#b15bd8a9fffbe04456aa52d83700c167">SetParameterDef</a> (size_t idx, csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
-<a name="l00097"></a>00097   {
-<a name="l00098"></a>00098     ids[idx] = id;
-<a name="l00099"></a>00099     <span class="keyword">delete</span>[] names[idx];
-<a name="l00100"></a>00100     names[idx] = csStrNew (parname);
-<a name="l00101"></a>00101   }
-<a name="l00102"></a><a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">00102</a>   <a class="code" href="structcelData.html">celData</a>&amp; <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (size_t idx) { <span class="keywordflow">return</span> data[idx]; }
-<a name="l00103"></a>00103 
-<a name="l00104"></a><a class="code" href="classcelGenericParameterBlock.html#c37a5761468f11b532027d721011b8b0">00104</a>   <a class="code" href="classcelGenericParameterBlock.html#c37a5761468f11b532027d721011b8b0">SCF_DECLARE_IBASE</a>;
-<a name="l00105"></a>00105 
-<a name="l00106"></a><a class="code" href="classcelGenericParameterBlock.html#ac67d1daa0c662de56dc46be2f24bcf0">00106</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelGenericParameterBlock.html#ac67d1daa0c662de56dc46be2f24bcf0">GetParameterCount</a> ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> count; }
-<a name="l00107"></a><a class="code" href="classcelGenericParameterBlock.html#c7af88645e1da0df5718e6a34b6bdee7">00107</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
-<a name="l00108"></a>00108         celDataType&amp; t)<span class="keyword"> const</span>
-<a name="l00109"></a>00109 <span class="keyword">  </span>{
-<a name="l00110"></a>00110     <span class="keywordflow">if</span> (<span class="comment">/*idx &lt; 0 || */</span>idx &gt;= count)
-<a name="l00111"></a>00111     {
-<a name="l00112"></a>00112       <span class="keywordtype">id</span> = csInvalidStringID;
-<a name="l00113"></a>00113       t = CEL_DATA_NONE;
-<a name="l00114"></a>00114       <span class="keywordflow">return</span> 0;
-<a name="l00115"></a>00115     }
-<a name="l00116"></a>00116     <span class="keywordtype">id</span> = ids[idx];
-<a name="l00117"></a>00117     t = data[idx].<a class="code" href="structcelData.html#4932e4b7b0b12e231c5d42c404764b2c">type</a>;
-<a name="l00118"></a>00118     <span class="keywordflow">return</span> names[idx];
-<a name="l00119"></a>00119   }
-<a name="l00120"></a><a class="code" href="classcelGenericParameterBlock.html#6b6fcb8a8d161afec1a0f142e5e3a2e6">00120</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00048"></a>00048 <span class="preprocessor">  if (p_##var) { \</span>
+<a name="l00049"></a>00049 <span class="preprocessor">    if (p_##var-&gt;type == CEL_DATA_FLOAT) \</span>
+<a name="l00050"></a>00050 <span class="preprocessor">      var = p_##var-&gt;value.f; \</span>
+<a name="l00051"></a>00051 <span class="preprocessor">    else if (p_##var-&gt;type == CEL_DATA_LONG) \</span>
+<a name="l00052"></a>00052 <span class="preprocessor">      var = float (p_##var-&gt;value.l); \</span>
+<a name="l00053"></a>00053 <span class="preprocessor">    else p_##var = 0; \</span>
+<a name="l00054"></a>00054 <span class="preprocessor">  }</span>
+<a name="l00055"></a>00055 <span class="preprocessor"></span><span class="preprocessor">#define CEL_FETCH_LONG_PAR(var,params,id) \</span>
+<a name="l00056"></a>00056 <span class="preprocessor">  const celData* p_##var = params-&gt;GetParameter (id); \</span>
+<a name="l00057"></a>00057 <span class="preprocessor">  long var = 0; \</span>
+<a name="l00058"></a>00058 <span class="preprocessor">  if (p_##var) { \</span>
+<a name="l00059"></a>00059 <span class="preprocessor">    if (p_##var-&gt;type == CEL_DATA_LONG) \</span>
+<a name="l00060"></a>00060 <span class="preprocessor">      var = p_##var-&gt;value.l; \</span>
+<a name="l00061"></a>00061 <span class="preprocessor">    else if (p_##var-&gt;type == CEL_DATA_FLOAT) \</span>
+<a name="l00062"></a>00062 <span class="preprocessor">      var = long (p_##var-&gt;value.f); \</span>
+<a name="l00063"></a>00063 <span class="preprocessor">    else p_##var = 0; \</span>
+<a name="l00064"></a>00064 <span class="preprocessor">  }</span>
+<a name="l00065"></a>00065 <span class="preprocessor"></span><span class="preprocessor">#define CEL_FETCH_BOOL_PAR(var,params,id) \</span>
+<a name="l00066"></a>00066 <span class="preprocessor">  const celData* p_##var = params-&gt;GetParameter (id); \</span>
+<a name="l00067"></a>00067 <span class="preprocessor">  bool var = false; \</span>
+<a name="l00068"></a>00068 <span class="preprocessor">  if (p_##var) { \</span>
+<a name="l00069"></a>00069 <span class="preprocessor">    if (p_##var-&gt;type == CEL_DATA_BOOL) \</span>
+<a name="l00070"></a>00070 <span class="preprocessor">      var = p_##var-&gt;value.bo; \</span>
+<a name="l00071"></a>00071 <span class="preprocessor">    else if (p_##var-&gt;type == CEL_DATA_LONG) \</span>
+<a name="l00072"></a>00072 <span class="preprocessor">      var = bool (p_##var-&gt;value.l); \</span>
+<a name="l00073"></a>00073 <span class="preprocessor">    else p_##var = 0; \</span>
+<a name="l00074"></a>00074 <span class="preprocessor">  }</span>
+<a name="l00075"></a>00075 <span class="preprocessor"></span>
+<a name="l00079"></a><a class="code" href="classcelGenericParameterBlock.html">00079</a> <span class="keyword">class </span><a class="code" href="classcelGenericParameterBlock.html">celGenericParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
+<a name="l00080"></a>00080 {
+<a name="l00081"></a>00081 <span class="keyword">private</span>:
+<a name="l00082"></a>00082   size_t count;
+<a name="l00083"></a>00083   csStringID* ids;
+<a name="l00084"></a>00084   <a class="code" href="structcelData.html">celData</a>* data;
+<a name="l00085"></a>00085   <span class="keywordtype">char</span>** names;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087 <span class="keyword">public</span>:
+<a name="l00088"></a><a class="code" href="classcelGenericParameterBlock.html#faa8497bb7608e1a6e3751c2304b299e">00088</a>   <a class="code" href="classcelGenericParameterBlock.html#faa8497bb7608e1a6e3751c2304b299e">celGenericParameterBlock</a> (size_t count)
+<a name="l00089"></a>00089   {
+<a name="l00090"></a>00090     SCF_CONSTRUCT_IBASE (0);
+<a name="l00091"></a>00091     celGenericParameterBlock::count = count;
+<a name="l00092"></a>00092     ids = <span class="keyword">new</span> csStringID[count];
+<a name="l00093"></a>00093     data = <span class="keyword">new</span> <a class="code" href="structcelData.html">celData</a>[count];
+<a name="l00094"></a>00094     names = <span class="keyword">new</span> <span class="keywordtype">char</span>*[count];
+<a name="l00095"></a>00095     memset (names, 0, <span class="keyword">sizeof</span> (<span class="keywordtype">char</span>*)*count);
+<a name="l00096"></a>00096   }
+<a name="l00097"></a><a class="code" href="classcelGenericParameterBlock.html#778957f5c85ea71e71733cc1d84dc918">00097</a>   <span class="keyword">virtual</span> <a class="code" href="classcelGenericParameterBlock.html#778957f5c85ea71e71733cc1d84dc918">~celGenericParameterBlock</a> ()
+<a name="l00098"></a>00098   {
+<a name="l00099"></a>00099     <span class="keyword">delete</span>[] ids;
+<a name="l00100"></a>00100     <span class="keyword">delete</span>[] data;
+<a name="l00101"></a>00101     size_t i;
+<a name="l00102"></a>00102     <span class="keywordflow">for</span> (i = 0 ; i &lt; count ; i++)
+<a name="l00103"></a>00103       <span class="keyword">delete</span>[] names[i];
+<a name="l00104"></a>00104     <span class="keyword">delete</span>[] names;
+<a name="l00105"></a>00105     SCF_DESTRUCT_IBASE ();
+<a name="l00106"></a>00106   }
+<a name="l00107"></a>00107 
+<a name="l00108"></a><a class="code" href="classcelGenericParameterBlock.html#b15bd8a9fffbe04456aa52d83700c167">00108</a>   <span class="keywordtype">void</span> <a class="code" href="classcelGenericParameterBlock.html#b15bd8a9fffbe04456aa52d83700c167">SetParameterDef</a> (size_t idx, csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
+<a name="l00109"></a>00109   {
+<a name="l00110"></a>00110     ids[idx] = id;
+<a name="l00111"></a>00111     <span class="keyword">delete</span>[] names[idx];
+<a name="l00112"></a>00112     names[idx] = csStrNew (parname);
+<a name="l00113"></a>00113   }
+<a name="l00114"></a><a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">00114</a>   <a class="code" href="structcelData.html">celData</a>&amp; <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (size_t idx) { <span class="keywordflow">return</span> data[idx]; }
+<a name="l00115"></a>00115 
+<a name="l00116"></a><a class="code" href="classcelGenericParameterBlock.html#c37a5761468f11b532027d721011b8b0">00116</a>   <a class="code" href="classcelGenericParameterBlock.html#c37a5761468f11b532027d721011b8b0">SCF_DECLARE_IBASE</a>;
+<a name="l00117"></a>00117 
+<a name="l00118"></a><a class="code" href="classcelGenericParameterBlock.html#ac67d1daa0c662de56dc46be2f24bcf0">00118</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelGenericParameterBlock.html#ac67d1daa0c662de56dc46be2f24bcf0">GetParameterCount</a> ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> count; }
+<a name="l00119"></a><a class="code" href="classcelGenericParameterBlock.html#c7af88645e1da0df5718e6a34b6bdee7">00119</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
+<a name="l00120"></a>00120         celDataType&amp; t)<span class="keyword"> const</span>
 <a name="l00121"></a>00121 <span class="keyword">  </span>{
-<a name="l00122"></a>00122     size_t i;
-<a name="l00123"></a>00123     <span class="keywordflow">for</span> (i = 0 ; i &lt; count ; i++)
-<a name="l00124"></a>00124       <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == ids[i])
-<a name="l00125"></a>00125         <span class="keywordflow">return</span> &amp;data[i];
-<a name="l00126"></a>00126     <span class="keywordflow">return</span> 0;
-<a name="l00127"></a>00127   }
-<a name="l00128"></a>00128 };
-<a name="l00129"></a>00129 
-<a name="l00133"></a><a class="code" href="classcelVariableParameterBlock.html">00133</a> <span class="keyword">class </span><a class="code" href="classcelVariableParameterBlock.html">celVariableParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
-<a name="l00134"></a>00134 {
-<a name="l00135"></a>00135 <span class="keyword">private</span>:
-<a name="l00136"></a>00136   csArray&lt;csStringID&gt; ids;
-<a name="l00137"></a>00137   csArray&lt;celData&gt; data;
-<a name="l00138"></a>00138   csStringArray names;
-<a name="l00139"></a>00139 
-<a name="l00140"></a>00140 <span class="keyword">public</span>:
-<a name="l00141"></a><a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">00141</a>   <a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">celVariableParameterBlock</a> ()
-<a name="l00142"></a>00142   {
-<a name="l00143"></a>00143     SCF_CONSTRUCT_IBASE (0);
-<a name="l00144"></a>00144   }
-<a name="l00148"></a><a class="code" href="classcelVariableParameterBlock.html#e92cba5489c2d2352314dae41b92cb11">00148</a>   <a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">celVariableParameterBlock</a> (<a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* other)
-<a name="l00149"></a>00149   {
-<a name="l00150"></a>00150     SCF_CONSTRUCT_IBASE (0);
-<a name="l00151"></a>00151     <span class="keywordflow">if</span> (other != 0)
-<a name="l00152"></a>00152     {
-<a name="l00153"></a>00153       <span class="keyword">const</span> <span class="keywordtype">char</span>* name = 0;
-<a name="l00154"></a>00154       csStringID id;
-<a name="l00155"></a>00155       celDataType type;
-<a name="l00156"></a>00156       <span class="keywordflow">for</span> (size_t idx = 0; idx &lt; other-&gt;<a class="code" href="structiCelParameterBlock.html#3a66b42c65946965dd3f12b66e7da4dc">GetParameterCount</a> (); idx++)
-<a name="l00157"></a>00157       {
-<a name="l00158"></a>00158         name = other-&gt;<a class="code" href="structiCelParameterBlock.html#9d9e2b2076daa79baac154a2ce33fc7f">GetParameter</a> (idx, <span class="keywordtype">id</span>, type);
-<a name="l00159"></a>00159         <a class="code" href="classcelVariableParameterBlock.html#a640eddbc47b99ff24b72aa06bbcb3e3">SetParameterDef</a> (idx, <span class="keywordtype">id</span>, name);
-<a name="l00160"></a>00160         data.GetExtend (idx) = *other-&gt;<a class="code" href="structiCelParameterBlock.html#9d9e2b2076daa79baac154a2ce33fc7f">GetParameter</a> (<span class="keywordtype">id</span>);
-<a name="l00161"></a>00161       }
-<a name="l00162"></a>00162     }
-<a name="l00163"></a>00163   }
-<a name="l00164"></a><a class="code" href="classcelVariableParameterBlock.html#b5d9a3f78e3bdc8eaa4aff202646a8a5">00164</a>   <span class="keyword">virtual</span> ~<a class="code" href="classcelVariableParameterBlock.html">celVariableParameterBlock</a> ()
-<a name="l00165"></a>00165   {
-<a name="l00166"></a>00166     SCF_DESTRUCT_IBASE ();
-<a name="l00167"></a>00167   }
-<a name="l00168"></a>00168 
-<a name="l00169"></a><a class="code" href="classcelVariableParameterBlock.html#a640eddbc47b99ff24b72aa06bbcb3e3">00169</a>   <span class="keywordtype">void</span> SetParameterDef (size_t idx, csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
-<a name="l00170"></a>00170   {
-<a name="l00171"></a>00171     ids.GetExtend (idx) = id;
-<a name="l00172"></a>00172     <span class="keywordflow">if</span> (idx &gt;= names.Length ())
-<a name="l00173"></a>00173       names.SetLength (idx+1);
-<a name="l00174"></a>00174     names.Put (idx, parname);
+<a name="l00122"></a>00122     <span class="keywordflow">if</span> (<span class="comment">/*idx &lt; 0 || */</span>idx &gt;= count)
+<a name="l00123"></a>00123     {
+<a name="l00124"></a>00124       <span class="keywordtype">id</span> = csInvalidStringID;
+<a name="l00125"></a>00125       t = CEL_DATA_NONE;
+<a name="l00126"></a>00126       <span class="keywordflow">return</span> 0;
+<a name="l00127"></a>00127     }
+<a name="l00128"></a>00128     <span class="keywordtype">id</span> = ids[idx];
+<a name="l00129"></a>00129     t = data[idx].<a class="code" href="structcelData.html#4932e4b7b0b12e231c5d42c404764b2c">type</a>;
+<a name="l00130"></a>00130     <span class="keywordflow">return</span> names[idx];
+<a name="l00131"></a>00131   }
+<a name="l00132"></a><a class="code" href="classcelGenericParameterBlock.html#6b6fcb8a8d161afec1a0f142e5e3a2e6">00132</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* <a class="code" href="classcelGenericParameterBlock.html#26bf0bed8b6cf9ec5543e7b1c09584fc">GetParameter</a> (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00133"></a>00133 <span class="keyword">  </span>{
+<a name="l00134"></a>00134     size_t i;
+<a name="l00135"></a>00135     <span class="keywordflow">for</span> (i = 0 ; i &lt; count ; i++)
+<a name="l00136"></a>00136       <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == ids[i])
+<a name="l00137"></a>00137         <span class="keywordflow">return</span> &amp;data[i];
+<a name="l00138"></a>00138     <span class="keywordflow">return</span> 0;
+<a name="l00139"></a>00139   }
+<a name="l00140"></a>00140 };
+<a name="l00141"></a>00141 
+<a name="l00145"></a><a class="code" href="classcelVariableParameterBlock.html">00145</a> <span class="keyword">class </span><a class="code" href="classcelVariableParameterBlock.html">celVariableParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
+<a name="l00146"></a>00146 {
+<a name="l00147"></a>00147 <span class="keyword">private</span>:
+<a name="l00148"></a>00148   csArray&lt;csStringID&gt; ids;
+<a name="l00149"></a>00149   csArray&lt;celData&gt; data;
+<a name="l00150"></a>00150   csStringArray names;
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 <span class="keyword">public</span>:
+<a name="l00153"></a><a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">00153</a>   <a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">celVariableParameterBlock</a> ()
+<a name="l00154"></a>00154   {
+<a name="l00155"></a>00155     SCF_CONSTRUCT_IBASE (0);
+<a name="l00156"></a>00156   }
+<a name="l00160"></a><a class="code" href="classcelVariableParameterBlock.html#e92cba5489c2d2352314dae41b92cb11">00160</a>   <a class="code" href="classcelVariableParameterBlock.html#3c0aab4585ff07b7331d11000753a5ee">celVariableParameterBlock</a> (<a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>* other)
+<a name="l00161"></a>00161   {
+<a name="l00162"></a>00162     SCF_CONSTRUCT_IBASE (0);
+<a name="l00163"></a>00163     <span class="keywordflow">if</span> (other != 0)
+<a name="l00164"></a>00164     {
+<a name="l00165"></a>00165       <span class="keyword">const</span> <span class="keywordtype">char</span>* name = 0;
+<a name="l00166"></a>00166       csStringID id;
+<a name="l00167"></a>00167       celDataType type;
+<a name="l00168"></a>00168       <span class="keywordflow">for</span> (size_t idx = 0; idx &lt; other-&gt;<a class="code" href="structiCelParameterBlock.html#3a66b42c65946965dd3f12b66e7da4dc">GetParameterCount</a> (); idx++)
+<a name="l00169"></a>00169       {
+<a name="l00170"></a>00170         name = other-&gt;<a class="code" href="structiCelParameterBlock.html#9d9e2b2076daa79baac154a2ce33fc7f">GetParameter</a> (idx, <span class="keywordtype">id</span>, type);
+<a name="l00171"></a>00171         <a class="code" href="classcelVariableParameterBlock.html#a640eddbc47b99ff24b72aa06bbcb3e3">SetParameterDef</a> (idx, <span class="keywordtype">id</span>, name);
+<a name="l00172"></a>00172         data.GetExtend (idx) = *other-&gt;<a class="code" href="structiCelParameterBlock.html#9d9e2b2076daa79baac154a2ce33fc7f">GetParameter</a> (<span class="keywordtype">id</span>);
+<a name="l00173"></a>00173       }
+<a name="l00174"></a>00174     }
 <a name="l00175"></a>00175   }
-<a name="l00176"></a><a class="code" href="classcelVariableParameterBlock.html#1ef8b3c219fce8d3eafa9be271b72b74">00176</a>   <a class="code" href="structcelData.html">celData</a>&amp; GetParameter (size_t idx) { <span class="keywordflow">return</span> data.GetExtend (idx); }
-<a name="l00177"></a>00177 
-<a name="l00178"></a><a class="code" href="classcelVariableParameterBlock.html#bbb92440f1b02695b5ef795491f6fcf0">00178</a>   SCF_DECLARE_IBASE;
-<a name="l00179"></a>00179 
-<a name="l00180"></a><a class="code" href="classcelVariableParameterBlock.html#22ea83ac4a1efeae38240db0f8ae99d2">00180</a>   <span class="keyword">virtual</span> size_t GetParameterCount ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> data.Length (); }
-<a name="l00181"></a><a class="code" href="classcelVariableParameterBlock.html#bb283d5562ead3b23072e0d97a6db5d0">00181</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* GetParameter (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
-<a name="l00182"></a>00182         celDataType&amp; t)<span class="keyword"> const</span>
-<a name="l00183"></a>00183 <span class="keyword">  </span>{
-<a name="l00184"></a>00184     <span class="keywordflow">if</span> (<span class="comment">/*idx &lt; 0 || */</span>idx &gt;= data.Length ())
-<a name="l00185"></a>00185     {
-<a name="l00186"></a>00186       <span class="keywordtype">id</span> = csInvalidStringID;
-<a name="l00187"></a>00187       t = CEL_DATA_NONE;
-<a name="l00188"></a>00188       <span class="keywordflow">return</span> 0;
-<a name="l00189"></a>00189     }
-<a name="l00190"></a>00190     <span class="keywordtype">id</span> = ids[idx];
-<a name="l00191"></a>00191     t = data[idx].type;
-<a name="l00192"></a>00192     <span class="keywordflow">return</span> names[idx];
-<a name="l00193"></a>00193   }
-<a name="l00194"></a><a class="code" href="classcelVariableParameterBlock.html#b252bfd9683c063be617ca3431177a35">00194</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* GetParameter (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00176"></a><a class="code" href="classcelVariableParameterBlock.html#b5d9a3f78e3bdc8eaa4aff202646a8a5">00176</a>   <span class="keyword">virtual</span> ~<a class="code" href="classcelVariableParameterBlock.html">celVariableParameterBlock</a> ()
+<a name="l00177"></a>00177   {
+<a name="l00178"></a>00178     SCF_DESTRUCT_IBASE ();
+<a name="l00179"></a>00179   }
+<a name="l00180"></a>00180 
+<a name="l00181"></a><a class="code" href="classcelVariableParameterBlock.html#a640eddbc47b99ff24b72aa06bbcb3e3">00181</a>   <span class="keywordtype">void</span> SetParameterDef (size_t idx, csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
+<a name="l00182"></a>00182   {
+<a name="l00183"></a>00183     ids.GetExtend (idx) = id;
+<a name="l00184"></a>00184     <span class="keywordflow">if</span> (idx &gt;= names.Length ())
+<a name="l00185"></a>00185       names.SetLength (idx+1);
+<a name="l00186"></a>00186     names.Put (idx, parname);
+<a name="l00187"></a>00187   }
+<a name="l00188"></a><a class="code" href="classcelVariableParameterBlock.html#1ef8b3c219fce8d3eafa9be271b72b74">00188</a>   <a class="code" href="structcelData.html">celData</a>&amp; GetParameter (size_t idx) { <span class="keywordflow">return</span> data.GetExtend (idx); }
+<a name="l00189"></a>00189 
+<a name="l00190"></a><a class="code" href="classcelVariableParameterBlock.html#bbb92440f1b02695b5ef795491f6fcf0">00190</a>   SCF_DECLARE_IBASE;
+<a name="l00191"></a>00191 
+<a name="l00192"></a><a class="code" href="classcelVariableParameterBlock.html#22ea83ac4a1efeae38240db0f8ae99d2">00192</a>   <span class="keyword">virtual</span> size_t GetParameterCount ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> data.Length (); }
+<a name="l00193"></a><a class="code" href="classcelVariableParameterBlock.html#bb283d5562ead3b23072e0d97a6db5d0">00193</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* GetParameter (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
+<a name="l00194"></a>00194         celDataType&amp; t)<span class="keyword"> const</span>
 <a name="l00195"></a>00195 <span class="keyword">  </span>{
-<a name="l00196"></a>00196     size_t i;
-<a name="l00197"></a>00197     <span class="keywordflow">for</span> (i = 0 ; i &lt; data.Length () ; i++)
-<a name="l00198"></a>00198       <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == ids[i])
-<a name="l00199"></a>00199         <span class="keywordflow">return</span> &amp;data[i];
-<a name="l00200"></a>00200     <span class="keywordflow">return</span> 0;
-<a name="l00201"></a>00201   }
-<a name="l00202"></a>00202 };
-<a name="l00203"></a>00203 
-<a name="l00207"></a><a class="code" href="classcelOneParameterBlock.html">00207</a> <span class="keyword">class </span><a class="code" href="classcelOneParameterBlock.html">celOneParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
-<a name="l00208"></a>00208 {
-<a name="l00209"></a>00209 <span class="keyword">private</span>:
-<a name="l00210"></a>00210   csStringID id;
-<a name="l00211"></a>00211   <a class="code" href="structcelData.html">celData</a> data;
-<a name="l00212"></a>00212   <span class="keywordtype">char</span>* name;
-<a name="l00213"></a>00213 
-<a name="l00214"></a>00214 <span class="keyword">public</span>:
-<a name="l00215"></a><a class="code" href="classcelOneParameterBlock.html#ff84e2313f4ea4e3d90f252583acb13e">00215</a>   <a class="code" href="classcelOneParameterBlock.html#ff84e2313f4ea4e3d90f252583acb13e">celOneParameterBlock</a> ()
-<a name="l00216"></a>00216   {
-<a name="l00217"></a>00217     SCF_CONSTRUCT_IBASE (0);
-<a name="l00218"></a>00218     name = 0;
-<a name="l00219"></a>00219   }
-<a name="l00220"></a><a class="code" href="classcelOneParameterBlock.html#c0a3575f9fb70d40a1f2a29172880ae1">00220</a>   <span class="keyword">virtual</span> <a class="code" href="classcelOneParameterBlock.html#c0a3575f9fb70d40a1f2a29172880ae1">~celOneParameterBlock</a> ()
-<a name="l00221"></a>00221   {
-<a name="l00222"></a>00222     <span class="keyword">delete</span>[] name;
-<a name="l00223"></a>00223     SCF_DESTRUCT_IBASE ();
-<a name="l00224"></a>00224   }
+<a name="l00196"></a>00196     <span class="keywordflow">if</span> (<span class="comment">/*idx &lt; 0 || */</span>idx &gt;= data.Length ())
+<a name="l00197"></a>00197     {
+<a name="l00198"></a>00198       <span class="keywordtype">id</span> = csInvalidStringID;
+<a name="l00199"></a>00199       t = CEL_DATA_NONE;
+<a name="l00200"></a>00200       <span class="keywordflow">return</span> 0;
+<a name="l00201"></a>00201     }
+<a name="l00202"></a>00202     <span class="keywordtype">id</span> = ids[idx];
+<a name="l00203"></a>00203     t = data[idx].type;
+<a name="l00204"></a>00204     <span class="keywordflow">return</span> names[idx];
+<a name="l00205"></a>00205   }
+<a name="l00206"></a><a class="code" href="classcelVariableParameterBlock.html#b252bfd9683c063be617ca3431177a35">00206</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* GetParameter (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00207"></a>00207 <span class="keyword">  </span>{
+<a name="l00208"></a>00208     size_t i;
+<a name="l00209"></a>00209     <span class="keywordflow">for</span> (i = 0 ; i &lt; data.Length () ; i++)
+<a name="l00210"></a>00210       <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == ids[i])
+<a name="l00211"></a>00211         <span class="keywordflow">return</span> &amp;data[i];
+<a name="l00212"></a>00212     <span class="keywordflow">return</span> 0;
+<a name="l00213"></a>00213   }
+<a name="l00214"></a>00214 };
+<a name="l00215"></a>00215 
+<a name="l00219"></a><a class="code" href="classcelOneParameterBlock.html">00219</a> <span class="keyword">class </span><a class="code" href="classcelOneParameterBlock.html">celOneParameterBlock</a> : <span class="keyword">public</span> <a class="code" href="structiCelParameterBlock.html">iCelParameterBlock</a>
+<a name="l00220"></a>00220 {
+<a name="l00221"></a>00221 <span class="keyword">private</span>:
+<a name="l00222"></a>00222   csStringID id;
+<a name="l00223"></a>00223   <a class="code" href="structcelData.html">celData</a> data;
+<a name="l00224"></a>00224   <span class="keywordtype">char</span>* name;
 <a name="l00225"></a>00225 
-<a name="l00226"></a><a class="code" href="classcelOneParameterBlock.html#d21d522c9c68cab7837635ee8bf47092">00226</a>   <span class="keywordtype">void</span> <a class="code" href="classcelOneParameterBlock.html#d21d522c9c68cab7837635ee8bf47092">SetParameterDef</a> (csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
-<a name="l00227"></a>00227   {
-<a name="l00228"></a>00228     celOneParameterBlock::id = id;
-<a name="l00229"></a>00229     <span class="keyword">delete</span>[] name;
-<a name="l00230"></a>00230     name = csStrNew (parname);
+<a name="l00226"></a>00226 <span class="keyword">public</span>:
+<a name="l00227"></a><a class="code" href="classcelOneParameterBlock.html#ff84e2313f4ea4e3d90f252583acb13e">00227</a>   <a class="code" href="classcelOneParameterBlock.html#ff84e2313f4ea4e3d90f252583acb13e">celOneParameterBlock</a> ()
+<a name="l00228"></a>00228   {
+<a name="l00229"></a>00229     SCF_CONSTRUCT_IBASE (0);
+<a name="l00230"></a>00230     name = 0;
 <a name="l00231"></a>00231   }
-<a name="l00232"></a><a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">00232</a>   <a class="code" href="structcelData.html">celData</a>&amp; <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (<span class="keywordtype">int</span>) { <span class="keywordflow">return</span> data; }
-<a name="l00233"></a>00233 
-<a name="l00234"></a><a class="code" href="classcelOneParameterBlock.html#5899b4637b8c976ca17f59bc98c1ef99">00234</a>   <a class="code" href="classcelOneParameterBlock.html#5899b4637b8c976ca17f59bc98c1ef99">SCF_DECLARE_IBASE</a>;
-<a name="l00235"></a>00235 
-<a name="l00236"></a><a class="code" href="classcelOneParameterBlock.html#88cc77386eedf3f4a8240f92b036b3f7">00236</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelOneParameterBlock.html#88cc77386eedf3f4a8240f92b036b3f7">GetParameterCount</a> ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 1; }
-<a name="l00237"></a><a class="code" href="classcelOneParameterBlock.html#6e23bff05f0bf3fb2285317abf265f55">00237</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
-<a name="l00238"></a>00238         celDataType&amp; t)<span class="keyword"> const</span>
-<a name="l00239"></a>00239 <span class="keyword">  </span>{
-<a name="l00240"></a>00240     <span class="keywordflow">if</span> (idx != 0)
-<a name="l00241"></a>00241     {
-<a name="l00242"></a>00242       <span class="keywordtype">id</span> = csInvalidStringID;
-<a name="l00243"></a>00243       t = CEL_DATA_NONE;
-<a name="l00244"></a>00244       <span class="keywordflow">return</span> 0;
-<a name="l00245"></a>00245     }
-<a name="l00246"></a>00246     <span class="keywordtype">id</span> = celOneParameterBlock::id;
-<a name="l00247"></a>00247     t = data.<a class="code" href="structcelData.html#4932e4b7b0b12e231c5d42c404764b2c">type</a>;
-<a name="l00248"></a>00248     <span class="keywordflow">return</span> name;
-<a name="l00249"></a>00249   }
-<a name="l00250"></a><a class="code" href="classcelOneParameterBlock.html#b72bc464cac4e4760b4ace43c32966a6">00250</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00232"></a><a class="code" href="classcelOneParameterBlock.html#c0a3575f9fb70d40a1f2a29172880ae1">00232</a>   <span class="keyword">virtual</span> <a class="code" href="classcelOneParameterBlock.html#c0a3575f9fb70d40a1f2a29172880ae1">~celOneParameterBlock</a> ()
+<a name="l00233"></a>00233   {
+<a name="l00234"></a>00234     <span class="keyword">delete</span>[] name;
+<a name="l00235"></a>00235     SCF_DESTRUCT_IBASE ();
+<a name="l00236"></a>00236   }
+<a name="l00237"></a>00237 
+<a name="l00238"></a><a class="code" href="classcelOneParameterBlock.html#d21d522c9c68cab7837635ee8bf47092">00238</a>   <span class="keywordtype">void</span> <a class="code" href="classcelOneParameterBlock.html#d21d522c9c68cab7837635ee8bf47092">SetParameterDef</a> (csStringID <span class="keywordtype">id</span>, <span class="keyword">const</span> <span class="keywordtype">char</span>* parname)
+<a name="l00239"></a>00239   {
+<a name="l00240"></a>00240     celOneParameterBlock::id = id;
+<a name="l00241"></a>00241     <span class="keyword">delete</span>[] name;
+<a name="l00242"></a>00242     name = csStrNew (parname);
+<a name="l00243"></a>00243   }
+<a name="l00244"></a><a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">00244</a>   <a class="code" href="structcelData.html">celData</a>&amp; <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (<span class="keywordtype">int</span>) { <span class="keywordflow">return</span> data; }
+<a name="l00245"></a>00245 
+<a name="l00246"></a><a class="code" href="classcelOneParameterBlock.html#5899b4637b8c976ca17f59bc98c1ef99">00246</a>   <a class="code" href="classcelOneParameterBlock.html#5899b4637b8c976ca17f59bc98c1ef99">SCF_DECLARE_IBASE</a>;
+<a name="l00247"></a>00247 
+<a name="l00248"></a><a class="code" href="classcelOneParameterBlock.html#88cc77386eedf3f4a8240f92b036b3f7">00248</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelOneParameterBlock.html#88cc77386eedf3f4a8240f92b036b3f7">GetParameterCount</a> ()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 1; }
+<a name="l00249"></a><a class="code" href="classcelOneParameterBlock.html#6e23bff05f0bf3fb2285317abf265f55">00249</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (size_t idx, csStringID&amp; <span class="keywordtype">id</span>,
+<a name="l00250"></a>00250         celDataType&amp; t)<span class="keyword"> const</span>
 <a name="l00251"></a>00251 <span class="keyword">  </span>{
-<a name="l00252"></a>00252     <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != celOneParameterBlock::id) <span class="keywordflow">return</span> 0;
-<a name="l00253"></a>00253     <span class="keywordflow">return</span> &amp;data;
-<a name="l00254"></a>00254   }
-<a name="l00255"></a>00255 };
-<a name="l00256"></a>00256 
-<a name="l00257"></a>00257 <span class="preprocessor">#endif // __CEL_CELTOOL_PARAMS__</span>
-<a name="l00258"></a>00258 <span class="preprocessor"></span>
+<a name="l00252"></a>00252     <span class="keywordflow">if</span> (idx != 0)
+<a name="l00253"></a>00253     {
+<a name="l00254"></a>00254       <span class="keywordtype">id</span> = csInvalidStringID;
+<a name="l00255"></a>00255       t = CEL_DATA_NONE;
+<a name="l00256"></a>00256       <span class="keywordflow">return</span> 0;
+<a name="l00257"></a>00257     }
+<a name="l00258"></a>00258     <span class="keywordtype">id</span> = celOneParameterBlock::id;
+<a name="l00259"></a>00259     t = data.<a class="code" href="structcelData.html#4932e4b7b0b12e231c5d42c404764b2c">type</a>;
+<a name="l00260"></a>00260     <span class="keywordflow">return</span> name;
+<a name="l00261"></a>00261   }
+<a name="l00262"></a><a class="code" href="classcelOneParameterBlock.html#b72bc464cac4e4760b4ace43c32966a6">00262</a>   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>* <a class="code" href="classcelOneParameterBlock.html#ed8b07cc4396bd62c8a07e33a3717495">GetParameter</a> (csStringID <span class="keywordtype">id</span>)<span class="keyword"> const</span>
+<a name="l00263"></a>00263 <span class="keyword">  </span>{
+<a name="l00264"></a>00264     <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != celOneParameterBlock::id) <span class="keywordflow">return</span> 0;
+<a name="l00265"></a>00265     <span class="keywordflow">return</span> &amp;data;
+<a name="l00266"></a>00266   }
+<a name="l00267"></a>00267 };
+<a name="l00268"></a>00268 
+<a name="l00269"></a>00269 <span class="preprocessor">#endif // __CEL_CELTOOL_PARAMS__</span>
+<a name="l00270"></a>00270 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.6 
 </small></address> </div></body> </html>
