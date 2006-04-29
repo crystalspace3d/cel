@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Apr-2006
+	- caedes added a library at data/library to hold useful quests,
+	  behaviours and entity templates. Now there are: 14 quests, 12
+	  python behaviours, 3 xml behaviours, 2 entity templates, as well
+	  as celstrap.py and celstrap.xml, files intended as simple main 
+	  entrances for self contained xml or python scripting apps 
+	  (ie, the zip file will contain all scripts, player, content and be
+	  run with standard bootstrap executable and some parameters).
 28-Apr-2006
 	- Jorrit fixed the billboard manager so that the 'distance'
 	  parameter with DrawMesh is now optional. If not given the

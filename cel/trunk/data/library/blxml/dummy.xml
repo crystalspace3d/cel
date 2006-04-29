@@ -1,0 +1,5 @@
+<script name="dummy">
+      <event name="init">
+        <print value="'Initializing dummy...'" />
+      </event>
+</script>
