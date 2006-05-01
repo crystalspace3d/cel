@@ -1029,7 +1029,7 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
   // Setup perspective vertex, invert mouse Y axis.
   csVector2 p (x, camera->GetShiftY() * 2 - y);
 
-  camera->InvPerspective (p, 1, vc);
+  vc = camera->InvPerspective (p, 1 );
   vw = camera->GetTransform ().This2Other (vc);
 
   iSector* sector = camera->GetSector ();

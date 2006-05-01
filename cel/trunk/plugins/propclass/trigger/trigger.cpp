@@ -690,7 +690,7 @@ void celPcTrigger::TickOnce ()
     else
     {
       csBox3 b;
-      above_mesh->GetMesh ()->GetWorldBoundingBox (b);
+      b = above_mesh->GetMesh ()->GetWorldBoundingBox ();
       iMovable* m = above_mesh->GetMesh ()->GetMovable ();
       list = pl->FindNearbyEntities (m->GetSectors ()->Get (0), b,
       	monitor_invisible);

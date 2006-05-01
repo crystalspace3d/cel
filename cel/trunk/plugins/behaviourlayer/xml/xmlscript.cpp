@@ -4454,7 +4454,7 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
   // Setup perspective vertex, invert mouse Y axis.
   csVector2 p (screenx, screeny * 2 - screeny);
 
-  camera->InvPerspective (p, maxdist, v);
+  v = camera->InvPerspective (p, maxdist);
   csVector3 end = camera->GetTransform ().This2Other (v);
 
   iSector* sector = camera->GetSector ();
