@@ -208,25 +208,25 @@ bool celPersistClassic::Write (celData* data)
 
 bool celPersistClassic::Write (uint32 v)
 {
-  v = csConvertEndian(v);
+  v = csLittleEndian::Convert (v);
   return (file->Write ((const char*) &v, 4)? true:false);
 }
 
 bool celPersistClassic::Write (int32 v)
 {
-  v = csConvertEndian(v);
+  v = csLittleEndian::Convert (v);
   return (file->Write ((const char*) &v, 4)?true : false);
 }
 
 bool celPersistClassic::Write (uint16 v)
 {
-  v = csConvertEndian(v);
+  v = csLittleEndian::Convert (v);
   return (file->Write ((const char*) &v, 2)?true : false);
 }
 
 bool celPersistClassic::Write (int16 v)
 {
-  v = csConvertEndian(v);
+  v = csLittleEndian::Convert (v);
   return (file->Write ((const char*) &v, 2)? true : false);
 }
 
@@ -407,7 +407,7 @@ bool celPersistClassic::Read (int16& w)
 {
   if (file->Read((char*) &w, 2) < 2)
     return ReportTrunc ();
-  w = csGetLittleEndianShort (&w);
+  w = csLittleEndian::Convert (csGetFromAddress::UInt16 (&w));
   return true;
 }
 
@@ -415,7 +415,7 @@ bool celPersistClassic::Read (uint16& uw)
 {
   if (file->Read((char*) &uw, 2) < 2)
     return ReportTrunc ();
-  uw = csGetLittleEndianShort (&uw);
+  uw = csLittleEndian::Convert (csGetFromAddress::UInt16 (&uw));
   return true;
 }
 
@@ -423,7 +423,7 @@ bool celPersistClassic::Read (int32& l)
 {
   if (file->Read((char*) &l, 4) < 4)
     return ReportTrunc ();
-  l = csGetLittleEndianLong (&l);
+  l = csLittleEndian::Convert (csGetFromAddress::UInt32 (&l));
   return true;
 }
 
@@ -431,7 +431,7 @@ bool celPersistClassic::Read (uint32& ul)
 {
   if (file->Read((char*) &ul, 4) < 4)
     return ReportTrunc ();
-  ul = csGetLittleEndianLong (&ul);
+  ul = csLittleEndian::Convert (csGetFromAddress::UInt32 (&ul));
   return true;
 }
 

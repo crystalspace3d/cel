@@ -69,7 +69,7 @@
     if (p_##var->type == CEL_DATA_BOOL) \
       var = p_##var->value.bo; \
     else if (p_##var->type == CEL_DATA_LONG) \
-      var = bool (p_##var->value.l); \
+    var =  ((p_##var->value.l)? true : false); \
     else p_##var = 0; \
   }
 

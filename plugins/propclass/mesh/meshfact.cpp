@@ -1050,7 +1050,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     // Setup perspective vertex, invert mouse Y axis.
     csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
 
-    camera->InvPerspective (p, 1, vc);
+    vc = camera->InvPerspective (p, 1 );
     vw = camera->GetTransform ().This2Other (vc);
 
     iSector* sector = camera->GetSector ();

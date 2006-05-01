@@ -1120,7 +1120,7 @@ bool celPcLinearMovement::InitCD (iPcCollisionDetection *pc_cd)
     if (meshWrapper)
     {
       csBox3 worldBoundingBox;
-      meshWrapper->GetWorldBoundingBox (worldBoundingBox);
+      worldBoundingBox = meshWrapper->GetWorldBoundingBox ();
       topSize = worldBoundingBox.Max () - worldBoundingBox.Min ();
       topSize.y = topSize.y * BODY_LEG_FACTOR;
       bottomSize = worldBoundingBox.Max () - worldBoundingBox.Min ();

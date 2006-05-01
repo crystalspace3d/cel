@@ -83,8 +83,8 @@ bool MainApp::CreatePlayer ()
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
   	iPcLinearMovement);
   pclinmove->InitCD (
-  	csVector3 (0.5,0.8,0.5),
-  	csVector3 (0.5,0.4,0.5),
+  	csVector3 (0.5f,0.8f,0.5f),
+  	csVector3 (0.5f,0.4f,0.5f),
   	csVector3 (0,0,0));
 
   // Get the iPcActorMove interface so that we can set movement speed.
