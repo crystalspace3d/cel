@@ -725,7 +725,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   }
   else
     databuf->Add ((iCelPropertyClass*) 0);
-  databuf->Add (CS_STATIC_CAST(int32,btype));
+  databuf->Add (static_cast<int32> (btype));
   switch (btype)
   {
     case CEL_BODY_SPHERE:
