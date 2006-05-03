@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+03-May-2006
+	- Vincent fixed track4 map used by hovertest for materialmap move
+	  to terrain former and sector ambient lighting.
 01-May-2006
         - Arianna fixed several warnings and deprecated functions.
 29-Apr-2006
