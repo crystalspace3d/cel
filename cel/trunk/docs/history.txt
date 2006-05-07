@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-May-2006
+	- Vincent fixed blpython for CS_CONST_CAST removal.
 3-May-2006
 	- Vincent fixed track4 map used by hovertest for materialmap move
 	  to terrain former and sector ambient lighting.

@@ -161,7 +161,7 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
     realname = name;
   }
 
-  py_module = PyImport_ImportModule (CS_CONST_CAST(char*,realname.GetData()));
+  py_module = PyImport_ImportModule (const_cast<char*>(realname.GetData()));
   if (py_module != 0) 
   {
     py_dict = PyModule_GetDict (py_module);
