@@ -60,10 +60,8 @@ public:
     if (soundsource)
     {
       csReversibleTransform tr = movable->GetFullTransform ();
-      csVector3 pos = movable->GetPosition ();
-      csVector3 dir = tr.GetFront ();
-      soundsource->SetPosition (pos);
-      soundsource->SetDirection (dir);
+      soundsource->SetPosition (tr.GetOrigin ());
+      soundsource->SetDirection (tr.GetFront ());
     }
   }
   virtual void MovableDestroyed (iMovable*) { }
