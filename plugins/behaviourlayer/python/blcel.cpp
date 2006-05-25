@@ -1354,9 +1354,9 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iDocumentNode swig_types[3] 
 #define  SWIGTYPE_p_iPcMovableConstraint swig_types[4] 
 #define  SWIGTYPE_p_iCelPropertyClassList swig_types[5] 
-#define  SWIGTYPE_p_celPersistenceType swig_types[6] 
-#define  SWIGTYPE_p_celInitializer swig_types[7] 
-#define  SWIGTYPE_p_csInitializer swig_types[8] 
+#define  SWIGTYPE_p_celInitializer swig_types[6] 
+#define  SWIGTYPE_p_csInitializer swig_types[7] 
+#define  SWIGTYPE_p_celPersistenceType swig_types[8] 
 #define  SWIGTYPE_std__size_t swig_types[9] 
 #define  SWIGTYPE_size_t swig_types[10] 
 #define  SWIGTYPE_p_iPcDefaultCamera swig_types[11] 
@@ -1378,7 +1378,7 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p__csKeyModifiers swig_types[27] 
 #define  SWIGTYPE_p_iPcTooltip swig_types[28] 
 #define  SWIGTYPE_p_iPcProperties swig_types[29] 
-#define  SWIGTYPE_p_MemoryAllocatorType swig_types[30] 
+#define  SWIGTYPE_p_AllocatorType swig_types[30] 
 #define  SWIGTYPE_p_iCelEntityTracker swig_types[31] 
 #define  SWIGTYPE_p_csColor swig_types[32] 
 #define  SWIGTYPE_p_int32_t swig_types[33] 
@@ -1412,87 +1412,89 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iPcCommandInput swig_types[61] 
 #define  SWIGTYPE_p_csOrthoTransform swig_types[62] 
 #define  SWIGTYPE_p_iCelPropertyClass swig_types[63] 
-#define  SWIGTYPE_p_iStringArray swig_types[64] 
-#define  SWIGTYPE_p_iPcMovable swig_types[65] 
-#define  SWIGTYPE_p_iBillboardEventHandler swig_types[66] 
-#define  SWIGTYPE_p_iPcCollisionDetection swig_types[67] 
-#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[68] 
-#define  SWIGTYPE_int swig_types[69] 
-#define  SWIGTYPE_p__csKeyModifierNumType swig_types[70] 
-#define  SWIGTYPE_p_int16_t swig_types[71] 
-#define  SWIGTYPE_p_uint16_t swig_types[72] 
-#define  SWIGTYPE_p_uint64_t swig_types[73] 
-#define  SWIGTYPE_p_int64_t swig_types[74] 
-#define  SWIGTYPE_p_iPcActorMove swig_types[75] 
-#define  SWIGTYPE_p_char swig_types[76] 
-#define  SWIGTYPE_p_FileFormatDescription swig_types[77] 
-#define  SWIGTYPE_p_iMeshWrapper swig_types[78] 
-#define  SWIGTYPE_p_iFont swig_types[79] 
-#define  SWIGTYPE_p_celStabiliserFunction swig_types[80] 
-#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[81] 
-#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[82] 
-#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[83] 
-#define  SWIGTYPE_p_iPcMechanicsBalancedGroup swig_types[84] 
-#define  SWIGTYPE_p_iPcGravityCallback swig_types[85] 
-#define  SWIGTYPE_p_iBillboardManager swig_types[86] 
-#define  SWIGTYPE_p_iPcZoneManager swig_types[87] 
-#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[88] 
-#define  SWIGTYPE_p_iCamera swig_types[89] 
-#define  SWIGTYPE_p_iPcCamera swig_types[90] 
-#define  SWIGTYPE_p_iPcMesh swig_types[91] 
-#define  SWIGTYPE_p_iPcSimpleCamera swig_types[92] 
-#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[93] 
-#define  SWIGTYPE_p_iCelBehaviour swig_types[94] 
-#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[95] 
-#define  SWIGTYPE_p_iBillboardLayer swig_types[96] 
-#define  SWIGTYPE_p_iCelZone swig_types[97] 
-#define  SWIGTYPE_p_iPcTimer swig_types[98] 
-#define  SWIGTYPE_p_iPcSoundSource swig_types[99] 
-#define  SWIGTYPE_p_iPcHover swig_types[100] 
-#define  SWIGTYPE_p_csVector2 swig_types[101] 
-#define  SWIGTYPE_p_csPlane3 swig_types[102] 
-#define  SWIGTYPE_p_unsigned_long swig_types[103] 
-#define  SWIGTYPE_p_iCelDataBuffer swig_types[104] 
-#define  SWIGTYPE_p_csVector3 swig_types[105] 
-#define  SWIGTYPE_p_celPersistenceResult swig_types[106] 
-#define  SWIGTYPE_p_iPcMechanicsThruster swig_types[107] 
-#define  SWIGTYPE_p_iPcGravity swig_types[108] 
-#define  SWIGTYPE_p_csRefTiPcMesh_t swig_types[109] 
-#define  SWIGTYPE_p_iRigidBody swig_types[110] 
-#define  SWIGTYPE_p_int_least64_t swig_types[111] 
-#define  SWIGTYPE_p_uint_least64_t swig_types[112] 
-#define  SWIGTYPE_p_ElementHandlerType swig_types[113] 
-#define  SWIGTYPE_p_CapacityHandlerType swig_types[114] 
-#define  SWIGTYPE_p_iPcMechanicsSystem swig_types[115] 
-#define  SWIGTYPE_p_iDynamicSystem swig_types[116] 
-#define  SWIGTYPE_p_iPcMechanicsJoint swig_types[117] 
-#define  SWIGTYPE_p_iCelInventorySpace swig_types[118] 
-#define  SWIGTYPE_p_basetype swig_types[119] 
-#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[120] 
-#define  SWIGTYPE_p_iPcSolid swig_types[121] 
-#define  SWIGTYPE_p_unsigned_int swig_types[122] 
-#define  SWIGTYPE_p_csBox3 swig_types[123] 
-#define  SWIGTYPE_p_iView swig_types[124] 
-#define  SWIGTYPE_p_iCelInventorySpaceSlot swig_types[125] 
-#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[126] 
-#define  SWIGTYPE_p_iCelTimerListener swig_types[127] 
-#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[128] 
-#define  SWIGTYPE_p_iPcInventoryListener swig_types[129] 
-#define  SWIGTYPE_p_iPcSoundListener swig_types[130] 
-#define  SWIGTYPE_p_iSndSysListener swig_types[131] 
-#define  SWIGTYPE_p_iPcPropertyListener swig_types[132] 
-#define  SWIGTYPE_p_celDataType swig_types[133] 
-#define  SWIGTYPE_p__csMouseCursorID swig_types[134] 
-#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[135] 
-#define  SWIGTYPE_p_float swig_types[136] 
-#define  SWIGTYPE_p_iPcCraftController swig_types[137] 
-#define  SWIGTYPE_p_iBase swig_types[138] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[139] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[140] 
-#define  SWIGTYPE_p_iPcInventory swig_types[141] 
-#define  SWIGTYPE_p_iPcRegion swig_types[142] 
-#define  SWIGTYPE_p_iRegion swig_types[143] 
-static swig_type_info *swig_types[145];
+#define  SWIGTYPE_p_ThisType swig_types[64] 
+#define  SWIGTYPE_p_iStringArray swig_types[65] 
+#define  SWIGTYPE_p_iPcMovable swig_types[66] 
+#define  SWIGTYPE_p_iBillboardEventHandler swig_types[67] 
+#define  SWIGTYPE_p_iPcCollisionDetection swig_types[68] 
+#define  SWIGTYPE_p_p_iPcCollisionDetection swig_types[69] 
+#define  SWIGTYPE_int swig_types[70] 
+#define  SWIGTYPE_p__csKeyModifierNumType swig_types[71] 
+#define  SWIGTYPE_p_int16_t swig_types[72] 
+#define  SWIGTYPE_p_uint16_t swig_types[73] 
+#define  SWIGTYPE_p_uint64_t swig_types[74] 
+#define  SWIGTYPE_p_int64_t swig_types[75] 
+#define  SWIGTYPE_p_iPcActorMove swig_types[76] 
+#define  SWIGTYPE_p_char swig_types[77] 
+#define  SWIGTYPE_p_FileFormatDescription swig_types[78] 
+#define  SWIGTYPE_p_iMeshWrapper swig_types[79] 
+#define  SWIGTYPE_p_ValueType swig_types[80] 
+#define  SWIGTYPE_p_iFont swig_types[81] 
+#define  SWIGTYPE_p_celStabiliserFunction swig_types[82] 
+#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[83] 
+#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[84] 
+#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[85] 
+#define  SWIGTYPE_p_iPcMechanicsBalancedGroup swig_types[86] 
+#define  SWIGTYPE_p_iPcGravityCallback swig_types[87] 
+#define  SWIGTYPE_p_iBillboardManager swig_types[88] 
+#define  SWIGTYPE_p_iPcZoneManager swig_types[89] 
+#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[90] 
+#define  SWIGTYPE_p_iCamera swig_types[91] 
+#define  SWIGTYPE_p_iPcCamera swig_types[92] 
+#define  SWIGTYPE_p_iPcMesh swig_types[93] 
+#define  SWIGTYPE_p_iPcSimpleCamera swig_types[94] 
+#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[95] 
+#define  SWIGTYPE_p_iCelBehaviour swig_types[96] 
+#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[97] 
+#define  SWIGTYPE_p_iBillboardLayer swig_types[98] 
+#define  SWIGTYPE_p_iCelZone swig_types[99] 
+#define  SWIGTYPE_p_iPcTimer swig_types[100] 
+#define  SWIGTYPE_p_iPcSoundSource swig_types[101] 
+#define  SWIGTYPE_p_iPcHover swig_types[102] 
+#define  SWIGTYPE_p_csVector2 swig_types[103] 
+#define  SWIGTYPE_p_csPlane3 swig_types[104] 
+#define  SWIGTYPE_p_unsigned_long swig_types[105] 
+#define  SWIGTYPE_p_iCelDataBuffer swig_types[106] 
+#define  SWIGTYPE_p_csVector3 swig_types[107] 
+#define  SWIGTYPE_p_celPersistenceResult swig_types[108] 
+#define  SWIGTYPE_p_iPcMechanicsThruster swig_types[109] 
+#define  SWIGTYPE_p_iPcGravity swig_types[110] 
+#define  SWIGTYPE_p_csRefTiPcMesh_t swig_types[111] 
+#define  SWIGTYPE_p_iRigidBody swig_types[112] 
+#define  SWIGTYPE_p_int_least64_t swig_types[113] 
+#define  SWIGTYPE_p_uint_least64_t swig_types[114] 
+#define  SWIGTYPE_p_ElementHandlerType swig_types[115] 
+#define  SWIGTYPE_p_CapacityHandlerType swig_types[116] 
+#define  SWIGTYPE_p_iPcMechanicsSystem swig_types[117] 
+#define  SWIGTYPE_p_iDynamicSystem swig_types[118] 
+#define  SWIGTYPE_p_iPcMechanicsJoint swig_types[119] 
+#define  SWIGTYPE_p_iCelInventorySpace swig_types[120] 
+#define  SWIGTYPE_p_basetype swig_types[121] 
+#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[122] 
+#define  SWIGTYPE_p_iPcSolid swig_types[123] 
+#define  SWIGTYPE_p_unsigned_int swig_types[124] 
+#define  SWIGTYPE_p_csBox3 swig_types[125] 
+#define  SWIGTYPE_p_iView swig_types[126] 
+#define  SWIGTYPE_p_iCelInventorySpaceSlot swig_types[127] 
+#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[128] 
+#define  SWIGTYPE_p_iCelTimerListener swig_types[129] 
+#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[130] 
+#define  SWIGTYPE_p_iPcInventoryListener swig_types[131] 
+#define  SWIGTYPE_p_iPcSoundListener swig_types[132] 
+#define  SWIGTYPE_p_iSndSysListener swig_types[133] 
+#define  SWIGTYPE_p_iPcPropertyListener swig_types[134] 
+#define  SWIGTYPE_p_celDataType swig_types[135] 
+#define  SWIGTYPE_p__csMouseCursorID swig_types[136] 
+#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[137] 
+#define  SWIGTYPE_p_float swig_types[138] 
+#define  SWIGTYPE_p_iPcCraftController swig_types[139] 
+#define  SWIGTYPE_p_iBase swig_types[140] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[141] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[142] 
+#define  SWIGTYPE_p_iPcInventory swig_types[143] 
+#define  SWIGTYPE_p_iPcRegion swig_types[144] 
+#define  SWIGTYPE_p_iRegion swig_types[145] 
+static swig_type_info *swig_types[147];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -31213,9 +31215,9 @@ static swig_type_info _swigt__p_iObjectRegistry[] = {{"_p_iObjectRegistry", 0, "
 static swig_type_info _swigt__p_iDocumentNode[] = {{"_p_iDocumentNode", 0, "iDocumentNode *", 0, 0, 0, 0},{"_p_iDocumentNode", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcMovableConstraint[] = {{"_p_iPcMovableConstraint", 0, "iPcMovableConstraint *", 0, 0, 0, 0},{"_p_iPcMovableConstraint", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelPropertyClassList[] = {{"_p_iCelPropertyClassList", 0, "iCelPropertyClassList *", 0, 0, 0, 0},{"_p_iCelPropertyClassList", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_celPersistenceType[] = {{"_p_celPersistenceType", 0, "celPersistenceType *", 0, 0, 0, 0},{"_p_celPersistenceType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_celInitializer[] = {{"_p_celInitializer", 0, "celInitializer *", 0, 0, 0, 0},{"_p_celInitializer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csInitializer[] = {{"_p_csInitializer", 0, "csInitializer *", 0, 0, 0, 0},{"_p_csInitializer", 0, 0, 0, 0, 0, 0},{"_p_celInitializer", _p_celInitializerTo_p_csInitializer, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_celPersistenceType[] = {{"_p_celPersistenceType", 0, "celPersistenceType *", 0, 0, 0, 0},{"_p_celPersistenceType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__std__size_t[] = {{"_std__size_t", 0, "std::size_t", 0, 0, 0, 0},{"_std__size_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__size_t[] = {{"_size_t", 0, "size_t", 0, 0, 0, 0},{"_size_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcDefaultCamera[] = {{"_p_iPcDefaultCamera", 0, "iPcDefaultCamera *", 0, 0, 0, 0},{"_p_iPcDefaultCamera", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -31237,7 +31239,7 @@ static swig_type_info _swigt__p_iPcMeshSelect[] = {{"_p_iPcMeshSelect", 0, "iPcM
 static swig_type_info _swigt__p__csKeyModifiers[] = {{"_p__csKeyModifiers", 0, "_csKeyModifiers *|csKeyModifiers *", 0, 0, 0, 0},{"_p__csKeyModifiers", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcTooltip[] = {{"_p_iPcTooltip", 0, "iPcTooltip *", 0, 0, 0, 0},{"_p_iPcTooltip", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcProperties[] = {{"_p_iPcProperties", 0, "iPcProperties *", 0, 0, 0, 0},{"_p_iPcProperties", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_MemoryAllocatorType[] = {{"_p_MemoryAllocatorType", 0, "MemoryAllocatorType *", 0, 0, 0, 0},{"_p_MemoryAllocatorType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_AllocatorType[] = {{"_p_AllocatorType", 0, "AllocatorType *", 0, 0, 0, 0},{"_p_AllocatorType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelEntityTracker[] = {{"_p_iCelEntityTracker", 0, "iCelEntityTracker *", 0, 0, 0, 0},{"_p_iCelEntityTracker", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csColor[] = {{"_p_csColor", 0, "csColor *", 0, 0, 0, 0},{"_p_csColor", 0, 0, 0, 0, 0, 0},{"_p_csColor4", _p_csColor4To_p_csColor, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_int32_t[] = {{"_p_int32_t", 0, "int32_t *|csSoundSample *", 0, 0, 0, 0},{"_p_int32_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -31271,6 +31273,7 @@ static swig_type_info _swigt__p_csFlags[] = {{"_p_csFlags", 0, "csFlags *", 0, 0
 static swig_type_info _swigt__p_iPcCommandInput[] = {{"_p_iPcCommandInput", 0, "iPcCommandInput *", 0, 0, 0, 0},{"_p_iPcCommandInput", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csOrthoTransform[] = {{"_p_csOrthoTransform", 0, "csOrthoTransform *", 0, 0, 0, 0},{"_p_csOrthoTransform", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelPropertyClass[] = {{"_p_iCelPropertyClass", 0, "iCelPropertyClass *", 0, 0, 0, 0},{"_p_iCelPropertyClass", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_ThisType[] = {{"_p_ThisType", 0, "ThisType *", 0, 0, 0, 0},{"_p_ThisType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iStringArray[] = {{"_p_iStringArray", 0, "iStringArray *", 0, 0, 0, 0},{"_p_iStringArray", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcMovable[] = {{"_p_iPcMovable", 0, "iPcMovable *", 0, 0, 0, 0},{"_p_iPcMovable", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iBillboardEventHandler[] = {{"_p_iBillboardEventHandler", 0, "iBillboardEventHandler *", 0, 0, 0, 0},{"_p_iBillboardEventHandler", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -31286,6 +31289,7 @@ static swig_type_info _swigt__p_iPcActorMove[] = {{"_p_iPcActorMove", 0, "iPcAct
 static swig_type_info _swigt__p_char[] = {{"_p_char", 0, "char *", 0, 0, 0, 0},{"_p_char", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_FileFormatDescription[] = {{"_p_FileFormatDescription", 0, "FileFormatDescription *", 0, 0, 0, 0},{"_p_FileFormatDescription", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iMeshWrapper[] = {{"_p_iMeshWrapper", 0, "iMeshWrapper *", 0, 0, 0, 0},{"_p_iMeshWrapper", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_ValueType[] = {{"_p_ValueType", 0, "ValueType *", 0, 0, 0, 0},{"_p_ValueType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iFont[] = {{"_p_iFont", 0, "iFont *", 0, 0, 0, 0},{"_p_iFont", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_celStabiliserFunction[] = {{"_p_celStabiliserFunction", 0, "celStabiliserFunction *", 0, 0, 0, 0},{"_p_celStabiliserFunction", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelPropertyChangeCallback[] = {{"_p_iCelPropertyChangeCallback", 0, "iCelPropertyChangeCallback *", 0, 0, 0, 0},{"_p_iCelPropertyChangeCallback", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -31359,9 +31363,9 @@ _swigt__p_iObjectRegistry,
 _swigt__p_iDocumentNode, 
 _swigt__p_iPcMovableConstraint, 
 _swigt__p_iCelPropertyClassList, 
-_swigt__p_celPersistenceType, 
 _swigt__p_celInitializer, 
 _swigt__p_csInitializer, 
+_swigt__p_celPersistenceType, 
 _swigt__std__size_t, 
 _swigt__size_t, 
 _swigt__p_iPcDefaultCamera, 
@@ -31383,7 +31387,7 @@ _swigt__p_iPcMeshSelect,
 _swigt__p__csKeyModifiers, 
 _swigt__p_iPcTooltip, 
 _swigt__p_iPcProperties, 
-_swigt__p_MemoryAllocatorType, 
+_swigt__p_AllocatorType, 
 _swigt__p_iCelEntityTracker, 
 _swigt__p_csColor, 
 _swigt__p_int32_t, 
@@ -31417,6 +31421,7 @@ _swigt__p_csFlags,
 _swigt__p_iPcCommandInput, 
 _swigt__p_csOrthoTransform, 
 _swigt__p_iCelPropertyClass, 
+_swigt__p_ThisType, 
 _swigt__p_iStringArray, 
 _swigt__p_iPcMovable, 
 _swigt__p_iBillboardEventHandler, 
@@ -31432,6 +31437,7 @@ _swigt__p_iPcActorMove,
 _swigt__p_char, 
 _swigt__p_FileFormatDescription, 
 _swigt__p_iMeshWrapper, 
+_swigt__p_ValueType, 
 _swigt__p_iFont, 
 _swigt__p_celStabiliserFunction, 
 _swigt__p_iCelPropertyChangeCallback, 
