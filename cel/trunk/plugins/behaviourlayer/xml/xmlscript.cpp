@@ -3122,6 +3122,24 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	}
 	break;
 
+      case CEL_OPERATION_DESTROYPC:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: destroypropclass pc=%s\n", i-1, A2S (top)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: destroypropclass %s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (top));
+	    fflush (stdout);
+	  }
+	  const char* s = ArgToString (top);
+	  iCelPropertyClassList* plist = entity->GetPropertyClassList ();
+	  iCelPropertyClass* pc = plist->FindByName (s);
+	  if (pc) plist->Remove (pc);
+	}
+        break;
       case CEL_OPERATION_CREATEPC:
         {
 	  CHECK_STACK(1)
@@ -3139,6 +3157,27 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!pc)
 	    return ReportError (cbl, "Couldn't create property class '%s'!",
 	    	s);
+	}
+        break;
+      case CEL_OPERATION_DESTROYPCTAG:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg atag = stack.Pop ();
+	  celXmlArg apc = stack.Pop ();
+          DUMP_EXEC ((":%04d: destroypropclasstag pc=%s tag=%s\n",
+	  	i-1, A2S (apc), A2S (atag)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: destroypropclasstag pc=%s tag=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (apc), A2S (atag));
+	    fflush (stdout);
+	  }
+	  const char* s = ArgToString (apc);
+	  const char* tag = ArgToString (atag);
+	  iCelPropertyClassList* plist = entity->GetPropertyClassList ();
+	  iCelPropertyClass* pc = plist->FindByNameAndTag (s, tag);
+	  if (pc) plist->Remove (pc);
 	}
         break;
       case CEL_OPERATION_CREATEPCTAG:

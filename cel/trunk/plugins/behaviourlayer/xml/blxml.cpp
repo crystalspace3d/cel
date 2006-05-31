@@ -65,6 +65,7 @@ enum
   XMLTOKEN_DESTROYENTITY,
   XMLTOKEN_CREATEENTITY,
   XMLTOKEN_CREATEPROPCLASS,
+  XMLTOKEN_DESTROYPROPCLASS,
   XMLTOKEN_DEFAULT,
   XMLTOKEN_INVENTORY,
   XMLTOKEN_INVENTORY_ADD,
@@ -199,6 +200,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("destroyentity", XMLTOKEN_DESTROYENTITY);
   xmltokens.Register ("createentity", XMLTOKEN_CREATEENTITY);
   xmltokens.Register ("createpropclass", XMLTOKEN_CREATEPROPCLASS);
+  xmltokens.Register ("destroypropclass", XMLTOKEN_DESTROYPROPCLASS);
   xmltokens.Register ("default", XMLTOKEN_DEFAULT);
   xmltokens.Register ("inventory", XMLTOKEN_INVENTORY);
   xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
@@ -1720,6 +1722,25 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
       case XMLTOKEN_QUIT:
         h->AddOperation (CEL_OPERATION_QUIT);
         break;
+      case XMLTOKEN_DESTROYPROPCLASS:
+        {
+          if (!ParseExpression (local_vars, child, h, "name",
+	  	"destroypropclass"))
+	    return false;
+	  const char* tagname = child->GetAttributeValue ("tag");
+	  if (tagname)
+	  {
+            if (!ParseExpression (local_vars, child, h, "tag",
+	    	"destroypropclass"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_DESTROYPCTAG);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_DESTROYPC);
+	  }
+        }
+	break;
       case XMLTOKEN_CREATEPROPCLASS:
         {
           if (!ParseExpression (local_vars, child, h, "name",
