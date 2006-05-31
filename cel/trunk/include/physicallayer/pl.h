@@ -458,7 +458,7 @@ struct iCelPlLayer : public iBase
   virtual void AddEntityRemoveCallback (iCelEntityRemoveCallback* clback) = 0;
 
   /**
-   * Removes an registered RemoveCallback.
+   * Removes a registered RemoveCallback.
    */
   virtual void RemoveEntityRemoveCallback (
   	iCelEntityRemoveCallback* clback) = 0;
@@ -470,7 +470,7 @@ struct iCelPlLayer : public iBase
   virtual void AddNewEntityCallback (iCelNewEntityCallback* clback) = 0;
 
   /**
-   * Removes an registered NewCallback.
+   * Removes a registered NewCallback.
    */
   virtual void RemoveNewEntityCallback (iCelNewEntityCallback* clback) = 0;
 

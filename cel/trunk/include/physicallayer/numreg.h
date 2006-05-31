@@ -54,12 +54,12 @@ struct iNumReg : public iBase
   virtual void RegisterWithID (void *obj, uint id) = 0;
 
   /**
-   *  Removes an registered object from the registry
+   *  Removes a registered object from the registry
    */
   virtual bool Remove (uint id) = 0;
 
   /**
-   *  Removes an registered object from the registry (Note: this is slow, 
+   *  Removes a registered object from the registry (Note: this is slow, 
    * whatever the implementation you choose)
    */
   virtual bool Remove (void *obj) = 0;
