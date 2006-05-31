@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-May-2006
+	- Jorrit added new XML commands to destroy property classes
+	  (by name and also by name and tag). Syntax:
+	    <destroypropclass name="pcmesh" tag="bla" />
 15-May-2006
 	- caedes made soundsource use mesh full position instead of local
 	  position when syncinc position.
