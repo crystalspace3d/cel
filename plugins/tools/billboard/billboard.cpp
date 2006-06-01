@@ -369,8 +369,8 @@ bool celBillboard::DrawMesh (const char* material_name,
 	const char* factory, const csVector3& rotate,
 	float angle, float distance)
 {
-  iMaterialWrapper* test = mgr->engine->FindMaterial (material_name);
-  if (test) { return SetMaterialName (material_name); }
+  //iMaterialWrapper* test = mgr->engine->FindMaterial (material_name);
+  //if (test) { return SetMaterialName (material_name); }
 
   iSector* showroom = mgr->GetShowroom ();
   csMeshOnTexture* mesh_on_texture = mgr->GetMeshOnTexture ();
@@ -386,6 +386,14 @@ bool celBillboard::DrawMesh (const char* material_name,
     movable->GetTransform ().RotateThis (rotate, angle);
   movable->UpdateMove ();
 
+  // If 'materialname' is set (the name of the material of this billboard)
+  // then we use that. In that scenario the other material (named
+  // 'material_name' will be painted on top of that before we render
+  // the mesh. Otherwise we will set the material name of this billboard
+  // to the given material name.
+  if (!materialname) SetMaterialName (material_name);
+  bool paint_on_top = strcmp (materialname, material_name) != 0;
+
   iTextureHandle* handle;
   if (!material_ok || material == 0)
   {
@@ -393,10 +401,10 @@ bool celBillboard::DrawMesh (const char* material_name,
     if (iw == -1) iw = 128;	// @@@ Make overridable?
     if (ih == -1) ih = 128;	// @@@ Make overridable?
     //GetImageSize (iw, ih);
-    iTextureWrapper* txt = mgr->engine->CreateBlackTexture (material_name,
+    iTextureWrapper* txt = mgr->engine->CreateBlackTexture (materialname,
     	iw, ih, 0, CS_TEXTURE_2D | CS_TEXTURE_3D | CS_TEXTURE_NOMIPMAPS);
     txt->SetKeepImage (true);
-    material = mgr->engine->CreateMaterial (material_name, txt);
+    material = mgr->engine->CreateMaterial (materialname, txt);
     iTextureManager *txtmgr = mgr->GetGraphics3D ()->GetTextureManager ();
     if (!txt->GetTextureHandle ()) txt->Register (txtmgr);
     handle = txt->GetTextureHandle ();
@@ -411,24 +419,36 @@ bool celBillboard::DrawMesh (const char* material_name,
   iCamera* cam = mesh_on_texture->GetView ()->GetCamera ();
   cam->GetTransform ().SetOrigin (csVector3 (0, 0, -10.0f));
 
+  int iw, ih;
+  handle->GetRendererDimensions (iw, ih);
   if (distance < 0.0f)
-  {
-    int iw, ih;
-    handle->GetRendererDimensions (iw, ih);
     mesh_on_texture->ScaleCamera (mesh, iw, ih);
-  }
   else
-  {
     mesh_on_texture->ScaleCamera (mesh, distance);
+
+  if (paint_on_top)
+  {
+    iMaterialWrapper* mat_on_top = mgr->engine->FindMaterial (material_name);
+    if (mat_on_top)
+    {
+      csRef<iMaterialEngine> mat_on_top_eng = scfQueryInterface<
+      	iMaterialEngine> (mat_on_top->GetMaterial ());
+      iTextureHandle* handle_on_top = mat_on_top_eng->GetTextureWrapper ()
+      	->GetTextureHandle ();
+      if (handle_on_top)
+      {
+        mgr->GetGraphics3D ()->DrawPixmap (handle_on_top, 0, 0,
+		iw, ih, 0, 0, iw, ih, 0);
+      }
+    }
   }
   bool rc = mesh_on_texture->Render (0, handle, true);
 
   mgr->engine->RemoveObject (mesh);
 
   if (!rc) return false;
-  //if (!material_ok || material == 0)
-    return SetMaterialName (material_name);
-  return true;
+  csString copy_materialname = materialname;
+  return SetMaterialName (copy_materialname);
 }
 
 void celBillboard::GetSize (int& w, int& h)
