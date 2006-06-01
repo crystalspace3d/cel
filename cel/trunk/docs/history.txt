@@ -12,6 +12,10 @@ The history order is reversed so that new features are at the top.
 	  background of the billboard before the mesh is drawn. It doesn't
 	  yet work properly though.
 	- Jorrit fixed a small bug in DrawMesh().
+	- Jorrit added a new FindEntity() method to iPcInventory to find
+	  an entity in an inventory.
+	- Jorrit added a new 'inventory_find()' function to the XML
+	  behaviour layer which uses the new function in iPcInventory.
 31-May-2006
 	- Jorrit added new XML commands to destroy property classes
 	  (by name and also by name and tag). Syntax:

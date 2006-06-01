@@ -231,6 +231,12 @@ struct iPcInventory : public virtual iBase
   virtual bool In (iCelEntity* entity) const = 0;
 
   /**
+   * Find the index of some entity in the inventory.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntity (iCelEntity* entity) const = 0;
+
+  /**
    * Get an entity from a generic slot (space system).
    */
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const = 0;
