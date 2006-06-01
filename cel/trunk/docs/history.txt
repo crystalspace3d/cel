@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Jun-2006
+	- Jorrit added better support for DrawMesh action in billboards.
+	  Basically it is now (almost) possible to draw a mesh on top
+	  of an existing material. The material name that is set on the
+	  billboard will be the final resulting material name. But the
+	  material name that is given with DrawMesh() is used as the
+	  background of the billboard before the mesh is drawn. It doesn't
+	  yet work properly though.
 31-May-2006
 	- Jorrit added new XML commands to destroy property classes
 	  (by name and also by name and tag). Syntax:
