@@ -88,8 +88,8 @@ AC_DEFUN([CS_CHECK_HOST],
 ])
 
 AC_DEFUN([_CS_CHECK_HOST_DARWIN],
-    [AC_REQUIRE([AC_PROG_CC])
-    AC_REQUIRE([AC_PROG_CXX])
+    [AC_REQUIRE([CS_PROG_CC])
+    AC_REQUIRE([CS_PROG_CXX])
 
     # Both MacOS/X and Darwin are identified via $host_os as "darwin".  We need
     # a way to distinguish between the two.  If Carbon.h is present, then
@@ -114,7 +114,8 @@ AC_DEFUN([_CS_CHECK_HOST_DARWIN],
     # AC_CHECK_HEADER(), which causes it to test compile the header only (which
     # is a more robust test), rather than also testing it via the preprocessor.
 
-    AC_DEFINE([__CARBONSOUND__])
+    AC_DEFINE([__CARBONSOUND__], [],
+	[Avoid problem caused by missing <Carbon/CarbonSound.h>])
     AC_CHECK_HEADER([Carbon/Carbon.h],
 	[cs_host_macosx=yes], [cs_host_macosx=no], [/* force compile */])
 
