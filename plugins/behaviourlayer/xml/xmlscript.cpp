@@ -4172,7 +4172,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_find ent=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.Set (default_inv->FindEntity (ArgToEntity (top, pl)));
+	  top.SetUInt32 (default_inv->FindEntity (ArgToEntity (top, pl)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:
