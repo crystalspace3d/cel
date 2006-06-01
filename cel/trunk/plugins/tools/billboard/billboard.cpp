@@ -442,7 +442,7 @@ bool celBillboard::DrawMesh (const char* material_name,
       }
     }
   }
-  bool rc = mesh_on_texture->Render (0, handle, true);
+  bool rc = mesh_on_texture->Render (0, handle, paint_on_top);
 
   mgr->engine->RemoveObject (mesh);
 

@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  material name that is given with DrawMesh() is used as the
 	  background of the billboard before the mesh is drawn. It doesn't
 	  yet work properly though.
+	- Jorrit fixed a small bug in DrawMesh().
 31-May-2006
 	- Jorrit added new XML commands to destroy property classes
 	  (by name and also by name and tag). Syntax:
