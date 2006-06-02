@@ -18,6 +18,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added AddVelocity to pclinearmovement.
 	- Jorrit added iPcInventory->In() and FindEntity() versions that
 	  work on entity name instead of entity.
+	- Genjix mangled name "main" inside zone.cpp to avoid conflicts
+	  with games having the name "main" for a region.
 1-Jun-2006
 	- Jorrit added better support for DrawMesh action in billboards.
 	  Basically it is now (almost) possible to draw a mesh on top
