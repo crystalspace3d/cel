@@ -85,6 +85,7 @@ csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
 csStringID celPcLinearMovement::id_velocity = csInvalidStringID;
 csStringID celPcLinearMovement::action_setposition = csInvalidStringID;
 csStringID celPcLinearMovement::action_setvelocity = csInvalidStringID;
+csStringID celPcLinearMovement::action_addvelocity = csInvalidStringID;
 csStringID celPcLinearMovement::action_setangularvelocity = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
@@ -209,6 +210,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
     id_velocity = pl->FetchStringID ("cel.parameter.velocity");
     action_setvelocity = pl->FetchStringID ("cel.action.SetVelocity");
+    action_addvelocity = pl->FetchStringID ("cel.action.AddVelocity");
     action_setangularvelocity = pl->FetchStringID ("cel.action.SetAngularVelocity");
   }
 
@@ -509,6 +511,15 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
       return MoveReport (object_reg,
       	"Missing parameter 'velocity' for action SetVelocity!");
     SetVelocity (velocity);
+    return true;
+  }
+  else if (actionId == action_addvelocity)
+  {
+    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+    if (!p_velocity)
+      return MoveReport (object_reg,
+      	"Missing parameter 'velocity' for action AddVelocity!");
+    AddVelocity (velocity);
     return true;
   }
   else if (actionId == action_setangularvelocity)

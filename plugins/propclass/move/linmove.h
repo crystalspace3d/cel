@@ -164,6 +164,7 @@ protected:
   static csStringID id_velocity;
   static csStringID action_setposition;
   static csStringID action_setvelocity;
+  static csStringID action_addvelocity;
   static csStringID action_setangularvelocity;
 
   // For properties.
