@@ -231,10 +231,21 @@ struct iPcInventory : public virtual iBase
   virtual bool In (iCelEntity* entity) const = 0;
 
   /**
+   * Test if some entity is in the inventory by name.
+   */
+  virtual bool In (const char* name) const = 0;
+
+  /**
    * Find the index of some entity in the inventory.
    * Return csArrayItemNotFound if not in inventory.
    */
   virtual size_t FindEntity (iCelEntity* entity) const = 0;
+
+  /**
+   * Find the index of some entity in the inventory by name.
+   * Return csArrayItemNotFound if not in inventory.
+   */
+  virtual size_t FindEntity (const char* name) const = 0;
 
   /**
    * Get an entity from a generic slot (space system).
