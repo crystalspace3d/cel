@@ -137,6 +137,7 @@ bool celBehaviourXml::SendMessageV (const char* msg_id,
   	iCelPropertyClass* /*pc*/,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
+  ret.Set ((int32)-1);
   celBlXml* cbl = (celBlXml*)bl;
   celXmlScriptEventHandler* h = script->GetEventHandler (msg_id);
   if (h)
