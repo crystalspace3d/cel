@@ -20,6 +20,7 @@ The history order is reversed so that new features are at the top.
 	  work on entity name instead of entity.
 	- Genjix mangled name "main" inside zone.cpp to avoid conflicts
 	  with games having the name "main" for a region.
+	- Genjix reverted last change.
 1-Jun-2006
 	- Jorrit added better support for DrawMesh action in billboards.
 	  Basically it is now (almost) possible to draw a mesh on top
