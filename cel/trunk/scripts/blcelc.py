@@ -1929,6 +1929,7 @@ class iPcInventory(cspace.iBase):
     def GetEntityCount(*args): return _blcelc.iPcInventory_GetEntityCount(*args)
     def GetEntity(*args): return _blcelc.iPcInventory_GetEntity(*args)
     def In(*args): return _blcelc.iPcInventory_In(*args)
+    def FindEntity(*args): return _blcelc.iPcInventory_FindEntity(*args)
     def GetEntitySlot(*args): return _blcelc.iPcInventory_GetEntitySlot(*args)
     def SetStrictCharacteristics(*args): return _blcelc.iPcInventory_SetStrictCharacteristics(*args)
     def HasStrictCharacteristics(*args): return _blcelc.iPcInventory_HasStrictCharacteristics(*args)

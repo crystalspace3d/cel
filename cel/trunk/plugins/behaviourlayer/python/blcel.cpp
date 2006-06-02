@@ -25570,6 +25570,30 @@ static PyObject *_wrap_iPcInventory_In(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iPcInventory_FindEntity(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcInventory *arg1 = (iPcInventory *) 0 ;
+    iCelEntity *arg2 = (iCelEntity *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcInventory_FindEntity",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcInventory, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_iCelEntity, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(2)) SWIG_fail;
+    result = ((iPcInventory const *)arg1)->FindEntity(arg2);
+    
+    {
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcInventory_GetEntitySlot(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcInventory *arg1 = (iPcInventory *) 0 ;
@@ -30192,6 +30216,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcInventory_GetEntityCount", _wrap_iPcInventory_GetEntityCount, METH_VARARGS, NULL},
 	 { (char *)"iPcInventory_GetEntity", _wrap_iPcInventory_GetEntity, METH_VARARGS, NULL},
 	 { (char *)"iPcInventory_In", _wrap_iPcInventory_In, METH_VARARGS, NULL},
+	 { (char *)"iPcInventory_FindEntity", _wrap_iPcInventory_FindEntity, METH_VARARGS, NULL},
 	 { (char *)"iPcInventory_GetEntitySlot", _wrap_iPcInventory_GetEntitySlot, METH_VARARGS, NULL},
 	 { (char *)"iPcInventory_SetStrictCharacteristics", _wrap_iPcInventory_SetStrictCharacteristics, METH_VARARGS, NULL},
 	 { (char *)"iPcInventory_HasStrictCharacteristics", _wrap_iPcInventory_HasStrictCharacteristics, METH_VARARGS, NULL},
