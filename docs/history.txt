@@ -11,6 +11,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit also changed the XML behaviour layer so that when you
 	  call a method on some entity and that method is not supported
 	  then the return value will be set to -1.
+	- Jorrit added SetVelocity and SetAngularVelocity actions
+	  to pclinearmovement.
+	- Jorrit fixed pclinearmovement so that it is more robust in
+	  case there is no sector yet.
 1-Jun-2006
 	- Jorrit added better support for DrawMesh action in billboards.
 	  Basically it is now (almost) possible to draw a mesh on top
