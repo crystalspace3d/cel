@@ -551,7 +551,22 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
-	h->AddOperation (CEL_OPERATION_TESTVAR);
+
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+          h->AddOperation (CEL_OPERATION_TESTVARENT);
+	}
+	else
+	{
+	  input = pinput;	// Set back to ')'
+	  // We have only one argument to pc(). This means we search
+	  // for a property class for the current entity.
+          h->AddOperation (CEL_OPERATION_TESTVAR);
+	}
       }
       break;
     case XMLFUNCTION_STRLEN:

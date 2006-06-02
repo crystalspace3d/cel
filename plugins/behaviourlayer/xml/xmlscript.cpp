@@ -1933,7 +1933,33 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: testvar (%s)\n", i-1, A2S (top)));
 	  const char* str = ArgToString (top);
 	  iPcProperties* props = GetProperties (entity, behave);
-	  if (!props) return ReportError (cbl, "Can't find properties!");
+	  if (!props)
+	  {
+	    top.Set (false);
+	    break;
+	  }
+	  size_t idx = props->GetPropertyIndex (str);
+          if (idx == csArrayItemNotFound)
+	    top.Set (false);
+	  else
+	    top.Set (true);
+	}
+	break;
+      case CEL_OPERATION_TESTVARENT:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg e_var = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: testvarent (%s,%s)\n", i-1, A2S (top),
+	  	A2S (e_var)));
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  const char* str = ArgToString (e_var);
+	  iPcProperties* props = GetProperties (other_ent, 0);
+	  if (!props)
+	  {
+	    top.Set (false);
+	    break;
+	  }
 	  size_t idx = props->GetPropertyIndex (str);
           if (idx == csArrayItemNotFound)
 	    top.Set (false);
