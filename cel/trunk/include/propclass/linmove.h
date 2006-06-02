@@ -76,6 +76,8 @@ SCF_VERSION (iPcLinearMovement, 0, 0, 2);
  * <li>SetPosition: parameters 'sector' (string), 'position' (vector3 or
  *     string (name of mapnode in that case)), and
  *     'yrot' (y rotation degrees).
+ * <li>SetVelocity: parameters 'velocity' (vector3).
+ * <li>SetAngularVelocity: parameters 'velocity' (vector3).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix

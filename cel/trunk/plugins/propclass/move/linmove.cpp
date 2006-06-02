@@ -82,7 +82,10 @@ csStringID celPcLinearMovement::action_initcdmesh = csInvalidStringID;
 csStringID celPcLinearMovement::id_sector = csInvalidStringID;
 csStringID celPcLinearMovement::id_position = csInvalidStringID;
 csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
+csStringID celPcLinearMovement::id_velocity = csInvalidStringID;
 csStringID celPcLinearMovement::action_setposition = csInvalidStringID;
+csStringID celPcLinearMovement::action_setvelocity = csInvalidStringID;
+csStringID celPcLinearMovement::action_setangularvelocity = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLinearMovement)
@@ -204,6 +207,9 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
+    id_velocity = pl->FetchStringID ("cel.parameter.velocity");
+    action_setvelocity = pl->FetchStringID ("cel.action.SetVelocity");
+    action_setangularvelocity = pl->FetchStringID ("cel.action.SetAngularVelocity");
   }
 
   // For properties.
@@ -496,6 +502,24 @@ bool celPcLinearMovement::PerformAction (csStringID actionId,
       	"'position' must be string or vector for SetPosition!");
     return true;
   }
+  else if (actionId == action_setvelocity)
+  {
+    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+    if (!p_velocity)
+      return MoveReport (object_reg,
+      	"Missing parameter 'velocity' for action SetVelocity!");
+    SetVelocity (velocity);
+    return true;
+  }
+  else if (actionId == action_setangularvelocity)
+  {
+    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+    if (!p_velocity)
+      return MoveReport (object_reg,
+      	"Missing parameter 'velocity' for action SetAngularVelocity!");
+    SetAngularVelocity (velocity);
+    return true;
+  }
   return false;
 }
 
@@ -761,6 +785,8 @@ int celPcLinearMovement::MoveV (float delta)
 
   int ret = CEL_MOVE_SUCCEED;
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  if (movable->GetSectors ()->GetCount () <= 0)
+    return CEL_MOVE_DONTMOVE;  // didn't move anywhere
 
   csMatrix3 mat;
 

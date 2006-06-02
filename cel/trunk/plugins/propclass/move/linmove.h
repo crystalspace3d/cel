@@ -161,7 +161,10 @@ protected:
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID id_yrot;
+  static csStringID id_velocity;
   static csStringID action_setposition;
+  static csStringID action_setvelocity;
+  static csStringID action_setangularvelocity;
 
   // For properties.
   enum propids
