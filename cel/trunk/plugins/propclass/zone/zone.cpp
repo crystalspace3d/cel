@@ -769,13 +769,14 @@ bool celPcZoneManager::Load (const char* path, const char* file)
   {
     // Special case. Here we simulate a simple region and zone that
     // will load the world file.
-    iCelRegion* region = CreateRegion ("main");
+    // Use a strange name to avoid conflicts and cause crashes
+    iCelRegion* region = CreateRegion ("mangled079_main");
     iCelMapFile* mapfile = region->CreateMapFile ();
     mapfile->SetPath (path);
     mapfile->SetFile (file);
-    iCelZone* zone = CreateZone ("main");
+    iCelZone* zone = CreateZone ("mangled079__main");
     zone->LinkRegion (region);
-    last_regionname = "main";
+    last_regionname = "mangled079__main";
     last_startname.Empty ();
     if (loading_mode == CEL_ZONE_LOADALL)
       if (!ActivateRegion (0))
