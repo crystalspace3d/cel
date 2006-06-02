@@ -432,6 +432,20 @@ size_t celPcInventory::FindEntity (iCelEntity* entity) const
   return contents.Contains (entity);
 }
 
+bool celPcInventory::In (const char* name) const
+{
+  return FindEntity (name) != csArrayItemNotFound;
+}
+
+size_t celPcInventory::FindEntity (const char* name) const
+{
+  size_t i;
+  for (i = 0 ; i < contents.Length () ; i++)
+    if (!strcmp (name, contents[i]->GetName ()))
+      return i;
+  return csArrayItemNotFound;
+}
+
 iCelEntity* celPcInventory::GetEntitySlot (iCelParameterBlock* pparams) const
 {
   return space->GetEntity (pparams);

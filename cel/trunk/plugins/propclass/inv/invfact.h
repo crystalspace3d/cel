@@ -88,6 +88,8 @@ public:
   virtual iCelEntity* GetEntity (size_t idx) const;
   virtual bool In (iCelEntity* entity) const;
   virtual size_t FindEntity (iCelEntity* entity) const;
+  virtual bool In (const char* name) const;
+  virtual size_t FindEntity (const char* name) const;
   virtual iCelEntity* GetEntitySlot (iCelParameterBlock* params) const;
   virtual bool SetStrictCharacteristics (const char* charName, bool strict);
   virtual bool HasStrictCharacteristics (const char* charName) const;

@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pclinearmovement so that it is more robust in
 	  case there is no sector yet.
 	- Jorrit added AddVelocity to pclinearmovement.
+	- Jorrit added iPcInventory->In() and FindEntity() versions that
+	  work on entity name instead of entity.
 1-Jun-2006
 	- Jorrit added better support for DrawMesh action in billboards.
 	  Basically it is now (almost) possible to draw a mesh on top
