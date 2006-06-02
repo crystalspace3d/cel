@@ -18,6 +18,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added AddVelocity to pclinearmovement.
 	- Jorrit added iPcInventory->In() and FindEntity() versions that
 	  work on entity name instead of entity.
+	- Jorrit enhanced the XML testvar() function so that you can now
+	  also give an entity to test if a variable exists in another
+	  entity.
+	- Jorrit fixed the XML testvar() function so that it also returns
+	  false (instead of giving an error) if there are no properties
+	  on the entity.
 	- Genjix mangled name "main" inside zone.cpp to avoid conflicts
 	  with games having the name "main" for a region.
 	- Genjix reverted last change.
