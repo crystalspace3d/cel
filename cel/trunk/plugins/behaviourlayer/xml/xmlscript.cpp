@@ -3321,7 +3321,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
+	  iCelBehaviour* bh = ent->GetBehaviour ();
+	  if (bh)
+	    bh->SendMessage (eventname, 0, ret, action_params);
 	}
         break;
       case CEL_OPERATION_CALL_ER:
@@ -3340,7 +3342,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = ArgToString (aevent);
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
+	  iCelBehaviour* bh = ent->GetBehaviour ();
+	  if (bh)
+	    bh->SendMessage (eventname, 0, ret, action_params);
+	  else
+	    ret.Set ((int32)-1);
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* varname = ArgToString (aret);
@@ -3375,7 +3381,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
+	  iCelBehaviour* bh = ent->GetBehaviour ();
+	  if (bh)
+	    bh->SendMessage (eventname, 0, ret, action_params);
+	  else
+	    ret.Set ((int32)-1);
 	  celData2celXmlArg (ret, top);
 	}
         break;
@@ -3393,7 +3403,11 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* eventname = op.arg.arg.str.s;
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
-	  ent->GetBehaviour ()->SendMessage (eventname, 0, ret, action_params);
+	  iCelBehaviour* bh = ent->GetBehaviour ();
+	  if (bh)
+	    bh->SendMessage (eventname, 0, ret, action_params);
+	  else
+	    ret.Set ((int32)-1);
 	  celData2celXmlArg (ret, top);
 	}
         break;

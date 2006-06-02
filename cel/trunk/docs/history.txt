@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Jun-2006
+	- Jorrit made the XML behaviour layer more robust so that it is
+	  now safe to send messages to entities that have no behaviour.
+	  The message will simply be ignored. If there is a return
+	  value expected then that return value will be set to -1.
+	- Jorrit also changed the XML behaviour layer so that when you
+	  call a method on some entity and that method is not supported
+	  then the return value will be set to -1.
 1-Jun-2006
 	- Jorrit added better support for DrawMesh action in billboards.
 	  Basically it is now (almost) possible to draw a mesh on top
