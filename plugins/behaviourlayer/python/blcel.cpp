@@ -25546,7 +25546,7 @@ static PyObject *_wrap_iPcInventory_GetEntity(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcInventory_In(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcInventory_In__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcInventory *arg1 = (iPcInventory *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -25570,7 +25570,91 @@ static PyObject *_wrap_iPcInventory_In(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcInventory_FindEntity(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcInventory_In__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcInventory *arg1 = (iPcInventory *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcInventory_In",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcInventory, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (bool)((iPcInventory const *)arg1)->In((char const *)arg2);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcInventory_In(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcInventory, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iCelEntity, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_iPcInventory_In__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcInventory, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                return _wrap_iPcInventory_In__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcInventory_In'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcInventory_FindEntity__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcInventory *arg1 = (iPcInventory *) 0 ;
     iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -25590,6 +25674,90 @@ static PyObject *_wrap_iPcInventory_FindEntity(PyObject *, PyObject *args) {
     }
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcInventory_FindEntity__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcInventory *arg1 = (iPcInventory *) 0 ;
+    char *arg2 = (char *) 0 ;
+    size_t result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcInventory_FindEntity",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcInventory, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = ((iPcInventory const *)arg1)->FindEntity((char const *)arg2);
+    
+    {
+        resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcInventory_FindEntity(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcInventory, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_iCelEntity, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = 1;
+                }
+            }
+            if (_v) {
+                return _wrap_iPcInventory_FindEntity__SWIG_0(self,args);
+            }
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcInventory, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                return _wrap_iPcInventory_FindEntity__SWIG_1(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcInventory_FindEntity'");
     return NULL;
 }
 
