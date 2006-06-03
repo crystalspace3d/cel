@@ -84,7 +84,7 @@ public:
 
   virtual void ThrustOn () { thrust_on = true; }
   virtual void ThrustOff () { thrust_on = false; }
-  virtual bool GetThrusterState () { return thrust_on; }
+  virtual bool IsThrusterOn () { return thrust_on; }
 
   virtual void AfterBurnerOn () { after_burner = true; }
   virtual void AfterBurnerOff () { after_burner = false; }
@@ -168,9 +168,9 @@ public:
     {
       scfParent->ThrustOff ();
     }
-    virtual bool GetThrusterState ()
+    virtual bool IsThrusterOn ()
     {
-      return scfParent->GetThrusterState ();
+      return scfParent->IsThrusterOn ();
     }
 
     virtual void AfterBurnerOn ()
