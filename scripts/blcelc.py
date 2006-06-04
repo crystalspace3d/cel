@@ -2243,6 +2243,7 @@ class iPcCraftController(cspace.iBase):
     def SetRedirectVelocityRatio(*args): return _blcelc.iPcCraftController_SetRedirectVelocityRatio(*args)
     def ThrustOn(*args): return _blcelc.iPcCraftController_ThrustOn(*args)
     def ThrustOff(*args): return _blcelc.iPcCraftController_ThrustOff(*args)
+    def IsThrusterOn(*args): return _blcelc.iPcCraftController_IsThrusterOn(*args)
     def SetAfterBurnerTopSpeed(*args): return _blcelc.iPcCraftController_SetAfterBurnerTopSpeed(*args)
     def AfterBurnerOn(*args): return _blcelc.iPcCraftController_AfterBurnerOn(*args)
     def AfterBurnerOff(*args): return _blcelc.iPcCraftController_AfterBurnerOff(*args)

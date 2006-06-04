@@ -29468,6 +29468,26 @@ static PyObject *_wrap_iPcCraftController_ThrustOff(PyObject *, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iPcCraftController_IsThrusterOn(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_IsThrusterOn",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (bool)(arg1)->IsThrusterOn();
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcCraftController_SetAfterBurnerTopSpeed(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcCraftController *arg1 = (iPcCraftController *) 0 ;
@@ -30506,6 +30526,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCraftController_SetRedirectVelocityRatio", _wrap_iPcCraftController_SetRedirectVelocityRatio, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOn", _wrap_iPcCraftController_ThrustOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOff", _wrap_iPcCraftController_ThrustOff, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_IsThrusterOn", _wrap_iPcCraftController_IsThrusterOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetAfterBurnerTopSpeed", _wrap_iPcCraftController_SetAfterBurnerTopSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_AfterBurnerOn", _wrap_iPcCraftController_AfterBurnerOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_AfterBurnerOff", _wrap_iPcCraftController_AfterBurnerOff, METH_VARARGS, NULL},
