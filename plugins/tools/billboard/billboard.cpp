@@ -1008,26 +1008,29 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
       for (i = 0 ; i < billboards.Length () ; i++)
       {
 	celBillboard* bb = billboards[i];
-        bb->Draw (g3d, z);
-	const char* t = bb->GetText ();
-	if (t)
+	if (bb->flags.Check (CEL_BILLBOARD_VISIBLE))
 	{
-	  iFont* font = bb->GetFont ();
-	  if (!font) font = default_font;
-	  if (font)
+          bb->Draw (g3d, z);
+	  const char* t = bb->GetText ();
+	  if (t)
 	  {
-	    mesh_draw (g3d);
-	    g3d->BeginDraw (CSDRAW_2DGRAPHICS);
-	    csRect r;
-	    bb->GetRect (r);
-	    int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
+	    iFont* font = bb->GetFont ();
+	    if (!font) font = default_font;
+	    if (font)
+	    {
+	      mesh_draw (g3d);
+	      g3d->BeginDraw (CSDRAW_2DGRAPHICS);
+	      csRect r;
+	      bb->GetRect (r);
+	      int fg = bb->UseTextFgColor () ? bb->GetTextFgColorNum () :
 		  	default_fg_color;
-	    int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
+	      int bg = bb->UseTextBgColor () ? bb->GetTextBgColorNum () :
 		  	default_bg_color;
-	    g3d->GetDriver2D ()->Write (font,
+	      g3d->GetDriver2D ()->Write (font,
 			r.xmin+bb->GetTextDX (), r.ymin+bb->GetTextDY (),
 			fg, bg, t);
-	    g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+	      g3d->BeginDraw (CSDRAW_3DGRAPHICS);
+	    }
 	  }
 	}
 	z -= dz;

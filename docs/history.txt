@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+4-Jun-2006
+	- Jorrit fixed a bug in the CEL billboard manager. If you made
+	  a billboard invisible the text would still be drawn.
 3-Jun-2006
 	- Genjix added new Thruster query method to CraftController interface.
 2-Jun-2006
