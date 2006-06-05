@@ -197,6 +197,7 @@ void celPcTimer::TickOnce ()
   csRef<iCelEntity> ref;
   if (wakeuponce)
   {
+    ref = entity;
     if (repeat)
     {
       pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);

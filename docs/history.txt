@@ -22,6 +22,8 @@ The history order is reversed so that new features are at the top.
 	  celtool.
 	- Jorrit added sound_stop, sound_pause, sound_unpause and
 	  sound_volume operations to the blxml behaviour layer.
+	- Jorrit added an entity delete protection in the handling of
+	  the wakeup message in the pctimer property class.
 4-Jun-2006
 	- Jorrit fixed a bug in the CEL billboard manager. If you made
 	  a billboard invisible the text would still be drawn.
