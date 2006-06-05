@@ -718,9 +718,6 @@ bool celXmlScriptEventHandler::ReportError (celBlXml* cbl,
   return false;
 }
 
-// @@@ BAD!!!
-csRef<iSndSysSource> sound_source;
-
 bool celXmlScriptEventHandler::EvaluateTrue (
     const celXmlArg& eval, celBlXml* cbl, bool& rc)
 {
@@ -4416,11 +4413,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUND:
         {
-	  CHECK_STACK(2)
+	  CHECK_STACK(3)
+	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg a_name = stack.Pop ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s\n", i-1, A2S (a_name),
-	  	A2S (a_loop)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s\n",
+		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -4428,7 +4426,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iEngine* engine = cbl->GetEngine ();
 	  if (!engine)
 	    return ReportError (cbl, "Error! No engine!");
-	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (a_name));
+	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
+		a_name));
 	  if (w)
 	  {
 	    csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
@@ -4436,8 +4435,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		"crystalspace.sndsys.renderer.software");
 	    if (!renderer)
 	      return ReportError (cbl, "Error! No sound renderer!");
+	    csRef<iSndSysSource> sound_source;
 	    sound_source = renderer->CreateSource(w->GetStream());
-	    sound_source->SetVolume (1); //XXX this should also be a parameter
+	    sound_source->SetVolume (ArgToFloat (a_volume));
 	    sound_source->GetStream ()->ResetPosition ();
 	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
 	    sound_source->GetStream ()->Unpause ();

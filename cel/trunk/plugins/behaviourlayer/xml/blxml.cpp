@@ -1738,8 +1738,18 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	else
 	{
-	  h->AddOperation (CEL_OPERATION_CREATEPC);
+	  h->AddOperation (CEL_OPERATION_PUSH);
 	  h->GetArgument ().Set (false);
+	}
+	if (child->GetAttributeValue ("volume"))
+	{
+          if (!ParseExpression (local_vars, child, h, "volume", "sound"))
+	    return false;
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_PUSH);
+	  h->GetArgument ().SetFloat (1.0f);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
         break;

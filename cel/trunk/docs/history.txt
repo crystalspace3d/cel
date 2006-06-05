@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Jun-2006
+	- Jorrit fixed a bug in the blxml sound operation. It would keep
+	  a permanent ref to the last played sound which would cause
+	  crashes at exit.
+	- Jorrit added an optional 'volume' attribute to the blxml
+	  sound operation so that you can now specify the volume.
 4-Jun-2006
 	- Jorrit fixed a bug in the CEL billboard manager. If you made
 	  a billboard invisible the text would still be drawn.
