@@ -9,6 +9,19 @@ The history order is reversed so that new features are at the top.
 	  crashes at exit.
 	- Jorrit added an optional 'volume' attribute to the blxml
 	  sound operation so that you can now specify the volume.
+	- Jorrit added support for reference counted iBase pointers
+	  in pcproperties.
+	- Jorrit added support for iBase in iCelPropertyClass properties
+	  too.
+	- Jorrit added support for iBase in the blxml behaviour layer.
+	- Jorrit added a new 'sound' function the blxml behaviour layer.
+	  This works the same as the sound command except that it returns
+	  a reference to the sound source so that you can stop the sound
+	  later.
+	- Jorrit removed a stray and unneeded stabiliser_dist.cpp from
+	  celtool.
+	- Jorrit added sound_stop, sound_pause, sound_unpause and
+	  sound_volume operations to the blxml behaviour layer.
 4-Jun-2006
 	- Jorrit fixed a bug in the CEL billboard manager. If you made
 	  a billboard invisible the text would still be drawn.

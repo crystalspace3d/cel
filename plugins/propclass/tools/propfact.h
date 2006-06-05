@@ -69,6 +69,7 @@ private:
       struct { float x, y, z; } vec;
       struct { float red, green, blue; } col;
     } v;
+    csRef<iBase> ref;
     csWeakRef<iCelEntity> entity;
     csWeakRef<iCelPropertyClass> pclass;
   };
@@ -99,6 +100,7 @@ public:
   virtual bool SetProperty (csStringID, const csColor&);
   virtual bool SetProperty (csStringID, iCelPropertyClass*);
   virtual bool SetProperty (csStringID, iCelEntity*);
+  virtual bool SetProperty (csStringID, iBase*);
   virtual const char* GetPropertyString (csStringID);
   virtual bool GetPropertyBool (csStringID);
   virtual long GetPropertyLong (csStringID);
@@ -108,6 +110,7 @@ public:
   virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
   virtual iCelEntity* GetPropertyEntity (csStringID);
+  virtual iBase* GetPropertyIBase (csStringID);
 
   virtual celDataType GetPropertyOrActionType (csStringID propertyID);
   virtual bool IsPropertyReadOnly (csStringID) { return false; }
@@ -125,6 +128,7 @@ public:
   void SetProperty (const char* name, const csColor& value);
   void SetProperty (const char* name, iCelPropertyClass* pclass);
   void SetProperty (const char* name, iCelEntity* entity);
+  void SetProperty (const char* name, iBase* value);
   size_t GetPropertyIndex (const char* name);
   void SetPropertyIndex (size_t index, float value);
   void SetPropertyIndex (size_t index, long value);
@@ -135,6 +139,7 @@ public:
   void SetPropertyIndex (size_t index, const csColor& value);
   void SetPropertyIndex (size_t index, iCelPropertyClass* pclass);
   void SetPropertyIndex (size_t index, iCelEntity* entity);
+  void SetPropertyIndex (size_t index, iBase* value);
   celDataType GetPropertyType (size_t index) const;
   float GetPropertyFloatIndex (size_t index) const;
   long GetPropertyLongIndex (size_t index) const;
@@ -145,6 +150,7 @@ public:
   const char* GetPropertyStringIndex (size_t index) const;
   iCelPropertyClass* GetPropertyPClassIndex (size_t index) const;
   iCelEntity* GetPropertyEntityIndex (size_t index) const;
+  iBase* GetPropertyIBaseIndex (size_t index) const;
   void ClearProperty (size_t index);
   void Clear ();
   size_t GetPropertyCount () const;
@@ -207,6 +213,10 @@ public:
     {
       scfParent->SetProperty (name, value);
     }
+    virtual void SetProperty (const char* name, iBase* value)
+    {
+      scfParent->SetProperty (name, value);
+    }
     virtual size_t GetPropertyIndex (const char* name)
     {
       return scfParent->GetPropertyIndex (name);
@@ -244,6 +254,10 @@ public:
       scfParent->SetPropertyIndex (index, value);
     }
     virtual void SetPropertyIndex (size_t index, iCelEntity* value)
+    {
+      scfParent->SetPropertyIndex (index, value);
+    }
+    virtual void SetPropertyIndex (size_t index, iBase* value)
     {
       scfParent->SetPropertyIndex (index, value);
     }
@@ -286,6 +300,10 @@ public:
     virtual iCelEntity* GetPropertyEntity (size_t index) const
     {
       return scfParent->GetPropertyEntityIndex (index);
+    }
+    virtual iBase* GetPropertyIBase (size_t index) const
+    {
+      return scfParent->GetPropertyIBaseIndex (index);
     }
     virtual void ClearProperty (size_t index)
     {

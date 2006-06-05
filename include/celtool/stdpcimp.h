@@ -102,6 +102,7 @@ public:
   virtual bool SetProperty (csStringID, const csColor&);
   virtual bool SetProperty (csStringID, iCelPropertyClass* pclass);
   virtual bool SetProperty (csStringID, iCelEntity* entity);
+  virtual bool SetProperty (csStringID, iBase* ibase);
   virtual celDataType GetPropertyOrActionType (csStringID);
   virtual bool IsPropertyReadOnly (csStringID);
   virtual long GetPropertyLong (csStringID);
@@ -113,6 +114,7 @@ public:
   virtual bool GetPropertyColor (csStringID, csColor&);
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
   virtual iCelEntity* GetPropertyEntity (csStringID);
+  virtual iBase* GetPropertyIBase (csStringID);
   virtual bool PerformAction (csStringID, iCelParameterBlock*) { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
   virtual size_t GetPropertyAndActionCount () const;

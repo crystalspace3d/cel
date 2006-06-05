@@ -237,6 +237,11 @@ struct iCelPropertyClass : public virtual iBase
   virtual bool SetProperty (csStringID propertyID, iCelEntity* entity) = 0;
 
   /**
+   * Set a generic property.
+   */
+  virtual bool SetProperty (csStringID propertyID, iBase* ibase) = 0;
+
+  /**
    * Get the type of the given property or action. Returns CEL_DATA_NONE
    * if property is not supported. Only the following types are supported:
    * <ul>
@@ -304,6 +309,11 @@ struct iCelPropertyClass : public virtual iBase
    * Get a property as entity.
    */
   virtual iCelEntity* GetPropertyEntity (csStringID propertyID) = 0;
+
+  /**
+   * Get a property as iBase.
+   */
+  virtual iBase* GetPropertyIBase (csStringID propertyID) = 0;
 
   /**
    * Perform an action with a generic string parameter.

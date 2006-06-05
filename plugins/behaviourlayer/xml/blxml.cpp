@@ -71,6 +71,10 @@ enum
   XMLTOKEN_INVENTORY_ADD,
   XMLTOKEN_INVENTORY_REM,
   XMLTOKEN_SOUND,
+  XMLTOKEN_SOUND_STOP,
+  XMLTOKEN_SOUND_PAUSE,
+  XMLTOKEN_SOUND_UNPAUSE,
+  XMLTOKEN_SOUND_VOLUME,
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
@@ -124,6 +128,7 @@ enum
   XMLFUNCTION_INVENTORY_INNAME,
   XMLFUNCTION_INVENTORY_FIND,
   XMLFUNCTION_INVENTORY_FINDNAME,
+  XMLFUNCTION_SOUND,
   XMLFUNCTION_STRSUB,
   XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
@@ -209,6 +214,10 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("inventory_add", XMLTOKEN_INVENTORY_ADD);
   xmltokens.Register ("inventory_rem", XMLTOKEN_INVENTORY_REM);
   xmltokens.Register ("sound", XMLTOKEN_SOUND);
+  xmltokens.Register ("sound_stop", XMLTOKEN_SOUND_STOP);
+  xmltokens.Register ("sound_pause", XMLTOKEN_SOUND_PAUSE);
+  xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
+  xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
@@ -257,6 +266,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("inventory_find", XMLFUNCTION_INVENTORY_FIND);
   functions.Register ("inventory_inname", XMLFUNCTION_INVENTORY_INNAME);
   functions.Register ("inventory_findname", XMLFUNCTION_INVENTORY_FINDNAME);
+  functions.Register ("sound", XMLFUNCTION_SOUND);
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
@@ -578,6 +588,19 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
 	h->AddOperation (CEL_OPERATION_STRLEN);
+      }
+      break;
+    case XMLFUNCTION_SOUND:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUNDFUN);
       }
       break;
     case XMLFUNCTION_STRSUB:
@@ -1752,6 +1775,28 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  h->GetArgument ().SetFloat (1.0f);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
+        break;
+      case XMLTOKEN_SOUND_STOP:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_stop"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_STOP);
+        break;
+      case XMLTOKEN_SOUND_PAUSE:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_pause"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_PAUSE);
+        break;
+      case XMLTOKEN_SOUND_UNPAUSE:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_unpause"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
+        break;
+      case XMLTOKEN_SOUND_VOLUME:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_volume"))
+	  return false;
+        if (!ParseExpression (local_vars, child, h, "volume", "sound_volume"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
         break;
       case XMLTOKEN_CALLSTACK:
         h->AddOperation (CEL_OPERATION_CALLSTACK);
