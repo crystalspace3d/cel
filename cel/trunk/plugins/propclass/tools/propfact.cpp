@@ -188,6 +188,12 @@ bool celPcProperties::SetProperty (csStringID id, iCelEntity* v)
   return true;
 }
 
+bool celPcProperties::SetProperty (csStringID id, iBase* v)
+{
+  SetPropertyIndex (FindOrNewProperty (id), v);
+  return true;
+}
+
 const char* celPcProperties::GetPropertyString (csStringID id)
 {
   size_t idx = FindProperty (id);
@@ -251,6 +257,13 @@ iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
   return GetPropertyEntityIndex (idx);
 }
 
+iBase* celPcProperties::GetPropertyIBase (csStringID id)
+{
+  size_t idx = FindProperty (id);
+  if (idx == csArrayItemNotFound) return 0;
+  return GetPropertyIBaseIndex (idx);
+}
+
 #define PROPERTIES_SERIAL 1
 
 csPtr<iCelDataBuffer> celPcProperties::Save ()
@@ -293,6 +306,9 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
 	break;
       case CEL_DATA_ENTITY:
         databuf->Add (p->entity);
+	break;
+      case CEL_DATA_IBASE:
+        databuf->Add (p->ref);
 	break;
       default:
         // @@@ Impossible!
@@ -351,6 +367,9 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
 	break;
       case CEL_DATA_ENTITY:
         p->entity = cd->value.ent;
+	break;
+      case CEL_DATA_IBASE:
+        p->ref = cd->value.ibase;
 	break;
       default:
         return false;
@@ -428,6 +447,11 @@ void celPcProperties::SetProperty (const char* name, iCelPropertyClass* value)
 }
 
 void celPcProperties::SetProperty (const char* name, iCelEntity* value)
+{
+  SetPropertyIndex (FindOrNewProperty (name), value);
+}
+
+void celPcProperties::SetProperty (const char* name, iBase* value)
 {
   SetPropertyIndex (FindOrNewProperty (name), value);
 }
@@ -608,6 +632,23 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
   }
 }
 
+void celPcProperties::SetPropertyIndex (size_t index, iBase* value)
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  ClearPropertyValue (p);
+  p->type = CEL_DATA_IBASE;
+  p->ref = value;
+  FirePropertyListeners (index);
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    params->GetParameter (0).Set ((int32)index);
+    celData ret;
+    bh->SendMessage ("pcproperties_setproperty", this, ret, params, index);
+  }
+}
+
 celDataType celPcProperties::GetPropertyType (size_t index) const
 {
   CS_ASSERT (index >= 0 && index < properties.Length ());
@@ -715,6 +756,16 @@ iCelEntity* celPcProperties::GetPropertyEntityIndex (size_t index) const
   property* p = properties[index];
   if (p->type == CEL_DATA_ENTITY)
     return p->entity;
+  else
+    return 0;
+}
+
+iBase* celPcProperties::GetPropertyIBaseIndex (size_t index) const
+{
+  CS_ASSERT (index >= 0 && index < properties.Length ());
+  property* p = properties[index];
+  if (p->type == CEL_DATA_IBASE)
+    return p->ref;
   else
     return 0;
 }

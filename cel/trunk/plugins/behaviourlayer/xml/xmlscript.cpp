@@ -94,6 +94,7 @@ celXmlArg::celXmlArg (const celXmlArg& other)
     case CEL_DATA_BOOL: arg.b = other.arg.b; break;
     case CEL_DATA_PCLASS: arg.pc = other.arg.pc; break;
     case CEL_DATA_ENTITY: arg.entity = other.arg.entity; break;
+    case CEL_DATA_IBASE: arg.ref = other.arg.ref; break;
     case CEL_DATA_ID: arg.id = other.arg.id; break;
     case CEL_DATA_EVENTHANDLER: arg.h = other.arg.h; break;
     case CEL_DATA_CODELOCATION:
@@ -222,6 +223,14 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_IBASE:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_%s_ibase(%p)", prefix, prefix2,
+			a.arg.ref);
+	used_strings.Push (str);
+        return *str;
+      }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
@@ -311,6 +320,13 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_IBASE:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s_ibase(%p)", prefix, a.arg.ref);
+	used_strings.Push (str);
+        return *str;
+      }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
@@ -383,6 +399,13 @@ static const char* ArgToString (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("ent(%s)", a.arg.entity ? a.arg.entity->GetName () : "<null>");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_IBASE:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("ibase(%p)", a.arg.ref);
 	used_strings.Push (str);
         return *str;
       }
@@ -483,6 +506,13 @@ static const char* A2S (const celXmlArg& a)
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_IBASE:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{ibase:%p}", a.arg.ref);
+	used_strings.Push (str);
+        return *str;
+      }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
@@ -509,6 +539,12 @@ static iCelEntity* ArgToEntity (const celXmlArg& a, iCelPlLayer* pl)
     const char* entname = ArgToString (a);
     return pl->FindEntity (entname);
   }
+}
+
+static iBase* ArgToIBase (const celXmlArg& a)
+{
+  if (a.type == CEL_DATA_IBASE) return a.arg.ref;
+  else return 0;
 }
 
 static const char* EntityNameForError (const celXmlArg& a)
@@ -569,6 +605,7 @@ static bool ArgToBool (const celXmlArg& a)
     case CEL_DATA_FLOAT: return bool (ABS (a.arg.f) < SMALL_EPSILON);
     case CEL_DATA_BOOL: return a.arg.b;
     case CEL_DATA_ENTITY: return a.arg.entity != 0;
+    case CEL_DATA_IBASE: return a.arg.ref != 0;
     case CEL_DATA_PCLASS: return a.arg.pc != 0;
     case CEL_DATA_STRING:
       return a.arg.str.s ? (*a.arg.str.s != 0) : false;
@@ -674,6 +711,7 @@ static bool IsStringConvertible (const celXmlArg& a)
     case CEL_DATA_ID: return true;
     case CEL_DATA_PCLASS: return true;
     case CEL_DATA_ENTITY: return true;
+    case CEL_DATA_IBASE: return true;
     default: return false;
   }
 }
@@ -731,6 +769,9 @@ bool celXmlScriptEventHandler::EvaluateTrue (
       break;
     case CEL_DATA_ENTITY:
       rc = eval.arg.entity != 0;
+      break;
+    case CEL_DATA_IBASE:
+      rc = eval.arg.ref != 0;
       break;
     case CEL_DATA_PCLASS:
       rc = eval.arg.pc != 0;
@@ -853,6 +894,13 @@ static const char* D2S (const celData& a)
 	used_strings.Push (str);
         return *str;
       }
+    case CEL_DATA_IBASE:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("{ibase:%p}", a.value.ibase);
+	used_strings.Push (str);
+        return *str;
+      }
     default:
       {
         csString* str = GetUnusedString ();
@@ -930,6 +978,12 @@ static bool prop2celXmlArg (iPcProperties* props, size_t idx, celXmlArg& out)
 	out.SetEntity (l);
       }
       break;
+    case CEL_DATA_IBASE:
+      {
+	iBase* l = props->GetPropertyIBase (idx);
+	out.SetIBase (l);
+      }
+      break;
     default:
       return false;
   }
@@ -947,6 +1001,7 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
     case CEL_DATA_ULONG: out.SetUInt32 (in.value.ul); break;
     case CEL_DATA_PCLASS: out.SetPC (in.value.pc); break;
     case CEL_DATA_ENTITY: out.SetEntity (in.value.ent); break;
+    case CEL_DATA_IBASE: out.SetIBase (in.value.ibase); break;
     case CEL_DATA_COLOR:
       {
         csColor col (in.value.col.red, in.value.col.green,
@@ -998,6 +1053,9 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
       break;
     case CEL_DATA_ENTITY:
       out.SetEntity (pc->GetPropertyEntity (id));
+      break;
+    case CEL_DATA_IBASE:
+      out.SetIBase (pc->GetPropertyIBase (id));
       break;
     case CEL_DATA_COLOR:
       {
@@ -1075,6 +1133,9 @@ static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props,
     case CEL_DATA_ENTITY:
       props->SetProperty (varname, val.arg.entity);
       break;
+    case CEL_DATA_IBASE:
+      props->SetProperty (varname, val.arg.ref);
+      break;
     case CEL_DATA_PCLASS:
       props->SetProperty (varname, val.arg.pc);
       break;
@@ -1132,6 +1193,9 @@ static bool celData2prop (const celData& val, iPcProperties* props,
       break;
     case CEL_DATA_ENTITY:
       props->SetProperty (varname, val.value.ent);
+      break;
+    case CEL_DATA_IBASE:
+      props->SetProperty (varname, val.value.ibase);
       break;
     case CEL_DATA_PCLASS:
       props->SetProperty (varname, val.value.pc);
@@ -1223,6 +1287,9 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
 		props->GetPropertyEntity (i)
 			? props->GetPropertyEntity (i)->GetName ()
 			: "<null>");
+	break;
+      case CEL_DATA_IBASE:
+        printf ("val={ibase:%p}\n", props->GetPropertyIBase (i));
 	break;
       default:
         printf ("val={unknown}\n");
@@ -1792,6 +1859,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_FLOAT: top.Set (ABS (top.arg.f) >= SMALL_EPSILON); break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_ENTITY:
+	    case CEL_DATA_IBASE:
 	    case CEL_DATA_PCLASS:
 	    case CEL_DATA_STRING:
 	      top.Set (!ArgToBool (top));
@@ -2572,6 +2640,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ENTITY:
 	      top.Set (top.arg.entity != elb.arg.entity);
 	      break;
+	    case CEL_DATA_IBASE:
+	      top.Set (top.arg.ref != elb.arg.ref);
+	      break;
 	    case CEL_DATA_PCLASS:
 	      top.Set (ArgToPClass (top) != ArgToPClass (elb));
 	      break;
@@ -2631,6 +2702,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      break;
 	    case CEL_DATA_ENTITY:
 	      top.Set (top.arg.entity ==  elb.arg.entity);
+	      break;
+	    case CEL_DATA_IBASE:
+	      top.Set (top.arg.ref ==  elb.arg.ref);
 	      break;
 	    case CEL_DATA_ID:
 	      top.Set (ArgToID (top) == ArgToID (elb));
@@ -3473,6 +3547,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (a_val.type)
 	  {
 	    case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
+	    case CEL_DATA_IBASE: ret.Set (a_val.arg.ref); break;
 	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
@@ -3943,13 +4018,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: param idx=%d id=%s val=%s\n", i-1,
 	  	op.arg.arg.ui, A2S (a_id), A2S (a_val)));
 	  CS_ASSERT (action_params != 0);
-	  celVariableParameterBlock* vb = (celVariableParameterBlock*)(iCelParameterBlock*)
-	  	action_params;
+	  celVariableParameterBlock* vb = (celVariableParameterBlock*)(
+	      	iCelParameterBlock*) action_params;
 	  vb->SetParameterDef (op.arg.arg.ui, ArgToID (a_id), "");
 	  celData& data = vb->GetParameter ((int)op.arg.arg.ui);
 	  switch (a_val.type)
 	  {
 	    case CEL_DATA_ENTITY: data.Set (a_val.arg.entity); break;
+	    case CEL_DATA_IBASE: data.Set (a_val.arg.ref); break;
 	    case CEL_DATA_PCLASS: data.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
@@ -4311,6 +4387,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    case CEL_DATA_ENTITY:
 	      pc->SetProperty (id, a_val.arg.entity);
 	      break;
+	    case CEL_DATA_IBASE:
+	      pc->SetProperty (id, a_val.arg.ref);
+	      break;
 	    default:
 	      return ReportError (cbl,
 	      	"Bad type for setting property value!");
@@ -4409,6 +4488,110 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_msg = stack.Pop ();
 	  DUMP_EXEC ((":%04d: reporterror msg=%s\n", i-1, A2S (a_msg)));
 	  return ReportError (cbl, ArgToString (a_msg));
+	}
+	break;
+      case CEL_OPERATION_SOUNDFUN:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg a_volume = stack.Pop ();
+	  celXmlArg a_loop = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s\n",
+		i-1, A2S (top), A2S (a_loop), A2S (a_volume)));
+	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
+	  	cbl->GetObjectRegistry (), iSndSysManager);
+	  if (!sndmngr)
+	    return ReportError (cbl, "Error! No sound manager!");
+	  iEngine* engine = cbl->GetEngine ();
+	  if (!engine)
+	    return ReportError (cbl, "Error! No engine!");
+	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
+		top));
+	  if (w)
+	  {
+	    csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
+	    	iSndSysRenderer> (cbl->GetObjectRegistry (),
+		"crystalspace.sndsys.renderer.software");
+	    if (!renderer)
+	      return ReportError (cbl, "Error! No sound renderer!");
+	    csRef<iSndSysSource> sound_source;
+	    sound_source = renderer->CreateSource(w->GetStream());
+	    sound_source->SetVolume (ArgToFloat (a_volume));
+	    sound_source->GetStream ()->ResetPosition ();
+	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
+	    sound_source->GetStream ()->Unpause ();
+	    top.SetIBase (static_cast<iBase*> (sound_source));
+	  }
+	}
+        break;
+      case CEL_OPERATION_SOUND_STOP:
+	{
+	  CHECK_STACK(1)
+	  celXmlArg a_source = stack.Pop ();
+	  DUMP_EXEC ((":%04d: sound_stop source=%s\n",
+		i-1, A2S (a_source)));
+	  iBase* src_ibase = ArgToIBase (a_source);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
+	    	iSndSysRenderer> (cbl->GetObjectRegistry (),
+		"crystalspace.sndsys.renderer.software");
+	  if (!renderer)
+	    return ReportError (cbl, "Error! No sound renderer!");
+	  renderer->RemoveSource (sound_source);
+	}
+	break;
+      case CEL_OPERATION_SOUND_PAUSE:
+	{
+	  CHECK_STACK(1)
+	  celXmlArg a_source = stack.Pop ();
+	  DUMP_EXEC ((":%04d: sound_pause source=%s\n",
+		i-1, A2S (a_source)));
+	  iBase* src_ibase = ArgToIBase (a_source);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  sound_source->GetStream ()->Pause ();
+	}
+	break;
+      case CEL_OPERATION_SOUND_UNPAUSE:
+	{
+	  CHECK_STACK(1)
+	  celXmlArg a_source = stack.Pop ();
+	  DUMP_EXEC ((":%04d: sound_unpause source=%s\n",
+		i-1, A2S (a_source)));
+	  iBase* src_ibase = ArgToIBase (a_source);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  sound_source->GetStream ()->Unpause ();
+	}
+	break;
+      case CEL_OPERATION_SOUND_VOLUME:
+	{
+	  CHECK_STACK(2)
+	  celXmlArg a_volume = stack.Pop ();
+	  celXmlArg a_source = stack.Pop ();
+	  DUMP_EXEC ((":%04d: sound_volume source=%s volume=%s\n",
+		i-1, A2S (a_source), A2S (a_volume)));
+	  iBase* src_ibase = ArgToIBase (a_source);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  sound_source->SetVolume (ArgToFloat (a_volume));
 	}
 	break;
       case CEL_OPERATION_SOUND:

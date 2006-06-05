@@ -121,6 +121,11 @@ struct iPcProperties : public iBase
   virtual void SetProperty (const char* name, iCelEntity* entity) = 0;
 
   /**
+   * Set property.
+   */
+  virtual void SetProperty (const char* name, iBase* value) = 0;
+
+  /**
    * Get the specified property index for a named property.
    * Returns -1 if not found.
    */
@@ -172,6 +177,11 @@ struct iPcProperties : public iBase
   virtual void SetPropertyIndex (size_t index, iCelEntity* entity) = 0;
 
   /**
+   * Set property based on index.
+   */
+  virtual void SetPropertyIndex (size_t index, iBase* value) = 0;
+
+  /**
    * Get the type of a property. Returns CEL_DATA_NONE if the
    * property is undefined. Note that only the following data types
    * are supported:
@@ -185,6 +195,7 @@ struct iPcProperties : public iBase
    * <li>CEL_DATA_COLOR
    * <li>CEL_DATA_PCLASS
    * <li>CEL_DATA_ENTITY
+   * <li>CEL_DATA_IBASE
    * </ul>
    */
   virtual celDataType GetPropertyType (size_t index) const = 0;
@@ -233,6 +244,11 @@ struct iPcProperties : public iBase
    * Get property as entity. Returns 0 if wrong type.
    */
   virtual iCelEntity* GetPropertyEntity (size_t index) const = 0;
+
+  /**
+   * Get property as iBase. Returns 0 if wrong type.
+   */
+  virtual iBase* GetPropertyIBase (size_t index) const = 0;
 
   /**
    * Clear a property.

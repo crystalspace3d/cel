@@ -61,6 +61,7 @@ class celVariableParameterBlock;
 // PC: property class
 // I: integer
 // V: vector
+// IB: iBase
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
@@ -225,6 +226,11 @@ enum
   CEL_OPERATION_SCR_HEIGHT,	// A:-		S:-		OS:I
 
   CEL_OPERATION_SOUND,		// A:-		S:S,B,F		OS:-
+  CEL_OPERATION_SOUND_STOP,	// A:-		S:IB		OS:-
+  CEL_OPERATION_SOUND_PAUSE,	// A:-		S:IB		OS:-
+  CEL_OPERATION_SOUND_UNPAUSE,	// A:-		S:IB		OS:-
+  CEL_OPERATION_SOUND_VOLUME,	// A:-		S:IB,F		OS:-
+  CEL_OPERATION_SOUNDFUN,	// A:-		S:S,B,F		OS:IB
   CEL_OPERATION_READFILE,	// A:-		S:S,S		OS:I
   CEL_OPERATION_WRITEFILE,	// A:-		S:S,S,I,I	OS:B
   CEL_OPERATION_REPORTERROR,	// A:-		S:S		OS:-
@@ -263,6 +269,7 @@ struct celXmlArg
     bool b;
     iCelPropertyClass* pc;
     iCelEntity* entity;
+    iBase* ref;
     csStringID id;
     struct { celXmlScriptEventHandler* h_true, * h_false; } h;
     struct { float x, y, z; } vec;
@@ -336,6 +343,12 @@ struct celXmlArg
     Cleanup ();
     type = CEL_DATA_ENTITY;
     arg.entity = ent;
+  }
+  void SetIBase (iBase* ref)
+  {
+    Cleanup ();
+    type = CEL_DATA_IBASE;
+    arg.ref = ref;
   }
   void SetID (csStringID id)
   {
