@@ -137,6 +137,10 @@ public:
         return &data[i];
     return 0;
   }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    return (idx >= count) ? 0 : &data[idx];
+  }
 };
 
 /**
@@ -211,6 +215,10 @@ public:
         return &data[i];
     return 0;
   }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    return (idx >= data.Length ()) ? 0 : &data[idx];
+  }
 };
 
 /**
@@ -263,6 +271,10 @@ public:
   {
     if (id != celOneParameterBlock::id) return 0;
     return &data;
+  }
+  virtual const celData* GetParameterByIndex (size_t idx) const
+  {
+    return (idx != 0) ? 0 : &data;
   }
 };
 
