@@ -56,6 +56,11 @@ struct iCelParameterBlock : public iBase
    * Get parameter given an id.
    */
   virtual const celData* GetParameter (csStringID id) const = 0;
+
+  /**
+   * Get parameter given an index.
+   */
+  virtual const celData* GetParameterByIndex (size_t idx) const = 0;
 };
 
 /**

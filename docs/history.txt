@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 6-Jun-2006
 	- Jorrit resurrected stabiliser_dist.cpp and moved it to the
 	  mechanics directory where it belongs.
+	- Vincent applied lindquist's patch adding GetParameterByIndex().
 5-Jun-2006
 	- Jorrit fixed a bug in the blxml sound operation. It would keep
 	  a permanent ref to the last played sound which would cause
