@@ -7217,6 +7217,30 @@ static PyObject *_wrap_iCelPropertyClass_GetPropertyEntity(PyObject *, PyObject 
 }
 
 
+static PyObject *_wrap_iCelPropertyClass_GetPropertyIBase(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
+    csStringID arg2 ;
+    iBase *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_GetPropertyIBase",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (csStringID)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (iBase *)(arg1)->GetPropertyIBase(arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iBase, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCelPropertyClass_PerformAction(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
@@ -27464,6 +27488,32 @@ static PyObject *_wrap_iPcProperties_SetProperty__SWIG_8(PyObject *, PyObject *a
 }
 
 
+static PyObject *_wrap_iPcProperties_SetProperty__SWIG_9(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcProperties *arg1 = (iPcProperties *) 0 ;
+    char *arg2 = (char *) 0 ;
+    iBase *arg3 = (iBase *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iPcProperties_SetProperty",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcProperties, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_iBase, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    (arg1)->SetProperty((char const *)arg2,arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcProperties_SetProperty(PyObject *self, PyObject *args) {
     int argc;
     PyObject *argv[4];
@@ -27614,6 +27664,35 @@ static PyObject *_wrap_iPcProperties_SetProperty(PyObject *self, PyObject *args)
                 }
                 if (_v) {
                     return _wrap_iPcProperties_SetProperty__SWIG_8(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcProperties, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], &ptr, SWIGTYPE_p_iBase, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    } else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_iPcProperties_SetProperty__SWIG_9(self,args);
                 }
             }
         }
@@ -28001,6 +28080,33 @@ static PyObject *_wrap_iPcProperties_SetPropertyIndex__SWIG_8(PyObject *, PyObje
 }
 
 
+static PyObject *_wrap_iPcProperties_SetPropertyIndex__SWIG_9(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcProperties *arg1 = (iPcProperties *) 0 ;
+    size_t arg2 ;
+    iBase *arg3 = (iBase *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iPcProperties_SetPropertyIndex",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcProperties, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    SWIG_Python_ConvertPtr(obj2, (void **)&arg3, SWIGTYPE_p_iBase, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(3)) SWIG_fail;
+    (arg1)->SetPropertyIndex(arg2,arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcProperties_SetPropertyIndex(PyObject *self, PyObject *args) {
     int argc;
     PyObject *argv[4];
@@ -28151,6 +28257,35 @@ static PyObject *_wrap_iPcProperties_SetPropertyIndex(PyObject *self, PyObject *
                 }
                 if (_v) {
                     return _wrap_iPcProperties_SetPropertyIndex__SWIG_8(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcProperties, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_Check_unsigned_SS_long(argv[1]);
+            if (_v) {
+                {
+                    void *ptr;
+                    if (SWIG_ConvertPtr(argv[2], &ptr, SWIGTYPE_p_iBase, 0) == -1) {
+                        _v = 0;
+                        PyErr_Clear();
+                    } else {
+                        _v = 1;
+                    }
+                }
+                if (_v) {
+                    return _wrap_iPcProperties_SetPropertyIndex__SWIG_9(self,args);
                 }
             }
         }
@@ -28594,6 +28729,30 @@ static PyObject *_wrap_iPcProperties_GetPropertyEntity(PyObject *, PyObject *arg
     result = (iCelEntity *)((iPcProperties const *)arg1)->GetPropertyEntity(arg2);
     
     resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntity, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcProperties_GetPropertyIBase(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcProperties *arg1 = (iPcProperties *) 0 ;
+    size_t arg2 ;
+    iBase *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcProperties_GetPropertyIBase",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcProperties, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (iBase *)((iPcProperties const *)arg1)->GetPropertyIBase(arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iBase, 0);
     return resultobj;
     fail:
     return NULL;
@@ -29769,6 +29928,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPropertyClass_GetPropertyColor", _wrap_iCelPropertyClass_GetPropertyColor, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyPClass", _wrap_iCelPropertyClass_GetPropertyPClass, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyEntity", _wrap_iCelPropertyClass_GetPropertyEntity, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_GetPropertyIBase", _wrap_iCelPropertyClass_GetPropertyIBase, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_PerformAction", _wrap_iCelPropertyClass_PerformAction, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyAndActionCount", _wrap_iCelPropertyClass_GetPropertyAndActionCount, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyOrActionID", _wrap_iCelPropertyClass_GetPropertyOrActionID, METH_VARARGS, NULL},
@@ -30485,6 +30645,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcProperties_GetPropertyString", _wrap_iPcProperties_GetPropertyString, METH_VARARGS, NULL},
 	 { (char *)"iPcProperties_GetPropertyPClass", _wrap_iPcProperties_GetPropertyPClass, METH_VARARGS, NULL},
 	 { (char *)"iPcProperties_GetPropertyEntity", _wrap_iPcProperties_GetPropertyEntity, METH_VARARGS, NULL},
+	 { (char *)"iPcProperties_GetPropertyIBase", _wrap_iPcProperties_GetPropertyIBase, METH_VARARGS, NULL},
 	 { (char *)"iPcProperties_ClearProperty", _wrap_iPcProperties_ClearProperty, METH_VARARGS, NULL},
 	 { (char *)"iPcProperties_Clear", _wrap_iPcProperties_Clear, METH_VARARGS, NULL},
 	 { (char *)"iPcProperties_GetPropertyCount", _wrap_iPcProperties_GetPropertyCount, METH_VARARGS, NULL},
