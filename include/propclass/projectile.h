@@ -42,7 +42,7 @@
  * to get the ID of the parameter):
  * <ul>
  * <li>Start: start movement in some direction. Parameters 'direction'
- *     (vector3), 'maxdist' (float), and 'maxhits' (long).
+ *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
  * <li>Interrupt: interrupt the current movement.
  * </ul>
  * <p>
@@ -59,6 +59,7 @@ struct iPcProjectile : public virtual iBase
   /**
    * Start a movement of this projectile from its current position.
    * \param direction is the direction to go in.
+   * \param speed is the speed in units per second.
    * \param maxdist is the maximum distance to move at which point
    * we will stop and send a pcprojectile_stopped message.
    * \param maxhits is the maximum number of hits at which point
@@ -67,7 +68,7 @@ struct iPcProjectile : public virtual iBase
    * means the projectile is already moving).
    */
   virtual bool Start (const csVector3& direction,
-  	float maxdist, int maxhits) = 0;
+  	float speed, float maxdist, int maxhits) = 0;
 
   /**
    * Interrupt a movement.

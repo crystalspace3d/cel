@@ -55,6 +55,7 @@ private:
   // id_message is shared.
   static csStringID action_start;
   static csStringID id_direction;
+  static csStringID id_speed;
   static csStringID id_maxdist;
   static csStringID id_maxhits;
   static csStringID action_interrupt;
@@ -76,12 +77,21 @@ private:
 
   bool is_moving;
 
+  int maxhits;
+  int curhits;
+
+  // Used for straight movement from a point in some direction.
+  csVector3 start;
+  csVector3 direction;
+  float speed;
+  float maxdist;
+
 public:
   celPcProjectile (iObjectRegistry* object_reg);
   virtual ~celPcProjectile ();
 
   virtual bool Start (const csVector3& direction,
-  	float maxdist, int maxhits);
+  	float speed, float maxdist, int maxhits);
   virtual void Interrupt ();
   virtual bool IsMoving () const { return is_moving; }
 

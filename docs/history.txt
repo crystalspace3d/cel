@@ -26,6 +26,8 @@ The history order is reversed so that new features are at the top.
 	  need to make a move.
 	- Jorrit added the skeleton implementation for a new pcprojectiles
 	  class.
+	- Jorrit added missing 'speed' parameter to iPcProjectile->Start().
+	- Jorrit continued a bit more on the actual implementation.
 6-Jun-2006
 	- Jorrit resurrected stabiliser_dist.cpp and moved it to the
 	  mechanics directory where it belongs.
