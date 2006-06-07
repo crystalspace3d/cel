@@ -147,5 +147,20 @@ void celEntityTemplate::AddMessage (const char* msgid,
   messages[i].params = params;
 }
 
+void celEntityTemplate::AddClass (csStringID cls)
+{
+  classes.Add (cls);
+}
+
+void celEntityTemplate::RemoveClass (csStringID cls)
+{
+  classes.Delete (cls);
+}
+
+bool celEntityTemplate::HasClass (csStringID cls)
+{
+  return classes.In (cls);
+}
+
 //---------------------------------------------------------------------------
 

@@ -79,6 +79,21 @@ void celEntity::NotifySiblingPropertyClasses ()
   }
 }
 
+void celEntity::AddClass (csStringID cls)
+{
+  classes.Add (cls);
+}
+
+void celEntity::RemoveClass (csStringID cls)
+{
+  classes.Delete (cls);
+}
+
+bool celEntity::HasClass (csStringID cls)
+{
+  return classes.In (cls);
+}
+
 //---------------------------------------------------------------------------
 
 SCF_IMPLEMENT_IBASE (celEntityList)

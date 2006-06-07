@@ -655,6 +655,14 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
   }
 
+  const csSet<csStringID>& classes = cfact->GetClasses ();
+  csSet<csStringID>::GlobalIterator it = classes.GetIterator ();
+  while (it.HasNext ())
+  {
+    csStringID id = it.Next ();
+    ent->AddClass (id);
+  }
+
   if (bl && cfact->GetBehaviour ())
   {
     iCelBehaviour* behave = bl->CreateBehaviour (ent, cfact->GetBehaviour ());

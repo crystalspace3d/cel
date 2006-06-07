@@ -1485,6 +1485,51 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  top.SetID (id);
 	}
 	break;
+      case CEL_OPERATION_CLASS_ADD:
+	{
+	  CHECK_STACK(2)
+	  celXmlArg a_class = stack.Pop ();
+	  celXmlArg a_ent = stack.Pop ();
+          DUMP_EXEC ((":%04d: class_add ent=%s id=%s\n", i-1, A2S (a_ent),
+	  	A2S (a_class)));
+
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	      	"Can't find entity '%s'!", A2S (a_ent));
+	  other_ent->AddClass (ArgToID (a_class));
+	}
+        break;
+      case CEL_OPERATION_CLASS_REM:
+	{
+	  CHECK_STACK(2)
+	  celXmlArg a_class = stack.Pop ();
+	  celXmlArg a_ent = stack.Pop ();
+          DUMP_EXEC ((":%04d: class_rem ent=%s id=%s\n", i-1, A2S (a_ent),
+	  	A2S (a_class)));
+
+	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	      	"Can't find entity '%s'!", A2S (a_ent));
+	  other_ent->RemoveClass (ArgToID (a_class));
+	}
+        break;
+      case CEL_OPERATION_HASCLASS:
+	{
+	  CHECK_STACK(2)
+	  celXmlArg a_class = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: hasclass ent=%s id=%s\n", i-1, A2S (top),
+	  	A2S (a_class)));
+
+	  iCelEntity* other_ent = ArgToEntity (top, pl);
+	  if (!other_ent)
+	    return ReportError (cbl,
+	      	"Can't find entity '%s'!", A2S (top));
+	  top.Set (other_ent->HasClass (ArgToID (a_class)));
+	}
+        break;
       case CEL_OPERATION_PC:
         {
 	  CHECK_STACK(2)

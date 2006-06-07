@@ -91,10 +91,16 @@ private:
   csRefArray<celPropertyClassTemplate> propclasses;
   csString layer, behaviour;
   csArray<ccfMessage> messages;
+  csSet<csStringID> classes;
 
 public:
   celEntityTemplate ();
   virtual ~celEntityTemplate ();
+
+  void AddClass (csStringID cls);
+  void RemoveClass (csStringID cls);
+  bool HasClass (csStringID cls);
+  const csSet<csStringID>& GetClasses () const { return classes; }
 
   const csArray<ccfMessage>& GetMessages () const { return messages; }
 
@@ -144,6 +150,22 @@ public:
     virtual void AddMessage (const char* msgid, iCelParameterBlock* params)
     {
       scfParent->AddMessage (msgid, params);
+    }
+    virtual void AddClass (csStringID cls)
+    {
+      scfParent->AddClass (cls);
+    }
+    virtual void RemoveClass (csStringID cls)
+    {
+      scfParent->RemoveClass (cls);
+    }
+    virtual bool HasClass (csStringID cls)
+    {
+      return scfParent->HasClass (cls);
+    }
+    virtual const csSet<csStringID>& GetClasses () const
+    {
+      return scfParent->GetClasses ();
     }
   } scfiCelEntityTemplate;
   friend struct CelEntityTemplate;
