@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass projectile ;
+
+Plugin pfprojectile
+	: projectilefact.cpp projectilefact.h
+;
+ExternalLibs pfprojectile : CRYSTAL ;
+LinkWith pfprojectile : celtool ;
+
