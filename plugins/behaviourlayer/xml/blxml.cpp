@@ -75,6 +75,9 @@ enum
   XMLTOKEN_SOUND_PAUSE,
   XMLTOKEN_SOUND_UNPAUSE,
   XMLTOKEN_SOUND_VOLUME,
+  XMLTOKEN_CONFIG_ADD,
+  XMLTOKEN_CONFIG_SET,
+  XMLTOKEN_CONFIG_SAVE,
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
@@ -219,6 +222,9 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound_pause", XMLTOKEN_SOUND_PAUSE);
   xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
   xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
+  xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
+  xmltokens.Register ("config_set", XMLTOKEN_CONFIG_SET);
+  xmltokens.Register ("config_save", XMLTOKEN_CONFIG_SAVE);
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
@@ -1808,6 +1814,21 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  return false;
 	h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
         break;
+      case XMLTOKEN_CONFIG_SET:
+        if (!ParseExpression (local_vars, child, h, "key", "config_set"))
+	  return false;
+        if (!ParseExpression (local_vars, child, h, "value", "config_set"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CONFIG_SET);
+        break;
+      case XMLTOKEN_CONFIG_ADD:
+        if (!ParseExpression (local_vars, child, h, "file", "config_add"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CONFIG_ADD);
+        break;
+      case XMLTOKEN_CONFIG_SAVE:
+	h->AddOperation (CEL_OPERATION_CONFIG_SAVE);
+        break;
       case XMLTOKEN_CALLSTACK:
         h->AddOperation (CEL_OPERATION_CALLSTACK);
         break;
@@ -2356,7 +2377,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
   	iDocumentNode* node)
 {
-  celXmlScript* script = new celXmlScript (pl);
+  celXmlScript* script = new celXmlScript (pl, object_reg);
   script->SetName (name);
 
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
@@ -2612,7 +2633,7 @@ void celExpression::SetLocalVariableColor (size_t idx, const csColor& value)
 csPtr<iCelExpression> celBlXml::Parse (const char* string)
 {
   celExpression* exp = new celExpression (this);
-  celXmlScriptEventHandler* handler = new celXmlScriptEventHandler (pl);
+  celXmlScriptEventHandler* handler = new celXmlScriptEventHandler (pl, 0);
   exp->handler = handler;
   if (!ParseExpression (string, exp->local_vars, 0, handler, "expression",
 	CEL_PRIORITY_NORMAL))
