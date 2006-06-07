@@ -6397,6 +6397,30 @@ static PyObject *_wrap_iCelParameterBlock_GetParameter(PyObject *self, PyObject 
 }
 
 
+static PyObject *_wrap_iCelParameterBlock_GetParameterByIndex(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iCelParameterBlock *arg1 = (iCelParameterBlock *) 0 ;
+    size_t arg2 ;
+    celData *result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iCelParameterBlock_GetParameterByIndex",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelParameterBlock, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (size_t)(SWIG_As_unsigned_SS_long(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    result = (celData *)((iCelParameterBlock const *)arg1)->GetParameterByIndex(arg2);
+    
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_celData, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iCelParameterBlock_GetParameterValue(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iCelParameterBlock *arg1 = (iCelParameterBlock *) 0 ;
@@ -29897,6 +29921,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"csQueryRegistry_iCelBlLayer", _wrap_csQueryRegistry_iCelBlLayer, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameterCount", _wrap_iCelParameterBlock_GetParameterCount, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameter", _wrap_iCelParameterBlock_GetParameter, METH_VARARGS, NULL},
+	 { (char *)"iCelParameterBlock_GetParameterByIndex", _wrap_iCelParameterBlock_GetParameterByIndex, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameterValue", _wrap_iCelParameterBlock_GetParameterValue, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelParameterBlock", _wrap_delete_iCelParameterBlock, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_swigregister", iCelParameterBlock_swigregister, METH_VARARGS, NULL},

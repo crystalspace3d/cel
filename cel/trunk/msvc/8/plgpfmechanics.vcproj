@@ -172,6 +172,9 @@
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\mechanics\stabiliser_dist.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
 			</File>
 			<File
