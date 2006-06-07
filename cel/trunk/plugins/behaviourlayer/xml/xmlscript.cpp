@@ -120,10 +120,12 @@ void celXmlArg::Cleanup ()
 
 //---------------------------------------------------------------------------
 
-celXmlScriptEventHandler::celXmlScriptEventHandler (iCelPlLayer* pl)
+celXmlScriptEventHandler::celXmlScriptEventHandler (iCelPlLayer* pl,
+	celXmlScript* script)
 {
   name = 0;
   celXmlScriptEventHandler::pl = pl;
+  celXmlScriptEventHandler::script = script;
 }
 
 celXmlScriptEventHandler::~celXmlScriptEventHandler ()
@@ -1992,6 +1994,51 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  else top.SetInt32 (0);
 	}
 	break;
+      case CEL_OPERATION_CONFIG_SAVE:
+        {
+          DUMP_EXEC ((":%04d: config_safe\n", i-1));
+	  if (!script)
+	    return ReportError (cbl,
+	    	"'config_add' not supported in this context!");
+	  script->GetConfigAccess ()->Save ();
+	}
+	break;
+      case CEL_OPERATION_CONFIG_ADD:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg p_file = stack.Pop ();
+          DUMP_EXEC ((":%04d: config_add file=%s\n", i-1, A2S (p_file)));
+	  const char* file = ArgToString (p_file);
+	  if (!script)
+	    return ReportError (cbl,
+	    	"'config_add' not supported in this context!");
+	  script->GetConfigAccess ().AddConfig (cbl->GetObjectRegistry (),
+	  	file);
+	}
+	break;
+      case CEL_OPERATION_CONFIG_SET:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg p_value = stack.Pop ();
+	  celXmlArg p_key = stack.Top ();
+          DUMP_EXEC ((":%04d: config_set key=%s value=%s\n", i-1, A2S (p_key),
+		A2S (p_value)));
+	  const char* key = ArgToString (p_key);
+	  const char* val = ArgToString (p_value);
+	  iConfigFile* cfgfile;
+	  if (script)
+	    cfgfile = (iConfigFile*)(script->GetConfigAccess ());
+	  else
+	  {
+	    csRef<iConfigManager> config = csQueryRegistry<iConfigManager> (
+	      cbl->GetObjectRegistry ());
+	    cfgfile = (iConfigManager*)config;
+	  }
+	  if (!cfgfile)
+	    return ReportError (cbl, "Can't find configuration manager!");
+	  cfgfile->SetStr (key, val);
+	}
+	break;
       case CEL_OPERATION_CONFIG:
         {
 	  CHECK_STACK(2)
@@ -2001,11 +2048,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		A2S (p_default)));
 	  const char* key = ArgToString (top);
 	  const char* def = ArgToString (p_default);
-	  csRef<iConfigManager> config = csQueryRegistry<iConfigManager> (
+	  iConfigFile* cfgfile;
+	  if (script)
+	    cfgfile = (iConfigFile*)(script->GetConfigAccess ());
+	  else
+	  {
+	    csRef<iConfigManager> config = csQueryRegistry<iConfigManager> (
 	      cbl->GetObjectRegistry ());
-	  if (!config)
+	    cfgfile = (iConfigManager*)config;
+	  }
+	  if (!cfgfile)
 	    return ReportError (cbl, "Can't find configuration manager!");
-	  top.SetString (config->GetStr (key, def), true);
+	  top.SetString (cfgfile->GetStr (key, def), true);
 	}
 	break;
       case CEL_OPERATION_TESTVAR:
@@ -4826,7 +4880,8 @@ size_t celXmlScriptEventHandler::AddLocalVariable ()
 
 //---------------------------------------------------------------------------
 
-celXmlScript::celXmlScript (iCelPlLayer* pl)
+celXmlScript::celXmlScript (iCelPlLayer* pl, iObjectRegistry* object_reg)
+	: config (object_reg)
 {
   name = 0;
   celXmlScript::pl = pl;
@@ -4848,7 +4903,7 @@ celXmlScriptEventHandler* celXmlScript::FindOrCreateEventHandler (
 
 celXmlScriptEventHandler* celXmlScript::CreateEventHandler (const char* name)
 {
-  celXmlScriptEventHandler* h = new celXmlScriptEventHandler (pl);
+  celXmlScriptEventHandler* h = new celXmlScriptEventHandler (pl, this);
   h->SetName (name);
   event_handlers.Push (h);
   event_handlers_hash.Put (name, h);

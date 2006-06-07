@@ -28,6 +28,7 @@
 #include "csutil/hash.h"
 #include "csutil/strhash.h"
 #include "csutil/cscolor.h"
+#include "csutil/cfgacc.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 
@@ -225,6 +226,9 @@ enum
   CEL_OPERATION_SCR_WIDTH,	// A:-		S:-		OS:I
   CEL_OPERATION_SCR_HEIGHT,	// A:-		S:-		OS:I
   CEL_OPERATION_CONFIG,		// A:-		S:S,S		OS:S
+  CEL_OPERATION_CONFIG_SET,	// A:-		S:S,S		OS:-
+  CEL_OPERATION_CONFIG_ADD,	// A:-		S:S		OS:-
+  CEL_OPERATION_CONFIG_SAVE,	// A:-		S:-		OS:-
 
   CEL_OPERATION_SOUND,		// A:-		S:S,B,F		OS:-
   CEL_OPERATION_SOUND_STOP,	// A:-		S:IB		OS:-
@@ -403,6 +407,8 @@ struct celXmlOperation
   celXmlArg arg;
 };
 
+class celXmlScript;
+
 /**
  * An event handler in a script.
  */
@@ -416,6 +422,7 @@ private:
   csArray<celXmlArg> local_vars;
   csWeakRef<iCelPropertyClass> default_pc;
   csWeakRef<iPcInventory> default_inv;
+  celXmlScript* script;
 
   // Temporary variable to keep parameters for actions.
   csRef<iCelParameterBlock> action_params;
@@ -432,7 +439,7 @@ private:
 	iMeshWrapper*& mesh);
 
 public:
-  celXmlScriptEventHandler (iCelPlLayer* pl);
+  celXmlScriptEventHandler (iCelPlLayer* pl, celXmlScript* script);
   ~celXmlScriptEventHandler ();
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
@@ -480,13 +487,16 @@ private:
   csHash<celXmlScriptEventHandler*,csStrKey> event_handlers_hash;
   iCelPlLayer* pl;
   celXmlScript* superscript;
+  csConfigAccess config;
 
 public:
-  celXmlScript (iCelPlLayer* pl);
+  celXmlScript (iCelPlLayer* pl, iObjectRegistry* object_reg);
   ~celXmlScript ();
 
   void SetName (const char* n) { delete[] name; name = csStrNew (n); }
   const char* GetName () { return name; }
+
+  csConfigAccess& GetConfigAccess () { return config; }
 
   void SetSuperScript (celXmlScript* su) { superscript = su; }
   celXmlScript* GetSuperScript () { return superscript; }

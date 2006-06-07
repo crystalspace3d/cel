@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 7-Jun-2006
 	- Jorrit added a new 'config' function to blxml with which you
 	  can read configuration values.
+	- Jorrit added support for setting configuration values
+	  ('config_set' command), adding an extra config file ('config_add')
+	  and saving configuration ('config_save') to the blxml plugin.
 6-Jun-2006
 	- Jorrit resurrected stabiliser_dist.cpp and moved it to the
 	  mechanics directory where it belongs.
