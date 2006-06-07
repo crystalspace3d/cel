@@ -917,7 +917,8 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
   // First we make a set of all regions that we need to load.
   csSet<csPtrKey<celRegion> > loadable_regions;
   for (i = 0 ; i < zones.Length () ; i++)
-    if (loading_mode == CEL_ZONE_LOADALL || zones[i]->ContainsRegion ((celRegion*) region))
+    if (loading_mode == CEL_ZONE_LOADALL
+	|| zones[i]->ContainsRegion ((celRegion*) region))
     {
       size_t j;
       for (j = 0 ; j < zones[i]->GetRegionCount () ; j++)

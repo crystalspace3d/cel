@@ -25,6 +25,8 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
 
 //---------------------------------------------------------------------------
 
@@ -35,6 +37,7 @@ CEL_IMPLEMENT_FACTORY (Projectile, "pcprojectile")
 //---------------------------------------------------------------------------
 
 csStringID celPcProjectile::id_direction = csInvalidStringID;
+csStringID celPcProjectile::id_speed = csInvalidStringID;
 csStringID celPcProjectile::id_maxdist = csInvalidStringID;
 csStringID celPcProjectile::id_maxhits = csInvalidStringID;
 csStringID celPcProjectile::id_entity = csInvalidStringID;
@@ -50,6 +53,7 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
     action_start = pl->FetchStringID ("cel.action.Start");
     action_interrupt = pl->FetchStringID ("cel.action.Interrupt");
     id_direction = pl->FetchStringID ("cel.parameter.direction");
+    id_speed = pl->FetchStringID ("cel.parameter.speed");
     id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
     id_maxhits = pl->FetchStringID ("cel.parameter.maxhits");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
@@ -149,11 +153,13 @@ bool celPcProjectile::PerformAction (csStringID actionId,
   {
     CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
     if (!p_direction) return false;	// @@@ Error?
+    CEL_FETCH_FLOAT_PAR (speed,params,id_speed);
+    if (!p_speed) speed = 1.0f;
     CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
     if (!p_maxdist) maxdist = 1000000000.0f;
     CEL_FETCH_LONG_PAR (maxhits,params,id_maxhits);
     if (!p_maxhits) maxhits = 1;
-    Start (direction, maxdist, maxhits);
+    Start (direction, speed, maxdist, maxhits);
     return true;
   }
   else if (actionId == action_interrupt)
@@ -165,13 +171,24 @@ bool celPcProjectile::PerformAction (csStringID actionId,
 }
 
 bool celPcProjectile::Start (const csVector3& direction,
-  	float maxdist, int maxhits)
+  	float speed, float maxdist, int maxhits)
 {
   if (is_moving) return false;
   is_moving = true;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+
   FindSiblingPropertyClasses ();
-  //@@@
+  if (!pcmesh && !pclinmove) return false;
+
+  // @@@ Support for anchored/hierarchical objects?
+  start = pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
+  celPcProjectile::direction = direction;
+  celPcProjectile::speed = speed;
+  celPcProjectile::maxdist = maxdist;
+  celPcProjectile::maxhits = maxhits;
+  curhits = 0;
+  // @@@
+
   return true;
 }
 
