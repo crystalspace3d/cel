@@ -98,7 +98,7 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * <li>jitter (long, read/write): random jitter added to update delay.
  * <li>monitor (string, read/write): name of entity to monitor.
  * <li>insivible (bool, read/write): also check on invisible entities (default off).
- * <li>follow (bool, read/write): follow own entity pcmesh.
+ * <li>follow (bool, read/write): follow own entity pcmesh (default off).
  * </ul>
  */
 struct iPcTrigger : public iBase

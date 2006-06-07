@@ -242,7 +242,7 @@ void celPcTrigger::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_invisible].datatype = CEL_DATA_BOOL;
     properties[propid_invisible].readonly = false;
     properties[propid_invisible].desc = "Monitor invisible entities.";
- 
+
     properties[propid_follow].id = pl->FetchStringID (
     	"cel.property.follow");
     properties[propid_follow].datatype = CEL_DATA_BOOL;
@@ -415,13 +415,13 @@ void celPcTrigger::LeaveAllEntities ()
       {
         FireTriggersEntityLeaves (entities_in_trigger[i]);
         SendTriggerMessage (entity, entities_in_trigger[i],
-		"pctrigger_entityleaves");
+        	"pctrigger_entityleaves");
       }
       if (send_to_others)
       {
         FireTriggersLeaveTrigger (entities_in_trigger[i]);
         SendTriggerMessage (entities_in_trigger[i], entity,
-		"pctrigger_leavetrigger");
+        	"pctrigger_leavetrigger");
       }
     }
   entities_in_trigger.SetLength (0);
@@ -434,7 +434,7 @@ size_t celPcTrigger::EntityInTrigger (iCelEntity* entity)
     if (entities_in_trigger[i] == entity) return i;
   return csArrayItemNotFound;
 }
-  
+
 void celPcTrigger::SetupTriggerSphere (iSector* sector,
 	const csVector3& center, float radius)
 {
@@ -544,6 +544,7 @@ void celPcTrigger::UpdateListener ()
         this));
       movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
       movable_for_listener->AddListener (movlistener);
+      movlistener->MovableChanged(movable_for_listener);
     }
   }
 }
@@ -553,7 +554,7 @@ void celPcTrigger::TickOnce ()
   // First find the information for the 'check above' case.
   csReversibleTransform above_trans;
   if (HavePropertyClassesChanged ())
-	  UpdateListener ();
+    UpdateListener ();
   if (above_mesh)
   {
     iMovable* m = above_mesh->GetMesh ()->GetMovable ();
@@ -561,7 +562,7 @@ void celPcTrigger::TickOnce ()
     if (!above_collider)
     {
       csColliderWrapper* wrap = csColliderWrapper::GetColliderWrapper (
-		above_mesh->GetMesh ()->QueryObject ());
+      	above_mesh->GetMesh ()->QueryObject ());
       if (!wrap) goto end;
       above_collider = wrap->GetCollider ();
     }
@@ -591,77 +592,77 @@ void celPcTrigger::TickOnce ()
       if (sphere_sector)
       {
         // See how far it is from our trigger center.
-	if (sphere_sector == sector)
-	{
+        if (sphere_sector == sector)
+        {
           float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
           trigger_fired = sqdistance < sphere_radius * sphere_radius;
         }
       }
       else if (box_sector)
       {
-	if (box_sector == sector)
-	{
+        if (box_sector == sector)
+        {
           trigger_fired = box_area.In (mpos);
-	}
+        }
       }
       else if (beam_sector)
       {
         if (beam_sector == sector)
-	{
-	  csHitBeamResult rc = monitoring_mesh->HitBeam (beam_start, beam_end);
-	  trigger_fired = rc.hit;
-	}
+        {
+          csHitBeamResult rc = monitoring_mesh->HitBeam (beam_start, beam_end);
+          trigger_fired = rc.hit;
+        }
       }
       else
       {
-	csVector3 end (mpos.x, mpos.y-above_maxdist, mpos.z);
-	// Small correction to make sure we don't miss the object that
-	// we're standing on.
-	mpos.y += .01f;
-	trigger_fired = cdsys->CollideSegment (above_collider, &above_trans,
-		mpos, end);
+        csVector3 end (mpos.x, mpos.y-above_maxdist, mpos.z);
+        // Small correction to make sure we don't miss the object that
+        // we're standing on.
+        mpos.y += .01f;
+        trigger_fired = cdsys->CollideSegment (above_collider, &above_trans,
+        	mpos, end);
       }
 
       if (trigger_fired)
       {
         // Yes!
-	if (idx == csArrayItemNotFound)
-	{
-	  // This entity was previously not in the trigger. Add it now.
-	  entities_in_trigger.Push (monitoring_entity);
-	  if (send_to_self)
-	  {
-	    FireTriggersEntityEnters (monitoring_entity);
+        if (idx == csArrayItemNotFound)
+        {
+          // This entity was previously not in the trigger. Add it now.
+          entities_in_trigger.Push (monitoring_entity);
+          if (send_to_self)
+          {
+            FireTriggersEntityEnters (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
-		"pctrigger_entityenters");
-	  }
-	  if (send_to_others)
-	  {
-	    FireTriggersEnterTrigger (monitoring_entity);
+            	"pctrigger_entityenters");
+          }
+          if (send_to_others)
+          {
+            FireTriggersEnterTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
-		"pctrigger_entertrigger");
-	  }
-	}
+            	"pctrigger_entertrigger");
+          }
+        }
       }
       else
       {
         // No!
-	if (idx != csArrayItemNotFound)
-	{
-	  // This entity was previously in the trigger. Remove it now.
-	  entities_in_trigger.DeleteIndex (idx);
-	  if (send_to_self)
-	  {
-	    FireTriggersEntityLeaves (monitoring_entity);
+        if (idx != csArrayItemNotFound)
+        {
+          // This entity was previously in the trigger. Remove it now.
+          entities_in_trigger.DeleteIndex (idx);
+          if (send_to_self)
+          {
+            FireTriggersEntityLeaves (monitoring_entity);
             SendTriggerMessage (entity, monitoring_entity,
-		"pctrigger_entityleaves");
-	  }
-	  if (send_to_others)
-	  {
-	    FireTriggersLeaveTrigger (monitoring_entity);
+            	"pctrigger_entityleaves");
+          }
+          if (send_to_others)
+          {
+            FireTriggersLeaveTrigger (monitoring_entity);
             SendTriggerMessage (monitoring_entity, entity,
-		"pctrigger_leavetrigger");
-	  }
+            	"pctrigger_leavetrigger");
+          }
         }
       }
     }
@@ -675,7 +676,7 @@ void celPcTrigger::TickOnce ()
     if (sphere_sector)
     {
       list = pl->FindNearbyEntities (sphere_sector,
-    	sphere_center, sphere_radius, monitor_invisible);
+      	sphere_center, sphere_radius, monitor_invisible);
     }
     else if (box_sector)
     {
@@ -716,27 +717,27 @@ void celPcTrigger::TickOnce ()
       if (above_mesh)
       {
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
-	if (!pcmesh) continue;
-	csVector3 origin = pcmesh->GetMesh ()->GetMovable ()
-		->GetFullPosition ();
-	csVector3 end (origin.x, origin.y-above_maxdist, origin.z);
-	// Small correction to make sure we don't miss the object that we're standing on.
-	origin.y += .01f;
-	if (!cdsys->CollideSegment (above_collider, &above_trans, origin, end))
-	  continue;
+        if (!pcmesh) continue;
+        csVector3 origin = pcmesh->GetMesh ()->GetMovable ()
+        	->GetFullPosition ();
+        csVector3 end (origin.x, origin.y-above_maxdist, origin.z);
+        // Small correction to make sure we don't miss the object that we're standing on.
+        origin.y += .01f;
+        if (!cdsys->CollideSegment (above_collider, &above_trans, origin, end))
+          continue;
       }
 
       entities_in_trigger.Push (ent);
       if (!previous_entities.In (ent))
       {
         // This entity was not in the trigger before. Send a message!
-	if (send_to_self)
-	{
+        if (send_to_self)
+        {
           FireTriggersEntityEnters (ent);
           SendTriggerMessage (entity, ent, "pctrigger_entityenters");
-	}
-	if (send_to_others)
-	{
+        }
+        if (send_to_others)
+        {
           FireTriggersEnterTrigger (ent);
           SendTriggerMessage (ent, entity, "pctrigger_entertrigger");
         }
@@ -747,8 +748,8 @@ void celPcTrigger::TickOnce ()
 
     // All entities that are still in the set were in the trigger
     // last time but are not any longer.
-    csSet<csPtrKey<iCelEntity> >::GlobalIterator it = previous_entities
-    	.GetIterator ();
+    csSet<csPtrKey<iCelEntity> >::GlobalIterator it =
+    	previous_entities.GetIterator ();
     while (it.HasNext ())
     {
       iCelEntity* ent = it.Next ();
@@ -764,7 +765,7 @@ void celPcTrigger::TickOnce ()
       }
     }
   }
-end:
+  end:
   pl->CallbackOnce ((iCelTimerListener*)this,
   	delay+(rand () % (jitter+jitter))-jitter, CEL_EVENT_PRE);
 }
@@ -1013,7 +1014,7 @@ bool celPcTrigger::PerformAction (csStringID actionId,
     if (!m)
       return Report (object_reg,
       	"Entity '%s' doesn't support pcmesh (action SetupTriggerAboveMesh)!",
-	entity);
+      	entity);
     SetupTriggerAboveMesh (m, maxdistance);
     return true;
   }
