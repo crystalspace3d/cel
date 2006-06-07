@@ -78,6 +78,8 @@ enum
   XMLTOKEN_CONFIG_ADD,
   XMLTOKEN_CONFIG_SET,
   XMLTOKEN_CONFIG_SAVE,
+  XMLTOKEN_CLASS_ADD,
+  XMLTOKEN_CLASS_REM,
   XMLTOKEN_SUPER,
   XMLTOKEN_SWITCH,
   XMLTOKEN_STRSPLIT,
@@ -118,6 +120,7 @@ enum
   XMLFUNCTION_SIGN,
   XMLFUNCTION_SQRT,
   XMLFUNCTION_SQDIST,
+  XMLFUNCTION_HASCLASS,
   XMLFUNCTION_INTPOL,
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
@@ -225,6 +228,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
   xmltokens.Register ("config_set", XMLTOKEN_CONFIG_SET);
   xmltokens.Register ("config_save", XMLTOKEN_CONFIG_SAVE);
+  xmltokens.Register ("class_add", XMLTOKEN_CLASS_ADD);
+  xmltokens.Register ("class_rem", XMLTOKEN_CLASS_REM);
   xmltokens.Register ("super", XMLTOKEN_SUPER);
   xmltokens.Register ("switch", XMLTOKEN_SWITCH);
   xmltokens.Register ("strsplit", XMLTOKEN_STRSPLIT);
@@ -260,6 +265,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("sign", XMLFUNCTION_SIGN);
   functions.Register ("sqrt", XMLFUNCTION_SQRT);
   functions.Register ("sqdist", XMLFUNCTION_SQDIST);
+  functions.Register ("hasclass", XMLFUNCTION_HASCLASS);
   functions.Register ("intpol", XMLFUNCTION_INTPOL);
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
@@ -808,6 +814,16 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
         h->AddOperation (CEL_OPERATION_SQDIST);
+      }
+      break;
+    case XMLFUNCTION_HASCLASS:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_HASCLASS);
       }
       break;
     case XMLFUNCTION_INTPOL:
@@ -1828,6 +1844,20 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_CONFIG_SAVE:
 	h->AddOperation (CEL_OPERATION_CONFIG_SAVE);
+        break;
+      case XMLTOKEN_CLASS_ADD:
+        if (!ParseExpression (local_vars, child, h, "entity", "class_add"))
+	  return false;
+        if (!ParseExpression (local_vars, child, h, "class", "class_add"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CLASS_ADD);
+        break;
+      case XMLTOKEN_CLASS_REM:
+        if (!ParseExpression (local_vars, child, h, "entity", "class_rem"))
+	  return false;
+        if (!ParseExpression (local_vars, child, h, "class", "class_rem"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CLASS_REM);
         break;
       case XMLTOKEN_CALLSTACK:
         h->AddOperation (CEL_OPERATION_CALLSTACK);

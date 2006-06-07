@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 #include "csutil/strset.h"
+#include "csutil/set.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
 #include "csutil/cscolor.h"
@@ -88,6 +89,28 @@ struct iCelEntityTemplate : public iBase
    * after all properties and property classes are created.
    */
   virtual void AddMessage (const char* msgid, iCelParameterBlock* params) = 0;
+
+  /**
+   * Add a class to this entity. A class is an application defined
+   * attribute which indicates to what the entity belongs. It can be something
+   * like 'weapon' or 'creature' or whatever the application desires.
+   */
+  virtual void AddClass (csStringID cls) = 0;
+
+  /**
+   * Remove a class from this entity.
+   */
+  virtual void RemoveClass (csStringID cls) = 0;
+
+  /**
+   * Check if this entity belongs to some class.
+   */
+  virtual bool HasClass (csStringID cls) = 0;
+
+  /**
+   * Return the set of classes for this entity.
+   */
+  virtual const csSet<csStringID>& GetClasses () const = 0;
 };
 
 SCF_VERSION (iCelPropertyClassTemplate, 0, 0, 1);

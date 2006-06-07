@@ -22,6 +22,7 @@
 
 #include "csutil/csobject.h"
 #include "csutil/refarr.h"
+#include "csutil/set.h"
 #include "csutil/leakguard.h"
 #include "physicallayer/entity.h"
 #include "plugins/stdphyslayer/pl.h"
@@ -39,6 +40,7 @@ private:
   csRef<iCelBehaviour> behaviour;
   uint entity_ID;
   celPlLayer *pl;
+  csSet<csStringID> classes;
 
 public:
   CS_LEAKGUARD_DECLARE (celEntity);
@@ -52,6 +54,11 @@ public:
   { entity_ID = ID; }
 
   virtual void SetName (const char *name);
+
+  void AddClass (csStringID cls);
+  void RemoveClass (csStringID cls);
+  bool HasClass (csStringID cls);
+  const csSet<csStringID>& GetClasses () const { return classes; }
 
   iCelPropertyClassList* GetPropertyClassList ();
   void SetBehaviour (iCelBehaviour* ent);
@@ -86,6 +93,22 @@ public:
     virtual iCelBehaviour* GetBehaviour ()
     {
       return scfParent->behaviour;
+    }
+    virtual void AddClass (csStringID cls)
+    {
+      scfParent->AddClass (cls);
+    }
+    virtual void RemoveClass (csStringID cls)
+    {
+      scfParent->RemoveClass (cls);
+    }
+    virtual bool HasClass (csStringID cls)
+    {
+      return scfParent->HasClass (cls);
+    }
+    virtual const csSet<csStringID>& GetClasses () const
+    {
+      return scfParent->GetClasses ();
     }
   } scfiCelEntity;
   friend struct CelEntity;

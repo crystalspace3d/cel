@@ -9,6 +9,18 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added support for setting configuration values
 	  ('config_set' command), adding an extra config file ('config_add')
 	  and saving configuration ('config_save') to the blxml plugin.
+	- Jorrit did the following:
+	    - Added support for entity classes. An entity class is just
+	      a string (represented by an ID internally) which can
+	      represent anything the application needs (i.e. classes like
+	      'weapon', 'creature', ...) Multiple classes per entity are
+	      supported.
+	    - Added support for classes in entity templates.
+	    - Added support for <class>bla</class> in both the entity
+	      and the entity template addons.
+	    - Added new blxml operations for classes: 'hasclass()' function
+	      to test if an entity has some class. Also new 'class_add'
+	      and 'class_rem' operations.
 6-Jun-2006
 	- Jorrit resurrected stabiliser_dist.cpp and moved it to the
 	  mechanics directory where it belongs.
