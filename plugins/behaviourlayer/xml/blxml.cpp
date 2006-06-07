@@ -106,6 +106,7 @@ enum
   XMLFUNCTION_ABS,
   XMLFUNCTION_MIN,
   XMLFUNCTION_MAX,
+  XMLFUNCTION_CONFIG,
   XMLFUNCTION_MOUSEX,
   XMLFUNCTION_MOUSEY,
   XMLFUNCTION_NORMALIZE,
@@ -244,6 +245,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("abs", XMLFUNCTION_ABS);
   functions.Register ("min", XMLFUNCTION_MIN);
   functions.Register ("max", XMLFUNCTION_MAX);
+  functions.Register ("config", XMLFUNCTION_CONFIG);
   functions.Register ("mousex", XMLFUNCTION_MOUSEX);
   functions.Register ("mousey", XMLFUNCTION_MOUSEY);
   functions.Register ("normalize", XMLFUNCTION_NORMALIZE);
@@ -680,6 +682,14 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           h->AddOperation (CEL_OPERATION_ENTNAME);
 	}
       }
+      break;
+    case XMLFUNCTION_CONFIG:
+      if (!ParseExpression (input, local_vars, child, h, name, 0))
+	 return false;
+      if (!SkipComma (input, child, name)) return false;
+      if (!ParseExpression (input, local_vars, child, h, name, 0))
+	return false;
+      h->AddOperation (CEL_OPERATION_CONFIG);
       break;
     case XMLFUNCTION_MOUSEX:
       h->AddOperation (CEL_OPERATION_MOUSEX);

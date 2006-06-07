@@ -26,6 +26,7 @@
 #include "iutil/object.h"
 #include "iutil/vfs.h"
 #include "iutil/csinput.h"
+#include "iutil/cfgmgr.h"
 #include "ivaria/reporter.h"
 #include "ivideo/graph3d.h"
 #include "iengine/camera.h"
@@ -1989,6 +1990,22 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* str = ArgToString (top);
 	  if (str) top.SetInt32 ((int32)strlen (str));
 	  else top.SetInt32 (0);
+	}
+	break;
+      case CEL_OPERATION_CONFIG:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg p_default = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: config key=%s default=%s\n", i-1, A2S (top),
+		A2S (p_default)));
+	  const char* key = ArgToString (top);
+	  const char* def = ArgToString (p_default);
+	  csRef<iConfigManager> config = csQueryRegistry<iConfigManager> (
+	      cbl->GetObjectRegistry ());
+	  if (!config)
+	    return ReportError (cbl, "Can't find configuration manager!");
+	  top.SetString (config->GetStr (key, def), true);
 	}
 	break;
       case CEL_OPERATION_TESTVAR:
