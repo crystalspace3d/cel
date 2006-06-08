@@ -271,6 +271,10 @@ class iCelEntity(cspace.iBase):
     def GetPropertyClassList(*args): return _blcelc.iCelEntity_GetPropertyClassList(*args)
     def SetBehaviour(*args): return _blcelc.iCelEntity_SetBehaviour(*args)
     def GetBehaviour(*args): return _blcelc.iCelEntity_GetBehaviour(*args)
+    def AddClass(*args): return _blcelc.iCelEntity_AddClass(*args)
+    def RemoveClass(*args): return _blcelc.iCelEntity_RemoveClass(*args)
+    def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
+    def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
     def __del__(self, destroy=_blcelc.delete_iCelEntity):
         try:

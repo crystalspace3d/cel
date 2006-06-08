@@ -533,6 +533,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfprojectile_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfprojectile_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfprojectile_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfquest_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1280,6 +1295,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_portal_portalfact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\projectile\projectilefact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_projectile_projectilefact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_projectile_projectilefact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2053,6 +2083,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\portal\portalfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\projectile\projectilefact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\quest\questfact.h">
