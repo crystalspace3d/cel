@@ -26,6 +26,7 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "iengine/mesh.h"
+#include "iengine/sector.h"
 #include "iengine/movable.h"
 
 //---------------------------------------------------------------------------
@@ -69,6 +70,8 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
 
   propdata[propid_moving] = 0;		// Handled in this class.
   is_moving = false;
+
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
 }
 
 celPcProjectile::~celPcProjectile ()
@@ -146,6 +149,18 @@ void celPcProjectile::SendMessage (const char* msg)
   }
 }
 
+void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    csRef<iCelEntity> ref = (iCelEntity*)entity;
+    celData ret;
+    params->GetParameter (0).Set (hitent);
+    bh->SendMessage (msg, this, ret, params);
+  }
+}
+
 bool celPcProjectile::PerformAction (csStringID actionId,
 	iCelParameterBlock* params)
 {
@@ -174,26 +189,56 @@ bool celPcProjectile::Start (const csVector3& direction,
   	float speed, float maxdist, int maxhits)
 {
   if (is_moving) return false;
-  is_moving = true;
-  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   FindSiblingPropertyClasses ();
-  if (!pcmesh && !pclinmove) return false;
+  if (!pcmesh) return false;
 
   // @@@ Support for anchored/hierarchical objects?
-  start = pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
-  celPcProjectile::direction = direction;
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  start = movable->GetPosition ();
+  celPcProjectile::direction = direction.Unit ();
   celPcProjectile::speed = speed;
   celPcProjectile::maxdist = maxdist;
   celPcProjectile::maxhits = maxhits;
   curhits = 0;
-  // @@@
+  start_time = vc->GetCurrentTicks ();
+
+  movable->GetTransform ().LookAt (celPcProjectile::direction,
+      csVector3 (0, 1, 0));
+  movable->UpdateMove ();
+
+  is_moving = true;
+  pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   return true;
 }
 
 void celPcProjectile::TickEveryFrame ()
 {
+  csTicks now = vc->GetCurrentTicks ();
+  float dist = speed * float (now-start_time) / 1000.0f;
+  bool stop = false;
+  if (dist > maxdist) { dist = maxdist; stop = true; }
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  csVector3 newpos = start + speed * direction;
+  const csVector3& curpos = movable->GetPosition ();
+  iSector* cursector = movable->GetSectors ()->Get (0);
+  csVector3 isect;
+  iMeshWrapper* mesh = cursector->HitBeamPortals (curpos, newpos, isect, 0);
+  if (mesh)
+  {
+    curhits++;
+    iCelEntity* hitent = pl->FindAttachedEntity (mesh->QueryObject ());
+    SendMessage ("pcprojectile_hit", hitent);
+    if (curhits >= maxhits)
+    {
+      Interrupt ();
+      return;
+    }
+  }
+  //@@@ Set new position (taking care of sector!)
+
+  if (stop) Interrupt ();
 }
 
 void celPcProjectile::Interrupt ()

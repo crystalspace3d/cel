@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "iutil/comp.h"
+#include "iutil/virtclk.h"
 #include "csutil/scf.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
@@ -71,7 +72,9 @@ private:
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg);
+  void SendMessage (const char* msg, iCelEntity* hitent);
 
+  csRef<iVirtualClock> vc;
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcMesh> pcmesh;
 
@@ -79,6 +82,7 @@ private:
 
   int maxhits;
   int curhits;
+  csTicks start_time;
 
   // Used for straight movement from a point in some direction.
   csVector3 start;
