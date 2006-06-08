@@ -32,9 +32,9 @@
  * <ul>
  * <li>pcprojectile_stopped: the projectile movement has stopped but no object
  *     was hit.
- * <li>pcprojectile_hit: we hit some object (entity). If we hit a mesh that
- *     is not an entity then this message will still be sent but with entity
- *     equal to 0.
+ * <li>pcprojectile_hit: we hit some object (entity, intersection). If we
+ *     hit a mesh that is not an entity then this message will still be sent
+ *     but with entity equal to 0.
  * </ul>
  * <p>
  * This property class supports the following actions (add prefix

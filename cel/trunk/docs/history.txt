@@ -5,6 +5,12 @@ The history order is reversed so that new features are at the top.
 
 8-Jun-2006
 	- Jorrit did yet more work on pcprojectile.
+	- Jorrit updated all calls to iSector->HitBeam() and HitBeamPortals()
+	  to use the new versions in CS (the ones that return
+	  csSectorHitBeamResult).
+	- Jorrit made the basic pcprojectile operation work fine. A
+	  projectile can now move in some direction until it either
+	  moves too far or it hits one or more objects.
 7-Jun-2006
 	- Jorrit added a new 'config' function to blxml with which you
 	  can read configuration values.

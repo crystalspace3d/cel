@@ -201,10 +201,8 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
   pclinmove->GetCDDimensions (body, legs, shift, pc_cd);
   //@@@
 
-  csVector3 isect;
-  iMeshWrapper* hit_mesh = cur_sector->HitBeamPortals (cur_pos,
-  	position, isect, 0);
-  if (hit_mesh)
+  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_pos, position);
+  if (rc.mesh)
   {
     SendMessage ("pcmover_impossible");
     return false;
