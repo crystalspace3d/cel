@@ -387,6 +387,7 @@ void celPcCommandInput::SaveConfig (const char* prefix)
     cfg->SetStr (strbind.GetData (), bm->command+15);
     bm = bm->next;
   }
+  cfg->Save ();
 }
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)

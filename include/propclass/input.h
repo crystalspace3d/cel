@@ -31,8 +31,8 @@
  * to get the ID of the parameter):
  * <ul>
  * <li>Bind: parameters 'trigger' (string) and 'command' (string).
- * <li>LoadConfig.
- * <li>SaveConfig.
+ * <li>LoadConfig: parameters 'prefix' (string).
+ * <li>SaveConfig: parameters 'prefix' (string).
  * </ul>
  * <p>
  * This property class can send out the following messages
