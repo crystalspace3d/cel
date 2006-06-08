@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -90,6 +90,9 @@ private:
   static csStringID action_bind;
   static csStringID id_x;
   static csStringID id_y;
+  static csStringID action_loadconfig;
+  static csStringID action_saveconfig;
+  static csStringID id_prefix;
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
@@ -124,9 +127,10 @@ public:
   virtual void ScreenCoordinates (bool screen = true);
   virtual float ScreenToCentered (float screencoord, float axis = 0);
   virtual float CenteredToScreen (float centeredcoord, float axis = 0);
-  virtual bool LoadConfig (const char* fname);
+  virtual bool LoadConfig (const char* prefix);
+  virtual void SaveConfig (const char* prefix);
   virtual bool Bind (const char* triggername, const char* command);
-  virtual const char* GetBind(const char *triggername) const;
+  virtual const char* GetBind (const char *triggername) const;
   virtual bool RemoveBind (const char* triggername, const char* command);
   virtual void RemoveAllBinds ();
 
@@ -155,7 +159,7 @@ public:
       if (parent)
         return parent->HandleEvent (ev);
       else
-	return false;
+        return false;
     }
     CS_EVENTHANDLER_NAMES("cel.propclass.pccommandinput")
     CS_EVENTHANDLER_NIL_CONSTRAINTS

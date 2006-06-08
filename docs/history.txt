@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit made the basic pcprojectile operation work fine. A
 	  projectile can now move in some direction until it either
 	  moves too far or it hits one or more objects.
+	- Darek added LoadConfig and SaveConfig to pccommandinput,
+	  syntax: <prefix>.CommandInput.Bind.<trigger> = command
 7-Jun-2006
 	- Jorrit added a new 'config' function to blxml with which you
 	  can read configuration values.

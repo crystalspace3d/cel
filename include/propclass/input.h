@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -31,6 +31,8 @@
  * to get the ID of the parameter):
  * <ul>
  * <li>Bind: parameters 'trigger' (string) and 'command' (string).
+ * <li>LoadConfig.
+ * <li>SaveConfig.
  * </ul>
  * <p>
  * This property class can send out the following messages
@@ -53,7 +55,7 @@
  */
 struct iPcCommandInput : public virtual iBase
 {
-  SCF_INTERFACE (iPcCommandInput, 0, 0, 1);
+  SCF_INTERFACE (iPcCommandInput, 0, 1, 0);
 
   /**
    * Activates the input to get Commands
@@ -97,9 +99,16 @@ struct iPcCommandInput : public virtual iBase
   virtual float CenteredToScreen (float centeredcoord, float axis = 0) = 0;
 
   /**
-   * Loads a Config File binding triggers(for example keys) to commands
+   * Loads from a config file binding triggers(for example keys) to commands
+   * @param prefix for the <prefix>.CommandInput.Bind.<trigger>
    */
-  virtual bool LoadConfig (const char* fname) = 0;
+  virtual bool LoadConfig (const char* prefix) = 0;
+
+  /**
+   * Saves to a config file binding triggers(for example keys) to commands
+   * @param prefix for the <prefix>.CommandInput.Bind.<trigger>
+   */
+  virtual void SaveConfig (const char* prefix) = 0;
 
   /**
    * Binds a trigger to a command
@@ -111,7 +120,7 @@ struct iPcCommandInput : public virtual iBase
 
   /** deletes a bind, if triggername is 0 deletes all binds to the command */
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
-  
+
   /** deletes all binds */
   virtual void RemoveAllBinds () = 0;
 };
