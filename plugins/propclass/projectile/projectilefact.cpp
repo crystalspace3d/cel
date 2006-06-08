@@ -42,6 +42,7 @@ csStringID celPcProjectile::id_speed = csInvalidStringID;
 csStringID celPcProjectile::id_maxdist = csInvalidStringID;
 csStringID celPcProjectile::id_maxhits = csInvalidStringID;
 csStringID celPcProjectile::id_entity = csInvalidStringID;
+csStringID celPcProjectile::id_intersection = csInvalidStringID;
 csStringID celPcProjectile::action_start = csInvalidStringID;
 csStringID celPcProjectile::action_interrupt = csInvalidStringID;
 
@@ -58,9 +59,11 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
     id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
     id_maxhits = pl->FetchStringID ("cel.parameter.maxhits");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_intersection = pl->FetchStringID ("cel.parameter.intersection");
   }
-  params = new celOneParameterBlock ();
-  params->SetParameterDef (id_entity, "entity");
+  params.AttachNew (new celVariableParameterBlock ());
+  params->SetParameterDef (0, id_entity, "entity");
+  params->SetParameterDef (1, id_intersection, "intersection");
 
   // For properties.
   UpdateProperties (object_reg);
@@ -77,7 +80,6 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
 celPcProjectile::~celPcProjectile ()
 {
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  delete params;
 }
 
 Property* celPcProjectile::properties = 0;
@@ -149,7 +151,8 @@ void celPcProjectile::SendMessage (const char* msg)
   }
 }
 
-void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent)
+void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
+	const csVector3& isect)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -157,6 +160,7 @@ void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent)
     csRef<iCelEntity> ref = (iCelEntity*)entity;
     celData ret;
     params->GetParameter (0).Set (hitent);
+    params->GetParameter (1).Set (isect);
     bh->SendMessage (msg, this, ret, params);
   }
 }
@@ -215,28 +219,40 @@ bool celPcProjectile::Start (const csVector3& direction,
 
 void celPcProjectile::TickEveryFrame ()
 {
+  FindSiblingPropertyClasses ();
+  if (!pcmesh)
+  {
+    Interrupt ();
+    return;
+  }
+
   csTicks now = vc->GetCurrentTicks ();
   float dist = speed * float (now-start_time) / 1000.0f;
   bool stop = false;
   if (dist > maxdist) { dist = maxdist; stop = true; }
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-  csVector3 newpos = start + speed * direction;
+  csVector3 newpos = start + dist * direction;
   const csVector3& curpos = movable->GetPosition ();
   iSector* cursector = movable->GetSectors ()->Get (0);
-  csVector3 isect;
-  iMeshWrapper* mesh = cursector->HitBeamPortals (curpos, newpos, isect, 0);
-  if (mesh)
+  csSectorHitBeamResult rc = cursector->HitBeamPortals (curpos, newpos);
+  if (rc.mesh)
   {
     curhits++;
-    iCelEntity* hitent = pl->FindAttachedEntity (mesh->QueryObject ());
-    SendMessage ("pcprojectile_hit", hitent);
+    iCelEntity* hitent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
+    SendMessage ("pcprojectile_hit", hitent, rc.isect);
     if (curhits >= maxhits)
     {
       Interrupt ();
       return;
     }
   }
-  //@@@ Set new position (taking care of sector!)
+  if (cursector != rc.final_sector)
+  {
+    printf ("Debug: change sector!\n"); fflush (stdout);
+    movable->SetSector (rc.final_sector);
+  }
+  movable->GetTransform ().SetOrigin (newpos);
+  movable->UpdateMove ();
 
   if (stop) Interrupt ();
 }

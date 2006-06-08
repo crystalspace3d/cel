@@ -1042,12 +1042,12 @@ iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 
   iSector* sector = camera->GetSector ();
   vo = camera->GetTransform ().GetO2TTranslation ();
-  csVector3 isect, end = vo + (vw - vo) * 60;
+  csVector3 end = vo + (vw - vo) * 60;
 
-  iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0);
-  if (sel)
+  csSectorHitBeamResult rc = sector->HitBeam (vo, end);
+  if (rc.mesh)
   {
-    iObject* sel_obj = sel->QueryObject ();
+    iObject* sel_obj = rc.mesh->QueryObject ();
     return FindAttachedEntity (sel_obj);
   }
   return 0;

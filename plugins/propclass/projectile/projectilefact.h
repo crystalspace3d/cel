@@ -50,7 +50,8 @@ class celPcProjectile : public scfImplementationExt1<
 private:
   // For SendMessage parameters.
   static csStringID id_entity;
-  celOneParameterBlock* params;
+  static csStringID id_intersection;
+  csRef<celVariableParameterBlock> params;
 
   // For PerformAction.
   // id_message is shared.
@@ -72,7 +73,8 @@ private:
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg);
-  void SendMessage (const char* msg, iCelEntity* hitent);
+  void SendMessage (const char* msg, iCelEntity* hitent,
+  	const csVector3& isect);
 
   csRef<iVirtualClock> vc;
   csWeakRef<iPcLinearMovement> pclinmove;

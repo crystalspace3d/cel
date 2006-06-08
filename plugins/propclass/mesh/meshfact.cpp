@@ -1057,16 +1057,16 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     if (sector)
     {
       vo = camera->GetTransform ().GetO2TTranslation ();
-      csVector3 isect, end = vo + (vw - vo) * max_distance;
+      csVector3 end = vo + (vw - vo) * max_distance;
 
-      iMeshWrapper* sel = sector->HitBeam (vo, end, isect, 0, true);
-      if (sel)
+      csSectorHitBeamResult rc = sector->HitBeam (vo, end, true);
+      if (rc.mesh)
       {
-        iObject* sel_obj = sel->QueryObject ();
+        iObject* sel_obj = rc.mesh->QueryObject ();
         new_sel = pl->FindAttachedEntity (sel_obj);
 	if (new_sel)
 	{
-	  dragoffs = isect - sel->GetMovable ()->GetFullPosition ();
+	  dragoffs = rc.isect - rc.mesh->GetMovable ()->GetFullPosition ();
 	}
       }
     }

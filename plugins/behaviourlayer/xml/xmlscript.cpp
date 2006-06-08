@@ -4870,15 +4870,16 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
   csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
   origin = origin + (end-origin) * 0.02;
 
-  iMeshWrapper* sel = sector->HitBeamPortals (origin, end, isect, 0);
-  if (sel == 0)
+  csSectorHitBeamResult rc = sector->HitBeamPortals (origin, end);
+  if (rc.mesh == 0)
   {
     isect = end;
     selent = 0;
   }
   else
   {
-    selent = pl->FindAttachedEntity (sel->QueryObject ());
+    isect = rc.isect;
+    selent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
   }
 }
 
@@ -4887,15 +4888,18 @@ void celXmlScriptEventHandler::HitBeam (iSector* sector,
 	const csVector3& end, csVector3& isect, iCelEntity*& selent,
 	iMeshWrapper*& mesh)
 {
-  mesh = sector->HitBeamPortals (start, end, isect, 0);
-  if (mesh == 0)
+  csSectorHitBeamResult rc;
+  rc = sector->HitBeamPortals (start, end);
+  mesh = rc.mesh;
+  if (rc.mesh == 0)
   {
     isect = end;
     selent = 0;
   }
   else
   {
-    selent = pl->FindAttachedEntity (mesh->QueryObject ());
+    isect = rc.isect;
+    selent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
   }
 }
 
