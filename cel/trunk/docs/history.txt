@@ -15,6 +15,11 @@ The history order is reversed so that new features are at the top.
 	  the 'sendmove' property.
 	- Jorrit fixed a bug in the blxml 'config_set' operation. It
 	  messed up the stack.
+	- caedes applied a patch from cfraz adding the following to blcel.i:
+	    - %include datatype.h (allows celData).
+	    - %include stdparams.h (allows cel*ParameterBlock).
+	    - special SendMessage that gets no return celData and needs no pc.
+	    - celFindNearbyEntities version using start, end vectors.
 8-Jun-2006
 	- Jorrit did yet more work on pcprojectile.
 	- Jorrit updated all calls to iSector->HitBeam() and HitBeamPortals()

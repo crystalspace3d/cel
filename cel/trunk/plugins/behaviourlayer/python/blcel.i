@@ -6,6 +6,8 @@
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
+#include "celtool/stdparams.h"
+#include "physicallayer/datatype.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
@@ -143,6 +145,12 @@ CEL_PC_QUERY(pcType)
 %ignore celInitializer::RequestPlugins;
 %ignore celInitializer::RequestPluginsV;
 %include "celtool/initapp.h"
+
+//-----------------------------------------------------------------------------
+
+%ignore celData::GetDebugInfo;
+%include "physicallayer/datatype.h"
+
 //-----------------------------------------------------------------------------
 
 %include "physicallayer/pl.h"
@@ -202,6 +210,18 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
   csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, radius);
+  entlist->IncRef();
+  return entlist;
+}
+%}
+
+%inline %{
+iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
+       iSector *sector, csVector3 pos, csVector3 dest)
+{
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl.IsValid()) return 0;
+  csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, dest);
   entlist->IncRef();
   return entlist;
 }
@@ -332,7 +352,16 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
     Py_INCREF (obj);
     return obj;
   }
+  bool SendMessage(const char* msg_id, iCelParameterBlock* params)
+  {
+       celData ret;
+       return self->SendMessage (msg_id,0,ret,params);
+  }
 }
+
+//-----------------------------------------------------------------------------
+
+%include "celtool/stdparams.h"
 
 //-----------------------------------------------------------------------------
 
@@ -511,25 +540,5 @@ CEL_PC(iPcCraftController, CraftController, pccraft)
 
 //-----------------------------------------------------------------------------
 
-enum celDataType
-{
-  CEL_DATA_NONE = 0,
-  CEL_DATA_BOOL,
-  CEL_DATA_BYTE,
-  CEL_DATA_WORD,
-  CEL_DATA_LONG,
-  CEL_DATA_UBYTE,
-  CEL_DATA_UWORD,
-  CEL_DATA_ULONG,
-  CEL_DATA_FLOAT,
-  CEL_DATA_VECTOR2,
-  CEL_DATA_VECTOR3,
-  CEL_DATA_STRING,
-  CEL_DATA_PCLASS,
-  CEL_DATA_ENTITY,
-  CEL_DATA_ACTION,
-  CEL_DATA_COLOR,
-  CEL_DATA_IBASE
-};
 
 
