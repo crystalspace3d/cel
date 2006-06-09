@@ -1217,6 +1217,7 @@ class iPcCommandInput(cspace.iBase):
     def ScreenToCentered(*args): return _blcelc.iPcCommandInput_ScreenToCentered(*args)
     def CenteredToScreen(*args): return _blcelc.iPcCommandInput_CenteredToScreen(*args)
     def LoadConfig(*args): return _blcelc.iPcCommandInput_LoadConfig(*args)
+    def SaveConfig(*args): return _blcelc.iPcCommandInput_SaveConfig(*args)
     def Bind(*args): return _blcelc.iPcCommandInput_Bind(*args)
     def GetBind(*args): return _blcelc.iPcCommandInput_GetBind(*args)
     def RemoveBind(*args): return _blcelc.iPcCommandInput_RemoveBind(*args)
