@@ -16529,6 +16529,28 @@ static PyObject *_wrap_iPcCommandInput_LoadConfig(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iPcCommandInput_SaveConfig(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+    char *arg2 = (char *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcCommandInput_SaveConfig",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCommandInput, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    (arg1)->SaveConfig((char const *)arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcCommandInput_Bind(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
@@ -30401,6 +30423,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCommandInput_ScreenToCentered", _wrap_iPcCommandInput_ScreenToCentered, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_CenteredToScreen", _wrap_iPcCommandInput_CenteredToScreen, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_LoadConfig", _wrap_iPcCommandInput_LoadConfig, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_SaveConfig", _wrap_iPcCommandInput_SaveConfig, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_Bind", _wrap_iPcCommandInput_Bind, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_GetBind", _wrap_iPcCommandInput_GetBind, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_RemoveBind", _wrap_iPcCommandInput_RemoveBind, METH_VARARGS, NULL},
