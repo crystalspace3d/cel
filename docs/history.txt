@@ -3,6 +3,18 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Jun-2006
+	- Jorrit changed the billboard manager so that it now sends
+	  a pcbillboard_moveaway message when the mouse moves away
+	  from a billboard. This complements the existing pcbillboard_move
+	  which is sent when the mouse moves over the billboard.
+	- Jorrit made billboards NOT send move or moveaway messages by
+	  default (for efficiency reasons)! If you depend on this behaviour
+	  then be aware that you should change your code! To re-enable
+	  move/moveaway message for a single billboard you must set
+	  the 'sendmove' property.
+	- Jorrit fixed a bug in the blxml 'config_set' operation. It
+	  messed up the stack.
 8-Jun-2006
 	- Jorrit did yet more work on pcprojectile.
 	- Jorrit updated all calls to iSector->HitBeam() and HitBeamPortals()

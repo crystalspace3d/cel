@@ -565,6 +565,23 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
   firing_messages = false;
 }
 
+void celBillboard::FireMouseMoveAway (int sx, int sy, int button)
+{
+  mgr->ScreenToBillboardSpace (sx, sy);
+  size_t i;
+  firing_messages = true;
+  for (i = 0 ; i < handlers.Length () ; i++)
+  {
+    handlers[i]->MouseMoveAway (this, button, sx, sy);
+    if (delete_me)
+    {
+      delete this;
+      return;
+    }
+  }
+  firing_messages = false;
+}
+
 void celBillboard::FireMouseMove (int sx, int sy, int button)
 {
   mgr->ScreenToBillboardSpace (sx, sy);
@@ -794,6 +811,7 @@ celBillboardManager::celBillboardManager (iBase* parent)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
   moving_billboard = 0;
+  lastmove_billboard = 0;
 
   z_min = 1;
   z_max = 10;
@@ -1093,10 +1111,22 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
     celBillboard* bb = FindBillboard (csMouseEventHelper::GetX(&ev), 
 					  csMouseEventHelper::GetY(&ev),
 					  CEL_BILLBOARD_CLICKABLE);
-    if (bb)
-      bb->FireMouseMove (csMouseEventHelper::GetX(&ev),
+    if (lastmove_billboard && bb != lastmove_billboard)
+    {
+      if (lastmove_billboard->flags.Check (CEL_BILLBOARD_SENDMOVE))
+        lastmove_billboard->FireMouseMoveAway (csMouseEventHelper::GetX(&ev),
 	  		     csMouseEventHelper::GetY(&ev), 
 			     csMouseEventHelper::GetButton(&ev));
+    }
+
+    lastmove_billboard = bb;
+    if (bb)
+    {
+      if (bb->flags.Check (CEL_BILLBOARD_SENDMOVE))
+        bb->FireMouseMove (csMouseEventHelper::GetX(&ev),
+	  		     csMouseEventHelper::GetY(&ev), 
+			     csMouseEventHelper::GetButton(&ev));
+    }
   }
   else if (ev.Name == csevMouseDoubleClick (name_reg, 0))
   {
@@ -1209,6 +1239,7 @@ void celBillboardManager::RemoveBillboard (iBillboard* billboard)
     billboards.Delete ((celBillboard*)billboard);
   }
   if (billboard == moving_billboard) moving_billboard = 0;
+  if (billboard == lastmove_billboard) lastmove_billboard = 0;
 }
 
 iBillboardLayer* celBillboardManager::CreateBillboardLayer (const char* name)

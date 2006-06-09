@@ -76,6 +76,7 @@ private:
     propid_movable,
     propid_visible,
     propid_restack,
+    propid_sendmove,
     propid_color,
     propid_width,
     propid_height,
@@ -138,6 +139,8 @@ public:
   	int mousex, int mousey);
   void MouseMove (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
+  void MouseMoveAway (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey);
   void Unselect (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey);
   void DoubleClick (iBillboard* billboard, int mouse_button,
@@ -165,6 +168,11 @@ public:
   	int mousex, int mousey)
     {
       parent->MouseMove (billboard, mouse_button, mousex, mousey);
+    }
+    virtual void MouseMoveAway (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+    {
+      parent->MouseMoveAway (billboard, mouse_button, mousex, mousey);
     }
     virtual void Unselect (iBillboard* billboard, int mouse_button,
   	int mousex, int mousey)

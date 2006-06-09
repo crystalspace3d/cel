@@ -32,7 +32,8 @@ struct iBillboard;
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * <ul>
  * <li>pcbillboard_select: billboard is selected (x,y,button)
- * <li>pcbillboard_move: billboard is moved (x,y,button)
+ * <li>pcbillboard_move: mouse moves over billboard (x,y,button)
+ * <li>pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
  * <li>pcbillboard_unselect: billboard is unselected (x,y,button)
  * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
  * </ul>
@@ -55,10 +56,11 @@ struct iBillboard;
  *     have the <keepimage/> flag set!
  * <li>materialnamefast (string, read/write): name of the material (faster
  *     way to set).
- * <li>clickable (bool, read/write): clickable yes or no.
- * <li>movable (bool, read/write): movable yes or no.
- * <li>visible (bool, read/write): visible yes or no.
- * <li>restack (bool, read/write): restackable on selection yes or no.
+ * <li>clickable (bool, read/write): clickable (default no).
+ * <li>movable (bool, read/write): movable (default no).
+ * <li>visible (bool, read/write): visible (default yes).
+ * <li>restack (bool, read/write): restackable on selection (default no).
+ * <li>sendmove (bool, read/write): send move/moveaway events (default no).
  * <li>color (color, read/write): color of this billboard.
  * <li>width (long, read/write): width of this billboard.
  * <li>height (long, read/write): height of this billboard.

@@ -63,7 +63,7 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT( pl != 0 );
 
-    propertycount = 27;
+    propertycount = 28;
     properties = new Property[propertycount];
 
     properties[propid_billboardname].id = pl->FetchStringID (
@@ -107,6 +107,12 @@ void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_restack].datatype = CEL_DATA_BOOL;
     properties[propid_restack].readonly = false;
     properties[propid_restack].desc = "Make restackable on selection.";
+
+    properties[propid_sendmove].id = pl->FetchStringID (
+    	"cel.property.sendmove");
+    properties[propid_sendmove].datatype = CEL_DATA_BOOL;
+    properties[propid_sendmove].readonly = false;
+    properties[propid_sendmove].desc = "Send move and moveaway events.";
 
     properties[propid_color].id = pl->FetchStringID (
     	"cel.property.color");
@@ -275,6 +281,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   propdata[propid_movable] = 0;
   propdata[propid_visible] = 0;
   propdata[propid_restack] = 0;
+  propdata[propid_sendmove] = 0;
   propdata[propid_color] = 0;
   propdata[propid_width] = 0;
   propdata[propid_height] = 0;
@@ -570,6 +577,12 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
     return true;
   }
+  else if (propertyId == properties[propid_sendmove].id)
+  {
+    GetBillboard ();
+    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_SENDMOVE, b);
+    return true;
+  }
   else
   {
     return celPcCommon::SetProperty (propertyId, b);
@@ -602,6 +615,13 @@ bool celPcBillboard::GetPropertyBool (csStringID propertyId)
     GetBillboard ();
     return billboard ?
     	billboard->GetFlags ().Check (CEL_BILLBOARD_RESTACK) :
+	false;
+  }
+  else if (propertyId == properties[propid_sendmove].id)
+  {
+    GetBillboard ();
+    return billboard ?
+    	billboard->GetFlags ().Check (CEL_BILLBOARD_SENDMOVE) :
 	false;
   }
   else
@@ -974,6 +994,21 @@ void celPcBillboard::MouseMove (iBillboard* billboard, int mouse_button,
   {
     celData ret;
     bh->SendMessage ("pcbillboard_move", this, ret, params,
+  	mouse_button, mousex, mousey);
+  }
+}
+
+void celPcBillboard::MouseMoveAway (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey)
+{
+  params->GetParameter (0).Set ((int32)mousex);
+  params->GetParameter (1).Set ((int32)mousey);
+  params->GetParameter (2).Set ((int32)mouse_button);
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (bh)
+  {
+    celData ret;
+    bh->SendMessage ("pcbillboard_moveaway", this, ret, params,
   	mouse_button, mousex, mousey);
   }
 }
