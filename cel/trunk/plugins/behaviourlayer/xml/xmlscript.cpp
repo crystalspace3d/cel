@@ -2065,7 +2065,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         {
 	  CHECK_STACK(2)
 	  celXmlArg p_value = stack.Pop ();
-	  celXmlArg p_key = stack.Top ();
+	  celXmlArg p_key = stack.Pop ();
           DUMP_EXEC ((":%04d: config_set key=%s value=%s\n", i-1, A2S (p_key),
 		A2S (p_value)));
 	  const char* key = ArgToString (p_key);

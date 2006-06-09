@@ -82,6 +82,12 @@ struct iBillboardEventHandler : public virtual iBase
   	int mousex, int mousey) = 0;
 
   /**
+   * Mouse moves away from billboard.
+   */
+  virtual void MouseMoveAway (iBillboard* billboard, int mouse_button,
+  	int mousex, int mousey) = 0;
+
+  /**
    * Billboard is unselected.
    */
   virtual void Unselect (iBillboard* billboard, int mouse_button,
@@ -113,6 +119,11 @@ struct iBillboardEventHandler : public virtual iBase
  * if it is clicked on.
  */
 #define CEL_BILLBOARD_RESTACK 8
+/**
+ * If true then billboard will send move and moveaway events.
+ * Default is false.
+ */
+#define CEL_BILLBOARD_SENDMOVE 16
 
 SCF_VERSION (iBillboard, 0, 0, 1);
 

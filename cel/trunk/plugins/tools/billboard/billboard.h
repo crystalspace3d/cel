@@ -175,6 +175,7 @@ public:
   void FireMouseUp (int sx, int sy, int button);
   void FireMouseDown (int sx, int sy, int button);
   void FireMouseMove (int sx, int sy, int button);
+  void FireMouseMoveAway (int sx, int sy, int button);
   void FireMouseDoubleClick (int sx, int sy, int button);
 
   // Return the text for this billboard.
@@ -279,6 +280,7 @@ private:
   };
   csArray<movingBillboard> moving_billboards;
 
+  celBillboard* lastmove_billboard;
   celBillboard* moving_billboard;
   int moving_dx;
   int moving_dy;
