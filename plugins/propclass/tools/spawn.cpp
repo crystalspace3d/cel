@@ -25,6 +25,8 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "behaviourlayer/bl.h"
+#include "propclass/mesh.h"
+#include "propclass/linmove.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
 #include "csutil/debug.h"
@@ -33,13 +35,19 @@
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
+#include "iutil/object.h"
 #include "iutil/virtclk.h"
 #include "ivideo/graph2d.h"
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
 #include "ivideo/txtmgr.h"
 #include "ivaria/reporter.h"
+#include "ivaria/mapnode.h"
 #include "csgeom/math3d.h"
+#include "iengine/engine.h"
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
+#include "iengine/sector.h"
 
 //---------------------------------------------------------------------------
 
@@ -83,6 +91,7 @@ csStringID celPcSpawn::action_setenabled = csInvalidStringID;
 csStringID celPcSpawn::action_clearentitylist = csInvalidStringID;
 csStringID celPcSpawn::action_inhibit = csInvalidStringID;
 csStringID celPcSpawn::action_spawn = csInvalidStringID;
+csStringID celPcSpawn::action_addspawnposition = csInvalidStringID;
 csStringID celPcSpawn::id_repeat_param = csInvalidStringID;
 csStringID celPcSpawn::id_random_param = csInvalidStringID;
 csStringID celPcSpawn::id_mindelay_param = csInvalidStringID;
@@ -95,6 +104,9 @@ csStringID celPcSpawn::id_layer_param = csInvalidStringID;
 csStringID celPcSpawn::id_call_param = csInvalidStringID;
 csStringID celPcSpawn::id_enabled_param = csInvalidStringID;
 csStringID celPcSpawn::id_count_param = csInvalidStringID;
+csStringID celPcSpawn::id_sector_param = csInvalidStringID;
+csStringID celPcSpawn::id_position_param = csInvalidStringID;
+csStringID celPcSpawn::id_yrot_param = csInvalidStringID;
 csStringID celPcSpawn::id_entity = csInvalidStringID;
 csStringID celPcSpawn::id_behaviour = csInvalidStringID;
 
@@ -115,6 +127,9 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  CS_ASSERT (engine != 0);
+
   if (action_addentitytype == csInvalidStringID)
   {
     action_addentitytype = pl->FetchStringID ("cel.action.AddEntityType");
@@ -125,6 +140,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
     action_clearentitylist = pl->FetchStringID ("cel.action.ClearEntityList");
     action_inhibit = pl->FetchStringID ("cel.action.Inhibit");
     action_spawn = pl->FetchStringID ("cel.action.Spawn");
+    action_addspawnposition = pl->FetchStringID ("cel.action.AddSpawnPosition");
     id_repeat_param = pl->FetchStringID ("cel.parameter.repeat");
     id_random_param = pl->FetchStringID ("cel.parameter.random");
     id_mindelay_param = pl->FetchStringID ("cel.parameter.mindelay");
@@ -137,6 +153,9 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
     id_call_param = pl->FetchStringID ("cel.parameter.call");
     id_enabled_param = pl->FetchStringID ("cel.parameter.enabled");
     id_count_param = pl->FetchStringID ("cel.parameter.count");
+    id_sector_param = pl->FetchStringID ("cel.parameter.sector");
+    id_position_param = pl->FetchStringID ("cel.parameter.position");
+    id_yrot_param = pl->FetchStringID ("cel.parameter.yrot");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
     id_behaviour = pl->FetchStringID ("cel.parameter.behaviour");
   }
@@ -260,6 +279,29 @@ bool celPcSpawn::PerformAction (csStringID actionId,
     Spawn ();
     return true;
   }
+  else if (actionId == action_addspawnposition)
+  {
+    CEL_FETCH_STRING_PAR (sector_param,params,id_sector_param);
+    if (!p_sector_param)
+      return Report (object_reg,
+      	"Missing parameter 'sector' for action AddSpawnPosition!");
+    CEL_FETCH_FLOAT_PAR (yrot_param,params,id_yrot_param);
+    if (!p_yrot_param) yrot_param = 0.0f;
+    CEL_FETCH_STRING_PAR (position_param,params,id_position_param);
+    if (p_position_param)
+    {
+      AddSpawnPosition (position_param, yrot_param, sector_param);
+    }
+    else
+    {
+      CEL_FETCH_VECTOR3_PAR (position_param,params,id_position_param);
+      if (!p_position_param)
+        return Report (object_reg,
+        	"Missing parameter 'sector' for action AddSpawnPosition!");
+      AddSpawnPosition (position_param, yrot_param, sector_param);
+    }
+    return true;
+  }
   return false;
 }
 
@@ -340,8 +382,78 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     	pcs[i]);
     if (!pc)
     {
-      Report (object_reg, "Error creating property class '%s' for entity '%s'!",
+      Report (object_reg,
+      	"Error creating property class '%s' for entity '%s'!",
       	(const char*)pcs[i], spawninfo[idx].newent->GetName ());
+    }
+  }
+
+  // Set position
+  if (spawnposition.Length () > 0)
+  {
+    csRandomGen rng;
+    uint32 number = rng.Get (spawnposition.Length ());
+    iSector* sect = engine->FindSector (spawnposition[number].sector);
+    if (!sect)
+    {
+      Report (object_reg,
+      	"Can't find sector '%s' for action SetPosition!",
+      	spawnposition[number].sector);
+    }
+    else
+    {
+      csRef<iPcLinearMovement> linmove = CEL_QUERY_PROPCLASS_ENT (
+        spawninfo[idx].newent, iPcLinearMovement);
+      if (linmove)
+      {
+        if (spawnposition[number].node != 0)
+          linmove->SetFullPosition (spawnposition[number].node,
+          	spawnposition[number].yrot, sect);
+        else
+          linmove->SetFullPosition (spawnposition[number].pos,
+          	spawnposition[number].yrot, sect);
+      }
+      else
+      {
+        csVector3 pos;
+        if (spawnposition[number].node != 0)
+        {
+          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+            sect->QueryObject (), iMapNode, spawnposition[number].node);
+          if (mapnode)
+            pos = mapnode->GetPosition ();
+          else
+            Report (object_reg, "Can't find node '%s' for trigger!",
+              (const char*)spawnposition[number].node);
+        }
+        else
+        {
+          pos = spawnposition[number].pos;
+        }
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
+        	spawninfo[idx].newent, iPcMesh);
+        if (pcmesh)
+        {
+          iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+          if (movable)
+          {
+            movable->SetPosition (sect, pos);
+            movable->GetTransform ().SetO2T (
+            	(csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
+            movable->UpdateMove ();
+          }
+          else
+          {
+            Report (object_reg, "Error: entity '%s' is not movable!",
+            	spawninfo[idx].newent->GetName ());
+          }
+        }
+        else
+        {
+          Report (object_reg, "Error: entity '%s' is not a mesh!",
+          	spawninfo[idx].newent->GetName ());
+        }
+      }
     }
   }
 
@@ -444,6 +556,26 @@ void celPcSpawn::ClearEntityList ()
 void celPcSpawn::InhibitCount (int number)
 {
   inhibit_count = number;
+}
+
+void celPcSpawn::AddSpawnPosition (const char* node, float yrot,
+	const char* sector)
+{
+  size_t idx = spawnposition.Push (SpawnPosition ());
+  SpawnPosition& ni = spawnposition[idx];
+  ni.node = node;
+  ni.yrot = yrot;
+  ni.sector = sector;
+}
+
+void celPcSpawn::AddSpawnPosition (const csVector3& pos, float yrot,
+	const char* sector)
+{
+  size_t idx = spawnposition.Push (SpawnPosition ());
+  SpawnPosition& pi = spawnposition[idx];
+  pi.pos = pos;
+  pi.yrot = yrot;
+  pi.sector = sector;
 }
 
 //---------------------------------------------------------------------------
