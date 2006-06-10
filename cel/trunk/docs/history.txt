@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Jun-2006
+	- Jorrit increased the height of the portal beam in pclinmove
+	  to make sure that a portal which is slightly above ground is
+	  not missed.
 9-Jun-2006
 	- Jorrit changed the billboard manager so that it now sends
 	  a pcbillboard_moveaway message when the mouse moves away
