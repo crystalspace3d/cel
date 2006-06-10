@@ -23,6 +23,7 @@
 #include "cstypes.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
+#include "iengine/engine.h"
 #include "csutil/scf.h"
 #include "csutil/parray.h"
 #include "csutil/hash.h"
@@ -74,6 +75,31 @@ struct SpawnInfo
   }
 };
 
+// Spawn position
+struct SpawnPosition
+{
+  csVector3 pos;
+  float yrot;
+  const char* node;
+  const char* sector;
+
+  SpawnPosition ()
+  {
+    pos.x = 0.0f;
+    pos.y = 0.0f;
+    pos.z = 0.0f;
+    yrot = 0.0f;
+    node = 0;
+    sector = 0;
+  }
+
+  ~SpawnPosition ()
+  {
+    delete[] sector;
+    delete[] node;
+  }
+};
+
 /**
  * This is a spawn property class.
  */
@@ -81,12 +107,14 @@ class celPcSpawn : public celPcCommon
 {
 private:
   csRef<iVirtualClock> vc;
+  csRef<iEngine> engine;
   bool enabled;
   csTicks mindelay, maxdelay, delay_todo;
   bool repeat;
   bool random;
   size_t sequence_cur;
   csArray<SpawnInfo> spawninfo;
+  csArray<SpawnPosition> spawnposition;
   float total_chance;
   int count;
   int inhibit_count;
@@ -99,6 +127,7 @@ private:
   static csStringID action_clearentitylist;
   static csStringID action_inhibit;
   static csStringID action_spawn;
+  static csStringID action_addspawnposition;
   static csStringID id_repeat_param;
   static csStringID id_random_param;
   static csStringID id_mindelay_param;
@@ -111,6 +140,9 @@ private:
   static csStringID id_call_param;
   static csStringID id_enabled_param;
   static csStringID id_count_param;
+  static csStringID id_sector_param;
+  static csStringID id_position_param;
+  static csStringID id_yrot_param;
   celGenericParameterBlock* params;
   static csStringID id_entity;
   static csStringID id_behaviour;
@@ -133,6 +165,8 @@ public:
   void ResetTiming ();
   void InhibitCount (int number);
   void Spawn ();
+  void AddSpawnPosition (const char* node, float yrot, const char* sector);
+  void AddSpawnPosition (const csVector3& pos, float yrot, const char* sector);
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -192,8 +226,17 @@ public:
     {
       scfParent->Spawn ();
     }
+    virtual void AddSpawnPosition (const char* node, float yrot,
+    	const char* sector)
+    {
+      scfParent->AddSpawnPosition (node, yrot, sector);
+    }
+    virtual void AddSpawnPosition (const csVector3& pos, float yrot,
+    	const char* sector)
+    {
+      scfParent->AddSpawnPosition (pos, yrot, sector);
+    }
   } scfiPcSpawn;
 };
 
 #endif // __CEL_PF_SPAWNFACT__
-

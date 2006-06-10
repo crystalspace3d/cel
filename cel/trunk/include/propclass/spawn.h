@@ -23,11 +23,30 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcSpawn, 1, 0, 0);
+SCF_VERSION (iPcSpawn, 1, 1, 0);
 
 /**
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
+ * <p>
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * <ul>
+ * <li>AddEntityType: parameters 'chance' (float), 'entity' (string),
+ *     'behaviour' (string), 'layer' (string), 'call' (string)
+ * <li>AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
+ *     'template' (string), 'call' (string)
+ * <li>SetTiming: parameters 'repeat' (bool), 'random' (bool),
+ *     'mindelay' (long), 'maxdelay' (long)
+ * <li>ResetTiming
+ * <li>SetEnabled: parameters 'enabled' (bool)
+ * <li>ClearEntityList
+ * <li>Inhibit: parameters 'count' (long)
+ * <li>Spawn
+ * <li>AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
+ *     'position' (vector or name of the node)
+ * </ul>
  * <p>
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
@@ -116,9 +135,23 @@ struct iPcSpawn : public iBase
   virtual void InhibitCount (int number) = 0;
 
   /**
-   * Spawn now random entity from list.
+   * Spawn at this moment any random entity from a list.
    */
   virtual void Spawn () = 0;
+
+  /**
+   * Set positional information about where to spawn.
+   * This version accepts name of the node
+   */
+  virtual void AddSpawnPosition (const char* node, float yrot,
+  	const char* sector) = 0;
+
+  /**
+   * Set positional information about where to spawn.
+   * This version accepts position vector
+   */
+  virtual void AddSpawnPosition (const csVector3& pos, float yrot,
+  	const char* sector) = 0;
 };
 
 #endif // __CEL_PF_SPAWN__

@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit increased the height of the portal beam in pclinmove
 	  to make sure that a portal which is slightly above ground is
 	  not missed.
+	- Darek added to pcspawn: AddSpawnPosition
 9-Jun-2006
 	- Jorrit changed the billboard manager so that it now sends
 	  a pcbillboard_moveaway message when the mouse moves away
