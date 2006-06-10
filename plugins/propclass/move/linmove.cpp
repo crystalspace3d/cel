@@ -839,7 +839,7 @@ int celPcLinearMovement::MoveV (float delta)
   // @@@ Jorrit: had to do this add!
   // We need to measure slightly above the position of the actor or else
   // we won't really cross a portal.
-  float height5 = (bottomSize.y + topSize.y) / 20.0;
+  float height5 = (bottomSize.y + topSize.y) / 10.0;
   newpos.y += height5;
   csMatrix3 id;
   csOrthoTransform transform_oldpos (id, oldpos + csVector3 (0, height5, 0));
