@@ -70,6 +70,217 @@ celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
 
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
 
+CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
+CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
+CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
+CEL_DATA_WORD = _blcelc.CEL_DATA_WORD
+CEL_DATA_LONG = _blcelc.CEL_DATA_LONG
+CEL_DATA_UBYTE = _blcelc.CEL_DATA_UBYTE
+CEL_DATA_UWORD = _blcelc.CEL_DATA_UWORD
+CEL_DATA_ULONG = _blcelc.CEL_DATA_ULONG
+CEL_DATA_FLOAT = _blcelc.CEL_DATA_FLOAT
+CEL_DATA_VECTOR2 = _blcelc.CEL_DATA_VECTOR2
+CEL_DATA_VECTOR3 = _blcelc.CEL_DATA_VECTOR3
+CEL_DATA_STRING = _blcelc.CEL_DATA_STRING
+CEL_DATA_PCLASS = _blcelc.CEL_DATA_PCLASS
+CEL_DATA_ENTITY = _blcelc.CEL_DATA_ENTITY
+CEL_DATA_ACTION = _blcelc.CEL_DATA_ACTION
+CEL_DATA_COLOR = _blcelc.CEL_DATA_COLOR
+CEL_DATA_IBASE = _blcelc.CEL_DATA_IBASE
+CEL_DATA_PARAMETER = _blcelc.CEL_DATA_PARAMETER
+CEL_DATA_LAST = _blcelc.CEL_DATA_LAST
+class celData(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celData instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    __swig_setmethods__["type"] = _blcelc.celData_type_set
+    __swig_getmethods__["type"] = _blcelc.celData_type_get
+    if _newclass:type = property(_blcelc.celData_type_get, _blcelc.celData_type_set)
+    def __init__(self, *args):
+        _swig_setattr(self, celData, 'this', _blcelc.new_celData(*args))
+        _swig_setattr(self, celData, 'thisown', 1)
+    def assign(*args): return _blcelc.celData_assign(*args)
+    def __del__(self, destroy=_blcelc.delete_celData):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+    def Clear(*args): return _blcelc.celData_Clear(*args)
+    def Set(*args): return _blcelc.celData_Set(*args)
+    def SetAction(*args): return _blcelc.celData_SetAction(*args)
+    def SetIBase(*args): return _blcelc.celData_SetIBase(*args)
+    def SetParameter(*args): return _blcelc.celData_SetParameter(*args)
+    __swig_getmethods__["value"] = _blcelc.celData_value_get
+    if _newclass:value = property(_blcelc.celData_value_get)
+
+class celDataPtr(celData):
+    def __init__(self, this):
+        _swig_setattr(self, celData, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celData, 'thisown', 0)
+        _swig_setattr(self, celData,self.__class__,celData)
+_blcelc.celData_swigregister(celDataPtr)
+
+class celData_value(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celData_value instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    __swig_setmethods__["bo"] = _blcelc.celData_value_bo_set
+    __swig_getmethods__["bo"] = _blcelc.celData_value_bo_get
+    if _newclass:bo = property(_blcelc.celData_value_bo_get, _blcelc.celData_value_bo_set)
+    __swig_setmethods__["b"] = _blcelc.celData_value_b_set
+    __swig_getmethods__["b"] = _blcelc.celData_value_b_get
+    if _newclass:b = property(_blcelc.celData_value_b_get, _blcelc.celData_value_b_set)
+    __swig_setmethods__["ub"] = _blcelc.celData_value_ub_set
+    __swig_getmethods__["ub"] = _blcelc.celData_value_ub_get
+    if _newclass:ub = property(_blcelc.celData_value_ub_get, _blcelc.celData_value_ub_set)
+    __swig_setmethods__["w"] = _blcelc.celData_value_w_set
+    __swig_getmethods__["w"] = _blcelc.celData_value_w_get
+    if _newclass:w = property(_blcelc.celData_value_w_get, _blcelc.celData_value_w_set)
+    __swig_setmethods__["uw"] = _blcelc.celData_value_uw_set
+    __swig_getmethods__["uw"] = _blcelc.celData_value_uw_get
+    if _newclass:uw = property(_blcelc.celData_value_uw_get, _blcelc.celData_value_uw_set)
+    __swig_setmethods__["l"] = _blcelc.celData_value_l_set
+    __swig_getmethods__["l"] = _blcelc.celData_value_l_get
+    if _newclass:l = property(_blcelc.celData_value_l_get, _blcelc.celData_value_l_set)
+    __swig_setmethods__["ul"] = _blcelc.celData_value_ul_set
+    __swig_getmethods__["ul"] = _blcelc.celData_value_ul_get
+    if _newclass:ul = property(_blcelc.celData_value_ul_get, _blcelc.celData_value_ul_set)
+    __swig_setmethods__["f"] = _blcelc.celData_value_f_set
+    __swig_getmethods__["f"] = _blcelc.celData_value_f_get
+    if _newclass:f = property(_blcelc.celData_value_f_get, _blcelc.celData_value_f_set)
+    __swig_setmethods__["s"] = _blcelc.celData_value_s_set
+    __swig_getmethods__["s"] = _blcelc.celData_value_s_get
+    if _newclass:s = property(_blcelc.celData_value_s_get, _blcelc.celData_value_s_set)
+    __swig_setmethods__["pc"] = _blcelc.celData_value_pc_set
+    __swig_getmethods__["pc"] = _blcelc.celData_value_pc_get
+    if _newclass:pc = property(_blcelc.celData_value_pc_get, _blcelc.celData_value_pc_set)
+    __swig_setmethods__["ent"] = _blcelc.celData_value_ent_set
+    __swig_getmethods__["ent"] = _blcelc.celData_value_ent_get
+    if _newclass:ent = property(_blcelc.celData_value_ent_get, _blcelc.celData_value_ent_set)
+    __swig_setmethods__["ibase"] = _blcelc.celData_value_ibase_set
+    __swig_getmethods__["ibase"] = _blcelc.celData_value_ibase_get
+    if _newclass:ibase = property(_blcelc.celData_value_ibase_get, _blcelc.celData_value_ibase_set)
+    __swig_getmethods__["par"] = _blcelc.celData_value_par_get
+    if _newclass:par = property(_blcelc.celData_value_par_get)
+    __swig_getmethods__["col"] = _blcelc.celData_value_col_get
+    if _newclass:col = property(_blcelc.celData_value_col_get)
+    __swig_getmethods__["v"] = _blcelc.celData_value_v_get
+    if _newclass:v = property(_blcelc.celData_value_v_get)
+    def __init__(self, *args):
+        _swig_setattr(self, celData_value, 'this', _blcelc.new_celData_value(*args))
+        _swig_setattr(self, celData_value, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celData_value):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class celData_valuePtr(celData_value):
+    def __init__(self, this):
+        _swig_setattr(self, celData_value, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celData_value, 'thisown', 0)
+        _swig_setattr(self, celData_value,self.__class__,celData_value)
+_blcelc.celData_value_swigregister(celData_valuePtr)
+
+class celData_value_par(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_par, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_par, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celData_value_par instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    __swig_setmethods__["parname"] = _blcelc.celData_value_par_parname_set
+    __swig_getmethods__["parname"] = _blcelc.celData_value_par_parname_get
+    if _newclass:parname = property(_blcelc.celData_value_par_parname_get, _blcelc.celData_value_par_parname_set)
+    __swig_setmethods__["partype"] = _blcelc.celData_value_par_partype_set
+    __swig_getmethods__["partype"] = _blcelc.celData_value_par_partype_get
+    if _newclass:partype = property(_blcelc.celData_value_par_partype_get, _blcelc.celData_value_par_partype_set)
+    def __init__(self, *args):
+        _swig_setattr(self, celData_value_par, 'this', _blcelc.new_celData_value_par(*args))
+        _swig_setattr(self, celData_value_par, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celData_value_par):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class celData_value_parPtr(celData_value_par):
+    def __init__(self, this):
+        _swig_setattr(self, celData_value_par, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celData_value_par, 'thisown', 0)
+        _swig_setattr(self, celData_value_par,self.__class__,celData_value_par)
+_blcelc.celData_value_par_swigregister(celData_value_parPtr)
+
+class celData_value_col(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_col, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_col, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celData_value_col instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    __swig_setmethods__["red"] = _blcelc.celData_value_col_red_set
+    __swig_getmethods__["red"] = _blcelc.celData_value_col_red_get
+    if _newclass:red = property(_blcelc.celData_value_col_red_get, _blcelc.celData_value_col_red_set)
+    __swig_setmethods__["green"] = _blcelc.celData_value_col_green_set
+    __swig_getmethods__["green"] = _blcelc.celData_value_col_green_get
+    if _newclass:green = property(_blcelc.celData_value_col_green_get, _blcelc.celData_value_col_green_set)
+    __swig_setmethods__["blue"] = _blcelc.celData_value_col_blue_set
+    __swig_getmethods__["blue"] = _blcelc.celData_value_col_blue_get
+    if _newclass:blue = property(_blcelc.celData_value_col_blue_get, _blcelc.celData_value_col_blue_set)
+    def __init__(self, *args):
+        _swig_setattr(self, celData_value_col, 'this', _blcelc.new_celData_value_col(*args))
+        _swig_setattr(self, celData_value_col, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celData_value_col):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class celData_value_colPtr(celData_value_col):
+    def __init__(self, this):
+        _swig_setattr(self, celData_value_col, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celData_value_col, 'thisown', 0)
+        _swig_setattr(self, celData_value_col,self.__class__,celData_value_col)
+_blcelc.celData_value_col_swigregister(celData_value_colPtr)
+
+class celData_value_v(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_v, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, celData_value_v, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celData_value_v instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    __swig_setmethods__["x"] = _blcelc.celData_value_v_x_set
+    __swig_getmethods__["x"] = _blcelc.celData_value_v_x_get
+    if _newclass:x = property(_blcelc.celData_value_v_x_get, _blcelc.celData_value_v_x_set)
+    __swig_setmethods__["y"] = _blcelc.celData_value_v_y_set
+    __swig_getmethods__["y"] = _blcelc.celData_value_v_y_get
+    if _newclass:y = property(_blcelc.celData_value_v_y_get, _blcelc.celData_value_v_y_set)
+    __swig_setmethods__["z"] = _blcelc.celData_value_v_z_set
+    __swig_getmethods__["z"] = _blcelc.celData_value_v_z_get
+    if _newclass:z = property(_blcelc.celData_value_v_z_get, _blcelc.celData_value_v_z_set)
+    def __init__(self, *args):
+        _swig_setattr(self, celData_value_v, 'this', _blcelc.new_celData_value_v(*args))
+        _swig_setattr(self, celData_value_v, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celData_value_v):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class celData_value_vPtr(celData_value_v):
+    def __init__(self, this):
+        _swig_setattr(self, celData_value_v, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celData_value_v, 'thisown', 0)
+        _swig_setattr(self, celData_value_v,self.__class__,celData_value_v)
+_blcelc.celData_value_v_swigregister(celData_value_vPtr)
+
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
 CEL_EVENT_POST = _blcelc.CEL_EVENT_POST
@@ -325,8 +536,6 @@ celRegisterPCFactory = _blcelc.celRegisterPCFactory
 celCreateEntity = _blcelc.celCreateEntity
 
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
-
-celFindNearbyEntities = _blcelc.celFindNearbyEntities
 class iCelBlLayer(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -351,6 +560,8 @@ class iCelBlLayerPtr(iCelBlLayer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCelBlLayer, 'thisown', 0)
         _swig_setattr(self, iCelBlLayer,self.__class__,iCelBlLayer)
 _blcelc.iCelBlLayer_swigregister(iCelBlLayerPtr)
+
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
@@ -393,9 +604,9 @@ class iCelBehaviour(cspace.iBase):
         return "<%s.%s; proxy of C++ iCelBehaviour instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def GetName(*args): return _blcelc.iCelBehaviour_GetName(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelBehaviour_GetBehaviourLayer(*args)
-    def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
     def GetInternalObject(*args): return _blcelc.iCelBehaviour_GetInternalObject(*args)
     def GetPythonObject(*args): return _blcelc.iCelBehaviour_GetPythonObject(*args)
+    def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
     def __del__(self, destroy=_blcelc.delete_iCelBehaviour):
         try:
             if self.thisown: destroy(self)
@@ -408,6 +619,141 @@ class iCelBehaviourPtr(iCelBehaviour):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCelBehaviour, 'thisown', 0)
         _swig_setattr(self, iCelBehaviour,self.__class__,iCelBehaviour)
 _blcelc.iCelBehaviour_swigregister(iCelBehaviourPtr)
+
+class celGenericParameterBlock(iCelParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celGenericParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celGenericParameterBlock instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args):
+        _swig_setattr(self, celGenericParameterBlock, 'this', _blcelc.new_celGenericParameterBlock(*args))
+        _swig_setattr(self, celGenericParameterBlock, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celGenericParameterBlock):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+    def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
+    __swig_setmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_set
+    __swig_getmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_get
+    if _newclass:scfRefCount = property(_blcelc.celGenericParameterBlock_scfRefCount_get, _blcelc.celGenericParameterBlock_scfRefCount_set)
+    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_set
+    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_get
+    if _newclass:scfWeakRefOwners = property(_blcelc.celGenericParameterBlock_scfWeakRefOwners_get, _blcelc.celGenericParameterBlock_scfWeakRefOwners_set)
+    def scfRemoveRefOwners(*args): return _blcelc.celGenericParameterBlock_scfRemoveRefOwners(*args)
+    __swig_setmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_set
+    __swig_getmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_get
+    if _newclass:scfParent = property(_blcelc.celGenericParameterBlock_scfParent_get, _blcelc.celGenericParameterBlock_scfParent_set)
+    def IncRef(*args): return _blcelc.celGenericParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.celGenericParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.celGenericParameterBlock_GetRefCount(*args)
+    def AddRefOwner(*args): return _blcelc.celGenericParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.celGenericParameterBlock_RemoveRefOwner(*args)
+    def QueryInterface(*args): return _blcelc.celGenericParameterBlock_QueryInterface(*args)
+    def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
+    def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
+
+class celGenericParameterBlockPtr(celGenericParameterBlock):
+    def __init__(self, this):
+        _swig_setattr(self, celGenericParameterBlock, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celGenericParameterBlock, 'thisown', 0)
+        _swig_setattr(self, celGenericParameterBlock,self.__class__,celGenericParameterBlock)
+_blcelc.celGenericParameterBlock_swigregister(celGenericParameterBlockPtr)
+
+class celVariableParameterBlock(iCelParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celVariableParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celVariableParameterBlock instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args):
+        _swig_setattr(self, celVariableParameterBlock, 'this', _blcelc.new_celVariableParameterBlock(*args))
+        _swig_setattr(self, celVariableParameterBlock, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celVariableParameterBlock):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+    def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
+    __swig_setmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_set
+    __swig_getmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_get
+    if _newclass:scfRefCount = property(_blcelc.celVariableParameterBlock_scfRefCount_get, _blcelc.celVariableParameterBlock_scfRefCount_set)
+    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_set
+    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_get
+    if _newclass:scfWeakRefOwners = property(_blcelc.celVariableParameterBlock_scfWeakRefOwners_get, _blcelc.celVariableParameterBlock_scfWeakRefOwners_set)
+    def scfRemoveRefOwners(*args): return _blcelc.celVariableParameterBlock_scfRemoveRefOwners(*args)
+    __swig_setmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_set
+    __swig_getmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_get
+    if _newclass:scfParent = property(_blcelc.celVariableParameterBlock_scfParent_get, _blcelc.celVariableParameterBlock_scfParent_set)
+    def IncRef(*args): return _blcelc.celVariableParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.celVariableParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.celVariableParameterBlock_GetRefCount(*args)
+    def AddRefOwner(*args): return _blcelc.celVariableParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.celVariableParameterBlock_RemoveRefOwner(*args)
+    def QueryInterface(*args): return _blcelc.celVariableParameterBlock_QueryInterface(*args)
+    def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
+    def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
+
+class celVariableParameterBlockPtr(celVariableParameterBlock):
+    def __init__(self, this):
+        _swig_setattr(self, celVariableParameterBlock, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celVariableParameterBlock, 'thisown', 0)
+        _swig_setattr(self, celVariableParameterBlock,self.__class__,celVariableParameterBlock)
+_blcelc.celVariableParameterBlock_swigregister(celVariableParameterBlockPtr)
+
+class celOneParameterBlock(iCelParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celOneParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ celOneParameterBlock instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def __init__(self, *args):
+        _swig_setattr(self, celOneParameterBlock, 'this', _blcelc.new_celOneParameterBlock(*args))
+        _swig_setattr(self, celOneParameterBlock, 'thisown', 1)
+    def __del__(self, destroy=_blcelc.delete_celOneParameterBlock):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+    def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
+    __swig_setmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_set
+    __swig_getmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_get
+    if _newclass:scfRefCount = property(_blcelc.celOneParameterBlock_scfRefCount_get, _blcelc.celOneParameterBlock_scfRefCount_set)
+    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_set
+    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_get
+    if _newclass:scfWeakRefOwners = property(_blcelc.celOneParameterBlock_scfWeakRefOwners_get, _blcelc.celOneParameterBlock_scfWeakRefOwners_set)
+    def scfRemoveRefOwners(*args): return _blcelc.celOneParameterBlock_scfRemoveRefOwners(*args)
+    __swig_setmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_set
+    __swig_getmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_get
+    if _newclass:scfParent = property(_blcelc.celOneParameterBlock_scfParent_get, _blcelc.celOneParameterBlock_scfParent_set)
+    def IncRef(*args): return _blcelc.celOneParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.celOneParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.celOneParameterBlock_GetRefCount(*args)
+    def AddRefOwner(*args): return _blcelc.celOneParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.celOneParameterBlock_RemoveRefOwner(*args)
+    def QueryInterface(*args): return _blcelc.celOneParameterBlock_QueryInterface(*args)
+    def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
+    def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
+    def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
+
+class celOneParameterBlockPtr(celOneParameterBlock):
+    def __init__(self, this):
+        _swig_setattr(self, celOneParameterBlock, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, celOneParameterBlock, 'thisown', 0)
+        _swig_setattr(self, celOneParameterBlock,self.__class__,celOneParameterBlock)
+_blcelc.celOneParameterBlock_swigregister(celOneParameterBlockPtr)
 
 class iCelPropertyClass(cspace.iBase):
     __swig_setmethods__ = {}
@@ -827,6 +1173,7 @@ class iBillboardEventHandler(cspace.iBase):
         return "<%s.%s; proxy of C++ iBillboardEventHandler instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def Select(*args): return _blcelc.iBillboardEventHandler_Select(*args)
     def MouseMove(*args): return _blcelc.iBillboardEventHandler_MouseMove(*args)
+    def MouseMoveAway(*args): return _blcelc.iBillboardEventHandler_MouseMoveAway(*args)
     def Unselect(*args): return _blcelc.iBillboardEventHandler_Unselect(*args)
     def DoubleClick(*args): return _blcelc.iBillboardEventHandler_DoubleClick(*args)
     def __del__(self, destroy=_blcelc.delete_iBillboardEventHandler):
@@ -846,6 +1193,7 @@ CEL_BILLBOARD_VISIBLE = _blcelc.CEL_BILLBOARD_VISIBLE
 CEL_BILLBOARD_MOVABLE = _blcelc.CEL_BILLBOARD_MOVABLE
 CEL_BILLBOARD_CLICKABLE = _blcelc.CEL_BILLBOARD_CLICKABLE
 CEL_BILLBOARD_RESTACK = _blcelc.CEL_BILLBOARD_RESTACK
+CEL_BILLBOARD_SENDMOVE = _blcelc.CEL_BILLBOARD_SENDMOVE
 class iBillboard(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2274,21 +2622,4 @@ celCreateCraftController = _blcelc.celCreateCraftController
 celGetCraftController = _blcelc.celGetCraftController
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
-CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
-CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
-CEL_DATA_BYTE = _blcelc.CEL_DATA_BYTE
-CEL_DATA_WORD = _blcelc.CEL_DATA_WORD
-CEL_DATA_LONG = _blcelc.CEL_DATA_LONG
-CEL_DATA_UBYTE = _blcelc.CEL_DATA_UBYTE
-CEL_DATA_UWORD = _blcelc.CEL_DATA_UWORD
-CEL_DATA_ULONG = _blcelc.CEL_DATA_ULONG
-CEL_DATA_FLOAT = _blcelc.CEL_DATA_FLOAT
-CEL_DATA_VECTOR2 = _blcelc.CEL_DATA_VECTOR2
-CEL_DATA_VECTOR3 = _blcelc.CEL_DATA_VECTOR3
-CEL_DATA_STRING = _blcelc.CEL_DATA_STRING
-CEL_DATA_PCLASS = _blcelc.CEL_DATA_PCLASS
-CEL_DATA_ENTITY = _blcelc.CEL_DATA_ENTITY
-CEL_DATA_ACTION = _blcelc.CEL_DATA_ACTION
-CEL_DATA_COLOR = _blcelc.CEL_DATA_COLOR
-CEL_DATA_IBASE = _blcelc.CEL_DATA_IBASE
 
