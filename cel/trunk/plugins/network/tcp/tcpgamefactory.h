@@ -20,6 +20,7 @@
 #ifndef __CEL_GAMEFACT_TCP__
 #define __CEL_GAMEFACT_TCP__
 
+#include "csutil/eventnames.h"
 #include "iutil/comp.h"
 #include "iutil/event.h"
 #include "iutil/eventh.h"

@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Jun-2006
+	- Vincent fixed build for missing header eventnames.h.
 10-Jun-2006
 	- Jorrit increased the height of the portal beam in pclinmove
 	  to make sure that a portal which is slightly above ground is

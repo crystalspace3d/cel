@@ -21,6 +21,7 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/event.h"
+#include "csutil/eventnames.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "igraphic/image.h"

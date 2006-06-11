@@ -28,6 +28,7 @@
 #include "iutil/cmdline.h"
 #include "iutil/eventq.h"
 #include "csutil/event.h"
+#include "csutil/eventnames.h"
 #include "ivaria/reporter.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"

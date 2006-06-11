@@ -33,6 +33,7 @@
 #include "csutil/csobject.h"
 #include "csutil/flags.h"
 #include "csutil/event.h"
+#include "csutil/eventnames.h"
 #include "iutil/object.h"
 #include "iutil/event.h"
 #include "iutil/evdefs.h"

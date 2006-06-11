@@ -18,6 +18,7 @@
 */
 
 #include "cssysdef.h"
+#include "csutil/eventnames.h"
 #include "iutil/objreg.h"
 #include "iutil/eventq.h"
 #include "iutil/vfs.h"
