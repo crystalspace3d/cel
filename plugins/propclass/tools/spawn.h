@@ -49,29 +49,21 @@ CEL_DECLARE_FACTORY(Spawn)
 struct SpawnInfo
 {
   float chance;
-  char* templ;
-  char* name;
+  csString templ;
+  csString name;
   iCelBlLayer* bl;
-  char* behaviour;
-  char* msg_id;
+  csString behaviour;
+  csString msg_id;
   csRef<iCelParameterBlock> params;
   csStringArray pcs;
   csRef<iCelEntity> newent;
 
   SpawnInfo ()
   {
-    templ = 0;
-    name = 0;
-    behaviour = 0;
-    msg_id = 0;
   }
 
   ~SpawnInfo ()
   {
-    delete[] templ;
-    delete[] name;
-    delete[] behaviour;
-    delete[] msg_id;
   }
 };
 
@@ -80,8 +72,8 @@ struct SpawnPosition
 {
   csVector3 pos;
   float yrot;
-  const char* node;
-  const char* sector;
+  csString node;
+  csString sector;
 
   SpawnPosition ()
   {
@@ -89,14 +81,10 @@ struct SpawnPosition
     pos.y = 0.0f;
     pos.z = 0.0f;
     yrot = 0.0f;
-    node = 0;
-    sector = 0;
   }
 
   ~SpawnPosition ()
   {
-    delete[] sector;
-    delete[] node;
   }
 };
 

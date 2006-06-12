@@ -398,7 +398,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     {
       Report (object_reg,
       	"Can't find sector '%s' for action SetPosition!",
-      	spawnposition[number].sector);
+      	(const char*)(spawnposition[number].sector));
     }
     else
     {
@@ -516,10 +516,10 @@ void celPcSpawn::AddEntityType (float chance, const char* name, iCelBlLayer* bl,
   size_t idx = spawninfo.Push (SpawnInfo ());
   SpawnInfo& si = spawninfo[idx];
   si.chance = chance;
-  si.name = csStrNew (name);
+  si.name = name;
   si.bl = bl;
-  si.behaviour = csStrNew (behaviour);
-  si.msg_id = csStrNew (msg_id);
+  si.behaviour = behaviour;
+  si.msg_id = msg_id;
   si.params = params;
   char const* pcname = va_arg (pcclasses, char*);
   while (pcname != 0)
@@ -536,12 +536,12 @@ void celPcSpawn::AddEntityTemplateType (float chance, const char* templ,
   size_t idx = spawninfo.Push (SpawnInfo ());
   SpawnInfo& si = spawninfo[idx];
   si.chance = chance;
-  si.templ = csStrNew (templ);
+  si.templ = templ;
   if (name != 0)
-    si.name = csStrNew (name);
+    si.name = name;
   else
-    si.name = csStrNew (templ);
-  si.msg_id = csStrNew (msg_id);
+    si.name = templ;
+  si.msg_id = msg_id;
   si.params = params;
   total_chance += chance;
 }
