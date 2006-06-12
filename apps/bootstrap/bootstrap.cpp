@@ -126,31 +126,16 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"Can't initialize config!");
+    	"Can't initialize config!");
     return false;
   }
 
   if (!celInitializer::RequestPlugins (object_reg,
-  	CS_REQUEST_VFS,
-	CS_REQUEST_OPENGL3D,
-	CS_REQUEST_ENGINE,
-	CS_REQUEST_FONTSERVER,
-	CS_REQUEST_IMAGELOADER,
-	CS_REQUEST_LEVELLOADER,
-	CS_REQUEST_REPORTER,
-	CS_REQUEST_REPORTERLISTENER,
-	CS_REQUEST_PLUGIN ("cel.physicallayer", iCelPlLayer),
-	CS_REQUEST_PLUGIN ("cel.persistence.classic", iCelPersistence),
-	CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
-		iCollideSystem),
-	CS_REQUEST_PLUGIN ("crystalspace.sndsys.element.loader", iSndSysLoader),
-	CS_REQUEST_PLUGIN ("crystalspace.sndsys.renderer.software",
-	                iSndSysRenderer),
-	CS_REQUEST_END))
+  	CS_REQUEST_VFS, CS_REQUEST_END))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"Can't initialize plugins!");
+    	"Can't initialize plugins!");
     return false;
   }
 
@@ -158,7 +143,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"Can't initialize event handler!");
+    	"Can't initialize event handler!");
     return false;
   }
 
@@ -175,7 +160,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"No iEngine plugin!");
+    	"No iEngine plugin!");
     return false;
   }
 
@@ -205,7 +190,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     	"CEL physical layer missing!");
     return false;
   }
- 
+
   csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
   	iCommandLineParser);
   const char* plugin = cmdline->GetName (0);
@@ -214,14 +199,14 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"This tool expects two parameters. The first parameter is the name\n"
-	"of a behaviour layer plugin (like 'cel.behaviourlayer.python').\n"
-	"The second parameter is the name of a behaviour for that layer.");
+    	"This tool expects two parameters. The first parameter is the name\n"
+    	"of a behaviour layer plugin (like 'cel.behaviourlayer.python').\n"
+    	"The second parameter is the name of a behaviour for that layer.");
     return false;
   }
 
   csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-    	"crystalspace.application.bootstrap",
+  	"crystalspace.application.bootstrap",
   	"Using behaviour layer plugin '%s' to fire up behaviour '%s'.",
   	plugin, behaviour);
   fflush (stdout);
@@ -233,8 +218,8 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-	"Couldn't load behaviour layer '%s'!",
-	plugin);
+    	"Couldn't load behaviour layer '%s'!",
+    	plugin);
     return false;
   }
   object_reg->Register (bl, "iCelBlLayer");
@@ -264,7 +249,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     csStringID id_par1 = pl->FetchStringID ("cel.parameter.parameter1");
     csStringID id_par2 = pl->FetchStringID ("cel.parameter.parameter2");
     csStringID id_par3 = pl->FetchStringID ("cel.parameter.parameter3");
-    
+
     if (extra_arg3)
     {
       params = new celGenericParameterBlock (3);

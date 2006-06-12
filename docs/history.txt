@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 12-Jun-2006
 	- Jorrit changed pcspawn to use csString instead of char* strings.
+	- Darek moved hardcoded plugins from bootstrap.cpp to bootstrap.cfg.
 11-Jun-2006
 	- Vincent fixed build for missing header eventnames.h.
 10-Jun-2006
