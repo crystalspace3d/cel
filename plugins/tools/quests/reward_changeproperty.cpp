@@ -39,22 +39,15 @@ CEL_IMPLEMENT_REWARDTYPE(ChangeProperty)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celChangePropertyRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iChangePropertyQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celChangePropertyRewardFactory::celChangePropertyRewardFactory (
-	celChangePropertyRewardType* type)
+	celChangePropertyRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celChangePropertyRewardFactory::type = type;
   do_toggle = false;
 }
 
 celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
@@ -154,10 +147,6 @@ void celChangePropertyRewardFactory::SetToggle ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celChangePropertyReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
@@ -170,9 +159,8 @@ celChangePropertyReward::celChangePropertyReward (
 	const char* float_par,
 	const char* bool_par,
 	const char* diff_par,
-	bool do_toggle)
+	bool do_toggle) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celChangePropertyReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   prop = qm->ResolveParameter (params, prop_par);
@@ -189,7 +177,6 @@ celChangePropertyReward::celChangePropertyReward (
 
 celChangePropertyReward::~celChangePropertyReward ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celChangePropertyReward::Reward ()

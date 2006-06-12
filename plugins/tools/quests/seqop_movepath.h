@@ -50,9 +50,9 @@ CEL_DECLARE_SEQOPTYPE(MovePath,"cel.questseqop.movepath")
 /**
  * The 'movepath' seqop factory.
  */
-class celMovePathSeqOpFactory :
-	public iQuestSeqOpFactory,
-	public iMovePathQuestSeqOpFactory
+class celMovePathSeqOpFactory : public scfImplementation2<
+	celMovePathSeqOpFactory, iQuestSeqOpFactory,
+	iMovePathQuestSeqOpFactory>
 {
 private:
   celMovePathSeqOpType* type;
@@ -65,8 +65,6 @@ private:
 public:
   celMovePathSeqOpFactory (celMovePathSeqOpType* type);
   virtual ~celMovePathSeqOpFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestSeqOp> CreateSeqOp (
       const celQuestParams& params);
@@ -81,8 +79,8 @@ public:
 /**
  * The 'movepath' seqop.
  */
-class celMovePathSeqOp :
-	public iQuestSeqOp
+class celMovePathSeqOp : public scfImplementation1<
+	celMovePathSeqOp, iQuestSeqOp>
 {
 private:
   celMovePathSeqOpType* type;
@@ -103,8 +101,6 @@ public:
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times);
   virtual ~celMovePathSeqOp ();
-
-  SCF_DECLARE_IBASE;
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);

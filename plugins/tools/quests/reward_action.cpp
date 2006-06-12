@@ -62,15 +62,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celActionRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iActionQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celActionRewardFactory::celActionRewardFactory (
-	celActionRewardType* type)
+	celActionRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celActionRewardFactory::type = type;
   entity_par = 0;
   pcclass_par = 0;
@@ -82,8 +76,6 @@ celActionRewardFactory::~celActionRewardFactory ()
 {
   delete[] entity_par;
   delete[] id_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celActionRewardFactory::CreateReward (
@@ -227,10 +219,6 @@ void celActionRewardFactory::AddParameter (celDataType type,
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celActionReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celActionReward::celActionReward (
 	celActionRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
@@ -238,9 +226,8 @@ celActionReward::celActionReward (
 	const char* id_par,
 	const char* pcclass_par,
 	const char* tag_par,
-	const csArray<parSpec>& parameters)
+	const csArray<parSpec>& parameters) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celActionReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   pcclass = csStrNew (qm->ResolveParameter (params, pcclass_par));
@@ -314,7 +301,6 @@ celActionReward::~celActionReward ()
   delete[] entity;
   delete[] id;
   delete act_params;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celActionReward::Reward ()

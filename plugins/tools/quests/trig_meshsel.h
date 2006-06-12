@@ -43,9 +43,9 @@ CEL_DECLARE_TRIGGERTYPE(MeshSelect,"cel.questtrigger.meshselect")
 /**
  * The 'meshselect' trigger factory.
  */
-class celMeshSelectTriggerFactory :
-	public iQuestTriggerFactory,
-	public iMeshSelectQuestTriggerFactory
+class celMeshSelectTriggerFactory : public scfImplementation2<
+	celMeshSelectTriggerFactory, iQuestTriggerFactory,
+	iMeshSelectQuestTriggerFactory>
 {
 private:
   celMeshSelectTriggerType* type;
@@ -55,8 +55,6 @@ private:
 public:
   celMeshSelectTriggerFactory (celMeshSelectTriggerType* type);
   virtual ~celMeshSelectTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -69,9 +67,9 @@ public:
 /**
  * The 'meshselect' trigger.
  */
-class celMeshSelectTrigger :
-	public iQuestTrigger,
-	public iPcMeshSelectListener
+class celMeshSelectTrigger : public scfImplementation2<
+	celMeshSelectTrigger, iQuestTrigger,
+	iPcMeshSelectListener>
 {
 private:
   celMeshSelectTriggerType* type;
@@ -87,8 +85,6 @@ public:
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par);
   virtual ~celMeshSelectTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

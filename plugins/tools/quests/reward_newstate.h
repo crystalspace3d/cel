@@ -43,9 +43,9 @@ CEL_DECLARE_REWARDTYPE(NewState,"cel.questreward.newstate")
 /**
  * The 'newstate' reward factory.
  */
-class celNewStateRewardFactory :
-	public iQuestRewardFactory,
-	public iNewStateQuestRewardFactory
+class celNewStateRewardFactory : public scfImplementation2<
+	celNewStateRewardFactory, iQuestRewardFactory,
+	iNewStateQuestRewardFactory>
 {
 private:
   celNewStateRewardType* type;
@@ -56,8 +56,6 @@ private:
 public:
   celNewStateRewardFactory (celNewStateRewardType* type);
   virtual ~celNewStateRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (
       iQuest* q, const celQuestParams& params);
@@ -71,8 +69,8 @@ public:
 /**
  * The 'newstate' reward.
  */
-class celNewStateReward :
-	public iQuestReward
+class celNewStateReward : public scfImplementation1<
+	celNewStateReward, iQuestReward>
 {
 private:
   celNewStateRewardType* type;
@@ -88,8 +86,6 @@ public:
 	const char* state_par,
 	const char* entity_par, const char* tag_par);
   virtual ~celNewStateReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

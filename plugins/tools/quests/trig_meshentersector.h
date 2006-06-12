@@ -47,9 +47,9 @@ CEL_DECLARE_TRIGGERTYPE(MeshEnterSector,"cel.questtrigger.meshentersector")
 /**
  * The 'meshentersector' trigger factory.
  */
-class celMeshEnterSectorTriggerFactory :
-	public iQuestTriggerFactory,
-	public iEnterSectorQuestTriggerFactory
+class celMeshEnterSectorTriggerFactory : public scfImplementation2<
+	celMeshEnterSectorTriggerFactory, iQuestTriggerFactory,
+	iEnterSectorQuestTriggerFactory>
 {
 private:
   celMeshEnterSectorTriggerType* type;
@@ -60,8 +60,6 @@ private:
 public:
   celMeshEnterSectorTriggerFactory (celMeshEnterSectorTriggerType* type);
   virtual ~celMeshEnterSectorTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -75,9 +73,9 @@ public:
 /**
  * The 'meshentersector' trigger.
  */
-class celMeshEnterSectorTrigger :
-	public iQuestTrigger,
-	public iMovableListener
+class celMeshEnterSectorTrigger : public scfImplementation2<
+	celMeshEnterSectorTrigger, iQuestTrigger,
+	iMovableListener>
 {
 private:
   celMeshEnterSectorTriggerType* type;
@@ -96,8 +94,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* sector_par);
   virtual ~celMeshEnterSectorTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

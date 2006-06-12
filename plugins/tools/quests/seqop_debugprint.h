@@ -42,9 +42,9 @@ CEL_DECLARE_SEQOPTYPE(DebugPrint,"cel.questseqop.debugprint")
 /**
  * The 'debugprint' seqop factory.
  */
-class celDebugPrintSeqOpFactory :
-	public iQuestSeqOpFactory,
-	public iDebugPrintQuestSeqOpFactory
+class celDebugPrintSeqOpFactory : public scfImplementation2<
+	celDebugPrintSeqOpFactory, iQuestSeqOpFactory,
+	iDebugPrintQuestSeqOpFactory>
 {
 private:
   celDebugPrintSeqOpType* type;
@@ -53,8 +53,6 @@ private:
 public:
   celDebugPrintSeqOpFactory (celDebugPrintSeqOpType* type);
   virtual ~celDebugPrintSeqOpFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestSeqOp> CreateSeqOp (
       const celQuestParams& params);
@@ -67,8 +65,8 @@ public:
 /**
  * The 'printdebug' seqop.
  */
-class celDebugPrintSeqOp :
-	public iQuestSeqOp
+class celDebugPrintSeqOp : public scfImplementation1<
+	celDebugPrintSeqOp, iQuestSeqOp>
 {
 private:
   celDebugPrintSeqOpType* type;
@@ -79,8 +77,6 @@ public:
   	const celQuestParams& params,
 	const char* msg_par);
   virtual ~celDebugPrintSeqOp ();
-
-  SCF_DECLARE_IBASE;
 
   virtual bool Load (iCelDataBuffer*) { return true; }
   virtual void Save (iCelDataBuffer*) { }

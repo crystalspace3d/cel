@@ -59,15 +59,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMeshEnterSectorTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iEnterSectorQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celMeshEnterSectorTriggerFactory::celMeshEnterSectorTriggerFactory (
-	celMeshEnterSectorTriggerType* type)
+	celMeshEnterSectorTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMeshEnterSectorTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -79,8 +73,6 @@ celMeshEnterSectorTriggerFactory::~celMeshEnterSectorTriggerFactory ()
   delete[] entity_par;
   delete[] tag_par;
   delete[] sector_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celMeshEnterSectorTriggerFactory::CreateTrigger (
@@ -136,18 +128,12 @@ void celMeshEnterSectorTriggerFactory::SetSectorParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMeshEnterSectorTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iMovableListener)
-SCF_IMPLEMENT_IBASE_END
-
 celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 	celMeshEnterSectorTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sector_par)
+	const char* sector_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMeshEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -161,7 +147,6 @@ celMeshEnterSectorTrigger::~celMeshEnterSectorTrigger ()
   delete[] entity;
   delete[] tag;
   delete[] sector;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celMeshEnterSectorTrigger::RegisterCallback (

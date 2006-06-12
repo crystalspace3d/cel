@@ -61,15 +61,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iInventoryQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celInventoryRewardFactory::celInventoryRewardFactory (
-	celInventoryRewardType* type)
+	celInventoryRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celInventoryRewardFactory::type = type;
   entity_par = 0;
   child_entity_par = 0;
@@ -83,8 +77,6 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
   delete[] child_entity_par;
   delete[] tag_par;
   delete[] child_tag_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
@@ -148,17 +140,13 @@ void celInventoryRewardFactory::SetChildEntityParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
-	const char* child_entity_par, const char* child_tag_par)
+	const char* child_entity_par, const char* child_tag_par) :
+	scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celInventoryReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -173,7 +161,6 @@ celInventoryReward::~celInventoryReward ()
   delete[] child_entity;
   delete[] tag;
   delete[] child_tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celInventoryReward::Reward ()

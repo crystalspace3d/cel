@@ -43,9 +43,9 @@ CEL_DECLARE_TRIGGERTYPE(PropertyChange,"cel.questtrigger.propertychange")
 /**
  * The 'propertychange' trigger factory.
  */
-class celPropertyChangeTriggerFactory :
-	public iQuestTriggerFactory,
-	public iPropertyChangeQuestTriggerFactory
+class celPropertyChangeTriggerFactory : public scfImplementation2<
+	celPropertyChangeTriggerFactory, iQuestTriggerFactory,
+	iPropertyChangeQuestTriggerFactory>
 {
 private:
   celPropertyChangeTriggerType* type;
@@ -57,8 +57,6 @@ private:
 public:
   celPropertyChangeTriggerFactory (celPropertyChangeTriggerType* type);
   virtual ~celPropertyChangeTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -73,9 +71,9 @@ public:
 /**
  * The 'propertychange' trigger.
  */
-class celPropertyChangeTrigger :
-	public iQuestTrigger,
-	public iPcPropertyListener
+class celPropertyChangeTrigger : public scfImplementation2<
+	celPropertyChangeTrigger, iQuestTrigger,
+	iPcPropertyListener>
 {
 private:
   celPropertyChangeTriggerType* type;
@@ -95,8 +93,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* prop_par, const char* value_par);
   virtual ~celPropertyChangeTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

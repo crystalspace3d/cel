@@ -45,9 +45,9 @@ CEL_DECLARE_TRIGGERTYPE(Trigger,"cel.questtrigger.trigger")
 /**
  * The 'trigger' trigger factory.
  */
-class celTriggerTriggerFactory :
-	public iQuestTriggerFactory,
-	public iTriggerQuestTriggerFactory
+class celTriggerTriggerFactory : public scfImplementation2<
+	celTriggerTriggerFactory, iQuestTriggerFactory,
+	iTriggerQuestTriggerFactory>
 {
 private:
   celTriggerTriggerType* type;
@@ -58,8 +58,6 @@ private:
 public:
   celTriggerTriggerFactory (celTriggerTriggerType* type);
   virtual ~celTriggerTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -73,9 +71,8 @@ public:
 /**
  * The 'trigger' trigger.
  */
-class celTriggerTrigger :
-	public iQuestTrigger,
-	public iPcTriggerListener
+class celTriggerTrigger : public scfImplementation2<
+	celTriggerTrigger, iQuestTrigger, iPcTriggerListener>
 {
 private:
   celTriggerTriggerType* type;
@@ -93,8 +90,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	bool do_leave);
   virtual ~celTriggerTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

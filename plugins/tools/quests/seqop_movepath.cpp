@@ -62,21 +62,14 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMovePathSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iMovePathQuestSeqOpFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celMovePathSeqOpFactory::celMovePathSeqOpFactory (
-	celMovePathSeqOpType* type)
+	celMovePathSeqOpType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMovePathSeqOpFactory::type = type;
 }
 
 celMovePathSeqOpFactory::~celMovePathSeqOpFactory ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestSeqOp> celMovePathSeqOpFactory::CreateSeqOp (
@@ -138,18 +131,13 @@ static float ToFloat (const char* s)
   return f;
 }
 
-SCF_IMPLEMENT_IBASE (celMovePathSeqOp)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOp)
-SCF_IMPLEMENT_IBASE_END
-
 celMovePathSeqOp::celMovePathSeqOp (
 	celMovePathSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
-	const csStringArray& times)
+	const csStringArray& times) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMovePathSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = qm->ResolveParameter (params, entity_par);
@@ -204,7 +192,6 @@ celMovePathSeqOp::celMovePathSeqOp (
 celMovePathSeqOp::~celMovePathSeqOp ()
 {
   delete path;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celMovePathSeqOp::FindMesh ()

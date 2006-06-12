@@ -40,15 +40,9 @@ CEL_IMPLEMENT_TRIGGERTYPE(Timeout)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celTimeoutTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iTimeoutQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celTimeoutTriggerFactory::celTimeoutTriggerFactory (
-	celTimeoutTriggerType* type)
+	celTimeoutTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTimeoutTriggerFactory::type = type;
   timeout_par = 0;
 }
@@ -56,7 +50,6 @@ celTimeoutTriggerFactory::celTimeoutTriggerFactory (
 celTimeoutTriggerFactory::~celTimeoutTriggerFactory ()
 {
   delete[] timeout_par;
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celTimeoutTriggerFactory::CreateTrigger (
@@ -94,17 +87,11 @@ void celTimeoutTriggerFactory::SetTimeoutParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celTimeoutTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iTimerEvent)
-SCF_IMPLEMENT_IBASE_END
-
 celTimeoutTrigger::celTimeoutTrigger (
 	celTimeoutTriggerType* type,
   	const celQuestParams& params,
-	const char* timeout_par)
+	const char* timeout_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTimeoutTrigger::type = type;
   timer = new csEventTimer (type->object_reg);
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
@@ -119,7 +106,6 @@ celTimeoutTrigger::~celTimeoutTrigger ()
 {
   DeactivateTrigger ();
   delete timer;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celTimeoutTrigger::RegisterCallback (iQuestTriggerCallback* callback)

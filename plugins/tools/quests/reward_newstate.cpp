@@ -39,15 +39,9 @@ CEL_IMPLEMENT_REWARDTYPE(NewState)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celNewStateRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iNewStateQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celNewStateRewardFactory::celNewStateRewardFactory (
-	celNewStateRewardType* type)
+	celNewStateRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celNewStateRewardFactory::type = type;
   state_par = 0;
   entity_par = 0;
@@ -59,8 +53,6 @@ celNewStateRewardFactory::~celNewStateRewardFactory ()
   delete[] state_par;
   delete[] entity_par;
   delete[] tag_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
@@ -115,17 +107,13 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celNewStateReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celNewStateReward::celNewStateReward (
 	celNewStateRewardType* type, iQuest* q,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
+	: scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celNewStateReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   state = csStrNew (qm->ResolveParameter (params, state_par));
@@ -139,7 +127,6 @@ celNewStateReward::~celNewStateReward ()
   delete[] state;
   delete[] entity;
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celNewStateReward::Reward ()

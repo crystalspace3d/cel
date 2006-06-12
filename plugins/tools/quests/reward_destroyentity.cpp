@@ -52,15 +52,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDestroyEntityRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iDestroyEntityQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celDestroyEntityRewardFactory::celDestroyEntityRewardFactory (
-	celDestroyEntityRewardType* type)
+	celDestroyEntityRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDestroyEntityRewardFactory::type = type;
   entity_par = 0;
 }
@@ -68,8 +62,6 @@ celDestroyEntityRewardFactory::celDestroyEntityRewardFactory (
 celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 {
   delete[] entity_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
@@ -102,16 +94,11 @@ void celDestroyEntityRewardFactory::SetEntityParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDestroyEntityReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celDestroyEntityReward::celDestroyEntityReward (
 	celDestroyEntityRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* entity_par)
+	const char* entity_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDestroyEntityReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -120,7 +107,6 @@ celDestroyEntityReward::celDestroyEntityReward (
 celDestroyEntityReward::~celDestroyEntityReward ()
 {
   delete[] entity;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celDestroyEntityReward::Reward ()

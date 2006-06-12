@@ -45,9 +45,9 @@ CEL_DECLARE_SEQOPTYPE(Light,"cel.questseqop.light")
 /**
  * The 'light' seqop factory.
  */
-class celLightSeqOpFactory :
-	public iQuestSeqOpFactory,
-	public iLightQuestSeqOpFactory
+class celLightSeqOpFactory : public scfImplementation2<
+	celLightSeqOpFactory, iQuestSeqOpFactory,
+	iLightQuestSeqOpFactory>
 {
 private:
   celLightSeqOpType* type;
@@ -64,8 +64,6 @@ public:
   celLightSeqOpFactory (celLightSeqOpType* type);
   virtual ~celLightSeqOpFactory ();
 
-  SCF_DECLARE_IBASE;
-
   virtual csPtr<iQuestSeqOp> CreateSeqOp (
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
@@ -81,8 +79,8 @@ public:
 /**
  * The 'light' seqop.
  */
-class celLightSeqOp :
-	public iQuestSeqOp
+class celLightSeqOp : public scfImplementation1<
+	celLightSeqOp, iQuestSeqOp>
 {
 private:
   celLightSeqOpType* type;
@@ -107,8 +105,6 @@ public:
 	const char* abs_red_par, const char* abs_green_par,
 		const char* abs_blue_par);
   virtual ~celLightSeqOp ();
-
-  SCF_DECLARE_IBASE;
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);

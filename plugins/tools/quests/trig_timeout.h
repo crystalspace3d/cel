@@ -44,9 +44,9 @@ CEL_DECLARE_TRIGGERTYPE(Timeout,"cel.questtrigger.timeout")
 /**
  * The 'timeout' trigger factory.
  */
-class celTimeoutTriggerFactory :
-	public iQuestTriggerFactory,
-	public iTimeoutQuestTriggerFactory
+class celTimeoutTriggerFactory : public scfImplementation2<
+	celTimeoutTriggerFactory, iQuestTriggerFactory,
+	iTimeoutQuestTriggerFactory>
 {
 private:
   celTimeoutTriggerType* type;
@@ -55,8 +55,6 @@ private:
 public:
   celTimeoutTriggerFactory (celTimeoutTriggerType* type);
   virtual ~celTimeoutTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -69,9 +67,9 @@ public:
 /**
  * The 'timeout' trigger.
  */
-class celTimeoutTrigger :
-	public iQuestTrigger,
-	public iTimerEvent
+class celTimeoutTrigger : public scfImplementation2<
+	celTimeoutTrigger, iQuestTrigger,
+	iTimerEvent>
 {
 private:
   celTimeoutTriggerType* type;
@@ -83,8 +81,6 @@ public:
   celTimeoutTrigger (celTimeoutTriggerType* type,
   	const celQuestParams& params, const char* timeout_par);
   virtual ~celTimeoutTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

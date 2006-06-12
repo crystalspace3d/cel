@@ -36,9 +36,9 @@ CEL_DECLARE_REWARDTYPE(DestroyEntity,"cel.questreward.destroyentity")
 /**
  * The 'destroyentity' reward factory.
  */
-class celDestroyEntityRewardFactory :
-	public iQuestRewardFactory,
-	public iDestroyEntityQuestRewardFactory
+class celDestroyEntityRewardFactory : public scfImplementation2<
+	celDestroyEntityRewardFactory, iQuestRewardFactory,
+	iDestroyEntityQuestRewardFactory>
 {
 private:
   celDestroyEntityRewardType* type;
@@ -47,8 +47,6 @@ private:
 public:
   celDestroyEntityRewardFactory (celDestroyEntityRewardType* type);
   virtual ~celDestroyEntityRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -61,8 +59,8 @@ public:
 /**
  * The 'destroyentity' reward.
  */
-class celDestroyEntityReward :
-	public iQuestReward
+class celDestroyEntityReward : public scfImplementation1<
+	celDestroyEntityReward, iQuestReward>
 {
 private:
   celDestroyEntityRewardType* type;
@@ -73,8 +71,6 @@ public:
   	const celQuestParams& params,
 	const char* entity_par);
   virtual ~celDestroyEntityReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

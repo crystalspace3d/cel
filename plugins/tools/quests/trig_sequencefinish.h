@@ -46,9 +46,9 @@ CEL_DECLARE_TRIGGERTYPE(SequenceFinish,"cel.questtrigger.sequencefinish")
 /**
  * The 'sequencefinish' trigger factory.
  */
-class celSequenceFinishTriggerFactory :
-	public iQuestTriggerFactory,
-	public iSequenceFinishQuestTriggerFactory
+class celSequenceFinishTriggerFactory : public scfImplementation2<
+	celSequenceFinishTriggerFactory, iQuestTriggerFactory,
+	iSequenceFinishQuestTriggerFactory>
 {
 private:
   celSequenceFinishTriggerType* type;
@@ -59,8 +59,6 @@ private:
 public:
   celSequenceFinishTriggerFactory (celSequenceFinishTriggerType* type);
   virtual ~celSequenceFinishTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -74,9 +72,9 @@ public:
 /**
  * The 'sequencefinish' trigger.
  */
-class celSequenceFinishTrigger :
-	public iQuestTrigger,
-	public iQuestSequenceCallback
+class celSequenceFinishTrigger : public scfImplementation2<
+	celSequenceFinishTrigger, iQuestTrigger,
+	iQuestSequenceCallback>
 {
 private:
   celSequenceFinishTriggerType* type;
@@ -94,8 +92,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par);
   virtual ~celSequenceFinishTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();
