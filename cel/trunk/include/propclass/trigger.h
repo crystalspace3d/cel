@@ -30,13 +30,13 @@ struct iCelEntity;
 struct iPcTrigger;
 struct iPcMesh;
 
-SCF_VERSION (iPcTriggerListener, 0, 0, 1);
-
 /**
  * Listen to trigger actions.
  */
-struct iPcTriggerListener : public iBase
+struct iPcTriggerListener : public virtual iBase
 {
+  SCF_INTERFACE (iPcTriggerListener, 0, 0, 1);
+
   /**
    * An entity enters this trigger.
    */

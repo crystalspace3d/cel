@@ -39,15 +39,9 @@ CEL_IMPLEMENT_TRIGGERTYPE(EnterSector)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEnterSectorTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iEnterSectorQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celEnterSectorTriggerFactory::celEnterSectorTriggerFactory (
-	celEnterSectorTriggerType* type)
+	celEnterSectorTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celEnterSectorTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -59,8 +53,6 @@ celEnterSectorTriggerFactory::~celEnterSectorTriggerFactory ()
   delete[] entity_par;
   delete[] tag_par;
   delete[] sector_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celEnterSectorTriggerFactory::CreateTrigger (
@@ -124,18 +116,12 @@ void celEnterSectorTriggerFactory::SetSectorParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEnterSectorTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
-SCF_IMPLEMENT_IBASE_END
-
 celEnterSectorTrigger::celEnterSectorTrigger (
 	celEnterSectorTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sector_par)
+	const char* sector_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celEnterSectorTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -149,7 +135,6 @@ celEnterSectorTrigger::~celEnterSectorTrigger ()
   delete[] entity;
   delete[] tag;
   delete[] sector;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celEnterSectorTrigger::RegisterCallback (iQuestTriggerCallback* callback)

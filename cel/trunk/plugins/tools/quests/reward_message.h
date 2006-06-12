@@ -46,9 +46,9 @@ CEL_DECLARE_REWARDTYPE(Message,"cel.questreward.message")
 /**
  * The 'message' reward factory.
  */
-class celMessageRewardFactory :
-	public iQuestRewardFactory,
-	public iMessageQuestRewardFactory
+class celMessageRewardFactory : public scfImplementation2<
+	celMessageRewardFactory, iQuestRewardFactory,
+	iMessageQuestRewardFactory>
 {
 private:
   celMessageRewardType* type;
@@ -59,8 +59,6 @@ private:
 public:
   celMessageRewardFactory (celMessageRewardType* type);
   virtual ~celMessageRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -76,8 +74,8 @@ public:
 /**
  * The 'message' reward.
  */
-class celMessageReward :
-	public iQuestReward
+class celMessageReward : public scfImplementation1<
+	celMessageReward, iQuestReward>
 {
 private:
   celMessageRewardType* type;
@@ -93,8 +91,6 @@ public:
 	const char* id_par,
 	const csArray<parSpec>& parameters);
   virtual ~celMessageReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

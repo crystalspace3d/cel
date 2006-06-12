@@ -39,15 +39,9 @@ CEL_IMPLEMENT_REWARDTYPE(DebugPrint)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDebugPrintRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iDebugPrintQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celDebugPrintRewardFactory::celDebugPrintRewardFactory (
-	celDebugPrintRewardType* type)
+	celDebugPrintRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDebugPrintRewardFactory::type = type;
   msg_par = 0;
 }
@@ -55,8 +49,6 @@ celDebugPrintRewardFactory::celDebugPrintRewardFactory (
 celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 {
   delete[] msg_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
@@ -93,16 +85,11 @@ void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDebugPrintReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celDebugPrintReward::celDebugPrintReward (
 	celDebugPrintRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* msg_par)
+	const char* msg_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDebugPrintReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   msg = csStrNew (qm->ResolveParameter (params, msg_par));
@@ -111,7 +98,6 @@ celDebugPrintReward::celDebugPrintReward (
 celDebugPrintReward::~celDebugPrintReward ()
 {
   delete[] msg;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celDebugPrintReward::Reward ()

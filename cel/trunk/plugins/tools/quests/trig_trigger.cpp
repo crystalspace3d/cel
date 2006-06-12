@@ -39,15 +39,9 @@ CEL_IMPLEMENT_TRIGGERTYPE(Trigger)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celTriggerTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iTriggerQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celTriggerTriggerFactory::celTriggerTriggerFactory (
-	celTriggerTriggerType* type)
+	celTriggerTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTriggerTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -58,8 +52,6 @@ celTriggerTriggerFactory::~celTriggerTriggerFactory ()
 {
   delete[] entity_par;
   delete[] tag_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celTriggerTriggerFactory::CreateTrigger (
@@ -108,18 +100,12 @@ void celTriggerTriggerFactory::SetEntityParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celTriggerTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iPcTriggerListener)
-SCF_IMPLEMENT_IBASE_END
-
 celTriggerTrigger::celTriggerTrigger (
 	celTriggerTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	bool do_leave)
+	bool do_leave) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTriggerTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -132,7 +118,6 @@ celTriggerTrigger::~celTriggerTrigger ()
   DeactivateTrigger ();
   delete[] entity;
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celTriggerTrigger::RegisterCallback (iQuestTriggerCallback* callback)

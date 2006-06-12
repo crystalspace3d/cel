@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2004-2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -77,21 +77,19 @@ typedef csHash<csStrKey,csStrKey> celQuestParams;
 
 struct iQuestTrigger;
 
-SCF_VERSION (iQuestTriggerCallback, 0, 0, 1);
-
 /**
  * A quest trigger will get pointers to call back the quest when
  * the trigger fires through this interface. Application code will
  * typically not implement this interface as it is implemented
  * by the quest manager itself.
  */
-struct iQuestTriggerCallback : public iBase
+struct iQuestTriggerCallback : public virtual iBase
 {
+  SCF_INTERFACE (iQuestTriggerCallback, 0, 0, 1);
+
   /// Trigger fired.
   virtual void TriggerFired (iQuestTrigger* trigger) = 0;
 };
-
-SCF_VERSION (iQuestTrigger, 0, 0, 1);
 
 /**
  * This is a trigger for a quest. When a trigger fires the quest
@@ -105,8 +103,10 @@ SCF_VERSION (iQuestTrigger, 0, 0, 1);
  * Triggers must start in deactivated state. They will be activated by
  * the quest when the 'state' containing this trigger is activated.
  */
-struct iQuestTrigger : public iBase
+struct iQuestTrigger : public virtual iBase
 {
+  SCF_INTERFACE (iQuestTrigger, 0, 0, 1);
+
   /**
    * Register a callback with this trigger. When the trigger fires
    * it will call this callback. A trigger supports only one callback.
@@ -148,14 +148,14 @@ struct iQuestTrigger : public iBase
   virtual void SaveTriggerState (iCelDataBuffer* databuf) = 0;
 };
 
-SCF_VERSION (iQuestTriggerFactory, 0, 0, 1);
-
 /**
  * A factory to create triggers. Trigger factories are created
  * by an iQuestTriggerType instance.
  */
-struct iQuestTriggerFactory : public iBase
+struct iQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Create a trigger.
    * \param quest is the quest for which this trigger is created.
@@ -173,8 +173,6 @@ struct iQuestTriggerFactory : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
-SCF_VERSION (iQuestTriggerType, 0, 0, 1);
-
 /**
  * The trigger type is responsible for the creation of trigger factories.
  * If you want to define a new type of trigger then you must implement
@@ -182,8 +180,10 @@ SCF_VERSION (iQuestTriggerType, 0, 0, 1);
  * You register trigger types with the quest manager so that they can
  * be used by quest factories.
  */
-struct iQuestTriggerType : public iBase
+struct iQuestTriggerType : public virtual iBase
 {
+  SCF_INTERFACE (iQuestTriggerType, 0, 0, 1);
+
   /**
    * Return the name for this trigger type.
    */
@@ -199,8 +199,6 @@ struct iQuestTriggerType : public iBase
 // Rewards
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iQuestReward, 0, 0, 1);
-
 /**
  * This is a reward for a quest. The quest manager can issue
  * rewards in response to some trigger. Just like triggers you can
@@ -208,22 +206,23 @@ SCF_VERSION (iQuestReward, 0, 0, 1);
  * already implemented in the quest manager. You also need to implement
  * a quest reward factory then (see iQuestRewardFactory).
  */
-struct iQuestReward : public iBase
+struct iQuestReward : public virtual iBase
 {
+  SCF_INTERFACE (iQuestReward, 0, 0, 1);
   /**
    * Perform this reward.
    */
   virtual void Reward () = 0;
 };
 
-SCF_VERSION (iQuestRewardFactory, 0, 0, 1);
-
 /**
  * A factory to create rewards. Reward factories are created
  * by an iQuestRewardType instance.
  */
-struct iQuestRewardFactory : public iBase
+struct iQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestRewardFactory, 0, 0, 1);
+
   /**
    * Create a reward.
    * \param quest is the quest for which we are creating this reward.
@@ -241,8 +240,6 @@ struct iQuestRewardFactory : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
-SCF_VERSION (iQuestRewardType, 0, 0, 1);
-
 /**
  * The reward type is responsible for the creation of reward factories.
  * If you want to define a new type of reward then you must implement
@@ -250,8 +247,10 @@ SCF_VERSION (iQuestRewardType, 0, 0, 1);
  * You register reward types with the quest manager so that they can
  * be used by quest factories.
  */
-struct iQuestRewardType : public iBase
+struct iQuestRewardType : public virtual iBase
 {
+  SCF_INTERFACE (iQuestRewardType, 0, 0, 1);
+
   /**
    * Return the name for this reward type.
    */
@@ -267,16 +266,16 @@ struct iQuestRewardType : public iBase
 // Sequence operations
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iQuestSeqOp, 0, 0, 1);
-
 /**
  * This is a sequence operation in a quest. A sequence operation represents
  * an operation that has a duration or an operation that is a single-shot.
  * You can combine different sequence operations in a sequence and then use
  * a reward to fire of the sequence as result of a trigger.
  */
-struct iQuestSeqOp : public iBase
+struct iQuestSeqOp : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSeqOp, 0, 0, 1);
+  
   /**
    * Init the operation. This is called before the operation is actually
    * performed the first time. This function is not called in case the
@@ -303,14 +302,14 @@ struct iQuestSeqOp : public iBase
   virtual void Do (float time) = 0;
 };
 
-SCF_VERSION (iQuestSeqOpFactory, 0, 0, 1);
-
 /**
  * A factory to create sequence operators. Factories are created
  * by an iQuestSeqOpType instance.
  */
-struct iQuestSeqOpFactory : public iBase
+struct iQuestSeqOpFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSeqOpFactory, 0, 0, 1);
+
   /**
    * Create a sequence operation.
    * \param params are the parameters with which this reward is
@@ -326,8 +325,6 @@ struct iQuestSeqOpFactory : public iBase
   virtual bool Load (iDocumentNode* node) = 0;
 };
 
-SCF_VERSION (iQuestSeqOpType, 0, 0, 1);
-
 /**
  * The seqop type is responsible for the creation of seqop factories.
  * If you want to define a new type of sequence operation then you must
@@ -335,8 +332,10 @@ SCF_VERSION (iQuestSeqOpType, 0, 0, 1);
  * You register seqop types with the quest manager so that they can
  * be used by seqop factories.
  */
-struct iQuestSeqOpType : public iBase
+struct iQuestSeqOpType : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSeqOpType, 0, 0, 1);
+
   /**
    * Return the name for this sequence operation type.
    */
@@ -350,25 +349,25 @@ struct iQuestSeqOpType : public iBase
 
 struct iQuestSequence;
 
-SCF_VERSION (iQuestSequenceCallback, 0, 0, 1);
-
 /**
  * This callback is fired when the sequences finished running properly.
  * It is not called it the sequence is aborted!
  */
-struct iQuestSequenceCallback : public iBase
+struct iQuestSequenceCallback : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSequenceCallback, 0, 0, 1);
+
   /// Sequence finishes.
   virtual void SequenceFinished (iQuestSequence* sequence) = 0;
 };
 
-SCF_VERSION (iQuestSequence, 0, 0, 1);
-
 /**
  * A sequence.
  */
-struct iQuestSequence : public iBase
+struct iQuestSequence : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSequence, 0, 0, 1);
+
   /**
    * Get the name of this sequence.
    */
@@ -415,14 +414,14 @@ struct iQuestSequence : public iBase
 // The Quest
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iQuest, 0, 0, 1);
-
 /**
  * A quest instance. This is created (by the quest manager) from a quest
  * factory using the trigger and reward factories.
  */
-struct iQuest : public iBase
+struct iQuest : public virtual iBase
 {
+  SCF_INTERFACE (iQuest, 0, 0, 1);
+
   /**
    * Switch this quest to some specific state.
    * Returns false if state doesn't exist (nothing happens then).
@@ -453,15 +452,15 @@ struct iQuest : public iBase
   virtual iQuestSequence* FindSequence (const char* name) = 0;
 };
 
-SCF_VERSION (iQuestTriggerResponseFactory, 0, 0, 1);
-
 /**
  * A trigger with response as used in a quest state.
  * This is basically the representation of one trigger and one
  * or more rewards.
  */
-struct iQuestTriggerResponseFactory : public iBase
+struct iQuestTriggerResponseFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestTriggerResponseFactory, 0, 0, 1);
+
   /**
    * Set the trigger factory that is managed by this
    * response factory.
@@ -475,14 +474,14 @@ struct iQuestTriggerResponseFactory : public iBase
   virtual void AddRewardFactory (iQuestRewardFactory* reward_fact) = 0;
 };
 
-SCF_VERSION (iQuestStateFactory, 0, 0, 1);
-
 /**
  * A representation of a quest state in a quest factory.
  * A state is basically a collection of trigger response factories.
  */
-struct iQuestStateFactory : public iBase
+struct iQuestStateFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestStateFactory, 0, 0, 1);
+
   /**
    * Get the name of this state.
    */
@@ -494,14 +493,14 @@ struct iQuestStateFactory : public iBase
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory () = 0;
 };
 
-SCF_VERSION (iQuestSequenceFactory, 0, 0, 1);
-
 /**
  * A representation of a sequence factory.
  * A sequence factory is basically a sequence of sequence operation factories.
  */
-struct iQuestSequenceFactory : public iBase
+struct iQuestSequenceFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestSequenceFactory, 0, 0, 1);
+
   /**
    * Get the name of this factory.
    */
@@ -531,8 +530,6 @@ struct iQuestSequenceFactory : public iBase
   virtual void AddDelay (const char* delay) = 0;
 };
 
-SCF_VERSION (iQuestFactory, 0, 0, 1);
-
 /**
  * A quest factory. A quest factory is a template to create a quest
  * from. All interfaces ending with 'Factory' are relevant in the concept
@@ -547,8 +544,10 @@ SCF_VERSION (iQuestFactory, 0, 0, 1);
  *     of rewards (as described by reward factories).
  * </ul>
  */
-struct iQuestFactory : public iBase
+struct iQuestFactory : public virtual iBase
 {
+  SCF_INTERFACE (iQuestFactory, 0, 0, 1);
+
   /**
    * Get the name of this factory.
    */
@@ -617,15 +616,15 @@ struct iQuestFactory : public iBase
 // The Quest Manager
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iQuestManager, 0, 0, 1);
-
 /**
  * This is the quest manager. This manager can be used to handle quests.
  * A quest is basically a state machine which can advance from state to
  * state when a trigger activates. It can also hand out 'rewards'.
  */
-struct iQuestManager : public iBase
+struct iQuestManager : public virtual iBase
 {
+  SCF_INTERFACE (iQuestManager, 0, 0, 1);
+
   /**
    * Register a quest trigger type. Quest triggers can be used
    * by quests to decide when to go to another state or when
@@ -859,8 +858,6 @@ struct iQuestManager : public iBase
 // Specific trigger implementations.
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iTimeoutQuestTriggerFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the trigger that fires
  * when a certain time has expired. You can query this interface
@@ -875,8 +872,10 @@ SCF_VERSION (iTimeoutQuestTriggerFactory, 0, 0, 1);
  * <li><em>timeout</em>: timeout value.
  * </ul>
  */
-struct iTimeoutQuestTriggerFactory : public iBase
+struct iTimeoutQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iTimeoutQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the timeout on which this trigger will fire.
    * \param timeout_par is the timeout value (in ms) or a parameter (starts
@@ -884,8 +883,6 @@ struct iTimeoutQuestTriggerFactory : public iBase
    */
   virtual void SetTimeoutParameter (const char* timeout_par) = 0;
 };
-
-SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the trigger that fires
@@ -909,8 +906,10 @@ SCF_VERSION (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
  *     changes.
  * </ul>
  */
-struct iPropertyChangeQuestTriggerFactory : public iBase
+struct iPropertyChangeQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iPropertyChangeQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcproperties property class
    * on which this trigger will fire.
@@ -937,8 +936,6 @@ struct iPropertyChangeQuestTriggerFactory : public iBase
   virtual void SetValueParameter (const char* value) = 0;
 };
 
-SCF_VERSION (iMeshSelectQuestTriggerFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the trigger that fires
  * when a certain mesh is selected. You can query this interface
@@ -957,8 +954,10 @@ SCF_VERSION (iMeshSelectQuestTriggerFactory, 0, 0, 1);
  *     property class from the entity.
  * </ul>
  */
-struct iMeshSelectQuestTriggerFactory : public iBase
+struct iMeshSelectQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iMeshSelectQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcmeshselect property class
    * on which this trigger will fire.
@@ -969,8 +968,6 @@ struct iMeshSelectQuestTriggerFactory : public iBase
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 };
-
-SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the trigger that fires
@@ -993,8 +990,10 @@ SCF_VERSION (iInventoryQuestTriggerFactory, 0, 0, 1);
  *     added or removed from the inventory.
  * </ul>
  */
-struct iInventoryQuestTriggerFactory : public iBase
+struct iInventoryQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iInventoryQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcinventory property class
    * on which this trigger will fire.
@@ -1014,8 +1013,6 @@ struct iInventoryQuestTriggerFactory : public iBase
    */
   virtual void SetChildEntityParameter (const char* child_entity) = 0;
 };
-
-SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the trigger that fires
@@ -1039,8 +1036,10 @@ SCF_VERSION (iEnterSectorQuestTriggerFactory, 0, 0, 1);
  *     or mesh enters that sector this trigger will fire.
  * </ul>
  */
-struct iEnterSectorQuestTriggerFactory : public iBase
+struct iEnterSectorQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iEnterSectorQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pccamera or pcmesh property class
    * on which this trigger will fire.
@@ -1059,8 +1058,6 @@ struct iEnterSectorQuestTriggerFactory : public iBase
    */
   virtual void SetSectorParameter (const char* sector) = 0;
 };
-
-SCF_VERSION (iSequenceFinishQuestTriggerFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the trigger that fires
@@ -1081,8 +1078,10 @@ SCF_VERSION (iSequenceFinishQuestTriggerFactory, 0, 0, 1);
  * <li><em>sequence</em>: the name of the sequence on which to listen.
  * </ul>
  */
-struct iSequenceFinishQuestTriggerFactory : public iBase
+struct iSequenceFinishQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iSequenceFinishQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcquest property class
    * on which this trigger will fire.
@@ -1120,8 +1119,10 @@ struct iSequenceFinishQuestTriggerFactory : public iBase
  *     of 'enters'.
  * </ul>
  */
-struct iTriggerQuestTriggerFactory : public iBase
+struct iTriggerQuestTriggerFactory : public virtual iBase
 {
+  SCF_INTERFACE (iTriggerQuestTriggerFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pccamera or pcmesh property class
    * on which this trigger will fire.
@@ -1143,8 +1144,6 @@ struct iTriggerQuestTriggerFactory : public iBase
 // Specific reward implementations.
 //-------------------------------------------------------------------------
 
-SCF_VERSION (iDebugPrintQuestRewardFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the reward that prints
  * debug messages on standard output. You can query this interface
@@ -1159,16 +1158,16 @@ SCF_VERSION (iDebugPrintQuestRewardFactory, 0, 0, 1);
  * <li><em>message</em>: the message to print.
  * </ul>
  */
-struct iDebugPrintQuestRewardFactory : public iBase
+struct iDebugPrintQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iDebugPrintQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the message parameter to print (either a message string
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
 };
-
-SCF_VERSION (iNewStateQuestRewardFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the reward that switches
@@ -1188,8 +1187,10 @@ SCF_VERSION (iNewStateQuestRewardFactory, 0, 0, 1);
  *     property class from the entity.
  * </ul>
  */
-struct iNewStateQuestRewardFactory : public iBase
+struct iNewStateQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iNewStateQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the state to go to (either a state string
    * or a parameter if it starts with '$').
@@ -1208,8 +1209,6 @@ struct iNewStateQuestRewardFactory : public iBase
    */
   virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
 };
-
-SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the reward that changes the value
@@ -1237,8 +1236,10 @@ SCF_VERSION (iChangePropertyQuestRewardFactory, 0, 0, 1);
  * <li><em>toggle</em>: toggle the boolean or long value.
  * </ul>
  */
-struct iChangePropertyQuestRewardFactory : public iBase
+struct iChangePropertyQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iChangePropertyQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcproperties property class
    * on which this reward will work.
@@ -1301,8 +1302,6 @@ struct iChangePropertyQuestRewardFactory : public iBase
   virtual void SetToggle () = 0;
 };
 
-SCF_VERSION (iInventoryQuestRewardFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the reward that manipulates the inventory.
  * You can query this interface from the reward factory if you want
@@ -1324,8 +1323,10 @@ SCF_VERSION (iInventoryQuestRewardFactory, 0, 0, 1);
  *     pcmesh for hiding the mesh.
  * </ul>
  */
-struct iInventoryQuestRewardFactory : public iBase
+struct iInventoryQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iInventoryQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcinventory property class
    * on which this reward will work.
@@ -1346,8 +1347,6 @@ struct iInventoryQuestRewardFactory : public iBase
 
 };
 
-SCF_VERSION (iSequenceQuestRewardFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the reward that fires a sequence.
  * You can query this interface from the reward factory if you want
@@ -1366,8 +1365,10 @@ SCF_VERSION (iSequenceQuestRewardFactory, 0, 0, 1);
  * <li><em>delay</em>: delay before we start the sequence. Default is 0.
  * </ul>
  */
-struct iSequenceQuestRewardFactory : public iBase
+struct iSequenceQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iSequenceQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcquest property class
    * on which this reward will work.
@@ -1392,8 +1393,6 @@ struct iSequenceQuestRewardFactory : public iBase
   virtual void SetDelayParameter (const char* delay) = 0;
 };
 
-SCF_VERSION (iSequenceFinishQuestRewardFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the reward that finishes a sequence.
  * You can query this interface from the reward factory if you want
@@ -1411,8 +1410,10 @@ SCF_VERSION (iSequenceFinishQuestRewardFactory, 0, 0, 1);
  * <li><em>sequence</em>: the name of the sequence.
  * </ul>
  */
-struct iSequenceFinishQuestRewardFactory : public iBase
+struct iSequenceFinishQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iSequenceFinishQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity containing the pcquest property class
    * on which this reward will work.
@@ -1446,8 +1447,10 @@ struct iSequenceFinishQuestRewardFactory : public iBase
  * <li><em>id</em>: id of the message to send.
  * </ul>
  */
-struct iMessageQuestRewardFactory : public iBase
+struct iMessageQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iMessageQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity.
    * \param entity is the name of the entity or a parameter (starts
@@ -1491,8 +1494,10 @@ struct iMessageQuestRewardFactory : public iBase
  * <li><em>tag</em>: the tag of the property class to send the action to.
  * </ul>
  */
-struct iActionQuestRewardFactory : public iBase
+struct iActionQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iActionQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity.
    * \param entity is the name of the entity or a parameter (starts
@@ -1508,8 +1513,8 @@ struct iActionQuestRewardFactory : public iBase
 
   /**
    * Set the name of the property class.
-   * \param propertyclass is the name of the propertyclass or a parameter (starts
-   * with '$').
+   * \param propertyclass is the name of the propertyclass or a parameter
+   * (starts with '$').
    */
   virtual void SetPropertyClassParameter (const char* propertyclass) = 0;
 
@@ -1546,8 +1551,10 @@ struct iActionQuestRewardFactory : public iBase
  * <li><em>entity</em>: the name of the entity to send the message too.
  * </ul>
  */
-struct iDestroyEntityQuestRewardFactory : public iBase
+struct iDestroyEntityQuestRewardFactory : public virtual iBase
 {
+  SCF_INTERFACE (iDestroyEntityQuestRewardFactory, 0, 0, 1);
+
   /**
    * Set the name of the entity.
    * \param entity is the name of the entity or a parameter (starts
@@ -1560,8 +1567,6 @@ struct iDestroyEntityQuestRewardFactory : public iBase
 //-------------------------------------------------------------------------
 // Specific sequence operation implementations.
 //-------------------------------------------------------------------------
-
-SCF_VERSION (iDebugPrintQuestSeqOpFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the seqop that prints
@@ -1577,16 +1582,16 @@ SCF_VERSION (iDebugPrintQuestSeqOpFactory, 0, 0, 1);
  * <li><em>message</em>: the message to print.
  * </ul>
  */
-struct iDebugPrintQuestSeqOpFactory : public iBase
+struct iDebugPrintQuestSeqOpFactory : public virtual iBase
 {
+  SCF_INTERFACE (iDebugPrintQuestSeqOpFactory, 0, 0, 1);
+
   /**
    * Set the message parameter to print (either a message string
    * or a parameter if it starts with '$').
    */
   virtual void SetMessageParameter (const char* msg) = 0;
 };
-
-SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the seqop that transforms meshes.
@@ -1613,8 +1618,10 @@ SCF_VERSION (iTransformQuestSeqOpFactory, 0, 0, 1);
  *     an 'angle' parameter in radians. Angle can be a parameter.
  * </ul>
  */
-struct iTransformQuestSeqOpFactory : public iBase
+struct iTransformQuestSeqOpFactory : public virtual iBase
 {
+  SCF_INTERFACE (iTransformQuestSeqOpFactory, 0, 0, 1);
+
   /**
    * Set the entity containing the pcmesh (either entity name
    * or a parameter if it starts with '$').
@@ -1637,8 +1644,6 @@ struct iTransformQuestSeqOpFactory : public iBase
   virtual void SetRotationParameter (int rot_axis, const char* rot_angle) = 0;
 };
 
-SCF_VERSION (iMovePathQuestSeqOpFactory, 0, 0, 1);
-
 /**
  * This interface is implemented by the seqop that moves meshes along
  * a path. You can query this interface from the seqop factory if
@@ -1660,8 +1665,10 @@ SCF_VERSION (iMovePathQuestSeqOpFactory, 0, 0, 1);
  *     'time' should be an increasing time value.
  * </ul>
  */
-struct iMovePathQuestSeqOpFactory : public iBase
+struct iMovePathQuestSeqOpFactory : public virtual iBase
 {
+  SCF_INTERFACE (iMovePathQuestSeqOpFactory, 0, 0, 1);
+
   /**
    * Set the entity containing the pcmesh (either entity name
    * or a parameter if it starts with '$').
@@ -1682,8 +1689,6 @@ struct iMovePathQuestSeqOpFactory : public iBase
   virtual void AddPathNode (const char* sectorname, const char* node,
   	const char* time) = 0;
 };
-
-SCF_VERSION (iLightQuestSeqOpFactory, 0, 0, 1);
 
 /**
  * This interface is implemented by the seqop that animates light colors.
@@ -1707,8 +1712,10 @@ SCF_VERSION (iLightQuestSeqOpFactory, 0, 0, 1);
  *     attributes can be a parameter.
  * </ul>
  */
-struct iLightQuestSeqOpFactory : public iBase
+struct iLightQuestSeqOpFactory : public virtual iBase
 {
+  SCF_INTERFACE (iLightQuestSeqOpFactory, 0, 0, 1);
+
   /**
    * Set the entity containing the pclight (either entity name
    * or a parameter if it starts with '$').
@@ -1736,13 +1743,13 @@ struct iLightQuestSeqOpFactory : public iBase
  * Convenience to declare a new reward type class.
  */
 #define CEL_DECLARE_REWARDTYPE(name,id)					\
-class cel##name##RewardType : public iQuestRewardType			\
+class cel##name##RewardType : public scfImplementation1<		\
+		cel##name##RewardType,iQuestRewardType>			\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
   cel##name##RewardType (iObjectRegistry* object_reg);			\
-  virtual ~cel##name##RewardType ();					\
-  SCF_DECLARE_IBASE;							\
+  virtual ~cel##name##RewardType () { }					\
   virtual const char* GetName () const { return id; }			\
   virtual csPtr<iQuestRewardFactory> CreateRewardFactory ();		\
 };
@@ -1751,18 +1758,10 @@ public:									\
  * Convenience to implement a new reward type class.
  */
 #define CEL_IMPLEMENT_REWARDTYPE(name)					\
-SCF_IMPLEMENT_IBASE (cel##name##RewardType)				\
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardType)				\
-SCF_IMPLEMENT_IBASE_END							\
 cel##name##RewardType::cel##name##RewardType (				\
-	iObjectRegistry* object_reg)					\
+	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
-  SCF_CONSTRUCT_IBASE (0);						\
   cel##name##RewardType::object_reg = object_reg;			\
-}									\
-cel##name##RewardType::~cel##name##RewardType ()			\
-{									\
-  SCF_DESTRUCT_IBASE ();						\
 }									\
 csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
 {									\
@@ -1775,13 +1774,13 @@ csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
  * Convenience to declare a new trigger type class.
  */
 #define CEL_DECLARE_TRIGGERTYPE(name,id)				\
-class cel##name##TriggerType : public iQuestTriggerType			\
+class cel##name##TriggerType : public scfImplementation1<		\
+		cel##name##TriggerType,iQuestTriggerType>		\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
   cel##name##TriggerType (iObjectRegistry* object_reg);			\
-  virtual ~cel##name##TriggerType ();					\
-  SCF_DECLARE_IBASE;							\
+  virtual ~cel##name##TriggerType () { }				\
   virtual const char* GetName () const { return id; }			\
   virtual csPtr<iQuestTriggerFactory> CreateTriggerFactory ();		\
 };
@@ -1790,18 +1789,10 @@ public:									\
  * Convenience to implement a new trigger type class.
  */
 #define CEL_IMPLEMENT_TRIGGERTYPE(name)					\
-SCF_IMPLEMENT_IBASE (cel##name##TriggerType)				\
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerType)				\
-SCF_IMPLEMENT_IBASE_END							\
 cel##name##TriggerType::cel##name##TriggerType (			\
-	iObjectRegistry* object_reg)					\
+	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
-  SCF_CONSTRUCT_IBASE (0);						\
   cel##name##TriggerType::object_reg = object_reg;			\
-}									\
-cel##name##TriggerType::~cel##name##TriggerType ()			\
-{									\
-  SCF_DESTRUCT_IBASE ();						\
 }									\
 csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
 {									\
@@ -1813,13 +1804,13 @@ csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
  * Convenience to declare a new sequence operation type class.
  */
 #define CEL_DECLARE_SEQOPTYPE(name,id)					\
-class cel##name##SeqOpType : public iQuestSeqOpType			\
+class cel##name##SeqOpType : public scfImplementation1<			\
+	cel##name##SeqOpType,iQuestSeqOpType>				\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
   cel##name##SeqOpType (iObjectRegistry* object_reg);			\
-  virtual ~cel##name##SeqOpType ();					\
-  SCF_DECLARE_IBASE;							\
+  virtual ~cel##name##SeqOpType () { }					\
   virtual const char* GetName () const { return id; }			\
   virtual csPtr<iQuestSeqOpFactory> CreateSeqOpFactory ();		\
 };
@@ -1828,18 +1819,10 @@ public:									\
  * Convenience to implement a new sequence operation type class.
  */
 #define CEL_IMPLEMENT_SEQOPTYPE(name)					\
-SCF_IMPLEMENT_IBASE (cel##name##SeqOpType)				\
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpType)				\
-SCF_IMPLEMENT_IBASE_END							\
 cel##name##SeqOpType::cel##name##SeqOpType (				\
-	iObjectRegistry* object_reg)					\
+	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
-  SCF_CONSTRUCT_IBASE (0);						\
   cel##name##SeqOpType::object_reg = object_reg;			\
-}									\
-cel##name##SeqOpType::~cel##name##SeqOpType ()				\
-{									\
-  SCF_DESTRUCT_IBASE ();						\
 }									\
 csPtr<iQuestSeqOpFactory> cel##name##SeqOpType::CreateSeqOpFactory ()	\
 {									\

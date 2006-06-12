@@ -60,20 +60,6 @@ SCF_IMPLEMENT_FACTORY (celQuestManager)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestTriggerResponseFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerResponseFactory)
-SCF_IMPLEMENT_IBASE_END
-
-celQuestTriggerResponseFactory::celQuestTriggerResponseFactory ()
-{
-  SCF_CONSTRUCT_IBASE (0);
-}
-
-celQuestTriggerResponseFactory::~celQuestTriggerResponseFactory ()
-{
-  SCF_DESTRUCT_IBASE ();
-}
-
 void celQuestTriggerResponseFactory::SetTriggerFactory (
 	iQuestTriggerFactory* trigger_fact)
 {
@@ -88,20 +74,10 @@ void celQuestTriggerResponseFactory::AddRewardFactory (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestStateFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestStateFactory)
-SCF_IMPLEMENT_IBASE_END
-
-celQuestStateFactory::celQuestStateFactory (const char* name)
+celQuestStateFactory::celQuestStateFactory (const char* name) :
+	scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
-  celQuestStateFactory::name = csStrNew (name);
-}
-
-celQuestStateFactory::~celQuestStateFactory ()
-{
-  delete[] name;
-  SCF_DESTRUCT_IBASE ();
+  celQuestStateFactory::name = name;
 }
 
 iQuestTriggerResponseFactory* celQuestStateFactory::
@@ -115,16 +91,10 @@ iQuestTriggerResponseFactory* celQuestStateFactory::
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestSequence)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSequence)
-  SCF_IMPLEMENTS_INTERFACE (iCelTimerListener)
-SCF_IMPLEMENT_IBASE_END
-
 celQuestSequence::celQuestSequence (const char* name,
-	iCelPlLayer* pl, iVirtualClock* vc)
+	iCelPlLayer* pl, iVirtualClock* vc) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
-  celQuestSequence::name = csStrNew (name);
+  celQuestSequence::name = name;
   celQuestSequence::pl = pl;
   celQuestSequence::vc = vc;
   idx = csArrayItemNotFound;
@@ -133,8 +103,6 @@ celQuestSequence::celQuestSequence (const char* name,
 celQuestSequence::~celQuestSequence ()
 {
   Abort ();
-  delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
@@ -304,22 +272,11 @@ void celQuestSequence::FireSequenceCallbacks ()
   }
 }
 
-SCF_IMPLEMENT_IBASE (celQuestSequenceFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSequenceFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celQuestSequenceFactory::celQuestSequenceFactory (const char* name,
-	celQuestFactory* parent)
+	celQuestFactory* parent) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
-  celQuestSequenceFactory::name = csStrNew (name);
+  celQuestSequenceFactory::name = name;
   parent_factory = parent;
-}
-
-celQuestSequenceFactory::~celQuestSequenceFactory ()
-{
-  delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celQuestSequenceFactory::Load (iDocumentNode* node)
@@ -345,7 +302,7 @@ bool celQuestSequenceFactory::Load (iDocumentNode* node)
             csReport (parent_factory->GetQuestManager ()->object_reg,
 	    	CS_REPORTER_SEVERITY_ERROR, "cel.questmanager.load",
 		"Unknown sequence type '%s' while loading quest '%s'!",
-		(const char*)type, name);
+		(const char*)type, (const char*)name);
 	    return false;
 	  }
 	  csRef<iQuestSeqOpFactory> seqopfact = seqoptype
@@ -431,22 +388,13 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestFactory)
-SCF_IMPLEMENT_IBASE_END
-
-celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name)
+celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
+	scfImplementationType (this)
 {
   SCF_CONSTRUCT_IBASE (0);
   celQuestFactory::questmgr = questmgr;
-  celQuestFactory::name = csStrNew (name);
+  celQuestFactory::name = name;
   InitTokenTable (xmltokens);
-}
-
-celQuestFactory::~celQuestFactory ()
-{
-  delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 const char* celQuestFactory::GetDefaultParameter (const char* name) const
@@ -562,7 +510,7 @@ bool celQuestFactory::LoadTriggerResponse (
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown reward type '%s' while loading quest '%s'!",
-		(const char*)type, name);
+		(const char*)type, (const char*)name);
 	    return false;
 	  }
 	  csRef<iQuestRewardFactory> rewardfact = rewardtype
@@ -576,7 +524,7 @@ bool celQuestFactory::LoadTriggerResponse (
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading trigger in quest '%s'!",
-		value, name);
+		(const char*)value, (const char*)name);
         return false;
     }
   }
@@ -607,7 +555,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown trigger type '%s' while loading state '%s/%s'!",
-		(const char*)type, name, statefact->GetName ());
+		(const char*)type, (const char*)name, statefact->GetName ());
 	    return false;
 	  }
 	  // First we create a trigger response factory.
@@ -625,7 +573,7 @@ bool celQuestFactory::LoadState (iQuestStateFactory* statefact,
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading state '%s/%s'!",
-		value, name, statefact->GetName ());
+		(const char*)value, (const char*)name, statefact->GetName ());
         return false;
     }
   }
@@ -660,7 +608,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Couldn't load state '%s' while loading quest '%s'!",
-		statename, name);
+		(const char*)statename, (const char*)name);
 	    return false;
 	  }
 	  if (!LoadState (statefact, child))
@@ -678,7 +626,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
             csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Couldn't load sequence '%s' while loading quest '%s'!",
-		seqname, name);
+		(const char*)seqname, (const char*)name);
 	    return false;
 	  }
 	  if (!seqfact->Load (child))
@@ -689,7 +637,7 @@ bool celQuestFactory::Load (iDocumentNode* node)
         csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
 		"cel.questmanager.load",
 		"Unknown token '%s' while loading quest '%s'!",
-		value, name);
+		value, (const char*)name);
         return false;
     }
   }
@@ -733,22 +681,12 @@ iQuestSequenceFactory* celQuestFactory::CreateSequence (const char* name)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestStateResponse)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerCallback)
-SCF_IMPLEMENT_IBASE_END
-
 celQuestStateResponse::celQuestStateResponse (iCelPlLayer* pl,
-	celQuest* quest)
+	celQuest* quest) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   reward_counter = 0;
   celQuestStateResponse::pl = pl;
   celQuestStateResponse::quest = quest;
-}
-
-celQuestStateResponse::~celQuestStateResponse ()
-{
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celQuestStateResponse::SetTrigger (iQuestTrigger* trigger)
@@ -795,13 +733,8 @@ size_t celQuestState::AddResponse (celQuest* quest)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuest)
-  SCF_IMPLEMENTS_INTERFACE (iQuest)
-SCF_IMPLEMENT_IBASE_END
-
-celQuest::celQuest (iCelPlLayer* pl)
+celQuest::celQuest (iCelPlLayer* pl) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celQuest::pl = pl;
   current_state = csArrayItemNotFound;
 }
@@ -809,7 +742,6 @@ celQuest::celQuest (iCelPlLayer* pl)
 celQuest::~celQuest ()
 {
   DeactivateState (current_state);
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celQuest::DeactivateState (size_t stateidx)
@@ -960,25 +892,13 @@ celQuestSequence* celQuest::FindCelSequence (const char* name)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celQuestManager)
-  SCF_IMPLEMENTS_INTERFACE (iQuestManager)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celQuestManager::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celQuestManager::celQuestManager (iBase* parent)
+celQuestManager::celQuestManager (iBase* parent) : scfImplementationType (this,
+	parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
 }
 
 celQuestManager::~celQuestManager ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)

@@ -58,15 +58,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iInventoryQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celInventoryTriggerFactory::celInventoryTriggerFactory (
-	celInventoryTriggerType* type)
+	celInventoryTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celInventoryTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -78,8 +72,6 @@ celInventoryTriggerFactory::~celInventoryTriggerFactory ()
   delete[] entity_par;
   delete[] child_entity_par;
   delete[] tag_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celInventoryTriggerFactory::CreateTrigger (
@@ -132,18 +124,12 @@ void celInventoryTriggerFactory::SetChildEntityParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celInventoryTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iPcInventoryListener)
-SCF_IMPLEMENT_IBASE_END
-
 celInventoryTrigger::celInventoryTrigger (
 	celInventoryTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* child_entity_par)
+	const char* child_entity_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celInventoryTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -160,7 +146,6 @@ celInventoryTrigger::~celInventoryTrigger ()
   delete[] entity;
   delete[] child_entity;
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celInventoryTrigger::RegisterCallback (iQuestTriggerCallback* callback)

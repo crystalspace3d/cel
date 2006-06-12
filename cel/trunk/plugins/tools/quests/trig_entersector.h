@@ -46,9 +46,9 @@ CEL_DECLARE_TRIGGERTYPE(EnterSector,"cel.questtrigger.entersector")
 /**
  * The 'entersector' trigger factory.
  */
-class celEnterSectorTriggerFactory :
-	public iQuestTriggerFactory,
-	public iEnterSectorQuestTriggerFactory
+class celEnterSectorTriggerFactory : public scfImplementation2<
+	celEnterSectorTriggerFactory, iQuestTriggerFactory,
+	iEnterSectorQuestTriggerFactory>
 {
 private:
   celEnterSectorTriggerType* type;
@@ -59,8 +59,6 @@ private:
 public:
   celEnterSectorTriggerFactory (celEnterSectorTriggerType* type);
   virtual ~celEnterSectorTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -74,9 +72,9 @@ public:
 /**
  * The 'entersector' trigger.
  */
-class celEnterSectorTrigger :
-	public iQuestTrigger,
-	public iCameraSectorListener
+class celEnterSectorTrigger : public scfImplementation2<
+	celEnterSectorTrigger, iQuestTrigger,
+	iCameraSectorListener>
 {
 private:
   celEnterSectorTriggerType* type;
@@ -95,8 +93,6 @@ public:
 	const char* entity_par, const char* tag,
 	const char* sector_par);
   virtual ~celEnterSectorTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

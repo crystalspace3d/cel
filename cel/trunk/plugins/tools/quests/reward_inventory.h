@@ -44,9 +44,9 @@ CEL_DECLARE_REWARDTYPE(Inventory,"cel.questreward.inventory")
 /**
  * The 'inventory' reward factory.
  */
-class celInventoryRewardFactory :
-	public iQuestRewardFactory,
-	public iInventoryQuestRewardFactory
+class celInventoryRewardFactory : public scfImplementation2<
+	celInventoryRewardFactory, iQuestRewardFactory,
+	iInventoryQuestRewardFactory>
 {
 private:
   celInventoryRewardType* type;
@@ -58,8 +58,6 @@ private:
 public:
   celInventoryRewardFactory (celInventoryRewardType* type);
   virtual ~celInventoryRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -74,8 +72,8 @@ public:
 /**
  * The 'inventory' reward.
  */
-class celInventoryReward :
-	public iQuestReward
+class celInventoryReward : public scfImplementation1<
+	celInventoryReward, iQuestReward>
 {
 private:
   celInventoryRewardType* type;
@@ -92,8 +90,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par, const char* child_tag_par);
   virtual ~celInventoryReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

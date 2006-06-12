@@ -43,9 +43,9 @@ CEL_DECLARE_TRIGGERTYPE(Inventory,"cel.questtrigger.inventory")
 /**
  * The 'inventory' trigger factory.
  */
-class celInventoryTriggerFactory :
-	public iQuestTriggerFactory,
-	public iInventoryQuestTriggerFactory
+class celInventoryTriggerFactory : public scfImplementation2<
+	celInventoryTriggerFactory, iQuestTriggerFactory,
+	iInventoryQuestTriggerFactory>
 {
 private:
   celInventoryTriggerType* type;
@@ -56,8 +56,6 @@ private:
 public:
   celInventoryTriggerFactory (celInventoryTriggerType* type);
   virtual ~celInventoryTriggerFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestTrigger> CreateTrigger (iQuest*,
       const celQuestParams& params);
@@ -71,9 +69,9 @@ public:
 /**
  * The 'inventory' trigger.
  */
-class celInventoryTrigger :
-	public iQuestTrigger,
-	public iPcInventoryListener
+class celInventoryTrigger : public scfImplementation2<
+	celInventoryTrigger, iQuestTrigger,
+	iPcInventoryListener>
 {
 private:
   celInventoryTriggerType* type;
@@ -91,8 +89,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par);
   virtual ~celInventoryTrigger ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

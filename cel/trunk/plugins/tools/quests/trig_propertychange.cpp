@@ -59,15 +59,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPropertyChangeTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iPropertyChangeQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celPropertyChangeTriggerFactory::celPropertyChangeTriggerFactory (
-	celPropertyChangeTriggerType* type)
+	celPropertyChangeTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -81,8 +75,6 @@ celPropertyChangeTriggerFactory::~celPropertyChangeTriggerFactory ()
   delete[] tag_par;
   delete[] prop_par;
   delete[] value_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celPropertyChangeTriggerFactory::CreateTrigger (
@@ -150,18 +142,13 @@ void celPropertyChangeTriggerFactory::SetValueParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPropertyChangeTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iPcPropertyListener)
-SCF_IMPLEMENT_IBASE_END
-
 celPropertyChangeTrigger::celPropertyChangeTrigger (
 	celPropertyChangeTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* prop_par, const char* value_par)
+	: scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celPropertyChangeTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -180,7 +167,6 @@ celPropertyChangeTrigger::~celPropertyChangeTrigger ()
   delete[] tag;
   delete[] prop;
   delete[] value;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celPropertyChangeTrigger::RegisterCallback (iQuestTriggerCallback* callback)

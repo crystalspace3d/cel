@@ -58,15 +58,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celSequenceRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestRewardFactory)
-  SCF_IMPLEMENTS_INTERFACE (iSequenceQuestRewardFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celSequenceRewardFactory::celSequenceRewardFactory (
-	celSequenceRewardType* type)
+	celSequenceRewardType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celSequenceRewardFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -80,8 +74,6 @@ celSequenceRewardFactory::~celSequenceRewardFactory ()
   delete[] tag_par;
   delete[] sequence_par;
   delete[] delay_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestReward> celSequenceRewardFactory::CreateReward (
@@ -144,19 +136,14 @@ void celSequenceRewardFactory::SetDelayParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celSequenceReward)
-  SCF_IMPLEMENTS_INTERFACE (iQuestReward)
-SCF_IMPLEMENT_IBASE_END
-
 celSequenceReward::celSequenceReward (
 	celSequenceRewardType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
 	const char* tag_par,
 	const char* sequence_par,
-	const char* delay_par)
+	const char* delay_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celSequenceReward::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -175,7 +162,6 @@ celSequenceReward::~celSequenceReward ()
   delete[] entity;
   delete[] tag;
   delete[] sequence;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celSequenceReward::Reward ()

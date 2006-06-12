@@ -44,9 +44,9 @@ CEL_DECLARE_REWARDTYPE(Sequence,"cel.questreward.sequence")
 /**
  * The 'sequence' reward factory.
  */
-class celSequenceRewardFactory :
-	public iQuestRewardFactory,
-	public iSequenceQuestRewardFactory
+class celSequenceRewardFactory : public scfImplementation2<
+	celSequenceRewardFactory, iQuestRewardFactory,
+	iSequenceQuestRewardFactory>
 {
 private:
   celSequenceRewardType* type;
@@ -58,8 +58,6 @@ private:
 public:
   celSequenceRewardFactory (celSequenceRewardType* type);
   virtual ~celSequenceRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -74,8 +72,8 @@ public:
 /**
  * The 'sequence' reward.
  */
-class celSequenceReward :
-	public iQuestReward
+class celSequenceReward : public scfImplementation1<
+	celSequenceReward, iQuestReward>
 {
 private:
   celSequenceRewardType* type;
@@ -94,8 +92,6 @@ public:
 	const char* sequence_par,
 	const char* delay_par);
   virtual ~celSequenceReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

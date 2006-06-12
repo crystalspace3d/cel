@@ -58,15 +58,9 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMeshSelectTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iMeshSelectQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celMeshSelectTriggerFactory::celMeshSelectTriggerFactory (
-	celMeshSelectTriggerType* type)
+	celMeshSelectTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMeshSelectTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -76,8 +70,6 @@ celMeshSelectTriggerFactory::~celMeshSelectTriggerFactory ()
 {
   delete[] entity_par;
   delete[] tag_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celMeshSelectTriggerFactory::CreateTrigger (
@@ -118,17 +110,12 @@ void celMeshSelectTriggerFactory::SetEntityParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celMeshSelectTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iPcMeshSelectListener)
-SCF_IMPLEMENT_IBASE_END
-
 celMeshSelectTrigger::celMeshSelectTrigger (
 	celMeshSelectTriggerType* type,
   	const celQuestParams& params,
-	const char* entity_par, const char* tag_par)
+	const char* entity_par, const char* tag_par) :
+	scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celMeshSelectTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -140,7 +127,6 @@ celMeshSelectTrigger::~celMeshSelectTrigger ()
   DeactivateTrigger ();
   delete[] entity;
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celMeshSelectTrigger::RegisterCallback (iQuestTriggerCallback* callback)

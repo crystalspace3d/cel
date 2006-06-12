@@ -40,21 +40,14 @@ CEL_IMPLEMENT_SEQOPTYPE(Light)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celLightSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iLightQuestSeqOpFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celLightSeqOpFactory::celLightSeqOpFactory (
-	celLightSeqOpType* type)
+	celLightSeqOpType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celLightSeqOpFactory::type = type;
 }
 
 celLightSeqOpFactory::~celLightSeqOpFactory ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestSeqOp> celLightSeqOpFactory::CreateSeqOp (
@@ -137,10 +130,6 @@ static float ToFloat (const char* s)
   return f;
 }
 
-SCF_IMPLEMENT_IBASE (celLightSeqOp)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOp)
-SCF_IMPLEMENT_IBASE_END
-
 celLightSeqOp::celLightSeqOp (
 	celLightSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
@@ -148,9 +137,8 @@ celLightSeqOp::celLightSeqOp (
 	const char* rel_red_par, const char* rel_green_par,
 		const char* rel_blue_par,
 	const char* abs_red_par, const char* abs_green_par,
-		const char* abs_blue_par)
+		const char* abs_blue_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celLightSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = qm->ResolveParameter (params, entity_par);
@@ -168,7 +156,6 @@ celLightSeqOp::celLightSeqOp (
 
 celLightSeqOp::~celLightSeqOp ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celLightSeqOp::FindLight ()

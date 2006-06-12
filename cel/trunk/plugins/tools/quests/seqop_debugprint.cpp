@@ -39,15 +39,9 @@ CEL_IMPLEMENT_SEQOPTYPE(DebugPrint)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDebugPrintSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iDebugPrintQuestSeqOpFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celDebugPrintSeqOpFactory::celDebugPrintSeqOpFactory (
-	celDebugPrintSeqOpType* type)
+	celDebugPrintSeqOpType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDebugPrintSeqOpFactory::type = type;
   msg_par = 0;
 }
@@ -55,8 +49,6 @@ celDebugPrintSeqOpFactory::celDebugPrintSeqOpFactory (
 celDebugPrintSeqOpFactory::~celDebugPrintSeqOpFactory ()
 {
   delete[] msg_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestSeqOp> celDebugPrintSeqOpFactory::CreateSeqOp (
@@ -93,16 +85,11 @@ void celDebugPrintSeqOpFactory::SetMessageParameter (const char* msg)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celDebugPrintSeqOp)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOp)
-SCF_IMPLEMENT_IBASE_END
-
 celDebugPrintSeqOp::celDebugPrintSeqOp (
 	celDebugPrintSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
-	const char* msg_par)
+	const char* msg_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celDebugPrintSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   msg = csStrNew (qm->ResolveParameter (params, msg_par));
@@ -111,7 +98,6 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
 celDebugPrintSeqOp::~celDebugPrintSeqOp ()
 {
   delete[] msg;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celDebugPrintSeqOp::Do (float time)

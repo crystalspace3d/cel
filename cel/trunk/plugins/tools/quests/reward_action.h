@@ -44,9 +44,8 @@ CEL_DECLARE_REWARDTYPE(Action,"cel.questreward.action")
 /**
  * The 'action' reward factory.
  */
-class celActionRewardFactory :
-	public iQuestRewardFactory,
-	public iActionQuestRewardFactory
+class celActionRewardFactory : public scfImplementation2<
+	celActionRewardFactory, iQuestRewardFactory, iActionQuestRewardFactory>
 {
 private:
   celActionRewardType* type;
@@ -59,8 +58,6 @@ private:
 public:
   celActionRewardFactory (celActionRewardType* type);
   virtual ~celActionRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -78,8 +75,8 @@ public:
 /**
  * The 'action' reward.
  */
-class celActionReward :
-	public iQuestReward
+class celActionReward : public scfImplementation1<celActionReward,
+	iQuestReward>
 {
 private:
   celActionRewardType* type;
@@ -99,8 +96,6 @@ public:
 	const char* tag_par,
 	const csArray<parSpec>& parameters);
   virtual ~celActionReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

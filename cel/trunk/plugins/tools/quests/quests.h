@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2004 by Jorrit Tyberghein
+    Copyright (C) 2004-2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -61,14 +61,13 @@ struct celSeqOp
 /**
  * A sequence.
  */
-class celQuestSequence :
-	public iQuestSequence,
-	public iCelTimerListener
+class celQuestSequence : public scfImplementation2<celQuestSequence,
+	iQuestSequence,iCelTimerListener>
 {
 private:
   csArray<celSeqOp> seqops;
   csArray<celSeqOp> ops_in_progress;
-  char* name;
+  csString name;
   iCelPlLayer* pl;
   iVirtualClock* vc;
   size_t idx;
@@ -111,8 +110,6 @@ public:
    */
   bool LoadState (iCelDataBuffer* databuf);
 
-  SCF_DECLARE_IBASE;
-
   // --- For iQuestSequence -------------------------------
   virtual const char* GetName () const { return name; }
   virtual bool Start (csTicks delay);
@@ -139,20 +136,19 @@ struct celSeqOpFact
 /**
  * A sequence factory.
  */
-class celQuestSequenceFactory : public iQuestSequenceFactory
+class celQuestSequenceFactory : public scfImplementation1<
+	celQuestSequenceFactory, iQuestSequenceFactory>
 {
 private:
   celQuestFactory* parent_factory;
-  char* name;
+  csString name;
   // The array of sequence operations will be sorted due to the
   // presence of the csComparator specialization above.
   csArray<celSeqOpFact> seqops;
 
 public:
   celQuestSequenceFactory (const char* name, celQuestFactory* fact);
-  virtual ~celQuestSequenceFactory ();
-
-  SCF_DECLARE_IBASE;
+  virtual ~celQuestSequenceFactory () { }
 
   csPtr<celQuestSequence> CreateSequence (const celQuestParams& params);
 
@@ -168,15 +164,16 @@ public:
 /**
  * A quest trigger response factory.
  */
-class celQuestTriggerResponseFactory : public iQuestTriggerResponseFactory
+class celQuestTriggerResponseFactory : public scfImplementation1<
+	celQuestTriggerResponseFactory, iQuestTriggerResponseFactory>
 {
 private:
   csRef<iQuestTriggerFactory> trigger_factory;
   csRefArray<iQuestRewardFactory> reward_factories;
 
 public:
-  celQuestTriggerResponseFactory ();
-  virtual ~celQuestTriggerResponseFactory ();
+  celQuestTriggerResponseFactory () : scfImplementationType (this) { }
+  virtual ~celQuestTriggerResponseFactory () { }
 
   iQuestTriggerFactory* GetTriggerFactory () const
   {
@@ -187,8 +184,6 @@ public:
     return reward_factories;
   }
 
-  SCF_DECLARE_IBASE;
-
   virtual void SetTriggerFactory (iQuestTriggerFactory* trigger_fact);
   virtual void AddRewardFactory (iQuestRewardFactory* reward_fact);
 };
@@ -196,22 +191,21 @@ public:
 /**
  * A quest state.
  */
-class celQuestStateFactory : public iQuestStateFactory
+class celQuestStateFactory : public scfImplementation1<
+	celQuestStateFactory, iQuestStateFactory>
 {
 private:
-  char* name;
+  csString name;
   csRefArray<celQuestTriggerResponseFactory> responses;
 
 public:
   celQuestStateFactory (const char* name);
-  virtual ~celQuestStateFactory ();
+  virtual ~celQuestStateFactory () { }
 
   const csRefArray<celQuestTriggerResponseFactory>& GetResponses () const
   {
     return responses;
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
@@ -224,11 +218,12 @@ typedef csHash<csRef<celQuestSequenceFactory>,csStrKey>
 /**
  * A quest factory.
  */
-class celQuestFactory : public iQuestFactory
+class celQuestFactory : public scfImplementation1<celQuestFactory,
+	iQuestFactory>
 {
 private:
   celQuestManager* questmgr;
-  char* name;
+  csString name;
   celQuestFactoryStates states;
   celQuestFactorySequences sequences;
   celQuestParams defaults;
@@ -244,11 +239,9 @@ public:
 
 public:
   celQuestFactory (celQuestManager* questmgr, const char* name);
-  virtual ~celQuestFactory ();
+  virtual ~celQuestFactory () { }
 
   celQuestManager* GetQuestManager () const { return questmgr; }
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual csPtr<iQuest> CreateQuest (
@@ -266,9 +259,8 @@ public:
 /**
  * A trigger and rewards. This is basically a response for a quest.
  */
-struct celQuestStateResponse :
-	public iQuestTriggerCallback,
-	public iCelTimerListener
+struct celQuestStateResponse : public scfImplementation2<
+	celQuestStateResponse, iQuestTriggerCallback, iCelTimerListener>
 {
 private:
   iCelPlLayer* pl;
@@ -281,13 +273,11 @@ private:
 
 public:
   celQuestStateResponse (iCelPlLayer* pl, celQuest* quest);
-  virtual ~celQuestStateResponse ();
+  virtual ~celQuestStateResponse () { }
 
   void SetTrigger (iQuestTrigger* trigger);
   iQuestTrigger* GetTrigger () const { return trigger; }
   void AddReward (iQuestReward* reward);
-
-  SCF_DECLARE_IBASE;
 
   // --- For iQuestTriggerCallback ------------------------
   virtual void TriggerFired (iQuestTrigger* trigger);
@@ -325,7 +315,7 @@ public:
 /**
  * A quest implementation.
  */
-class celQuest : public iQuest
+class celQuest : public scfImplementation1<celQuest, iQuest>
 {
 private:
   iCelPlLayer* pl;
@@ -345,8 +335,6 @@ private:
 public:
   celQuest (iCelPlLayer* pl);
   virtual ~celQuest ();
-
-  SCF_DECLARE_IBASE;
   
   virtual bool SwitchState (const char* state);
   virtual const char* GetCurrentState () const;
@@ -379,7 +367,8 @@ public:
 /**
  * This is a manager for quests.
  */
-class celQuestManager : public iQuestManager
+class celQuestManager : public scfImplementation2<celQuestManager,
+	iQuestManager, iComponent>
 {
 public:
   iObjectRegistry* object_reg;
@@ -395,9 +384,7 @@ private:
 public:
   celQuestManager (iBase* parent);
   virtual ~celQuestManager ();
-  bool Initialize (iObjectRegistry* object_reg);
-
-  SCF_DECLARE_IBASE;
+  virtual bool Initialize (iObjectRegistry* object_reg);
 
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger);
   virtual iQuestTriggerType* GetTriggerType (const char* name);
@@ -451,13 +438,6 @@ public:
   virtual iQuestTriggerFactory* SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave = false);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celQuestManager);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_TOOLS_QUESTS__

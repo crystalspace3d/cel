@@ -45,9 +45,9 @@ CEL_DECLARE_SEQOPTYPE(Transform,"cel.questseqop.transform")
 /**
  * The 'transform' seqop factory.
  */
-class celTransformSeqOpFactory :
-	public iQuestSeqOpFactory,
-	public iTransformQuestSeqOpFactory
+class celTransformSeqOpFactory : public scfImplementation2<
+	celTransformSeqOpFactory, iQuestSeqOpFactory,
+	iTransformQuestSeqOpFactory>
 {
 private:
   celTransformSeqOpType* type;
@@ -63,8 +63,6 @@ public:
   celTransformSeqOpFactory (celTransformSeqOpType* type);
   virtual ~celTransformSeqOpFactory ();
 
-  SCF_DECLARE_IBASE;
-
   virtual csPtr<iQuestSeqOp> CreateSeqOp (
       const celQuestParams& params);
   virtual bool Load (iDocumentNode* node);
@@ -79,8 +77,8 @@ public:
 /**
  * The 'transform' seqop.
  */
-class celTransformSeqOp :
-	public iQuestSeqOp
+class celTransformSeqOp : public scfImplementation1<
+	celTransformSeqOp, iQuestSeqOp>
 {
 private:
   celTransformSeqOpType* type;
@@ -104,8 +102,6 @@ public:
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle);
   virtual ~celTransformSeqOp ();
-
-  SCF_DECLARE_IBASE;
 
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void Save (iCelDataBuffer* databuf);

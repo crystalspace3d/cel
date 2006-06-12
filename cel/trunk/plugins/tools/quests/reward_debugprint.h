@@ -42,9 +42,9 @@ CEL_DECLARE_REWARDTYPE(DebugPrint,"cel.questreward.debugprint")
 /**
  * The 'debugprint' reward factory.
  */
-class celDebugPrintRewardFactory :
-	public iQuestRewardFactory,
-	public iDebugPrintQuestRewardFactory
+class celDebugPrintRewardFactory : public scfImplementation2<
+	celDebugPrintRewardFactory, iQuestRewardFactory,
+	iDebugPrintQuestRewardFactory>
 {
 private:
   celDebugPrintRewardType* type;
@@ -53,8 +53,6 @@ private:
 public:
   celDebugPrintRewardFactory (celDebugPrintRewardType* type);
   virtual ~celDebugPrintRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -67,8 +65,8 @@ public:
 /**
  * The 'printdebug' reward.
  */
-class celDebugPrintReward :
-	public iQuestReward
+class celDebugPrintReward : public scfImplementation1<
+	celDebugPrintReward, iQuestReward>
 {
 private:
   celDebugPrintRewardType* type;
@@ -79,8 +77,6 @@ public:
   	const celQuestParams& params,
 	const char* msg_par);
   virtual ~celDebugPrintReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

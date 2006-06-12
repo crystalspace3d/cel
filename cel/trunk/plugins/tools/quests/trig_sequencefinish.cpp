@@ -39,15 +39,9 @@ CEL_IMPLEMENT_TRIGGERTYPE(SequenceFinish)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celSequenceFinishTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTriggerFactory)
-  SCF_IMPLEMENTS_INTERFACE (iSequenceFinishQuestTriggerFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celSequenceFinishTriggerFactory::celSequenceFinishTriggerFactory (
-	celSequenceFinishTriggerType* type)
+	celSequenceFinishTriggerType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celSequenceFinishTriggerFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -59,7 +53,6 @@ celSequenceFinishTriggerFactory::~celSequenceFinishTriggerFactory ()
   delete[] entity_par;
   delete[] tag_par;
   delete[] sequence_par;
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestTrigger> celSequenceFinishTriggerFactory::CreateTrigger (
@@ -123,18 +116,12 @@ void celSequenceFinishTriggerFactory::SetSequenceParameter (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celSequenceFinishTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSequenceCallback)
-SCF_IMPLEMENT_IBASE_END
-
 celSequenceFinishTrigger::celSequenceFinishTrigger (
 	celSequenceFinishTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
-	const char* sequence_par)
+	const char* sequence_par) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celSequenceFinishTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -148,7 +135,6 @@ celSequenceFinishTrigger::~celSequenceFinishTrigger ()
   delete[] entity;
   delete[] tag;
   delete[] sequence;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celSequenceFinishTrigger::RegisterCallback (iQuestTriggerCallback* callback)

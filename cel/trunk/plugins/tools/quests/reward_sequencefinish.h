@@ -44,9 +44,9 @@ CEL_DECLARE_REWARDTYPE(SequenceFinish,"cel.questreward.sequencefinish")
 /**
  * The 'sequencefinish' reward factory.
  */
-class celSequenceFinishRewardFactory :
-	public iQuestRewardFactory,
-	public iSequenceFinishQuestRewardFactory
+class celSequenceFinishRewardFactory : public scfImplementation2<
+	celSequenceFinishRewardFactory, iQuestRewardFactory,
+	iSequenceFinishQuestRewardFactory>
 {
 private:
   celSequenceFinishRewardType* type;
@@ -57,8 +57,6 @@ private:
 public:
   celSequenceFinishRewardFactory (celSequenceFinishRewardType* type);
   virtual ~celSequenceFinishRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -72,8 +70,8 @@ public:
 /**
  * The 'sequencefinish' reward.
  */
-class celSequenceFinishReward :
-	public iQuestReward
+class celSequenceFinishReward : public scfImplementation1<
+	celSequenceFinishReward, iQuestReward>
 {
 private:
   celSequenceFinishRewardType* type;
@@ -89,8 +87,6 @@ public:
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par);
   virtual ~celSequenceFinishReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

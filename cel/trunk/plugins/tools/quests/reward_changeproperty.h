@@ -44,9 +44,9 @@ CEL_DECLARE_REWARDTYPE(ChangeProperty,"cel.questreward.changeproperty")
 /**
  * The 'changeproperty' reward factory.
  */
-class celChangePropertyRewardFactory :
-	public iQuestRewardFactory,
-	public iChangePropertyQuestRewardFactory
+class celChangePropertyRewardFactory : public scfImplementation2<
+	celChangePropertyRewardFactory, iQuestRewardFactory,
+	iChangePropertyQuestRewardFactory>
 {
 private:
   celChangePropertyRewardType* type;
@@ -64,8 +64,6 @@ private:
 public:
   celChangePropertyRewardFactory (celChangePropertyRewardType* type);
   virtual ~celChangePropertyRewardFactory ();
-
-  SCF_DECLARE_IBASE;
 
   virtual csPtr<iQuestReward> CreateReward (iQuest*,
       const celQuestParams& params);
@@ -86,8 +84,8 @@ public:
 /**
  * The 'changeproperty' reward.
  */
-class celChangePropertyReward :
-	public iQuestReward
+class celChangePropertyReward : public scfImplementation1<
+	celChangePropertyReward, iQuestReward>
 {
 private:
   celChangePropertyRewardType* type;
@@ -119,8 +117,6 @@ public:
 	const char* diff_par,
 	bool do_toggle);
   virtual ~celChangePropertyReward ();
-
-  SCF_DECLARE_IBASE;
 
   virtual void Reward ();
 };

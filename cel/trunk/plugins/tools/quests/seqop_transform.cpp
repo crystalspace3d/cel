@@ -41,15 +41,9 @@ CEL_IMPLEMENT_SEQOPTYPE(Transform)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celTransformSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOpFactory)
-  SCF_IMPLEMENTS_INTERFACE (iTransformQuestSeqOpFactory)
-SCF_IMPLEMENT_IBASE_END
-
 celTransformSeqOpFactory::celTransformSeqOpFactory (
-	celTransformSeqOpType* type)
+	celTransformSeqOpType* type) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOpFactory::type = type;
   entity_par = 0;
   tag_par = 0;
@@ -68,8 +62,6 @@ celTransformSeqOpFactory::~celTransformSeqOpFactory ()
   delete[] vectory_par;
   delete[] vectorz_par;
   delete[] rot_angle_par;
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
@@ -183,18 +175,13 @@ static float ToFloat (const char* s)
   return f;
 }
 
-SCF_IMPLEMENT_IBASE (celTransformSeqOp)
-  SCF_IMPLEMENTS_INTERFACE (iQuestSeqOp)
-SCF_IMPLEMENT_IBASE_END
-
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
   	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
-	int axis, const char* angle)
+	int axis, const char* angle) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celTransformSeqOp::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
@@ -212,7 +199,6 @@ celTransformSeqOp::~celTransformSeqOp ()
 {
   delete[] entity;
   delete[] tag;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celTransformSeqOp::FindMesh ()
