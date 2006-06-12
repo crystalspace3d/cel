@@ -58,12 +58,12 @@ CEL_DECLARE_FACTORY (MechanicsJoint)
 struct celForce
 {
   iPcMechanicsObject* body;
-  float seconds;		// Remaining time. Not used if for entire frame.
-  bool frame;			// True if processing is for entire frame.
-  uint32 forceid;		// The string ID for the tag of this force.
-  bool relative;		// True if force and position are relative to the object.
-  csVector3 force;		// Defines the magnitude and direction of the force.
-  csVector3 position;		// The position of the force.
+  float seconds;	// Remaining time. Not used if for entire frame.
+  bool frame;		// True if processing is for entire frame.
+  uint32 forceid;	// The string ID for the tag of this force.
+  bool relative;	// True if force and position are relative to object.
+  csVector3 force;	// Defines the magnitude and direction of the force.
+  csVector3 position;	// The position of the force.
 };
 
 /**
@@ -120,7 +120,8 @@ public:
   virtual void AddForceTagged (iPcMechanicsObject* body, const csVector3& force,
 	bool relative, const csVector3& position, uint32 forceid);
   virtual void RemoveForceTagged (iPcMechanicsObject* body, uint32 forceid);
-  virtual void AddForceDuration (iPcMechanicsObject* body, const csVector3& force,
+  virtual void AddForceDuration (iPcMechanicsObject* body,
+  	const csVector3& force,
 	bool relative, const csVector3& position, float seconds);
   virtual void AddForceFrame (iPcMechanicsObject* body, const csVector3& force,
 	bool relative, const csVector3& position);

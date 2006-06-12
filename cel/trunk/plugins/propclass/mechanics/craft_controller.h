@@ -79,8 +79,10 @@ public:
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
-  virtual void SetAfterBurnerTopSpeed (float tspeed) { topburnerspeed = tspeed; }
-  virtual void SetRedirectVelocityRatio (float rdvr) { redirect_vel_ratio = rdvr; }
+  virtual void SetAfterBurnerTopSpeed (float tspeed)
+  { topburnerspeed = tspeed; }
+  virtual void SetRedirectVelocityRatio (float rdvr)
+  { redirect_vel_ratio = rdvr; }
 
   virtual void ThrustOn () { thrust_on = true; }
   virtual void ThrustOff () { thrust_on = false; }
@@ -181,7 +183,7 @@ public:
     {
       scfParent->AfterBurnerOff ();
     }
-} scfiPcCraftController;
+  } scfiPcCraftController;
 
 private:
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);

@@ -121,27 +121,32 @@ void celPcCraftController::UpdateBody ()
 
   /*! at the moment roll in the ships turning is disabled
       until I write a self angular stabilising component */
-  csVector3 turning(current_up - current_down, current_turning_right - current_turning_left, 0);
+  csVector3 turning(current_up - current_down, current_turning_right
+  	- current_turning_left, 0);
 
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+  	iPcMechanicsObject);
   float height = 2.0;   // disable height dependence for now
 
   // angular suppressant is dependant on height
-  csVector3 angular_supressant = ship_mech->GetAngularVelocity() * 1;   // could use multiplier here
+  // could use multiplier here
+  csVector3 angular_supressant = ship_mech->GetAngularVelocity() * 1;
 
   if(height > 0.1f)
     angular_supressant /= height;
   else
     angular_supressant /= 0.1f;
 
-  ship_mech->SetAngularVelocity(ship_mech->LocalToWorld(turning) + angular_supressant);
+  ship_mech->SetAngularVelocity(ship_mech->LocalToWorld(turning)
+  	+ angular_supressant);
 
   // normalize velocity vector
   if (redirect_vel_ratio > 0.0)
   {
     float speed = ship_mech->GetLinearVelocity ().Norm ();
-    ship_mech->SetLinearVelocity ((1.0 - redirect_vel_ratio) * ship_mech->GetLinearVelocity () +
-        redirect_vel_ratio * ship_mech->LocalToWorld (csVector3 (0,0,-speed)));
+    ship_mech->SetLinearVelocity ((1.0 - redirect_vel_ratio) * ship_mech
+    	->GetLinearVelocity () + redirect_vel_ratio
+	* ship_mech->LocalToWorld (csVector3 (0,0,-speed)));
   }
 
   float hspeed = after_burner ? topburnerspeed : topspeed;
@@ -149,5 +154,6 @@ void celPcCraftController::UpdateBody ()
   // I hope to move this to another interface
   csVector3 lv = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ());
   if (thrust_on && !(-lv.z > hspeed))
-    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true, csVector3 (0,0,0), 0.1f);
+    ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true,
+      csVector3 (0,0,0), 0.1f);
 }

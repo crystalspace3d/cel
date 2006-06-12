@@ -99,11 +99,13 @@ public:
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   // iPcMechanicsBalancedGroup function implementation
-  virtual void SetType (celAxisType type) {
+  virtual void SetType (celAxisType type)
+  {
     grouptype = type;
   };
 
-  virtual celAxisType GetType () {
+  virtual celAxisType GetType ()
+  {
     return grouptype;
   };
 
@@ -233,7 +235,8 @@ private:
   csArray<celThrustRequestData*> requests;
   uint32 lastrequestid;
 
-  virtual void ApplyThrustHelper (float thrust, iPcMechanicsBalancedGroup* group, uint32 id);
+  virtual void ApplyThrustHelper (float thrust,
+  	iPcMechanicsBalancedGroup* group, uint32 id);
 
 public:
   celPcMechanicsThrusterController (iObjectRegistry* object_reg);

@@ -1440,7 +1440,8 @@ void celPcMechanicsObject::AddForceDuration (const csVector3& force,
 void celPcMechanicsObject::AddForceFrame (const csVector3& force,
 	bool relative, const csVector3& position)
 {
-  mechsystem->AddForceFrame ((iPcMechanicsObject*)this, force, relative, position);
+  mechsystem->AddForceFrame ((iPcMechanicsObject*)this, force, relative,
+  	position);
 }
 
 void celPcMechanicsObject::ClearForces ()
@@ -1564,18 +1565,21 @@ void celPcMechanicsJoint::CreateJoint ()
   iRigidBody* body1 = 0;
   if (parent_body)
   {
-    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (parent_body, iPcMechanicsObject);
+    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+    	parent_body, iPcMechanicsObject);
     if (pcmechobj)
       body1 = pcmechobj->GetBody ();
   }
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity, iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (
+  	entity, iPcMechanicsObject);
   if (!pcmechobj)
   {
     fprintf (stderr, "Can't find pcmechobject for entity!\n"); fflush (stderr);
     return;	// @@@ Error?
   }
   iRigidBody* body2 = pcmechobj->GetBody ();
-  csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
+  csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg,
+  	iPcMechanicsSystem);
   if (!mechsystem)
   {
     fprintf (stderr, "Can't find mechanics system!\n"); fflush (stderr);
@@ -1598,7 +1602,9 @@ bool celPcMechanicsJoint::PerformAction (csStringID actionId,
     parent_body = pl->FindEntity (body);
     if (!parent_body)
     {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mechanics", "Can't find entity '%s' for parent body!", body);
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+      	"cel.propclass.mechanics", "Can't find entity '%s' for parent body!",
+	body);
       return false;
     }
     CreateJoint ();

@@ -102,11 +102,14 @@ csPtr<iCelDataBuffer> celPcHover::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
   return csPtr<iCelDataBuffer> (databuf);
 }
+
 bool celPcHover::Load (iCelDataBuffer* databuf)
 {
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+  	iPcMechanicsObject);
   return true;
 }
+
 bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
 {
   if (actionId == action_setworld)
@@ -199,7 +202,8 @@ void celPcHover::UseDefaultFunction (float dampening)
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
 {
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity() , iPcMechanicsObject);
+  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+  	iPcMechanicsObject);
   offset *= ang_beam_offset;  // this will convert the (0,0,1) to (0,0,K) vector
 
   // do first rotation test - simple trigonmetry
@@ -276,7 +280,8 @@ void celPcHover::PerformStabilising ()
   //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
 
   // the ships roll and pitch should try to remain level
-  if ((ang_mult > 0.0) && (obj_info.height < ang_cutoff_height)) {
+  if ((ang_mult > 0.0) && (obj_info.height < ang_cutoff_height))
+  {
     float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
 
@@ -303,6 +308,7 @@ float celPcHover::Height (csVector3 offset)
         from object */
     return ReverseHeight(start);
 }
+
 float celPcHover::ReverseHeight (csVector3 &start)
 {
   // instead of downwards the beam goes upwards
