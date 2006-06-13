@@ -438,6 +438,10 @@ public:
   virtual iQuestTriggerFactory* SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave = false);
+  virtual iQuestTriggerFactory* SetWatchTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par);
 };
 
 #endif // __CEL_TOOLS_QUESTS__

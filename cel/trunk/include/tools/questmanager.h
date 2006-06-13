@@ -650,6 +650,8 @@ struct iQuestManager : public virtual iBase
    *     See iInventoryQuestTriggerFactory.
    * <li>cel.questtrigger.meshselect: triggers when a mesh is selected.
    *     See iMeshSelectQuestTriggerFactory.
+   * <li>cel.questtrigger.watch: triggers when a mesh becomes visible.
+   *     See iWatchQuestTriggerFactory.
    * </ul>
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
@@ -852,6 +854,15 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetTriggerTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, bool do_leave = false) = 0;
+
+  /**
+   * Convenience method to set a 'watch' trigger factory
+   * to a response factory.
+   */
+  virtual iQuestTriggerFactory* SetWatchTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -1138,6 +1149,64 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
    * instead of 'enters'.
    */
   virtual void EnableLeave () = 0;
+};
+
+/**
+ * This interface is implemented by the trigger that fires
+ * when a mesh becomes visible. You can query this interface
+ * from the trigger factory if you want to manually control
+ * this factory as opposed to loading its definition from an XML
+ * document.
+ * <p>
+ * The predefined name of this trigger type is 'cel.questtrigger.watch'.
+ * <p>
+ * In XML, factories recognize the following attributes on the 'fireon' node:
+ * <ul>
+ * <li><em>entity</em>: the name of the source entity that is watching
+ *     out for other entity. This should contain a pcmesh to get a position
+ *     from.
+ * <li><em>entity_tag</em>: optional tag used to find the right
+ *     property class from the entity.
+ * <li><em>target</em>: the name of the target entity to watch. This
+ *     should contain a pcmesh to get a position from.
+ * <li><em>target_tag</em>: optional tag used to find the right property
+ *     class from the target entity.
+ * <li><em>checktime</em>: optional tag to specify the check interval.
+ * </ul>
+ */
+struct iWatchQuestTriggerFactory : public virtual iBase
+{
+  SCF_INTERFACE (iWatchQuestTriggerFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the source entity containing the pcmesh property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetEntityParameter (const char* entity, const char* tag = 0) = 0;
+
+  /**
+   * Set the name of the target entity containing the pcmesh property class
+   * on which this trigger will fire.
+   * \param entity is the name of the entity or a parameter (starts
+   * with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetTargetEntityParameter (const char* entity,
+      const char* tag = 0) = 0;
+
+  /**
+   * Set the interval (in milliseconds) after which this trigger
+   * will check visibility again. By default this is equal to 1000
+   * which means there will be a check every second.
+   * \param time is the interval in milliseconds or a parameter (starts
+   * with '$').
+   */
+  virtual void SetChecktimeParameter (const char* time) = 0;
 };
 
 //-------------------------------------------------------------------------
