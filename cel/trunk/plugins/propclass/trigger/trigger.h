@@ -96,6 +96,13 @@ private:
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
 
+  // This is a set of sectors that could be relevant
+  // for this trigger. It contains at least the source
+  // sector of the trigger sphere/box/beam and all
+  // sectors near it.
+  csSet<csPtrKey<iSector> > relevant_sectors;
+  void UpdateRelevantSectors ();
+  
   // Sphere to use for checking.
   iSector* sphere_sector;
   csVector3 sphere_center;
@@ -155,7 +162,6 @@ public:
   virtual void TickOnce ();
   // celPcTrigger only function to set center.
   void SetCenter (csVector3 &v);
-  void SetSector (iSector *sector);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the properties.

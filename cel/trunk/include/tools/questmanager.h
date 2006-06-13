@@ -862,7 +862,8 @@ struct iQuestManager : public virtual iBase
   virtual iQuestTriggerFactory* SetWatchTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
-	const char* checktime_par) = 0;
+	const char* checktime_par,
+	const char* radius_par) = 0;
 };
 
 //-------------------------------------------------------------------------
@@ -1172,6 +1173,7 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
  * <li><em>target_tag</em>: optional tag used to find the right property
  *     class from the target entity.
  * <li><em>checktime</em>: optional tag to specify the check interval.
+ * <li><em>radius</em>: optional tag to specify the maximum radius.
  * </ul>
  */
 struct iWatchQuestTriggerFactory : public virtual iBase
@@ -1207,6 +1209,14 @@ struct iWatchQuestTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetChecktimeParameter (const char* time) = 0;
+
+  /**
+   * Set the maximum radius for visibility checking.
+   * By default this is equal to infinity.
+   * \param radius is the maximum radius or a parameter (starts
+   * with '$').
+   */
+  virtual void SetRadiusParameter (const char* radius) = 0;
 };
 
 //-------------------------------------------------------------------------

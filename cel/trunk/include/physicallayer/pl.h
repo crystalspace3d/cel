@@ -479,6 +479,12 @@ struct iCelPlLayer : public iBase
   /**
    * Register this listener as one that is interested in getting
    * an event every frame. This will call TickEveryFrame().
+   *
+   * Special note. The physical layer will keep a weak reference to
+   * the listener only. So you must keep track of your own reference.
+   * This also means that having this callback will not prevent
+   * removal of the class that implements the timer listener.
+   *
    * \param listener is the iCelTimerListener listener.
    * \param where should be CEL_EVENT_PRE, CEL_EVENT_VIEW,
    * or CEL_EVENT_POST.
@@ -488,6 +494,12 @@ struct iCelPlLayer : public iBase
   /**
    * Register this listener as one that is interested in getting
    * an event in 'delta' milliseconds. This will call Tick().
+   *
+   * Special note. The physical layer will keep a weak reference to
+   * the listener only. So you must keep track of your own reference.
+   * This also means that having this callback will not prevent
+   * removal of the class that implements the timer listener.
+   *
    * \param listener is the iCelTimerListener listener.
    * \param delta is the time to wait before firing in milliseconds.
    * \param where should be CEL_EVENT_PRE, CEL_EVENT_VIEW,

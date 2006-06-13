@@ -21,10 +21,13 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/document.h"
 #include "ivaria/reporter.h"
+#include "iengine/mesh.h"
+#include "iengine/movable.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -54,7 +57,7 @@ csPtr<iQuestTrigger> celWatchTriggerFactory::CreateTrigger (
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,
-	time_par);
+	time_par, radius_par);
   return trig;
 }
 
@@ -81,6 +84,7 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   }
 
   time_par = node->GetAttributeValue ("checktime");
+  radius_par = node->GetAttributeValue ("radius");
 
   return true;
 }
@@ -99,10 +103,14 @@ void celWatchTriggerFactory::SetTargetEntityParameter (
   target_tag_par = tag;
 }
 
-void celWatchTriggerFactory::SetChecktimeParameter (
-	const char* time)
+void celWatchTriggerFactory::SetChecktimeParameter (const char* time)
 {
   time_par = time;
+}
+
+void celWatchTriggerFactory::SetRadiusParameter (const char* radius)
+{
+  radius_par = radius;
 }
 
 //---------------------------------------------------------------------------
@@ -112,7 +120,7 @@ celWatchTrigger::celWatchTrigger (
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
-	const char* time_par) : scfImplementationType (this)
+	const char* time_par, const char* radius_par) : scfImplementationType (this)
 {
   celWatchTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
@@ -125,6 +133,15 @@ celWatchTrigger::celWatchTrigger (
     sscanf (t, "%d", &time);
   else
     time = 1000;
+  const char* r = qm->ResolveParameter (params, radius_par);
+  float radius;
+  if (r)
+    sscanf (r, "%f", &radius);
+  else
+    radius = 10000000.0f;
+  sqradius = radius * radius;
+
+  pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
 }
 
 celWatchTrigger::~celWatchTrigger ()
@@ -142,37 +159,58 @@ void celWatchTrigger::ClearCallback ()
   callback = 0;
 }
 
-void celWatchTrigger::FindEntities ()
+bool celWatchTrigger::FindEntities ()
 {
-#if 0
-  if (!pctrigger)
+  if (!source_mesh)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
     iCelEntity* ent = pl->FindEntity (entity);
-    if (!ent) return;
-    pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger, tag);
+    if (!ent) return false;
+    source_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
+    if (!source_mesh) return false;
   }
-#endif
+  if (!target_mesh)
+  {
+    iCelEntity* ent = pl->FindEntity (target_entity);
+    if (!ent) return false;
+    target_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, target_tag);
+    if (!target_mesh) return false;
+  }
+  return true;
+}
+
+void celWatchTrigger::TickOnce ()
+{
+  if (Check ())
+  {
+    DeactivateTrigger ();
+    callback->TriggerFired ((iQuestTrigger*)this);
+  }
 }
 
 void celWatchTrigger::ActivateTrigger ()
 {
-  FindEntities ();
-  //if (pctrigger)
-    //pctrigger->AddTriggerListener ((iPcTriggerListener*)this);
+  if (!FindEntities ()) return;
+  pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
+  	CEL_EVENT_PRE);
 }
 
 bool celWatchTrigger::Check ()
 {
-  //if (!pctrigger) return false;
-  //return pctrigger->Check ();
-  return false;
+  if (!source_mesh || !target_mesh) return false;
+  csVector3 source_pos = source_mesh->GetMesh ()->GetMovable ()
+  	->GetFullPosition ();
+  csVector3 target_pos = target_mesh->GetMesh ()->GetMovable ()
+  	->GetFullPosition ();
+  float sqdist = csSquaredDist::PointPoint (source_pos, target_pos);
+  if (sqdist > sqradius) return false;
+
+  return true;
 }
 
 void celWatchTrigger::DeactivateTrigger ()
 {
-  //if (pctrigger)
-    //pctrigger->RemoveTriggerListener ((iPcTriggerListener*)this);
+  pl->RemoveCallbackOnce (static_cast<iCelTimerListener*> (this),
+  	CEL_EVENT_PRE);
 }
 
 bool celWatchTrigger::LoadAndActivateTrigger (iCelDataBuffer*)

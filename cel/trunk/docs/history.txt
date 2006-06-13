@@ -8,6 +8,11 @@ The history order is reversed so that new features are at the top.
 	  the quest manager. This trigger will fire when some entity
 	  comes into 'view' of another entity.
 	- Darek fixed csStrings in pcspawn by adding .GetData ().
+	- Jorrit did some more work on the new watch trigger. Still not
+	  working though.
+	- Jorrit started work on making pctrigger work cross-sector. Not
+	  yet operational though.
+	- Jorrit fixed pcspawn the correct way.
 12-Jun-2006
 	- Jorrit changed pcspawn to use csString instead of char* strings.
 	- Jorrit converted iPcTriggerListener to new SCF.

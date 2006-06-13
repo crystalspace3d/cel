@@ -441,7 +441,8 @@ public:
   virtual iQuestTriggerFactory* SetWatchTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
-	const char* checktime_par);
+	const char* checktime_par,
+	const char* radius_par);
 };
 
 #endif // __CEL_TOOLS_QUESTS__

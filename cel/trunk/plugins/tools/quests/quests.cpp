@@ -1367,7 +1367,8 @@ iQuestTriggerFactory* celQuestManager::SetTriggerTrigger (
 iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* target_entity_par,
-	const char* checktime_par)
+	const char* checktime_par,
+	const char* radius_par)
 {
   iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.watch");
   csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
@@ -1376,6 +1377,7 @@ iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
   newstate->SetEntityParameter (entity_par);
   newstate->SetTargetEntityParameter (target_entity_par);
   newstate->SetChecktimeParameter (checktime_par);
+  newstate->SetRadiusParameter (radius_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
