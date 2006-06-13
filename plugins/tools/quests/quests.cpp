@@ -38,6 +38,7 @@
 #include "plugins/tools/quests/trig_trigger.h"
 #include "plugins/tools/quests/trig_inventory.h"
 #include "plugins/tools/quests/trig_meshsel.h"
+#include "plugins/tools/quests/trig_watch.h"
 #include "plugins/tools/quests/reward_debugprint.h"
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
@@ -964,6 +965,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
     type->DecRef ();
   }
 
+  {
+    celWatchTriggerType* type = new celWatchTriggerType (
+  	object_reg);
+    RegisterTriggerType (type);
+    type->DecRef ();
+  }
+
   //--- Rewards ------------------------------------------------------
   {
     celDebugPrintRewardType* type = new celDebugPrintRewardType (
@@ -1352,6 +1360,22 @@ iQuestTriggerFactory* celQuestManager::SetTriggerTrigger (
   	trigfact, iTriggerQuestTriggerFactory);
   newstate->SetEntityParameter (entity_par);
   if (do_leave) newstate->EnableLeave ();
+  response->SetTriggerFactory (trigfact);
+  return trigfact;
+}
+
+iQuestTriggerFactory* celQuestManager::SetWatchTrigger (
+  	iQuestTriggerResponseFactory* response,
+  	const char* entity_par, const char* target_entity_par,
+	const char* checktime_par)
+{
+  iQuestTriggerType* type = GetTriggerType ("cel.questtrigger.watch");
+  csRef<iQuestTriggerFactory> trigfact = type->CreateTriggerFactory ();
+  csRef<iWatchQuestTriggerFactory> newstate = SCF_QUERY_INTERFACE (
+  	trigfact, iWatchQuestTriggerFactory);
+  newstate->SetEntityParameter (entity_par);
+  newstate->SetTargetEntityParameter (target_entity_par);
+  newstate->SetChecktimeParameter (checktime_par);
   response->SetTriggerFactory (trigfact);
   return trigfact;
 }
