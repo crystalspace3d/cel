@@ -88,8 +88,8 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-class celTriggerMovableListener : public scfImplementation1<celTriggerMovableListener,
-	iMovableListener>
+class celTriggerMovableListener : public scfImplementation1<
+	celTriggerMovableListener, iMovableListener>
 {
 private:
   csWeakRef<celPcTrigger> pctrigger;
@@ -269,17 +269,6 @@ void celPcTrigger::SetCenter (csVector3 &v)
     beam_start = v;
   }
 }
-void celPcTrigger::SetSector (iSector *sector)
-{
-  if (above_mesh)
-    return;
-  else if (box_sector)
-    box_sector = sector;
-  else if (sphere_sector)
-    box_sector = sector;
-  else if (beam_sector)
-    box_sector = sector;
-}
 
 bool celPcTrigger::SetProperty (csStringID propertyId, long b)
 {
@@ -435,6 +424,27 @@ size_t celPcTrigger::EntityInTrigger (iCelEntity* entity)
   return csArrayItemNotFound;
 }
 
+void celPcTrigger::UpdateRelevantSectors ()
+{
+  if (!relevant_sectors.IsEmpty ()) return;
+  csRef<iSectorIterator> sector_it;
+  if (box_sector)
+    sector_it = engine->GetNearbySectors (box_sector, box_area);
+  else if (sphere_sector)
+    sector_it = engine->GetNearbySectors (sphere_sector, sphere_center,
+        sphere_radius);
+  else if (beam_sector)
+  {
+    float radius = sqrt (csSquaredDist::PointPoint (beam_start, beam_end));
+    sector_it = engine->GetNearbySectors (beam_sector, (beam_start+beam_end)/2.0f,
+    	radius);
+  }
+  while (sector_it->HasNext ())
+  {
+    relevant_sectors.Add (sector_it->Next ());
+  }
+}
+
 void celPcTrigger::SetupTriggerSphere (iSector* sector,
 	const csVector3& center, float radius)
 {
@@ -446,6 +456,7 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
   sphere_sector = sector;
   sphere_center = center;
   sphere_radius = radius;
+  relevant_sectors.Empty ();
 }
 
 void celPcTrigger::SetupTriggerSphere (iSector* sector,
@@ -469,6 +480,7 @@ void celPcTrigger::SetupTriggerSphere (iSector* sector,
   sphere_sector = sector;
   sphere_center = mapnode->GetPosition ();
   sphere_radius = radius;
+  relevant_sectors.Empty ();
 }
 
 void celPcTrigger::SetupTriggerBox (iSector* sector, const csBox3& box)
@@ -480,6 +492,7 @@ void celPcTrigger::SetupTriggerBox (iSector* sector, const csBox3& box)
 
   box_sector = sector;
   box_area = box;
+  relevant_sectors.Empty ();
 }
 
 void celPcTrigger::SetupTriggerBeam (iSector* sector, const csVector3& start,
@@ -493,6 +506,7 @@ void celPcTrigger::SetupTriggerBeam (iSector* sector, const csVector3& start,
   beam_sector = sector;
   beam_start = start;
   beam_end = end;
+  relevant_sectors.Empty ();
 }
 
 void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
@@ -505,6 +519,7 @@ void celPcTrigger::SetupTriggerAboveMesh (iPcMesh* m, float maxdistance)
   above_mesh = m;
   above_maxdist = maxdistance;
   above_collider = 0;
+  relevant_sectors.Empty ();
 }
 
 bool celPcTrigger::Check ()

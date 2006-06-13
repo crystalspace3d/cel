@@ -28,6 +28,7 @@
 #include "iutil/eventq.h"
 #include "iutil/virtclk.h"
 #include "tools/questmanager.h"
+#include "propclass/mesh.h"
 
 #include "iengine/engine.h"
 
@@ -55,6 +56,7 @@ private:
   csString target_entity_par;
   csString target_tag_par;
   csString time_par;
+  csString radius_par;
 
 public:
   celWatchTriggerFactory (celWatchTriggerType* type);
@@ -68,13 +70,14 @@ public:
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetTargetEntityParameter (const char* entity, const char* tag = 0);
   virtual void SetChecktimeParameter (const char* time);
+  virtual void SetRadiusParameter (const char* radius);
 };
 
 /**
  * The 'trigger' trigger.
  */
-class celWatchTrigger : public scfImplementation1<
-	celWatchTrigger, iQuestTrigger>
+class celWatchTrigger : public scfImplementation2<
+	celWatchTrigger, iQuestTrigger, iCelTimerListener>
 {
 private:
   celWatchTriggerType* type;
@@ -84,16 +87,24 @@ private:
   csString target_entity;
   csString target_tag;
   csTicks time;
+  float sqradius;
+  csRef<iCelPlLayer> pl;
 
-  void FindEntities ();
+  csWeakRef<iPcMesh> source_mesh;
+  csWeakRef<iPcMesh> target_mesh;
+
+  bool FindEntities ();
 
 public:
   celWatchTrigger (celWatchTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
-	const char* time_par);
+	const char* time_par, const char* radius_par);
   virtual ~celWatchTrigger ();
+
+  virtual void TickEveryFrame () { }
+  virtual void TickOnce ();
 
   virtual void RegisterCallback (iQuestTriggerCallback* callback);
   virtual void ClearCallback ();

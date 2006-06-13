@@ -363,14 +363,14 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   if (spawninfo[idx].templ)
   {
     iCelEntityTemplate* entpl = pl->FindEntityTemplate (
-    	spawninfo[idx].templ.GetData ());
+    	spawninfo[idx].templ);
     celEntityTemplateParams entpl_params;
     spawninfo[idx].newent = pl->CreateEntity (entpl,
-    	spawninfo[idx].name.GetData (), entpl_params);
+    	spawninfo[idx].name, entpl_params);
   }
   else
   {
-    spawninfo[idx].newent = pl->CreateEntity (spawninfo[idx].name.GetData (),
+    spawninfo[idx].newent = pl->CreateEntity (spawninfo[idx].name,
     	spawninfo[idx].bl, spawninfo[idx].behaviour, CEL_PROPCLASS_END);
   }
 
@@ -393,13 +393,12 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   {
     csRandomGen rng;
     uint32 number = rng.Get (spawnposition.Length ());
-    iSector* sect = engine->FindSector (
-    	spawnposition[number].sector.GetData ());
+    iSector* sect = engine->FindSector (spawnposition[number].sector);
     if (!sect)
     {
       Report (object_reg,
       	"Can't find sector '%s' for action SetPosition!",
-      	(const char*)(spawnposition[number].sector.GetData ()));
+      	(const char*)(spawnposition[number].sector));
     }
     else
     {
@@ -407,8 +406,8 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         spawninfo[idx].newent, iPcLinearMovement);
       if (linmove)
       {
-        if (spawnposition[number].node.GetData ())
-          linmove->SetFullPosition (spawnposition[number].node.GetData (),
+        if (!spawnposition[number].node.IsEmpty ())
+          linmove->SetFullPosition (spawnposition[number].node,
           	spawnposition[number].yrot, sect);
         else
           linmove->SetFullPosition (spawnposition[number].pos,
@@ -417,16 +416,16 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
       else
       {
         csVector3 pos;
-        if (spawnposition[number].node.GetData ())
+        if (!spawnposition[number].node.IsEmpty ())
         {
           csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
           	sect->QueryObject (), iMapNode,
-          	spawnposition[number].node.GetData ());
+          	spawnposition[number].node);
           if (mapnode)
             pos = mapnode->GetPosition ();
           else
             Report (object_reg, "Can't find node '%s' for trigger!",
-              (const char*)spawnposition[number].node.GetData ());
+              (const char*)spawnposition[number].node);
         }
         else
         {
@@ -464,11 +463,11 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   if (spawninfo[idx].behaviour && !spawninfo[idx].newent->GetBehaviour ())
     Report (object_reg, "Error creating behaviour for entity '%s'!",
     	spawninfo[idx].newent->GetName ());
-  if (spawninfo[idx].msg_id.GetData () &&
+  if ((!spawninfo[idx].msg_id.IsEmpty ()) &&
   	spawninfo[idx].newent->GetBehaviour ())
   {
     spawninfo[idx].newent->GetBehaviour ()->SendMessage (
-    	spawninfo[idx].msg_id.GetData (), this, ret, spawninfo[idx].params);
+    	spawninfo[idx].msg_id, this, ret, spawninfo[idx].params);
   }
 
   // Then send a message to our own entity.
