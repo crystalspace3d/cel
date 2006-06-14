@@ -364,8 +364,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   csRandomGen rng (csGetTicks ());
   if (spawninfo[idx].templ)
   {
-    csString entity_name;
-    entity_name += spawninfo[idx].name;
+    csString entity_name = spawninfo[idx].name;
     entity_name += serialnr;
     iCelEntityTemplate* entpl = pl->FindEntityTemplate (
     	spawninfo[idx].templ);
@@ -406,12 +405,11 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         number = rng.Get (len);
         if (spawnposition[number].reserved == false)
           break;
-        else
-          if (spawnposition[i].reserved == false)
-          {
-            number = i;
-            break;
-          }
+        else if (spawnposition[i].reserved == false)
+        {
+          number = i;
+          break;
+        }
       }
     }
     else
