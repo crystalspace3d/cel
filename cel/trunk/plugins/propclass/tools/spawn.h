@@ -70,6 +70,7 @@ struct SpawnInfo
 // Spawn position
 struct SpawnPosition
 {
+  bool reserved;
   csVector3 pos;
   float yrot;
   csString node;
@@ -77,6 +78,7 @@ struct SpawnPosition
 
   SpawnPosition ()
   {
+    reserved = false;
     pos.x = 0.0f;
     pos.y = 0.0f;
     pos.z = 0.0f;
@@ -106,6 +108,7 @@ private:
   float total_chance;
   int count;
   int inhibit_count;
+  uint32 serialnr;
 
   static csStringID action_addentitytype;
   static csStringID action_addentitytpltype;

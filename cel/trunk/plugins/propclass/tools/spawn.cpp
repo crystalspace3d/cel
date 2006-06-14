@@ -124,6 +124,7 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   sequence_cur = 0;
   count = 0;
   inhibit_count = 0;
+  serialnr = 1;
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
@@ -350,7 +351,7 @@ void celPcSpawn::Reset ()
 void celPcSpawn::Spawn ()
 {
   csRandomGen rng;
-  SpawnEntityNr (rng.Get((int)spawninfo.Length ()));
+  SpawnEntityNr (rng.Get((uint32)spawninfo.Length ()));
 }
 
 void celPcSpawn::SpawnEntityNr (size_t idx)
@@ -360,13 +361,18 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   // the call of pcspawn_newentity we keep a temporary reference
   // here.
   csRef<iCelEntity> ref;
+  csRandomGen rng (csGetTicks ());
   if (spawninfo[idx].templ)
   {
+    csString entity_name;
+    entity_name += spawninfo[idx].name;
+    entity_name += serialnr;
     iCelEntityTemplate* entpl = pl->FindEntityTemplate (
     	spawninfo[idx].templ);
     celEntityTemplateParams entpl_params;
     spawninfo[idx].newent = pl->CreateEntity (entpl,
-    	spawninfo[idx].name, entpl_params);
+    	entity_name, entpl_params);
+    serialnr ++;
   }
   else
   {
@@ -389,70 +395,96 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   }
 
   // Set position
-  if (spawnposition.Length () > 0)
+  size_t len = spawnposition.Length ();
+  if (len > 0)
   {
-    csRandomGen rng;
-    uint32 number = rng.Get (spawnposition.Length ());
-    iSector* sect = engine->FindSector (spawnposition[number].sector);
-    if (!sect)
+    size_t number = 0;
+    if (random)
     {
-      Report (object_reg,
-      	"Can't find sector '%s' for action SetPosition!",
-      	(const char*)(spawnposition[number].sector));
+      for (size_t i = 0; i != len; i ++)
+      {
+        number = rng.Get (len);
+        if (spawnposition[number].reserved == false)
+          break;
+        else
+          if (spawnposition[i].reserved == false)
+          {
+            number = i;
+            break;
+          }
+      }
     }
     else
     {
-      csRef<iPcLinearMovement> linmove = CEL_QUERY_PROPCLASS_ENT (
-        spawninfo[idx].newent, iPcLinearMovement);
-      if (linmove)
+      for (number = 0; number != len; number ++)
+        if (spawnposition[number].reserved == false)
+          break;
+    }
+    if (number < len)
+    {
+      iSector* sect = engine->FindSector (spawnposition[number].sector);
+      if (!sect)
       {
-        if (!spawnposition[number].node.IsEmpty ())
-          linmove->SetFullPosition (spawnposition[number].node,
-          	spawnposition[number].yrot, sect);
-        else
-          linmove->SetFullPosition (spawnposition[number].pos,
-          	spawnposition[number].yrot, sect);
+        Report (object_reg,
+          "Can't find sector '%s' for action SetPosition!",
+          (const char*)(spawnposition[number].sector));
       }
       else
       {
-        csVector3 pos;
-        if (!spawnposition[number].node.IsEmpty ())
+        csRef<iPcLinearMovement> linmove = CEL_QUERY_PROPCLASS_ENT (
+          spawninfo[idx].newent, iPcLinearMovement);
+        if (linmove)
         {
-          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-          	sect->QueryObject (), iMapNode,
-          	spawnposition[number].node);
-          if (mapnode)
-            pos = mapnode->GetPosition ();
+          spawnposition[number].reserved = true;
+          if (!spawnposition[number].node.IsEmpty ())
+            linmove->SetFullPosition (spawnposition[number].node,
+              spawnposition[number].yrot, sect);
           else
-            Report (object_reg, "Can't find node '%s' for trigger!",
-              (const char*)spawnposition[number].node);
+            linmove->SetFullPosition (spawnposition[number].pos,
+              spawnposition[number].yrot, sect);
         }
         else
         {
-          pos = spawnposition[number].pos;
-        }
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
-        	spawninfo[idx].newent, iPcMesh);
-        if (pcmesh)
-        {
-          iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-          if (movable)
+          csVector3 pos;
+          if (!spawnposition[number].node.IsEmpty ())
           {
-            movable->SetPosition (sect, pos);
-            movable->GetTransform ().SetO2T (
-            	(csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-            movable->UpdateMove ();
+            csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+              sect->QueryObject (), iMapNode,
+              spawnposition[number].node);
+            if (mapnode)
+              pos = mapnode->GetPosition ();
+            else
+              Report (object_reg, "Can't find node '%s' for trigger!",
+                (const char*)spawnposition[number].node);
           }
           else
           {
-            Report (object_reg, "Error: entity '%s' is not movable!",
-            	spawninfo[idx].newent->GetName ());
+            pos = spawnposition[number].pos;
           }
-        }
-        else
-        {
-          Report (object_reg, "Error: entity '%s' is not a mesh!",
-          	spawninfo[idx].newent->GetName ());
+          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
+            spawninfo[idx].newent, iPcMesh);
+          if (pcmesh)
+          {
+            iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+            if (movable)
+            {
+              spawnposition[number].reserved = true;
+              movable->SetPosition (sect, pos);
+              movable->GetTransform ().SetO2T (
+                (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
+              movable->UpdateMove ();
+            }
+            else
+            {
+              Report (object_reg, "Error: entity '%s' is not movable!",
+                spawninfo[idx].newent->GetName ());
+            }
+          }
+          else
+          {
+            Report (object_reg, "Error: entity '%s' is not a mesh!",
+              spawninfo[idx].newent->GetName ());
+          }
         }
       }
     }
