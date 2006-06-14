@@ -96,11 +96,11 @@ private:
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
 
-  // This is a set of sectors that could be relevant
-  // for this trigger. It contains at least the source
-  // sector of the trigger sphere/box/beam and all
+  // This is a hash of sectors and warped positions
+  // that could be relevant for this trigger. It contains at
+  // least the source sector of the trigger sphere/box/beam and all
   // sectors near it.
-  csSet<csPtrKey<iSector> > relevant_sectors;
+  csHash<csVector3,csPtrKey<iSector> > relevant_sectors;
   void UpdateRelevantSectors ();
   
   // Sphere to use for checking.
