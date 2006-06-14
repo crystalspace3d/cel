@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pctrigger so that it works cross-sector for
 	  sphere, box, and beam triggers. Note that with beam trigger
 	  space warping is not yet correctly handled.
+	- Darek added to pcspawn support for random choosing of the
+	  spawn point and generating unique entity name with serial
+	  number.
 13-Jun-2006
 	- Jorrit added a currently non-functional new 'watch' trigger in
 	  the quest manager. This trigger will fire when some entity

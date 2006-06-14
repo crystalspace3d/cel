@@ -112,8 +112,8 @@ struct iPcSpawn : public iBase
    * Set timing information.
    * \param repeat if true then this spawner will keep spawning. Otherwise
    *        it spawns only once unless Reset() is called.
-   * \param random if true then we will select a random entity from our list.
-   *        Otherwise we select sequentially.
+   * \param random if true then we will select a random entity and random
+   *        position from our list. Otherwise we select sequentially.
    * \param mindelay is the minimum delay to wait before spawning.
    * \param maxdelay is the maximum delay to wait before spawning.
    */
