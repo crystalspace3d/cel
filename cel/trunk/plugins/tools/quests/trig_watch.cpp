@@ -21,6 +21,8 @@
 #include "csutil/objreg.h"
 #include "csutil/dirtyaccessarray.h"
 #include "csutil/util.h"
+#include "cstool/enginetools.h"
+#include "cstool/collider.h"
 #include "csgeom/math3d.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -28,6 +30,7 @@
 #include "ivaria/reporter.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
+#include "iengine/sector.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -134,7 +137,6 @@ celWatchTrigger::celWatchTrigger (
   else
     time = 1000;
   const char* r = qm->ResolveParameter (params, radius_par);
-  float radius;
   if (r)
     sscanf (r, "%f", &radius);
   else
@@ -142,6 +144,7 @@ celWatchTrigger::celWatchTrigger (
   sqradius = radius * radius;
 
   pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
+  cdsys = csQueryRegistry<iCollideSystem> (type->object_reg);
 }
 
 celWatchTrigger::~celWatchTrigger ()
@@ -197,13 +200,30 @@ void celWatchTrigger::ActivateTrigger ()
 bool celWatchTrigger::Check ()
 {
   if (!source_mesh || !target_mesh) return false;
-  csVector3 source_pos = source_mesh->GetMesh ()->GetMovable ()
-  	->GetFullPosition ();
-  csVector3 target_pos = target_mesh->GetMesh ()->GetMovable ()
-  	->GetFullPosition ();
-  float sqdist = csSquaredDist::PointPoint (source_pos, target_pos);
-  if (sqdist > sqradius) return false;
 
+  iMovable* source_movable = source_mesh->GetMesh ()->GetMovable ();
+  if (source_movable->GetSectors ()->GetCount () == 0) return false;
+  iSector* source_sector = source_movable->GetSectors ()->Get (0);
+  csVector3 source_pos = source_movable->GetFullPosition ();
+
+  iMovable* target_movable = target_mesh->GetMesh ()->GetMovable ();
+  if (target_movable->GetSectors ()->GetCount () == 0) return false;
+  iSector* target_sector = target_movable->GetSectors ()->Get (0);
+  csVector3 target_pos = target_movable->GetFullPosition ();
+
+  csShortestDistanceResult rc = csEngineTools::FindShortestDistance (
+  	source_pos, source_sector,
+	target_pos, target_sector,
+	radius);
+  if (rc.sqdistance < 0.0f) return false;
+  if (rc.sqdistance > sqradius) return false;
+  csTraceBeamResult tbrc = csColliderHelper::TraceBeam (
+  	cdsys, source_sector, source_pos, source_pos + rc.direction,
+	true);
+  if (tbrc.closest_mesh != target_mesh->GetMesh ())
+    return false;
+
+  // Yes!
   return true;
 }
 
