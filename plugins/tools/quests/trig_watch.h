@@ -33,6 +33,7 @@
 #include "iengine/engine.h"
 
 struct iObjectRegistry;
+struct iCollideSystem;
 struct iEvent;
 
 /**
@@ -87,8 +88,9 @@ private:
   csString target_entity;
   csString target_tag;
   csTicks time;
-  float sqradius;
+  float radius, sqradius;
   csRef<iCelPlLayer> pl;
+  csRef<iCollideSystem> cdsys;
 
   csWeakRef<iPcMesh> source_mesh;
   csWeakRef<iPcMesh> target_mesh;
