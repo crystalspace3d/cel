@@ -57,14 +57,6 @@ struct SpawnInfo
   csRef<iCelParameterBlock> params;
   csStringArray pcs;
   csRef<iCelEntity> newent;
-
-  SpawnInfo ()
-  {
-  }
-
-  ~SpawnInfo ()
-  {
-  }
 };
 
 // Spawn position
@@ -83,10 +75,6 @@ struct SpawnPosition
     pos.y = 0.0f;
     pos.z = 0.0f;
     yrot = 0.0f;
-  }
-
-  ~SpawnPosition ()
-  {
   }
 };
 
