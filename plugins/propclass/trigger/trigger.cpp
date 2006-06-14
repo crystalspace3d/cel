@@ -436,12 +436,14 @@ void celPcTrigger::UpdateRelevantSectors ()
   else if (beam_sector)
   {
     float radius = sqrt (csSquaredDist::PointPoint (beam_start, beam_end));
-    sector_it = engine->GetNearbySectors (beam_sector, (beam_start+beam_end)/2.0f,
-    	radius);
+    sector_it = engine->GetNearbySectors (beam_sector,
+	(beam_start+beam_end)/2.0f, radius);
   }
   while (sector_it->HasNext ())
   {
-    relevant_sectors.Add (sector_it->Next ());
+    iSector* sector = sector_it->Next ();
+    const csVector3& pos = sector_it->GetLastPosition ();
+    relevant_sectors.Put (sector, pos);
   }
 }
 
@@ -612,6 +614,16 @@ void celPcTrigger::TickOnce ()
           float sqdistance = csSquaredDist::PointPoint (mpos, sphere_center);
           trigger_fired = sqdistance < sphere_radius * sphere_radius;
         }
+	else
+	{
+	  UpdateRelevantSectors ();
+	  csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+	  if (warp_center)
+	  {
+            float sqdistance = csSquaredDist::PointPoint (mpos, *warp_center);
+            trigger_fired = sqdistance < sphere_radius * sphere_radius;
+	  }
+	}
       }
       else if (box_sector)
       {
@@ -619,6 +631,17 @@ void celPcTrigger::TickOnce ()
         {
           trigger_fired = box_area.In (mpos);
         }
+	else
+	{
+	  UpdateRelevantSectors ();
+	  csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+	  if (warp_center)
+	  {
+	    csBox3 warp_box = box_area;
+	    warp_box.SetCenter (*warp_center);
+            trigger_fired = warp_box.In (mpos);
+	  }
+	}
       }
       else if (beam_sector)
       {
@@ -627,6 +650,18 @@ void celPcTrigger::TickOnce ()
           csHitBeamResult rc = monitoring_mesh->HitBeam (beam_start, beam_end);
           trigger_fired = rc.hit;
         }
+	else
+	{
+	  UpdateRelevantSectors ();
+	  csVector3* warp_center = relevant_sectors.GetElementPointer (sector);
+	  if (warp_center)
+	  {
+	    // @@@ Warp beam_start and beam_end somehow!!!
+            csHitBeamResult rc = monitoring_mesh->HitBeam (
+		beam_start, beam_end);
+            trigger_fired = rc.hit;
+	  }
+	}
       }
       else
       {
