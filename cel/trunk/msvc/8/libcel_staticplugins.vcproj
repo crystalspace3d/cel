@@ -1943,6 +1943,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\trig_watch.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_quests_trig_watch.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_quests_trig_watch.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\rulebase\rulebase.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2209,6 +2224,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_trigger.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\trig_watch.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\rulebase\rulebase.h">
