@@ -228,6 +228,9 @@
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_trigger.cpp">
 			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\trig_watch.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -297,6 +300,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\trig_trigger.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\trig_watch.h">
 			</File>
 		</Filter>
 		<Filter
