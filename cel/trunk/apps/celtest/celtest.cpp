@@ -17,7 +17,7 @@
     MA 02111-1307, USA.
 */
 
-#define CEL_USE_NEW_CAMERA
+//#define CEL_USE_NEW_CAMERA
 
 #include "cssysdef.h"
 #include "celtest.h"
