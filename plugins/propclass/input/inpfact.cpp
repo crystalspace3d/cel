@@ -769,6 +769,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     if (!p)
       return false;
 
+    // Keep a reference to the entity to prevent deletion
+    // during behaviour message handling.
+    csRef<iCelEntity> keepref = entity;
     if (type == csKeyEventTypeUp)
     {
       iCelBehaviour* bh = entity->GetBehaviour();
@@ -812,6 +815,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     uint device = csMouseEventHelper::GetNumber(&ev);
     if (ev.Name == csevMouseMove (name_reg, device))
     {
+      // Keep a reference to the entity to prevent deletion
+      // during behaviour message handling.
+      csRef<iCelEntity> keepref = entity;
+
       //mouse move event
       int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
@@ -872,6 +879,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       if (!p)
         return false;
 
+      // Keep a reference to the entity to prevent deletion
+      // during behaviour message handling.
+      csRef<iCelEntity> keepref = entity;
+
       if (ev.Name == csevMouseUp (object_reg, device))
       {
         iCelBehaviour* bh = entity->GetBehaviour();
@@ -901,6 +912,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     uint device = csJoystickEventHelper::GetNumber(&ev);
     if (ev.Name == csevJoystickMove (name_reg, device))
     {
+      // Keep a reference to the entity to prevent deletion
+      // during behaviour message handling.
+      csRef<iCelEntity> keepref = entity;
+
       //joystick move event
       int modifiers = csJoystickEventHelper::GetModifiers(&ev);
       //find mapping
@@ -955,6 +970,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
       if (!p)
         return false;
+
+      // Keep a reference to the entity to prevent deletion
+      // during behaviour message handling.
+      csRef<iCelEntity> keepref = entity;
 
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
