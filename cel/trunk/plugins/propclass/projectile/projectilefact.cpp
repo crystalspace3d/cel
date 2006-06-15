@@ -145,7 +145,6 @@ void celPcProjectile::SendMessage (const char* msg)
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = (iCelEntity*)entity;
     celData ret;
     bh->SendMessage (msg, this, ret, 0);
   }
@@ -157,7 +156,6 @@ void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
-    csRef<iCelEntity> ref = (iCelEntity*)entity;
     celData ret;
     params->GetParameter (0).Set (hitent);
     params->GetParameter (1).Set (isect);
@@ -234,11 +232,16 @@ void celPcProjectile::TickEveryFrame ()
   csVector3 newpos = start + dist * direction;
   const csVector3& curpos = movable->GetPosition ();
   iSector* cursector = movable->GetSectors ()->Get (0);
+  
+  // Reference to prevent premature entity removal.
+  csRef<iCelEntity> keepref;
+
   csSectorHitBeamResult rc = cursector->HitBeamPortals (curpos, newpos);
   if (rc.mesh)
   {
     curhits++;
     iCelEntity* hitent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
+    keepref = entity;
     SendMessage ("pcprojectile_hit", hitent, rc.isect);
     if (curhits >= maxhits)
     {

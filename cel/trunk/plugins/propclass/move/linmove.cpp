@@ -922,6 +922,7 @@ int celPcLinearMovement::MoveV (float delta)
 
   return ret;
 }
+
 void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
 {
   csVector3 start, end;
@@ -1000,29 +1001,28 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
   {
     switch(lowest)
     {
-    case 0:
-      plane.Set(isect[1], isect[2], isect[3]);
-      break;
-    case 1:
-      plane.Set(isect[0], isect[2], isect[3]);
-      break;
-    case 2:
-      plane.Set(isect[0], isect[1], isect[3]);
-      break;
-    case 3:
-      plane.Set(isect[0], isect[1], isect[2]);
-      break;
+      case 0:
+        plane.Set(isect[1], isect[2], isect[3]);
+        break;
+      case 1:
+        plane.Set(isect[0], isect[2], isect[3]);
+        break;
+      case 2:
+        plane.Set(isect[0], isect[1], isect[3]);
+        break;
+      case 3:
+        plane.Set(isect[0], isect[1], isect[2]);
+        break;
     }
     csVector3 normal = plane.GetNormal().Unit();
 
     float newxRot = atan2(normal.z, normal.y );
     float newzRot = -atan2(normal.x, normal.y );
-    csMatrix3 rotMat = csZRotMatrix3(newzRot) * csXRotMatrix3(newxRot - xRot) * csZRotMatrix3(-zRot);
+    csMatrix3 rotMat = csZRotMatrix3(newzRot) * csXRotMatrix3(newxRot - xRot)
+    	* csZRotMatrix3(-zRot);
     pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
     xRot = newxRot;
     zRot = newzRot;
-
-    //printf("xRot %f zRot %f X %f Y %f Z %f\n", xRot*180/PI, zRot*180/PI, normal.x, normal.y, normal.z);
   }
 }
 
@@ -1091,14 +1091,14 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     }
     if (path_time>path->GetTime(path->Length()-1))
     {
-	    path=0;
-	    path_time=0;
-	    iCelBehaviour* behaviour = entity->GetBehaviour ();
-	    if (behaviour)
-	    {
-	    	celData ret;
-	    	behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
-	    }
+      path=0;
+      path_time=0;
+      iCelBehaviour* behaviour = entity->GetBehaviour ();
+      if (behaviour)
+      {
+	celData ret;
+	behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
+      }
     }
   }
   else
@@ -1107,15 +1107,15 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     int move_result = MoveSprite (delta);
     if (move_result==CEL_MOVE_FAIL || move_result==CEL_MOVE_PARTIAL)
     {
-	    iCelBehaviour* behaviour = entity->GetBehaviour ();
-	    if (behaviour)
-	    {
-	    	celData ret;
-		if (move_result==CEL_MOVE_FAIL)
-	    	  behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
-		if (move_result==CEL_MOVE_PARTIAL)
-	    	  behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
-	    }
+      iCelBehaviour* behaviour = entity->GetBehaviour ();
+      if (behaviour)
+      {
+    	celData ret;
+	if (move_result==CEL_MOVE_FAIL)
+    	  behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
+	if (move_result==CEL_MOVE_PARTIAL)
+    	  behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
+      }
     }
     //if (rc)
     //  pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
