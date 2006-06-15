@@ -7,7 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a problem with pccommandinput which caused
 	  potential crashes whenever the behaviour removes the entity
 	  from within the message handler.
-	- Jorrit fixed a potential crashes similar to the one above
+	- Jorrit fixed a potential crash similar to the one above
 	  in pcprojectile too.
 14-Jun-2006
 	- Jorrit fixed pctrigger so that it works cross-sector for
