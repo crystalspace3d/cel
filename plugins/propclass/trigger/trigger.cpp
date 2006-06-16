@@ -333,6 +333,10 @@ bool celPcTrigger::GetPropertyBool (csStringID propertyId)
   {
     return monitor_invisible;
   }
+  else if (propertyId == properties[propid_follow])
+  {
+    return follow;
+  }
   else
   {
     return celPcCommon::GetPropertyBool (propertyId);

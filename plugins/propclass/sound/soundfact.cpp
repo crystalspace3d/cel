@@ -524,6 +524,10 @@ bool celPcSoundSource::GetPropertyBool (csStringID propertyId)
   {
     return source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
   }
+  else if (propertyId == properties[propid_follow])
+  {
+    return follow;
+  }
   else
   {
     return celPcCommon::GetPropertyBool (propertyId);
