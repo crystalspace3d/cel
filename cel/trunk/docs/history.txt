@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed the ent() function in blxml so that it no longer
 	  reports an error if it can't find the entity. Instead it will
 	  set the entity to 0.
+	- Jorrit fixed reading of the 'follow' property for both
+	  pctrigger and pcsoundsource.
 15-Jun-2006
 	- Jorrit fixed a problem with pccommandinput which caused
 	  potential crashes whenever the behaviour removes the entity
