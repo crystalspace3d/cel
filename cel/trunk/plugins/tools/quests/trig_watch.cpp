@@ -123,7 +123,8 @@ celWatchTrigger::celWatchTrigger (
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
-	const char* time_par, const char* radius_par) : scfImplementationType (this)
+	const char* time_par, const char* radius_par)
+	: scfImplementationType (this)
 {
   celWatchTrigger::type = type;
   csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
@@ -188,6 +189,11 @@ void celWatchTrigger::TickOnce ()
     DeactivateTrigger ();
     callback->TriggerFired ((iQuestTrigger*)this);
   }
+  else
+  {
+    pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
+  	CEL_EVENT_PRE);
+  }
 }
 
 void celWatchTrigger::ActivateTrigger ()
@@ -201,12 +207,16 @@ bool celWatchTrigger::Check ()
 {
   if (!source_mesh || !target_mesh) return false;
 
-  iMovable* source_movable = source_mesh->GetMesh ()->GetMovable ();
+  iMeshWrapper* source_wrap = source_mesh->GetMesh ();
+  if (!source_wrap) return false;
+  iMovable* source_movable = source_wrap->GetMovable ();
   if (source_movable->GetSectors ()->GetCount () == 0) return false;
   iSector* source_sector = source_movable->GetSectors ()->Get (0);
   csVector3 source_pos = source_movable->GetFullPosition ();
 
-  iMovable* target_movable = target_mesh->GetMesh ()->GetMovable ();
+  iMeshWrapper* target_wrap = target_mesh->GetMesh ();
+  if (!target_wrap) return false;
+  iMovable* target_movable = target_wrap->GetMovable ();
   if (target_movable->GetSectors ()->GetCount () == 0) return false;
   iSector* target_sector = target_movable->GetSectors ()->Get (0);
   csVector3 target_pos = target_movable->GetFullPosition ();
@@ -220,11 +230,11 @@ bool celWatchTrigger::Check ()
   csTraceBeamResult tbrc = csColliderHelper::TraceBeam (
   	cdsys, source_sector, source_pos, source_pos + rc.direction,
 	true);
-  if (tbrc.closest_mesh != target_mesh->GetMesh ())
-    return false;
-
-  // Yes!
-  return true;
+  // If we hit no mesh then we assume we reached the target (target
+  // can be invisible in first player mode for example).
+  if (tbrc.closest_mesh == 0) return true;
+  if (tbrc.closest_mesh == target_wrap) return true;
+  return false;
 }
 
 void celWatchTrigger::DeactivateTrigger ()

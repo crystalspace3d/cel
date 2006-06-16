@@ -9,6 +9,12 @@ The history order is reversed so that new features are at the top.
 	  set the entity to 0.
 	- Jorrit fixed reading of the 'follow' property for both
 	  pctrigger and pcsoundsource.
+	- Jorrit fixed a bug in the new watch trigger. It would crash
+	  in case the mesh wasn't present yet at the moment the
+	  trigger was created.
+	- Jorrit made the watch check actually work for invisible meshes
+	  (like player in first person).
+	- Jorrit made the watch trigger recheck correctly.
 15-Jun-2006
 	- Jorrit fixed a problem with pccommandinput which caused
 	  potential crashes whenever the behaviour removes the entity
