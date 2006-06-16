@@ -3328,9 +3328,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
 	  iCelEntity* ent = ArgToEntity (top, pl);
-	  if (!ent)
-	    return ReportError (cbl, "Can't find entity '%s'!",
-	    	EntityNameForError (top));
 	  top.SetEntity (ent);
 	}
 	break;
