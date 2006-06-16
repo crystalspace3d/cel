@@ -64,8 +64,7 @@ private:
 
 public:
   cmdHelp (celConsole* parent) : scfImplementationType (this), parent (parent)
-  {
-  }
+  { }
   virtual ~cmdHelp () { }
   virtual const char* GetCommand () { return "help"; }
   virtual const char* GetDescription () { return "Get help."; }
@@ -89,9 +88,7 @@ private:
 
 public:
   cmdListQuest (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdListQuest () { }
   virtual const char* GetCommand () { return "listquest"; }
   virtual const char* GetDescription () { return "List running quests."; }
@@ -113,9 +110,7 @@ private:
 
 public:
   cmdListEnt (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdListEnt () { }
   virtual const char* GetCommand () { return "listent"; }
   virtual const char* GetDescription () { return "List entities."; }
@@ -138,9 +133,7 @@ private:
 
 public:
   cmdListTpl (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdListTpl () { }
   virtual const char* GetCommand () { return "listtpl"; }
   virtual const char* GetDescription () { return "List entity templates."; }
@@ -148,7 +141,7 @@ public:
   {
     parent->GetOutputConsole ()->PutText ("Usage: listtpl\n");
     parent->GetOutputConsole ()->PutText (
-	"  List all entity templates and the name of the associated behaviour.\n");
+     "  List all entity templates and the name of the associated behaviour.\n");
   }
   virtual void Execute (const csStringArray& args)
   {
@@ -163,9 +156,7 @@ private:
 
 public:
   cmdCreateEntTpl (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdCreateEntTpl () { }
   virtual const char* GetCommand () { return "createenttpl"; }
   virtual const char* GetDescription ()
@@ -190,9 +181,7 @@ private:
 
 public:
   cmdInfoEnt (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdInfoEnt () { }
   virtual const char* GetCommand () { return "infoent"; }
   virtual const char* GetDescription ()
@@ -216,9 +205,7 @@ private:
 
 public:
   cmdSnapshot (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdSnapshot () { }
   virtual const char* GetCommand () { return "snapshot"; }
   virtual const char* GetDescription ()
@@ -244,9 +231,7 @@ private:
 
 public:
   cmdSnapDiff (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdSnapDiff () { }
   virtual const char* GetCommand () { return "snapdiff"; }
   virtual const char* GetDescription ()
@@ -270,9 +255,7 @@ private:
 
 public:
   cmdExpr (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdExpr () { }
   virtual const char* GetCommand () { return "expr"; }
   virtual const char* GetDescription ()
@@ -296,9 +279,7 @@ private:
 
 public:
   cmdVar (celConsole* parent) : scfImplementationType (this),
-				    parent (parent)
-  {
-  }
+				    parent (parent) { }
   virtual ~cmdVar () { }
   virtual const char* GetCommand () { return "var"; }
   virtual const char* GetDescription ()
