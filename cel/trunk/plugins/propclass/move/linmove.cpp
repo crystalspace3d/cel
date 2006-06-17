@@ -88,15 +88,6 @@ csStringID celPcLinearMovement::action_setvelocity = csInvalidStringID;
 csStringID celPcLinearMovement::action_addvelocity = csInvalidStringID;
 csStringID celPcLinearMovement::action_setangularvelocity = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcLinearMovement)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcLinearMovement)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcLinearMovement::PcLinearMovement)
-  SCF_IMPLEMENTS_INTERFACE (iPcLinearMovement)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-
 // collision detection variables
 #define MAXSECTORSOCCUPIED  20
 
@@ -150,10 +141,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 //----------------------------------------------------------------------------
 
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
-  :celPcCommon (object_reg)
+  : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
-
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc)
   {
@@ -237,7 +226,6 @@ celPcLinearMovement::~celPcLinearMovement ()
 {
   SetAnchor (0);
   delete [] propdata;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcLinearMovement);
 }
 
 #define LINMOVE_SERIAL 3

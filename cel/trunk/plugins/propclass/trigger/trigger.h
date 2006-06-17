@@ -58,7 +58,8 @@ CEL_DECLARE_FACTORY(Trigger)
 /**
  * This is the trigger property class.
  */
-class celPcTrigger : public celPcCommon
+class celPcTrigger : public scfImplementationExt1<
+		     celPcTrigger, celPcCommon, iPcTrigger>
 {
 private:
   csWeakRef<iEngine> engine;
@@ -153,8 +154,6 @@ public:
 
   iEngine* GetEngine () const { return engine; }
 
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
-
   virtual const char* GetName () const { return "pctrigger"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -172,112 +171,36 @@ public:
   virtual bool SetProperty (csStringID, const char*);
   virtual const char* GetPropertyString (csStringID);
 
-  void SendTriggerMessage (iCelEntity* destentity,
+  virtual void SendTriggerMessage (iCelEntity* destentity,
   	iCelEntity* entity, const char* msgid);
 
-  void SetupTriggerSphere (iSector* sector,
+  virtual void SetupTriggerSphere (iSector* sector,
   	const csVector3& center, float radius);
-  void SetupTriggerSphere (iSector* sector,
+  virtual void SetupTriggerSphere (iSector* sector,
   	const char* center_name, float radius);
-  void SetupTriggerBox (iSector* sector, const csBox3& box);
-  void SetupTriggerBeam (iSector* sector, const csVector3& start,
+  virtual void SetupTriggerBox (iSector* sector, const csBox3& box);
+  virtual void SetupTriggerBeam (iSector* sector, const csVector3& start,
   	const csVector3& end);
-  void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
-  void MonitorEntity (const char* entityname);
-  const char* GetMonitorEntity () const { return monitor_entity; }
-  void SetMonitorDelay (csTicks delay, csTicks jitter);
-  void EnableMonitorInvisible (bool en) { monitor_invisible = en; }
-  void EnableMessagesToSelf (bool en) { send_to_self = en; }
-  void EnableMessagesToOthers (bool en) { send_to_others = en; }
-  void EnableTrigger (bool en);
-  bool IsEnabled () const { return enabled; }
-  const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
+  virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance);
+  virtual void MonitorEntity (const char* entityname);
+  virtual const char* GetMonitorEntity () const { return monitor_entity; }
+  virtual void SetMonitorDelay (csTicks delay, csTicks jitter);
+  virtual void EnableMonitorInvisible (bool en) { monitor_invisible = en; }
+  virtual void EnableMessagesToSelf (bool en) { send_to_self = en; }
+  virtual void EnableMessagesToOthers (bool en) { send_to_others = en; }
+  virtual void EnableTrigger (bool en);
+  virtual bool IsEnabled () const { return enabled; }
+  virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
   {
     return entities_in_trigger;
   }
-  void AddTriggerListener (iPcTriggerListener* listener);
-  void RemoveTriggerListener (iPcTriggerListener* listener);
+  virtual void AddTriggerListener (iPcTriggerListener* listener);
+  virtual void RemoveTriggerListener (iPcTriggerListener* listener);
   void FireTriggersEntityEnters (iCelEntity* entity);
   void FireTriggersEntityLeaves (iCelEntity* entity);
   void FireTriggersEnterTrigger (iCelEntity* entity);
   void FireTriggersLeaveTrigger (iCelEntity* entity);
-  bool Check ();
-
-  struct PcTrigger : public iPcTrigger
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTrigger);
-    virtual void AddTriggerListener (iPcTriggerListener* listener)
-    {
-      scfParent->AddTriggerListener (listener);
-    }
-    virtual void RemoveTriggerListener (iPcTriggerListener* listener)
-    {
-      scfParent->RemoveTriggerListener (listener);
-    }
-    virtual void SetupTriggerSphere (iSector* sector,
-    	const csVector3& center, float radius)
-    {
-      scfParent->SetupTriggerSphere (sector, center, radius);
-    }
-    virtual void SetupTriggerSphere (iSector* sector,
-    	const char* center_name, float radius)
-    {
-      scfParent->SetupTriggerSphere (sector, center_name, radius);
-    }
-    virtual void SetupTriggerBox (iSector* sector, const csBox3& box)
-    {
-      scfParent->SetupTriggerBox (sector, box);
-    }
-    virtual void SetupTriggerBeam (iSector* sector, const csVector3& start,
-    	const csVector3& end)
-    {
-      scfParent->SetupTriggerBeam (sector, start, end);
-    }
-    virtual void SetupTriggerAboveMesh (iPcMesh* mesh, float maxdistance)
-    {
-      scfParent->SetupTriggerAboveMesh (mesh, maxdistance);
-    }
-    virtual void MonitorEntity (const char* entityname)
-    {
-      scfParent->MonitorEntity (entityname);
-    }
-    virtual const char* GetMonitorEntity () const
-    {
-      return scfParent->GetMonitorEntity ();
-    }
-    virtual void SetMonitorDelay (csTicks delay, csTicks jitter)
-    {
-      scfParent->SetMonitorDelay (delay, jitter);
-    }
-    virtual void EnableMonitorInvisible (bool en)
-    {
-      scfParent->EnableMonitorInvisible (en);
-    }
-    virtual void EnableMessagesToSelf (bool en)
-    {
-      scfParent->EnableMessagesToSelf (en);
-    }
-    virtual void EnableMessagesToOthers (bool en)
-    {
-      scfParent->EnableMessagesToOthers (en);
-    }
-    virtual void EnableTrigger (bool en)
-    {
-      scfParent->EnableTrigger (en);
-    }
-    virtual bool IsEnabled () const
-    {
-      return scfParent->IsEnabled ();
-    }
-    virtual const csWeakRefArray<iCelEntity>& GetEntitiesInTrigger () const
-    {
-      return scfParent->GetEntitiesInTrigger ();
-    }
-    virtual bool Check ()
-    {
-      return scfParent->Check ();
-    }
-  } scfiPcTrigger;
+  virtual bool Check ();
 };
 
 #endif // __CEL_PF_TRIGGERIMP__

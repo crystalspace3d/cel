@@ -38,13 +38,13 @@ class csVector3;
 #define CEL_MOVE_SUCCEED 1
 #define CEL_MOVE_PARTIAL 2
 
-SCF_VERSION (iPcMovable, 0, 0, 1);
-
 /**
  * Control moving an iPcMesh.
  */
-struct iPcMovable : public iBase
+struct iPcMovable : public virtual iBase
 {
+  SCF_INTERFACE (iPcMovable, 0, 0, 1);
+
   /**
    * Set mesh to move. If not set a default mesh will be found
    * from the parent entity.
@@ -96,13 +96,13 @@ struct iPcMovable : public iBase
   virtual void RemoveAllConstraints () = 0;
 };
 
-SCF_VERSION (iPcMovableConstraint, 0, 0, 1);
-
 /**
  * A constraint for a movable.
  */
-struct iPcMovableConstraint : public iBase
+struct iPcMovableConstraint : public virtual iBase
 {
+  SCF_INTERFACE (iPcMovableConstraint, 0, 0, 1);
+
   /**
    * Check if an object can move.
    * Returns:

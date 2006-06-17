@@ -130,18 +130,9 @@ csStringID celPcTrigger::id_end = csInvalidStringID;
 csStringID celPcTrigger::action_setuptriggerabovemesh = csInvalidStringID;
 csStringID celPcTrigger::id_maxdistance = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcTrigger)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTrigger)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTrigger::PcTrigger)
-  SCF_IMPLEMENTS_INTERFACE (iPcTrigger)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
-  : celPcCommon (object_reg)
+  : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTrigger);
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
@@ -203,7 +194,6 @@ celPcTrigger::~celPcTrigger ()
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
   delete params;
   delete[] monitor_entity;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTrigger);
 }
 
 Property* celPcTrigger::properties = 0;
@@ -1103,7 +1093,7 @@ void celPcTrigger::FireTriggersEntityEnters (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->EntityEnters (&scfiPcTrigger, entity);
+    listeners[i]->EntityEnters ((iPcTrigger*)this, entity);
   }
 }
 
@@ -1113,7 +1103,7 @@ void celPcTrigger::FireTriggersEntityLeaves (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->EntityLeaves (&scfiPcTrigger, entity);
+    listeners[i]->EntityLeaves ((iPcTrigger*)this, entity);
   }
 }
 
@@ -1123,7 +1113,7 @@ void celPcTrigger::FireTriggersEnterTrigger (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->EnterTrigger (&scfiPcTrigger, entity);
+    listeners[i]->EnterTrigger ((iPcTrigger*)this, entity);
   }
 }
 
@@ -1133,7 +1123,7 @@ void celPcTrigger::FireTriggersLeaveTrigger (iCelEntity* entity)
   while (i > 0)
   {
     i--;
-    listeners[i]->LeaveTrigger (&scfiPcTrigger, entity);
+    listeners[i]->LeaveTrigger ((iPcTrigger*)this, entity);
   }
 }
 

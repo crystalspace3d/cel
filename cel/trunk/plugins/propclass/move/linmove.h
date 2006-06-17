@@ -78,7 +78,9 @@ CEL_DECLARE_FACTORY (LinearMovement)
  * This class handles everything related to moving, from collision detection to
  * dead reckoning and actual entity movement.
  */
-class celPcLinearMovement : public celPcCommon
+class celPcLinearMovement : public scfImplementationExt1<
+			    celPcLinearMovement, celPcCommon,
+			    iPcLinearMovement>
 {
 protected:
   csWeakRef<iPcMesh> pcmesh;
@@ -144,7 +146,10 @@ protected:
   int MoveSprite (float delta);
   void OffsetSprite (float delta);
 
-  /// Transform pcmesh so that it follows the curvature of the ground at pos (sector)
+  /**
+   * Transform pcmesh so that it follows the curvature of the ground at
+   * pos (sector)
+   */
   void HugGround(const csVector3& pos, iSector* sector);
 
   // Returns a list of sectors near a position.
@@ -181,12 +186,12 @@ public:
   celPcLinearMovement (iObjectRegistry* object_reg);
   virtual ~celPcLinearMovement ();
 
-  void SetAngularVelocity (const csVector3& angle);
-  void SetAngularVelocity (const csVector3& angle,
+  virtual void SetAngularVelocity (const csVector3& angle);
+  virtual void SetAngularVelocity (const csVector3& angle,
   	const csVector3& angle_to_reach);
 
   /// Sets a velocity for this body in body coordinates
-  void SetVelocity (const csVector3& vel)
+  virtual void SetVelocity (const csVector3& vel)
   {
     // Y movement here is NOT lift and gravity effects. It IS for
     // jumping & jetpacks.
@@ -194,20 +199,20 @@ public:
   }
 
   /// Adds on a velocity to this body in world coordinates
-  void AddVelocity (const csVector3& vel)
+  virtual void AddVelocity (const csVector3& vel)
   {
     // Y movement here can be used for lift and gravity effects.
     velWorld += vel;
   }
 
   /// Resets the velocity of this body in world coordinates.
-  void ClearWorldVelocity ()
+  virtual void ClearWorldVelocity ()
   {
     // Y movement here can be used for lift and gravity effects.
     velWorld = 0.0f;
   }
 
-  void GetVelocity (csVector3& v) const
+  virtual void GetVelocity (csVector3& v) const
   {
     csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
     	.Other2ThisRelative (velWorld);
@@ -217,89 +222,93 @@ public:
     v = worldVel + velBody;
   }
 
-  bool RotateV (float delta);
+  virtual bool RotateV (float delta);
 
   /**
    * Get the current angular velocity vector.
    */
-  void GetAngularVelocity (csVector3& v) const
+  virtual void GetAngularVelocity (csVector3& v) const
   {
     v = angularVelocity;
   }
 
-  bool InitCD (iMeshWrapper* mesh, float percentage,
+  virtual bool InitCD (iMeshWrapper* mesh, float percentage,
   	iPcCollisionDetection* pc_cd = 0);
-  bool InitCD (const csVector3& body, const csVector3& legs,
+  virtual bool InitCD (const csVector3& body, const csVector3& legs,
   	const csVector3& shift,iPcCollisionDetection *pc_cd = 0);
-  void GetCDDimensions (csVector3& body, csVector3& legs,
+  virtual void GetCDDimensions (csVector3& body, csVector3& legs,
   	csVector3& shift, iPcCollisionDetection*& pc_cd);
-  bool InitCD (iPcCollisionDetection *pc_cd=0);
-  void SetSpeed (float speedz);
+  virtual bool InitCD (iPcCollisionDetection *pc_cd=0);
+  virtual void SetSpeed (float speedz);
 
-  void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
-  void GetLastFullPosition (csVector3& pos, float& yrot, iSector*& sector);
-  void SetPosition (const csVector3& pos, float yrot, const iSector* sector);
-  void SetFullPosition (const csVector3& pos, float yrot,
-  	const iSector* sector);
-  void SetPosition (const char* center_name, float yrot, iSector* sector);
-  void SetFullPosition (const char* center_name, float yrot,
-  	iSector* sector);
+  virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
+  virtual void GetLastFullPosition (csVector3& pos, float& yrot,
+      iSector*& sector);
+  virtual void SetPosition (const csVector3& pos, float yrot,
+      const iSector* sector);
+  virtual void SetFullPosition (const csVector3& pos, float yrot,
+      const iSector* sector);
+  virtual void SetPosition (const char* center_name, float yrot,
+      iSector* sector);
+  virtual void SetFullPosition (const char* center_name, float yrot,
+      iSector* sector);
 
-  bool IsOnGround () const;
+  virtual bool IsOnGround () const;
 
-  void SetOnGround (bool onground)
+  virtual void SetOnGround (bool onground)
   {
     if (pccolldet)
       pccolldet->SetOnGround (onground);
   }
 
   /// Set if pcmesh should be transformed to follow the contour of the ground
-  void SetHugGround (bool hugGround)
+  virtual void SetHugGround (bool hugGround)
   {
     this->hugGround = hugGround;
   }
 
-  void SetGravity (float grav)
+  virtual void SetGravity (float grav)
   {
     gravity = grav;
   }
 
-  float GetGravity ()
+  virtual float GetGravity ()
   {
     return gravity;
   }
 
-  void ResetGravity ()
+  virtual void ResetGravity ()
   {
     gravity = 19.6f;
   }
 
-  void AddGravityCallback (iPcGravityCallback* callback)
+  virtual void AddGravityCallback (iPcGravityCallback* callback)
   {
     gravityCallbacks.Push (callback);
   }
 
-  void RemoveGravityCallback (iPcGravityCallback* callback)
+  virtual void RemoveGravityCallback (iPcGravityCallback* callback)
   {
     gravityCallbacks.Delete (callback);
   }
 
-  bool IsPath () const { return (path != 0); }
+  virtual bool IsPath () const { return (path != 0); }
 
   void LoadAnchor (iPcMesh* a);
-  void SetAnchor (iPcMesh* a);
-  iPcMesh* GetAnchor () const { return pcmesh; }
+  virtual void SetAnchor (iPcMesh* a);
+  virtual iPcMesh* GetAnchor () const { return pcmesh; }
 
   /**
    * Returns the difference in time between now and when the last DR update
    * or extrapolation took place
    */
-  csTicks TimeDiff (void);
+  virtual csTicks TimeDiff (void);
 
 
   /// Return all necessary data for Dead Reckoning
-  void GetDRData (bool& on_ground, float& speed, csVector3& pos, float& yrot,
-  	iSector*& sector, csVector3& vel, csVector3& worldVel, float& ang_vel);
+  virtual void GetDRData (bool& on_ground, float& speed, csVector3& pos,
+      float& yrot, iSector*& sector, csVector3& vel, csVector3& worldVel,
+      float& ang_vel);
 
   /// Sets all relevant dead reckoning data on this entity
   virtual void SetDRData(bool on_ground, float speed, csVector3& pos,
@@ -318,8 +327,6 @@ public:
   	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
   	float ang_vel);
 
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
-
   virtual const char* GetName () const { return "pclinearmovement"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -329,13 +336,13 @@ public:
   virtual const char* GetPropertyString (csStringID propertyId);
   virtual void TickEveryFrame ();
 
-  iSector* GetSector ();
+  virtual iSector* GetSector ();
 
   /**
    * This function actually moves and rotates the mesh, relighting
    * if necessary.
    */
-  void ExtrapolatePosition (float delta);
+  virtual void ExtrapolatePosition (float delta);
 
   /**
    * This function calls ExtrapolatePosition with a certain time
@@ -343,7 +350,7 @@ public:
    * synchronized to the same ticks, even if updates are all
    * happening at different times.
    */
-  void UpdateDRDelta (csTicks ticksdelta);
+  virtual void UpdateDRDelta (csTicks ticksdelta);
   /**
    * This function calls ExtrapolatePosition with a certain time delta
    * or calculates the delta relative to the last update.
@@ -351,7 +358,7 @@ public:
    * synchronized to the same ticks, even if updates are all
    * happening at different times.
    */
-  void UpdateDR (csTicks delta);
+  virtual void UpdateDR (csTicks delta);
   void UpdateDR ();
 
   /**
@@ -359,14 +366,14 @@ public:
    * iPath.  If this path is present, it will be used for
    * movement instead of linear velocity vector.
    */
-  void SetPath (iPath *newpath)
+  virtual void SetPath (iPath *newpath)
   { path = newpath; path_sent = false; }
 
   /**
    * This function sets the current position on the path
    * for use when time deltas are added later.
    */
-  void SetPathTime (float timeval)
+  virtual void SetPathTime (float timeval)
   { path_time = timeval; }
 
   /**
@@ -376,7 +383,7 @@ public:
    * stationary.  Speed=1 is normal traversal
    * of the path.
    */
-  void SetPathSpeed (float speed)
+  virtual void SetPathSpeed (float speed)
   { path_speed = speed; }
 
   /**
@@ -387,261 +394,29 @@ public:
    * example, during downward segments of the
    * flight path.
    */
-  void SetPathAction (int which, const char *action);
+  virtual void SetPathAction (int which, const char *action);
 
   /**
    * This sets the sector which will be used
    * for the entire path.
    */
-  void SetPathSector (const char *sectorname)
+  virtual void SetPathSector (const char *sectorname)
   { path_sector = sectorname; }
 
-  void SetDeltaLimit (float deltaLimit)
+  virtual void SetDeltaLimit (float deltaLimit)
   { this->deltaLimit = deltaLimit; }
 
   /// Get the total displacement caused by space warping portals.
-  csVector3 GetPortalDisplacement ()
+  virtual csVector3 GetPortalDisplacement ()
   { return portalDisplaced; }
   /// Clear the total displacement caused by space warping portals.
-  void ClearPortalDisplacement ()
+  virtual void ClearPortalDisplacement ()
   { portalDisplaced = 0.0f; }
 
-  csPtr<iCelDataBuffer> GetPersistentData (
+  virtual csPtr<iCelDataBuffer> GetPersistentData (
   	celPersistenceType persistence_type);
-  celPersistenceResult SetPersistentData (csTicks data_time,
+  virtual celPersistenceResult SetPersistentData (csTicks data_time,
   	iCelDataBuffer* data, celPersistenceType persistence_type);
-
-  struct PcLinearMovement : public iPcLinearMovement
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcLinearMovement);
-
-    virtual void SetAnchor (iPcMesh* pcmesh)
-    {
-      scfParent->SetAnchor (pcmesh);
-    }
-    virtual iPcMesh* GetAnchor () const
-    {
-      return scfParent->GetAnchor ();
-    }
-
-    virtual void GetLastPosition (csVector3& pos, float& yrot,
-    	iSector*& sector)
-    {
-      scfParent->GetLastPosition (pos, yrot, sector);
-    }
-
-    virtual void GetLastFullPosition (csVector3& pos, float& yrot,
-    	iSector*& sector)
-    {
-      scfParent->GetLastFullPosition (pos, yrot, sector);
-    }
-
-    virtual void SetFullPosition (const csVector3& pos, float yrot,
-    	const iSector* sector)
-    {
-      scfParent->SetFullPosition (pos, yrot, sector);
-    }
-
-    virtual void SetFullPosition (const char* center_name, float yrot,
-    	iSector* sector)
-    {
-      scfParent->SetFullPosition (center_name, yrot, sector);
-    }
-
-    virtual void SetPosition (const csVector3& pos, float yrot,
-    	const iSector* sector)
-    {
-      scfParent->SetPosition (pos, yrot, sector);
-    }
-
-    virtual void SetPosition (const char* center_name, float yrot,
-    	iSector* sector)
-    {
-      scfParent->SetPosition (center_name, yrot, sector);
-    }
-
-    virtual void SetSpeed (float speedz) { scfParent->SetSpeed (speedz); }
-
-    virtual void SetAngularVelocity (const csVector3& angle)
-    {
-      scfParent->SetAngularVelocity (angle);
-    }
-
-    void SetAngularVelocity (const csVector3& angle,
-    	const csVector3& angle_to_reach)
-    {
-      scfParent->SetAngularVelocity (angle, angle_to_reach);
-    }
-
-    virtual void SetVelocity (const csVector3& vel)
-    {
-      scfParent->SetVelocity (vel);
-    }
-
-    virtual void AddVelocity (const csVector3& vel)
-    {
-      scfParent->AddVelocity (vel);
-    }
-    virtual void ClearWorldVelocity ()
-    {
-      return scfParent->ClearWorldVelocity ();
-    }
-    virtual bool RotateV (float delta)
-    {
-      return scfParent->RotateV (delta);
-    }
-
-    virtual void GetVelocity (csVector3& v) const
-    {
-      scfParent->GetVelocity (v);
-    }
-    virtual void GetAngularVelocity (csVector3& v) const
-    {
-      scfParent->GetAngularVelocity (v);
-    }
-
-    virtual bool InitCD (iMeshWrapper* mesh, float percentage,
-    	iPcCollisionDetection* pc_cd = 0)
-    {
-      return scfParent->InitCD (mesh, percentage, pc_cd);
-    }
-    virtual bool InitCD (const csVector3& top, const csVector3& bottom,
-    	const csVector3& shift,iPcCollisionDetection *pc_cd=0)
-    {
-      return scfParent->InitCD (top, bottom, shift,pc_cd);
-    }
-    virtual bool InitCD (iPcCollisionDetection *pc_cd=0)
-    {
-      return scfParent->InitCD (pc_cd);
-    }
-    virtual void GetCDDimensions (csVector3& body, csVector3& legs,
-    	csVector3& shift, iPcCollisionDetection*& pc_cd)
-    {
-      scfParent->GetCDDimensions (body, legs, shift, pc_cd);
-    }
-    virtual bool IsOnGround () const
-    {
-      return scfParent->IsOnGround ();
-    }
-    virtual void SetOnGround (bool onground)
-    {
-      scfParent->SetOnGround (onground);
-    }
-    virtual void SetHugGround (bool hugGround)
-    {
-      scfParent->SetHugGround (hugGround);
-    }
-    virtual void SetGravity (float grav)
-    {
-      scfParent->SetGravity (grav);
-    }
-    virtual float GetGravity ()
-    {
-      return scfParent->GetGravity ();
-    }
-    virtual void AddGravityCallback (iPcGravityCallback* callback)
-    {
-      scfParent->AddGravityCallback (callback);
-    }
-
-    virtual void RemoveGravityCallback (iPcGravityCallback* callback)
-    {
-      scfParent->RemoveGravityCallback (callback);
-    }
-
-    virtual void ResetGravity ()
-    {
-      scfParent->ResetGravity ();
-    }
-    virtual bool IsPath () const
-    {
-      return scfParent->IsPath ();
-    }
-
-    virtual csTicks TimeDiff ()
-    {
-      return scfParent->TimeDiff ();
-    }
-
-    virtual void GetDRData (bool& on_ground, float& speed, csVector3& pos,
-    	float& yrot, iSector*& sector, csVector3& vel, csVector3& worldVel,
-    	float& ang_vel)
-    {
-      scfParent->GetDRData (on_ground, speed, pos, yrot, sector, vel,
-      	worldVel, ang_vel);
-    }
-    virtual void SetDRData (bool on_ground, float speed, csVector3& pos,
-    	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
-    	float ang_vel)
-    {
-      scfParent->SetDRData (on_ground, speed, pos, yrot, sector, vel,
-      	worldVel, ang_vel);
-    }
-    virtual void SetSoftDRData (bool on_ground, float speed, csVector3& pos,
-    	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
-    	float ang_vel)
-    {
-      scfParent->SetSoftDRData (on_ground, speed, pos, yrot, sector, vel,
-      	worldVel, ang_vel);
-    }
-
-    virtual iSector *GetSector ()
-    {
-      return scfParent->GetSector ();
-    }
-    virtual void ExtrapolatePosition (float delta)
-    {
-      scfParent->ExtrapolatePosition (delta);
-    }
-    virtual void UpdateDR (csTicks ticks)
-    {
-      scfParent->UpdateDR (ticks);
-    }
-    virtual void UpdateDRDelta (csTicks ticksdelta)
-    {
-      scfParent->UpdateDRDelta (ticksdelta);
-    }
-    virtual void SetPath (iPath *newpath)
-    {
-      scfParent->SetPath (newpath);
-    }
-    virtual void SetPathTime (float timeval)
-    {
-      scfParent->SetPathTime (timeval);
-    }
-    virtual void SetPathSpeed (float speed)
-    {
-      scfParent->SetPathSpeed (speed);
-    }
-    virtual void SetPathAction (int which, const char *action)
-    {
-      scfParent->SetPathAction (which, action);
-    }
-    virtual void SetPathSector (const char *sectorname)
-    {
-      scfParent->SetPathSector (sectorname);
-    }
-
-    void SetDeltaLimit (float deltaLimit)
-    {
-      scfParent->SetDeltaLimit (deltaLimit);
-    }
-
-    virtual csVector3 GetPortalDisplacement ()
-    { return scfParent->GetPortalDisplacement (); }
-
-    virtual void ClearPortalDisplacement ()
-    { scfParent->ClearPortalDisplacement (); }
-
-    virtual csPtr<iCelDataBuffer> GetPersistentData (
-    	celPersistenceType persistence_type)
-    { return scfParent->GetPersistentData (persistence_type); }
-
-    virtual celPersistenceResult SetPersistentData (csTicks data_time,
-    	iCelDataBuffer* data, celPersistenceType persistence_type)
-    { return scfParent->SetPersistentData (data_time, data, persistence_type); }
-
-  } scfiPcLinearMovement;
 
 protected:
   static csCollisionPair our_cd_contact[1000];

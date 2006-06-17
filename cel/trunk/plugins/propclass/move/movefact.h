@@ -56,7 +56,8 @@ CEL_DECLARE_FACTORY(Gravity2)
 /**
  * This is a move property class.
  */
-class celPcMovable : public celPcCommon
+class celPcMovable : public scfImplementationExt1<
+		     celPcMovable, celPcCommon, iPcMovable>
 {
 private:
   csWeakRef<iPcMesh> pcmesh;
@@ -65,58 +66,24 @@ private:
 public:
   celPcMovable (iObjectRegistry* object_reg);
   virtual ~celPcMovable ();
-  void SetMesh (iPcMesh* mesh);
-  iPcMesh* GetMesh ();
-  int Move (iSector* sector, const csVector3& pos);
-  int Move (const csVector3& relpos);
-  void AddConstraint (iPcMovableConstraint* constraint);
-  void RemoveConstraint (iPcMovableConstraint* constraint);
-  void RemoveAllConstraints ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void SetMesh (iPcMesh* mesh);
+  virtual iPcMesh* GetMesh ();
+  virtual int Move (iSector* sector, const csVector3& pos);
+  virtual int Move (const csVector3& relpos);
+  virtual void AddConstraint (iPcMovableConstraint* constraint);
+  virtual void RemoveConstraint (iPcMovableConstraint* constraint);
+  virtual void RemoveAllConstraints ();
 
   virtual const char* GetName () const { return "pcmovable"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcMovable : public iPcMovable
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMovable);
-    virtual void SetMesh (iPcMesh* mesh)
-    {
-      scfParent->SetMesh (mesh);
-    }
-    virtual iPcMesh* GetMesh ()
-    {
-      return scfParent->GetMesh ();
-    }
-    virtual int Move (iSector* sector, const csVector3& pos)
-    {
-      return scfParent->Move (sector, pos);
-    }
-    virtual int Move (const csVector3& relpos)
-    {
-      return scfParent->Move (relpos);
-    }
-    virtual void AddConstraint (iPcMovableConstraint* constraint)
-    {
-      scfParent->AddConstraint (constraint);
-    }
-    virtual void RemoveConstraint (iPcMovableConstraint* constraint)
-    {
-      scfParent->RemoveConstraint (constraint);
-    }
-    virtual void RemoveAllConstraints ()
-    {
-      scfParent->RemoveAllConstraints ();
-    }
-  } scfiPcMovable;
 };
 
 /**
  * This is a solid property class.
  */
-class celPcSolid : public celPcCommon
+class celPcSolid : public scfImplementationExt1<
+		   celPcSolid, celPcCommon, iPcSolid>
 {
 private:
   csWeakRef<iPcMesh> pcmesh;
@@ -126,38 +93,21 @@ private:
 public:
   celPcSolid (iObjectRegistry* object_reg);
   virtual ~celPcSolid ();
-  void SetMesh (iPcMesh* mesh);
-  iPcMesh* GetMesh () const { return pcmesh; }
+  virtual void SetMesh (iPcMesh* mesh);
+  virtual iPcMesh* GetMesh () const { return pcmesh; }
   virtual iCollider* GetCollider ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcsolid"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcSolid : public iPcSolid
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcSolid);
-    virtual void SetMesh (iPcMesh* mesh)
-    {
-      scfParent->SetMesh (mesh);
-    }
-    virtual iPcMesh* GetMesh () const
-    {
-      return scfParent->GetMesh ();
-    }
-    virtual iCollider* GetCollider ()
-    {
-      return scfParent->GetCollider ();
-    }
-  } scfiPcSolid;
 };
 
 /**
  * This is a movable constraint based on collision detection (iPcSolid).
  */
-class celPcMovableConstraintCD : public celPcCommon
+class celPcMovableConstraintCD : public scfImplementationExt1<
+				 celPcMovableConstraintCD, celPcCommon,
+				 iPcMovableConstraint>
 {
 private:
   csRef<iCollideSystem> cdsys;
@@ -165,30 +115,19 @@ private:
 public:
   celPcMovableConstraintCD (iObjectRegistry* object_reg);
   virtual ~celPcMovableConstraintCD ();
-  int CheckMove (iSector* sector, const csVector3& start,
+  virtual int CheckMove (iSector* sector, const csVector3& start,
   	const csVector3& end, csVector3& pos);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual const char* GetName () const { return "pcmovableconst_cd"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcMovableConstraintCD : public iPcMovableConstraint
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMovableConstraintCD);
-    virtual int CheckMove (iSector* sector, const csVector3& start,
-		    const csVector3& end, csVector3& pos)
-    {
-      return scfParent->CheckMove (sector, start, end, pos);
-    }
-  } scfiPcMovableConstraint;
 };
 
 /**
  * This is a gravity property class.
  */
-class celPcGravity : public celPcCommon
+class celPcGravity : public scfImplementationExt1<
+		     celPcGravity, celPcCommon, iPcGravity>
 {
 private:
   csWeakRef<iPcMovable> pcmovable;
@@ -252,23 +191,21 @@ public:
   celPcGravity (iObjectRegistry* object_reg);
   virtual ~celPcGravity ();
 
-  void CreateGravityCollider (iPcMesh* mesh);
-  void CreateGravityCollider (const csVector3& dim,
+  virtual void CreateGravityCollider (iPcMesh* mesh);
+  virtual void CreateGravityCollider (const csVector3& dim,
   	const csVector3& offs);
-  iCollider* GetGravityCollider () { return gravity_collider; }
-  void SetMovable (iPcMovable* movable);
-  iPcMovable* GetMovable ();
-  void SetSolid (iPcSolid* solid);
-  iPcSolid* GetSolid ();
-  void SetWeight (float w) { weight = w; }
-  float GetWeight () const { return weight; }
-  void ClearForces ();
-  void ClearPermanentForces ();
-  void ResetSpeed () { current_speed.Set (0, 0, 0); }
-  void ApplyForce (const csVector3& force, float time);
-  void ApplyPermanentForce (const csVector3& force);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual iCollider* GetGravityCollider () { return gravity_collider; }
+  virtual void SetMovable (iPcMovable* movable);
+  virtual iPcMovable* GetMovable ();
+  virtual void SetSolid (iPcSolid* solid);
+  virtual iPcSolid* GetSolid ();
+  virtual void SetWeight (float w) { weight = w; }
+  virtual float GetWeight () const { return weight; }
+  virtual void ClearForces ();
+  virtual void ClearPermanentForces ();
+  virtual void ResetSpeed () { current_speed.Set (0, 0, 0); }
+  virtual void ApplyForce (const csVector3& force, float time);
+  virtual void ApplyPermanentForce (const csVector3& force);
 
   virtual const char* GetName () const { return "pcgravity"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -276,80 +213,9 @@ public:
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
   virtual void TickEveryFrame ();
 
-  struct PcGravity : public iPcGravity
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcGravity);
-    virtual void CreateGravityCollider (iPcMesh* mesh)
-    {
-      scfParent->CreateGravityCollider (mesh);
-    }
-    virtual void CreateGravityCollider (const csVector3& dim,
-  	const csVector3& offs)
-    {
-      scfParent->CreateGravityCollider (dim, offs);
-    }
-    virtual iCollider* GetGravityCollider ()
-    {
-      return scfParent->GetGravityCollider ();
-    }
-    virtual void SetMovable (iPcMovable* movable)
-    {
-      scfParent->SetMovable (movable);
-    }
-    virtual iPcMovable* GetMovable ()
-    {
-      return scfParent->GetMovable ();
-    }
-    virtual void SetSolid (iPcSolid* solid)
-    {
-      scfParent->SetSolid (solid);
-    }
-    virtual iPcSolid* GetSolid ()
-    {
-      return scfParent->GetSolid ();
-    }
-    virtual void SetWeight (float w)
-    {
-      scfParent->SetWeight (w);
-    }
-    virtual float GetWeight () const
-    {
-      return scfParent->GetWeight ();
-    }
-    virtual void ClearForces ()
-    {
-      scfParent->ClearForces ();
-    }
-    virtual void ClearPermanentForces ()
-    {
-      scfParent->ClearPermanentForces ();
-    }
-    virtual void ResetSpeed ()
-    {
-      scfParent->ResetSpeed ();
-    }
-    virtual void ApplyForce (const csVector3& force, float time)
-    {
-      scfParent->ApplyForce (force, time);
-    }
-    virtual void ApplyPermanentForce (const csVector3& force)
-    {
-      scfParent->ApplyPermanentForce (force);
-    }
-    virtual bool IsResting () const
-    {
-      return scfParent->is_resting;
-    }
-    virtual void SetActive (bool activate)
-    {
-      scfParent->active = activate;
-    }
-    virtual bool IsActive () const
-    {
-      return scfParent->active;
-    }
-  } scfiPcGravity;
-  friend struct PcGravity;
+  virtual bool IsResting () const { return is_resting; }
+  virtual void SetActive (bool activate) { active = activate; }
+  virtual bool IsActive () const { return active; }
 };
 
 #endif // __CEL_PF_MOVEFACT__

@@ -25,8 +25,6 @@
 
 struct iPcLinearMovement;
 
-SCF_VERSION (iPcMover, 0, 0, 1);
-
 /**
  * This is a mover property class. It works closely with pclinmove in order
  * to move an object from one position to another while checking collision
@@ -62,8 +60,10 @@ SCF_VERSION (iPcMover, 0, 0, 1);
  * <li>moving (bool, read only): returns true if currently moving.
  * </ul>
  */
-struct iPcMover : public iBase
+struct iPcMover : public virtual iBase
 {
+  SCF_INTERFACE (iPcMover, 0, 0, 1);
+
   /**
    * Start moving. When you call this function this property class will
    * attempt to move the linmove to the correct position. If it fails the
@@ -72,8 +72,8 @@ struct iPcMover : public iBase
    * completely impossible to move there in advance then the behaviour
    * will get a 'pcmover_impossible' message and this function will return
    * false then. If this property class was already controlling a movement
-   * then that movement will be interrupted (possibly giving a pcmover_interrupted
-   * message).
+   * then that movement will be interrupted (possibly giving a
+   * pcmover_interrupted message).
    * \param sector is the desired sector to move too.
    * \param position is the desired position to move too.
    * \param up is the up vector (used for rotation).
