@@ -39,8 +39,6 @@ struct iPcMesh;
 struct iMeshWrapper;
 
 
-SCF_VERSION (iPcGravityCallback, 0, 0, 1);
-
 /**
  * Inherit this class if you want to know when gravity is applied to a certain
  * iPcLinearMovement. This is usefully if you for example want to apply certain
@@ -49,13 +47,12 @@ SCF_VERSION (iPcGravityCallback, 0, 0, 1);
  * Register this callback with AddGravityCallback in iPcLinearMovement, and
  * remove with RemoveGravityCallback
  */
-struct iPcGravityCallback : public iBase
+struct iPcGravityCallback : public virtual iBase
 {
-public:
-    virtual void Callback () = 0;
-};
+  SCF_INTERFACE (iPcGravityCallback, 0, 0, 1);
 
-SCF_VERSION (iPcLinearMovement, 0, 0, 2);
+  virtual void Callback () = 0;
+};
 
 /**
  * This property class controls movement of an entity in a realistic
@@ -88,8 +85,10 @@ SCF_VERSION (iPcLinearMovement, 0, 0, 2);
  * anchored.
  * </ul>
  */
-struct iPcLinearMovement : public iBase
+struct iPcLinearMovement : public virtual iBase
 {
+  SCF_INTERFACE (iPcLinearMovement, 0, 0, 2);
+
   /**
    * Set an anchor for this movement class. When this linmove is
    * anchored it basically means that all movement will be done relative

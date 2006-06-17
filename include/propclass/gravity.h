@@ -29,8 +29,6 @@ struct iPcMovable;
 struct iPcSolid;
 class csVector3;
 
-SCF_VERSION (iPcGravity, 0, 0, 1);
-
 /**
  * Gravity handling property class.
  * <p>
@@ -47,8 +45,10 @@ SCF_VERSION (iPcGravity, 0, 0, 1);
  * <li>weight (float, read/write): the weight of the object.
  * </ul>
  */
-struct iPcGravity : public iBase
+struct iPcGravity : public virtual iBase
 {
+  SCF_INTERFACE (iPcGravity, 0, 0, 1);
+
   /**
    * Create a gravity collider from the given mesh.
    * A gravity collider is a small box at the bottom of the

@@ -58,8 +58,6 @@ struct iPcTriggerListener : public virtual iBase
   virtual void LeaveTrigger (iPcTrigger* trigger, iCelEntity* entity) = 0;
 };
 
-SCF_VERSION (iPcTrigger, 0, 1, 0);
-
 /**
  * This is a trigger property class. It is capable of detecting when
  * another entity (that has a pcmesh) enters or leaves an area
@@ -97,12 +95,15 @@ SCF_VERSION (iPcTrigger, 0, 1, 0);
  * <li>delay (long, read/write): update delay for checking trigger.
  * <li>jitter (long, read/write): random jitter added to update delay.
  * <li>monitor (string, read/write): name of entity to monitor.
- * <li>insivible (bool, read/write): also check on invisible entities (default off).
+ * <li>insivible (bool, read/write): also check on invisible entities
+ *     (default off).
  * <li>follow (bool, read/write): follow own entity pcmesh (default off).
  * </ul>
  */
-struct iPcTrigger : public iBase
+struct iPcTrigger : public virtual iBase
 {
+  SCF_INTERFACE (iPcTrigger, 0, 1, 0);
+
   /**
    * Add a trigger listener. Trigger listeners are called right before
    * the behaviour is called.

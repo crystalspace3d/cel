@@ -103,25 +103,15 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMovable)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMovable)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMovable::PcMovable)
-  SCF_IMPLEMENTS_INTERFACE (iPcMovable)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovable);
   DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
 {
   RemoveAllConstraints ();
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMovable);
 }
 
 #define MOVABLE_SERIAL 1
@@ -252,25 +242,15 @@ void celPcMovable::RemoveAllConstraints ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcSolid)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSolid)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSolid::PcSolid)
-  SCF_IMPLEMENTS_INTERFACE (iPcSolid)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSolid);
   DG_TYPE (this, "celPcSolid()");
   no_collider = false;
 }
 
 celPcSolid::~celPcSolid ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSolid);
 }
 
 #define SOLID_SERIAL 1
@@ -334,7 +314,8 @@ iCollider* celPcSolid::GetCollider ()
 // Private class implementing iPolygonMesh for one triangle.
 // This will be used for detecting collision in the movement
 // vector.
-class celPolygonMeshTriangle : public iPolygonMesh
+class celPolygonMeshTriangle : public scfImplementation1<
+			       celPolygonMeshTriangle, iPolygonMesh>
 {
 private:
   csVector3 vertices[3];
@@ -343,9 +324,9 @@ private:
   csFlags flags;
 
 public:
-  celPolygonMeshTriangle (const csVector3& start, const csVector3& end)
+  celPolygonMeshTriangle (const csVector3& start, const csVector3& end) :
+    scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     vertices[0] = start;
     vertices[1] = start;
     vertices[2] = end;
@@ -358,10 +339,7 @@ public:
   }
   virtual ~celPolygonMeshTriangle ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual int GetVertexCount () { return 3; }
   virtual csVector3* GetVertices () { return vertices; }
@@ -375,24 +353,11 @@ public:
   virtual uint32 GetChangeNumber () const { return 0; }
 };
 
-SCF_IMPLEMENT_IBASE (celPolygonMeshTriangle)
-  SCF_IMPLEMENTS_INTERFACE (iPolygonMesh)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMovableConstraintCD)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMovableConstraint)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMovableConstraintCD::PcMovableConstraintCD)
-  SCF_IMPLEMENTS_INTERFACE (iPcMovableConstraint)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMovableConstraint);
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != 0);
   DG_TYPE (this, "celPcMovableConstraintCD()");
@@ -400,7 +365,6 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMovableConstraint);
 }
 
 #define MOVABLECONST_CD_SERIAL 1
@@ -521,18 +485,9 @@ void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
   }
 }
 
-SCF_IMPLEMENT_IBASE_EXT (celPcGravity)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcGravity)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcGravity::PcGravity)
-  SCF_IMPLEMENTS_INTERFACE (iPcGravity)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcGravity);
   cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   CS_ASSERT (cdsys != 0);
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
@@ -561,7 +516,6 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 celPcGravity::~celPcGravity ()
 {
   ClearForces ();
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcGravity);
 }
 
 #define GRAVITY2_SERIAL 1

@@ -26,14 +26,14 @@
 struct iCollider;
 struct iPcMesh;
 
-SCF_VERSION (iPcSolid, 0, 0, 1);
-
 /**
  * A solid representation of an entity. This is used
  * for collision detection.
  */
-struct iPcSolid : public iBase
+struct iPcSolid : public virtual iBase
 {
+  SCF_INTERFACE (iPcSolid, 0, 0, 1);
+
   /**
    * Set mesh from which to create the solid
    * representation. If not set a default mesh will be found

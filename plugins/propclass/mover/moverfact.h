@@ -44,7 +44,8 @@ CEL_DECLARE_FACTORY (Mover)
 /**
  * This is the Mover property class.
  */
-class celPcMover : public celPcCommon
+class celPcMover : public scfImplementationExt1<
+	celPcMover, celPcCommon, iPcMover>
 {
 private:
   csWeakRef<iEngine> engine;
@@ -91,67 +92,23 @@ public:
   celPcMover (iObjectRegistry* object_reg);
   virtual ~celPcMover ();
 
-  bool Start (iSector* sector, const csVector3& position, const csVector3& up,
-  	float movespeed, float rotatespeed, float sqradius);
-  void Interrupt ();
-  iSector* GetSector () const { return sector; }
-  const csVector3& GetPosition () const { return position; }
-  const csVector3& GetUp () const { return up; }
-  float GetMoveSpeed () const { return movespeed; }
-  float GetRotateSpeed () const { return rotatespeed; }
-  float GetSqRadius () const { return sqradius; }
-  bool IsMoving () const { return is_moving; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual bool Start (iSector* sector, const csVector3& position,
+      const csVector3& up, float movespeed, float rotatespeed,
+      float sqradius);
+  virtual void Interrupt ();
+  virtual iSector* GetSector () const { return sector; }
+  virtual const csVector3& GetPosition () const { return position; }
+  virtual const csVector3& GetUp () const { return up; }
+  virtual float GetMoveSpeed () const { return movespeed; }
+  virtual float GetRotateSpeed () const { return rotatespeed; }
+  virtual float GetSqRadius () const { return sqradius; }
+  virtual bool IsMoving () const { return is_moving; }
 
   virtual const char* GetName () const { return "pcmover"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
   virtual void TickEveryFrame ();
-
-  struct PcMover : public iPcMover
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcMover);
-    virtual bool Start (iSector* sector, const csVector3& position,
-    	const csVector3& up, float movespeed, float rotatespeed, float sqradius)
-    {
-      return scfParent->Start (sector, position, up, movespeed,
-      	rotatespeed, sqradius);
-    }
-    virtual void Interrupt ()
-    {
-      scfParent->Interrupt ();
-    }
-    virtual const csVector3& GetPosition () const
-    {
-      return scfParent->GetPosition ();
-    }
-    virtual iSector* GetSector () const
-    {
-      return scfParent->GetSector ();
-    }
-    virtual const csVector3& GetUp () const
-    {
-      return scfParent->GetUp ();
-    }
-    virtual float GetMoveSpeed () const
-    {
-      return scfParent->GetMoveSpeed ();
-    }
-    virtual float GetRotateSpeed () const
-    {
-      return scfParent->GetRotateSpeed ();
-    }
-    virtual float GetSqRadius () const
-    {
-      return scfParent->GetSqRadius ();
-    }
-    virtual bool IsMoving () const
-    {
-      return scfParent->IsMoving ();
-    }
-  } scfiPcMover;
 };
 
 #endif // __CEL_PF_MOVERFACT__

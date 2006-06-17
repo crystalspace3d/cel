@@ -47,19 +47,9 @@ csStringID celPcMover::id_sqradius = csInvalidStringID;
 csStringID celPcMover::action_start = csInvalidStringID;
 csStringID celPcMover::action_interrupt = csInvalidStringID;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMover)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMover)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMover::PcMover)
-  SCF_IMPLEMENTS_INTERFACE (iPcMover)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMover::celPcMover (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMover);
-
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   // For PerformAction.
@@ -91,7 +81,6 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 celPcMover::~celPcMover ()
 {
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcMover);
 }
 
 Property* celPcMover::properties = 0;

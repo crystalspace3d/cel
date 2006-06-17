@@ -15,6 +15,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit made the watch check actually work for invisible meshes
 	  (like player in first person).
 	- Jorrit made the watch trigger recheck correctly.
+
+
+	- Jorrit converted several property classes to new SCF.
+
+
+
 15-Jun-2006
 	- Jorrit fixed a problem with pccommandinput which caused
 	  potential crashes whenever the behaviour removes the entity
