@@ -1348,7 +1348,7 @@ SWIG_Python_GetTypeList() {
 
 /* -------- TYPES TABLE (BEGIN) -------- */
 
-#define  SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[0] 
+#define  SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[0] 
 #define  SWIGTYPE_p_iCollider swig_types[1] 
 #define  SWIGTYPE_p_f_p_iMeshWrapper_p_iFrustumView_bool__void swig_types[2] 
 #define  SWIGTYPE_p_iObjectRegistry swig_types[3] 
@@ -1364,7 +1364,7 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iCelPropertyClassFactory swig_types[13] 
 #define  SWIGTYPE_p_iSector swig_types[14] 
 #define  SWIGTYPE_p_p_iSector swig_types[15] 
-#define  SWIGTYPE_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[16] 
+#define  SWIGTYPE_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[16] 
 #define  SWIGTYPE_p_iCelParameterBlock swig_types[17] 
 #define  SWIGTYPE_p_celGenericParameterBlock swig_types[18] 
 #define  SWIGTYPE_p_celVariableParameterBlock swig_types[19] 
@@ -1444,14 +1444,14 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_iPcGravityCallback swig_types[93] 
 #define  SWIGTYPE_p_iBillboardManager swig_types[94] 
 #define  SWIGTYPE_p_iPcZoneManager swig_types[95] 
-#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[96] 
+#define  SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[96] 
 #define  SWIGTYPE_p_iCamera swig_types[97] 
 #define  SWIGTYPE_p_iPcCamera swig_types[98] 
 #define  SWIGTYPE_p_celData_value_par swig_types[99] 
 #define  SWIGTYPE_p_csSetTunsigned_long_t swig_types[100] 
 #define  SWIGTYPE_p_iPcMesh swig_types[101] 
 #define  SWIGTYPE_p_iPcSimpleCamera swig_types[102] 
-#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t swig_types[103] 
+#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[103] 
 #define  SWIGTYPE_p_iCelBehaviour swig_types[104] 
 #define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[105] 
 #define  SWIGTYPE_p_iBillboardLayer swig_types[106] 
@@ -3153,7 +3153,7 @@ static PyObject *_wrap_celInitializer__RequestPlugins(PyObject *, PyObject *args
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iObjectRegistry, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     {
-        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, SWIG_POINTER_EXCEPTION | 0);
+        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, SWIG_POINTER_EXCEPTION | 0);
         if (SWIG_arg_fail(2)) SWIG_fail;
         if (arg2 == NULL) {
             SWIG_null_ref("csArray<csPluginRequest >");
@@ -9300,7 +9300,7 @@ static PyObject *_wrap_celGenericParameterBlock_scfWeakRefOwners_set(PyObject *,
     if(!PyArg_ParseTuple(args,(char *)"OO:celGenericParameterBlock_scfWeakRefOwners_set",&obj0,&obj1)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_celGenericParameterBlock, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
     if (SWIG_arg_fail(2)) SWIG_fail;
     if (arg1) (arg1)->scfWeakRefOwners = arg2;
     
@@ -9322,7 +9322,7 @@ static PyObject *_wrap_celGenericParameterBlock_scfWeakRefOwners_get(PyObject *,
     if (SWIG_arg_fail(1)) SWIG_fail;
     result = (csArray<void ** > *) ((arg1)->scfWeakRefOwners);
     
-    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 0);
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 0);
     return resultobj;
     fail:
     return NULL;
@@ -9917,7 +9917,7 @@ static PyObject *_wrap_celVariableParameterBlock_scfWeakRefOwners_set(PyObject *
     if(!PyArg_ParseTuple(args,(char *)"OO:celVariableParameterBlock_scfWeakRefOwners_set",&obj0,&obj1)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_celVariableParameterBlock, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
     if (SWIG_arg_fail(2)) SWIG_fail;
     if (arg1) (arg1)->scfWeakRefOwners = arg2;
     
@@ -9939,7 +9939,7 @@ static PyObject *_wrap_celVariableParameterBlock_scfWeakRefOwners_get(PyObject *
     if (SWIG_arg_fail(1)) SWIG_fail;
     result = (csArray<void ** > *) ((arg1)->scfWeakRefOwners);
     
-    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 0);
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 0);
     return resultobj;
     fail:
     return NULL;
@@ -10477,7 +10477,7 @@ static PyObject *_wrap_celOneParameterBlock_scfWeakRefOwners_set(PyObject *, PyO
     if(!PyArg_ParseTuple(args,(char *)"OO:celOneParameterBlock_scfWeakRefOwners_set",&obj0,&obj1)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_celOneParameterBlock, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
+    SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, SWIG_POINTER_EXCEPTION | SWIG_POINTER_DISOWN);
     if (SWIG_arg_fail(2)) SWIG_fail;
     if (arg1) (arg1)->scfWeakRefOwners = arg2;
     
@@ -10499,7 +10499,7 @@ static PyObject *_wrap_celOneParameterBlock_scfWeakRefOwners_get(PyObject *, PyO
     if (SWIG_arg_fail(1)) SWIG_fail;
     result = (csArray<void ** > *) ((arg1)->scfWeakRefOwners);
     
-    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 0);
+    resultobj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 0);
     return resultobj;
     fail:
     return NULL;
@@ -36096,7 +36096,7 @@ static void *_p_celOneParameterBlockTo_p_iCelParameterBlock(void *x) {
 static void *_p_csColor4To_p_csColor(void *x) {
     return (void *)((csColor *)  ((csColor4 *) x));
 }
-static swig_type_info _swigt__p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t[] = {{"_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, "csArray<void ** > *", 0, 0, 0, 0},{"_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t[] = {{"_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, "csArray<void ** > *", 0, 0, 0, 0},{"_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCollider[] = {{"_p_iCollider", 0, "iCollider *", 0, 0, 0, 0},{"_p_iCollider", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_f_p_iMeshWrapper_p_iFrustumView_bool__void[] = {{"_p_f_p_iMeshWrapper_p_iFrustumView_bool__void", 0, "void (*)(iMeshWrapper *,iFrustumView *,bool)|csFrustumViewObjectFunc *", 0, 0, 0, 0},{"_p_f_p_iMeshWrapper_p_iFrustumView_bool__void", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iObjectRegistry[] = {{"_p_iObjectRegistry", 0, "iObjectRegistry *", 0, 0, 0, 0},{"_p_iObjectRegistry", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -36112,7 +36112,7 @@ static swig_type_info _swigt__p_iPcDefaultCamera[] = {{"_p_iPcDefaultCamera", 0,
 static swig_type_info _swigt__p_iCelPropertyClassFactory[] = {{"_p_iCelPropertyClassFactory", 0, "iCelPropertyClassFactory *", 0, 0, 0, 0},{"_p_iCelPropertyClassFactory", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iSector[] = {{"_p_iSector", 0, "iSector *", 0, 0, 0, 0},{"_p_iSector", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_p_iSector[] = {{"_p_p_iSector", 0, "iSector **", 0, 0, 0, 0},{"_p_p_iSector", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t[] = {{"_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, "csArray<csImageIOFileFormatDescription const * > *|csImageIOFileFormatDescriptions *", 0, 0, 0, 0},{"_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t[] = {{"_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, "csArray<csImageIOFileFormatDescription const * > *|csImageIOFileFormatDescriptions *", 0, 0, 0, 0},{"_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelParameterBlock[] = {{"_p_iCelParameterBlock", 0, "iCelParameterBlock *", 0, 0, 0, 0},{"_p_iCelParameterBlock", 0, 0, 0, 0, 0, 0},{"_p_celGenericParameterBlock", _p_celGenericParameterBlockTo_p_iCelParameterBlock, 0, 0, 0, 0, 0},{"_p_celVariableParameterBlock", _p_celVariableParameterBlockTo_p_iCelParameterBlock, 0, 0, 0, 0, 0},{"_p_celOneParameterBlock", _p_celOneParameterBlockTo_p_iCelParameterBlock, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_celGenericParameterBlock[] = {{"_p_celGenericParameterBlock", 0, "celGenericParameterBlock *", 0, 0, 0, 0},{"_p_celGenericParameterBlock", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_celVariableParameterBlock[] = {{"_p_celVariableParameterBlock", 0, "celVariableParameterBlock *", 0, 0, 0, 0},{"_p_celVariableParameterBlock", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -36192,14 +36192,14 @@ static swig_type_info _swigt__p_iPcMechanicsBalancedGroup[] = {{"_p_iPcMechanics
 static swig_type_info _swigt__p_iPcGravityCallback[] = {{"_p_iPcGravityCallback", 0, "iPcGravityCallback *", 0, 0, 0, 0},{"_p_iPcGravityCallback", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iBillboardManager[] = {{"_p_iBillboardManager", 0, "iBillboardManager *", 0, 0, 0, 0},{"_p_iBillboardManager", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcZoneManager[] = {{"_p_iPcZoneManager", 0, "iPcZoneManager *", 0, 0, 0, 0},{"_p_iPcZoneManager", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t[] = {{"_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, "csArray<csPluginRequest > *", 0, 0, 0, 0},{"_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t[] = {{"_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, "csArray<csPluginRequest > *", 0, 0, 0, 0},{"_p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCamera[] = {{"_p_iCamera", 0, "iCamera *", 0, 0, 0, 0},{"_p_iCamera", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcCamera[] = {{"_p_iPcCamera", 0, "iPcCamera *", 0, 0, 0, 0},{"_p_iPcDefaultCamera", _p_iPcDefaultCameraTo_p_iPcCamera, 0, 0, 0, 0, 0},{"_p_iPcCamera", 0, 0, 0, 0, 0, 0},{"_p_iPcSimpleCamera", _p_iPcSimpleCameraTo_p_iPcCamera, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_celData_value_par[] = {{"_p_celData_value_par", 0, "celData_value_par *", 0, 0, 0, 0},{"_p_celData_value_par", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csSetTunsigned_long_t[] = {{"_p_csSetTunsigned_long_t", 0, "csSet<unsigned long > *|csSet<csStringID > *", 0, 0, 0, 0},{"_p_csSetTunsigned_long_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcMesh[] = {{"_p_iPcMesh", 0, "iPcMesh *", 0, 0, 0, 0},{"_p_iPcMesh", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcSimpleCamera[] = {{"_p_iPcSimpleCamera", 0, "iPcSimpleCamera *", 0, 0, 0, 0},{"_p_iPcSimpleCamera", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
-static swig_type_info _swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t[] = {{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, "csArray<csShaderVariable * > *|csShaderVarStack *", 0, 0, 0, 0},{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t[] = {{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, "csArray<csShaderVariable * > *|csShaderVarStack *", 0, 0, 0, 0},{"_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelBehaviour[] = {{"_p_iCelBehaviour", 0, "iCelBehaviour *", 0, 0, 0, 0},{"_p_iCelBehaviour", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csPtrTiRigidBody_t[] = {{"_p_csPtrTiRigidBody_t", 0, "csPtr<iRigidBody > *", 0, 0, 0, 0},{"_p_csPtrTiRigidBody_t", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iBillboardLayer[] = {{"_p_iBillboardLayer", 0, "iBillboardLayer *", 0, 0, 0, 0},{"_p_iBillboardLayer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -36253,7 +36253,7 @@ static swig_type_info _swigt__p_iPcRegion[] = {{"_p_iPcRegion", 0, "iPcRegion *"
 static swig_type_info _swigt__p_iRegion[] = {{"_p_iRegion", 0, "iRegion *", 0, 0, 0, 0},{"_p_iRegion", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 
 static swig_type_info *swig_types_initial[] = {
-_swigt__p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 
+_swigt__p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 
 _swigt__p_iCollider, 
 _swigt__p_f_p_iMeshWrapper_p_iFrustumView_bool__void, 
 _swigt__p_iObjectRegistry, 
@@ -36269,7 +36269,7 @@ _swigt__p_iPcDefaultCamera,
 _swigt__p_iCelPropertyClassFactory, 
 _swigt__p_iSector, 
 _swigt__p_p_iSector, 
-_swigt__p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 
+_swigt__p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 
 _swigt__p_iCelParameterBlock, 
 _swigt__p_celGenericParameterBlock, 
 _swigt__p_celVariableParameterBlock, 
@@ -36349,14 +36349,14 @@ _swigt__p_iPcMechanicsBalancedGroup,
 _swigt__p_iPcGravityCallback, 
 _swigt__p_iBillboardManager, 
 _swigt__p_iPcZoneManager, 
-_swigt__p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 
+_swigt__p_csArrayTcsPluginRequest_csArrayElementHandlerTcsPluginRequest_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 
 _swigt__p_iCamera, 
 _swigt__p_iPcCamera, 
 _swigt__p_celData_value_par, 
 _swigt__p_csSetTunsigned_long_t, 
 _swigt__p_iPcMesh, 
 _swigt__p_iPcSimpleCamera, 
-_swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityLinearTcsArrayThresholdVariable_t_t, 
+_swigt__p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t, 
 _swigt__p_iCelBehaviour, 
 _swigt__p_csPtrTiRigidBody_t, 
 _swigt__p_iBillboardLayer, 
