@@ -402,7 +402,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     {
       for (size_t i = 0; i != len; i ++)
       {
-        number = rng.Get (len);
+        number = rng.Get ((int)len);
         if (spawnposition[number].reserved == false)
           break;
         else if (spawnposition[i].reserved == false)

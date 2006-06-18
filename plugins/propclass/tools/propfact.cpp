@@ -308,7 +308,7 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
         databuf->Add (p->entity);
 	break;
       case CEL_DATA_IBASE:
-        databuf->Add (p->ref);
+        databuf->AddIBase (p->ref);
 	break;
       default:
         // @@@ Impossible!

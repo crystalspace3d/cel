@@ -242,8 +242,8 @@ bool celPersistClassic::Write (int8 v)
 
 bool celPersistClassic::Write (float f)
 {
-  f = csConvertEndian (f);
-  return (file->Write ((const char*)&f, 4)? true: false);
+  uint32 pf = csLittleEndian::Convert( csIEEEfloat::FromNative(f) );  
+  return (file->Write ((const char*)&pf, 4)? true: false);
 }
 
 bool celPersistClassic::Write (iCelPropertyClass* pc, bool savelocal)
@@ -437,9 +437,10 @@ bool celPersistClassic::Read (uint32& ul)
 
 bool celPersistClassic::Read (float& f)
 {
-  if (file->Read((char*) &f, 4) < 4)
+  uint32 u = 0;
+  if (file->Read((char*)u, 4) < 4)
     return ReportTrunc ();
-  f = csConvertEndian (f);
+  f = csIEEEfloat::ToNative( csLittleEndian::Convert(u) );
   return true;
 }
 
