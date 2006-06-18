@@ -3660,7 +3660,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (a_val.type)
 	  {
 	    case CEL_DATA_ENTITY: ret.Set (a_val.arg.entity); break;
-	    case CEL_DATA_IBASE: ret.Set (a_val.arg.ref); break;
+	    case CEL_DATA_IBASE: ret.SetIBase (a_val.arg.ref); break;
 	    case CEL_DATA_PCLASS: ret.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: ret.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: ret.Set (a_val.arg.ui); break;
@@ -4138,7 +4138,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  switch (a_val.type)
 	  {
 	    case CEL_DATA_ENTITY: data.Set (a_val.arg.entity); break;
-	    case CEL_DATA_IBASE: data.Set (a_val.arg.ref); break;
+	    case CEL_DATA_IBASE: data.SetIBase (a_val.arg.ref); break;
 	    case CEL_DATA_PCLASS: data.Set (a_val.arg.pc); break;
 	    case CEL_DATA_LONG: data.Set (a_val.arg.i); break;
 	    case CEL_DATA_ULONG: data.Set (a_val.arg.ui); break;
@@ -4398,7 +4398,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_findname name=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 (default_inv->FindEntity (ArgToString (top)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToString (top)));
 	}
 	break;
       case CEL_OPERATION_INVENTORY_IN:
@@ -4418,7 +4418,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_find ent=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 (default_inv->FindEntity (ArgToEntity (top, pl)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToEntity (top, pl)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:

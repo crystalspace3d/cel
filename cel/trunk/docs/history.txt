@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Jun-2006
+        - Arianna fixed some warnings: deprecated methods and types
+          conversions.
 16-Jun-2006
 	- Jorrit changed the ent() function in blxml so that it no longer
 	  reports an error if it can't find the entity. Instead it will
