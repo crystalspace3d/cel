@@ -16,19 +16,19 @@
 namespace csStaticPluginInit
 {
 static char const metainfo_pfprojectile[] =
-"<?xml version=\"1.0\"?>"
-"<!-- pfprojectile.csplugin -->"
-"<plugin>"
-"  <scf>"
-"    <classes>"
-"      <class>"
-"        <name>cel.pcfactory.projectile</name>"
-"        <implementation>celPfProjectile</implementation>"
-"	<description>CEL Projectile Property Class Factory</description>"
-"      </class>"
-"    </classes>"
-"  </scf>"
-"</plugin>"
+"<?xml version=\"1.0\"?>"
+"<!-- pfprojectile.csplugin -->"
+"<plugin>"
+"  <scf>"
+"    <classes>"
+"      <class>"
+"        <name>cel.pcfactory.projectile</name>"
+"        <implementation>celPfProjectile</implementation>"
+"	<description>CEL Projectile Property Class Factory</description>"
+"      </class>"
+"    </classes>"
+"  </scf>"
+"</plugin>"
 ;
   #ifndef celPfProjectile_FACTORY_REGISTER_DEFINED 
   #define celPfProjectile_FACTORY_REGISTER_DEFINED 
