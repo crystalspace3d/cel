@@ -31,18 +31,18 @@ FILEFLAGS 0x0
 
 17485 RCDATA 
 {
-  "<?xml version=""1.0""?>",
-  "<!-- pfprojectile.csplugin -->",
-  "<plugin>",
-  "  <scf>",
-  "    <classes>",
-  "      <class>",
-  "        <name>cel.pcfactory.projectile</name>",
-  "        <implementation>celPfProjectile</implementation>",
-  "	<description>CEL Projectile Property Class Factory</description>",
-  "      </class>",
-  "    </classes>",
-  "  </scf>",
-  "</plugin>",
+  "<?xml version=""1.0""?>",
+  "<!-- pfprojectile.csplugin -->",
+  "<plugin>",
+  "  <scf>",
+  "    <classes>",
+  "      <class>",
+  "        <name>cel.pcfactory.projectile</name>",
+  "        <implementation>celPfProjectile</implementation>",
+  "	<description>CEL Projectile Property Class Factory</description>",
+  "      </class>",
+  "    </classes>",
+  "  </scf>",
+  "</plugin>",
   "\0"
 }
