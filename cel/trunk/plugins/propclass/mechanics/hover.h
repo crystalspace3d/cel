@@ -32,7 +32,7 @@
 #include "propclass/mesh.h"
 
 #include "tools/stabiliser_dist.h"
-#include "ticktimer.h"
+#include "../mechanics/ticktimer.h"
 
 struct iPcMesh;
 struct iPcMechanicsObject;
@@ -41,6 +41,8 @@ struct iVirtualClock;
 /**
  * Factory for hover.
  */
+CS_IMPLEMENT_PLUGIN
+
 CEL_DECLARE_FACTORY (Hover)
 
 /**

@@ -21,7 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/evdefs.h"
 
-#include "plugins/propclass/mechanics/craft_controller.h"
+#include "plugins/propclass/hover/craft_controller.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"

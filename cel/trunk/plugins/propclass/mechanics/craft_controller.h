@@ -29,7 +29,7 @@
 #include "celtool/stdparams.h"
 
 #include "propclass/craft.h"
-#include "ticktimer.h"
+#include "../mechanics/ticktimer.h"
 
 /**
  * Factory for hover.
