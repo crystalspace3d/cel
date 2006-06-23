@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 23-Jun-2006
 	- Jorrit removed some unneeded statements in the sound xml
 	  operations.
+	- Genjix added some reactionary and braking methods to pccraft.
 18-Jun-2006
         - Arianna fixed some warnings: deprecated methods and types
           conversions.

@@ -72,6 +72,10 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   topburnerspeed = 40.0f;
 
   redirect_vel_ratio = 0.0;
+  deceleration_rate = 1.0 - 0.01;
+
+  brakes_on = false;
+  braking_speed = 1.0 - 0.1;
 }
 
 celPcCraftController::~celPcCraftController ()
@@ -156,4 +160,11 @@ void celPcCraftController::UpdateBody ()
   if (thrust_on && !(-lv.z > hspeed))
     ship_mech->AddForceDuration (csVector3 (0,0,-thrust), true,
       csVector3 (0,0,0), 0.1f);
+  if (!thrust_on)
+    ship_mech->SetLinearVelocity (deceleration_rate *
+      ship_mech->GetLinearVelocity ());
+  // remember: brakes and thruster can be on at same time
+  if (brakes_on)
+    ship_mech->SetLinearVelocity (braking_speed *
+      ship_mech->GetLinearVelocity ());
 }

@@ -104,6 +104,9 @@ struct iPcCraftController : public virtual iBase
    */
   virtual void SetRedirectVelocityRatio (float rdvr) = 0;
 
+  virtual void SetDecelerationRate (float decr) = 0;
+  virtual void SetBrakingSpeed (float bspd) = 0;
+
   /**
    * Turn on thruster
    */
@@ -121,6 +124,9 @@ struct iPcCraftController : public virtual iBase
   virtual void SetAfterBurnerTopSpeed (float tspeed) = 0;
   virtual void AfterBurnerOn () = 0;
   virtual void AfterBurnerOff () = 0;
+
+  virtual void BrakesOn () = 0;
+  virtual void BrakesOff () = 0;
 };
 
 #endif
