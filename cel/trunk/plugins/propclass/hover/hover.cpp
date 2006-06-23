@@ -252,7 +252,14 @@ void celPcHover::PerformStabilising ()
   if (!world_mesh)
   {
     if (world_mesh_name)
+    {
       LookUpWorldMesh ();
+      if (!world_mesh)  // invalid world_mesh_name
+      {
+        world_mesh_name = 0;
+        return;
+      }
+    }
     else
       return;
   }
