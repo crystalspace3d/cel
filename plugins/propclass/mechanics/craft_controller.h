@@ -83,6 +83,10 @@ public:
   { topburnerspeed = tspeed; }
   virtual void SetRedirectVelocityRatio (float rdvr)
   { redirect_vel_ratio = rdvr; }
+  virtual void SetDecelerationRate (float decr)
+  { deceleration_rate = 1.0 - decr; }
+  virtual void SetBrakingSpeed (float bspd)
+  { braking_speed = 1.0 - bspd; }
 
   virtual void ThrustOn () { thrust_on = true; }
   virtual void ThrustOff () { thrust_on = false; }
@@ -90,6 +94,9 @@ public:
 
   virtual void AfterBurnerOn () { after_burner = true; }
   virtual void AfterBurnerOff () { after_burner = false; }
+
+  virtual void BrakesOn () { brakes_on = true; }
+  virtual void BrakesOff () { brakes_on = false; }
 
   struct PcCraftController : public iPcCraftController
   {
@@ -161,6 +168,14 @@ public:
     {
       scfParent->SetRedirectVelocityRatio (rdvr);
     }
+    virtual void SetDecelerationRate (float decr)
+    {
+      scfParent->SetDecelerationRate (decr);
+    }
+    virtual void SetBrakingSpeed (float bspd)
+    {
+      scfParent->SetBrakingSpeed (bspd);
+    }
 
     virtual void ThrustOn ()
     {
@@ -182,6 +197,15 @@ public:
     virtual void AfterBurnerOff ()
     {
       scfParent->AfterBurnerOff ();
+    }
+
+    virtual void BrakesOn ()
+    {
+      scfParent->BrakesOn ();
+    }
+    virtual void BrakesOff ()
+    {
+      scfParent->BrakesOff ();
     }
   } scfiPcCraftController;
 
@@ -211,6 +235,10 @@ private:
   float speed_ratio_change, dangle;
 
   float redirect_vel_ratio;
+  float deceleration_rate;
+
+  bool brakes_on;
+  float braking_speed;
 };
 
 #endif
