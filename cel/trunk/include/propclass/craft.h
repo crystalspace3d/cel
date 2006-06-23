@@ -127,6 +127,9 @@ struct iPcCraftController : public virtual iBase
 
   virtual void BrakesOn () = 0;
   virtual void BrakesOff () = 0;
+
+  virtual void SlideOn () = 0;
+  virtual void SlideOff () = 0;
 };
 
 #endif

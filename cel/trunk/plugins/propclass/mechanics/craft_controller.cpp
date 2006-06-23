@@ -71,6 +71,7 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   after_burner = false;
   topburnerspeed = 40.0f;
 
+  slide_on = false;
   redirect_vel_ratio = 0.0;
   deceleration_rate = 1.0 - 0.01;
 
@@ -145,7 +146,7 @@ void celPcCraftController::UpdateBody ()
   	+ angular_supressant);
 
   // normalize velocity vector
-  if (redirect_vel_ratio > 0.0)
+  if (!slide_on && redirect_vel_ratio > 0.0)
   {
     float speed = ship_mech->GetLinearVelocity ().Norm ();
     ship_mech->SetLinearVelocity ((1.0 - redirect_vel_ratio) * ship_mech

@@ -98,6 +98,9 @@ public:
   virtual void BrakesOn () { brakes_on = true; }
   virtual void BrakesOff () { brakes_on = false; }
 
+  virtual void SlideOn () { slide_on = true; }
+  virtual void SlideOff () { slide_on = false; }
+
   struct PcCraftController : public iPcCraftController
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
@@ -207,6 +210,15 @@ public:
     {
       scfParent->BrakesOff ();
     }
+
+    virtual void SlideOn ()
+    {
+      scfParent->SlideOn ();
+    }
+    virtual void SlideOff ()
+    {
+      scfParent->SlideOff ();
+    }
   } scfiPcCraftController;
 
 private:
@@ -234,6 +246,7 @@ private:
   // airbrake variables
   float speed_ratio_change, dangle;
 
+  bool slide_on;
   float redirect_vel_ratio;
   float deceleration_rate;
 
