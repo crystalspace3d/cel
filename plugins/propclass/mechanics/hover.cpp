@@ -21,7 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/evdefs.h"
 
-#include "plugins/propclass/mechanics/hover.h"
+#include "plugins/propclass/hover/hover.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
