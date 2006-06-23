@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  operations.
 	- Genjix added some reactionary and braking methods to pccraft.
 	- Genjix added a new sliding mode for going round turns.
+	- Genjix corrected small bug in pchover for when an invalid mesh
+	  is specified.
 18-Jun-2006
         - Arianna fixed some warnings: deprecated methods and types
           conversions.
