@@ -4615,9 +4615,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
-	  iEngine* engine = cbl->GetEngine ();
-	  if (!engine)
-	    return ReportError (cbl, "Error! No engine!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
 		top));
 	  if (w)
@@ -4719,9 +4716,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
-	  iEngine* engine = cbl->GetEngine ();
-	  if (!engine)
-	    return ReportError (cbl, "Error! No engine!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
 		a_name));
 	  if (w)
