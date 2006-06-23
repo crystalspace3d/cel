@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Jun-2006
+	- Jorrit removed some unneeded statements in the sound xml
+	  operations.
 18-Jun-2006
         - Arianna fixed some warnings: deprecated methods and types
           conversions.
@@ -18,12 +21,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit made the watch check actually work for invisible meshes
 	  (like player in first person).
 	- Jorrit made the watch trigger recheck correctly.
-
-
 	- Jorrit converted several property classes to new SCF.
-
-
-
 15-Jun-2006
 	- Jorrit fixed a problem with pccommandinput which caused
 	  potential crashes whenever the behaviour removes the entity
