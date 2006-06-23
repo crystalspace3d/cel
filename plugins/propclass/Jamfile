@@ -23,4 +23,5 @@ SubInclude TOP plugins propclass quest ;
 SubInclude TOP plugins propclass awswin ;
 SubInclude TOP plugins propclass rules ;
 SubInclude TOP plugins propclass projectile ;
+SubInclude TOP plugins propclass hover ;
 
