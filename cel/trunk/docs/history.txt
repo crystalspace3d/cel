@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	- Genjix added a new sliding mode for going round turns.
 	- Genjix corrected small bug in pchover for when an invalid mesh
 	  is specified.
+	- cfraz89 added a pcwheeled propclass and wheeledtest. At the
+	  moment they are nothing more than renamed pctest and mechtest.
 18-Jun-2006
         - Arianna fixed some warnings: deprecated methods and types
           conversions.
