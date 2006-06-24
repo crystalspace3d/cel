@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
-	Name="plgpfmechanics"
-	ProjectGUID="{89822485-8A94-469B-7CA5-A2839C03D271}"
+	Version="7.00"
+	Name="plgpfwheeled"
+	ProjectGUID="{99CE9F68-96D7-1FAF-65BF-DEEF6E5085B8}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release71\build\plgpfmechanics\"
-			IntermediateDirectory="..\..\out\release71\build\plgpfmechanics\"
+			OutputDirectory="..\..\out\release7\build\plgpfwheeled\"
+			IntermediateDirectory="..\..\out\release7\build\plgpfwheeled\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -31,10 +31,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release71\build\plgpfmechanics\plgpfmechanics.pch"
-				AssemblerListingLocation="..\..\out\release71\build\plgpfmechanics\"
-				ObjectFile="..\..\out\release71\build\plgpfmechanics\"
-				ProgramDataBaseFileName="..\..\out\release71\build\plgpfmechanics\pfmechanics.pdb"
+				PrecompiledHeaderFile="..\..\out\release7\build\plgpfwheeled\plgpfwheeled.pch"
+				AssemblerListingLocation="..\..\out\release7\build\plgpfwheeled\"
+				ObjectFile="..\..\out\release7\build\plgpfwheeled\"
+				ProgramDataBaseFileName="..\..\out\release7\build\plgpfwheeled\pfwheeled.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -49,15 +49,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\pfmechanics.dll"
+				OutputFile="..\..\pfwheeled.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release71\build\plgpfmechanics\plgpfmechanics.lib"
+				ImportLibrary="..\..\out\release7\build\plgpfwheeled\plgpfwheeled.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				ProgramDatabaseFile="..\..\out\release71\build\plgpfmechanics\pfmechanics.pdb"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				ProgramDatabaseFile="..\..\out\release7\build\plgpfwheeled\pfwheeled.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -68,7 +68,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\plgpfmechanics\plgpfmechanics.tlb"/>
+				TypeLibraryName="..\..\out\release7\build\plgpfwheeled\plgpfwheeled.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -78,7 +78,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;PACKAGE_NAME=CEL;_WINDOWS;CS_PROJECTGEN_VERSION=71"
+				PreprocessorDefinitions="NDEBUG;PACKAGE_NAME=CEL;_WINDOWS;CS_PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -88,8 +88,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug71\build\plgpfmechanics\"
-			IntermediateDirectory="..\..\out\debug71\build\plgpfmechanics\"
+			OutputDirectory="..\..\out\debug7\build\plgpfwheeled\"
+			IntermediateDirectory="..\..\out\debug7\build\plgpfwheeled\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -104,10 +104,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug71\build\plgpfmechanics\plgpfmechanics.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\plgpfmechanics\"
-				ObjectFile="..\..\out\debug71\build\plgpfmechanics\"
-				ProgramDataBaseFileName="..\..\out\debug71\build\plgpfmechanics\pfmechanics.pdb"
+				PrecompiledHeaderFile="..\..\out\debug7\build\plgpfwheeled\plgpfwheeled.pch"
+				AssemblerListingLocation="..\..\out\debug7\build\plgpfwheeled\"
+				ObjectFile="..\..\out\debug7\build\plgpfwheeled\"
+				ProgramDataBaseFileName="..\..\out\debug7\build\plgpfwheeled\pfwheeled.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -120,15 +120,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\pfmechanics.dll"
+				OutputFile="..\..\pfwheeled.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug71\build\plgpfmechanics\plgpfmechanics.lib"
+				ImportLibrary="..\..\out\debug7\build\plgpfwheeled\plgpfwheeled.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				ProgramDatabaseFile="..\..\out\debug71\build\plgpfmechanics\pfmechanics.pdb"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs\csutil\win32\libs"
+				ProgramDatabaseFile="..\..\out\debug7\build\plgpfwheeled\pfwheeled.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -139,7 +139,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\plgpfmechanics\plgpfmechanics.tlb"/>
+				TypeLibraryName="..\..\out\debug7\build\plgpfwheeled\plgpfwheeled.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -149,7 +149,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;PACKAGE_NAME=CEL;_WINDOWS;CS_PROJECTGEN_VERSION=71"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;PACKAGE_NAME=CEL;_WINDOWS;CS_PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
@@ -163,45 +163,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\mechanics.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp">
+				RelativePath="..\..\plugins\propclass\wheeled\wheeled.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\common.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
+				RelativePath="..\..\plugins\propclass\wheeled\wheeled.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\plgpfmechanics.rc">
+				RelativePath="..\..\msvc\plgpfwheeled.rc">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\pfmechanics.csplugin">
+				RelativePath="..\..\plugins\propclass\wheeled\pfwheeled.csplugin">
 			</File>
 		</Filter>
 	</Files>

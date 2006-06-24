@@ -398,6 +398,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfhover_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfhover_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfhover_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfinput_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -650,6 +665,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpftrigger_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\libpfwheeled_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfwheeled_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfwheeled_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -983,6 +1013,51 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\hover\craft_controller.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_hover_craft_controller.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_hover_craft_controller.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hover\hover.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_hover_hover.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_hover_hover.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hover\stabiliser_dist.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\input\inpfact.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1028,36 +1103,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\craft_controller.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_mechanics_craft_controller.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_mechanics_craft_controller.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\hover.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_mechanics_hover.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_mechanics_hover.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1070,21 +1115,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_mechanics_mechanics.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\stabiliser_dist.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_mechanics_stabiliser_dist.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1460,6 +1490,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_trigger_trigger.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wheeled\wheeled.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_wheeled_wheeled.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_wheeled_wheeled.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2031,6 +2076,12 @@
 				RelativePath="..\..\plugins\propclass\engine\engfact.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\hover\craft_controller.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hover\hover.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\input\inpfact.h">
 			</File>
 			<File
@@ -2043,13 +2094,7 @@
 				RelativePath="..\..\plugins\propclass\mechanics\common.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\craft_controller.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\hover.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
@@ -2131,6 +2176,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\trigger\trigger.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\wheeled\wheeled.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\zone\zone.h">
