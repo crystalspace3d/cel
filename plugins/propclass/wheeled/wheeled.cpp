@@ -123,7 +123,7 @@ long celPcWheeled::GetPropertyLong (csStringID propertyId)
 
 csPtr<iCelDataBuffer> celPcWheeled::Save ()
 {
-
+  return 0;
 }
 
 bool celPcWheeled::Load (iCelDataBuffer* databuf)
