@@ -2597,12 +2597,18 @@ class iPcCraftController(cspace.iBase):
     def SetThrustForce(*args): return _blcelc.iPcCraftController_SetThrustForce(*args)
     def SetTopSpeed(*args): return _blcelc.iPcCraftController_SetTopSpeed(*args)
     def SetRedirectVelocityRatio(*args): return _blcelc.iPcCraftController_SetRedirectVelocityRatio(*args)
+    def SetDecelerationRate(*args): return _blcelc.iPcCraftController_SetDecelerationRate(*args)
+    def SetBrakingSpeed(*args): return _blcelc.iPcCraftController_SetBrakingSpeed(*args)
     def ThrustOn(*args): return _blcelc.iPcCraftController_ThrustOn(*args)
     def ThrustOff(*args): return _blcelc.iPcCraftController_ThrustOff(*args)
     def IsThrusterOn(*args): return _blcelc.iPcCraftController_IsThrusterOn(*args)
     def SetAfterBurnerTopSpeed(*args): return _blcelc.iPcCraftController_SetAfterBurnerTopSpeed(*args)
     def AfterBurnerOn(*args): return _blcelc.iPcCraftController_AfterBurnerOn(*args)
     def AfterBurnerOff(*args): return _blcelc.iPcCraftController_AfterBurnerOff(*args)
+    def BrakesOn(*args): return _blcelc.iPcCraftController_BrakesOn(*args)
+    def BrakesOff(*args): return _blcelc.iPcCraftController_BrakesOff(*args)
+    def SlideOn(*args): return _blcelc.iPcCraftController_SlideOn(*args)
+    def SlideOff(*args): return _blcelc.iPcCraftController_SlideOff(*args)
     def __del__(self, destroy=_blcelc.delete_iPcCraftController):
         try:
             if self.thisown: destroy(self)

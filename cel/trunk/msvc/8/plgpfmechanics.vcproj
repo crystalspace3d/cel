@@ -163,16 +163,7 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\craft_controller.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\hover.cpp">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\stabiliser_dist.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
@@ -188,13 +179,7 @@
 				RelativePath="..\..\plugins\propclass\mechanics\common.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\craft_controller.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\environment.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\hover.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">

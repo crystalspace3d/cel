@@ -33953,6 +33953,52 @@ static PyObject *_wrap_iPcCraftController_SetRedirectVelocityRatio(PyObject *, P
 }
 
 
+static PyObject *_wrap_iPcCraftController_SetDecelerationRate(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcCraftController_SetDecelerationRate",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetDecelerationRate(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_SetBrakingSpeed(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcCraftController_SetBrakingSpeed",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetBrakingSpeed(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcCraftController_ThrustOn(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcCraftController *arg1 = (iPcCraftController *) 0 ;
@@ -34056,6 +34102,74 @@ static PyObject *_wrap_iPcCraftController_AfterBurnerOff(PyObject *, PyObject *a
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     (arg1)->AfterBurnerOff();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_BrakesOn(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_BrakesOn",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->BrakesOn();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_BrakesOff(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_BrakesOff",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->BrakesOff();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_SlideOn(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_SlideOn",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->SlideOn();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcCraftController_SlideOff(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcCraftController_SlideOff",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcCraftController, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->SlideOff();
     
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
@@ -35179,12 +35293,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCraftController_SetThrustForce", _wrap_iPcCraftController_SetThrustForce, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetTopSpeed", _wrap_iPcCraftController_SetTopSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetRedirectVelocityRatio", _wrap_iPcCraftController_SetRedirectVelocityRatio, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SetDecelerationRate", _wrap_iPcCraftController_SetDecelerationRate, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SetBrakingSpeed", _wrap_iPcCraftController_SetBrakingSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOn", _wrap_iPcCraftController_ThrustOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_ThrustOff", _wrap_iPcCraftController_ThrustOff, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_IsThrusterOn", _wrap_iPcCraftController_IsThrusterOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetAfterBurnerTopSpeed", _wrap_iPcCraftController_SetAfterBurnerTopSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_AfterBurnerOn", _wrap_iPcCraftController_AfterBurnerOn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_AfterBurnerOff", _wrap_iPcCraftController_AfterBurnerOff, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_BrakesOn", _wrap_iPcCraftController_BrakesOn, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_BrakesOff", _wrap_iPcCraftController_BrakesOff, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SlideOn", _wrap_iPcCraftController_SlideOn, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SlideOff", _wrap_iPcCraftController_SlideOff, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcCraftController", _wrap_delete_iPcCraftController, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_swigregister", iPcCraftController_swigregister, METH_VARARGS, NULL},
 	 { (char *)"celCreateCraftController", _wrap_celCreateCraftController, METH_VARARGS, NULL},
