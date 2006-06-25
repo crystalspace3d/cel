@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2006 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -60,6 +60,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   counter = 0;
   max = 0;
+
 }
 
 celPcWheeled::~celPcWheeled ()
@@ -159,6 +160,59 @@ void celPcWheeled::Print (const char* msg)
   counter++;
   size_t l = strlen (msg);
   if (l > max) max = l;
+}
+
+void celPcWheeled::Initialise()
+{
+}
+
+int celPcWheeled::AddWheel(csRef<iCelEntity> wheel, int steeringmode, bool powered)
+{
+return 0;
+}
+
+void celPcWheeled::RemoveWheel(int wheelnum)
+{
+}
+
+void celPcWheeled::Accelerate()
+{
+}
+
+void celPcWheeled::Brake()
+{
+}
+
+void celPcWheeled::HandBrake()
+{
+}
+
+void celPcWheeled::SteerLeft()
+{
+}
+
+void celPcWheeled::SteerRight()
+{
+}
+
+void celPcWheeled::Reverse()
+{
+}
+
+void celPcWheeled::SetAutoTransmission(bool auto)
+{
+}
+
+void celPcWheeled::SetGear(int gear)
+{
+}
+
+void celPcWheeled::SetGearSettings(int gear, float velocity, float force)
+{
+}
+
+void celPcWheeled::SetNumberGears(int number)
+{
 }
 
 //---------------------------------------------------------------------------

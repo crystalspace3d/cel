@@ -2,6 +2,8 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+25-Jun-2006
+	- cfraz89 set up a tonne of stub functions to pcwheeled.
 
 23-Jun-2006
 	- Jorrit removed some unneeded statements in the sound xml
