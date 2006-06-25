@@ -26,6 +26,12 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 
+#include "iengine/mesh.h"
+#include "imesh/objmodel.h"
+#include "imesh/object.h"
+#include "propclass/mesh.h"
+#include "propclass/mechsys.h"
+
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -60,6 +66,11 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   counter = 0;
   max = 0;
+
+  numbergears=1;
+  gear=1;
+  numberwheels=0;
+  autotransmission=true;
 
 }
 
@@ -161,9 +172,40 @@ void celPcWheeled::Print (const char* msg)
   size_t l = strlen (msg);
   if (l > max) max = l;
 }
+//These are the two exposed initialisation functions. They just call the real
+//initialisation with a centre of gravity offset, either user given, or autocalulated.
+void celPcWheeled::Initialise(csVector3 centreoffset)
+{
+ csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+ csBox3 boundingbox;
+ bodyMesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox(boundingbox);
+ CreateBody(boundingbox.GetSize(), centreoffset);
+}
 
+//This function calculates the offset of the body's collider based on it's middle
+//as the bottom of the body.
 void celPcWheeled::Initialise()
 {
+ csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+ csBox3 boundingbox;
+ bodyMesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox(boundingbox);
+ CreateBody(boundingbox.GetSize(), csVector3(0,boundingbox.GetSize().y/2,0));
+}
+
+//This is the actual initialisation function.
+void celPcWheeled::CreateBody(csVector3 vehiclesize, csVector3 centreoffset)
+{
+ csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+ csRef<iPcMechanicsObject> bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
+ bodyMech->SetMass(1.0);
+ bodyMech->SetDensity(1.0);
+ csOrthoTransform t;
+ t.SetOrigin(centreoffset);
+
+  csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
+  bodyGroup=dyn->CreateGroup();
+  bodyMech->AttachColliderBox(vehiclesize,t);
+  bodyGroup->AddBody(bodyMech->GetBody());
 }
 
 int celPcWheeled::AddWheel(csRef<iCelEntity> wheel, int steeringmode, bool powered)

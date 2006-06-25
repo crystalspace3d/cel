@@ -90,6 +90,8 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
+#include "propclass/wheeled.h"
+#include "iostream"
 
 #define PATHFIND_VERBOSE 0
 
@@ -181,12 +183,13 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
 csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 	const char* roomname, const csVector3& pos)
 {
-  // The Real Camera
+  // The vehicle
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "dynactor",
   	"pccommandinput",
 	"pcmesh",
 	"pcdefaultcamera",
 	"pcmechobject",
+	"pcwheeled",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -201,9 +204,12 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
+  //Load the car's map file.
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  vfs->ChDir("/cellib/celcar/");
+  loader->LoadMapFile("world",false);
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  pcmesh->SetPath ("/cel/data");
-  pcmesh->SetMesh ("Sphere", "sphere");
+  pcmesh->SetMesh (engine->FindMeshObject("Body"));
   iSector* room = engine->FindSector (roomname);
   pcmesh->MoveMesh (room, pos);
 
@@ -227,14 +233,45 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
-  pccamera->SetModeName ("lara_thirdperson");
+  pccamera->SetModeName ("thirdperson");
 
-  csRef<iPcMechanicsObject> pcmechobject = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcMechanicsObject);
-  pcmechobject->AttachColliderSphere (.42f, csVector3 (0, 0, 0));
-  pcmechobject->SetMass (1.0);
-  pcmechobject->SetDensity (3.0);
+csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
+pcwheeled->Initialise(csVector3(0));
 
+csRef<iCelEntity> frontleftwheelent=pl->CreateEntity("frontleft",bltest,0,
+	"pcmesh",
+	"pcmechobject",
+	CEL_PROPCLASS_END );
+
+csRef<iPcMesh> pcfrontleftmesh=CEL_QUERY_PROPCLASS_ENT(frontleftwheelent,iPcMesh);
+pcfrontleftmesh->SetMesh(engine->FindMeshObject("FrontLeft"));
+
+csRef<iCelEntity> frontrightwheelent=pl->CreateEntity("frontright",bltest,0,
+	"pcmesh",
+	"pcmechobject",
+	CEL_PROPCLASS_END );
+csRef<iPcMesh> pcfrontrightmesh=CEL_QUERY_PROPCLASS_ENT(frontrightwheelent,iPcMesh);
+pcfrontrightmesh->SetMesh(engine->FindMeshObject("FrontRight"));
+
+csRef<iCelEntity> rearleftwheelent=pl->CreateEntity("rearleft",bltest,0,
+	"pcmesh",
+	"pcmechobject",
+	CEL_PROPCLASS_END );
+csRef<iPcMesh> pcrearleftmesh=CEL_QUERY_PROPCLASS_ENT(rearleftwheelent,iPcMesh);
+pcrearleftmesh->SetMesh(engine->FindMeshObject("RearLeft"));
+
+csRef<iCelEntity> rearrightwheelent=pl->CreateEntity("rearright",bltest,0,
+	"pcmesh",
+	"pcmechobject",
+	CEL_PROPCLASS_END );
+csRef<iPcMesh> pcrearrightmesh=CEL_QUERY_PROPCLASS_ENT(rearrightwheelent,iPcMesh);
+pcrearrightmesh->SetMesh(engine->FindMeshObject("RearRight"));
+
+
+pcwheeled->AddWheel(frontleftwheelent,CEL_WHEELED_CAR_FRONT_STEER,true);
+pcwheeled->AddWheel(frontrightwheelent,CEL_WHEELED_CAR_FRONT_STEER,true);
+pcwheeled->AddWheel(rearrightwheelent,CEL_WHEELED_NO_STEER,true);
+pcwheeled->AddWheel(rearrightwheelent,CEL_WHEELED_NO_STEER,true);
   return csPtr<iCelEntity> (entity_cam);
 }
 

@@ -48,7 +48,15 @@
  */
 
 struct iCelEntity;
+struct iBodyGroup;
 struct iPcWheeled : public virtual iBase
+
+#define CEL_WHEELED_CAR_FRONT_STEER 1
+#define CEL_WHEELED_CAR_REAR_STEER 2
+#define CEL_WHEELED_TANK_LEFT_STEER 3
+#define CEL_WHEELED_TANK_RIGHT_STEER 4
+#define CEL_WHEELED_NO_STEER 5
+
 {
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
 
@@ -58,7 +66,13 @@ struct iPcWheeled : public virtual iBase
   virtual void Print (const char* msg) = 0;
 
  /** Initialise the vehicle. This should be called after the mesh of the entity has been set.
-  *
+  *  Centreoffset is the offset used on the body's collider.
+  */
+  virtual void Initialise(csVector3 centreoffset) = 0;
+
+ /** If Initialise is called without an offset, it is assumed that the centre of the mesh
+  *   is at the bottom of the vehicle. This makes it stable, compared to the middle of
+  *   the mesh.
   */
   virtual void Initialise() = 0;
  /**
@@ -120,6 +134,11 @@ struct iPcWheeled : public virtual iBase
   * Set the number of gears the vehicle has.
   */
   virtual void SetNumberGears(int number) = 0;
+
+ /**
+  * Get the BodyGroup that the car belongs too.
+  */
+  virtual iBodyGroup* GetBodyGroup() = 0;
 };
 
 #endif // __CEL_PF_WHEELED__
