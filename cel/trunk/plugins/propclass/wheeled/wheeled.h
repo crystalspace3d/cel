@@ -29,14 +29,19 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "propclass/wheeled.h"
+#include "ivaria/dynamics.h"
+#include "ivaria/ode.h"
+#include "propclass/mechsys.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
+struct csVector3;
 
-#define CEL_CAR_FRONT_STEER 1
-#define CEL_CAR_REAR_STEER 2
-#define CEL_TANK_LEFT_STEER 3
-#define CEL_TANK_RIGHT_STEER 4
+#define CEL_WHEELED_CAR_FRONT_STEER 1
+#define CEL_WHEELED_CAR_REAR_STEER 2
+#define CEL_WHEELED_TANK_LEFT_STEER 3
+#define CEL_WHEELED_TANK_RIGHT_STEER 4
+#define CEL_WHEELED_NO_STEER 5
 
 
 /**
@@ -69,9 +74,17 @@ private:
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
+  int numbergears;
+  int gear;
+  int numberwheels;
+  bool autotransmission;
+  csRef<iBodyGroup> bodyGroup;
+  csRefArray<iJoint> joints;
+
   // Other fields.
   int counter;
   size_t max;
+  void MakeCollider(csVector3 centreoffset);
 
 public:
   celPcWheeled (iObjectRegistry* object_reg);
@@ -79,7 +92,10 @@ public:
 
   virtual void Print (const char* msg);
 
+  //Setters
+  virtual void Initialise(csVector3 centreoffset);
   virtual void Initialise();
+  virtual void CreateBody(csVector3 vehiclesize, csVector3 centreoffset);
   virtual int AddWheel(csRef<iCelEntity> wheelentity, int steeringmode,bool powered);
   virtual void RemoveWheel(int wheelnum);
   virtual void Accelerate();
@@ -92,6 +108,9 @@ public:
   virtual void SetGear(int gear);
   virtual void SetGearSettings(int gear,float velocity, float force);
   virtual void SetNumberGears(int number);
+
+  //The getter functions
+  virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();
