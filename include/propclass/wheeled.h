@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -46,6 +46,8 @@
  * <li>max (long, read/write): maximum length of what was printed.
  * </ul>
  */
+
+struct iCelEntity;
 struct iPcWheeled : public virtual iBase
 {
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
@@ -54,6 +56,70 @@ struct iPcWheeled : public virtual iBase
    * Print a message.
    */
   virtual void Print (const char* msg) = 0;
+
+ /** Initialise the vehicle. This should be called after the mesh of the entity has been set.
+  *
+  */
+  virtual void Initialise() = 0;
+ /**
+  * Add a wheel to the vehicle.
+  */
+ virtual int AddWheel(csRef<iCelEntity> wheelentity, int steeringmode, bool powered) = 0;
+
+ /**
+  * Remove a wheel from the vehicle.
+  */
+ virtual void RemoveWheel(int wheelnum) = 0;
+
+ /**
+  * Accelerate the vehicle.
+  */
+  virtual void Accelerate() = 0;
+
+ /**
+  * Brake the vehicle.
+  */
+  virtual void Brake() = 0;
+
+ /**
+  * Apply the handbrake (rear wheel lock).
+  */
+  virtual void HandBrake() = 0;
+
+ /**
+  * Steer the vehicle left.
+  */
+  virtual void SteerLeft() = 0;
+
+ /**
+  * Steer the vehicle right.
+  */
+  virtual void SteerRight() = 0;
+
+ /**
+  * Reverse the vehicle.
+  */
+  virtual void Reverse() = 0;
+
+ /**
+  * Set whether the vehicle has an automatic transmission, or gears will be manually controlled.
+  */
+  virtual void SetAutoTransmission(bool auto) = 0;
+
+ /**
+  * Change the vehicle's gear.
+  */
+  virtual void SetGear(int gear) = 0;
+
+ /**
+  * Set up a gear with a given velocity and force.
+  */
+  virtual void SetGearSettings(int gear,float velocity, float force) = 0;
+
+ /**
+  * Set the number of gears the vehicle has.
+  */
+  virtual void SetNumberGears(int number) = 0;
 };
 
 #endif // __CEL_PF_WHEELED__

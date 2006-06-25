@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2006 by Jorrit Tyberghein
   
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -32,6 +32,12 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
+
+#define CEL_CAR_FRONT_STEER 1
+#define CEL_CAR_REAR_STEER 2
+#define CEL_TANK_LEFT_STEER 3
+#define CEL_TANK_RIGHT_STEER 4
+
 
 /**
  * Factory for test.
@@ -72,6 +78,20 @@ public:
   virtual ~celPcWheeled ();
 
   virtual void Print (const char* msg);
+
+  virtual void Initialise();
+  virtual int AddWheel(csRef<iCelEntity> wheelentity, int steeringmode,bool powered);
+  virtual void RemoveWheel(int wheelnum);
+  virtual void Accelerate();
+  virtual void Brake();
+  virtual void HandBrake();
+  virtual void SteerLeft();
+  virtual void SteerRight();
+  virtual void Reverse();
+  virtual void SetAutoTransmission(bool auto);
+  virtual void SetGear(int gear);
+  virtual void SetGearSettings(int gear,float velocity, float force);
+  virtual void SetNumberGears(int number);
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();
