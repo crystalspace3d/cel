@@ -2,6 +2,10 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+27-Jun-2006
+	- cfraz89 got tank steering working fairly well in pcwheeled,
+	  made steering mode apply to whole vehicle.
+
 26-Jun-2006
 	- cfraz89 finished the basic vehicle setup
           in pcwheeled and wheeledtest.

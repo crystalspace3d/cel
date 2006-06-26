@@ -241,11 +241,11 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->Initialise();
   pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
-  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7),CEL_WHEELED_CAR_FRONT_STEER);
-  pcwheeled->AddWheel(csVector3(0.4,0,-0.7),CEL_WHEELED_CAR_FRONT_STEER);
-  pcwheeled->AddWheel(csVector3(-0.4,0,0.7),CEL_WHEELED_NO_STEER);
-  pcwheeled->AddWheel(csVector3(0.4,0,0.7),CEL_WHEELED_NO_STEER);
-  pcwheeled->SetNumberGears(2);
+  pcwheeled->SetSteeringMode(CEL_WHEELED_FRONT_STEER);
+  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7));
+  pcwheeled->AddWheel(csVector3(0.4,0,-0.7));
+  pcwheeled->AddWheel(csVector3(-0.4,0,0.7));
+  pcwheeled->AddWheel(csVector3(0.4,0,0.7));
   return csPtr<iCelEntity> (entity_cam);
 }
 

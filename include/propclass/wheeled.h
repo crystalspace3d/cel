@@ -51,15 +51,12 @@ struct iCelEntity;
 struct iBodyGroup;
 struct iMeshFactoryWrapper;
 
-struct iPcWheeled : public virtual iBase
+#define CEL_WHEELED_FRONT_STEER 1
+#define CEL_WHEELED_REAR_STEER 2
+#define CEL_WHEELED_ALL_STEER 3
+#define CEL_WHEELED_TANK_STEER 4
 
-#define CEL_WHEELED_CAR_FRONT_STEER 1
-#define CEL_WHEELED_CAR_REAR_STEER 2
-#define CEL_WHEELED_TANK_LEFT_STEER 3
-#define CEL_WHEELED_TANK_RIGHT_STEER 4
-#define CEL_WHEELED_NO_STEER 5
-#define CEL_WHEELED_LEFT_WHEEL 6
-#define CEL_WHEELED_RIGHT_WHEEL 7
+struct iPcWheeled : public virtual iBase
 
 {
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
@@ -80,9 +77,13 @@ struct iPcWheeled : public virtual iBase
   virtual void SetWheelMesh(const char* file, const char* factname) = 0;
 
  /**
+  * Set the steering mode of the vehicle.
+  */
+  virtual void SetSteeringMode(int steeringmode) = 0;
+ /**
   * Add a wheel to the vehicle.
   */
- virtual int AddWheel(csVector3 position, int steeringmode) = 0;
+ virtual int AddWheel(csVector3 position) = 0;
 
  /**
   * Remove a wheel from the vehicle.
