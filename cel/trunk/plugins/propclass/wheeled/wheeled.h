@@ -39,14 +39,18 @@ struct csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
 
+struct celWheel
+{
+	csRef<iODEHinge2Joint> WheelJoint;
+	csRef<iRigidBody> RigidBody;
+	int SteeringMode;
+};
+
 #define CEL_WHEELED_CAR_FRONT_STEER 1
 #define CEL_WHEELED_CAR_REAR_STEER 2
 #define CEL_WHEELED_TANK_LEFT_STEER 3
 #define CEL_WHEELED_TANK_RIGHT_STEER 4
 #define CEL_WHEELED_NO_STEER 5
-#define CEL_WHEELED_LEFT_WHEEL 6
-#define CEL_WHEELED_RIGHT_WHEEL 7
-
 
 /**
  * Factory for test.
@@ -86,9 +90,9 @@ private:
   csString wheelfactname;
   csRef<iMeshFactoryWrapper> wheelfact;
   csRef<iBodyGroup> bodyGroup;
-  csRefArray<iJoint> joints;
-  csRefArray<iRigidBody> wheels;
   csRef<iEngine> engine;
+  csArray<csVector2> gears;
+  csArray<celWheel> wheels;
 
   // Other fields.
   int counter;
@@ -111,7 +115,9 @@ public:
   virtual void HandBrake();
   virtual void SteerLeft();
   virtual void SteerRight();
+  virtual void SteerStraight();
   virtual void Reverse();
+  virtual void Roll();
   virtual void SetAutoTransmission(bool auto);
   virtual void SetGear(int gear);
   virtual void SetGearSettings(int gear,float velocity, float force);

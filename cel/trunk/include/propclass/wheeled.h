@@ -115,9 +115,19 @@ struct iPcWheeled : public virtual iBase
   virtual void SteerRight() = 0;
 
  /**
+  * Straighten the Steering wheels
+  */
+  virtual void SteerStraight() = 0;
+
+ /**
   * Reverse the vehicle.
   */
   virtual void Reverse() = 0;
+
+ /**
+  * Call this to start unpowered rolling.
+  */
+  virtual void Roll() = 0;
 
  /**
   * Set whether the vehicle has an automatic transmission, or gears will be manually controlled.

@@ -142,5 +142,19 @@ public:
   	celData& ret, iCelParameterBlock* params, va_list arg);
 };
 
+/**
+ *  behaviour for a wheeled vehicle.
+ */
+class celBehaviourWheeled : public celBehaviourGeneral
+{
+public:
+  celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
+  virtual ~celBehaviourWheeled();
+
+  virtual bool SendMessageV (const char* msg_id,
+  	iCelPropertyClass* pc,
+  	celData& ret, iCelParameterBlock* params, va_list arg);
+};
+
 #endif // __CEL_BLTEST_BEHAVE__
 

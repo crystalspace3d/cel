@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 26-Jun-2006
 	- cfraz89 finished the basic vehicle setup
           in pcwheeled and wheeledtest.
+	- cfraz89 got wheeledtest to a drivable state!
 
 25-Jun-2006
 	- cfraz89 set up a tonne of stub functions to pcwheeled.
