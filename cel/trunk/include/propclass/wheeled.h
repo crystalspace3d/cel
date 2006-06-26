@@ -49,6 +49,8 @@
 
 struct iCelEntity;
 struct iBodyGroup;
+struct iMeshFactoryWrapper;
+
 struct iPcWheeled : public virtual iBase
 
 #define CEL_WHEELED_CAR_FRONT_STEER 1
@@ -56,6 +58,8 @@ struct iPcWheeled : public virtual iBase
 #define CEL_WHEELED_TANK_LEFT_STEER 3
 #define CEL_WHEELED_TANK_RIGHT_STEER 4
 #define CEL_WHEELED_NO_STEER 5
+#define CEL_WHEELED_LEFT_WHEEL 6
+#define CEL_WHEELED_RIGHT_WHEEL 7
 
 {
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
@@ -65,20 +69,20 @@ struct iPcWheeled : public virtual iBase
    */
   virtual void Print (const char* msg) = 0;
 
- /** Initialise the vehicle. This should be called after the mesh of the entity has been set.
-  *  Centreoffset is the offset used on the body's collider.
-  */
-  virtual void Initialise(csVector3 centreoffset) = 0;
-
- /** If Initialise is called without an offset, it is assumed that the centre of the mesh
-  *   is at the bottom of the vehicle. This makes it stable, compared to the middle of
-  *   the mesh.
+ /** 
+  *  Initialise the vehicle. This should be called after the mesh of the entity has been set.
   */
   virtual void Initialise() = 0;
+
+ /** 
+  *  Set the mesh to use for the wheels.
+  */
+  virtual void SetWheelMesh(const char* file, const char* factname) = 0;
+
  /**
   * Add a wheel to the vehicle.
   */
- virtual int AddWheel(csRef<iCelEntity> wheelentity, int steeringmode, bool powered) = 0;
+ virtual int AddWheel(csVector3 position, int steeringmode) = 0;
 
  /**
   * Remove a wheel from the vehicle.
