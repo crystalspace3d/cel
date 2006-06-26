@@ -35,6 +35,7 @@
 #include "propclass/actormove.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
+#include "propclass/wheeled.h"
 #include "plugins/behaviourlayer/test/behave.h"
 
 //---------------------------------------------------------------------------
@@ -406,6 +407,84 @@ bool celBehaviourDynActor::SendMessageV (const char* msg_id,
     else if (!strcmp (msg_id+15, "jump1"))
       pcmechobj->AddForceDuration (csVector3 (0, 25.0f, 0), false,
       	csVector3 (0, 0, 0), .2f);
+    else if (!strcmp (msg_id+15, "lookup1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookup0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (-1.0f);
+    }
+    else if (!strcmp (msg_id+15, "lookdown0"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->SetPitchVelocity (0.0f);
+    }
+    else if (!strcmp (msg_id+15, "center1"))
+    {
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      pcdefcamera->CenterCamera ();
+    }
+    return true;
+  }
+
+  return false;
+}
+
+//---------------------------------------------------------------------------
+
+celBehaviourWheeled::celBehaviourWheeled (iCelEntity* entity,
+    iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
+{
+}
+
+celBehaviourWheeled::~celBehaviourWheeled()
+{
+}
+
+bool celBehaviourWheeled::SendMessageV (const char* msg_id,
+	iCelPropertyClass* pc,
+	celData& ret, iCelParameterBlock* params, va_list arg)
+{
+  bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
+
+  if (pcinput_msg)
+  {
+    csRef<iPcWheeled> pcwheeled = CEL_QUERY_PROPCLASS_ENT (entity,
+    	iPcWheeled);
+    if (!pcwheeled)
+      return false;
+
+    if (!strcmp (msg_id+15, "accelerate1"))
+	pcwheeled->Accelerate();
+    else if (!strcmp (msg_id+15, "reverse1"))
+	pcwheeled->Reverse();
+    else if (!strcmp (msg_id+15, "steerleft1"))
+	pcwheeled->SteerLeft();
+    else if (!strcmp (msg_id+15, "steerright1"))
+	pcwheeled->SteerRight();
+    else if (!strcmp (msg_id+15, "steerleft0"))
+	pcwheeled->SteerStraight();
+    else if (!strcmp (msg_id+15, "steerright0"))
+	pcwheeled->SteerStraight();
+    else if (!strcmp (msg_id+15, "handbrake1"))
+	pcwheeled->HandBrake();
+    if (!strcmp (msg_id+15, "accelerate0"))
+	pcwheeled->Roll();
+    if (!strcmp (msg_id+15, "reverse0"))
+	pcwheeled->Roll();
     else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,

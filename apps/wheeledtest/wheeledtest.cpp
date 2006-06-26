@@ -184,7 +184,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 	const char* sectorname, const csVector3& pos)
 {
   // The vehicle
-  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "dynactor",
+  csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "wheeled",
   	"pccommandinput",
 	"pcmesh",
 	"pcdefaultcamera",
@@ -195,11 +195,11 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcCommandInput);
-  pcinp->Bind ("up", "forward");
-  pcinp->Bind ("down", "backward");
-  pcinp->Bind ("left", "strafeleft");
-  pcinp->Bind ("right", "straferight");
-  pcinp->Bind ("space", "jump");
+  pcinp->Bind ("up", "accelerate");
+  pcinp->Bind ("down", "reverse");
+  pcinp->Bind ("left", "steerleft");
+  pcinp->Bind ("right", "steerright");
+  pcinp->Bind ("space", "handbrake");
   pcinp->Bind ("x", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
@@ -236,14 +236,16 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   //The mass of the vehicle
   pcmech->SetMass(1000.0);
   pcmech->SetDensity(1.0);
+  pcmech->SetFriction(0.4);
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->Initialise();
   pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
-  pcwheeled->AddWheel(csVector3(-0.4,0,0.7),CEL_WHEELED_CAR_FRONT_STEER);
-  pcwheeled->AddWheel(csVector3(0.4,0,0.7),CEL_WHEELED_CAR_FRONT_STEER);
-  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7),CEL_WHEELED_NO_STEER);
-  pcwheeled->AddWheel(csVector3(0.4,0,-0.7),CEL_WHEELED_NO_STEER);
+  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7),CEL_WHEELED_CAR_FRONT_STEER);
+  pcwheeled->AddWheel(csVector3(0.4,0,-0.7),CEL_WHEELED_CAR_FRONT_STEER);
+  pcwheeled->AddWheel(csVector3(-0.4,0,0.7),CEL_WHEELED_NO_STEER);
+  pcwheeled->AddWheel(csVector3(0.4,0,0.7),CEL_WHEELED_NO_STEER);
+  pcwheeled->SetNumberGears(2);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -327,8 +329,9 @@ bool WheeledTest::CreateMap ()
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_map,
   	iPcMechanicsObject);
   //This is sometimes neccessary to stop the map from shifting lol
-  pcmechobj->SetMass(9999999.0);
-  pcmechobj->SetDensity(9999999.0);
+  pcmechobj->SetMass(999999999999999999.0);
+  pcmechobj->SetDensity(99999999999999999999.0);
+  pcmechobj->SetFriction(1.0);
   pcmechobj->AttachColliderMesh ();
   pcmechobj->MakeStatic (true);
 
