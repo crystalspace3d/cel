@@ -36,12 +36,16 @@
 struct iCelEntity;
 struct iObjectRegistry;
 struct csVector3;
+struct iMeshFactoryWrapper;
+struct iEngine;
 
 #define CEL_WHEELED_CAR_FRONT_STEER 1
 #define CEL_WHEELED_CAR_REAR_STEER 2
 #define CEL_WHEELED_TANK_LEFT_STEER 3
 #define CEL_WHEELED_TANK_RIGHT_STEER 4
 #define CEL_WHEELED_NO_STEER 5
+#define CEL_WHEELED_LEFT_WHEEL 6
+#define CEL_WHEELED_RIGHT_WHEEL 7
 
 
 /**
@@ -78,8 +82,13 @@ private:
   int gear;
   int numberwheels;
   bool autotransmission;
+  csString wheelpath;
+  csString wheelfactname;
+  csRef<iMeshFactoryWrapper> wheelfact;
   csRef<iBodyGroup> bodyGroup;
   csRefArray<iJoint> joints;
+  csRefArray<iRigidBody> wheels;
+  csRef<iEngine> engine;
 
   // Other fields.
   int counter;
@@ -93,10 +102,9 @@ public:
   virtual void Print (const char* msg);
 
   //Setters
-  virtual void Initialise(csVector3 centreoffset);
   virtual void Initialise();
-  virtual void CreateBody(csVector3 vehiclesize, csVector3 centreoffset);
-  virtual int AddWheel(csRef<iCelEntity> wheelentity, int steeringmode,bool powered);
+  virtual void SetWheelMesh(const char* file, const char* factname);
+  virtual int AddWheel(csVector3 position, int steeringmode);
   virtual void RemoveWheel(int wheelnum);
   virtual void Accelerate();
   virtual void Brake();

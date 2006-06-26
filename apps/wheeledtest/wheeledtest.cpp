@@ -181,7 +181,7 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
 }
 
 csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
-	const char* roomname, const csVector3& pos)
+	const char* sectorname, const csVector3& pos)
 {
   // The vehicle
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "dynactor",
@@ -204,14 +204,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
 
-  //Load the car's map file.
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  vfs->ChDir("/cellib/celcar/");
-  loader->LoadMapFile("world",false);
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  pcmesh->SetMesh (engine->FindMeshObject("Body"));
-  iSector* room = engine->FindSector (roomname);
-  pcmesh->MoveMesh (room, pos);
+  pcmesh->SetMesh ("celCarBody","/cel/data/celcarbody");
+  iSector* sector = engine->FindSector (sectorname);
+  pcmesh->MoveMesh (sector, pos);
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
@@ -235,43 +231,19 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
   pccamera->SetModeName ("thirdperson");
 
-csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
-pcwheeled->Initialise(csVector3(0));
+  csRef<iPcMechanicsObject> pcmech=CEL_QUERY_PROPCLASS_ENT(entity_cam,
+	iPcMechanicsObject);
+  //The mass of the vehicle
+  pcmech->SetMass(1000.0);
+  pcmech->SetDensity(1.0);
 
-csRef<iCelEntity> frontleftwheelent=pl->CreateEntity("frontleft",bltest,0,
-	"pcmesh",
-	"pcmechobject",
-	CEL_PROPCLASS_END );
-
-csRef<iPcMesh> pcfrontleftmesh=CEL_QUERY_PROPCLASS_ENT(frontleftwheelent,iPcMesh);
-pcfrontleftmesh->SetMesh(engine->FindMeshObject("FrontLeft"));
-
-csRef<iCelEntity> frontrightwheelent=pl->CreateEntity("frontright",bltest,0,
-	"pcmesh",
-	"pcmechobject",
-	CEL_PROPCLASS_END );
-csRef<iPcMesh> pcfrontrightmesh=CEL_QUERY_PROPCLASS_ENT(frontrightwheelent,iPcMesh);
-pcfrontrightmesh->SetMesh(engine->FindMeshObject("FrontRight"));
-
-csRef<iCelEntity> rearleftwheelent=pl->CreateEntity("rearleft",bltest,0,
-	"pcmesh",
-	"pcmechobject",
-	CEL_PROPCLASS_END );
-csRef<iPcMesh> pcrearleftmesh=CEL_QUERY_PROPCLASS_ENT(rearleftwheelent,iPcMesh);
-pcrearleftmesh->SetMesh(engine->FindMeshObject("RearLeft"));
-
-csRef<iCelEntity> rearrightwheelent=pl->CreateEntity("rearright",bltest,0,
-	"pcmesh",
-	"pcmechobject",
-	CEL_PROPCLASS_END );
-csRef<iPcMesh> pcrearrightmesh=CEL_QUERY_PROPCLASS_ENT(rearrightwheelent,iPcMesh);
-pcrearrightmesh->SetMesh(engine->FindMeshObject("RearRight"));
-
-
-pcwheeled->AddWheel(frontleftwheelent,CEL_WHEELED_CAR_FRONT_STEER,true);
-pcwheeled->AddWheel(frontrightwheelent,CEL_WHEELED_CAR_FRONT_STEER,true);
-pcwheeled->AddWheel(rearrightwheelent,CEL_WHEELED_NO_STEER,true);
-pcwheeled->AddWheel(rearrightwheelent,CEL_WHEELED_NO_STEER,true);
+  csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
+  pcwheeled->Initialise();
+  pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
+  pcwheeled->AddWheel(csVector3(-0.4,0,0.7),CEL_WHEELED_CAR_FRONT_STEER);
+  pcwheeled->AddWheel(csVector3(0.4,0,0.7),CEL_WHEELED_CAR_FRONT_STEER);
+  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7),CEL_WHEELED_NO_STEER);
+  pcwheeled->AddWheel(csVector3(0.4,0,-0.7),CEL_WHEELED_NO_STEER);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -281,11 +253,12 @@ bool WheeledTest::CreateMap ()
   csRef<iCelEntity> entity_dummy;
 
   //===============================
-  // Create the room entity.
+  // Create the map entity.
   //===============================
   entity_map = pl->CreateEntity ("map", bltest, "room",
   	"pczonemanager",
 	"pcinventory",
+	"pcmesh",
 	"pcmechsys",
 	"pcmechobject",
   	CEL_PROPCLASS_END);
@@ -306,8 +279,8 @@ bool WheeledTest::CreateMap ()
   }
   else
   {
-    path = "/cellib/lev";
-    file = "mech_level.xml";
+    path = "/cellib/track4";
+    file = "level.xml";
   }
 
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
@@ -319,6 +292,8 @@ bool WheeledTest::CreateMap ()
 
   csRef<iPcZoneManager> pczonemgr = CEL_QUERY_PROPCLASS_ENT (entity_map,
   	iPcZoneManager);
+  //I need to set loadall in order to load the map NOW, so the wheels know what sector to go to.
+  pczonemgr->SetLoadingMode(CEL_ZONE_LOADALL);
   if (!pczonemgr->Load (0, file))
     return ReportError ("Error loading level '%s' at '%s'!", file.GetData (),
     	path.GetData ());
@@ -326,7 +301,7 @@ bool WheeledTest::CreateMap ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateVehicle ("dyn", "room", csVector3 (0,2.0f,1.0f));
+  entity_dummy = CreateVehicle ("dyn", "track4", csVector3 (0,2.0f,1.0f));
   if (!entity_dummy) return false;
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
@@ -345,10 +320,16 @@ bool WheeledTest::CreateMap ()
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.01f);
 
+  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_map,
+  	iPcMesh);
+  pcmesh->SetMesh(engine->FindMeshObject("Terrain"));
+
   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (entity_map,
   	iPcMechanicsObject);
-  csPlane3 ground (0, -1, 0, -1);
-  pcmechobj->AttachColliderPlane (ground);
+  //This is sometimes neccessary to stop the map from shifting lol
+  pcmechobj->SetMass(9999999.0);
+  pcmechobj->SetDensity(9999999.0);
+  pcmechobj->AttachColliderMesh ();
   pcmechobj->MakeStatic (true);
 
   game = entity_map;

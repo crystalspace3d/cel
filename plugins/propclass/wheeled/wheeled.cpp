@@ -26,11 +26,19 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 
+#include "iutil/vfs.h"
 #include "iengine/mesh.h"
 #include "imesh/objmodel.h"
 #include "imesh/object.h"
+#include "iengine/movable.h"
+#include "iengine/sector.h"
+#include "iengine/engine.h"
+#include "imap/loader.h"
+
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
+
+#include "iostream"
 
 //---------------------------------------------------------------------------
 
@@ -46,6 +54,7 @@ csStringID celPcWheeled::action_print = csInvalidStringID;
 celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   // For SendMessage parameters.
   if (id_message == csInvalidStringID)
     id_message = pl->FetchStringID ("cel.parameter.message");
@@ -71,6 +80,9 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   gear=1;
   numberwheels=0;
   autotransmission=true;
+
+
+  SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
 
 }
 
@@ -172,45 +184,89 @@ void celPcWheeled::Print (const char* msg)
   size_t l = strlen (msg);
   if (l > max) max = l;
 }
-//These are the two exposed initialisation functions. They just call the real
-//initialisation with a centre of gravity offset, either user given, or autocalulated.
-void celPcWheeled::Initialise(csVector3 centreoffset)
-{
- csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
- csBox3 boundingbox;
- bodyMesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox(boundingbox);
- CreateBody(boundingbox.GetSize(), centreoffset);
-}
 
 //This function calculates the offset of the body's collider based on it's middle
 //as the bottom of the body.
 void celPcWheeled::Initialise()
 {
- csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
- csBox3 boundingbox;
- bodyMesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox(boundingbox);
- CreateBody(boundingbox.GetSize(), csVector3(0,boundingbox.GetSize().y/2,0));
-}
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+  csBox3 boundingbox;
+  bodyMesh->GetMesh ()->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox(boundingbox);
 
-//This is the actual initialisation function.
-void celPcWheeled::CreateBody(csVector3 vehiclesize, csVector3 centreoffset)
-{
- csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
- csRef<iPcMechanicsObject> bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
- bodyMech->SetMass(1.0);
- bodyMech->SetDensity(1.0);
- csOrthoTransform t;
- t.SetOrigin(centreoffset);
+  csRef<iPcMechanicsObject> bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
 
   csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
   bodyGroup=dyn->CreateGroup();
-  bodyMech->AttachColliderBox(vehiclesize,t);
+  csOrthoTransform t;
+  t.SetOrigin(boundingbox.GetCenter());
+  bodyMech->AttachColliderBox(boundingbox.GetSize(), t);
   bodyGroup->AddBody(bodyMech->GetBody());
 }
 
-int celPcWheeled::AddWheel(csRef<iCelEntity> wheel, int steeringmode, bool powered)
+void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
 {
-return 0;
+  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  CS_ASSERT (loader != 0);
+  iBase* result;
+  bool success = loader->Load (file, result, 0, false, true);
+
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+
+  wheelfact=engine->FindMeshFactory(factname);
+}
+
+int celPcWheeled::AddWheel(csVector3 position, int steeringmode)
+{
+  //Create the mesh
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh); 
+  csOrthoTransform bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
+  csRef<iMeshWrapper> wheelmesh=0;
+  csRef<iSectorList> bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
+  if(bodySectors->GetCount() > 0)
+  {
+    csRef<iSector> bodySector=bodySectors->Get(0);
+    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,position);
+  }
+  else
+  {
+    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel");
+    wheelmesh->GetMovable()->SetPosition(position);
+    wheelmesh->GetMovable()->UpdateMove();
+  }
+
+  //Create the dynamic body
+  csRef<iPcMechanicsObject> bodyMech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
+  csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
+  csRef<iRigidBody> wheelbody=dyn->CreateBody();
+  bodyGroup->AddBody(wheelbody);
+
+  float wheelradius;
+  csVector3 wheelcenter;
+  wheelmesh->GetMeshObject ()->GetObjectModel ()->GetRadius(wheelradius,wheelcenter);
+  wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
+  wheelbody->SetPosition(bodytransform.This2Other(position));
+  wheelbody->AttachMesh(wheelmesh);
+  wheelbody->AttachColliderSphere(wheelradius,wheelcenter,0.6,1,0.5f,0.5f);
+  wheels.Push(wheelbody);
+
+  //Create the joint
+  csRef<iODEDynamicSystemState> osys=SCF_QUERY_INTERFACE (dyn, iODEDynamicSystemState);
+  csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
+  joint->Attach(bodyMech->GetBody(),wheelbody);
+  joint->SetHingeAnchor(bodytransform.This2Other(position));
+  joint->SetHingeAxis1(csVector3(0,1,0));
+  joint->SetHingeAxis2(csVector3(1,0,0));
+  joint->SetSuspensionCFM(0.000125,0);
+  joint->SetSuspensionERP(0.125,0);
+  joint->SetLoStop(0,0);
+  joint->SetHiStop(0,0);
+  joint->SetVel(0,0);
+  joint->SetVel(0,1);
+  joint->SetStopERP(1.0,0);
+  joint->SetFMax(5000,0);
+  joint->SetFMax(100,1);
+  joints.Push(joint);
+  return 0;
 }
 
 void celPcWheeled::RemoveWheel(int wheelnum)
