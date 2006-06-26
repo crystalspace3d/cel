@@ -39,18 +39,17 @@ struct csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
 
+#define CEL_WHEELED_FRONT_STEER 1
+#define CEL_WHEELED_REAR_STEER 2
+#define CEL_WHEELED_ALL_STEER 3
+#define CEL_WHEELED_TANK_STEER 4
+
 struct celWheel
 {
 	csRef<iODEHinge2Joint> WheelJoint;
 	csRef<iRigidBody> RigidBody;
-	int SteeringMode;
+	csVector3 Position;
 };
-
-#define CEL_WHEELED_CAR_FRONT_STEER 1
-#define CEL_WHEELED_CAR_REAR_STEER 2
-#define CEL_WHEELED_TANK_LEFT_STEER 3
-#define CEL_WHEELED_TANK_RIGHT_STEER 4
-#define CEL_WHEELED_NO_STEER 5
 
 /**
  * Factory for test.
@@ -64,6 +63,7 @@ class celPcWheeled : public scfImplementationExt1<
 	celPcWheeled, celPcCommon, iPcWheeled>
 {
 private:
+
   // For SendMessage parameters.
   static csStringID id_message;
   celOneParameterBlock* params;
@@ -86,6 +86,11 @@ private:
   int gear;
   int numberwheels;
   bool autotransmission;
+  int steeringmode;
+  bool handbrakeapplied;
+  bool accelerating;
+  bool braking;
+  int steerdir;
   csString wheelpath;
   csString wheelfactname;
   csRef<iMeshFactoryWrapper> wheelfact;
@@ -93,11 +98,10 @@ private:
   csRef<iEngine> engine;
   csArray<csVector2> gears;
   csArray<celWheel> wheels;
-
   // Other fields.
   int counter;
   size_t max;
-  void MakeCollider(csVector3 centreoffset);
+  void TickOnce();
 
 public:
   celPcWheeled (iObjectRegistry* object_reg);
@@ -108,7 +112,8 @@ public:
   //Setters
   virtual void Initialise();
   virtual void SetWheelMesh(const char* file, const char* factname);
-  virtual int AddWheel(csVector3 position, int steeringmode);
+  virtual void SetSteeringMode(int steeringmode);
+  virtual int AddWheel(csVector3 position);
   virtual void RemoveWheel(int wheelnum);
   virtual void Accelerate();
   virtual void Brake();

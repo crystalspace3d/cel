@@ -38,7 +38,6 @@
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
 
-#include "iostream"
 
 //---------------------------------------------------------------------------
 
@@ -79,14 +78,21 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   numbergears=1;
   gear=1;
   numberwheels=0;
+  steerdir=0;
   autotransmission=true;
+  accelerating=false;
+  braking=false;
+  handbrakeapplied=false;
+
  //Gear 0 is reverse
   gears.SetSize(2);
   SetGearSettings(0,-25,1000);
   SetGearSettings(1,100,1000);
 
   SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
+  steeringmode=CEL_WHEELED_FRONT_STEER;
 
+  pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 
 celPcWheeled::~celPcWheeled ()
@@ -211,14 +217,17 @@ void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
   csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
   iBase* result;
-  bool success = loader->Load (file, result, 0, false, true);
-
+  loader->Load (file, result, 0, false, true);
   csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-
   wheelfact=engine->FindMeshFactory(factname);
 }
 
-int celPcWheeled::AddWheel(csVector3 position, int steeringmode)
+void celPcWheeled::SetSteeringMode(int steeringmode)
+{
+  celPcWheeled::steeringmode=steeringmode;
+}
+
+int celPcWheeled::AddWheel(csVector3 position)
 {
   //Create the mesh
   csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh); 
@@ -271,7 +280,7 @@ int celPcWheeled::AddWheel(csVector3 position, int steeringmode)
   celWheel wheel;
   wheel.RigidBody=wheelbody;
   wheel.WheelJoint=joint;
-  wheel.SteeringMode=steeringmode;
+  wheel.Position=position;
   wheels.Push(wheel);
   return 0;
 }
@@ -282,74 +291,163 @@ void celPcWheeled::RemoveWheel(int wheelnum)
 
 void celPcWheeled::Accelerate()
 {
-  for(int i=0; i < wheels.Length();i++)
-  {
-    wheels[i].WheelJoint->SetVel(gears[gear].x,1);
-    wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
-  }
+  accelerating=true;
 }
 
 void celPcWheeled::Brake()
 {
-  for(int i=0; i < wheels.Length();i++)
-  {
-    wheels[i].WheelJoint->SetVel(0,1);
-    wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
-  }
+  braking=true;
 }
 
 void celPcWheeled::HandBrake()
 {
+  handbrakeapplied=true;
 }
 
 void celPcWheeled::SteerLeft()
 {
-  for(int i =0; i < wheels.Length() ; i++)
-  {
-    if(wheels[i].SteeringMode==CEL_WHEELED_CAR_FRONT_STEER)
+  steerdir=1;
+    //Steer all front wheels that should be steered.
+    if(steeringmode==CEL_WHEELED_FRONT_STEER
+       || steeringmode==CEL_WHEELED_ALL_STEER)
     {
-      wheels[i].WheelJoint->SetLoStop(-0.75,0);
-      wheels[i].WheelJoint->SetHiStop(0.75,0);
-      wheels[i].WheelJoint->SetVel(15,0);
-      wheels[i].WheelJoint->SetFMax(5000,0);
+      for(int i =0; i < wheels.Length() ; i++)
+      {
+	//It's a front wheel, set it
+	if (wheels[i].Position.z < 0 )
+	{
+          wheels[i].WheelJoint->SetLoStop(-0.75 , 0);
+          wheels[i].WheelJoint->SetHiStop(0.75 , 0);
+          wheels[i].WheelJoint->SetVel(15 , 0);
+          wheels[i].WheelJoint->SetFMax(5000 , 0);
+        }
+       }
     }
-    if(wheels[i].SteeringMode==CEL_WHEELED_CAR_REAR_STEER)
+    //Steer all rear wheels that should be steered.
+    if(steeringmode==CEL_WHEELED_REAR_STEER
+       || steeringmode==CEL_WHEELED_ALL_STEER)
     {
-      wheels[i].WheelJoint->SetLoStop(-0.75,0);
-      wheels[i].WheelJoint->SetHiStop(0.75,0);
-      wheels[i].WheelJoint->SetVel(-15,0);
-      wheels[i].WheelJoint->SetFMax(5000,0);
+      for(int i =0; i < wheels.Length() ; i++)
+      {
+	//It's a rear wheel, set it
+	if (wheels[i].Position.z > 0 )
+	{
+          wheels[i].WheelJoint->SetLoStop(-0.75 , 0);
+          wheels[i].WheelJoint->SetHiStop(0.75 , 0);
+          wheels[i].WheelJoint->SetVel(-15 , 0);
+          wheels[i].WheelJoint->SetFMax(5000 , 0);
+        }
+       }
     }
-  }
 }
 
 void celPcWheeled::SteerRight()
 {
-  for(int i =0; i < wheels.Length() ; i++)
-  {
-    if(wheels[i].SteeringMode==CEL_WHEELED_CAR_FRONT_STEER)
+ steerdir=-1;
+    //Steer all front wheels that should be steered.
+    if(steeringmode==CEL_WHEELED_FRONT_STEER
+       || steeringmode==CEL_WHEELED_ALL_STEER)
     {
-      wheels[i].WheelJoint->SetLoStop(-0.75,0);
-      wheels[i].WheelJoint->SetHiStop(0.75,0);
-      wheels[i].WheelJoint->SetVel(-15,0);
-      wheels[i].WheelJoint->SetFMax(5000,0);
+      for(int i =0; i < wheels.Length() ; i++)
+      {
+	//It's a front wheel, set it
+	if (wheels[i].Position.z < 0 )
+	{ 
+          wheels[i].WheelJoint->SetLoStop(-0.75 ,0);
+          wheels[i].WheelJoint->SetHiStop(0.75 , 0);
+          wheels[i].WheelJoint->SetVel(-15 , 0);
+          wheels[i].WheelJoint->SetFMax(5000 , 0);
+        }
+       }
     }
-    if(wheels[i].SteeringMode==CEL_WHEELED_CAR_REAR_STEER)
+    //Steer all rear wheels that should be steered.
+    if(steeringmode==CEL_WHEELED_REAR_STEER
+       || steeringmode==CEL_WHEELED_ALL_STEER)
     {
-      wheels[i].WheelJoint->SetLoStop(-0.75,0);
-      wheels[i].WheelJoint->SetHiStop(0.75,0);
-      wheels[i].WheelJoint->SetVel(15,0);
-      wheels[i].WheelJoint->SetFMax(5000,0);
+      for(int i =0; i < wheels.Length() ; i++)
+      {
+	//It's a rear wheel, set it
+	if (wheels[i].Position.z > 0 )
+	{
+          wheels[i].WheelJoint->SetLoStop(-0.75 , 0);
+          wheels[i].WheelJoint->SetHiStop(0.75 , 0);
+          wheels[i].WheelJoint->SetVel(15 , 0);
+          wheels[i].WheelJoint->SetFMax(5000 , 0);
+        }
+       }
+    }
+}
+
+//Update the vehicle
+void celPcWheeled::TickOnce()
+{
+  csRef<iPcMechanicsObject> pcmech=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMechanicsObject);
+  if(accelerating)
+  {
+    for(int i=0; i < wheels.Length();i++)
+    {
+      wheels[i].WheelJoint->SetVel(gears[gear].x,1);
+      wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
     }
   }
+  if(braking)
+  {
+    for(int i=0; i < wheels.Length();i++)
+    {
+      wheels[i].WheelJoint->SetVel(0,1);
+      wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
+    }
+  }
+  float vel=pcmech->GetLinearVelocity().Norm();
+//Update the tank-style steering
+    if(steeringmode==CEL_WHEELED_TANK_STEER && steerdir!=0)
+    {
+      for(int i =0; i < wheels.Length() ; i++)
+      {
+	if(accelerating)
+        {
+          //It's a right wheel, steering right. slow it down
+	  if (wheels[i].Position.x < 0 && steerdir==-1)
+	  {
+            wheels[i].WheelJoint->SetVel(0,1);
+            wheels[1].WheelJoint->SetFMax(250,1);
+          }
+	  //It's a left wheel,, steering left. slow it down
+	  if (wheels[i].Position.x > 0 && steerdir==1)
+	  {
+            wheels[i].WheelJoint->SetVel(0,1);
+	    wheels[1].WheelJoint->SetFMax(250,1);
+          }
+        }
+	else
+        {
+          //It's a right wheel
+	  if (wheels[i].Position.x < 0 )
+	  {
+            wheels[i].WheelJoint->SetVel(20*steerdir,1);
+            wheels[i].WheelJoint->SetFMax(gears[1].y*2, 1);
+          }
+	  //It's a left wheel
+	  if (wheels[i].Position.x > 0 )
+	  {
+            wheels[i].WheelJoint->SetVel(20*-steerdir,1);
+            wheels[i].WheelJoint->SetFMax(gears[1].y*2, 1);
+          }
+        }
+      }
+    }
+  pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 
 void celPcWheeled::SteerStraight()
 {
+  steerdir=0;
   for(int i =0; i < wheels.Length() ; i++)
   {
     wheels[i].WheelJoint->SetLoStop(0,0);
     wheels[i].WheelJoint->SetHiStop(0,0);
+    wheels[i].WheelJoint->SetVel(0,0);
+    wheels[i].WheelJoint->SetVel(0,1);
   }
 }
 
@@ -357,17 +455,20 @@ void celPcWheeled::Reverse()
 {
   for(int i=0; i < wheels.Length();i++)
   {
-    wheels[i].WheelJoint->SetVel(gears[0].x,1);
-    wheels[i].WheelJoint->SetFMax(gears[0].y,1);
+    wheels[i].WheelJoint->SetVel(gears[0].x , 1);
+    wheels[i].WheelJoint->SetFMax(gears[0].y , 1);
   }
 }
 
 void celPcWheeled::Roll()
 {
+  accelerating=false;
+  braking=false;
+  handbrakeapplied=false;
   for(int i=0; i < wheels.Length();i++)
   {
-    wheels[i].WheelJoint->SetVel(0,1);
-    wheels[i].WheelJoint->SetFMax(300,1);
+    wheels[i].WheelJoint->SetVel(0 , 1);
+    wheels[i].WheelJoint->SetFMax(300 , 1);
   }
 }
 
