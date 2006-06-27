@@ -2041,10 +2041,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_CONFIG_SAVE:
         {
-          DUMP_EXEC ((":%04d: config_safe\n", i-1));
+          DUMP_EXEC ((":%04d: config_save\n", i-1));
 	  if (!script)
 	    return ReportError (cbl,
-	    	"'config_add' not supported in this context!");
+	    	"'config_save' not supported in this context!");
 	  script->GetConfigAccess ()->Save ();
 	}
 	break;
