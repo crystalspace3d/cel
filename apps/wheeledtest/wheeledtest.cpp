@@ -241,11 +241,19 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->Initialise();
   pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
-  pcwheeled->SetSteeringMode(CEL_WHEELED_FRONT_STEER);
-  pcwheeled->AddWheel(csVector3(-0.4,0,-0.7));
-  pcwheeled->AddWheel(csVector3(0.4,0,-0.7));
-  pcwheeled->AddWheel(csVector3(-0.4,0,0.7));
-  pcwheeled->AddWheel(csVector3(0.4,0,0.7));
+  pcwheeled->SetSteeringMode(CEL_WHEELED_ALL_STEER);
+  pcwheeled->AddWheel(csVector3(-0.5,0,-0.7));
+  pcwheeled->AddWheel(csVector3(0.5,0,-0.7));
+  pcwheeled->AddWheel(csVector3(-0.5,0,0));
+  pcwheeled->AddWheel(csVector3(0.5,0,0));
+  pcwheeled->AddWheel(csVector3(-0.5,0,0.7));
+  pcwheeled->AddWheel(csVector3(0.5,0,0.7));
+  pcwheeled->SetNumberGears(5);
+  pcwheeled->SetGearSettings(1,10,3000);
+  pcwheeled->SetGearSettings(2,20,1000);
+  pcwheeled->SetGearSettings(3,50,300);
+  pcwheeled->SetGearSettings(4,75,250);
+  pcwheeled->SetGearSettings(5,100,100);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -331,7 +339,7 @@ bool WheeledTest::CreateMap ()
   //This is sometimes neccessary to stop the map from shifting lol
   pcmechobj->SetMass(999999999999999999.0);
   pcmechobj->SetDensity(99999999999999999999.0);
-  pcmechobj->SetFriction(1.0);
+  pcmechobj->SetFriction(0.6);
   pcmechobj->AttachColliderMesh ();
   pcmechobj->MakeStatic (true);
 

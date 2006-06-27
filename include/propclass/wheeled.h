@@ -108,12 +108,12 @@ struct iPcWheeled : public virtual iBase
  /**
   * Steer the vehicle left.
   */
-  virtual void SteerLeft() = 0;
+  virtual void SteerLeft(float amount) = 0;
 
  /**
   * Steer the vehicle right.
   */
-  virtual void SteerRight() = 0;
+  virtual void SteerRight(float amount) = 0;
 
  /**
   * Straighten the Steering wheels
