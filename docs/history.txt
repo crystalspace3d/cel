@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 27-Jun-2006
+        - Arianna fixed several warnings (MSVC): signed/unsigned mismatches
+          and double/float conversions.
 	- cfraz89 got tank steering working fairly well in pcwheeled,
 	  made steering mode apply to whole vehicle.
         - cfraz89 added simulated analogue steering to pcwheeled,
