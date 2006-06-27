@@ -265,7 +265,7 @@ int celPcWheeled::AddWheel(csVector3 position)
   if (position.x<0)
   {
     csOrthoTransform t=wheelbody->GetTransform();
-     t.RotateThis(csVector3(0,1,0),3.14);
+     t.RotateThis(csVector3(0,1,0),3.14f);
      wheelbody->SetTransform(t);
   }
 
@@ -276,7 +276,7 @@ int celPcWheeled::AddWheel(csVector3 position)
   joint->SetHingeAnchor(bodytransform.This2Other(position));
   joint->SetHingeAxis1(csVector3(0,1,0));
   joint->SetHingeAxis2(csVector3(1,0,0));
-  joint->SetSuspensionCFM(0.000125,0);
+  joint->SetSuspensionCFM(0.000125f,0);
   joint->SetSuspensionERP(0.125,0);
   joint->SetLoStop(0,0);
   joint->SetHiStop(0,0);
@@ -332,15 +332,15 @@ void celPcWheeled::UpdateSteer()
   if( currentsteerangle > steeramount-0.1 && currentsteerangle < steeramount+0.1 )
     currentsteerangle=steeramount;
   if( currentsteerangle < steeramount)
-    currentsteerangle+=0.1;
+    currentsteerangle+=0.1f;
   if( currentsteerangle > steeramount)
-    currentsteerangle-=0.1;
+    currentsteerangle-=0.1f;
 
     //Steer all front wheels that should be steered.
       if(steeringmode==CEL_WHEELED_FRONT_STEER
          || steeringmode==CEL_WHEELED_ALL_STEER)
       {
-        for(int i =0; i < wheels.Length() ; i++)
+        for(size_t i =0; i < wheels.Length() ; i++)
         {
         //It's a front wheel, set it
           if (wheels[i].Position.z < 0 )
@@ -354,7 +354,7 @@ void celPcWheeled::UpdateSteer()
       if(steeringmode==CEL_WHEELED_REAR_STEER
          || steeringmode==CEL_WHEELED_ALL_STEER)
       {
-        for(int i =0; i < wheels.Length() ; i++)
+        for(size_t i =0; i < wheels.Length() ; i++)
         {
         //It's a rear wheel, set it
           if (wheels[i].Position.z > 0 )
@@ -370,7 +370,7 @@ void celPcWheeled::UpdateSteer()
   {
     if(accelerating || reversing)
     {
-      for(int i =0; i < wheels.Length() ; i++)
+      for(size_t i =0; i < wheels.Length() ; i++)
       {
         //It's a right wheel, steering right. slow it down
         if (wheels[i].Position.x < 0 && steeramount < 0)
@@ -388,7 +388,7 @@ void celPcWheeled::UpdateSteer()
     }
     else
     {
-      for(int i =0; i < wheels.Length() ; i++)
+      for(size_t i =0; i < wheels.Length() ; i++)
       {
         //It's a right wheel
         if (wheels[i].Position.x < 0 )
@@ -415,7 +415,7 @@ void celPcWheeled::TickOnce()
 
   if(accelerating)
   {
-    for(int i=0; i < wheels.Length();i++)
+    for(size_t i=0; i < wheels.Length();i++)
     {
       wheels[i].WheelJoint->SetVel(gears[gear].x,1);
       wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
@@ -424,7 +424,7 @@ void celPcWheeled::TickOnce()
   
   if(reversing)
   {
-    for(int i=0; i < wheels.Length();i++)
+    for(size_t i=0; i < wheels.Length();i++)
     {
       wheels[i].WheelJoint->SetVel(gears[0].x , 1);
       wheels[i].WheelJoint->SetFMax(gears[0].y , 1);
@@ -432,7 +432,7 @@ void celPcWheeled::TickOnce()
   }
   if(braking)
   {
-    for(int i=0; i < wheels.Length();i++)
+    for(size_t i=0; i < wheels.Length();i++)
     {
       wheels[i].WheelJoint->SetVel(0,1);
       wheels[i].WheelJoint->SetFMax(300,1);
@@ -453,7 +453,7 @@ void celPcWheeled::Roll()
   accelerating=false;
   braking=false;
   reversing=false;
-  for(int i=0; i < wheels.Length();i++)
+  for(size_t i=0; i < wheels.Length();i++)
   {
     wheels[i].WheelJoint->SetVel(0 , 1);
     wheels[i].WheelJoint->SetFMax(300 , 1);
@@ -472,7 +472,7 @@ void celPcWheeled::SetGear(int gear)
 
 void celPcWheeled::SetGearSettings(int gear, float velocity, float force)
 {
-  if (gear < gears.Length())
+  if (gear < (int)gears.Length())
   {
     gears.Get(gear).x=velocity;
     gears.Get(gear).y=force;
@@ -486,7 +486,7 @@ void celPcWheeled::SetNumberGears(int number)
 
 void celPcWheeled::UpdateGear()
 {
-  for(int i=0; i < gears.Length()-1; i++)
+  for(int i=0; i < (int)gears.Length()-1; i++)
   {
     if (bodyMech->GetBody()->GetLinearVelocity().Norm()
         >= (gears[i].x)*wheelradius*wheelradius*3.14-2 )

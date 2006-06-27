@@ -73,10 +73,10 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 
   slide_on = false;
   redirect_vel_ratio = 0.0;
-  deceleration_rate = 1.0 - 0.01;
+  deceleration_rate = 1.0f - 0.01f;
 
   brakes_on = false;
-  braking_speed = 1.0 - 0.1;
+  braking_speed = 1.0f - 0.1f;
 }
 
 celPcCraftController::~celPcCraftController ()

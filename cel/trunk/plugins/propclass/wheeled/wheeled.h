@@ -35,7 +35,7 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
-struct csVector3;
+class csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
 
