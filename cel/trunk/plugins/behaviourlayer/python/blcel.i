@@ -450,10 +450,7 @@ CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 
 %include "propclass/linmove.h"
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
-%extend iPcLinearMovement {
-  void SetPath (csPath &p )
-  { self->SetPath (&p); }
-}
+
 //-----------------------------------------------------------------------------
 %include "propclass/actormove.h"
 CEL_PC(iPcActorMove, ActorMove, pcactormove)

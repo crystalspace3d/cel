@@ -7,7 +7,8 @@ The history order is reversed so that new features are at the top.
 	  made steering mode apply to whole vehicle.
         - cfraz89 added simulated analogue steering to pcwheeled,
           finished work on gears, and made wheeledtest car have 6 wheels :)
-
+	- caedes removed iPcLinearMovement::SetPath(csPath) extension from 
+	  blcel.i as its no longer necessary.
 26-Jun-2006
 	- cfraz89 finished the basic vehicle setup
           in pcwheeled and wheeledtest.
