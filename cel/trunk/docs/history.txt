@@ -2,6 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
+28-Jun-2006
+        - Genjix corrected a small typo in xmlscript.cpp
 27-Jun-2006
         - Arianna fixed several warnings (MSVC): signed/unsigned mismatches
           and double/float conversions.
