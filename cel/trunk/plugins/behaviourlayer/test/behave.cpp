@@ -472,9 +472,9 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
     else if (!strcmp (msg_id+15, "reverse1"))
 	pcwheeled->Reverse();
     else if (!strcmp (msg_id+15, "steerleft1"))
-	pcwheeled->SteerLeft();
+	pcwheeled->SteerLeft(0.5);
     else if (!strcmp (msg_id+15, "steerright1"))
-	pcwheeled->SteerRight();
+	pcwheeled->SteerRight(0.5);
     else if (!strcmp (msg_id+15, "steerleft0"))
 	pcwheeled->SteerStraight();
     else if (!strcmp (msg_id+15, "steerright0"))

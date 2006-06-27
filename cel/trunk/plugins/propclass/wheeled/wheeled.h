@@ -90,7 +90,11 @@ private:
   bool handbrakeapplied;
   bool accelerating;
   bool braking;
-  int steerdir;
+  bool steering;
+  bool reversing;
+  float wheelradius;
+  float steeramount;
+  float currentsteerangle;
   csString wheelpath;
   csString wheelfactname;
   csRef<iMeshFactoryWrapper> wheelfact;
@@ -98,10 +102,12 @@ private:
   csRef<iEngine> engine;
   csArray<csVector2> gears;
   csArray<celWheel> wheels;
+  csRef<iPcMechanicsObject> bodyMech;
   // Other fields.
   int counter;
   size_t max;
   void TickOnce();
+  void UpdateGear();
 
 public:
   celPcWheeled (iObjectRegistry* object_reg);
@@ -118,8 +124,9 @@ public:
   virtual void Accelerate();
   virtual void Brake();
   virtual void HandBrake();
-  virtual void SteerLeft();
-  virtual void SteerRight();
+  virtual void SteerLeft(float amount);
+  virtual void SteerRight(float amount);
+  virtual void UpdateSteer();
   virtual void SteerStraight();
   virtual void Reverse();
   virtual void Roll();
