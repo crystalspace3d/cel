@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 28-Jun-2006
         - Genjix corrected a small typo in xmlscript.cpp
+        - dfryer modified linmove to account for rotation of an actor
+          caused by a warping portal.
 27-Jun-2006
         - Arianna fixed several warnings (MSVC): signed/unsigned mismatches
           and double/float conversions.
