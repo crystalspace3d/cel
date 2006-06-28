@@ -244,8 +244,9 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetSteeringMode(CEL_WHEELED_ALL_STEER);
   pcwheeled->AddWheel(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,-0.7f));
-  pcwheeled->AddWheel(csVector3(-0.5,0,0));
-  pcwheeled->AddWheel(csVector3(0.5,0,0));
+// :) 6-wheeler isn't much cool apparently :) 
+// pcwheeled->AddWheel(csVector3(-0.5,0,0));
+ // pcwheeled->AddWheel(csVector3(0.5,0,0));
   pcwheeled->AddWheel(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,0.7f));
   pcwheeled->SetSteerAmount(0.5);
