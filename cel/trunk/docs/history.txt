@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
         - cfraz89 made pchwheeled use SetSteerAmount(amount) and steer*() instead
           of having to set amount each time. Also added some getter functions to
           pcwheeled.
+        - cfraz89 took out default setwheelmesh.
 
 27-Jun-2006
         - Arianna fixed several warnings (MSVC): signed/unsigned mismatches
