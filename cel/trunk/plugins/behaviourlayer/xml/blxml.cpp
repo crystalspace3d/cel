@@ -76,6 +76,7 @@ enum
   XMLTOKEN_SOUND_UNPAUSE,
   XMLTOKEN_SOUND_VOLUME,
   XMLTOKEN_CONFIG_ADD,
+  XMLTOKEN_CONFIG_REM,
   XMLTOKEN_CONFIG_SET,
   XMLTOKEN_CONFIG_SAVE,
   XMLTOKEN_CLASS_ADD,
@@ -226,6 +227,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
   xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
   xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
+  xmltokens.Register ("config_rem", XMLTOKEN_CONFIG_REM);
   xmltokens.Register ("config_set", XMLTOKEN_CONFIG_SET);
   xmltokens.Register ("config_save", XMLTOKEN_CONFIG_SAVE);
   xmltokens.Register ("class_add", XMLTOKEN_CLASS_ADD);
@@ -1841,6 +1843,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         if (!ParseExpression (local_vars, child, h, "file", "config_add"))
 	  return false;
 	h->AddOperation (CEL_OPERATION_CONFIG_ADD);
+        break;
+      case XMLTOKEN_CONFIG_REM:
+        if (!ParseExpression (local_vars, child, h, "file", "config_rem"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CONFIG_REM);
         break;
       case XMLTOKEN_CONFIG_SAVE:
 	h->AddOperation (CEL_OPERATION_CONFIG_SAVE);

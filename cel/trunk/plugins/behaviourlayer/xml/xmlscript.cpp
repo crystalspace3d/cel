@@ -2061,6 +2061,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  	file);
 	}
 	break;
+      case CEL_OPERATION_CONFIG_REM:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg p_file = stack.Pop ();
+          DUMP_EXEC ((":%04d: config_rem file=%s\n", i-1, A2S (p_file)));
+	  const char* file = ArgToString (p_file);
+	  csRef<iConfigManager> app_cfg =
+	      csQueryRegistry<iConfigManager> (cbl->GetObjectRegistry ());
+	  if (!app_cfg)
+	    return ReportError (cbl,
+	    	"'config_rem' not supported in this context!");
+	  app_cfg->RemoveDomain (file);
+	}
+	break;
       case CEL_OPERATION_CONFIG_SET:
         {
 	  CHECK_STACK(2)
