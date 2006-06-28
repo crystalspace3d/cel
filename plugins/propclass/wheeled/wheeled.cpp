@@ -216,7 +216,7 @@ void celPcWheeled::Initialise()
   bodyMech->AttachColliderBox(boundingbox.GetSize(), t);
   bodyGroup->AddBody(bodyMech->GetBody());
 
-  SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
+  //SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
 }
 
 void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
