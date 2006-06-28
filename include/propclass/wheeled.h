@@ -80,6 +80,12 @@ struct iPcWheeled : public virtual iBase
   * Set the steering mode of the vehicle.
   */
   virtual void SetSteeringMode(int steeringmode) = 0;
+
+ /**
+  * Get the steering mode of the vehicle.
+  */
+  virtual int GetSteeringMode() = 0;
+
  /**
   * Add a wheel to the vehicle.
   */
@@ -106,14 +112,24 @@ struct iPcWheeled : public virtual iBase
   virtual void HandBrake() = 0;
 
  /**
+  * Set the tightness of the vehicle's turning.
+  */
+  virtual void SetSteerAmount(float amount) = 0;
+
+ /**
+  * Get the tightness of the vehicle's turning.
+  */
+  virtual float GetSteerAmount() = 0;
+
+ /**
   * Steer the vehicle left.
   */
-  virtual void SteerLeft(float amount) = 0;
+  virtual void SteerLeft() = 0;
 
  /**
   * Steer the vehicle right.
   */
-  virtual void SteerRight(float amount) = 0;
+  virtual void SteerRight() = 0;
 
  /**
   * Straighten the Steering wheels
@@ -141,6 +157,11 @@ struct iPcWheeled : public virtual iBase
   virtual void SetGear(int gear) = 0;
 
  /**
+  * Get the vehicle's gear.
+  */
+  virtual int GetGear() = 0;
+
+ /**
   * Set up a gear with a given velocity and force.
   */
   virtual void SetGearSettings(int gear,float velocity, float force) = 0;
@@ -149,6 +170,11 @@ struct iPcWheeled : public virtual iBase
   * Set the number of gears the vehicle has.
   */
   virtual void SetNumberGears(int number) = 0;
+
+ /**
+  * Get the number of gears the vehicle has.
+  */
+  virtual int GetNumberGears() = 0;
 
  /**
   * Get the BodyGroup that the car belongs too.

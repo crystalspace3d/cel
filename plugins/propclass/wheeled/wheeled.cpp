@@ -86,7 +86,9 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   handbrakeapplied=false;
   autotransmission=true;
   wheelradius=0;
-  steeramount=0;
+  
+  steeramount=0.75;
+  tempsteeramount=0;
   currentsteerangle=0;
 
 //Gear 0 is reverse
@@ -94,7 +96,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   SetGearSettings(0,-25,1000);
   SetGearSettings(1,100,1000);
 
-  SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
   steeringmode=CEL_WHEELED_FRONT_STEER;
 
   pl->CallbackOnce ((iCelTimerListener*)this, 30, CEL_EVENT_PRE);
@@ -214,6 +215,8 @@ void celPcWheeled::Initialise()
   t.SetOrigin(boundingbox.GetCenter());
   bodyMech->AttachColliderBox(boundingbox.GetSize(), t);
   bodyGroup->AddBody(bodyMech->GetBody());
+
+  SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
 }
 
 void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
@@ -313,27 +316,27 @@ void celPcWheeled::HandBrake()
   handbrakeapplied=true;
 }
 
-void celPcWheeled::SteerLeft(float amount)
+void celPcWheeled::SteerLeft()
 {
-  steeramount=amount;
+  tempsteeramount=steeramount;
 }
 
-void celPcWheeled::SteerRight(float amount)
+void celPcWheeled::SteerRight()
 {
-  steeramount=-amount;
+  tempsteeramount=-steeramount;
 }
 void celPcWheeled::SteerStraight()
 {
-  steeramount=0;
+  tempsteeramount=0;
 }
 
 void celPcWheeled::UpdateSteer()
 {
-  if( currentsteerangle > steeramount-0.1 && currentsteerangle < steeramount+0.1 )
-    currentsteerangle=steeramount;
-  if( currentsteerangle < steeramount)
+  if( currentsteerangle > tempsteeramount-0.1 && currentsteerangle < tempsteeramount+0.1 )
+    currentsteerangle=tempsteeramount;
+  if( currentsteerangle < tempsteeramount)
     currentsteerangle+=0.1f;
-  if( currentsteerangle > steeramount)
+  if( currentsteerangle > tempsteeramount)
     currentsteerangle-=0.1f;
 
     //Steer all front wheels that should be steered.
@@ -373,16 +376,16 @@ void celPcWheeled::UpdateSteer()
       for(size_t i =0; i < wheels.Length() ; i++)
       {
         //It's a right wheel, steering right. slow it down
-        if (wheels[i].Position.x < 0 && steeramount < 0)
+        if (wheels[i].Position.x < 0 && tempsteeramount < 0)
         {
           wheels[i].WheelJoint->SetVel(0,1);
-          wheels[i].WheelJoint->SetFMax(-steeramount*gears[1].y,1);
+          wheels[i].WheelJoint->SetFMax(-tempsteeramount*gears[1].y,1);
         }
         //It's a left wheel,, steering left. slow it down
-        if (wheels[i].Position.x > 0  && steeramount > 0)
+        if (wheels[i].Position.x > 0  && tempsteeramount > 0)
         {
           wheels[i].WheelJoint->SetVel(0,1);
-          wheels[i].WheelJoint->SetFMax(steeramount*gears[1].y,1);
+          wheels[i].WheelJoint->SetFMax(tempsteeramount*gears[1].y,1);
         }
       }
     }
@@ -393,13 +396,13 @@ void celPcWheeled::UpdateSteer()
         //It's a right wheel
         if (wheels[i].Position.x < 0 )
         {
-          wheels[i].WheelJoint->SetVel(steeramount*20,1);
+          wheels[i].WheelJoint->SetVel(tempsteeramount*20,1);
           wheels[i].WheelJoint->SetFMax(gears[1].y, 1);
         }
         //It's a left wheel
         if (wheels[i].Position.x > 0 )
         {
-          wheels[i].WheelJoint->SetVel(-steeramount*20,1);
+          wheels[i].WheelJoint->SetVel(-tempsteeramount*20,1);
           wheels[i].WheelJoint->SetFMax(gears[1].y, 1);
         }
       }

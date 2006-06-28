@@ -248,6 +248,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->AddWheel(csVector3(0.5,0,0));
   pcwheeled->AddWheel(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,0.7f));
+  pcwheeled->SetSteerAmount(0.5);
   pcwheeled->SetNumberGears(5);
   pcwheeled->SetGearSettings(1,10,3000);
   pcwheeled->SetGearSettings(2,20,1000);
