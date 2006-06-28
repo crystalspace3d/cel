@@ -1645,6 +1645,7 @@ class iPcLinearMovement(cspace.iBase):
     def ExtrapolatePosition(*args): return _blcelc.iPcLinearMovement_ExtrapolatePosition(*args)
     def UpdateDRDelta(*args): return _blcelc.iPcLinearMovement_UpdateDRDelta(*args)
     def UpdateDR(*args): return _blcelc.iPcLinearMovement_UpdateDR(*args)
+    def SetPath(*args): return _blcelc.iPcLinearMovement_SetPath(*args)
     def SetPathTime(*args): return _blcelc.iPcLinearMovement_SetPathTime(*args)
     def SetPathSpeed(*args): return _blcelc.iPcLinearMovement_SetPathSpeed(*args)
     def SetPathAction(*args): return _blcelc.iPcLinearMovement_SetPathAction(*args)
@@ -1663,7 +1664,6 @@ class iPcLinearMovement(cspace.iBase):
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
     def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
-    def SetPath(*args): return _blcelc.iPcLinearMovement_SetPath(*args)
     def __del__(self, destroy=_blcelc.delete_iPcLinearMovement):
         try:
             if self.thisown: destroy(self)
