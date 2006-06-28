@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 28-Jun-2006
+        - Genjix added <config_add file="..." /> to xmlscript.
         - Genjix corrected a small typo in xmlscript.cpp
         - dfryer modified linmove to account for rotation of an actor
           caused by a warping portal.
