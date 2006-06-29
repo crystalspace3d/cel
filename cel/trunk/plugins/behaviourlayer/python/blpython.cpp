@@ -321,7 +321,7 @@ bool celPythonBehaviour::SendMessage (const char* msg_id,
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id,
 	iCelPropertyClass* /*pc*/,
-	celData&, iCelParameterBlock* params, va_list arg)
+	celData& data, iCelParameterBlock* params, va_list arg)
 { 
 /*  
   // Ugly but usefull - not need to restart application, only behaviour sending message "reload" :)
@@ -350,19 +350,32 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
     return true;
   }
 */
-
   PyObject *pymessage_info = csWrapTypedObject (params, "_p_iCelParameterBlock", 0);
 
   PyObject *method = PyString_FromString (msg_id);
-
-  PyObject *result = PyObject_CallMethodObjArgs (py_object, method,
-  	py_entity, pymessage_info, 0);
-
+  PyObject *result = PyObject_CallMethodObjArgs (py_object, method, 
+       py_entity, pymessage_info, 0);
   if (!result)
     PyRun_SimpleString ("pdb.pm()");
   else
+  {
+    if (PyString_Check(result))
+	    data.Set(PyString_AS_STRING(result));
+    else if (result == Py_True)
+	    data.Set(true);
+    else if (result == Py_False)
+	    data.Set(false);
+    else if (PyFloat_Check(result))
+	    data.Set((float)PyFloat_AsDouble(result));
+    else if (PyInt_Check(result))
+	    data.Set((int32)PyInt_AsLong(result));
+    else if (PyLong_Check(result))
+	    data.Set((uint32)PyLong_AsUnsignedLong(result));
+    else {
+	    // XXX how to wrap pointer types??
+    }
     Py_DECREF(result);
-
+  }
   Py_DECREF (method);
   Py_DECREF (pymessage_info);
     

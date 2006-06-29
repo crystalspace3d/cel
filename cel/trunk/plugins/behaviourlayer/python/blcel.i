@@ -42,44 +42,8 @@
 #include "tools/billboard.h"
 #include "propclass/zone.h"
 %}
-
-// @@@ UGLY: Duplicated from CS. Find a better way.
 %inline %{
-
-  struct _csPyEventHandler : public iEventHandler
-  {
-    SCF_DECLARE_IBASE;
-    _csPyEventHandler (PyObject * obj) : _pySelf(obj)
-    {
-      SCF_CONSTRUCT_IBASE(0);
-      IncRef();
-    }
-    virtual ~_csPyEventHandler ()
-    {
-      SCF_DESTRUCT_IBASE();
-      DecRef();
-    }
-    virtual bool HandleEvent (iEvent & event)
-    {
-      PyObject * event_obj = SWIG_NewPointerObj(
-        (void *) &event, SWIG_TypeQuery("iEvent *"), 0
-      );
-      PyObject * result = PyObject_CallMethod(_pySelf, "HandleEvent", "(O)",
-        event_obj
-      );
-      Py_DECREF(event_obj);
-      if (!result)
-      {
-        return false;
-      }
-      bool res = PyInt_AsLong(result);
-      Py_DECREF(result);
-      return res;
-    }
-  private:
-    PyObject * _pySelf;
-  };
-
+  struct _csPyEventHandler;
 %}
 
 //=============================================================================
@@ -92,6 +56,22 @@ pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
   csRef<pcType> pclm = SCF_QUERY_INTERFACE(pc, pcType);
+  if (!pclm.IsValid()) return 0;
+  return pclm;
+}
+%}
+%enddef
+
+%define CEL_PC_GETSET(pcType, funcName,pcname)
+%inline %{
+pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
+{
+  csRef<pcType> pclm = CEL_QUERY_PROPCLASS (
+    entity->GetPropertyClassList (), pcType);
+  if (!pclm.IsValid()) return 0;
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
+  if (!pc.IsValid()) return 0;
+  pclm = SCF_QUERY_INTERFACE(pc, pcType);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -134,9 +114,46 @@ pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 
 %define CEL_PC(pcType, funcBaseName, pcname)
 CEL_PC_CREATE(pcType, celCreate ## funcBaseName, pcname)
+CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 %enddef
+
+%define GETTER_METHOD(classname,varname,getfunc)
+%extend classname {
+ %pythoncode %{
+  __swig_getmethods__[varname] = _blcelc. ## classname ## _ ## getfunc
+  %}
+}
+%enddef
+
+%define SETTER_METHOD(classname,varname,setfunc)
+%extend classname {
+ %pythoncode %{
+  __swig_setmethods__[varname] = _blcelc. ## classname ## _ ## setfunc
+  %}
+}
+%enddef
+
+%define GETSET_METHODS(classname, varname, getfunc, setfunc)
+SETTER_METHOD(classname, varname, setfunc)
+GETTER_METHOD(classname, varname, getfunc)
+%enddef
+
+%define CELLIST_METHODS(typename)
+	size_t __len__ () { return self->GetCount(); }
+	typename *__getitem__(size_t n) {return self->Get(n);}
+	void __delitem__(size_t n) { self->Remove(n); }
+	void append( typename *e) { self->Add(e); }
+	%pythoncode %{
+	def content_iterator(parent):
+		for idx in xrange(len(parblock)):
+			yield parent.Get(idx)
+	def __iter__(self):
+		return self.content_iterator()
+	%}
+%enddef
+
 
 //=============================================================================
 // Published interfaces and functions.
@@ -149,6 +166,7 @@ CEL_PC_QUERY(pcType)
 //-----------------------------------------------------------------------------
 
 %ignore celData::GetDebugInfo;
+%include "datatype.i"
 %include "physicallayer/datatype.h"
 
 //-----------------------------------------------------------------------------
@@ -172,6 +190,13 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
     if (!bh.IsValid()) return 0;
     return bh;
   }
+}
+GETSET_METHODS(iCelEntity,"name",GetName,SetName)
+GETSET_METHODS(iCelEntity,"id",GetID,SetID)
+GETSET_METHODS(iCelEntity,"behaviour",GetBehaviour,SetBehaviour)
+
+%extend iCelEntityList {
+	CELLIST_METHODS(iCelEntity)
 }
 
 %inline %{
@@ -242,109 +267,10 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 %ignore iCelBehaviour::SendMessageV;
 %include "behaviourlayer/behave.h"
-%extend iCelParameterBlock {
-	PyObject *GetParameterValue(csStringID id) {
-		const celData *data = self->GetParameter(id);
-		PyObject *obj = Py_None;
-		if (data)
-		{
-		    switch(data->type)
-		    {
-			case CEL_DATA_FLOAT:
-				obj = PyFloat_FromDouble((float)data->value.f);
-				break;
-			case CEL_DATA_BOOL:
-				obj = SWIG_From_bool((bool)data->value.bo);
-				break;
-			case CEL_DATA_STRING:
-			{
-				char *result;
-				result = (char*)((iString const *)(data->value.s)->GetData());
-				obj = SWIG_FromCharPtr(result);
-				break;
-			}
-			case CEL_DATA_VECTOR2:
-			{
-				csVector2 *result;
-				result = new csVector2(data->value.v.x,data->value.v.y);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector2, 1);
-				break;
-			}
-			case CEL_DATA_VECTOR3:
-			{
-				csVector3 *result;
-				result = new csVector3(data->value.v.x,data->value.v.y,data->value.v.z);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csVector3, 1);
-				break;
-			}
-			case CEL_DATA_ENTITY:
-			{
-				iCelEntity *result;
-				result = (iCelEntity *)(data->value.ent);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelEntity, 0);
-				break;
-			}
-			case CEL_DATA_PCLASS:
-			{
-				iCelPropertyClass *result;
-				result = (iCelPropertyClass *)(data->value.pc);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iCelPropertyClass, 0);
-				break;
-			}
-			case CEL_DATA_ACTION:
-			{
-				char *result;
-				result = (char*)((iString const *)(data->value.s)->GetData());
-				obj = SWIG_FromCharPtr(result);
-				break;
-			}
-			case CEL_DATA_IBASE:
-			{
-				iBase *result;
-				result = (iBase *)(data->value.pc);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_iBase, 0);
-				break;
-			}
-			case CEL_DATA_COLOR:
-			{
-				csColor *result;
-				result = new csColor(data->value.col.red,data->value.col.green,data->value.col.blue);
-				obj = SWIG_NewPointerObj((void*)(result), SWIGTYPE_p_csColor, 1);
-				break;
-			}
-			case CEL_DATA_WORD:
-			{
-				obj = SWIG_From_int((int)data->value.w);
-				break;
-			}
-			case CEL_DATA_LONG:
-			{
-				obj = SWIG_From_long((long)data->value.l);
-				break;
-			}
-			case CEL_DATA_ULONG:
-			{
-				obj = PyLong_FromUnsignedLong((unsigned long)data->value.ul);
-				break;
-			}
-			{
-				break;
-			}
-			/* Still to be done (and some more) */
-			case CEL_DATA_BYTE:
-				/*data->value.b (int8)*/
-			case CEL_DATA_UWORD:
-				/*data->value.uw (uint16)*/
-			case CEL_DATA_PARAMETER:
-				/*data->value.par (iString+celDataType)*/
-			default:
-				obj = Py_None;
-				break;
-		    }
-		}
-		return obj;
-	}
-}
+
+
+//iParameterBlock Extensions
+%include "parblock.i"
 %extend iCelBehaviour {
   PyObject *GetPythonObject()
   {
@@ -352,15 +278,24 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
     Py_INCREF (obj);
     return obj;
   }
-  bool SendMessage(const char* msg_id, iCelParameterBlock* params)
+  PyObject *SendMessage(const char* msg_id, iCelParameterBlock* params)
   {
        celData ret;
-       return self->SendMessage (msg_id,0,ret,params);
+       if(self->SendMessage (msg_id,0,ret,params))
+       {
+         CELDATA_RETURN((&ret));
+	 return obj;
+       }
+       else
+	 return Py_None;
   }
 }
+GETTER_METHOD(iCelBehaviour,"name",GetName)
 
 //-----------------------------------------------------------------------------
 
+%ignore celVariableParameterBlock::GetParameter (size_t idx);
+%ignore celGenericParameterBlock::GetParameter (size_t idx);
 %include "celtool/stdparams.h"
 
 //-----------------------------------------------------------------------------
@@ -379,7 +314,12 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
   bool SetPropertyVector3 (csStringID id, const csVector3& v)
   { return self->SetProperty (id, v); }
 }
-
+GETTER_METHOD(iCelPropertyClass,"name",GetName)
+GETSET_METHODS(iCelPropertyClass,"tag",GetTag,SetTag)
+GETSET_METHODS(iCelPropertyClass,"entity",GetEntity,SetEntity)
+%extend iCelPropertyClassList {
+	CELLIST_METHODS(iCelPropertyClass)
+}
 //-----------------------------------------------------------------------------
 
 %include "propclass/mechsys.h"
@@ -454,6 +394,18 @@ CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 //-----------------------------------------------------------------------------
 %include "propclass/actormove.h"
 CEL_PC(iPcActorMove, ActorMove, pcactormove)
+GETSET_METHODS(iPcActorMove,"forward",IsMovingForward,Forward)
+GETSET_METHODS(iPcActorMove,"backward",IsMovingBackward,Backward)
+GETSET_METHODS(iPcActorMove,"strafeleft",IsStrafingLeft,StrafeLeft)
+GETSET_METHODS(iPcActorMove,"straferight",IsStrafingRight,StrafeRight)
+GETSET_METHODS(iPcActorMove,"rotateleft",IsRotatingLeft,RotateLeft)
+GETSET_METHODS(iPcActorMove,"rotateright",IsRotatingRight,RotateRight)
+GETSET_METHODS(iPcActorMove,"run",IsRunning,Run)
+GETSET_METHODS(iPcActorMove,"autorun",IsAutoRunning,AutoRun)
+GETSET_METHODS(iPcActorMove,"movementspeed",GetMovementSpeed,SetMovementSpeed)
+GETSET_METHODS(iPcActorMove,"runningspeed",GetRunningSpeed,SetRunningSpeed)
+GETSET_METHODS(iPcActorMove,"rotationspeed",GetRotationSpeed,SetRotationSpeed)
+GETSET_METHODS(iPcActorMove,"jumpingvelocity",GetJumpingVelocity,SetJumpingVelocity)
 
 //-----------------------------------------------------------------------------
 

@@ -3,6 +3,25 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Jun-2006
+	- caedes changed blpython so it wraps celData value for simple return
+	  types in SendMessage (cant return cs types for now).
+	- caedes did the following changes to the cel python interface:
+	  - added handlers so iCelEntityList and iCelPropertyClassList can be
+	    used as python arrays (for a in list, len(list), len[i] etc will
+	    work).
+	  - made SendMessage return the type inside celData instead of bool.
+	  - added getter/setter wrappers for some methods (like entity.name
+            for entity.GetName() and entity.SetName()). Currently done for 
+	    iCelPropertyClass, iPcActorMove, iCelBehaviour and iCelEntity. 
+	    The plan is to do the same for all cel interfaces.
+	  - added an out typemap for celData so it will always return the value 
+	    wrapped as a python object.
+	  - made a special wrapper for iCelParameterBlock so it can be used as
+	    a sequence object in python (with csStringID indexes).
+	  - added celGetSetPropclass, works similar to celGetPropcclass but also
+	    creates the property class if not present in the entity.
+	  - removed some (seemingly) uneeded code to declare _csPyEventHandler.
 28-Jun-2006
         - Genjix added <config_add file="..." /> to xmlscript.
         - Genjix corrected a small typo in xmlscript.cpp
@@ -12,7 +31,6 @@ The history order is reversed so that new features are at the top.
           of having to set amount each time. Also added some getter functions to
           pcwheeled.
         - cfraz89 took out default setwheelmesh.
-
 27-Jun-2006
         - Arianna fixed several warnings (MSVC): signed/unsigned mismatches
           and double/float conversions.
