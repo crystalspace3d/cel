@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Jun-2006
+	- caedes fixed two errors in yesterdays blcel.i changes.
 29-Jun-2006
 	- caedes changed blpython so it wraps celData value for simple return
 	  types in SendMessage (cant return cs types for now).
