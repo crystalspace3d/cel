@@ -68,7 +68,7 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<pcType> pclm = CEL_QUERY_PROPCLASS (
     entity->GetPropertyClassList (), pcType);
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
   pclm = SCF_QUERY_INTERFACE(pc, pcType);
@@ -146,9 +146,9 @@ GETTER_METHOD(classname, varname, getfunc)
 	void __delitem__(size_t n) { self->Remove(n); }
 	void append( typename *e) { self->Add(e); }
 	%pythoncode %{
-	def content_iterator(parent):
-		for idx in xrange(len(parblock)):
-			yield parent.Get(idx)
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.Get(idx)
 	def __iter__(self):
 		return self.content_iterator()
 	%}
