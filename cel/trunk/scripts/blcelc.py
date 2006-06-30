@@ -487,6 +487,18 @@ class iCelEntity(cspace.iBase):
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
+    __swig_setmethods__["name"] = _blcelc.iCelEntity_SetName
+
+    __swig_getmethods__["name"] = _blcelc.iCelEntity_GetName
+
+    __swig_setmethods__["id"] = _blcelc.iCelEntity_SetID
+
+    __swig_getmethods__["id"] = _blcelc.iCelEntity_GetID
+
+    __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour
+
+    __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour
+
     def __del__(self, destroy=_blcelc.delete_iCelEntity):
         try:
             if self.thisown: destroy(self)
@@ -517,6 +529,16 @@ class iCelEntityList(cspace.iBase):
     def RemoveAll(*args): return _blcelc.iCelEntityList_RemoveAll(*args)
     def Find(*args): return _blcelc.iCelEntityList_Find(*args)
     def FindByName(*args): return _blcelc.iCelEntityList_FindByName(*args)
+    def __len__(*args): return _blcelc.iCelEntityList___len__(*args)
+    def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
+    def __delitem__(*args): return _blcelc.iCelEntityList___delitem__(*args)
+    def append(*args): return _blcelc.iCelEntityList_append(*args)
+    def content_iterator(parent):
+    	for idx in xrange(len(parblock)):
+    		yield parent.Get(idx)
+    def __iter__(self):
+    	return self.content_iterator()
+
     def __del__(self, destroy=_blcelc.delete_iCelEntityList):
         try:
             if self.thisown: destroy(self)
@@ -578,7 +600,43 @@ class iCelParameterBlock(cspace.iBase):
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterByIndex(*args)
-    def GetParameterValue(*args): return _blcelc.iCelParameterBlock_GetParameterValue(*args)
+    def GetParameterIDByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterIDByIndex(*args)
+    def GetParameterNameByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterNameByIndex(*args)
+    def __contains__(*args): return _blcelc.iCelParameterBlock___contains__(*args)
+    def value_iterator(parblock):
+    	for idx in xrange(len(parblock)):
+    		yield parblock.GetParameterByIndex(idx)
+    def key_iterator(parblock):
+    	for idx in xrange(len(parblock)):
+    		yield parblock.GetParameterIDByIndex(idx)
+    def name_iterator(parblock):
+    	for idx in xrange(len(parblock)):
+    		yield parblock.GetParameterNameByIndex(idx)
+    def GetParameterValue(self,id):
+    	return self.GetParameter(id)
+    def __iter__(self):
+    	return self.value_iterator()
+    def iterkeys(self):
+    	return self.key_iterator()
+    def iternames(self):
+    	return self.name_iterator()
+    def __getitem__(self,i):
+    	return self.GetParameter(i)
+    def keys(self):
+    	keys = []
+    	for idx in xrange(len(self)):
+    		keys.append(self.GetParameterIDByIndex(idx))
+    	return keys
+    def names(self):
+    	keys = []
+    	for idx in xrange(len(self)):
+    		keys.append(self.GetParameterNameByIndex(idx))
+    	return keys
+    def has_key(self,id):
+    	return self.__contains__(id)
+
+    def __setitem__(*args): return _blcelc.iCelParameterBlock___setitem__(*args)
+    def __len__(*args): return _blcelc.iCelParameterBlock___len__(*args)
     def __del__(self, destroy=_blcelc.delete_iCelParameterBlock):
         try:
             if self.thisown: destroy(self)
@@ -607,6 +665,8 @@ class iCelBehaviour(cspace.iBase):
     def GetInternalObject(*args): return _blcelc.iCelBehaviour_GetInternalObject(*args)
     def GetPythonObject(*args): return _blcelc.iCelBehaviour_GetPythonObject(*args)
     def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelBehaviour_GetName
+
     def __del__(self, destroy=_blcelc.delete_iCelBehaviour):
         try:
             if self.thisown: destroy(self)
@@ -799,6 +859,16 @@ class iCelPropertyClass(cspace.iBase):
     def SetPropertyBool(*args): return _blcelc.iCelPropertyClass_SetPropertyBool(*args)
     def SetPropertyString(*args): return _blcelc.iCelPropertyClass_SetPropertyString(*args)
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelPropertyClass_GetName
+
+    __swig_setmethods__["tag"] = _blcelc.iCelPropertyClass_SetTag
+
+    __swig_getmethods__["tag"] = _blcelc.iCelPropertyClass_GetTag
+
+    __swig_setmethods__["entity"] = _blcelc.iCelPropertyClass_SetEntity
+
+    __swig_getmethods__["entity"] = _blcelc.iCelPropertyClass_GetEntity
+
     def __del__(self, destroy=_blcelc.delete_iCelPropertyClass):
         try:
             if self.thisown: destroy(self)
@@ -834,6 +904,16 @@ class iCelPropertyClassList(cspace.iBase):
     def FindByNameAndTag(*args): return _blcelc.iCelPropertyClassList_FindByNameAndTag(*args)
     def FindByInterface(*args): return _blcelc.iCelPropertyClassList_FindByInterface(*args)
     def FindByInterfaceAndTag(*args): return _blcelc.iCelPropertyClassList_FindByInterfaceAndTag(*args)
+    def __len__(*args): return _blcelc.iCelPropertyClassList___len__(*args)
+    def __getitem__(*args): return _blcelc.iCelPropertyClassList___getitem__(*args)
+    def __delitem__(*args): return _blcelc.iCelPropertyClassList___delitem__(*args)
+    def append(*args): return _blcelc.iCelPropertyClassList_append(*args)
+    def content_iterator(parent):
+    	for idx in xrange(len(parblock)):
+    		yield parent.Get(idx)
+    def __iter__(self):
+    	return self.content_iterator()
+
     def __del__(self, destroy=_blcelc.delete_iCelPropertyClassList):
         try:
             if self.thisown: destroy(self)
@@ -986,6 +1066,8 @@ _blcelc.iPcMechanicsJoint_swigregister(iPcMechanicsJointPtr)
 
 celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
 
+celGetSetMechanicsSystem = _blcelc.celGetSetMechanicsSystem
+
 celGetMechanicsSystem = _blcelc.celGetMechanicsSystem
 
 scfQuery_iPcMechanicsSystem = _blcelc.scfQuery_iPcMechanicsSystem
@@ -994,6 +1076,8 @@ scfQueryPC_iPcMechanicsSystem = _blcelc.scfQueryPC_iPcMechanicsSystem
 
 celCreateMechanicsObject = _blcelc.celCreateMechanicsObject
 
+celGetSetMechanicsObject = _blcelc.celGetSetMechanicsObject
+
 celGetMechanicsObject = _blcelc.celGetMechanicsObject
 
 scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
@@ -1001,6 +1085,8 @@ scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
 scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
 
 celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
+
+celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
 
 celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
 
@@ -1113,6 +1199,8 @@ _blcelc.iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterControll
 
 celCreateMechanicsThrusterReactionary = _blcelc.celCreateMechanicsThrusterReactionary
 
+celGetSetMechanicsThrusterReactionary = _blcelc.celGetSetMechanicsThrusterReactionary
+
 celGetMechanicsThrusterReactionary = _blcelc.celGetMechanicsThrusterReactionary
 
 scfQuery_iPcMechanicsThruster = _blcelc.scfQuery_iPcMechanicsThruster
@@ -1121,6 +1209,8 @@ scfQueryPC_iPcMechanicsThruster = _blcelc.scfQueryPC_iPcMechanicsThruster
 
 celCreateMechanicsBalancedGroup = _blcelc.celCreateMechanicsBalancedGroup
 
+celGetSetMechanicsBalancedGroup = _blcelc.celGetSetMechanicsBalancedGroup
+
 celGetMechanicsBalancedGroup = _blcelc.celGetMechanicsBalancedGroup
 
 scfQuery_iPcMechanicsBalancedGroup = _blcelc.scfQuery_iPcMechanicsBalancedGroup
@@ -1128,6 +1218,8 @@ scfQuery_iPcMechanicsBalancedGroup = _blcelc.scfQuery_iPcMechanicsBalancedGroup
 scfQueryPC_iPcMechanicsBalancedGroup = _blcelc.scfQueryPC_iPcMechanicsBalancedGroup
 
 celCreateMechanicsThrusterController = _blcelc.celCreateMechanicsThrusterController
+
+celGetSetMechanicsThrusterController = _blcelc.celGetSetMechanicsThrusterController
 
 celGetMechanicsThrusterController = _blcelc.celGetMechanicsThrusterController
 
@@ -1346,6 +1438,8 @@ _blcelc.iPcBillboard_swigregister(iPcBillboardPtr)
 
 celCreateBillboard = _blcelc.celCreateBillboard
 
+celGetSetBillboard = _blcelc.celGetSetBillboard
+
 celGetBillboard = _blcelc.celGetBillboard
 
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
@@ -1545,6 +1639,8 @@ _blcelc.iPcZoneManager_swigregister(iPcZoneManagerPtr)
 
 celCreateZoneManager = _blcelc.celCreateZoneManager
 
+celGetSetZoneManager = _blcelc.celGetSetZoneManager
+
 celGetZoneManager = _blcelc.celGetZoneManager
 
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
@@ -1585,6 +1681,8 @@ _blcelc.iPcCommandInput_swigregister(iPcCommandInputPtr)
 
 
 celCreateCommandInput = _blcelc.celCreateCommandInput
+
+celGetSetCommandInput = _blcelc.celGetSetCommandInput
 
 celGetCommandInput = _blcelc.celGetCommandInput
 
@@ -1680,6 +1778,8 @@ _blcelc.iPcLinearMovement_swigregister(iPcLinearMovementPtr)
 
 celCreateLinearMovement = _blcelc.celCreateLinearMovement
 
+celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
+
 celGetLinearMovement = _blcelc.celGetLinearMovement
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
@@ -1720,6 +1820,54 @@ class iPcActorMove(cspace.iBase):
     def GetRotationSpeed(*args): return _blcelc.iPcActorMove_GetRotationSpeed(*args)
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
+    __swig_setmethods__["forward"] = _blcelc.iPcActorMove_Forward
+
+    __swig_getmethods__["forward"] = _blcelc.iPcActorMove_IsMovingForward
+
+    __swig_setmethods__["backward"] = _blcelc.iPcActorMove_Backward
+
+    __swig_getmethods__["backward"] = _blcelc.iPcActorMove_IsMovingBackward
+
+    __swig_setmethods__["strafeleft"] = _blcelc.iPcActorMove_StrafeLeft
+
+    __swig_getmethods__["strafeleft"] = _blcelc.iPcActorMove_IsStrafingLeft
+
+    __swig_setmethods__["straferight"] = _blcelc.iPcActorMove_StrafeRight
+
+    __swig_getmethods__["straferight"] = _blcelc.iPcActorMove_IsStrafingRight
+
+    __swig_setmethods__["rotateleft"] = _blcelc.iPcActorMove_RotateLeft
+
+    __swig_getmethods__["rotateleft"] = _blcelc.iPcActorMove_IsRotatingLeft
+
+    __swig_setmethods__["rotateright"] = _blcelc.iPcActorMove_RotateRight
+
+    __swig_getmethods__["rotateright"] = _blcelc.iPcActorMove_IsRotatingRight
+
+    __swig_setmethods__["run"] = _blcelc.iPcActorMove_Run
+
+    __swig_getmethods__["run"] = _blcelc.iPcActorMove_IsRunning
+
+    __swig_setmethods__["autorun"] = _blcelc.iPcActorMove_AutoRun
+
+    __swig_getmethods__["autorun"] = _blcelc.iPcActorMove_IsAutoRunning
+
+    __swig_setmethods__["movementspeed"] = _blcelc.iPcActorMove_SetMovementSpeed
+
+    __swig_getmethods__["movementspeed"] = _blcelc.iPcActorMove_GetMovementSpeed
+
+    __swig_setmethods__["runningspeed"] = _blcelc.iPcActorMove_SetRunningSpeed
+
+    __swig_getmethods__["runningspeed"] = _blcelc.iPcActorMove_GetRunningSpeed
+
+    __swig_setmethods__["rotationspeed"] = _blcelc.iPcActorMove_SetRotationSpeed
+
+    __swig_getmethods__["rotationspeed"] = _blcelc.iPcActorMove_GetRotationSpeed
+
+    __swig_setmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_SetJumpingVelocity
+
+    __swig_getmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_GetJumpingVelocity
+
     def __del__(self, destroy=_blcelc.delete_iPcActorMove):
         try:
             if self.thisown: destroy(self)
@@ -1735,6 +1883,8 @@ _blcelc.iPcActorMove_swigregister(iPcActorMovePtr)
 
 
 celCreateActorMove = _blcelc.celCreateActorMove
+
+celGetSetActorMove = _blcelc.celGetSetActorMove
 
 celGetActorMove = _blcelc.celGetActorMove
 
@@ -1786,6 +1936,8 @@ _blcelc.iPcCamera_swigregister(iPcCameraPtr)
 
 
 celCreateCamera = _blcelc.celCreateCamera
+
+celGetSetCamera = _blcelc.celGetSetCamera
 
 celGetCamera = _blcelc.celGetCamera
 
@@ -1850,6 +2002,8 @@ _blcelc.iPcDefaultCamera_swigregister(iPcDefaultCameraPtr)
 
 celCreateDefaultCamera = _blcelc.celCreateDefaultCamera
 
+celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
+
 celGetDefaultCamera = _blcelc.celGetDefaultCamera
 
 scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
@@ -1883,6 +2037,8 @@ _blcelc.iPcSimpleCamera_swigregister(iPcSimpleCameraPtr)
 
 
 celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
+
+celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
 
 celGetSimpleCamera = _blcelc.celGetSimpleCamera
 
@@ -1965,6 +2121,8 @@ _blcelc.iPcMeshSelect_swigregister(iPcMeshSelectPtr)
 
 celCreateMeshSelect = _blcelc.celCreateMeshSelect
 
+celGetSetMeshSelect = _blcelc.celGetSetMeshSelect
+
 celGetMeshSelect = _blcelc.celGetMeshSelect
 
 scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
@@ -2006,6 +2164,8 @@ _blcelc.iPcMesh_swigregister(iPcMeshPtr)
 
 celCreateMesh = _blcelc.celCreateMesh
 
+celGetSetMesh = _blcelc.celGetSetMesh
+
 celGetMesh = _blcelc.celGetMesh
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
@@ -2038,6 +2198,8 @@ _blcelc.iPcTimer_swigregister(iPcTimerPtr)
 
 celCreateTimer = _blcelc.celCreateTimer
 
+celGetSetTimer = _blcelc.celGetSetTimer
+
 celGetTimer = _blcelc.celGetTimer
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
@@ -2069,6 +2231,8 @@ _blcelc.iPcSolid_swigregister(iPcSolidPtr)
 
 
 celCreateSolid = _blcelc.celCreateSolid
+
+celGetSetSolid = _blcelc.celGetSetSolid
 
 celGetSolid = _blcelc.celGetSolid
 
@@ -2114,6 +2278,8 @@ _blcelc.iPcGravity_swigregister(iPcGravityPtr)
 
 
 celCreateGravity = _blcelc.celCreateGravity
+
+celGetSetGravity = _blcelc.celGetSetGravity
 
 celGetGravity = _blcelc.celGetGravity
 
@@ -2177,6 +2343,8 @@ _blcelc.iPcMovableConstraint_swigregister(iPcMovableConstraintPtr)
 
 
 celCreateMovable = _blcelc.celCreateMovable
+
+celGetSetMovable = _blcelc.celGetSetMovable
 
 celGetMovable = _blcelc.celGetMovable
 
@@ -2314,6 +2482,8 @@ _blcelc.iPcInventory_swigregister(iPcInventoryPtr)
 
 celCreateInventory = _blcelc.celCreateInventory
 
+celGetSetInventory = _blcelc.celGetSetInventory
+
 celGetInventory = _blcelc.celGetInventory
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
@@ -2356,6 +2526,8 @@ _blcelc.iPcCharacteristics_swigregister(iPcCharacteristicsPtr)
 
 celCreateCharacteristics = _blcelc.celCreateCharacteristics
 
+celGetSetCharacteristics = _blcelc.celGetSetCharacteristics
+
 celGetCharacteristics = _blcelc.celGetCharacteristics
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
@@ -2395,6 +2567,8 @@ _blcelc.iPcTooltip_swigregister(iPcTooltipPtr)
 
 
 celCreateToolTip = _blcelc.celCreateToolTip
+
+celGetSetToolTip = _blcelc.celGetSetToolTip
 
 celGetToolTip = _blcelc.celGetToolTip
 
@@ -2452,11 +2626,15 @@ _blcelc.iPcSoundSource_swigregister(iPcSoundSourcePtr)
 
 celCreateSoundSource = _blcelc.celCreateSoundSource
 
+celGetSetSoundSource = _blcelc.celGetSetSoundSource
+
 celGetSoundSource = _blcelc.celGetSoundSource
 
 scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
 
 celCreateSoundListener = _blcelc.celCreateSoundListener
+
+celGetSetSoundListener = _blcelc.celGetSetSoundListener
 
 celGetSoundListener = _blcelc.celGetSoundListener
 
@@ -2531,6 +2709,8 @@ _blcelc.iPcProperties_swigregister(iPcPropertiesPtr)
 
 celCreateProperties = _blcelc.celCreateProperties
 
+celGetSetProperties = _blcelc.celGetSetProperties
+
 celGetProperties = _blcelc.celGetProperties
 
 scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
@@ -2568,6 +2748,8 @@ _blcelc.iPcHover_swigregister(iPcHoverPtr)
 
 
 celCreateHover = _blcelc.celCreateHover
+
+celGetSetHover = _blcelc.celGetSetHover
 
 celGetHover = _blcelc.celGetHover
 
@@ -2624,6 +2806,8 @@ _blcelc.iPcCraftController_swigregister(iPcCraftControllerPtr)
 
 
 celCreateCraftController = _blcelc.celCreateCraftController
+
+celGetSetCraftController = _blcelc.celGetSetCraftController
 
 celGetCraftController = _blcelc.celGetCraftController
 
