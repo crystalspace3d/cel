@@ -2,7 +2,12 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+2-Jul-2006
+        - cfraz89 worked on python bl:
+          completed get/set methods in for iCelPlLayer and iCelEntity,
+          added version of celFindNearbyEntities to work on boxes, and added
+          invisible flag to all versions.
+          
 30-Jun-2006
 	- caedes fixed two errors in yesterdays blcel.i changes.
 29-Jun-2006
