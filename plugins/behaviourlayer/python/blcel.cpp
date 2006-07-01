@@ -2366,7 +2366,7 @@ iPcMechanicsSystem *celCreateMechanicsSystem(iCelPlLayer *pl, iCelEntity *entity
 iPcMechanicsSystem * celGetSetMechanicsSystem (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsSystem> pclm =    (celQueryPropertyClass<iPcMechanicsSystem> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechsys" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsSystem> (pc);
@@ -2411,7 +2411,7 @@ iPcMechanicsObject *celCreateMechanicsObject(iCelPlLayer *pl, iCelEntity *entity
 iPcMechanicsObject * celGetSetMechanicsObject (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsObject> pclm =    (celQueryPropertyClass<iPcMechanicsObject> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechobject" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsObject> (pc);
@@ -2456,7 +2456,7 @@ iPcMechanicsJoint *celCreateMechanicsJoint(iCelPlLayer *pl, iCelEntity *entity) 
 iPcMechanicsJoint * celGetSetMechanicsJoint (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsJoint> pclm =    (celQueryPropertyClass<iPcMechanicsJoint> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechjoint" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsJoint> (pc);
@@ -2501,7 +2501,7 @@ iPcMechanicsThruster *celCreateMechanicsThrusterReactionary(iCelPlLayer *pl, iCe
 iPcMechanicsThruster * celGetSetMechanicsThrusterReactionary (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsThruster> pclm =    (celQueryPropertyClass<iPcMechanicsThruster> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustreactionary" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsThruster> (pc);
@@ -2546,7 +2546,7 @@ iPcMechanicsBalancedGroup *celCreateMechanicsBalancedGroup(iCelPlLayer *pl, iCel
 iPcMechanicsBalancedGroup * celGetSetMechanicsBalancedGroup (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsBalancedGroup> pclm =    (celQueryPropertyClass<iPcMechanicsBalancedGroup> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechbalancedgroup" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
@@ -2591,7 +2591,7 @@ iPcMechanicsThrusterController *celCreateMechanicsThrusterController(iCelPlLayer
 iPcMechanicsThrusterController * celGetSetMechanicsThrusterController (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMechanicsThrusterController> pclm =    (celQueryPropertyClass<iPcMechanicsThrusterController> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustercontroller" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
@@ -2656,7 +2656,7 @@ iPcBillboard *celCreateBillboard(iCelPlLayer *pl, iCelEntity *entity) {
 iPcBillboard * celGetSetBillboard (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcBillboard> pclm =    (celQueryPropertyClass<iPcBillboard> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcbillboard" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcBillboard> (pc);
@@ -2741,7 +2741,7 @@ iPcZoneManager *celCreateZoneManager(iCelPlLayer *pl, iCelEntity *entity) {
 iPcZoneManager * celGetSetZoneManager (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcZoneManager> pclm =    (celQueryPropertyClass<iPcZoneManager> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pczonemanager" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcZoneManager> (pc);
@@ -2778,7 +2778,7 @@ iPcCommandInput *celCreateCommandInput(iCelPlLayer *pl, iCelEntity *entity) {
 iPcCommandInput * celGetSetCommandInput (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcCommandInput> pclm =    (celQueryPropertyClass<iPcCommandInput> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccommandinput" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcCommandInput> (pc);
@@ -2815,7 +2815,7 @@ iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) 
 iPcLinearMovement * celGetSetLinearMovement (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcLinearMovement> pclm =    (celQueryPropertyClass<iPcLinearMovement> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pclinearmovement" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcLinearMovement> (pc);
@@ -2852,7 +2852,7 @@ iPcActorMove *celCreateActorMove(iCelPlLayer *pl, iCelEntity *entity) {
 iPcActorMove * celGetSetActorMove (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcActorMove> pclm =    (celQueryPropertyClass<iPcActorMove> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcactormove" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcActorMove> (pc);
@@ -2889,7 +2889,7 @@ iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
 iPcCamera * celGetSetCamera (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcCamera> pclm =    (celQueryPropertyClass<iPcCamera> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccamera" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcCamera> (pc);
@@ -2926,7 +2926,7 @@ iPcDefaultCamera *celCreateDefaultCamera(iCelPlLayer *pl, iCelEntity *entity) {
 iPcDefaultCamera * celGetSetDefaultCamera (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcDefaultCamera> pclm =    (celQueryPropertyClass<iPcDefaultCamera> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdefaultcamera" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcDefaultCamera> (pc);
@@ -2963,7 +2963,7 @@ iPcSimpleCamera *celCreateSimpleCamera(iCelPlLayer *pl, iCelEntity *entity) {
 iPcSimpleCamera * celGetSetSimpleCamera (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcSimpleCamera> pclm =    (celQueryPropertyClass<iPcSimpleCamera> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsimplecamera" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcSimpleCamera> (pc);
@@ -3000,7 +3000,7 @@ iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
 iPcMeshSelect * celGetSetMeshSelect (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMeshSelect> pclm =    (celQueryPropertyClass<iPcMeshSelect> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmeshselect" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMeshSelect> (pc);
@@ -3037,7 +3037,7 @@ iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
 iPcMesh * celGetSetMesh (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMesh> pclm =    (celQueryPropertyClass<iPcMesh> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmesh" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMesh> (pc);
@@ -3074,7 +3074,7 @@ iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
 iPcTimer * celGetSetTimer (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcTimer> pclm =    (celQueryPropertyClass<iPcTimer> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctimer" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcTimer> (pc);
@@ -3111,7 +3111,7 @@ iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
 iPcSolid * celGetSetSolid (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcSolid> pclm =    (celQueryPropertyClass<iPcSolid> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsolid" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcSolid> (pc);
@@ -3148,7 +3148,7 @@ iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
 iPcGravity * celGetSetGravity (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcGravity> pclm =    (celQueryPropertyClass<iPcGravity> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcgravity" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcGravity> (pc);
@@ -3185,7 +3185,7 @@ iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
 iPcMovable * celGetSetMovable (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcMovable> pclm =    (celQueryPropertyClass<iPcMovable> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmovable" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcMovable> (pc);
@@ -3222,7 +3222,7 @@ iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
 iPcInventory * celGetSetInventory (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcInventory> pclm =    (celQueryPropertyClass<iPcInventory> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcinventory" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcInventory> (pc);
@@ -3259,7 +3259,7 @@ iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity
 iPcCharacteristics * celGetSetCharacteristics (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcCharacteristics> pclm =    (celQueryPropertyClass<iPcCharacteristics> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccharacteristics" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcCharacteristics> (pc);
@@ -3296,7 +3296,7 @@ iPcTooltip *celCreateToolTip(iCelPlLayer *pl, iCelEntity *entity) {
 iPcTooltip * celGetSetToolTip (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcTooltip> pclm =    (celQueryPropertyClass<iPcTooltip> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctooltip" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcTooltip> (pc);
@@ -3333,7 +3333,7 @@ iPcSoundSource *celCreateSoundSource(iCelPlLayer *pl, iCelEntity *entity) {
 iPcSoundSource * celGetSetSoundSource (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcSoundSource> pclm =    (celQueryPropertyClass<iPcSoundSource> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundsource" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcSoundSource> (pc);
@@ -3370,7 +3370,7 @@ iPcSoundListener *celCreateSoundListener(iCelPlLayer *pl, iCelEntity *entity) {
 iPcSoundListener * celGetSetSoundListener (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcSoundListener> pclm =    (celQueryPropertyClass<iPcSoundListener> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundlistener" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcSoundListener> (pc);
@@ -3407,7 +3407,7 @@ iPcProperties *celCreateProperties(iCelPlLayer *pl, iCelEntity *entity) {
 iPcProperties * celGetSetProperties (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcProperties> pclm =    (celQueryPropertyClass<iPcProperties> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcproperties" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcProperties> (pc);
@@ -3444,7 +3444,7 @@ iPcHover *celCreateHover(iCelPlLayer *pl, iCelEntity *entity) {
 iPcHover * celGetSetHover (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcHover> pclm =    (celQueryPropertyClass<iPcHover> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pchover" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcHover> (pc);
@@ -3481,7 +3481,7 @@ iPcCraftController *celCreateCraftController(iCelPlLayer *pl, iCelEntity *entity
 iPcCraftController * celGetSetCraftController (iCelPlLayer *pl, iCelEntity *entity)
 {
   csRef<iPcCraftController> pclm =    (celQueryPropertyClass<iPcCraftController> (entity->GetPropertyClassList ()));
-  if (!pclm.IsValid()) return 0;
+  if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccraft" );
   if (!pc.IsValid()) return 0;
   pclm =    scfQueryInterface<iPcCraftController> (pc);
