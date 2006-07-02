@@ -421,6 +421,14 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
+    __swig_getmethods__["entitytemplatecount"] = _blcelc.iCelPlLayer_GetEntityTemplateCount
+
+    __swig_getmethods__["entitycount"] = _blcelc.iCelPlLayer_GetEntityCount
+
+    __swig_getmethods__["propertyclassfactorycount"] = _blcelc.iCelPlLayer_GetPropertyClassFactoryCount
+
+    __swig_getmethods__["behaviourlayercount"] = _blcelc.iCelPlLayer_GetBehaviourLayerCount
+
     def __del__(self, destroy=_blcelc.delete_iCelPlLayer):
         try:
             if self.thisown: destroy(self)
@@ -449,6 +457,8 @@ class iCelEntityTracker(cspace.iBase):
     def RemoveEntity(*args): return _blcelc.iCelEntityTracker_RemoveEntity(*args)
     def RemoveEntities(*args): return _blcelc.iCelEntityTracker_RemoveEntities(*args)
     def FindNearbyEntities(*args): return _blcelc.iCelEntityTracker_FindNearbyEntities(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelEntityTracker_GetName
+
     def __del__(self, destroy=_blcelc.delete_iCelEntityTracker):
         try:
             if self.thisown: destroy(self)
@@ -498,6 +508,10 @@ class iCelEntity(cspace.iBase):
     __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour
 
     __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour
+
+    __swig_getmethods__["propertyclasslist"] = _blcelc.iCelEntity_GetPropertyClassList
+
+    __swig_getmethods__["classes"] = _blcelc.iCelEntity_GetClasses
 
     def __del__(self, destroy=_blcelc.delete_iCelEntity):
         try:
