@@ -7,7 +7,14 @@ The history order is reversed so that new features are at the top.
           completed get/set methods in for iCelPlLayer and iCelEntity,
           added version of celFindNearbyEntities to work on boxes, and added
           invisible flag to all versions.
-          
+	- caedes worked on python bl:
+	  - moved list methods extend code to cspace.
+	  - refined the templates to define get/set methods a bit.
+	  - added get/set methods for more interfaces: iPcMechanicsSystem,
+	    iPcMechanicsObject, iPcMechanicsJoint, iPcBillboard, iPcRegion,
+	    iCelMapFile, iCelRegion, iCelZone, iPcCommandInput, 
+	    iPcLinearMovement, iPcCamera, iPcDefaultCamera, iPcMeshSelect,
+	    iPcMesh.
 30-Jun-2006
 	- caedes fixed two errors in yesterdays blcel.i changes.
 29-Jun-2006
