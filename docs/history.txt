@@ -19,6 +19,8 @@ The history order is reversed so that new features are at the top.
 	- res removed the now-unneeded -Wno-non-virtual-dtor detection.
 	- res added detection of the -fvisibility=hidden compiler flag to
 	  configure.
+	- caedes modified thee FAKE_ARRAY template in the swig interface so
+	  it allows defining different fake arrys for the same base type.
 2-Jul-2006
         - cfraz89 worked on python bl:
           completed get/set methods in for iCelPlLayer and iCelEntity,
