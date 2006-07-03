@@ -1,8 +1,6 @@
 #define __CEL__
 %module blcelc
-
 %import "ivaria/cspace.i"
-
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
@@ -119,6 +117,8 @@ CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 %enddef
 
+//-----------------------------------------------------------------------------
+
 %define GETTER_METHOD(classname,varname,getfunc)
 %extend classname {
  %pythoncode %{
@@ -148,6 +148,36 @@ GETTER_METHOD(classname, varname, Get ## parname)
 	PYLIST_BYNAME_FUNCTIONS(classname,typename,FindByName)
 %enddef
 
+//-----------------------------------------------------------------------------
+
+// this serves to wrap list methods in classes as a fake array.
+%define CEL_FAKE_ARRAY(contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
+%pythoncode %{
+class contenttype ## PyFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.findmethod(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str(#contenttype)
+	def __len__(self): return self.parent.countmethod()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.findmethod(val)
+			if obj: return self.parent.delmethod(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.delmethod(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.getmethod(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.findmethod(val)
+		else: return self.parent.getmethod(val)
+	def append(self,obj): return self.parent. ## addmethod(obj)	
+%}
+%enddef
 
 //=============================================================================
 // Published interfaces and functions.
@@ -173,24 +203,50 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
-// extension to create a parameter block from a dict, list or tuple.
+
+// extension to create a parameter block from a dict, list or tuple
 %extend iCelPlLayer {
 	%pythoncode %{
 	def CreateParameterBlock(self,valdict):
+		"""Create a celGenericParameterBlock from a dict, list or 
+		tuple"""
 		parblock = celGenericParameterBlock(len(valdict))
 		for idx,valkey in enumerate(valdict):
 			keyid = self.FetchStringID("cel.parameter."+valkey)
 			parblock.SetParameterDef (idx,keyid,valkey)
 			if type(valdict) == type({}):
 				parblock[keyid] = valdict[valkey]
-		return parblock
-	%}
+		return parblock	%}
 }
+// fake arrays to handle stuff managed by the physical layer.
+// iCelEntityTemplatePyFakeArray
+CEL_FAKE_ARRAY(iCelEntityTemplate,GetEntityTemplateCount,
+	GetEntityTemplateByIndex,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
 
-GETTER_METHOD(iCelPlLayer,"entitytemplatecount",GetEntityTemplateCount)
-GETTER_METHOD(iCelPlLayer,"entitycount",GetEntityCount)
-GETTER_METHOD(iCelPlLayer,"propertyclassfactorycount",GetPropertyClassFactoryCount)
-GETTER_METHOD(iCelPlLayer,"behaviourlayercount",GetBehaviourLayerCount)
+// iCelEntityPyFakeArray
+CEL_FAKE_ARRAY(iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
+
+// iCelBlLayerPyFakeArray
+CEL_FAKE_ARRAY(iCelBlLayer,GetBehaviourLayerCount,GetBehaviourLayer,
+	       FindBehaviourLayer,UnregisterBehaviourLayer,
+	       RegisterBehaviourLayer)
+
+// iCelPropertyClassFactoryPyFakeArray
+CEL_FAKE_ARRAY(iCelPropertyClassFactory,GetPropertyClassFactoryCount,
+	       GetPropertyClassFactory,FindPropertyClassFactory,
+	       UnregisterPropertyClassFactory,LoadPropertyClassFactory)
+
+%extend iCelPlLayer {
+	%pythoncode %{
+	def GetEntities(self): return iCelEntityPyFakeArray(self)
+	def GetEntityTemplates(self): return iCelEntityTemplatePyFakeArray(self)
+	def GetPcFactories(self): return iCelPropertyClassFactoryPyFakeArray(self)
+	def GetBehaviourLayers(self): return iCelBlLayerPyFakeArray(self)
+	__swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
+	__swig_getmethods__["pcfactories"] = lambda self: self.GetPcFactories()
+	__swig_getmethods__["behaviourlayers"] = lambda self: self.GetBehaviourLayers()
+	__swig_getmethods__["entities"] = lambda self: self.GetEntities() %}
+}
 
 GETTER_METHOD(iCelEntityTracker,"name",GetName)
 
@@ -209,7 +265,7 @@ GETSET_METHODS(iCelEntity,"name",Name)
 GETSET_METHODS(iCelEntity,"id",ID)
 GETSET_METHODS(iCelEntity,"behaviour",Behaviour)
 
-GETTER_METHOD(iCelEntity,"propertyclasslist",GetPropertyClassList)
+GETTER_METHOD(iCelEntity,"pcclasses",GetPropertyClassList)
 GETTER_METHOD(iCelEntity,"classes",GetClasses)
 
 CELLIST_METHODS(iCelEntityList,iCelEntity)
@@ -328,6 +384,8 @@ GETTER_METHOD(iCelBehaviour,"name",GetName)
 //-----------------------------------------------------------------------------
 
 %ignore iCelPropertyClass::SetProperty;
+%include "physicallayer/propfact.h"
+GETTER_METHOD(iCelPropertyClassFactory,"name",GetName)
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
