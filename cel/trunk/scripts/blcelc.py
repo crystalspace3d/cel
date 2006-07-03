@@ -421,14 +421,10 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
-    __swig_getmethods__["entitytemplatecount"] = _blcelc.iCelPlLayer_GetEntityTemplateCount
-
-    __swig_getmethods__["entitycount"] = _blcelc.iCelPlLayer_GetEntityCount
-
-    __swig_getmethods__["propertyclassfactorycount"] = _blcelc.iCelPlLayer_GetPropertyClassFactoryCount
-
-    __swig_getmethods__["behaviourlayercount"] = _blcelc.iCelPlLayer_GetBehaviourLayerCount
-
+    __swig_getmethods__["entitytemplatecount"] = _blcelc.iCelPlLayer_GetEntityTemplateCount  
+    __swig_getmethods__["entitycount"] = _blcelc.iCelPlLayer_GetEntityCount  
+    __swig_getmethods__["propertyclassfactorycount"] = _blcelc.iCelPlLayer_GetPropertyClassFactoryCount  
+    __swig_getmethods__["behaviourlayercount"] = _blcelc.iCelPlLayer_GetBehaviourLayerCount  
     def __del__(self, destroy=_blcelc.delete_iCelPlLayer):
         try:
             if self.thisown: destroy(self)
@@ -457,8 +453,7 @@ class iCelEntityTracker(cspace.iBase):
     def RemoveEntity(*args): return _blcelc.iCelEntityTracker_RemoveEntity(*args)
     def RemoveEntities(*args): return _blcelc.iCelEntityTracker_RemoveEntities(*args)
     def FindNearbyEntities(*args): return _blcelc.iCelEntityTracker_FindNearbyEntities(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelEntityTracker_GetName
-
+    __swig_getmethods__["name"] = _blcelc.iCelEntityTracker_GetName  
     def __del__(self, destroy=_blcelc.delete_iCelEntityTracker):
         try:
             if self.thisown: destroy(self)
@@ -497,22 +492,14 @@ class iCelEntity(cspace.iBase):
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
-    __swig_setmethods__["name"] = _blcelc.iCelEntity_SetName
-
-    __swig_getmethods__["name"] = _blcelc.iCelEntity_GetName
-
-    __swig_setmethods__["id"] = _blcelc.iCelEntity_SetID
-
-    __swig_getmethods__["id"] = _blcelc.iCelEntity_GetID
-
-    __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour
-
-    __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour
-
-    __swig_getmethods__["propertyclasslist"] = _blcelc.iCelEntity_GetPropertyClassList
-
-    __swig_getmethods__["classes"] = _blcelc.iCelEntity_GetClasses
-
+    __swig_setmethods__["name"] = _blcelc.iCelEntity_SetName  
+    __swig_getmethods__["name"] = _blcelc.iCelEntity_GetName  
+    __swig_setmethods__["id"] = _blcelc.iCelEntity_SetID  
+    __swig_getmethods__["id"] = _blcelc.iCelEntity_GetID  
+    __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour  
+    __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour  
+    __swig_getmethods__["propertyclasslist"] = _blcelc.iCelEntity_GetPropertyClassList  
+    __swig_getmethods__["classes"] = _blcelc.iCelEntity_GetClasses  
     def __del__(self, destroy=_blcelc.delete_iCelEntity):
         try:
             if self.thisown: destroy(self)
@@ -543,16 +530,15 @@ class iCelEntityList(cspace.iBase):
     def RemoveAll(*args): return _blcelc.iCelEntityList_RemoveAll(*args)
     def Find(*args): return _blcelc.iCelEntityList_Find(*args)
     def FindByName(*args): return _blcelc.iCelEntityList_FindByName(*args)
-    def __len__(*args): return _blcelc.iCelEntityList___len__(*args)
-    def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
     def __delitem__(*args): return _blcelc.iCelEntityList___delitem__(*args)
+    def __len__(*args): return _blcelc.iCelEntityList___len__(*args)
     def append(*args): return _blcelc.iCelEntityList_append(*args)
     def content_iterator(self):
-    	for idx in xrange(len(self)):
-    		yield self.Get(idx)
-    def __iter__(self):
-    	return self.content_iterator()
-
+            for idx in xrange(len(self)):
+                    yield self.Get(idx)
+    def __iter__(self): return self.content_iterator()  
+    def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
+    def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
     def __del__(self, destroy=_blcelc.delete_iCelEntityList):
         try:
             if self.thisown: destroy(self)
@@ -679,8 +665,7 @@ class iCelBehaviour(cspace.iBase):
     def GetInternalObject(*args): return _blcelc.iCelBehaviour_GetInternalObject(*args)
     def GetPythonObject(*args): return _blcelc.iCelBehaviour_GetPythonObject(*args)
     def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelBehaviour_GetName
-
+    __swig_getmethods__["name"] = _blcelc.iCelBehaviour_GetName  
     def __del__(self, destroy=_blcelc.delete_iCelBehaviour):
         try:
             if self.thisown: destroy(self)
@@ -873,16 +858,11 @@ class iCelPropertyClass(cspace.iBase):
     def SetPropertyBool(*args): return _blcelc.iCelPropertyClass_SetPropertyBool(*args)
     def SetPropertyString(*args): return _blcelc.iCelPropertyClass_SetPropertyString(*args)
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelPropertyClass_GetName
-
-    __swig_setmethods__["tag"] = _blcelc.iCelPropertyClass_SetTag
-
-    __swig_getmethods__["tag"] = _blcelc.iCelPropertyClass_GetTag
-
-    __swig_setmethods__["entity"] = _blcelc.iCelPropertyClass_SetEntity
-
-    __swig_getmethods__["entity"] = _blcelc.iCelPropertyClass_GetEntity
-
+    __swig_getmethods__["name"] = _blcelc.iCelPropertyClass_GetName  
+    __swig_setmethods__["tag"] = _blcelc.iCelPropertyClass_SetTag  
+    __swig_getmethods__["tag"] = _blcelc.iCelPropertyClass_GetTag  
+    __swig_setmethods__["entity"] = _blcelc.iCelPropertyClass_SetEntity  
+    __swig_getmethods__["entity"] = _blcelc.iCelPropertyClass_GetEntity  
     def __del__(self, destroy=_blcelc.delete_iCelPropertyClass):
         try:
             if self.thisown: destroy(self)
@@ -918,16 +898,15 @@ class iCelPropertyClassList(cspace.iBase):
     def FindByNameAndTag(*args): return _blcelc.iCelPropertyClassList_FindByNameAndTag(*args)
     def FindByInterface(*args): return _blcelc.iCelPropertyClassList_FindByInterface(*args)
     def FindByInterfaceAndTag(*args): return _blcelc.iCelPropertyClassList_FindByInterfaceAndTag(*args)
-    def __len__(*args): return _blcelc.iCelPropertyClassList___len__(*args)
-    def __getitem__(*args): return _blcelc.iCelPropertyClassList___getitem__(*args)
     def __delitem__(*args): return _blcelc.iCelPropertyClassList___delitem__(*args)
+    def __len__(*args): return _blcelc.iCelPropertyClassList___len__(*args)
     def append(*args): return _blcelc.iCelPropertyClassList_append(*args)
     def content_iterator(self):
-    	for idx in xrange(len(self)):
-    		yield self.Get(idx)
-    def __iter__(self):
-    	return self.content_iterator()
-
+            for idx in xrange(len(self)):
+                    yield self.Get(idx)
+    def __iter__(self): return self.content_iterator()  
+    def __getitem__(*args): return _blcelc.iCelPropertyClassList___getitem__(*args)
+    def __contains__(*args): return _blcelc.iCelPropertyClassList___contains__(*args)
     def __del__(self, destroy=_blcelc.delete_iCelPropertyClassList):
         try:
             if self.thisown: destroy(self)
@@ -972,6 +951,12 @@ class iPcMechanicsSystem(cspace.iBase):
     def DisableStepFast(*args): return _blcelc.iPcMechanicsSystem_DisableStepFast(*args)
     def EnableStepFast(*args): return _blcelc.iPcMechanicsSystem_EnableStepFast(*args)
     def EnableQuickStep(*args): return _blcelc.iPcMechanicsSystem_EnableQuickStep(*args)
+    __swig_setmethods__["dynsys"] = _blcelc.iPcMechanicsSystem_SetDynamicSystem  
+    __swig_getmethods__["dynsys"] = _blcelc.iPcMechanicsSystem_GetDynamicSystem  
+    __swig_setmethods__["steptime"] = _blcelc.iPcMechanicsSystem_SetStepTime  
+    __swig_getmethods__["steptime"] = _blcelc.iPcMechanicsSystem_GetStepTime  
+    __swig_setmethods__["gravity"] = _blcelc.iPcMechanicsSystem_SetGravity  
+    __swig_getmethods__["gravity"] = _blcelc.iPcMechanicsSystem_GetGravity  
     def __del__(self, destroy=_blcelc.delete_iPcMechanicsSystem):
         try:
             if self.thisown: destroy(self)
@@ -1040,6 +1025,33 @@ class iPcMechanicsObject(cspace.iBase):
     def CreateJoint(*args): return _blcelc.iPcMechanicsObject_CreateJoint(*args)
     def LocalToWorld(*args): return _blcelc.iPcMechanicsObject_LocalToWorld(*args)
     def WorldToLocal(*args): return _blcelc.iPcMechanicsObject_WorldToLocal(*args)
+    __swig_setmethods__["mesh"] = _blcelc.iPcMechanicsObject_SetMesh  
+    __swig_getmethods__["mesh"] = _blcelc.iPcMechanicsObject_GetMesh  
+    __swig_setmethods__["light"] = _blcelc.iPcMechanicsObject_SetLight  
+    __swig_getmethods__["light"] = _blcelc.iPcMechanicsObject_GetLight  
+    __swig_setmethods__["camera"] = _blcelc.iPcMechanicsObject_SetCamera  
+    __swig_getmethods__["camera"] = _blcelc.iPcMechanicsObject_GetCamera  
+    __swig_setmethods__["mechsys"] = _blcelc.iPcMechanicsObject_SetMechanicsSystem  
+    __swig_getmethods__["mechsys"] = _blcelc.iPcMechanicsObject_GetMechanicsSystem  
+    __swig_getmethods__["body"] = _blcelc.iPcMechanicsObject_GetBody  
+    __swig_setmethods__["friction"] = _blcelc.iPcMechanicsObject_SetFriction  
+    __swig_getmethods__["friction"] = _blcelc.iPcMechanicsObject_GetFriction  
+    __swig_setmethods__["mass"] = _blcelc.iPcMechanicsObject_SetMass  
+    __swig_getmethods__["mass"] = _blcelc.iPcMechanicsObject_GetMass  
+    __swig_setmethods__["elasticity"] = _blcelc.iPcMechanicsObject_SetElasticity  
+    __swig_getmethods__["elasticity"] = _blcelc.iPcMechanicsObject_GetElasticity  
+    __swig_setmethods__["softness"] = _blcelc.iPcMechanicsObject_SetSoftness  
+    __swig_getmethods__["softness"] = _blcelc.iPcMechanicsObject_GetSoftness  
+    __swig_setmethods__["drag"] = _blcelc.iPcMechanicsObject_SetDrag  
+    __swig_getmethods__["drag"] = _blcelc.iPcMechanicsObject_GetDrag  
+    __swig_setmethods__["lift"] = _blcelc.iPcMechanicsObject_SetLift  
+    __swig_getmethods__["lift"] = _blcelc.iPcMechanicsObject_GetLift  
+    __swig_setmethods__["linearvelocity"] = _blcelc.iPcMechanicsObject_SetLinearVelocity  
+    __swig_getmethods__["linearvelocity"] = _blcelc.iPcMechanicsObject_GetLinearVelocity  
+    __swig_setmethods__["angularvelocity"] = _blcelc.iPcMechanicsObject_SetAngularVelocity  
+    __swig_getmethods__["angularvelocity"] = _blcelc.iPcMechanicsObject_GetAngularVelocity  
+    __swig_setmethods__["static"] = _blcelc.iPcMechanicsObject_MakeStatic  
+    __swig_getmethods__["static"] = _blcelc.iPcMechanicsObject_IsStatic  
     def __del__(self, destroy=_blcelc.delete_iPcMechanicsObject):
         try:
             if self.thisown: destroy(self)
@@ -1064,6 +1076,7 @@ class iPcMechanicsJoint(cspace.iBase):
     def __repr__(self):
         return "<%s.%s; proxy of C++ iPcMechanicsJoint instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
     def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
+    __swig_getmethods__["joint"] = _blcelc.iPcMechanicsJoint_GetJoint  
     def __del__(self, destroy=_blcelc.delete_iPcMechanicsJoint):
         try:
             if self.thisown: destroy(self)
@@ -1436,6 +1449,10 @@ class iPcBillboard(cspace.iBase):
     def GetBillboard(*args): return _blcelc.iPcBillboard_GetBillboard(*args)
     def EnableEvents(*args): return _blcelc.iPcBillboard_EnableEvents(*args)
     def AreEventsEnabled(*args): return _blcelc.iPcBillboard_AreEventsEnabled(*args)
+    __swig_setmethods__["name"] = _blcelc.iPcBillboard_SetBillboardName  
+    __swig_getmethods__["name"] = _blcelc.iPcBillboard_GetBillboardName  
+    __swig_setmethods__["events"] = _blcelc.iPcBillboard_EnableEvents  
+    __swig_getmethods__["events"] = _blcelc.iPcBillboard_AreEventsEnabled  
     def __del__(self, destroy=_blcelc.delete_iPcBillboard):
         try:
             if self.thisown: destroy(self)
@@ -1483,6 +1500,9 @@ class iPcRegion(cspace.iBase):
     def PointCamera(*args): return _blcelc.iPcRegion_PointCamera(*args)
     def GetRegion(*args): return _blcelc.iPcRegion_GetRegion(*args)
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
+    __swig_setmethods__["name"] = _blcelc.iPcRegion_SetRegionName  
+    __swig_getmethods__["name"] = _blcelc.iPcRegion_GetRegionName  
+    __swig_getmethods__["region"] = _blcelc.iPcRegion_GetRegion  
     def __del__(self, destroy=_blcelc.delete_iPcRegion):
         try:
             if self.thisown: destroy(self)
@@ -1520,6 +1540,12 @@ class iCelMapFile(cspace.iBase):
     def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
     def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
     def GetSectorName(*args): return _blcelc.iCelMapFile_GetSectorName(*args)
+    __swig_setmethods__["path"] = _blcelc.iCelMapFile_SetPath  
+    __swig_getmethods__["path"] = _blcelc.iCelMapFile_GetPath  
+    __swig_setmethods__["file"] = _blcelc.iCelMapFile_SetFile  
+    __swig_getmethods__["file"] = _blcelc.iCelMapFile_GetFile  
+    __swig_setmethods__["sectorname"] = _blcelc.iCelMapFile_SetSectorName  
+    __swig_getmethods__["sectorname"] = _blcelc.iCelMapFile_GetSectorName  
     def __del__(self, destroy=_blcelc.delete_iCelMapFile):
         try:
             if self.thisown: destroy(self)
@@ -1553,6 +1579,9 @@ class iCelRegion(cspace.iBase):
     def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelRegion_GetName  
+    __swig_setmethods__["cachepath"] = _blcelc.iCelRegion_SetCachePath  
+    __swig_getmethods__["cachepath"] = _blcelc.iCelRegion_GetCachePath  
     def __del__(self, destroy=_blcelc.delete_iCelRegion):
         try:
             if self.thisown: destroy(self)
@@ -1583,6 +1612,7 @@ class iCelZone(cspace.iBase):
     def FindRegion(*args): return _blcelc.iCelZone_FindRegion(*args)
     def UnlinkRegion(*args): return _blcelc.iCelZone_UnlinkRegion(*args)
     def UnlinkAllRegions(*args): return _blcelc.iCelZone_UnlinkAllRegions(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelZone_GetName  
     def __del__(self, destroy=_blcelc.delete_iCelZone):
         try:
             if self.thisown: destroy(self)
@@ -1680,6 +1710,8 @@ class iPcCommandInput(cspace.iBase):
     def GetBind(*args): return _blcelc.iPcCommandInput_GetBind(*args)
     def RemoveBind(*args): return _blcelc.iPcCommandInput_RemoveBind(*args)
     def RemoveAllBinds(*args): return _blcelc.iPcCommandInput_RemoveAllBinds(*args)
+    __swig_setmethods__["cookedmode"] = _blcelc.iPcCommandInput_SetCookedMode  
+    __swig_getmethods__["cookedmode"] = _blcelc.iPcCommandInput_GetCookedMode  
     def __del__(self, destroy=_blcelc.delete_iPcCommandInput):
         try:
             if self.thisown: destroy(self)
@@ -1776,6 +1808,19 @@ class iPcLinearMovement(cspace.iBase):
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
     def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
+    __swig_setmethods__["anchor"] = _blcelc.iPcLinearMovement_SetAnchor  
+    __swig_getmethods__["anchor"] = _blcelc.iPcLinearMovement_GetAnchor  
+    __swig_setmethods__["angularvelocity"] = _blcelc.iPcLinearMovement_SetAngularVelocity  
+    __swig_getmethods__["angularvelocity"] = _blcelc.iPcLinearMovement_GetAngularVelocity  
+    __swig_setmethods__["velocity"] = _blcelc.iPcLinearMovement_SetVelocity  
+    __swig_getmethods__["velocity"] = _blcelc.iPcLinearMovement_GetVelocity  
+    __swig_setmethods__["path"] = _blcelc.iPcLinearMovement_SetPath  
+    __swig_getmethods__["path"] = _blcelc.iPcLinearMovement_IsPath  
+    __swig_getmethods__["sector"] = _blcelc.iPcLinearMovement_GetSector  
+    __swig_setmethods__["onground"] = _blcelc.iPcLinearMovement_SetOnGround  
+    __swig_getmethods__["onground"] = _blcelc.iPcLinearMovement_IsOnGround  
+    __swig_setmethods__["gravity"] = _blcelc.iPcLinearMovement_SetGravity  
+    __swig_getmethods__["gravity"] = _blcelc.iPcLinearMovement_GetGravity  
     def __del__(self, destroy=_blcelc.delete_iPcLinearMovement):
         try:
             if self.thisown: destroy(self)
@@ -1834,54 +1879,30 @@ class iPcActorMove(cspace.iBase):
     def GetRotationSpeed(*args): return _blcelc.iPcActorMove_GetRotationSpeed(*args)
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
-    __swig_setmethods__["forward"] = _blcelc.iPcActorMove_Forward
-
-    __swig_getmethods__["forward"] = _blcelc.iPcActorMove_IsMovingForward
-
-    __swig_setmethods__["backward"] = _blcelc.iPcActorMove_Backward
-
-    __swig_getmethods__["backward"] = _blcelc.iPcActorMove_IsMovingBackward
-
-    __swig_setmethods__["strafeleft"] = _blcelc.iPcActorMove_StrafeLeft
-
-    __swig_getmethods__["strafeleft"] = _blcelc.iPcActorMove_IsStrafingLeft
-
-    __swig_setmethods__["straferight"] = _blcelc.iPcActorMove_StrafeRight
-
-    __swig_getmethods__["straferight"] = _blcelc.iPcActorMove_IsStrafingRight
-
-    __swig_setmethods__["rotateleft"] = _blcelc.iPcActorMove_RotateLeft
-
-    __swig_getmethods__["rotateleft"] = _blcelc.iPcActorMove_IsRotatingLeft
-
-    __swig_setmethods__["rotateright"] = _blcelc.iPcActorMove_RotateRight
-
-    __swig_getmethods__["rotateright"] = _blcelc.iPcActorMove_IsRotatingRight
-
-    __swig_setmethods__["run"] = _blcelc.iPcActorMove_Run
-
-    __swig_getmethods__["run"] = _blcelc.iPcActorMove_IsRunning
-
-    __swig_setmethods__["autorun"] = _blcelc.iPcActorMove_AutoRun
-
-    __swig_getmethods__["autorun"] = _blcelc.iPcActorMove_IsAutoRunning
-
-    __swig_setmethods__["movementspeed"] = _blcelc.iPcActorMove_SetMovementSpeed
-
-    __swig_getmethods__["movementspeed"] = _blcelc.iPcActorMove_GetMovementSpeed
-
-    __swig_setmethods__["runningspeed"] = _blcelc.iPcActorMove_SetRunningSpeed
-
-    __swig_getmethods__["runningspeed"] = _blcelc.iPcActorMove_GetRunningSpeed
-
-    __swig_setmethods__["rotationspeed"] = _blcelc.iPcActorMove_SetRotationSpeed
-
-    __swig_getmethods__["rotationspeed"] = _blcelc.iPcActorMove_GetRotationSpeed
-
-    __swig_setmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_SetJumpingVelocity
-
-    __swig_getmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_GetJumpingVelocity
-
+    __swig_setmethods__["forward"] = _blcelc.iPcActorMove_Forward  
+    __swig_getmethods__["forward"] = _blcelc.iPcActorMove_IsMovingForward  
+    __swig_setmethods__["backward"] = _blcelc.iPcActorMove_Backward  
+    __swig_getmethods__["backward"] = _blcelc.iPcActorMove_IsMovingBackward  
+    __swig_setmethods__["strafeleft"] = _blcelc.iPcActorMove_StrafeLeft  
+    __swig_getmethods__["strafeleft"] = _blcelc.iPcActorMove_IsStrafingLeft  
+    __swig_setmethods__["straferight"] = _blcelc.iPcActorMove_StrafeRight  
+    __swig_getmethods__["straferight"] = _blcelc.iPcActorMove_IsStrafingRight  
+    __swig_setmethods__["rotateleft"] = _blcelc.iPcActorMove_RotateLeft  
+    __swig_getmethods__["rotateleft"] = _blcelc.iPcActorMove_IsRotatingLeft  
+    __swig_setmethods__["rotateright"] = _blcelc.iPcActorMove_RotateRight  
+    __swig_getmethods__["rotateright"] = _blcelc.iPcActorMove_IsRotatingRight  
+    __swig_setmethods__["run"] = _blcelc.iPcActorMove_Run  
+    __swig_getmethods__["run"] = _blcelc.iPcActorMove_IsRunning  
+    __swig_setmethods__["autorun"] = _blcelc.iPcActorMove_AutoRun  
+    __swig_getmethods__["autorun"] = _blcelc.iPcActorMove_IsAutoRunning  
+    __swig_setmethods__["movementspeed"] = _blcelc.iPcActorMove_SetMovementSpeed  
+    __swig_getmethods__["movementspeed"] = _blcelc.iPcActorMove_GetMovementSpeed  
+    __swig_setmethods__["runningspeed"] = _blcelc.iPcActorMove_SetRunningSpeed  
+    __swig_getmethods__["runningspeed"] = _blcelc.iPcActorMove_GetRunningSpeed  
+    __swig_setmethods__["rotationspeed"] = _blcelc.iPcActorMove_SetRotationSpeed  
+    __swig_getmethods__["rotationspeed"] = _blcelc.iPcActorMove_GetRotationSpeed  
+    __swig_setmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_SetJumpingVelocity  
+    __swig_getmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_GetJumpingVelocity  
     def __del__(self, destroy=_blcelc.delete_iPcActorMove):
         try:
             if self.thisown: destroy(self)
@@ -1935,6 +1956,12 @@ class iPcCamera(cspace.iBase):
     def Draw(*args): return _blcelc.iPcCamera_Draw(*args)
     def UpdateCamera(*args): return _blcelc.iPcCamera_UpdateCamera(*args)
     def GetDrawFlags(*args): return _blcelc.iPcCamera_GetDrawFlags(*args)
+    __swig_getmethods__["camera"] = _blcelc.iPcCamera_GetCamera  
+    __swig_getmethods__["view"] = _blcelc.iPcCamera_GetView  
+    __swig_setmethods__["clearzbuffer"] = _blcelc.iPcCamera_SetClearZBuffer  
+    __swig_getmethods__["clearzbuffer"] = _blcelc.iPcCamera_GetClearZBuffer  
+    __swig_setmethods__["clearscreen"] = _blcelc.iPcCamera_SetClearScreen  
+    __swig_getmethods__["clearscreen"] = _blcelc.iPcCamera_GetClearScreen  
     def __del__(self, destroy=_blcelc.delete_iPcCamera):
         try:
             if self.thisown: destroy(self)
@@ -2000,6 +2027,16 @@ class iPcDefaultCamera(iPcCamera):
     def SetYawVelocity(*args): return _blcelc.iPcDefaultCamera_SetYawVelocity(*args)
     def GetYawVelocity(*args): return _blcelc.iPcDefaultCamera_GetYawVelocity(*args)
     def SetDistance(*args): return _blcelc.iPcDefaultCamera_SetDistance(*args)
+    __swig_setmethods__["yaw"] = _blcelc.iPcDefaultCamera_SetYaw  
+    __swig_getmethods__["yaw"] = _blcelc.iPcDefaultCamera_GetYaw  
+    __swig_setmethods__["pitch"] = _blcelc.iPcDefaultCamera_SetPitch  
+    __swig_getmethods__["pitch"] = _blcelc.iPcDefaultCamera_GetPitch  
+    __swig_setmethods__["yaw_vel"] = _blcelc.iPcDefaultCamera_SetYawVelocity  
+    __swig_getmethods__["yaw_vel"] = _blcelc.iPcDefaultCamera_GetYawVelocity  
+    __swig_setmethods__["pitch_vel"] = _blcelc.iPcDefaultCamera_SetPitchVelocity  
+    __swig_getmethods__["pitch_vel"] = _blcelc.iPcDefaultCamera_GetPitchVelocity  
+    __swig_setmethods__["mode"] = _blcelc.iPcDefaultCamera_SetModeName  
+    __swig_getmethods__["mode"] = _blcelc.iPcDefaultCamera_GetModeName  
     def __del__(self, destroy=_blcelc.delete_iPcDefaultCamera):
         try:
             if self.thisown: destroy(self)
@@ -2119,6 +2156,26 @@ class iPcMeshSelect(cspace.iBase):
     def HasSenddownEvent(*args): return _blcelc.iPcMeshSelect_HasSenddownEvent(*args)
     def SetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_SetMaxSelectionDistance(*args)
     def GetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_GetMaxSelectionDistance(*args)
+    __swig_setmethods__["mousebuttons"] = _blcelc.iPcMeshSelect_SetMouseButtons  
+    __swig_getmethods__["mousebuttons"] = _blcelc.iPcMeshSelect_GetMouseButtons  
+    __swig_setmethods__["global"] = _blcelc.iPcMeshSelect_SetGlobalSelection  
+    __swig_getmethods__["global"] = _blcelc.iPcMeshSelect_HasGlobalSelection  
+    __swig_setmethods__["follow"] = _blcelc.iPcMeshSelect_SetFollowMode  
+    __swig_getmethods__["follow"] = _blcelc.iPcMeshSelect_HasFollowMode  
+    __swig_setmethods__["followalways"] = _blcelc.iPcMeshSelect_SetFollowAlwaysMode  
+    __swig_getmethods__["followalways"] = _blcelc.iPcMeshSelect_HasFollowAlwaysMode  
+    __swig_setmethods__["drag"] = _blcelc.iPcMeshSelect_SetDragMode  
+    __swig_getmethods__["drag"] = _blcelc.iPcMeshSelect_HasDragMode  
+    __swig_setmethods__["dragnormal"] = _blcelc.iPcMeshSelect_SetDragPlaneNormal  
+    __swig_getmethods__["dragnormal"] = _blcelc.iPcMeshSelect_GetDragPlaneNormal  
+    __swig_setmethods__["moveevent"] = _blcelc.iPcMeshSelect_SetSendmoveEvent  
+    __swig_getmethods__["moveevent"] = _blcelc.iPcMeshSelect_HasSendmoveEvent  
+    __swig_setmethods__["moveup"] = _blcelc.iPcMeshSelect_SetSendupEvent  
+    __swig_getmethods__["moveup"] = _blcelc.iPcMeshSelect_HasSendupEvent  
+    __swig_setmethods__["movedown"] = _blcelc.iPcMeshSelect_SetSenddownEvent  
+    __swig_getmethods__["movedown"] = _blcelc.iPcMeshSelect_HasSenddownEvent  
+    __swig_setmethods__["distance"] = _blcelc.iPcMeshSelect_SetMaxSelectionDistance  
+    __swig_getmethods__["distance"] = _blcelc.iPcMeshSelect_GetMaxSelectionDistance  
     def __del__(self, destroy=_blcelc.delete_iPcMeshSelect):
         try:
             if self.thisown: destroy(self)
@@ -2162,6 +2219,7 @@ class iPcMesh(cspace.iBase):
     def Hide(*args): return _blcelc.iPcMesh_Hide(*args)
     def Show(*args): return _blcelc.iPcMesh_Show(*args)
     def IsVisible(*args): return _blcelc.iPcMesh_IsVisible(*args)
+    __swig_getmethods__["mesh"] = _blcelc.iPcMesh_GetMesh  
     def __del__(self, destroy=_blcelc.delete_iPcMesh):
         try:
             if self.thisown: destroy(self)
