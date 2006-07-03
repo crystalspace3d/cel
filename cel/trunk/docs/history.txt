@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	  and entities through python list-like interfaces.
 	- caedes added iCelPropertyClassFactory wrappers to the python
 	  bindings.
+	- cfraz89 added more Get/Set Methods up until movable,
+	  and attempted to create fake array for iPcInventory (needs testing).
 2-Jul-2006
         - cfraz89 worked on python bl:
           completed get/set methods in for iCelPlLayer and iCelEntity,

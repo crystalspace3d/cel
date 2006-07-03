@@ -584,11 +584,20 @@ CEL_PC(iPcTimer, Timer, pctimer)
 %include "propclass/solid.h"
 CEL_PC(iPcSolid, Solid, pcsolid)
 
+GETTER_METHOD(iPcSolid,"collider", GetCollider)
+GETSET_METHODS(iPcSolid,"mesh", Mesh)
+
 //-----------------------------------------------------------------------------
 
 %rename(CreateGravityColliderFromMesh) iPcGravity::CreateGravityCollider;
 %include "propclass/gravity.h"
 CEL_PC(iPcGravity, Gravity, pcgravity)
+
+GETTER_METHOD(iPcGravity,"gravitycollider", GetGravityCollider)
+GETSET_METHODS(iPcGravity,"solid", Solid)
+GETSET_METHODS(iPcGravity,"weight", Weight)
+GETSET_METHODS2(iPcGravity,"active", IsActive, SetActive)
+GETSET_METHODS(iPcGravity,"movable", Movable)
 
 //-----------------------------------------------------------------------------
 
@@ -596,10 +605,21 @@ CEL_PC(iPcGravity, Gravity, pcgravity)
 %include "propclass/move.h"
 CEL_PC(iPcMovable, Movable, pcmovable)
 
+GETSET_METHODS(iPcMovable,"mesh", Mesh)
+
 //-----------------------------------------------------------------------------
 
 %include "propclass/inv.h"
 CEL_PC(iPcInventory, Inventory, pcinventory)
+
+CEL_FAKE_ARRAY(iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity)
+
+%extend iPcInventory {
+	%pythoncode %{
+	def GetEntities(self): return iCelEntityPyFakeArray(self)
+	__swig_getmethods__["entities"] = lambda self: self.GetEntities() %}
+}
+
 
 //-----------------------------------------------------------------------------
 
