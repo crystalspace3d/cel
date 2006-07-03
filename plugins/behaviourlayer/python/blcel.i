@@ -173,6 +173,18 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
+// extension to create a parameter block from a dict.
+%extend iCelPlLayer {
+	%pythoncode %{
+	def CreateParameterBlock(self,valdict):
+		parblock = celGenericParameterBlock(len(valdict))
+		for idx,valkey in enumerate(valdict):
+			keyid = self.FetchStringID("cel.parameter."+valkey)
+			parblock.SetParameterDef (idx,keyid,valkey)
+			parblock[keyid] = valdict[valkey]
+		return parblock
+	%}
+}
 
 GETTER_METHOD(iCelPlLayer,"entitytemplatecount",GetEntityTemplateCount)
 GETTER_METHOD(iCelPlLayer,"entitycount",GetEntityCount)
