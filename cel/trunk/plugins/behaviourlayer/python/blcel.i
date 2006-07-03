@@ -173,7 +173,7 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
-// extension to create a parameter block from a dict.
+// extension to create a parameter block from a dict, list or tuple.
 %extend iCelPlLayer {
 	%pythoncode %{
 	def CreateParameterBlock(self,valdict):
@@ -181,7 +181,8 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 		for idx,valkey in enumerate(valdict):
 			keyid = self.FetchStringID("cel.parameter."+valkey)
 			parblock.SetParameterDef (idx,keyid,valkey)
-			parblock[keyid] = valdict[valkey]
+			if type(valdict) == type({}):
+				parblock[keyid] = valdict[valkey]
 		return parblock
 	%}
 }
