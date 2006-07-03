@@ -151,9 +151,9 @@ GETTER_METHOD(classname, varname, Get ## parname)
 //-----------------------------------------------------------------------------
 
 // this serves to wrap list methods in classes as a fake array.
-%define CEL_FAKE_ARRAY(contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
+%define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
 %pythoncode %{
-class contenttype ## PyFakeArray:
+class contenttype ## pref ## FakeArray:
 	def __init__(self,parent): self.parent = parent
 	def __contains__(self,obj):
 		if self.parent.findmethod(obj): return True
@@ -219,29 +219,29 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 		return parblock	%}
 }
 // fake arrays to handle stuff managed by the physical layer.
-// iCelEntityTemplatePyFakeArray
-CEL_FAKE_ARRAY(iCelEntityTemplate,GetEntityTemplateCount,
+// iCelEntityTemplatePlFakeArray
+CEL_FAKE_ARRAY(Pl,iCelEntityTemplate,GetEntityTemplateCount,
 	GetEntityTemplateByIndex,FindEntityTemplate,RemoveEntityTemplate,__noappend__)
 
-// iCelEntityPyFakeArray
-CEL_FAKE_ARRAY(iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
+// iCelEntityPlFakeArray
+CEL_FAKE_ARRAY(Pl,iCelEntity,GetEntityCount,GetEntityByIndex,FindEntity,RemoveEntity,__noappend__)
 
-// iCelBlLayerPyFakeArray
-CEL_FAKE_ARRAY(iCelBlLayer,GetBehaviourLayerCount,GetBehaviourLayer,
+// iCelBlLayerPlFakeArray
+CEL_FAKE_ARRAY(Pl,iCelBlLayer,GetBehaviourLayerCount,GetBehaviourLayer,
 	       FindBehaviourLayer,UnregisterBehaviourLayer,
 	       RegisterBehaviourLayer)
 
-// iCelPropertyClassFactoryPyFakeArray
-CEL_FAKE_ARRAY(iCelPropertyClassFactory,GetPropertyClassFactoryCount,
+// iCelPropertyClassFactoryPlFakeArray
+CEL_FAKE_ARRAY(Pl,iCelPropertyClassFactory,GetPropertyClassFactoryCount,
 	       GetPropertyClassFactory,FindPropertyClassFactory,
 	       UnregisterPropertyClassFactory,LoadPropertyClassFactory)
 
 %extend iCelPlLayer {
 	%pythoncode %{
-	def GetEntities(self): return iCelEntityPyFakeArray(self)
-	def GetEntityTemplates(self): return iCelEntityTemplatePyFakeArray(self)
-	def GetPcFactories(self): return iCelPropertyClassFactoryPyFakeArray(self)
-	def GetBehaviourLayers(self): return iCelBlLayerPyFakeArray(self)
+	def GetEntities(self): return iCelEntityPlFakeArray(self)
+	def GetEntityTemplates(self): return PliCelEntityTemplatePlFakeArray(self)
+	def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
+	def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
 	__swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
 	__swig_getmethods__["pcfactories"] = lambda self: self.GetPcFactories()
 	__swig_getmethods__["behaviourlayers"] = lambda self: self.GetBehaviourLayers()
@@ -612,11 +612,12 @@ GETSET_METHODS(iPcMovable,"mesh", Mesh)
 %include "propclass/inv.h"
 CEL_PC(iPcInventory, Inventory, pcinventory)
 
-CEL_FAKE_ARRAY(iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity)
+// iCelEntityInvFakeArray
+CEL_FAKE_ARRAY(Inv,iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity)
 
 %extend iPcInventory {
 	%pythoncode %{
-	def GetEntities(self): return iCelEntityPyFakeArray(self)
+	def GetEntities(self): return iCelEntityInvFakeArray(self)
 	__swig_getmethods__["entities"] = lambda self: self.GetEntities() %}
 }
 
