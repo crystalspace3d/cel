@@ -2,6 +2,7 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
 3-Jul-2006
 	- caedes added CreateParameterBlock(pydict) extension to iCelPlLayer
 	  in the python wrappers. This gets a dict and converts it to a
@@ -15,6 +16,9 @@ The history order is reversed so that new features are at the top.
 	  bindings.
 	- cfraz89 added more Get/Set Methods up until movable,
 	  and attempted to create fake array for iPcInventory (needs testing).
+	- res removed the now-unneeded -Wno-non-virtual-dtor detection.
+	- res added detection of the -fvisibility=hidden compiler flag to
+	  configure.
 2-Jul-2006
         - cfraz89 worked on python bl:
           completed get/set methods in for iCelPlLayer and iCelEntity,
