@@ -19,7 +19,7 @@
 
 #ifndef __CEL_TOOLS_CELCONSOLE__
 #define __CEL_TOOLS_CELCONSOLE__
-
+#define CELPROMPT "cel> "
 #include "csutil/util.h"
 #include "csutil/hash.h"
 #include "csutil/weakrefarr.h"
@@ -71,9 +71,9 @@ private:
   csRef<iCelEntity> console_entity;
 
   csHash<csRef<iCelConsoleCommand>, csStrKey> commands;
+  csRef<iCelConsoleCommand> override;
   celSnapshot* snapshot;
 
-  iCelPlLayer* GetPL ();
   iCelEntity* GetConsoleEntity ();
   iCelExpressionParser* GetParser ();
 
@@ -82,7 +82,9 @@ public:
   virtual ~celConsole ();
   virtual bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
-
+  iCelPlLayer* GetPL ();
+  void SetOverrideCommand (iCelConsoleCommand *override_cmd,
+		  	   const char*prompt=CELPROMPT);
   void Execute (const char* cmd);
   void ListCommands ();
   void HelpCommand (const char* cmd);
