@@ -117,6 +117,11 @@ struct iPcWheeled : public virtual iBase
   virtual void SetSteerAmount(float amount) = 0;
 
  /**
+  * Set the force at which the vehicle brakes.
+  */
+  virtual void SetBrakeForce(float force) = 0;
+
+ /**
   * Get the tightness of the vehicle's turning.
   */
   virtual float GetSteerAmount() = 0;

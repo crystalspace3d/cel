@@ -82,7 +82,7 @@ private:
   static size_t propertycount;
   static void UpdateProperties (iObjectRegistry* object_reg);
 
-  int numbergears;
+  float brakeforce;
   int gear;
   int numberwheels;
   bool autotransmission;
@@ -123,14 +123,12 @@ public:
   virtual void Initialise();
   virtual void SetWheelMesh(const char* file, const char* factname);
   virtual void SetSteeringMode(int steeringmode);
-  virtual int GetSteeringMode(){return steeringmode;};
   virtual int AddWheel(csVector3 position);
   virtual void RemoveWheel(int wheelnum);
   virtual void Accelerate();
   virtual void Brake();
   virtual void HandBrake();
   virtual void SetSteerAmount(float amount){steeramount=amount;};
-  virtual float GetSteerAmount(){return steeramount;};
   virtual void SteerLeft();
   virtual void SteerRight();
   virtual void UpdateSteer();
@@ -139,13 +137,16 @@ public:
   virtual void Roll();
   virtual void SetAutoTransmission(bool auto);
   virtual void SetGear(int gear);
-  virtual int GetGear(){return gear;};
   virtual void SetGearSettings(int gear,float velocity, float force);
+  virtual void SetBrakeForce(float force){brakeforce=force;};
   virtual void SetNumberGears(int number);
-  virtual int GetNumberGears() {return gears.Length();};
 
   //The getter functions
   virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
+  virtual int GetNumberGears() {return gears.Length();};
+  virtual int GetGear(){return gear;};
+  virtual float GetSteerAmount(){return steeramount;};
+  virtual int GetSteeringMode(){return steeringmode;};
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();

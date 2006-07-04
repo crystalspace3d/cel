@@ -75,8 +75,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   counter = 0;
   max = 0;
 
-  numbergears=1;
-  gear=1;
+  gear=0;
   numberwheels=0;
   steering=false;
   autotransmission=true;
@@ -91,14 +90,16 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   tempsteeramount=0;
   currentsteerangle=0;
 
-//Gear 0 is reverse
-  gears.SetSize(2);
-  SetGearSettings(0,-25,1000);
-  SetGearSettings(1,100,1000);
+//Gear -1 is reverse, 0 is neutral
+  SetNumberGears(1);
+  SetGearSettings(-1,-25,3000);
+  SetGearSettings(0,0,100);
+  SetGearSettings(1,150,2000);
+  brakeforce=1000;
 
   steeringmode=CEL_WHEELED_FRONT_STEER;
 
-  pl->CallbackOnce ((iCelTimerListener*)this, 30, CEL_EVENT_PRE);
+  pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 
 celPcWheeled::~celPcWheeled ()
@@ -303,7 +304,7 @@ void celPcWheeled::RemoveWheel(int wheelnum)
 
 void celPcWheeled::Accelerate()
 {
-  accelerating=true;
+  gear=1;
 }
 
 void celPcWheeled::Brake()
@@ -413,32 +414,22 @@ void celPcWheeled::UpdateSteer()
 //Update the vehicle. Order is important here! steering and braking must come after accelerating and reversing.
 void celPcWheeled::TickOnce()
 {
-  if (autotransmission)
-    UpdateGear();
 
-  if(accelerating)
-  {
-    for(size_t i=0; i < wheels.Length();i++)
+  if(gear>0)
+      UpdateGear();
+
+ for(size_t i=0; i < wheels.Length();i++)
     {
-      wheels[i].WheelJoint->SetVel(gears[gear].x,1);
-      wheels[i].WheelJoint->SetFMax(gears[gear].y,1);
+      wheels[i].WheelJoint->SetVel(gears[gear+1].x,1);
+      wheels[i].WheelJoint->SetFMax(gears[gear+1].y,1);
     }
-  }
-  
-  if(reversing)
-  {
-    for(size_t i=0; i < wheels.Length();i++)
-    {
-      wheels[i].WheelJoint->SetVel(gears[0].x , 1);
-      wheels[i].WheelJoint->SetFMax(gears[0].y , 1);
-    }
-  }
+
   if(braking)
   {
     for(size_t i=0; i < wheels.Length();i++)
     {
       wheels[i].WheelJoint->SetVel(0,1);
-      wheels[i].WheelJoint->SetFMax(300,1);
+      wheels[i].WheelJoint->SetFMax(brakeforce,1);
     }
   }
   
@@ -448,19 +439,12 @@ void celPcWheeled::TickOnce()
 
 void celPcWheeled::Reverse()
 {
-  reversing=true;
+  gear=-1;
 }
 
 void celPcWheeled::Roll()
 {
-  accelerating=false;
-  braking=false;
-  reversing=false;
-  for(size_t i=0; i < wheels.Length();i++)
-  {
-    wheels[i].WheelJoint->SetVel(0 , 1);
-    wheels[i].WheelJoint->SetFMax(300 , 1);
-  }
+  gear=0;
 }
 
 void celPcWheeled::SetAutoTransmission(bool autotransmission)
@@ -470,31 +454,31 @@ void celPcWheeled::SetAutoTransmission(bool autotransmission)
 
 void celPcWheeled::SetGear(int gear)
 {
-  celPcWheeled::gear=gear;
+  if (gear>=-1 && gear <= (int)gears.Length()-1)
+    celPcWheeled::gear=gear;
 }
 
 void celPcWheeled::SetGearSettings(int gear, float velocity, float force)
 {
-  if (gear < (int)gears.Length())
+  if (gear >=-1 && gear < (int)gears.Length()-1)
   {
-    gears.Get(gear).x=velocity;
-    gears.Get(gear).y=force;
+    gears[gear+1].x=velocity;
+    gears[gear+1].y=force;
   }
 }
 
 void celPcWheeled::SetNumberGears(int number)
 {
-  gears.SetSize(number+1);
+  gears.SetSize(number+2);
 }
 
 void celPcWheeled::UpdateGear()
 {
-  for(int i=0; i < (int)gears.Length()-1; i++)
+  for(int i=1; i < (int)gears.Length()-2; i++)
   {
     if (bodyMech->GetBody()->GetLinearVelocity().Norm()
-        >= (gears[i].x)*wheelradius*wheelradius*3.14-2 )
+        >= (gears[i+1].x)*wheelradius*wheelradius*3.14-2 )
     {
-
       gear=i+1;
     }
   }
