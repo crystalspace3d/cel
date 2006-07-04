@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	  celconsole in python mode, so that all that is written will be
 	  parsed as python commands. Normal behaviour can be resumed then by
 	  writing 'exit'.
+	- Genjix added the sound_paused function to xml script to test
+	  whether a sound stream is paused or not.
 3-Jul-2006
 	- caedes added CreateParameterBlock(pydict) extension to iCelPlLayer
 	  in the python wrappers. This gets a dict and converts it to a

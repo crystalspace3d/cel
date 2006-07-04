@@ -137,6 +137,7 @@ enum
   XMLFUNCTION_INVENTORY_FIND,
   XMLFUNCTION_INVENTORY_FINDNAME,
   XMLFUNCTION_SOUND,
+  XMLFUNCTION_SOUNDPAUSED,
   XMLFUNCTION_STRSUB,
   XMLFUNCTION_STRIDX,
   XMLFUNCTION_STRLEN,
@@ -283,6 +284,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("inventory_inname", XMLFUNCTION_INVENTORY_INNAME);
   functions.Register ("inventory_findname", XMLFUNCTION_INVENTORY_FINDNAME);
   functions.Register ("sound", XMLFUNCTION_SOUND);
+  functions.Register ("sound_paused", XMLFUNCTION_SOUNDPAUSED);
   functions.Register ("strlen", XMLFUNCTION_STRLEN);
   functions.Register ("strsub", XMLFUNCTION_STRSUB);
   functions.Register ("stridx", XMLFUNCTION_STRIDX);
@@ -617,6 +619,13 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
 	h->AddOperation (CEL_OPERATION_SOUNDFUN);
+      }
+      break;
+    case XMLFUNCTION_SOUNDPAUSED:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUNDPAUSED);
       }
       break;
     case XMLFUNCTION_STRSUB:
