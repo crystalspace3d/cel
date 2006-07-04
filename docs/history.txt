@@ -2,7 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+5-Jul-2006
+        - cfraz89 added a neutral gear (0) to pcwheeled, and a SetBrakeForce()
+          function. Reverse gear is now -1.
 4-Jul-2006
 	- caedes added celconsole to the swig interface file, and some
 	  helper classes to redirect python stderr/stdout to it.
