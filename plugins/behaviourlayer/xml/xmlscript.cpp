@@ -4648,6 +4648,28 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
         break;
+      case CEL_OPERATION_SOUNDPAUSED:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: sound_paused (%s)\n",
+		i-1, A2S (top)));
+	  iBase* src_ibase = ArgToIBase (top);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  int pause = sound_source->GetStream ()->GetPauseState ();
+	  if (pause == CS_SNDSYS_STREAM_PAUSED)
+	    top.Set (true);
+	  //else if (pause == CS_SNDSYS_STREAM_UNPAUSED)
+	  //  top.Set (0);
+	  else
+	    top.Set (false);
+	}
+        break;
       case CEL_OPERATION_SOUND_STOP:
 	{
 	  CHECK_STACK(1)
