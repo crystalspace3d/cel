@@ -421,10 +421,24 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
-    __swig_getmethods__["entitytemplatecount"] = _blcelc.iCelPlLayer_GetEntityTemplateCount  
-    __swig_getmethods__["entitycount"] = _blcelc.iCelPlLayer_GetEntityCount  
-    __swig_getmethods__["propertyclassfactorycount"] = _blcelc.iCelPlLayer_GetPropertyClassFactoryCount  
-    __swig_getmethods__["behaviourlayercount"] = _blcelc.iCelPlLayer_GetBehaviourLayerCount  
+    def CreateParameterBlock(self,valdict):
+    	"""Create a celGenericParameterBlock from a dict, list or 
+    	tuple"""
+    	parblock = celGenericParameterBlock(len(valdict))
+    	for idx,valkey in enumerate(valdict):
+    		keyid = self.FetchStringID("cel.parameter."+valkey)
+    		parblock.SetParameterDef (idx,keyid,valkey)
+    		if type(valdict) == type({}):
+    			parblock[keyid] = valdict[valkey]
+    	return parblock	
+    def GetEntities(self): return iCelEntityPlFakeArray(self)
+    def GetEntityTemplates(self): return PliCelEntityTemplatePlFakeArray(self)
+    def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
+    def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
+    __swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
+    __swig_getmethods__["pcfactories"] = lambda self: self.GetPcFactories()
+    __swig_getmethods__["behaviourlayers"] = lambda self: self.GetBehaviourLayers()
+    __swig_getmethods__["entities"] = lambda self: self.GetEntities() 
     def __del__(self, destroy=_blcelc.delete_iCelPlLayer):
         try:
             if self.thisown: destroy(self)
@@ -469,6 +483,102 @@ _blcelc.iCelEntityTracker_swigregister(iCelEntityTrackerPtr)
 
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
+class iCelEntityTemplatePlFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.FindEntityTemplate(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelEntityTemplate")
+	def __len__(self): return self.parent.GetEntityTemplateCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.FindEntityTemplate(val)
+			if obj: return self.parent.RemoveEntityTemplate(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.RemoveEntityTemplate(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetEntityTemplateByIndex(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
+		else: return self.parent.GetEntityTemplateByIndex(val)
+	def append(self,obj): return self.parent.__noappend__(obj)	
+
+class iCelEntityPlFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.FindEntity(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelEntity")
+	def __len__(self): return self.parent.GetEntityCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.FindEntity(val)
+			if obj: return self.parent.RemoveEntity(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.RemoveEntity(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetEntityByIndex(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.FindEntity(val)
+		else: return self.parent.GetEntityByIndex(val)
+	def append(self,obj): return self.parent.__noappend__(obj)	
+
+class iCelBlLayerPlFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.FindBehaviourLayer(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelBlLayer")
+	def __len__(self): return self.parent.GetBehaviourLayerCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.FindBehaviourLayer(val)
+			if obj: return self.parent.UnregisterBehaviourLayer(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.UnregisterBehaviourLayer(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetBehaviourLayer(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.FindBehaviourLayer(val)
+		else: return self.parent.GetBehaviourLayer(val)
+	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)	
+
+class iCelPropertyClassFactoryPlFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.FindPropertyClassFactory(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelPropertyClassFactory")
+	def __len__(self): return self.parent.GetPropertyClassFactoryCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.FindPropertyClassFactory(val)
+			if obj: return self.parent.UnregisterPropertyClassFactory(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.UnregisterPropertyClassFactory(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetPropertyClassFactory(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.FindPropertyClassFactory(val)
+		else: return self.parent.GetPropertyClassFactory(val)
+	def append(self,obj): return self.parent.LoadPropertyClassFactory(obj)	
+
 class iCelEntity(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -498,7 +608,7 @@ class iCelEntity(cspace.iBase):
     __swig_getmethods__["id"] = _blcelc.iCelEntity_GetID  
     __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour  
     __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour  
-    __swig_getmethods__["propertyclasslist"] = _blcelc.iCelEntity_GetPropertyClassList  
+    __swig_getmethods__["pcclasses"] = _blcelc.iCelEntity_GetPropertyClassList  
     __swig_getmethods__["classes"] = _blcelc.iCelEntity_GetClasses  
     def __del__(self, destroy=_blcelc.delete_iCelEntity):
         try:
@@ -813,6 +923,32 @@ class celOneParameterBlockPtr(celOneParameterBlock):
         if not hasattr(self,"thisown"): _swig_setattr(self, celOneParameterBlock, 'thisown', 0)
         _swig_setattr(self, celOneParameterBlock,self.__class__,celOneParameterBlock)
 _blcelc.celOneParameterBlock_swigregister(celOneParameterBlockPtr)
+
+class iCelPropertyClassFactory(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassFactory, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassFactory, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelPropertyClassFactory instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetName(*args): return _blcelc.iCelPropertyClassFactory_GetName(*args)
+    def CreatePropertyClass(*args): return _blcelc.iCelPropertyClassFactory_CreatePropertyClass(*args)
+    __swig_getmethods__["name"] = _blcelc.iCelPropertyClassFactory_GetName  
+    def __del__(self, destroy=_blcelc.delete_iCelPropertyClassFactory):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelPropertyClassFactoryPtr(iCelPropertyClassFactory):
+    def __init__(self, this):
+        _swig_setattr(self, iCelPropertyClassFactory, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelPropertyClassFactory, 'thisown', 0)
+        _swig_setattr(self, iCelPropertyClassFactory,self.__class__,iCelPropertyClassFactory)
+_blcelc.iCelPropertyClassFactory_swigregister(iCelPropertyClassFactoryPtr)
 
 class iCelPropertyClass(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2288,6 +2424,9 @@ class iPcSolid(cspace.iBase):
     def SetMesh(*args): return _blcelc.iPcSolid_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcSolid_GetMesh(*args)
     def GetCollider(*args): return _blcelc.iPcSolid_GetCollider(*args)
+    __swig_getmethods__["collider"] = _blcelc.iPcSolid_GetCollider  
+    __swig_setmethods__["mesh"] = _blcelc.iPcSolid_SetMesh  
+    __swig_getmethods__["mesh"] = _blcelc.iPcSolid_GetMesh  
     def __del__(self, destroy=_blcelc.delete_iPcSolid):
         try:
             if self.thisown: destroy(self)
@@ -2335,6 +2474,15 @@ class iPcGravity(cspace.iBase):
     def IsResting(*args): return _blcelc.iPcGravity_IsResting(*args)
     def SetActive(*args): return _blcelc.iPcGravity_SetActive(*args)
     def IsActive(*args): return _blcelc.iPcGravity_IsActive(*args)
+    __swig_getmethods__["gravitycollider"] = _blcelc.iPcGravity_GetGravityCollider  
+    __swig_setmethods__["solid"] = _blcelc.iPcGravity_SetSolid  
+    __swig_getmethods__["solid"] = _blcelc.iPcGravity_GetSolid  
+    __swig_setmethods__["weight"] = _blcelc.iPcGravity_SetWeight  
+    __swig_getmethods__["weight"] = _blcelc.iPcGravity_GetWeight  
+    __swig_setmethods__["active"] = _blcelc.iPcGravity_SetActive  
+    __swig_getmethods__["active"] = _blcelc.iPcGravity_IsActive  
+    __swig_setmethods__["movable"] = _blcelc.iPcGravity_SetMovable  
+    __swig_getmethods__["movable"] = _blcelc.iPcGravity_GetMovable  
     def __del__(self, destroy=_blcelc.delete_iPcGravity):
         try:
             if self.thisown: destroy(self)
@@ -2376,6 +2524,8 @@ class iPcMovable(cspace.iBase):
     def AddConstraint(*args): return _blcelc.iPcMovable_AddConstraint(*args)
     def RemoveConstraint(*args): return _blcelc.iPcMovable_RemoveConstraint(*args)
     def RemoveAllConstraints(*args): return _blcelc.iPcMovable_RemoveAllConstraints(*args)
+    __swig_setmethods__["mesh"] = _blcelc.iPcMovable_SetMesh  
+    __swig_getmethods__["mesh"] = _blcelc.iPcMovable_GetMesh  
     def __del__(self, destroy=_blcelc.delete_iPcMovable):
         try:
             if self.thisown: destroy(self)
@@ -2538,6 +2688,8 @@ class iPcInventory(cspace.iBase):
     def Dump(*args): return _blcelc.iPcInventory_Dump(*args)
     def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
     def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
+    def GetEntities(self): return iCelEntityInvFakeArray(self)
+    __swig_getmethods__["entities"] = lambda self: self.GetEntities() 
     def __del__(self, destroy=_blcelc.delete_iPcInventory):
         try:
             if self.thisown: destroy(self)
@@ -2559,6 +2711,30 @@ celGetSetInventory = _blcelc.celGetSetInventory
 celGetInventory = _blcelc.celGetInventory
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
+class iCelEntityInvFakeArray:
+	def __init__(self,parent): self.parent = parent
+	def __contains__(self,obj):
+		if self.parent.In(obj): return True
+		else: return False
+	def __repr__(self): return "List of "+str("iCelEntity")
+	def __len__(self): return self.parent.GetEntityCount()
+	def __delitem__(self,val):
+		if type(val) == type(""):
+			obj = self.parent.In(val)
+			if obj: return self.parent.RemoveEntity(obj)
+			else: raise IndexError(val+" not in list")
+		else: return self.parent.RemoveEntity(val)
+	def __noappend__(self,obj):
+		print "Append not supported by this list"
+	def content_iterator(self):
+		for idx in xrange(len(self)):
+			yield self.parent.GetEntity(idx)
+	def __iter__(self): return self.content_iterator()
+	def __getitem__(self,val):
+		if type(val) == type(""): return self.parent.In(val)
+		else: return self.parent.GetEntity(val)
+	def append(self,obj): return self.parent.AddEntity(obj)	
+
 class iPcCharacteristics(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
