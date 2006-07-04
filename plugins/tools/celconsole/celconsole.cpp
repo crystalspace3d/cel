@@ -27,6 +27,7 @@
 #include "ivideo/graph3d.h"
 #include "ivaria/reporter.h"
 #include "ivaria/conin.h"
+#include "ivaria/script.h"
 
 #include "tools/expression.h"
 #include "plugins/tools/celconsole/celconsole.h"
@@ -80,6 +81,76 @@ public:
       parent->HelpCommand (args[1]);
   }
 };
+
+//--------------------------------------------------------------------------
+
+class cmdPython : public scfImplementation1<cmdPython, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+  csRef<iScript> blpython;
+public:
+  cmdPython (celConsole* parent) : scfImplementationType (this), parent (parent)
+  {
+  }
+  virtual ~cmdPython () { }
+  virtual const char* GetCommand () { return "python"; }
+  virtual const char* GetDescription () { return "Set console in python mode."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText ("Usage: python\n");
+  }
+  void PyOverride()
+  {
+    iCelBlLayer *pybl = parent->GetPL()->FindBehaviourLayer("blpython");
+    if (pybl) {
+      blpython = scfQueryInterface<iScript> (pybl);
+      parent->GetOutputConsole ()->PutText(
+	    "Console set in python mode. Write 'exit' to resume normal mode.\n");
+      parent->SetOverrideCommand(this,"pycel> ");
+    }
+    else
+      parent->GetOutputConsole ()->PutText(
+	    "Python bl is not present (can't go into python mode)\n");
+  }
+  void PyCommand(const csStringArray& args)
+  {
+    unsigned int i;
+    csString cmd = args[0];
+    for (i=1;i<args.Length();i++)
+    {
+      cmd+=" ";
+      cmd+=args[i];
+    }
+    blpython->RunText(
+	"__ovr__ = blcelc.CelConsoleOutOverride(blcelc.object_reg_ptr)");
+    blpython->RunText(cmd);
+    blpython->RunText("del __ovr__");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    if (strcmp(args[0],"python")==0)
+      PyOverride();
+    else if(strcmp(args[0],"importall")==0)
+    {
+      blpython->RunText("from cspace import *");
+      blpython->RunText("from blcelc import *");
+      blpython->RunText("pl = physicallayer_ptr");
+      blpython->RunText("oreg = object_reg_ptr");
+      parent->GetOutputConsole ()->PutText( 
+	      "Imported all from cspace and blcelc\n");
+    }
+    else if(strcmp(args[0],"exit")==0)
+    {
+      parent->GetOutputConsole ()->PutText ("Back to normal console mode\n");
+      parent->SetOverrideCommand(0);
+    }
+    else
+      PyCommand (args);
+  }
+};
+
+//--------------------------------------------------------------------------
 
 class cmdListQuest : public scfImplementation1<cmdListQuest, iCelConsoleCommand>
 {
@@ -347,7 +418,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
     return false;
   }
   conin->Bind (conout);
-  conin->SetPrompt ("cel> ");
+  conin->SetPrompt (CELPROMPT);
   ConsoleExecCallback* cb = new ConsoleExecCallback (this);
   conin->SetExecuteCallback (cb);
   cb->DecRef ();
@@ -381,6 +452,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdSnapDiff (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdExpr (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdVar (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdPython (this)); RegisterCommand (cmd);
 
   return true;
 }
@@ -989,12 +1061,27 @@ void celConsole::HelpCommand (const char* cmd)
   }
 }
 
+void celConsole::SetOverrideCommand (iCelConsoleCommand *override_cmd,
+				     const char*prompt)
+{
+  override = override_cmd;
+  if (override)
+    conin->SetPrompt(prompt);
+  else
+    conin->SetPrompt(CELPROMPT);
+}
+
 void celConsole::Execute (const char* cmd)
 {
   csStringArray args;
   args.SplitString (cmd, " \t", csStringArray::delimIgnore);
   if (args.Length () <= 0) return;
   if (!args[0] || !*args[0]) return;
+  if (override)
+  {
+	  override->Execute (args);
+	  return;
+  }
   csRef<iCelConsoleCommand> command = commands.Get (args[0], 0);
   if (!command)
   {

@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+4-Jul-2006
+	- caedes added celconsole to the swig interface file, and some
+	  helper classes to redirect python stderr/stdout to it.
+	- caedes made the celconsole support command overrides. This allows
+	  a command to override normal console behaviour so it will send all
+	  text written to it. This allows commands to define working modes.
+	- caedes added a 'python' command for the celconsole. This sets the
+	  celconsole in python mode, so that all that is written will be
+	  parsed as python commands. Normal behaviour can be resumed then by
+	  writing 'exit'.
 3-Jul-2006
 	- caedes added CreateParameterBlock(pydict) extension to iCelPlLayer
 	  in the python wrappers. This gets a dict and converts it to a

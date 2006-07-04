@@ -38,6 +38,7 @@
 #include "propclass/craft.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
+#include "tools/celconsole.h"
 #include "propclass/zone.h"
 %}
 %inline %{
@@ -655,5 +656,36 @@ CEL_PC(iPcCraftController, CraftController, pccraft)
 
 //-----------------------------------------------------------------------------
 
+%include "tools/celconsole.h"
+%inline %{
+iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
+{
+  csRef<iCelConsole> bl = CS_QUERY_REGISTRY (object_reg, iCelConsole);
+  return bl;
+}
+%}
 
+//-----------------------------------------------------------------------------
+// helpers to redirect output to cel console
 
+%pythoncode %{
+class CelConsoleOut:
+	"""Class that can be assigned to sys.stdout or sys.stderr"""
+	def __init__(self,oreg):
+		self.oreg = oreg
+	def write(self,s):
+		csQueryRegistry_iCelConsole(self.oreg).GetOutputConsole().PutText(str(s))
+
+class CelConsoleOutOverride:
+	"""Class that redirects stdout and stderr to celconsole"""
+	def __init__(self,oreg):
+		import sys
+		self.oldstdout = sys.stdout
+		self.oldstderr = sys.stderr
+		sys.stdout = CelConsoleOut(oreg)
+		sys.stderr = CelConsoleOut(oreg)
+	def __del__(self):
+		import sys
+		sys.stdout = self.oldstdout	
+		sys.stderr = self.oldstderr
+%}
