@@ -3060,4 +3060,79 @@ celGetSetCraftController = _blcelc.celGetSetCraftController
 celGetCraftController = _blcelc.celGetCraftController
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
+class iCelConsoleCommand(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelConsoleCommand, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelConsoleCommand, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelConsoleCommand instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetCommand(*args): return _blcelc.iCelConsoleCommand_GetCommand(*args)
+    def GetDescription(*args): return _blcelc.iCelConsoleCommand_GetDescription(*args)
+    def Help(*args): return _blcelc.iCelConsoleCommand_Help(*args)
+    def Execute(*args): return _blcelc.iCelConsoleCommand_Execute(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelConsoleCommand):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelConsoleCommandPtr(iCelConsoleCommand):
+    def __init__(self, this):
+        _swig_setattr(self, iCelConsoleCommand, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelConsoleCommand, 'thisown', 0)
+        _swig_setattr(self, iCelConsoleCommand,self.__class__,iCelConsoleCommand)
+_blcelc.iCelConsoleCommand_swigregister(iCelConsoleCommandPtr)
+
+class iCelConsole(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelConsole, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelConsole, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelConsole instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def GetInputConsole(*args): return _blcelc.iCelConsole_GetInputConsole(*args)
+    def GetOutputConsole(*args): return _blcelc.iCelConsole_GetOutputConsole(*args)
+    def RegisterCommand(*args): return _blcelc.iCelConsole_RegisterCommand(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelConsole):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelConsolePtr(iCelConsole):
+    def __init__(self, this):
+        _swig_setattr(self, iCelConsole, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelConsole, 'thisown', 0)
+        _swig_setattr(self, iCelConsole,self.__class__,iCelConsole)
+_blcelc.iCelConsole_swigregister(iCelConsolePtr)
+
+
+csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
+class CelConsoleOut:
+	"""Class that can be assigned to sys.stdout or sys.stderr"""
+	def __init__(self,oreg):
+		self.oreg = oreg
+	def write(self,s):
+		csQueryRegistry_iCelConsole(self.oreg).GetOutputConsole().PutText(str(s))
+
+class CelConsoleOutOverride:
+	"""Class that redirects stdout and stderr to celconsole"""
+	def __init__(self,oreg):
+		import sys
+		self.oldstdout = sys.stdout
+		self.oldstderr = sys.stderr
+		sys.stdout = CelConsoleOut(oreg)
+		sys.stderr = CelConsoleOut(oreg)
+	def __del__(self):
+		import sys
+		sys.stdout = self.oldstdout	
+		sys.stderr = self.oldstderr
+
 
