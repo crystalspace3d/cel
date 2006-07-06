@@ -74,7 +74,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   counter = 0;
   max = 0;
-
+  steerdir=0;
   gear=0;
   numberwheels=0;
   steering=false;
@@ -87,8 +87,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   wheelradius=0;
   
   steeramount=0.75;
-  tempsteeramount=0;
-  currentsteerangle=0;
 
 //Gear -1 is reverse, 0 is neutral
   SetNumberGears(1);
@@ -97,7 +95,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   SetGearSettings(1,150,2000);
   brakeforce=1000;
 
-  steeringmode=CEL_WHEELED_FRONT_STEER;
+ tankmode=false;
 
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
@@ -230,11 +228,6 @@ void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
   wheelfact=engine->FindMeshFactory(factname);
 }
 
-void celPcWheeled::SetSteeringMode(int steeringmode)
-{
-  celPcWheeled::steeringmode=steeringmode;
-}
-
 int celPcWheeled::AddWheel(csVector3 position)
 {
   //Create the mesh
@@ -294,6 +287,13 @@ int celPcWheeled::AddWheel(csVector3 position)
   wheel.RigidBody=wheelbody;
   wheel.WheelJoint=joint;
   wheel.Position=position;
+  wheel.BrakePower=300;
+  wheel.LeftSteerOffset=0;
+  wheel.RightSteerOffset=0;
+  wheel.TurnSpeed=5;
+  wheel.BrakePower=1;
+  wheel.EnginePower=1;
+  wheel.SteerInverted=false;
   wheels.Push(wheel);
   return 0;
 }
@@ -319,93 +319,53 @@ void celPcWheeled::HandBrake()
 
 void celPcWheeled::SteerLeft()
 {
-  tempsteeramount=steeramount;
+steerdir=-1;
 }
 
 void celPcWheeled::SteerRight()
 {
-  tempsteeramount=-steeramount;
+steerdir=1;
 }
 void celPcWheeled::SteerStraight()
 {
-  tempsteeramount=0;
+steerdir=0;
 }
 
-void celPcWheeled::UpdateSteer()
+void celPcWheeled::UpdateTankSteer()
 {
-  if( currentsteerangle > tempsteeramount-0.1 && currentsteerangle < tempsteeramount+0.1 )
-    currentsteerangle=tempsteeramount;
-  if( currentsteerangle < tempsteeramount)
-    currentsteerangle+=0.1f;
-  if( currentsteerangle > tempsteeramount)
-    currentsteerangle-=0.1f;
-
-    //Steer all front wheels that should be steered.
-      if(steeringmode==CEL_WHEELED_FRONT_STEER
-         || steeringmode==CEL_WHEELED_ALL_STEER)
-      {
-        for(size_t i =0; i < wheels.Length() ; i++)
-        {
-        //It's a front wheel, set it
-          if (wheels[i].Position.z < 0 )
-          {
-            wheels[i].WheelJoint->SetLoStop(currentsteerangle, 0);
-            wheels[i].WheelJoint->SetHiStop(currentsteerangle, 0);
-          }
-        }
-      }
-    //Steer all rear wheels that should be steered.
-      if(steeringmode==CEL_WHEELED_REAR_STEER
-         || steeringmode==CEL_WHEELED_ALL_STEER)
-      {
-        for(size_t i =0; i < wheels.Length() ; i++)
-        {
-        //It's a rear wheel, set it
-          if (wheels[i].Position.z > 0 )
-          {
-            wheels[i].WheelJoint->SetLoStop(-currentsteerangle, 0);
-            wheels[i].WheelJoint->SetHiStop(-currentsteerangle, 0);
-          }
-        }
-      }
-
-  //Update the tank-style steering
-  if(steeringmode==CEL_WHEELED_TANK_STEER)
+  if(gear!=0)
   {
-    if(accelerating || reversing)
+    for(size_t i =0; i < wheels.Length() ; i++)
     {
-      for(size_t i =0; i < wheels.Length() ; i++)
+      //It's a right wheel, steering right. slow it down
+      if (wheels[i].Position.x < 0 && steerdir > 0)
       {
-        //It's a right wheel, steering right. slow it down
-        if (wheels[i].Position.x < 0 && tempsteeramount < 0)
-        {
-          wheels[i].WheelJoint->SetVel(0,1);
-          wheels[i].WheelJoint->SetFMax(-tempsteeramount*gears[1].y,1);
-        }
-        //It's a left wheel,, steering left. slow it down
-        if (wheels[i].Position.x > 0  && tempsteeramount > 0)
-        {
-          wheels[i].WheelJoint->SetVel(0,1);
-          wheels[i].WheelJoint->SetFMax(tempsteeramount*gears[1].y,1);
-        }
+        wheels[i].WheelJoint->SetVel(0,1);
+        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
+      }
+      //It's a left wheel,, steering left. slow it down
+      if (wheels[i].Position.x > 0  && steerdir < 0)
+      {
+        wheels[i].WheelJoint->SetVel(0,1);
+        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
       }
     }
-    else
+  }
+  else
+  {
+    for(size_t i =0; i < wheels.Length() ; i++)
     {
-      for(size_t i =0; i < wheels.Length() ; i++)
+      //It's a right wheel
+      if (wheels[i].Position.x < 0 )
       {
-        //It's a right wheel
-        if (wheels[i].Position.x < 0 )
-        {
-          wheels[i].WheelJoint->SetVel(tempsteeramount*20,1);
-          wheels[i].WheelJoint->SetFMax(gears[1].y, 1);
-        }
-        //It's a left wheel
-        if (wheels[i].Position.x > 0 )
-        {
-          wheels[i].WheelJoint->SetVel(-tempsteeramount*20,1);
-          wheels[i].WheelJoint->SetFMax(gears[1].y, 1);
-        }
+        wheels[i].WheelJoint->SetVel(-steerdir*steeramount*20,1);
+        wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
+      }
+      //It's a left wheel
+      if (wheels[i].Position.x > 0 )
+      {
+        wheels[i].WheelJoint->SetVel(steerdir*steeramount*20,1);
+        wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
       }
     }
   }
@@ -432,8 +392,8 @@ void celPcWheeled::TickOnce()
       wheels[i].WheelJoint->SetFMax(brakeforce,1);
     }
   }
-  
-  UpdateSteer();
+  if(tankmode && steerdir!=0)
+    UpdateTankSteer();
   pl->CallbackOnce ((iCelTimerListener*)this, 30, CEL_EVENT_PRE);
 }
 

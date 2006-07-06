@@ -50,11 +50,22 @@
 struct iCelEntity;
 struct iBodyGroup;
 struct iMeshFactoryWrapper;
+struct iODEHinge2Joint;
+struct iRigidBody;
 
-#define CEL_WHEELED_FRONT_STEER 1
-#define CEL_WHEELED_REAR_STEER 2
-#define CEL_WHEELED_ALL_STEER 3
-#define CEL_WHEELED_TANK_STEER 4
+struct celWheel
+{
+  csRef<iODEHinge2Joint> WheelJoint;
+  csRef<iRigidBody> RigidBody;
+  csVector3 Position;
+  float LeftSteerOffset;
+  float RightSteerOffset;
+  float TurnSpeed;
+  float ReturnSpeed;
+  float EnginePower;
+  float BrakePower;
+  bool SteerInverted;
+};
 
 struct iPcWheeled : public virtual iBase
 
@@ -77,14 +88,14 @@ struct iPcWheeled : public virtual iBase
   virtual void SetWheelMesh(const char* file, const char* factname) = 0;
 
  /**
-  * Set the steering mode of the vehicle.
+  * Set if tank steering is enabled vehicle.
   */
-  virtual void SetSteeringMode(int steeringmode) = 0;
+  virtual void SetTankMode(bool tankmode) = 0;
 
  /**
-  * Get the steering mode of the vehicle.
+  * Get if tank mode is enabled
   */
-  virtual int GetSteeringMode() = 0;
+  virtual int GetTankMode() = 0;
 
  /**
   * Add a wheel to the vehicle.

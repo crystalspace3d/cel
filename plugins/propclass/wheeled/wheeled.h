@@ -39,18 +39,6 @@ class csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
 
-#define CEL_WHEELED_FRONT_STEER 1
-#define CEL_WHEELED_REAR_STEER 2
-#define CEL_WHEELED_ALL_STEER 3
-#define CEL_WHEELED_TANK_STEER 4
-
-struct celWheel
-{
-	csRef<iODEHinge2Joint> WheelJoint;
-	csRef<iRigidBody> RigidBody;
-	csVector3 Position;
-};
-
 /**
  * Factory for test.
  */
@@ -59,104 +47,101 @@ CEL_DECLARE_FACTORY (Wheeled)
 /**
  * This is a property class for making and controlling wheeled vehicles, eg bikes, cars, tanks.
  */
-class celPcWheeled : public scfImplementationExt1<
-	celPcWheeled, celPcCommon, iPcWheeled>
+    class celPcWheeled : public scfImplementationExt1<
+    celPcWheeled, celPcCommon, iPcWheeled>
 {
-private:
+  private:
 
   // For SendMessage parameters.
-  static csStringID id_message;
-  celOneParameterBlock* params;
+    static csStringID id_message;
+    celOneParameterBlock* params;
 
   // For PerformAction.
   // id_message is shared.
-  static csStringID action_print;
+    static csStringID action_print;
 
   // For properties.
-  enum propids
-  {
-    propid_counter = 0,
-    propid_max
-  };
-  static Property* properties;
-  static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+    enum propids
+    {
+      propid_counter = 0,
+      propid_max
+    };
+    static Property* properties;
+    static size_t propertycount;
+    static void UpdateProperties (iObjectRegistry* object_reg);
 
-  float brakeforce;
-  int gear;
-  int numberwheels;
-  bool autotransmission;
-  int steeringmode;
-  bool handbrakeapplied;
-  bool accelerating;
-  bool braking;
-  bool steering;
-  bool reversing;
-  float wheelradius;
-  //The temporaryangle that the wheels will reach
-  float tempsteeramount;
-  //The angle the wheels are currently at
-  float currentsteerangle;
+    float brakeforce;
+    int gear;
+    int numberwheels;
+    bool autotransmission;
+    bool tankmode;
+    bool handbrakeapplied;
+    bool accelerating;
+    bool braking;
+    bool steering;
+    bool reversing;
+    int steerdir;
+    float wheelradius;
   //The angle the user wants the wheels to reach
-  float steeramount;
-  csString wheelpath;
-  csString wheelfactname;
-  csRef<iMeshFactoryWrapper> wheelfact;
-  csRef<iBodyGroup> bodyGroup;
-  csRef<iEngine> engine;
-  csArray<csVector2> gears;
-  csArray<celWheel> wheels;
-  csRef<iPcMechanicsObject> bodyMech;
+    float steeramount;
+    csString wheelpath;
+    csString wheelfactname;
+    csRef<iMeshFactoryWrapper> wheelfact;
+    csRef<iBodyGroup> bodyGroup;
+    csRef<iEngine> engine;
+    csArray<csVector2> gears;
+    csArray<celWheel> wheels;
+    csRef<iPcMechanicsObject> bodyMech;
   // Other fields.
-  int counter;
-  size_t max;
-  void TickOnce();
-  void UpdateGear();
+    int counter;
+    size_t max;
+    void TickOnce();
+    void UpdateGear();
 
-public:
-  celPcWheeled (iObjectRegistry* object_reg);
-  virtual ~celPcWheeled ();
+  public:
+    celPcWheeled (iObjectRegistry* object_reg);
+    virtual ~celPcWheeled ();
 
-  virtual void Print (const char* msg);
+    virtual void Print (const char* msg);
 
   //Setters
-  virtual void Initialise();
-  virtual void SetWheelMesh(const char* file, const char* factname);
-  virtual void SetSteeringMode(int steeringmode);
-  virtual int AddWheel(csVector3 position);
-  virtual void RemoveWheel(int wheelnum);
-  virtual void Accelerate();
-  virtual void Brake();
-  virtual void HandBrake();
-  virtual void SetSteerAmount(float amount){steeramount=amount;};
-  virtual void SteerLeft();
-  virtual void SteerRight();
-  virtual void UpdateSteer();
-  virtual void SteerStraight();
-  virtual void Reverse();
-  virtual void Roll();
-  virtual void SetAutoTransmission(bool auto);
-  virtual void SetGear(int gear);
-  virtual void SetGearSettings(int gear,float velocity, float force);
-  virtual void SetBrakeForce(float force){brakeforce=force;};
-  virtual void SetNumberGears(int number);
+    virtual void Initialise();
+    virtual void SetWheelMesh(const char* file, const char* factname);
+    virtual void SetTankMode(bool tankmode){celPcWheeled::tankmode=tankmode;};
+    virtual int AddWheel(csVector3 position);
+    virtual void RemoveWheel(int wheelnum);
+    virtual void Accelerate();
+    virtual void Brake();
+    virtual void HandBrake();
+    virtual void SetSteerAmount(float amount){steeramount=amount;};
+    virtual void SteerLeft();
+    virtual void SteerRight();
+    virtual void UpdateTankSteer();
+    virtual void SteerStraight();
+    virtual void Reverse();
+    virtual void Roll();
+    virtual void SetAutoTransmission(bool auto);
+    virtual void SetGear(int gear);
+    virtual void SetGearSettings(int gear,float velocity, float force);
+    virtual void SetBrakeForce(float force){brakeforce=force;};
+    virtual void SetNumberGears(int number);
 
   //The getter functions
-  virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
-  virtual int GetNumberGears() {return gears.Length();};
-  virtual int GetGear(){return gear;};
-  virtual float GetSteerAmount(){return steeramount;};
-  virtual int GetSteeringMode(){return steeringmode;};
+    virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
+    virtual int GetNumberGears() {return gears.Length();};
+    virtual int GetGear(){return gear;};
+    virtual float GetSteerAmount(){return steeramount;};
+    virtual int GetTankMode(){return tankmode;};
 
-  virtual const char* GetName () const { return "pcwheeled"; }
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+    virtual const char* GetName () const { return "pcwheeled"; }
+    virtual csPtr<iCelDataBuffer> Save ();
+    virtual bool Load (iCelDataBuffer* databuf);
+    virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'max' property.
-  virtual bool SetProperty (csStringID, long);
-  virtual long GetPropertyLong (csStringID);
+    virtual bool SetProperty (csStringID, long);
+    virtual long GetPropertyLong (csStringID);
 };
 
 #endif // __CEL_PF_VEHICLEFACT__
