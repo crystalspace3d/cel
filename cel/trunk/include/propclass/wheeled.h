@@ -190,7 +190,7 @@ struct iPcWheeled : public virtual iBase
  /**
   * Get the number of gears the vehicle has.
   */
-  virtual int GetNumberGears() = 0;
+  virtual size_t GetNumberGears() = 0;
 
  /**
   * Get the BodyGroup that the car belongs too.
