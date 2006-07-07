@@ -68,21 +68,23 @@ public:
    */
   virtual void PerformStabilising();
 
-  virtual void SetWorldMesh(csRef<iPcMesh> wmesh) { world_mesh = wmesh; }
-  virtual void SetWorld(const char *name);
-  virtual void SetHeightBeamCutoff(float chm) { height_beam_cutoff = chm; }
-  virtual void SetAngularBeamOffset(float abo) { ang_beam_offset = abo; }
-  virtual void SetAngularCutoffHeight(float ach) { ang_cutoff_height = ach; }
-  virtual void SetAngularCorrectionStrength(float mul) { ang_mult = mul; }
-  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc)
-  { func.AttachNew(sfunc); }
+  virtual void SetWorldMesh (csRef<iPcMesh> wmesh) { world_mesh = wmesh; }
+  virtual void SetWorld (const char *name);
+  virtual void SetHeightBeamCutoff (float chm) { height_beam_cutoff = chm; }
+  virtual void SetAngularBeamOffset (float abo) { ang_beam_offset = abo; }
+  virtual void SetAngularCutoffHeight (float ach) { ang_cutoff_height = ach; }
+  virtual void SetAngularCorrectionStrength (float mul) { ang_mult = mul; }
+  virtual void SetStabiliserFunction (celStabiliserFunction *sfunc)
+  { func.AttachNew (sfunc); }
 
+  virtual void HoverOn () { hover_on = true; }
+  virtual void HoverOff () { hover_on = false; }
   virtual void UseDefaultFunction (float dampening);
   virtual float GetHeight () { return object_height; }
 
   struct PcHover : public iPcHover
   {
-    SCF_DECLARE_EMBEDDED_IBASE(celPcHover);
+    SCF_DECLARE_EMBEDDED_IBASE (celPcHover);
 
     virtual void SetWorldMesh (csRef<iPcMesh> wmesh)
     {
@@ -113,6 +115,15 @@ public:
       scfParent->SetStabiliserFunction (sfunc);
     }
 
+    virtual void HoverOn ()
+    {
+      scfParent->HoverOn ();
+    }
+    virtual void HoverOff ()
+    {
+      scfParent->HoverOff ();
+    }
+
     virtual void UseDefaultFunction (float dampening)
     {
       scfParent->UseDefaultFunction (dampening);
@@ -132,6 +143,7 @@ private:
   static csStringID action_setangheight;
   static csStringID action_setangstr;
   static csStringID action_usedeffunc;
+  static csStringID action_hoveron;
 
   // Parameters.
   static csStringID param_world;
@@ -139,6 +151,7 @@ private:
   static csStringID param_angoff;
   static csStringID param_angheight;
   static csStringID param_angstr;
+  static csStringID param_hover;
 
   /**
    * Calculate height of object to ground (world mesh)
@@ -167,6 +180,9 @@ private:
    * Looks up the world_mesh and gets the csWeakRef.
    */
   void LookUpWorldMesh ();
+
+  /// so we can turn the hovering off and on.
+  bool hover_on;
 
   /// because the ref isn't gotten until first tick
   csString world_mesh_name;
