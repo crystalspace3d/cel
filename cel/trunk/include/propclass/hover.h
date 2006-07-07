@@ -39,7 +39,7 @@ struct iPcHover : public virtual iBase
    * Set the mesh to do the height tests on (the ground)
    * @param wmesh ground object
    */
-  virtual void SetWorldMesh(csRef<iPcMesh> wmesh) = 0;
+  virtual void SetWorldMesh (csRef<iPcMesh> wmesh) = 0;
 
   /**
    * Get world mesh using a name by querying
@@ -49,13 +49,13 @@ struct iPcHover : public virtual iBase
    * engine tick.
    * @param name name of world mesh
    */
-  virtual void SetWorld(const char *name) = 0;
+  virtual void SetWorld (const char *name) = 0;
 
   /**
    * The height for hit beams. Above this height, all height tests
    * return infinity
    */
-  virtual void SetHeightBeamCutoff(float chm) = 0;
+  virtual void SetHeightBeamCutoff (float chm) = 0;
 
   /**
    * The offsets to the sides of the objects, to test height to calculate
@@ -63,25 +63,35 @@ struct iPcHover : public virtual iBase
    * Smaller is more accurate, but too small and the roll angles will
    * differ in bigger steps (the height beams resolution won't be accurate enough)
    */
-  virtual void SetAngularBeamOffset(float abo) = 0;
+  virtual void SetAngularBeamOffset (float abo) = 0;
 
   /**
    * Height at which to perform the angular correction
    */
-  virtual void SetAngularCutoffHeight(float ach) = 0;
+  virtual void SetAngularCutoffHeight (float ach) = 0;
 
   /**
    * How strongly does the object align itself with the terrain?
    * Higher values means that an object going down a hill will snap
    * to the slope. Smaller values and it will slowly align
    */
-  virtual void SetAngularCorrectionStrength(float mul) = 0;
+  virtual void SetAngularCorrectionStrength (float mul) = 0;
+
+  /**
+   * Turn hovering on (on by default).
+   */
+  virtual void HoverOn () = 0;
+
+  /**
+   * Turn hovering off, until HoverOn () is called.
+   */
+  virtual void HoverOff () = 0;
 
   /**
    * Set the distribution functions which decide upthrust depending on
    * height of ship
    */
-  virtual void SetStabiliserFunction(celStabiliserFunction *sfunc) = 0;
+  virtual void SetStabiliserFunction (celStabiliserFunction *sfunc) = 0;
 
   /**
    * Use a default stabiliser function - not recommended unless
