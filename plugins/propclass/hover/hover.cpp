@@ -53,6 +53,7 @@ csStringID celPcHover::action_setangoff = csInvalidStringID;
 csStringID celPcHover::action_setangheight = csInvalidStringID;
 csStringID celPcHover::action_setangstr = csInvalidStringID;
 csStringID celPcHover::action_usedeffunc = csInvalidStringID;
+csStringID celPcHover::action_hoveron = csInvalidStringID;
 
 // Parameters.
 csStringID celPcHover::param_world = csInvalidStringID;
@@ -60,12 +61,14 @@ csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
 csStringID celPcHover::param_angoff = csInvalidStringID;
 csStringID celPcHover::param_angheight = csInvalidStringID;
 csStringID celPcHover::param_angstr = csInvalidStringID;
+csStringID celPcHover::param_hover = csInvalidStringID;
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
 
+  hover_on = true;
   ang_beam_offset = 2;
   ang_cutoff_height = 5;
   ang_mult = 1;
@@ -83,6 +86,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
      action_setangheight = pl->FetchStringID ("cel.action.SetAngularCutoffHeight");
      action_setangstr = pl->FetchStringID ("cel.action.SetAngularCorrectionStrength");
      action_usedeffunc = pl->FetchStringID ("cel.action.UseDefaultStabiliserFunction");
+     action_hoveron = pl->FetchStringID ("cel.action.HoverOn");
 
      // Parameters.
      param_world = pl->FetchStringID ("cel.parameter.world");
@@ -90,6 +94,7 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
      param_angoff = pl->FetchStringID ("cel.parameter.offset");
      param_angheight = pl->FetchStringID ("cel.parameter.angheight");
      param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
+     param_hover = pl->FetchStringID ("cel.parameter.hover");
   }
 }
 
@@ -170,6 +175,17 @@ bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
   else if (actionId == action_usedeffunc)
   {
     UseDefaultFunction (1.5f);
+  }
+  else if (actionId == action_hoveron)
+  {
+    printf ("This action (HoverOn) is temporarily disabled.\n");
+    /*CEL_FETCH_BOOL_PAR (hover, params, param_hover);
+    if (hover)
+    {
+      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
+      printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
+      return false;
+    }*/
   }
   else return false;
 
@@ -275,16 +291,19 @@ void celPcHover::PerformStabilising ()
   // ships local vertical velocity
   obj_info.yvel = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ()).y;
 
-  /* get functor object to calculate upthrust force
-      from ships info */
-  float force = func->Force (obj_info);
-  //printf ("%f %f\n",obj_info.height,force);
+  if (hover_on)
+  {
+    /* get functor object to calculate upthrust force
+        from ships info */
+    float force = func->Force (obj_info);
+    //printf ("%f %f\n",obj_info.height,force);
 
-  // apply the force
-  ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
-      csVector3 (0,0,0), 0.1f);
-  //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
-  //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
+    // apply the force
+    ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
+        csVector3 (0,0,0), 0.1f);
+    //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
+    //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
+  }
 
   // the ships roll and pitch should try to remain level
   if ((ang_mult > 0.0) && (obj_info.height < ang_cutoff_height))

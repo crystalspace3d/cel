@@ -2,6 +2,8 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+8-Jul-2006
+        - Genjix added HoverOn (), HoverOff () for pchover.
 6-Jul-2006
         - cfraz89 made tank steering work pretty well in pcwheeled, but has
           temporarily removed car steering to redo it per-wheel.
@@ -48,7 +50,7 @@ The history order is reversed so that new features are at the top.
 	  - refined the templates to define get/set methods a bit.
 	  - added get/set methods for more interfaces: iPcMechanicsSystem,
 	    iPcMechanicsObject, iPcMechanicsJoint, iPcBillboard, iPcRegion,
-	    iCelMapFile, iCelRegion, iCelZone, iPcCommandInput, 
+	    iCelMapFile, iCelRegion, iCelZone, iPcCommandInput,
 	    iPcLinearMovement, iPcCamera, iPcDefaultCamera, iPcMeshSelect,
 	    iPcMesh.
 30-Jun-2006
@@ -62,10 +64,10 @@ The history order is reversed so that new features are at the top.
 	    work).
 	  - made SendMessage return the type inside celData instead of bool.
 	  - added getter/setter wrappers for some methods (like entity.name
-            for entity.GetName() and entity.SetName()). Currently done for 
-	    iCelPropertyClass, iPcActorMove, iCelBehaviour and iCelEntity. 
+            for entity.GetName() and entity.SetName()). Currently done for
+	    iCelPropertyClass, iPcActorMove, iCelBehaviour and iCelEntity.
 	    The plan is to do the same for all cel interfaces.
-	  - added an out typemap for celData so it will always return the value 
+	  - added an out typemap for celData so it will always return the value
 	    wrapped as a python object.
 	  - made a special wrapper for iCelParameterBlock so it can be used as
 	    a sequence object in python (with csStringID indexes).
@@ -88,7 +90,7 @@ The history order is reversed so that new features are at the top.
 	  made steering mode apply to whole vehicle.
         - cfraz89 added simulated analogue steering to pcwheeled,
           finished work on gears, and made wheeledtest car have 6 wheels :)
-	- caedes removed iPcLinearMovement::SetPath(csPath) extension from 
+	- caedes removed iPcLinearMovement::SetPath(csPath) extension from
 	  blcel.i as its no longer necessary.
 26-Jun-2006
 	- cfraz89 finished the basic vehicle setup
