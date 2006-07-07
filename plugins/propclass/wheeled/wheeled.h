@@ -128,7 +128,7 @@ CEL_DECLARE_FACTORY (Wheeled)
 
   //The getter functions
     virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
-    virtual int GetNumberGears() {return gears.Length();};
+    virtual size_t GetNumberGears() {return gears.Length();};
     virtual int GetGear(){return gear;};
     virtual float GetSteerAmount(){return steeramount;};
     virtual int GetTankMode(){return tankmode;};
