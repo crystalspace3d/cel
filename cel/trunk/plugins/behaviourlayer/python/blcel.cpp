@@ -36945,6 +36945,40 @@ static PyObject *_wrap_iPcHover_SetAngularCorrectionStrength(PyObject *, PyObjec
 }
 
 
+static PyObject *_wrap_iPcHover_HoverOn(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcHover *arg1 = (iPcHover *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcHover_HoverOn",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcHover, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->HoverOn();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcHover_HoverOff(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcHover *arg1 = (iPcHover *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcHover_HoverOff",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcHover, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->HoverOff();
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcHover_SetStabiliserFunction(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcHover *arg1 = (iPcHover *) 0 ;
@@ -39061,6 +39095,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcHover_SetAngularBeamOffset", _wrap_iPcHover_SetAngularBeamOffset, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_SetAngularCutoffHeight", _wrap_iPcHover_SetAngularCutoffHeight, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_SetAngularCorrectionStrength", _wrap_iPcHover_SetAngularCorrectionStrength, METH_VARARGS, NULL},
+	 { (char *)"iPcHover_HoverOn", _wrap_iPcHover_HoverOn, METH_VARARGS, NULL},
+	 { (char *)"iPcHover_HoverOff", _wrap_iPcHover_HoverOff, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_SetStabiliserFunction", _wrap_iPcHover_SetStabiliserFunction, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_UseDefaultFunction", _wrap_iPcHover_UseDefaultFunction, METH_VARARGS, NULL},
 	 { (char *)"iPcHover_GetHeight", _wrap_iPcHover_GetHeight, METH_VARARGS, NULL},
