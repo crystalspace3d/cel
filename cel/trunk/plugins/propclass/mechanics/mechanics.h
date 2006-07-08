@@ -81,11 +81,13 @@ private:
   static csStringID action_enablestepfast;
   static csStringID action_disablestepfast;
   static csStringID action_setsteptime;
+  static csStringID action_setsimulationspeed;
 
   // Parameters.
   static csStringID param_dynsys;
   static csStringID param_gravity;
   static csStringID param_time;
+  static csStringID param_simulationspeed;
  
   csRef<iDynamics> dynamics;
   csRef<iDynamicSystem> dynsystem;
@@ -95,6 +97,7 @@ private:
   csHash<iBodyGroup*, const char*> groups;
   float delta;
   float remaining_delta;
+  float simulationspeed;
 
   void ProcessForces (float dt);
   iDynamics *GetDynamics ();
@@ -113,7 +116,11 @@ public:
     celPcMechanicsSystem::delta = delta;
   }
   virtual float GetStepTime () const { return delta; }
-
+  virtual void SetSimulationSpeed (float simulationspeed)
+  {
+    celPcMechanicsSystem::simulationspeed = simulationspeed;
+  }
+  virtual float GetSimulationSpeed () {return simulationspeed; }
   virtual void SetGravity (const csVector3& grav);
   virtual const csVector3 GetGravity ();
 

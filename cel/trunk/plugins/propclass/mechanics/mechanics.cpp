@@ -61,12 +61,13 @@ csStringID celPcMechanicsSystem::action_quickstep = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_enablestepfast = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_disablestepfast = csInvalidStringID;
 csStringID celPcMechanicsSystem::action_setsteptime = csInvalidStringID;
+csStringID celPcMechanicsSystem::action_setsimulationspeed = csInvalidStringID;
 
 // Parameters.
 csStringID celPcMechanicsSystem::param_dynsys = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_gravity = csInvalidStringID;
 csStringID celPcMechanicsSystem::param_time = csInvalidStringID;
-
+csStringID celPcMechanicsSystem::param_simulationspeed = csInvalidStringID;
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -77,7 +78,7 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
   dynsystem_error_reported = false;
   delta = 0.01f;
   remaining_delta = 0;
-  
+  simulationspeed=1.0f;
   object_reg->Register ((iPcMechanicsSystem*)this, "iPcMechanicsSystem");
   
   if (action_setsystem == csInvalidStringID)
@@ -89,11 +90,14 @@ celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
     action_enablestepfast = pl->FetchStringID ("cel.action.EnableStepFast");
     action_disablestepfast = pl->FetchStringID ("cel.action.DisableStepFast");
     action_setsteptime = pl->FetchStringID ("cel.action.SetStepTime");
-  
+    action_setsimulationspeed = pl->FetchStringID
+      ("cel.action.SetSimulationSpeed");
+
     // Parameters.
     param_dynsys = pl->FetchStringID ("cel.parameter.dynsys");
     param_gravity = pl->FetchStringID ("cel.parameter.gravity");
     param_time = pl->FetchStringID ("cel.parameter.time");
+    param_simulationspeed = pl->FetchStringID ("cel.parameter.simulationspeed");
   }
 }
 
@@ -177,12 +181,13 @@ void celPcMechanicsSystem::TickEveryFrame ()
   // that because then speed of physics simulation would differ
   // depending on framerate. So we will put that remainder in
   // remaining_delta and use that here too.
-  float et = remaining_delta + (float (elapsed_time) / 1000.0);
-  while (et >= delta)
+  float delta_modulated=delta*simulationspeed;
+  float et = remaining_delta + (float (elapsed_time) / (1000.0/simulationspeed));
+  while (et >= delta_modulated)
   {
     ProcessForces (delta);
-    dynamics->Step (delta);
-    et -= delta;
+    dynamics->Step (delta_modulated);
+    et -= delta_modulated;
   }
 
   // Now we have a small remainder. We remember that in remaining_delta.
@@ -325,6 +330,16 @@ bool celPcMechanicsSystem::PerformAction (csStringID actionId,
       return false;
     }
     SetStepTime (time);
+  }
+  else if (actionId == action_setsimulationspeed)
+  {
+    CEL_FETCH_FLOAT_PAR (simulationspeed,params,param_simulationspeed);
+    if (!p_simulationspeed)
+    {
+      CS_REPORT(ERROR,"Couldn't get 'simulationspeed' parameter for SetSimulationSpeed!");
+      return false;
+    }
+    SetSimulationSpeed (simulationspeed);
   }
   else if (actionId == action_setgravity)
   {

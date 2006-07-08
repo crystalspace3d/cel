@@ -76,10 +76,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     bool autotransmission;
     bool tankmode;
     bool handbrakeapplied;
-    bool accelerating;
     bool braking;
     bool steering;
-    bool reversing;
     int steerdir;
     float wheelradius;
   //The angle the user wants the wheels to reach

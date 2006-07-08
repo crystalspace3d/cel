@@ -2,8 +2,14 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
 8-Jul-2006
+        - cfraz89 added experimental slow/fast motion support to mechsys, with 
+          SetSimulationSpeed(). Very Fast motion, eg 10x, seems to make the physics
+          go flaky though.
+        - cfraz89 redid the pcwheeled wheel code, adding most of darek's per-wheel   options, like enginepower, brakepower, etc.
         - Genjix added HoverOn (), HoverOff () for pchover.
+
 6-Jul-2006
         - cfraz89 made tank steering work pretty well in pcwheeled, but has
           temporarily removed car steering to redo it per-wheel.
