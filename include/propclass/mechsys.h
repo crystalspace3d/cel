@@ -87,7 +87,19 @@ struct iPcMechanicsSystem : public virtual iBase
    * Get the current step time.
    */
   virtual float GetStepTime () const = 0;
-
+  
+    /**
+   * Define the how fast we want the simulation to go. Default is 1.0.
+   * Less is slower, more is faster
+   * \param dsimulationspeed factor of speed.
+     */
+  virtual void SetSimulationSpeed (float simulationspeed) = 0;
+  
+    /**
+     * Get the current simulation speed.
+     */
+  virtual float GetSimulationSpeed () = 0;
+  
   /**
    * Define the gravity for the system. By default this is (0,-9.8,0).
    * \param grav a vector representing the force of gravity for this system.

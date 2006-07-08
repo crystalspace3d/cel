@@ -79,9 +79,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   numberwheels=0;
   steering=false;
   autotransmission=true;
-  accelerating=false;
   braking=false;
-  reversing=false;
   handbrakeapplied=false;
   autotransmission=true;
   wheelradius=0;
@@ -95,7 +93,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   SetGearSettings(1,150,2000);
   brakeforce=1000;
 
- tankmode=false;
+  tankmode=false;
 
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
@@ -262,8 +260,8 @@ int celPcWheeled::AddWheel(csVector3 position)
   if (position.x<0)
   {
     csOrthoTransform t=wheelbody->GetTransform();
-     t.RotateThis(csVector3(0,1,0),3.14f);
-     wheelbody->SetTransform(t);
+    t.RotateThis(csVector3(0,1,0),3.14f);
+    wheelbody->SetTransform(t);
   }
 
   //Create the joint
@@ -280,7 +278,7 @@ int celPcWheeled::AddWheel(csVector3 position)
   joint->SetVel(0,0);
   joint->SetVel(0,1);
   joint->SetStopERP(1.0,0);
-  joint->SetFMax(5000,0);
+  joint->SetFMax(1000,0);
   joint->SetFMax(100,1);
 
   celWheel wheel;
@@ -290,10 +288,14 @@ int celPcWheeled::AddWheel(csVector3 position)
   wheel.BrakePower=300;
   wheel.LeftSteerOffset=0;
   wheel.RightSteerOffset=0;
-  wheel.TurnSpeed=5;
+  wheel.TurnSpeed=2;
+  wheel.ReturnSpeed=2;
   wheel.BrakePower=1;
   wheel.EnginePower=1;
-  wheel.SteerInverted=false;
+  if (position.z>0)
+    wheel.SteerInverted=false;
+  else
+    wheel.SteerInverted=true;
   wheels.Push(wheel);
   return 0;
 }
@@ -319,16 +321,84 @@ void celPcWheeled::HandBrake()
 
 void celPcWheeled::SteerLeft()
 {
-steerdir=-1;
+  steerdir=-1;
+  if(!tankmode)
+  {
+    for(size_t i=0;i < wheels.Length();i++)
+    {
+      if(!wheels[i].SteerInverted)
+      {
+        float lostop=-steeramount+wheels[i].LeftSteerOffset;
+        wheels[i].WheelJoint->SetLoStop(lostop,0);
+        wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+      }
+     else
+      {
+        float histop=steeramount+wheels[i].RightSteerOffset;
+        wheels[i].WheelJoint->SetHiStop(histop,0);
+        wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+      }
+    }
+  }
 }
 
 void celPcWheeled::SteerRight()
 {
-steerdir=1;
+  steerdir=1;
+  if(!tankmode)
+  {
+    for(size_t i=0;i < wheels.Length();i++)
+    {
+      if(!wheels[i].SteerInverted)
+      {
+        float histop=steeramount+wheels[i].RightSteerOffset;
+        wheels[i].WheelJoint->SetHiStop(histop,0);
+        wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+      }
+      else
+      {
+        float lostop=-steeramount+wheels[i].LeftSteerOffset;
+        wheels[i].WheelJoint->SetLoStop(lostop,0);
+        wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+      }
+    }
+  }
 }
 void celPcWheeled::SteerStraight()
 {
-steerdir=0;
+  if (steerdir==-1)
+  {
+    for(size_t i=0;i < wheels.Length();i++)
+    {
+      if(!wheels[i].SteerInverted)
+      {
+        wheels[i].WheelJoint->SetHiStop(0,0);
+        wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
+      }
+      else
+      {
+        wheels[i].WheelJoint->SetLoStop(0,0);
+        wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
+      }
+    }
+  }
+  if (steerdir==1)
+  {
+    for(size_t i=0;i < wheels.Length();i++)
+    {
+      if(!wheels[i].SteerInverted)
+      {
+        wheels[i].WheelJoint->SetLoStop(0,0);
+        wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
+      }
+      else
+      {
+        wheels[i].WheelJoint->SetHiStop(0,0);
+        wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
+      }
+    }
+  }
+  steerdir=0;
 }
 
 void celPcWheeled::UpdateTankSteer()
@@ -376,13 +446,13 @@ void celPcWheeled::TickOnce()
 {
 
   if(gear>0)
-      UpdateGear();
+    UpdateGear();
 
- for(size_t i=0; i < wheels.Length();i++)
-    {
-      wheels[i].WheelJoint->SetVel(gears[gear+1].x,1);
-      wheels[i].WheelJoint->SetFMax(gears[gear+1].y,1);
-    }
+  for(size_t i=0; i < wheels.Length();i++)
+  {
+    wheels[i].WheelJoint->SetVel(gears[gear+1].x,1);
+    wheels[i].WheelJoint->SetFMax(gears[gear+1].y,1);
+  }
 
   if(braking)
   {
