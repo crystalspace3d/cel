@@ -109,7 +109,7 @@ private:
   char* name;
   csFlags flags;
   char* materialname;
-  iMaterialWrapper* material;
+  csRef<iMaterialWrapper> material;
   int image_w, image_h;
   // Coordinates in billboard space.
   int bb_x, bb_y, bb_w, bb_h;
