@@ -2978,6 +2978,8 @@ class iPcHover(cspace.iBase):
     def SetAngularBeamOffset(*args): return _blcelc.iPcHover_SetAngularBeamOffset(*args)
     def SetAngularCutoffHeight(*args): return _blcelc.iPcHover_SetAngularCutoffHeight(*args)
     def SetAngularCorrectionStrength(*args): return _blcelc.iPcHover_SetAngularCorrectionStrength(*args)
+    def HoverOn(*args): return _blcelc.iPcHover_HoverOn(*args)
+    def HoverOff(*args): return _blcelc.iPcHover_HoverOff(*args)
     def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
     def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
     def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
