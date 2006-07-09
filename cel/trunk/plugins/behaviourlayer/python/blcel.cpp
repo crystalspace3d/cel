@@ -15534,6 +15534,49 @@ static PyObject *_wrap_iPcMechanicsSystem_GetStepTime(PyObject *, PyObject *args
 }
 
 
+static PyObject *_wrap_iPcMechanicsSystem_SetSimulationSpeed(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsSystem_SetSimulationSpeed",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetSimulationSpeed(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsSystem_GetSimulationSpeed(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
+    float result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcMechanicsSystem_GetSimulationSpeed",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsSystem, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (float)(arg1)->GetSimulationSpeed();
+    
+    {
+        resultobj = SWIG_From_float((float)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcMechanicsSystem_SetGravity(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsSystem *arg1 = (iPcMechanicsSystem *) 0 ;
@@ -38366,6 +38409,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMechanicsSystem_GetDynamicSystem", _wrap_iPcMechanicsSystem_GetDynamicSystem, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_SetStepTime", _wrap_iPcMechanicsSystem_SetStepTime, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_GetStepTime", _wrap_iPcMechanicsSystem_GetStepTime, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsSystem_SetSimulationSpeed", _wrap_iPcMechanicsSystem_SetSimulationSpeed, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsSystem_GetSimulationSpeed", _wrap_iPcMechanicsSystem_GetSimulationSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_SetGravity", _wrap_iPcMechanicsSystem_SetGravity, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_GetGravity", _wrap_iPcMechanicsSystem_GetGravity, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsSystem_AddForceDuration", _wrap_iPcMechanicsSystem_AddForceDuration, METH_VARARGS, NULL},

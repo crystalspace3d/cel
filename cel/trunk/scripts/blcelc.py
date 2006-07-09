@@ -1070,6 +1070,8 @@ class iPcMechanicsSystem(cspace.iBase):
     def GetDynamicSystem(*args): return _blcelc.iPcMechanicsSystem_GetDynamicSystem(*args)
     def SetStepTime(*args): return _blcelc.iPcMechanicsSystem_SetStepTime(*args)
     def GetStepTime(*args): return _blcelc.iPcMechanicsSystem_GetStepTime(*args)
+    def SetSimulationSpeed(*args): return _blcelc.iPcMechanicsSystem_SetSimulationSpeed(*args)
+    def GetSimulationSpeed(*args): return _blcelc.iPcMechanicsSystem_GetSimulationSpeed(*args)
     def SetGravity(*args): return _blcelc.iPcMechanicsSystem_SetGravity(*args)
     def GetGravity(*args): return _blcelc.iPcMechanicsSystem_GetGravity(*args)
     def AddForceDuration(*args): return _blcelc.iPcMechanicsSystem_AddForceDuration(*args)
