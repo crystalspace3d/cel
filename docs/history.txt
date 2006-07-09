@@ -2,7 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+9-Jul-2006
+        - cfraz89 fixed up ProcessForces() not accounting for changed speed
+          in mechsys.
 8-Jul-2006
         - cfraz89 added experimental slow/fast motion support to mechsys, with 
           SetSimulationSpeed(). Very Fast motion, eg 10x, seems to make the 
