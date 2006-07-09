@@ -185,7 +185,7 @@ void celPcMechanicsSystem::TickEveryFrame ()
   float et = remaining_delta + (float (elapsed_time) / (1000.0/simulationspeed));
   while (et >= delta_modulated)
   {
-    ProcessForces (delta);
+    ProcessForces (delta_modulated);
     dynamics->Step (delta_modulated);
     et -= delta_modulated;
   }
