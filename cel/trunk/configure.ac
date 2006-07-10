@@ -59,6 +59,52 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 	[$cs_cv_prog_cxx_ignore_uninitialized])])
 
 #------------------------------------------------------------------------------
+# Check for compiler debug flags.
+#------------------------------------------------------------------------------
+binutils_recent=no
+AS_IF([test -n "$OBJCOPY"],
+    [CS_CHECK_PROG_VERSION([binutils], [$OBJCOPY -V], [2.16], [9.9|.9.9.9],
+        [binutils_recent=yes])])
+
+AC_MSG_CHECKING([whether to split debug information])
+AC_ARG_ENABLE([separate-debug-info],
+    [AC_HELP_STRING([--enable-separate-debug-info],
+        [split debug information into separate files. (default YES if
+        binutils >= 2.16 detected and not on Cygwin, otherwise default NO)])])
+AS_IF([test -z "$enable_separate_debug_info"],
+    AS_IF([test -z `uname | grep -i CYGWIN`],
+        [enable_separate_debug_info=$binutils_recent],
+        [enable_separate_debug_info=no]))
+AC_MSG_RESULT([$enable_separate_debug_info])
+
+CS_EMIT_BUILD_PROPERTY([LINK.DEBUG.INFO.SEPARATE], [$enable_separate_debug_info])
+
+CS_EMIT_BUILD_FLAGS([how to enable debug mode debugging symbols],
+    [cs_cv_prog_cxx_debug_symbols_extra],
+    [CS_CREATE_TUPLE([-g3]) CS_CREATE_TUPLE([-g2]) CS_CREATE_TUPLE([-g])],
+    [C++], [COMPILER.CFLAGS.debug], [+],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.debug],
+        [$cs_cv_prog_cxx_debug_symbols_extra], [+])])
+
+AC_MSG_CHECKING([whether to enable debug information in optimize mode])
+AC_ARG_ENABLE([optimize-mode-debug-info],
+    [AC_HELP_STRING([--enable-optimize-mode-debug-info],
+        [whether to enable debug information even in optimize builds.
+        (default YES if separate debug information is enabled,
+        otherwise default NO)])],
+    [enable_optimize_mode_debug_info=$enableval])
+AS_IF([test -z "$enable_optimize_mode_debug_info"],
+    [enable_optimize_mode_debug_info=$enable_separate_debug_info])
+AC_MSG_RESULT([$enable_optimize_mode_debug_info])
+AS_IF([test "$enable_optimize_mode_debug_info" != "no"],
+    [CS_EMIT_BUILD_FLAGS([how to enable optimize mode debugging symbols],
+        [cs_cv_prog_cxx_debug_symbols_normal],
+        [CS_CREATE_TUPLE([-g2]) CS_CREATE_TUPLE([-g])],
+        [C++], [COMPILER.CFLAGS.optimize], [+],
+        [CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS.optimize],
+            [$cs_cv_prog_cxx_debug_symbols_normal], [+])])])
+
+#------------------------------------------------------------------------------
 # Check how to set default symbol visibility, and how to override the setting
 # in code.
 #------------------------------------------------------------------------------

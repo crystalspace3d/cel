@@ -2,6 +2,13 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
+10-Jul-2006
+	- caedes updated application and plugin jam files at mk/jam from
+	  crystalspace, also took necessary modifications from configure.ac
+	  and added strip.jam so now the build system will also split debug 
+	  symbols in cel apps and plugins.
+	  Additionaly manifest will not be generated for win32/msvc apps.
 9-Jul-2006
         - cfraz89 fixed up ProcessForces() not accounting for changed speed
           in mechsys.
