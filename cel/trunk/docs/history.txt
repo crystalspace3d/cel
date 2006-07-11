@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Jul-2006
+        - res augmented celInitializer::setup_plugin_dirs() to support a
+          list of paths in the CEL environment variable.
 10-Jul-2006
 	- caedes updated application and plugin jam files at mk/jam from
 	  crystalspace, also took necessary modifications from configure.ac
