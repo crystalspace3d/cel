@@ -30,18 +30,25 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
   if (!done)
   {
     csPathsList cel_paths;
-    csString cel_path = getenv("CEL");
-    if (!cel_path.IsEmpty())
+    csString cel_env (getenv ("CEL"));
+    if (!cel_env.IsEmpty())
     {
-      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
-      cel_path << CS_PATH_SEPARATOR << "lib";
-      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
-      cel_path << CS_PATH_SEPARATOR << "cel";
-      cel_paths.AddUniqueExpanded(cel_path, CEL_PLUGIN_SCAN_RECURSE, "cel");
+      static const char* const celDirs[] = {
+	"", 
+	"lib/", 
+	"cel/",
+	0};
+      csPathsList cel_env_paths (cel_env);
+      // Assign "cel" type to all paths
+      for (size_t i = 0; i < cel_env_paths.GetSize(); i++)
+        cel_env_paths[i].type = "cel";
+      // Add CEL paths to try
+      cel_paths.AddUniqueExpanded(cel_env_paths * csPathsList (celDirs), 
+        CEL_PLUGIN_SCAN_RECURSE);
     }
     else
     {
-      cel_paths.AddUniqueExpanded("/usr/lib/cel/", CEL_PLUGIN_SCAN_RECURSE, "cel");
+      cel_paths.AddUniqueExpanded("/usr/lib/cel/", CEL_PLUGIN_SCAN_RECURSE);
     }
 
     if (dir0 != 0)
