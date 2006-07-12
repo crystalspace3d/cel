@@ -39,6 +39,19 @@ class csVector3;
 struct iMeshFactoryWrapper;
 struct iEngine;
 
+struct celWheel
+{
+  csRef<iODEHinge2Joint> WheelJoint;
+  csRef<iRigidBody> RigidBody;
+  csVector3 Position;
+  float LeftSteerSensitivity;
+  float RightSteerSensitivity;
+  float TurnSpeed;
+  float ReturnSpeed;
+  float EnginePower;
+  float BrakePower;
+  bool SteerInverted;
+};
 /**
  * Factory for test.
  */
@@ -108,6 +121,9 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetTankMode(bool tankmode){celPcWheeled::tankmode=tankmode;};
     virtual int AddWheel(csVector3 position);
     virtual void RemoveWheel(int wheelnum);
+    virtual void SetupWheels();
+    virtual void DestroyWheels();
+    
     virtual void Accelerate();
     virtual void Brake();
     virtual void HandBrake();
@@ -124,6 +140,22 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetBrakeForce(float force){brakeforce=force;};
     virtual void SetNumberGears(int number);
 
+  // Stuff for each wheel
+    virtual void SetWheelPosition(int wheelnum, csVector3 position);
+    virtual void SetWheelLeftSteerSensitivity(int wheelnum, float sensitivity)
+      {wheels[wheelnum].LeftSteerSensitivity=sensitivity;};
+    virtual void SetWheelRightSteerSensitivity(int wheelnum, float sensitivity)
+      {wheels[wheelnum].RightSteerSensitivity=sensitivity;};
+    virtual void SetWheelTurnSpeed(int wheelnum, float speed)
+      {wheels[wheelnum].TurnSpeed=speed;};
+    virtual void SetWheelReturnSpeed(int wheelnum, float speed)
+      {wheels[wheelnum].ReturnSpeed=speed;};
+    virtual void SetWheelEnginePower(int wheelnum, float power)
+      {wheels[wheelnum].EnginePower=power;};
+    virtual void SetWheelBrakePower(int wheelnum, float power)
+      {wheels[wheelnum].BrakePower=power;};
+    virtual void SetWheelSteerInverted(int wheelnum, bool inverted)
+      {wheels[wheelnum].SteerInverted=inverted;};
   //The getter functions
     virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
     virtual size_t GetNumberGears() {return gears.Length();};

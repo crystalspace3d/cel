@@ -688,7 +688,8 @@ celPcMechanicsObject::~celPcMechanicsObject ()
     mechsystem->ClearForces ((iPcMechanicsObject*)this);
   if (body)
   {
-    pl->UnattachEntity (body->QueryObject (), entity);
+    if(pl)
+      pl->UnattachEntity (body->QueryObject (), entity);
     body->SetCollisionCallback (0);
     if (mechsystem)
       mechsystem->RemoveBody (body);

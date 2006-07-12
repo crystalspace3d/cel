@@ -7891,10 +7891,12 @@ fi
 	    cs_cv_pybase_libs=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
 		print (distutils.sysconfig.get_config_var(\"LIBS\") or \"\")+\" \"+ \\
+		      (distutils.sysconfig.get_config_var(\"LINKFORSHARED\") or \"\")+\" \"+ \\
 		      (distutils.sysconfig.get_config_var(\"SYSLIBS\") or \"\")'") >&5
   ($PYTHON -c \
 		'import distutils.sysconfig; \
 		print (distutils.sysconfig.get_config_var("LIBS") or "")+" "+ \
+		      (distutils.sysconfig.get_config_var("LINKFORSHARED") or "")+" "+ \
 		      (distutils.sysconfig.get_config_var("SYSLIBS") or "")') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5

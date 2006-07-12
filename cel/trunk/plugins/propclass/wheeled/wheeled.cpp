@@ -100,6 +100,13 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
 celPcWheeled::~celPcWheeled ()
 {
+  DestroyWheels();
+  bodyMech=0;
+  wheelfact=0;
+  bodyGroup=0;
+  engine=0;
+  gears=0;
+  wheels=0;
   delete params;
 }
 
@@ -210,10 +217,9 @@ void celPcWheeled::Initialise()
   bodyGroup=dyn->CreateGroup();
   csOrthoTransform t;
   t.SetOrigin(boundingbox.GetCenter());
+  bodyMech->GetBody()->DestroyColliders();
   bodyMech->AttachColliderBox(boundingbox.GetSize(), t);
   bodyGroup->AddBody(bodyMech->GetBody());
-
-  //SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
 }
 
 void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
@@ -228,66 +234,12 @@ void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
 
 int celPcWheeled::AddWheel(csVector3 position)
 {
-  //Create the mesh
-  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh); 
-  csOrthoTransform bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
-  csRef<iMeshWrapper> wheelmesh=0;
-  csRef<iSectorList> bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
-  if(bodySectors->GetCount() > 0)
-  {
-    csRef<iSector> bodySector=bodySectors->Get(0);
-    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,position);
-  }
-  else
-  {
-    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel");
-    wheelmesh->GetMovable()->SetPosition(position);
-    wheelmesh->GetMovable()->UpdateMove();
-  }
-  
-  //Create the dynamic body
-  csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
-  csRef<iRigidBody> wheelbody=dyn->CreateBody();
-  bodyGroup->AddBody(wheelbody);
-
-  csVector3 wheelcenter;
-  wheelmesh->GetMeshObject ()->GetObjectModel ()->GetRadius(wheelradius,wheelcenter);
-  wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
-  wheelbody->SetPosition(bodytransform.This2Other(position));
-  wheelbody->AttachMesh(wheelmesh);
-  wheelbody->AttachColliderSphere(wheelradius,wheelcenter,1.0,1,0.5f,0.5f);
-    //If it a right wheel, flip it.
-  if (position.x<0)
-  {
-    csOrthoTransform t=wheelbody->GetTransform();
-    t.RotateThis(csVector3(0,1,0),3.14f);
-    wheelbody->SetTransform(t);
-  }
-
-  //Create the joint
-  csRef<iODEDynamicSystemState> osys=SCF_QUERY_INTERFACE (dyn, iODEDynamicSystemState);
-  csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
-  joint->Attach(bodyMech->GetBody(),wheelbody);
-  joint->SetHingeAnchor(bodytransform.This2Other(position));
-  joint->SetHingeAxis1(csVector3(0,1,0));
-  joint->SetHingeAxis2(csVector3(1,0,0));
-  joint->SetSuspensionCFM(0.000125f,0);
-  joint->SetSuspensionERP(0.125,0);
-  joint->SetLoStop(0,0);
-  joint->SetHiStop(0,0);
-  joint->SetVel(0,0);
-  joint->SetVel(0,1);
-  joint->SetStopERP(1.0,0);
-  joint->SetFMax(1000,0);
-  joint->SetFMax(100,1);
-
   celWheel wheel;
-  wheel.RigidBody=wheelbody;
-  wheel.WheelJoint=joint;
+  wheel.RigidBody=0;
+  wheel.WheelJoint=0;
   wheel.Position=position;
-  wheel.BrakePower=300;
-  wheel.LeftSteerOffset=0;
-  wheel.RightSteerOffset=0;
+  wheel.LeftSteerSensitivity=1;
+  wheel.RightSteerSensitivity=1;
   wheel.TurnSpeed=2;
   wheel.ReturnSpeed=2;
   wheel.BrakePower=1;
@@ -297,11 +249,95 @@ int celPcWheeled::AddWheel(csVector3 position)
   else
     wheel.SteerInverted=true;
   wheels.Push(wheel);
-  return 0;
+  return int(wheels.Length())-1;
+}
+
+void celPcWheeled::SetupWheels()
+{
+  DestroyWheels();
+  for(size_t i=0; i < wheels.Length();i++)
+  {
+  //Create the mesh
+    csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh); 
+    csOrthoTransform bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
+    csRef<iMeshWrapper> wheelmesh=0;
+    csRef<iSectorList> bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
+    if(bodySectors->GetCount() > 0)
+    {
+      csRef<iSector> bodySector=bodySectors->Get(0);
+      wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,wheels[i].Position);
+    }
+    else
+    {
+      wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel");
+      wheelmesh->GetMovable()->SetPosition(wheels[i].Position);
+      wheelmesh->GetMovable()->UpdateMove();
+    }
+  
+  //Create the dynamic body
+    csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
+    csRef<iRigidBody> wheelbody=dyn->CreateBody();
+    bodyGroup->AddBody(wheelbody);
+
+    csVector3 wheelcenter;
+    wheelmesh->GetMeshObject ()->GetObjectModel ()->GetRadius(wheelradius,wheelcenter);
+    wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
+    wheelbody->SetPosition(bodytransform.This2Other(wheels[i].Position));
+    wheelbody->AttachMesh(wheelmesh);
+    wheelbody->AttachColliderSphere(wheelradius,wheelcenter,1.0,1,0.5f,0.5f);
+    //If it a right wheel, flip it.
+    if (wheels[i].Position.x<0)
+    {
+      csOrthoTransform t=wheelbody->GetTransform();
+      t.RotateThis(csVector3(0,1,0),3.14f);
+      wheelbody->SetTransform(t);
+    }
+
+  //Create the joint
+    csRef<iODEDynamicSystemState> osys=SCF_QUERY_INTERFACE (dyn, iODEDynamicSystemState);
+    csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
+    joint->Attach(bodyMech->GetBody(),wheelbody);
+    joint->SetHingeAnchor(bodytransform.This2Other(wheels[i].Position));
+    joint->SetHingeAxis1(csVector3(0,1,0));
+    joint->SetHingeAxis2(csVector3(1,0,0));
+    joint->SetSuspensionCFM(0.000125f,0);
+    joint->SetSuspensionERP(0.125,0);
+    joint->SetLoStop(0,0);
+    joint->SetHiStop(0,0);
+    joint->SetVel(0,0);
+    joint->SetVel(0,1);
+    joint->SetStopERP(1.0,0);
+    joint->SetFMax(1000,0);
+    joint->SetFMax(100,1);
+
+    wheels[i].RigidBody=wheelbody;
+    wheels[i].WheelJoint=joint;
+  }
 }
 
 void celPcWheeled::RemoveWheel(int wheelnum)
 {
+}
+
+void celPcWheeled::DestroyWheels()
+{
+  csRef<iDynamicSystem> dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
+  csRef<iODEDynamicSystemState> osys=SCF_QUERY_INTERFACE (dyn, iODEDynamicSystemState);
+  for(size_t i=0;i < wheels.Length();i++)
+  {
+    if (wheels[i].WheelJoint!=0)
+    {
+      osys->RemoveJoint(wheels[i].WheelJoint);
+      wheels[i].WheelJoint=0;
+    }
+    if (wheels[i].RigidBody!=0)
+    {
+      csRef<iMeshWrapper> mesh = wheels[i].RigidBody->GetAttachedMesh();
+      engine->WantToDie(mesh);
+      dyn->RemoveBody(wheels[i].RigidBody);
+      wheels[i].RigidBody=0;
+    }
+  }
 }
 
 void celPcWheeled::Accelerate()
@@ -326,17 +362,20 @@ void celPcWheeled::SteerLeft()
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
-      if(!wheels[i].SteerInverted)
+      if(wheels[i].WheelJoint!=0)
       {
-        float lostop=-steeramount+wheels[i].LeftSteerOffset;
-        wheels[i].WheelJoint->SetLoStop(lostop,0);
-        wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
-      }
-     else
-      {
-        float histop=steeramount+wheels[i].RightSteerOffset;
-        wheels[i].WheelJoint->SetHiStop(histop,0);
-        wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+        if(!wheels[i].SteerInverted)
+        {
+          float lostop=-steeramount*wheels[i].LeftSteerSensitivity;
+          wheels[i].WheelJoint->SetLoStop(lostop,0);
+          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+        }
+        else
+        {
+          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          wheels[i].WheelJoint->SetHiStop(histop,0);
+          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+        }
       }
     }
   }
@@ -349,36 +388,43 @@ void celPcWheeled::SteerRight()
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
-      if(!wheels[i].SteerInverted)
+      if(wheels[i].WheelJoint!=0)
       {
-        float histop=steeramount+wheels[i].RightSteerOffset;
-        wheels[i].WheelJoint->SetHiStop(histop,0);
-        wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
-      }
-      else
-      {
-        float lostop=-steeramount+wheels[i].LeftSteerOffset;
-        wheels[i].WheelJoint->SetLoStop(lostop,0);
-        wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+        if(!wheels[i].SteerInverted)
+        {
+          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          wheels[i].WheelJoint->SetHiStop(histop,0);
+          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+        }
+        else
+        {
+          float lostop=-steeramount*wheels[i].LeftSteerSensitivity;
+          wheels[i].WheelJoint->SetLoStop(lostop,0);
+          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+        }
       }
     }
   }
 }
+
 void celPcWheeled::SteerStraight()
 {
   if (steerdir==-1)
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
-      if(!wheels[i].SteerInverted)
+      if(wheels[i].WheelJoint!=0)
       {
-        wheels[i].WheelJoint->SetHiStop(0,0);
-        wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
-      }
-      else
-      {
-        wheels[i].WheelJoint->SetLoStop(0,0);
-        wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
+        if(!wheels[i].SteerInverted)
+        {
+          wheels[i].WheelJoint->SetHiStop(0,0);
+          wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
+        }
+        else
+        {
+          wheels[i].WheelJoint->SetLoStop(0,0);
+          wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
+        }
       }
     }
   }
@@ -386,15 +432,18 @@ void celPcWheeled::SteerStraight()
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
-      if(!wheels[i].SteerInverted)
+      if(wheels[i].WheelJoint!=0)
       {
-        wheels[i].WheelJoint->SetLoStop(0,0);
-        wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
-      }
-      else
-      {
-        wheels[i].WheelJoint->SetHiStop(0,0);
-        wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
+        if(!wheels[i].SteerInverted)
+        {
+          wheels[i].WheelJoint->SetLoStop(0,0);
+          wheels[i].WheelJoint->SetVel(-wheels[i].ReturnSpeed,0);
+        }
+        else
+        {
+          wheels[i].WheelJoint->SetHiStop(0,0);
+          wheels[i].WheelJoint->SetVel(wheels[i].ReturnSpeed,0);
+        }
       }
     }
   }
@@ -407,17 +456,20 @@ void celPcWheeled::UpdateTankSteer()
   {
     for(size_t i =0; i < wheels.Length() ; i++)
     {
-      //It's a right wheel, steering right. slow it down
-      if (wheels[i].Position.x < 0 && steerdir > 0)
+      if(wheels[i].WheelJoint!=0)
       {
-        wheels[i].WheelJoint->SetVel(0,1);
-        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
-      }
-      //It's a left wheel,, steering left. slow it down
-      if (wheels[i].Position.x > 0  && steerdir < 0)
-      {
-        wheels[i].WheelJoint->SetVel(0,1);
-        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
+        //It's a right wheel, steering right. slow it down
+        if (wheels[i].Position.x < 0 && steerdir > 0)
+        {
+          wheels[i].WheelJoint->SetVel(0,1);
+          wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
+        }
+        //It's a left wheel,, steering left. slow it down
+        if (wheels[i].Position.x > 0  && steerdir < 0)
+        {
+          wheels[i].WheelJoint->SetVel(0,1);
+          wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
+        }
       }
     }
   }
@@ -425,17 +477,20 @@ void celPcWheeled::UpdateTankSteer()
   {
     for(size_t i =0; i < wheels.Length() ; i++)
     {
-      //It's a right wheel
-      if (wheels[i].Position.x < 0 )
+      if(wheels[i].WheelJoint!=0)
       {
-        wheels[i].WheelJoint->SetVel(-steerdir*steeramount*20,1);
-        wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
-      }
-      //It's a left wheel
-      if (wheels[i].Position.x > 0 )
-      {
-        wheels[i].WheelJoint->SetVel(steerdir*steeramount*20,1);
-        wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
+        //It's a right wheel
+        if (wheels[i].Position.x < 0 )
+        {
+          wheels[i].WheelJoint->SetVel(-steerdir*steeramount*20,1);
+          wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
+        }
+        //It's a left wheel
+        if (wheels[i].Position.x > 0 )
+        {
+          wheels[i].WheelJoint->SetVel(steerdir*steeramount*20,1);
+          wheels[i].WheelJoint->SetFMax(gears[2].y, 1);
+        }
       }
     }
   }
@@ -450,20 +505,28 @@ void celPcWheeled::TickOnce()
 
   for(size_t i=0; i < wheels.Length();i++)
   {
-    wheels[i].WheelJoint->SetVel(gears[gear+1].x,1);
-    wheels[i].WheelJoint->SetFMax(gears[gear+1].y,1);
+    if(wheels[i].WheelJoint!=0)
+    {
+      wheels[i].WheelJoint->SetVel(gears[gear+1].x*wheels[i].EnginePower,1);
+      wheels[i].WheelJoint->SetFMax(gears[gear+1].y*wheels[i].EnginePower,1);
+    }
   }
 
   if(braking)
   {
     for(size_t i=0; i < wheels.Length();i++)
     {
-      wheels[i].WheelJoint->SetVel(0,1);
-      wheels[i].WheelJoint->SetFMax(brakeforce,1);
+      if(wheels[i].WheelJoint!=0)
+      {
+        wheels[i].WheelJoint->SetVel(0,1);
+        wheels[i].WheelJoint->SetFMax(brakeforce*wheels[i].BrakePower,1);
+      }
     }
   }
+  
   if(tankmode && steerdir!=0)
     UpdateTankSteer();
+  
   pl->CallbackOnce ((iCelTimerListener*)this, 30, CEL_EVENT_PRE);
 }
 
@@ -514,5 +577,7 @@ void celPcWheeled::UpdateGear()
   }
 }
 
+void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
+{}
 //---------------------------------------------------------------------------
 

@@ -93,6 +93,7 @@ AC_DEFUN([CS_CHECK_PYTHON],
 	    cs_cv_pybase_libs=CS_RUN_PATH_NORMALIZE([$PYTHON -c \
 		'import distutils.sysconfig; \
 		print (distutils.sysconfig.get_config_var("LIBS") or "")+" "+ \
+		      (distutils.sysconfig.get_config_var("LINKFORSHARED") or "")+" "+ \
 		      (distutils.sysconfig.get_config_var("SYSLIBS") or "")'])
 
 	    cs_cv_python_ext=`AC_RUN_LOG([$PYTHON -c \
