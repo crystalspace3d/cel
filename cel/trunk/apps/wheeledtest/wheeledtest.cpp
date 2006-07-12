@@ -244,7 +244,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->Initialise();
   pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
-  pcwheeled->SetTankMode(true);
+  //pcwheeled->SetTankMode(true);
   pcwheeled->SetBrakeForce(1000);
   pcwheeled->AddWheel(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,-0.7f));
