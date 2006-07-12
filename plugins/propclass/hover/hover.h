@@ -31,7 +31,7 @@
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
 
-#include "tools/stabiliser_dist.h"
+#include "propclass/stabiliser_dist.h"
 #include "../mechanics/ticktimer.h"
 
 struct iPcMesh;
