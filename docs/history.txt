@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
           the setup. This is basically a memory of wheel settings.
         - cfraz89 added a check if pl is still valid on destruction in
           mechanics.cpp. This fixes up a few crashes on exit of apps.
+	- Genjix moved stabiliser_dist.h to include/propclass directory from
+	  include/tools.
 11-Jul-2006
         - res augmented celInitializer::setup_plugin_dirs() to support a
           list of paths in the CEL environment variable.
