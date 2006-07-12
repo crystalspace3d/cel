@@ -19,7 +19,7 @@
 
 #include <cssysdef.h>
 
-#include "tools/stabiliser_dist.h"
+#include "propclass/stabiliser_dist.h"
 #include <cmath>
 
 float celDefaultHoverUpthruster::Force (celHoverObjectInfo obj_info)
