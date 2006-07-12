@@ -470,7 +470,7 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
     if (!strcmp (msg_id+15, "accelerate1"))
 	pcwheeled->Accelerate();
     else if (!strcmp (msg_id+15, "reverse1"))
-	pcwheeled->Reverse();
+	pcwheeled->SetBrakeApplied(true);
     else if (!strcmp (msg_id+15, "steerleft1"))
 	pcwheeled->SteerLeft();
     else if (!strcmp (msg_id+15, "steerright1"))
@@ -480,11 +480,13 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
     else if (!strcmp (msg_id+15, "steerright0"))
 	pcwheeled->SteerStraight();
     else if (!strcmp (msg_id+15, "handbrake1"))
-	pcwheeled->HandBrake();
+	pcwheeled->SetHandbrakeApplied(true);
+    else if (!strcmp (msg_id+15, "handbrake0"))
+	pcwheeled->SetHandbrakeApplied(false);
     if (!strcmp (msg_id+15, "accelerate0"))
-	pcwheeled->Roll();
+	pcwheeled->Neutral();
     if (!strcmp (msg_id+15, "reverse0"))
-	pcwheeled->Roll();
+	pcwheeled->SetBrakeApplied(false);
     else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
