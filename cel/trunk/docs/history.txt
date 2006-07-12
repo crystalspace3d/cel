@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	- Genjix moved stabiliser_dist.h to include/propclass directory from
 	  include/tools.
 	- Genjix updated apps that use stabiliser_dist.h
+	- Genjix updated include path for stabiliser_dist.cpp
 11-Jul-2006
         - res augmented celInitializer::setup_plugin_dirs() to support a
           list of paths in the CEL environment variable.
