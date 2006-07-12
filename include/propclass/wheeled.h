@@ -53,19 +53,6 @@ struct iMeshFactoryWrapper;
 struct iODEHinge2Joint;
 struct iRigidBody;
 
-struct celWheel
-{
-  csRef<iODEHinge2Joint> WheelJoint;
-  csRef<iRigidBody> RigidBody;
-  csVector3 Position;
-  float LeftSteerOffset;
-  float RightSteerOffset;
-  float TurnSpeed;
-  float ReturnSpeed;
-  float EnginePower;
-  float BrakePower;
-  bool SteerInverted;
-};
 
 struct iPcWheeled : public virtual iBase
 
@@ -98,14 +85,24 @@ struct iPcWheeled : public virtual iBase
   virtual int GetTankMode() = 0;
 
  /**
-  * Add a wheel to the vehicle.
+  * Add a wheel to the vehicle's setup. The wheel won't be created until SetupWheels() is called.
   */
  virtual int AddWheel(csVector3 position) = 0;
 
  /**
-  * Remove a wheel from the vehicle.
+  * Remove a wheel from the vehicle's setup. It won't be deleted until SetupWheels() is called.
   */
  virtual void RemoveWheel(int wheelnum) = 0;
+
+ /**
+  * (Re)Create the vehicle's wheels from the setup.
+  */
+ virtual void SetupWheels() = 0;
+
+ /**
+  * Destroy all wheels on the car. The setup is still retained, so the wheels can be restored with SetupWheels()
+  */
+ virtual void DestroyWheels() = 0;
 
  /**
   * Accelerate the vehicle.

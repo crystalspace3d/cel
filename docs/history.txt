@@ -2,7 +2,12 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+12-Jul-2005
+        - cfraz89 implemented a vehicle setup in pcwheeled. That is, wheels
+          when added or removed are changed in the setup. SetupWheels() applies
+          the setup. This is basically a memory of wheel settings.
+        - cfraz89 added a check if pl is still valid on destruction in
+          mechanics.cpp. This fixes up a few crashes on exit of apps.
 11-Jul-2006
         - res augmented celInitializer::setup_plugin_dirs() to support a
           list of paths in the CEL environment variable.

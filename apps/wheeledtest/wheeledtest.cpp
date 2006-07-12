@@ -137,6 +137,9 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
       // is by broadcasting a csevQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
+      //First, give the vehicle a chance to remove itself properly.
+      csRef<iCelEntity> vehicle=pl->FindEntity("vehicle");
+      pl->RemoveEntity(vehicle);
       csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
@@ -245,13 +248,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetBrakeForce(1000);
   pcwheeled->AddWheel(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,-0.7f));
-// :) 8-wheeler isn't much cool apparently :) 
- //pcwheeled->AddWheel(csVector3(-0.5,0,0));
- // pcwheeled->AddWheel(csVector3(0.5,0,0));
   pcwheeled->AddWheel(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,0.7f));
- // pcwheeled->AddWheel(csVector3(-0.5,0,1.4f));
- // pcwheeled->AddWheel(csVector3(0.5,0,1.4f));
+pcwheeled->SetupWheels();
+  pcwheeled->SetupWheels();
   pcwheeled->SetSteerAmount(0.5);
   pcwheeled->SetNumberGears(5);
    pcwheeled->SetGearSettings(1,10,3000);
@@ -316,7 +316,7 @@ bool WheeledTest::CreateMap ()
   scfString regionname, startname;
   pczonemgr->GetLastStartLocation (&regionname, &startname);
 
-  entity_dummy = CreateVehicle ("dyn", "track4", csVector3 (0,2.0f,1.0f));
+  entity_dummy = CreateVehicle ("vehicle", "track4", csVector3 (0,2.0f,1.0f));
   if (!entity_dummy) return false;
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (entity_dummy, iPcCamera);
