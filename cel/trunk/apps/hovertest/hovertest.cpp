@@ -94,7 +94,7 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
-#include "tools/stabiliser_dist.h"
+#include "propclass/stabiliser_dist.h"
 
 #define PATHFIND_VERBOSE 0
 

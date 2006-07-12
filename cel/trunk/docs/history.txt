@@ -10,23 +10,24 @@ The history order is reversed so that new features are at the top.
           mechanics.cpp. This fixes up a few crashes on exit of apps.
 	- Genjix moved stabiliser_dist.h to include/propclass directory from
 	  include/tools.
+	- Genjix updated apps that use stabiliser_dist.h
 11-Jul-2006
         - res augmented celInitializer::setup_plugin_dirs() to support a
           list of paths in the CEL environment variable.
 10-Jul-2006
 	- caedes updated application and plugin jam files at mk/jam from
 	  crystalspace, also took necessary modifications from configure.ac
-	  and added strip.jam so now the build system will also split debug 
+	  and added strip.jam so now the build system will also split debug
 	  symbols in cel apps and plugins.
 	  Additionaly manifest will not be generated for win32/msvc apps.
 9-Jul-2006
         - cfraz89 fixed up ProcessForces() not accounting for changed speed
           in mechsys.
 8-Jul-2006
-        - cfraz89 added experimental slow/fast motion support to mechsys, with 
-          SetSimulationSpeed(). Very Fast motion, eg 10x, seems to make the 
+        - cfraz89 added experimental slow/fast motion support to mechsys, with
+          SetSimulationSpeed(). Very Fast motion, eg 10x, seems to make the
 	  physics go flaky though.
-        - cfraz89 redid the pcwheeled wheel code, adding most of darek's 
+        - cfraz89 redid the pcwheeled wheel code, adding most of darek's
 	  per-wheel   options, like enginepower, brakepower, etc.
         - Genjix added HoverOn (), HoverOff () for pchover.
 	- res fixed celBillboard to keep a ref to the material it uses.

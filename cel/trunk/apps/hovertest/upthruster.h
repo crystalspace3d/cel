@@ -22,7 +22,7 @@
 #define __XD_SHIPUPTHRUSTER__
 
 // CEL Includes
-#include "tools/stabiliser_dist.h"
+#include "propclass/stabiliser_dist.h"
 
 #include <cmath>
 
