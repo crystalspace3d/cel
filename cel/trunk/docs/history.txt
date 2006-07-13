@@ -2,6 +2,11 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+13-Jul-2005
+        - cfraz89 made the automatic rear/outer wheel sensitivity not automatic,
+          and vehicle now defaults to no steering. Steering can be added through
+          a number of presets, FrontWheelSteer, RearWheelSteer, OuterWheelSteer,
+          and individually for each wheel.
 12-Jul-2005
         - cfraz89 implemented a vehicle setup in pcwheeled. That is, wheels
           when added or removed are changed in the setup. SetupWheels() applies
