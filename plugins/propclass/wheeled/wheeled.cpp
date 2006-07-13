@@ -70,6 +70,12 @@ CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
    csStringID celPcWheeled::action_setnumbergears= csInvalidStringID;
    csStringID celPcWheeled::action_setautoreverse= csInvalidStringID;
 
+//Presets
+   csStringID celPcWheeled::action_frontwheelsteer= csInvalidStringID;
+   csStringID celPcWheeled::action_rearwheelsteer= csInvalidStringID;
+   csStringID celPcWheeled::action_outerwheelsteer= csInvalidStringID;
+   csStringID celPcWheeled::action_clearwheelsteer= csInvalidStringID;
+
   //Per-wheel actions
    csStringID celPcWheeled::action_setwheelposition= csInvalidStringID;
    csStringID celPcWheeled::action_setwheelsuspensionsoftness= csInvalidStringID;
@@ -160,6 +166,11 @@ CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
     action_setnumbergears= pl->FetchStringID("cel.action.SetNumberGears");
     action_setautoreverse= pl->FetchStringID("cel.action.SetAutoReverse");
 
+  //Presets
+    action_frontwheelsteer= pl->FetchStringID("cel.action.FrontWheelSteer");
+    action_rearwheelsteer= pl->FetchStringID("cel.action.RearWheelSteer");
+    action_outerwheelsteer= pl->FetchStringID("cel.action.OuterWheelSteer");
+    action_clearwheelsteer= pl->FetchStringID("cel.action.ClearWheelSteer");
 
   //Per-wheel actions
     action_setwheelposition= pl->FetchStringID("cel.action.SetWheelPosition");
@@ -351,6 +362,30 @@ bool celPcWheeled::PerformAction (csStringID actionId,
     SetAutoReverse(reverse);
     return true;
   }
+//Presets
+  else if(actionId==action_frontwheelsteer)
+  {
+    CEL_FETCH_FLOAT_PAR(sens,params,param_sensitivity);
+    FrontWheelSteer(sens);
+    return true;
+  }
+  else if(actionId==action_rearwheelsteer)
+  {
+    CEL_FETCH_FLOAT_PAR(sens,params,param_sensitivity);
+    RearWheelSteer(sens);
+    return true;
+  }
+  else if(actionId==action_outerwheelsteer)
+  {
+    CEL_FETCH_FLOAT_PAR(sens,params,param_sensitivity);
+    OuterWheelSteer(sens);
+    return true;
+  }
+  else if(actionId==action_clearwheelsteer)
+  {
+    ClearWheelSteer();
+    return true;
+  }
   //Per-wheel actions
   else if(actionId==action_setwheelposition)
   {
@@ -468,40 +503,21 @@ int celPcWheeled::AddWheel(csVector3 position)
   wheel.RigidBody=0;
   wheel.WheelJoint=0;
   wheel.Position=position;
-  wheel.LeftSteerSensitivity=1;
-  wheel.RightSteerSensitivity=1;
+  wheel.LeftSteerSensitivity=0;
+  wheel.RightSteerSensitivity=0;
   wheel.TurnSpeed=2;
   wheel.ReturnSpeed=2;
   wheel.BrakePower=1;
   wheel.EnginePower=1;
   wheel.SuspensionSoftness=0.000125f;
   wheel.SuspensionDamping=0.125f;
-  wheel.SteerInverted=false;
-  if (position.x<0)
-  {
-    wheel.RightSteerSensitivity=0.75f;
-    if (position.z>0)
-    {
-      wheel.SteerInverted=true;
-      wheel.HandbrakeAffected=true;
-      wheel.RightSteerSensitivity=0.1f;
-      wheel.LeftSteerSensitivity=0.2f;
-    }
-  }
-  if (position.x>0)
-  {
-    wheel.LeftSteerSensitivity=0.75f;
-    if (position.z>0)
-    {
-      wheel.HandbrakeAffected=true;
-      wheel.SteerInverted=true;
-      wheel.LeftSteerSensitivity=0.1f;
-      wheel.RightSteerSensitivity=0.2f;
-    }
-  }
-
+  if (position.z>0)
+    wheel.SteerInverted=true;
+  else
+    wheel.SteerInverted=false;
+  
   wheels.Push(wheel);
-  return int(wheels.Length())-1;
+  return wheels.Length()-1;
 }
 
 void celPcWheeled::SetupWheels()
@@ -846,5 +862,50 @@ void celPcWheeled::TickOnce()
   }
 }
 
+void celPcWheeled::FrontWheelSteer(float sensitivity)
+{
+  for(size_t i=0; i<wheels.Length();i++)
+  {
+    if(wheels[i].Position.z<0)
+    {
+      wheels[i].LeftSteerSensitivity=sensitivity;
+      wheels[i].RightSteerSensitivity=sensitivity;
+    }
+  }
+}
+
+void celPcWheeled::RearWheelSteer(float sensitivity)
+{
+  for(size_t i=0; i<wheels.Length();i++)
+  {
+    if(wheels[i].Position.z>0)
+    {
+      wheels[i].LeftSteerSensitivity=sensitivity;
+      wheels[i].RightSteerSensitivity=sensitivity;
+    }
+  }
+}
+
+void celPcWheeled::OuterWheelSteer(float sensitivity)
+{
+  for(size_t i=0; i<wheels.Length();i++)
+  {
+//A left wheel
+    if (wheels[i].Position.x<0)
+      wheels[i].RightSteerSensitivity=wheels[i].RightSteerSensitivity*sensitivity;
+//A right wheel
+    if (wheels[i].Position.x>0)
+      wheels[i].LeftSteerSensitivity=wheels[i].LeftSteerSensitivity*sensitivity;
+  }
+}
+
+void celPcWheeled::ClearWheelSteer()
+{
+  for(size_t i=0; i<wheels.Length();i++)
+  {
+    wheels[i].LeftSteerSensitivity=0;
+    wheels[i].RightSteerSensitivity=0;
+  }
+}
 //---------------------------------------------------------------------------
 
