@@ -240,22 +240,38 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcmech->SetMass(1000.0);
   pcmech->SetDensity(1.0);
   pcmech->SetFriction(0.4f);
+  pcmech->AttachColliderBoundingBox();
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
-  pcwheeled->Initialise();
   pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
-  //pcwheeled->SetTankMode(true);
+  //Activate this, and the vehicle will steer like a tank. Ownage!
+ // pcwheeled->SetTankMode(true);
+
+  /*This part demos how to use presets to modify the steer and drive settings
+    of groups of wheels. It isn't neccessary, as the vehicle defaults to
+    front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
+    to modify car handling. The first setting is steering sensitivity, second
+    setting is drive power.*/ 
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f);
+
+  /*By letting the rear wheels steer a small amount, and giving them most power,
+    the vehicle's handling becomes much more twitchy. */
+  pcwheeled->SetRearWheelPreset(0.2f,1.0f);
+
+  //Making the outer wheels steer a wider arc also improves traction while turning.
+  pcwheeled->SetOuterWheelSteerPreset(0.7f);
+
   pcwheeled->SetBrakeForce(1000);
   pcwheeled->AddWheel(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,-0.7f));
+  pcwheeled->AddWheel(csVector3(-0.5,0,-0.25f));
+  pcwheeled->AddWheel(csVector3(0.5,0,-0.25f));
+  pcwheeled->AddWheel(csVector3(-0.5,0,0.25f));
+  pcwheeled->AddWheel(csVector3(0.5,0,0.25f));
   pcwheeled->AddWheel(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheel(csVector3(0.5,0,0.7f));
+
   pcwheeled->SetupWheels();
-  pcwheeled->FrontWheelSteer(1.0f);
-  
-//These two improve the car's handling.
-  pcwheeled->RearWheelSteer(0.15f);
-  pcwheeled->OuterWheelSteer(0.7f);
 
   pcwheeled->SetSteerAmount(0.7f);
   pcwheeled->SetNumberGears(5);

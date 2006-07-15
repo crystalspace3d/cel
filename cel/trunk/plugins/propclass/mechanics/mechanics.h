@@ -241,9 +241,11 @@ private:
   static csStringID action_makestatic;
   static csStringID action_setsystem;
   static csStringID action_setmesh;
+  static csStringID action_setcolliderboundingsphere;
   static csStringID action_setcollidersphere;
   static csStringID action_setcollidercylinder;
   static csStringID action_setcolliderbox;
+  static csStringID action_setcolliderboundingbox;
   static csStringID action_setcolliderplane;
   static csStringID action_setcollidermesh;
   static csStringID action_setlinearvelocity;
@@ -397,10 +399,12 @@ public:
   virtual bool IsStatic () const { return is_static; }
 
   virtual void AttachColliderSphere (float radius, const csVector3& offset);
+  virtual void AttachColliderBoundingSphere();
   virtual void AttachColliderCylinder (float length, float radius,
   	const csOrthoTransform& trans);
   virtual void AttachColliderBox (const csVector3& size,
   	const csOrthoTransform& trans);
+  virtual void AttachColliderBoundingBox();
   virtual void AttachColliderPlane (const csPlane3& plane);
   virtual void AttachColliderMesh ();
 
