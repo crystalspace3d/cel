@@ -486,7 +486,10 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
     if (!strcmp (msg_id+15, "accelerate0"))
 	pcwheeled->Neutral();
     if (!strcmp (msg_id+15, "reverse0"))
+    {
 	pcwheeled->SetBrakeApplied(false);
+        pcwheeled->Neutral();
+    }
     else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,

@@ -72,6 +72,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID action_settankmode;
     static csStringID action_addwheel;
     static csStringID action_removewheel;
+    static csStringID action_clearwheels;
     static csStringID action_setupwheels;
     static csStringID action_destroywheels;
     static csStringID action_accelerate;
@@ -91,10 +92,10 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID action_setautoreverse;
 
 //Presets.
-    static csStringID action_frontwheelsteer;
-    static csStringID action_rearwheelsteer;
-    static csStringID action_outerwheelsteer;
-    static csStringID action_clearwheelsteer;
+    static csStringID action_setfrontwheelpreset;
+    static csStringID action_setrearwheelpreset;
+    static csStringID action_setouterwheelsteerpreset;
+    static csStringID action_clearwheelpresets;
 
   //Per-wheel actions
     static csStringID action_setwheelposition;
@@ -147,11 +148,22 @@ CEL_DECLARE_FACTORY (Wheeled)
     float wheelradius;
   //The angle the user wants the wheels to reach
     float steeramount;
+    //The amount of preset sensitivity to be applied to front wheels.
+    float frontsteer;
+    //The amount of preset sensitivity to be applied to rear wheels.
+    float rearsteer;
+    //The amount of preset sensitivity to be applied to outer wheels.
+    float outersteer;
+    //The amount of preset power to go to the front wheels.
+    float frontpower;
+    //The amount of preset power to go to the rear wheels.
+    float rearpower;
     csString wheelpath;
     csString wheelfactname;
     csRef<iMeshFactoryWrapper> wheelfact;
     csRef<iBodyGroup> bodyGroup;
     csRef<iEngine> engine;
+    csRef<iDynamicSystem> dyn;
     csArray<csVector2> gears;
     csArray<celWheel> wheels;
     csRef<iPcMechanicsObject> bodyMech;
@@ -166,13 +178,14 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual ~celPcWheeled ();
 
   //Setters
-    virtual void Initialise();
     virtual void SetWheelMesh(const char* file, const char* factname);
     virtual void SetTankMode(bool tankmode)
     {celPcWheeled::tankmode=tankmode;};
     
     virtual int AddWheel(csVector3 position);
     virtual void RemoveWheel(int wheelnum);
+    virtual void ClearWheels()
+    {wheels.DeleteAll();};
     virtual void SetupWheels();
     virtual void DestroyWheels();
     
@@ -212,10 +225,11 @@ CEL_DECLARE_FACTORY (Wheeled)
     {celPcWheeled::autoreverse=autoreverse;};
 
     //Some wheel steering presets.
-    virtual void OuterWheelSteer(float sensitivity);
-    virtual void FrontWheelSteer(float sensitivity);
-    virtual void RearWheelSteer(float sensitivity);
-    virtual void ClearWheelSteer();
+    virtual void SetOuterWheelSteerPreset(float sensitivity);
+    virtual void SetFrontWheelPreset(float sensitivity,float power);
+    virtual void SetRearWheelPreset(float sensitivity,float power);
+    virtual void ClearWheelPresets();
+    virtual void ApplyWheelPresets(int wheelnum);
 
   // Stuff independent for each wheel
     //Settings related to the joints which need extra setup

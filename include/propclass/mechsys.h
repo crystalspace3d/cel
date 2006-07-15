@@ -488,6 +488,11 @@ struct iPcMechanicsObject : public virtual iBase
   //Colliders
 
   /**
+   * Create a sphere collider for this object, automatically sized and positioned from it's mesh.
+   */
+  virtual void AttachColliderBoundingSphere () = 0;
+
+  /**
    * Create a sphere collider for this object.
    * \param radius the radius of the sphere.
    * \param offset the offset from the center of the object to the center of
@@ -503,6 +508,11 @@ struct iPcMechanicsObject : public virtual iBase
    */
   virtual void AttachColliderCylinder (float length, float radius,
   	const csOrthoTransform& trans) = 0;
+
+  /**
+   * Create a box collider for this object, automatically sized and positioned from it's mesh.
+   */
+  virtual void AttachColliderBoundingBox () = 0;
 
   /**
    * Create a box collider for this object.

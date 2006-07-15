@@ -34,6 +34,8 @@
 #include "iengine/light.h"
 #include "iengine/camera.h"
 #include "iengine/movable.h"
+#include "imesh/objmodel.h"
+#include "imesh/object.h"
 #include "ivaria/reporter.h"
 #include "ivaria/dynamics.h"
 #include "ivaria/ode.h"
@@ -540,8 +542,10 @@ csStringID celPcMechanicsObject::action_initphys = csInvalidStringID;
 csStringID celPcMechanicsObject::action_makestatic = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setsystem = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setmesh = csInvalidStringID;
+csStringID celPcMechanicsObject::action_setcolliderboundingsphere = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcollidersphere = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcollidercylinder = csInvalidStringID;
+csStringID celPcMechanicsObject::action_setcolliderboundingbox = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcolliderbox = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcolliderplane = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setcollidermesh = csInvalidStringID;
@@ -623,9 +627,12 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
     action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
     action_setcollidersphere = pl->FetchStringID (
+    	"cel.action.SetColliderBoundingSphere");
+    action_setcollidersphere = pl->FetchStringID (
     	"cel.action.SetColliderSphere");
     action_setcollidercylinder = pl->FetchStringID (
     	"cel.action.SetColliderCylinder");
+    action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBoundingBox");
     action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBox");
     action_setcolliderplane = pl->FetchStringID ("cel.action.SetColliderPlane");
     action_setcollidermesh = pl->FetchStringID ("cel.action.SetColliderMesh");
@@ -1078,6 +1085,11 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     AttachColliderSphere (radius, offset);
     return true;
   }
+  else if (actionId == action_setcolliderboundingsphere)
+  {
+    AttachColliderBoundingSphere ();
+    return true;
+  }
   else if (actionId == action_setcollidercylinder)
   {
     CEL_FETCH_FLOAT_PAR (length,params,param_length);
@@ -1096,6 +1108,11 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
     if (!p_offset) offset.Set (0, 0, 0);
     AttachColliderCylinder (length, radius, csOrthoTransform (csMatrix3
 	(axis.x, axis.y, axis.z, angle), offset));
+  }
+  else if (actionId == action_setcolliderboundingbox)
+  {
+    AttachColliderBoundingBox ();
+    return true;
   }
   else if (actionId == action_setcolliderbox)
   {
@@ -1347,6 +1364,27 @@ void celPcMechanicsObject::AttachColliderSphere (float radius,
   btype = CEL_BODY_SPHERE;
 }
 
+void celPcMechanicsObject::AttachColliderBoundingSphere ()
+{
+  if (!GetBody ()) return;
+  FindMeshLightCamera ();
+  if (!pcmesh) return;
+  csVector3 offset(0);
+  float radius=1.0f;
+  csRef<iObjectModel> meshobjmodel;
+  meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
+  meshobjmodel->GetRadius(radius,offset);
+  body->AttachColliderSphere (radius, offset, friction, density,
+  	elasticity, softness);
+  body->AdjustTotalMass (mass);
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
+
+  delete bdata;
+  bdata = new sphere_data (radius, offset);
+  btype = CEL_BODY_SPHERE;
+}
+
 void celPcMechanicsObject::AttachColliderCylinder (float length, float radius,
 	const csOrthoTransform& trans)
 {
@@ -1376,6 +1414,28 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
 
   delete bdata;
   bdata = new box_data (size, trans);
+  btype = CEL_BODY_BOX;
+}
+
+void celPcMechanicsObject::AttachColliderBoundingBox ()
+{
+  if (!GetBody ()) return;
+  FindMeshLightCamera ();
+  if(!pcmesh) return;
+  csBox3 boundingbox;
+  csRef<iObjectModel> meshobjmodel;
+  meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
+  meshobjmodel->GetObjectBoundingBox(boundingbox);
+  csOrthoTransform t;
+  t.SetOrigin(boundingbox.GetCenter());
+  body->AttachColliderBox(boundingbox.GetSize(), t, friction, density, elasticity,
+  	softness);
+  body->AdjustTotalMass (mass);
+  body->SetTransform (GetFullTransform ());
+  AttachObject ();
+
+  delete bdata;
+  bdata = new box_data (boundingbox.GetSize(), t);
   btype = CEL_BODY_BOX;
 }
 

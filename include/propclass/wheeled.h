@@ -60,11 +60,6 @@ struct iPcWheeled : public virtual iBase
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
 
  /** 
-   *  Initialise the vehicle. This should be called after the mesh of the entity has been set.
-  */
-  virtual void Initialise() = 0;
-
- /** 
    *  Set the mesh to use for the wheels.
    *  @param file VFS path to the file which contains the wheel's factory. If 0, it is assumed the factory has already been loaded.
    *  @param factname The name of the factory to use for wheel meshes.
@@ -95,6 +90,11 @@ struct iPcWheeled : public virtual iBase
   virtual void RemoveWheel(int wheelnum) = 0;
 
  /**
+   * Remove all wheels in the setup
+  */
+  virtual void ClearWheels() = 0;
+
+ /**
    * Restore the vehicle's wheels from the setup.
   */
   virtual void SetupWheels() = 0;
@@ -105,24 +105,34 @@ struct iPcWheeled : public virtual iBase
   virtual void DestroyWheels() = 0;
 
  /**
-   * A wheel preset which lowers by the sensitivity of outer wheels, to improve handling. This should be applied after other presets.
+   * A wheel grouping preset which lowers by the sensitivity of outer wheels, to improve handling.
+   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
+   * settings after you set all the presets.
+   *  @param sensitivity factor of sensitivity for outer wheels
   */
-  virtual void OuterWheelSteer(float sensitivity) = 0;
+  virtual void SetOuterWheelSteerPreset(float sensitivity) = 0;
 
  /**
-   * A wheel preset which adds steering to all existing front wheels.
+   * A wheel grouping preset which sets steering amount and drive power to front wheels. 
+   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
+   * settings after you set all the presets.
+   *  @param sensitivity sensitivity for front wheels when steering
+   *  @param power power which front wheels recieve when accelerating (0-1)
   */
-  virtual void FrontWheelSteer(float sensitivity) = 0;
+  virtual void SetFrontWheelPreset(float sensitivity,float power) = 0;
+
+  /** A wheel grouping preset which sets steering amount and drive power to rear wheels.
+   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
+   * settings after you set all the presets.
+   *  @param sensitivity sensitivity for rear wheels when steering
+   *  @param power power which rear wheels recieve when accelerating (0-1)
+  */
+  virtual void SetRearWheelPreset(float sensitivity,float power) = 0;
 
  /**
-   * A wheel preset which adds steering to all rear wheels.
+   * A wheel preset to reset power and steering of all wheels. Defaults back to front-wheel steer, 4 wheel drive.
   */
-  virtual void RearWheelSteer(float sensitivity) = 0;
-
- /**
-   * A wheel preset to remove steering from all wheels.
-  */
-  virtual void ClearWheelSteer() = 0;
+  virtual void ClearWheelPresets() = 0;
 
  /**
    * Accelerate the vehicle.
