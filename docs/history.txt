@@ -2,6 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+17-Jul-2006
+        - cfraz89 fixed a bug he left in xml actions of bounding box colliders
+          in mechsys.
 15-Jul-2006
         - cfraz89 added AttachColliderBoundingBox() and
           AttachColliderBoundingSphere() to pcmechobject.

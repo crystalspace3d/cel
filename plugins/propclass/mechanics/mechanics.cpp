@@ -626,13 +626,13 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_makestatic = pl->FetchStringID ("cel.action.MakeStatic");
     action_setsystem = pl->FetchStringID ("cel.action.SetSystem");
     action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
-    action_setcollidersphere = pl->FetchStringID (
+    action_setcolliderboundingsphere = pl->FetchStringID (
     	"cel.action.SetColliderBoundingSphere");
     action_setcollidersphere = pl->FetchStringID (
     	"cel.action.SetColliderSphere");
     action_setcollidercylinder = pl->FetchStringID (
     	"cel.action.SetColliderCylinder");
-    action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBoundingBox");
+    action_setcolliderboundingbox = pl->FetchStringID ("cel.action.SetColliderBoundingBox");
     action_setcolliderbox = pl->FetchStringID ("cel.action.SetColliderBox");
     action_setcolliderplane = pl->FetchStringID ("cel.action.SetColliderPlane");
     action_setcollidermesh = pl->FetchStringID ("cel.action.SetColliderMesh");
