@@ -252,9 +252,9 @@
 {
   if(actionId==action_setwheelmesh)
   {
-    CEL_FETCH_STRING_PAR (filename, params, param_file);
     CEL_FETCH_STRING_PAR (factname, params, param_name);
-    SetWheelMesh(filename,factname);
+    CEL_FETCH_STRING_PAR (filename, params, param_file);
+    SetWheelMesh(factname,filename);
     return true;
   }
   else if(actionId==action_settankmode)
@@ -483,7 +483,7 @@
   return false;
 }
   
-  void celPcWheeled::SetWheelMesh(const char* file, const char* factname)
+  void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
 {
   if(file!=0)
   {
