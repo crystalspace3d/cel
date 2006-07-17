@@ -20,6 +20,7 @@
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
 #include "propclass/timer.h"
+#include "propclass/projectile.h"
 #include "propclass/solid.h"
 #include "propclass/gravity.h"
 #include "propclass/move.h"
@@ -579,6 +580,12 @@ GETTER_METHOD(iPcMesh,"mesh",GetMesh)
 
 %include "propclass/timer.h"
 CEL_PC(iPcTimer, Timer, pctimer)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/projectile.h"
+CEL_PC(iPcProjectile, Projectile, pcprojectile)
+GETTER_METHOD(iPcProjectile,"moving",IsMoving)
 
 //-----------------------------------------------------------------------------
 

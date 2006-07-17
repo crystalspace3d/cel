@@ -243,7 +243,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcmech->AttachColliderBoundingBox();
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
-  pcwheeled->SetWheelMesh("/cel/data/celcarwheel","celCarWheel");
+  pcwheeled->SetWheelMesh("celCarWheel","/cel/data/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
  // pcwheeled->SetTankMode(true);
 

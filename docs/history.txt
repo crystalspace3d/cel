@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 17-Jul-2006
         - cfraz89 fixed a bug he left in xml actions of bounding box colliders
           in mechsys.
+        - cfraz89 switched order of arguments in SetWheelMesh in order to be
+          consistent with pcmesh.
+        - cfraz89 added pcprojectile to blpython, with a getter for IsMoving.
 15-Jul-2006
         - cfraz89 added AttachColliderBoundingBox() and
           AttachColliderBoundingSphere() to pcmechobject.
