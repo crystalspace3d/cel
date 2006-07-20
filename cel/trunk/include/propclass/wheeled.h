@@ -78,31 +78,73 @@ struct iPcWheeled : public virtual iBase
   virtual int GetTankMode() = 0;
 
  /**
-   * Add a wheel to the vehicle's setup. The wheel won't be created until SetupWheels() is called.
+   * Add a wheel to the vehicle's wheel layout. This method uses sensible defaults and the vehicle's
+     wheel presets for steering and power, and automatically applies handbrake and invert steering
+     to rear wheels. Therefore it is enough to just give the wheel's position. 
+     The wheel won't be created until SetupWheels() is called.
    *  @param position Where the wheel will be placed.
+   *  @param turnspeed How fast the wheel should steer away from centre.
+   *  @param returnspeed How fast the wheel should return to the centre.
+   *  @param suspensionsoftness How soft the suspension on the wheel should be.
+   *  @param suspensiondamping How dampened the suspension on the wheel should be.
+   *  @param brakepower Fraction of vehicle's brake force this wheel recieves.
   */
-  virtual int AddWheel(csVector3 position) = 0;
+  virtual int AddWheelAuto(csVector3 position,float turnspeed=2.0f, float returnspeed=2.0f,
+                       float suspensionsoftness=0.000125f, float suspensiondamping=0.125f,
+                       float brakepower=1.0f) = 0;
 
  /**
-   * Remove a wheel from the vehicle's setup. It won't be deleted until SetupWheels() is called.
-   *  @param wheelnum Index of the wheel to remove
+   * Add a wheel to the vehicle's wheel layout.
+     This method allows for total control over the wheel, overriding the vehicle's presets.
+     The wheel won't be created until SetupWheels() is called.
+   *  @param position Where the wheel will be placed.
+   *  @param turnspeed How fast the wheel should steer away from centre.
+   *  @param returnspeed How fast the wheel should return to the centre.
+   *  @param suspensionsoftness How soft the suspension on the wheel should be.
+   *  @param suspensiondamping How dampened the suspension on the wheel should be.
+   *  @param brakepower Fraction of vehicle's brake force this wheel recieves.
+   *  @param leftsteersensitivity How sensitive wheel is when steering left.
+   *  @param rightsteersensitivity How sensitive wheel is when steering right.
+   *  @param handbrakeaffect Wether the handbrake applies to this wheel.
+   *  @param steerinvert Wether this wheel steers back-to-front.
   */
-  virtual void RemoveWheel(int wheelnum) = 0;
+  virtual int AddWheel(csVector3 position,float turnspeed, float returnspeed,
+                       float suspensionsoftness, float suspensiondamping,
+                       float brakepower, float enginepower, float leftsteersensitivity,
+                       float rightsteersensitivity, bool handbrakeaffect,
+                       bool steerinvert) = 0;
 
  /**
-   * Remove all wheels in the setup
+   * Destroy a wheel on the car, and delete it from the layout. It
+   *  @param wheelnum Index of the wheel to delete.
   */
-  virtual void ClearWheels() = 0;
+  virtual void DeleteWheel(int wheelnum) = 0;
 
  /**
-   * Restore the vehicle's wheels from the setup.
+   * Destry and delete all wheels in the layout
   */
-  virtual void SetupWheels() = 0;
+  virtual void DeleteAllWheels() = 0;
 
  /**
-   * Destroy all wheels on the car. The setup is still retained, so the wheels can be restored with SetupWheels().
+   * Destroy a wheel on the car. It will remain in the layout, so it can be restored along with all its
+     settings with RestoreWheel(wheelnum).
   */
-  virtual void DestroyWheels() = 0;
+  virtual void DestroyWheel(int wheelnum) = 0;
+
+ /**
+   * Destroy all wheels on the car. The layout is still retained, so the wheels can be restored with RestoreWheelLayout().
+  */
+  virtual void DestroyAllWheels() = 0;
+
+ /**
+   * Restore a wheel, along with its settings, from the layout.
+  */
+  virtual void RestoreWheel(int wheelnum) = 0;
+
+ /**
+   * Restore all of the vehicle's wheels from the layout.
+  */
+  virtual void RestoreAllWheels() = 0;
 
  /**
    * A wheel grouping preset which lowers by the sensitivity of outer wheels, to improve handling.
