@@ -70,11 +70,15 @@ CEL_DECLARE_FACTORY (Wheeled)
   // Actions
     static csStringID action_setwheelmesh;
     static csStringID action_settankmode;
+
+    static csStringID action_addwheelauto;
     static csStringID action_addwheel;
-    static csStringID action_removewheel;
-    static csStringID action_clearwheels;
-    static csStringID action_setupwheels;
-    static csStringID action_destroywheels;
+    static csStringID action_deletewheel;
+    static csStringID action_deleteallwheels;
+    static csStringID action_destroywheel;
+    static csStringID action_destroyallwheels;
+    static csStringID action_restorewheel;
+    static csStringID action_restoreallwheels;
     static csStringID action_accelerate;
     static csStringID action_setbrakeapplied;
     static csStringID action_sethandbrakeapplied;
@@ -127,11 +131,15 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID param_autotransmission;
     static csStringID param_autoreverse;
 
-    static csStringID param_softness; 
-    static csStringID param_damping;
-    static csStringID param_sensitivity; 
-    static csStringID param_speed;
-    static csStringID param_power;
+    static csStringID param_suspensionsoftness; 
+    static csStringID param_suspensiondamping;
+    static csStringID param_leftsteersensitivity; 
+    static csStringID param_rightsteersensitivity;
+    static csStringID param_steersensitivity;
+    static csStringID param_turnspeed;
+    static csStringID param_returnspeed;
+    static csStringID param_enginepower;
+    static csStringID param_brakepower;
     static csStringID param_steerinverted;
     static csStringID param_handbrakeaffected;
 
@@ -164,6 +172,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     csRef<iBodyGroup> bodyGroup;
     csRef<iEngine> engine;
     csRef<iDynamicSystem> dyn;
+    csRef<iODEDynamicSystemState> osys;
     csArray<csVector2> gears;
     csArray<celWheel> wheels;
     csRef<iPcMechanicsObject> bodyMech;
@@ -176,18 +185,27 @@ CEL_DECLARE_FACTORY (Wheeled)
   public:
     celPcWheeled (iObjectRegistry* object_reg);
     virtual ~celPcWheeled ();
+    virtual void GetMech();
 
   //Setters
     virtual void SetWheelMesh(const char* file, const char* factname);
     virtual void SetTankMode(bool tankmode)
     {celPcWheeled::tankmode=tankmode;};
+    //This one uses presets
+    virtual int AddWheelAuto(csVector3 position,float turnspeed=2.0f, float returnspeed=2.0f,
+                             float ss=0.000125f, float sd=0.125f, float brakepower=1.0f);
+    //Full specification by the user, overrides presets
+    virtual int AddWheel(csVector3 position,float turnspeed, float returnspeed,
+                         float ss, float sd,float brakepower,float enginepower,
+                         float lss, float rss ,bool hbaffect, bool sinvert);
+
+    virtual void DeleteWheel(int wheelnum);
+    virtual void DeleteAllWheels();
+    virtual void DestroyWheel(int wheelnum);
+    virtual void DestroyAllWheels();
+    virtual void RestoreWheel(int wheelnum);
+    virtual void RestoreAllWheels();
     
-    virtual int AddWheel(csVector3 position);
-    virtual void RemoveWheel(int wheelnum);
-    virtual void ClearWheels()
-    {wheels.DeleteAll();};
-    virtual void SetupWheels();
-    virtual void DestroyWheels();
     
     virtual void Accelerate()
     {gear=1;};
@@ -226,16 +244,17 @@ CEL_DECLARE_FACTORY (Wheeled)
 
     //Some wheel steering presets.
     virtual void SetOuterWheelSteerPreset(float sensitivity);
-    virtual void SetFrontWheelPreset(float sensitivity,float power);
-    virtual void SetRearWheelPreset(float sensitivity,float power);
+    virtual void SetFrontWheelPreset(float sensitivity,float enginepower);
+    virtual void SetRearWheelPreset(float sensitivity,float enginepower);
     virtual void ClearWheelPresets();
     virtual void ApplyWheelPresets(int wheelnum);
 
   // Stuff independent for each wheel
-    //Settings related to the joints which need extra setup
+    //Settings related to the joints which need extra setup--------------
     virtual void SetWheelPosition(int wheelnum, csVector3 position);
     virtual void SetWheelSuspensionSoftness(int wheelnum, float softness);
     virtual void SetWheelSuspensionDamping(int wheelnum, float damping);
+   //--------------
 
     virtual void SetWheelLeftSteerSensitivity(int wheelnum, float sensitivity)
     { if(sensitivity>=0 && sensitivity <=1) wheels[wheelnum].LeftSteerSensitivity=sensitivity;};
