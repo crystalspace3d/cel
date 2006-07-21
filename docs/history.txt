@@ -2,6 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+21-Jul-2006
+        - cfraz89 fixed neutral gear in pcwheeled, and renamed SetBrakeApplied()
+          to Brake(bool), and SetHandbrakeApplied() to Handbrake(bool).
 20-Jul-2006
         - cfraz89 added some more functions to pcwheeled, DestroyWheel,
           DestroyAllWheels,DeleteWheel,DeleteAllWheels,added another version

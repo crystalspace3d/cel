@@ -177,32 +177,37 @@ struct iPcWheeled : public virtual iBase
   virtual void ClearWheelPresets() = 0;
 
  /**
-   * Accelerate the vehicle.
+   * Set wether the vehicle will accelerate.
+   *  @param applied Whether the accelerator is applied.
   */
-  virtual void Accelerate() = 0;
+  virtual void Accelerate(bool applied) = 0;
 
  /**
-   * Turn the brakes on or off.
-   *  @param brakeapplied Whether the brake is applied.
+   * Get whether the vehicle is accelerating.
   */
-  virtual void SetBrakeApplied(bool brakeapplied) = 0;
+  virtual bool IsAccelerating() = 0;
 
  /**
-   * Get whether the brakes are applied or not.
+   * Set wether the vehicle will brake.
+   *  @param applied Wether the brake is applied
   */
-  virtual bool GetBrakeApplied() = 0;
-
-
- /**
-   * Turn the handbrake (rear wheel lock) on or off.
-   *  @param handbrakeapplied Whether the handbrake is applied.
-  */
-  virtual void SetHandbrakeApplied(bool handbrakeapplied) = 0;
+  virtual void Brake(bool applied) = 0;
 
  /**
-   * Get whether the handbrake is applied or not.
+   * Get whether the vehicle is brakeing
   */
-  virtual bool GetHandbrakeApplied() = 0;
+  virtual bool IsBraking() = 0;
+
+ /**
+   * Set wether the vehicle will handbrake. (rear wheel lock)
+   *  @param applied Wether the handbrake is applied
+  */
+  virtual void Handbrake(bool applied) = 0;
+
+ /**
+   * Get whether the vehicle is handbrakeing.
+  */
+  virtual bool IsHandbraking() = 0;
 
 
  /**
@@ -270,13 +275,13 @@ struct iPcWheeled : public virtual iBase
   virtual void SetGearSettings(int gear,float velocity, float force) = 0;
 
  /**
-   * Set the number of gears the vehicle has.
+   * Set the number of forwards gears the vehicle has. This excludes neutral and reverse.
    *  @param number The number of gears the vehicle will have.
   */
   virtual void SetNumberGears(int number) = 0;
 
  /**
-   * Get the number of gears the vehicle has.
+   * Get the number of forwards gears the vehicle has. This excludes neutral and reverse.
   */
   virtual size_t GetNumberGears() = 0;
 
