@@ -905,7 +905,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     UpdateGear();
 
     //Update the wheel's speeds to the current gear
-if(gear!=0 && accelerating)
+if((gear!=0 && accelerating) || gear==0)
 {
   for(size_t i=0; i < wheels.Length();i++)
   {
