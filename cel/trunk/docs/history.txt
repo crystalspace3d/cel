@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
         - cfraz89 fixed neutral gear in pcwheeled, and renamed SetBrakeApplied()
           to Brake(bool), and SetHandbrakeApplied() to Handbrake(bool).
         - cfraz89 fixed the reverse which he broke when fixing neutral :P
+        - cfraz89 fixed car not slowing down once hitting neutral.
 20-Jul-2006
         - cfraz89 added some more functions to pcwheeled, DestroyWheel,
           DestroyAllWheels,DeleteWheel,DeleteAllWheels,added another version
