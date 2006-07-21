@@ -80,8 +80,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID action_restorewheel;
     static csStringID action_restoreallwheels;
     static csStringID action_accelerate;
-    static csStringID action_setbrakeapplied;
-    static csStringID action_sethandbrakeapplied;
+    static csStringID action_brake;
+    static csStringID action_handbrake;
     static csStringID action_setsteeramount;
     static csStringID action_steerleft;
     static csStringID action_steerright;
@@ -126,8 +126,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID param_tankmode;
     static csStringID param_steeramount;
     static csStringID param_brakeforce;
-    static csStringID param_brakeapplied;
-    static csStringID param_handbrakeapplied;
+    static csStringID param_applied;
     static csStringID param_autotransmission;
     static csStringID param_autoreverse;
 
@@ -176,6 +175,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     csArray<csVector2> gears;
     csArray<celWheel> wheels;
     csRef<iPcMechanicsObject> bodyMech;
+    bool accelerating;
   // Other fields.
     int counter;
     size_t max;
@@ -191,6 +191,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetWheelMesh(const char* file, const char* factname);
     virtual void SetTankMode(bool tankmode)
     {celPcWheeled::tankmode=tankmode;};
+    virtual void SetSteerAmount(float steeramount)
+    {celPcWheeled::steeramount=steeramount;};
     //This one uses presets
     virtual int AddWheelAuto(csVector3 position,float turnspeed=2.0f, float returnspeed=2.0f,
                              float ss=0.000125f, float sd=0.125f, float brakepower=1.0f);
@@ -207,17 +209,24 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void RestoreAllWheels();
     
     
-    virtual void Accelerate()
-    {gear=1;};
-    
-    virtual void SetBrakeApplied(bool brakeapplied)
-    {celPcWheeled::brakeapplied=brakeapplied;};
-    
-    virtual void SetHandbrakeApplied(bool handbrakeapplied)
-    {celPcWheeled::handbrakeapplied=handbrakeapplied;};
-    
-    virtual void SetSteerAmount(float steeramount)
-    {celPcWheeled::steeramount=steeramount;};
+    virtual void Accelerate(bool on)
+    {accelerating=on;};
+
+    virtual bool IsAccelerating()
+    {return accelerating;};
+
+    virtual void Brake(bool on)
+    {brakeapplied=on;};
+
+    virtual bool IsBraking()
+    {return brakeapplied;};
+
+    virtual void Handbrake(bool on)
+    {handbrakeapplied=on;};
+
+    virtual bool IsHandbraking()
+    {return handbrakeapplied;};
+  
     
     virtual void SteerLeft();
     virtual void SteerRight();

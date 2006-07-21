@@ -60,8 +60,8 @@
     csStringID celPcWheeled::action_restoreallwheels= csInvalidStringID;
 
     csStringID celPcWheeled::action_accelerate= csInvalidStringID;
-    csStringID celPcWheeled::action_setbrakeapplied= csInvalidStringID;
-    csStringID celPcWheeled::action_sethandbrakeapplied= csInvalidStringID;
+    csStringID celPcWheeled::action_brake= csInvalidStringID;
+    csStringID celPcWheeled::action_handbrake= csInvalidStringID;
     csStringID celPcWheeled::action_setsteeramount= csInvalidStringID;
     csStringID celPcWheeled::action_steerleft= csInvalidStringID;
     csStringID celPcWheeled::action_steerright= csInvalidStringID;
@@ -106,8 +106,7 @@
     csStringID celPcWheeled::param_tankmode = csInvalidStringID;
     csStringID celPcWheeled::param_steeramount = csInvalidStringID;
     csStringID celPcWheeled::param_brakeforce = csInvalidStringID;
-    csStringID celPcWheeled::param_brakeapplied = csInvalidStringID;
-    csStringID celPcWheeled::param_handbrakeapplied = csInvalidStringID;
+    csStringID celPcWheeled::param_applied = csInvalidStringID;
     csStringID celPcWheeled::param_autotransmission = csInvalidStringID;
     csStringID celPcWheeled::param_autoreverse = csInvalidStringID;
   
@@ -130,7 +129,7 @@
   dyn=0;
   bodyGroup=0;
   steerdir=0;
-  gear=0;
+  gear=1;
   numberwheels=0;
   frontsteer=1.0f;
   rearsteer=0.0f;
@@ -143,6 +142,7 @@
   handbrakeapplied=false;
   autotransmission=true;
   autoreverse=true;
+  accelerating=false;
   wheelradius=0;
     
   steeramount=0.7;
@@ -171,8 +171,8 @@
     action_restoreallwheels= pl->FetchStringID("cel.action.RestoreAllWheels");
 
     action_accelerate= pl->FetchStringID("cel.action.Accelerate");
-    action_setbrakeapplied= pl->FetchStringID("cel.action.SetBrakeApplied");
-    action_sethandbrakeapplied= pl->FetchStringID("cel.action.SetHandbrakeApplied");
+    action_brake= pl->FetchStringID("cel.action.Brake");
+    action_handbrake= pl->FetchStringID("cel.action.Handbrake");
     action_setsteeramount= pl->FetchStringID("cel.action.SetSteerAmount");
     action_steerleft= pl->FetchStringID("cel.action.SteerLeft");
     action_steerright= pl->FetchStringID("cel.action.SteerRight");
@@ -218,10 +218,9 @@
     param_tankmode = pl->FetchStringID("cel.parameter.tankmode");
     param_steeramount = pl->FetchStringID("cel.parameter.steeramount");
     param_brakeforce = pl->FetchStringID("cel.parameter.brakeforce");
-    param_brakeapplied = pl->FetchStringID("cel.parameter.brakeapplied");
-    param_handbrakeapplied = pl->FetchStringID("cel.parameter.handbrakeapplied");
     param_autotransmission = pl->FetchStringID("cel.parameter.autotransmission");
     param_autoreverse = pl->FetchStringID("cel.parameter.autoreverse");
+    param_applied = pl->FetchStringID("cel.parameter.applied");
   
     param_suspensionsoftness = pl->FetchStringID("cel.parameter.suspensionsoftness"); 
     param_suspensiondamping = pl->FetchStringID("cel.parameter.suspensiondamping");
@@ -392,19 +391,20 @@
 
   else if(actionId==action_accelerate)
   {
-    Accelerate();
+    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+    Accelerate(applied);
     return true;
   }
-  else if(actionId==action_setbrakeapplied)
+  else if(actionId==action_brake)
   {
-    CEL_FETCH_BOOL_PAR (applied, params, param_brakeapplied);
-    SetBrakeApplied(applied);
+    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+    Brake(applied);
     return true;
   }
-  else if(actionId==action_sethandbrakeapplied)
+  else if(actionId==action_handbrake)
   {
-    CEL_FETCH_BOOL_PAR (applied, params, param_handbrakeapplied);
-    SetHandbrakeApplied(applied);
+    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+    Handbrake(applied);
     return true;
   }
   else if(actionId==action_setsteeramount)
@@ -899,10 +899,14 @@ void celPcWheeled::DestroyWheel(int wheelnum)
 {
 //First ensure everything is set and ready to go.
   GetMech();
-  
-  if(gear>0)
+
+  //Dont try to work out the gear in neutral or reverse.
+  if(gear > 0 && autotransmission)
     UpdateGear();
+
     //Update the wheel's speeds to the current gear
+if(gear!=0 && accelerating)
+{
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint!=0)
@@ -911,6 +915,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
       wheels[i].WheelJoint->SetFMax(gears[gear+1].y*wheels[i].EnginePower,1);
     }
   }
+}
     //Apply the brakes
   if(brakeapplied)
   {
@@ -963,11 +968,13 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   {
     gears[gear+1].x=velocity;
     gears[gear+1].y=force;
+     std::cout << "set gear" << gear << "\n";
   }
 }
   
     void celPcWheeled::UpdateGear()
 {
+      std::cout << "update gear\n";
   for(int i=1; i < (int)gears.Length()-2; i++)
   {
     if (bodyMech->GetBody()->GetLinearVelocity().Norm()

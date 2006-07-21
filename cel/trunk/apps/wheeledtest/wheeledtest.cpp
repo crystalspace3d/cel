@@ -252,7 +252,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
     to modify car handling. The first setting is steering sensitivity, second
     setting is drive power.*/ 
-  pcwheeled->SetFrontWheelPreset(0.2f,0.8f);
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
     the vehicle's handling becomes much more twitchy. */
