@@ -233,7 +233,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void UpdateTankSteer();
     virtual void SteerStraight();
     virtual void Reverse()
-    {gear=-1;};
+    {gear=-1;
+     accelerating=true;};
     
     virtual void Neutral()
     {gear=0;};

@@ -935,7 +935,7 @@ if(gear!=0 && accelerating)
     if (autoreverse)
     {
       if(bodyMech->GetBody()->GetLinearVelocity().Norm()<2)
-        gear=-1;
+        Reverse();
     }
   }
     //Apply the handbrake
@@ -968,13 +968,11 @@ if(gear!=0 && accelerating)
   {
     gears[gear+1].x=velocity;
     gears[gear+1].y=force;
-     std::cout << "set gear" << gear << "\n";
   }
 }
   
     void celPcWheeled::UpdateGear()
 {
-      std::cout << "update gear\n";
   for(int i=1; i < (int)gears.Length()-2; i++)
   {
     if (bodyMech->GetBody()->GetLinearVelocity().Norm()
