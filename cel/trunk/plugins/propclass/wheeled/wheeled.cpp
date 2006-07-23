@@ -307,7 +307,7 @@
     AddWheelAuto(pos,turnspeed,returnspeed,ss,sd,brakepower);
     return true;
   }
- else if(actionId==action_addwheel)
+  else if(actionId==action_addwheel)
   {
     CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
     
@@ -352,7 +352,7 @@
       sinvert=false;
 
     AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower
-             ,lss,rss,hbaffect,sinvert);
+        ,lss,rss,hbaffect,sinvert);
     return true;
   }
   else if(actionId==action_deletewheel)
@@ -598,7 +598,7 @@
   //This method uses the vehicle's presets and wheel's position for some settings.
   //Usually it is sufficient just to provide position.
   int celPcWheeled::AddWheelAuto(csVector3 position,float turnspeed, float returnspeed,
-                             float ss, float sd,float brakepower)
+                                 float ss, float sd,float brakepower)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -904,18 +904,22 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   if(gear > 0 && autotransmission)
     UpdateGear();
 
-    //Update the wheel's speeds to the current gear
-if((gear!=0 && accelerating) || gear==0)
-{
+    //Update the wheel's speeds to the current gear if accelerating. else use the neutral gear settings.
+  float vel=gears[1].x;
+  float fmax=gears[1].y;
+  if(accelerating)
+  {
+    vel=gears[gear+1].x;
+    fmax=gears[gear+1].y;
+  }
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint!=0)
     {
-      wheels[i].WheelJoint->SetVel(gears[gear+1].x,1);
-      wheels[i].WheelJoint->SetFMax(gears[gear+1].y*wheels[i].EnginePower,1);
+      wheels[i].WheelJoint->SetVel(vel,1);
+      wheels[i].WheelJoint->SetFMax(fmax*wheels[i].EnginePower,1);
     }
   }
-}
     //Apply the brakes
   if(brakeapplied)
   {
