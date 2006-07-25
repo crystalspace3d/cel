@@ -22,6 +22,8 @@ The history order is reversed so that new features are at the top.
 	  class so you have to use 'default' first.
 	- Jorrit added 'laststart' and 'lastregion' properties (read only)
 	  to pczonemanager.
+	- Vincent fixed blackness of mechtest's level by setting
+	  'std_lighting' for ambient instead of the inexistant 'light' shader.
 21-Jul-2006
         - cfraz89 fixed neutral gear in pcwheeled, and renamed
 	  SetBrakeApplied() to Brake(bool), and SetHandbrakeApplied() to
