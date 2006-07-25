@@ -144,6 +144,7 @@ enum
   XMLFUNCTION_SCR_WIDTH,
   XMLFUNCTION_SCR_HEIGHT,
   XMLFUNCTION_TESTVAR,
+  XMLFUNCTION_CHDIRAUTO,
   XMLFUNCTION_READFILE,
   XMLFUNCTION_WRITEFILE,
   XMLFUNCTION_GETYROT,
@@ -291,6 +292,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("scr_width", XMLFUNCTION_SCR_WIDTH);
   functions.Register ("scr_height", XMLFUNCTION_SCR_HEIGHT);
   functions.Register ("testvar", XMLFUNCTION_TESTVAR);
+  functions.Register ("chdirauto", XMLFUNCTION_CHDIRAUTO);
   functions.Register ("readfile", XMLFUNCTION_READFILE);
   functions.Register ("writefile", XMLFUNCTION_WRITEFILE);
   functions.Register ("getyrot", XMLFUNCTION_GETYROT);
@@ -424,7 +426,7 @@ bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
   input = celXmlSkipWhiteSpace (input);
   const char* i = input;
   bool idconstant = true;
-  while (*i && *i != ')' && *i != '=')
+  while (*i && *i != ')' && *i != '}' && *i != '=')
   {
     if (!isalnum (*i) && *i != '_' && *i != '.')
     {
@@ -490,6 +492,65 @@ bool celBlXml::SkipComma (const char*& input, iDocumentNode* child,
   return true;
 }
 
+bool celBlXml::ParseAction (const char*& input, const char* pinput,
+	csStringArray& local_vars, iDocumentNode* child,
+	celXmlScriptEventHandler* h, const char* name)
+{
+  int token;
+  char str[256];	// @@@ Hardcoded!
+  strncpy (str, pinput, input-pinput-1);	// Copy all execpt '{'.
+  str[input-pinput-1] = 0;
+  // We have an action.
+  pinput = input;
+  input = celXmlParseToken (input, token);
+  input = pinput;	// Restore.
+  uint32 cnt = 0;
+  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+  while (token != CEL_TOKEN_CLOSECURLY)
+  {
+    // Get parameter name.
+    if (!ParseID (input, local_vars, child, h, name, str,
+				    XMLFUNCTION_PARID))
+      return false;
+    input = celXmlParseToken (input, token);
+    if (token != CEL_TOKEN_ASSIGN)
+    {
+      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected '=' after parameter for '%s'!", name);
+      return false;
+    }
+    // Get parameter value.
+    if (!ParseExpression (input, local_vars, child, h,
+		  name, CEL_PRIORITY_NORMAL))
+      return false;
+
+    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+    h->GetArgument ().SetUInt32 (cnt);
+    cnt++;
+
+    pinput = input;
+    input = celXmlParseToken (input, token);
+    if (token != CEL_TOKEN_CLOSECURLY && token != CEL_TOKEN_COMMA)
+    {
+      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected '}' or '=' after parameter value for '%s'!", name);
+      return false;
+    }
+  }
+
+  h->AddOperation (CEL_OPERATION_PUSH);
+  h->GetArgument ().SetPC (0);
+
+  csString actid = "cel.action.";
+  actid += str;
+  csStringID id = pl->FetchStringID (actid);
+  h->AddOperation (CEL_OPERATION_PUSH);
+  h->GetArgument ().SetID (id);
+
+  h->AddOperation (CEL_OPERATION_ACTIONFUN);
+  return true;
+}
+
 bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	csStringArray& local_vars, iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* name)
@@ -501,6 +562,16 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   csStringID fun_id = functions.Request (str);
   switch (fun_id)
   {
+    case XMLFUNCTION_CHDIRAUTO:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+	h->AddOperation (CEL_OPERATION_CHDIRAUTO);
+      }
+      break;
     case XMLFUNCTION_READFILE:
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
@@ -1298,6 +1369,10 @@ bool celBlXml::ParseExpressionInt (
       if (!ParseFunction (input, pinput, local_vars, child, h, name))
         return false;
       break;
+    case CEL_TOKEN_ACTION:
+      if (!ParseAction (input, pinput, local_vars, child, h, name))
+        return false;
+      break;
     case CEL_TOKEN_FUNCTIONSCO:
       if (!ParseFunction (input, pinput, local_vars, child, h, name))
         return false;
@@ -1463,6 +1538,7 @@ bool celBlXml::ParseExpressionInt (
         return true;
       case CEL_TOKEN_COMMA:
       case CEL_TOKEN_CLOSE:
+      case CEL_TOKEN_CLOSECURLY:
       case CEL_TOKEN_VECTORCLOSE:
         input = pinput;	// Restore.
         return true;

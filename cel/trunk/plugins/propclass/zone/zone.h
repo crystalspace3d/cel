@@ -270,6 +270,8 @@ private:
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
+  static csStringID action_setloadingmode;
+  static csStringID id_mode;
 
   celOneParameterBlock* params;
 
@@ -290,6 +292,16 @@ private:
   bool ParseRegion (iDocumentNode* regionnode, iCelRegion* region);
   bool ParseZone (iDocumentNode* zonenode, iCelZone* zone);
   bool ParseStart (iDocumentNode* startnode);
+
+  // For properties.
+  enum propids
+  {
+    propid_laststart = 0,
+    propid_lastregion
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcZoneManager (iObjectRegistry* object_reg);
@@ -318,6 +330,7 @@ public:
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual const char* GetPropertyString (csStringID);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params);
 

@@ -2,20 +2,41 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
+25-Jul-2006
+	- Jorrit added a new 'chdirauto' function to blxml. This can be
+	  used to control the vfs directory.
+	- Jorrit added SetLoadingMode action to pczonemanager.
+	- Jorrit added a new syntax feature to blxml. Instead of the
+	  clumsy action command you can now call actions directly in
+	  expressions. Here is some old code:
+		<action id="actid(Bind)">
+		    <par id="parid(trigger)" value="'ctrl-down'" />
+		    <par id="parid(command)" value="rot_down" />
+		</action>
+	  and here is how to do it the new way:	  
+		<expr eval="Bind{trigger='ctrl-down',command=rot_down}" />
+	  Note that you can also assign the result of this to a variable
+	  so that you can check for success of the action.
+	  Note that this feature only works on the default property
+	  class so you have to use 'default' first.
+	- Jorrit added 'laststart' and 'lastregion' properties (read only)
+	  to pczonemanager.
 21-Jul-2006
-        - cfraz89 fixed neutral gear in pcwheeled, and renamed SetBrakeApplied()
-          to Brake(bool), and SetHandbrakeApplied() to Handbrake(bool).
+        - cfraz89 fixed neutral gear in pcwheeled, and renamed
+	  SetBrakeApplied() to Brake(bool), and SetHandbrakeApplied() to
+	  Handbrake(bool).
         - cfraz89 fixed the reverse which he broke when fixing neutral :P
         - cfraz89 fixed car not slowing down once hitting neutral.
 20-Jul-2006
         - cfraz89 added some more functions to pcwheeled, DestroyWheel,
           DestroyAllWheels,DeleteWheel,DeleteAllWheels,added another version
-          of AddWheel which is full control, renamed simpler AddWheel to AddWheelAuto,
-           with optional default arguments.
+          of AddWheel which is full control, renamed simpler AddWheel to
+	  AddWheelAuto, with optional default arguments.
           The setup is now called the layout, and ApplyWheelSetup is now
           called RestoreWheelLayout. It is no longer needed after wheels have
-          been added, as they are now added on the fly. They are still remembered,
-          and if destroyed can be restored.
+          been added, as they are now added on the fly. They are still
+	  remembered, and if destroyed can be restored.
 17-Jul-2006
         - cfraz89 fixed a bug he left in xml actions of bounding box colliders
           in mechsys.

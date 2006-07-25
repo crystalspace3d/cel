@@ -39,6 +39,8 @@ enum
   CEL_TOKEN_FLOAT,	// 342.33 or -2.33e-33
   CEL_TOKEN_OPEN,	// (
   CEL_TOKEN_CLOSE,	// )
+  CEL_TOKEN_OPENCURLY,	// {
+  CEL_TOKEN_CLOSECURLY,	// }
   CEL_TOKEN_MINUS,	// -
   CEL_TOKEN_ADD,	// +
   CEL_TOKEN_MULT,	// *
@@ -65,6 +67,7 @@ enum
   CEL_TOKEN_IDENTIFIER,	// identifier
   CEL_TOKEN_FUNCTION,	// <identifier>(
   CEL_TOKEN_FUNCTIONSCO,// <identifier>::<identifier>(
+  CEL_TOKEN_ACTION,	// <identifier>{
   CEL_TOKEN_SCOPE,	// ::
 
   CEL_TOKEN_LAST

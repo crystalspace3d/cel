@@ -132,19 +132,15 @@ bool celPcCameraCommon::SetZoneManager (const char* entityname,
 	bool point, const char* regionname, const char* name)
 {
   region = 0;
-  csRef<iCelEntity> zoneent = pl -> FindEntity (entityname);
+  csRef<iCelEntity> zoneent = pl->FindEntity (entityname);
   zonemgr = CEL_QUERY_PROPCLASS_ENT (zoneent, iPcZoneManager);
 
   if (point)
   {
-    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
-
     if (zonemgr)
       zonemgr->PointCamera (entity->GetName (), regionname, name);
     else
-    {
-      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
-    }
+      GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
   }
 
   return true;

@@ -235,11 +235,20 @@ SCF_VERSION (iPcZoneManager, 0, 1, 2);
  * <ul>
  * <li>DisableCD: no parameters. Don't create collider wrappers.
  * <li>EnableCD: no parameters. Create collider wrappers (default).
- * <li>Load: parameters 'path' (string), and 'file' (string).
+ * <li>Load: parameters 'path' (string: optional), and 'file' (string).
  * <li>PointMesh: parameters 'entity' (string), 'region' (string),
  *    and 'start' (string).
  * <li>PointCamera: parameters 'entity' (string), 'region' (string),
  *    and 'start' (string).
+ * <li>SetLoadingMode: parameters 'mode' (string: one of 'loadall',
+ *     'normal', or 'keep').
+ * </ul>
+ * <p>
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * <ul>
+ * <li>laststart (string, read only): last used start location.
+ * <li>lastregion (string, read only): last used region.
  * </ul>
  * <p>
  * This property class can send out the following messages
