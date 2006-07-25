@@ -2183,58 +2183,19 @@
 	        <createpropclass name="pccommandinput" />
 		<default propclass="pc(pccommandinput)" />
 		<property id="propid(cooked)" value="true" />
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="right" />
-		    <par id="parid(command)" value="move_right" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="left" />
-		    <par id="parid(command)" value="move_left" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="up" />
-		    <par id="parid(command)" value="move_up" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="down" />
-		    <par id="parid(command)" value="move_down" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'shift-right'" />
-		    <par id="parid(command)" value="take_right" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'shift-left'" />
-		    <par id="parid(command)" value="take_left" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'shift-up'" />
-		    <par id="parid(command)" value="take_up" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'shift-down'" />
-		    <par id="parid(command)" value="take_down" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'ctrl-right'" />
-		    <par id="parid(command)" value="rot_right" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'ctrl-left'" />
-		    <par id="parid(command)" value="rot_left" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'ctrl-up'" />
-		    <par id="parid(command)" value="rot_up" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="'ctrl-down'" />
-		    <par id="parid(command)" value="rot_down" />
-		</action>
-		<action id="actid(Bind)">
-		    <par id="parid(trigger)" value="space" />
-		    <par id="parid(command)" value="bomb" />
-		</action>
+		<expr eval="Bind{trigger=right,command=move_right}" />
+		<expr eval="Bind{trigger=left,command=move_left}" />
+		<expr eval="Bind{trigger=up,command=move_up}" />
+		<expr eval="Bind{trigger=down,command=move_down}" />
+		<expr eval="Bind{trigger='shift-right',command=take_right}" />
+		<expr eval="Bind{trigger='shift-left',command=take_left}" />
+		<expr eval="Bind{trigger='shift-up',command=take_up}" />
+		<expr eval="Bind{trigger='shift-down',command=take_down}" />
+		<expr eval="Bind{trigger='ctrl-right',command=rot_right}" />
+		<expr eval="Bind{trigger='ctrl-left',command=rot_left}" />
+		<expr eval="Bind{trigger='ctrl-up',command=rot_up}" />
+		<expr eval="Bind{trigger='ctrl-down',command=rot_down}" />
+		<expr eval="Bind{trigger=space,command=bomb}" />
 	    </event>
 
 	    <!--

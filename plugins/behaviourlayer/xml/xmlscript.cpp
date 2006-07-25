@@ -3735,6 +3735,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  pc->PerformAction (id, action_params);
 	}
         break;
+      case CEL_OPERATION_ACTIONFUN:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_id = stack.Pop ();
+	  celXmlArg& a_pc = stack.Top ();
+          DUMP_EXEC ((":%04d: actionfun pc=%s id=%d\n", i-1, A2S (a_pc),
+	  	A2S (a_id)));
+	  iCelPropertyClass* pc = ArgToPClass (a_pc);
+	  if (!pc) pc = default_pc;
+	  if (!pc)
+	    return ReportError (cbl,
+	    	  "No valid property class for 'action'!");
+	  csStringID id = ArgToID (a_id);
+	  csRef<iCelParameterBlock> ref = action_params;
+	  a_pc.Set (pc->PerformAction (id, action_params));
+	}
+        break;
       case CEL_OPERATION_DESTROYENTITY:
         {
 	  CHECK_STACK(1)
@@ -4523,6 +4540,19 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
         break;
+      case CEL_OPERATION_CHDIRAUTO:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_file = stack.Pop ();
+	  celXmlArg& top = stack.Top ();
+	  DUMP_EXEC ((":%04d: chdirauto dir=%s file=%s\n", i-1, A2S (top),
+	  	A2S (a_file)));
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
+	  	iVFS);
+	  top.Set (vfs->ChDirAuto (ArgToString (top), 0, 0,
+		ArgToString (a_file)));
+	}
+	break;
       case CEL_OPERATION_READFILE:
         {
 	  CHECK_STACK(2)

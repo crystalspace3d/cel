@@ -134,6 +134,10 @@ private:
   	csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
 	const char* name);
+  bool ParseAction (const char*& input, const char* pinput,
+  	csStringArray& local_vars,
+  	iDocumentNode* child, celXmlScriptEventHandler* h,
+	const char* name);
   bool ParseExpression (csStringArray& local_vars,
         iDocumentNode* child,
 	celXmlScriptEventHandler* h, const char* attrname, const char* name,

@@ -250,7 +250,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
-  pccamera->SetThirdPersonOffset (csVector3 (0, 1, 3));
+  pccamera->SetThirdPersonOffset (csVector3 (0, 1, 5));
   pccamera->SetModeName ("thirdperson");
 #endif
 

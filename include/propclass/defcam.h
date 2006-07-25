@@ -39,8 +39,8 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  *    'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
  *    'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),
  *    'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max).
- * <li>SetZoneManager: parameters 'entity' (string), 'entity' (region) and
- *    'start' (string).
+ * <li>SetZoneManager: parameters 'entity' (string), 'region' (string)
+ *     and 'start' (string).
  * </ul>
  */
 struct iPcDefaultCamera : public iPcCamera

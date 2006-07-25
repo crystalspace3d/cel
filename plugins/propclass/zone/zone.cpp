@@ -392,6 +392,8 @@ csStringID celPcZoneManager::action_pointcamera = csInvalidStringID;
 csStringID celPcZoneManager::id_entityname = csInvalidStringID;
 csStringID celPcZoneManager::id_regionname = csInvalidStringID;
 csStringID celPcZoneManager::id_startname = csInvalidStringID;
+csStringID celPcZoneManager::action_setloadingmode = csInvalidStringID;
+csStringID celPcZoneManager::id_mode = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
@@ -426,11 +428,21 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
+    action_setloadingmode = pl->FetchStringID ("cel.action.SetLoadingMode");
+    id_mode = pl->FetchStringID ("cel.parameter.mode");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
 
   InitTokenTable (xmltokens);
+ 
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_laststart] = 0;
+  propdata[propid_lastregion] = 0;
 }
 
 celPcZoneManager::~celPcZoneManager ()
@@ -440,6 +452,48 @@ celPcZoneManager::~celPcZoneManager ()
   ActivateRegion (0);
   delete params;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
+}
+
+Property* celPcZoneManager::properties = 0;
+size_t celPcZoneManager::propertycount = 0;
+
+void celPcZoneManager::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 2;
+    properties = new Property[propertycount];
+
+    properties[propid_laststart].id = pl->FetchStringID (
+    	"cel.property.laststart");
+    properties[propid_laststart].datatype = CEL_DATA_STRING;
+    properties[propid_laststart].readonly = true;
+    properties[propid_laststart].desc = "Last used start location.";
+
+    properties[propid_lastregion].id = pl->FetchStringID (
+    	"cel.property.lastregion");
+    properties[propid_lastregion].datatype = CEL_DATA_STRING;
+    properties[propid_lastregion].readonly = true;
+    properties[propid_lastregion].desc = "Last used region name.";
+  }
+}
+
+const char* celPcZoneManager::GetPropertyString (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_laststart].id)
+  {
+    return last_startname.GetData ();
+  }
+  else if (propertyId == properties[propid_lastregion].id)
+  {
+    return last_regionname.GetData ();
+  }
+  else
+  {
+    return celPcCommon::GetPropertyString (propertyId);
+  }
 }
 
 #define ZONEMANAGER_SERIAL 2
@@ -568,6 +622,31 @@ bool celPcZoneManager::PerformAction (csStringID actionId,
     if (!Load (path, file))
       return false;
     return true;
+  }
+  else if (actionId == action_setloadingmode)
+  {
+    CEL_FETCH_STRING_PAR (mode,params,id_mode);
+    if (!p_mode)
+      return Report (object_reg,
+	    	"'mode' is missing for SetLoadingMode!");
+    if (!strcmp ("normal", mode))
+    {
+      SetLoadingMode (CEL_ZONE_NORMAL);
+      return true;
+    }
+    else if (!strcmp ("keep", mode))
+    {
+      SetLoadingMode (CEL_ZONE_KEEP);
+      return true;
+    }
+    else if (!strcmp ("loadall", mode))
+    {
+      SetLoadingMode (CEL_ZONE_LOADALL);
+      return true;
+    }
+    else
+      return Report (object_reg,
+	    	"Unknown mode '%s' for SetLoadingMode!", mode);
   }
   else if (actionId == action_pointmesh)
   {
@@ -994,13 +1073,15 @@ void celPcZoneManager::GetLastStartLocation (iString* regionname,
   startname->Truncate (0);
   startname->Append (last_startname);
 }
+
 const char *celPcZoneManager::GetLastStartRegionName ()
 {
-	return last_regionname;
+  return last_regionname;
 }
+
 const char *celPcZoneManager::GetLastStartName ()
 {
-	return last_startname;
+  return last_startname;
 }
 
 int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
