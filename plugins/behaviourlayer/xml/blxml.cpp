@@ -1996,17 +1996,39 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           if (!ParseExpression (local_vars, child, h, "name",
 	  	"createpropclass"))
 	    return false;
-	  const char* tagname = child->GetAttributeValue ("tag");
-	  if (tagname)
+	  const char* entname = child->GetAttributeValue ("entity");
+	  if (entname)
 	  {
-            if (!ParseExpression (local_vars, child, h, "tag",
-	    	"createpropclass"))
+            if (!ParseExpression (local_vars, child, h, "entity",
+	    	  "createpropclass"))
 	      return false;
-	    h->AddOperation (CEL_OPERATION_CREATEPCTAG);
+	    const char* tagname = child->GetAttributeValue ("tag");
+	    if (tagname)
+	    {
+              if (!ParseExpression (local_vars, child, h, "tag",
+	    	  "createpropclass"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_CREATEPCENTTAG);
+	    }
+	    else
+	    {
+	      h->AddOperation (CEL_OPERATION_CREATEPCENT);
+	    }
 	  }
 	  else
 	  {
-	    h->AddOperation (CEL_OPERATION_CREATEPC);
+	    const char* tagname = child->GetAttributeValue ("tag");
+	    if (tagname)
+	    {
+              if (!ParseExpression (local_vars, child, h, "tag",
+	    	  "createpropclass"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_CREATEPCTAG);
+	    }
+	    else
+	    {
+	      h->AddOperation (CEL_OPERATION_CREATEPC);
+	    }
 	  }
         }
 	break;

@@ -14,6 +14,9 @@ The history order is reversed so that new features are at the top.
 	  ignores the return value from PerformAction() if the returned
 	  type is CEL_DATA_NONE. In that case it will use the false/true
 	  success.
+	- Jorrit added an optional 'entity' parameter to the
+	  'createpropclass' operation in blxml. That way you can create
+	  property classes in other entities.
 25-Jul-2006
 	- Jorrit added a new 'chdirauto' function to blxml. This can be
 	  used to control the vfs directory.
