@@ -3383,6 +3383,32 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	s);
 	}
         break;
+      case CEL_OPERATION_CREATEPCENT:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg aent = stack.Pop ();
+	  celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: createpropclass entity=%s pc=%s\n", i-1,
+		A2S (aent), A2S (top)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: createpropclass %s, %s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (aent), A2S (top));
+	    fflush (stdout);
+	  }
+	  iCelEntity* ent = ArgToEntity (aent, pl);
+	  if (!ent)
+	    return ReportError (cbl,
+	    	"Couldn't find entity '%s' for 'createpropclass'!",
+	    	EntityNameForError (aent));
+	  const char* s = ArgToString (top);
+	  iCelPropertyClass* pc = pl->CreatePropertyClass (ent, s);
+	  if (!pc)
+	    return ReportError (cbl, "Couldn't create property class '%s'!",
+	    	s);
+	}
+        break;
       case CEL_OPERATION_DESTROYPCTAG:
         {
 	  CHECK_STACK(2)
@@ -3421,6 +3447,36 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  const char* s = ArgToString (apc);
 	  const char* tag = ArgToString (atag);
 	  iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, s,
+	  	tag);
+	  if (!pc)
+	    return ReportError (cbl,
+	    	"Couldn't create property class '%s' with tag '%s'!",
+	    	s, tag);
+	}
+        break;
+      case CEL_OPERATION_CREATEPCENTTAG:
+        {
+	  CHECK_STACK(3)
+	  celXmlArg atag = stack.Pop ();
+	  celXmlArg aent = stack.Pop ();
+	  celXmlArg apc = stack.Pop ();
+          DUMP_EXEC ((":%04d: createpropclasstag entity=%s pc=%s tag=%s\n",
+	  	i-1, A2S (aent), A2S (apc), A2S (atag)));
+	  if (varprop_trace)
+	  {
+	    printf (":%s/%04lu: createpropclasstag entity=%s pc=%s tag=%s\n",
+	    	cbl->call_stack.Top (),
+		(unsigned long)i-1, A2S (aent), A2S (apc), A2S (atag));
+	    fflush (stdout);
+	  }
+	  iCelEntity* ent = ArgToEntity (aent, pl);
+	  if (!ent)
+	    return ReportError (cbl,
+	    	"Couldn't find entity '%s' for 'createpropclass'!",
+	    	EntityNameForError (aent));
+	  const char* s = ArgToString (apc);
+	  const char* tag = ArgToString (atag);
+	  iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (ent, s,
 	  	tag);
 	  if (!pc)
 	    return ReportError (cbl,
