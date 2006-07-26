@@ -10,6 +10,10 @@ The history order is reversed so that new features are at the top.
 	  return value from PerformAction() is now put on the stack
 	  unless PerformAction fails in which case 'false' is put
 	  on the stack and the return value is ignored.
+	- Jorrit changed the action calling in blxml so that it now
+	  ignores the return value from PerformAction() if the returned
+	  type is CEL_DATA_NONE. In that case it will use the false/true
+	  success.
 25-Jul-2006
 	- Jorrit added a new 'chdirauto' function to blxml. This can be
 	  used to control the vfs directory.

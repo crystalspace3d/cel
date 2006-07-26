@@ -3752,7 +3752,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iCelParameterBlock> ref = action_params;
 	  celData ret;
 	  bool rc = pc->PerformAction (id, action_params, ret);
-	  if (!rc)
+	  if (ret.type == CEL_DATA_NONE)
 	    a_pc.Set (rc);
 	  else
 	    celData2celXmlArg (ret, a_pc);
