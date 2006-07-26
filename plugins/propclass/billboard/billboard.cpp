@@ -329,7 +329,8 @@ celPcBillboard::~celPcBillboard ()
 }
 
 bool celPcBillboard::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_drawmesh)
   {

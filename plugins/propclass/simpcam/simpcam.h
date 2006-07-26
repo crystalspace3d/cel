@@ -140,7 +140,8 @@ public:
   virtual const char* GetName () const { return "pcsimplecamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   struct PcSimpleCamera : public iPcSimpleCamera
   {

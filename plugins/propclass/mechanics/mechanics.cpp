@@ -296,7 +296,8 @@ iRigidBody* celPcMechanicsSystem::FindBody (const char* entityname)
 }
 
 bool celPcMechanicsSystem::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setsystem)
   {
@@ -889,7 +890,8 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcMechanicsObject::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setlinearvelocity)
   {
@@ -1665,7 +1667,8 @@ void celPcMechanicsJoint::CreateJoint ()
 }
 
 bool celPcMechanicsJoint::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setparentbody)
   {

@@ -141,7 +141,8 @@ bool celPcTest::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcTest::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_print)
   {

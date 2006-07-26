@@ -206,7 +206,8 @@ celPcCommandInput::~celPcCommandInput ()
 }
 
 bool celPcCommandInput::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_bind)
   {

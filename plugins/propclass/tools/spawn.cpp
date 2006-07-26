@@ -172,7 +172,8 @@ celPcSpawn::~celPcSpawn ()
 }
 
 bool celPcSpawn::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_addentitytype)
   {

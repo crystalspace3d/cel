@@ -331,7 +331,8 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId,
-  	iCelParameterBlock* params);
+  	iCelParameterBlock* params,
+	celData& ret);
   virtual bool SetProperty (csStringID propertyId, const char* b);
   virtual const char* GetPropertyString (csStringID propertyId);
   virtual void TickEveryFrame ();

@@ -92,7 +92,8 @@ bool celPcCraftController::Load (iCelDataBuffer* databuf)
 {
   return true;
 }
-bool celPcCraftController::PerformAction (csStringID actionId, iCelParameterBlock* params)
+bool celPcCraftController::PerformAction (csStringID actionId, iCelParameterBlock* params,
+    celData& ret)
 {
   return true;
 }

@@ -228,7 +228,8 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcQuest::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_newquest)
   {

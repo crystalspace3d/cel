@@ -149,7 +149,8 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+      celData& ret);
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);

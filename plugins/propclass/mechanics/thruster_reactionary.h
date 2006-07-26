@@ -84,7 +84,8 @@ public:
   virtual const char* GetName () const { return "pcmechthrustreactionary"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   // iPcMechanicsThruster function implementation
   virtual void SetMechanicsObject (iPcMechanicsObject* mechobj)

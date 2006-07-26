@@ -317,9 +317,14 @@ struct iCelPropertyClass : public virtual iBase
 
   /**
    * Perform an action with a generic string parameter.
+   * \param actionID the id of the action.
+   * \param params an optional parameter block for this action.
+   * \param ret is an optional return value. Note! Make sure
+   * to clear this variable before calling. PerformAction()
+   * implementations can choose not to initialize it.
    */
   virtual bool PerformAction (csStringID actionID,
-  	iCelParameterBlock* params) = 0;
+  	iCelParameterBlock* params, celData& ret) = 0;
 
   /**
    * Return the number of supported properties and actions.

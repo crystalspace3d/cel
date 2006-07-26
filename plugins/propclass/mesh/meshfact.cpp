@@ -266,7 +266,8 @@ void celPcMesh::RemoveMesh ()
 }
 
 bool celPcMesh::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setmesh)
   {
@@ -1303,7 +1304,8 @@ void celPcMeshSelect::SetMouseButtons (const char* buttons)
 }
 
 bool celPcMeshSelect::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setcamera)
   {

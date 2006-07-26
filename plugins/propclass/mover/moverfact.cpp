@@ -215,7 +215,8 @@ void celPcMover::Interrupt ()
 }
 
 bool celPcMover::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_start)
   {

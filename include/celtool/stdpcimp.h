@@ -115,7 +115,8 @@ public:
   virtual iCelPropertyClass* GetPropertyPClass (csStringID);
   virtual iCelEntity* GetPropertyEntity (csStringID);
   virtual iBase* GetPropertyIBase (csStringID);
-  virtual bool PerformAction (csStringID, iCelParameterBlock*) { return false; }
+  virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret)
+  { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
   virtual size_t GetPropertyAndActionCount () const;
   virtual csStringID GetPropertyOrActionID (size_t);

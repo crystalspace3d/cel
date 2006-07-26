@@ -332,7 +332,8 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual const char* GetPropertyString (csStringID);
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+      celData& ret);
 
   void SendZoneMessage (iCelRegion* region, const char* msgid);
 

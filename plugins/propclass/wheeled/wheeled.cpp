@@ -265,7 +265,8 @@
 }
   
   bool celPcWheeled::PerformAction (csStringID actionId,
-                                    iCelParameterBlock* params)
+                                    iCelParameterBlock* params,
+				    celData& ret)
 {
   if(actionId==action_setwheelmesh)
   {

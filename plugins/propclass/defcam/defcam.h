@@ -299,7 +299,8 @@ public:
   celPcDefaultCamera (iObjectRegistry* object_reg);
   virtual ~celPcDefaultCamera ();
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+      celData& ret);
 
   bool SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd = true);
   iPcDefaultCamera::CameraMode GetMode () const { return cammode; }

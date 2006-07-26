@@ -165,7 +165,7 @@ bool celPcActorMove::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcActorMove::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params, celData& ret)
 {
   if (actionId == action_setspeed)
   {

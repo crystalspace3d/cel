@@ -880,7 +880,8 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
 }
 
 bool celPcGravity::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_applypermanentforce)
   {

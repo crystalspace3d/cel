@@ -424,7 +424,8 @@ const char* celPcLinearMovement::GetPropertyString (csStringID propertyId)
 }
 
 bool celPcLinearMovement::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_initcd)
   {
