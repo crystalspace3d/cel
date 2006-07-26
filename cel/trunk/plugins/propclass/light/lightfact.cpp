@@ -85,7 +85,8 @@ celPcLight::~celPcLight ()
 }
 
 bool celPcLight::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setlight)
   {

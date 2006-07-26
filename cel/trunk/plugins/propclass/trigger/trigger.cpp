@@ -958,7 +958,8 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcTrigger::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setuptriggersphere)
   {

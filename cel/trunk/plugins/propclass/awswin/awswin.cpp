@@ -141,7 +141,8 @@ static void TriggerFunc (unsigned long id, intptr_t sink, iAwsSource* source)
 }
 
 bool celPcAwsWin::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_loaddefinitionfile)
   {

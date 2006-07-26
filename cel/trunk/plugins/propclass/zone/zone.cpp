@@ -602,7 +602,8 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcZoneManager::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_disablecd)
   {

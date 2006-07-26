@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Jul-2006
+	- Jorrit added the ability for PerformAction() to return
+	  a value to the caller (instead of only a bool success).
+	- When calling actions using the { } notation in blxml the
+	  return value from PerformAction() is now put on the stack
+	  unless PerformAction fails in which case 'false' is put
+	  on the stack and the return value is ignored.
 25-Jul-2006
 	- Jorrit added a new 'chdirauto' function to blxml. This can be
 	  used to control the vfs directory.

@@ -91,7 +91,8 @@ celPcTimer::~celPcTimer ()
 }
 
 bool celPcTimer::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_wakeup)
   {

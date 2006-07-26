@@ -115,7 +115,8 @@ bool celPcHover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params)
+bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params,
+    celData& ret)
 {
   if (actionId == action_setworld)
   {

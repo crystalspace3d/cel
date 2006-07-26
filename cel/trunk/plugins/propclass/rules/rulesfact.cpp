@@ -133,7 +133,8 @@ bool celPcRules::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcRules::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   GetRuleBase ();
   if (!rulebase) return false;

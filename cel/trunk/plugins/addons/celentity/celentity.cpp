@@ -306,7 +306,8 @@ bool celAddOnCelEntity::ParseProperties (iCelPropertyClass* pc,
 	  if (propid == csInvalidStringID) return false;
 	  csRef<celVariableParameterBlock> params = ParseParameterBlock (
 	  	child);
-	  pc->PerformAction (propid, params);
+	  celData ret;
+	  pc->PerformAction (propid, params, ret);
 	}
 	break;
       default:

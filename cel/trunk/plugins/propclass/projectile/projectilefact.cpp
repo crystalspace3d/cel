@@ -164,7 +164,8 @@ void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
 }
 
 bool celPcProjectile::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_start)
   {

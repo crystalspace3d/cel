@@ -302,7 +302,8 @@ bool celPcSoundListener::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcSoundListener::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (!listener) return false;
   if (actionId == action_setdirection)
@@ -583,7 +584,8 @@ bool celPcSoundSource::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcSoundSource::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (!GetSource ()) return false;
   if (actionId == action_unpause)

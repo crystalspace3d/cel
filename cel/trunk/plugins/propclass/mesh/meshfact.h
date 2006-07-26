@@ -172,7 +172,8 @@ public:
   virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual const char* GetPropertyString (csStringID propertyId);
 };
@@ -341,7 +342,8 @@ public:
   virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'bool' properties.

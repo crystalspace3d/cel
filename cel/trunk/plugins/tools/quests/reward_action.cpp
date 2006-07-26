@@ -319,9 +319,12 @@ void celActionReward::Reward ()
     fullname += id;
     csStringID actionID = pl->FetchStringID(fullname);
     if (actionID)
-    	propertyclass->PerformAction(actionID, act_params);
+    {
+      celData ret;
+      propertyclass->PerformAction(actionID, act_params, ret);
+    }
     else
-        Report (type->object_reg,
+      Report (type->object_reg,
 		"No action  'cel.action.%s' in the specified pc!", id);
   }
   else

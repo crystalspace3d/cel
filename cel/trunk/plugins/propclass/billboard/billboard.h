@@ -117,7 +117,8 @@ public:
   virtual const char* GetName () const { return "pcbillboard"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the materialname property.

@@ -157,7 +157,8 @@ public:
   virtual const char* GetName () const { return "pctrigger"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+      celData& ret);
   virtual void TickOnce ();
   // celPcTrigger only function to set center.
   void SetCenter (csVector3 &v);

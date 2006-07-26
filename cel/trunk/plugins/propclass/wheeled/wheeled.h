@@ -337,7 +337,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual const char* GetName () const { return "pcwheeled"; }
     virtual csPtr<iCelDataBuffer> Save ();
     virtual bool Load (iCelDataBuffer* databuf);
-    virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+    virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+	celData& ret);
 
 };
 

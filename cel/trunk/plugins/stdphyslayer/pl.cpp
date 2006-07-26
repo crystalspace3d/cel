@@ -447,7 +447,8 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
 {
   csRef<celVariableParameterBlock> converted_params = ConvertTemplateParams (
     ent->GetName (), act.params, params);
-  if (!pc->PerformAction (act.id, converted_params))
+  celData ret;
+  if (!pc->PerformAction (act.id, converted_params, ret))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",

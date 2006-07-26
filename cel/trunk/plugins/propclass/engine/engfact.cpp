@@ -213,7 +213,8 @@ void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
 }
 
 bool celPcRegion::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == properties[propid_load].id)
   {

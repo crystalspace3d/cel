@@ -125,7 +125,8 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_initthruster)
   {

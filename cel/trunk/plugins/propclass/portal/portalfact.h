@@ -90,7 +90,8 @@ public:
   virtual const char* GetName () const { return "pcportal"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
   virtual bool SetProperty (csStringID, const char*);
   virtual const char* GetPropertyString (csStringID);
   virtual bool SetProperty (csStringID, bool);

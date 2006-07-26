@@ -77,7 +77,8 @@ public:
   virtual const char* GetName () const { return "pcsoundlistener"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool GetPropertyVector (csStringID, csVector3&);
@@ -136,7 +137,8 @@ public:
   virtual const char* GetName () const { return "pcsoundsource"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   virtual bool SetProperty (csStringID, const csVector3&);
   virtual bool GetPropertyVector (csStringID, csVector3&);

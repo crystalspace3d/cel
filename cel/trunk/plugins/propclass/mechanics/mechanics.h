@@ -151,7 +151,8 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   // Made independent to avoid circular refs and leaks.
   struct CelTimerListener : public scfImplementation1<
@@ -428,7 +429,8 @@ public:
   virtual const char* GetName () const { return "pcmechobject"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   virtual csVector3 LocalToWorld(csVector3 local);
   virtual csVector3 WorldToLocal(csVector3 world);
@@ -494,7 +496,8 @@ public:
   virtual const char* GetName () const { return "pcmechjoint"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 };
 
 #endif // __CEL_PF_MECHANICS_SYSTEM_FACTORY__

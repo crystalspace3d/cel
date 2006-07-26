@@ -379,7 +379,8 @@ celPcDefaultCamera::~celPcDefaultCamera ()
 }
 
 bool celPcDefaultCamera::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_setcamera)
   {

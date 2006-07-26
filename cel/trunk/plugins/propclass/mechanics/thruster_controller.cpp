@@ -128,7 +128,8 @@ bool celPcMechanicsBalancedGroup::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_addthruster)
   {
@@ -419,7 +420,8 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
 }
 
 bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
-	iCelParameterBlock* params)
+	iCelParameterBlock* params,
+	celData& ret)
 {
   if (actionId == action_addaxis)
   {

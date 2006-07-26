@@ -3732,7 +3732,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	  "No valid property class for 'action'!");
 	  csStringID id = ArgToID (a_id);
 	  csRef<iCelParameterBlock> ref = action_params;
-	  pc->PerformAction (id, action_params);
+	  celData ret;
+	  pc->PerformAction (id, action_params, ret);
 	}
         break;
       case CEL_OPERATION_ACTIONFUN:
@@ -3749,7 +3750,12 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	  "No valid property class for 'action'!");
 	  csStringID id = ArgToID (a_id);
 	  csRef<iCelParameterBlock> ref = action_params;
-	  a_pc.Set (pc->PerformAction (id, action_params));
+	  celData ret;
+	  bool rc = pc->PerformAction (id, action_params, ret);
+	  if (!rc)
+	    a_pc.Set (rc);
+	  else
+	    celData2celXmlArg (ret, a_pc);
 	}
         break;
       case CEL_OPERATION_DESTROYENTITY:
