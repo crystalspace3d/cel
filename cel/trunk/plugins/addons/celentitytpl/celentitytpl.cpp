@@ -19,9 +19,11 @@
 
 #include "cssysdef.h"
 #include "csutil/scanstr.h"
+#include "csutil/xmltiny.h"
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
+#include "iutil/vfs.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
 #include "iengine/mesh.h"
@@ -427,6 +429,51 @@ csPtr<iBase> celAddOnCelEntityTemplate::Parse (iDocumentNode* node,
   iCelEntityTemplate* ent = Load (node);
   csRef<iBase> ent_return = (iBase*)ent;
   return csPtr<iBase> (ent_return);
+}
+
+iCelEntityTemplate* celAddOnCelEntityTemplate::Load (const char* path,
+    const char* file)
+{
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  if (path)
+  {
+    vfs->PushDir ();
+    vfs->ChDir (path);
+  }
+
+  csRef<iFile> buf = vfs->Open (file, VFS_FILE_READ);
+  if (!buf)
+  {
+    if (path)
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"cel.addons.celentitytpl",
+	"Can't load file '%s' from '%s'!", file, path);
+    else
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"cel.addons.celentitytpl",
+	"Can't load file '%s'!", file);
+    return 0;
+  }
+
+  csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem> (object_reg);
+  if (!docsys) docsys = csPtr<iDocumentSystem> (new csTinyDocumentSystem ());
+  csRef<iDocument> doc = docsys->CreateDocument ();
+  const char* error = doc->Parse (buf, true);
+  if (error != 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	    "cell.addons.celentitytpl",
+	    "Document system error for file '%s': %s!", file, error);
+    return 0;
+  }
+  iCelEntityTemplate* tpl = Load (doc->GetRoot ()->GetNode ("addon"));
+
+  if (path)
+  {
+    vfs->PopDir ();
+  }
+
+  return tpl;
 }
 
 iCelEntityTemplate* celAddOnCelEntityTemplate::Load (iDocumentNode* node)

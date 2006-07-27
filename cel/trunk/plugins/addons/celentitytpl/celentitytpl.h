@@ -73,6 +73,7 @@ public:
   	iBase* context);
 
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
+  virtual iCelEntityTemplate* Load (const char* path, const char* file);
 
   struct Component : public iComponent
   {
