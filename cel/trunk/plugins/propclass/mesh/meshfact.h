@@ -95,6 +95,12 @@ private:
   static csStringID id_visible;
   static csStringID action_setmaterial;
   static csStringID id_material;
+  static csStringID action_setshadervar;
+  static csStringID id_value;
+  static csStringID id_type;
+  static csStringID action_setanimation;
+  static csStringID id_animation;
+  static csStringID id_cycle;
 
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();
@@ -148,6 +154,7 @@ public:
    * or resetaction is set.
    */
   virtual void SetAction (const char* actionName, bool reset = false);
+  virtual void SetAnimation (const char* actionName, bool cycle, float weight=1.0,float fadein=0.1,float fadeout=0.1);
   /**
    * Returns the name for the current action.
    */
@@ -176,6 +183,12 @@ public:
       celData& ret);
   virtual bool GetPropertyVector (csStringID, csVector3&);
   virtual const char* GetPropertyString (csStringID propertyId);
+
+  // Functions to set ShaderVars in the mesh
+  virtual void SetShaderVar(csStringID name, float value);
+  virtual void SetShaderVar(csStringID name, int value);
+  virtual void SetShaderVar(csStringID name, csVector3 value);
+  virtual void SetShaderVar(csStringID name, csVector2 value);
 };
 
 /**
