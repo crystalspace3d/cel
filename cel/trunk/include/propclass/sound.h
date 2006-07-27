@@ -78,6 +78,7 @@ struct iPcSoundListener : public virtual iBase
  * <li>minimumdistance (float, read/write): minimum play distance.
  * <li>maximumdistance (float, read/write): maximum play distance.
  * <li>loop (bool, read/write): true=loop, false=don't loop.
+ * <li>follow (bool, read/write): follow own entity pcmesh (default off).
  * </ul>
  */
 struct iPcSoundSource : public virtual iBase

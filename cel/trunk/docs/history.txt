@@ -21,6 +21,7 @@ The history order is reversed so that new features are at the top.
 	  - split npcmove into a different file for easier future removal.
 	  - will now set jump action when a mesh jumps, and walk when it
 	    goes forward.
+	- caedes documented 'follow' property inside PcSoundSource.
 26-Jul-2006
 	- Jorrit added the ability for PerformAction() to return
 	  a value to the caller (instead of only a bool success).
