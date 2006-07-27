@@ -43,6 +43,12 @@ struct iEntityTemplateLoader : virtual public iBase
    * error has been reported to the reporter.
    */
   virtual iCelEntityTemplate* Load (iDocumentNode* node) = 0;
+
+  /**
+   * Conveniance function to load the entity template from a vfs file.
+   * \param path optional VFS path. Can be 0.
+   */
+  virtual iCelEntityTemplate* Load (const char* path, const char* file) = 0;
 };
 
 #endif // __CEL_ENTITYTPLLOADER__

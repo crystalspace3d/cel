@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Jul-2006
+	- Jorrit added conveniance methods to iEntityLoader and
+	  iEntityTemplateLoader to load an entity/template directly
+	  from a vfs file.
 26-Jul-2006
 	- Jorrit added the ability for PerformAction() to return
 	  a value to the caller (instead of only a bool success).

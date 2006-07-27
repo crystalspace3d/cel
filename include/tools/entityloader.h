@@ -46,6 +46,13 @@ struct iEntityLoader : virtual public iBase
    */
   virtual iCelEntity* Load (iDocumentNode* node,
 		  iMeshWrapper* mesh = 0) = 0;
+
+  /**
+   * Conveniance function to load the entity from a vfs file.
+   * \param path optional VFS path. Can be 0.
+   */
+  virtual iCelEntity* Load (const char* path, const char* file,
+      iMeshWrapper* mesh = 0) = 0;
 };
 
 #endif // __CEL_ENTITYLOADER__

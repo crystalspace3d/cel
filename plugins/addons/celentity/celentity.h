@@ -73,6 +73,8 @@ public:
   	iBase* context);
 
   virtual iCelEntity* Load (iDocumentNode* node, iMeshWrapper* mesh = 0);
+  virtual iCelEntity* Load (const char* path, const char* file,
+      iMeshWrapper* mesh = 0);
 
   struct Component : public iComponent
   {
