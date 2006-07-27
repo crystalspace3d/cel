@@ -7,6 +7,20 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added conveniance methods to iEntityLoader and
 	  iEntityTemplateLoader to load an entity/template directly
 	  from a vfs file.
+	- caedes did the following changes to pcmesh:
+	  - created a new function to set animations (SetAnimation),
+	    this makes SetAction and SetReverseAction deprecated, and allows
+	    setting actions in spr3d, sprcal3d and genmeshskel in a more
+	    generic way.
+	  - added SetAnimation xml action.
+	  - added SetShaderVar xml action to set shadervars in mesh.
+	- caedes did the following changes to pcactormove:
+	  - removed all spr3d sync code from pcactormove, and made it use
+	    pcmesh for most of its action sync code (still uses SetVelocity
+	    for cal3d though..).
+	  - split npcmove into a different file for easier future removal.
+	  - will now set jump action when a mesh jumps, and walk when it
+	    goes forward.
 26-Jul-2006
 	- Jorrit added the ability for PerformAction() to return
 	  a value to the caller (instead of only a bool success).

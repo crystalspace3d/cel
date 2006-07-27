@@ -50,7 +50,6 @@
 CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (ActorMove, "pcactormove")
-CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
 
 //---------------------------------------------------------------------------
 
@@ -146,6 +145,12 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 
 celPcActorMove::~celPcActorMove ()
 {
+}
+
+void celPcActorMove::SetAnimation (const char *name, bool cycle)
+{
+  if (pcmesh)
+    pcmesh->SetAnimation(name,cycle);
 }
 
 #define ACTORMOVE_SERIAL 1
@@ -294,8 +299,6 @@ void celPcActorMove::GetSpriteStates ()
   if (!o) return;
   checked_spritestate = true;
   sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
-  if (sprcal3d) return;
-  spr3d = SCF_QUERY_INTERFACE (o, iSprite3DState);
 }
 
 void celPcActorMove::RotateTo (float yrot)
@@ -470,7 +473,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
 
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (ACTORMOVE_SERIAL);
 
-  if (sprcal3d)
+  /*if (sprcal3d)
   {
     // TODO: use GetAnimCount () instead of GetActiveAnimCount ();
     size_t anim_count = sprcal3d->GetActiveAnimCount ();
@@ -491,7 +494,7 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
   {
     databuf->Add ((int32)spr3d->GetCurFrame ());
     databuf->Add (spr3d->GetCurAction ()->GetName ());
-  }
+  }*/
 
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -523,7 +526,7 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
   GetSpriteStates ();
 
   // TODO: make some smooth update
-  if (sprcal3d)
+  /*if (sprcal3d)
   {
     int anim_count = databuf->GetUInt32 ();
     csSpriteCal3DActiveAnim* buffer = new csSpriteCal3DActiveAnim[anim_count];
@@ -542,74 +545,8 @@ celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
     spr3d->SetFrame (frame);
     iString* action = databuf->GetString ();
     spr3d->SetAction (*action);
-  }
+  }*/
 
   return CEL_PERSIST_RESULT_OK;
 }
-
-//---------------------------------------------------------------------------
-
-celPcNpcMove::celPcNpcMove (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
-{
-  checked_spritestate = false;
-  pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
-}
-
-celPcNpcMove::~celPcNpcMove ()
-{
-}
-
-void celPcNpcMove::TickOnce ()
-{
-  FindSiblingPropertyClasses ();
-  GetSpriteStates ();
-
-  if (sprcal3d)
-    sprcal3d->SetAnimCycle ("stand", 1.0);
-  else if (spr3d)
-    spr3d->SetAction ("stand");
-}
-
-#define NPCMOVE_SERIAL 1
-
-csPtr<iCelDataBuffer> celPcNpcMove::Save ()
-{
-  csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (NPCMOVE_SERIAL);
-  return csPtr<iCelDataBuffer> (databuf);
-}
-
-
-bool celPcNpcMove::Load (iCelDataBuffer* databuf)
-{
-  int serialnr = databuf->GetSerialNumber ();
-  if (serialnr != NPCMOVE_SERIAL) return false;
-  return true;
-}
-
-void celPcNpcMove::FindSiblingPropertyClasses ()
-{
-  if (HavePropertyClassesChanged ())
-  {
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    checked_spritestate = false;
-  }
-}
-
-void celPcNpcMove::GetSpriteStates ()
-{
-  if (checked_spritestate) return;
-  if (!pcmesh) return;
-  iMeshWrapper* m = pcmesh->GetMesh ();
-  if (!m) return;
-  iMeshObject* o = m->GetMeshObject ();
-  if (!o) return;
-  checked_spritestate = true;
-  sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
-  if (sprcal3d) return;
-  spr3d = SCF_QUERY_INTERFACE (o, iSprite3DState);
-}
-
-//---------------------------------------------------------------------------
 

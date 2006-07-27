@@ -21,6 +21,7 @@
 #define __CEL_PF_MESH__
 
 #include "cstypes.h"
+#include "iutil/strset.h"
 #include "csutil/scf.h"
 
 struct iMeshWrapper;
@@ -52,6 +53,9 @@ class csVector3;
  * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * <li>SetVisible: parameters 'visible' (bool).
  * <li>SetMaterial: parameters 'material' (string).
+ * <li>SetAnimation: parameters 'animation' (string) and 'cycle' (bool).
+ * <li>SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
+ *     (type depending on type parameter).
  * </ul>
  * <p>
  * This property class supports the following properties (add prefix
@@ -120,19 +124,25 @@ struct iPcMesh : public virtual iBase
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
-  virtual void SetAction (const char* actionName, bool reset = false) = 0;
-
+  CS_DEPRECATED_METHOD virtual void SetAction (const char* actionName, bool reset = false) = 0;
   /**
    * Return the current action name.
    */
-  virtual const char* GetAction () = 0;
+  CS_DEPRECATED_METHOD virtual const char* GetAction () = 0;
 
   /**
    * Convenience function to set an 'action' to be reversed for the mesh.
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
-  virtual void SetReverseAction (bool reverse = true) = 0;
+  CS_DEPRECATED_METHOD virtual void SetReverseAction (bool reverse = true) = 0;
+
+  /**
+   * Function to set an 'action' for the mesh.
+   * Works for cal3d, spr3d and genmeshskelanim, but note not all mesh objects
+   * support the same feature set.
+   */
+  virtual void SetAnimation (const char* actionName, bool cycle, float weight=1.0,float fadein=0.1,float fadeout=0.1) = 0;
 
   /**
    * Hide this mesh.

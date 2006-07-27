@@ -29,7 +29,6 @@
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
 #include "imesh/spritecal3d.h"
-#include "imesh/sprite3d.h"
 
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
@@ -55,7 +54,6 @@ class celActorMovableListener;
  * Factory for actormove and npcmove.
  */
 CEL_DECLARE_FACTORY(ActorMove)
-CEL_DECLARE_FACTORY(NpcMove)
 
 /**
  * This is a property class that helps with actor movement.
@@ -73,13 +71,13 @@ private:
   csWeakRef<iPcNewCamera> pcnewcamera;
   csWeakRef<iPcSoundListener> pcsoundlistener;
 
+  csWeakRef<iSpriteCal3DState> sprcal3d;
+
   // Movable listener so we can update the sound listener.
   csWeakRef<iMovable> movable_for_listener;
   csRef<celActorMovableListener> movlistener;
 
   bool checked_spritestate;
-  csWeakRef<iSpriteCal3DState> sprcal3d;
-  csWeakRef<iSprite3DState> spr3d;
 
   float movement_speed;
   float running_speed;
@@ -125,6 +123,13 @@ public:
 
   virtual void Forward (bool start)
   {
+    if (pcmesh && !sprcal3d)
+    {
+	if (start && !IsMovingForward ())
+		SetAnimation("walk");
+	else if (!start && IsMovingForward())
+		SetAnimation("stand");
+    }
     forward = start;
     HandleMovement (false);
   }
@@ -208,6 +213,8 @@ public:
   }
   virtual void Jump ()
   {
+    if (pcmesh)
+	SetAnimation("jump",false);
     HandleMovement (true);
   }
   virtual void ToggleCameraMode ();
@@ -223,6 +230,8 @@ public:
 
   virtual void SetJumpingVelocity (float speed) { jumping_velocity = speed; }
   virtual float GetJumpingVelocity () const { return jumping_velocity; }
+  
+  virtual void SetAnimation (const char *name, bool cycle=true);
 
   virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -235,35 +244,6 @@ public:
         celPersistenceType persistence_type);
   celPersistenceResult SetPersistentData (csTicks data_time, 
         iCelDataBuffer* data, celPersistenceType persistence_type);
-};
-
-/**
- * This is a property class that helps with NPC movement.
- * It knows about pclinmove and can also control
- * animation in sprcal3d and spr3d mesh objects.
- */
-class celPcNpcMove : public scfImplementationExt1<
-	celPcNpcMove,celPcCommon,iPcNpcMove>
-{
-private:
-  csWeakRef<iPcLinearMovement> pclinmove;
-  csWeakRef<iPcMesh> pcmesh;
-
-  bool checked_spritestate;
-  csWeakRef<iSpriteCal3DState> sprcal3d;
-  csWeakRef<iSprite3DState> spr3d;
-
-  void FindSiblingPropertyClasses ();
-  void GetSpriteStates ();
-
-public:
-  celPcNpcMove (iObjectRegistry* object_reg);
-  virtual ~celPcNpcMove ();
-
-  virtual const char* GetName () const { return "pcnpcmove"; }
-  virtual csPtr<iCelDataBuffer> Save ();
-  virtual bool Load (iCelDataBuffer* databuf);
-  virtual void TickOnce ();
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__

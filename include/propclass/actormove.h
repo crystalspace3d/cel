@@ -113,6 +113,8 @@ struct iPcActorMove : public virtual iBase
   virtual void SetJumpingVelocity (float speed) = 0;
   /// Get the jumping velocity (default 6.31).
   virtual float GetJumpingVelocity () const = 0;
+  /// Set current animation on underlying pcmesh.
+  virtual void SetAnimation (const char *name, bool cycle = true) = 0;
 };
 
 #endif // __CEL_PF_ACTORMOVE__
