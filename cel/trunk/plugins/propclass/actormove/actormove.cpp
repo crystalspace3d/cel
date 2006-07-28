@@ -174,6 +174,8 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 
 celPcActorMove::~celPcActorMove ()
 {
+  if (mousemove && g2d)
+    g2d->SetMouseCursor (csmcArrow);
 }
 
 Property* celPcActorMove::properties = 0;
