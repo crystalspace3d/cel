@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added conveniance methods to iEntityLoader and
 	  iEntityTemplateLoader to load an entity/template directly
 	  from a vfs file.
+	- Jorrit made the 'behaviour' attribute optional in the
+	  'createentity' operation of blxml. That means the entity
+	  will be created without behaviour.
 	- caedes did the following changes to pcmesh:
 	  - created a new function to set animations (SetAnimation),
 	    this makes SetAction and SetReverseAction deprecated, and allows
