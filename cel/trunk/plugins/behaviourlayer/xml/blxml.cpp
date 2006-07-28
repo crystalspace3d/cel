@@ -2179,7 +2179,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  if (!ParseExpression (local_vars, child, h, "name", "createentity"))
 	    return false;
 	  if (!ParseExpression (local_vars, child, h, "behaviour",
-				  "createentity"))
+				  "createentity", CEL_DATA_STRING))
 	    return false;
 	  if (child->GetAttributeValue ("layer"))
 	  {

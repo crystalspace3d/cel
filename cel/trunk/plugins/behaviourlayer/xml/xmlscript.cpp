@@ -3510,11 +3510,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find behaviour layer '%s'!", layername);
 
 	  const char* bhname = ArgToString (abh);
-	  iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
-	  if (!bh)
-	    return ReportError (cbl,
-	    	"Couldn't create behaviour '%s' for '%s' and layer '%s'!",
-	    	bhname, entname, layername);
+	  if (bhname)
+	  {
+	    iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
+	    if (!bh)
+	      return ReportError (cbl,
+	    	  "Couldn't create behaviour '%s' for '%s' and layer '%s'!",
+	    	  bhname, entname, layername);
+	  }
 	}
         break;
       case CEL_OPERATION_CREATEENTITY:
@@ -3541,11 +3544,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    	"Couldn't find default behaviour layer!");
 
 	  const char* bhname = ArgToString (abh);
-	  iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
-	  if (!bh)
-	    return ReportError (cbl,
-	    	"Couldn't create behaviour '%s' for '%s'!",
-	    	bhname, entname);
+	  if (bhname)
+	  {
+	    iCelBehaviour* bh = bl->CreateBehaviour (ent, bhname);
+	    if (!bh)
+	      return ReportError (cbl,
+	    	  "Couldn't create behaviour '%s' for '%s'!",
+	    	  bhname, entname);
+	  }
 	}
         break;
       case CEL_OPERATION_CREATEENTITYTPL:
