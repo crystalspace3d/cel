@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Jul-2006
+	- Jorrit implemented mousemove in pcactormove.
 27-Jul-2006
 	- Jorrit added conveniance methods to iEntityLoader and
 	  iEntityTemplateLoader to load an entity/template directly
