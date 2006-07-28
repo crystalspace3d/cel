@@ -109,7 +109,7 @@ private:
   float mousemove_lasty;
   float mousemove_hor_factor;
   float mousemove_vert_factor;
-  iGraphics2D* g2d;
+  csWeakRef<iGraphics2D> g2d;
 
   static csStringID action_setspeed;
   static csStringID action_forward;
