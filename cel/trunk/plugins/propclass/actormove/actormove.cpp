@@ -271,6 +271,7 @@ void celPcActorMove::EnableMouseMove (bool en)
 void celPcActorMove::TickEveryFrame ()
 {
   if (!mousemove) return;
+  if (!pcdefcamera) return;
 
   int frame_width = g2d->GetWidth();
   int frame_height = g2d->GetHeight();

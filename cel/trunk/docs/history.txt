@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 28-Jul-2006
 	- Jorrit implemented mousemove in pcactormove.
+	- Jorrit fixed a small bug in pcactormove which could cause it
+	  to crash if the mouse moved too soon when the camera was not
+	  ready yet.
 27-Jul-2006
 	- Jorrit added conveniance methods to iEntityLoader and
 	  iEntityTemplateLoader to load an entity/template directly
