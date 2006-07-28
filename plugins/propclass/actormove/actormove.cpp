@@ -53,8 +53,8 @@ CEL_IMPLEMENT_FACTORY (ActorMove, "pcactormove")
 
 //---------------------------------------------------------------------------
 
-class celActorMovableListener : public scfImplementation1<celActorMovableListener,
-	iMovableListener>
+class celActorMovableListener : public scfImplementation1<
+	celActorMovableListener, iMovableListener>
 {
 private:
   csWeakRef<iSndSysListener> listener;
@@ -90,6 +90,7 @@ csStringID celPcActorMove::action_straferight = csInvalidStringID;
 csStringID celPcActorMove::action_rotateleft = csInvalidStringID;
 csStringID celPcActorMove::action_rotateright = csInvalidStringID;
 csStringID celPcActorMove::action_rotateto = csInvalidStringID;
+csStringID celPcActorMove::action_mousemove = csInvalidStringID;
 csStringID celPcActorMove::action_run = csInvalidStringID;
 csStringID celPcActorMove::action_autorun = csInvalidStringID;
 csStringID celPcActorMove::action_jump = csInvalidStringID;
@@ -100,6 +101,8 @@ csStringID celPcActorMove::id_rotation = csInvalidStringID;
 csStringID celPcActorMove::id_jumping = csInvalidStringID;
 csStringID celPcActorMove::id_start = csInvalidStringID;
 csStringID celPcActorMove::id_yrot = csInvalidStringID;
+csStringID celPcActorMove::id_x = csInvalidStringID;
+csStringID celPcActorMove::id_y = csInvalidStringID;
 
 celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -114,6 +117,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     action_rotateleft = pl->FetchStringID ("cel.action.RotateLeft");
     action_rotateright = pl->FetchStringID ("cel.action.RotateRight");
     action_rotateto = pl->FetchStringID ("cel.action.RotateTo");
+    action_mousemove = pl->FetchStringID ("cel.action.MouseMove");
     action_run = pl->FetchStringID ("cel.action.Run");
     action_autorun = pl->FetchStringID ("cel.action.AutoRun");
     action_jump = pl->FetchStringID ("cel.action.Jump");
@@ -125,6 +129,8 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_jumping = pl->FetchStringID ("cel.parameter.jumping");
     id_start = pl->FetchStringID ("cel.parameter.start");
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
   }
 
   movement_speed = 2.0f;
@@ -141,10 +147,184 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   running = false;
   autorun = false;
   checked_spritestate = false;
+
+  // For mouse movement.
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  mousemove = false;
+  mousemove_lastticks = (csTicks)~0;
+  mousemove_totdelta = 0.0f;
+  mousemove_lastx = 0.0f;
+  mousemove_lasty = 0.0f;
+  mousemove_hor_factor = 1.0f;
+  mousemove_vert_factor = 1.0f;
+  mousemove_inverted = false;
+  csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g2d = g3d->GetDriver2D ();
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_mousemove] = 0;		// Handled in this class.
+  propdata[propid_mousemove_inverted] = &mousemove_inverted;
+  propdata[propid_mousemove_xfactor] = &mousemove_hor_factor;
+  propdata[propid_mousemove_yfactor] = &mousemove_vert_factor;
 }
 
 celPcActorMove::~celPcActorMove ()
 {
+}
+
+Property* celPcActorMove::properties = 0;
+size_t celPcActorMove::propertycount = 0;
+
+void celPcActorMove::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 4;
+    properties = new Property[propertycount];
+
+    properties[propid_mousemove].id = pl->FetchStringID (
+    	"cel.property.mousemove");
+    properties[propid_mousemove].datatype = CEL_DATA_BOOL;
+    properties[propid_mousemove].readonly = false;
+    properties[propid_mousemove].desc = "Mouse movement.";
+
+    properties[propid_mousemove_inverted].id = pl->FetchStringID (
+    	"cel.property.mousemove_inverted");
+    properties[propid_mousemove_inverted].datatype = CEL_DATA_BOOL;
+    properties[propid_mousemove_inverted].readonly = false;
+    properties[propid_mousemove_inverted].desc = "Mouse movement inverted.";
+
+    properties[propid_mousemove_xfactor].id = pl->FetchStringID (
+    	"cel.property.mousemove_xfactor");
+    properties[propid_mousemove_xfactor].datatype = CEL_DATA_FLOAT;
+    properties[propid_mousemove_xfactor].readonly = false;
+    properties[propid_mousemove_xfactor].desc = "Mouse movement x speed factor.";
+
+    properties[propid_mousemove_yfactor].id = pl->FetchStringID (
+    	"cel.property.mousemove_yfactor");
+    properties[propid_mousemove_yfactor].datatype = CEL_DATA_FLOAT;
+    properties[propid_mousemove_yfactor].readonly = false;
+    properties[propid_mousemove_yfactor].desc = "Mouse movement y speed factor.";
+  }
+}
+
+bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_mousemove].id)
+  {
+    EnableMouseMove (b);
+    return true;
+  }
+  else
+  {
+    return celPcCommon::SetProperty (propertyId, b);
+  }
+}
+
+bool celPcActorMove::GetPropertyBool (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_mousemove].id)
+  {
+    return mousemove;
+  }
+  else
+  {
+    return celPcCommon::GetPropertyBool (propertyId);
+  }
+}
+
+void celPcActorMove::MouseMove (float x, float y)
+{
+  mousemove_lastx = x;
+  mousemove_lasty = y;
+}
+
+void celPcActorMove::EnableMouseMove (bool en)
+{
+  if (mousemove == en) return;
+  mousemove = en;
+  if (!mousemove)
+  {
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    g2d->SetMouseCursor (csmcArrow);
+  }
+  else
+  {
+    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    g2d->SetMouseCursor (csmcNone);
+    mousemove_lastticks = (csTicks)~0;
+    mousemove_totdelta = 0.0f;
+    mousemove_lastx = 0.0f;
+    mousemove_lasty = 0.0f;
+  }
+}
+
+void celPcActorMove::TickEveryFrame ()
+{
+  if (!mousemove) return;
+
+  int frame_width = g2d->GetWidth();
+  int frame_height = g2d->GetHeight();
+
+  csTicks cur_ticks = vc->GetCurrentTicks ();
+  if (mousemove_lastticks == (csTicks)~0)
+  {
+    // Do nothing for first time.
+    mousemove_lastticks = cur_ticks;
+    g2d->SetMousePosition (frame_width / 2, frame_height / 2);
+    return;
+  }
+  float delta = float (cur_ticks - mousemove_lastticks);
+  mousemove_lastticks = cur_ticks;
+  mousemove_totdelta += delta;
+
+  if (mousemove_totdelta >= 100.0f)
+  {
+    if (mousemove_inverted) mousemove_lasty = -mousemove_lasty;
+    float abs_x = fabs (mousemove_lastx);
+    float abs_y = fabs (mousemove_lasty);
+    if ((abs_x > 0.0001 || abs_y > 0.0001) && abs_x < .4 && abs_y < .4)
+    {
+      pcdefcamera->MovePitch ((-mousemove_lasty)
+	  * mousemove_vert_factor * MOUSEMOVE_VERT_FACTOR);
+      float s = GetRotationSpeed();
+      SetRotationSpeed (fabs (mousemove_lastx)
+	  * mousemove_hor_factor * MOUSEMOVE_HOR_FACTOR * 100.0f);
+      if (fabs (mousemove_lastx) < 0.0001f)
+      {
+        RotateRight(false);
+        RotateLeft(false);
+      }
+      else if (mousemove_lastx > 0)
+      {
+        RotateRight(true);
+        RotateLeft(false);
+      }
+      else
+      {
+        RotateLeft(true);
+        RotateRight(false);
+      }
+      SetRotationSpeed (s); // Reset setting
+    }
+    else
+    {
+      RotateRight(false);
+      RotateLeft(false);
+    }
+
+    mousemove_totdelta -= 100.0f;
+    if (mousemove_totdelta >= 100.0f) mousemove_totdelta = 0.0f;
+    g2d->SetMousePosition (frame_width / 2, frame_height / 2);
+    mousemove_lastx = mousemove_lasty = 0.0f;
+  }
 }
 
 void celPcActorMove::SetAnimation (const char *name, bool cycle)
@@ -231,6 +411,15 @@ bool celPcActorMove::PerformAction (csStringID actionId,
     CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
     if (!p_yrot) return false;
     RotateTo (yrot);
+    return true;
+  }
+  else if (actionId == action_mousemove)
+  {
+    CEL_FETCH_FLOAT_PAR (x,params,id_x);
+    if (!p_x) return false;
+    CEL_FETCH_FLOAT_PAR (y,params,id_y);
+    if (!p_y) return false;
+    MouseMove (x, y);
     return true;
   }
   else if (actionId == action_run)

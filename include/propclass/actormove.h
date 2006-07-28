@@ -31,25 +31,31 @@
  * the appropriate calls here depending on the keys that are pressed.
  * This class is also aware of animation actions using sprcal3d or
  * spr3d.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetSpeed: parameters 'movement' (float), 'running' (float),
- *    'rotation' (float) and 'jumping' (float).
- * <li>Forward: parameters 'start' (bool).
- * <li>Backward: parameters 'start' (bool).
- * <li>StrafeLeft: parameters 'start' (bool).
- * <li>StrafeRight: parameters 'start' (bool).
- * <li>RotateLeft: parameters 'start' (bool).
- * <li>RotateRight: parameters 'start' (bool).
- * <li>RotateTo: parameters 'yrot' (float).
- * <li>Run: parameters 'start' (bool).
- * <li>AutoRun: parameters 'start' (bool).
- * <li>Jump.
- * <li>ToggleCameraMode.
- * </ul>
+ * - SetSpeed: parameters 'movement' (float), 'running' (float),
+ *   'rotation' (float) and 'jumping' (float).
+ * - Forward: parameters 'start' (bool).
+ * - Backward: parameters 'start' (bool).
+ * - StrafeLeft: parameters 'start' (bool).
+ * - StrafeRight: parameters 'start' (bool).
+ * - RotateLeft: parameters 'start' (bool).
+ * - RotateRight: parameters 'start' (bool).
+ * - RotateTo: parameters 'yrot' (float).
+ * - MouseMove: parameters 'x' (float) and 'y' (float).
+ * - Run: parameters 'start' (bool).
+ * - AutoRun: parameters 'start' (bool).
+ * - Jump.
+ * - ToggleCameraMode.
+ *
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * - mousemove (bool, read/write): enable/disable mousemove.
+ * - mousemove_inverted (bool, read/write): enable/disable inverted mousemove.
+ * - mousemove_xfactor (float, read/write): horizontal mousemove speed.
+ * - mousemove_yfactor (float, read/write): vertical mousemove speed.
  */
 struct iPcActorMove : public virtual iBase
 {
@@ -89,10 +95,42 @@ struct iPcActorMove : public virtual iBase
   virtual void AutoRun (bool start) = 0;
   /// Returns the toogle value of autorunning.
   virtual bool IsAutoRunning () = 0;
+  /**
+   * Handle mouse movement. Use this in combination with EnableMouseMove().
+   * Note that you should set screenspace property to false in
+   * pccommandinput to get the right coordinates (i.e. coordinates centered
+   * around 0,0 being the center of the screen).
+   */
+  virtual void MouseMove (float x, float y) = 0;
   /// Jump.
   virtual void Jump () = 0;
   /// Toggle camera mode.
   virtual void ToggleCameraMode () = 0;
+
+  /**
+   * Enable mouse move. To use this the behaviour must
+   * call 'MouseMove()' whenever the mouse moves.
+   */
+  virtual void EnableMouseMove (bool en) = 0;
+  /// Test if mouse move is enabled.
+  virtual bool IsMoveMoveEnabled () const = 0;
+
+  /**
+   * Enable mouse move inverted mode. In this mode the
+   * up-down mousemove will be inverted. By default this is disabled.
+   */
+  virtual void SetMouseMoveInverted (bool en) = 0;
+  /// Test if mouse move is inverted.
+  virtual bool IsMouseMoveInverted () const = 0;
+
+  /**
+   * Set mouse move speed factor. Default is 1,1.
+   */
+  virtual void SetMouseMoveSpeed (float xs, float ys) = 0;
+  /// Get mouse move x factor.
+  virtual float GetMouseMoveSpeedX () const = 0;
+  /// Get mouse move y factor.
+  virtual float GetMouseMoveSpeedY () const = 0;
 
   /// Set the movement speed (default 2.0).
   virtual void SetMovementSpeed (float speed) = 0;

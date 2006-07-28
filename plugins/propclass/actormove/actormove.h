@@ -48,12 +48,17 @@ struct iCelEntity;
 struct iCelPlLayer;
 struct iObjectRegistry;
 struct iMovable;
+struct iVirtualClock;
+struct iGraphics2D;
 class celActorMovableListener;
 
 /**
  * Factory for actormove and npcmove.
  */
 CEL_DECLARE_FACTORY(ActorMove)
+
+#define MOUSEMOVE_HOR_FACTOR 0.4f
+#define MOUSEMOVE_VERT_FACTOR 2.4f
 
 /**
  * This is a property class that helps with actor movement.
@@ -94,6 +99,18 @@ private:
   bool running;
   bool autorun;
 
+  // For mouse move.
+  csRef<iVirtualClock> vc;
+  bool mousemove;
+  bool mousemove_inverted;
+  csTicks mousemove_lastticks;
+  float mousemove_totdelta;
+  float mousemove_lastx;
+  float mousemove_lasty;
+  float mousemove_hor_factor;
+  float mousemove_vert_factor;
+  iGraphics2D* g2d;
+
   static csStringID action_setspeed;
   static csStringID action_forward;
   static csStringID action_backward;
@@ -102,6 +119,7 @@ private:
   static csStringID action_rotateleft;
   static csStringID action_rotateright;
   static csStringID action_rotateto;
+  static csStringID action_mousemove;
   static csStringID action_run;
   static csStringID action_autorun;
   static csStringID action_jump;
@@ -112,10 +130,24 @@ private:
   static csStringID id_jumping;
   static csStringID id_start;
   static csStringID id_yrot;
+  static csStringID id_x;
+  static csStringID id_y;
 
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
   void GetSpriteStates ();
+
+  // For properties.
+  enum propids
+  {
+    propid_mousemove = 0,
+    propid_mousemove_inverted,
+    propid_mousemove_xfactor,
+    propid_mousemove_yfactor
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcActorMove (iObjectRegistry* object_reg);
@@ -125,10 +157,10 @@ public:
   {
     if (pcmesh && !sprcal3d)
     {
-	if (start && !IsMovingForward ())
-		SetAnimation("walk");
-	else if (!start && IsMovingForward())
-		SetAnimation("stand");
+      if (start && !IsMovingForward ())
+	SetAnimation ("walk");
+      else if (!start && IsMovingForward())
+	SetAnimation ("stand");
     }
     forward = start;
     HandleMovement (false);
@@ -214,10 +246,23 @@ public:
   virtual void Jump ()
   {
     if (pcmesh)
-	SetAnimation("jump",false);
+      SetAnimation("jump",false);
     HandleMovement (true);
   }
   virtual void ToggleCameraMode ();
+
+  virtual void MouseMove (float x, float y);
+  virtual void EnableMouseMove (bool en);
+  virtual bool IsMoveMoveEnabled () const { return mousemove; }
+  virtual void SetMouseMoveInverted (bool en) { mousemove_inverted = en; }
+  virtual bool IsMouseMoveInverted () const { return mousemove_inverted; }
+  virtual void SetMouseMoveSpeed (float xs, float ys)
+  {
+    mousemove_hor_factor = xs;
+    mousemove_vert_factor = ys;
+  }
+  virtual float GetMouseMoveSpeedX () const { return mousemove_hor_factor; }
+  virtual float GetMouseMoveSpeedY () const { return mousemove_vert_factor; }
 
   virtual void SetMovementSpeed (float speed) { movement_speed = speed; }
   virtual float GetMovementSpeed () const { return movement_speed; }
@@ -236,9 +281,14 @@ public:
   virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual void TickEveryFrame ();
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params,
       celData& ret);
+  // Override SetProperty from celPcCommon in order to provide support
+  // for the 'mousemove' property.
+  virtual bool SetProperty (csStringID, bool);
+  virtual bool GetPropertyBool (csStringID);
 
   csPtr<iCelDataBuffer> GetPersistentData (
         celPersistenceType persistence_type);
