@@ -918,7 +918,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csRef<iCelEntity> keepref = entity;
 
       //joystick move event
-      int modifiers = csJoystickEventHelper::GetModifiers(&ev);
+      uint32 modifiers = csJoystickEventHelper::GetModifiers(&ev);
       //find mapping
       celAxisMap *p = axislist;
       while (p)
@@ -954,11 +954,11 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       //joystick button event
       int button = csJoystickEventHelper::GetButton(&ev);
       uint device = csJoystickEventHelper::GetNumber(&ev);
-      int modifiers = csJoystickEventHelper::GetModifiers(&ev);
+      uint32 modifiers = csJoystickEventHelper::GetModifiers(&ev);
 
       //find mapping
       celButtonMap *p = buttonlist;
-      csEventID joy_id = csevJoystickMove (object_reg, device);
+      csEventID joy_id = csevJoystickButton (object_reg, device);
       while (p)
       {
         if ((p->numeric == button) && (p->device == device) &&
