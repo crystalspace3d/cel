@@ -2,19 +2,20 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.
         - cfraz89 added some getter/setter methods for entity templates
           in python bl.
-
+	- Vincent fixed joystick button map retrieval in pccommandinput.
 28-Jul-2006
 	- Jorrit implemented mousemove in pcactormove.
 	- Jorrit fixed a small bug in pcactormove which could cause it
 	  to crash if the mouse moved too soon when the camera was not
 	  ready yet.
 27-Jul-2006
-	- Jorrit added conveniance methods to iEntityLoader and
+	- Jorrit added convenience methods to iEntityLoader and
 	  iEntityTemplateLoader to load an entity/template directly
 	  from a vfs file.
 	- Jorrit made the 'behaviour' attribute optional in the
@@ -737,7 +738,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit removed a message system from CEL that was
 	  not used at all and for which the purpose has long been
 	  forgotten.
-	- Jorrit added a new conveniance function to create entities
+	- Jorrit added a new convenience function to create entities
 	  from templates using variable parameters.
 	- Jorrit added the sqrt, sqdist, and normalize functions to the
 	  XML behaviour layer.
@@ -1783,7 +1784,7 @@ The history order is reversed so that new features are at the top.
 	  can now also accept a 'world' file instead of a 'level' file. In
 	  that case the zone manager will automatically construct a 'main'
 	  region and 'main' zone to create a simple zone manager setup to
-	  be able to load that world file. This is a conveniance.
+	  be able to load that world file. This is a convenience.
 	- Jorrit added a new Load() action for pczonemanager.
 	- Jorrit extended celtest so that you can now give a VFS path
 	  and filename on the commandline. By default celtest will load
