@@ -10,6 +10,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/entity.h"
+#include "physicallayer/entitytpl.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/bl.h"
 #include "behaviourlayer/behave.h"
@@ -293,6 +294,8 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 }
 %}
 
+
+
 %inline %{
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
@@ -336,6 +339,13 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
   return entlist;
 }
 %}
+//-----------------------------------------------------------------------------
+
+%include "physicallayer/entitytpl.h"
+
+GETSET_METHODS(iCelEntityTemplate,"name",Name)
+GETSET_METHODS(iCelEntityTemplate,"behaviour",Behaviour)
+GETTER_METHOD(iCelEntityTemplate,"behaviourlayer",GetBehaviourLayer)
 
 //-----------------------------------------------------------------------------
 
