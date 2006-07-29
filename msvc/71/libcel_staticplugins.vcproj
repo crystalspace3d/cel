@@ -953,6 +953,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\actormove\npcmove.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_actormove_npcmove.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_actormove_npcmove.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\awswin\awswin.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2062,6 +2077,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\awswin\awswin.h">

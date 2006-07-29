@@ -432,7 +432,7 @@ class iCelPlLayer(cspace.iBase):
     			parblock[keyid] = valdict[valkey]
     	return parblock	
     def GetEntities(self): return iCelEntityPlFakeArray(self)
-    def GetEntityTemplates(self): return PliCelEntityTemplatePlFakeArray(self)
+    def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
     def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
     def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
     __swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
@@ -668,6 +668,78 @@ celRegisterPCFactory = _blcelc.celRegisterPCFactory
 celCreateEntity = _blcelc.celCreateEntity
 
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
+class iCelEntityTemplate(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelEntityTemplate, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTemplate, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelEntityTemplate instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def QueryObject(*args): return _blcelc.iCelEntityTemplate_QueryObject(*args)
+    def GetName(*args): return _blcelc.iCelEntityTemplate_GetName(*args)
+    def SetName(*args): return _blcelc.iCelEntityTemplate_SetName(*args)
+    def CreatePropertyClassTemplate(*args): return _blcelc.iCelEntityTemplate_CreatePropertyClassTemplate(*args)
+    def SetBehaviour(*args): return _blcelc.iCelEntityTemplate_SetBehaviour(*args)
+    def GetBehaviourLayer(*args): return _blcelc.iCelEntityTemplate_GetBehaviourLayer(*args)
+    def GetBehaviour(*args): return _blcelc.iCelEntityTemplate_GetBehaviour(*args)
+    def AddMessage(*args): return _blcelc.iCelEntityTemplate_AddMessage(*args)
+    def AddClass(*args): return _blcelc.iCelEntityTemplate_AddClass(*args)
+    def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
+    def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
+    def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
+    __swig_setmethods__["name"] = _blcelc.iCelEntityTemplate_SetName  
+    __swig_getmethods__["name"] = _blcelc.iCelEntityTemplate_GetName  
+    __swig_setmethods__["behaviour"] = _blcelc.iCelEntityTemplate_SetBehaviour  
+    __swig_getmethods__["behaviour"] = _blcelc.iCelEntityTemplate_GetBehaviour  
+    __swig_getmethods__["behaviourlayer"] = _blcelc.iCelEntityTemplate_GetBehaviourLayer  
+    def __del__(self, destroy=_blcelc.delete_iCelEntityTemplate):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelEntityTemplatePtr(iCelEntityTemplate):
+    def __init__(self, this):
+        _swig_setattr(self, iCelEntityTemplate, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelEntityTemplate, 'thisown', 0)
+        _swig_setattr(self, iCelEntityTemplate,self.__class__,iCelEntityTemplate)
+_blcelc.iCelEntityTemplate_swigregister(iCelEntityTemplatePtr)
+
+celFindNearbyEntities = _blcelc.celFindNearbyEntities
+
+class iCelPropertyClassTemplate(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelPropertyClassTemplate, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassTemplate, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iCelPropertyClassTemplate instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetName(*args): return _blcelc.iCelPropertyClassTemplate_SetName(*args)
+    def GetName(*args): return _blcelc.iCelPropertyClassTemplate_GetName(*args)
+    def SetTag(*args): return _blcelc.iCelPropertyClassTemplate_SetTag(*args)
+    def GetTag(*args): return _blcelc.iCelPropertyClassTemplate_GetTag(*args)
+    def SetPropertyVariable(*args): return _blcelc.iCelPropertyClassTemplate_SetPropertyVariable(*args)
+    def SetProperty(*args): return _blcelc.iCelPropertyClassTemplate_SetProperty(*args)
+    def PerformAction(*args): return _blcelc.iCelPropertyClassTemplate_PerformAction(*args)
+    def __del__(self, destroy=_blcelc.delete_iCelPropertyClassTemplate):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iCelPropertyClassTemplatePtr(iCelPropertyClassTemplate):
+    def __init__(self, this):
+        _swig_setattr(self, iCelPropertyClassTemplate, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iCelPropertyClassTemplate, 'thisown', 0)
+        _swig_setattr(self, iCelPropertyClassTemplate,self.__class__,iCelPropertyClassTemplate)
+_blcelc.iCelPropertyClassTemplate_swigregister(iCelPropertyClassTemplatePtr)
+
 class iCelBlLayer(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -692,8 +764,6 @@ class iCelBlLayerPtr(iCelBlLayer):
         if not hasattr(self,"thisown"): _swig_setattr(self, iCelBlLayer, 'thisown', 0)
         _swig_setattr(self, iCelBlLayer,self.__class__,iCelBlLayer)
 _blcelc.iCelBlLayer_swigregister(iCelBlLayerPtr)
-
-celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
@@ -1147,8 +1217,10 @@ class iPcMechanicsObject(cspace.iBase):
     def GetAngularVelocity(*args): return _blcelc.iPcMechanicsObject_GetAngularVelocity(*args)
     def MakeStatic(*args): return _blcelc.iPcMechanicsObject_MakeStatic(*args)
     def IsStatic(*args): return _blcelc.iPcMechanicsObject_IsStatic(*args)
+    def AttachColliderBoundingSphere(*args): return _blcelc.iPcMechanicsObject_AttachColliderBoundingSphere(*args)
     def AttachColliderSphere(*args): return _blcelc.iPcMechanicsObject_AttachColliderSphere(*args)
     def AttachColliderCylinder(*args): return _blcelc.iPcMechanicsObject_AttachColliderCylinder(*args)
+    def AttachColliderBoundingBox(*args): return _blcelc.iPcMechanicsObject_AttachColliderBoundingBox(*args)
     def AttachColliderBox(*args): return _blcelc.iPcMechanicsObject_AttachColliderBox(*args)
     def AttachColliderPlane(*args): return _blcelc.iPcMechanicsObject_AttachColliderPlane(*args)
     def AttachColliderMesh(*args): return _blcelc.iPcMechanicsObject_AttachColliderMesh(*args)
@@ -2007,8 +2079,16 @@ class iPcActorMove(cspace.iBase):
     def IsRunning(*args): return _blcelc.iPcActorMove_IsRunning(*args)
     def AutoRun(*args): return _blcelc.iPcActorMove_AutoRun(*args)
     def IsAutoRunning(*args): return _blcelc.iPcActorMove_IsAutoRunning(*args)
+    def MouseMove(*args): return _blcelc.iPcActorMove_MouseMove(*args)
     def Jump(*args): return _blcelc.iPcActorMove_Jump(*args)
     def ToggleCameraMode(*args): return _blcelc.iPcActorMove_ToggleCameraMode(*args)
+    def EnableMouseMove(*args): return _blcelc.iPcActorMove_EnableMouseMove(*args)
+    def IsMoveMoveEnabled(*args): return _blcelc.iPcActorMove_IsMoveMoveEnabled(*args)
+    def SetMouseMoveInverted(*args): return _blcelc.iPcActorMove_SetMouseMoveInverted(*args)
+    def IsMouseMoveInverted(*args): return _blcelc.iPcActorMove_IsMouseMoveInverted(*args)
+    def SetMouseMoveSpeed(*args): return _blcelc.iPcActorMove_SetMouseMoveSpeed(*args)
+    def GetMouseMoveSpeedX(*args): return _blcelc.iPcActorMove_GetMouseMoveSpeedX(*args)
+    def GetMouseMoveSpeedY(*args): return _blcelc.iPcActorMove_GetMouseMoveSpeedY(*args)
     def SetMovementSpeed(*args): return _blcelc.iPcActorMove_SetMovementSpeed(*args)
     def GetMovementSpeed(*args): return _blcelc.iPcActorMove_GetMovementSpeed(*args)
     def SetRunningSpeed(*args): return _blcelc.iPcActorMove_SetRunningSpeed(*args)
@@ -2017,6 +2097,7 @@ class iPcActorMove(cspace.iBase):
     def GetRotationSpeed(*args): return _blcelc.iPcActorMove_GetRotationSpeed(*args)
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
+    def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
     __swig_setmethods__["forward"] = _blcelc.iPcActorMove_Forward  
     __swig_getmethods__["forward"] = _blcelc.iPcActorMove_IsMovingForward  
     __swig_setmethods__["backward"] = _blcelc.iPcActorMove_Backward  
@@ -2354,6 +2435,7 @@ class iPcMesh(cspace.iBase):
     def SetAction(*args): return _blcelc.iPcMesh_SetAction(*args)
     def GetAction(*args): return _blcelc.iPcMesh_GetAction(*args)
     def SetReverseAction(*args): return _blcelc.iPcMesh_SetReverseAction(*args)
+    def SetAnimation(*args): return _blcelc.iPcMesh_SetAnimation(*args)
     def Hide(*args): return _blcelc.iPcMesh_Hide(*args)
     def Show(*args): return _blcelc.iPcMesh_Show(*args)
     def IsVisible(*args): return _blcelc.iPcMesh_IsVisible(*args)
@@ -2413,6 +2495,41 @@ celGetSetTimer = _blcelc.celGetSetTimer
 celGetTimer = _blcelc.celGetTimer
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
+class iPcProjectile(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcProjectile, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcProjectile, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcProjectile instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def Start(*args): return _blcelc.iPcProjectile_Start(*args)
+    def Interrupt(*args): return _blcelc.iPcProjectile_Interrupt(*args)
+    def IsMoving(*args): return _blcelc.iPcProjectile_IsMoving(*args)
+    __swig_getmethods__["moving"] = _blcelc.iPcProjectile_IsMoving  
+    def __del__(self, destroy=_blcelc.delete_iPcProjectile):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcProjectilePtr(iPcProjectile):
+    def __init__(self, this):
+        _swig_setattr(self, iPcProjectile, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcProjectile, 'thisown', 0)
+        _swig_setattr(self, iPcProjectile,self.__class__,iPcProjectile)
+_blcelc.iPcProjectile_swigregister(iPcProjectilePtr)
+
+
+celCreateProjectile = _blcelc.celCreateProjectile
+
+celGetSetProjectile = _blcelc.celGetSetProjectile
+
+celGetProjectile = _blcelc.celGetProjectile
+
+scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
