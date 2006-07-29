@@ -165,12 +165,18 @@
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
 			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\actormove\npcmove.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
 			</File>
 		</Filter>
 		<Filter
