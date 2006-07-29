@@ -416,7 +416,7 @@ bool WheeledTest::Application ()
   // The virtual clock.
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc) return ReportError ("Can't find the virtual clock!");
-
+  vc->SetClockSpeed(0.3f);
   // Find the pointer to engine plugin
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return ReportError ("No iEngine plugin!");

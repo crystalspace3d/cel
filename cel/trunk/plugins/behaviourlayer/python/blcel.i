@@ -241,7 +241,7 @@ CEL_FAKE_ARRAY(Pl,iCelPropertyClassFactory,GetPropertyClassFactoryCount,
 %extend iCelPlLayer {
 	%pythoncode %{
 	def GetEntities(self): return iCelEntityPlFakeArray(self)
-	def GetEntityTemplates(self): return PliCelEntityTemplatePlFakeArray(self)
+	def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
 	def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
 	def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
 	__swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
