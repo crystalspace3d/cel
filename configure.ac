@@ -63,7 +63,7 @@ CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
 #------------------------------------------------------------------------------
 binutils_recent=no
 AS_IF([test -n "$OBJCOPY"],
-    [CS_CHECK_PROG_VERSION([binutils], [$OBJCOPY -V], [2.16], [9.9|.9.9.9],
+    [CS_CHECK_PROG_VERSION([binutils], [$OBJCOPY -V], [2.16], [9.9|.9|.9|.9],
         [binutils_recent=yes])])
 
 AC_MSG_CHECKING([whether to split debug information])
