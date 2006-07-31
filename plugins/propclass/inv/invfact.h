@@ -141,6 +141,10 @@ private:
 
   csArray<iPcInventory*> inventories;
 
+  // For PerformAction.
+  static csStringID action_hascharacteristic;
+  static csStringID id_name;
+
 public:
   celPcCharacteristics (iObjectRegistry* object_reg);
   virtual ~celPcCharacteristics ();
@@ -163,6 +167,8 @@ public:
   virtual const char* GetName () const { return "pccharacteristics"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+      celData& ret);
 
   virtual bool SetProperty (csStringID, float);
   virtual float GetPropertyFloat (csStringID);

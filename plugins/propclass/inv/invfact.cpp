@@ -751,14 +751,36 @@ void celPcInventory::FireInventoryListenersRemove (iCelEntity* entity)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcCharacteristics::action_hascharacteristic = csInvalidStringID;
+csStringID celPcCharacteristics::id_name = csInvalidStringID;
+
 celPcCharacteristics::celPcCharacteristics (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  DG_TYPE (this, "celPcCharacteristics()");
+  if (action_hascharacteristic == csInvalidStringID)
+  {
+    action_hascharacteristic = pl->FetchStringID ("cel.action.HasCharacteristic");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+  }
 }
 
 celPcCharacteristics::~celPcCharacteristics ()
 {
+}
+
+bool celPcCharacteristics::PerformAction (csStringID actionId,
+	iCelParameterBlock* params,
+	celData& ret)
+{
+  if (actionId == action_hascharacteristic)
+  {
+    CEL_FETCH_STRING_PAR (name,params,id_name);
+    if (!p_name) return false;
+    bool rc = HasCharacteristic (name);
+    ret.Set (rc);
+    return true;
+  }
+  return false;
 }
 
 bool celPcCharacteristics::SetProperty (csStringID propertyId, float b)
