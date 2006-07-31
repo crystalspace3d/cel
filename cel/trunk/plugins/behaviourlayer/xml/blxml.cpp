@@ -125,6 +125,7 @@ enum
   XMLFUNCTION_INTPOL,
   XMLFUNCTION_INT,
   XMLFUNCTION_FLOAT,
+  XMLFUNCTION_BOOL,
   XMLFUNCTION_RAND,
   XMLFUNCTION_BB_TESTCOLLIDE,
   XMLFUNCTION_IF,
@@ -273,6 +274,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("intpol", XMLFUNCTION_INTPOL);
   functions.Register ("int", XMLFUNCTION_INT);
   functions.Register ("float", XMLFUNCTION_FLOAT);
+  functions.Register ("bool", XMLFUNCTION_BOOL);
   functions.Register ("rand", XMLFUNCTION_RAND);
   functions.Register ("bb_testcollide", XMLFUNCTION_BB_TESTCOLLIDE);
   functions.Register ("if", XMLFUNCTION_IF);
@@ -940,6 +942,13 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
         h->AddOperation (CEL_OPERATION_FLOAT);
+      }
+      break;
+    case XMLFUNCTION_BOOL:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_BOOL);
       }
       break;
     case XMLFUNCTION_RGB:
