@@ -2195,6 +2195,27 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	else if (child->GetAttributeValue ("template"))
 	{
+	  h->AddOperation (CEL_OPERATION_CLEARTPLPARAM);
+	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+	  while (child_it->HasNext ())
+	  {
+	    csRef<iDocumentNode> c = child_it->Next ();
+	    if (c->GetType () != CS_NODE_ELEMENT) continue;
+	    csStringID child_id = xmltokens.Request (c->GetValue ());
+	    if (child_id == XMLTOKEN_PAR)
+	    {
+              if (!ParseExpression (local_vars, c, h, "name", "par"))
+	        return false;
+              if (!ParseExpression (local_vars, c, h, "value", "par"))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_TPLPARAM);
+	    }
+	    else
+	    {
+	      synldr->ReportBadToken (c);
+	    }
+	  }
+
 	  if (!ParseExpression (local_vars, child, h, "template",
 				  "createentity"))
 	    return false;
