@@ -29,8 +29,9 @@ The history order is reversed so that new features are at the top.
 	  createentity operation.
 	- Jorrit changed the pcmesh MoveMesh() action so that it will remove
 	  the mesh from all sectors if you give it an empty sector name.
+	- Jorrit fixed pcactormove so that the MouseMove() action now
+	  also works if it is called the very first time.
         - cfraz89 added pcwheeled to python bl.
-
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.

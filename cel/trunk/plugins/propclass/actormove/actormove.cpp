@@ -244,6 +244,7 @@ bool celPcActorMove::GetPropertyBool (csStringID propertyId)
 
 void celPcActorMove::MouseMove (float x, float y)
 {
+  FindSiblingPropertyClasses ();
   mousemove_lastx = x;
   mousemove_lasty = y;
 }
