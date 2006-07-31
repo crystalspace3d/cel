@@ -226,6 +226,7 @@ enum
   CEL_OPERATION_INTPOL,		// A:-		S:F,?,?		OS:?
   CEL_OPERATION_INT,		// A:-		S:?		OS:I
   CEL_OPERATION_FLOAT,		// A:-		S:?		OS:F
+  CEL_OPERATION_BOOL,		// A:-		S:?		OS:B
   CEL_OPERATION_RANDOMIZE,	// A:-		S:-		OS:-
   CEL_OPERATION_RAND,		// A:-		S:?		OS:F
   CEL_OPERATION_MOUSEX,		// A:-		S:-		OS:I

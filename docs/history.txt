@@ -11,6 +11,11 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the ability to the blxml createentity operation
 	  (the template version) to also accept template parameters
 	  using <par name="xxx" value="yyy" /> notation.
+	- Jorrit fixed a bug in the logical not operation (!) in blxml
+	  when applied on floats. This would actually do the reverse
+	  then expected.
+	- Jorrit added a new 'bool' function to blxml which converts any
+	  argument to boolean.
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.

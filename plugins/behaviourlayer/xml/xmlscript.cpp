@@ -24,6 +24,7 @@
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
 #include "csutil/databuf.h"
+#include "csutil/scanstr.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
 #include "iutil/csinput.h"
@@ -1746,7 +1747,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           DUMP_EXEC ((":%04d: randomize\n", i-1));
           behave->Randomize ();
         }
-      break;
+        break;
       case CEL_OPERATION_RAND:
         {
           CHECK_STACK(1)
@@ -1770,7 +1771,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
               top.SetFloat (behave->GetRandFloat (rndf));
           }
         }
-      break;
+        break;
       case CEL_OPERATION_FLOAT:
         {
 	  CHECK_STACK(1)
@@ -1896,6 +1897,33 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_BOOL:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: bool %s\n", i-1, A2S (top)));
+	  switch (top.type)
+	  {
+	    case CEL_DATA_LONG: top.Set (top.arg.i != 0); break;
+	    case CEL_DATA_ULONG: top.Set (top.arg.ui != 0); break;
+	    case CEL_DATA_FLOAT: top.Set (fabs (top.arg.f) >= SMALL_EPSILON); break;
+	    case CEL_DATA_BOOL: break;
+	    case CEL_DATA_STRING:
+	      {
+		bool b;
+		csScanStr (top.arg.str.s, "%b", &b);
+		top.Set (b);
+	      }
+	      break;
+	    case CEL_DATA_ENTITY:
+	    case CEL_DATA_IBASE:
+	    case CEL_DATA_PCLASS:
+	      break;
+	    default:
+	      return ReportError (cbl, "Can't log-not element on stack!");
+	  }
+	}
+	break;
       case CEL_OPERATION_LOGNOT:
         {
 	  CHECK_STACK(1)
@@ -1905,7 +1933,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_LONG: top.Set (!top.arg.i); break;
 	    case CEL_DATA_ULONG: top.Set (!top.arg.ui); break;
-	    case CEL_DATA_FLOAT: top.Set (ABS (top.arg.f) >= SMALL_EPSILON); break;
+	    case CEL_DATA_FLOAT: top.Set (fabs (top.arg.f) < SMALL_EPSILON); break;
 	    case CEL_DATA_BOOL: top.arg.b = !top.arg.b; break;
 	    case CEL_DATA_ENTITY:
 	    case CEL_DATA_IBASE:
@@ -1914,7 +1942,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (!ArgToBool (top));
 	      break;
 	    default:
-	      return ReportError (cbl, "Can't log-not element on stack!");
+	      return ReportError (cbl, "Can't convert element on stack to bool!");
 	  }
 	}
 	break;
