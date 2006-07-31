@@ -261,6 +261,7 @@ csStringID celPcDefaultCamera::action_setzonemanager = csInvalidStringID;
 csStringID celPcDefaultCamera::id_entityname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_regionname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_startname = csInvalidStringID;
+csStringID celPcDefaultCamera::action_centercamera = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcDefaultCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcDefaultCamera)
@@ -367,9 +368,17 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
+    action_centercamera = pl->FetchStringID ("cel.action.CenterCamera");
   }
 
   SetMode (iPcDefaultCamera::firstperson);
+
+  // For properties.
+  UpdateProperties (object_reg);
+  propdata = new void* [propertycount];
+  props = properties;
+  propcount = &propertycount;
+  propdata[propid_pitchvelocity] = &pitchVelocity;	// Automatically handled.
 }
 
 celPcDefaultCamera::~celPcDefaultCamera ()
@@ -378,11 +387,35 @@ celPcDefaultCamera::~celPcDefaultCamera ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
+Property* celPcDefaultCamera::properties = 0;
+size_t celPcDefaultCamera::propertycount = 0;
+
+void celPcDefaultCamera::UpdateProperties (iObjectRegistry* object_reg)
+{
+  if (propertycount == 0)
+  {
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    propertycount = 1;
+    properties = new Property[propertycount];
+
+    properties[propid_pitchvelocity].id = pl->FetchStringID (
+    	"cel.property.pitchvelocity");
+    properties[propid_pitchvelocity].datatype = CEL_DATA_FLOAT;
+    properties[propid_pitchvelocity].readonly = false;
+    properties[propid_pitchvelocity].desc = "Pitch velocity.";
+  }
+}
+
 bool celPcDefaultCamera::PerformAction (csStringID actionId,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_setcamera)
+  if (actionId == action_centercamera)
+  {
+    CenterCamera ();
+    return true;
+  }
+  else if (actionId == action_setcamera)
   {
     CEL_FETCH_STRING_PAR (modename,params,id_modename);
     if (p_modename)
@@ -919,16 +952,6 @@ float celPcDefaultCamera::GetPitch (int mode) const
 {
   if (mode < 0) mode = cammode;
   return camData[mode].pitch;
-}
-
-void celPcDefaultCamera::SetPitchVelocity (float pitchVel)
-{
-  pitchVelocity = pitchVel;
-}
-
-float celPcDefaultCamera::GetPitchVelocity () const
-{
-  return pitchVelocity;
 }
 
 void celPcDefaultCamera::SetYaw (float yaw, int mode)

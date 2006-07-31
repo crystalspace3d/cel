@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	  then expected.
 	- Jorrit added a new 'bool' function to blxml which converts any
 	  argument to boolean.
+	- Jorrit added a new 'pitchvelocity' property to pcdefaultcamera.
+	- Jorrit added a new 'CenterCamera()' action to pcdefaultcamera.
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.
