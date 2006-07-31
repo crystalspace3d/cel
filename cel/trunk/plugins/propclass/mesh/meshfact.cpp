@@ -369,11 +369,23 @@ bool celPcMesh::PerformAction (csStringID actionId,
     if (!p_position)
       return Report (object_reg,
       	"Missing parameter 'position' for action MoveMesh!");
-    iSector* sect = engine->FindSector (sector);
-    if (!sect)
-      return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
-      	sector);
-    MoveMesh (sect, position);
+    if (*sector == 0)
+    {
+      // Special case. We simply remove the mesh from all sectors.
+      if (mesh)
+      {
+        mesh->GetMovable ()->ClearSectors ();
+        mesh->GetMovable ()->UpdateMove ();
+      }
+    }
+    else
+    {
+      iSector* sect = engine->FindSector (sector);
+      if (!sect)
+        return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
+      	  sector);
+      MoveMesh (sect, position);
+    }
   }
   else if (actionId == action_clearrotation)
   {
