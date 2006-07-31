@@ -33,6 +33,7 @@
 #include "csgeom/vector3.h"
 
 #include "physicallayer/datatype.h"
+#include "physicallayer/pl.h"
 
 struct iCelEntity;
 struct iCelPlLayer;
@@ -137,6 +138,8 @@ enum
   CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CREATEENTITYL,	// A:-		S:S,S,S		OS:-
   CEL_OPERATION_CREATEENTITYTPL,// A:-		S:S,S		OS:-
+  CEL_OPERATION_CLEARTPLPARAM,  // A:-		S:-		OS:-
+  CEL_OPERATION_TPLPARAM,  	// A:-		S:S,S		OS:-
   CEL_OPERATION_ENTNAMETHIS,	// A:-		S:-		OS:S
   CEL_OPERATION_ENTNAME,	// A:-		S:E		OS:S
   CEL_OPERATION_ENT,		// A:-		S:S		OS:E
@@ -435,6 +438,8 @@ private:
 
   // Temporary variable to keep parameters for actions.
   csRef<iCelParameterBlock> action_params;
+  // Temporary parameter hash for entity creation (out of templates).
+  celEntityTemplateParams template_params;
 
   bool ReportError (celBlXml* cbl, const char* msg, ...);
   bool EvaluateTrue (const celXmlArg& eval, celBlXml* cbl, bool& rc);

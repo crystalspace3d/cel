@@ -3573,9 +3573,24 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!entpl)
 	    return ReportError (cbl,
 	    	"Couldn't find entity template '%s'!", entname);
-	  celEntityTemplateParams entpl_params;
-	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname, entpl_params);
+	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname, template_params);
 	}
+        break;
+      case CEL_OPERATION_CLEARTPLPARAM:
+	{
+	  DUMP_EXEC ((":%04d: cleartplparam\n", i-1));
+	  template_params.Empty ();
+	}
+	break;
+      case CEL_OPERATION_TPLPARAM:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_val = stack.Pop ();
+	  celXmlArg a_name = stack.Pop ();
+	  DUMP_EXEC ((":%04d: tplparam name=%s val=%s\n", i-1,
+	  	A2S (a_name), A2S (a_val)));
+	  template_params.Put (ArgToString (a_name), ArgToString (a_val));
+        }
         break;
       case CEL_OPERATION_CALL_I:
         {
