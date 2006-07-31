@@ -38,6 +38,7 @@
 #include "propclass/prop.h"
 #include "propclass/hover.h"
 #include "propclass/craft.h"
+#include "propclass/wheeled.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
@@ -670,6 +671,11 @@ CEL_PC(iPcHover, Hover, pchover)
 
 %include "propclass/craft.h"
 CEL_PC(iPcCraftController, CraftController, pccraft)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/wheeled.h"
+CEL_PC(iPcWheeled, Wheeled, pcwheeled)
 
 //-----------------------------------------------------------------------------
 
