@@ -3586,8 +3586,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_CREATEENTITYTPL:
         {
 	  CHECK_STACK(2)
-	  celXmlArg aname = stack.Pop ();
 	  celXmlArg atpl = stack.Pop ();
+	  celXmlArg aname = stack.Pop ();
 	  DUMP_EXEC ((":%04d: createentity (template=%s, name=%s)\n", i-1,
 	  	A2S (atpl), A2S (aname)));
 	  if (varprop_trace)

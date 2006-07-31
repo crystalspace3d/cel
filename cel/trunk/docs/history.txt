@@ -25,6 +25,8 @@ The history order is reversed so that new features are at the top.
 	  version in blxml that works through a template. That way you
 	  can create entities from a template using different name then
 	  the template name.
+	- Jorrit fixed a bug introduced in his last commit in the
+	  createentity operation.
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.
