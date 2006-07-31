@@ -716,7 +716,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
   wheelbody->SetPosition(bodytransform.This2Other(wheels[wheelnum].Position));
   wheelbody->AttachMesh(wheelmesh);
-  wheelbody->AttachColliderSphere(wheelradius,wheelcenter,0.8f,1,0.5f,0.5f);
+  wheelbody->AttachColliderSphere(wheelradius,wheelcenter,0.8f,1,0.5f,0.05f);
       //If it a right wheel, flip it.
   if (wheels[wheelnum].Position.x<0)
   {
