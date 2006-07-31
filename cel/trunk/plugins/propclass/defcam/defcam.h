@@ -194,6 +194,7 @@ private:
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
+  static csStringID action_centercamera;
 
 public://@@@
   bool modeset_needed;
@@ -294,6 +295,15 @@ public://@@@
    * see if there really is a mode to change.
    */
   void CheckModeChange ();
+  //
+  // For properties.
+  enum propids
+  {
+    propid_pitchvelocity = 0
+  };
+  static Property* properties;
+  static size_t propertycount;
+  static void UpdateProperties (iObjectRegistry* object_reg);
 
 public:
   celPcDefaultCamera (iObjectRegistry* object_reg);
@@ -395,13 +405,13 @@ public:
    * Sets the pitch (up/down) velocity of the camera
    * @param pitchVel the velocity of the pitch
    */
-  void SetPitchVelocity (float pitchVel);
+  void SetPitchVelocity (float pitchVel) { pitchVelocity = pitchVel; }
 
   /**
    * Gets the pitch (up/down) velocity of the camera
    * @return the pitch (up/down) of the camera
    */
-  float GetPitchVelocity () const;
+  float GetPitchVelocity () const { return pitchVelocity; }
 
   /**
    * Sets the yaw (left/right) of the camera
