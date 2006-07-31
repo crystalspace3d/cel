@@ -2183,26 +2183,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	h->AddOperation (CEL_OPERATION_DESTROYENTITY);
 	break;
       case XMLTOKEN_CREATEENTITY:
-        if (child->GetAttributeValue ("name"))
-        {
-	  if (!ParseExpression (local_vars, child, h, "name", "createentity"))
-	    return false;
-	  if (!ParseExpression (local_vars, child, h, "behaviour",
-				  "createentity", CEL_DATA_STRING))
-	    return false;
-	  if (child->GetAttributeValue ("layer"))
-	  {
-	    if (!ParseExpression (local_vars, child, h, "layer",
-				    "createentity"))
-	      return false;
-	    h->AddOperation (CEL_OPERATION_CREATEENTITYL);
-	  }
-	  else
-	  {
-	    h->AddOperation (CEL_OPERATION_CREATEENTITY);
-	  }
-	}
-	else if (child->GetAttributeValue ("template"))
+	if (child->GetAttributeValue ("template"))
 	{
 	  h->AddOperation (CEL_OPERATION_CLEARTPLPARAM);
 	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
@@ -2225,10 +2206,32 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	    }
 	  }
 
+	  if (!ParseExpression (local_vars, child, h, "name",
+				  "createentity", CEL_DATA_STRING))
+	    return false;
 	  if (!ParseExpression (local_vars, child, h, "template",
 				  "createentity"))
 	    return false;
 	  h->AddOperation (CEL_OPERATION_CREATEENTITYTPL);
+	}
+	else if (child->GetAttributeValue ("name"))
+        {
+	  if (!ParseExpression (local_vars, child, h, "name", "createentity"))
+	    return false;
+	  if (!ParseExpression (local_vars, child, h, "behaviour",
+				  "createentity", CEL_DATA_STRING))
+	    return false;
+	  if (child->GetAttributeValue ("layer"))
+	  {
+	    if (!ParseExpression (local_vars, child, h, "layer",
+				    "createentity"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_CREATEENTITYL);
+	  }
+	  else
+	  {
+	    h->AddOperation (CEL_OPERATION_CREATEENTITY);
+	  }
 	}
 	break;
       case XMLTOKEN_EXPR:

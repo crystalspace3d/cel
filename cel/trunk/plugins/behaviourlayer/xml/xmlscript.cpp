@@ -3585,23 +3585,26 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_CREATEENTITYTPL:
         {
-	  CHECK_STACK(1)
+	  CHECK_STACK(2)
+	  celXmlArg aname = stack.Pop ();
 	  celXmlArg atpl = stack.Pop ();
-	  DUMP_EXEC ((":%04d: createentity (template=%s)\n", i-1,
-	  	A2S (atpl)));
+	  DUMP_EXEC ((":%04d: createentity (template=%s, name=%s)\n", i-1,
+	  	A2S (atpl), A2S (aname)));
 	  if (varprop_trace)
 	  {
-	    printf (":%s/%04lu: createentity template=%s\n",
+	    printf (":%s/%04lu: createentity template=%s name=%s\n",
 	    	cbl->call_stack.Top (),
-		(unsigned long)i-1, A2S (atpl));
+		(unsigned long)i-1, A2S (atpl), A2S (aname));
 	    fflush (stdout);
 	  }
-	  const char* entname = ArgToString (atpl);
-	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (entname);
+	  const char* tplname = ArgToString (atpl);
+	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (tplname);
 	  if (!entpl)
 	    return ReportError (cbl,
-	    	"Couldn't find entity template '%s'!", entname);
-	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname, template_params);
+	    	"Couldn't find entity template '%s'!", tplname);
+	  const char* entname = ArgToString (aname);
+	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname ? entname : tplname,
+	      template_params);
 	}
         break;
       case CEL_OPERATION_CLEARTPLPARAM:

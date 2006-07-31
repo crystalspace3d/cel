@@ -18,6 +18,13 @@ The history order is reversed so that new features are at the top.
 	  argument to boolean.
 	- Jorrit added a new 'pitchvelocity' property to pcdefaultcamera.
 	- Jorrit added a new 'CenterCamera()' action to pcdefaultcamera.
+	- Jorrit added a new HasCharacteristic() action to
+	  pccharacteristics. This returns a boolean (the first action to
+	  use return values!)
+	- Jorrit added an optional 'name' attribute to the createentity
+	  version in blxml that works through a template. That way you
+	  can create entities from a template using different name then
+	  the template name.
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.
