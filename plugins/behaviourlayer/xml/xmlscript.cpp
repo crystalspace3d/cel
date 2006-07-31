@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "cstool/initapp.h"
+#include "cstool/enginetools.h"
 #include "csgeom/math3d.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
@@ -4983,29 +4984,13 @@ void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
     float maxdist, csVector3& isect, iCelEntity*& selent)
 {
   iCamera* camera = pccam->GetCamera ();
-  csVector3 v;
-  // Setup perspective vertex, invert mouse Y axis.
-  csVector2 p (screenx, screeny * 2 - screeny);
-
-  v = camera->InvPerspective (p, maxdist);
-  csVector3 end = camera->GetTransform ().This2Other (v);
-
-  iSector* sector = camera->GetSector ();
-  CS_ASSERT (sector != 0);
-  csVector3 origin = camera->GetTransform ().GetO2TTranslation ();
-  origin = origin + (end-origin) * 0.02;
-
-  csSectorHitBeamResult rc = sector->HitBeamPortals (origin, end);
-  if (rc.mesh == 0)
-  {
-    isect = end;
-    selent = 0;
-  }
+  csScreenTargetResult result = csEngineTools::FindScreenTarget (
+      csVector2 (screenx, screeny), maxdist, camera);
+  isect = result.isect;
+  if (result.mesh)
+    selent = pl->FindAttachedEntity (result.mesh->QueryObject ());
   else
-  {
-    isect = rc.isect;
-    selent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
-  }
+    selent = 0;
 }
 
 void celXmlScriptEventHandler::HitBeam (iSector* sector,

@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-Jul-2006
+	- Jorrit changed blxml/selectentity command to use the new
+	  csEngineTools::FindScreenTarget() function in CS.
+	- Jorrit changed pcmeshselect to use the new
+	  csEngineTools::FindScreenTarget() function as well.
 29-Jul-2006
         - cfraz89 fixed a typo in python bl for entity template fake
           arrays.

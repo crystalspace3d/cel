@@ -55,6 +55,7 @@
 #include "imesh/skeleton.h"
 #include <csgfx/shadervar.h>
 #include <csgfx/shadervarcontext.h>
+#include "cstool/enginetools.h"
 
 //---------------------------------------------------------------------------
 
@@ -1161,26 +1162,18 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   if (mouse_down || do_follow_always || ((do_follow || do_drag) && sel_entity))
   {
-    // Setup perspective vertex, invert mouse Y axis.
-    csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
-
-    vc = camera->InvPerspective (p, 1 );
-    vw = camera->GetTransform ().This2Other (vc);
-
-    iSector* sector = camera->GetSector ();
-    if (sector)
+    if (camera->GetSector ())
     {
-      vo = camera->GetTransform ().GetO2TTranslation ();
-      csVector3 end = vo + (vw - vo) * max_distance;
-
-      csSectorHitBeamResult rc = sector->HitBeam (vo, end, true);
-      if (rc.mesh)
+      csScreenTargetResult result = csEngineTools::FindScreenTarget (
+	csVector2 (mouse_x, mouse_y), max_distance, camera);
+      if (result.mesh)
       {
-        iObject* sel_obj = rc.mesh->QueryObject ();
+        iObject* sel_obj = result.mesh->QueryObject ();
         new_sel = pl->FindAttachedEntity (sel_obj);
 	if (new_sel)
 	{
-	  dragoffs = rc.isect - rc.mesh->GetMovable ()->GetFullPosition ();
+	  dragoffs = result.isect - result.mesh->GetMovable ()
+	    ->GetFullPosition ();
 	}
       }
     }
