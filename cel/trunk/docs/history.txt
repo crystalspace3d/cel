@@ -2,7 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+01-Aug-2006
+        - cfraz89 fixed a number of bugs in pcwheeled and added suspension
+          to front and rear presets.
 31-Jul-2006
 	- Jorrit changed blxml/selectentity command to use the new
 	  csEngineTools::FindScreenTarget() function in CS.
@@ -124,22 +126,23 @@ The history order is reversed so that new features are at the top.
 15-Jul-2006
         - cfraz89 added AttachColliderBoundingBox() and
           AttachColliderBoundingSphere() to pcmechobject.
-        - cfraz89 added wheel power to wheel grouping presets in pcwheeled, and
-          renamed them to SetFrontWheelPreset, SetRearWheelPreset,
+        - cfraz89 added wheel power to wheel grouping presets in pcwheeled,
+          and renamed them to SetFrontWheelPreset, SetRearWheelPreset,
           SetOuterWheelSteerPreset.
         - cfraz89 tweaked tank steering in pcwheeled to work better.
         - cfraz89 added 4 more wheels to wheeledtest car, to test out presets.
           It steers like an APC.
 13-Jul-2006
-        - cfraz89 made the automatic rear/outer wheel sensitivity not automatic,
-          and vehicle now defaults to no steering. Steering can be added through
-          a number of presets, FrontWheelSteer, RearWheelSteer, OuterWheelSteer,
-          and individually for each wheel.
+        - cfraz89 made the automatic rear/outer wheel sensitivity not
+          automatic, and vehicle now defaults to no steering. Steering can be
+          added through a number of presets, FrontWheelSteer, RearWheelSteer,
+          OuterWheelSteer, and individually for each wheel.
 12-Jul-2006
         - cfraz89 implemented a vehicle setup in pcwheeled. That is, wheels
-          when added or removed are changed in the setup. SetupWheels() applies
-          the setup. This is basically a memory of wheel settings, which can be
-          used to restore the set of wheels with all their settings intact.
+          when added or removed are changed in the setup. SetupWheels()
+          applies the setup. This is basically a memory of wheel settings,
+          which can be used to restore the set of wheels with all their
+          settings intact.
         - cfraz89 added a check if pl is still valid on destruction in
           mechanics.cpp. This fixes up a few crashes on exit of apps.
 	- Genjix moved stabiliser_dist.h to include/propclass directory from

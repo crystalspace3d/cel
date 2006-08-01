@@ -61,7 +61,8 @@ struct iPcWheeled : public virtual iBase
 
  /** 
    *  Set the mesh to use for the wheels.
-   *  @param file VFS path to the file which contains the wheel's factory. If 0, it is assumed the factory has already been loaded.
+   *  @param file VFS path to the file which contains the wheel's factory.
+   *    If 0, it is assumed the factory has already been loaded.
    *  @param factname The name of the factory to use for wheel meshes.
   */
   virtual void SetWheelMesh(const char* file, const char* factname) = 0;
@@ -78,25 +79,17 @@ struct iPcWheeled : public virtual iBase
   virtual int GetTankMode() = 0;
 
  /**
-   * Add a wheel to the vehicle's wheel layout. This method uses sensible defaults and the vehicle's
-     wheel presets for steering and power, and automatically applies handbrake and invert steering
-     to rear wheels. Therefore it is enough to just give the wheel's position. 
-     The wheel won't be created until SetupWheels() is called.
-   *  @param position Where the wheel will be placed.
-   *  @param turnspeed How fast the wheel should steer away from centre.
-   *  @param returnspeed How fast the wheel should return to the centre.
-   *  @param suspensionsoftness How soft the suspension on the wheel should be.
-   *  @param suspensiondamping How dampened the suspension on the wheel should be.
-   *  @param brakepower Fraction of vehicle's brake force this wheel recieves.
+   * Add a wheel to the vehicle's wheel layout. This method uses the
+   * vehicle's wheel presets for steering, power and suspension, and
+   * automatically applies handbrake and invert steering
+   *  to rear wheels. 
   */
-  virtual int AddWheelAuto(csVector3 position,float turnspeed=2.0f, float returnspeed=2.0f,
-                       float suspensionsoftness=0.000125f, float suspensiondamping=0.125f,
-                       float brakepower=1.0f) = 0;
+  virtual int AddWheelAuto(csVector3 position) = 0;
 
  /**
    * Add a wheel to the vehicle's wheel layout.
-     This method allows for total control over the wheel, overriding the vehicle's presets.
-     The wheel won't be created until SetupWheels() is called.
+   * This method allows for total control over the wheel, overriding the
+   * vehicle's presets.
    *  @param position Where the wheel will be placed.
    *  @param turnspeed How fast the wheel should steer away from centre.
    *  @param returnspeed How fast the wheel should return to the centre.
@@ -126,13 +119,15 @@ struct iPcWheeled : public virtual iBase
   virtual void DeleteAllWheels() = 0;
 
  /**
-   * Destroy a wheel on the car. It will remain in the layout, so it can be restored along with all its
+   * Destroy a wheel on the car. It will remain in the layout, so it can be
+   * restored along with all its
      settings with RestoreWheel(wheelnum).
   */
   virtual void DestroyWheel(int wheelnum) = 0;
 
  /**
-   * Destroy all wheels on the car. The layout is still retained, so the wheels can be restored with RestoreWheelLayout().
+   * Destroy all wheels on the car. The layout is still retained,
+   * so the wheels can be restored with RestoreWheelLayout().
   */
   virtual void DestroyAllWheels() = 0;
 
@@ -147,8 +142,10 @@ struct iPcWheeled : public virtual iBase
   virtual void RestoreAllWheels() = 0;
 
  /**
-   * A wheel grouping preset which lowers by the sensitivity of outer wheels, to improve handling.
-   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
+   * A wheel grouping preset which lowers by the sensitivity of outer wheels,
+   * to improve handling.
+   * Note that changing this will overwrite per-wheel steer and power
+   * settings! You will have to set per-wheel
    * settings after you set all the presets.
    *  @param sensitivity factor of sensitivity for outer wheels
   */
@@ -156,25 +153,26 @@ struct iPcWheeled : public virtual iBase
 
  /**
    * A wheel grouping preset which sets steering amount and drive power to front wheels. 
-   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
-   * settings after you set all the presets.
+   * Note that changing this will overwrite per-wheel steer and power settings!
+   * You will have to set per-wheel settings after you set all the presets.
    *  @param sensitivity sensitivity for front wheels when steering
    *  @param power power which front wheels recieve when accelerating (0-1)
+   *  @param suspensionsoftness How soft the suspension on the wheel should be.
+   *  @param suspensiondamping How dampened the suspension on the wheel should be.
   */
-  virtual void SetFrontWheelPreset(float sensitivity,float power) = 0;
+  virtual void SetFrontWheelPreset(float sensitivity,float power,
+     float suspensionsoftness, float suspensiondamping) = 0;
 
   /** A wheel grouping preset which sets steering amount and drive power to rear wheels.
-   * Note that changing this will overwrite per-wheel steer and power settings! You will have to set per-wheel
-   * settings after you set all the presets.
+   * Note that changing this will overwrite per-wheel steer and power settings!
+   * You will have to set per-wheel settings after you set all the presets.
    *  @param sensitivity sensitivity for rear wheels when steering
    *  @param power power which rear wheels recieve when accelerating (0-1)
+   *  @param suspensionsoftness How soft the suspension on the wheel should be.
+   *  @param suspensiondamping How dampened the suspension on the wheel should be.
   */
-  virtual void SetRearWheelPreset(float sensitivity,float power) = 0;
-
- /**
-   * A wheel preset to reset power and steering of all wheels. Defaults back to front-wheel steer, 4 wheel drive.
-  */
-  virtual void ClearWheelPresets() = 0;
+  virtual void SetRearWheelPreset(float sensitivity,float power,
+     float suspensionsoftness, float suspensiondamping) = 0;
 
  /**
    * Set wether the vehicle will accelerate.

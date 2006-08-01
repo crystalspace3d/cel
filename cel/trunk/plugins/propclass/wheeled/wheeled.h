@@ -14,7 +14,8 @@
   
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+02111-1307, USA.
 */
 
 #ifndef __CEL_PF_WHEELEDFACT__
@@ -61,7 +62,8 @@ struct celWheel
 CEL_DECLARE_FACTORY (Wheeled)
 
 /**
- * This is a property class for making and controlling wheeled vehicles, eg bikes, cars, tanks.
+ * This is a property class for making and controlling wheeled vehicles, eg
+ * bikes, cars, tanks.
  */
     class celPcWheeled : public scfImplementationExt1<
     celPcWheeled, celPcCommon, iPcWheeled>
@@ -99,7 +101,6 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID action_setfrontwheelpreset;
     static csStringID action_setrearwheelpreset;
     static csStringID action_setouterwheelsteerpreset;
-    static csStringID action_clearwheelpresets;
 
   //Per-wheel actions
     static csStringID action_setwheelposition;
@@ -165,6 +166,11 @@ CEL_DECLARE_FACTORY (Wheeled)
     float frontpower;
     //The amount of preset power to go to the rear wheels.
     float rearpower;
+
+    float frontss;
+    float frontsd;
+    float rearss;
+    float rearsd;
     csString wheelpath;
     csString wheelfactname;
     csRef<iMeshFactoryWrapper> wheelfact;
@@ -194,12 +200,11 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetSteerAmount(float steeramount)
     {celPcWheeled::steeramount=steeramount;};
     //This one uses presets
-    virtual int AddWheelAuto(csVector3 position,float turnspeed=2.0f, float returnspeed=2.0f,
-                             float ss=0.000125f, float sd=0.125f, float brakepower=1.0f);
+    virtual int AddWheelAuto(csVector3 position);
     //Full specification by the user, overrides presets
-    virtual int AddWheel(csVector3 position,float turnspeed, float returnspeed,
-                         float ss, float sd,float brakepower,float enginepower,
-                         float lss, float rss ,bool hbaffect, bool sinvert);
+    virtual int AddWheel(csVector3 position,float turnspeed, float
+      returnspeed, float ss, float sd,float brakepower,float enginepower,
+      float lss, float rss ,bool hbaffect, bool sinvert);
 
     virtual void DeleteWheel(int wheelnum);
     virtual void DeleteAllWheels();
@@ -210,13 +215,12 @@ CEL_DECLARE_FACTORY (Wheeled)
     
     
     virtual void Accelerate(bool on)
-    {accelerating=on;};
+    {accelerating = on;};
 
     virtual bool IsAccelerating()
     {return accelerating;};
 
-    virtual void Brake(bool on)
-    {brakeapplied=on;};
+    virtual void Brake(bool on);
 
     virtual bool IsBraking()
     {return brakeapplied;};
@@ -254,9 +258,10 @@ CEL_DECLARE_FACTORY (Wheeled)
 
     //Some wheel steering presets.
     virtual void SetOuterWheelSteerPreset(float sensitivity);
-    virtual void SetFrontWheelPreset(float sensitivity,float enginepower);
-    virtual void SetRearWheelPreset(float sensitivity,float enginepower);
-    virtual void ClearWheelPresets();
+    virtual void SetFrontWheelPreset(float sensitivity,float enginepower,
+     float suspensionsoftness, float suspensiondamping);
+    virtual void SetRearWheelPreset(float sensitivity,float enginepower,
+     float suspensionsoftness, float suspensiondamping);
     virtual void ApplyWheelPresets(int wheelnum);
 
   // Stuff independent for each wheel
@@ -266,11 +271,19 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetWheelSuspensionDamping(int wheelnum, float damping);
    //--------------
 
-    virtual void SetWheelLeftSteerSensitivity(int wheelnum, float sensitivity)
-    { if(sensitivity>=0 && sensitivity <=1) wheels[wheelnum].LeftSteerSensitivity=sensitivity;};
+    virtual void SetWheelLeftSteerSensitivity(int wheelnum, float
+     sensitivity)
+    {
+      if(sensitivity>=0 && sensitivity <=1)
+        wheels[wheelnum].LeftSteerSensitivity=sensitivity;
+    };
 
-    virtual void SetWheelRightSteerSensitivity(int wheelnum, float sensitivity)
-    {if(sensitivity>=0 && sensitivity <=1) wheels[wheelnum].RightSteerSensitivity=sensitivity;};
+    virtual void SetWheelRightSteerSensitivity(int wheelnum, float
+      sensitivity)
+    {
+      if(sensitivity>=0 && sensitivity <=1)
+        wheels[wheelnum].RightSteerSensitivity=sensitivity;
+    };
 
     virtual void SetWheelTurnSpeed(int wheelnum, float speed)
     {if(speed>=0) wheels[wheelnum].TurnSpeed=speed;};
@@ -287,7 +300,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetWheelSteerInverted(int wheelnum, bool inverted)
     {wheels[wheelnum].SteerInverted=inverted;};
 
-    virtual void SetWheelHandbrakeAffected(int wheelnum, bool handbrakeaffected)
+    virtual void SetWheelHandbrakeAffected(int wheelnum, bool
+handbrakeaffected)
     {wheels[wheelnum].HandbrakeAffected=handbrakeaffected;};
 
   //The getter functions
@@ -337,7 +351,8 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual const char* GetName () const { return "pcwheeled"; }
     virtual csPtr<iCelDataBuffer> Save ();
     virtual bool Load (iCelDataBuffer* databuf);
-    virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+    virtual bool PerformAction (csStringID actionId, iCelParameterBlock*
+params,
 	celData& ret);
 
 };
