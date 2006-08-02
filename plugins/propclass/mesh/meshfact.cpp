@@ -19,6 +19,7 @@
 #include "cssysdef.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
+#include "csgeom/quaternion.h"
 #include "plugins/propclass/mesh/meshfact.h"
 #include "propclass/camera.h"
 #include "propclass/move.h"
@@ -96,6 +97,7 @@ csStringID celPcMesh::id_factoryname = csInvalidStringID;
 csStringID celPcMesh::action_movemesh = csInvalidStringID;
 csStringID celPcMesh::id_sector = csInvalidStringID;
 csStringID celPcMesh::id_position = csInvalidStringID;
+csStringID celPcMesh::id_rotation = csInvalidStringID;
 csStringID celPcMesh::action_clearrotation = csInvalidStringID;
 csStringID celPcMesh::action_lookat = csInvalidStringID;
 csStringID celPcMesh::id_forward = csInvalidStringID;
@@ -131,6 +133,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     action_movemesh = pl->FetchStringID ("cel.action.MoveMesh");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
+    id_rotation = pl->FetchStringID ("cel.parameter.rotation");
     action_clearrotation = pl->FetchStringID ("cel.action.ClearRotation");
     action_lookat = pl->FetchStringID ("cel.action.LookAt");
     id_forward = pl->FetchStringID ("cel.parameter.forward");
@@ -385,6 +388,14 @@ bool celPcMesh::PerformAction (csStringID actionId,
         return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
       	  sector);
       MoveMesh (sect, position);
+    }
+    CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
+    if (p_rotation && mesh)
+    {
+	    csQuaternion quat;
+	    quat.SetEulerAngles(rotation);
+	    mesh->GetMovable()->SetTransform(quat.GetMatrix());
+	    mesh->GetMovable()->UpdateMove();
     }
   }
   else if (actionId == action_clearrotation)
