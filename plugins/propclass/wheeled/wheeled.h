@@ -94,7 +94,6 @@ CEL_DECLARE_FACTORY (Wheeled)
     static csStringID action_setgear;
     static csStringID action_setgearsettings;
     static csStringID action_setbrakeforce;
-    static csStringID action_setnumbergears;
     static csStringID action_setautoreverse;
 
 //Presets.
@@ -151,7 +150,6 @@ CEL_DECLARE_FACTORY (Wheeled)
     bool tankmode;
     bool handbrakeapplied;
     bool brakeapplied;
-    bool steering;
     int steerdir;
     float wheelradius;
   //The angle the user wants the wheels to reach
@@ -171,6 +169,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     float frontsd;
     float rearss;
     float rearsd;
+
     csString wheelpath;
     csString wheelfactname;
     csRef<iMeshFactoryWrapper> wheelfact;
@@ -181,6 +180,7 @@ CEL_DECLARE_FACTORY (Wheeled)
     csArray<csVector2> gears;
     csArray<celWheel> wheels;
     csRef<iPcMechanicsObject> bodyMech;
+    int topgear;
     bool accelerating;
   // Other fields.
     int counter;
@@ -250,9 +250,6 @@ CEL_DECLARE_FACTORY (Wheeled)
     virtual void SetGearSettings(int gear,float velocity, float force);
     virtual void SetBrakeForce(float force){brakeforce=force;};
     
-    virtual void SetNumberGears(int number)
-    {gears.SetSize(number+2);};
-    
     virtual void SetAutoReverse(bool autoreverse)
     {celPcWheeled::autoreverse=autoreverse;};
 
@@ -306,7 +303,7 @@ handbrakeaffected)
 
   //The getter functions
     virtual iBodyGroup* GetBodyGroup(){return bodyGroup;};
-    virtual size_t GetNumberGears() {return gears.Length();};
+    virtual int GetTopGear() {return topgear;};
     virtual int GetGear(){return gear;};
     virtual float GetSteerAmount(){return steeramount;};
     virtual int GetTankMode(){return tankmode;};

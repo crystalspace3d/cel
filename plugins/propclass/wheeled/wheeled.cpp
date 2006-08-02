@@ -76,7 +76,6 @@
     csStringID celPcWheeled::action_setgear= csInvalidStringID;
     csStringID celPcWheeled::action_setgearsettings= csInvalidStringID;
     csStringID celPcWheeled::action_setbrakeforce= csInvalidStringID;
-    csStringID celPcWheeled::action_setnumbergears= csInvalidStringID;
     csStringID celPcWheeled::action_setautoreverse= csInvalidStringID;
   
   //Presets
@@ -142,6 +141,7 @@
   steerdir=0;
   gear=1;
   numberwheels=0;
+  topgear=0;
   frontsteer=1.0f;
   rearsteer=0.0f;
   outersteer=1.0f;
@@ -151,7 +151,7 @@
   frontsd=0.125;
   rearss=0.000125;
   rearsd=0.125;
-  steering=false;
+
   autotransmission=true;
   brakeapplied=false;
   handbrakeapplied=false;
@@ -161,9 +161,10 @@
   wheelradius=0;
     
   steeramount=0.7;
+
+  gears.SetSize(3);
   
   //Gear -1 is reverse, 0 is neutral
-  SetNumberGears(1);
   SetGearSettings(-1,-25,3000);
   SetGearSettings(0,0,100);
   SetGearSettings(1,150,2000);
@@ -201,7 +202,6 @@
     action_setgear= pl->FetchStringID("cel.action.SetGear");
     action_setgearsettings= pl->FetchStringID("cel.action.SetGearSettings");
     action_setbrakeforce= pl->FetchStringID("cel.action.SetBrakeForce");
-    action_setnumbergears= pl->FetchStringID("cel.action.SetNumberGears");
     action_setautoreverse= pl->FetchStringID("cel.action.SetAutoReverse");
   
     //Presets
@@ -474,19 +474,13 @@
     CEL_FETCH_FLOAT_PAR(force,params,param_force);
     CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
     CEL_FETCH_FLOAT_PAR(g,params,param_gear);
-    SetGearSettings(gear,velocity,force);
+    SetGearSettings(int(g),velocity,force);
     return true;
   }
   else if(actionId==action_setbrakeforce)
   {
     CEL_FETCH_FLOAT_PAR(force,params,param_brakeforce);
     SetBrakeForce(force);
-    return true;
-  }
-  else if(actionId==action_setnumbergears)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_number);
-    SetNumberGears(int(num));
     return true;
   }
   else if(actionId==action_setautoreverse)
@@ -629,11 +623,8 @@
 }
 
   int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
-      returnspeed,
-      float ss, float sd,float brakepower,float
-          enginepower,
-          float lss, float rss,bool hbaffect, bool
-              sinvert)
+      returnspeed, float ss, float sd,float brakepower,float enginepower,
+          float lss, float rss,bool hbaffect, bool sinvert)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -642,11 +633,11 @@
   wheel.SuspensionSoftness=ss;
   wheel.SuspensionDamping=sd;
   wheel.BrakePower=brakepower;
-  wheel.SteerInverted=sinvert;
-  wheel.HandbrakeAffected=hbaffect;
   wheel.EnginePower=enginepower;
   wheel.LeftSteerSensitivity=lss;
   wheel.RightSteerSensitivity=rss;
+  wheel.HandbrakeAffected=hbaffect;
+  wheel.SteerInverted=sinvert;
   wheels.Push(wheel);
   int index=wheels.Length()-1;
   RestoreWheel(index);
@@ -709,7 +700,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     csRef<iSector> bodySector=bodySectors->Get(0);
    
     wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,
-      wheels[wheelnum].Position);
+                                        wheels[wheelnum].Position);
   }
   else
   {
@@ -783,21 +774,23 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     {
       if(wheels[i].WheelJoint!=0)
       {
-          /*Inverted, so turn the wheel right. The car is still steering
-        left though,
-        so leftsteersensitivity is still used.*/
-        if(wheels[i].SteerInverted)
+         //Not inverted, so turn the wheel left
+        if(!wheels[i].SteerInverted)
         {
-          float lostop=-steeramount*wheels[i].LeftSteerSensitivity;
-          wheels[i].WheelJoint->SetLoStop(lostop,0);
-          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
-        }
-          //Not inverted, so turn the wheel left
-        else
-        {
-          float histop=steeramount*wheels[i].LeftSteerSensitivity;
+          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+        }
+        /*Inverted, so turn the wheel right. The car is still steering
+        left though,
+        so leftsteersensitivity is still used.*/
+        else
+        {
+          float lostop=-steeramount*wheels[i].RightSteerSensitivity;
+          wheels[i].WheelJoint->SetLoStop(lostop,0);
+          wheels[i].WheelJoint->SetHiStop(0,0);
+          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
         }
       }
     }
@@ -813,21 +806,24 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     {
       if(wheels[i].WheelJoint!=0)
       {
-          /*Inverted, so turn the wheel left. The car is still steering
-        right though,
-        so rightsteersensitivity is still used.*/
-        if(wheels[i].SteerInverted)
-        {
-          float histop=steeramount*wheels[i].RightSteerSensitivity;
-          wheels[i].WheelJoint->SetHiStop(histop,0);
-          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
-        }
-          //Steer it right
-        else
+         //Not inverted, so Steer it right.
+        if(!wheels[i].SteerInverted)
         {
           float lostop=-steeramount*wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
+          wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+        }
+          
+        /*Inverted, so turn the wheel left. The car is still steering
+        right though,
+        so rightsteersensitivity is still used.*/
+        else
+        {
+          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          wheels[i].WheelJoint->SetLoStop(0,0);
+          wheels[i].WheelJoint->SetHiStop(histop,0);
+          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
         }
       }
     }
@@ -836,7 +832,8 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   
   void celPcWheeled::SteerStraight()
 {
-  if (steerdir==-1)
+//It was steering right, bring it left.
+  if (steerdir==1)
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
@@ -855,7 +852,8 @@ void celPcWheeled::DestroyWheel(int wheelnum)
       }
     }
   }
-  if (steerdir==1)
+//It was steering left, bring it right.
+  if (steerdir==-1)
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
@@ -968,7 +966,7 @@ void celPcWheeled::TickOnce()
     }
       //if autoreverse is on, check if the vehicle is slow enough to start
       // reversing.
-        if (autoreverse)
+    if (autoreverse)
     {
       if(bodyMech->GetBody()->GetLinearVelocity().Norm()<2)
         Reverse();
@@ -987,22 +985,30 @@ void celPcWheeled::TickOnce()
       }
     }
   }
+
   if(tankmode && steerdir!=0)
     UpdateTankSteer();
-    
+
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
   
     void celPcWheeled::SetGear(int gear)
 {
-  if (gear>=-1 && gear <= (int)gears.Length()-1)
+  if (gear>=-1 && gear <= topgear)
     celPcWheeled::gear=gear;
 }
   
     void celPcWheeled::SetGearSettings(int gear, float velocity, float
         force)
 {
-  if (gear >=-1 && gear < (int)gears.Length()-1)
+  //Set the number of gears to the top + 2, to make way for neutral and
+  //reverse.
+  if(gear > topgear)
+  {
+    gears.SetSize(gear+2);
+    topgear = gear;
+  }
+  if (gear >=-1)
   {
     gears[gear+1].x=velocity;
     gears[gear+1].y=force;
@@ -1011,7 +1017,7 @@ void celPcWheeled::TickOnce()
   
     void celPcWheeled::UpdateGear()
 {
-  for(int i=1; i < (int)gears.Length()-2; i++)
+  for(int i=0; i < topgear; i++)
   {
     if (bodyMech->GetBody()->GetLinearVelocity().Norm()
         >= (gears[i+1].x)*wheelradius*wheelradius*3.14-2 )
@@ -1037,7 +1043,7 @@ void celPcWheeled::TickOnce()
         softness)
 {
   wheels[wheelnum].SuspensionSoftness=softness;
-    //If the wheel is already created, have to set it too.
+    //If the wheel is already created, have to set its joint too.
   if(wheels[wheelnum].WheelJoint!=0)
   {
     wheels[wheelnum].WheelJoint->SetSuspensionCFM(softness,0);
@@ -1048,7 +1054,7 @@ void celPcWheeled::TickOnce()
         damping)
 {
   wheels[wheelnum].SuspensionDamping=damping;
-    //If the wheel is already created, have to set it too.
+    //If the wheel is already created, have to set its joint too.
   if(wheels[wheelnum].WheelJoint!=0)
   {
     wheels[wheelnum].WheelJoint->SetSuspensionERP(damping,0);
@@ -1056,8 +1062,8 @@ void celPcWheeled::TickOnce()
 }
   
 void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
-                                      float suspensionsoftness,
-                                      float suspensiondamping)
+                                       float suspensionsoftness,
+                                       float suspensiondamping)
 {
   if (rearsteer>=0 && rearsteer<=1)
     celPcWheeled::frontsteer=sensitivity;
@@ -1109,6 +1115,8 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
     wheels[wheelnum].EnginePower=frontpower;
     wheels[wheelnum].SuspensionSoftness=frontss;
     wheels[wheelnum].SuspensionDamping=frontsd;
+    wheels[wheelnum].SteerInverted=false;
+    wheels[wheelnum].HandbrakeAffected=false;
   }
   else if(wheels[wheelnum].Position.z>0)
   {
@@ -1117,6 +1125,8 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
     wheels[wheelnum].EnginePower=rearpower;
     wheels[wheelnum].SuspensionSoftness=rearss;
     wheels[wheelnum].SuspensionDamping=rearsd;
+    wheels[wheelnum].SteerInverted=true;
+    wheels[wheelnum].HandbrakeAffected=true;
   }
   else
   {
@@ -1125,16 +1135,18 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
     wheels[wheelnum].EnginePower=1.0f;
     wheels[wheelnum].SuspensionSoftness=frontss;
     wheels[wheelnum].SuspensionDamping=frontsd;
+    wheels[wheelnum].SteerInverted=false;
+    wheels[wheelnum].HandbrakeAffected=false;
   }
   //Apply outer steer settings
-      //A right wheels[wheelnum]. So its sensitivity when steering left is
+      //A right wheel. So its sensitivity when steering left is
   //reduced.
   if (wheels[wheelnum].Position.x<0)
     wheels[wheelnum].LeftSteerSensitivity*=outersteer;
-      //A left wheels[wheelnum]. So its sensitivity when steering right is
+      //A left wheel. So its sensitivity when steering right is
       //reduced.
-      if (wheels[wheelnum].Position.x>0)
-      wheels[wheelnum].RightSteerSensitivity*=outersteer;
+  if (wheels[wheelnum].Position.x>0)
+    wheels[wheelnum].RightSteerSensitivity*=outersteer;
 }
  
 //-------------------------------------------------------------------------
