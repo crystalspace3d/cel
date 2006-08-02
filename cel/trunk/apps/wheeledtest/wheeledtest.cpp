@@ -245,7 +245,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->SetWheelMesh("celCarWheel","/cel/data/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
-  //pcwheeled->SetTankMode(true);
+ // pcwheeled->SetTankMode(true);
 
   /*This part demos how to use presets to modify the steer and drive settings
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
@@ -273,7 +273,6 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
 
-  pcwheeled->SetNumberGears(5);
   pcwheeled->SetGearSettings(1,10,3000);
   pcwheeled->SetGearSettings(2,20,2000);
   pcwheeled->SetGearSettings(3,50,700);

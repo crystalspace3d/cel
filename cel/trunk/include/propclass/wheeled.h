@@ -273,15 +273,9 @@ struct iPcWheeled : public virtual iBase
   virtual void SetGearSettings(int gear,float velocity, float force) = 0;
 
  /**
-   * Set the number of forwards gears the vehicle has. This excludes neutral and reverse.
-   *  @param number The number of gears the vehicle will have.
+   * Get the highest gear the vehicle has.
   */
-  virtual void SetNumberGears(int number) = 0;
-
- /**
-   * Get the number of forwards gears the vehicle has. This excludes neutral and reverse.
-  */
-  virtual size_t GetNumberGears() = 0;
+  virtual int GetTopGear() = 0;
 
  /**
    * Set wether the vehicle will automatically begin reversing after braking to a stop. This is enabled by default.
