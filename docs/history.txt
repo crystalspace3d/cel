@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and
           replaced GetNumberGears() with GetTopGear().
+	- caedes fixed HandleEvent in physical layer so it traverses callbacks
+	  in a way that is safe if entities are getting destroyed.
 01-Aug-2006
         - cfraz89 fixed a number of bugs in pcwheeled and added suspension
           to front and rear presets.
