@@ -86,6 +86,7 @@ private:
   static csStringID action_loadmeshpath;
   static csStringID id_sector;
   static csStringID id_position;
+  static csStringID id_rotation;
   static csStringID action_movemesh;
   static csStringID action_clearrotation;
   static csStringID action_lookat;
