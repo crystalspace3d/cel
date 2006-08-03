@@ -2,7 +2,11 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-02-Aug-2006
+
+3-Aug-2006
+	- Jorrit fixed pcmesh so that it compiles again.
+	- Jorrit did code cleanups (code style mostly) to pcwheeled.
+2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and
           replaced GetNumberGears() with GetTopGear().
@@ -10,7 +14,7 @@ The history order is reversed so that new features are at the top.
 	  in a way that is safe if entities are getting destroyed.
 	- caedes augmented the pcmesh MoveMesh action so it can optionally get
 	  a rotation parameter.
-01-Aug-2006
+1-Aug-2006
         - cfraz89 fixed a number of bugs in pcwheeled and added suspension
           to front and rear presets.
 31-Jul-2006

@@ -1,23 +1,23 @@
   /*
       Crystal Space Entity Layer
       Copyright (C) 2006 by Jorrit Tyberghein
-  
+
       This library is free software; you can redistribute it and/or
       modify it under the terms of the GNU Library General Public
       License as published by the Free Software Foundation; either
       version 2 of the License, or (at your option) any later version.
-  
+
       This library is distributed in the hope that it will be useful,
       but WITHOUT ANY WARRANTY; without even the implied warranty of
       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
       Library General Public License for more details.
-  
+
       You should have received a copy of the GNU Library General Public
       License along with this library; if not, write to the Free
       Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 02111-1307, USA.
   */
-  
+
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "csutil/debug.h"
@@ -26,7 +26,7 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
-  
+
 #include "iutil/vfs.h"
 #include "iengine/mesh.h"
 #include "imesh/objmodel.h"
@@ -35,104 +35,98 @@
 #include "iengine/sector.h"
 #include "iengine/engine.h"
 #include "imap/loader.h"
-  
+
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
-  
+
 #include "iostream"
- 
+
 //--------------------------------------------------------------------------
 
-  
-  CS_IMPLEMENT_PLUGIN
-  CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
-  
- 
+
+CS_IMPLEMENT_PLUGIN
+CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
+
+
 //--------------------------------------------------------------------------
 
-  
-    // Actions
-    csStringID celPcWheeled::action_setwheelmesh= csInvalidStringID;
-    csStringID celPcWheeled::action_settankmode= csInvalidStringID;
-    csStringID celPcWheeled::action_addwheelauto= csInvalidStringID;
-    csStringID celPcWheeled::action_addwheel= csInvalidStringID;
-    csStringID celPcWheeled::action_deletewheel= csInvalidStringID;
-    csStringID celPcWheeled::action_deleteallwheels= csInvalidStringID;
-    csStringID celPcWheeled::action_destroywheel= csInvalidStringID;
-    csStringID celPcWheeled::action_destroyallwheels= csInvalidStringID;
-    csStringID celPcWheeled::action_restorewheel= csInvalidStringID;
-    csStringID celPcWheeled::action_restoreallwheels= csInvalidStringID;
 
-    csStringID celPcWheeled::action_accelerate= csInvalidStringID;
-    csStringID celPcWheeled::action_brake= csInvalidStringID;
-    csStringID celPcWheeled::action_handbrake= csInvalidStringID;
-    csStringID celPcWheeled::action_setsteeramount= csInvalidStringID;
-    csStringID celPcWheeled::action_steerleft= csInvalidStringID;
-    csStringID celPcWheeled::action_steerright= csInvalidStringID;
-    csStringID celPcWheeled::action_steerstraight= csInvalidStringID;
-    csStringID celPcWheeled::action_reverse= csInvalidStringID;
-    csStringID celPcWheeled::action_neutral= csInvalidStringID;
-    csStringID celPcWheeled::action_setautotransmission= csInvalidStringID;
-    csStringID celPcWheeled::action_setgear= csInvalidStringID;
-    csStringID celPcWheeled::action_setgearsettings= csInvalidStringID;
-    csStringID celPcWheeled::action_setbrakeforce= csInvalidStringID;
-    csStringID celPcWheeled::action_setautoreverse= csInvalidStringID;
-  
-  //Presets
-    csStringID celPcWheeled::action_setfrontwheelpreset= csInvalidStringID;
-    csStringID celPcWheeled::action_setrearwheelpreset= csInvalidStringID;
-    csStringID celPcWheeled::action_setouterwheelsteerpreset=
-        csInvalidStringID;
-  
-    //Per-wheel actions
-    csStringID celPcWheeled::action_setwheelposition= csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelsuspensionsoftness=
-        csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelsuspensiondamping=
-        csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelleftsteersensitivity=
-        csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelrightsteersensitivity=
-        csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelturnspeed= csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelreturnspeed= csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelenginepower= csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelbrakepower= csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelsteerinverted=
-        csInvalidStringID;
-    csStringID celPcWheeled::action_setwheelhandbrakeaffected=
-        csInvalidStringID;
-  
-    // Parameters.
-    csStringID celPcWheeled::param_file = csInvalidStringID;
-    csStringID celPcWheeled::param_name = csInvalidStringID;
-    csStringID celPcWheeled::param_position = csInvalidStringID;
-    csStringID celPcWheeled::param_wheelnum = csInvalidStringID;
-    csStringID celPcWheeled::param_gear = csInvalidStringID;
-    csStringID celPcWheeled::param_velocity = csInvalidStringID;
-    csStringID celPcWheeled::param_force = csInvalidStringID;
-    csStringID celPcWheeled::param_number = csInvalidStringID;
-    csStringID celPcWheeled::param_tankmode = csInvalidStringID;
-    csStringID celPcWheeled::param_steeramount = csInvalidStringID;
-    csStringID celPcWheeled::param_brakeforce = csInvalidStringID;
-    csStringID celPcWheeled::param_applied = csInvalidStringID;
-    csStringID celPcWheeled::param_autotransmission = csInvalidStringID;
-    csStringID celPcWheeled::param_autoreverse = csInvalidStringID;
-  
-    csStringID celPcWheeled::param_suspensionsoftness = csInvalidStringID; 
-    csStringID celPcWheeled::param_suspensiondamping = csInvalidStringID;
-    csStringID celPcWheeled::param_leftsteersensitivity = csInvalidStringID;
-    csStringID celPcWheeled::param_rightsteersensitivity =
-        csInvalidStringID; 
-    csStringID celPcWheeled::param_steersensitivity = csInvalidStringID; 
-    csStringID celPcWheeled::param_turnspeed = csInvalidStringID;
-    csStringID celPcWheeled::param_returnspeed = csInvalidStringID;
-    csStringID celPcWheeled::param_enginepower = csInvalidStringID;
-    csStringID celPcWheeled::param_brakepower = csInvalidStringID;
-    csStringID celPcWheeled::param_steerinverted = csInvalidStringID;
-    csStringID celPcWheeled::param_handbrakeaffected = csInvalidStringID;
-  
-    celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
+// Actions
+csStringID celPcWheeled::action_setwheelmesh = csInvalidStringID;
+csStringID celPcWheeled::action_settankmode = csInvalidStringID;
+csStringID celPcWheeled::action_addwheelauto = csInvalidStringID;
+csStringID celPcWheeled::action_addwheel = csInvalidStringID;
+csStringID celPcWheeled::action_deletewheel = csInvalidStringID;
+csStringID celPcWheeled::action_deleteallwheels = csInvalidStringID;
+csStringID celPcWheeled::action_destroywheel = csInvalidStringID;
+csStringID celPcWheeled::action_destroyallwheels = csInvalidStringID;
+csStringID celPcWheeled::action_restorewheel = csInvalidStringID;
+csStringID celPcWheeled::action_restoreallwheels = csInvalidStringID;
+
+csStringID celPcWheeled::action_accelerate = csInvalidStringID;
+csStringID celPcWheeled::action_brake = csInvalidStringID;
+csStringID celPcWheeled::action_handbrake = csInvalidStringID;
+csStringID celPcWheeled::action_setsteeramount = csInvalidStringID;
+csStringID celPcWheeled::action_steerleft = csInvalidStringID;
+csStringID celPcWheeled::action_steerright = csInvalidStringID;
+csStringID celPcWheeled::action_steerstraight = csInvalidStringID;
+csStringID celPcWheeled::action_reverse = csInvalidStringID;
+csStringID celPcWheeled::action_neutral = csInvalidStringID;
+csStringID celPcWheeled::action_setautotransmission = csInvalidStringID;
+csStringID celPcWheeled::action_setgear = csInvalidStringID;
+csStringID celPcWheeled::action_setgearsettings = csInvalidStringID;
+csStringID celPcWheeled::action_setbrakeforce = csInvalidStringID;
+csStringID celPcWheeled::action_setautoreverse = csInvalidStringID;
+
+//Presets
+csStringID celPcWheeled::action_setfrontwheelpreset = csInvalidStringID;
+csStringID celPcWheeled::action_setrearwheelpreset = csInvalidStringID;
+csStringID celPcWheeled::action_setouterwheelsteerpreset = csInvalidStringID;
+
+//Per-wheel actions
+csStringID celPcWheeled::action_setwheelposition = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelsuspensionsoftness = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelsuspensiondamping = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelleftsteersensitivity
+	= csInvalidStringID;
+csStringID celPcWheeled::action_setwheelrightsteersensitivity
+	= csInvalidStringID;
+csStringID celPcWheeled::action_setwheelturnspeed = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelreturnspeed = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelenginepower = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelbrakepower = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelsteerinverted = csInvalidStringID;
+csStringID celPcWheeled::action_setwheelhandbrakeaffected = csInvalidStringID;
+
+// Parameters.
+csStringID celPcWheeled::param_file = csInvalidStringID;
+csStringID celPcWheeled::param_name = csInvalidStringID;
+csStringID celPcWheeled::param_position = csInvalidStringID;
+csStringID celPcWheeled::param_wheelnum = csInvalidStringID;
+csStringID celPcWheeled::param_gear = csInvalidStringID;
+csStringID celPcWheeled::param_velocity = csInvalidStringID;
+csStringID celPcWheeled::param_force = csInvalidStringID;
+csStringID celPcWheeled::param_number = csInvalidStringID;
+csStringID celPcWheeled::param_tankmode = csInvalidStringID;
+csStringID celPcWheeled::param_steeramount = csInvalidStringID;
+csStringID celPcWheeled::param_brakeforce = csInvalidStringID;
+csStringID celPcWheeled::param_applied = csInvalidStringID;
+csStringID celPcWheeled::param_autotransmission = csInvalidStringID;
+csStringID celPcWheeled::param_autoreverse = csInvalidStringID;
+
+csStringID celPcWheeled::param_suspensionsoftness = csInvalidStringID;
+csStringID celPcWheeled::param_suspensiondamping = csInvalidStringID;
+csStringID celPcWheeled::param_leftsteersensitivity = csInvalidStringID;
+csStringID celPcWheeled::param_rightsteersensitivity = csInvalidStringID;
+csStringID celPcWheeled::param_steersensitivity = csInvalidStringID;
+csStringID celPcWheeled::param_turnspeed = csInvalidStringID;
+csStringID celPcWheeled::param_returnspeed = csInvalidStringID;
+csStringID celPcWheeled::param_enginepower = csInvalidStringID;
+csStringID celPcWheeled::param_brakepower = csInvalidStringID;
+csStringID celPcWheeled::param_steerinverted = csInvalidStringID;
+csStringID celPcWheeled::param_handbrakeaffected = csInvalidStringID;
+
+celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
@@ -159,22 +153,22 @@
   autoreverse=true;
   accelerating=false;
   wheelradius=0;
-    
+
   steeramount=0.7;
 
   gears.SetSize(3);
-  
+
   //Gear -1 is reverse, 0 is neutral
   SetGearSettings(-1,-25,3000);
   SetGearSettings(0,0,100);
   SetGearSettings(1,150,2000);
   brakeforce=1000;
-  
+
   tankmode=false;
-    
+
   if(action_setwheelmesh==csInvalidStringID)
   {
-        // Actions
+    // Actions
     action_setwheelmesh= pl->FetchStringID("cel.action.SetWheelMesh");
     action_settankmode= pl->FetchStringID("cel.action.SetTankMode");
     action_addwheelauto= pl->FetchStringID("cel.action.AddWheelAuto");
@@ -203,7 +197,7 @@
     action_setgearsettings= pl->FetchStringID("cel.action.SetGearSettings");
     action_setbrakeforce= pl->FetchStringID("cel.action.SetBrakeForce");
     action_setautoreverse= pl->FetchStringID("cel.action.SetAutoReverse");
-  
+
     //Presets
     action_setfrontwheelpreset=
         pl->FetchStringID("cel.action.SetFrontWheelPreset");
@@ -211,7 +205,7 @@
         pl->FetchStringID("cel.action.SetRearWheelPreset");
     action_setouterwheelsteerpreset=
         pl->FetchStringID("cel.action.SetOuterWheelSteerPreset");
-  
+
     //Per-wheel actions
     action_setwheelposition=
         pl->FetchStringID("cel.action.SetWheelPosition");
@@ -235,8 +229,8 @@
         pl->FetchStringID("cel.action.SetWheelSteerInverted");
     action_setwheelhandbrakeaffected=
         pl->FetchStringID("cel.action.SetWheelHandbrakeAffected");
-  
-  
+
+
     // Parameters.
     param_file = pl->FetchStringID("cel.parameter.file");
     param_name = pl->FetchStringID("cel.parameter.name");
@@ -253,9 +247,9 @@
         pl->FetchStringID("cel.parameter.autotransmission");
     param_autoreverse = pl->FetchStringID("cel.parameter.autoreverse");
     param_applied = pl->FetchStringID("cel.parameter.applied");
-  
+
     param_suspensionsoftness =
-        pl->FetchStringID("cel.parameter.suspensionsoftness"); 
+        pl->FetchStringID("cel.parameter.suspensionsoftness");
     param_suspensiondamping =
         pl->FetchStringID("cel.parameter.suspensiondamping");
     param_steersensitivity =
@@ -276,8 +270,8 @@
   }
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
-  
-  celPcWheeled::~celPcWheeled ()
+
+celPcWheeled::~celPcWheeled ()
 {
   DestroyAllWheels();
   bodyMech=0;
@@ -289,21 +283,21 @@
   gears=0;
   wheels=0;
 }
-  
-  
+
+
 #define TEST_SERIAL 2
-  
-  csPtr<iCelDataBuffer> celPcWheeled::Save ()
+
+csPtr<iCelDataBuffer> celPcWheeled::Save ()
 {
   return 0;
 }
-  
-  bool celPcWheeled::Load (iCelDataBuffer* databuf)
+
+bool celPcWheeled::Load (iCelDataBuffer* databuf)
 {
   return true;
 }
-  
-  bool celPcWheeled::PerformAction (csStringID actionId,
+
+bool celPcWheeled::PerformAction (csStringID actionId,
                                     iCelParameterBlock* params,
                                     celData& ret)
 {
@@ -329,11 +323,11 @@
   else if(actionId==action_addwheel)
   {
     CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
-    
+
     CEL_FETCH_FLOAT_PAR(turnspeed, params, param_turnspeed);
     if(!p_turnspeed)
       turnspeed=2.0f;
-    
+
     CEL_FETCH_FLOAT_PAR(returnspeed, params, param_returnspeed);
     if(!p_returnspeed)
       returnspeed=2.0f;
@@ -370,8 +364,8 @@
     if(!p_sinvert)
       sinvert=false;
 
-    AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower
-        ,lss,rss,hbaffect,sinvert);
+    AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
+        lss,rss,hbaffect,sinvert);
     return true;
   }
   else if(actionId==action_deletewheel)
@@ -594,8 +588,8 @@
   }
   return false;
 }
-  
-  void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
+
+void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
 {
   if(file!=0)
   {
@@ -606,9 +600,9 @@
   }
   wheelfact=engine->FindMeshFactory(factname);
 }
-  
-  //This method uses the vehicle's presets and wheel's position for settings
-    int celPcWheeled::AddWheelAuto(csVector3 position)
+
+//This method uses the vehicle's presets and wheel's position for settings
+int celPcWheeled::AddWheelAuto(csVector3 position)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -622,9 +616,9 @@
   return index;
 }
 
-  int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
+int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
       returnspeed, float ss, float sd,float brakepower,float enginepower,
-          float lss, float rss,bool hbaffect, bool sinvert)
+      float lss, float rss,bool hbaffect, bool sinvert)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -648,7 +642,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
 {
   GetMech();
   if(!bodyGroup || !bodyMech) return;
-  
+
   if (wheels[wheelnum].WheelJoint!=0)
   {
     osys->RemoveJoint(wheels[wheelnum].WheelJoint);
@@ -665,7 +659,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   }
 }
 
-  void celPcWheeled::DestroyAllWheels()
+void celPcWheeled::DestroyAllWheels()
 {
   for(size_t i=0;i < wheels.Length();i++)
   {
@@ -673,23 +667,23 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   }
 }
 
-  void celPcWheeled::DeleteWheel(int wheelnum)
+void celPcWheeled::DeleteWheel(int wheelnum)
 {
   DestroyWheel(wheelnum);
   wheels.DeleteIndex(wheelnum);
 }
 
-  void celPcWheeled::DeleteAllWheels()
+void celPcWheeled::DeleteAllWheels()
 {
   DestroyAllWheels();
   wheels.DeleteAll();
 }
 
- void celPcWheeled::RestoreWheel(int wheelnum)
+void celPcWheeled::RestoreWheel(int wheelnum)
 {
   GetMech();
   //Create the mesh
-  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh); 
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
   csOrthoTransform
       bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
   csRef<iMeshWrapper> wheelmesh=0;
@@ -698,7 +692,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   if(bodySectors->GetCount() > 0)
   {
     csRef<iSector> bodySector=bodySectors->Get(0);
-   
+
     wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,
                                         wheels[wheelnum].Position);
   }
@@ -708,34 +702,34 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     wheelmesh->GetMovable()->SetPosition(wheels[wheelnum].Position);
     wheelmesh->GetMovable()->UpdateMove();
   }
-    
-    //Create the dynamic body
+
+  //Create the dynamic body
   csRef<iRigidBody> wheelbody=dyn->CreateBody();
   bodyGroup->AddBody(wheelbody);
-  
+
   csVector3 wheelcenter;
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
   wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
- 
+
   wheelbody->SetPosition(bodytransform.This2Other(
       wheels[wheelnum].Position));
   wheelbody->AttachMesh(wheelmesh);
- 
-  wheelbody->AttachColliderSphere
-      (wheelradius,wheelcenter,0.8f,1,0.5f,0.05f);
-      //If it a right wheel, flip it.
+
+  wheelbody->AttachColliderSphere (
+      wheelradius,wheelcenter,0.8f,1,0.5f,0.05f);
+  //If it a right wheel, flip it.
   if (wheels[wheelnum].Position.x<0)
   {
     csOrthoTransform t=wheelbody->GetTransform();
     t.RotateThis(csVector3(0,1,0),3.14f);
     wheelbody->SetTransform(t);
   }
-  
+
     //Create the joint
   csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
   joint->Attach(bodyMech->GetBody(),wheelbody);
- 
+
   joint->SetHingeAnchor(bodytransform.This2Other
       (wheels[wheelnum].Position));
   joint->SetHingeAxis1(csVector3(0,1,0));
@@ -749,12 +743,12 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   joint->SetStopERP(1.0,0);
   joint->SetFMax(1000,0);
   joint->SetFMax(100,1);
-  
+
   wheels[wheelnum].RigidBody=wheelbody;
   wheels[wheelnum].WheelJoint=joint;
 }
 
-  void celPcWheeled::RestoreAllWheels()
+void celPcWheeled::RestoreAllWheels()
 {
   for(size_t i=0; i < wheels.Length();i++)
   {
@@ -762,10 +756,10 @@ void celPcWheeled::DestroyWheel(int wheelnum)
       RestoreWheel(i);
   }
 }
-  
 
-  
-  void celPcWheeled::SteerLeft()
+
+
+void celPcWheeled::SteerLeft()
 {
   steerdir=-1;
   if(!tankmode)
@@ -796,8 +790,8 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     }
   }
 }
-  
-  void celPcWheeled::SteerRight()
+
+void celPcWheeled::SteerRight()
 {
   steerdir=1;
   if(!tankmode)
@@ -814,7 +808,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
         }
-          
+
         /*Inverted, so turn the wheel left. The car is still steering
         right though,
         so rightsteersensitivity is still used.*/
@@ -829,10 +823,10 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     }
   }
 }
-  
-  void celPcWheeled::SteerStraight()
+
+void celPcWheeled::SteerStraight()
 {
-//It was steering right, bring it left.
+  //It was steering right, bring it left.
   if (steerdir==1)
   {
     for(size_t i=0;i < wheels.Length();i++)
@@ -852,7 +846,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
       }
     }
   }
-//It was steering left, bring it right.
+  //It was steering left, bring it right.
   if (steerdir==-1)
   {
     for(size_t i=0;i < wheels.Length();i++)
@@ -874,8 +868,8 @@ void celPcWheeled::DestroyWheel(int wheelnum)
   }
   steerdir=0;
 }
-  
-  void celPcWheeled::UpdateTankSteer()
+
+void celPcWheeled::UpdateTankSteer()
 {
   //The tank steers by braking one side of the wheels
   //  if(gear!=0)
@@ -898,7 +892,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
     }
   }
 }
-  
+
 void celPcWheeled::Brake (bool on)
 {
   brakeapplied=on;
@@ -908,7 +902,8 @@ void celPcWheeled::Brake (bool on)
     gear = 1;
   }
 }
-  void celPcWheeled::GetMech()
+
+void celPcWheeled::GetMech()
 {
   if(!bodyMech)
   {
@@ -921,19 +916,20 @@ void celPcWheeled::Brake (bool on)
     bodyGroup->AddBody(bodyMech->GetBody());
   }
 }
-  //Update the vehicle. Order is important here! first comes acceleration,
-  //then braking, then handbrake. tank steering comes last.
+//
+//Update the vehicle. Order is important here! first comes acceleration,
+//then braking, then handbrake. tank steering comes last.
 void celPcWheeled::TickOnce()
 {
-//First ensure everything is set and ready to go.
+  //First ensure everything is set and ready to go.
   GetMech();
 
   //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
     UpdateGear();
 
-    //Update the wheel's speeds to the current gear if accelerating. else
-    //use the neutral gear settings.
+  //Update the wheel's speeds to the current gear if accelerating. else
+  //use the neutral gear settings.
   float vel=gears[1].x;
   float fmax=gears[1].y;
   if(accelerating)
@@ -991,14 +987,14 @@ void celPcWheeled::TickOnce()
 
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
-  
-    void celPcWheeled::SetGear(int gear)
+
+void celPcWheeled::SetGear(int gear)
 {
   if (gear>=-1 && gear <= topgear)
     celPcWheeled::gear=gear;
 }
-  
-    void celPcWheeled::SetGearSettings(int gear, float velocity, float
+
+void celPcWheeled::SetGearSettings(int gear, float velocity, float
         force)
 {
   //Set the number of gears to the top + 2, to make way for neutral and
@@ -1014,8 +1010,8 @@ void celPcWheeled::TickOnce()
     gears[gear+1].y=force;
   }
 }
-  
-    void celPcWheeled::UpdateGear()
+
+void celPcWheeled::UpdateGear()
 {
   for(int i=0; i < topgear; i++)
   {
@@ -1026,20 +1022,20 @@ void celPcWheeled::TickOnce()
     }
   }
 }
-  
-    void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
+
+void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
 {
   wheels[wheelnum].Position=position;
     //If the wheel is already created, have to move it's body aswell.
   if(wheels[wheelnum].WheelJoint!=0)
   {
-   
+
     wheels[wheelnum].WheelJoint->
         SetHingeAnchor(bodyMech->LocalToWorld(position));
   }
 }
-  
-    void celPcWheeled::SetWheelSuspensionSoftness(int wheelnum, float
+
+void celPcWheeled::SetWheelSuspensionSoftness(int wheelnum, float
         softness)
 {
   wheels[wheelnum].SuspensionSoftness=softness;
@@ -1049,8 +1045,8 @@ void celPcWheeled::TickOnce()
     wheels[wheelnum].WheelJoint->SetSuspensionCFM(softness,0);
   }
 }
-  
-    void celPcWheeled::SetWheelSuspensionDamping(int wheelnum, float
+
+void celPcWheeled::SetWheelSuspensionDamping(int wheelnum, float
         damping)
 {
   wheels[wheelnum].SuspensionDamping=damping;
@@ -1060,7 +1056,7 @@ void celPcWheeled::TickOnce()
     wheels[wheelnum].WheelJoint->SetSuspensionERP(damping,0);
   }
 }
-  
+
 void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
                                        float suspensionsoftness,
                                        float suspensiondamping)
@@ -1148,6 +1144,6 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
   if (wheels[wheelnum].Position.x>0)
     wheels[wheelnum].RightSteerSensitivity*=outersteer;
 }
- 
+
 //-------------------------------------------------------------------------
-  
+
