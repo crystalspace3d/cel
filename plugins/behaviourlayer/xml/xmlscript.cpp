@@ -25,7 +25,6 @@
 #include "csutil/csstring.h"
 #include "csutil/databuf.h"
 #include "csutil/scanstr.h"
-#include "iutil/eventq.h"
 #include "iutil/object.h"
 #include "iutil/vfs.h"
 #include "iutil/csinput.h"
@@ -1374,14 +1373,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  return ReportError (cbl, "Stack size mismatch!");
 	}
         return true;
-      case CEL_OPERATION_EXIT:
-	{
-	  csRef<iEventQueue> q = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
-	      iEventQueue);
-	  q->GetEventOutlet ()->Broadcast (
-	      csevQuit (cbl->GetObjectRegistry ()));
-	}
-	break;
       case CEL_OPERATION_CALLSTACK:
 	DumpCallStack (cbl);
         break;

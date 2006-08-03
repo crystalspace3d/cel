@@ -67,7 +67,6 @@ class celVariableParameterBlock;
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
-  CEL_OPERATION_EXIT,		// A:-		S:-		OS:-
   CEL_OPERATION_CALLSTACK,	// A:-		S:-		OS:-
   CEL_OPERATION_VARIABLES,	// A:-		S:-		OS:-
   CEL_OPERATION_TRACEON,	// A:-		S:-		OS:-
@@ -99,7 +98,7 @@ enum
   CEL_OPERATION_CALL_ER,	// A:-		S:E,S,S		OS:-
   CEL_OPERATION_CALL_ERS,	// A:S		S:E		OS:?
   CEL_OPERATION_CALL_ERS2,	// A:S		S:E		OS:?
-  CEL_OPERATION_QUIT,	// A:-		S:-		OS:-
+  CEL_OPERATION_QUIT,		// A:-		S:-		OS:-
 
   CEL_OPERATION_BB_TESTCOLLIDE,	// A:-		S:PC		OS:-
   CEL_OPERATION_BB_MOVE,	// A:-		S:I,I		OS:-
