@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 3-Aug-2006
 	- Jorrit fixed pcmesh so that it compiles again.
 	- Jorrit did code cleanups (code style mostly) to pcwheeled.
+	- Jorrit added a new 'exit' operation to blxml. This exits
+	  the application.
 2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and
