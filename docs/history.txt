@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added new 'fullposition' property to pcmesh.
 	- Jorrit removed 'exit' again. Apparently there was already
 	  a 'quit' operation.
+        - cfraz89 changed floats to longs in pcwheeled gear xml.
 2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and

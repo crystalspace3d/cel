@@ -459,7 +459,7 @@ bool celPcWheeled::PerformAction (csStringID actionId,
   }
   else if(actionId==action_setgear)
   {
-    CEL_FETCH_FLOAT_PAR(g,params,param_gear);
+    CEL_FETCH_LONG_PAR(g,params,param_gear);
     SetGear(int(g));
     return true;
   }
@@ -467,7 +467,7 @@ bool celPcWheeled::PerformAction (csStringID actionId,
   {
     CEL_FETCH_FLOAT_PAR(force,params,param_force);
     CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
-    CEL_FETCH_FLOAT_PAR(g,params,param_gear);
+    CEL_FETCH_LONG_PAR(g,params,param_gear);
     SetGearSettings(int(g),velocity,force);
     return true;
   }
