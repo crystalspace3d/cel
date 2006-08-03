@@ -434,6 +434,67 @@ static const char* ArgToString (const celXmlArg& a)
   }
 }
 
+static const char* ArgToStringTpl (const celXmlArg& a)
+{
+  switch (a.type)
+  {
+    case CEL_DATA_LONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%d", a.arg.i);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ULONG:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%u", a.arg.ui);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_FLOAT:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%g", a.arg.f);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_BOOL: return a.arg.b ? "true" : "false";
+    case CEL_DATA_STRING: return a.arg.str.s;
+    case CEL_DATA_VECTOR2:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%g,%g", a.arg.vec.x, a.arg.vec.y);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_VECTOR3:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%g,%g,%g", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_ENTITY:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%s", a.arg.entity ? a.arg.entity->GetName () : "");
+	used_strings.Push (str);
+        return *str;
+      }
+    case CEL_DATA_COLOR:
+      {
+        csString* str = GetUnusedString ();
+        str->Format ("%g,%g,%g", a.arg.col.red, a.arg.col.green,
+      	  a.arg.col.blue);
+	used_strings.Push (str);
+        return *str;
+      }
+    default:
+      return 0;
+  }
+}
+
 // For debug reasons.
 static const char* A2S (const celXmlArg& a)
 {
@@ -3603,8 +3664,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Couldn't find entity template '%s'!", tplname);
 	  const char* entname = ArgToString (aname);
-	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname ? entname : tplname,
-	      template_params);
+	  csRef<iCelEntity> ent = pl->CreateEntity (entpl, entname
+	      ? entname : tplname, template_params);
 	}
         break;
       case CEL_OPERATION_CLEARTPLPARAM:
@@ -3620,7 +3681,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_name = stack.Pop ();
 	  DUMP_EXEC ((":%04d: tplparam name=%s val=%s\n", i-1,
 	  	A2S (a_name), A2S (a_val)));
-	  template_params.Put (ArgToString (a_name), ArgToString (a_val));
+	  template_params.Put (ArgToString (a_name), ArgToStringTpl (a_val));
         }
         break;
       case CEL_OPERATION_CALL_I:
