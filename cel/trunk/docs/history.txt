@@ -24,6 +24,8 @@ The history order is reversed so that new features are at the top.
 	  for createentity from a template. In case the parameter values
 	  were vectors it would convert the vector to '[x,y,z]' instead
 	  of the desired 'x,y,z'.
+	- Jorrit fixed parameter definition in pcdamage (cel.paramater
+	  instead of cel.parameter).
 2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and

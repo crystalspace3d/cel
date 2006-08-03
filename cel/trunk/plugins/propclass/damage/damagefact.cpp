@@ -61,18 +61,18 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
 
   if (id_amount == csInvalidStringID)
   {
-    id_amount = pl->FetchStringID ("cel.paramater.amount");
-    id_source = pl->FetchStringID ("cel.paramater.source");
-    id_sector = pl->FetchStringID ("cel.paramater.sector");
-    id_position = pl->FetchStringID ("cel.paramater.position");
-    id_type = pl->FetchStringID ("cel.paramater.type");
+    id_amount = pl->FetchStringID ("cel.parameter.amount");
+    id_source = pl->FetchStringID ("cel.parameter.source");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_position = pl->FetchStringID ("cel.parameter.position");
+    id_type = pl->FetchStringID ("cel.parameter.type");
     action_areadamage = pl->FetchStringID ("cel.action.AreaDamage");
-    id_radius = pl->FetchStringID ("cel.paramater.radius");
+    id_radius = pl->FetchStringID ("cel.parameter.radius");
     action_beamdamage = pl->FetchStringID ("cel.action.BeamDamage");
-    id_direction = pl->FetchStringID ("cel.paramater.direction");
-    id_maxdist = pl->FetchStringID ("cel.paramater.maxdist");
+    id_direction = pl->FetchStringID ("cel.parameter.direction");
+    id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
     action_singledamage = pl->FetchStringID ("cel.action.SingleDamage");
-    id_target = pl->FetchStringID ("cel.paramater.target");
+    id_target = pl->FetchStringID ("cel.parameter.target");
   }
 
   params = new celVariableParameterBlock ();

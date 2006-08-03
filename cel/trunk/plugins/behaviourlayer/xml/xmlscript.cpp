@@ -1460,7 +1460,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csStringID id = ArgToID (a_arg);
 	  size_t si = stack.Push (celXmlArg ());
 	  if (!params)
-	    return ReportError (cbl, "No parameters were supplied while calling this event!");
+	    return ReportError (cbl,
+		"No parameters were supplied while calling this event!");
 	  const celData* data = params->GetParameter (id);
 	  if (!data)
 	    return ReportError (cbl, "Can't find parameter!");
