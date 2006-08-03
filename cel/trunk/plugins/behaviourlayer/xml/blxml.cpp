@@ -92,6 +92,7 @@ enum
   XMLTOKEN_TRACEOFF,
   XMLTOKEN_SELECTENTITY,
   XMLTOKEN_STOP,
+  XMLTOKEN_EXIT,
   XMLTOKEN_RANDOMIZE,
   XMLTOKEN_QUIT,
 
@@ -246,6 +247,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("callstack", XMLTOKEN_CALLSTACK);
   xmltokens.Register ("selectentity", XMLTOKEN_SELECTENTITY);
   xmltokens.Register ("stop", XMLTOKEN_STOP);
+  xmltokens.Register ("exit", XMLTOKEN_EXIT);
   xmltokens.Register ("randomize", XMLTOKEN_RANDOMIZE);
   xmltokens.Register ("quit", XMLTOKEN_QUIT);
 
@@ -1974,6 +1976,9 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_STOP:
         h->AddOperation (CEL_OPERATION_END);
+        break;
+      case XMLTOKEN_EXIT:
+        h->AddOperation (CEL_OPERATION_EXIT);
         break;
       case XMLTOKEN_RANDOMIZE:
         h->AddOperation (CEL_OPERATION_RANDOMIZE);

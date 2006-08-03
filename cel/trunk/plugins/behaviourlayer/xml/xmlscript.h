@@ -67,6 +67,7 @@ class celVariableParameterBlock;
 enum
 {
   CEL_OPERATION_END = 0,	// A:-		S:-		OS:-
+  CEL_OPERATION_EXIT,		// A:-		S:-		OS:-
   CEL_OPERATION_CALLSTACK,	// A:-		S:-		OS:-
   CEL_OPERATION_VARIABLES,	// A:-		S:-		OS:-
   CEL_OPERATION_TRACEON,	// A:-		S:-		OS:-
