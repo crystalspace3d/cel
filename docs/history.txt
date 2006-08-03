@@ -11,6 +11,12 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added new 'fullposition' property to pcmesh.
 	- Jorrit removed 'exit' again. Apparently there was already
 	  a 'quit' operation.
+	- Jorrit added a new pcdamage property class. This is a class
+	  that is responsible for emitting damage to other entities.
+	  Currently it supports area, beam, and single point damage.
+	  It supports linear, normal (inverse), and constant damage
+	  falloff. It will send a message (pcdamage_hurt) to all
+	  affected entities.
         - cfraz89 changed floats to longs in pcwheeled gear xml.
 2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
