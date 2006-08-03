@@ -55,7 +55,7 @@ struct iPcCharacteristics : public virtual iBase
    * of inventory for a characteristic ('factor' and 'add' equal to 0).
    * The value of this characteristic of the inventory will
    * be multiplied with 'factor' and added to 'add'.
-   * <p>
+   *
    * This function can fail if the new properties cause the
    * current contents to fail.
    */

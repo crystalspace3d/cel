@@ -158,10 +158,10 @@ struct iCelPropertyClassTemplate : public iBase
    * this generic interface to properties is provided. It is always
    * faster and more efficient to set properties directly but this system
    * is usable in general.
-   * <p>
+   *
    * This function returns false if the property could
    * not be set for some reason.
-   * <p>
+   *
    * The physical layer maintains a registry of ID's to use. The convention
    * is to use property names like: 'cel.property.num'.
    */

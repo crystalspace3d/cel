@@ -28,22 +28,18 @@ SCF_VERSION (iPcTimer, 0, 0, 1);
 
 /**
  * Timer propery class.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>WakeUp: parameters 'time' (long) and 'repeat' (bool).
- * <li>WakeUpFrame: no parameters.
- * <li>Clear: no parameters.
- * </ul>
- * <p>
+ * - WakeUp: parameters 'time' (long) and 'repeat' (bool).
+ * - WakeUpFrame: no parameters.
+ * - Clear: no parameters.
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pctimer_wakeup: wakeup message
- * <li>pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
- * </ul>
+ * - pctimer_wakeup: wakeup message
+ * - pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
  */
 struct iPcTimer : public iBase
 {

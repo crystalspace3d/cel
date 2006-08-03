@@ -26,31 +26,25 @@
 /**
  * This is a projectile property class. This class controls movement
  * of a projectile from one spot to another (or in some direction).
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcprojectile_stopped: the projectile movement has stopped but no object
+ * - pcprojectile_stopped: the projectile movement has stopped but no object
  *     was hit.
- * <li>pcprojectile_hit: we hit some object (entity, intersection). If we
+ * - pcprojectile_hit: we hit some object (entity, intersection). If we
  *     hit a mesh that is not an entity then this message will still be sent
  *     but with entity equal to 0.
- * </ul>
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Start: start movement in some direction. Parameters 'direction'
+ * - Start: start movement in some direction. Parameters 'direction'
  *     (vector3), 'speed' (float), 'maxdist' (float), and 'maxhits' (long).
- * <li>Interrupt: interrupt the current movement.
- * </ul>
- * <p>
+ * - Interrupt: interrupt the current movement.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>moving (bool, read only): returns true if currently moving.
- * </ul>
+ * - moving (bool, read only): returns true if currently moving.
  */
 struct iPcProjectile : public virtual iBase
 {

@@ -54,66 +54,81 @@ struct iPcNewCamera;
 
 struct iCelCameraMode
 {
-  /** Tells the camera mode what camera has it attached.
-   *  \param camera 	The parent camera.
+  /**
+   * Tells the camera mode what camera has it attached.
+   * \param camera The parent camera.
    */
   virtual void SetParentCamera(iPcNewCamera * camera) = 0;
 
-  /** Decides if this camera mode should use spring physics for the camera's position.
-   *  \return 	True if this camera mode uses spring physics.
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * position.
+   * \return True if this camera mode uses spring physics.
    */
   virtual bool UseSpringPos() const = 0;
 
-  /** Decides if this camera mode should use spring physics for the camera's target.
-   *  \return 	True if this camera mode uses spring physics.
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * target.
+   * \return True if this camera mode uses spring physics.
    */
   virtual bool UseSpringTarget() const = 0;
 
-  /** Decides if this camera mode should use spring physics for the camera's up vector.
-   *  \return 	True if this camera mode uses spring physics.
+  /**
+   * Decides if this camera mode should use spring physics for the camera's
+   * up vector.
+   * \return True if this camera mode uses spring physics.
    */
   virtual bool UseSpringUp() const = 0;
 
-  /** Decides if collision detection should be allowed if for this mode the camera wants it.
-   *  \return   True if this camera mode allows collision detection.
+  /**
+   * Decides if collision detection should be allowed if for this mode the
+   * camera wants it.
+   * \return True if this camera mode allows collision detection.
    */
   virtual bool AllowCollisionDetection() const = 0;
 
   /** 
    * Decides if the mesh the camera is attached to should be drawn or not in
    * this mode.
-   * \return 	True if the attached mesh should be drawn.
+   * \return True if the attached mesh should be drawn.
    */
   virtual bool DrawAttachedMesh() const = 0;
   
-  /** Gets the spring coefficient to use for the spring physics.
-   *  \return 	The spring coefficient of this camera mode.
+  /**
+   * Gets the spring coefficient to use for the spring physics.
+   * \return The spring coefficient of this camera mode.
    */
   virtual float GetSpringCoefficient() const = 0;
 
-  /** Gets the desired camera position.
-   *  \return 	The desired camera position.
+  /**
+   * Gets the desired camera position.
+   * \return The desired camera position.
    */
   virtual const csVector3 & GetPosition() const = 0;
 
-  /** Gets the desired camera target.
-   *  \return 	The desired camera target.
+  /**
+   * Gets the desired camera target.
+   * \return The desired camera target.
    */
   virtual const csVector3 & GetTarget() const = 0;
   
-  /** Gets the desired camera up vector.
-   *  \return 	The desired camera up vector.
+  /**
+   * Gets the desired camera up vector.
+   * \return The desired camera up vector.
    */
   virtual const csVector3 & GetUp() const = 0;
 
-  /** Informs the camera mode that it should compute the desired position,
-   *  target, up, etc. of the camera now.
-   *  \return 	True on success.
+  /**
+   * Informs the camera mode that it should compute the desired position,
+   * target, up, etc. of the camera now.
+   * \return True on success.
    */
   virtual bool DecideCameraState() = 0; 
 };
 
 SCF_VERSION(iPcNewCamera, 0, 0, 1);
+
 /**
  * This is a camera property class.
  */
@@ -121,43 +136,43 @@ struct iPcNewCamera : public iPcCamera
 {
   /**
    * Gets the base position of the camera in world coordinates.
-   * \return 	The base position of the camera in world coordinates.
+   * \return The base position of the camera in world coordinates.
    */
   virtual const csVector3 & GetBasePos() const = 0;
 
   /**
    * Gets the base direction of the camera.
-   * \return 	The base direction of the camera.
+   * \return The base direction of the camera.
    */
   virtual const csVector3 & GetBaseDir() const = 0;
 
   /** 
    * Gets the base up vector of the camera.
-   * \return 	The base up vector of the camera.
+   * \return The base up vector of the camera.
    */
   virtual const csVector3 & GetBaseUp() const = 0;
 
   /**
    * Gets the base transform of the camera.
-   * \return	The base transform of the camera.
+   * \return The base transform of the camera.
    */
   virtual const csReversibleTransform & GetBaseTrans() const = 0;
 
   /**
    * Gets the current position of the camera.
-   * \return    The current position of the camera.
+   * \return The current position of the camera.
    */
   virtual const csVector3 & GetPos() const = 0;
 
   /**
    * Gets the current target of the camera.
-   * \return    The current target of the camera.
+   * \return The current target of the camera.
    */
   virtual const csVector3 & GetTarget() const = 0;
 
   /**
    * Gets the current up vector of the camera.
-   * \return    The current up vector of the camera.
+   * \return The current up vector of the camera.
    */
   virtual const csVector3 & GetUp() const = 0;
 
@@ -170,13 +185,15 @@ struct iPcNewCamera : public iPcCamera
   virtual void SetPositionOffset(const csVector3 & offset) = 0;
 
   /**
-   * Returns whether the camera will use collision detection to avoid moving through walls.
+   * Returns whether the camera will use collision detection to avoid moving
+   * through walls.
    * \return True if collision detection is enabled.
    */
   virtual bool DetectCollisions() const = 0;
 
   /**
-   * Sets whether the camera will use collision detection to avoid moving through walls.
+   * Sets whether the camera will use collision detection to avoid
+   * moving through walls.
    * \param detectCollisions True if the camera should detect collisions.
    */
   virtual void SetCollisionDetection(bool detectCollisions) = 0;
@@ -215,69 +232,78 @@ struct iPcNewCamera : public iPcCamera
   virtual float GetTransitionSpringCoefficient() const = 0;
 
   /**
-   * If the distance between the current camera position and the new camera mode
-   * is within this cutoff distance, then the camera will cease to be in a transition
-   * and be in the new camera mode.
-   * \param cutOffPosDist The camera transition mode cutoff distance from position to position.
-   * \param cutOffTargetDist The camera transition mode cutoff distance from target to target.
+   * If the distance between the current camera position and the new camera
+   * mode is within this cutoff distance, then the camera will cease to be
+   * in a transition and be in the new camera mode.
+   * \param cutOffPosDist The camera transition mode cutoff distance from
+   * position to position.
+   * \param cutOffTargetDist The camera transition mode cutoff distance from
+   * target to target.
    */
-  virtual void SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist) = 0;
+  virtual void SetTransitionCutoffDistance(float cutOffPosDist,
+      float cutOffTargetDist) = 0;
 
   /**
-   * Grabs the camera transition cutoff distance from position to position between the camera 
-   * and the camera mode.
+   * Grabs the camera transition cutoff distance from position to position
+   * between the camera and the camera mode.
    * \return The camera transition cutoff distance from target to target.
    */
   virtual float GetTransitionCutoffPosDistance() const = 0;
 
   /**
-   * Grabs the camera transition cutoff distance from target to target between the camera 
-   * and the camera mode.
+   * Grabs the camera transition cutoff distance from target to target
+   * between the camera and the camera mode.
    * \return The camera transition cutoff distance from position to position.
    */
   virtual float GetTransitionCutoffTargetDistance() const = 0;
 
-  /** Attaches a camera mode to this camera.
-   *  \param mode 	The camera mode to attach.
-   *  \return 		A unique id for the attached camera mode.
+  /**
+   * Attaches a camera mode to this camera.
+   * \param mode The camera mode to attach.
+   * \return A unique id for the attached camera mode.
    */
   virtual size_t AttachCameraMode(iCelCameraMode * mode) = 0;
 
-  typedef enum _CEL_CAMERA_MODE
+  enum CEL_CAMERA_MODE
   {
     CCM_FIRST_PERSON,
     CCM_THIRD_PERSON,
-
     CCM_COUNT
-  } CEL_CAMERA_MODE;
+  };
 
-  /** Attaches a built-in camera mode to this camera.
-   *  \param mode 	The id of the built-in camera mode to attach.
-   *  \return 		A unique id for the attached camera mode.
+  /**
+   * Attaches a built-in camera mode to this camera.
+   * \param mode The id of the built-in camera mode to attach.
+   * \return A unique id for the attached camera mode.
    */
   virtual size_t AttachCameraMode(CEL_CAMERA_MODE mode) = 0;
 
-  /** Gets the index of the current camera mode.
-   *  \return 	The index of the current camera mode.
+  /**
+   * Gets the index of the current camera mode.
+   * \return The index of the current camera mode.
    */
   virtual size_t GetCurrentCameraModeIndex() const = 0;
 
-  /** Gets the current camera mode.
-   *  \return 	The current camera mode.
+  /**
+   * Gets the current camera mode.
+   * \return The current camera mode.
    */
   virtual iCelCameraMode * GetCurrentCameraMode() = 0;
 
-  /** Sets the current camera mode.
-   *  \param modeIndex 	The index of the current camera mode.
-   *  \return 		True on successful camera mode change.
+  /**
+   * Sets the current camera mode.
+   * \param modeIndex The index of the current camera mode.
+   * \return 	True on successful camera mode change.
    */
   virtual bool SetCurrentCameraMode(size_t modeIndex) = 0;
 
-  /** Sets the current camera mode to the next available mode.
+  /**
+   * Sets the current camera mode to the next available mode.
    */
   virtual void NextCameraMode() = 0;
 
-  /** Sets the current camera mode to the previous available mode.
+  /**
+   * Sets the current camera mode to the previous available mode.
    */
   virtual void PrevCameraMode() = 0;
 

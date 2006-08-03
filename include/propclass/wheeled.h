@@ -54,15 +54,15 @@ struct iPcWheeled : public virtual iBase
 
   /**
    *  Set the mesh to use for the wheels.
-   *  @param file VFS path to the file which contains the wheel's factory.
+   *  \param file VFS path to the file which contains the wheel's factory.
    *    If 0, it is assumed the factory has already been loaded.
-   *  @param factname The name of the factory to use for wheel meshes.
+   *  \param factname The name of the factory to use for wheel meshes.
    */
   virtual void SetWheelMesh(const char* file, const char* factname) = 0;
 
   /**
    * Set if tank steering is enabled vehicle.
-   *  @param tankmode Whether tank steering is enabled or not.
+   *  \param tankmode Whether tank steering is enabled or not.
    */
   virtual void SetTankMode(bool tankmode) = 0;
 
@@ -104,7 +104,7 @@ struct iPcWheeled : public virtual iBase
 
   /**
    * Destroy a wheel on the car, and delete it from the layout. It
-   *  @param wheelnum Index of the wheel to delete.
+   *  \param wheelnum Index of the wheel to delete.
    */
   virtual void DeleteWheel(int wheelnum) = 0;
 

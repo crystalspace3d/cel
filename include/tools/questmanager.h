@@ -99,7 +99,7 @@ struct iQuestTriggerCallback : public virtual iBase
  * be able to use your own trigger implementations you must also make
  * associated trigger factories which you then register with the quest
  * manager. See iQuestTriggerFactory.
- * <p>
+ *
  * Triggers must start in deactivated state. They will be activated by
  * the quest when the 'state' containing this trigger is activated.
  */
@@ -630,29 +630,27 @@ struct iQuestManager : public virtual iBase
    * by quests to decide when to go to another state or when
    * to activate a reward. Returns false on failure (trigger
    * type with that name already exists).
-   * <p>
+   *
    * The following predefined trigger types are automatically
    * registered in the quest manager:
-   * <ul>
-   * <li>cel.questtrigger.entersector: triggers when a camera (from
-   *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
-   * <li>cel.questtrigger.meshentersector: triggers when a mesh (from
-   *     entity) enters a sector. See iEnterSectorQuestTriggerFactory.
-   * <li>cel.questtrigger.timeout: triggers after a specified time.
-   *     See iTimeoutQuestTriggerFactory.
-   * <li>cel.questtrigger.propertychange: triggers when a property changes.
-   *     See iPropertyChangeQuestTriggerFactory.
-   * <li>cel.questtrigger.sequencefinish: triggers when a sequence finishes.
-   *     See iSequenceFinishQuestTriggerFactory.
-   * <li>cel.questtrigger.trigger: triggers when a pctrigger fires.
-   *     See iTriggerQuestTriggerFactory.
-   * <li>cel.questtrigger.inventory: triggers when an object enters inventory.
-   *     See iInventoryQuestTriggerFactory.
-   * <li>cel.questtrigger.meshselect: triggers when a mesh is selected.
-   *     See iMeshSelectQuestTriggerFactory.
-   * <li>cel.questtrigger.watch: triggers when a mesh becomes visible.
-   *     See iWatchQuestTriggerFactory.
-   * </ul>
+   * - cel.questtrigger.entersector: triggers when a camera (from
+   *   entity) enters a sector. See iEnterSectorQuestTriggerFactory.
+   * - cel.questtrigger.meshentersector: triggers when a mesh (from
+   *   entity) enters a sector. See iEnterSectorQuestTriggerFactory.
+   * - cel.questtrigger.timeout: triggers after a specified time.
+   *   See iTimeoutQuestTriggerFactory.
+   * - cel.questtrigger.propertychange: triggers when a property changes.
+   *   See iPropertyChangeQuestTriggerFactory.
+   * - cel.questtrigger.sequencefinish: triggers when a sequence finishes.
+   *   See iSequenceFinishQuestTriggerFactory.
+   * - cel.questtrigger.trigger: triggers when a pctrigger fires.
+   *   See iTriggerQuestTriggerFactory.
+   * - cel.questtrigger.inventory: triggers when an object enters inventory.
+   *   See iInventoryQuestTriggerFactory.
+   * - cel.questtrigger.meshselect: triggers when a mesh is selected.
+   *   See iMeshSelectQuestTriggerFactory.
+   * - cel.questtrigger.watch: triggers when a mesh becomes visible.
+   *   See iWatchQuestTriggerFactory.
    */
   virtual bool RegisterTriggerType (iQuestTriggerType* trigger) = 0;
 
@@ -667,29 +665,27 @@ struct iQuestManager : public virtual iBase
    * by quests to give out some kind of reward to the game.
    * Returns false on failure (reward type with that name
    * already exists).
-   * <p>
+   *
    * The following predefined reward types are automatically
    * registered in the quest manager:
-   * <ul>
-   * <li>cel.questreward.debugprint: print a debug message on stdout.
-   *     See iDebugPrintQuestRewardFactory.
-   * <li>cel.questreward.newstate: switch to a new state.
-   *     See iNewStateQuestRewardFactory.
-   * <li>cel.questreward.changeproperty: change a property.
-   *     See iChangePropertyQuestRewardFactory.
-   * <li>cel.questreward.inventory: manipulate inventory.
-   *     See iInventoryQuestRewardFactory.
-   * <li>cel.questreward.sequence: fire sequence.
-   *     See iSequenceQuestRewardFactory.
-   * <li>cel.questreward.sequencefinish: finish sequence.
-   *     See iSequenceFinishQuestRewardFactory.
-   * <li>cel.questreward.message: send a message to some entity.
-   *     See iMessageQuestRewardFactory.
-   * <li>cel.questreward.action: send an action to some property class
-   *     on an entity. See iActionQuestRewardFactory.
-   * <li>cel.questreward.destroyentity: remove an entity from the physical.
-   *     layer. See iDestroyEntityQuestRewardFactory.
-   * </ul>
+   * - cel.questreward.debugprint: print a debug message on stdout.
+   *   See iDebugPrintQuestRewardFactory.
+   * - cel.questreward.newstate: switch to a new state.
+   *   See iNewStateQuestRewardFactory.
+   * - cel.questreward.changeproperty: change a property.
+   *   See iChangePropertyQuestRewardFactory.
+   * - cel.questreward.inventory: manipulate inventory.
+   *   See iInventoryQuestRewardFactory.
+   * - cel.questreward.sequence: fire sequence.
+   *   See iSequenceQuestRewardFactory.
+   * - cel.questreward.sequencefinish: finish sequence.
+   *   See iSequenceFinishQuestRewardFactory.
+   * - cel.questreward.message: send a message to some entity.
+   *   See iMessageQuestRewardFactory.
+   * - cel.questreward.action: send an action to some property class
+   *   on an entity. See iActionQuestRewardFactory.
+   * - cel.questreward.destroyentity: remove an entity from the physical.
+   *   layer. See iDestroyEntityQuestRewardFactory.
    */
   virtual bool RegisterRewardType (iQuestRewardType* trigger) = 0;
 
@@ -704,19 +700,17 @@ struct iQuestManager : public virtual iBase
    * by quest sequences to define operations in the sequence.
    * Returns false on failure (swqop type with that name
    * already exists).
-   * <p>
+   *
    * The following predefined sequence operation types are automatically
    * registered in the quest manager:
-   * <ul>
-   * <li>cel.questseqop.debugprint: print a debug message on stdout.
-   *     See iDebugPrintQuestSeqOpFactory.
-   * <li>cel.questseqop.transform: transform a mesh.
-   *     See iTransformQuestSeqOpFactory.
-   * <li>cel.questseqop.movepath: move a mesh along a path.
-   *     See iMovePathQuestSeqOpFactory.
-   * <li>cel.questseqop.light: animate a light color.
-   *     See iLightQuestSeqOpFactory.
-   * </ul>
+   * - cel.questseqop.debugprint: print a debug message on stdout.
+   *   See iDebugPrintQuestSeqOpFactory.
+   * - cel.questseqop.transform: transform a mesh.
+   *   See iTransformQuestSeqOpFactory.
+   * - cel.questseqop.movepath: move a mesh along a path.
+   *   See iMovePathQuestSeqOpFactory.
+   * - cel.questseqop.light: animate a light color.
+   *   See iLightQuestSeqOpFactory.
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
 
@@ -876,13 +870,11 @@ struct iQuestManager : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is 'cel.questtrigger.timeout'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>timeout</em>: timeout value.
- * </ul>
+ * - <em>timeout</em>: timeout value.
  */
 struct iTimeoutQuestTriggerFactory : public virtual iBase
 {
@@ -902,21 +894,19 @@ struct iTimeoutQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is
  * 'cel.questtrigger.propertychange'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pcproperties property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>property</em>: the name of the property.
- * <li><em>value</em>: the value on which this trigger will fire. If this
- *     value is not given then the trigger will fire whenever the value
- *     changes.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pcproperties property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>property</em>: the name of the property.
+ * - <em>value</em>: the value on which this trigger will fire. If this
+ *   value is not given then the trigger will fire whenever the value
+ *   changes.
  */
 struct iPropertyChangeQuestTriggerFactory : public virtual iBase
 {
@@ -954,17 +944,15 @@ struct iPropertyChangeQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is
  * 'cel.questtrigger.meshselect'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pcmeshselect property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pcmeshselect property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
  */
 struct iMeshSelectQuestTriggerFactory : public virtual iBase
 {
@@ -987,20 +975,18 @@ struct iMeshSelectQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is
  * 'cel.questtrigger.inventory'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pcinventory property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>child_entity</em>: the name of the entity to watch for. If this
- *     is not given then you will get triggere whenever something is
- *     added or removed from the inventory.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pcinventory property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>child_entity</em>: the name of the entity to watch for. If this
+ *   is not given then you will get triggere whenever something is
+ *   added or removed from the inventory.
  */
 struct iInventoryQuestTriggerFactory : public virtual iBase
 {
@@ -1032,21 +1018,19 @@ struct iInventoryQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is 'cel.questtrigger.entersector'
  * for the version that listens to camera changes and
  * 'cel.questtrigger.meshentersector' for the version that listens to mesh
  * changes.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pccamera or pcmesh property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>sector</em>: the name of the sector. As soon as the camera
- *     or mesh enters that sector this trigger will fire.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pccamera or pcmesh property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sector</em>: the name of the sector. As soon as the camera
+ *   or mesh enters that sector this trigger will fire.
  */
 struct iEnterSectorQuestTriggerFactory : public virtual iBase
 {
@@ -1077,18 +1061,16 @@ struct iEnterSectorQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is
  * 'cel.questtrigger.sequencefinish'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pcquest property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>sequence</em>: the name of the sequence on which to listen.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pcquest property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sequence</em>: the name of the sequence on which to listen.
  */
 struct iSequenceFinishQuestTriggerFactory : public virtual iBase
 {
@@ -1118,18 +1100,16 @@ struct iSequenceFinishQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is 'cel.questtrigger.trigger'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity that contains the
- *     pctrigger property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>leave</em>: if present the trigger will register on 'leaves' instead
- *     of 'enters'.
- * </ul>
+ * - <em>entity</em>: the name of the entity that contains the
+ *   pctrigger property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>leave</em>: if present the trigger will register on 'leaves' instead
+ *   of 'enters'.
  */
 struct iTriggerQuestTriggerFactory : public virtual iBase
 {
@@ -1158,23 +1138,21 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
  * from the trigger factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this trigger type is 'cel.questtrigger.watch'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'fireon' node:
- * <ul>
- * <li><em>entity</em>: the name of the source entity that is watching
- *     out for other entity. This should contain a pcmesh to get a position
- *     from.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>target</em>: the name of the target entity to watch. This
- *     should contain a pcmesh to get a position from.
- * <li><em>target_tag</em>: optional tag used to find the right property
- *     class from the target entity.
- * <li><em>checktime</em>: optional tag to specify the check interval.
- * <li><em>radius</em>: optional tag to specify the maximum radius.
- * </ul>
+ * - <em>entity</em>: the name of the source entity that is watching
+ *   out for other entity. This should contain a pcmesh to get a position
+ *   from.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>target</em>: the name of the target entity to watch. This
+ *   should contain a pcmesh to get a position from.
+ * - <em>target_tag</em>: optional tag used to find the right property
+ *   class from the target entity.
+ * - <em>checktime</em>: optional tag to specify the check interval.
+ * - <em>radius</em>: optional tag to specify the maximum radius.
  */
 struct iWatchQuestTriggerFactory : public virtual iBase
 {
@@ -1229,13 +1207,11 @@ struct iWatchQuestTriggerFactory : public virtual iBase
  * from the reward factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.debugprint'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'reward' node:
- * <ul>
- * <li><em>message</em>: the message to print.
- * </ul>
+ * - <em>message</em>: the message to print.
  */
 struct iDebugPrintQuestRewardFactory : public virtual iBase
 {
@@ -1254,17 +1230,15 @@ struct iDebugPrintQuestRewardFactory : public virtual iBase
  * from the reward factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.newstate'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'reward' node:
- * <ul>
- * <li><em>state</em>: the new state.
- * <li><em>entity</em>: the name of the entity containing the
- *     pcquest property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * </ul>
+ * - <em>state</em>: the new state.
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcquest property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
  */
 struct iNewStateQuestRewardFactory : public virtual iBase
 {
@@ -1296,24 +1270,22 @@ struct iNewStateQuestRewardFactory : public virtual iBase
  * from the reward factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.changeproperty'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'reward' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the
- *     pcproperties property class.
- * <li><em>pc</em>: the name of the property class. If this is not
- *     given then pcproperties is used.
- * <li><em>tag</em>: used together with 'pc' to specify an optional tag.
- * <li><em>property</em>: the name of the property.
- * <li><em>string</em>: the new string value of the property.
- * <li><em>long</em>: the new long value of the property.
- * <li><em>float</em>: the new float value of the property.
- * <li><em>bool</em>: the new bool value of the property.
- * <li><em>diff</em>: this long or float value will be added to the property.
- * <li><em>toggle</em>: toggle the boolean or long value.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcproperties property class.
+ * - <em>pc</em>: the name of the property class. If this is not
+ *   given then pcproperties is used.
+ * - <em>tag</em>: used together with 'pc' to specify an optional tag.
+ * - <em>property</em>: the name of the property.
+ * - <em>string</em>: the new string value of the property.
+ * - <em>long</em>: the new long value of the property.
+ * - <em>float</em>: the new float value of the property.
+ * - <em>bool</em>: the new bool value of the property.
+ * - <em>diff</em>: this long or float value will be added to the property.
+ * - <em>toggle</em>: toggle the boolean or long value.
  */
 struct iChangePropertyQuestRewardFactory : public virtual iBase
 {
@@ -1386,21 +1358,19 @@ struct iChangePropertyQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.inventory'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'reward' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the
- *     pcinventory property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>child_entity</em>: the name of the entity that will
- *     be added to or removed from the inventory.
- * <li><em>child_entity_tag</em>: optional tag used to find the right
- *     property class from the entity. This will be used to find the
- *     pcmesh for hiding the mesh.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcinventory property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>child_entity</em>: the name of the entity that will
+ *   be added to or removed from the inventory.
+ * - <em>child_entity_tag</em>: optional tag used to find the right
+ *   property class from the entity. This will be used to find the
+ *   pcmesh for hiding the mesh.
  */
 struct iInventoryQuestRewardFactory : public virtual iBase
 {
@@ -1423,7 +1393,6 @@ struct iInventoryQuestRewardFactory : public virtual iBase
    */
   virtual void SetChildEntityParameter (const char* entity,
   	const char* tag = 0) = 0;
-
 };
 
 /**
@@ -1431,18 +1400,16 @@ struct iInventoryQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.sequence'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the
- *     pcquest property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>sequence</em>: the name of the sequence.
- * <li><em>delay</em>: delay before we start the sequence. Default is 0.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcquest property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sequence</em>: the name of the sequence.
+ * - <em>delay</em>: delay before we start the sequence. Default is 0.
  */
 struct iSequenceQuestRewardFactory : public virtual iBase
 {
@@ -1477,17 +1444,15 @@ struct iSequenceQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.sequencefinish'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the
- *     pcquest property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>sequence</em>: the name of the sequence.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the
+ *   pcquest property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>sequence</em>: the name of the sequence.
  */
 struct iSequenceFinishQuestRewardFactory : public virtual iBase
 {
@@ -1517,14 +1482,12 @@ struct iSequenceFinishQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.message'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity to send the message too.
- * <li><em>id</em>: id of the message to send.
- * </ul>
+ * - <em>entity</em>: the name of the entity to send the message too.
+ * - <em>id</em>: id of the message to send.
  */
 struct iMessageQuestRewardFactory : public virtual iBase
 {
@@ -1562,16 +1525,14 @@ struct iMessageQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.action'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity to send the action to.
- * <li><em>id</em>: name of the action to activate.
- * <li><em>pc</em>: the name of the property class to send the action to.
- * <li><em>tag</em>: the tag of the property class to send the action to.
- * </ul>
+ * - <em>entity</em>: the name of the entity to send the action to.
+ * - <em>id</em>: name of the action to activate.
+ * - <em>pc</em>: the name of the property class to send the action to.
+ * - <em>tag</em>: the tag of the property class to send the action to.
  */
 struct iActionQuestRewardFactory : public virtual iBase
 {
@@ -1622,13 +1583,11 @@ struct iActionQuestRewardFactory : public virtual iBase
  * You can query this interface from the reward factory if you want
  * to manually control this factory as opposed to loading its definition
  * from an XML document.
- * <p>
+ *
  * The predefined name of this reward type is 'cel.questreward.destroyentity'.
- * <p>
+ *
  * In XML, factories recognize the following attribute on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity to send the message too.
- * </ul>
+ * - <em>entity</em>: the name of the entity to send the message too.
  */
 struct iDestroyEntityQuestRewardFactory : public virtual iBase
 {
@@ -1653,13 +1612,11 @@ struct iDestroyEntityQuestRewardFactory : public virtual iBase
  * from the seqop factory if you want to manually control
  * this factory as opposed to loading its definition from an XML
  * document.
- * <p>
+ *
  * The predefined name of this seqop type is 'cel.questseqop.debugprint'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>message</em>: the message to print.
- * </ul>
+ * - <em>message</em>: the message to print.
  */
 struct iDebugPrintQuestSeqOpFactory : public virtual iBase
 {
@@ -1677,25 +1634,23 @@ struct iDebugPrintQuestSeqOpFactory : public virtual iBase
  * You can query this interface from the seqop factory if
  * you want to manually control this factory as opposed to loading
  * its definition from an XML document.
- * <p>
+ *
  * The predefined name of this seqop type is 'cel.questseqop.transform'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the pcmesh
- *     property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>v</em>: optional movement vector.
- *     This node has 'x', 'y, and 'z' attributes. Each of these attributes
- *     can be a parameter.
- * <li><em>rotx</em>: optional rotation along x axis. This node has
- *     an 'angle' parameter in radians. Angle can be a parameter.
- * <li><em>roty</em>: optional rotation along y axis. This node has
- *     an 'angle' parameter in radians. Angle can be a parameter.
- * <li><em>rotz</em>: optional rotation along z axis. This node has
- *     an 'angle' parameter in radians. Angle can be a parameter.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the pcmesh
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>v</em>: optional movement vector.
+ *   This node has 'x', 'y, and 'z' attributes. Each of these attributes
+ *   can be a parameter.
+ * - <em>rotx</em>: optional rotation along x axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
+ * - <em>roty</em>: optional rotation along y axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
+ * - <em>rotz</em>: optional rotation along z axis. This node has
+ *   an 'angle' parameter in radians. Angle can be a parameter.
  */
 struct iTransformQuestSeqOpFactory : public virtual iBase
 {
@@ -1728,21 +1683,19 @@ struct iTransformQuestSeqOpFactory : public virtual iBase
  * a path. You can query this interface from the seqop factory if
  * you want to manually control this factory as opposed to loading
  * its definition from an XML document.
- * <p>
+ *
  * The predefined name of this seqop type is 'cel.questseqop.movepath'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the pcmesh
- *     property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li>several <em>pathnode</em> tags: one for every node with the following
- *     attributes: sector, node, and time. All of those can be a parameter.
- *     The 'node' refers to a node object in the given sector from which
- *     the position, up ('yvector'), and forward ('zvector') will be used.
- *     'time' should be an increasing time value.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the pcmesh
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - several <em>pathnode</em> tags: one for every node with the following
+ *   attributes: sector, node, and time. All of those can be a parameter.
+ *   The 'node' refers to a node object in the given sector from which
+ *   the position, up ('yvector'), and forward ('zvector') will be used.
+ *   'time' should be an increasing time value.
  */
 struct iMovePathQuestSeqOpFactory : public virtual iBase
 {
@@ -1774,22 +1727,20 @@ struct iMovePathQuestSeqOpFactory : public virtual iBase
  * You can query this interface from the seqop factory if
  * you want to manually control this factory as opposed to loading
  * its definition from an XML document.
- * <p>
+ *
  * The predefined name of this seqop type is 'cel.questseqop.light'.
- * <p>
+ *
  * In XML, factories recognize the following attributes on the 'op' node:
- * <ul>
- * <li><em>entity</em>: the name of the entity containing the pclight
- *     property class.
- * <li><em>entity_tag</em>: optional tag used to find the right
- *     property class from the entity.
- * <li><em>relcolor</em>: relative color animation vector.
- *     This node has 'red', 'green, and 'blue' attributes. Each of these
- *     attributes can be a parameter.
- * <li><em>abscolor</em>: absolute color.
- *     This node has 'red', 'green, and 'blue' attributes. Each of these
- *     attributes can be a parameter.
- * </ul>
+ * - <em>entity</em>: the name of the entity containing the pclight
+ *   property class.
+ * - <em>entity_tag</em>: optional tag used to find the right
+ *   property class from the entity.
+ * - <em>relcolor</em>: relative color animation vector.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
+ * - <em>abscolor</em>: absolute color.
+ *   This node has 'red', 'green, and 'blue' attributes. Each of these
+ *   attributes can be a parameter.
  */
 struct iLightQuestSeqOpFactory : public virtual iBase
 {

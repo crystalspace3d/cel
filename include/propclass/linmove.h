@@ -59,31 +59,27 @@ struct iPcGravityCallback : public virtual iBase
  * manner. It should be used in combination with iPcMesh but otherwise
  * doesn't depend on any other property classes. So in that sense
  * it is unrelated to the other movement property classes.
- * <p>
+ *
  * This property class supports dead reckoning which is useful for
  * networking.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
+ * - InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
  *     (vector3).
- * <li>InitCDMesh: parameters 'percentage' (float).
- * <li>SetPosition: parameters 'sector' (string), 'position' (vector3 or
+ * - InitCDMesh: parameters 'percentage' (float).
+ * - SetPosition: parameters 'sector' (string), 'position' (vector3 or
  *     string (name of mapnode in that case)), and
  *     'yrot' (y rotation degrees).
- * <li>SetVelocity: parameters 'velocity' (vector3) in body coordinates.
- * <li>AddVelocity: parameters 'velocity' (vector3) in world coordinates.
- * <li>SetAngularVelocity: parameters 'velocity' (vector3).
- * </ul>
- * <p>
+ * - SetVelocity: parameters 'velocity' (vector3) in body coordinates.
+ * - AddVelocity: parameters 'velocity' (vector3) in world coordinates.
+ * - SetAngularVelocity: parameters 'velocity' (vector3).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>anchor (string, read/write): name of the entity on which we are
- * anchored.
- * </ul>
+ * - anchor (string, read/write): name of the entity on which we are
+ *   anchored.
  */
 struct iPcLinearMovement : public virtual iBase
 {
@@ -135,7 +131,7 @@ struct iPcLinearMovement : public virtual iBase
   virtual void ClearWorldVelocity () = 0;
 
 
-    /**
+  /**
    * Get the current velocity vector.
    */
   virtual void GetVelocity (csVector3& v) const = 0;
@@ -321,7 +317,7 @@ struct iPcLinearMovement : public virtual iBase
    * Shedules a callback when gravity has grasped an object
    * and is dragging it down. I.e, calls when the object changes
    * to negative Y velocity
-   * @param callback The callback object
+   * \param callback The callback object
    */
   virtual void AddGravityCallback (iPcGravityCallback* callback) = 0;
 

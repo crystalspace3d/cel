@@ -150,16 +150,14 @@ struct iCelInventorySpace : public virtual iBase
 
 /**
  * This is an inventory property class.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (possibly the behaviour of the child entity too):
  * (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcinventory_addchild: new child will be added (entity)
- * <li>pcinventory_added: this entity is added as a new child (entity)
- * <li>pcinventory_removechild: new child will be removed (entity)
- * <li>pcinventory_removed: this entity is removed (entity)
- * </ul>
+ * - pcinventory_addchild: new child will be added (entity)
+ * - pcinventory_added: this entity is added as a new child (entity)
+ * - pcinventory_removechild: new child will be removed (entity)
+ * - pcinventory_removed: this entity is removed (entity)
  */
 struct iPcInventory : public virtual iBase
 {
@@ -188,7 +186,7 @@ struct iPcInventory : public virtual iBase
    * the entity could not be added (capacity exceeded for example).
    * Note that it is safe to add entities that are already in the inventory.
    * Nothing will happen then and true will be returned.
-   * \params is a generic slot specification (used by iCelInventorySpace).
+   * \param params is a generic slot specification (used by iCelInventorySpace).
    */
   virtual bool AddEntity (iCelEntity* entity, iCelParameterBlock* params) = 0;
 
@@ -200,7 +198,7 @@ struct iPcInventory : public virtual iBase
   /**
    * Remove an entity on a slot using the space system. This can fail if
    * removing an entity causes an upstream inventory to fail its constraints.
-   * \params is a generic slot specification (used by iCelInventorySpace).
+   * \param params is a generic slot specification (used by iCelInventorySpace).
    * It can also contain additional information to specify which entity to
    * remove from some slot (if stacked items are supported).
    */
@@ -257,7 +255,7 @@ struct iPcInventory : public virtual iBase
    * characteristic. By default this is false
    * which means that the inventory will automatically assume
    * valid values when this characteristic is not present.
-   * <p>
+   *
    * This function can fail if this inventory already has
    * contents and entities in this inventory do not satisfy
    * the strict condition.
@@ -273,7 +271,7 @@ struct iPcInventory : public virtual iBase
    * Set the constraints for some characteristic. There is
    * a min and max value for one entity and also a total max
    * value for the entire inventory.
-   * <p>
+   *
    * This function can fail if the new constraints cause
    * current contents to be invalidated.
    */

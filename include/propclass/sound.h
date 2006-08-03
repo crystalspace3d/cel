@@ -30,24 +30,20 @@ struct iSndSysSource;
  * This is the sound listener property class. There can really be only
  * one listener at any moment. It represents the listener (i.e. player of the
  * game).
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetDirection: parameters 'front' (vector3), 'top' (vector3).
- * </ul>
- * <p>
+ * - SetDirection: parameters 'front' (vector3), 'top' (vector3).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>front (vector3, read/write): front direction.
- * <li>top (vector3, read/write): top direction.
- * <li>position (vector3, read/write): position.
- * <li>distancefactor (float, read/write): distance factor.
- * <li>rollofffactor (float, read/write): rolloff factor.
- * <li>headsize (float, read/write): headsize.
- * </ul>
+ * - front (vector3, read/write): front direction.
+ * - top (vector3, read/write): top direction.
+ * - position (vector3, read/write): position.
+ * - distancefactor (float, read/write): distance factor.
+ * - rollofffactor (float, read/write): rolloff factor.
+ * - headsize (float, read/write): headsize.
  */
 struct iPcSoundListener : public virtual iBase
 {
@@ -59,27 +55,23 @@ struct iPcSoundListener : public virtual iBase
 
 /*
  * This is the sound source property class.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Unpause: no parameters.
- * <li>Pause: no parameters.
- * </ul>
- * <p>
+ * - Unpause: no parameters.
+ * - Pause: no parameters.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>soundname (string, read/write): name of the sound that will be used.
- * <li>volume (float, read/write): 0=off, 1=normal, >1 is above normal.
- * <li>directionalradiation (float, read/write): directional radiation.
- * <li>position (vector3, read/write): position.
- * <li>minimumdistance (float, read/write): minimum play distance.
- * <li>maximumdistance (float, read/write): maximum play distance.
- * <li>loop (bool, read/write): true=loop, false=don't loop.
- * <li>follow (bool, read/write): follow own entity pcmesh (default off).
- * </ul>
+ * - soundname (string, read/write): name of the sound that will be used.
+ * - volume (float, read/write): 0=off, 1=normal, >1 is above normal.
+ * - directionalradiation (float, read/write): directional radiation.
+ * - position (vector3, read/write): position.
+ * - minimumdistance (float, read/write): minimum play distance.
+ * - maximumdistance (float, read/write): maximum play distance.
+ * - loop (bool, read/write): true=loop, false=don't loop.
+ * - follow (bool, read/write): follow own entity pcmesh (default off).
  */
 struct iPcSoundSource : public virtual iBase
 {

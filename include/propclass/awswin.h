@@ -27,27 +27,23 @@
 
 /**
  * This is the AWS Window property class.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcawswin_<trigger>: a specific trigger from AWS has been fired.
- * </ul>
- * <p>
+ * - pcawswin_<trigger>: a specific trigger from AWS has been fired.
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>LoadDefinitionFile: parameters 'filename' (string).
- * <li>SelectDefaultSkin: parameters 'name' (string).
- * <li>CreateWindow: parameters 'name' (string).
- * <li>CreateSink: parameters 'name' (string).
- * <li>RegisterTrigger: parameters 'trigger' (string).
- * <li>Show: no parameters.
- * <li>Hide: no parameters.
- * <li>Raise: no parameters.
- * <li>Lower: no parameters.
- * </ul>
+ * - LoadDefinitionFile: parameters 'filename' (string).
+ * - SelectDefaultSkin: parameters 'name' (string).
+ * - CreateWindow: parameters 'name' (string).
+ * - CreateSink: parameters 'name' (string).
+ * - RegisterTrigger: parameters 'trigger' (string).
+ * - Show: no parameters.
+ * - Hide: no parameters.
+ * - Raise: no parameters.
+ * - Lower: no parameters.
  */
 struct iPcAwsWindow : public virtual iBase
 {

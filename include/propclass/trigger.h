@@ -64,41 +64,35 @@ struct iPcTriggerListener : public virtual iBase
  * defined by this trigger. In that case it can send messages to the
  * entity that contains this property class and/or the entities
  * that enter/leave the trigger area.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetupTriggerSphere: parameters 'sector' (string),
+ * - SetupTriggerSphere: parameters 'sector' (string),
  *     'position' (vector3 or string (name of mapnode in that case)),
  *     and 'radius' (float).
- * <li>SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
+ * - SetupTriggerBox: parameters 'sector' (string), 'minbox' (vector3),
  *     and 'maxbox' (vector3).
- * <li>SetupTriggerBeam: parameters 'sector' (string), 'start' (vector3),
+ * - SetupTriggerBeam: parameters 'sector' (string), 'start' (vector3),
  *     and 'end' (vector3).
- * <li>SetupTriggerAboveMesh: parameters 'entity' (string) and
+ * - SetupTriggerAboveMesh: parameters 'entity' (string) and
  *     'maxdistance' (float),
- * </ul>
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pctrigger_entityenters: an entity enters this trigger (entity).
- * <li>pctrigger_entityleaves: an entity leaves this trigger (entity).
- * <li>pctrigger_entertrigger: this entity enters a trigger (entity).
- * <li>pctrigger_leavetrigger: this entity leaves a trigger (entity).
- * </ul>
- * <p>
+ * - pctrigger_entityenters: an entity enters this trigger (entity).
+ * - pctrigger_entityleaves: an entity leaves this trigger (entity).
+ * - pctrigger_entertrigger: this entity enters a trigger (entity).
+ * - pctrigger_leavetrigger: this entity leaves a trigger (entity).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>delay (long, read/write): update delay for checking trigger.
- * <li>jitter (long, read/write): random jitter added to update delay.
- * <li>monitor (string, read/write): name of entity to monitor.
- * <li>insivible (bool, read/write): also check on invisible entities
+ * - delay (long, read/write): update delay for checking trigger.
+ * - jitter (long, read/write): random jitter added to update delay.
+ * - monitor (string, read/write): name of entity to monitor.
+ * - insivible (bool, read/write): also check on invisible entities
  *     (default off).
- * <li>follow (bool, read/write): follow own entity pcmesh (default off).
- * </ul>
+ * - follow (bool, read/write): follow own entity pcmesh (default off).
  */
 struct iPcTrigger : public virtual iBase
 {

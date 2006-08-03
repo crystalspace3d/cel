@@ -29,36 +29,30 @@ struct iPcLinearMovement;
  * This is a mover property class. It works closely with pclinmove in order
  * to move an object from one position to another while checking collision
  * detection along the way.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcmover_impossible: don't even start the move: impossible.
- * <li>pcmover_stuck: can't move further.
- * <li>pcmover_arrived: arrived at final position.
- * <li>pcmover_interrupted: movement has been interrupted.
- * </ul>
- * <p>
+ * - pcmover_impossible: don't even start the move: impossible.
+ * - pcmover_stuck: can't move further.
+ * - pcmover_arrived: arrived at final position.
+ * - pcmover_interrupted: movement has been interrupted.
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Start: parameters 'sectorname' (string), 'position' (vector3),
+ * - Start: parameters 'sectorname' (string), 'position' (vector3),
  *     'up' (vector3), 'movespeed' (float), 'rotatespeed' (float),
  *     and 'sqradius' (float).
- * <li>Interrupt: interrupt the current movement.
- * </ul>
- * <p>
+ * - Interrupt: interrupt the current movement.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>position (vector3, read only): current end position.
- * <li>up (vector3, read only): current up vector.
- * <li>movespeed (float, read only): current movement speed.
- * <li>rotatespeed (float, read only): current rotation speed.
- * <li>sqradius (float, read/write): current squared radius.
- * <li>moving (bool, read only): returns true if currently moving.
- * </ul>
+ * - position (vector3, read only): current end position.
+ * - up (vector3, read only): current up vector.
+ * - movespeed (float, read only): current movement speed.
+ * - rotatespeed (float, read only): current rotation speed.
+ * - sqradius (float, read/write): current squared radius.
+ * - moving (bool, read only): returns true if currently moving.
  */
 struct iPcMover : public virtual iBase
 {

@@ -30,21 +30,17 @@ struct iRegion;
 
 /**
  * The representation of a region.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Load: no parameters.
- * </ul>
- * <p>
+ * - Load: no parameters.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>worlddir (string, read/write): the VFS directory of the world file.
- * <li>worldfile (string, read/write): the world filename.
- * <li>regionname (string, read/write): region name.
- * </ul>
+ * - worlddir (string, read/write): the VFS directory of the world file.
+ * - worldfile (string, read/write): the world filename.
+ * - regionname (string, read/write): region name.
  */
 struct iPcRegion : public virtual iBase
 {

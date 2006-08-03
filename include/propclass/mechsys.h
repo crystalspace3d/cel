@@ -40,18 +40,16 @@ struct iJoint;
 
 /**
  * Property class representing a dynamic system.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetSystem: parameters 'dynsys' (string).
- * <li>SetGravity: parameters 'gravity' (float).
- * <li>SetStepTime: parameters 'time' (float).
- * <li>QuickStep: no parameters.
- * <li>EnableStepFast: no parameters.
- * <li>DisableStepFast: no parameters.
- * </ul>
+ * - SetSystem: parameters 'dynsys' (string).
+ * - SetGravity: parameters 'gravity' (float).
+ * - SetStepTime: parameters 'time' (float).
+ * - QuickStep: no parameters.
+ * - EnableStepFast: no parameters.
+ * - DisableStepFast: no parameters.
  */
 struct iPcMechanicsSystem : public virtual iBase
 {
@@ -233,53 +231,47 @@ struct iPcMechanicsSystem : public virtual iBase
 
 /**
  * A dynamic body.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcdynamicbody_collision: an entity has collided with this entity.
- * </ul>
- * <p>
+ * - pcdynamicbody_collision: an entity has collided with this entity.
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>InitPhys: parameters 'friction' (float), 'elasticity' (float),
+ * - InitPhys: parameters 'friction' (float), 'elasticity' (float),
  * 	'density' (float), 'softness' (float), 'lift' (vector3), and
  * 	'drag' (float).
- * <li>MakeStatic: parameters 'static' (bool).
- * <li>SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
- * <li>SetMesh: parameters 'mechpctag' (string).
- * <li>SetColliderSphere: parameters 'radius' (float) and 'offset' (vector3).
- * <li>SetColliderCylinder: parameters 'length' (float), 'radius' (float)
+ * - MakeStatic: parameters 'static' (bool).
+ * - SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
+ * - SetMesh: parameters 'mechpctag' (string).
+ * - SetColliderSphere: parameters 'radius' (float) and 'offset' (vector3).
+ * - SetColliderCylinder: parameters 'length' (float), 'radius' (float)
  *     'axis' (vector3), 'offset' (vector3), and 'angle' (float).
- * <li>SetColliderBox: parameters 'size' (vector3), 'axis' (vector3),
+ * - SetColliderBox: parameters 'size' (vector3), 'axis' (vector3),
  *     'angle' (float), and 'offset' (vector3).
- * <li>SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float).
- * <li>SetColliderMesh: no parameters.
- * <li>SetLinearVelocity: parameters 'velocity' (vector3).
- * <li>SetAngularVelocity: parameters 'velocity' (vector3).
- * <li>AddForceOnce: parameters 'force' (vector3), 'relative' (bool),
+ * - SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float).
+ * - SetColliderMesh: no parameters.
+ * - SetLinearVelocity: parameters 'velocity' (vector3).
+ * - SetAngularVelocity: parameters 'velocity' (vector3).
+ * - AddForceOnce: parameters 'force' (vector3), 'relative' (bool),
  *     and 'position' (vector3).
- * <li>AddForceDuration: parameters 'force' (vector3), 'relative' (bool),
+ * - AddForceDuration: parameters 'force' (vector3), 'relative' (bool),
  *     'position' (vector3), and 'seconds' (float).
- * <li>AddForceFrame: parameters 'force' (vector3), 'relative' (bool),
+ * - AddForceFrame: parameters 'force' (vector3), 'relative' (bool),
  *     and 'position' (vector3).
- * <li>AddForceTagged: parameters 'force' (vector3), 'relative' (bool),
+ * - AddForceTagged: parameters 'force' (vector3), 'relative' (bool),
  *     and 'position' (vector3). The tag will be set in the property
  *     'cel.property.lasttag'.
- * <li>RemoveForceTagged: parameters 'tag' (long).
- * <li>ClearForces: no parameters.
- * <li>SetPosition: parameters 'position' (vector3).
- * <li>ClearRotation: no parameters.
- * <li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).
- * </ul>
- * <p>
+ * - RemoveForceTagged: parameters 'tag' (long).
+ * - ClearForces: no parameters.
+ * - SetPosition: parameters 'position' (vector3).
+ * - ClearRotation: no parameters.
+ * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>lasttag (long, read): last tag returned by AddForceTagged action.
- * </ul>
+ * - lasttag (long, read): last tag returned by AddForceTagged action.
  */
 struct iPcMechanicsObject : public virtual iBase
 {
@@ -488,7 +480,8 @@ struct iPcMechanicsObject : public virtual iBase
   //Colliders
 
   /**
-   * Create a sphere collider for this object, automatically sized and positioned from it's mesh.
+   * Create a sphere collider for this object, automatically sized
+   * and positioned from it's mesh.
    */
   virtual void AttachColliderBoundingSphere () = 0;
 
@@ -625,18 +618,16 @@ struct iPcMechanicsObject : public virtual iBase
 
 /**
  * A joint.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetParentBody: parameters 'body' (string).
- * <li>SetPosition: parameters 'position' (vector3).
- * <li>SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool).
- * <li>SetDistances: parameters 'min' (vector3) and 'max' (vector3).
- * <li>SetConstrainAngle: parameters 'x' (bool), 'y' (bool), and 'z' (bool).
- * <li>SetAngles: parameters 'min' (vector3) and 'max' (vector3).
- * </ul>
+ * - SetParentBody: parameters 'body' (string).
+ * - SetPosition: parameters 'position' (vector3).
+ * - SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool).
+ * - SetDistances: parameters 'min' (vector3) and 'max' (vector3).
+ * - SetConstrainAngle: parameters 'x' (bool), 'y' (bool), and 'z' (bool).
+ * - SetAngles: parameters 'min' (vector3) and 'max' (vector3).
  */
 struct iPcMechanicsJoint : public virtual iBase
 {

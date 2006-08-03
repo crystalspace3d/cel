@@ -25,33 +25,27 @@
 
 /**
  * Input propery class.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Bind: parameters 'trigger' (string) and 'command' (string).
- * <li>LoadConfig: parameters 'prefix' (string).
- * <li>SaveConfig: parameters 'prefix' (string).
- * </ul>
- * <p>
+ * - Bind: parameters 'trigger' (string) and 'command' (string).
+ * - LoadConfig: parameters 'prefix' (string).
+ * - SaveConfig: parameters 'prefix' (string).
+ *
  * This property class can send out the following messages
  * to the behaviour:
- * <ul>
- * <li>pccommandinput_<key>0: key is unpressed
- * <li>pccommandinput_<key>1: key is pressed
- * <li>pccommandinput_<key>_: key is pressed and auto-repeating
- * <li>pccommandinput_<axis>: movement on the given axis
- * </ul>
- * <p>
+ * - pccommandinput_<key>0: key is unpressed
+ * - pccommandinput_<key>1: key is pressed
+ * - pccommandinput_<key>_: key is pressed and auto-repeating
+ * - pccommandinput_<axis>: movement on the given axis
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>screenspace (bool, read/write): use screenspace instead of -1/1
+ * - screenspace (bool, read/write): use screenspace instead of -1/1
  *     normalized coordinates (-1/1 is default).
- * <li>cooked (bool, read/write): use cooked mode instead of raw (default
+ * - cooked (bool, read/write): use cooked mode instead of raw (default
  *     is raw.
- * </ul>
  */
 struct iPcCommandInput : public virtual iBase
 {
@@ -86,27 +80,27 @@ struct iPcCommandInput : public virtual iBase
 
   /**
    * Convert a coordinate from screen-space to a value between -1 and 1
-   * @param screencoord the coordinate in screen-space
-   * @param axis the screen axis to use for the conversion (0 = x, 1 = y)
+   * \param screencoord the coordinate in screen-space
+   * \param axis the screen axis to use for the conversion (0 = x, 1 = y)
    */
   virtual float ScreenToCentered (float screencoord, float axis = 0) = 0;
 
   /**
    * Convert a coordinate from a value between -1 and 1 to screen-space
-   * @param centeredcoord a value between -1 and 1
-   * @param axis the screen axis to use for the conversion (0 = x, 1 = y)
+   * \param centeredcoord a value between -1 and 1
+   * \param axis the screen axis to use for the conversion (0 = x, 1 = y)
    */
   virtual float CenteredToScreen (float centeredcoord, float axis = 0) = 0;
 
   /**
    * Loads from a config file binding triggers(for example keys) to commands
-   * @param prefix for the <prefix>.CommandInput.Bind.<trigger>
+   * \param prefix for the <prefix>.CommandInput.Bind.<trigger>
    */
   virtual bool LoadConfig (const char* prefix) = 0;
 
   /**
    * Saves to a config file binding triggers(for example keys) to commands
-   * @param prefix for the <prefix>.CommandInput.Bind.<trigger>
+   * \param prefix for the <prefix>.CommandInput.Bind.<trigger>
    */
   virtual void SaveConfig (const char* prefix) = 0;
 

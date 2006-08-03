@@ -31,28 +31,22 @@ SCF_VERSION (iPcQuest, 0, 0, 1);
  * This property class represents a quest. It uses the quest manager
  * to manage quests. Note that this property class will automatically
  * load the quest manager if it is missing.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcquest_???: ??? (???)
- * </ul>
- * <p>
+ * - pcquest_???: ??? (???)
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>NewQuest: parameters 'name' (string). All other string parameters will be
+ * - NewQuest: parameters 'name' (string). All other string parameters will be
  *     passed to the quest itself.
- * <li>StopQuest: no parameters.
- * </ul>
- * <p>
+ * - StopQuest: no parameters.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>name (string, read only): name of the quest factory or null if no quest.
- * <li>state (string, read/write): name of the current state.
- * </ul>
+ * - name (string, read only): name of the quest factory or null if no quest.
+ * - state (string, read/write): name of the current state.
  */
 struct iPcQuest : public iBase
 {

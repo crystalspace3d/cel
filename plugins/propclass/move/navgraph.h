@@ -126,7 +126,8 @@ public:
     {
       return scfParent->BuildNodeGraph (sector, defaultent);
     }    
-    virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t* &ipath)
+    virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd,
+	size_t* &ipath)
     {
       return scfParent->FindShortestPath (iNodeStart, iNodeEnd, ipath);
     }

@@ -52,13 +52,12 @@ public:
    * if you do not utilize celInitializer::RequestPlugins(). If you do call it
    * manually, it usually is wise to do so before invoking the underlying
    * csInitializer::RequestPlugins() or #CS_REQUEST_PLUGIN().
-   * <p>
+   *
    * The following are queried in an attempt to locate the CEL plugin
    * directory:
-   * <ul>
-   * <li>The #CEL environment variable (as well as several likely
+   * - The #CEL environment variable (as well as several likely
    *     subdirectories of the mentioned path).</li>
-   * <li>The #CEL_PLUGIN_DIR compile-time constant, if available. The typical
+   * - The #CEL_PLUGIN_DIR compile-time constant, if available. The typical
    *     way to define this property is to have the configure.ac script invoke
    *     AC_PATH_CEL or CS_PATH_CEL (defined in cel.m4) and to then
    *     "substitute" the discovered value of the plugin directory into the
@@ -68,8 +67,6 @@ public:
    *       AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], ["$CEL_PLUGIN_DIR"],
    *         [Define with path to CEL plugins.])
    *       \endcode
-   *     </li>
-   * </ul>
    */
   static void SetupCelPluginDirs(iObjectRegistry* r)
   { setup_plugin_dirs(r, CEL_DETECTED_PLUGIN_DIR); }
@@ -77,7 +74,7 @@ public:
   /**
    * A convenience wrapper for csInitializer::RequestPlugins() which first
    * invokes celInitializer::SetupCelPluginDirs().
-   * <p>
+   *
    * The variable arguments should contain four entries for every plugin you
    * wish to load: SCF class name, SCF interface name, inteface ID, and
    * interface version. To make this easier it is recommended that you use one
@@ -96,7 +93,7 @@ public:
   /**
    * A convenience wrapper for csInitializer::RequestPlugins() which first
    * invokes celInitializer::SetupCelPluginDirs().
-   * <p>
+   *
    * Unlike the variable-argument RequestPlugins(...) method which expects you
    * to know the list of requested plugins at compile-time, this overload
    * allows you to construct an array of plugins at run-time.  You do this by

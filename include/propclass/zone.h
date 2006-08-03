@@ -228,38 +228,32 @@ SCF_VERSION (iPcZoneManager, 0, 1, 2);
  * A region can be in multiple zones. In that case if you are in some region
  * then all zones that contain that region will be in memory,
  * The representation of a region.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>DisableCD: no parameters. Don't create collider wrappers.
- * <li>EnableCD: no parameters. Create collider wrappers (default).
- * <li>Load: parameters 'path' (string: optional), and 'file' (string).
- * <li>PointMesh: parameters 'entity' (string), 'region' (string),
+ * - DisableCD: no parameters. Don't create collider wrappers.
+ * - EnableCD: no parameters. Create collider wrappers (default).
+ * - Load: parameters 'path' (string: optional), and 'file' (string).
+ * - PointMesh: parameters 'entity' (string), 'region' (string),
  *    and 'start' (string).
- * <li>PointCamera: parameters 'entity' (string), 'region' (string),
+ * - PointCamera: parameters 'entity' (string), 'region' (string),
  *    and 'start' (string).
- * <li>SetLoadingMode: parameters 'mode' (string: one of 'loadall',
+ * - SetLoadingMode: parameters 'mode' (string: one of 'loadall',
  *     'normal', or 'keep').
- * </ul>
- * <p>
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>laststart (string, read only): last used start location.
- * <li>lastregion (string, read only): last used region.
- * </ul>
- * <p>
+ * - laststart (string, read only): last used start location.
+ * - lastregion (string, read only): last used region.
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pczonemanager_addregion: new region has been added (region)
- * <li>pczonemanager_remregion: region will be removed (region)
- * <li>pczonemanager_startloading: loading of regions starts
- * <li>pczonemanager_stoploading: loading of regions stops
- * <li>pczonemanager_errorloading: loading of regions stops with error (region)
- * </ul>
+ * - pczonemanager_addregion: new region has been added (region)
+ * - pczonemanager_remregion: region will be removed (region)
+ * - pczonemanager_startloading: loading of regions starts
+ * - pczonemanager_stoploading: loading of regions stops
+ * - pczonemanager_errorloading: loading of regions stops with error (region)
  */
 struct iPcZoneManager : public iBase
 {
@@ -406,12 +400,11 @@ struct iPcZoneManager : public iBase
    * points to the specified starting posision in this region. If 0
    * is given then the default position will be used.
    * Returns one of:
-   * <ul>
-   * <li>#CEL_ZONEERROR_OK: no error
-   * <li>#CEL_ZONEERROR_BADREGION: can't find region
-   * <li>#CEL_ZONEERROR_BADSTART: can't find start
-   * <li>#CEL_ZONEERROR_LOAD: error loading zone
-   * </ul>
+   * - #CEL_ZONEERROR_OK: no error
+   * - #CEL_ZONEERROR_BADREGION: can't find region
+   * - #CEL_ZONEERROR_BADSTART: can't find start
+   * - #CEL_ZONEERROR_LOAD: error loading zone
+   *
    * \param entity is the name of the entity that contains the
    * pccamera property class.
    * \param regionname the name of the region to load.
@@ -426,12 +419,11 @@ struct iPcZoneManager : public iBase
    * is positioned at the specified starting posision in this region. If 0
    * is given then the default position will be used.
    * Returns one of:
-   * <ul>
-   * <li>#CEL_ZONEERROR_OK: no error
-   * <li>#CEL_ZONEERROR_BADREGION: can't find region
-   * <li>#CEL_ZONEERROR_BADSTART: can't find start
-   * <li>#CEL_ZONEERROR_LOAD: error loading zone
-   * </ul>
+   * - #CEL_ZONEERROR_OK: no error
+   * - #CEL_ZONEERROR_BADREGION: can't find region
+   * - #CEL_ZONEERROR_BADSTART: can't find start
+   * - #CEL_ZONEERROR_LOAD: error loading zone
+   *
    * \param entity is the name of the entity that contains the
    * pcmesh property class.
    * \param regionname the name of the region to load.

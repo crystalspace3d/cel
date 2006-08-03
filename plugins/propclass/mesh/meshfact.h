@@ -322,7 +322,8 @@ public:
     SetupEventHandler ();
   }
   virtual bool HasDragMode () const { return do_drag; }
-  virtual void SetDragPlaneNormal (const csVector3& drag_normal, bool camera_space)
+  virtual void SetDragPlaneNormal (const csVector3& drag_normal,
+      bool camera_space)
   {
     celPcMeshSelect::drag_normal = drag_normal;
     drag_normal_camera = camera_space;

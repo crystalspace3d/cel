@@ -38,22 +38,18 @@ SCF_VERSION (iPcRules, 0, 0, 1);
  * property (starting from the value out of pcproperties). If the 'pcproperties'
  * is not present a default value is assumed (0 for numbers, empty string
  * for string, 0-vector for vectors, and black for colors).
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcrules_modifypar: a parameter has been modified: parameters
+ * - pcrules_modifypar: a parameter has been modified: parameters
  *     'name' (name of the parameter).
- * </ul>
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
- * <li>DeleteRule: parameters 'name' (string).
- * <li>DeleteAllRules: no parameters.
- * </ul>
+ * - AddRule: parameters 'name' (string). Optional 'time' (long) parameter.
+ * - DeleteRule: parameters 'name' (string).
+ * - DeleteAllRules: no parameters.
  */
 struct iPcRules : public iBase
 {

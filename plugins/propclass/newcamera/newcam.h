@@ -100,7 +100,8 @@ private:
    *  \param newVec       A container to hold the new value of the vector.
    */
   static void CalcElasticVec(const csVector3 & curr, const csVector3 & ideal,
-      const csVector3 & deltaIdeal, float deltaTime, float springCoef, csVector3 & newVec);
+      const csVector3 & deltaIdeal, float deltaTime, float springCoef,
+      csVector3 & newVec);
 
 public:
   celPcNewCamera(iObjectRegistry * object_reg);
@@ -132,12 +133,12 @@ public:
    */
   virtual const csVector3 & GetBaseDir() const;
 
-  /** 
+  /**
    * Gets the base up vector of the camera.
    * \return 	The base up vector of the camera.
    */
   virtual const csVector3 & GetBaseUp() const;
-  
+
   /**
    * Gets the base transform of the camera.
    * \return	The base transform of the camera.
@@ -171,13 +172,15 @@ public:
   virtual void SetPositionOffset(const csVector3 & offset);
 
   /**
-   * Returns whether the camera will use collision detection to avoid moving through walls.
+   * Returns whether the camera will use collision detection to avoid
+   * moving through walls.
    * \return True if collision detection is enabled.
    */
   virtual bool DetectCollisions() const;
 
   /**
-   * Sets whether the camera will use collision detection to avoid moving through walls.
+   * Sets whether the camera will use collision detection to avoid moving
+   * through walls.
    * \param detectCollisions True if the camera should detect collisions.
    */
   virtual void SetCollisionDetection(bool detectCollisions);
@@ -216,61 +219,71 @@ public:
   virtual float GetTransitionSpringCoefficient() const;
 
   /**
-   * If the distance between the current camera position and the new camera mode
-   * is within this cutoff distance, then the camera will cease to be in a transition
-   * and be in the new camera mode.
-   * \param cutOffPosDist The camera transition mode cutoff distance from position to position.
-   * \param cutOffTargetDist The camera transition mode cutoff distance from target to target.
+   * If the distance between the current camera position and the new camera
+   * mode is within this cutoff distance, then the camera will cease to be
+   * in a transition and be in the new camera mode.
+   * \param cutOffPosDist The camera transition mode cutoff distance from
+   * position to position.
+   * \param cutOffTargetDist The camera transition mode cutoff distance
+   * from target to target.
    */
-  virtual void SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist);
+  virtual void SetTransitionCutoffDistance(float cutOffPosDist,
+      float cutOffTargetDist);
 
   /**
-   * Grabs the camera transition cutoff distance from position to position between the camera 
-   * and the camera mode.
+   * Grabs the camera transition cutoff distance from position to position
+   * between the camera and the camera mode.
    * \return The camera transition cutoff distance from target to target.
    */
   virtual float GetTransitionCutoffPosDistance() const;
 
   /**
-   * Grabs the camera transition cutoff distance from target to target between the camera 
-   * and the camera mode.
+   * Grabs the camera transition cutoff distance from target to target
+   * between the camera and the camera mode.
    * \return The camera transition cutoff distance from position to position.
    */
   virtual float GetTransitionCutoffTargetDistance() const;
 
-  /** Attaches a camera mode to this camera.
-   *  \param mode 	The camera mode to attach.
-   *  \return 		The index that the camera mode was stored.
+  /**
+   * Attaches a camera mode to this camera.
+   * \param mode 	The camera mode to attach.
+   * \return 		The index that the camera mode was stored.
    */
   virtual size_t AttachCameraMode(iCelCameraMode * mode);
 
-  /** Attaches a built-in camera mode to this camera.
-   *  \param mode 	The id of the built-in camera mode to attach.
-   *  \return 		A unique id for the attached camera mode.
+  /**
+   * Attaches a built-in camera mode to this camera.
+   * \param mode 	The id of the built-in camera mode to attach.
+   * \return 		A unique id for the attached camera mode.
    */
   virtual size_t AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode);
 
-  /** Gets the index of the current camera mode.
-   *  \return 	The index of the current camera mode.
+  /**
+   * Gets the index of the current camera mode.
+   * \return 	The index of the current camera mode.
    */
   virtual size_t GetCurrentCameraModeIndex() const;
 
-  /** Gets the current camera mode.
-   *  \return 	The current camera mode.
+  /**
+   * Gets the current camera mode.
+   * \return 	The current camera mode.
    */
   virtual iCelCameraMode * GetCurrentCameraMode();
 
-  /** Sets the current camera mode.
-   *  \param modeIndex 	The index of the current camera mode.
-   *  \return 		True on successful camera mode change.
+  /**
+   * Sets the current camera mode.
+   * \param modeIndex 	The index of the current camera mode.
+   * \return 		True on successful camera mode change.
    */
   virtual bool SetCurrentCameraMode(size_t modeIndex);
 
-  /** Sets the current camera mode to the next available mode.
+  /**
+   * Sets the current camera mode to the next available mode.
    */
   virtual void NextCameraMode();
 
-  /** Sets the current camera mode to the previous available mode.
+  /**
+   * Sets the current camera mode to the previous available mode.
    */
   virtual void PrevCameraMode();
 
@@ -279,7 +292,7 @@ public:
    */
   virtual void Draw();
   virtual void TickEveryFrame();
-  
+
   void UpdateCamera ();
   int GetDrawFlags ();
 
@@ -432,7 +445,8 @@ public:
     {
       return scfParent->GetTransitionSpringCoefficient();
     }
-    virtual void SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist)
+    virtual void SetTransitionCutoffDistance(float cutOffPosDist,
+	float cutOffTargetDist)
     {
       scfParent->SetTransitionCutoffDistance(cutOffPosDist, cutOffTargetDist);
     }
