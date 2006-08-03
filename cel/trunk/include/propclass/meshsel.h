@@ -61,38 +61,32 @@ struct iPcMeshSelectListener : public virtual iBase
 
 /**
  * This is a property class for selecting meshes.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcmeshsel_down: mesh is selected (x,y,button,entity)
- * <li>pcmeshsel_up: mesh is unselected (x,y,button,entity)
- * <li>pcmeshsel_move: mesh is moved (x,y,button,entity)
- * </ul>
- * <p>
+ * - pcmeshsel_down: mesh is selected (x,y,button,entity)
+ * - pcmeshsel_up: mesh is unselected (x,y,button,entity)
+ * - pcmeshsel_move: mesh is moved (x,y,button,entity)
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetCamera: parameters 'entity' (string).
- * <li>SetMouseButtons: parameters 'buttons' (string or long). In case
+ * - SetCamera: parameters 'entity' (string).
+ * - SetMouseButtons: parameters 'buttons' (string or long). In case
  *     of string it should be a string with 'l', 'm', or 'r' (or a combination).
- * <li>SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
- * </ul>
- * <p>
+ * - SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>global (bool, read/write): global selection, default false.
- * <li>follow (bool, read/write): follow mode, default false.
- * <li>followalways (bool, read/write): follow always mode, default false.
- * <li>drag (bool, read/write): drag mode, default false.
- * <li>sendmove (bool, read/write): send move events, default false.
- * <li>sendup (bool, read/write): send up events, default true.
- * <li>senddown (bool, read/write): send down events, default true.
- * <li>maxdistance (float, read/write): maximum selection distance,
+ * - global (bool, read/write): global selection, default false.
+ * - follow (bool, read/write): follow mode, default false.
+ * - followalways (bool, read/write): follow always mode, default false.
+ * - drag (bool, read/write): drag mode, default false.
+ * - sendmove (bool, read/write): send move events, default false.
+ * - sendup (bool, read/write): send up events, default true.
+ * - senddown (bool, read/write): send down events, default true.
+ * - maxdistance (float, read/write): maximum selection distance,
  *     default 100000.
- * </ul>
  */
 struct iPcMeshSelect : public virtual iBase
 {

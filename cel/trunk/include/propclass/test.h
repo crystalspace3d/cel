@@ -25,7 +25,7 @@
 
 /**
  * This is a test property class.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * - pctest_print: a message has been printed (message)

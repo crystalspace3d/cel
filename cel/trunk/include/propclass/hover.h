@@ -37,7 +37,7 @@ struct iPcHover : public virtual iBase
 
   /**
    * Set the mesh to do the height tests on (the ground)
-   * @param wmesh ground object
+   * \param wmesh ground object
    */
   virtual void SetWorldMesh (csRef<iPcMesh> wmesh) = 0;
 
@@ -47,7 +47,7 @@ struct iPcHover : public virtual iBase
    * The entity does not have to exist yet,
    * as it is not queried till the first game
    * engine tick.
-   * @param name name of world mesh
+   * \param name name of world mesh
    */
   virtual void SetWorld (const char *name) = 0;
 
@@ -61,7 +61,8 @@ struct iPcHover : public virtual iBase
    * The offsets to the sides of the objects, to test height to calculate
    * angular orientation with respect to the ground.
    * Smaller is more accurate, but too small and the roll angles will
-   * differ in bigger steps (the height beams resolution won't be accurate enough)
+   * differ in bigger steps (the height beams resolution won't be accurate
+   * enough)
    */
   virtual void SetAngularBeamOffset (float abo) = 0;
 

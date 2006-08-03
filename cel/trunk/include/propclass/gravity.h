@@ -31,19 +31,15 @@ class csVector3;
 
 /**
  * Gravity handling property class.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>ApplyPermanentForce: parameters 'force' (csVector3).
- * </ul>
- * <p>
+ * - ApplyPermanentForce: parameters 'force' (csVector3).
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property):
- * <ul>
- * <li>weight (float, read/write): the weight of the object.
- * </ul>
+ * - weight (float, read/write): the weight of the object.
  */
 struct iPcGravity : public virtual iBase
 {

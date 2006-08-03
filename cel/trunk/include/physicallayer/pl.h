@@ -437,7 +437,7 @@ struct iCelPlLayer : public iBase
    * Retreive the unique ID associated with this string or create
    * a new ID if needed. There are various places in CEL where this is
    * used.
-   * <p>
+   *
    * The convention on string names is usually 'cel.xxx.yyy'. With 'xxx'
    * equal to the type of string (i.e. 'property'), and 'yyy' the name of the
    * given type (i.e. the property name). An example:

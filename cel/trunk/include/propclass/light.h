@@ -29,15 +29,13 @@ class csVector3;
 
 /**
  * This is a property class holding the representation of a light.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetLight: parameters 'name' (string). This sets an already existing
+ * - SetLight: parameters 'name' (string). This sets an already existing
  *     light for this pclight.
- * <li>MoveLight: parameters 'pos' (vector3). Move a light.
- * </ul>
+ * - MoveLight: parameters 'pos' (vector3). Move a light.
  */
 struct iPcLight : public virtual iBase
 {

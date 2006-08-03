@@ -106,13 +106,12 @@ struct iPcMovableConstraint : public virtual iBase
   /**
    * Check if an object can move.
    * Returns:
-   * <ul>
-   * <li>CEL_MOVE_FAIL: if no movement is possible.
-   * <li>CEL_MOVE_SUCCEED: if movement is possible.
-   * <li>CEL_MOVE_PARTIAL: if object can move partially.
-   * </ul>
+   * - CEL_MOVE_FAIL: if no movement is possible.
+   * - CEL_MOVE_SUCCEED: if movement is possible.
+   * - CEL_MOVE_PARTIAL: if object can move partially.
+   *
    * 'pos' will contain the final position that this constraint
-   * considered valid.<br>
+   * considered valid.
    * Note! If 'from' and 'to' are equal then it is only checked
    * if the object can be put on the specified position. In that
    * case this routine will never return CEL_MOVE_PARTIAL.

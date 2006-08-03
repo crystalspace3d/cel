@@ -27,66 +27,60 @@ struct iBillboard;
 
 /**
  * Billboard property class.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcbillboard_select: billboard is selected (x,y,button)
- * <li>pcbillboard_move: mouse moves over billboard (x,y,button)
- * <li>pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
- * <li>pcbillboard_unselect: billboard is unselected (x,y,button)
- * <li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)
- * </ul>
- * <p>
+ * - pcbillboard_select: billboard is selected (x,y,button)
+ * - pcbillboard_move: mouse moves over billboard (x,y,button)
+ * - pcbillboard_moveaway: mouse moves away from billboard (x,y,button)
+ * - pcbillboard_unselect: billboard is unselected (x,y,button)
+ * - pcbillboard_doubleclick: billboard is double clicked (x,y,button)
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>DrawMesh: parameters 'materialname' (string),
+ * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).
- * </ul>
- * <p>
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>name (string, read/write): name of the billboard.
- * <li>materialname (string, read/write): name of the material. Warning!
+ * - name (string, read/write): name of the billboard.
+ * - materialname (string, read/write): name of the material. Warning!
  *     It is important to make sure the materials using the billboard
  *     have the <keepimage/> flag set!
- * <li>materialnamefast (string, read/write): name of the material (faster
+ * - materialnamefast (string, read/write): name of the material (faster
  *     way to set).
- * <li>clickable (bool, read/write): clickable (default no).
- * <li>movable (bool, read/write): movable (default no).
- * <li>visible (bool, read/write): visible (default yes).
- * <li>restack (bool, read/write): restackable on selection (default no).
- * <li>sendmove (bool, read/write): send move/moveaway events (default no).
- * <li>color (color, read/write): color of this billboard.
- * <li>width (long, read/write): width of this billboard.
- * <li>height (long, read/write): height of this billboard.
- * <li>widthpct (float, read/write): width of this billboard in percentage.
- * <li>heightpct (float, read/write): height of this billboard in percentage.
- * <li>x (long, read/write): x position of this billboard.
- * <li>y (long, read/write): y position of this billboard.
- * <li>uv_topleft (vector2, read/write): topleft uv coordinate in material.
- * <li>uv_botright (vector2, read/write): botright uv coordinate in material.
- * <li>layer (string, read/write): layer name.
- * <li>text (string, read/write): optional text on billboard.
- * <li>text_offset (vector2, write): offset for text in billboard space.
- * <li>text_fg_color (color, write): foreground color.
- * <li>text_bg_color (color, write): background color.
- * <li>text_font_size (float, write): font size. Set this before setting
+ * - clickable (bool, read/write): clickable (default no).
+ * - movable (bool, read/write): movable (default no).
+ * - visible (bool, read/write): visible (default yes).
+ * - restack (bool, read/write): restackable on selection (default no).
+ * - sendmove (bool, read/write): send move/moveaway events (default no).
+ * - color (color, read/write): color of this billboard.
+ * - width (long, read/write): width of this billboard.
+ * - height (long, read/write): height of this billboard.
+ * - widthpct (float, read/write): width of this billboard in percentage.
+ * - heightpct (float, read/write): height of this billboard in percentage.
+ * - x (long, read/write): x position of this billboard.
+ * - y (long, read/write): y position of this billboard.
+ * - uv_topleft (vector2, read/write): topleft uv coordinate in material.
+ * - uv_botright (vector2, read/write): botright uv coordinate in material.
+ * - layer (string, read/write): layer name.
+ * - text (string, read/write): optional text on billboard.
+ * - text_offset (vector2, write): offset for text in billboard space.
+ * - text_fg_color (color, write): foreground color.
+ * - text_bg_color (color, write): background color.
+ * - text_font_size (float, write): font size. Set this before setting
  *     text_font. Otherwise default is 10.
- * <li>text_font (string, write): font.
- * <li>text_default_fg_color (color, write): default foreground color (for
+ * - text_font (string, write): font.
+ * - text_default_fg_color (color, write): default foreground color (for
  *     all billboards).
- * <li>text_default_bg_color (color, write): default background color (for
+ * - text_default_bg_color (color, write): default background color (for
  *     all billboards).
- * <li>text_default_font_size (float, write): font size. Set this before
+ * - text_default_font_size (float, write): font size. Set this before
  *     setting text_default_font. Otherwise default is 10.
- * <li>text_default_font (string, write): default font (for
+ * - text_default_font (string, write): default font (for
  *     all billboards).
- * </ul>
  */
 struct iPcBillboard : public virtual iBase
 {

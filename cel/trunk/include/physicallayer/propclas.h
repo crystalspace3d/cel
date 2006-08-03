@@ -186,10 +186,10 @@ struct iCelPropertyClass : public virtual iBase
    * this generic interface to properties is provided. It is always
    * faster and more efficient to set properties directly but this system
    * is usable in general.
-   * <p>
+   *
    * This function returns false if the property could
    * not be set for some reason.
-   * <p>
+   *
    * The physical layer maintains a registry of ID's to use. The convention
    * is to use property names like: 'cel.property.num'.
    */
@@ -244,18 +244,16 @@ struct iCelPropertyClass : public virtual iBase
   /**
    * Get the type of the given property or action. Returns CEL_DATA_NONE
    * if property is not supported. Only the following types are supported:
-   * <ul>
-   * <li>CEL_DATA_LONG
-   * <li>CEL_DATA_FLOAT
-   * <li>CEL_DATA_BOOL
-   * <li>CEL_DATA_STRING
-   * <li>CEL_DATA_VECTOR2
-   * <li>CEL_DATA_VECTOR3
-   * <li>CEL_DATA_COLOR
-   * <li>CEL_DATA_ACTION
-   * <li>CEL_DATA_PCLASS
-   * <li>CEL_DATA_ENTITY
-   * </ul>
+   * - CEL_DATA_LONG
+   * - CEL_DATA_FLOAT
+   * - CEL_DATA_BOOL
+   * - CEL_DATA_STRING
+   * - CEL_DATA_VECTOR2
+   * - CEL_DATA_VECTOR3
+   * - CEL_DATA_COLOR
+   * - CEL_DATA_ACTION
+   * - CEL_DATA_PCLASS
+   * - CEL_DATA_ENTITY
    */
   virtual celDataType GetPropertyOrActionType (
   	csStringID propertyID) = 0;

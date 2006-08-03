@@ -28,31 +28,27 @@ SCF_VERSION (iPcSpawn, 1, 1, 0);
 /**
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>AddEntityType: parameters 'chance' (float), 'entity' (string),
+ * - AddEntityType: parameters 'chance' (float), 'entity' (string),
  *     'behaviour' (string), 'layer' (string), 'call' (string)
- * <li>AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
+ * - AddEntityTemplateType: parameters 'chance' (float), 'entity' (string),
  *     'template' (string), 'call' (string)
- * <li>SetTiming: parameters 'repeat' (bool), 'random' (bool),
+ * - SetTiming: parameters 'repeat' (bool), 'random' (bool),
  *     'mindelay' (long), 'maxdelay' (long)
- * <li>ResetTiming
- * <li>SetEnabled: parameters 'enabled' (bool)
- * <li>ClearEntityList
- * <li>Inhibit: parameters 'count' (long)
- * <li>Spawn
- * <li>AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
+ * - ResetTiming
+ * - SetEnabled: parameters 'enabled' (bool)
+ * - ClearEntityList
+ * - Inhibit: parameters 'count' (long)
+ * - Spawn
+ * - AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
  *     'position' (vector or name of the node)
- * </ul>
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcspawn_newentity: new entity has been created (entity,behaviour)
- * </ul>
+ * - pcspawn_newentity: new entity has been created (entity,behaviour)
  */
 struct iPcSpawn : public iBase
 {

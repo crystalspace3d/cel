@@ -34,13 +34,11 @@ SCF_VERSION (iPcMechanicsThruster, 0, 0, 1);
 /**
  * Property class representing a thruster that affect forces on the attached
  * object.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>InitThruster: parameters 'objectpctag' (string), 'position' (vector3).
- * </ul>
+ * - InitThruster: parameters 'objectpctag' (string), 'position' (vector3).
  */
 struct iPcMechanicsThruster : public iBase
 {
@@ -119,7 +117,8 @@ struct iPcMechanicsThruster : public iBase
 
 SCF_VERSION (iPcMechanicsBalancedGroup, 0, 0, 1);
 
-enum celAxisType {
+enum celAxisType
+{
   CEL_AT_NONE,
   CEL_AT_ROTATION,
   CEL_AT_TRANSLATION
@@ -128,14 +127,12 @@ enum celAxisType {
 /**
  * Property class representing a balanced group of thrusters that can translate
  * or rotate the object in a certain axis. 
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetType: parameters 'type' (string, "rotation" or "translation").
- * <li>AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float).
- * </ul>
+ * - SetType: parameters 'type' (string, "rotation" or "translation").
+ * - AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float).
  */
 struct iPcMechanicsBalancedGroup : public iBase
 {
@@ -157,7 +154,8 @@ struct iPcMechanicsBalancedGroup : public iBase
    * \param multiplier the percentage of the maximum thrust of this thruster to
    * use when activated through this balanced group. (must be >0 and <=1)
    */
-  virtual void AddThruster (iPcMechanicsThruster* thruster, float multiplier) = 0;
+  virtual void AddThruster (iPcMechanicsThruster* thruster,
+      float multiplier) = 0;
 
   /**
    * Remove a thruster.
@@ -196,17 +194,15 @@ SCF_VERSION (iPcMechanicsThrusterController, 0, 0, 1);
 /**
  * Property class that controls the thrusters attached to an object through the
  * use of balanced thruster groups.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>InitThrusterController: parameters 'objectpctag' (string).
- * <li>AddAxis: parameters 'axisname' (string), 'axistype' (string, "rotation"
- *  or "translation"), 'axisdir' (vector3).
- * <li>ApplyThrust: parameters 'axisname' (string), 'thrust' (float).
- * <li>AddBalancedGroup: parameters 'axisname' (string), 'balancedgroup' (string).
- * </ul>
+ * - InitThrusterController: parameters 'objectpctag' (string).
+ * - AddAxis: parameters 'axisname' (string), 'axistype' (string, "rotation"
+ *   or "translation"), 'axisdir' (vector3).
+ * - ApplyThrust: parameters 'axisname' (string), 'thrust' (float).
+ * - AddBalancedGroup: parameters 'axisname' (string), 'balancedgroup' (string).
  */
 struct iPcMechanicsThrusterController : public iBase
 {

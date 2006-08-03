@@ -27,22 +27,18 @@ SCF_VERSION (iPcMechanicsExploder, 0, 0, 1);
 
 /**
  * A property class for handling the physics of an explosion.
- * <p>
+ *
  * This property class depends on iPcMechanicsObject and iPcAttractor, and
  * extends their functionality.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>Explode: no parameters.
- * </ul>
- * <p>
+ * - Explode: no parameters.
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property):
- * <ul>
- * <li>force (float, read/write): the force of the explosion.
- * </ul>
+ * - force (float, read/write): the force of the explosion.
  */
 struct iPcMechanicsExploder : public iBase
 {

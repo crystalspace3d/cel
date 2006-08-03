@@ -33,14 +33,12 @@ SCF_VERSION (iPcPortal, 0, 0, 1);
  * performance reasons. Closing a portal can be useful in case you have
  * a door that closes off the portal and it doesn't make sense to use
  * the portal anyway.
- * <p>
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * <ul>
- * <li>mesh (string, read/write): the name of the portal mesh.
- * <li>portal (string, read/write): the name of the portal.
- * <li>closed (bool, read/write): if the portal is closed or not.
- * </ul>
+ * - mesh (string, read/write): the name of the portal mesh.
+ * - portal (string, read/write): the name of the portal.
+ * - closed (bool, read/write): if the portal is closed or not.
  */
 struct iPcPortal : public iBase
 {

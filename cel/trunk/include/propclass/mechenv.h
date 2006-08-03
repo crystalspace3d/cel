@@ -35,16 +35,14 @@ SCF_VERSION (iPcEnvAttractor, 0, 0, 1);
 
 /**
  * A property class representing an attractor or a repulsor.
- * <p>
+ *
  * This property class acts on nearby entities with an iPcDynamicBody.
- * <p>
+ *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property):
- * <ul>
- * <li>strength (float, read/write): the strength of the field at its center.
- * <li>radius (float, read/write): the maximum radius at which the field affects
- * an object.
- * </ul>
+ * - strength (float, read/write): the strength of the field at its center.
+ * - radius (float, read/write): the maximum radius at which the field affects
+ *   an object.
  */
 struct iPcEnvAttractor : public iBase
 {

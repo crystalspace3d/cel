@@ -74,25 +74,31 @@ public:
     SCF_DECLARE_EMBEDDED_IBASE (celPcNavGraphRules);
 
       // Various virtual methods that can be used to change the graph behaviour
-      virtual int TraverseLink( iPcNavGraph* graph, iSector* sector, iPcNavLink* plink, iCelEntity* ent )
-      {
-          return scfParent->TraverseLink( (celPcNavGraph*)(graph->GetPrivateObject ()), sector, plink, ent );
-      }
+    virtual int TraverseLink( iPcNavGraph* graph, iSector* sector,
+	  iPcNavLink* plink, iCelEntity* ent )
+    {
+      return scfParent->TraverseLink( (celPcNavGraph*)(
+	    graph->GetPrivateObject ()), sector, plink, ent );
+    }
 
-      virtual void OptimiseGraph(iPcNavGraph* graph)
-      {
-        scfParent->OptimiseGraph( (celPcNavGraph*)(graph->GetPrivateObject ()) );    
-      }
+    virtual void OptimiseGraph(iPcNavGraph* graph)
+    {
+      scfParent->OptimiseGraph( (celPcNavGraph*)(graph->GetPrivateObject ()));
+    }
 
-      virtual size_t FindShortestPath( iPcNavGraph* graph, size_t iNodeStart, size_t iNodeEnd, size_t* &ipath )
-      {
-        return scfParent->FindShortestPath( (celPcNavGraph*)(graph->GetPrivateObject ()), iNodeStart, iNodeEnd, ipath );    
-      }
+    virtual size_t FindShortestPath( iPcNavGraph* graph, size_t iNodeStart,
+	size_t iNodeEnd, size_t* &ipath )
+    {
+      return scfParent->FindShortestPath( (celPcNavGraph*)(
+	    graph->GetPrivateObject ()), iNodeStart, iNodeEnd, ipath );
+    }
 
-      virtual size_t FindNearestNode( iPcNavGraph* graph, csVector3* point, iSector* sector, iCelEntity* ent )
-      {
-        return scfParent->FindNearestNode((celPcNavGraph*)(graph->GetPrivateObject ()), point, sector, ent);    
-      }
+    virtual size_t FindNearestNode( iPcNavGraph* graph, csVector3* point,
+	iSector* sector, iCelEntity* ent )
+    {
+      return scfParent->FindNearestNode((celPcNavGraph*)(
+	    graph->GetPrivateObject ()), point, sector, ent);
+    }
 
   } scfiPcNavGraphRulesFPS;
 

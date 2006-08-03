@@ -29,22 +29,21 @@ SCF_VERSION (iPcSimpleCamera, 0, 0, 3);
 /**
  * A class representing a simple camera, with capabilities for both
  * first-person and third-person modes.
- * <p>
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>InitCamera: parameters 'campos' (vector3), 'lookat' (vector3), 'drawmesh' (bool).
- * <li>SetPosition: parameters 'campos' (vector3), 'lookat' (vector3).
- * <li>SetMesh: parameters 'meshpctag' (string).
- * </ul>
+ * - InitCamera: parameters 'campos' (vector3), 'lookat' (vector3),
+ *   'drawmesh' (bool).
+ * - SetPosition: parameters 'campos' (vector3), 'lookat' (vector3).
+ * - SetMesh: parameters 'meshpctag' (string).
  */
 struct iPcSimpleCamera : public iPcCamera
 {
   /**
    * Set a flag to determine whether or not the attached mesh and its children
    * will be drawn in this camera view.
-   * @param draw if true, the mesh will be drawn in this view.
+   * \param draw if true, the mesh will be drawn in this view.
    */
   virtual void SetDrawMesh (bool draw) = 0;
 

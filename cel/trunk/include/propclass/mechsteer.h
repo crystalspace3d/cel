@@ -46,7 +46,6 @@ struct iPcMechanicsSteering : public iBase
    */
   virtual const char* GetID () = 0;
 
-
   /**
    * Set the mechanics object to affect. This is required.
    */

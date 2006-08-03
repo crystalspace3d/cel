@@ -48,20 +48,16 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
 
 /**
  * This is a general property class.
- * <p>
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * <ul>
- * <li>pcproperties_setproperty: sets the property (index)
- * <li>pcproperties_clearproperty: clears the property (index)
- * </ul>
- * <p>
+ * - pcproperties_setproperty: sets the property (index)
+ * - pcproperties_clearproperty: clears the property (index)
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * <ul>
- * <li>SetProperty: parameters 'name' (string) and 'value' (string).
- * </ul>
+ * - SetProperty: parameters 'name' (string) and 'value' (string).
  */
 struct iPcProperties : public iBase
 {
@@ -185,18 +181,16 @@ struct iPcProperties : public iBase
    * Get the type of a property. Returns CEL_DATA_NONE if the
    * property is undefined. Note that only the following data types
    * are supported:
-   * <ul>
-   * <li>CEL_DATA_LONG
-   * <li>CEL_DATA_FLOAT
-   * <li>CEL_DATA_BOOL
-   * <li>CEL_DATA_STRING
-   * <li>CEL_DATA_VECTOR2
-   * <li>CEL_DATA_VECTOR3
-   * <li>CEL_DATA_COLOR
-   * <li>CEL_DATA_PCLASS
-   * <li>CEL_DATA_ENTITY
-   * <li>CEL_DATA_IBASE
-   * </ul>
+   * - CEL_DATA_LONG
+   * - CEL_DATA_FLOAT
+   * - CEL_DATA_BOOL
+   * - CEL_DATA_STRING
+   * - CEL_DATA_VECTOR2
+   * - CEL_DATA_VECTOR3
+   * - CEL_DATA_COLOR
+   * - CEL_DATA_PCLASS
+   * - CEL_DATA_ENTITY
+   * - CEL_DATA_IBASE
    */
   virtual celDataType GetPropertyType (size_t index) const = 0;
 
