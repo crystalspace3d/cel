@@ -698,8 +698,8 @@ int celPcLinearMovement::MoveSprite (float delta)
       }
       else
       {
-          RotateV (local_max_interval);
-          yrot = Matrix2YRot (transf);
+        RotateV (local_max_interval);
+        yrot = Matrix2YRot (transf);
       }
 
       if (ret == CEL_MOVE_FAIL)
@@ -778,139 +778,140 @@ void celPcLinearMovement::OffsetSprite (float delta)
 // Do the actual move
 int celPcLinearMovement::MoveV (float delta)
 {
-	if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
+  if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
 		&& (!pccolldet || pccolldet->IsOnGround()))
-		return CEL_MOVE_DONTMOVE;  // didn't move anywhere
-	
-	
-	int ret = CEL_MOVE_SUCCEED;
-	iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-	if (movable->GetSectors ()->GetCount () <= 0)
-		return CEL_MOVE_DONTMOVE;  // didn't move anywhere
-	
-	csMatrix3 mat;
-	
-	// To test collision detection we use absolute position and transformation
-	// (this is relevant if we are anchored). Later on we will correct that.
-	csReversibleTransform fulltransf = movable->GetFullTransform ();
-	mat = fulltransf.GetT2O ();
-	delta *= speed;
-	
-	csVector3 worldVel (fulltransf.This2OtherRelative (velBody) + velWorld);
-	csVector3 oldpos (fulltransf.GetOrigin ());
-	csVector3 newpos (worldVel*delta + oldpos);
-	csVector3 bufpos = newpos;
-	
-	// Check for collisions and adjust position
-	if (pccolldet)
-		if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
-											delta, movable))
-		{
-			ret = CEL_MOVE_FAIL;
-			newpos = oldpos;
-		}
-			else
-			{
-				// check if we collided
-				if ((newpos - bufpos).Norm()>0.000001)
-				{
-					ret = CEL_MOVE_PARTIAL;
-				}
-			}
-			
-			csVector3 origNewpos = newpos;
-	bool mirror = false;
-	
-	// Update position to account for portals
-	iSector* new_sector = movable->GetSectors ()->Get (0);
-	iSector* old_sector = new_sector;
-	
-	// @@@ Jorrit: had to do this add!
-	// We need to measure slightly above the position of the actor or else
-	// we won't really cross a portal.
-	float height5 = (bottomSize.y + topSize.y) / 10.0;
-	newpos.y += height5;
-	csMatrix3 id;
-	csOrthoTransform transform_oldpos (id, oldpos + csVector3 (0, height5, 0));
-	
-	new_sector = new_sector->FollowSegment (transform_oldpos,
-											newpos, mirror, CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
-	newpos.y -= height5;
-	if (new_sector != old_sector){
-		movable->SetSector (new_sector);
-	}
-	portalDisplaced += newpos - origNewpos;
-	if(!IsOnGround())
+    return CEL_MOVE_DONTMOVE;  // didn't move anywhere
+
+
+  int ret = CEL_MOVE_SUCCEED;
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  if (movable->GetSectors ()->GetCount () <= 0)
+    return CEL_MOVE_DONTMOVE;  // didn't move anywhere
+
+  csMatrix3 mat;
+
+  // To test collision detection we use absolute position and transformation
+  // (this is relevant if we are anchored). Later on we will correct that.
+  csReversibleTransform fulltransf = movable->GetFullTransform ();
+  mat = fulltransf.GetT2O ();
+  delta *= speed;
+
+  csVector3 worldVel (fulltransf.This2OtherRelative (velBody) + velWorld);
+  csVector3 oldpos (fulltransf.GetOrigin ());
+  csVector3 newpos (worldVel*delta + oldpos);
+  csVector3 bufpos = newpos;
+
+  // Check for collisions and adjust position
+  if (pccolldet)
+    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
+	  delta, movable))
+    {
+      ret = CEL_MOVE_FAIL;
+      newpos = oldpos;
+    }
+    else
+    {
+      // check if we collided
+      if ((newpos - bufpos).Norm()>0.000001)
+      {
+	ret = CEL_MOVE_PARTIAL;
+      }
+    }
+
+  csVector3 origNewpos = newpos;
+  bool mirror = false;
+
+  // Update position to account for portals
+  iSector* new_sector = movable->GetSectors ()->Get (0);
+  iSector* old_sector = new_sector;
+
+  // @@@ Jorrit: had to do this add!
+  // We need to measure slightly above the position of the actor or else
+  // we won't really cross a portal.
+  float height5 = (bottomSize.y + topSize.y) / 10.0;
+  newpos.y += height5;
+  csMatrix3 id;
+  csOrthoTransform transform_oldpos (id, oldpos + csVector3 (0, height5, 0));
+
+  new_sector = new_sector->FollowSegment (transform_oldpos, newpos, mirror,
+      CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+  newpos.y -= height5;
+  if (new_sector != old_sector)
+    movable->SetSector (new_sector);
+
+  portalDisplaced += newpos - origNewpos;
+  if(!IsOnGround())
+  {
+    // gravity! move down!
+    velWorld.y  -= gravity * delta;
+    /*
+     * Terminal velocity
+     *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
+     *   / 3.28 feet/meter = 53.65 m/s
+     */
+    // The body velocity is figured in here too.
+    if (velWorld.y < 0)
+    {
+      // Call callbacks
+      if (!called)
+      {
+	size_t i = gravityCallbacks.Length ();
+	while (i > 0)
 	{
-		// gravity! move down!
-		velWorld.y  -= gravity * delta;
-		/*
-		 * Terminal velocity
-		 *   ((120 miles/hour  / 3600 second/hour) * 5280 feet/mile)
-		 *   / 3.28 feet/meter = 53.65 m/s
-		 */
-		// The body velocity is figured in here too.
-		if (velWorld.y < 0)
-		{
-			// Call callbacks
-			if (!called)
-			{
-				size_t i = gravityCallbacks.Length ();
-				while (i > 0)
-				{
-					i--;
-					gravityCallbacks[i]->Callback ();
-				}
-				called = true;
-			}
-			
-			if (fulltransf.This2OtherRelative(velBody).y
-				+ velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
-				velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
-					- fulltransf.This2OtherRelative(velBody).y;
-			if (velWorld.y > 0)
-				velWorld.y = 0;
-		}
-		else
-			called = false;
+	  i--;
+	  gravityCallbacks[i]->Callback ();
 	}
-	else
-	{
-		if(velWorld.y < 0)
-		{
-			// Call callbacks
-			size_t i = gravityCallbacks.Length ();
-			while (i > 0)
-			{
-				i--;
-				gravityCallbacks[i]->Callback ();
-			}
-			velWorld.y = 0;
-		}
-		
-		if(hugGround)
-			HugGround(newpos, new_sector);
-	}
-	
-	// Move to the new position. If we have an anchor we have to convert
-	// the new position from absolute to relative.
-	if (anchor)
-	{
-		newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ().Other2This (
-																					newpos);
-	}
-	movable->GetTransform ().SetOrigin (newpos);
-	movable->GetTransform ().SetT2O(movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
-	
-	if (pccolldet)
-	{
-		// Part 4: Add us to all nearby sectors.
-		pcmesh->GetMesh ()->PlaceMesh ();
-	}
-	
-	movable->UpdateMove ();
-	
-	return ret;
+	called = true;
+      }
+
+      if (fulltransf.This2OtherRelative(velBody).y
+          + velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
+        velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
+	  - fulltransf.This2OtherRelative(velBody).y;
+      if (velWorld.y > 0)
+        velWorld.y = 0;
+    }
+    else
+      called = false;
+  }
+  else
+  {
+    if(velWorld.y < 0)
+    {
+      // Call callbacks
+      size_t i = gravityCallbacks.Length ();
+      while (i > 0)
+      {
+	i--;
+	gravityCallbacks[i]->Callback ();
+      }
+      velWorld.y = 0;
+    }
+
+    if(hugGround)
+      HugGround(newpos, new_sector);
+  }
+
+  // Move to the new position. If we have an anchor we have to convert
+  // the new position from absolute to relative.
+  if (anchor)
+  {
+    newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ().Other2This (
+       newpos);
+  }
+  movable->GetTransform ().SetOrigin (newpos);
+  movable->GetTransform ().SetT2O(
+      movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
+
+  if (pccolldet)
+  {
+    // Part 4: Add us to all nearby sectors.
+    pcmesh->GetMesh ()->PlaceMesh ();
+  }
+
+  movable->UpdateMove ();
+
+  return ret;
 }
 
 void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)

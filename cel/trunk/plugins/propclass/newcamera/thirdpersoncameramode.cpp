@@ -29,7 +29,7 @@
 celThirdPersonCameraMode::celThirdPersonCameraMode()
 	: celCameraMode()
 {
-	posOffset.Set(0,0.5,4);
+  posOffset.Set(0,0.5,4);
 }
 
 celThirdPersonCameraMode::~celThirdPersonCameraMode()
@@ -66,7 +66,8 @@ bool celThirdPersonCameraMode::DecideCameraState()
   if (!parentCamera)
     return false;
 
-  pos = parentCamera->GetBasePos() + parentCamera->GetBaseTrans().This2OtherRelative(posOffset);
+  pos = parentCamera->GetBasePos() + parentCamera
+    ->GetBaseTrans().This2OtherRelative(posOffset);
   target = parentCamera->GetBasePos();
   up  = parentCamera->GetBaseUp();
   return true;

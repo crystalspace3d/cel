@@ -132,7 +132,7 @@ void celPcNewCamera::CalcElasticVec(const csVector3 & curr, const csVector3 & id
   if (deltaVec.SquaredNorm() >= len*len)
     newVec = curr;
   else
-	newVec = curr - deltaVec;
+    newVec = curr - deltaVec;
 #endif
 }
 
@@ -262,7 +262,8 @@ float celPcNewCamera::GetTransitionSpringCoefficient() const
   return transitionSpringCoef;
 }
 
-void celPcNewCamera::SetTransitionCutoffDistance(float cutOffPosDist, float cutOffTargetDist)
+void celPcNewCamera::SetTransitionCutoffDistance(float cutOffPosDist,
+    float cutOffTargetDist)
 {
   transitionCutoffPosDist = cutOffPosDist;
   transitionCutoffTargetDist = cutOffTargetDist;
@@ -382,7 +383,8 @@ void celPcNewCamera::UpdateCamera ()
   {
     csVector3 iSect;
     csIntersectingTriangle closestTri;
-    float sqDist = csColliderHelper::TraceBeam (cdsys, baseSector, basePos, desiredCamPos, true, closestTri, iSect);
+    float sqDist = csColliderHelper::TraceBeam (cdsys, baseSector,
+	basePos, desiredCamPos, true, closestTri, iSect);
     if (sqDist >= 0)
     {
       desiredCamPos = iSect;
@@ -397,7 +399,8 @@ void celPcNewCamera::UpdateCamera ()
   if (inTransition || mode->UseSpringPos())
   {
     csVector3 deltaIdeal = desiredCamPos - lastIdealPos;
-    CalcElasticVec(camPos, desiredCamPos, deltaIdeal, elapsedSecs, springCoef, camPos);
+    CalcElasticVec(camPos, desiredCamPos, deltaIdeal,
+	elapsedSecs, springCoef, camPos);
   }
   else
 	camPos = desiredCamPos;
@@ -405,7 +408,8 @@ void celPcNewCamera::UpdateCamera ()
   if (inTransition || mode->UseSpringTarget())
   {
     csVector3 deltaIdeal = mode->GetTarget() - lastIdealTarget;
-    CalcElasticVec(camTarget, mode->GetTarget(), deltaIdeal, elapsedSecs, springCoef, camTarget);
+    CalcElasticVec(camTarget, mode->GetTarget(), deltaIdeal,
+	elapsedSecs, springCoef, camTarget);
   }
   else
     camTarget = mode->GetTarget();
@@ -413,15 +417,19 @@ void celPcNewCamera::UpdateCamera ()
   if (inTransition || mode->UseSpringUp())
   {
     csVector3 deltaIdeal = mode->GetUp() - lastIdealUp;
-    CalcElasticVec(camUp, mode->GetUp(), deltaIdeal, elapsedSecs, springCoef, camUp);
+    CalcElasticVec(camUp, mode->GetUp(), deltaIdeal,
+	elapsedSecs, springCoef, camUp);
   }
   else
     camUp = mode->GetUp();
   
-  // if we're in a transition then see if this latest camera movement has push us into the next camera mode
+  // if we're in a transition then see if this latest camera movement
+  // has push us into the next camera mode
   if (inTransition 
-    && (camPos - desiredCamPos).SquaredNorm() <= transitionCutoffPosDist*transitionCutoffPosDist
-    && (camTarget - mode->GetTarget()).SquaredNorm() <= transitionCutoffTargetDist*transitionCutoffTargetDist)
+    && (camPos - desiredCamPos).SquaredNorm()
+    <= transitionCutoffPosDist*transitionCutoffPosDist
+    && (camTarget - mode->GetTarget()).SquaredNorm()
+    <= transitionCutoffTargetDist*transitionCutoffTargetDist)
   {
     UpdateMeshVisibility();
     inTransition = false;
@@ -467,6 +475,6 @@ void celPcNewCamera::Draw()
 
 void celPcNewCamera::TickEveryFrame()
 {
-    Draw();
+  Draw();
 }
 

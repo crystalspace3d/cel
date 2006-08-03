@@ -209,7 +209,8 @@ void celPcTooltip::TickEveryFrame ()
       offset = (width - fnt->GetLength (line.GetData (), width)) / 2;
     else if (justify == CEL_TOOLTIP_RIGHT)
       offset = (width - fnt->GetLength (line.GetData (), width));
-    G2D->Write (fnt, x + offset, y + (linenum * fnt->GetTextHeight ()), fgcolor, bgcolor, line.GetData ());
+    G2D->Write (fnt, x + offset, y + (linenum * fnt->GetTextHeight ()),
+	fgcolor, bgcolor, line.GetData ());
     linenum++;
   }
 }

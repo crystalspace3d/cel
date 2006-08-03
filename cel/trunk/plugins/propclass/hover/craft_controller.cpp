@@ -88,12 +88,14 @@ csPtr<iCelDataBuffer> celPcCraftController::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (1);
   return csPtr<iCelDataBuffer> (databuf);
 }
+
 bool celPcCraftController::Load (iCelDataBuffer* databuf)
 {
   return true;
 }
-bool celPcCraftController::PerformAction (csStringID actionId, iCelParameterBlock* params,
-    celData& ret)
+
+bool celPcCraftController::PerformAction (csStringID actionId,
+    iCelParameterBlock* params, celData& ret)
 {
   return true;
 }
@@ -103,8 +105,8 @@ void celPcCraftController::Tick ()
   UpdateBody ();
 }
 
-
-void celPcCraftController::DoTurningCalc (bool isturning, float &turn, float acc, float max)
+void celPcCraftController::DoTurningCalc (bool isturning, float &turn,
+    float acc, float max)
 {
   if(isturning)
     turn += acc;
