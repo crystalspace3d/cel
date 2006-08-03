@@ -642,7 +642,8 @@ void celPcActorMove::ToggleCameraMode ()
   if (!pcdefcamera && !pcnewcamera)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "Must have either a pcdefaultcamera or pcnewcamera!");
+		    "cel.pcactormove",
+		    "Must have either a pcdefaultcamera or pcnewcamera!");
     return;
   }
   if (pcdefcamera)

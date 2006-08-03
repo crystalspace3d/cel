@@ -816,7 +816,8 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // We can move but there is some obstruction.
     // Here we have to find out where exactly.
     // @@@ Here we also have to calculate impuse: for later...
-    float disttot = csQsqrt (csSquaredDist::PointPoint (oldpos, desired_endpos));
+    float disttot = csQsqrt (csSquaredDist::PointPoint (oldpos,
+	  desired_endpos));
     float dist = csQsqrt (csSquaredDist::PointPoint (oldpos, newpos));
     delta_t = delta_t * dist / disttot;
 

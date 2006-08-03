@@ -723,9 +723,10 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
   mesh->GetMovable ()->UpdateMove ();
 }
 
-void celPcMesh::SetAnimation (const char* actionName, bool cycle, float weight,float fadein,float fadeout)
+void celPcMesh::SetAnimation (const char* actionName, bool cycle,
+    float weight,float fadein,float fadeout)
 {
-      printf("set anim %s\n",actionName);
+  printf("set anim %s\n",actionName);
   if (!actionName) return;
   if (!mesh) return;
   csRef<iSprite3DState> spr3dstate (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
@@ -736,7 +737,8 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle, float weight,f
   }
   else
   {
-    csRef<iSpriteCal3DState> sprcal3dstate (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),        iSpriteCal3DState));
+    csRef<iSpriteCal3DState> sprcal3dstate (SCF_QUERY_INTERFACE (
+	  mesh->GetMeshObject (), iSpriteCal3DState));
     if (sprcal3dstate)
     {
       if (cycle)
@@ -746,24 +748,21 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle, float weight,f
     }
     else
     {
-      printf("check genstate\n");
-      csRef<iGeneralMeshState> genstate = SCF_QUERY_INTERFACE (mesh->GetMeshObject (),iGeneralMeshState);
+      csRef<iGeneralMeshState> genstate = SCF_QUERY_INTERFACE (
+	  mesh->GetMeshObject (),iGeneralMeshState);
       if (genstate)
       {
-      printf("check animcontrol\n");
-        csRef<iGenMeshAnimationControl> skelstate = genstate->GetAnimationControl ();
+        csRef<iGenMeshAnimationControl> skelstate = genstate
+	  ->GetAnimationControl ();
         if (skelstate)
         {
-      printf("check ctlstate\n");
-          csRef<iGenMeshSkeletonControlState> ctlstate = SCF_QUERY_INTERFACE
-(skelstate,iGenMeshSkeletonControlState);
+          csRef<iGenMeshSkeletonControlState> ctlstate = SCF_QUERY_INTERFACE (
+	      skelstate,iGenMeshSkeletonControlState);
           if (ctlstate)
           {
-      printf("check skeleton\n");
             csRef<iSkeleton> skel = ctlstate->GetSkeleton();
             if (skel)
             {
-      printf("run action\n");
       		  skel->StopAll();
                   skel->Execute (actionName);
             }
@@ -1261,7 +1260,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 	if (sel_entity != new_sel)
 	{
 	  drag_offset = dragoffs;
-	  printf ("drag_offset=%g,%g,%g\n", drag_offset.x, drag_offset.y, drag_offset.z); fflush (stdout);
+	  printf ("drag_offset=%g,%g,%g\n", drag_offset.x,
+	      drag_offset.y, drag_offset.z); fflush (stdout);
 	}
         sel_entity = new_sel;
       }
@@ -1300,7 +1300,8 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 	if (sel_entity != new_sel)
 	{
 	  drag_offset = dragoffs;
-	  printf ("2:drag_offset=%g,%g,%g\n", drag_offset.x, drag_offset.y, drag_offset.z); fflush (stdout);
+	  printf ("2:drag_offset=%g,%g,%g\n", drag_offset.x,
+	      drag_offset.y, drag_offset.z); fflush (stdout);
 	}
         sel_entity = new_sel;
       }
@@ -1487,43 +1488,46 @@ bool celPcMeshSelect::PerformAction (csStringID actionId,
 
 void celPcMesh::SetShaderVar(csStringID name, float value)
 {
-	if (mesh)
-	{
-	    csRef<iShaderVariableContext> svc = mesh->GetSVContext();
-	    csShaderVariable *var = svc->GetVariableAdd(name);
-	    var->SetValue(value);
-	    svc->AddVariable(var);
-	}
+  if (mesh)
+  {
+    iShaderVariableContext* svc = mesh->GetSVContext();
+    csShaderVariable *var = svc->GetVariableAdd(name);
+    var->SetValue(value);
+    svc->AddVariable(var);
+  }
 }
+
 void celPcMesh::SetShaderVar(csStringID name, int value)
 {
-	if (mesh)
-	{
-	    csRef<iShaderVariableContext> svc = mesh->GetSVContext();
-	    csShaderVariable *var = svc->GetVariableAdd(name);
-	    var->SetValue(value);
-	    svc->AddVariable(var);
-	}
+  if (mesh)
+  {
+    iShaderVariableContext* svc = mesh->GetSVContext();
+    csShaderVariable *var = svc->GetVariableAdd(name);
+    var->SetValue(value);
+    svc->AddVariable(var);
+  }
 }
+
 void celPcMesh::SetShaderVar(csStringID name, csVector3 value)
 {
-	if (mesh)
-	{
-	    csRef<iShaderVariableContext> svc = mesh->GetSVContext();
-	    csShaderVariable *var = svc->GetVariableAdd(name);
-	    var->SetValue(value);
-	    svc->AddVariable(var);
-	}
+  if (mesh)
+  {
+    iShaderVariableContext* svc = mesh->GetSVContext();
+    csShaderVariable *var = svc->GetVariableAdd(name);
+    var->SetValue(value);
+    svc->AddVariable(var);
+  }
 }
+
 void celPcMesh::SetShaderVar(csStringID name, csVector2 value)
 {
-	if (mesh)
-	{
-	    csRef<iShaderVariableContext> svc = mesh->GetSVContext();
-	    csShaderVariable *var = svc->GetVariableAdd(name);
-	    var->SetValue(value);
-	    svc->AddVariable(var);
-	}
+  if (mesh)
+  {
+    iShaderVariableContext* svc = mesh->GetSVContext();
+    csShaderVariable *var = svc->GetVariableAdd(name);
+    var->SetValue(value);
+    svc->AddVariable(var);
+  }
 }     
 
 //---------------------------------------------------------------------------
