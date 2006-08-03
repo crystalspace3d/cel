@@ -157,6 +157,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_position] = 0;		// Handled in this class.
+  propdata[propid_fullposition] = 0;		// Handled in this class.
   propdata[propid_sector] = 0;			// Handled in this class.
   propdata[propid_path] = 0;			// Handled in this class.
   propdata[propid_factory] = 0;			// Handled in this class.
@@ -177,7 +178,7 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 5;
+    propertycount = 6;
     properties = new Property[propertycount];
 
     properties[propid_position].id = pl->FetchStringID (
@@ -185,6 +186,12 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_position].datatype = CEL_DATA_VECTOR3;
     properties[propid_position].readonly = true;
     properties[propid_position].desc = "Current position of mesh.";
+
+    properties[propid_fullposition].id = pl->FetchStringID (
+    	"cel.property.fullposition");
+    properties[propid_fullposition].datatype = CEL_DATA_VECTOR3;
+    properties[propid_fullposition].readonly = true;
+    properties[propid_fullposition].desc = "Current full position of mesh.";
 
     properties[propid_sector].id = pl->FetchStringID (
     	"cel.property.sector");
@@ -219,6 +226,14 @@ bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
   {
     if (mesh)
       v = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+    else
+      v.Set (0, 0, 0);
+    return true;
+  }
+  else if (propertyId == properties[propid_fullposition].id)
+  {
+    if (mesh)
+      v = mesh->GetMovable ()->GetFullPosition ();
     else
       v.Set (0, 0, 0);
     return true;

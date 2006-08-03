@@ -59,6 +59,7 @@ class csVector3;
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read): current position.
+ * - fullposition (vector3, read): current full position.
  * - sector (string, read): current sector.
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.

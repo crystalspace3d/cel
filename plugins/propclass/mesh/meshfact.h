@@ -110,6 +110,7 @@ private:
   enum propids
   {
     propid_position = 0,
+    propid_fullposition,
     propid_sector,
     propid_path,
     propid_factory,
