@@ -20,6 +20,10 @@ The history order is reversed so that new features are at the top.
         - cfraz89 changed floats to longs in pcwheeled gear xml.
 	- Jorrit made the CEL_FETCH_..._PAR macros more robust in
 	  case there were no parameters given to the SendMessage.
+	- Jorrit fixed a bug in blxml with regards to parameter handling
+	  for createentity from a template. In case the parameter values
+	  were vectors it would convert the vector to '[x,y,z]' instead
+	  of the desired 'x,y,z'.
 2-Aug-2006
         - cfraz89 fixed up the remaing bugs in pcwheeled, mostly related
           to gears and wheel joints. Also removed SetNumberGears, and
