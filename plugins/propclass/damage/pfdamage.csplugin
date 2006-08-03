@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
-<!-- pftest.csplugin -->
+<!-- pfdamage.csplugin -->
 <plugin>
   <scf>
     <classes>
       <class>
-        <name>cel.pcfactory.test</name>
-        <implementation>celPfTest</implementation>
-	<description>CEL Test Property Class Factory</description>
+        <name>cel.pcfactory.damage</name>
+        <implementation>celPfDamage</implementation>
+	<description>CEL Damage Property Class Factory</description>
       </class>
     </classes>
   </scf>
