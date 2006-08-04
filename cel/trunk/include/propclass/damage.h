@@ -88,9 +88,9 @@ struct iPcDamage : public virtual iBase
    */
   virtual void SetDamageLocation (const char* sectorname,
       const csVector3& pos) = 0;
-  /// Get the source sector for the damage (only if explicitelly set).
+  /// Get the source sector for the damage (only if explicitly set).
   virtual const char* GetDamageSector () const = 0;
-  /// Get the source position for the damage (only if explicitellycitelly set).
+  /// Get the source position for the damage (only if explicitly set).
   virtual const csVector3& GetDamagePosition () const = 0;
 
   /// Do area damage.
