@@ -69,11 +69,6 @@ Bootstrap::~Bootstrap ()
   }
 }
 
-void Bootstrap::SetupFrame ()
-{
-  // We let the entity system do this so there is nothing here.
-}
-
 void Bootstrap::FinishFrame ()
 {
   g3d->FinishDraw ();
@@ -82,16 +77,13 @@ void Bootstrap::FinishFrame ()
 
 bool Bootstrap::HandleEvent (iEvent& ev)
 {
-  if (ev.Name == csevProcess (object_reg))
-  {
-    bootstrap->SetupFrame ();
-    return true;
-  }
-  else if (ev.Name == csevFinalProcess (object_reg))
+  if (ev.Name == csevFinalProcess (object_reg))
   {
     bootstrap->FinishFrame ();
     return true;
   }
+
+  if (bootstrap->GetBareMode ()) return false;
 
   csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
   if (eventtype == csKeyEventTypeDown)
@@ -116,17 +108,33 @@ bool Bootstrap::BootstrapEventHandler (iEvent& ev)
     return false;
 }
 
-bool Bootstrap::Initialize (int argc, const char* const argv[])
+bool Bootstrap::BareInitialize ()
 {
-  object_reg = csInitializer::CreateEnvironment (argc, argv);
-  if (!object_reg) return false;
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
+  // Initialize a very bare bones version of bootstrap which
+  // works totally different from normal bootstrap.
+  const char* path = cmdline->GetName (0);
+  const char* file = cmdline->GetName (1);
+  if (path == 0 || file == 0)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	  "crystalspace.application.bootstrap",
+    	  "This tool expects at least two parameters in -bare mode. The first\n"
+          "parameter is a VFS path, the second the name of the XML file to\n"
+	  "load and the optional third parameter is the name of the config\n"
+	  "file to use.");
+    return false;
+  }
+  csString configname = cmdline->GetName (2);
+  if (configname.IsEmpty ())
+    configname = "/celconfig/bootstrap.cfg";
 
-  if (!csInitializer::SetupConfigManager (object_reg,
-  	"/celconfig/bootstrap.cfg"))
+  if (!csInitializer::SetupConfigManager (object_reg, configname))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-    	"Can't initialize config!");
+    	"Can't initialize config from '%s'!", (const char*)configname);
     return false;
   }
 
@@ -154,22 +162,76 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  // Find the pointer to engine plugin
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  if (!engine)
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  if (!g3d)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-    	"No iEngine plugin!");
+    	"No iGraphics3D plugin!");
     return false;
   }
 
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
-  if (!kbd)
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",
-    	"No iKeyboardDriver plugin!");
+    	"CEL physical layer missing!");
+    return false;
+  }
+
+  // Open the main system. This will open all the previously loaded plug-ins.
+  if (!csInitializer::OpenApplication (object_reg))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+    	"Error opening system!");
+    return false;
+  }
+
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+  if (!vfs->ChDirAuto (path, 0, 0, file))
+    return false;
+  if (!loader->LoadMapFile (file, false))
+    return false;
+
+  return true;
+}
+
+bool Bootstrap::FullInitialize ()
+{
+  csString configname = "/celconfig/bootstrap.cfg";
+
+  if (!csInitializer::SetupConfigManager (object_reg, configname))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+    	"Can't initialize config from '%s'!", (const char*)configname);
+    return false;
+  }
+
+  if (!celInitializer::RequestPlugins (object_reg,
+  	CS_REQUEST_VFS, CS_REQUEST_END))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+    	"Can't initialize plugins!");
+    return false;
+  }
+
+  if (!csInitializer::SetupEventHandler (object_reg, BootstrapEventHandler))
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"crystalspace.application.bootstrap",
+    	"Can't initialize event handler!");
+    return false;
+  }
+
+  // Check for commandline help.
+  if (csCommandLineHelper::CheckHelp (object_reg))
+  {
+    csCommandLineHelper::Help (object_reg);
     return false;
   }
 
@@ -278,6 +340,21 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   }
 
   return true;
+}
+
+bool Bootstrap::Initialize (int argc, const char* const argv[])
+{
+  object_reg = csInitializer::CreateEnvironment (argc, argv);
+  if (!object_reg) return false;
+
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
+  const char* bare = cmdline->GetOption ("bare");
+  bare_mode = bare != 0;
+  if (bare_mode)
+    return BareInitialize ();
+  else
+    return FullInitialize ();
 }
 
 void Bootstrap::Start ()

@@ -6,7 +6,17 @@ The history order is reversed so that new features are at the top.
 4-Aug-2006
 	- Jorrit added a new ActivateRegion action to pczonemanager.
 	- Jorrit changed the xmlscripts addon so that it can now
-	  automatically loaded the XML behaviour layer if that is missing.
+	  automatically load the XML behaviour layer if that is missing.
+	- Jorrit modified bootstrap with a new -bare commandline option.
+	  If that option is used then bootstrap accepts three commandline
+	  arguments:
+	  	1: path (VFS or normal): for the file to load.
+		2: file: filename of an XML world file.
+		3: optional name of a config file.
+	  In bare mode bootstrap will also not create the bootstrap entity
+	  and it will also not exit the program when pressing escape. It
+	  is assumed that the code in the XML world file will take care
+	  of that.
 3-Aug-2006
 	- Jorrit fixed pcmesh so that it compiles again.
 	- Jorrit did code cleanups (code style mostly) to pcwheeled.

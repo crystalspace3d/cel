@@ -47,19 +47,23 @@ public:
 private:
   csRef<iCelPlLayer> pl;
   csRef<iCelBlLayer> bl;
-  csRef<iEngine> engine;
-  csRef<iKeyboardDriver> kbd;
   csRef<iGraphics3D> g3d;
   csRef<iCelEntity> bootstrap_entity;
  
   static bool BootstrapEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
-  void SetupFrame ();
   void FinishFrame ();
+
+  bool FullInitialize ();
+  bool BareInitialize ();
+
+  bool bare_mode;
 
 public:
   Bootstrap ();
   ~Bootstrap ();
+
+  bool GetBareMode () const { return bare_mode; }
 
   bool Initialize (int argc, const char* const argv[]);
   void Start ();
