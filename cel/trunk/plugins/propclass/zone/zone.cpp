@@ -394,6 +394,7 @@ csStringID celPcZoneManager::id_regionname = csInvalidStringID;
 csStringID celPcZoneManager::id_startname = csInvalidStringID;
 csStringID celPcZoneManager::action_setloadingmode = csInvalidStringID;
 csStringID celPcZoneManager::id_mode = csInvalidStringID;
+csStringID celPcZoneManager::action_activateregion = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
@@ -430,6 +431,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     id_startname = pl->FetchStringID ("cel.parameter.start");
     action_setloadingmode = pl->FetchStringID ("cel.action.SetLoadingMode");
     id_mode = pl->FetchStringID ("cel.parameter.mode");
+    action_activateregion = pl->FetchStringID ("cel.action.ActivateRegion");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
@@ -613,6 +615,15 @@ bool celPcZoneManager::PerformAction (csStringID actionId,
   else if (actionId == action_enablecd)
   {
     EnableColliderWrappers (true);
+    return true;
+  }
+  else if (actionId == action_activateregion)
+  {
+    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+    if (!p_regionname) return false;	// @@@ Error?
+    iCelRegion* region = FindRegion (regionname);
+    if (!region) return false;	// @@@ Error?
+    ActivateRegion (region);
     return true;
   }
   else if (actionId == action_load)

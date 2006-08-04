@@ -236,11 +236,12 @@ SCF_VERSION (iPcZoneManager, 0, 1, 2);
  * - EnableCD: no parameters. Create collider wrappers (default).
  * - Load: parameters 'path' (string: optional), and 'file' (string).
  * - PointMesh: parameters 'entity' (string), 'region' (string),
- *    and 'start' (string).
+ *   and 'start' (string).
  * - PointCamera: parameters 'entity' (string), 'region' (string),
- *    and 'start' (string).
+ *   and 'start' (string).
  * - SetLoadingMode: parameters 'mode' (string: one of 'loadall',
- *     'normal', or 'keep').
+ *   'normal', or 'keep').
+ * - ActivateRegion: parameters 'region' (string).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
