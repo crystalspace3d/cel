@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/document.h"
 #include "iutil/object.h"
+#include "iutil/plugin.h"
 #include "ivaria/reporter.h"
 #include "imap/services.h"
 #include "iengine/mesh.h"
@@ -93,12 +94,22 @@ void celAddOnXmlScripts::GetBlGen (iDocumentNode* child)
 {
   if (!bl)
   {
-    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+    bl = csQueryRegistry<iCelBlLayer> (object_reg);
+    if (!bl)
+    {
+      bl = csQueryRegistryOrLoad<iCelBlLayer> (object_reg,
+	  "cel.behaviourlayer.xml");
+      if (bl)
+      {
+	csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+	pl->RegisterBehaviourLayer (bl);
+      }
+    }
     if (!bl)
     {
       synldr->ReportError (
 	        "cel.addons.xmlscripts",
-	        child, "Can't find a default behaviour layer!");
+	        child, "Can't find or load XML behaviour layer!");
       return;
     }
   }
