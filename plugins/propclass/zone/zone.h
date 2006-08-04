@@ -272,6 +272,7 @@ private:
   static csStringID id_startname;
   static csStringID action_setloadingmode;
   static csStringID id_mode;
+  static csStringID action_activateregion;
 
   celOneParameterBlock* params;
 
