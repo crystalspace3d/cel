@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 4-Aug-2006
 	- Jorrit added a new ActivateRegion action to pczonemanager.
+	- Jorrit changed the xmlscripts addon so that it can now
+	  automatically loaded the XML behaviour layer if that is missing.
 3-Aug-2006
 	- Jorrit fixed pcmesh so that it compiles again.
 	- Jorrit did code cleanups (code style mostly) to pcwheeled.
