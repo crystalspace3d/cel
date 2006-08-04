@@ -17,6 +17,7 @@ The history order is reversed so that new features are at the top.
 	  and it will also not exit the program when pressing escape. It
 	  is assumed that the code in the XML world file will take care
 	  of that.
+	- David Bronke fixed spelling errors in the damage PC header file.
 3-Aug-2006
 	- Jorrit fixed pcmesh so that it compiles again.
 	- Jorrit did code cleanups (code style mostly) to pcwheeled.
