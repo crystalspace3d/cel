@@ -196,6 +196,9 @@ bool Bootstrap::BareInitialize ()
     return false;
   }
 
+  //Python mode.
+  //Takes the first argument (already called path) and use it as the name
+  //of the entity's python bl to create.
   if(python_mode)
   {
     if (path == 0)
@@ -208,15 +211,21 @@ bool Bootstrap::BareInitialize ()
           "name of the config file to use.");
       return false;
     }
+    
     csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
         iPluginManager);
     bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.python",
         iCelBlLayer);
+    object_reg->Register (bl, "iCelBlLayer");
+    pl->RegisterBehaviourLayer (bl);
+
     bootstrap_entity = pl->CreateEntity ();
     bootstrap_entity->SetName ("bootstrap");
     iCelBehaviour* behave = bl->CreateBehaviour (bootstrap_entity, path);
   }
 
+  //XML Mode
+  //Takes the path, and file, and loads them.
   else
   {
     csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
