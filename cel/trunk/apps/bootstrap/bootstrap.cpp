@@ -116,17 +116,24 @@ bool Bootstrap::BareInitialize ()
   // works totally different from normal bootstrap.
   const char* path = cmdline->GetName (0);
   const char* file = cmdline->GetName (1);
-  if (path == 0 || file == 0)
+
+  //If the -python option is given, then load python behaviour and entity.
+  const char* python = cmdline->GetOption ("python");
+  bool python_mode = python != 0;
+
+  if ( !python_mode && (path == 0 || file == 0) )
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	  "crystalspace.application.bootstrap",
-    	  "This tool expects at least two parameters in -bare mode. The first\n"
-          "parameter is a VFS path, the second the name of the XML file to\n"
-	  "load and the optional third parameter is the name of the config\n"
+    	  "This tool expects at least two parameters in -bare xml mode.\n"
+          "The first parameter is a VFS path, the second the name of"
+          "the XML file to\n"
+	  "load and the optional third parameter is the name of the config"
 	  "file to use.");
     return false;
   }
-  csString configname = cmdline->GetName (2);
+  csString configname= "";
+  configname = python_mode ? cmdline->GetName (1) : cmdline->GetName (2);
   if (configname.IsEmpty ())
     configname = "/celconfig/bootstrap.cfg";
 
@@ -189,12 +196,36 @@ bool Bootstrap::BareInitialize ()
     return false;
   }
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-  if (!vfs->ChDirAuto (path, 0, 0, file))
-    return false;
-  if (!loader->LoadMapFile (file, false))
-    return false;
+  if(python_mode)
+  {
+    if (path == 0)
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+          "crystalspace.application.bootstrap",
+          "This tool expects at least one parameter in -bare -python mode.\n"
+          "The first parameter is the name of the behaviour to create on\n"
+          "the bootstrap entity and the optional second parameter is the\n"
+          "name of the config file to use.");
+      return false;
+    }
+    csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
+        iPluginManager);
+    bl = CS_LOAD_PLUGIN (plugin_mgr, "cel.behaviourlayer.python",
+        iCelBlLayer);
+    bootstrap_entity = pl->CreateEntity ();
+    bootstrap_entity->SetName ("bootstrap");
+    iCelBehaviour* behave = bl->CreateBehaviour (bootstrap_entity, path);
+  }
+
+  else
+  {
+    csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+    csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+    if (!vfs->ChDirAuto (path, 0, 0, file))
+      return false;
+    if (!loader->LoadMapFile (file, false))
+      return false;
+  }
 
   return true;
 }
