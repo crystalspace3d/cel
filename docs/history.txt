@@ -2,7 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+5-Aug-2006
+        - cfraz89 added a -python option to bootstrap -bare mode, which
+          will create an entity with python bl of a given name. 
 4-Aug-2006
 	- Jorrit added a new ActivateRegion action to pczonemanager.
 	- Jorrit changed the xmlscripts addon so that it can now
