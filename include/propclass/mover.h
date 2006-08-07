@@ -26,9 +26,9 @@
 struct iPcLinearMovement;
 
 /**
- * This is a mover property class. It works closely with pclinmove in order
- * to move an object from one position to another while checking collision
- * detection along the way.
+ * This is a mover property class. It works closely with pclinmove and
+ * pcactormove in order to move an object from one position to another
+ * while checking collision detection along the way.
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
@@ -41,16 +41,13 @@ struct iPcLinearMovement;
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - Start: parameters 'sectorname' (string), 'position' (vector3),
- *     'up' (vector3), 'movespeed' (float), 'rotatespeed' (float),
- *     and 'sqradius' (float).
+ *     'up' (vector3), and 'sqradius' (float).
  * - Interrupt: interrupt the current movement.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
  * - up (vector3, read only): current up vector.
- * - movespeed (float, read only): current movement speed.
- * - rotatespeed (float, read only): current rotation speed.
  * - sqradius (float, read/write): current squared radius.
  * - moving (bool, read only): returns true if currently moving.
  */
@@ -71,15 +68,12 @@ struct iPcMover : public virtual iBase
    * \param sector is the desired sector to move too.
    * \param position is the desired position to move too.
    * \param up is the up vector (used for rotation).
-   * \param movespeed is the speed of movement.
-   * \param rotatespeed is the speed of rotation.
    * \param sqradius if the linmove ends up within the given squared
    * radius of the desired position the movement will stop and be considered
    * sucessful.
    */
   virtual bool Start (iSector* sector, const csVector3& position,
-	const csVector3& up, float movespeed, float rotatespeed,
-	float sqradius) = 0;
+	const csVector3& up, float sqradius) = 0;
 
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
@@ -101,16 +95,6 @@ struct iPcMover : public virtual iBase
    * Get the current up vector.
    */
   virtual const csVector3& GetUp () const = 0;
-
-  /**
-   * Get the current movement speed.
-   */
-  virtual float GetMoveSpeed () const = 0;
-
-  /**
-   * Get the current rotation speed.
-   */
-  virtual float GetRotateSpeed () const = 0;
 
   /**
    * Get the current squared radius.
