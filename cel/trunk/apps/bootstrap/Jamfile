@@ -27,6 +27,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     cpersist
     csbmpimg
     csconin
+    csconout
     csddsimg
     csfont
     csgifimg
@@ -55,6 +56,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_fixed
     gmeshanim
     gmeshldr
+    gmeshskelanim2
     lghtng
     nullmesh
     nullmeshldr
@@ -72,6 +74,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     shadermgr
     snow
     snowldr
+    skeleton
+    skelldr
     spr2d
     spr3d
     spr3dbin
@@ -122,6 +126,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_xmlscripts
     bltest
     blxml
+    celconsole
     mgr_quests
     mgr_billboard
     pfactormove
@@ -135,6 +140,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfmechanics
     pfmesh
     pfmove
+    pfmover
     pfportal
     pfquest
     pfsound
