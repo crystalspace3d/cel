@@ -322,7 +322,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 {
   // @@@ This is not an efficient routine. Use only for debugging purposes!
   size_t i;
-  csHash<csRef<celEntityTemplate>, csStrKey>::GlobalIterator it =
+  csHash<csRef<celEntityTemplate>, csStrKey>::ConstGlobalIterator it =
     entity_templates.GetIterator ();
   iCelEntityTemplate* temp = 0;
   for (i = 0 ; i <= idx ; i++)
