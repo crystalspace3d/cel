@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 7-Aug-2006
 	- Jorrit fixed CEL so it compiles again after a recent CS change.
+	- Vincent made cspython/blpython optional for bootstrap_static target.
+	  Also removed software and null renderers/shaders.
+	- Vincent fixed pfdamage.csplugin to use correct line endings.
 6-Aug-2006
 	- cfraz89 added a static target to bootstrap.
 5-Aug-2006
