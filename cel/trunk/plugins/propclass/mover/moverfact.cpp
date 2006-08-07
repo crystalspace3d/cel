@@ -18,7 +18,9 @@
 */
 
 #include "cssysdef.h"
+#include "csgeom/math3d.h"
 #include "iutil/objreg.h"
+#include "iutil/object.h"
 #include "iutil/evdefs.h"
 #include "csutil/debug.h"
 #include "plugins/propclass/mover/moverfact.h"
@@ -41,8 +43,6 @@ CEL_IMPLEMENT_FACTORY (Mover, "pcmover")
 csStringID celPcMover::id_sectorname = csInvalidStringID;
 csStringID celPcMover::id_position = csInvalidStringID;
 csStringID celPcMover::id_up = csInvalidStringID;
-csStringID celPcMover::id_movespeed = csInvalidStringID;
-csStringID celPcMover::id_rotatespeed = csInvalidStringID;
 csStringID celPcMover::id_sqradius = csInvalidStringID;
 csStringID celPcMover::action_start = csInvalidStringID;
 csStringID celPcMover::action_interrupt = csInvalidStringID;
@@ -58,8 +58,6 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
     id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_up = pl->FetchStringID ("cel.parameter.up");
-    id_movespeed = pl->FetchStringID ("cel.parameter.movespeed");
-    id_rotatespeed = pl->FetchStringID ("cel.parameter.rotatespeed");
     id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
     action_start = pl->FetchStringID ("cel.action.Start");
     action_interrupt = pl->FetchStringID ("cel.action.Interrupt");
@@ -72,15 +70,15 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   propcount = &propertycount;
   propdata[propid_position] = &position;// Automatically handled.
   propdata[propid_up] = &up;
-  propdata[propid_movespeed] = &movespeed;
-  propdata[propid_rotatespeed] = &rotatespeed;
   propdata[propid_sqradius] = &sqradius;
   propdata[propid_moving] = &is_moving;
+
+  is_moving = false;
 }
 
 celPcMover::~celPcMover ()
 {
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
 Property* celPcMover::properties = 0;
@@ -93,7 +91,7 @@ void celPcMover::UpdateProperties (iObjectRegistry* object_reg)
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     CS_ASSERT (pl != 0);
 
-    propertycount = 6;
+    propertycount = 4;
     properties = new Property[propertycount];
 
     properties[propid_position].id = pl->FetchStringID (
@@ -107,18 +105,6 @@ void celPcMover::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_up].datatype = CEL_DATA_VECTOR3;
     properties[propid_up].readonly = true;
     properties[propid_up].desc = "Current up vector.";
-
-    properties[propid_movespeed].id = pl->FetchStringID (
-    	"cel.property.movespeed");
-    properties[propid_movespeed].datatype = CEL_DATA_FLOAT;
-    properties[propid_movespeed].readonly = true;
-    properties[propid_movespeed].desc = "Current movement speed.";
-
-    properties[propid_rotatespeed].id = pl->FetchStringID (
-    	"cel.property.rotatespeed");
-    properties[propid_rotatespeed].datatype = CEL_DATA_FLOAT;
-    properties[propid_rotatespeed].readonly = true;
-    properties[propid_rotatespeed].desc = "Current rotation speed.";
 
     properties[propid_sqradius].id = pl->FetchStringID (
     	"cel.property.sqradius");
@@ -160,11 +146,25 @@ void celPcMover::SendMessage (const char* msg)
   }
 }
 
+static float GetAngle (const csVector3& v1, const csVector3& v2)
+{
+  float len = sqrt (csSquaredDist::PointPoint (v1, v2));
+  float angle = acos ((v2.x-v1.x) / len);
+  if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
+  angle += PI / 2.0f;
+  if (angle > 2*PI) angle -= 2*PI;
+  return angle;
+}
+
+#define DELAY_RECHECK 20
+
 bool celPcMover::Start (iSector* sector, const csVector3& position,
-	const csVector3& up, float movespeed, float rotatespeed, float sqradius)
+	const csVector3& up, float sqradius)
 {
   FindSiblingPropertyClasses ();
   if (!pclinmove)
+    return false;
+  if (!pcactormove)
     return false;
 
   Interrupt ();
@@ -172,44 +172,62 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
   celPcMover::sector = sector;
   celPcMover::position = position;
   celPcMover::up = up;
-  celPcMover::movespeed = movespeed;
-  celPcMover::rotatespeed = rotatespeed;
   celPcMover::sqradius = sqradius;
 
   // First we do a beam between our current position and the desired
   // position. If this beam fails already then we don't even start the move
   // and just send a 'pcmover_impossible' message.
-  csVector3 cur_pos;
   float cur_yrot;
+  csVector3 cur_position;
   iSector* cur_sector;
-  pclinmove->GetLastFullPosition (cur_pos, cur_yrot, cur_sector);
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
 
   // Use center of linmove CD box to trace beam.
   csVector3 body, legs, shift;
   iPcCollisionDetection* pc_cd;
   pclinmove->GetCDDimensions (body, legs, shift, pc_cd);
-  //@@@
 
-  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_pos, position);
+  float sqlen = csSquaredDist::PointPoint (cur_position, position);
+  if (sqlen < sqradius)
+  {
+    StopMovement ();
+    SendMessage ("pcmover_arrived");
+    return true;
+  }
+
+  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
+      position);
   if (rc.mesh)
   {
     SendMessage ("pcmover_impossible");
     return false;
   }
 
-  // @@@ TODO: Continue here...
+  csVector3 vec (0,0,1);
+  float yrot = GetAngle (position-cur_position, vec);
+  pcactormove->RotateTo (yrot);
+  pcactormove->Forward (true);
+
+  pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
 
   is_moving = true;
 
   return false;
 }
 
+void celPcMover::StopMovement ()
+{
+  if (!is_moving) return;
+  if (pcactormove) pcactormove->Forward (false);
+  is_moving = false;
+  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+}
+
 void celPcMover::Interrupt ()
 {
   if (is_moving)
   {
-    is_moving = false;
-    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    StopMovement ();
     SendMessage ("pcmover_interrupted");
   }
 }
@@ -226,16 +244,12 @@ bool celPcMover::PerformAction (csStringID actionId,
     if (!p_position) return false;
     CEL_FETCH_VECTOR3_PAR (up,params,id_up);
     if (!p_up) return false;
-    CEL_FETCH_FLOAT_PAR (movespeed,params,id_movespeed);
-    if (!p_movespeed) return false;
-    CEL_FETCH_FLOAT_PAR (rotatespeed,params,id_rotatespeed);
-    if (!p_rotatespeed) return false;
     CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
     if (!p_sqradius) return false;
     iSector* s = engine->FindSector (sectorname);
     if (!s)
       return false;
-    Start (sector, position, up, movespeed, rotatespeed, sqradius);
+    Start (sector, position, up, sqradius);
     // @@@ Return value?
     return true;
   }
@@ -247,15 +261,34 @@ bool celPcMover::PerformAction (csStringID actionId,
   return false;
 }
 
-void celPcMover::TickEveryFrame ()
+void celPcMover::TickOnce ()
 {
-  // @@@ TODO. Implement actual movement stuff here.
+  if (!is_moving) return;
+
+  float cur_yrot;
+  csVector3 cur_position;
+  iSector* cur_sector;
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+
+  float sqlen = csSquaredDist::PointPoint (cur_position, position);
+  if (sqlen < sqradius)
+  {
+    StopMovement ();
+    SendMessage ("pcmover_arrived");
+    return;
+  }
+
+  csVector3 vec (0,0,1);
+  float yrot = GetAngle (position-cur_position, vec);
+  pcactormove->RotateTo (yrot);
+  pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
 }
 
 void celPcMover::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
+    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
     pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
     pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
   }

@@ -5,6 +5,10 @@ The history order is reversed so that new features are at the top.
 
 7-Aug-2006
 	- Jorrit fixed CEL so it compiles again after a recent CS change.
+	- Jorrit fixed an uninitialized variable in pcmover.
+	- Jorrit fully implemented pcmover. It works very nicely now and
+	  can act as a good technique to have creatures running towards
+	  the player.
 	- Vincent made cspython/blpython optional for bootstrap_static target.
 	  Also removed software and null renderers/shaders.
 	- Vincent fixed pfdamage.csplugin to use correct line endings.

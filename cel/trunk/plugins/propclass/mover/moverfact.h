@@ -30,6 +30,7 @@
 #include "celtool/stdparams.h"
 #include "propclass/mover.h"
 #include "propclass/linmove.h"
+#include "propclass/actormove.h"
 #include "propclass/mesh.h"
 #include "iengine/engine.h"
 
@@ -50,14 +51,13 @@ class celPcMover : public scfImplementationExt1<
 private:
   csWeakRef<iEngine> engine;
   csWeakRef<iPcLinearMovement> pclinmove;
+  csWeakRef<iPcActorMove> pcactormove;
   csWeakRef<iPcMesh> pcmesh;
 
   // For PerformAction.
   static csStringID id_sectorname;
   static csStringID id_position;
   static csStringID id_up;
-  static csStringID id_movespeed;
-  static csStringID id_rotatespeed;
   static csStringID id_sqradius;
   static csStringID action_start;
   static csStringID action_interrupt;
@@ -67,8 +67,6 @@ private:
   {
     propid_position = 0,
     propid_up,
-    propid_movespeed,
-    propid_rotatespeed,
     propid_sqradius,
     propid_moving
   };
@@ -80,27 +78,23 @@ private:
   iSector* sector;
   csVector3 position;
   csVector3 up;
-  float movespeed;
-  float rotatespeed;
   float sqradius;
   bool is_moving;
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg);
+  void StopMovement ();
 
 public:
   celPcMover (iObjectRegistry* object_reg);
   virtual ~celPcMover ();
 
   virtual bool Start (iSector* sector, const csVector3& position,
-      const csVector3& up, float movespeed, float rotatespeed,
-      float sqradius);
+      const csVector3& up, float sqradius);
   virtual void Interrupt ();
   virtual iSector* GetSector () const { return sector; }
   virtual const csVector3& GetPosition () const { return position; }
   virtual const csVector3& GetUp () const { return up; }
-  virtual float GetMoveSpeed () const { return movespeed; }
-  virtual float GetRotateSpeed () const { return rotatespeed; }
   virtual float GetSqRadius () const { return sqradius; }
   virtual bool IsMoving () const { return is_moving; }
 
@@ -109,7 +103,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
-  virtual void TickEveryFrame ();
+  virtual void TickOnce ();
 };
 
 #endif // __CEL_PF_MOVERFACT__
