@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	  SendMessage(message, None, params)
 	- Jorrit removed the old gmeshanim plugin and the bltest plugin
 	  from static bootstrap.
+	- Jorrit fixed a serious bug in the handling of every-frame
+	  callbacks. If such a callback was removed or added during the
+	  handling of those callbacks you could get bad crashes.
 7-Aug-2006
 	- Jorrit fixed CEL so it compiles again after a recent CS change.
 	- Jorrit fixed an uninitialized variable in pcmover.

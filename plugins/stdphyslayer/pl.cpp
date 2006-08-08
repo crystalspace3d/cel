@@ -109,6 +109,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return false;
 
+  cbinfo->handling_every_frame = true;
   // First fire all property classes that must be fired every frame.
   bool compress = false;
   csSet<size_t>::GlobalIterator it = cbinfo->every_frame.GetIterator ();
@@ -121,6 +122,11 @@ bool celPlLayer::HandleEvent (iEvent& ev)
     else
       compress = true;
   }
+  cbinfo->handling_every_frame = false;
+  while (cbinfo->todo_del_every_frame.Length () > 0)
+    cbinfo->every_frame.Delete (cbinfo->todo_del_every_frame.Pop ());
+  while (cbinfo->todo_add_every_frame.Length () > 0)
+    cbinfo->every_frame.Add (cbinfo->todo_add_every_frame.Pop ());
 
   // Then fire all property classes that are interested in receiving
   // events if the alloted time has exceeded. The property classes
@@ -1308,7 +1314,14 @@ void celPlLayer::CallbackEveryFrame (iCelTimerListener* listener, int where)
   CallbackInfo* cbinfo = GetCBInfo (where);
   if (!cbinfo) return;
   size_t pc_idx = WeakRegListener (listener);
-  cbinfo->every_frame.Add (pc_idx);
+  if (cbinfo->handling_every_frame)
+  {
+    // First remove it from the delete todo.
+    cbinfo->todo_del_every_frame.Delete (pc_idx);
+    cbinfo->todo_add_every_frame.Push (pc_idx);
+  }
+  else
+    cbinfo->every_frame.Add (pc_idx);
 }
 
 static int CompareTimedCallback (CallbackTiming const& r1,
@@ -1344,7 +1357,14 @@ void celPlLayer::RemoveCallbackEveryFrame (iCelTimerListener* listener,
   if (pc_idx == (size_t)~0) return;
 
   CallbackInfo* cbinfo = GetCBInfo (where);
-  cbinfo->every_frame.Delete (pc_idx);
+  if (cbinfo->handling_every_frame)
+  {
+    // First remove it from the add todo.
+    cbinfo->todo_add_every_frame.Delete (pc_idx);
+    cbinfo->todo_del_every_frame.Push (pc_idx);
+  }
+  else
+    cbinfo->every_frame.Delete (pc_idx);
 }
 
 void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
