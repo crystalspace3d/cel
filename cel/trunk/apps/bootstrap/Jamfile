@@ -54,7 +54,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     gl3d
     glshader_arb
     glshader_fixed
-    gmeshanim
     gmeshldr
     gmeshskelanim2
     lghtng
@@ -124,7 +123,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentitytpl
     addon_questdef
     addon_xmlscripts
-    bltest
     blxml
     celconsole
     mgr_quests
