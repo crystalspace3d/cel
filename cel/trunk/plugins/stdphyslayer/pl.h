@@ -45,10 +45,20 @@ struct CallbackTiming
   size_t pc_idx;
   csTicks time_to_fire;
 };
+
 struct CallbackInfo
 {
   csSet<size_t> every_frame;
+  // To make sure we don't modify the 'every_frame' array while we
+  // are busy traversing it we set the 'handling_every_frame' to true
+  // during this loop. The 'todo_add_every_frame' and 'todo_del_every_frame'
+  // arrays are used to remember the things to add and remove when
+  // the loop is done.
+  bool handling_every_frame;
+  csArray<size_t> todo_add_every_frame;
+  csArray<size_t> todo_del_every_frame;
   csArray<CallbackTiming> timed_callbacks;
+  CallbackInfo () : handling_every_frame (false) { }
 };
 
 /**
