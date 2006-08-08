@@ -374,10 +374,10 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
     Py_INCREF (obj);
     return obj;
   }
-  PyObject *SendMessage(const char* msg_id, iCelParameterBlock* params)
+  PyObject *SendMessage(const char* msg_id, iCelPropertyClass* prop, iCelParameterBlock* params)
   {
        celData ret;
-       if(self->SendMessage (msg_id,0,ret,params))
+       if(self->SendMessage (msg_id,prop,ret,params))
        {
          CELDATA_RETURN((&ret));
 	 return obj;
