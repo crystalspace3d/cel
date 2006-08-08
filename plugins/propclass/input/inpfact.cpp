@@ -435,7 +435,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
       newkmap->command_end = strchr (newkmap->command, 0);
-      *(newkmap->command_end+1) = 0;        // Make sure there is an end there too.
+      *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
 
       if (keylist)
         keylist->prev = newkmap;
@@ -448,7 +448,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
       newkmap->command_end = strchr (newkmap->command, 0);
-      *(newkmap->command_end+1) = 0;        // Make sure there is an end there too.
+      *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
     }
 
     return true;
@@ -824,9 +824,12 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       int modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celAxisMap *p = axislist;
+      csEventID mouse_id = csevMouseMove (object_reg, device);
       while (p)
       {
-        if ((modifiers & p->modifiers) == p->modifiers)
+        if ((p->device == device) &&
+                 ((modifiers & p->modifiers) == p->modifiers) &&
+                 (csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
         {
           iCelBehaviour* bh = entity->GetBehaviour ();
           if (bh)
@@ -863,7 +866,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     {
       //mouse button event
       int button = csMouseEventHelper::GetButton(&ev);
-      int modifiers = csMouseEventHelper::GetModifiers(&ev);
+      uint32 modifiers = csMouseEventHelper::GetModifiers(&ev);
       //find mapping
       celButtonMap *p = buttonlist;
       csEventID mouse_id = csevMouseButton (object_reg, device);
@@ -919,11 +922,17 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
       //joystick move event
       uint32 modifiers = csJoystickEventHelper::GetModifiers(&ev);
+      csJoystickEventData data;
+      csJoystickEventHelper::GetEventData (&ev, data);
       //find mapping
       celAxisMap *p = axislist;
+      csEventID joy_id = csevJoystickMove (object_reg, device);
       while (p)
       {
-        if ((modifiers & p->modifiers) == p->modifiers)
+        if ((device == p->device) &&
+                 ((modifiers & p->modifiers) == p->modifiers) &&
+                 (csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id)) &&
+                 ((data.axesChanged & (1 << p->numeric)) != 0))
         {
           iCelBehaviour* bh = entity->GetBehaviour ();
           if (bh)
