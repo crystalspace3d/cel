@@ -1,6 +1,6 @@
 #define __CEL__
 %module blcelc
-%import "ivaria/cspace.i"
+%import "bindings/cspace.i"
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
