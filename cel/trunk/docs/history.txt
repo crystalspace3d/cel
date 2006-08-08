@@ -2,7 +2,10 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+8-Aug-2006
+	- cfraz89 added property class to python SendMessage().
+	  what used to be SendMessage(message, params) becomes
+	  SendMessage(message, None, params)
 7-Aug-2006
 	- Jorrit fixed CEL so it compiles again after a recent CS change.
 	- Jorrit fixed an uninitialized variable in pcmover.
