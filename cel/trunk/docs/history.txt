@@ -12,6 +12,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a serious bug in the handling of every-frame
 	  callbacks. If such a callback was removed or added during the
 	  handling of those callbacks you could get bad crashes.
+	- Vincent fixed pccommandinput so that commands are correctly sent
+	  upon joystick or mouse axes triggers. Previously, an axis-bound
+	  command was triggered for any axis/device/type.
 7-Aug-2006
 	- Jorrit fixed CEL so it compiles again after a recent CS change.
 	- Jorrit fixed an uninitialized variable in pcmover.
