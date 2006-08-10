@@ -1,6 +1,7 @@
 SubDir TOP apps ;
 
 SubInclude TOP apps celtest ;
+SubInclude TOP apps celstart ;
 SubInclude TOP apps mechtest ;
 SubInclude TOP apps bootstrap ;
 SubInclude TOP apps nettest ;

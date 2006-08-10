@@ -2183,6 +2183,7 @@
 	        <createpropclass name="pccommandinput" />
 		<default propclass="pc(pccommandinput)" />
 		<property id="propid(cooked)" value="true" />
+		<expr eval="Bind{trigger=esc,command=quit}" />
 		<expr eval="Bind{trigger=right,command=move_right}" />
 		<expr eval="Bind{trigger=left,command=move_left}" />
 		<expr eval="Bind{trigger=up,command=move_up}" />
@@ -2798,6 +2799,10 @@
 	      -->
 	    <event name="falldown">
 		<return value="false" />
+	    </event>
+
+	    <event name="pccommandinput_quit1">
+	        <quit/>
 	    </event>
 
 	    <!--

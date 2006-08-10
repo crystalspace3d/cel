@@ -9,6 +9,7 @@ examples of how to use Crystal Entity Layer or sometimes as both.
 * AppOverview::                 Overview
 * AppCeltest::                  celtest
 * AppBootstrap::                bootstrap
+* AppCelstart::                 celstart
 @end menu
 
 @node AppOverview, AppCeltest, Applications, Applications
@@ -23,12 +24,87 @@ The applications currently bundled with Crystal Entity Layer are:
         
 @item bootstrap
     TODO: Document bootstrap overview
+
+@item celstart
+    Celstart is a simple application that can be used to fire up a CEL game.
+    As a parameter it expects a simple config file which fully describes how
+    the game should start and what parameters it expects.
 @end table
 
 @node AppCeltest, AppBootstrap, AppOverview, Applications
 @section celtest
 TODO: Document celtest
 
-@node AppBootstrap,  , AppCeltest, Applications
+@node AppBootstrap, AppCelstart, AppCeltest, Applications
 @section bootstrap
 TODO: Document bootstrap
+
+@node AppCelstart, , AppBootstrap, Applications
+@section celstart
+@samp{celstart} is a simple application that is designed to fire up a game that
+uses CEL. If you use this application then you can write games using @sc{xml} or
+python scripts without having to write a single line of C++ code.
+
+@samp{celstart} has a single argument which can be of the form:
+
+@itemize @bullet
+@item @samp{zip archive} 
+In this case the zip archive should contain a config file called @file{celstart.cfg}.
+@item @samp{real filesystem directory}
+In this case the directory should also contain a config file called @file{celstart.cfg}.
+@item @samp{vfs directory}
+Same as with the real directory. It should contain @samp{celstart.cfg}
+@item @samp{real path to config file}
+In this case the config file can have another name.
+@item @samp{vfs path to config file}
+In this case the config file can have another name.
+@end itemize
+
+After starting @samp{celstart} will first try to open the config and then it will
+give that config file to Crystal Space. So basically the config file is treated like
+a normal Crystal Space configuration file and thus can contain information about which
+plugins to load, the desired resolution, and many other options. In addition to that
+@samp{celstart} will understand the following additional configuration options:
+
+@itemize @bullet
+@item @samp{CelStart.MapFile.<somename> = <filename>}
+With this option you can let @samp{celstart} load the given map file. It is possible
+to have multiple of these in the same configuration in which case @samp{celstart} will
+try to load them all.
+@item @samp{CelStart.Entity.<name> = <name>}
+This is a way to let celstart create an entity from the start. If this option is
+present then @samp{celstart} will also try to find @samp{CelStart.EntityBehaviour.<name>}
+and @samp{CelStart.EntityBehaviourLayer.<name>}. With those two you can specify the
+name of the behaviour (and optionally the name of the behaviour layer, otherwise the
+default name is taken).
+@item @samp{CelStart.BehaviourLayer.<bhname> = <classid>}
+This is a way to load additional behaviour layers. Note that by default @sc{xml}
+scripts will automatically load their behaviour layer so it is not needed to add this
+if you use only @sc{xml} behaviours.
+@item @samp{CelStart.ClearScreen = true}
+If you have a 2D only @sc{xml} game then it might be needed to force @samp{celstart}
+into clearing the screen every frame since there will be no 3D camera that will do
+this.
+@end itemize
+
+Here is an example config file:
+
+@example
+; We always need a dummy name after CelStart.MapFile. Even if we have only one map file.
+CelStart.MapFile.a = data/maingame.xml
+CelStart.MapFile.b = data/screenmanager.xml
+; Use 'iCelBlLayer' for the default behaviour layer. Use another name for the others.
+CelStart.BehaviourLayer.iCelBlLayer = cel.behaviourlayer.python
+CelStart.BehaviourLayer.blxml = cel.behaviourlayer.xml
+; Create one entity.
+CelStart.Entity.start = start
+CelStart.EntityBehaviourLayer.start = blxml
+CelStart.EntityBehaviour.start = start_behaviour
+; Some CS stuff.
+Video.ScreenWidth = 1024
+Video.ScreenHeight = 768
+System.Plugins.iGraphics3D = crystalspace.graphics3d.opengl
+System.Plugins.iEngine = crystalspace.engine.3d
+@dots{}
+@end example
+
