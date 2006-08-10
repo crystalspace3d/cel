@@ -368,6 +368,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfdamage_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfdamage_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfdamage_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfdefcam_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -995,6 +1010,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_billboard_billboard.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\damage\damagefact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_damage_damagefact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_damage_damagefact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2086,6 +2116,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\damage\damagefact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\defcam\defcam.h">
