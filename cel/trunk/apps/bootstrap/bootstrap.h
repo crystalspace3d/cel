@@ -54,16 +54,9 @@ private:
   bool HandleEvent (iEvent& ev);
   void FinishFrame ();
 
-  bool FullInitialize ();
-  bool BareInitialize ();
-
-  bool bare_mode;
-
 public:
   Bootstrap ();
   ~Bootstrap ();
-
-  bool GetBareMode () const { return bare_mode; }
 
   bool Initialize (int argc, const char* const argv[]);
   void Start ();
