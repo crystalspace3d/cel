@@ -39,8 +39,9 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  *   'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),
  *   'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max).
  * - SetZoneManager: parameters 'entity' (string), 'region' (string)
- *    and 'start' (string).
+ *   and 'start' (string).
  * - CenterCamera: no parameters.
+ * - PointCamera: parameters 'start'.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -100,6 +101,12 @@ public:
    * all camera modes with some key in a game.
    */
   virtual CameraMode GetNextMode () const = 0;
+
+  /**
+   * Point the camera to some given location.
+   * Returns false if the location could not be found.
+   */
+  virtual bool PointCamera (const char* start) = 0;
 
   /**
    * Set spring parameters for the current camera mode.

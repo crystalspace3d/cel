@@ -40,6 +40,7 @@
 #include "imap/loader.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
+#include "iengine/campos.h"
 #include "iengine/movable.h"
 #include "iengine/camera.h"
 #include "iengine/region.h"
@@ -246,6 +247,7 @@ void CAFreeLook::SetupMode ()
 //---------------------------------------------------------------------------
 
 csStringID celPcDefaultCamera::action_setcamera = csInvalidStringID;
+csStringID celPcDefaultCamera::action_pointcamera = csInvalidStringID;
 csStringID celPcDefaultCamera::id_modename = csInvalidStringID;
 csStringID celPcDefaultCamera::id_spring = csInvalidStringID;
 csStringID celPcDefaultCamera::id_turnspeed = csInvalidStringID;
@@ -353,6 +355,7 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   if (action_setcamera == csInvalidStringID)
   {
     action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
+    action_pointcamera = pl->FetchStringID ("cel.action.PointCamera");
     id_modename = pl->FetchStringID ("cel.parameter.modename");
     id_spring = pl->FetchStringID ("cel.parameter.spring");
     id_turnspeed = pl->FetchStringID ("cel.parameter.turnspeed");
@@ -414,6 +417,12 @@ bool celPcDefaultCamera::PerformAction (csStringID actionId,
   {
     CenterCamera ();
     return true;
+  }
+  else if (actionId == action_pointcamera)
+  {
+    CEL_FETCH_STRING_PAR (startname,params,id_startname);
+    if (!p_startname) return false;
+    return PointCamera (startname);
   }
   else if (actionId == action_setcamera)
   {
@@ -490,6 +499,15 @@ bool celPcDefaultCamera::PerformAction (csStringID actionId,
     return true;
   }
   return false;
+}
+
+bool celPcDefaultCamera::PointCamera (const char* start)
+{
+  iCameraPosition* campos = engine->FindCameraPosition (start);
+  if (!campos) return false;
+  iCamera* c = view->GetCamera ();
+  campos->Load (c, engine);
+  return true;
 }
 
 void celPcDefaultCamera::SetFollowEntity (iCelEntity* entity)

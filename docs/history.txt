@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	  on how to use celstart. The boulderdash game is also a good example.
 	  You can start that by doing ./celstart scripts/boulderdash.cfg
 	- Jorrit moved entity creation in celstart to before map loading.
+	- Jorrit added a new PointCamera() function and action to
+	  pcdefaultcamera.
 8-Aug-2006
 	- cfraz89 added property class to python SendMessage().
 	  what used to be SendMessage(message, params) becomes
