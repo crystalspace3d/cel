@@ -260,17 +260,6 @@ bool CelStart::Initialize (int argc, const char* const argv[])
     pl->RegisterBehaviourLayer (bl);
   }
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
-  it = cfg->Enumerate ("CelStart.MapFile.");
-  while (it && it->Next ())
-  {
-    const char* file = it->GetStr ();
-    if (!vfs->ChDirAuto (path, 0, 0, file))
-      return false;
-    if (!loader->LoadMapFile (file, false))
-      return false;
-  }
-
   it = cfg->Enumerate ("CelStart.Entity.");
   while (it && it->Next ())
   {
@@ -308,6 +297,17 @@ bool CelStart::Initialize (int argc, const char* const argv[])
         return false;
       }
     }
+  }
+
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+  it = cfg->Enumerate ("CelStart.MapFile.");
+  while (it && it->Next ())
+  {
+    const char* file = it->GetStr ();
+    if (!vfs->ChDirAuto (path, 0, 0, file))
+      return false;
+    if (!loader->LoadMapFile (file, false))
+      return false;
   }
 
   do_clearscreen = cfg->GetBool ("CelStart.ClearScreen", false);
