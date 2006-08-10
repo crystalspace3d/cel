@@ -63,7 +63,7 @@ ul.toc {list-style: none}
 <p>The quest property classes uses the quest manager in the background so
 this section will also explain the quest manager.
 </p>
-<a name="SEC46"></a>
+<a name="SEC47"></a>
 <h4 class="subsubheading"> Property Class Details </h4>
 
 <ul>
@@ -77,7 +77,7 @@ this section will also explain the quest manager.
 <tt>`include/propclass/quest.h'</tt>
 </li></ul>
 
-<a name="SEC47"></a>
+<a name="SEC48"></a>
 <h4 class="subsubheading"> General Information </h4>
 
 <p>The quest manager is one of the most important modules in Crystal Entity
@@ -92,7 +92,7 @@ like a template from wich to create quests. In every quest there are basically
 five different concepts: <em>states</em>, <em>triggers</em>, <em>rewards</em>,
 <em>responses</em>, and <em>sequences</em>.
 </p>
-<a name="SEC48"></a>
+<a name="SEC49"></a>
 <h4 class="subsubheading"> Triggers </h4>
 
 <p>Triggers cause progression in a quest. Whenever a trigger fires the quest
@@ -129,7 +129,7 @@ This triggers when a mesh is selected. See
 <p>It is of course possible to define your own triggers and register them to
 the quest manager.
 </p>
-<a name="SEC49"></a>
+<a name="SEC50"></a>
 <h4 class="subsubheading"> Rewards </h4>
 
 <p>Whenever a trigger fires one or more rewards are executed. A reward is
@@ -158,20 +158,20 @@ Finishes a sequence. See <code>iSequenceFinishQuestRewardFactory</code>.
 
 <p>It is also possible to define your own rewards.
 </p>
-<a name="SEC50"></a>
+<a name="SEC51"></a>
 <h4 class="subsubheading"> Responses </h4>
 
 <p>A response is simply one trigger and one or more rewards together. In
 one state you can define multiple responses. Every response will define
 a different set of rewards.
 </p>
-<a name="SEC51"></a>
+<a name="SEC52"></a>
 <h4 class="subsubheading"> States </h4>
 
 <p>A quest is made out of different states. Every state has zero or more
 responses.
 </p>
-<a name="SEC52"></a>
+<a name="SEC53"></a>
 <h4 class="subsubheading"> Sequences </h4>
 
 <p>A reward is always a one-shot operation. It occurs and besides the effect
@@ -195,7 +195,7 @@ Animates a light color. See <code>iLightQuestSeqOpFactory</code>.
 
 <p>You can define your own sequence operations for the quest manager.
 </p>
-<a name="SEC53"></a>
+<a name="SEC54"></a>
 <h4 class="subsubheading"> Defining a quest in XML </h4>
 
 <p>Here we show how you could define a quest in XML. We use the

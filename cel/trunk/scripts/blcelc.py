@@ -3181,6 +3181,94 @@ celGetSetCraftController = _blcelc.celGetSetCraftController
 celGetCraftController = _blcelc.celGetCraftController
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
+class iPcWheeled(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcWheeled, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcWheeled, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcWheeled instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetWheelMesh(*args): return _blcelc.iPcWheeled_SetWheelMesh(*args)
+    def SetTankMode(*args): return _blcelc.iPcWheeled_SetTankMode(*args)
+    def GetTankMode(*args): return _blcelc.iPcWheeled_GetTankMode(*args)
+    def AddWheelAuto(*args): return _blcelc.iPcWheeled_AddWheelAuto(*args)
+    def AddWheel(*args): return _blcelc.iPcWheeled_AddWheel(*args)
+    def DeleteWheel(*args): return _blcelc.iPcWheeled_DeleteWheel(*args)
+    def DeleteAllWheels(*args): return _blcelc.iPcWheeled_DeleteAllWheels(*args)
+    def DestroyWheel(*args): return _blcelc.iPcWheeled_DestroyWheel(*args)
+    def DestroyAllWheels(*args): return _blcelc.iPcWheeled_DestroyAllWheels(*args)
+    def RestoreWheel(*args): return _blcelc.iPcWheeled_RestoreWheel(*args)
+    def RestoreAllWheels(*args): return _blcelc.iPcWheeled_RestoreAllWheels(*args)
+    def SetOuterWheelSteerPreset(*args): return _blcelc.iPcWheeled_SetOuterWheelSteerPreset(*args)
+    def SetFrontWheelPreset(*args): return _blcelc.iPcWheeled_SetFrontWheelPreset(*args)
+    def SetRearWheelPreset(*args): return _blcelc.iPcWheeled_SetRearWheelPreset(*args)
+    def Accelerate(*args): return _blcelc.iPcWheeled_Accelerate(*args)
+    def IsAccelerating(*args): return _blcelc.iPcWheeled_IsAccelerating(*args)
+    def Brake(*args): return _blcelc.iPcWheeled_Brake(*args)
+    def IsBraking(*args): return _blcelc.iPcWheeled_IsBraking(*args)
+    def Handbrake(*args): return _blcelc.iPcWheeled_Handbrake(*args)
+    def IsHandbraking(*args): return _blcelc.iPcWheeled_IsHandbraking(*args)
+    def SetSteerAmount(*args): return _blcelc.iPcWheeled_SetSteerAmount(*args)
+    def SetBrakeForce(*args): return _blcelc.iPcWheeled_SetBrakeForce(*args)
+    def GetSteerAmount(*args): return _blcelc.iPcWheeled_GetSteerAmount(*args)
+    def SteerLeft(*args): return _blcelc.iPcWheeled_SteerLeft(*args)
+    def SteerRight(*args): return _blcelc.iPcWheeled_SteerRight(*args)
+    def SteerStraight(*args): return _blcelc.iPcWheeled_SteerStraight(*args)
+    def Reverse(*args): return _blcelc.iPcWheeled_Reverse(*args)
+    def Neutral(*args): return _blcelc.iPcWheeled_Neutral(*args)
+    def SetAutoTransmission(*args): return _blcelc.iPcWheeled_SetAutoTransmission(*args)
+    def SetGear(*args): return _blcelc.iPcWheeled_SetGear(*args)
+    def GetGear(*args): return _blcelc.iPcWheeled_GetGear(*args)
+    def SetGearSettings(*args): return _blcelc.iPcWheeled_SetGearSettings(*args)
+    def GetTopGear(*args): return _blcelc.iPcWheeled_GetTopGear(*args)
+    def SetAutoReverse(*args): return _blcelc.iPcWheeled_SetAutoReverse(*args)
+    def GetBodyGroup(*args): return _blcelc.iPcWheeled_GetBodyGroup(*args)
+    def SetWheelPosition(*args): return _blcelc.iPcWheeled_SetWheelPosition(*args)
+    def SetWheelSuspensionSoftness(*args): return _blcelc.iPcWheeled_SetWheelSuspensionSoftness(*args)
+    def SetWheelSuspensionDamping(*args): return _blcelc.iPcWheeled_SetWheelSuspensionDamping(*args)
+    def SetWheelLeftSteerSensitivity(*args): return _blcelc.iPcWheeled_SetWheelLeftSteerSensitivity(*args)
+    def SetWheelRightSteerSensitivity(*args): return _blcelc.iPcWheeled_SetWheelRightSteerSensitivity(*args)
+    def SetWheelTurnSpeed(*args): return _blcelc.iPcWheeled_SetWheelTurnSpeed(*args)
+    def SetWheelReturnSpeed(*args): return _blcelc.iPcWheeled_SetWheelReturnSpeed(*args)
+    def SetWheelEnginePower(*args): return _blcelc.iPcWheeled_SetWheelEnginePower(*args)
+    def SetWheelBrakePower(*args): return _blcelc.iPcWheeled_SetWheelBrakePower(*args)
+    def SetWheelSteerInverted(*args): return _blcelc.iPcWheeled_SetWheelSteerInverted(*args)
+    def SetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_SetWheelHandbrakeAffected(*args)
+    def GetWheelPosition(*args): return _blcelc.iPcWheeled_GetWheelPosition(*args)
+    def GetWheelSuspensionSoftness(*args): return _blcelc.iPcWheeled_GetWheelSuspensionSoftness(*args)
+    def GetWheelSuspensionDamping(*args): return _blcelc.iPcWheeled_GetWheelSuspensionDamping(*args)
+    def GetWheelLeftSteerSensitivity(*args): return _blcelc.iPcWheeled_GetWheelLeftSteerSensitivity(*args)
+    def GetWheelRightSteerSensitivity(*args): return _blcelc.iPcWheeled_GetWheelRightSteerSensitivity(*args)
+    def GetWheelTurnSpeed(*args): return _blcelc.iPcWheeled_GetWheelTurnSpeed(*args)
+    def GetWheelReturnSpeed(*args): return _blcelc.iPcWheeled_GetWheelReturnSpeed(*args)
+    def GetWheelEnginePower(*args): return _blcelc.iPcWheeled_GetWheelEnginePower(*args)
+    def GetWheelBrakePower(*args): return _blcelc.iPcWheeled_GetWheelBrakePower(*args)
+    def GetWheelSteerInverted(*args): return _blcelc.iPcWheeled_GetWheelSteerInverted(*args)
+    def GetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_GetWheelHandbrakeAffected(*args)
+    def __del__(self, destroy=_blcelc.delete_iPcWheeled):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcWheeledPtr(iPcWheeled):
+    def __init__(self, this):
+        _swig_setattr(self, iPcWheeled, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcWheeled, 'thisown', 0)
+        _swig_setattr(self, iPcWheeled,self.__class__,iPcWheeled)
+_blcelc.iPcWheeled_swigregister(iPcWheeledPtr)
+
+
+celCreateWheeled = _blcelc.celCreateWheeled
+
+celGetSetWheeled = _blcelc.celGetSetWheeled
+
+celGetWheeled = _blcelc.celGetWheeled
+
+scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
 class iCelConsoleCommand(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
