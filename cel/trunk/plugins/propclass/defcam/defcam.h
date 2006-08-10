@@ -178,6 +178,7 @@ private:
   csRef<iCollideSystem> cdsys;
   bool use_cd;
 
+  static csStringID action_pointcamera;
   static csStringID action_setcamera;
   static csStringID id_modename;
   static csStringID id_spring;
@@ -334,6 +335,8 @@ public:
   int GetDrawFlags ();
 
   void SetFollowEntity (iCelEntity* entity);
+
+  bool PointCamera (const char* start);
 
   /**
    * Sets the current position of the camera (different for each mode)
@@ -698,6 +701,10 @@ public:
         const char* regionname, const char* name = 0)
     {
       return scfParent->SetZoneManager (entityname, point, regionname, name);
+    }
+    virtual bool PointCamera (const char* start)
+    {
+      return scfParent->PointCamera (start);
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
