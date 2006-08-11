@@ -60,6 +60,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     nullmesh
     nullmeshldr
     odedynam
+    physldr
     particles
     particlesldr
     partphys_simple
