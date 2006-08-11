@@ -391,6 +391,7 @@ public:
     CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
     CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
+  bool handler_has_move;	// Optimization to remember if we have 'move' enabled.
 };
 
 #endif // __CEL_PF_MESHFACT__
