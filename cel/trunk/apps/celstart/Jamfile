@@ -24,6 +24,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     bindoc
     bruteblock
     simpleformer
+    simpleformerldr
     bugplug
     cpersist
     csbmpimg
