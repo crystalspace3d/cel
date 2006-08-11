@@ -861,6 +861,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   scfiEventHandler = 0;
+  handler_has_move = false;
   pccamera = 0;
 
   sel_entity = 0;
@@ -1007,15 +1008,21 @@ void celPcMeshSelect::SetupEventHandler ()
   {
     scfiEventHandler = new EventHandler (this);
   }
+  else
+  {
+    bool do_move = do_drag || do_follow || do_sendmove;
+    if (do_move == handler_has_move) return;
+    handler_has_move = do_move;
+  }
+
   csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
+
   csEventID esub[] = {
     csevMouseDown (object_reg, 0),
     csevMouseUp (object_reg, 0),
-    (do_drag || do_follow || do_sendmove)
-    	? csevMouseMove (object_reg, 0)
-	: CS_EVENTLIST_END,
+    handler_has_move ? csevMouseMove (object_reg, 0) : CS_EVENTLIST_END,
     CS_EVENTLIST_END
   };
   q->RegisterListener (scfiEventHandler, esub);
@@ -1272,11 +1279,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
       if (do_global || new_sel == entity)
       {
 	if (sel_entity != new_sel)
-	{
 	  drag_offset = dragoffs;
-	  printf ("drag_offset=%g,%g,%g\n", drag_offset.x,
-	      drag_offset.y, drag_offset.z); fflush (stdout);
-	}
         sel_entity = new_sel;
       }
       if (do_senddown && sel_entity)
