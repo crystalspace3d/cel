@@ -29720,6 +29720,31 @@ static PyObject *_wrap_iPcDefaultCamera_GetNextMode(PyObject *, PyObject *args) 
 }
 
 
+static PyObject *_wrap_iPcDefaultCamera_PointCamera(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcDefaultCamera *arg1 = (iPcDefaultCamera *) 0 ;
+    char *arg2 = (char *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcDefaultCamera_PointCamera",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcDefaultCamera, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    if (!SWIG_AsCharPtr(obj1, (char**)&arg2)) {
+        SWIG_arg_fail(2);SWIG_fail;
+    }
+    result = (bool)(arg1)->PointCamera((char const *)arg2);
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iPcDefaultCamera_SetSpringParameters(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcDefaultCamera *arg1 = (iPcDefaultCamera *) 0 ;
@@ -42318,6 +42343,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcDefaultCamera_SetModeName", _wrap_iPcDefaultCamera_SetModeName, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_GetModeName", _wrap_iPcDefaultCamera_GetModeName, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_GetNextMode", _wrap_iPcDefaultCamera_GetNextMode, METH_VARARGS, NULL},
+	 { (char *)"iPcDefaultCamera_PointCamera", _wrap_iPcDefaultCamera_PointCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_SetSpringParameters", _wrap_iPcDefaultCamera_SetSpringParameters, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_SetMinMaxCameraDistance", _wrap_iPcDefaultCamera_SetMinMaxCameraDistance, METH_VARARGS, NULL},
 	 { (char *)"iPcDefaultCamera_SetTurnSpeed", _wrap_iPcDefaultCamera_SetTurnSpeed, METH_VARARGS, NULL},

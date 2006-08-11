@@ -2228,6 +2228,7 @@ class iPcDefaultCamera(iPcCamera):
     def SetModeName(*args): return _blcelc.iPcDefaultCamera_SetModeName(*args)
     def GetModeName(*args): return _blcelc.iPcDefaultCamera_GetModeName(*args)
     def GetNextMode(*args): return _blcelc.iPcDefaultCamera_GetNextMode(*args)
+    def PointCamera(*args): return _blcelc.iPcDefaultCamera_PointCamera(*args)
     def SetSpringParameters(*args): return _blcelc.iPcDefaultCamera_SetSpringParameters(*args)
     def SetMinMaxCameraDistance(*args): return _blcelc.iPcDefaultCamera_SetMinMaxCameraDistance(*args)
     def SetTurnSpeed(*args): return _blcelc.iPcDefaultCamera_SetTurnSpeed(*args)
