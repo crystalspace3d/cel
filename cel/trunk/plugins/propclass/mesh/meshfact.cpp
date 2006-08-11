@@ -1186,15 +1186,6 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
   iCelEntity* new_sel = 0;
 
-  // The following vectors are only set if needed.
-
-  // Vector from (0,0,0) to 'vc' in camera space corresponding to
-  // the point we clicked on.
-  csVector3 vc;
-  // Vector from 'vo' to 'vw' in world space corresponding to
-  // same vector.
-  csVector3 vo, vw;
-
   csVector3 dragoffs (0);
 
   if (mouse_down || do_follow_always || ((do_follow || do_drag) && sel_entity))
@@ -1236,6 +1227,12 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     mp += drag_offset;
 
     csVector3 v0, v1;
+
+    csVector2 p (mouse_x, camera->GetShiftY() * 2 - mouse_y);
+    // Vector from (0,0,0) to 'vc' in camera space corresponding to
+    // the point we clicked on.
+    csVector3 vc = camera->InvPerspective (p, 1);
+
     if (drag_normal_camera)
     {
       v0.Set (0.0f);
@@ -1244,8 +1241,10 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
     }
     else
     {
-      v0 = vo;
-      v1 = vw;
+      // Vector from 'v0' to 'v1' in world space corresponding to
+      // same vector.
+      v0 = camera->GetTransform ().GetO2TTranslation ();
+      v1 = camera->GetTransform ().This2Other (vc);
     }
     csVector3 isect;
     float dist;
@@ -1543,7 +1542,7 @@ void celPcMesh::SetShaderVar(csStringID name, csVector2 value)
     var->SetValue(value);
     svc->AddVariable(var);
   }
-}     
+}
 
 //---------------------------------------------------------------------------
 
