@@ -294,14 +294,19 @@ void celPcActorMove::TickEveryFrame ()
     if (mousemove_inverted) mousemove_lasty = -mousemove_lasty;
     float abs_x = fabs (mousemove_lastx);
     float abs_y = fabs (mousemove_lasty);
-    if ((abs_x > 0.0001 || abs_y > 0.0001) && abs_x < .4 && abs_y < .4)
+    // Only rotate if mouse moved noticably.
+    if (abs_x > 0.0001 || abs_y > 0.0001)
     {
+      // Limit the maximum amount of mouse movement.
+      if (abs_x > .4) abs_x = .4f;
+      if (abs_y > .4) abs_y = .4f;
+
       pcdefcamera->MovePitch ((-mousemove_lasty)
 	  * mousemove_vert_factor * MOUSEMOVE_VERT_FACTOR);
       float s = GetRotationSpeed();
-      SetRotationSpeed (fabs (mousemove_lastx)
-	  * mousemove_hor_factor * MOUSEMOVE_HOR_FACTOR * 100.0f);
-      if (fabs (mousemove_lastx) < 0.0001f)
+      SetRotationSpeed (abs_x * mousemove_hor_factor
+	  * MOUSEMOVE_HOR_FACTOR * 100.0f);
+      if (abs_x < 0.0001f)
       {
         RotateRight(false);
         RotateLeft(false);

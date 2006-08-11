@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Aug-2006
+	- Heroalex fixed mouse movement in actormove so that you can no
+	  longer get out of the window by moving too fast.
 10-Aug-2006
 	- Jorrit restored bootstrap to the pre-bare setup. It no longer
 	  supports -bare and -python and works again like it used in the past.
