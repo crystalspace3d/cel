@@ -78,8 +78,10 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     skelldr
     spr2d
     spr3d
+    sprcal3d
     spr3dbin
     spr3dldr
+    sprcal3dldr
     stdrep
     terrainldr
     thing
