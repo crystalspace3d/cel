@@ -23,6 +23,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   STATIC.PLUGINLIST =
     bindoc
     bruteblock
+    simpleformer
     bugplug
     cpersist
     csbmpimg
