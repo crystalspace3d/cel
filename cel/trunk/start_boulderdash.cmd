@@ -1,1 +1,1 @@
-celstrap.exe scripts/boulderdash.cfg
+celstart.exe scripts\boulderdash.cfg
