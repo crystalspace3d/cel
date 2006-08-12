@@ -856,7 +856,6 @@ csStringID celPcMeshSelect::id_entity = csInvalidStringID;
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  handler_has_move = false;
   pccamera = 0;
 
   sel_entity = 0;
@@ -1055,8 +1054,7 @@ void celPcMeshSelect::SetupEventHandler ()
     }
   }
   bool do_move = do_drag || do_follow || do_sendmove;
-  handler_has_move = do_move;
-  handler->RegisterMeshSelect (this, handler_has_move);
+  handler->RegisterMeshSelect (this, do_move);
 }
 
 #define MESHSEL_SERIAL 1
@@ -1348,8 +1346,6 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 	if (sel_entity != new_sel)
 	{
 	  drag_offset = dragoffs;
-	  printf ("2:drag_offset=%g,%g,%g\n", drag_offset.x,
-	      drag_offset.y, drag_offset.z); fflush (stdout);
 	}
         sel_entity = new_sel;
       }
