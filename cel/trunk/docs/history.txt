@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Aug-2006
+	- Jorrit implemented a big optimization in pcmeshsel.
+	  In the past every pcmeshsel had its own listener for mouse
+	  events. Now there is only one global listener which catches
+	  mouse events and delegates them to the pcmeshsel instances.
+	  This gives a big speedup in CEL since apparently registration
+	  of new listeners to the event queue is very slow (mostly
+	  the Subscribe() method).
 11-Aug-2006
 	- Heroalex fixed mouse movement in actormove so that you can no
 	  longer get out of the window by moving too fast.
