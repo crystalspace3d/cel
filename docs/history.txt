@@ -15,6 +15,7 @@ The history order is reversed so that new features are at the top.
 	  If you would register or unregister new pcmeshsel instances
 	  during iteration over the already existing pcmeshsel instances
 	  then you would potentially get crashes.
+	- Jorrit fixed another bug in the new pcmeshsel optimization.
 11-Aug-2006
 	- Heroalex fixed mouse movement in actormove so that you can no
 	  longer get out of the window by moving too fast.

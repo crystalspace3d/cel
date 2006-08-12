@@ -1035,8 +1035,8 @@ void celMeshSelectListener::RegisterMeshSelect (celPcMeshSelect* meshsel,
     if (is_iterating)
     {
       todo_rem_listeners.Delete (meshsel);
-      todo_add_listeners_with_move.Delete (meshsel);
-      todo_add_listeners.Add (meshsel);
+      todo_add_listeners.Delete (meshsel);
+      todo_add_listeners_with_move.Add (meshsel);
     }
     else
     {
@@ -1049,8 +1049,8 @@ void celMeshSelectListener::RegisterMeshSelect (celPcMeshSelect* meshsel,
     if (is_iterating)
     {
       todo_rem_listeners.Delete (meshsel);
-      todo_add_listeners.Delete (meshsel);
-      todo_add_listeners_with_move.Add (meshsel);
+      todo_add_listeners_with_move.Delete (meshsel);
+      todo_add_listeners.Add (meshsel);
     }
     else
     {
