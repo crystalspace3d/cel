@@ -327,7 +327,6 @@ private:
 #define MSSM_TYPE_MOVE 2
   void SendMessage (int t, iCelEntity* ent, int x, int y, int but);
 
-  bool handler_has_move;	// Optimization to remember if we have 'move' enabled.
   csRef<celMeshSelectListener> handler;
 
 public:
