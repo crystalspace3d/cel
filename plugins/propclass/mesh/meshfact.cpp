@@ -992,6 +992,8 @@ void celPcMeshSelect::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celMeshSelectListener::HandleEvent (iEvent& ev)
 {
+  CS_ASSERT (!is_iterating);
+  is_iterating = true;
   celMeshSelectSet::GlobalIterator it = listeners_with_move.GetIterator ();
   while (it.HasNext ())
   {
@@ -1007,6 +1009,21 @@ bool celMeshSelectListener::HandleEvent (iEvent& ev)
       pcmeshsel->HandleEvent (ev);
     }
   }
+  CS_ASSERT (is_iterating);
+  is_iterating = false;
+
+  it = todo_add_listeners.GetIterator ();
+  while (it.HasNext ()) RegisterMeshSelect (it.Next(), false);
+  todo_add_listeners.DeleteAll ();
+
+  it = todo_add_listeners_with_move.GetIterator ();
+  while (it.HasNext ()) RegisterMeshSelect (it.Next(), true);
+  todo_add_listeners_with_move.DeleteAll ();
+
+  it = todo_rem_listeners.GetIterator ();
+  while (it.HasNext ()) UnregisterMeshSelect (it.Next());
+  todo_rem_listeners.DeleteAll ();
+
   return false;
 }
 
@@ -1015,20 +1032,47 @@ void celMeshSelectListener::RegisterMeshSelect (celPcMeshSelect* meshsel,
 {
   if (withmove)
   {
-    listeners.Delete (meshsel);
-    listeners_with_move.Add (meshsel);
+    if (is_iterating)
+    {
+      todo_rem_listeners.Delete (meshsel);
+      todo_add_listeners_with_move.Delete (meshsel);
+      todo_add_listeners.Add (meshsel);
+    }
+    else
+    {
+      listeners.Delete (meshsel);
+      listeners_with_move.Add (meshsel);
+    }
   }
   else
   {
-    listeners_with_move.Delete (meshsel);
-    listeners.Add (meshsel);
+    if (is_iterating)
+    {
+      todo_rem_listeners.Delete (meshsel);
+      todo_add_listeners.Delete (meshsel);
+      todo_add_listeners_with_move.Add (meshsel);
+    }
+    else
+    {
+      listeners_with_move.Delete (meshsel);
+      listeners.Add (meshsel);
+    }
   }
 }
 
 void celMeshSelectListener::UnregisterMeshSelect (celPcMeshSelect* meshsel)
 {
-  listeners.Delete (meshsel);
-  listeners_with_move.Delete (meshsel);
+  if (is_iterating)
+  {
+    todo_add_listeners.Delete (meshsel);
+    todo_add_listeners_with_move.Delete (meshsel);
+    todo_rem_listeners.Add (meshsel);
+  }
+  else
+  {
+    listeners.Delete (meshsel);
+    listeners_with_move.Delete (meshsel);
+  }
 }
 
 void celPcMeshSelect::SetupEventHandler ()

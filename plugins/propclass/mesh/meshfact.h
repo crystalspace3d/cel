@@ -209,13 +209,18 @@ class celMeshSelectListener : public scfImplementation2<
 private:
   celMeshSelectSet listeners;
   celMeshSelectSet listeners_with_move;
+  bool is_iterating;
+  celMeshSelectSet todo_add_listeners;
+  celMeshSelectSet todo_add_listeners_with_move;
+  celMeshSelectSet todo_rem_listeners;
   iEventNameRegistry* name_reg;
 
 public:
   SCF_INTERFACE (celMeshSelectListener, 0, 0, 1);
 
   celMeshSelectListener (iEventNameRegistry* name_reg)
-    : scfImplementationType (this), name_reg (name_reg) { }
+    : scfImplementationType (this), is_iterating (false),
+      name_reg (name_reg) { }
   virtual ~celMeshSelectListener () { }
   virtual bool HandleEvent (iEvent& ev);
   void RegisterMeshSelect (celPcMeshSelect* meshsel, bool withmove);

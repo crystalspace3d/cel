@@ -11,6 +11,10 @@ The history order is reversed so that new features are at the top.
 	  This gives a big speedup in CEL since apparently registration
 	  of new listeners to the event queue is very slow (mostly
 	  the Subscribe() method).
+	- Jorrit fixed a bug in the new pcmeshsel optimization.
+	  If you would register or unregister new pcmeshsel instances
+	  during iteration over the already existing pcmeshsel instances
+	  then you would potentially get crashes.
 11-Aug-2006
 	- Heroalex fixed mouse movement in actormove so that you can no
 	  longer get out of the window by moving too fast.
