@@ -193,6 +193,38 @@ public:
   virtual void SetShaderVar(csStringID name, csVector2 value);
 };
 
+class celPcMeshSelect;
+typedef csSet<csPtrKey<celPcMeshSelect> > celMeshSelectSet;
+
+/**
+ * This is a global event handler for all mesh selectors.
+ * This is an optimization because registering many listeners
+ * is not very fast in CS.
+ */
+class celMeshSelectListener : public scfImplementation2<
+			      celMeshSelectListener,
+			      scfFakeInterface<celMeshSelectListener>,
+			      iEventHandler>
+{
+private:
+  celMeshSelectSet listeners;
+  celMeshSelectSet listeners_with_move;
+  iEventNameRegistry* name_reg;
+
+public:
+  SCF_INTERFACE (celMeshSelectListener, 0, 0, 1);
+
+  celMeshSelectListener (iEventNameRegistry* name_reg)
+    : scfImplementationType (this), name_reg (name_reg) { }
+  virtual ~celMeshSelectListener () { }
+  virtual bool HandleEvent (iEvent& ev);
+  void RegisterMeshSelect (celPcMeshSelect* meshsel, bool withmove);
+  void UnregisterMeshSelect (celPcMeshSelect* meshsel);
+
+  CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
+};
+
 /**
  * This is a mesh selection property class.
  */
@@ -295,6 +327,9 @@ private:
 #define MSSM_TYPE_MOVE 2
   void SendMessage (int t, iCelEntity* ent, int x, int y, int but);
 
+  bool handler_has_move;	// Optimization to remember if we have 'move' enabled.
+  csRef<celMeshSelectListener> handler;
+
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);
   virtual ~celPcMeshSelect ();
@@ -365,33 +400,6 @@ public:
   // for the 'bool' properties.
   virtual bool SetProperty (csStringID, bool);
   virtual bool GetPropertyBool (csStringID);
-
-  // This is not an embedded interface in order to avoid
-  // a circular reference between this registered event handler
-  // and the parent object.
-  class EventHandler : public iEventHandler
-  {
-  private:
-    celPcMeshSelect* parent;
-  public:
-    EventHandler (celPcMeshSelect* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      EventHandler::parent = parent;
-    }
-    virtual ~EventHandler ()
-    {
-      SCF_DESTRUCT_IBASE ();
-    }
-    SCF_DECLARE_IBASE;
-    virtual bool HandleEvent (iEvent& ev)
-    {
-      return parent->HandleEvent (ev);
-    }
-    CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
-    CS_EVENTHANDLER_NIL_CONSTRAINTS
-  } *scfiEventHandler;
-  bool handler_has_move;	// Optimization to remember if we have 'move' enabled.
 };
 
 #endif // __CEL_PF_MESHFACT__

@@ -841,10 +841,6 @@ void celPcMesh::Show ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPcMeshSelect::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 csStringID celPcMeshSelect::action_setcamera = csInvalidStringID;
 csStringID celPcMeshSelect::action_setmousebuttons = csInvalidStringID;
 csStringID celPcMeshSelect::id_buttons = csInvalidStringID;
@@ -860,7 +856,6 @@ csStringID celPcMeshSelect::id_entity = csInvalidStringID;
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  scfiEventHandler = 0;
   handler_has_move = false;
   pccamera = 0;
 
@@ -926,13 +921,8 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 
 celPcMeshSelect::~celPcMeshSelect ()
 {
-  if (scfiEventHandler)
-  {
-    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-    if (q)
-      q->RemoveListener (scfiEventHandler);
-    scfiEventHandler->DecRef ();
-  }
+  if (handler)
+    handler->UnregisterMeshSelect (this);
   SetCamera (0);
   delete params;
 }
@@ -1001,31 +991,72 @@ void celPcMeshSelect::UpdateProperties (iObjectRegistry* object_reg)
 }
 
 
-
-void celPcMeshSelect::SetupEventHandler ()
+bool celMeshSelectListener::HandleEvent (iEvent& ev)
 {
-  if (!scfiEventHandler)
+  celMeshSelectSet::GlobalIterator it = listeners_with_move.GetIterator ();
+  while (it.HasNext ())
   {
-    scfiEventHandler = new EventHandler (this);
+    celPcMeshSelect* pcmeshsel = it.Next ();
+    pcmeshsel->HandleEvent (ev);
+  }
+  if (ev.Name != csevMouseMove (name_reg, 0))
+  {
+    celMeshSelectSet::GlobalIterator it = listeners.GetIterator ();
+    while (it.HasNext ())
+    {
+      celPcMeshSelect* pcmeshsel = it.Next ();
+      pcmeshsel->HandleEvent (ev);
+    }
+  }
+  return false;
+}
+
+void celMeshSelectListener::RegisterMeshSelect (celPcMeshSelect* meshsel,
+    bool withmove)
+{
+  if (withmove)
+  {
+    listeners.Delete (meshsel);
+    listeners_with_move.Add (meshsel);
   }
   else
   {
-    bool do_move = do_drag || do_follow || do_sendmove;
-    if (do_move == handler_has_move) return;
-    handler_has_move = do_move;
+    listeners_with_move.Delete (meshsel);
+    listeners.Add (meshsel);
   }
+}
 
-  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-  CS_ASSERT (q != 0);
-  q->RemoveListener (scfiEventHandler);
+void celMeshSelectListener::UnregisterMeshSelect (celPcMeshSelect* meshsel)
+{
+  listeners.Delete (meshsel);
+  listeners_with_move.Delete (meshsel);
+}
 
-  csEventID esub[] = {
-    csevMouseDown (object_reg, 0),
-    csevMouseUp (object_reg, 0),
-    handler_has_move ? csevMouseMove (object_reg, 0) : CS_EVENTLIST_END,
-    CS_EVENTLIST_END
-  };
-  q->RegisterListener (scfiEventHandler, esub);
+void celPcMeshSelect::SetupEventHandler ()
+{
+  if (!handler)
+  {
+    handler = csQueryRegistryTagInterface<celMeshSelectListener> (object_reg,
+	"cel.pcmeshselect.globallistener");
+    if (!handler)
+    {
+      handler.AttachNew (new celMeshSelectListener (name_reg));
+      object_reg->Register (handler, "cel.pcmeshselect.globallistener");
+      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+      CS_ASSERT (q != 0);
+
+      csEventID esub[] = {
+        csevMouseDown (object_reg, 0),
+        csevMouseUp (object_reg, 0),
+        csevMouseMove (object_reg, 0),
+        CS_EVENTLIST_END
+      };
+      q->RegisterListener (handler, esub);
+    }
+  }
+  bool do_move = do_drag || do_follow || do_sendmove;
+  handler_has_move = do_move;
+  handler->RegisterMeshSelect (this, handler_has_move);
 }
 
 #define MESHSEL_SERIAL 1
