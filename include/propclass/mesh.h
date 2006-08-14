@@ -41,13 +41,15 @@ class csVector3;
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetMesh: parameters 'name' (string). This sets an already existing
- *     mesh for this pcmesh.
+ *   mesh for this pcmesh.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
- *     'filename' is optional. If not given then the factory should already
- *     be in memory.
+ *   'filename' is optional. If not given then the factory should already
+ *   be in memory.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
- *     and 'factoryname' (string).
- * - MoveMesh: parameters 'sector' (string) and 'position' (vector3).
+ *   and 'factoryname' (string).
+ * - MoveMesh: parameters 'sector' (string), 'position' (vector3),
+ *   'rotation' (vector3: optional. Represents an absolute rotation).
+ * - RotateMesh: 'rotation' (vector3). This is a relative transform.
  * - ClearRotation: no parameters.
  * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * - SetVisible: parameters 'visible' (bool).
