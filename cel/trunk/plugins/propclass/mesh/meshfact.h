@@ -88,6 +88,7 @@ private:
   static csStringID id_position;
   static csStringID id_rotation;
   static csStringID action_movemesh;
+  static csStringID action_rotatemesh;
   static csStringID action_clearrotation;
   static csStringID action_lookat;
   static csStringID id_forward;

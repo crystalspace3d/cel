@@ -95,6 +95,7 @@ csStringID celPcMesh::id_path = csInvalidStringID;
 csStringID celPcMesh::id_filename = csInvalidStringID;
 csStringID celPcMesh::id_factoryname = csInvalidStringID;
 csStringID celPcMesh::action_movemesh = csInvalidStringID;
+csStringID celPcMesh::action_rotatemesh = csInvalidStringID;
 csStringID celPcMesh::id_sector = csInvalidStringID;
 csStringID celPcMesh::id_position = csInvalidStringID;
 csStringID celPcMesh::id_rotation = csInvalidStringID;
@@ -131,6 +132,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_filename = pl->FetchStringID ("cel.parameter.filename");
     id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
     action_movemesh = pl->FetchStringID ("cel.action.MoveMesh");
+    action_rotatemesh = pl->FetchStringID ("cel.action.RotateMesh");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_rotation = pl->FetchStringID ("cel.parameter.rotation");
@@ -407,10 +409,25 @@ bool celPcMesh::PerformAction (csStringID actionId,
     CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
     if (p_rotation && mesh)
     {
-	    csQuaternion quat;
-	    quat.SetEulerAngles(rotation);
-	    mesh->GetMovable()->SetTransform(quat.GetMatrix());
-	    mesh->GetMovable()->UpdateMove();
+      csQuaternion quat;
+      quat.SetEulerAngles(rotation);
+      mesh->GetMovable()->SetTransform(quat.GetMatrix());
+      mesh->GetMovable()->UpdateMove();
+    }
+  }
+  else if (actionId == action_rotatemesh)
+  {
+    CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
+    if (!p_rotation)
+      return Report (object_reg,
+      	"Missing parameter 'rotation' for action RotateMesh!");
+    else if (mesh)
+    {
+      iMovable* mov = mesh->GetMovable ();
+      csQuaternion quat;
+      quat.SetEulerAngles(rotation);
+      mov->SetTransform(mov->GetTransform () * quat.GetMatrix());
+      mov->UpdateMove();
     }
   }
   else if (actionId == action_clearrotation)

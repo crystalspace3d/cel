@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Aug-2006
+	- Jorrit added missing api docs for the optional 'rotation'
+	  parameter in MoveMesh (pcmesh).
+	- Jorrit added a new RotateMesh action to pcmesh.
 12-Aug-2006
 	- Jorrit implemented a big optimization in pcmeshsel.
 	  In the past every pcmeshsel had its own listener for mouse
