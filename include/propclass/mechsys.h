@@ -267,6 +267,7 @@ struct iPcMechanicsSystem : public virtual iBase
  * - ClearForces: no parameters.
  * - SetPosition: parameters 'position' (vector3).
  * - ClearRotation: no parameters.
+ * - Rotate: parameters 'rotation' (vector3).
  * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  *
  * This property class supports the following properties (add prefix
