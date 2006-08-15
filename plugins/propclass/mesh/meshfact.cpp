@@ -426,7 +426,8 @@ bool celPcMesh::PerformAction (csStringID actionId,
       iMovable* mov = mesh->GetMovable ();
       csQuaternion quat;
       quat.SetEulerAngles(rotation);
-      mov->SetTransform(mov->GetTransform () * quat.GetMatrix());
+      csReversibleTransform tr (quat.GetMatrix (), csVector3 (0));
+      mov->SetTransform(tr * mov->GetTransform ());
       mov->UpdateMove();
     }
   }

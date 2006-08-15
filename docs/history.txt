@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Aug-2006
+	- Jorrit fixed the new RotateMesh action in pcmesh so that it
+	  actually works.
 14-Aug-2006
 	- Jorrit added missing api docs for the optional 'rotation'
 	  parameter in MoveMesh (pcmesh).
