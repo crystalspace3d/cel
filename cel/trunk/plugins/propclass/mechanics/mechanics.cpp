@@ -30,6 +30,7 @@
 #include "csutil/objreg.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
+#include "csgeom/quaternion.h"
 #include "iengine/mesh.h"
 #include "iengine/light.h"
 #include "iengine/camera.h"
@@ -560,6 +561,7 @@ csStringID celPcMechanicsObject::action_removeforcetagged = csInvalidStringID;
 csStringID celPcMechanicsObject::action_clearforces = csInvalidStringID;
 csStringID celPcMechanicsObject::action_setposition = csInvalidStringID;
 csStringID celPcMechanicsObject::action_clearrotation = csInvalidStringID;
+csStringID celPcMechanicsObject::action_rotate = csInvalidStringID;
 csStringID celPcMechanicsObject::action_lookat = csInvalidStringID;
 
 // Parameters.
@@ -585,6 +587,7 @@ csStringID celPcMechanicsObject::param_otherbody = csInvalidStringID;
 csStringID celPcMechanicsObject::param_force = csInvalidStringID;
 csStringID celPcMechanicsObject::param_relative = csInvalidStringID;
 csStringID celPcMechanicsObject::param_position = csInvalidStringID;
+csStringID celPcMechanicsObject::param_rotation = csInvalidStringID;
 csStringID celPcMechanicsObject::param_seconds = csInvalidStringID;
 csStringID celPcMechanicsObject::param_velocity = csInvalidStringID;
 csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
@@ -647,6 +650,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     action_clearforces = pl->FetchStringID ("cel.action.ClearForces");
     action_setposition = pl->FetchStringID ("cel.action.SetPosition");
     action_clearrotation = pl->FetchStringID ("cel.action.ClearRotation");
+    action_rotate = pl->FetchStringID ("cel.action.Rotate");
     action_lookat = pl->FetchStringID ("cel.action.LookAt");
 
     // Parameters.
@@ -677,6 +681,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_tag = pl->FetchStringID ("cel.parameter.tag");
     param_forward = pl->FetchStringID ("cel.parameter.forward");
     param_up = pl->FetchStringID ("cel.parameter.up");
+    param_rotation = pl->FetchStringID ("cel.parameter.rotation");
   }
 
   params = new celOneParameterBlock ();
@@ -1002,6 +1007,21 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
   else if (actionId == action_clearrotation)
   {
     GetBody ()->SetOrientation (csMatrix3 ());
+    SetTransform (GetBody ()->GetTransform ());
+  }
+  else if (actionId == action_rotate)
+  {
+    CEL_FETCH_VECTOR3_PAR (rotation,params,param_rotation);
+    if (!p_rotation)
+    {
+      CS_REPORT(ERROR,"'rotation' missing!");
+      return false;
+    }
+    csQuaternion quat;
+    quat.SetEulerAngles(rotation);
+    csReversibleTransform tr (quat.GetMatrix (), csVector3 (0));
+    GetBody ()->SetTransform(tr * GetBody ()->GetTransform ());
+    SetTransform (GetBody ()->GetTransform ());
   }
   else if (actionId == action_lookat)
   {
@@ -1225,6 +1245,22 @@ void celPcMechanicsObject::FindMeshLightCamera ()
     pclight = 0;
     pccamera = 0;
   }
+}
+
+void celPcMechanicsObject::SetTransform (const csReversibleTransform& tr)
+{
+  if (pcmesh)
+  {
+    pcmesh->GetMesh ()->GetMovable ()->SetTransform (tr);
+    pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
+  }
+  else if (pclight)
+  {
+    pclight->GetLight ()->GetMovable ()->SetTransform (tr);
+    pclight->GetLight ()->GetMovable ()->UpdateMove ();
+  }
+  else if (pccamera)
+    pccamera->GetCamera ()->SetTransform (tr);
 }
 
 csReversibleTransform celPcMechanicsObject::GetFullTransform ()

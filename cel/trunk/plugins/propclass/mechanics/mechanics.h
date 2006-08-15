@@ -258,6 +258,7 @@ private:
   static csStringID action_removeforcetagged;
   static csStringID action_clearforces;
   static csStringID action_setposition;
+  static csStringID action_rotate;
   static csStringID action_clearrotation;
   static csStringID action_lookat;
 
@@ -289,6 +290,7 @@ private:
   static csStringID param_tag;
   static csStringID param_forward;
   static csStringID param_up;
+  static csStringID param_rotation;
 
   celOneParameterBlock* params;
 
@@ -320,6 +322,7 @@ private:
 
   void FindMeshLightCamera ();
   csReversibleTransform GetFullTransform ();
+  void SetTransform (const csReversibleTransform& tr);
   void AttachObject ();
 
   // For properties.
