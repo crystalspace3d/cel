@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Aug-2006
+	- Jorrit added cos, sin, tan, acos, asin, and atan
+	  functions to blxml.
 15-Aug-2006
 	- Jorrit fixed the new RotateMesh action in pcmesh so that it
 	  actually works.

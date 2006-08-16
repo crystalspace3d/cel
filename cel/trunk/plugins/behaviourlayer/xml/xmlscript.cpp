@@ -1919,6 +1919,60 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  }
 	}
 	break;
+      case CEL_OPERATION_COS:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: cos %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (cosf (f));
+	}
+	break;
+      case CEL_OPERATION_SIN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: sin %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (sinf (f));
+	}
+	break;
+      case CEL_OPERATION_TAN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: tan %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (tanf (f));
+	}
+	break;
+      case CEL_OPERATION_ACOS:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: acos %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (acosf (f));
+	}
+	break;
+      case CEL_OPERATION_ASIN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: asin %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (asinf (f));
+	}
+	break;
+      case CEL_OPERATION_ATAN:
+        {
+	  CHECK_STACK(1)
+	  celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: atan %s\n", i-1, A2S (top)));
+	  float f = ArgToFloat (top);
+	  top.SetFloat (atanf (f));
+	}
+	break;
       case CEL_OPERATION_SQRT:
         {
 	  CHECK_STACK(1)
