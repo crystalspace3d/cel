@@ -219,6 +219,12 @@ enum
   CEL_OPERATION_ABS,		// A:-		S:?		OS:?
   CEL_OPERATION_MIN,		// A:-		S:?,?		OS:?
   CEL_OPERATION_MAX,		// A:-		S:?,?		OS:?
+  CEL_OPERATION_COS,		// A:-		S:F		OS:F
+  CEL_OPERATION_SIN,		// A:-		S:F		OS:F
+  CEL_OPERATION_TAN,		// A:-		S:F		OS:F
+  CEL_OPERATION_ACOS,		// A:-		S:F		OS:F
+  CEL_OPERATION_ASIN,		// A:-		S:F		OS:F
+  CEL_OPERATION_ATAN,		// A:-		S:F		OS:F
   CEL_OPERATION_SIGN,		// A:-		S:?		OS:I
   CEL_OPERATION_SQRT,		// A:-		S:F		OS:F
   CEL_OPERATION_SQDIST,		// A:-		S:V,V		OS:F

@@ -118,6 +118,12 @@ enum
   XMLFUNCTION_NORMALIZE,
   XMLFUNCTION_BB_MOUSEX,
   XMLFUNCTION_BB_MOUSEY,
+  XMLFUNCTION_COS,
+  XMLFUNCTION_SIN,
+  XMLFUNCTION_TAN,
+  XMLFUNCTION_ACOS,
+  XMLFUNCTION_ASIN,
+  XMLFUNCTION_ATAN,
   XMLFUNCTION_SIGN,
   XMLFUNCTION_SQRT,
   XMLFUNCTION_SQDIST,
@@ -267,6 +273,12 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("normalize", XMLFUNCTION_NORMALIZE);
   functions.Register ("bb_mousex", XMLFUNCTION_BB_MOUSEX);
   functions.Register ("bb_mousey", XMLFUNCTION_BB_MOUSEY);
+  functions.Register ("cos", XMLFUNCTION_COS);
+  functions.Register ("sin", XMLFUNCTION_SIN);
+  functions.Register ("tan", XMLFUNCTION_TAN);
+  functions.Register ("acos", XMLFUNCTION_ACOS);
+  functions.Register ("asin", XMLFUNCTION_ASIN);
+  functions.Register ("atan", XMLFUNCTION_ATAN);
   functions.Register ("sign", XMLFUNCTION_SIGN);
   functions.Register ("sqrt", XMLFUNCTION_SQRT);
   functions.Register ("sqdist", XMLFUNCTION_SQDIST);
@@ -874,6 +886,48 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
         h->AddOperation (CEL_OPERATION_NORMALIZE);
+      }
+      break;
+    case XMLFUNCTION_COS:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_COS);
+      }
+      break;
+    case XMLFUNCTION_SIN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_SIN);
+      }
+      break;
+    case XMLFUNCTION_TAN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_TAN);
+      }
+      break;
+    case XMLFUNCTION_ACOS:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_ACOS);
+      }
+      break;
+    case XMLFUNCTION_ASIN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_ASIN);
+      }
+      break;
+    case XMLFUNCTION_ATAN:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+	  return false;
+        h->AddOperation (CEL_OPERATION_ATAN);
       }
       break;
     case XMLFUNCTION_SIGN:
