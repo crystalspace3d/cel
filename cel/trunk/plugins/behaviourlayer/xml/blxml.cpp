@@ -74,6 +74,7 @@ enum
   XMLTOKEN_SOUND_STOP,
   XMLTOKEN_SOUND_PAUSE,
   XMLTOKEN_SOUND_UNPAUSE,
+  XMLTOKEN_SOUND_RESTART,
   XMLTOKEN_SOUND_VOLUME,
   XMLTOKEN_CONFIG_ADD,
   XMLTOKEN_CONFIG_REM,
@@ -234,6 +235,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound_stop", XMLTOKEN_SOUND_STOP);
   xmltokens.Register ("sound_pause", XMLTOKEN_SOUND_PAUSE);
   xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
+  xmltokens.Register ("sound_restart", XMLTOKEN_SOUND_RESTART);
   xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
   xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
   xmltokens.Register ("config_rem", XMLTOKEN_CONFIG_REM);
@@ -697,12 +699,45 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
       {
         if (!ParseExpression (input, local_vars, child, h, name, 0))
 	  return false;
-	if (!SkipComma (input, child, name)) return false;
-        if (!ParseExpression (input, local_vars, child, h, name, 0))
-	  return false;
-	if (!SkipComma (input, child, name)) return false;
-        if (!ParseExpression (input, local_vars, child, h, name, 0))
-	  return false;
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+	}
+	else
+	{
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->GetArgument ().Set (false);		// Loop = false
+	  input = pinput;	// Set back to ')'
+	}
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+	}
+	else
+	{
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->GetArgument ().SetFloat (1.0f);		// 1.0 default volume.
+	  input = pinput;	// Set back to ')'
+	}
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+	}
+	else
+	{
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->GetArgument ().Set (true);			// Default play.
+	  input = pinput;	// Set back to ')'
+	}
 	h->AddOperation (CEL_OPERATION_SOUNDFUN);
       }
       break;
@@ -1972,6 +2007,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         if (!ParseExpression (local_vars, child, h, "source", "sound_unpause"))
 	  return false;
 	h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
+        break;
+      case XMLTOKEN_SOUND_RESTART:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_restart"))
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_RESTART);
         break;
       case XMLTOKEN_SOUND_VOLUME:
         if (!ParseExpression (local_vars, child, h, "source", "sound_volume"))

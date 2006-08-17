@@ -4880,12 +4880,13 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUNDFUN:
         {
-	  CHECK_STACK(3)
+	  CHECK_STACK(4)
+	  celXmlArg a_play = stack.Pop ();
 	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s\n",
-		i-1, A2S (top), A2S (a_loop), A2S (a_volume)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s\n",
+		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -4904,7 +4905,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    sound_source->SetVolume (ArgToFloat (a_volume));
 	    sound_source->GetStream ()->ResetPosition ();
 	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
-	    sound_source->GetStream ()->Unpause ();
+	    if (ArgToBool (a_play))
+	      sound_source->GetStream ()->Unpause ();
 	    top.SetIBase (static_cast<iBase*> (sound_source));
 	  }
 	}
@@ -4966,6 +4968,23 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  if (!sound_source)
 	    return ReportError (cbl, "Error! This is not a sound source!");
 	  sound_source->GetStream ()->Pause ();
+	}
+	break;
+      case CEL_OPERATION_SOUND_RESTART:
+	{
+	  CHECK_STACK(1)
+	  celXmlArg a_source = stack.Pop ();
+	  DUMP_EXEC ((":%04d: sound_restart source=%s\n",
+		i-1, A2S (a_source)));
+	  iBase* src_ibase = ArgToIBase (a_source);
+	  if (!src_ibase)
+	    return ReportError (cbl, "Error! Sound source is null!");
+	  csRef<iSndSysSource> sound_source = scfQueryInterface<
+	    	iSndSysSource> (src_ibase);
+	  if (!sound_source)
+	    return ReportError (cbl, "Error! This is not a sound source!");
+	  sound_source->GetStream ()->ResetPosition ();
+	  sound_source->GetStream ()->Unpause ();
 	}
 	break;
       case CEL_OPERATION_SOUND_UNPAUSE:
