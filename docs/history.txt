@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added the ability to disable collision callbacks
 	  in pcmechobject. Also added a 'cdcallback' property
 	  to enable/disable this.
+	- Jorrit changed blxml so that the '*' operator on two
+	  vectors now produces the dot product (instead of an error).
 16-Aug-2006
 	- Jorrit added cos, sin, tan, acos, asin, and atan
 	  functions to blxml.
