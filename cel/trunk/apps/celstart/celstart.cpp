@@ -81,7 +81,7 @@ void CelStart::FinishFrame ()
   g3d->FinishDraw ();
   g3d->Print (0);
   // @@@
-  csSleep (5);
+  //csSleep (5);
 }
 
 bool CelStart::HandleEvent (iEvent& ev)
