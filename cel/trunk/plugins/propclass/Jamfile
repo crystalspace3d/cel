@@ -26,4 +26,3 @@ SubInclude TOP plugins propclass projectile ;
 SubInclude TOP plugins propclass hover ;
 SubInclude TOP plugins propclass wheeled ;
 SubInclude TOP plugins propclass damage ;
-SubInclude TOP plugins propclass assault ;
