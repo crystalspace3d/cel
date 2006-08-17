@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	  sound is not played with the 'sound' function.
         - cfraz89 added individual meshes and rotation for each wheel in
           pcwheeled.
+	- Jorrit added the ability to disable collision callbacks
+	  in pcmechobject. Also added a 'cdcallback' property
+	  to enable/disable this.
 16-Aug-2006
 	- Jorrit added cos, sin, tan, acos, asin, and atan
 	  functions to blxml.

@@ -309,6 +309,7 @@ private:
   body_data* bdata;
 
   bool is_static;
+  bool cd_enabled;
 
   float friction;
   float mass;
@@ -331,7 +332,8 @@ private:
     propid_lasttag = 0,
     propid_linearvelocity,
     propid_angularvelocity,
-    propid_static
+    propid_static,
+    propid_cdcallback
   };
   static Property* properties;
   static size_t propertycount;
@@ -404,6 +406,8 @@ public:
 
   virtual void MakeStatic (bool stat);
   virtual bool IsStatic () const { return is_static; }
+  virtual void SetCollisionCallbackEnabled (bool en) { cd_enabled = en; }
+  virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
 
   virtual void AttachColliderSphere (float radius, const csVector3& offset);
   virtual void AttachColliderBoundingSphere();

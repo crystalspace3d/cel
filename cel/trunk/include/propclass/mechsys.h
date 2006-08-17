@@ -276,6 +276,7 @@ struct iPcMechanicsSystem : public virtual iBase
  * - linearvelocity (vector3, read/write): get current linear velocity.
  * - angularvelocity (vector3, read/write): get current angular velocity.
  * - static (bool, read/write): is static or not.
+ * - cdcallback (bool, read/write): enable/disable the collision callback.
  */
 struct iPcMechanicsObject : public virtual iBase
 {
@@ -463,10 +464,6 @@ struct iPcMechanicsObject : public virtual iBase
    */
   virtual const csVector3 GetAngularVelocity () = 0;
 
-
-  ////
-  //Static objects
-
   /**
    * Make static.
    * \param stat if true, the object is static; otherwise it is affected
@@ -479,6 +476,14 @@ struct iPcMechanicsObject : public virtual iBase
    */
   virtual bool IsStatic () const = 0;
 
+  /**
+   * Set to true if you want to receive collision detection events
+   * (pcdynamicbody_collision). By default this is true.
+   */
+  virtual void SetCollisionCallbackEnabled (bool en) = 0;
+
+  /// Return true if collision callback is enabled.
+  virtual bool IsCollisionCallbackEnabled () const = 0;
 
   ////
   //Colliders
