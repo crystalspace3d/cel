@@ -33,6 +33,7 @@
 #include "ivaria/dynamics.h"
 #include "ivaria/ode.h"
 #include "propclass/mechsys.h"
+#include "csgeom/matrix3.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -45,6 +46,8 @@ struct celWheel
   csRef<iODEHinge2Joint> WheelJoint;
   csRef<iRigidBody> RigidBody;
   csVector3 Position;
+  csMatrix3 Rotation;
+  csString Meshfact;
   float LeftSteerSensitivity;
   float RightSteerSensitivity;
   float TurnSpeed;
@@ -115,8 +118,9 @@ private:
   static csStringID action_setwheelhandbrakeaffected;
 
   // Parameters.
-  static csStringID param_file;
-  static csStringID param_name;
+  static csStringID param_meshfile;
+  static csStringID param_meshfact;
+  static csStringID param_rotation;
   static csStringID param_position;
   static csStringID param_wheelnum;
   static csStringID param_gear;
@@ -171,8 +175,7 @@ private:
   float rearsd;
 
   csString wheelpath;
-  csString wheelfactname;
-  csRef<iMeshFactoryWrapper> wheelfact;
+  csString wheelfact;
   csRef<iBodyGroup> bodyGroup;
   csRef<iEngine> engine;
   csRef<iDynamicSystem> dyn;
@@ -200,11 +203,15 @@ public:
   virtual void SetSteerAmount(float steeramount)
   {celPcWheeled::steeramount=steeramount;};
   //This one uses presets
-  virtual int AddWheelAuto(csVector3 position);
+  virtual int AddWheelAuto(csVector3 position, const char* wheelfact = 0,
+       const char* wheelfile = 0,
+       csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f));
   //Full specification by the user, overrides presets
   virtual int AddWheel(csVector3 position,float turnspeed,
       float returnspeed, float ss, float sd,float brakepower,float enginepower,
-      float lss, float rss ,bool hbaffect, bool sinvert);
+      float lss, float rss ,bool hbaffect, bool sinvert, const char* wheelfact = 0,
+      const char* wheelfile = 0,
+      csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f));
 
   virtual void DeleteWheel(int wheelnum);
   virtual void DeleteAllWheels();
@@ -282,6 +289,9 @@ public:
   virtual void SetWheelHandbrakeAffected(int wheelnum,
       bool handbrakeaffected)
   {wheels[wheelnum].HandbrakeAffected=handbrakeaffected;}
+
+  virtual void SetWheelMesh(int wheelnum, const char* file,
+     const char* factname);
 
   //The getter functions
   virtual iBodyGroup* GetBodyGroup(){return bodyGroup;}

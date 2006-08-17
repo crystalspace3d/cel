@@ -29,6 +29,7 @@
 
 #include "iutil/vfs.h"
 #include "iengine/mesh.h"
+#include "csgeom/quaternion.h"
 #include "imesh/objmodel.h"
 #include "imesh/object.h"
 #include "iengine/movable.h"
@@ -99,9 +100,10 @@ csStringID celPcWheeled::action_setwheelsteerinverted = csInvalidStringID;
 csStringID celPcWheeled::action_setwheelhandbrakeaffected = csInvalidStringID;
 
 // Parameters.
-csStringID celPcWheeled::param_file = csInvalidStringID;
-csStringID celPcWheeled::param_name = csInvalidStringID;
+csStringID celPcWheeled::param_meshfile = csInvalidStringID;
+csStringID celPcWheeled::param_meshfact = csInvalidStringID;
 csStringID celPcWheeled::param_position = csInvalidStringID;
+csStringID celPcWheeled::param_rotation = csInvalidStringID;
 csStringID celPcWheeled::param_wheelnum = csInvalidStringID;
 csStringID celPcWheeled::param_gear = csInvalidStringID;
 csStringID celPcWheeled::param_velocity = csInvalidStringID;
@@ -232,9 +234,10 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
 
     // Parameters.
-    param_file = pl->FetchStringID("cel.parameter.file");
-    param_name = pl->FetchStringID("cel.parameter.name");
+    param_meshfile = pl->FetchStringID("cel.parameter.meshfile");
+    param_meshfact = pl->FetchStringID("cel.parameter.meshfact");
     param_position = pl->FetchStringID("cel.parameter.position");
+    param_rotation = pl->FetchStringID("cel.parameter.rotation");
     param_wheelnum = pl->FetchStringID("cel.parameter.wheelnum");
     param_gear = pl->FetchStringID("cel.parameter.gear");
     param_velocity = pl->FetchStringID("cel.parameter.velocity");
@@ -303,8 +306,8 @@ bool celPcWheeled::PerformAction (csStringID actionId,
 {
   if(actionId==action_setwheelmesh)
   {
-    CEL_FETCH_STRING_PAR (factname, params, param_name);
-    CEL_FETCH_STRING_PAR (filename, params, param_file);
+    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
     SetWheelMesh(factname,filename);
     return true;
   }
@@ -317,7 +320,19 @@ bool celPcWheeled::PerformAction (csStringID actionId,
   else if(actionId==action_addwheelauto)
   {
     CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
-    AddWheelAuto(pos);
+    CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+    csQuaternion quat;
+    if(!p_factname)
+      factname = 0;
+    if(!p_filename)
+      filename = 0;
+    if (p_rotation)
+      quat.SetEulerAngles(rotation);
+
+    AddWheelAuto(pos, factname, filename, quat.GetMatrix());
+
     return true;
   }
   else if(actionId==action_addwheel)
@@ -364,8 +379,19 @@ bool celPcWheeled::PerformAction (csStringID actionId,
     if(!p_sinvert)
       sinvert=false;
 
+    CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+    csQuaternion quat;
+    if(!p_factname)
+      factname = 0;
+    if(!p_filename)
+      filename = 0;
+    if (p_rotation)
+      quat.SetEulerAngles(rotation);
+
     AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
-        lss,rss,hbaffect,sinvert);
+        lss,rss,hbaffect,sinvert, factname, filename, quat.GetMatrix());
     return true;
   }
   else if(actionId==action_deletewheel)
@@ -598,27 +624,47 @@ void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
     iBase* result;
     loader->Load (file, result, 0, false, true);
   }
-  wheelfact=engine->FindMeshFactory(factname);
+  wheelfact = factname;
+}
+
+void celPcWheeled::SetWheelMesh(int wheelnum, const char* factname,const char* file)
+{
+  if(file!=0)
+  {
+    csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+    CS_ASSERT (loader != 0);
+    iBase* result;
+    loader->Load (file, result, 0, false, true);
+  }
+  //Use the global wheel factory if none given
+  if(factname==0)
+    wheels[wheelnum].Meshfact = wheelfact;
+  else
+    wheels[wheelnum].Meshfact = factname;
 }
 
 //This method uses the vehicle's presets and wheel's position for settings
-int celPcWheeled::AddWheelAuto(csVector3 position)
+int celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
+     const char* wheelfile, csMatrix3 rotation)
 {
   celWheel wheel;
   wheel.Position=position;
   wheel.TurnSpeed=2;
   wheel.ReturnSpeed=2;
   wheel.BrakePower=1;
+  wheel.Rotation = rotation;
   wheels.Push(wheel);
-  ApplyWheelPresets(wheels.Length()-1);
   int index=wheels.Length()-1;
+  ApplyWheelPresets(index);
+  SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
   return index;
 }
 
 int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
       returnspeed, float ss, float sd,float brakepower,float enginepower,
-      float lss, float rss,bool hbaffect, bool sinvert)
+      float lss, float rss,bool hbaffect, bool sinvert, const char* wheelfact,
+      const char* wheelfile,  csMatrix3 rotation)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -632,8 +678,10 @@ int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.RightSteerSensitivity=rss;
   wheel.HandbrakeAffected=hbaffect;
   wheel.SteerInverted=sinvert;
+  wheel.Rotation = rotation;
   wheels.Push(wheel);
   int index=wheels.Length()-1;
+  SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
   return index;
 }
@@ -689,16 +737,18 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   csRef<iMeshWrapper> wheelmesh=0;
   csRef<iSectorList>
       bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
+  csRef<iMeshFactoryWrapper> wmeshfact;
+  wmeshfact = engine->FindMeshFactory(wheels[wheelnum].Meshfact);
   if(bodySectors->GetCount() > 0)
   {
     csRef<iSector> bodySector=bodySectors->Get(0);
-
-    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel",bodySector,
+    wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel",
+                                        bodySector,
                                         wheels[wheelnum].Position);
   }
   else
   {
-    wheelmesh=engine->CreateMeshWrapper(wheelfact,"wheel");
+    wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel");
     wheelmesh->GetMovable()->SetPosition(wheels[wheelnum].Position);
     wheelmesh->GetMovable()->UpdateMove();
   }
@@ -711,21 +761,24 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
   wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
-
-  wheelbody->SetPosition(bodytransform.This2Other(
-      wheels[wheelnum].Position));
+ 
+  csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
+  csOrthoTransform t = csOrthoTransform(wheels[wheelnum].Rotation, fullpos);
+  wheelbody->SetTransform(t);
+  wheelbody->SetPosition(fullpos);
   wheelbody->AttachMesh(wheelmesh);
 
   wheelbody->AttachColliderSphere (
       wheelradius,wheelcenter,0.8f,1,0.5f,0.05f);
-  //If it a right wheel, flip it.
-  if (wheels[wheelnum].Position.x<0)
-  {
-    csOrthoTransform t=wheelbody->GetTransform();
-    t.RotateThis(csVector3(0,1,0),3.14f);
-    wheelbody->SetTransform(t);
-  }
-
+  
+   //If it a right wheel, and using the default mesh, flip it.
+   if (wheels[wheelnum].Position.x < 0 &&
+        wheels[wheelnum].Meshfact == wheelfact)
+   {
+     csOrthoTransform t = wheelbody->GetTransform();
+     t.RotateThis(csVector3(0,1,0),3.14f);
+     wheelbody->SetTransform(t);
+   }
     //Create the joint
   csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
   joint->Attach(bodyMech->GetBody(),wheelbody);

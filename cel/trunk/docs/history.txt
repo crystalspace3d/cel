@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  (default 1.0 and false). Also added new optional 'play'
 	  parameter which defaults to true. If set to false the
 	  sound is not played with the 'sound' function.
+        - cfraz89 added individual meshes and rotation for each wheel in
+          pcwheeled.
 16-Aug-2006
 	- Jorrit added cos, sin, tan, acos, asin, and atan
 	  functions to blxml.

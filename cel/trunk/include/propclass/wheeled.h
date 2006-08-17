@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csgeom/matrix3.h"
 
 /**
  * This is a property class to make and control wheeled vehicles, eg bikes,
@@ -53,12 +54,23 @@ struct iPcWheeled : public virtual iBase
   SCF_INTERFACE (iPcWheeled, 0, 0, 1);
 
   /**
-   *  Set the mesh to use for the wheels.
-   *  \param file VFS path to the file which contains the wheel's factory.
+   *  Set the mesh to use for the wheels when not specified. It is expected
+   *  to be a left wheel. For right wheels it is flipped around.
+   *  \param wheelfact The name of the factory to use for wheel meshes.
+   *  \param wheelfile VFS path to the file which contains the wheel's factory.
    *    If 0, it is assumed the factory has already been loaded.
-   *  \param factname The name of the factory to use for wheel meshes.
    */
-  virtual void SetWheelMesh(const char* file, const char* factname) = 0;
+  virtual void SetWheelMesh(const char* wheelfact, const char* wheelfile) = 0;
+
+  /**
+   *  Set the mesh to use for a wheel.
+   *  \param wheelnum Index of the wheel to set.
+   *  \param wheelfact The name of the factory to use for wheel meshes.
+   *  \param wheelfile VFS path to the file which contains the wheel's factory.
+   *    If 0, it is assumed the factory has already been loaded.
+   */
+  virtual void SetWheelMesh(int wheelnum, const char* wheelfact,
+      const char* wheelfile) = 0;
 
   /**
    * Set if tank steering is enabled vehicle.
@@ -76,8 +88,14 @@ struct iPcWheeled : public virtual iBase
    * vehicle's wheel presets for steering, power and suspension, and
    * automatically applies handbrake and invert steering
    *  to rear wheels.
+   *  \param wheelfact The name of the factory to use for wheel meshes.
+   *  \param wheelfile VFS path to the file which contains the wheel's factory.
+   *    If 0, it is assumed the factory has already been loaded.
+   *  \param rotation A rotation matrix to set on the wheel's mesh.
    */
-  virtual int AddWheelAuto(csVector3 position) = 0;
+  virtual int AddWheelAuto(csVector3 position, const char* wheelfact = 0,
+     const char* wheelfile = 0,
+     csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout.
@@ -94,13 +112,20 @@ struct iPcWheeled : public virtual iBase
    * \param rightsteersensitivity How sensitive wheel is when steering right.
    * \param handbrakeaffect Wether the handbrake applies to this wheel.
    * \param steerinvert Wether this wheel steers back-to-front.
+   *  \param wheelfact The name of the factory to use for wheel meshes.
+   *  \param wheelfile VFS path to the file which contains the wheel's factory.
+   *    If 0, it is assumed the factory has already been loaded.
+   *  \param rotation A rotation matrix to set on the wheel's mesh.
    */
-  virtual int AddWheel(csVector3 position,float turnspeed, float returnspeed,
+  virtual int AddWheel(csVector3 position,
+                       float turnspeed, float returnspeed,
                        float suspensionsoftness, float suspensiondamping,
                        float brakepower, float enginepower,
 		       float leftsteersensitivity,
                        float rightsteersensitivity, bool handbrakeaffect,
-                       bool steerinvert) = 0;
+                       bool steerinvert, const char* wheelfact = 0, 
+                       const char* wheelfile = 0,
+                       csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
   /**
    * Destroy a wheel on the car, and delete it from the layout. It
