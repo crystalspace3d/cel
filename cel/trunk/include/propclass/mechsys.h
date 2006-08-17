@@ -273,6 +273,9 @@ struct iPcMechanicsSystem : public virtual iBase
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - lasttag (long, read): last tag returned by AddForceTagged action.
+ * - linearvelocity (vector3, read/write): get current linear velocity.
+ * - angularvelocity (vector3, read/write): get current angular velocity.
+ * - static (bool, read/write): is static or not.
  */
 struct iPcMechanicsObject : public virtual iBase
 {
