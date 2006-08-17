@@ -2689,6 +2689,18 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		    break;
 		}
 	      }
+	      else if (IsVectorType (top) && IsVectorType (elb))
+	      {
+	        switch (top.type)
+		{
+		  case CEL_DATA_VECTOR2:
+		    top.SetFloat (ArgToVector2 (elb) * ArgToVector2 (top));
+		    break;
+		  case CEL_DATA_VECTOR3:
+		    top.SetFloat (ArgToVector3 (elb) * ArgToVector3 (top));
+		    break;
+		}
+	      }
 	      else
 	        return ReportError (cbl, "Can't multiply these types!");
 	      break;
