@@ -329,6 +329,9 @@ private:
   enum propids
   {
     propid_lasttag = 0,
+    propid_linearvelocity,
+    propid_angularvelocity,
+    propid_static
   };
   static Property* properties;
   static size_t propertycount;
@@ -434,6 +437,10 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
+  virtual bool SetProperty (csStringID, bool v);
+  virtual bool GetPropertyBool (csStringID);
+  virtual bool SetProperty (csStringID, const csVector3& vec);
+  virtual bool GetPropertyVector (csStringID, csVector3& vec);
 
   virtual csVector3 LocalToWorld(csVector3 local);
   virtual csVector3 WorldToLocal(csVector3 world);

@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Aug-2006
+	- Jorrit added 'static', 'linearvelocity', and 'angularvelocity'
+	  properties to pcmechobject.
 16-Aug-2006
 	- Jorrit added cos, sin, tan, acos, asin, and atan
 	  functions to blxml.

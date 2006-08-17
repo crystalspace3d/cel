@@ -693,6 +693,9 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   props = properties;
   propcount = &propertycount;
   propdata[propid_lasttag] = &last_tag;	// Automatically handled.
+  propdata[propid_linearvelocity] = 0;
+  propdata[propid_angularvelocity] = 0;
+  propdata[propid_static] = 0;
 }
 
 celPcMechanicsObject::~celPcMechanicsObject ()
@@ -722,7 +725,7 @@ void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 1;
+    propertycount = 4;
     properties = new Property[propertycount];
 
     properties[propid_lasttag].id = pl->FetchStringID (
@@ -730,6 +733,24 @@ void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_lasttag].datatype = CEL_DATA_LONG;
     properties[propid_lasttag].readonly = true;
     properties[propid_lasttag].desc = "Last tag from AddForceTagged.";
+
+    properties[propid_linearvelocity].id = pl->FetchStringID (
+    	"cel.property.linearvelocity");
+    properties[propid_linearvelocity].datatype = CEL_DATA_VECTOR3;
+    properties[propid_linearvelocity].readonly = false;
+    properties[propid_linearvelocity].desc = "Linear velocity.";
+
+    properties[propid_angularvelocity].id = pl->FetchStringID (
+    	"cel.property.angularvelocity");
+    properties[propid_angularvelocity].datatype = CEL_DATA_VECTOR3;
+    properties[propid_angularvelocity].readonly = false;
+    properties[propid_angularvelocity].desc = "Angular velocity.";
+
+    properties[propid_static].id = pl->FetchStringID (
+    	"cel.property.static");
+    properties[propid_static].datatype = CEL_DATA_BOOL;
+    properties[propid_static].readonly = false;
+    properties[propid_static].desc = "Static yes/no.";
   }
 }
 
@@ -892,6 +913,57 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
   drag = databuf->GetFloat ();
   is_static = databuf->GetBool ();
   return true;
+}
+
+bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_static].id)
+  {
+    MakeStatic (v);
+    return true;
+  }
+  return celPcCommon::SetProperty (propertyId, v);
+}
+
+bool celPcMechanicsObject::GetPropertyBool (csStringID propertyId)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_static].id)
+    return is_static;
+  return celPcCommon::GetPropertyBool (propertyId);
+}
+
+bool celPcMechanicsObject::SetProperty (csStringID propertyId, const csVector3& vec)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_linearvelocity].id)
+  {
+    SetLinearVelocity (vec);
+    return true;
+  }
+  else if (propertyId == properties[propid_angularvelocity].id)
+  {
+    SetAngularVelocity (vec);
+    return true;
+  }
+  return celPcCommon::SetProperty (propertyId, vec);
+}
+
+bool celPcMechanicsObject::GetPropertyVector (csStringID propertyId, csVector3& vec)
+{
+  UpdateProperties (object_reg);
+  if (propertyId == properties[propid_linearvelocity].id)
+  {
+    vec = GetLinearVelocity ();
+    return true;
+  }
+  else if (propertyId == properties[propid_angularvelocity].id)
+  {
+    vec = GetAngularVelocity ();
+    return true;
+  }
+  return celPcCommon::GetPropertyVector (propertyId, vec);
 }
 
 bool celPcMechanicsObject::PerformAction (csStringID actionId,
