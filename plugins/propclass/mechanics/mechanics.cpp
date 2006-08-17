@@ -622,6 +622,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   mass = 1;
 
   is_static = false;
+  cd_enabled = true;
 
   if (action_initphys == csInvalidStringID)
   {
@@ -696,6 +697,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   propdata[propid_linearvelocity] = 0;
   propdata[propid_angularvelocity] = 0;
   propdata[propid_static] = 0;
+  propdata[propid_cdcallback] = &cd_enabled;
 }
 
 celPcMechanicsObject::~celPcMechanicsObject ()
@@ -725,7 +727,7 @@ void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
   if (propertycount == 0)
   {
     csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    propertycount = 4;
+    propertycount = 5;
     properties = new Property[propertycount];
 
     properties[propid_lasttag].id = pl->FetchStringID (
@@ -751,6 +753,12 @@ void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
     properties[propid_static].datatype = CEL_DATA_BOOL;
     properties[propid_static].readonly = false;
     properties[propid_static].desc = "Static yes/no.";
+
+    properties[propid_cdcallback].id = pl->FetchStringID (
+    	"cel.property.cdcallback");
+    properties[propid_cdcallback].datatype = CEL_DATA_BOOL;
+    properties[propid_cdcallback].readonly = false;
+    properties[propid_cdcallback].desc = "CD enabled yes/no.";
   }
 }
 
@@ -1244,6 +1252,7 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
 void celPcMechanicsObject::Collision (iRigidBody *thisbody,
 	iRigidBody *otherbody)
 {
+  if (!cd_enabled) return;
   iCelBehaviour* behaviour = entity->GetBehaviour ();
   if (!behaviour) return;
   celData ret;
