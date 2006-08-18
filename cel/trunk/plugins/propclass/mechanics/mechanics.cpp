@@ -593,6 +593,7 @@ csStringID celPcMechanicsObject::param_velocity = csInvalidStringID;
 csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
 csStringID celPcMechanicsObject::param_forward = csInvalidStringID;
 csStringID celPcMechanicsObject::param_up = csInvalidStringID;
+csStringID celPcMechanicsObject::param_depth = csInvalidStringID;
 
 SCF_IMPLEMENT_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
@@ -683,10 +684,14 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_forward = pl->FetchStringID ("cel.parameter.forward");
     param_up = pl->FetchStringID ("cel.parameter.up");
     param_rotation = pl->FetchStringID ("cel.parameter.rotation");
+    param_depth = pl->FetchStringID ("cel.parameter.depth");
   }
 
-  params = new celOneParameterBlock ();
-  params->SetParameterDef (param_otherbody, "otherbody");
+  params = new celGenericParameterBlock (4);
+  params->SetParameterDef (0, param_otherbody, "otherbody");
+  params->SetParameterDef (1, param_position, "position");
+  params->SetParameterDef (2, param_normal, "normal");
+  params->SetParameterDef (3, param_depth, "depth");
 
   // For properties.
   UpdateProperties (object_reg);
@@ -1250,7 +1255,8 @@ bool celPcMechanicsObject::PerformAction (csStringID actionId,
 }
 
 void celPcMechanicsObject::Collision (iRigidBody *thisbody,
-	iRigidBody *otherbody)
+	iRigidBody *otherbody, const csVector3& pos,
+	const csVector3& normal, float depth)
 {
   if (!cd_enabled) return;
   iCelBehaviour* behaviour = entity->GetBehaviour ();

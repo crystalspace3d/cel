@@ -235,6 +235,9 @@ struct iPcMechanicsSystem : public virtual iBase
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * - pcdynamicbody_collision: an entity has collided with this entity.
+ *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
+ *   point of collision, 'normal' (vector3: normal of collision), and
+ *   'depth' (float: penetration depth).
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
