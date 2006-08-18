@@ -1274,6 +1274,9 @@ void celPcMechanicsObject::Collision (iRigidBody *thisbody,
         params->GetParameter (0).Set (ent->GetName ());
     }
   }
+  params->GetParameter (1).Set (pos);
+  params->GetParameter (2).Set (normal);
+  params->GetParameter (3).Set (depth);
   behaviour->SendMessage ("pcdynamicbody_collision", this, ret, params);
 }
 
