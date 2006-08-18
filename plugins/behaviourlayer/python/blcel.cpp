@@ -1388,133 +1388,134 @@ SWIG_Python_GetTypeList() {
 #define  SWIGTYPE_p_basetype swig_types[37] 
 #define  SWIGTYPE_p_iCelDataBuffer swig_types[38] 
 #define  SWIGTYPE_p_iPcDefaultCamera swig_types[39] 
-#define  SWIGTYPE_p_iStringArray swig_types[40] 
-#define  SWIGTYPE_p__csKeyModifierType swig_types[41] 
-#define  SWIGTYPE_p_csStringArray swig_types[42] 
-#define  SWIGTYPE_p_iPcHover swig_types[43] 
-#define  SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[44] 
-#define  SWIGTYPE_p_int64_t swig_types[45] 
-#define  SWIGTYPE_p_uint64_t swig_types[46] 
-#define  SWIGTYPE_p_iObjectRegistry swig_types[47] 
-#define  SWIGTYPE_p_iCelPlLayer swig_types[48] 
-#define  SWIGTYPE_p_iCelBlLayer swig_types[49] 
-#define  SWIGTYPE_p_csBox3 swig_types[50] 
-#define  SWIGTYPE_p_iPcLinearMovement swig_types[51] 
-#define  SWIGTYPE_p_iPcPropertyListener swig_types[52] 
-#define  SWIGTYPE_p_iSndSysListener swig_types[53] 
-#define  SWIGTYPE_p_iPcSoundListener swig_types[54] 
-#define  SWIGTYPE_p_iPcInventoryListener swig_types[55] 
-#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[56] 
-#define  SWIGTYPE_p_iCelTimerListener swig_types[57] 
-#define  SWIGTYPE_p_iPcTimer swig_types[58] 
-#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[59] 
-#define  SWIGTYPE_p_iCelPropertyClassTemplate swig_types[60] 
-#define  SWIGTYPE_p_iCelEntityTemplate swig_types[61] 
-#define  SWIGTYPE_p_uint_least64_t swig_types[62] 
-#define  SWIGTYPE_p_int_least64_t swig_types[63] 
-#define  SWIGTYPE_p_iCelZone swig_types[64] 
-#define  SWIGTYPE_p_p_iSector swig_types[65] 
-#define  SWIGTYPE_p_iSector swig_types[66] 
-#define  SWIGTYPE_p_iPcGravity swig_types[67] 
-#define  SWIGTYPE_p_iPcProjectile swig_types[68] 
-#define  SWIGTYPE_p_uint8_t swig_types[69] 
-#define  SWIGTYPE_p_int8_t swig_types[70] 
-#define  SWIGTYPE_p_iBase swig_types[71] 
-#define  SWIGTYPE_p_iPcLight swig_types[72] 
-#define  SWIGTYPE_p_iPcGravityCallback swig_types[73] 
-#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[74] 
-#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[75] 
-#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[76] 
-#define  SWIGTYPE_p_iPcMechanicsObject swig_types[77] 
-#define  SWIGTYPE_p_iObject swig_types[78] 
-#define  SWIGTYPE_p_iPcSimpleCamera swig_types[79] 
-#define  SWIGTYPE_p_iPcCamera swig_types[80] 
-#define  SWIGTYPE_p_iCamera swig_types[81] 
-#define  SWIGTYPE_p_CapacityHandlerType swig_types[82] 
-#define  SWIGTYPE_p_ElementHandlerType swig_types[83] 
-#define  SWIGTYPE_p_FileFormatDescription swig_types[84] 
-#define  SWIGTYPE_p_iPcMovable swig_types[85] 
-#define  SWIGTYPE_p_iPcWheeled swig_types[86] 
-#define  SWIGTYPE_p_celData_value swig_types[87] 
-#define  SWIGTYPE_size_t swig_types[88] 
-#define  SWIGTYPE_std__size_t swig_types[89] 
-#define  SWIGTYPE_p_csPtrTiCelPropertyClass_t swig_types[90] 
-#define  SWIGTYPE_p_iDynamicSystem swig_types[91] 
-#define  SWIGTYPE_p_iPcMechanicsSystem swig_types[92] 
-#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[93] 
-#define  SWIGTYPE_p_iCelEntityTracker swig_types[94] 
-#define  SWIGTYPE_p_iConsoleInput swig_types[95] 
-#define  SWIGTYPE_p_int swig_types[96] 
-#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[97] 
-#define  SWIGTYPE_p_AllocatorType swig_types[98] 
-#define  SWIGTYPE_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[99] 
-#define  SWIGTYPE_p_iRigidBody swig_types[100] 
-#define  SWIGTYPE_p_iPcSoundSource swig_types[101] 
-#define  SWIGTYPE_p_celStabiliserFunction swig_types[102] 
-#define  SWIGTYPE_p_iFont swig_types[103] 
-#define  SWIGTYPE_p_iDocumentNode swig_types[104] 
-#define  SWIGTYPE_p_csInitializer swig_types[105] 
-#define  SWIGTYPE_p_celInitializer swig_types[106] 
-#define  SWIGTYPE_p_iBodyGroup swig_types[107] 
-#define  SWIGTYPE_p__csMouseCursorID swig_types[108] 
-#define  SWIGTYPE_p_iCelBehaviour swig_types[109] 
-#define  SWIGTYPE_p_iBillboardEventHandler swig_types[110] 
-#define  SWIGTYPE_p_bool swig_types[111] 
-#define  SWIGTYPE_p_iPcTooltip swig_types[112] 
-#define  SWIGTYPE_p_iView swig_types[113] 
-#define  SWIGTYPE_p_uint32_t swig_types[114] 
-#define  SWIGTYPE_p_int32_t swig_types[115] 
-#define  SWIGTYPE_p_iJoint swig_types[116] 
-#define  SWIGTYPE_p_iPcActorMove swig_types[117] 
-#define  SWIGTYPE_p_ContainedType swig_types[118] 
-#define  SWIGTYPE_p_iAwsComponent swig_types[119] 
-#define  SWIGTYPE_p_uint16_t swig_types[120] 
-#define  SWIGTYPE_p_int16_t swig_types[121] 
-#define  SWIGTYPE_p_iSndSysSource swig_types[122] 
-#define  SWIGTYPE_p_iCelEntity swig_types[123] 
-#define  SWIGTYPE_p_csSetTunsigned_long_CS__Memory__AllocatorMalloc_t swig_types[124] 
-#define  SWIGTYPE_p_iCelPropertyClassFactory swig_types[125] 
-#define  SWIGTYPE_p_unsigned_long swig_types[126] 
-#define  SWIGTYPE_p_celDataType swig_types[127] 
-#define  SWIGTYPE_p_iCelInventorySpace swig_types[128] 
-#define  SWIGTYPE_p_csPtrTiCelEntityList_t swig_types[129] 
-#define  SWIGTYPE_p__csKeyModifiers swig_types[130] 
-#define  SWIGTYPE_p_iPcMechanicsJoint swig_types[131] 
-#define  SWIGTYPE_p_iCelRegion swig_types[132] 
-#define  SWIGTYPE_p__csKeyCharType swig_types[133] 
-#define  SWIGTYPE_p_iPcMechanicsBalancedGroup swig_types[134] 
-#define  SWIGTYPE_p_iCelConsole swig_types[135] 
-#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[136] 
-#define  SWIGTYPE_p_iPcCraftController swig_types[137] 
-#define  SWIGTYPE_p_iPcProperties swig_types[138] 
-#define  SWIGTYPE_int swig_types[139] 
-#define  SWIGTYPE_p_celPersistenceType swig_types[140] 
-#define  SWIGTYPE_p_csRefTiPcMesh_t swig_types[141] 
-#define  SWIGTYPE_p_celData swig_types[142] 
-#define  SWIGTYPE_p_iCelInventorySpaceSlot swig_types[143] 
-#define  SWIGTYPE_p_csPlane3 swig_types[144] 
-#define  SWIGTYPE_p_iPcMeshSelect swig_types[145] 
-#define  SWIGTYPE_p_celOneParameterBlock swig_types[146] 
-#define  SWIGTYPE_p_celVariableParameterBlock swig_types[147] 
-#define  SWIGTYPE_p_celGenericParameterBlock swig_types[148] 
-#define  SWIGTYPE_p_iCelParameterBlock swig_types[149] 
-#define  SWIGTYPE_p_iCollider swig_types[150] 
-#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[151] 
-#define  SWIGTYPE_p_iCelPropertyClassList swig_types[152] 
-#define  SWIGTYPE_p_iRegion swig_types[153] 
-#define  SWIGTYPE_p_iPcRegion swig_types[154] 
-#define  SWIGTYPE_p_iCelMapFile swig_types[155] 
-#define  SWIGTYPE_p_csColor swig_types[156] 
-#define  SWIGTYPE_p__csMouseEventType swig_types[157] 
-#define  SWIGTYPE_p__csKeyEventType swig_types[158] 
-#define  SWIGTYPE_p_csVector2 swig_types[159] 
-#define  SWIGTYPE_p_iPcZoneManager swig_types[160] 
-#define  SWIGTYPE_p_iBillboardManager swig_types[161] 
-#define  SWIGTYPE_p_char swig_types[162] 
-#define  SWIGTYPE_p_csVector3 swig_types[163] 
-#define  SWIGTYPE_p_iPcSolid swig_types[164] 
-#define  SWIGTYPE_p_iPcMesh swig_types[165] 
-static swig_type_info *swig_types[167];
+#define  SWIGTYPE_p_csMatrix3 swig_types[40] 
+#define  SWIGTYPE_p_iStringArray swig_types[41] 
+#define  SWIGTYPE_p__csKeyModifierType swig_types[42] 
+#define  SWIGTYPE_p_csStringArray swig_types[43] 
+#define  SWIGTYPE_p_iPcHover swig_types[44] 
+#define  SWIGTYPE_p_csArrayTvoid_pp_csArrayElementHandlerTvoid_pp_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[45] 
+#define  SWIGTYPE_p_int64_t swig_types[46] 
+#define  SWIGTYPE_p_uint64_t swig_types[47] 
+#define  SWIGTYPE_p_iObjectRegistry swig_types[48] 
+#define  SWIGTYPE_p_iCelPlLayer swig_types[49] 
+#define  SWIGTYPE_p_iCelBlLayer swig_types[50] 
+#define  SWIGTYPE_p_csBox3 swig_types[51] 
+#define  SWIGTYPE_p_iPcLinearMovement swig_types[52] 
+#define  SWIGTYPE_p_iPcPropertyListener swig_types[53] 
+#define  SWIGTYPE_p_iSndSysListener swig_types[54] 
+#define  SWIGTYPE_p_iPcSoundListener swig_types[55] 
+#define  SWIGTYPE_p_iPcInventoryListener swig_types[56] 
+#define  SWIGTYPE_p_iPcMeshSelectListener swig_types[57] 
+#define  SWIGTYPE_p_iCelTimerListener swig_types[58] 
+#define  SWIGTYPE_p_iPcTimer swig_types[59] 
+#define  SWIGTYPE_p_csPtrTiRigidBody_t swig_types[60] 
+#define  SWIGTYPE_p_iCelPropertyClassTemplate swig_types[61] 
+#define  SWIGTYPE_p_iCelEntityTemplate swig_types[62] 
+#define  SWIGTYPE_p_uint_least64_t swig_types[63] 
+#define  SWIGTYPE_p_int_least64_t swig_types[64] 
+#define  SWIGTYPE_p_iCelZone swig_types[65] 
+#define  SWIGTYPE_p_p_iSector swig_types[66] 
+#define  SWIGTYPE_p_iSector swig_types[67] 
+#define  SWIGTYPE_p_iPcGravity swig_types[68] 
+#define  SWIGTYPE_p_iPcProjectile swig_types[69] 
+#define  SWIGTYPE_p_uint8_t swig_types[70] 
+#define  SWIGTYPE_p_int8_t swig_types[71] 
+#define  SWIGTYPE_p_iBase swig_types[72] 
+#define  SWIGTYPE_p_iPcLight swig_types[73] 
+#define  SWIGTYPE_p_iPcGravityCallback swig_types[74] 
+#define  SWIGTYPE_p_iCelPropertyChangeCallback swig_types[75] 
+#define  SWIGTYPE_p_iCelNewEntityCallback swig_types[76] 
+#define  SWIGTYPE_p_iCelEntityRemoveCallback swig_types[77] 
+#define  SWIGTYPE_p_iPcMechanicsObject swig_types[78] 
+#define  SWIGTYPE_p_iObject swig_types[79] 
+#define  SWIGTYPE_p_iPcSimpleCamera swig_types[80] 
+#define  SWIGTYPE_p_iPcCamera swig_types[81] 
+#define  SWIGTYPE_p_iCamera swig_types[82] 
+#define  SWIGTYPE_p_CapacityHandlerType swig_types[83] 
+#define  SWIGTYPE_p_ElementHandlerType swig_types[84] 
+#define  SWIGTYPE_p_FileFormatDescription swig_types[85] 
+#define  SWIGTYPE_p_iPcMovable swig_types[86] 
+#define  SWIGTYPE_p_iPcWheeled swig_types[87] 
+#define  SWIGTYPE_p_celData_value swig_types[88] 
+#define  SWIGTYPE_size_t swig_types[89] 
+#define  SWIGTYPE_std__size_t swig_types[90] 
+#define  SWIGTYPE_p_csPtrTiCelPropertyClass_t swig_types[91] 
+#define  SWIGTYPE_p_iDynamicSystem swig_types[92] 
+#define  SWIGTYPE_p_iPcMechanicsSystem swig_types[93] 
+#define  SWIGTYPE_p_csPtrTiCelEntity_t swig_types[94] 
+#define  SWIGTYPE_p_iCelEntityTracker swig_types[95] 
+#define  SWIGTYPE_p_iConsoleInput swig_types[96] 
+#define  SWIGTYPE_p_int swig_types[97] 
+#define  SWIGTYPE_p_csRefArrayTiObject_t swig_types[98] 
+#define  SWIGTYPE_p_AllocatorType swig_types[99] 
+#define  SWIGTYPE_p_csArrayTcsImageIOFileFormatDescription_const_p_csArrayElementHandlerTcsImageIOFileFormatDescription_const_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[100] 
+#define  SWIGTYPE_p_iRigidBody swig_types[101] 
+#define  SWIGTYPE_p_iPcSoundSource swig_types[102] 
+#define  SWIGTYPE_p_celStabiliserFunction swig_types[103] 
+#define  SWIGTYPE_p_iFont swig_types[104] 
+#define  SWIGTYPE_p_iDocumentNode swig_types[105] 
+#define  SWIGTYPE_p_csInitializer swig_types[106] 
+#define  SWIGTYPE_p_celInitializer swig_types[107] 
+#define  SWIGTYPE_p_iBodyGroup swig_types[108] 
+#define  SWIGTYPE_p__csMouseCursorID swig_types[109] 
+#define  SWIGTYPE_p_iCelBehaviour swig_types[110] 
+#define  SWIGTYPE_p_iBillboardEventHandler swig_types[111] 
+#define  SWIGTYPE_p_bool swig_types[112] 
+#define  SWIGTYPE_p_iPcTooltip swig_types[113] 
+#define  SWIGTYPE_p_iView swig_types[114] 
+#define  SWIGTYPE_p_uint32_t swig_types[115] 
+#define  SWIGTYPE_p_int32_t swig_types[116] 
+#define  SWIGTYPE_p_iJoint swig_types[117] 
+#define  SWIGTYPE_p_iPcActorMove swig_types[118] 
+#define  SWIGTYPE_p_ContainedType swig_types[119] 
+#define  SWIGTYPE_p_iAwsComponent swig_types[120] 
+#define  SWIGTYPE_p_uint16_t swig_types[121] 
+#define  SWIGTYPE_p_int16_t swig_types[122] 
+#define  SWIGTYPE_p_iSndSysSource swig_types[123] 
+#define  SWIGTYPE_p_iCelEntity swig_types[124] 
+#define  SWIGTYPE_p_csSetTunsigned_long_CS__Memory__AllocatorMalloc_t swig_types[125] 
+#define  SWIGTYPE_p_iCelPropertyClassFactory swig_types[126] 
+#define  SWIGTYPE_p_unsigned_long swig_types[127] 
+#define  SWIGTYPE_p_celDataType swig_types[128] 
+#define  SWIGTYPE_p_iCelInventorySpace swig_types[129] 
+#define  SWIGTYPE_p_csPtrTiCelEntityList_t swig_types[130] 
+#define  SWIGTYPE_p__csKeyModifiers swig_types[131] 
+#define  SWIGTYPE_p_iPcMechanicsJoint swig_types[132] 
+#define  SWIGTYPE_p_iCelRegion swig_types[133] 
+#define  SWIGTYPE_p__csKeyCharType swig_types[134] 
+#define  SWIGTYPE_p_iPcMechanicsBalancedGroup swig_types[135] 
+#define  SWIGTYPE_p_iCelConsole swig_types[136] 
+#define  SWIGTYPE_p_iPcMechanicsThrusterController swig_types[137] 
+#define  SWIGTYPE_p_iPcCraftController swig_types[138] 
+#define  SWIGTYPE_p_iPcProperties swig_types[139] 
+#define  SWIGTYPE_int swig_types[140] 
+#define  SWIGTYPE_p_celPersistenceType swig_types[141] 
+#define  SWIGTYPE_p_csRefTiPcMesh_t swig_types[142] 
+#define  SWIGTYPE_p_celData swig_types[143] 
+#define  SWIGTYPE_p_iCelInventorySpaceSlot swig_types[144] 
+#define  SWIGTYPE_p_csPlane3 swig_types[145] 
+#define  SWIGTYPE_p_iPcMeshSelect swig_types[146] 
+#define  SWIGTYPE_p_celOneParameterBlock swig_types[147] 
+#define  SWIGTYPE_p_celVariableParameterBlock swig_types[148] 
+#define  SWIGTYPE_p_celGenericParameterBlock swig_types[149] 
+#define  SWIGTYPE_p_iCelParameterBlock swig_types[150] 
+#define  SWIGTYPE_p_iCollider swig_types[151] 
+#define  SWIGTYPE_p_csArrayTcsShaderVariable_p_csArrayElementHandlerTcsShaderVariable_p_t_CS__Memory__AllocatorMalloc_csArrayCapacityDefault_t swig_types[152] 
+#define  SWIGTYPE_p_iCelPropertyClassList swig_types[153] 
+#define  SWIGTYPE_p_iRegion swig_types[154] 
+#define  SWIGTYPE_p_iPcRegion swig_types[155] 
+#define  SWIGTYPE_p_iCelMapFile swig_types[156] 
+#define  SWIGTYPE_p_csColor swig_types[157] 
+#define  SWIGTYPE_p__csMouseEventType swig_types[158] 
+#define  SWIGTYPE_p__csKeyEventType swig_types[159] 
+#define  SWIGTYPE_p_csVector2 swig_types[160] 
+#define  SWIGTYPE_p_iPcZoneManager swig_types[161] 
+#define  SWIGTYPE_p_iBillboardManager swig_types[162] 
+#define  SWIGTYPE_p_char swig_types[163] 
+#define  SWIGTYPE_p_csVector3 swig_types[164] 
+#define  SWIGTYPE_p_iPcSolid swig_types[165] 
+#define  SWIGTYPE_p_iPcMesh swig_types[166] 
+static swig_type_info *swig_types[168];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -17749,6 +17750,49 @@ static PyObject *_wrap_iPcMechanicsObject_IsStatic(PyObject *, PyObject *args) {
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
     result = (bool)((iPcMechanicsObject const *)arg1)->IsStatic();
+    
+    {
+        resultobj = SWIG_From_bool((bool)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_SetCollisionCallbackEnabled(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    bool arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsObject_SetCollisionCallbackEnabled",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (bool)(SWIG_As_bool(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->SetCollisionCallbackEnabled(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_IsCollisionCallbackEnabled(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    bool result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:iPcMechanicsObject_IsCollisionCallbackEnabled",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    result = (bool)((iPcMechanicsObject const *)arg1)->IsCollisionCallbackEnabled();
     
     {
         resultobj = SWIG_From_bool((bool)(result)); 
@@ -39747,7 +39791,7 @@ static PyObject *_wrap_scfQuery_iPcCraftController(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcWheeled_SetWheelMesh(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcWheeled_SetWheelMesh__SWIG_0(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcWheeled *arg1 = (iPcWheeled *) 0 ;
     char *arg2 = (char *) 0 ;
@@ -39770,6 +39814,99 @@ static PyObject *_wrap_iPcWheeled_SetWheelMesh(PyObject *, PyObject *args) {
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_SetWheelMesh__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    int arg2 ;
+    char *arg3 = (char *) 0 ;
+    char *arg4 = (char *) 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcWheeled_SetWheelMesh",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (int)(SWIG_As_int(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj3, (char**)&arg4)) {
+        SWIG_arg_fail(4);SWIG_fail;
+    }
+    (arg1)->SetWheelMesh(arg2,(char const *)arg3,(char const *)arg4);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_SetWheelMesh(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[5];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 4); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_AsCharPtr(argv[1], (char **)(0));
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    return _wrap_iPcWheeled_SetWheelMesh__SWIG_0(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_Check_int(argv[1]);
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    _v = SWIG_AsCharPtr(argv[3], (char **)(0));
+                    if (_v) {
+                        return _wrap_iPcWheeled_SetWheelMesh__SWIG_1(self,args);
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcWheeled_SetWheelMesh'");
     return NULL;
 }
 
@@ -39817,7 +39954,140 @@ static PyObject *_wrap_iPcWheeled_GetTankMode(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcWheeled_AddWheelAuto(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcWheeled_AddWheelAuto__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    char *arg3 = (char *) 0 ;
+    char *arg4 = (char *) 0 ;
+    csMatrix3 arg5 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOOO:iPcWheeled_AddWheelAuto",&obj0,&obj1,&obj2,&obj3,&obj4)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj3, (char**)&arg4)) {
+        SWIG_arg_fail(4);SWIG_fail;
+    }
+    {
+        csMatrix3 * argp;
+        SWIG_Python_ConvertPtr(obj4, (void **)&argp, SWIGTYPE_p_csMatrix3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(5)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csMatrix3");
+        }
+        if (SWIG_arg_fail(5)) SWIG_fail;
+        arg5 = *argp;
+    }
+    result = (int)(arg1)->AddWheelAuto(arg2,(char const *)arg3,(char const *)arg4,arg5);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheelAuto__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    char *arg3 = (char *) 0 ;
+    char *arg4 = (char *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOO:iPcWheeled_AddWheelAuto",&obj0,&obj1,&obj2,&obj3)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj3, (char**)&arg4)) {
+        SWIG_arg_fail(4);SWIG_fail;
+    }
+    result = (int)(arg1)->AddWheelAuto(arg2,(char const *)arg3,(char const *)arg4);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheelAuto__SWIG_2(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    char *arg3 = (char *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOO:iPcWheeled_AddWheelAuto",&obj0,&obj1,&obj2)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    if (!SWIG_AsCharPtr(obj2, (char**)&arg3)) {
+        SWIG_arg_fail(3);SWIG_fail;
+    }
+    result = (int)(arg1)->AddWheelAuto(arg2,(char const *)arg3);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheelAuto__SWIG_3(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcWheeled *arg1 = (iPcWheeled *) 0 ;
     csVector3 arg2 ;
@@ -39849,7 +40119,465 @@ static PyObject *_wrap_iPcWheeled_AddWheelAuto(PyObject *, PyObject *args) {
 }
 
 
-static PyObject *_wrap_iPcWheeled_AddWheel(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcWheeled_AddWheelAuto(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[6];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 5); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                return _wrap_iPcWheeled_AddWheelAuto__SWIG_3(self,args);
+            }
+        }
+    }
+    if (argc == 3) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    return _wrap_iPcWheeled_AddWheelAuto__SWIG_2(self,args);
+                }
+            }
+        }
+    }
+    if (argc == 4) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    _v = SWIG_AsCharPtr(argv[3], (char **)(0));
+                    if (_v) {
+                        return _wrap_iPcWheeled_AddWheelAuto__SWIG_1(self,args);
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 5) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_AsCharPtr(argv[2], (char **)(0));
+                if (_v) {
+                    _v = SWIG_AsCharPtr(argv[3], (char **)(0));
+                    if (_v) {
+                        {
+                            void *ptr = 0;
+                            if (SWIG_ConvertPtr(argv[4], &ptr, SWIGTYPE_p_csMatrix3, 0) == -1) {
+                                _v = 0;
+                                PyErr_Clear();
+                            } else {
+                                _v = (ptr != 0);
+                            }
+                        }
+                        if (_v) {
+                            return _wrap_iPcWheeled_AddWheelAuto__SWIG_0(self,args);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcWheeled_AddWheelAuto'");
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheel__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    float arg3 ;
+    float arg4 ;
+    float arg5 ;
+    float arg6 ;
+    float arg7 ;
+    float arg8 ;
+    float arg9 ;
+    float arg10 ;
+    bool arg11 ;
+    bool arg12 ;
+    char *arg13 = (char *) 0 ;
+    char *arg14 = (char *) 0 ;
+    csMatrix3 arg15 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    PyObject * obj5 = 0 ;
+    PyObject * obj6 = 0 ;
+    PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
+    PyObject * obj9 = 0 ;
+    PyObject * obj10 = 0 ;
+    PyObject * obj11 = 0 ;
+    PyObject * obj12 = 0 ;
+    PyObject * obj13 = 0 ;
+    PyObject * obj14 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    {
+        arg4 = (float)(SWIG_As_float(obj3)); 
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    {
+        arg5 = (float)(SWIG_As_float(obj4)); 
+        if (SWIG_arg_fail(5)) SWIG_fail;
+    }
+    {
+        arg6 = (float)(SWIG_As_float(obj5)); 
+        if (SWIG_arg_fail(6)) SWIG_fail;
+    }
+    {
+        arg7 = (float)(SWIG_As_float(obj6)); 
+        if (SWIG_arg_fail(7)) SWIG_fail;
+    }
+    {
+        arg8 = (float)(SWIG_As_float(obj7)); 
+        if (SWIG_arg_fail(8)) SWIG_fail;
+    }
+    {
+        arg9 = (float)(SWIG_As_float(obj8)); 
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    {
+        arg10 = (float)(SWIG_As_float(obj9)); 
+        if (SWIG_arg_fail(10)) SWIG_fail;
+    }
+    {
+        arg11 = (bool)(SWIG_As_bool(obj10)); 
+        if (SWIG_arg_fail(11)) SWIG_fail;
+    }
+    {
+        arg12 = (bool)(SWIG_As_bool(obj11)); 
+        if (SWIG_arg_fail(12)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj12, (char**)&arg13)) {
+        SWIG_arg_fail(13);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj13, (char**)&arg14)) {
+        SWIG_arg_fail(14);SWIG_fail;
+    }
+    {
+        csMatrix3 * argp;
+        SWIG_Python_ConvertPtr(obj14, (void **)&argp, SWIGTYPE_p_csMatrix3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(15)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csMatrix3");
+        }
+        if (SWIG_arg_fail(15)) SWIG_fail;
+        arg15 = *argp;
+    }
+    result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13,(char const *)arg14,arg15);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    float arg3 ;
+    float arg4 ;
+    float arg5 ;
+    float arg6 ;
+    float arg7 ;
+    float arg8 ;
+    float arg9 ;
+    float arg10 ;
+    bool arg11 ;
+    bool arg12 ;
+    char *arg13 = (char *) 0 ;
+    char *arg14 = (char *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    PyObject * obj5 = 0 ;
+    PyObject * obj6 = 0 ;
+    PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
+    PyObject * obj9 = 0 ;
+    PyObject * obj10 = 0 ;
+    PyObject * obj11 = 0 ;
+    PyObject * obj12 = 0 ;
+    PyObject * obj13 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    {
+        arg4 = (float)(SWIG_As_float(obj3)); 
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    {
+        arg5 = (float)(SWIG_As_float(obj4)); 
+        if (SWIG_arg_fail(5)) SWIG_fail;
+    }
+    {
+        arg6 = (float)(SWIG_As_float(obj5)); 
+        if (SWIG_arg_fail(6)) SWIG_fail;
+    }
+    {
+        arg7 = (float)(SWIG_As_float(obj6)); 
+        if (SWIG_arg_fail(7)) SWIG_fail;
+    }
+    {
+        arg8 = (float)(SWIG_As_float(obj7)); 
+        if (SWIG_arg_fail(8)) SWIG_fail;
+    }
+    {
+        arg9 = (float)(SWIG_As_float(obj8)); 
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    {
+        arg10 = (float)(SWIG_As_float(obj9)); 
+        if (SWIG_arg_fail(10)) SWIG_fail;
+    }
+    {
+        arg11 = (bool)(SWIG_As_bool(obj10)); 
+        if (SWIG_arg_fail(11)) SWIG_fail;
+    }
+    {
+        arg12 = (bool)(SWIG_As_bool(obj11)); 
+        if (SWIG_arg_fail(12)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj12, (char**)&arg13)) {
+        SWIG_arg_fail(13);SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj13, (char**)&arg14)) {
+        SWIG_arg_fail(14);SWIG_fail;
+    }
+    result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13,(char const *)arg14);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheel__SWIG_2(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+    csVector3 arg2 ;
+    float arg3 ;
+    float arg4 ;
+    float arg5 ;
+    float arg6 ;
+    float arg7 ;
+    float arg8 ;
+    float arg9 ;
+    float arg10 ;
+    bool arg11 ;
+    bool arg12 ;
+    char *arg13 = (char *) 0 ;
+    int result;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    PyObject * obj2 = 0 ;
+    PyObject * obj3 = 0 ;
+    PyObject * obj4 = 0 ;
+    PyObject * obj5 = 0 ;
+    PyObject * obj6 = 0 ;
+    PyObject * obj7 = 0 ;
+    PyObject * obj8 = 0 ;
+    PyObject * obj9 = 0 ;
+    PyObject * obj10 = 0 ;
+    PyObject * obj11 = 0 ;
+    PyObject * obj12 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcWheeled, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        csVector3 * argp;
+        SWIG_Python_ConvertPtr(obj1, (void **)&argp, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (argp == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        arg2 = *argp;
+    }
+    {
+        arg3 = (float)(SWIG_As_float(obj2)); 
+        if (SWIG_arg_fail(3)) SWIG_fail;
+    }
+    {
+        arg4 = (float)(SWIG_As_float(obj3)); 
+        if (SWIG_arg_fail(4)) SWIG_fail;
+    }
+    {
+        arg5 = (float)(SWIG_As_float(obj4)); 
+        if (SWIG_arg_fail(5)) SWIG_fail;
+    }
+    {
+        arg6 = (float)(SWIG_As_float(obj5)); 
+        if (SWIG_arg_fail(6)) SWIG_fail;
+    }
+    {
+        arg7 = (float)(SWIG_As_float(obj6)); 
+        if (SWIG_arg_fail(7)) SWIG_fail;
+    }
+    {
+        arg8 = (float)(SWIG_As_float(obj7)); 
+        if (SWIG_arg_fail(8)) SWIG_fail;
+    }
+    {
+        arg9 = (float)(SWIG_As_float(obj8)); 
+        if (SWIG_arg_fail(9)) SWIG_fail;
+    }
+    {
+        arg10 = (float)(SWIG_As_float(obj9)); 
+        if (SWIG_arg_fail(10)) SWIG_fail;
+    }
+    {
+        arg11 = (bool)(SWIG_As_bool(obj10)); 
+        if (SWIG_arg_fail(11)) SWIG_fail;
+    }
+    {
+        arg12 = (bool)(SWIG_As_bool(obj11)); 
+        if (SWIG_arg_fail(12)) SWIG_fail;
+    }
+    if (!SWIG_AsCharPtr(obj12, (char**)&arg13)) {
+        SWIG_arg_fail(13);SWIG_fail;
+    }
+    result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13);
+    
+    {
+        resultobj = SWIG_From_int((int)(result)); 
+    }
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheel__SWIG_3(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcWheeled *arg1 = (iPcWheeled *) 0 ;
     csVector3 arg2 ;
@@ -39937,6 +40665,271 @@ static PyObject *_wrap_iPcWheeled_AddWheel(PyObject *, PyObject *args) {
     }
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcWheeled_AddWheel(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[16];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 15); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 12) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    _v = SWIG_Check_float(argv[3]);
+                    if (_v) {
+                        _v = SWIG_Check_float(argv[4]);
+                        if (_v) {
+                            _v = SWIG_Check_float(argv[5]);
+                            if (_v) {
+                                _v = SWIG_Check_float(argv[6]);
+                                if (_v) {
+                                    _v = SWIG_Check_float(argv[7]);
+                                    if (_v) {
+                                        _v = SWIG_Check_float(argv[8]);
+                                        if (_v) {
+                                            _v = SWIG_Check_float(argv[9]);
+                                            if (_v) {
+                                                _v = SWIG_Check_bool(argv[10]);
+                                                if (_v) {
+                                                    _v = SWIG_Check_bool(argv[11]);
+                                                    if (_v) {
+                                                        return _wrap_iPcWheeled_AddWheel__SWIG_3(self,args);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 13) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    _v = SWIG_Check_float(argv[3]);
+                    if (_v) {
+                        _v = SWIG_Check_float(argv[4]);
+                        if (_v) {
+                            _v = SWIG_Check_float(argv[5]);
+                            if (_v) {
+                                _v = SWIG_Check_float(argv[6]);
+                                if (_v) {
+                                    _v = SWIG_Check_float(argv[7]);
+                                    if (_v) {
+                                        _v = SWIG_Check_float(argv[8]);
+                                        if (_v) {
+                                            _v = SWIG_Check_float(argv[9]);
+                                            if (_v) {
+                                                _v = SWIG_Check_bool(argv[10]);
+                                                if (_v) {
+                                                    _v = SWIG_Check_bool(argv[11]);
+                                                    if (_v) {
+                                                        _v = SWIG_AsCharPtr(argv[12], (char **)(0));
+                                                        if (_v) {
+                                                            return _wrap_iPcWheeled_AddWheel__SWIG_2(self,args);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 14) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    _v = SWIG_Check_float(argv[3]);
+                    if (_v) {
+                        _v = SWIG_Check_float(argv[4]);
+                        if (_v) {
+                            _v = SWIG_Check_float(argv[5]);
+                            if (_v) {
+                                _v = SWIG_Check_float(argv[6]);
+                                if (_v) {
+                                    _v = SWIG_Check_float(argv[7]);
+                                    if (_v) {
+                                        _v = SWIG_Check_float(argv[8]);
+                                        if (_v) {
+                                            _v = SWIG_Check_float(argv[9]);
+                                            if (_v) {
+                                                _v = SWIG_Check_bool(argv[10]);
+                                                if (_v) {
+                                                    _v = SWIG_Check_bool(argv[11]);
+                                                    if (_v) {
+                                                        _v = SWIG_AsCharPtr(argv[12], (char **)(0));
+                                                        if (_v) {
+                                                            _v = SWIG_AsCharPtr(argv[13], (char **)(0));
+                                                            if (_v) {
+                                                                return _wrap_iPcWheeled_AddWheel__SWIG_1(self,args);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (argc == 15) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcWheeled, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                _v = SWIG_Check_float(argv[2]);
+                if (_v) {
+                    _v = SWIG_Check_float(argv[3]);
+                    if (_v) {
+                        _v = SWIG_Check_float(argv[4]);
+                        if (_v) {
+                            _v = SWIG_Check_float(argv[5]);
+                            if (_v) {
+                                _v = SWIG_Check_float(argv[6]);
+                                if (_v) {
+                                    _v = SWIG_Check_float(argv[7]);
+                                    if (_v) {
+                                        _v = SWIG_Check_float(argv[8]);
+                                        if (_v) {
+                                            _v = SWIG_Check_float(argv[9]);
+                                            if (_v) {
+                                                _v = SWIG_Check_bool(argv[10]);
+                                                if (_v) {
+                                                    _v = SWIG_Check_bool(argv[11]);
+                                                    if (_v) {
+                                                        _v = SWIG_AsCharPtr(argv[12], (char **)(0));
+                                                        if (_v) {
+                                                            _v = SWIG_AsCharPtr(argv[13], (char **)(0));
+                                                            if (_v) {
+                                                                {
+                                                                    void *ptr = 0;
+                                                                    if (SWIG_ConvertPtr(argv[14], &ptr, SWIGTYPE_p_csMatrix3, 0) == -1) {
+                                                                        _v = 0;
+                                                                        PyErr_Clear();
+                                                                    } else {
+                                                                        _v = (ptr != 0);
+                                                                    }
+                                                                }
+                                                                if (_v) {
+                                                                    return _wrap_iPcWheeled_AddWheel__SWIG_0(self,args);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcWheeled_AddWheel'");
     return NULL;
 }
 
@@ -41926,6 +42919,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMechanicsObject_GetAngularVelocity", _wrap_iPcMechanicsObject_GetAngularVelocity, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_MakeStatic", _wrap_iPcMechanicsObject_MakeStatic, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_IsStatic", _wrap_iPcMechanicsObject_IsStatic, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsObject_SetCollisionCallbackEnabled", _wrap_iPcMechanicsObject_SetCollisionCallbackEnabled, METH_VARARGS, NULL},
+	 { (char *)"iPcMechanicsObject_IsCollisionCallbackEnabled", _wrap_iPcMechanicsObject_IsCollisionCallbackEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_AttachColliderBoundingSphere", _wrap_iPcMechanicsObject_AttachColliderBoundingSphere, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_AttachColliderSphere", _wrap_iPcMechanicsObject_AttachColliderSphere, METH_VARARGS, NULL},
 	 { (char *)"iPcMechanicsObject_AttachColliderCylinder", _wrap_iPcMechanicsObject_AttachColliderCylinder, METH_VARARGS, NULL},
@@ -42759,6 +43754,24 @@ static void *_p_csPathTo_p_iPath(void *x) {
 }
 static void *_p_scfImplementation1TcsPath_iPath_tTo_p_iPath(void *x) {
     return (void *)((iPath *)  ((scfImplementation1<csPath,iPath > *) x));
+}
+static void *_p_csXRotMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csXRotMatrix3 *) x));
+}
+static void *_p_csYRotMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csYRotMatrix3 *) x));
+}
+static void *_p_csZRotMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csZRotMatrix3 *) x));
+}
+static void *_p_csXScaleMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csXScaleMatrix3 *) x));
+}
+static void *_p_csYScaleMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csYScaleMatrix3 *) x));
+}
+static void *_p_csZScaleMatrix3To_p_csMatrix3(void *x) {
+    return (void *)((csMatrix3 *)  ((csZScaleMatrix3 *) x));
 }
 static void *_p_iPcDefaultCameraTo_p_iPcCamera(void *x) {
     return (void *)((iPcCamera *)  ((iPcDefaultCamera *) x));
@@ -43754,6 +44767,7 @@ static swig_type_info _swigt__p_ValueType[] = {{"_p_ValueType", 0, "ValueType *"
 static swig_type_info _swigt__p_basetype[] = {{"_p_basetype", 0, "basetype *", 0, 0, 0, 0},{"_p_basetype", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iCelDataBuffer[] = {{"_p_iCelDataBuffer", 0, "iCelDataBuffer *", 0, 0, 0, 0},{"_p_iCelDataBuffer", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iPcDefaultCamera[] = {{"_p_iPcDefaultCamera", 0, "iPcDefaultCamera *", 0, 0, 0, 0},{"_p_iPcDefaultCamera", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
+static swig_type_info _swigt__p_csMatrix3[] = {{"_p_csMatrix3", 0, "csMatrix3 *", 0, 0, 0, 0},{"_p_csMatrix3", 0, 0, 0, 0, 0, 0},{"_p_csXRotMatrix3", _p_csXRotMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{"_p_csYRotMatrix3", _p_csYRotMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{"_p_csZRotMatrix3", _p_csZRotMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{"_p_csXScaleMatrix3", _p_csXScaleMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{"_p_csYScaleMatrix3", _p_csYScaleMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{"_p_csZScaleMatrix3", _p_csZScaleMatrix3To_p_csMatrix3, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_iStringArray[] = {{"_p_iStringArray", 0, "iStringArray *", 0, 0, 0, 0},{"_p_iStringArray", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p__csKeyModifierType[] = {{"_p__csKeyModifierType", 0, "enum _csKeyModifierType *|csKeyModifierType *", 0, 0, 0, 0},{"_p__csKeyModifierType", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
 static swig_type_info _swigt__p_csStringArray[] = {{"_p_csStringArray", 0, "csStringArray *", 0, 0, 0, 0},{"_p_csStringArray", 0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0, 0}};
@@ -43922,6 +44936,7 @@ _swigt__p_ValueType,
 _swigt__p_basetype, 
 _swigt__p_iCelDataBuffer, 
 _swigt__p_iPcDefaultCamera, 
+_swigt__p_csMatrix3, 
 _swigt__p_iStringArray, 
 _swigt__p__csKeyModifierType, 
 _swigt__p_csStringArray, 

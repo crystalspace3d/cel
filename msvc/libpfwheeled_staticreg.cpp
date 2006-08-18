@@ -17,7 +17,7 @@ namespace csStaticPluginInit
 {
 static char const metainfo_pfwheeled[] =
 "<?xml version=\"1.0\"?>"
-"<!-- pfhover.csplugin -->"
+"<!-- pfwheeled.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
