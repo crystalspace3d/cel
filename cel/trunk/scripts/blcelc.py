@@ -1217,6 +1217,8 @@ class iPcMechanicsObject(cspace.iBase):
     def GetAngularVelocity(*args): return _blcelc.iPcMechanicsObject_GetAngularVelocity(*args)
     def MakeStatic(*args): return _blcelc.iPcMechanicsObject_MakeStatic(*args)
     def IsStatic(*args): return _blcelc.iPcMechanicsObject_IsStatic(*args)
+    def SetCollisionCallbackEnabled(*args): return _blcelc.iPcMechanicsObject_SetCollisionCallbackEnabled(*args)
+    def IsCollisionCallbackEnabled(*args): return _blcelc.iPcMechanicsObject_IsCollisionCallbackEnabled(*args)
     def AttachColliderBoundingSphere(*args): return _blcelc.iPcMechanicsObject_AttachColliderBoundingSphere(*args)
     def AttachColliderSphere(*args): return _blcelc.iPcMechanicsObject_AttachColliderSphere(*args)
     def AttachColliderCylinder(*args): return _blcelc.iPcMechanicsObject_AttachColliderCylinder(*args)
