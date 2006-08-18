@@ -291,8 +291,9 @@ private:
   static csStringID param_forward;
   static csStringID param_up;
   static csStringID param_rotation;
+  static csStringID param_depth;
 
-  celOneParameterBlock* params;
+  celGenericParameterBlock* params;
 
   // Last assigned force id for this object
   uint32 forceidseed;
@@ -434,7 +435,8 @@ public:
   virtual void RemoveFromGroup (const char* group);
   virtual iJoint* CreateJoint (iPcMechanicsObject* other);
 
-  void Collision (iRigidBody *thisbody, iRigidBody *otherbody);
+  void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
+	const csVector3& pos, const csVector3& normal, float depth);
 
   virtual const char* GetName () const { return "pcmechobject"; }
   virtual csPtr<iCelDataBuffer> Save ();
@@ -463,9 +465,10 @@ public:
     }
     SCF_DECLARE_IBASE;
 
-    virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody)
+    virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
+	const csVector3& pos, const csVector3& normal, float depth)
     {
-      parent->Collision (thisbody, otherbody);
+      parent->Collision (thisbody, otherbody, pos, normal, depth);
     }
   } *scfiDynamicsCollisionCallback;
 };

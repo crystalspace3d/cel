@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Aug-2006
+	- Jorrit changed pcmechobject so it uses the new parameters
+	  in the collision callback to set the 'position', 'normal',
+	  and 'depth' parameters when sending a pcdynamicbody_collision
+	  to the behaviour.
 17-Aug-2006
 	- Jorrit added 'static', 'linearvelocity', and 'angularvelocity'
 	  properties to pcmechobject.
