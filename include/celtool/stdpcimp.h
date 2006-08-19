@@ -75,14 +75,23 @@ protected:
    * \param type is the type for the property.
    * \param readonly
    * \param desc is the description.
+   * \param pointer is the pointer of the field this
+   * property corresponds with or 0 if it requires manual
+   * intervention.
    */
   void AddProperty (int idx, const char* id,
-	celDataType type, bool readonly, const char* desc)
+	celDataType type, bool readonly, const char* desc,
+	void* prop)
   {
+    if (propdata == 0)
+    {
+      propdata = new void* [*propcount];
+    }
     props[idx].id = pl->FetchStringID (id);
     props[idx].datatype = type;
     props[idx].readonly = readonly;
     props[idx].desc = desc;
+    propdata[idx] = prop;
   }
 
   void** propdata;

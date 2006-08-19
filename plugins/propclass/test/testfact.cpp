@@ -51,11 +51,8 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
     action_print = pl->FetchStringID ("cel.action.Print");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
   propcount = &propertycount;
-  propdata[propid_counter] = &counter;	// Automatically handled.
-  propdata[propid_max] = 0;		// Handled in this class.
+  UpdateProperties ();
 
   counter = 0;
   max = 0;
@@ -78,9 +75,9 @@ void celPcTest::UpdateProperties ()
     props = properties;
 
     AddProperty (propid_counter, "cel.property.counter",
-	CEL_DATA_LONG, false, "Print counter.");
+	CEL_DATA_LONG, false, "Print counter.", &counter);
     AddProperty (propid_max, "cel.property.max",
-	CEL_DATA_LONG, false, "Max length.");
+	CEL_DATA_LONG, false, "Max length.", 0);
   }
   else props = properties;
 }
