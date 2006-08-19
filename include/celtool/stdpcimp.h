@@ -108,8 +108,6 @@ protected:
   {
     if (propdata == 0)
     {
-      props = propholder->properties;
-      propcount = &(propholder->propertycount);
       propdata = new void* [propholder->propertycount];
     }
     Property& pr = propholder->properties[idx];
@@ -124,8 +122,6 @@ protected:
   }
 
   void** propdata;
-  Property* props;
-  size_t* propcount;
   PropertyHolder* propholder;
 
 public:
