@@ -36,6 +36,8 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   celPcCommon::object_reg = object_reg;
   entity = 0;
   propcount = 0;
+  props = 0;
+  propdata = 0;
   propclasses_dirty = true;
   tag = 0;
 
