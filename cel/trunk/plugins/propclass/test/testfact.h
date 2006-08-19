@@ -59,9 +59,7 @@ private:
     propid_counter = 0,
     propid_max
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   // Other fields.
   int counter;
@@ -76,8 +74,8 @@ public:
   virtual const char* GetName () const { return "pctest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
-      celData& ret);
+  virtual bool PerformAction (csStringID actionId,
+      iCelParameterBlock* params, celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'max' property.

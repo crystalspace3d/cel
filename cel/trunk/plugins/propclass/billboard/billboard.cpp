@@ -53,189 +53,7 @@ csStringID celPcBillboard::id_distance = csInvalidStringID;
 csStringID celPcBillboard::id_angle = csInvalidStringID;
 csStringID celPcBillboard::id_rotate = csInvalidStringID;
 
-Property* celPcBillboard::properties = 0;
-size_t celPcBillboard::propertycount = 0;
-
-void celPcBillboard::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 28;
-    properties = new Property[propertycount];
-
-    properties[propid_billboardname].id = pl->FetchStringID (
-    	"cel.property.name");
-    properties[propid_billboardname].datatype = CEL_DATA_STRING;
-    properties[propid_billboardname].readonly = false;
-    properties[propid_billboardname].desc = "Name of billboard.";
-
-    properties[propid_materialname].id = pl->FetchStringID (
-    	"cel.property.materialname");
-    properties[propid_materialname].datatype = CEL_DATA_STRING;
-    properties[propid_materialname].readonly = false;
-    properties[propid_materialname].desc = "Name of material.";
-
-    properties[propid_materialnamefast].id = pl->FetchStringID (
-    	"cel.property.materialnamefast");
-    properties[propid_materialnamefast].datatype = CEL_DATA_STRING;
-    properties[propid_materialnamefast].readonly = false;
-    properties[propid_materialnamefast].desc = "Name of material (fast version).";
-
-    properties[propid_clickable].id = pl->FetchStringID (
-    	"cel.property.clickable");
-    properties[propid_clickable].datatype = CEL_DATA_BOOL;
-    properties[propid_clickable].readonly = false;
-    properties[propid_clickable].desc = "Enable mouse events.";
-
-    properties[propid_movable].id = pl->FetchStringID (
-    	"cel.property.movable");
-    properties[propid_movable].datatype = CEL_DATA_BOOL;
-    properties[propid_movable].readonly = false;
-    properties[propid_movable].desc = "Make movable.";
-
-    properties[propid_visible].id = pl->FetchStringID (
-    	"cel.property.visible");
-    properties[propid_visible].datatype = CEL_DATA_BOOL;
-    properties[propid_visible].readonly = false;
-    properties[propid_visible].desc = "Make visible.";
-
-    properties[propid_restack].id = pl->FetchStringID (
-    	"cel.property.restack");
-    properties[propid_restack].datatype = CEL_DATA_BOOL;
-    properties[propid_restack].readonly = false;
-    properties[propid_restack].desc = "Make restackable on selection.";
-
-    properties[propid_sendmove].id = pl->FetchStringID (
-    	"cel.property.sendmove");
-    properties[propid_sendmove].datatype = CEL_DATA_BOOL;
-    properties[propid_sendmove].readonly = false;
-    properties[propid_sendmove].desc = "Send move and moveaway events.";
-
-    properties[propid_color].id = pl->FetchStringID (
-    	"cel.property.color");
-    properties[propid_color].datatype = CEL_DATA_COLOR;
-    properties[propid_color].readonly = false;
-    properties[propid_color].desc = "Color of this billboard.";
-
-    properties[propid_width].id = pl->FetchStringID (
-    	"cel.property.width");
-    properties[propid_width].datatype = CEL_DATA_LONG;
-    properties[propid_width].readonly = false;
-    properties[propid_width].desc = "Width in pixels.";
-
-    properties[propid_height].id = pl->FetchStringID (
-    	"cel.property.height");
-    properties[propid_height].datatype = CEL_DATA_LONG;
-    properties[propid_height].readonly = false;
-    properties[propid_height].desc = "Height in pixels.";
-
-    properties[propid_widthpct].id = pl->FetchStringID (
-    	"cel.property.widthpct");
-    properties[propid_widthpct].datatype = CEL_DATA_FLOAT;
-    properties[propid_widthpct].readonly = false;
-    properties[propid_widthpct].desc =
-    	"Width in percentage relative to original texture (1==full size).";
-
-    properties[propid_heightpct].id = pl->FetchStringID (
-    	"cel.property.heightpct");
-    properties[propid_heightpct].datatype = CEL_DATA_FLOAT;
-    properties[propid_heightpct].readonly = false;
-    properties[propid_heightpct].desc =
-    	"Height in percentage relative to original texture (1==full size).";
-
-    properties[propid_x].id = pl->FetchStringID (
-    	"cel.property.x");
-    properties[propid_x].datatype = CEL_DATA_LONG;
-    properties[propid_x].readonly = false;
-    properties[propid_x].desc = "X position of billboard.";
-
-    properties[propid_y].id = pl->FetchStringID (
-    	"cel.property.y");
-    properties[propid_y].datatype = CEL_DATA_LONG;
-    properties[propid_y].readonly = false;
-    properties[propid_y].desc = "Y position of billboard.";
-
-    properties[propid_uv_topleft].id = pl->FetchStringID (
-    	"cel.property.uv_topleft");
-    properties[propid_uv_topleft].datatype = CEL_DATA_VECTOR2;
-    properties[propid_uv_topleft].readonly = false;
-    properties[propid_uv_topleft].desc = "Top-left UV coordinate.";
-
-    properties[propid_uv_botright].id = pl->FetchStringID (
-    	"cel.property.uv_botright");
-    properties[propid_uv_botright].datatype = CEL_DATA_VECTOR2;
-    properties[propid_uv_botright].readonly = false;
-    properties[propid_uv_botright].desc = "Bottom-right UV coordinate.";
-
-    properties[propid_layer].id = pl->FetchStringID (
-    	"cel.property.layer");
-    properties[propid_layer].datatype = CEL_DATA_STRING;
-    properties[propid_layer].readonly = false;
-    properties[propid_layer].desc = "Layer for this billboard.";
-
-    properties[propid_text].id = pl->FetchStringID (
-	"cel.property.text");
-    properties[propid_text].datatype = CEL_DATA_STRING;
-    properties[propid_text].readonly = false;
-    properties[propid_text].desc = "Text placed on the billboard.";
-
-    properties[propid_text_offset].id = pl->FetchStringID (
-	"cel.property.text_offset");
-    properties[propid_text_offset].datatype = CEL_DATA_VECTOR2;
-    properties[propid_text_offset].readonly = true;
-    properties[propid_text_offset].desc = "Offset for the text in bb space.";
-
-    properties[propid_text_fg_color].id = pl->FetchStringID (
-	"cel.property.text_fg_color");
-    properties[propid_text_fg_color].datatype = CEL_DATA_COLOR;
-    properties[propid_text_fg_color].readonly = true;
-    properties[propid_text_fg_color].desc = "Foreground text color";
-
-    properties[propid_text_bg_color].id = pl->FetchStringID (
-	"cel.property.text_bg_color");
-    properties[propid_text_bg_color].datatype = CEL_DATA_COLOR;
-    properties[propid_text_bg_color].readonly = true;
-    properties[propid_text_bg_color].desc = "Background text color.";
-
-    properties[propid_text_font_size].id = pl->FetchStringID (
-	"cel.property.text_font_size");
-    properties[propid_text_font_size].datatype = CEL_DATA_FLOAT;
-    properties[propid_text_font_size].readonly = true;
-    properties[propid_text_font_size].desc = "Text font size.";
-
-    properties[propid_text_font].id = pl->FetchStringID (
-	"cel.property.text_font");
-    properties[propid_text_font].datatype = CEL_DATA_STRING;
-    properties[propid_text_font].readonly = true;
-    properties[propid_text_font].desc = "Text font.";
-
-    properties[propid_text_default_fg_color].id = pl->FetchStringID (
-	"cel.property.text_default_fg_color");
-    properties[propid_text_default_fg_color].datatype = CEL_DATA_COLOR;
-    properties[propid_text_default_fg_color].readonly = true;
-    properties[propid_text_default_fg_color].desc =
-      "Default foreground text color.";
-
-    properties[propid_text_default_bg_color].id = pl->FetchStringID (
-	"cel.property.text_default_bg_color");
-    properties[propid_text_default_bg_color].datatype = CEL_DATA_COLOR;
-    properties[propid_text_default_bg_color].readonly = true;
-    properties[propid_text_default_bg_color].desc =
-      "Default background text color.";
-
-    properties[propid_text_default_font_size].id = pl->FetchStringID (
-	"cel.property.text_default_font_size");
-    properties[propid_text_default_font_size].datatype = CEL_DATA_FLOAT;
-    properties[propid_text_default_font_size].readonly = true;
-    properties[propid_text_default_font_size].desc = "Default text font size.";
-
-    properties[propid_text_default_font].id = pl->FetchStringID (
-	"cel.property.text_default_font");
-    properties[propid_text_default_font].datatype = CEL_DATA_STRING;
-    properties[propid_text_default_font].readonly = true;
-    properties[propid_text_default_font].desc = "Default text font.";
-  }
-}
+PropertyHolder celPcBillboard::propinfo;
 
 //---------------------------------------------------------------------------
 
@@ -262,43 +80,73 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_rotate = pl->FetchStringID ("cel.parameter.rotate");
   }
 
-  UpdateProperties ();
-  propdata = new void* [propertycount];
+  propholder = &propinfo;
+  propinfo.SetCount (28);
+
+  AddProperty (propid_billboardname, "cel.property.name",
+	CEL_DATA_STRING, false, "Name of billboard.", &billboard_name);
+  AddProperty (propid_materialname, "cel.property.materialname",
+	CEL_DATA_STRING, false, "Name of material.", 0);
+  AddProperty (propid_materialnamefast, "cel.property.materialnamefast",
+	CEL_DATA_STRING, false, "Name of material (fast version).", 0);
+  AddProperty (propid_clickable, "cel.property.clickable",
+	CEL_DATA_BOOL, false, "Enable mouse events.", 0);
+  AddProperty (propid_movable, "cel.property.movable",
+	CEL_DATA_BOOL, false, "Make movable.", 0);
+  AddProperty (propid_visible, "cel.property.visible",
+	CEL_DATA_BOOL, false, "Make visible.", 0);
+  AddProperty (propid_restack, "cel.property.restack",
+	CEL_DATA_BOOL, false, "Make restackable on selection.", 0);
+  AddProperty (propid_sendmove, "cel.property.sendmove",
+	CEL_DATA_BOOL, false, "Send move and moveaway events.", 0);
+  AddProperty (propid_color, "cel.property.color",
+	CEL_DATA_COLOR, false, "Color of this billboard.", 0);
+  AddProperty (propid_width, "cel.property.width",
+	CEL_DATA_LONG, false, "Width in pixels.", 0);
+  AddProperty (propid_height, "cel.property.height",
+	CEL_DATA_LONG, false, "Height in pixels.", 0);
+  AddProperty (propid_widthpct, "cel.property.widthpct",
+	CEL_DATA_FLOAT, false,
+	"Width in percentage relative to original texture (1==full size).", 0);
+  AddProperty (propid_heightpct, "cel.property.heightpct",
+	CEL_DATA_FLOAT, false,
+	"Height in percentage relative to original texture (1==full size).", 0);
+  AddProperty (propid_x, "cel.property.x",
+	CEL_DATA_LONG, false, "X position of billboard.", 0);
+  AddProperty (propid_y, "cel.property.y",
+	CEL_DATA_LONG, false, "Y position of billboard.", 0);
+  AddProperty (propid_uv_topleft, "cel.property.uv_topleft",
+	CEL_DATA_VECTOR2, false, "Top-left UV coordinate.", 0);
+  AddProperty (propid_uv_botright, "cel.property.uv_botright",
+	CEL_DATA_VECTOR2, false, "Bottom-right UV coordinate.", 0);
+  AddProperty (propid_layer, "cel.property.layer",
+	CEL_DATA_STRING, false, "Layer for this billboard.", 0);
+  AddProperty (propid_text, "cel.property.text",
+	CEL_DATA_STRING, false, "Text placed on the billboard.", 0);
+  AddProperty (propid_text_offset, "cel.property.text_offset",
+	CEL_DATA_VECTOR2, true, "Offset for the text in bb space.", 0);
+  AddProperty (propid_text_fg_color, "cel.property.text_fg_color",
+	CEL_DATA_COLOR, true, "Foreground text color", 0);
+  AddProperty (propid_text_bg_color, "cel.property.text_bg_color",
+	CEL_DATA_COLOR, true, "Background text color.", 0);
+  AddProperty (propid_text_font_size, "cel.property.text_font_size",
+	CEL_DATA_FLOAT, true, "Text font size.", 0);
+  AddProperty (propid_text_font, "cel.property.text_font",
+	CEL_DATA_STRING, true, "Text font.", 0);
+  AddProperty (propid_text_default_fg_color,
+        "cel.property.text_default_fg_color",
+	CEL_DATA_COLOR, true, "Default foreground text color.", 0);
+  AddProperty (propid_text_default_bg_color,
+        "cel.property.text_default_bg_color",
+	CEL_DATA_COLOR, true, "Default background text color.", 0);
+  AddProperty (propid_text_default_font_size,
+        "cel.property.text_default_font_size",
+	CEL_DATA_FLOAT, true, "Default text font size.", 0);
+  AddProperty (propid_text_default_font, "cel.property.text_default_font",
+	CEL_DATA_STRING, true, "Default text font.", 0);
 
   font_size = 10.0f;
   default_font_size = 10.0f;
-
-  props = properties;
-  propcount = &propertycount;
-
-  propdata[propid_billboardname] = &billboard_name;
-  propdata[propid_materialname] = 0;
-  propdata[propid_materialnamefast] = 0;
-  propdata[propid_clickable] = 0;
-  propdata[propid_movable] = 0;
-  propdata[propid_visible] = 0;
-  propdata[propid_restack] = 0;
-  propdata[propid_sendmove] = 0;
-  propdata[propid_color] = 0;
-  propdata[propid_width] = 0;
-  propdata[propid_height] = 0;
-  propdata[propid_widthpct] = 0;
-  propdata[propid_heightpct] = 0;
-  propdata[propid_x] = 0;
-  propdata[propid_y] = 0;
-  propdata[propid_uv_topleft] = 0;
-  propdata[propid_uv_botright] = 0;
-  propdata[propid_layer] = 0;
-  propdata[propid_text] = 0;
-  propdata[propid_text_offset] = 0;
-  propdata[propid_text_fg_color] = 0;
-  propdata[propid_text_bg_color] = 0;
-  propdata[propid_text_font_size] = 0;
-  propdata[propid_text_font] = 0;
-  propdata[propid_text_default_fg_color] = 0;
-  propdata[propid_text_default_bg_color] = 0;
-  propdata[propid_text_default_font_size] = 0;
-  propdata[propid_text_default_font] = 0;
 
   if (id_x == csInvalidStringID)
   {
@@ -354,8 +202,7 @@ bool celPcBillboard::PerformAction (csStringID actionId,
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_widthpct].id)
+  if (propinfo.TestID (propid_widthpct, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -368,7 +215,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, float b)
     }
     return true;
   }
-  else if (propertyId == properties[propid_heightpct].id)
+  else if (propinfo.TestID (propid_heightpct, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -381,12 +228,12 @@ bool celPcBillboard::SetProperty (csStringID propertyId, float b)
     }
     return true;
   }
-  else if (propertyId == properties[propid_text_font_size].id)
+  else if (propinfo.TestID (propid_text_font_size, propertyId))
   {
     font_size = b;
     return true;
   }
-  else if (propertyId == properties[propid_text_default_font_size].id)
+  else if (propinfo.TestID (propid_text_default_font_size, propertyId))
   {
     default_font_size = b;
     return true;
@@ -399,8 +246,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, float b)
 
 float celPcBillboard::GetPropertyFloat (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_widthpct].id)
+  if (propinfo.TestID (propid_widthpct, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -413,7 +259,7 @@ float celPcBillboard::GetPropertyFloat (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_heightpct].id)
+  else if (propinfo.TestID (propid_heightpct, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -426,14 +272,14 @@ float celPcBillboard::GetPropertyFloat (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_text_font_size].id)
+  else if (propinfo.TestID (propid_text_font_size, propertyId))
   {
     GetBillboard ();
     if (billboard)
       return billboard->GetTextFontSize ();
     return 0;
   }
-  else if (propertyId == properties[propid_text_default_font_size].id)
+  else if (propinfo.TestID (propid_text_default_font_size, propertyId))
   {
     return default_font_size;
   }
@@ -445,8 +291,7 @@ float celPcBillboard::GetPropertyFloat (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_width].id)
+  if (propinfo.TestID (propid_width, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -457,7 +302,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, long b)
     }
     return true;
   }
-  else if (propertyId == properties[propid_height].id)
+  else if (propinfo.TestID (propid_height, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -468,7 +313,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, long b)
     }
     return true;
   }
-  else if (propertyId == properties[propid_x].id)
+  else if (propinfo.TestID (propid_x, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -479,7 +324,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, long b)
     }
     return true;
   }
-  else if (propertyId == properties[propid_y].id)
+  else if (propinfo.TestID (propid_y, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -498,8 +343,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, long b)
 
 long celPcBillboard::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_width].id)
+  if (propinfo.TestID (propid_width, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -510,7 +354,7 @@ long celPcBillboard::GetPropertyLong (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_height].id)
+  else if (propinfo.TestID (propid_height, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -521,7 +365,7 @@ long celPcBillboard::GetPropertyLong (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_x].id)
+  else if (propinfo.TestID (propid_x, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -532,7 +376,7 @@ long celPcBillboard::GetPropertyLong (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_y].id)
+  else if (propinfo.TestID (propid_y, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -551,31 +395,30 @@ long celPcBillboard::GetPropertyLong (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_clickable].id)
+  if (propinfo.TestID (propid_clickable, propertyId))
   {
     EnableEvents (b);
     return true;
   }
-  else if (propertyId == properties[propid_movable].id)
+  else if (propinfo.TestID (propid_movable, propertyId))
   {
     GetBillboard ();
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_MOVABLE, b);
     return true;
   }
-  else if (propertyId == properties[propid_visible].id)
+  else if (propinfo.TestID (propid_visible, propertyId))
   {
     GetBillboard ();
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
     return true;
   }
-  else if (propertyId == properties[propid_restack].id)
+  else if (propinfo.TestID (propid_restack, propertyId))
   {
     GetBillboard ();
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
     return true;
   }
-  else if (propertyId == properties[propid_sendmove].id)
+  else if (propinfo.TestID (propid_sendmove, propertyId))
   {
     GetBillboard ();
     if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_SENDMOVE, b);
@@ -589,33 +432,32 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 
 bool celPcBillboard::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_clickable].id)
+  if (propinfo.TestID (propid_clickable, propertyId))
   {
     return AreEventsEnabled ();
   }
-  else if (propertyId == properties[propid_movable].id)
+  else if (propinfo.TestID (propid_movable, propertyId))
   {
     GetBillboard ();
     return billboard ?
     	billboard->GetFlags ().Check (CEL_BILLBOARD_MOVABLE) :
 	false;
   }
-  else if (propertyId == properties[propid_visible].id)
+  else if (propinfo.TestID (propid_visible, propertyId))
   {
     GetBillboard ();
     return billboard ?
     	billboard->GetFlags ().Check (CEL_BILLBOARD_VISIBLE) :
 	false;
   }
-  else if (propertyId == properties[propid_restack].id)
+  else if (propinfo.TestID (propid_restack, propertyId))
   {
     GetBillboard ();
     return billboard ?
     	billboard->GetFlags ().Check (CEL_BILLBOARD_RESTACK) :
 	false;
   }
-  else if (propertyId == properties[propid_sendmove].id)
+  else if (propinfo.TestID (propid_sendmove, propertyId))
   {
     GetBillboard ();
     return billboard ?
@@ -630,8 +472,7 @@ bool celPcBillboard::GetPropertyBool (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_materialname].id)
+  if (propinfo.TestID (propid_materialname, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -641,7 +482,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
-  else if (propertyId == properties[propid_materialnamefast].id)
+  else if (propinfo.TestID (propid_materialnamefast, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -651,7 +492,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
-  else if (propertyId == properties[propid_layer].id)
+  else if (propinfo.TestID (propid_layer, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -664,7 +505,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text].id)
+  else if (propinfo.TestID (propid_text, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -674,7 +515,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_font].id)
+  else if (propinfo.TestID (propid_text_font, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -684,7 +525,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_default_font].id)
+  else if (propinfo.TestID (propid_text_default_font, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -702,30 +543,29 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
 
 const char* celPcBillboard::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_materialname].id ||
-	propertyId == properties[propid_materialnamefast].id)
+  if (propinfo.TestID (propid_materialname, propertyId) ||
+	propinfo.TestID (propid_materialnamefast, propertyId))
   {
     GetBillboard ();
     if (billboard)
       return billboard->GetMaterialName ();
     return 0;
   }
-  else if (propertyId == properties[propid_layer].id)
+  else if (propinfo.TestID (propid_layer, propertyId))
   {
     GetBillboard ();
     if (billboard)
       return billboard->GetLayer ()->GetName ();
     return 0;
   }
-  else if (propertyId == properties[propid_text].id)
+  else if (propinfo.TestID (propid_text, propertyId))
   {
     GetBillboard ();
     if (billboard)
       return billboard->GetText ();
     return 0;
   }
-  else if (propertyId == properties[propid_text_font].id)
+  else if (propinfo.TestID (propid_text_font, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -734,7 +574,7 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
     }
     return 0;
   }
-  else if (propertyId == properties[propid_text_default_font].id)
+  else if (propinfo.TestID (propid_text_default_font, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -751,8 +591,7 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_uv_topleft].id)
+  if (propinfo.TestID (propid_uv_topleft, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -762,7 +601,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_uv_botright].id)
+  else if (propinfo.TestID (propid_uv_botright, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -772,7 +611,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_offset].id)
+  else if (propinfo.TestID (propid_text_offset, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -790,8 +629,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
 
 bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_uv_topleft].id)
+  if (propinfo.TestID (propid_uv_topleft, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -801,7 +639,7 @@ bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_uv_botright].id)
+  else if (propinfo.TestID (propid_uv_botright, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -811,7 +649,7 @@ bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_offset].id)
+  else if (propinfo.TestID (propid_text_offset, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -830,8 +668,7 @@ bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_color].id)
+  if (propinfo.TestID (propid_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -841,7 +678,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_fg_color].id)
+  else if (propinfo.TestID (propid_text_fg_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -851,7 +688,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_bg_color].id)
+  else if (propinfo.TestID (propid_text_bg_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -861,7 +698,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_default_fg_color].id)
+  else if (propinfo.TestID (propid_text_default_fg_color, propertyId))
   {
     GetBillboard ();
     if (billboard_mgr)
@@ -871,7 +708,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_default_bg_color].id)
+  else if (propinfo.TestID (propid_text_default_bg_color, propertyId))
   {
     GetBillboard ();
     if (billboard_mgr)
@@ -889,8 +726,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
 
 bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_color].id)
+  if (propinfo.TestID (propid_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -900,7 +736,7 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_fg_color].id)
+  else if (propinfo.TestID (propid_text_fg_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -910,7 +746,7 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_bg_color].id)
+  else if (propinfo.TestID (propid_text_bg_color, propertyId))
   {
     GetBillboard ();
     if (billboard)
@@ -920,7 +756,7 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_default_fg_color].id)
+  else if (propinfo.TestID (propid_text_default_fg_color, propertyId))
   {
     GetBillboard ();
     if (billboard_mgr)
@@ -930,7 +766,7 @@ bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
     }
     return false;
   }
-  else if (propertyId == properties[propid_text_default_bg_color].id)
+  else if (propinfo.TestID (propid_text_default_bg_color, propertyId))
   {
     GetBillboard ();
     if (billboard_mgr)

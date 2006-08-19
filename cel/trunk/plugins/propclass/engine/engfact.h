@@ -77,11 +77,7 @@ private:
     propid_regionname,
     propid_load
   };
-
-  static Property* properties;
-  static size_t propertycount;
-
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 private:
   /**

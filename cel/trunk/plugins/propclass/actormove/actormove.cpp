@@ -104,6 +104,8 @@ csStringID celPcActorMove::id_yrot = csInvalidStringID;
 csStringID celPcActorMove::id_x = csInvalidStringID;
 csStringID celPcActorMove::id_y = csInvalidStringID;
 
+PropertyHolder celPcActorMove::propinfo;
+
 celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -162,14 +164,18 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   g2d = g3d->GetDriver2D ();
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_mousemove] = 0;		// Handled in this class.
-  propdata[propid_mousemove_inverted] = &mousemove_inverted;
-  propdata[propid_mousemove_xfactor] = &mousemove_hor_factor;
-  propdata[propid_mousemove_yfactor] = &mousemove_vert_factor;
+  propholder = &propinfo;
+  propinfo.SetCount (4);
+  AddProperty (propid_mousemove, "cel.property.mousemove",
+	CEL_DATA_BOOL, false, "Mouse movement.", 0);
+  AddProperty (propid_mousemove_inverted, "cel.property.mousemove_inverted",
+	CEL_DATA_BOOL, false, "Mouse movement inverted.", &mousemove_inverted);
+  AddProperty (propid_mousemove_xfactor, "cel.property.mousemove_xfactor",
+	CEL_DATA_FLOAT, false, "Mouse movement x speed factor.",
+	&mousemove_hor_factor);
+  AddProperty (propid_mousemove_yfactor, "cel.property.mousemove_yfactor",
+	CEL_DATA_FLOAT, false, "Mouse movement y speed factor.",
+	&mousemove_vert_factor);
 }
 
 celPcActorMove::~celPcActorMove ()
@@ -178,46 +184,9 @@ celPcActorMove::~celPcActorMove ()
     g2d->SetMouseCursor (csmcArrow);
 }
 
-Property* celPcActorMove::properties = 0;
-size_t celPcActorMove::propertycount = 0;
-
-void celPcActorMove::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 4;
-    properties = new Property[propertycount];
-
-    properties[propid_mousemove].id = pl->FetchStringID (
-    	"cel.property.mousemove");
-    properties[propid_mousemove].datatype = CEL_DATA_BOOL;
-    properties[propid_mousemove].readonly = false;
-    properties[propid_mousemove].desc = "Mouse movement.";
-
-    properties[propid_mousemove_inverted].id = pl->FetchStringID (
-    	"cel.property.mousemove_inverted");
-    properties[propid_mousemove_inverted].datatype = CEL_DATA_BOOL;
-    properties[propid_mousemove_inverted].readonly = false;
-    properties[propid_mousemove_inverted].desc = "Mouse movement inverted.";
-
-    properties[propid_mousemove_xfactor].id = pl->FetchStringID (
-    	"cel.property.mousemove_xfactor");
-    properties[propid_mousemove_xfactor].datatype = CEL_DATA_FLOAT;
-    properties[propid_mousemove_xfactor].readonly = false;
-    properties[propid_mousemove_xfactor].desc = "Mouse movement x speed factor.";
-
-    properties[propid_mousemove_yfactor].id = pl->FetchStringID (
-    	"cel.property.mousemove_yfactor");
-    properties[propid_mousemove_yfactor].datatype = CEL_DATA_FLOAT;
-    properties[propid_mousemove_yfactor].readonly = false;
-    properties[propid_mousemove_yfactor].desc = "Mouse movement y speed factor.";
-  }
-}
-
 bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_mousemove].id)
+  if (propinfo.TestID (propid_mousemove, propertyId))
   {
     EnableMouseMove (b);
     return true;
@@ -230,8 +199,7 @@ bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
 
 bool celPcActorMove::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_mousemove].id)
+  if (propinfo.TestID (propid_mousemove, propertyId))
   {
     return mousemove;
   }

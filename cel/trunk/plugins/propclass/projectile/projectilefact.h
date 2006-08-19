@@ -67,9 +67,7 @@ private:
   {
     propid_moving = 0
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg);

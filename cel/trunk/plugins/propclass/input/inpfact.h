@@ -106,9 +106,7 @@ private:
     propid_cooked = 0,
     propid_screenspace
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcCommandInput (iObjectRegistry* object_reg);

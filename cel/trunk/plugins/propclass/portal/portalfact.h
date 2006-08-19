@@ -65,9 +65,7 @@ private:
     propid_portal,
     propid_closed
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   void ResolvePortal ();
 

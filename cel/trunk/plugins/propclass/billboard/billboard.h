@@ -98,11 +98,7 @@ private:
     propid_text_default_font_size,
     propid_text_default_font
   };
-
-  static Property* properties;
-  static size_t propertycount;
-
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcBillboard (iObjectRegistry* object_reg);

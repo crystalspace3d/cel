@@ -76,6 +76,8 @@ csStringID celPcCommandInput::action_loadconfig = csInvalidStringID;
 csStringID celPcCommandInput::action_saveconfig = csInvalidStringID;
 csStringID celPcCommandInput::id_prefix = csInvalidStringID;
 
+PropertyHolder celPcCommandInput::propinfo;
+
 SCF_IMPLEMENT_IBASE (celPcCommandInput::EventHandler)
   SCF_IMPLEMENTS_INTERFACE (iEventHandler)
 SCF_IMPLEMENT_IBASE_END
@@ -122,40 +124,16 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_cooked] = &do_cooked;        // Automatically handled.
-  propdata[propid_screenspace] = &screenspace;        // Automatically handled.
+  propholder = &propinfo;
+  propinfo.SetCount (2);
+  AddProperty (propid_cooked, "cel.property.cooked",
+	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
+  AddProperty (propid_screenspace, "cel.property.screenspace",
+	CEL_DATA_BOOL, false, "Screenspace mode.", &screenspace);
 
   mouse_params = new celGenericParameterBlock (2);
   mouse_params->SetParameterDef (0, id_x, "x");
   mouse_params->SetParameterDef (1, id_y, "y");
-}
-
-Property* celPcCommandInput::properties = 0;
-size_t celPcCommandInput::propertycount = 0;
-
-void celPcCommandInput::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 2;
-    properties = new Property[propertycount];
-
-    properties[propid_cooked].id = pl->FetchStringID (
-    	"cel.property.cooked");
-    properties[propid_cooked].datatype = CEL_DATA_BOOL;
-    properties[propid_cooked].readonly = false;
-    properties[propid_cooked].desc = "Cooked mode.";
-
-    properties[propid_screenspace].id = pl->FetchStringID (
-    	"cel.property.screenspace");
-    properties[propid_screenspace].datatype = CEL_DATA_BOOL;
-    properties[propid_screenspace].readonly = false;
-    properties[propid_screenspace].desc = "Screenspace mode.";
-  }
 }
 
 celPcCommandInput::~celPcCommandInput ()

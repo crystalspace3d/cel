@@ -396,6 +396,8 @@ csStringID celPcZoneManager::action_setloadingmode = csInvalidStringID;
 csStringID celPcZoneManager::id_mode = csInvalidStringID;
 csStringID celPcZoneManager::action_activateregion = csInvalidStringID;
 
+PropertyHolder celPcZoneManager::propinfo;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -439,12 +441,12 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   InitTokenTable (xmltokens);
  
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_laststart] = 0;
-  propdata[propid_lastregion] = 0;
+  propholder = &propinfo;
+  propinfo.SetCount (2);
+  AddProperty (propid_laststart, "cel.property.laststart",
+	CEL_DATA_STRING, true, "Last used start location.", 0);
+  AddProperty (propid_lastregion, "cel.property.lastregion",
+	CEL_DATA_STRING, true, "Last used region name.", 0);
 }
 
 celPcZoneManager::~celPcZoneManager ()
@@ -456,38 +458,13 @@ celPcZoneManager::~celPcZoneManager ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
-Property* celPcZoneManager::properties = 0;
-size_t celPcZoneManager::propertycount = 0;
-
-void celPcZoneManager::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 2;
-    properties = new Property[propertycount];
-
-    properties[propid_laststart].id = pl->FetchStringID (
-    	"cel.property.laststart");
-    properties[propid_laststart].datatype = CEL_DATA_STRING;
-    properties[propid_laststart].readonly = true;
-    properties[propid_laststart].desc = "Last used start location.";
-
-    properties[propid_lastregion].id = pl->FetchStringID (
-    	"cel.property.lastregion");
-    properties[propid_lastregion].datatype = CEL_DATA_STRING;
-    properties[propid_lastregion].readonly = true;
-    properties[propid_lastregion].desc = "Last used region name.";
-  }
-}
-
 const char* celPcZoneManager::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_laststart].id)
+  if (propinfo.TestID (propid_laststart, propertyId))
   {
     return last_startname.GetData ();
   }
-  else if (propertyId == properties[propid_lastregion].id)
+  else if (propinfo.TestID (propid_lastregion, propertyId))
   {
     return last_regionname.GetData ();
   }

@@ -300,9 +300,7 @@ private:
     propid_laststart = 0,
     propid_lastregion
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcZoneManager (iObjectRegistry* object_reg);

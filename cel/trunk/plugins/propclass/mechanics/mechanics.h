@@ -336,9 +336,7 @@ private:
     propid_static,
     propid_cdcallback
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcMechanicsObject (iObjectRegistry* object_reg);

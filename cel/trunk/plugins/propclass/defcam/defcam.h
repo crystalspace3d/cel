@@ -302,9 +302,7 @@ public://@@@
   {
     propid_pitchvelocity = 0
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcDefaultCamera (iObjectRegistry* object_reg);

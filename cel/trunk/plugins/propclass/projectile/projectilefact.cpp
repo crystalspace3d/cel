@@ -46,6 +46,8 @@ csStringID celPcProjectile::id_intersection = csInvalidStringID;
 csStringID celPcProjectile::action_start = csInvalidStringID;
 csStringID celPcProjectile::action_interrupt = csInvalidStringID;
 
+PropertyHolder celPcProjectile::propinfo;
+
 celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -66,12 +68,11 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   params->SetParameterDef (1, id_intersection, "intersection");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
+  propholder = &propinfo;
+  propinfo.SetCount (1);
+  AddProperty (propid_moving, "cel.property.moving",
+	CEL_DATA_BOOL, true, "Moving.", 0);
 
-  propdata[propid_moving] = 0;		// Handled in this class.
   is_moving = false;
 
   vc = csQueryRegistry<iVirtualClock> (object_reg);
@@ -82,28 +83,9 @@ celPcProjectile::~celPcProjectile ()
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
-Property* celPcProjectile::properties = 0;
-size_t celPcProjectile::propertycount = 0;
-
-void celPcProjectile::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 1;
-    properties = new Property[propertycount];
-
-    properties[propid_moving].id = pl->FetchStringID (
-    	"cel.property.moving");
-    properties[propid_moving].datatype = CEL_DATA_BOOL;
-    properties[propid_moving].readonly = true;
-    properties[propid_moving].desc = "Moving.";
-  }
-}
-
 bool celPcProjectile::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_moving].id)
+  if (propinfo.TestID (propid_moving, propertyId))
   {
     return is_moving;
   }

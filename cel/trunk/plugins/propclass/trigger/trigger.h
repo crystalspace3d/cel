@@ -134,9 +134,8 @@ private:
     propid_invisible,
     propid_follow
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
+
   // Create/Destroy the listener if necessary
   void UpdateListener ();
 

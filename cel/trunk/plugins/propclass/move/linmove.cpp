@@ -140,6 +140,8 @@ csStringID celPcLinearMovement::action_setangularvelocity = csInvalidStringID;
 
 //----------------------------------------------------------------------------
 
+PropertyHolder celPcLinearMovement::propinfo;
+
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
@@ -204,12 +206,12 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_anchor] = 0;		// Handled in this class.
-  propdata[propid_gravity] = &gravity;	// Handled automatically.
+  propholder = &propinfo;
+  propinfo.SetCount (2);
+  AddProperty (propid_anchor, "cel.property.anchor",
+	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
+  AddProperty (propid_gravity, "cel.property.gravity",
+	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
 
   ResetGravity();
 
@@ -351,34 +353,9 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   movable->UpdateMove ();
 }
 
-Property* celPcLinearMovement::properties = 0;
-size_t celPcLinearMovement::propertycount = 0;
-
-void celPcLinearMovement::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 2;
-    properties = new Property[propertycount];
-
-    properties[propid_anchor].id = pl->FetchStringID (
-    	"cel.property.anchor");
-    properties[propid_anchor].datatype = CEL_DATA_STRING;
-    properties[propid_anchor].readonly = false;
-    properties[propid_anchor].desc = "Mesh Anchor.";
-
-    properties[propid_gravity].id = pl->FetchStringID (
-    	"cel.property.gravity");
-    properties[propid_gravity].datatype = CEL_DATA_FLOAT;
-    properties[propid_gravity].readonly = false;
-    properties[propid_gravity].desc = "Gravity.";
-  }
-}
-
 bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_anchor].id)
+  if (propinfo.TestID (propid_anchor, propertyId))
   {
     if (b == 0 || *b == 0)
     {
@@ -405,8 +382,7 @@ bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcLinearMovement::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_anchor].id)
+  if (propinfo.TestID (propid_anchor, propertyId))
   {
     if (anchor)
     {

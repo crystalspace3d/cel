@@ -179,13 +179,10 @@ private:
     propid_weight = 0,
     propid_applyforce
   };
+  static PropertyHolder propinfo;
 
-  static Property* properties;
-  static size_t propertycount;
   static csStringID action_applypermanentforce;
   static csStringID id_force;
-
-  void UpdateProperties ();
  
 public:
   celPcGravity (iObjectRegistry* object_reg);

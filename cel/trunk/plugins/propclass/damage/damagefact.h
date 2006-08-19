@@ -73,9 +73,7 @@ private:
     propid_sector,
     propid_position
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 #define FALLOFF_CONSTANT 0
 #define FALLOFF_LINEAR 1

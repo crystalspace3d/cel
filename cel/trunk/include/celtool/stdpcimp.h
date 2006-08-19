@@ -40,6 +40,30 @@ struct Property
   celDataType		datatype;
   bool			readonly;
   const char*		desc;
+  Property () : id (csInvalidStringID) { }
+};
+
+/**
+ * Keep a static instance of this structure in your property
+ * class so that your property class can implement properties
+ * more easily.
+ */
+struct PropertyHolder
+{
+  Property* properties;
+  size_t propertycount;
+  PropertyHolder () : properties (0), propertycount (0) { }
+  ~PropertyHolder () { delete[] properties; }
+  void SetCount (int cnt)
+  {
+    if (properties) return;
+    propertycount = cnt;
+    properties = new Property[cnt];
+  }
+  bool TestID (int idx, csStringID id)
+  {
+    return properties[idx].id == id;
+  }
 };
 
 /**
@@ -67,7 +91,6 @@ protected:
 protected:
   void FirePropertyChangeCallback (int propertyId);
 
-  void UpdateProperties () { return; }
   /**
    * Helper function to setup properties.
    * \param idx is a numerical index for the property starting at 0.
@@ -85,18 +108,25 @@ protected:
   {
     if (propdata == 0)
     {
-      propdata = new void* [*propcount];
+      props = propholder->properties;
+      propcount = &(propholder->propertycount);
+      propdata = new void* [propholder->propertycount];
     }
-    props[idx].id = pl->FetchStringID (id);
-    props[idx].datatype = type;
-    props[idx].readonly = readonly;
-    props[idx].desc = desc;
+    Property& pr = propholder->properties[idx];
+    if (pr.id == csInvalidStringID)
+    {
+      pr.id = pl->FetchStringID (id);
+      pr.datatype = type;
+      pr.readonly = readonly;
+      pr.desc = desc;
+    }
     propdata[idx] = prop;
   }
 
   void** propdata;
   Property* props;
   size_t* propcount;
+  PropertyHolder* propholder;
 
 public:
   celPcCommon (iObjectRegistry* object_reg);

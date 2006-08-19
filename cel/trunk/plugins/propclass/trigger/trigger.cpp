@@ -130,6 +130,8 @@ csStringID celPcTrigger::id_end = csInvalidStringID;
 csStringID celPcTrigger::action_setuptriggerabovemesh = csInvalidStringID;
 csStringID celPcTrigger::id_maxdistance = csInvalidStringID;
 
+PropertyHolder celPcTrigger::propinfo;
+
 celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
@@ -160,15 +162,18 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   params->SetParameterDef (id_entity, "entity");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_delay] = 0;		// Handled in this class.
-  propdata[propid_jitter] = 0;		// Handled in this class.
-  propdata[propid_monitor] = 0;		// Handled in this class.
-  propdata[propid_invisible] = 0;	// Handled in this class.
-  propdata[propid_follow] = 0;		// Handled in this class.
+  propholder = &propinfo;
+  propinfo.SetCount (5);
+  AddProperty (propid_delay, "cel.property.delay",
+	CEL_DATA_LONG, false, "Update delay to check for entities.", 0);
+  AddProperty (propid_jitter, "cel.property.jitter",
+	CEL_DATA_LONG, false, "Random jitter to add to update delay.", 0);
+  AddProperty (propid_monitor, "cel.property.monitor",
+	CEL_DATA_STRING, false, "Entity name to monitor.", 0);
+  AddProperty (propid_invisible, "cel.property.invisible",
+	CEL_DATA_BOOL, false, "Monitor invisible entities.", 0);
+  AddProperty (propid_follow, "cel.property.follow",
+	CEL_DATA_BOOL, false, "Follow own entity pcmesh.", 0);
 
   enabled = true;
   send_to_self = true;
@@ -196,48 +201,6 @@ celPcTrigger::~celPcTrigger ()
   delete[] monitor_entity;
 }
 
-Property* celPcTrigger::properties = 0;
-size_t celPcTrigger::propertycount = 0;
-
-void celPcTrigger::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 5;
-    properties = new Property[propertycount];
-
-    properties[propid_delay].id = pl->FetchStringID (
-    	"cel.property.delay");
-    properties[propid_delay].datatype = CEL_DATA_LONG;
-    properties[propid_delay].readonly = false;
-    properties[propid_delay].desc = "Update delay to check for entities.";
-
-    properties[propid_jitter].id = pl->FetchStringID (
-    	"cel.property.jitter");
-    properties[propid_jitter].datatype = CEL_DATA_LONG;
-    properties[propid_jitter].readonly = false;
-    properties[propid_jitter].desc = "Random jitter to add to update delay.";
-
-    properties[propid_monitor].id = pl->FetchStringID (
-    	"cel.property.monitor");
-    properties[propid_monitor].datatype = CEL_DATA_STRING;
-    properties[propid_monitor].readonly = false;
-    properties[propid_monitor].desc = "Entity name to monitor.";
-
-    properties[propid_invisible].id = pl->FetchStringID (
-    	"cel.property.invisible");
-    properties[propid_invisible].datatype = CEL_DATA_BOOL;
-    properties[propid_invisible].readonly = false;
-    properties[propid_invisible].desc = "Monitor invisible entities.";
-
-    properties[propid_follow].id = pl->FetchStringID (
-    	"cel.property.follow");
-    properties[propid_follow].datatype = CEL_DATA_BOOL;
-    properties[propid_follow].readonly = false;
-    properties[propid_follow].desc = "Follow own entity pcmesh.";
-  }
-}
-
 void celPcTrigger::SetCenter (csVector3 &v)
 {
   if (above_mesh)
@@ -259,13 +222,12 @@ void celPcTrigger::SetCenter (csVector3 &v)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_delay].id)
+  if (propinfo.TestID (propid_delay, propertyId))
   {
     SetMonitorDelay (b, jitter);
     return true;
   }
-  else if (propertyId == properties[propid_jitter].id)
+  else if (propinfo.TestID (propid_jitter, propertyId))
   {
     SetMonitorDelay (delay, b);
     return true;
@@ -278,12 +240,11 @@ bool celPcTrigger::SetProperty (csStringID propertyId, long b)
 
 long celPcTrigger::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_delay].id)
+  if (propinfo.TestID (propid_delay, propertyId))
   {
     return delay;
   }
-  else if (propertyId == properties[propid_jitter].id)
+  else if (propinfo.TestID (propid_jitter, propertyId))
   {
     return jitter;
   }
@@ -295,13 +256,12 @@ long celPcTrigger::GetPropertyLong (csStringID propertyId)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_invisible].id)
+  if (propinfo.TestID (propid_invisible, propertyId))
   {
     EnableMonitorInvisible (b);
     return true;
   }
-  else if (propertyId == properties[propid_follow].id)
+  else if (propinfo.TestID (propid_follow, propertyId))
   {
     follow = b;
     UpdateListener();
@@ -315,12 +275,11 @@ bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
 
 bool celPcTrigger::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_invisible].id)
+  if (propinfo.TestID (propid_invisible, propertyId))
   {
     return monitor_invisible;
   }
-  else if (propertyId == properties[propid_follow].id)
+  else if (propinfo.TestID (propid_follow, propertyId))
   {
     return follow;
   }
@@ -332,8 +291,7 @@ bool celPcTrigger::GetPropertyBool (csStringID propertyId)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_monitor].id)
+  if (propinfo.TestID (propid_monitor, propertyId))
   {
     MonitorEntity (b);
     return true;
@@ -346,8 +304,7 @@ bool celPcTrigger::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcTrigger::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_monitor].id)
+  if (propinfo.TestID (propid_monitor, propertyId))
   {
     return monitor_entity;
   }

@@ -117,9 +117,7 @@ private:
     propid_factory,
     propid_filename
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
@@ -322,9 +320,7 @@ private:
     propid_senddown,
     propid_maxdistance
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   static csStringID id_x, id_y, id_button, id_entity;
   celGenericParameterBlock* params;

@@ -70,9 +70,7 @@ private:
     propid_sqradius,
     propid_moving
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   // Normal fields.
   iSector* sector;
