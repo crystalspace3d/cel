@@ -75,7 +75,7 @@ private:
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
 #define FALLOFF_CONSTANT 0
 #define FALLOFF_LINEAR 1

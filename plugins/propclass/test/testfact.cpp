@@ -51,9 +51,8 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
     action_print = pl->FetchStringID ("cel.action.Print");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
-  props = properties;
   propcount = &propertycount;
   propdata[propid_counter] = &counter;	// Automatically handled.
   propdata[propid_max] = 0;		// Handled in this class.
@@ -70,31 +69,25 @@ celPcTest::~celPcTest ()
 Property* celPcTest::properties = 0;
 size_t celPcTest::propertycount = 0;
 
-void celPcTest::UpdateProperties (iObjectRegistry* object_reg)
+void celPcTest::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 2;
     properties = new Property[propertycount];
+    props = properties;
 
-    properties[propid_counter].id = pl->FetchStringID (
-    	"cel.property.counter");
-    properties[propid_counter].datatype = CEL_DATA_LONG;
-    properties[propid_counter].readonly = false;
-    properties[propid_counter].desc = "Print counter.";
-
-    properties[propid_max].id = pl->FetchStringID (
-    	"cel.property.max");
-    properties[propid_max].datatype = CEL_DATA_LONG;
-    properties[propid_max].readonly = false;
-    properties[propid_max].desc = "Max length.";
+    AddProperty (propid_counter, "cel.property.counter",
+	CEL_DATA_LONG, false, "Print counter.");
+    AddProperty (propid_max, "cel.property.max",
+	CEL_DATA_LONG, false, "Max length.");
   }
+  else props = properties;
 }
 
 bool celPcTest::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_max].id)
   {
     max = b;
@@ -108,7 +101,7 @@ bool celPcTest::SetProperty (csStringID propertyId, long b)
 
 long celPcTest::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_max].id)
   {
     return (long)max;

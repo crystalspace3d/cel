@@ -86,7 +86,7 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
 
   props = properties;
@@ -176,13 +176,10 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
 size_t celPcRegion::propertycount = 0;
 Property* celPcRegion::properties = 0;
 
-void celPcRegion::UpdateProperties (iObjectRegistry* object_reg)
+void celPcRegion::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY( object_reg, iCelPlLayer );
-    CS_ASSERT( pl != 0 );
-
     propertycount = 4;
     properties = new Property[propertycount];
 

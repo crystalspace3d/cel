@@ -66,7 +66,7 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   params->SetParameterDef (1, id_intersection, "intersection");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -85,11 +85,10 @@ celPcProjectile::~celPcProjectile ()
 Property* celPcProjectile::properties = 0;
 size_t celPcProjectile::propertycount = 0;
 
-void celPcProjectile::UpdateProperties (iObjectRegistry* object_reg)
+void celPcProjectile::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 1;
     properties = new Property[propertycount];
 
@@ -103,7 +102,7 @@ void celPcProjectile::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcProjectile::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_moving].id)
   {
     return is_moving;

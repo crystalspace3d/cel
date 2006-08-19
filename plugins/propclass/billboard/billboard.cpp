@@ -56,13 +56,10 @@ csStringID celPcBillboard::id_rotate = csInvalidStringID;
 Property* celPcBillboard::properties = 0;
 size_t celPcBillboard::propertycount = 0;
 
-void celPcBillboard::UpdateProperties (iObjectRegistry* object_reg)
+void celPcBillboard::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT( pl != 0 );
-
     propertycount = 28;
     properties = new Property[propertycount];
 
@@ -265,7 +262,7 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
     id_rotate = pl->FetchStringID ("cel.parameter.rotate");
   }
 
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
 
   font_size = 10.0f;
@@ -357,7 +354,7 @@ bool celPcBillboard::PerformAction (csStringID actionId,
 
 bool celPcBillboard::SetProperty (csStringID propertyId, float b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_widthpct].id)
   {
     GetBillboard ();
@@ -402,7 +399,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, float b)
 
 float celPcBillboard::GetPropertyFloat (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_widthpct].id)
   {
     GetBillboard ();
@@ -448,7 +445,7 @@ float celPcBillboard::GetPropertyFloat (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_width].id)
   {
     GetBillboard ();
@@ -501,7 +498,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, long b)
 
 long celPcBillboard::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_width].id)
   {
     GetBillboard ();
@@ -554,7 +551,7 @@ long celPcBillboard::GetPropertyLong (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_clickable].id)
   {
     EnableEvents (b);
@@ -592,7 +589,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
 
 bool celPcBillboard::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_clickable].id)
   {
     return AreEventsEnabled ();
@@ -633,7 +630,7 @@ bool celPcBillboard::GetPropertyBool (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_materialname].id)
   {
     GetBillboard ();
@@ -705,7 +702,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
 
 const char* celPcBillboard::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_materialname].id ||
 	propertyId == properties[propid_materialnamefast].id)
   {
@@ -754,7 +751,7 @@ const char* celPcBillboard::GetPropertyString (csStringID propertyId)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_uv_topleft].id)
   {
     GetBillboard ();
@@ -793,7 +790,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
 
 bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_uv_topleft].id)
   {
     GetBillboard ();
@@ -833,7 +830,7 @@ bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
 
 bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_color].id)
   {
     GetBillboard ();
@@ -892,7 +889,7 @@ bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
 
 bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_color].id)
   {
     GetBillboard ();

@@ -121,7 +121,7 @@ celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -149,11 +149,10 @@ celPcSoundListener::~celPcSoundListener ()
 Property* celPcSoundListener::properties = 0;
 size_t celPcSoundListener::propertycount = 0;
 
-void celPcSoundListener::UpdateProperties (iObjectRegistry* object_reg)
+void celPcSoundListener::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 5;
     properties = new Property[propertycount];
 
@@ -189,7 +188,7 @@ void celPcSoundListener::UpdateProperties (iObjectRegistry* object_reg)
 bool celPcSoundListener::SetProperty (csStringID propertyId, const csVector3& b)
 {
   if (!listener) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_front].id)
   {
     csVector3 f, t;
@@ -218,7 +217,7 @@ bool celPcSoundListener::SetProperty (csStringID propertyId, const csVector3& b)
 bool celPcSoundListener::GetPropertyVector (csStringID propertyId, csVector3& b)
 {
   if (!listener) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_front].id)
   {
     csVector3 t;
@@ -245,7 +244,7 @@ bool celPcSoundListener::GetPropertyVector (csStringID propertyId, csVector3& b)
 bool celPcSoundListener::SetProperty (csStringID propertyId, float b)
 {
   if (!listener) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_distancefactor].id)
   {
     listener->SetDistanceFactor (b);
@@ -265,7 +264,7 @@ bool celPcSoundListener::SetProperty (csStringID propertyId, float b)
 float celPcSoundListener::GetPropertyFloat (csStringID propertyId)
 {
   if (!listener) return 0.0f;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_distancefactor].id)
   {
     return listener->GetDistanceFactor ();
@@ -334,7 +333,7 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -356,11 +355,10 @@ celPcSoundSource::~celPcSoundSource ()
 Property* celPcSoundSource::properties = 0;
 size_t celPcSoundSource::propertycount = 0;
 
-void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
+void celPcSoundSource::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 8;
     properties = new Property[propertycount];
 
@@ -412,7 +410,7 @@ void celPcSoundSource::UpdateProperties (iObjectRegistry* object_reg)
 bool celPcSoundSource::SetProperty (csStringID propertyId, const csVector3& b)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_position].id)
   {
     source->SetPosition (b);
@@ -427,7 +425,7 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, const csVector3& b)
 bool celPcSoundSource::GetPropertyVector (csStringID propertyId, csVector3& b)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_position].id)
   {
     b = source->GetPosition ();
@@ -442,7 +440,7 @@ bool celPcSoundSource::GetPropertyVector (csStringID propertyId, csVector3& b)
 bool celPcSoundSource::SetProperty (csStringID propertyId, float b)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_volume].id)
   {
     source->SetVolume (b);
@@ -472,7 +470,7 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, float b)
 float celPcSoundSource::GetPropertyFloat (csStringID propertyId)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_volume].id)
   {
     return source->GetVolume ();
@@ -498,7 +496,7 @@ float celPcSoundSource::GetPropertyFloat (csStringID propertyId)
 bool celPcSoundSource::SetProperty (csStringID propertyId, bool b)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_loop].id)
   {
     source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
@@ -520,7 +518,7 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, bool b)
 bool celPcSoundSource::GetPropertyBool (csStringID propertyId)
 {
   if (!GetSource ()) return false;
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_loop].id)
   {
     return source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
@@ -537,7 +535,7 @@ bool celPcSoundSource::GetPropertyBool (csStringID propertyId)
 
 bool celPcSoundSource::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_soundname].id)
   {
     SetSoundName (b);
@@ -551,7 +549,7 @@ bool celPcSoundSource::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcSoundSource::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_soundname].id)
   {
     return soundname;

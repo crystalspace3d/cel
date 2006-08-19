@@ -147,7 +147,7 @@ private:
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
 public:
   celPcActorMove (iObjectRegistry* object_reg);

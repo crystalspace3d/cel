@@ -304,7 +304,7 @@ public://@@@
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
 public:
   celPcDefaultCamera (iObjectRegistry* object_reg);

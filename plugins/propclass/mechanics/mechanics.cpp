@@ -694,7 +694,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   params->SetParameterDef (3, param_depth, "depth");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -727,11 +727,10 @@ celPcMechanicsObject::~celPcMechanicsObject ()
 Property* celPcMechanicsObject::properties = 0;
 size_t celPcMechanicsObject::propertycount = 0;
 
-void celPcMechanicsObject::UpdateProperties (iObjectRegistry* object_reg)
+void celPcMechanicsObject::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 5;
     properties = new Property[propertycount];
 
@@ -930,7 +929,7 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
 
 bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_static].id)
   {
     MakeStatic (v);
@@ -941,7 +940,7 @@ bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
 
 bool celPcMechanicsObject::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_static].id)
     return is_static;
   return celPcCommon::GetPropertyBool (propertyId);
@@ -949,7 +948,7 @@ bool celPcMechanicsObject::GetPropertyBool (csStringID propertyId)
 
 bool celPcMechanicsObject::SetProperty (csStringID propertyId, const csVector3& vec)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_linearvelocity].id)
   {
     SetLinearVelocity (vec);
@@ -965,7 +964,7 @@ bool celPcMechanicsObject::SetProperty (csStringID propertyId, const csVector3& 
 
 bool celPcMechanicsObject::GetPropertyVector (csStringID propertyId, csVector3& vec)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_linearvelocity].id)
   {
     vec = GetLinearVelocity ();

@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Aug-2006
+	- Jorrit started work on simplifying the property system
+	  for property classes so that it becomes easier and less
+	  error-prone to add new properties.
 18-Aug-2006
 	- Jorrit changed pcmechobject so it uses the new parameters
 	  in the collision callback to set the 'position', 'normal',

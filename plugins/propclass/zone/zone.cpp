@@ -439,7 +439,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   InitTokenTable (xmltokens);
  
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -459,11 +459,10 @@ celPcZoneManager::~celPcZoneManager ()
 Property* celPcZoneManager::properties = 0;
 size_t celPcZoneManager::propertycount = 0;
 
-void celPcZoneManager::UpdateProperties (iObjectRegistry* object_reg)
+void celPcZoneManager::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 2;
     properties = new Property[propertycount];
 
@@ -483,7 +482,7 @@ void celPcZoneManager::UpdateProperties (iObjectRegistry* object_reg)
 
 const char* celPcZoneManager::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_laststart].id)
   {
     return last_startname.GetData ();
