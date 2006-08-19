@@ -35,9 +35,8 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
 {
   celPcCommon::object_reg = object_reg;
   entity = 0;
-  propcount = 0;
-  props = 0;
   propdata = 0;
+  propholder = 0;
   propclasses_dirty = true;
   tag = 0;
 
@@ -90,9 +89,10 @@ bool celPcCommon::RemovePropertyChangeCallback (
 
 bool celPcCommon::SetProperty (csStringID propertyId, long l)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_LONG) 
@@ -115,9 +115,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, long l)
 
 bool celPcCommon::SetProperty (csStringID propertyId, float f)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_FLOAT)
@@ -140,9 +141,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, float f)
 
 bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_BOOL)
@@ -165,9 +167,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_STRING)
@@ -193,9 +196,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR2)
@@ -218,9 +222,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR3)
@@ -243,9 +248,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_COLOR)
@@ -268,9 +274,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_PCLASS)
@@ -293,9 +300,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iCelEntity* v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_ENTITY)
@@ -318,9 +326,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelEntity* v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iBase* v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_IBASE)
@@ -343,9 +352,10 @@ bool celPcCommon::SetProperty (csStringID propertyId, iBase* v)
 
 celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 {
-  if (!propcount) return CEL_DATA_NONE;
+  if (!propdata) return CEL_DATA_NONE;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
     if (props[i].id == propertyId)
       return props[i].datatype;
   return CEL_DATA_NONE;
@@ -353,7 +363,8 @@ celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 
 bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 {
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
     if (props[i].id == propertyId)
       return props[i].readonly;
   return true;
@@ -361,9 +372,10 @@ bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 
 long celPcCommon::GetPropertyLong (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_LONG)
@@ -385,9 +397,10 @@ long celPcCommon::GetPropertyLong (csStringID propertyId)
 
 float celPcCommon::GetPropertyFloat (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_FLOAT)
@@ -409,9 +422,10 @@ float celPcCommon::GetPropertyFloat (csStringID propertyId)
 
 bool celPcCommon::GetPropertyBool (csStringID propertyId)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_BOOL)
@@ -433,9 +447,10 @@ bool celPcCommon::GetPropertyBool (csStringID propertyId)
 
 const char* celPcCommon::GetPropertyString (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
   
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_STRING)
@@ -457,9 +472,10 @@ const char* celPcCommon::GetPropertyString (csStringID propertyId)
 
 bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR2)
@@ -482,9 +498,10 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
 
 bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_VECTOR3)
@@ -507,9 +524,10 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 
 bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
 {
-  if (!propcount) return false;
+  if (!propdata) return false;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_COLOR)
@@ -532,9 +550,10 @@ bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
 
 iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
   
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_PCLASS)
@@ -556,9 +575,10 @@ iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
 
 iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
   
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_ENTITY)
@@ -580,9 +600,10 @@ iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
 
 iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
   
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
   {
     if (props[i].id == propertyId)
       if (props[i].datatype == CEL_DATA_IBASE)
@@ -604,9 +625,10 @@ iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 
 const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
 {
-  if (!propcount) return 0;
+  if (!propdata) return 0;
 
-  for (size_t i=0; i<(*propcount); i++)
+  Property* props = propholder->properties;
+  for (size_t i=0; i<propholder->propertycount; i++)
     if (props[i].id == propertyId)
       return props[i].desc;
   return 0;
@@ -614,13 +636,15 @@ const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
 
 size_t celPcCommon::GetPropertyAndActionCount()
 {
-  if (!propcount) return 0;
+  if (!propholder) return 0;
 
-  return (*propcount);
+  return propholder->propertycount;
 }
 
 csStringID celPcCommon::GetPropertyOrActionID (size_t i)
 { 
+  if (!propholder) return csInvalidStringID;
+  Property* props = propholder->properties;
   if (!props) return csInvalidStringID;
   
   return props[i].id; 
