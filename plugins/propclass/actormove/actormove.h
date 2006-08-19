@@ -145,9 +145,7 @@ private:
     propid_mousemove_xfactor,
     propid_mousemove_yfactor
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcActorMove (iObjectRegistry* object_reg);

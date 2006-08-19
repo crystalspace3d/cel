@@ -595,6 +595,8 @@ csStringID celPcMechanicsObject::param_forward = csInvalidStringID;
 csStringID celPcMechanicsObject::param_up = csInvalidStringID;
 csStringID celPcMechanicsObject::param_depth = csInvalidStringID;
 
+PropertyHolder celPcMechanicsObject::propinfo;
+
 SCF_IMPLEMENT_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
   SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
 SCF_IMPLEMENT_IBASE_END
@@ -694,15 +696,18 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
   params->SetParameterDef (3, param_depth, "depth");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_lasttag] = &last_tag;	// Automatically handled.
-  propdata[propid_linearvelocity] = 0;
-  propdata[propid_angularvelocity] = 0;
-  propdata[propid_static] = 0;
-  propdata[propid_cdcallback] = &cd_enabled;
+  propholder = &propinfo;
+  propinfo.SetCount (5);
+  AddProperty (propid_lasttag, "cel.property.lasttag",
+	CEL_DATA_LONG, true, "Last tag from AddForceTagged.", &last_tag);
+  AddProperty (propid_linearvelocity, "cel.property.linearvelocity",
+	CEL_DATA_VECTOR3, false, "Linear velocity.", 0);
+  AddProperty (propid_angularvelocity, "cel.property.angularvelocity",
+	CEL_DATA_VECTOR3, false, "Angular velocity.", 0);
+  AddProperty (propid_static, "cel.property.static",
+	CEL_DATA_BOOL, false, "Static yes/no.", 0);
+  AddProperty (propid_cdcallback, "cel.property.cdcallback",
+	CEL_DATA_BOOL, false, "CD enabled yes/no.", &cd_enabled);
 }
 
 celPcMechanicsObject::~celPcMechanicsObject ()
@@ -722,48 +727,6 @@ celPcMechanicsObject::~celPcMechanicsObject ()
 
   delete params;
   delete bdata;
-}
-
-Property* celPcMechanicsObject::properties = 0;
-size_t celPcMechanicsObject::propertycount = 0;
-
-void celPcMechanicsObject::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 5;
-    properties = new Property[propertycount];
-
-    properties[propid_lasttag].id = pl->FetchStringID (
-    	"cel.property.lasttag");
-    properties[propid_lasttag].datatype = CEL_DATA_LONG;
-    properties[propid_lasttag].readonly = true;
-    properties[propid_lasttag].desc = "Last tag from AddForceTagged.";
-
-    properties[propid_linearvelocity].id = pl->FetchStringID (
-    	"cel.property.linearvelocity");
-    properties[propid_linearvelocity].datatype = CEL_DATA_VECTOR3;
-    properties[propid_linearvelocity].readonly = false;
-    properties[propid_linearvelocity].desc = "Linear velocity.";
-
-    properties[propid_angularvelocity].id = pl->FetchStringID (
-    	"cel.property.angularvelocity");
-    properties[propid_angularvelocity].datatype = CEL_DATA_VECTOR3;
-    properties[propid_angularvelocity].readonly = false;
-    properties[propid_angularvelocity].desc = "Angular velocity.";
-
-    properties[propid_static].id = pl->FetchStringID (
-    	"cel.property.static");
-    properties[propid_static].datatype = CEL_DATA_BOOL;
-    properties[propid_static].readonly = false;
-    properties[propid_static].desc = "Static yes/no.";
-
-    properties[propid_cdcallback].id = pl->FetchStringID (
-    	"cel.property.cdcallback");
-    properties[propid_cdcallback].datatype = CEL_DATA_BOOL;
-    properties[propid_cdcallback].readonly = false;
-    properties[propid_cdcallback].desc = "CD enabled yes/no.";
-  }
 }
 
 #define DYNBODY_SERIAL 1
@@ -929,8 +892,7 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
 
 bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_static].id)
+  if (propinfo.TestID (propid_static, propertyId))
   {
     MakeStatic (v);
     return true;
@@ -940,21 +902,20 @@ bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
 
 bool celPcMechanicsObject::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_static].id)
+  if (propinfo.TestID (propid_static, propertyId))
     return is_static;
   return celPcCommon::GetPropertyBool (propertyId);
 }
 
-bool celPcMechanicsObject::SetProperty (csStringID propertyId, const csVector3& vec)
+bool celPcMechanicsObject::SetProperty (csStringID propertyId,
+    const csVector3& vec)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_linearvelocity].id)
+  if (propinfo.TestID (propid_linearvelocity, propertyId))
   {
     SetLinearVelocity (vec);
     return true;
   }
-  else if (propertyId == properties[propid_angularvelocity].id)
+  else if (propinfo.TestID (propid_angularvelocity, propertyId))
   {
     SetAngularVelocity (vec);
     return true;
@@ -962,15 +923,15 @@ bool celPcMechanicsObject::SetProperty (csStringID propertyId, const csVector3& 
   return celPcCommon::SetProperty (propertyId, vec);
 }
 
-bool celPcMechanicsObject::GetPropertyVector (csStringID propertyId, csVector3& vec)
+bool celPcMechanicsObject::GetPropertyVector (csStringID propertyId,
+    csVector3& vec)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_linearvelocity].id)
+  if (propinfo.TestID (propid_linearvelocity, propertyId))
   {
     vec = GetLinearVelocity ();
     return true;
   }
-  else if (propertyId == properties[propid_angularvelocity].id)
+  else if (propinfo.TestID (propid_angularvelocity, propertyId))
   {
     vec = GetAngularVelocity ();
     return true;

@@ -83,18 +83,19 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+PropertyHolder celPcRegion::propinfo;
+
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-
-  props = properties;
-  propcount = &propertycount;
-
-  propdata[propid_worlddir] = &worlddir;
-  propdata[propid_worldfile] = &worldfile;
-  propdata[propid_regionname] = &regionname;
+  AddProperty (propid_worlddir, "cel.property.worlddir",
+	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
+  AddProperty (propid_worldfile, "cel.property.worldfile",
+	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
+  AddProperty (propid_regionname, "cel.property.regionname",
+	CEL_DATA_STRING, false, "Name of this region.", &regionname);
+  AddProperty (propid_load, "cel.action.Load",
+	CEL_DATA_ACTION, true, "Load the map.\nNo parameters", 0);
 
   worlddir = 0;
   worldfile = 0;
@@ -173,47 +174,11 @@ bool celPcRegion::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-size_t celPcRegion::propertycount = 0;
-Property* celPcRegion::properties = 0;
-
-void celPcRegion::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 4;
-    properties = new Property[propertycount];
-
-    properties[propid_worlddir].id = pl->FetchStringID (
-    	"cel.property.worlddir");
-    properties[propid_worlddir].datatype = CEL_DATA_STRING;
-    properties[propid_worlddir].readonly = false;
-    properties[propid_worlddir].desc = "Map VFS path.";
-
-    properties[propid_worldfile].id = pl->FetchStringID (
-    	"cel.property.worldfile");
-    properties[propid_worldfile].datatype = CEL_DATA_STRING;
-    properties[propid_worldfile].readonly = false;
-    properties[propid_worldfile].desc = "Map VFS file name.";
-
-    properties[propid_regionname].id = pl->FetchStringID (
-    	"cel.property.regionname");
-    properties[propid_regionname].datatype = CEL_DATA_STRING;
-    properties[propid_regionname].readonly = false;
-    properties[propid_regionname].desc = "Name of this region.";
-
-    properties[propid_load].id = pl->FetchStringID (
-    	"cel.action.Load");
-    properties[propid_load].datatype = CEL_DATA_ACTION;
-    properties[propid_load].readonly = true;
-    properties[propid_load].desc = "Load the map.\nNo parameters";
-  }
-}
-
 bool celPcRegion::PerformAction (csStringID actionId,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == properties[propid_load].id)
+  if (propinfo.TestID (propid_load, actionId))
   {
     if ((empty_sector || worldfile) && regionname)
       Load ();

@@ -62,9 +62,7 @@ private:
     propid_name = 0,
     propid_state
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   // Other fields.
   csRef<iQuestManager> quest_mgr;

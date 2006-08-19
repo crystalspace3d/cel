@@ -60,10 +60,7 @@ private:
     propid_distancefactor,
     propid_rollofffactor
   };
-
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   csRef<iSndSysRenderer> renderer;
   csRef<iSndSysListener> listener;
@@ -109,9 +106,7 @@ private:
     propid_loop,
     propid_follow
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
   csRef<iSndSysSourceSoftware3D> source;
   csString soundname;

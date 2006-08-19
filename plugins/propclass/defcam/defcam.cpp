@@ -265,6 +265,8 @@ csStringID celPcDefaultCamera::id_regionname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_startname = csInvalidStringID;
 csStringID celPcDefaultCamera::action_centercamera = csInvalidStringID;
 
+PropertyHolder celPcDefaultCamera::propinfo;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcDefaultCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcDefaultCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
@@ -377,31 +379,16 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   SetMode (iPcDefaultCamera::firstperson);
 
   // For properties.
-  propcount = &propertycount;
-  UpdateProperties ();
+  propholder = &propinfo;
+  propinfo.SetCount (1);
+  AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
+	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
 }
 
 celPcDefaultCamera::~celPcDefaultCamera ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-}
-
-Property* celPcDefaultCamera::properties = 0;
-size_t celPcDefaultCamera::propertycount = 0;
-
-void celPcDefaultCamera::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 1;
-    properties = new Property[propertycount];
-    props = properties;
-
-    AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
-	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
-  }
-  else props = properties;
 }
 
 bool celPcDefaultCamera::PerformAction (csStringID actionId,

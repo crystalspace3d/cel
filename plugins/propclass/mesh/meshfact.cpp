@@ -114,6 +114,8 @@ csStringID celPcMesh::action_setanimation = csInvalidStringID;
 csStringID celPcMesh::id_animation = csInvalidStringID;
 csStringID celPcMesh::id_cycle = csInvalidStringID;
 
+PropertyHolder celPcMesh::propinfo;
+
 celPcMesh::celPcMesh (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -154,16 +156,20 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_position] = 0;		// Handled in this class.
-  propdata[propid_fullposition] = 0;		// Handled in this class.
-  propdata[propid_sector] = 0;			// Handled in this class.
-  propdata[propid_path] = 0;			// Handled in this class.
-  propdata[propid_factory] = 0;			// Handled in this class.
-  propdata[propid_filename] = 0;		// Handled in this class.
+  propholder = &propinfo;
+  propinfo.SetCount (6);
+  AddProperty (propid_position, "cel.property.position",
+	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
+  AddProperty (propid_fullposition, "cel.property.fullposition",
+	CEL_DATA_VECTOR3, true, "Current full position of mesh.", 0);
+  AddProperty (propid_sector, "cel.property.sector",
+	CEL_DATA_STRING, true, "Current sector of mesh.", 0);
+  AddProperty (propid_path, "cel.property.path",
+	CEL_DATA_STRING, true, "VFS path for model.", 0);
+  AddProperty (propid_factory, "cel.property.factory",
+	CEL_DATA_STRING, true, "Factory name for the model.", 0);
+  AddProperty (propid_filename, "cel.property.filename",
+	CEL_DATA_STRING, true, "Filename for the model.", 0);
 }
 
 celPcMesh::~celPcMesh ()
@@ -172,58 +178,9 @@ celPcMesh::~celPcMesh ()
   delete [] propdata;
 }
 
-Property* celPcMesh::properties = 0;
-size_t celPcMesh::propertycount = 0;
-
-void celPcMesh::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 6;
-    properties = new Property[propertycount];
-
-    properties[propid_position].id = pl->FetchStringID (
-    	"cel.property.position");
-    properties[propid_position].datatype = CEL_DATA_VECTOR3;
-    properties[propid_position].readonly = true;
-    properties[propid_position].desc = "Current position of mesh.";
-
-    properties[propid_fullposition].id = pl->FetchStringID (
-    	"cel.property.fullposition");
-    properties[propid_fullposition].datatype = CEL_DATA_VECTOR3;
-    properties[propid_fullposition].readonly = true;
-    properties[propid_fullposition].desc = "Current full position of mesh.";
-
-    properties[propid_sector].id = pl->FetchStringID (
-    	"cel.property.sector");
-    properties[propid_sector].datatype = CEL_DATA_STRING;
-    properties[propid_sector].readonly = true;
-    properties[propid_sector].desc = "Current sector of mesh.";
-
-    properties[propid_path].id = pl->FetchStringID (
-    	"cel.property.path");
-    properties[propid_path].datatype = CEL_DATA_STRING;
-    properties[propid_path].readonly = true;
-    properties[propid_path].desc = "VFS path for model.";
-
-    properties[propid_factory].id = pl->FetchStringID (
-    	"cel.property.factory");
-    properties[propid_factory].datatype = CEL_DATA_STRING;
-    properties[propid_factory].readonly = true;
-    properties[propid_factory].desc = "Factory name for the model.";
-
-    properties[propid_filename].id = pl->FetchStringID (
-    	"cel.property.filename");
-    properties[propid_filename].datatype = CEL_DATA_STRING;
-    properties[propid_filename].readonly = true;
-    properties[propid_filename].desc = "Filename for the model.";
-  }
-}
-
 bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_position].id)
+  if (propinfo.TestID (propid_position, propertyId))
   {
     if (mesh)
       v = mesh->GetMovable ()->GetTransform ().GetOrigin ();
@@ -231,7 +188,7 @@ bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
       v.Set (0, 0, 0);
     return true;
   }
-  else if (propertyId == properties[propid_fullposition].id)
+  else if (propinfo.TestID (propid_fullposition, propertyId))
   {
     if (mesh)
       v = mesh->GetMovable ()->GetFullPosition ();
@@ -247,8 +204,7 @@ bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
 
 const char* celPcMesh::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_sector].id)
+  if (propinfo.TestID (propid_sector, propertyId))
   {
     if (mesh)
     {
@@ -261,15 +217,15 @@ const char* celPcMesh::GetPropertyString (csStringID propertyId)
     else
       return 0;
   }
-  else if (propertyId == properties[propid_path].id)
+  else if (propinfo.TestID (propid_path, propertyId))
   {
     return path.GetData ();
   }
-  else if (propertyId == properties[propid_factory].id)
+  else if (propinfo.TestID (propid_factory, propertyId))
   {
     return factName.GetData ();
   }
-  else if (propertyId == properties[propid_filename].id)
+  else if (propinfo.TestID (propid_filename, propertyId))
   {
     return fileName.GetData ();
   }
@@ -870,6 +826,8 @@ csStringID celPcMeshSelect::id_y = csInvalidStringID;
 csStringID celPcMeshSelect::id_button = csInvalidStringID;
 csStringID celPcMeshSelect::id_entity = csInvalidStringID;
 
+PropertyHolder celPcMeshSelect::propinfo;
+
 celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -918,18 +876,24 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   params->SetParameterDef (3, id_entity, "entity");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_global] = 0;
-  propdata[propid_follow] = 0;
-  propdata[propid_followalways] = 0;
-  propdata[propid_drag] = 0;
-  propdata[propid_sendmove] = 0;
-  propdata[propid_sendup] = 0;
-  propdata[propid_senddown] = 0;
-  propdata[propid_maxdistance] = &max_distance;
+  propholder = &propinfo;
+  propinfo.SetCount (8);
+  AddProperty (propid_global, "cel.property.global",
+	CEL_DATA_BOOL, false, "Global Selection.", 0);
+  AddProperty (propid_follow, "cel.property.follow",
+	CEL_DATA_BOOL, false, "Follow Mode.", 0);
+  AddProperty (propid_followalways, "cel.property.followalways",
+	CEL_DATA_BOOL, false, "Follow Always Mode.", 0);
+  AddProperty (propid_drag, "cel.property.drag",
+	CEL_DATA_BOOL, false, "Drag Mode.", 0);
+  AddProperty (propid_sendmove, "cel.property.sendmove",
+	CEL_DATA_BOOL, false, "Send Move Events.", 0);
+  AddProperty (propid_sendup, "cel.property.sendup",
+	CEL_DATA_BOOL, false, "Send Up Events.", 0);
+  AddProperty (propid_senddown, "cel.property.senddown",
+	CEL_DATA_BOOL, false, "Send Down Events.", 0);
+  AddProperty (propid_maxdistance, "cel.property.maxdistance",
+	CEL_DATA_FLOAT, false, "Maximum Selection Distance.", &max_distance);
 
   SetupEventHandler ();
   DG_TYPE (this, "celPcMeshSelect()");
@@ -942,67 +906,6 @@ celPcMeshSelect::~celPcMeshSelect ()
   SetCamera (0);
   delete params;
 }
-
-Property* celPcMeshSelect::properties = 0;
-size_t celPcMeshSelect::propertycount = 0;
-
-void celPcMeshSelect::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 8;
-    properties = new Property[propertycount];
-
-    properties[propid_global].id = pl->FetchStringID (
-    	"cel.property.global");
-    properties[propid_global].datatype = CEL_DATA_BOOL;
-    properties[propid_global].readonly = false;
-    properties[propid_global].desc = "Global Selection.";
-
-    properties[propid_follow].id = pl->FetchStringID (
-    	"cel.property.follow");
-    properties[propid_follow].datatype = CEL_DATA_BOOL;
-    properties[propid_follow].readonly = false;
-    properties[propid_follow].desc = "Follow Mode.";
-
-    properties[propid_followalways].id = pl->FetchStringID (
-    	"cel.property.followalways");
-    properties[propid_followalways].datatype = CEL_DATA_BOOL;
-    properties[propid_followalways].readonly = false;
-    properties[propid_followalways].desc = "Follow Always Mode.";
-
-    properties[propid_drag].id = pl->FetchStringID (
-    	"cel.property.drag");
-    properties[propid_drag].datatype = CEL_DATA_BOOL;
-    properties[propid_drag].readonly = false;
-    properties[propid_drag].desc = "Drag Mode.";
-
-    properties[propid_sendmove].id = pl->FetchStringID (
-    	"cel.property.sendmove");
-    properties[propid_sendmove].datatype = CEL_DATA_BOOL;
-    properties[propid_sendmove].readonly = false;
-    properties[propid_sendmove].desc = "Send Move Events.";
-
-    properties[propid_sendup].id = pl->FetchStringID (
-    	"cel.property.sendup");
-    properties[propid_sendup].datatype = CEL_DATA_BOOL;
-    properties[propid_sendup].readonly = false;
-    properties[propid_sendup].desc = "Send Up Events.";
-
-    properties[propid_senddown].id = pl->FetchStringID (
-    	"cel.property.senddown");
-    properties[propid_senddown].datatype = CEL_DATA_BOOL;
-    properties[propid_senddown].readonly = false;
-    properties[propid_senddown].desc = "Send Down Events.";
-
-    properties[propid_maxdistance].id = pl->FetchStringID (
-    	"cel.property.maxdistance");
-    properties[propid_maxdistance].datatype = CEL_DATA_FLOAT;
-    properties[propid_maxdistance].readonly = false;
-    properties[propid_maxdistance].desc = "Maximum Selection Distance.";
-  }
-}
-
 
 bool celMeshSelectListener::HandleEvent (iEvent& ev)
 {
@@ -1457,38 +1360,37 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 
 bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_global].id)
+  if (propinfo.TestID (propid_global, propertyId))
   {
     SetGlobalSelection (b);
     return true;
   }
-  else if (propertyId == properties[propid_follow].id)
+  else if (propinfo.TestID (propid_follow, propertyId))
   {
     SetFollowMode (b);
     return true;
   }
-  else if (propertyId == properties[propid_followalways].id)
+  else if (propinfo.TestID (propid_followalways, propertyId))
   {
     SetFollowAlwaysMode (b);
     return true;
   }
-  else if (propertyId == properties[propid_drag].id)
+  else if (propinfo.TestID (propid_drag, propertyId))
   {
     SetDragMode (b);
     return true;
   }
-  else if (propertyId == properties[propid_sendmove].id)
+  else if (propinfo.TestID (propid_sendmove, propertyId))
   {
     SetSendmoveEvent (b);
     return true;
   }
-  else if (propertyId == properties[propid_sendup].id)
+  else if (propinfo.TestID (propid_sendup, propertyId))
   {
     SetSendupEvent (b);
     return true;
   }
-  else if (propertyId == properties[propid_senddown].id)
+  else if (propinfo.TestID (propid_senddown, propertyId))
   {
     SetSenddownEvent (b);
     return true;
@@ -1501,20 +1403,19 @@ bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
 
 bool celPcMeshSelect::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_global].id)
+  if (propinfo.TestID (propid_global, propertyId))
     return HasGlobalSelection ();
-  else if (propertyId == properties[propid_follow].id)
+  else if (propinfo.TestID (propid_follow, propertyId))
     return HasFollowMode ();
-  else if (propertyId == properties[propid_followalways].id)
+  else if (propinfo.TestID (propid_followalways, propertyId))
     return HasFollowAlwaysMode ();
-  else if (propertyId == properties[propid_drag].id)
+  else if (propinfo.TestID (propid_drag, propertyId))
     return HasDragMode ();
-  else if (propertyId == properties[propid_sendmove].id)
+  else if (propinfo.TestID (propid_sendmove, propertyId))
     return HasSendmoveEvent ();
-  else if (propertyId == properties[propid_sendup].id)
+  else if (propinfo.TestID (propid_sendup, propertyId))
     return HasSendupEvent ();
-  else if (propertyId == properties[propid_senddown].id)
+  else if (propinfo.TestID (propid_senddown, propertyId))
     return HasSenddownEvent ();
   else
     return celPcCommon::GetPropertyBool (propertyId);

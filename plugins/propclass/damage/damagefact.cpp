@@ -52,6 +52,8 @@ csStringID celPcDamage::id_maxdist = csInvalidStringID;
 csStringID celPcDamage::action_singledamage = csInvalidStringID;
 csStringID celPcDamage::id_target = csInvalidStringID;
 
+PropertyHolder celPcDamage::propinfo;
+
 celPcDamage::celPcDamage (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -83,14 +85,16 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   params->SetParameterDef (4, id_type, "type");
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_amount] = &amount;
-  propdata[propid_type] = 0;
-  propdata[propid_sector] = 0;
-  propdata[propid_position] = &position;
+  propholder = &propinfo;
+  propinfo.SetCount (4);
+  AddProperty (propid_amount, "cel.property.amount",
+	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
+  AddProperty (propid_type, "cel.property.type",
+	CEL_DATA_STRING, false, "Type of damage.", 0);
+  AddProperty (propid_sector, "cel.property.sector",
+	CEL_DATA_STRING, false, "Originating sector.", 0);
+  AddProperty (propid_position, "cel.property.position",
+	CEL_DATA_VECTOR3, false, "Originating position.", &position);
 
   engine = csQueryRegistry<iEngine> (object_reg);
 }
@@ -100,51 +104,14 @@ celPcDamage::~celPcDamage ()
   delete params;
 }
 
-Property* celPcDamage::properties = 0;
-size_t celPcDamage::propertycount = 0;
-
-void celPcDamage::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 4;
-    properties = new Property[propertycount];
-
-    properties[propid_amount].id = pl->FetchStringID (
-    	"cel.property.amount");
-    properties[propid_amount].datatype = CEL_DATA_FLOAT;
-    properties[propid_amount].readonly = false;
-    properties[propid_amount].desc = "Amount of damage.";
-
-    properties[propid_type].id = pl->FetchStringID (
-    	"cel.property.type");
-    properties[propid_type].datatype = CEL_DATA_STRING;
-    properties[propid_type].readonly = false;
-    properties[propid_type].desc = "Type of damage.";
-
-    properties[propid_sector].id = pl->FetchStringID (
-    	"cel.property.sector");
-    properties[propid_sector].datatype = CEL_DATA_STRING;
-    properties[propid_sector].readonly = false;
-    properties[propid_sector].desc = "Originating sector.";
-
-    properties[propid_position].id = pl->FetchStringID (
-    	"cel.property.position");
-    properties[propid_position].datatype = CEL_DATA_VECTOR3;
-    properties[propid_position].readonly = false;
-    properties[propid_position].desc = "Originating position.";
-  }
-}
-
 bool celPcDamage::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_type].id)
+  if (propinfo.TestID (propid_type, propertyId))
   {
     type = b;
     return true;
   }
-  else if (propertyId == properties[propid_sector].id)
+  else if (propinfo.TestID (propid_sector, propertyId))
   {
     sector = b;
     return true;
@@ -157,12 +124,11 @@ bool celPcDamage::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcDamage::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_type].id)
+  if (propinfo.TestID (propid_type, propertyId))
   {
     return type;
   }
-  else if (propertyId == properties[propid_sector].id)
+  else if (propinfo.TestID (propid_sector, propertyId))
   {
     return sector;
   }

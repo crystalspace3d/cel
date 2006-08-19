@@ -457,30 +457,10 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 
 //---------------------------------------------------------------------------
 
-Property* celPcGravity::properties = 0;
-size_t celPcGravity::propertycount = 0;
 csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
 csStringID celPcGravity::id_force = csInvalidStringID;
 
-void celPcGravity::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 1;
-    properties = new Property[propertycount];
-
-    properties[propid_weight].id = pl->FetchStringID (
-    	"cel.property.weight");
-    properties[propid_weight].datatype = CEL_DATA_FLOAT;
-    properties[propid_weight].readonly = false;
-    properties[propid_weight].desc = "Weight of this object";
-
-    action_applypermanentforce = pl->FetchStringID (
-    	"cel.action.ApplyPermanentForce");
-    id_force = pl->FetchStringID (
-    	"cel.parameter.force");
-  }
-}
+PropertyHolder celPcGravity::propinfo;
 
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -501,13 +481,18 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
-  UpdateProperties ();
-  propdata = new void* [propertycount];
+  propholder = &propinfo;
+  propinfo.SetCount (1);
+  AddProperty (propid_weight, "cel.property.weight",
+	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
 
-  props = properties;
-  propcount = &propertycount;
-
-  propdata[propid_weight] = &weight;
+  if (action_applypermanentforce == csInvalidStringID)
+  {
+    action_applypermanentforce = pl->FetchStringID (
+    	"cel.action.ApplyPermanentForce");
+    id_force = pl->FetchStringID (
+    	"cel.parameter.force");
+  }
 }
 
 celPcGravity::~celPcGravity ()

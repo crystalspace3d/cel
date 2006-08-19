@@ -37,6 +37,8 @@ CEL_IMPLEMENT_FACTORY (Test, "pctest")
 csStringID celPcTest::id_message = csInvalidStringID;
 csStringID celPcTest::action_print = csInvalidStringID;
 
+PropertyHolder celPcTest::propinfo;
+
 celPcTest::celPcTest (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -51,8 +53,12 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
     action_print = pl->FetchStringID ("cel.action.Print");
 
   // For properties.
-  propcount = &propertycount;
-  UpdateProperties ();
+  propholder = &propinfo;
+  propinfo.SetCount (2);
+  AddProperty (propid_counter, "cel.property.counter",
+	CEL_DATA_LONG, false, "Print counter.", &counter);
+  AddProperty (propid_max, "cel.property.max",
+	CEL_DATA_LONG, false, "Max length.", 0);
 
   counter = 0;
   max = 0;
@@ -63,29 +69,9 @@ celPcTest::~celPcTest ()
   delete params;
 }
 
-Property* celPcTest::properties = 0;
-size_t celPcTest::propertycount = 0;
-
-void celPcTest::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 2;
-    properties = new Property[propertycount];
-    props = properties;
-
-    AddProperty (propid_counter, "cel.property.counter",
-	CEL_DATA_LONG, false, "Print counter.", &counter);
-    AddProperty (propid_max, "cel.property.max",
-	CEL_DATA_LONG, false, "Max length.", 0);
-  }
-  else props = properties;
-}
-
 bool celPcTest::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_max].id)
+  if (propinfo.TestID (propid_max, propertyId))
   {
     max = b;
     return true;
@@ -98,8 +84,7 @@ bool celPcTest::SetProperty (csStringID propertyId, long b)
 
 long celPcTest::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_max].id)
+  if (propinfo.TestID (propid_max, propertyId))
   {
     return (long)max;
   }

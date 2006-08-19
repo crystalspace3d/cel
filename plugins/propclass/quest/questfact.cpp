@@ -61,6 +61,8 @@ csStringID celPcQuest::action_newquest = csInvalidStringID;
 csStringID celPcQuest::action_stopquest = csInvalidStringID;
 csStringID celPcQuest::id_name = csInvalidStringID;
 
+PropertyHolder celPcQuest::propinfo;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcQuest)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcQuest)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -87,12 +89,12 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_name] = 0;		// Handled in this class.
-  propdata[propid_state] = 0;		// Handled in this class.
+  propholder = &propinfo;
+  propinfo.SetCount (2);
+  AddProperty (propid_name, "cel.property.name",
+	CEL_DATA_STRING, true, "Quest Factory Name.", 0);
+  AddProperty (propid_state, "cel.property.state",
+	CEL_DATA_STRING, false, "Current State.", 0);
 
   GetQuestManager ();
 }
@@ -103,34 +105,9 @@ celPcQuest::~celPcQuest ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcQuest);
 }
 
-Property* celPcQuest::properties = 0;
-size_t celPcQuest::propertycount = 0;
-
-void celPcQuest::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 2;
-    properties = new Property[propertycount];
-
-    properties[propid_name].id = pl->FetchStringID (
-    	"cel.property.name");
-    properties[propid_name].datatype = CEL_DATA_STRING;
-    properties[propid_name].readonly = true;
-    properties[propid_name].desc = "Quest Factory Name.";
-
-    properties[propid_state].id = pl->FetchStringID (
-    	"cel.property.state");
-    properties[propid_state].datatype = CEL_DATA_STRING;
-    properties[propid_state].readonly = false;
-    properties[propid_state].desc = "Current State.";
-  }
-}
-
 bool celPcQuest::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_state].id)
+  if (propinfo.TestID (propid_state, propertyId))
   {
     if (quest) quest->SwitchState (b);
     return true;
@@ -143,12 +120,11 @@ bool celPcQuest::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcQuest::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_state].id)
+  if (propinfo.TestID (propid_state, propertyId))
   {
     return quest ? quest->GetCurrentState () : 0;
   }
-  else if (propertyId == properties[propid_name].id)
+  else if (propinfo.TestID (propid_name, propertyId))
   {
     return questname;
   }

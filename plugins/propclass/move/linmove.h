@@ -178,9 +178,7 @@ protected:
     propid_anchor = 0,
     propid_gravity
   };
-  static Property* properties;
-  static size_t propertycount;
-  void UpdateProperties ();
+  static PropertyHolder propinfo;
 
 public:
   celPcLinearMovement (iObjectRegistry* object_reg);

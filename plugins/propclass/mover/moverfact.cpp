@@ -47,6 +47,8 @@ csStringID celPcMover::id_sqradius = csInvalidStringID;
 csStringID celPcMover::action_start = csInvalidStringID;
 csStringID celPcMover::action_interrupt = csInvalidStringID;
 
+PropertyHolder celPcMover::propinfo;
+
 celPcMover::celPcMover (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -64,14 +66,16 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_position] = &position;// Automatically handled.
-  propdata[propid_up] = &up;
-  propdata[propid_sqradius] = &sqradius;
-  propdata[propid_moving] = &is_moving;
+  propholder = &propinfo;
+  propinfo.SetCount (4);
+  AddProperty (propid_position, "cel.property.position",
+	CEL_DATA_VECTOR3, true, "Desired end position.", &position);
+  AddProperty (propid_up, "cel.property.up",
+	CEL_DATA_VECTOR3, true, "Current up vector.", &up);
+  AddProperty (propid_sqradius, "cel.property.sqradius",
+	CEL_DATA_FLOAT, false, "Current squared radius.", &sqradius);
+  AddProperty (propid_moving, "cel.property.moving",
+	CEL_DATA_BOOL, true, "Is moving?", &is_moving);
 
   is_moving = false;
 }
@@ -79,42 +83,6 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 celPcMover::~celPcMover ()
 {
   pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-}
-
-Property* celPcMover::properties = 0;
-size_t celPcMover::propertycount = 0;
-
-void celPcMover::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 4;
-    properties = new Property[propertycount];
-
-    properties[propid_position].id = pl->FetchStringID (
-    	"cel.property.position");
-    properties[propid_position].datatype = CEL_DATA_VECTOR3;
-    properties[propid_position].readonly = true;
-    properties[propid_position].desc = "Desired end position.";
-
-    properties[propid_up].id = pl->FetchStringID (
-    	"cel.property.up");
-    properties[propid_up].datatype = CEL_DATA_VECTOR3;
-    properties[propid_up].readonly = true;
-    properties[propid_up].desc = "Current up vector.";
-
-    properties[propid_sqradius].id = pl->FetchStringID (
-    	"cel.property.sqradius");
-    properties[propid_sqradius].datatype = CEL_DATA_FLOAT;
-    properties[propid_sqradius].readonly = false;
-    properties[propid_sqradius].desc = "Current squared radius.";
-
-    properties[propid_moving].id = pl->FetchStringID (
-    	"cel.property.moving");
-    properties[propid_moving].datatype = CEL_DATA_BOOL;
-    properties[propid_moving].readonly = true;
-    properties[propid_moving].desc = "Is moving?";
-  }
 }
 
 #define MOVER_SERIAL 1

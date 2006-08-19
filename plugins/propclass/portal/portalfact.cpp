@@ -94,6 +94,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcPortal::PcPortal)
   SCF_IMPLEMENTS_INTERFACE (iPcPortal)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+PropertyHolder celPcPortal::propinfo;
+
 celPcPortal::celPcPortal (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
@@ -103,13 +105,14 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   closed = false;
 
   // For properties.
-  UpdateProperties ();
-  propdata = new void* [propertycount];
-  props = properties;
-  propcount = &propertycount;
-  propdata[propid_mesh] = 0;
-  propdata[propid_portal] = 0;
-  propdata[propid_closed] = 0;
+  propholder = &propinfo;
+  propinfo.SetCount (3);
+  AddProperty (propid_mesh, "cel.property.mesh",
+	CEL_DATA_STRING, false, "Portal mesh name.", 0);
+  AddProperty (propid_portal, "cel.property.portal",
+	CEL_DATA_STRING, false, "Portal name.", 0);
+  AddProperty (propid_closed, "cel.property.closed",
+	CEL_DATA_BOOL, false, "Closed status.", 0);
 }
 
 celPcPortal::~celPcPortal ()
@@ -123,46 +126,15 @@ bool celPcPortal::PerformAction (csStringID, iCelParameterBlock*,
   return false;
 }
 
-Property* celPcPortal::properties = 0;
-size_t celPcPortal::propertycount = 0;
-
-void celPcPortal::UpdateProperties ()
-{
-  if (propertycount == 0)
-  {
-    propertycount = 3;
-    properties = new Property[propertycount];
-
-    properties[propid_mesh].id = pl->FetchStringID (
-    	"cel.property.mesh");
-    properties[propid_mesh].datatype = CEL_DATA_STRING;
-    properties[propid_mesh].readonly = false;
-    properties[propid_mesh].desc = "Portal mesh name.";
-
-    properties[propid_portal].id = pl->FetchStringID (
-    	"cel.property.portal");
-    properties[propid_portal].datatype = CEL_DATA_STRING;
-    properties[propid_portal].readonly = false;
-    properties[propid_portal].desc = "Portal name.";
-
-    properties[propid_closed].id = pl->FetchStringID (
-    	"cel.property.closed");
-    properties[propid_closed].datatype = CEL_DATA_BOOL;
-    properties[propid_closed].readonly = false;
-    properties[propid_closed].desc = "Closed status.";
-  }
-}
-
 bool celPcPortal::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_mesh].id)
+  if (propinfo.TestID (propid_mesh, propertyId))
   {
     meshname = b;
     portal = 0;
     return true;
   }
-  else if (propertyId == properties[propid_portal].id)
+  else if (propinfo.TestID (propid_portal, propertyId))
   {
     portalname = b;
     portal = 0;
@@ -176,12 +148,11 @@ bool celPcPortal::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcPortal::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_mesh].id)
+  if (propinfo.TestID (propid_mesh, propertyId))
   {
     return (const char*)meshname;
   }
-  else if (propertyId == properties[propid_portal].id)
+  else if (propinfo.TestID (propid_portal, propertyId))
   {
     return (const char*)portalname;
   }
@@ -193,8 +164,7 @@ const char* celPcPortal::GetPropertyString (csStringID propertyId)
 
 bool celPcPortal::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_closed].id)
+  if (propinfo.TestID (propid_closed, propertyId))
   {
     if (b)
       ClosePortal ();
@@ -210,8 +180,7 @@ bool celPcPortal::SetProperty (csStringID propertyId, bool b)
 
 bool celPcPortal::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties ();
-  if (propertyId == properties[propid_closed].id)
+  if (propinfo.TestID (propid_closed, propertyId))
   {
     return closed;
   }
