@@ -377,9 +377,8 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   SetMode (iPcDefaultCamera::firstperson);
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
-  props = properties;
   propcount = &propertycount;
   propdata[propid_pitchvelocity] = &pitchVelocity;	// Automatically handled.
 }
@@ -393,20 +392,18 @@ celPcDefaultCamera::~celPcDefaultCamera ()
 Property* celPcDefaultCamera::properties = 0;
 size_t celPcDefaultCamera::propertycount = 0;
 
-void celPcDefaultCamera::UpdateProperties (iObjectRegistry* object_reg)
+void celPcDefaultCamera::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 1;
     properties = new Property[propertycount];
+    props = properties;
 
-    properties[propid_pitchvelocity].id = pl->FetchStringID (
-    	"cel.property.pitchvelocity");
-    properties[propid_pitchvelocity].datatype = CEL_DATA_FLOAT;
-    properties[propid_pitchvelocity].readonly = false;
-    properties[propid_pitchvelocity].desc = "Pitch velocity.";
+    AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
+	CEL_DATA_FLOAT, false, "Pitch velocity.");
   }
+  else props = properties;
 }
 
 bool celPcDefaultCamera::PerformAction (csStringID actionId,

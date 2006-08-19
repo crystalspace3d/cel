@@ -88,7 +88,7 @@ bool celPcCommon::RemovePropertyChangeCallback (
 
 bool celPcCommon::SetProperty (csStringID propertyId, long l)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -115,7 +115,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, long l)
 
 bool celPcCommon::SetProperty (csStringID propertyId, float f)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -142,7 +142,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, float f)
 
 bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -169,7 +169,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -199,7 +199,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -226,7 +226,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -253,7 +253,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csVector3& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -280,7 +280,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, const csColor& v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -307,7 +307,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelPropertyClass* v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iCelEntity* v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -334,7 +334,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, iCelEntity* v)
 
 bool celPcCommon::SetProperty (csStringID propertyId, iBase* v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -361,7 +361,7 @@ bool celPcCommon::SetProperty (csStringID propertyId, iBase* v)
 
 celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return CEL_DATA_NONE;
 
@@ -373,7 +373,7 @@ celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 
 bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   for (size_t i=0; i<(*propcount); i++)
     if (props[i].id == propertyId)
@@ -383,7 +383,7 @@ bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 
 long celPcCommon::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
 
@@ -409,7 +409,7 @@ long celPcCommon::GetPropertyLong (csStringID propertyId)
 
 float celPcCommon::GetPropertyFloat (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
 
@@ -435,7 +435,7 @@ float celPcCommon::GetPropertyFloat (csStringID propertyId)
 
 bool celPcCommon::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -461,7 +461,7 @@ bool celPcCommon::GetPropertyBool (csStringID propertyId)
 
 const char* celPcCommon::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
   
@@ -487,7 +487,7 @@ const char* celPcCommon::GetPropertyString (csStringID propertyId)
 
 bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -514,7 +514,7 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
 
 bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -541,7 +541,7 @@ bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 
 bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return false;
 
@@ -568,7 +568,7 @@ bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
 
 iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
   
@@ -594,7 +594,7 @@ iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
 
 iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
   
@@ -620,7 +620,7 @@ iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
 
 iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
   
@@ -646,7 +646,7 @@ iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 
 const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
 
@@ -656,9 +656,9 @@ const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
   return 0;
 }
 
-size_t celPcCommon::GetPropertyAndActionCount() const
+size_t celPcCommon::GetPropertyAndActionCount()
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!propcount) return 0;
 
@@ -667,7 +667,7 @@ size_t celPcCommon::GetPropertyAndActionCount() const
 
 csStringID celPcCommon::GetPropertyOrActionID (size_t i)
 { 
-  UpdateProperties (object_reg);
+  UpdateProperties ();
 
   if (!props) return csInvalidStringID;
   

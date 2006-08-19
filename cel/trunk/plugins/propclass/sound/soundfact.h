@@ -63,7 +63,7 @@ private:
 
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
   csRef<iSndSysRenderer> renderer;
   csRef<iSndSysListener> listener;
@@ -111,7 +111,7 @@ private:
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
   csRef<iSndSysSourceSoftware3D> source;
   csString soundname;

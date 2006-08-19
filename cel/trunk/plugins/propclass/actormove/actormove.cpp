@@ -162,7 +162,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   g2d = g3d->GetDriver2D ();
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -181,11 +181,10 @@ celPcActorMove::~celPcActorMove ()
 Property* celPcActorMove::properties = 0;
 size_t celPcActorMove::propertycount = 0;
 
-void celPcActorMove::UpdateProperties (iObjectRegistry* object_reg)
+void celPcActorMove::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 4;
     properties = new Property[propertycount];
 
@@ -217,7 +216,7 @@ void celPcActorMove::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_mousemove].id)
   {
     EnableMouseMove (b);
@@ -231,7 +230,7 @@ bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
 
 bool celPcActorMove::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_mousemove].id)
   {
     return mousemove;

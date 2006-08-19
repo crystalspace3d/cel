@@ -67,7 +67,23 @@ protected:
 protected:
   void FirePropertyChangeCallback (int propertyId);
 
-  static void UpdateProperties (iObjectRegistry*) { return; }
+  void UpdateProperties () { return; }
+  /**
+   * Helper function to setup properties.
+   * \param idx is a numerical index for the property starting at 0.
+   * \param id is the id string ('cel.property.bla').
+   * \param type is the type for the property.
+   * \param readonly
+   * \param desc is the description.
+   */
+  void AddProperty (int idx, const char* id,
+	celDataType type, bool readonly, const char* desc)
+  {
+    props[idx].id = pl->FetchStringID (id);
+    props[idx].datatype = type;
+    props[idx].readonly = readonly;
+    props[idx].desc = desc;
+  }
 
   void** propdata;
   Property* props;
@@ -118,7 +134,7 @@ public:
   virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret)
   { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
-  virtual size_t GetPropertyAndActionCount () const;
+  virtual size_t GetPropertyAndActionCount ();
   virtual csStringID GetPropertyOrActionID (size_t);
   virtual void PropertyClassesHaveChanged ()
   {

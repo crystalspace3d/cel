@@ -119,7 +119,7 @@ private:
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
 public:
   celPcMesh (iObjectRegistry* object_reg);
@@ -324,7 +324,7 @@ private:
   };
   static Property* properties;
   static size_t propertycount;
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
 
   static csStringID id_x, id_y, id_button, id_entity;
   celGenericParameterBlock* params;

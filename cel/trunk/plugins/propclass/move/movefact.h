@@ -185,7 +185,7 @@ private:
   static csStringID action_applypermanentforce;
   static csStringID id_force;
 
-  static void UpdateProperties (iObjectRegistry* object_reg);
+  void UpdateProperties ();
  
 public:
   celPcGravity (iObjectRegistry* object_reg);

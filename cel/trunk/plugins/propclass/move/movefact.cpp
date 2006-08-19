@@ -462,13 +462,10 @@ size_t celPcGravity::propertycount = 0;
 csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
 csStringID celPcGravity::id_force = csInvalidStringID;
 
-void celPcGravity::UpdateProperties (iObjectRegistry* object_reg)
+void celPcGravity::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT( pl != 0 );
-
     propertycount = 1;
     properties = new Property[propertycount];
 
@@ -504,7 +501,7 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
 
   props = properties;

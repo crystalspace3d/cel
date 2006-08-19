@@ -87,7 +87,7 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -106,13 +106,10 @@ celPcQuest::~celPcQuest ()
 Property* celPcQuest::properties = 0;
 size_t celPcQuest::propertycount = 0;
 
-void celPcQuest::UpdateProperties (iObjectRegistry* object_reg)
+void celPcQuest::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT (pl != 0);
-
     propertycount = 2;
     properties = new Property[propertycount];
 
@@ -132,7 +129,7 @@ void celPcQuest::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcQuest::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_state].id)
   {
     if (quest) quest->SwitchState (b);
@@ -146,7 +143,7 @@ bool celPcQuest::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcQuest::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_state].id)
   {
     return quest ? quest->GetCurrentState () : 0;

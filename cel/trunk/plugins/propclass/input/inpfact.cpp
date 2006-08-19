@@ -122,7 +122,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -137,11 +137,10 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 Property* celPcCommandInput::properties = 0;
 size_t celPcCommandInput::propertycount = 0;
 
-void celPcCommandInput::UpdateProperties (iObjectRegistry* object_reg)
+void celPcCommandInput::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 2;
     properties = new Property[propertycount];
 

@@ -83,7 +83,7 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   params->SetParameterDef (4, id_type, "type");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -103,11 +103,10 @@ celPcDamage::~celPcDamage ()
 Property* celPcDamage::properties = 0;
 size_t celPcDamage::propertycount = 0;
 
-void celPcDamage::UpdateProperties (iObjectRegistry* object_reg)
+void celPcDamage::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 4;
     properties = new Property[propertycount];
 
@@ -139,7 +138,7 @@ void celPcDamage::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcDamage::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_type].id)
   {
     type = b;
@@ -158,7 +157,7 @@ bool celPcDamage::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcDamage::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_type].id)
   {
     return type;

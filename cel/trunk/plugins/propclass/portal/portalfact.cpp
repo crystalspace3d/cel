@@ -103,7 +103,7 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   closed = false;
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -126,11 +126,10 @@ bool celPcPortal::PerformAction (csStringID, iCelParameterBlock*,
 Property* celPcPortal::properties = 0;
 size_t celPcPortal::propertycount = 0;
 
-void celPcPortal::UpdateProperties (iObjectRegistry* object_reg)
+void celPcPortal::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 3;
     properties = new Property[propertycount];
 
@@ -156,7 +155,7 @@ void celPcPortal::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcPortal::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_mesh].id)
   {
     meshname = b;
@@ -177,7 +176,7 @@ bool celPcPortal::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcPortal::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_mesh].id)
   {
     return (const char*)meshname;
@@ -194,7 +193,7 @@ const char* celPcPortal::GetPropertyString (csStringID propertyId)
 
 bool celPcPortal::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_closed].id)
   {
     if (b)
@@ -211,7 +210,7 @@ bool celPcPortal::SetProperty (csStringID propertyId, bool b)
 
 bool celPcPortal::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_closed].id)
   {
     return closed;

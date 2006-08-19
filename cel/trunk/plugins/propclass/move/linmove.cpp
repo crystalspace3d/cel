@@ -204,7 +204,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -354,11 +354,10 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
 Property* celPcLinearMovement::properties = 0;
 size_t celPcLinearMovement::propertycount = 0;
 
-void celPcLinearMovement::UpdateProperties (iObjectRegistry* object_reg)
+void celPcLinearMovement::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 2;
     properties = new Property[propertycount];
 
@@ -378,7 +377,7 @@ void celPcLinearMovement::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_anchor].id)
   {
     if (b == 0 || *b == 0)
@@ -406,7 +405,7 @@ bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcLinearMovement::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_anchor].id)
   {
     if (anchor)

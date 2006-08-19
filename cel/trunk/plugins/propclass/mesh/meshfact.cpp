@@ -154,7 +154,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -175,11 +175,10 @@ celPcMesh::~celPcMesh ()
 Property* celPcMesh::properties = 0;
 size_t celPcMesh::propertycount = 0;
 
-void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
+void celPcMesh::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     propertycount = 6;
     properties = new Property[propertycount];
 
@@ -223,7 +222,7 @@ void celPcMesh::UpdateProperties (iObjectRegistry* object_reg)
 
 bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_position].id)
   {
     if (mesh)
@@ -248,7 +247,7 @@ bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
 
 const char* celPcMesh::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_sector].id)
   {
     if (mesh)
@@ -919,7 +918,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   params->SetParameterDef (3, id_entity, "entity");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -947,13 +946,10 @@ celPcMeshSelect::~celPcMeshSelect ()
 Property* celPcMeshSelect::properties = 0;
 size_t celPcMeshSelect::propertycount = 0;
 
-void celPcMeshSelect::UpdateProperties (iObjectRegistry* object_reg)
+void celPcMeshSelect::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT (pl != 0);
-
     propertycount = 8;
     properties = new Property[propertycount];
 
@@ -1461,7 +1457,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 
 bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_global].id)
   {
     SetGlobalSelection (b);
@@ -1505,7 +1501,7 @@ bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
 
 bool celPcMeshSelect::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_global].id)
     return HasGlobalSelection ();
   else if (propertyId == properties[propid_follow].id)

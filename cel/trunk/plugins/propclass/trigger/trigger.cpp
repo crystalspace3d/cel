@@ -160,7 +160,7 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   params->SetParameterDef (id_entity, "entity");
 
   // For properties.
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   propdata = new void* [propertycount];
   props = properties;
   propcount = &propertycount;
@@ -199,13 +199,10 @@ celPcTrigger::~celPcTrigger ()
 Property* celPcTrigger::properties = 0;
 size_t celPcTrigger::propertycount = 0;
 
-void celPcTrigger::UpdateProperties (iObjectRegistry* object_reg)
+void celPcTrigger::UpdateProperties ()
 {
   if (propertycount == 0)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-    CS_ASSERT (pl != 0);
-
     propertycount = 5;
     properties = new Property[propertycount];
 
@@ -262,7 +259,7 @@ void celPcTrigger::SetCenter (csVector3 &v)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, long b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_delay].id)
   {
     SetMonitorDelay (b, jitter);
@@ -281,7 +278,7 @@ bool celPcTrigger::SetProperty (csStringID propertyId, long b)
 
 long celPcTrigger::GetPropertyLong (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_delay].id)
   {
     return delay;
@@ -298,7 +295,7 @@ long celPcTrigger::GetPropertyLong (csStringID propertyId)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_invisible].id)
   {
     EnableMonitorInvisible (b);
@@ -318,7 +315,7 @@ bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
 
 bool celPcTrigger::GetPropertyBool (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_invisible].id)
   {
     return monitor_invisible;
@@ -335,7 +332,7 @@ bool celPcTrigger::GetPropertyBool (csStringID propertyId)
 
 bool celPcTrigger::SetProperty (csStringID propertyId, const char* b)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_monitor].id)
   {
     MonitorEntity (b);
@@ -349,7 +346,7 @@ bool celPcTrigger::SetProperty (csStringID propertyId, const char* b)
 
 const char* celPcTrigger::GetPropertyString (csStringID propertyId)
 {
-  UpdateProperties (object_reg);
+  UpdateProperties ();
   if (propertyId == properties[propid_monitor].id)
   {
     return monitor_entity;
