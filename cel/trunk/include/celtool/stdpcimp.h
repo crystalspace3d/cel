@@ -124,6 +124,14 @@ protected:
   void** propdata;
   PropertyHolder* propholder;
 
+  template <class T>
+  bool SetPropertyTemplated (csStringID propertyId, T l,
+    celDataType type);
+  template <class T>
+  T GetPropertyTemplated (csStringID propertyId, celDataType type);
+  template <class T>
+  bool GetPropertyTemplated (csStringID propertyId, celDataType type, T& v);
+
 public:
   celPcCommon (iObjectRegistry* object_reg);
   virtual ~celPcCommon ();
