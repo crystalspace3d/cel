@@ -15394,7 +15394,7 @@ static PyObject *_wrap_iCelPropertyClass_GetPropertyAndActionCount(PyObject *, P
     if(!PyArg_ParseTuple(args,(char *)"O:iCelPropertyClass_GetPropertyAndActionCount",&obj0)) goto fail;
     SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iCelPropertyClass, SWIG_POINTER_EXCEPTION | 0);
     if (SWIG_arg_fail(1)) SWIG_fail;
-    result = ((iCelPropertyClass const *)arg1)->GetPropertyAndActionCount();
+    result = (arg1)->GetPropertyAndActionCount();
     
     {
         resultobj = SWIG_From_unsigned_SS_long((unsigned long)(result)); 
