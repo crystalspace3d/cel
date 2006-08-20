@@ -35,7 +35,8 @@ CEL_IMPLEMENT_FACTORY (Test, "pctest")
 //---------------------------------------------------------------------------
 
 csStringID celPcTest::id_message = csInvalidStringID;
-csStringID celPcTest::action_print = csInvalidStringID;
+
+csHash<int, csStringID> constants;
 
 PropertyHolder celPcTest::propinfo;
 
@@ -49,8 +50,10 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
   params->SetParameterDef (id_message, "message");
 
   // For PerformAction.
-  if (action_print == csInvalidStringID)
-    action_print = pl->FetchStringID ("cel.action.Print");
+  if (!propinfo.constants.GetSize () == 0)
+  {
+    propinfo.constants.Put (pl->FetchStringID ("cel.action.Print"), action_print);
+  }
 
   // For properties.
   propholder = &propinfo;
@@ -69,29 +72,24 @@ celPcTest::~celPcTest ()
   delete params;
 }
 
-bool celPcTest::SetProperty (csStringID propertyId, long b)
+bool celPcTest::SetPropertyIndexed (int idx, long b)
 {
-  if (propinfo.TestID (propid_max, propertyId))
+  if (idx == propid_max)
   {
     max = b;
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-long celPcTest::GetPropertyLong (csStringID propertyId)
+bool celPcTest::GetPropertyIndexed (int idx, long& l)
 {
-  if (propinfo.TestID (propid_max, propertyId))
+  if (idx == propid_max)
   {
-    return (long)max;
+    l = max;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyLong (propertyId);
-  }
+  return false;
 }
 
 #define TEST_SERIAL 2
@@ -119,12 +117,18 @@ bool celPcTest::PerformAction (csStringID actionId,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_print)
+  int idx = constants.Get (actionId, -1);
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (msg,params,id_message);
-    if (!p_msg) return false;
-    Print (msg);
-    return true;
+    case action_print:
+      {
+        CEL_FETCH_STRING_PAR (msg,params,id_message);
+        if (!p_msg) return false;
+        Print (msg);
+        return true;
+      }
+    default:
+      return false;
   }
   return false;
 }

@@ -200,585 +200,443 @@ bool celPcBillboard::PerformAction (csStringID actionId,
   return false;
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, float b)
+bool celPcBillboard::SetPropertyIndexed (int idx, float b)
 {
-  if (propinfo.TestID (propid_widthpct, propertyId))
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      int iw, ih;
-      billboard->GetImageSize (iw, ih);
-      int w, h;
-      billboard->GetSize (w, h);
-      billboard->SetSize (int (iw * b), h);
-    }
-    return true;
-  }
-  else if (propinfo.TestID (propid_heightpct, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int iw, ih;
-      billboard->GetImageSize (iw, ih);
-      int w, h;
-      billboard->GetSize (w, h);
-      billboard->SetSize (w, int (ih * b));
-    }
-    return true;
-  }
-  else if (propinfo.TestID (propid_text_font_size, propertyId))
-  {
-    font_size = b;
-    return true;
-  }
-  else if (propinfo.TestID (propid_text_default_font_size, propertyId))
-  {
-    default_font_size = b;
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_widthpct:
+      GetBillboard ();
+      if (billboard)
+      {
+        int iw, ih;
+        billboard->GetImageSize (iw, ih);
+        int w, h;
+        billboard->GetSize (w, h);
+        billboard->SetSize (int (iw * b), h);
+      }
+      return true;
+    case propid_heightpct:
+      GetBillboard ();
+      if (billboard)
+      {
+        int iw, ih;
+        billboard->GetImageSize (iw, ih);
+        int w, h;
+        billboard->GetSize (w, h);
+        billboard->SetSize (w, int (ih * b));
+      }
+      return true;
+    case propid_text_font_size:
+      font_size = b;
+      return true;
+    case propid_text_default_font_size:
+      default_font_size = b;
+      return true;
+    default:
+      return false;
   }
 }
 
-float celPcBillboard::GetPropertyFloat (csStringID propertyId)
+bool celPcBillboard::GetPropertyIndexed (int idx, float& f)
 {
-  if (propinfo.TestID (propid_widthpct, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      int iw, ih;
-      billboard->GetImageSize (iw, ih);
-      int w, h;
-      billboard->GetSize (w, h);
-      return float (w) / float (iw);
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_heightpct, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int iw, ih;
-      billboard->GetImageSize (iw, ih);
-      int w, h;
-      billboard->GetSize (w, h);
-      return float (h) / float (ih);
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_text_font_size, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-      return billboard->GetTextFontSize ();
-    return 0;
-  }
-  else if (propinfo.TestID (propid_text_default_font_size, propertyId))
-  {
-    return default_font_size;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyFloat (propertyId);
+    case propid_widthpct:
+      {
+        int iw, ih;
+        billboard->GetImageSize (iw, ih);
+        int w, h;
+        billboard->GetSize (w, h);
+        f = float (w) / float (iw);
+      }
+      return true;
+    case propid_heightpct:
+      {
+        int iw, ih;
+        billboard->GetImageSize (iw, ih);
+        int w, h;
+        billboard->GetSize (w, h);
+        f = float (h) / float (ih);
+      }
+      return true;
+    case propid_text_font_size:
+      f = billboard->GetTextFontSize ();
+      return true;
+    case propid_text_default_font_size:
+      f = default_font_size;
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, long b)
+bool celPcBillboard::SetPropertyIndexed (int idx, long b)
 {
-  if (propinfo.TestID (propid_width, propertyId))
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      int w, h;
-      billboard->GetSize (w, h);
-      billboard->SetSize (b, h);
-    }
-    return true;
-  }
-  else if (propinfo.TestID (propid_height, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int w, h;
-      billboard->GetSize (w, h);
-      billboard->SetSize (w, b);
-    }
-    return true;
-  }
-  else if (propinfo.TestID (propid_x, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int x, y;
-      billboard->GetPosition (x, y);
-      billboard->SetPosition (b, y);
-    }
-    return true;
-  }
-  else if (propinfo.TestID (propid_y, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int x, y;
-      billboard->GetPosition (x, y);
-      billboard->SetPosition (x, b);
-    }
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_width:
+      GetBillboard ();
+      if (billboard)
+      {
+        int w, h;
+        billboard->GetSize (w, h);
+        billboard->SetSize (b, h);
+      }
+      return true;
+    case propid_height:
+      GetBillboard ();
+      if (billboard)
+      {
+        int w, h;
+        billboard->GetSize (w, h);
+        billboard->SetSize (w, b);
+      }
+      return true;
+    case propid_x:
+      GetBillboard ();
+      if (billboard)
+      {
+        int x, y;
+        billboard->GetPosition (x, y);
+        billboard->SetPosition (b, y);
+      }
+      return true;
+    case propid_y:
+      GetBillboard ();
+      if (billboard)
+      {
+        int x, y;
+        billboard->GetPosition (x, y);
+        billboard->SetPosition (x, b);
+      }
+      return true;
+    default:
+      return false;
   }
 }
 
-long celPcBillboard::GetPropertyLong (csStringID propertyId)
+bool celPcBillboard::GetPropertyIndexed (int idx, long& l)
 {
-  if (propinfo.TestID (propid_width, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      int w, h;
-      billboard->GetSize (w, h);
-      return w;
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_height, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int w, h;
-      billboard->GetSize (w, h);
-      return h;
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_x, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int x, y;
-      billboard->GetPosition (x, y);
-      return x;
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_y, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      int x, y;
-      billboard->GetPosition (x, y);
-      return y;
-    }
-    return 0;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyLong (propertyId);
+    case propid_width:
+      {
+        int w, h;
+        billboard->GetSize (w, h);
+	l = w;
+      }
+      return true;
+    case propid_height:
+      {
+        int w, h;
+        billboard->GetSize (w, h);
+	l = h;
+      }
+      return true;
+    case propid_x:
+      {
+        int x, y;
+        billboard->GetPosition (x, y);
+	l = x;
+      }
+      return true;
+    case propid_y:
+      {
+        int x, y;
+        billboard->GetPosition (x, y);
+	l = y;
+      }
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, bool b)
+bool celPcBillboard::SetPropertyIndexed (int idx, bool b)
 {
-  if (propinfo.TestID (propid_clickable, propertyId))
+  switch (idx)
   {
-    EnableEvents (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_movable, propertyId))
-  {
-    GetBillboard ();
-    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_MOVABLE, b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_visible, propertyId))
-  {
-    GetBillboard ();
-    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_restack, propertyId))
-  {
-    GetBillboard ();
-    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_sendmove, propertyId))
-  {
-    GetBillboard ();
-    if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_SENDMOVE, b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_clickable:
+      EnableEvents (b);
+      return true;
+    case propid_movable:
+      GetBillboard ();
+      if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_MOVABLE, b);
+      return true;
+    case propid_visible:
+      GetBillboard ();
+      if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_VISIBLE, b);
+      return true;
+    case propid_restack:
+      GetBillboard ();
+      if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_RESTACK, b);
+      return true;
+    case propid_sendmove:
+      GetBillboard ();
+      if (billboard) billboard->GetFlags ().SetBool (CEL_BILLBOARD_SENDMOVE, b);
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::GetPropertyBool (csStringID propertyId)
+bool celPcBillboard::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_clickable, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+  switch (idx)
   {
-    return AreEventsEnabled ();
-  }
-  else if (propinfo.TestID (propid_movable, propertyId))
-  {
-    GetBillboard ();
-    return billboard ?
-    	billboard->GetFlags ().Check (CEL_BILLBOARD_MOVABLE) :
-	false;
-  }
-  else if (propinfo.TestID (propid_visible, propertyId))
-  {
-    GetBillboard ();
-    return billboard ?
-    	billboard->GetFlags ().Check (CEL_BILLBOARD_VISIBLE) :
-	false;
-  }
-  else if (propinfo.TestID (propid_restack, propertyId))
-  {
-    GetBillboard ();
-    return billboard ?
-    	billboard->GetFlags ().Check (CEL_BILLBOARD_RESTACK) :
-	false;
-  }
-  else if (propinfo.TestID (propid_sendmove, propertyId))
-  {
-    GetBillboard ();
-    return billboard ?
-    	billboard->GetFlags ().Check (CEL_BILLBOARD_SENDMOVE) :
-	false;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
+    case propid_clickable:
+      b = AreEventsEnabled ();
+      return true;
+    case propid_movable:
+      b = billboard->GetFlags ().Check (CEL_BILLBOARD_MOVABLE);
+      return true;
+    case propid_visible:
+      b = billboard->GetFlags ().Check (CEL_BILLBOARD_VISIBLE);
+      return true;
+    case propid_restack:
+      b = billboard->GetFlags ().Check (CEL_BILLBOARD_RESTACK);
+      return true;
+    case propid_sendmove:
+      b =  billboard->GetFlags ().Check (CEL_BILLBOARD_SENDMOVE);
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, const char* s)
+bool celPcBillboard::SetPropertyIndexed (int idx, const char* s)
 {
-  if (propinfo.TestID (propid_materialname, propertyId))
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetMaterialName (s);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_materialnamefast, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetMaterialNameFast (s);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_layer, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (s);
-      if (!layer)
-        layer = billboard_mgr->CreateBillboardLayer (s);
-      billboard->SetLayer (layer);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetText (s);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_font, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetTextFont (s, font_size);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_default_font, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard_mgr->SetDefaultTextFont (s, default_font_size);
-      return true;
-    }
-    return false;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, s);
+    case propid_materialname:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          billboard->SetMaterialName (s);
+          return true;
+        }
+        return false;
+      }
+    case propid_materialnamefast:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          billboard->SetMaterialNameFast (s);
+          return true;
+        }
+        return false;
+      }
+    case propid_layer:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          iBillboardLayer* layer = billboard_mgr->FindBillboardLayer (s);
+          if (!layer)
+            layer = billboard_mgr->CreateBillboardLayer (s);
+          billboard->SetLayer (layer);
+          return true;
+        }
+        return false;
+      }
+    case propid_text:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          billboard->SetText (s);
+          return true;
+        }
+        return false;
+      }
+    case propid_text_font:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          billboard->SetTextFont (s, font_size);
+          return true;
+        }
+        return false;
+      }
+    case propid_text_default_font:
+      {
+        GetBillboard ();
+        if (billboard)
+        {
+          billboard_mgr->SetDefaultTextFont (s, default_font_size);
+          return true;
+        }
+        return false;
+      }
+    default:
+      return false;
   }
 }
 
-const char* celPcBillboard::GetPropertyString (csStringID propertyId)
+bool celPcBillboard::GetPropertyIndexed (int idx, const char*& s)
 {
-  if (propinfo.TestID (propid_materialname, propertyId) ||
-	propinfo.TestID (propid_materialnamefast, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-      return billboard->GetMaterialName ();
-    return 0;
-  }
-  else if (propinfo.TestID (propid_layer, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-      return billboard->GetLayer ()->GetName ();
-    return 0;
-  }
-  else if (propinfo.TestID (propid_text, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-      return billboard->GetText ();
-    return 0;
-  }
-  else if (propinfo.TestID (propid_text_font, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      return billboard->GetTextFont ();
-    }
-    return 0;
-  }
-  else if (propinfo.TestID (propid_text_default_font, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      return billboard_mgr->GetDefaultTextFont ();
-    }
-    return 0;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_materialname:
+    case propid_materialnamefast:
+      s = billboard->GetMaterialName ();
+      return true;
+    case propid_layer:
+      s = billboard->GetLayer ()->GetName ();
+      return true;
+    case propid_text:
+      s = billboard->GetText ();
+      return true;
+    case propid_text_font:
+      s = billboard->GetTextFont ();
+      return true;
+    case propid_text_default_font:
+      s = billboard_mgr->GetDefaultTextFont ();
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, const csVector2& c)
+bool celPcBillboard::SetPropertyIndexed (int idx, const csVector2& c)
 {
-  if (propinfo.TestID (propid_uv_topleft, propertyId))
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetUVTopLeft (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_uv_botright, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetUVBottomRight (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_offset, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetTextOffset (int (c.x), int (c.y));
-      return true;
-    }
-    return false;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, c);
+    case propid_uv_topleft:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetUVTopLeft (c);
+        return true;
+      }
+      return false;
+    case propid_uv_botright:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetUVBottomRight (c);
+        return true;
+      }
+      return false;
+    case propid_text_offset:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetTextOffset (int (c.x), int (c.y));
+        return true;
+      }
+      return false;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::GetPropertyVector (csStringID propertyId, csVector2& c)
+bool celPcBillboard::GetPropertyIndexed (int idx, csVector2& c)
 {
-  if (propinfo.TestID (propid_uv_topleft, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_uv_topleft:
       c = billboard->GetUVTopLeft ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_uv_botright, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_uv_botright:
       c = billboard->GetUVBottomRight ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_offset, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_text_offset:
       c.x = billboard->GetTextOffsetDX ();
       c.y = billboard->GetTextOffsetDY ();
       return true;
-    }
-    return false;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyVector (propertyId, c);
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::SetProperty (csStringID propertyId, const csColor& c)
+bool celPcBillboard::SetPropertyIndexed (int idx, const csColor& c)
 {
-  if (propinfo.TestID (propid_color, propertyId))
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetColor (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_fg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetTextFgColor (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_bg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
-      billboard->SetTextBgColor (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_default_fg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard_mgr)
-    {
-      billboard_mgr->SetDefaultTextFgColor (c);
-      return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_default_bg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard_mgr)
-    {
-      billboard_mgr->SetDefaultTextBgColor (c);
-      return true;
-    }
-    return false;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, c);
+    case propid_color:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetColor (c);
+        return true;
+      }
+      return false;
+    case propid_text_fg_color:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetTextFgColor (c);
+        return true;
+      }
+      return false;
+    case propid_text_bg_color:
+      GetBillboard ();
+      if (billboard)
+      {
+        billboard->SetTextBgColor (c);
+        return true;
+      }
+      return false;
+    case propid_text_default_fg_color:
+      GetBillboard ();
+      if (billboard_mgr)
+      {
+        billboard_mgr->SetDefaultTextFgColor (c);
+        return true;
+      }
+      return false;
+    case propid_text_default_bg_color:
+      GetBillboard ();
+      if (billboard_mgr)
+      {
+        billboard_mgr->SetDefaultTextBgColor (c);
+        return true;
+      }
+      return false;
+    default:
+      return false;
   }
 }
 
-bool celPcBillboard::GetPropertyColor (csStringID propertyId, csColor& c)
+bool celPcBillboard::GetPropertyIndexed (int idx, csColor& c)
 {
-  if (propinfo.TestID (propid_color, propertyId))
+  GetBillboard ();
+  if (!billboard) return false;
+  switch (idx)
   {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_color:
       c = billboard->GetColor ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_fg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_text_fg_color:
       c = billboard->GetTextFgColor ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_bg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard)
-    {
+    case propid_text_bg_color:
       c = billboard->GetTextBgColor ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_default_fg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard_mgr)
-    {
+    case propid_text_default_fg_color:
       c = billboard_mgr->GetDefaultTextFgColor ();
       return true;
-    }
-    return false;
-  }
-  else if (propinfo.TestID (propid_text_default_bg_color, propertyId))
-  {
-    GetBillboard ();
-    if (billboard_mgr)
-    {
+    case propid_text_default_bg_color:
       c = billboard_mgr->GetDefaultTextBgColor ();
       return true;
-    }
-    return false;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyColor (propertyId, c);
+    default:
+      return false;
   }
 }
 
