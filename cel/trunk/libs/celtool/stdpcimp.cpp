@@ -92,26 +92,32 @@ bool celPcCommon::SetPropertyTemplated (csStringID propertyId, T l,
     celDataType type)
 {
   if (!propdata) return false;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return false;
+  }
+
+  if (SetPropertyIndexed (i, l))
+    return true;
 
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
+  CS_ASSERT (props[i].id == propertyId);
+  if (props[i].datatype == type) 
   {
-    if (props[i].id == propertyId)
-      if (props[i].datatype == type) 
-      {
-        if (!propdata[i])
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    if (!propdata[i])
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	    "cel.celpccommon.setproperty",
 	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
-	  return false;
-	}
-	((T*)(propdata[i]))[0] = l;
-	return true;
-      }
-      else return false;
+      return false;
+    }
+    ((T*)(propdata[i]))[0] = l;
+    return true;
   }
+  // @@@ Warning?
   return false; 
 }
 
@@ -128,37 +134,6 @@ bool celPcCommon::SetProperty (csStringID propertyId, float f)
 bool celPcCommon::SetProperty (csStringID propertyId, bool b)
 {
   return SetPropertyTemplated<bool> (propertyId, b, CEL_DATA_BOOL);
-}
-
-bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
-{
-  if (!propdata) return false;
-
-  Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
-  {
-    if (props[i].id == propertyId)
-      if (props[i].datatype == CEL_DATA_STRING)
-      {
-        if (!propdata[i])
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-	    "cel.celpccommon.setproperty",
-	    "Property %s from %s is not correctly set up!",
-	    pl->FetchString (propertyId), GetName ());
-	  return false;
-	}
-	char** ptr = (char**) propdata[i];
-	if  (*ptr != s)
-	{
-	  delete[] (*ptr);
-	  *ptr = csStrNew (s);
-	}
-	return true;
-      }
-      else return false;
-  }
-  return false; 
 }
 
 bool celPcCommon::SetProperty (csStringID propertyId, const csVector2& v)
@@ -192,24 +167,71 @@ bool celPcCommon::SetProperty (csStringID propertyId, iBase* v)
   return SetPropertyTemplated<iBase*> (propertyId, v, CEL_DATA_IBASE);
 }
 
+bool celPcCommon::SetProperty (csStringID propertyId, const char* s)
+{
+  if (!propdata) return false;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return false;
+  }
+
+  if (SetPropertyIndexed (i, s))
+    return true;
+
+  Property* props = propholder->properties;
+  CS_ASSERT (props[i].id == propertyId);
+  if (props[i].datatype == CEL_DATA_STRING)
+  {
+    if (!propdata[i])
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "cel.celpccommon.setproperty",
+	    "Property %s from %s is not correctly set up!",
+	    pl->FetchString (propertyId), GetName ());
+      return false;
+    }
+    char** ptr = (char**) propdata[i];
+    if  (*ptr != s)
+    {
+      delete[] (*ptr);
+      *ptr = csStrNew (s);
+    }
+    return true;
+  }
+  // @@@ Warning?
+  return false; 
+}
+
 celDataType celPcCommon::GetPropertyOrActionType (csStringID propertyId)
 {
   if (!propdata) return CEL_DATA_NONE;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return CEL_DATA_NONE;
+  }
 
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
-    if (props[i].id == propertyId)
-      return props[i].datatype;
-  return CEL_DATA_NONE;
+  CS_ASSERT (props[i].id == propertyId);
+  return props[i].datatype;
 }
 
 bool celPcCommon::IsPropertyReadOnly (csStringID propertyId)
 {
+  if (!propdata) return 0;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return true;
+  }
+
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
-    if (props[i].id == propertyId)
-      return props[i].readonly;
-  return true;
+  CS_ASSERT (props[i].id == propertyId);
+  return props[i].readonly;
 }
 
 template <class T>
@@ -217,25 +239,33 @@ T celPcCommon::GetPropertyTemplated (csStringID propertyId,
     celDataType type)
 {
   if (!propdata) return 0;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return 0;
+  }
+
+  T v;
+  if (GetPropertyIndexed (i, v))
+    return v;
 
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
+  CS_ASSERT (props[i].id == propertyId);
+
+  if (props[i].datatype == type)
   {
-    if (props[i].id == propertyId)
-      if (props[i].datatype == type)
-      {
-        if (!propdata[i])
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    if (!propdata[i])
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	    "cel.celpccommon.getproperty",
 	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
-	  return 0;
-	}
-	return ((T*)(propdata[i]))[0];
-      }
-      else return 0;
+      return 0;
+    }
+    return ((T*)(propdata[i]))[0];
   }
+  // @@@ Warning?
   return 0;
 }
 
@@ -244,26 +274,33 @@ bool celPcCommon::GetPropertyTemplated (csStringID propertyId, celDataType type,
     T& v)
 {
   if (!propdata) return false;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return false;
+  }
+
+  if (GetPropertyIndexed (i, v))
+    return true;
 
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
+  CS_ASSERT (props[i].id == propertyId);
+
+  if (props[i].datatype == type)
   {
-    if (props[i].id == propertyId)
-      if (props[i].datatype == type)
-      {
-        if (!propdata[i])
-	{
-	  csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    if (!propdata[i])
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
 	    "cel.celpccommon.getproperty",
 	    "Property %s from %s is not correctly set up!",
 	    pl->FetchString (propertyId), GetName ());
-	  return false;
-	}
-	v = ((T*)(propdata[i]))[0];
-	return true;
-      }
-      else return false;
+      return false;
+    }
+    v = ((T*)(propdata[i]))[0];
+    return true;
   }
+  // @@@ Warning?
   return false;
 }
 
@@ -322,12 +359,16 @@ iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 const char* celPcCommon::GetPropertyOrActionDescription (csStringID propertyId)
 {
   if (!propdata) return 0;
+  int i = propholder->constants.Get (propertyId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return 0;
+  }
 
   Property* props = propholder->properties;
-  for (size_t i=0; i<propholder->propertycount; i++)
-    if (props[i].id == propertyId)
-      return props[i].desc;
-  return 0;
+  CS_ASSERT (props[i].id == propertyId);
+  return props[i].desc;
 }
 
 size_t celPcCommon::GetPropertyAndActionCount()

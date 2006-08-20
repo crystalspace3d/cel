@@ -118,18 +118,18 @@ public:
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the materialname property.
-  virtual bool SetProperty (csStringID, const char*);
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool SetProperty (csStringID, long);
-  virtual bool SetProperty (csStringID, float);
-  virtual bool SetProperty (csStringID, const csColor&);
-  virtual bool SetProperty (csStringID, const csVector2&);
-  virtual const char* GetPropertyString (csStringID);
-  virtual bool GetPropertyBool (csStringID);
-  virtual bool GetPropertyColor (csStringID, csColor&);
-  virtual bool GetPropertyVector (csStringID, csVector2&);
-  virtual long GetPropertyLong (csStringID);
-  virtual float GetPropertyFloat (csStringID);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool SetPropertyIndexed (int, long);
+  virtual bool SetPropertyIndexed (int, float);
+  virtual bool SetPropertyIndexed (int, const csColor&);
+  virtual bool SetPropertyIndexed (int, const csVector2&);
+  virtual bool GetPropertyIndexed (int, const char*&);
+  virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool GetPropertyIndexed (int, csColor&);
+  virtual bool GetPropertyIndexed (int, csVector2&);
+  virtual bool GetPropertyIndexed (int, long&);
+  virtual bool GetPropertyIndexed (int, float&);
 
   // For iBillboardEventHandler:
   void Select (iBillboard* billboard, int mouse_button,

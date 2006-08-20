@@ -5,6 +5,14 @@ The history order is reversed so that new features are at the top.
 
 20-Aug-2006
 	- Jorrit cleaned up celPcCommon a bit.
+	- Jorrit optimized property setting and getting for
+	  property classes a bit. Instead of a for loop to find the
+	  right property from the ID there is now a hash lookup
+	  to map the ID to a constant and then a switch on that
+	  constant. Only pctest and pcbillboard use this new
+	  feature. To use it you need to override the
+	  SetPropertyIndexed() and GetPropertyIndexed() methods
+	  instead of the regular SetProperty() and GetPropertyType().
 19-Aug-2006
 	- Jorrit started work on simplifying the property system
 	  for property classes so that it becomes easier and less

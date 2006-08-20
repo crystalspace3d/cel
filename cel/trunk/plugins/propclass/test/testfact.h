@@ -49,9 +49,11 @@ private:
   static csStringID id_message;
   celOneParameterBlock* params;
 
-  // For PerformAction.
-  // id_message is shared.
-  static csStringID action_print;
+  // For actions.
+  enum actionids
+  {
+    action_print = 0
+  };
 
   // For properties.
   enum propids
@@ -79,8 +81,8 @@ public:
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'max' property.
-  virtual bool SetProperty (csStringID, long);
-  virtual long GetPropertyLong (csStringID);
+  virtual bool SetPropertyIndexed (int idx, long b);
+  virtual bool GetPropertyIndexed (int, long&);
 };
 
 #endif // __CEL_PF_TESTFACT__
