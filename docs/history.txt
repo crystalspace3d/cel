@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Aug-2006
+	- Jorrit cleaned up celPcCommon a bit.
 19-Aug-2006
 	- Jorrit started work on simplifying the property system
 	  for property classes so that it becomes easier and less
