@@ -52,6 +52,8 @@ struct PropertyHolder
 {
   Property* properties;
   size_t propertycount;
+  // Set to true if we have done an action.
+  bool actions_done;
 
   /**
    * This is a special hash that maps ID's to constants
@@ -59,7 +61,8 @@ struct PropertyHolder
    */
   csHash<int, csStringID> constants;
 
-  PropertyHolder () : properties (0), propertycount (0) { }
+  PropertyHolder () : properties (0), propertycount (0), actions_done (false)
+  { }
   ~PropertyHolder () { delete[] properties; }
   void SetCount (int cnt)
   {
@@ -93,6 +96,15 @@ protected:
 
 protected:
   void FirePropertyChangeCallback (int propertyId);
+
+  /**
+   * Helper function to setup an action.
+   */
+  void AddAction (int idx, const char* id)
+  {
+    propholder->actions_done = true;
+    propholder->constants.Put (pl->FetchStringID (id), idx);
+  }
 
   /**
    * Helper function to setup properties.
@@ -202,7 +214,8 @@ public:
   virtual iCelEntity* GetPropertyEntity (csStringID);
   virtual iBase* GetPropertyIBase (csStringID);
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret)
+  virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret);
+  virtual bool PerformActionIndexed (int, iCelParameterBlock*, celData& ret)
   { return false; }
   virtual const char* GetPropertyOrActionDescription (csStringID);
   virtual size_t GetPropertyAndActionCount ();

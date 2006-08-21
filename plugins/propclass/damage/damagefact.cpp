@@ -44,12 +44,9 @@ csStringID celPcDamage::id_source = csInvalidStringID;
 csStringID celPcDamage::id_sector = csInvalidStringID;
 csStringID celPcDamage::id_position = csInvalidStringID;
 csStringID celPcDamage::id_type = csInvalidStringID;
-csStringID celPcDamage::action_areadamage = csInvalidStringID;
 csStringID celPcDamage::id_radius = csInvalidStringID;
-csStringID celPcDamage::action_beamdamage = csInvalidStringID;
 csStringID celPcDamage::id_direction = csInvalidStringID;
 csStringID celPcDamage::id_maxdist = csInvalidStringID;
-csStringID celPcDamage::action_singledamage = csInvalidStringID;
 csStringID celPcDamage::id_target = csInvalidStringID;
 
 PropertyHolder celPcDamage::propinfo;
@@ -68,12 +65,9 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_type = pl->FetchStringID ("cel.parameter.type");
-    action_areadamage = pl->FetchStringID ("cel.action.AreaDamage");
     id_radius = pl->FetchStringID ("cel.parameter.radius");
-    action_beamdamage = pl->FetchStringID ("cel.action.BeamDamage");
     id_direction = pl->FetchStringID ("cel.parameter.direction");
     id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
-    action_singledamage = pl->FetchStringID ("cel.action.SingleDamage");
     id_target = pl->FetchStringID ("cel.parameter.target");
   }
 
@@ -84,8 +78,17 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   params->SetParameterDef (3, id_position, "position");
   params->SetParameterDef (4, id_type, "type");
 
-  // For properties.
   propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_areadamage, "cel.action.AreaDamage");
+    AddAction (action_beamdamage, "cel.action.BeamDamage");
+    AddAction (action_singledamage, "cel.action.SingleDamage");
+  }
+ 
+  // For properties.
   propinfo.SetCount (4);
   AddProperty (propid_amount, "cel.property.amount",
 	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
@@ -153,34 +156,38 @@ bool celPcDamage::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcDamage::PerformAction (csStringID actionId,
+bool celPcDamage::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_areadamage)
+  switch (idx)
   {
-    CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
-    if (!p_radius) radius = 1000000000.0f;
-    AreaDamage (radius);
-    return true;
+    case action_areadamage:
+      {
+        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
+        if (!p_radius) radius = 1000000000.0f;
+        AreaDamage (radius);
+        return true;
+      }
+    case action_beamdamage:
+      {
+        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
+        if (!p_maxdist) { maxdist = 1000000000.0f; }
+        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
+        if (!p_direction) return false; // @@@ Error!
+        BeamDamage (direction, maxdist);
+        return true;
+      }
+    case action_singledamage:
+      {
+        CEL_FETCH_STRING_PAR (target,params,id_target);
+        if (!p_target) return false;	// @@@ Error!
+        SingleDamage (target);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_beamdamage)
-  {
-    CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
-    if (!p_maxdist) { maxdist = 1000000000.0f; }
-    CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
-    if (!p_direction) return false; // @@@ Error!
-    BeamDamage (direction, maxdist);
-    return true;
-  }
-  else if (actionId == action_singledamage)
-  {
-    CEL_FETCH_STRING_PAR (target,params,id_target);
-    if (!p_target) return false;	// @@@ Error!
-    SingleDamage (target);
-    return true;
-  }
-  return false;
 }
 
 void celPcDamage::SetDamageLocation (const char* sectorname,

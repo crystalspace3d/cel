@@ -50,7 +50,7 @@ public:
   virtual const char* GetName() const { return "pccraft"; };
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void Tick ();
 

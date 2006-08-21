@@ -387,6 +387,18 @@ csStringID celPcCommon::GetPropertyOrActionID (size_t i)
   return props[i].id; 
 }
 
+bool celPcCommon::PerformAction (csStringID actionId,
+    iCelParameterBlock* params, celData& ret)
+{
+  if (!propholder) return false;
+  int i = propholder->constants.Get (actionId, -1);
+  if (i == -1)
+  {
+    // @@@ Warning?
+    return false;
+  }
+  return PerformActionIndexed (i, params, ret);
+}
 
 //---------------------------------------------------------------------------
 

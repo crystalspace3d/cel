@@ -246,8 +246,6 @@ void CAFreeLook::SetupMode ()
 
 //---------------------------------------------------------------------------
 
-csStringID celPcDefaultCamera::action_setcamera = csInvalidStringID;
-csStringID celPcDefaultCamera::action_pointcamera = csInvalidStringID;
 csStringID celPcDefaultCamera::id_modename = csInvalidStringID;
 csStringID celPcDefaultCamera::id_spring = csInvalidStringID;
 csStringID celPcDefaultCamera::id_turnspeed = csInvalidStringID;
@@ -259,11 +257,9 @@ csStringID celPcDefaultCamera::id_pitchvelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_yaw = csInvalidStringID;
 csStringID celPcDefaultCamera::id_yawvelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_distance = csInvalidStringID;
-csStringID celPcDefaultCamera::action_setzonemanager = csInvalidStringID;
 csStringID celPcDefaultCamera::id_entityname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_regionname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_startname = csInvalidStringID;
-csStringID celPcDefaultCamera::action_centercamera = csInvalidStringID;
 
 PropertyHolder celPcDefaultCamera::propinfo;
 
@@ -354,10 +350,8 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   useCameraCD = true;
   lastActorSector = 0;
 
-  if (action_setcamera == csInvalidStringID)
+  if (id_modename == csInvalidStringID)
   {
-    action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
-    action_pointcamera = pl->FetchStringID ("cel.action.PointCamera");
     id_modename = pl->FetchStringID ("cel.parameter.modename");
     id_spring = pl->FetchStringID ("cel.parameter.spring");
     id_turnspeed = pl->FetchStringID ("cel.parameter.turnspeed");
@@ -369,17 +363,25 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     id_yaw = pl->FetchStringID ("cel.parameter.yaw");
     id_yawvelocity = pl->FetchStringID ("cel.parameter.yawvelocity");
     id_distance = pl->FetchStringID ("cel.parameter.distance");
-    action_setzonemanager = pl->FetchStringID ("cel.action.SetZoneManager");
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
-    action_centercamera = pl->FetchStringID ("cel.action.CenterCamera");
   }
 
   SetMode (iPcDefaultCamera::firstperson);
 
-  // For properties.
   propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setcamera, "cel.action.SetCamera");
+    AddAction (action_pointcamera, "cel.action.PointCamera");
+    AddAction (action_setzonemanager, "cel.action.SetZoneManager");
+    AddAction (action_centercamera, "cel.action.CenterCamera");
+  }
+
+  // For properties.
   propinfo.SetCount (1);
   AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
 	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
@@ -391,96 +393,98 @@ celPcDefaultCamera::~celPcDefaultCamera ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
-bool celPcDefaultCamera::PerformAction (csStringID actionId,
+bool celPcDefaultCamera::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_centercamera)
+  switch (idx)
   {
-    CenterCamera ();
-    return true;
+    case action_centercamera:
+      CenterCamera ();
+      return true;
+    case action_pointcamera:
+      {
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
+        return PointCamera (startname);
+      }
+    case action_setcamera:
+      {
+        CEL_FETCH_STRING_PAR (modename,params,id_modename);
+        if (p_modename)
+        {
+          SetModeName (modename);
+        }
+        CEL_FETCH_VECTOR3_PAR (spring,params,id_spring);
+        if (p_spring)
+        {
+          SetSpringCoef (spring.x);
+          SetDampeningCoef (spring.y);
+          SetSpringLength (spring.z);
+        }
+        CEL_FETCH_FLOAT_PAR (turnspeed,params,id_turnspeed);
+        if (p_turnspeed)
+        {
+          SetTurnSpeed (turnspeed);
+        }
+        CEL_FETCH_FLOAT_PAR (swingcoef,params,id_swingcoef);
+        if (p_swingcoef)
+        {
+          SetSwingCoef (swingcoef);
+        }
+        CEL_FETCH_VECTOR3_PAR (fpoffset,params,id_fpoffset);
+        if (p_fpoffset)
+        {
+          firstPersonPositionOffset = fpoffset;
+        }
+        CEL_FETCH_VECTOR3_PAR (tpoffset,params,id_tpoffset);
+        if (p_tpoffset)
+        {
+          thirdPersonPositionOffset = tpoffset;
+        }
+        CEL_FETCH_FLOAT_PAR (pitch,params,id_pitch);
+        if (p_pitch)
+        {
+          SetPitch (pitch);
+        }
+        CEL_FETCH_FLOAT_PAR (pitchvelocity,params,id_pitchvelocity);
+        if (p_pitchvelocity)
+        {
+          SetPitchVelocity (pitchvelocity);
+        }
+        CEL_FETCH_FLOAT_PAR (yaw,params,id_yaw);
+        if (p_yaw)
+        {
+          SetYaw (yaw);
+        }
+        CEL_FETCH_FLOAT_PAR (yawvelocity,params,id_yawvelocity);
+        if (p_yawvelocity)
+        {
+          SetYawVelocity (yawvelocity);
+        }
+        CEL_FETCH_VECTOR3_PAR (distance,params,id_distance);
+        if (p_distance)
+        {
+          SetMinDistance (distance.x);
+          SetDistance (distance.y);
+          SetMaxDistance (distance.z);
+        }
+        return true;
+      }
+    case action_setzonemanager:
+      {
+        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+        if (!p_entityname) return false;
+        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+        if (!p_regionname) return false;
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
+        SetZoneManager (entityname, true, regionname, startname);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_pointcamera)
-  {
-    CEL_FETCH_STRING_PAR (startname,params,id_startname);
-    if (!p_startname) return false;
-    return PointCamera (startname);
-  }
-  else if (actionId == action_setcamera)
-  {
-    CEL_FETCH_STRING_PAR (modename,params,id_modename);
-    if (p_modename)
-    {
-      SetModeName (modename);
-    }
-    CEL_FETCH_VECTOR3_PAR (spring,params,id_spring);
-    if (p_spring)
-    {
-      SetSpringCoef (spring.x);
-      SetDampeningCoef (spring.y);
-      SetSpringLength (spring.z);
-    }
-    CEL_FETCH_FLOAT_PAR (turnspeed,params,id_turnspeed);
-    if (p_turnspeed)
-    {
-      SetTurnSpeed (turnspeed);
-    }
-    CEL_FETCH_FLOAT_PAR (swingcoef,params,id_swingcoef);
-    if (p_swingcoef)
-    {
-      SetSwingCoef (swingcoef);
-    }
-    CEL_FETCH_VECTOR3_PAR (fpoffset,params,id_fpoffset);
-    if (p_fpoffset)
-    {
-      firstPersonPositionOffset = fpoffset;
-    }
-    CEL_FETCH_VECTOR3_PAR (tpoffset,params,id_tpoffset);
-    if (p_tpoffset)
-    {
-      thirdPersonPositionOffset = tpoffset;
-    }
-    CEL_FETCH_FLOAT_PAR (pitch,params,id_pitch);
-    if (p_pitch)
-    {
-      SetPitch (pitch);
-    }
-    CEL_FETCH_FLOAT_PAR (pitchvelocity,params,id_pitchvelocity);
-    if (p_pitchvelocity)
-    {
-      SetPitchVelocity (pitchvelocity);
-    }
-    CEL_FETCH_FLOAT_PAR (yaw,params,id_yaw);
-    if (p_yaw)
-    {
-      SetYaw (yaw);
-    }
-    CEL_FETCH_FLOAT_PAR (yawvelocity,params,id_yawvelocity);
-    if (p_yawvelocity)
-    {
-      SetYawVelocity (yawvelocity);
-    }
-    CEL_FETCH_VECTOR3_PAR (distance,params,id_distance);
-    if (p_distance)
-    {
-      SetMinDistance (distance.x);
-      SetDistance (distance.y);
-      SetMaxDistance (distance.z);
-    }
-    return true;
-  }
-  else if (actionId == action_setzonemanager)
-  {
-    CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-    if (!p_entityname) return false;
-    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-    if (!p_regionname) return false;
-    CEL_FETCH_STRING_PAR (startname,params,id_startname);
-    if (!p_startname) return false;
-    SetZoneManager (entityname, true, regionname, startname);
-    return true;
-  }
-  return false;
 }
 
 bool celPcDefaultCamera::PointCamera (const char* start)

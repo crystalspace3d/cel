@@ -61,22 +61,28 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-csStringID celPcLight::action_setlight = csInvalidStringID;
-csStringID celPcLight::action_movelight = csInvalidStringID;
 csStringID celPcLight::id_name = csInvalidStringID;
 csStringID celPcLight::id_pos = csInvalidStringID;
+PropertyHolder celPcLight::propinfo;
 
 celPcLight::celPcLight (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
-  if (action_setlight == csInvalidStringID)
+  if (id_name == csInvalidStringID)
   {
-    action_setlight = pl->FetchStringID ("cel.action.SetLight");
-    action_movelight = pl->FetchStringID ("cel.action.MoveLight");
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_pos = pl->FetchStringID ("cel.parameter.pos");
+  }
+
+  propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setlight, "cel.action.SetLight");
+    AddAction (action_movelight, "cel.action.MoveLight");
   }
 }
 
@@ -84,34 +90,38 @@ celPcLight::~celPcLight ()
 {
 }
 
-bool celPcLight::PerformAction (csStringID actionId,
+bool celPcLight::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_setlight)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!name)
-    {
-      Report (object_reg, "'name' parameter missing for the light!");
+    case action_setlight:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!name)
+        {
+          Report (object_reg, "'name' parameter missing for the light!");
+          return false;
+        }
+        SetLight (name);
+        return true;
+      }
+    case action_movelight:
+      {
+        CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
+        if (!p_pos)
+        {
+          Report (object_reg, "'pos' parameter missing for moving the light!");
+          return false;
+        }
+        if (light)
+          light->SetCenter (pos);
+        return true;
+      }
+    default:
       return false;
-    }
-    SetLight (name);
-    return true;
   }
-  else if (actionId == action_movelight)
-  {
-    CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
-    if (!p_pos)
-    {
-      Report (object_reg, "'pos' parameter missing for moving the light!");
-      return false;
-    }
-    if (light)
-      light->SetCenter (pos);
-    return true;
-  }
-  return false;
 }
 
 #define LIGHT_SERIAL 2

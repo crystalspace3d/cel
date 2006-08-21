@@ -178,8 +178,6 @@ private:
   csRef<iCollideSystem> cdsys;
   bool use_cd;
 
-  static csStringID action_pointcamera;
-  static csStringID action_setcamera;
   static csStringID id_modename;
   static csStringID id_spring;
   static csStringID id_turnspeed;
@@ -191,11 +189,9 @@ private:
   static csStringID id_yaw;
   static csStringID id_yawvelocity;
   static csStringID id_distance;
-  static csStringID action_setzonemanager;
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
-  static csStringID action_centercamera;
 
 public://@@@
   bool modeset_needed;
@@ -296,7 +292,16 @@ public://@@@
    * see if there really is a mode to change.
    */
   void CheckModeChange ();
-  //
+
+  // For actions.
+  enum actionids
+  {
+    action_pointcamera = 0,
+    action_setcamera,
+    action_setzonemanager,
+    action_centercamera
+  };
+
   // For properties.
   enum propids
   {
@@ -308,7 +313,7 @@ public:
   celPcDefaultCamera (iObjectRegistry* object_reg);
   virtual ~celPcDefaultCamera ();
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
 
   bool SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd = true);

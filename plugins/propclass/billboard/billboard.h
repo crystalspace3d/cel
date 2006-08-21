@@ -56,8 +56,11 @@ private:
   static csStringID id_x, id_y, id_button;
   celGenericParameterBlock* params;
 
-  // For PerformAction.
-  static csStringID action_drawmesh;
+  // For actions.
+  enum actionids
+  {
+    action_drawmesh = 0
+  };
   static csStringID id_materialname;
   static csStringID id_factory;
   static csStringID id_distance;
@@ -113,7 +116,7 @@ public:
   virtual const char* GetName () const { return "pcbillboard"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support

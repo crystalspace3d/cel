@@ -49,14 +49,15 @@ celPcTest::celPcTest (iObjectRegistry* object_reg)
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_message, "message");
 
-  // For PerformAction.
-  if (!propinfo.constants.GetSize () == 0)
+  propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
   {
-    propinfo.constants.Put (pl->FetchStringID ("cel.action.Print"), action_print);
+    AddAction (action_print, "cel.action.Print");
   }
 
   // For properties.
-  propholder = &propinfo;
   propinfo.SetCount (2);
   AddProperty (propid_counter, "cel.property.counter",
 	CEL_DATA_LONG, false, "Print counter.", &counter);
@@ -113,11 +114,10 @@ bool celPcTest::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcTest::PerformAction (csStringID actionId,
+bool celPcTest::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  int idx = constants.Get (actionId, -1);
   switch (idx)
   {
     case action_print:

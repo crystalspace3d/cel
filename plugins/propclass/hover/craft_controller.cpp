@@ -94,10 +94,10 @@ bool celPcCraftController::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcCraftController::PerformAction (csStringID actionId,
+bool celPcCraftController::PerformActionIndexed (int idx,
     iCelParameterBlock* params, celData& ret)
 {
-  return true;
+  return false;
 }
 
 void celPcCraftController::Tick ()

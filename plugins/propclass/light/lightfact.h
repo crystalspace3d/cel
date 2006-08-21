@@ -52,10 +52,15 @@ private:
   csRef<iLight> light;
   csWeakRef<iEngine> engine;
 
-  static csStringID action_setlight;
-  static csStringID action_movelight;
   static csStringID id_name;
   static csStringID id_pos;
+
+  enum actionids
+  {
+    action_setlight = 0,
+    action_movelight
+  };
+  static PropertyHolder propinfo;
 
 public:
   celPcLight (iObjectRegistry* object_reg);
@@ -77,7 +82,7 @@ public:
   virtual const char* GetName () const { return "pclight"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 };
 

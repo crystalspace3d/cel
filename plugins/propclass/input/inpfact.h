@@ -87,11 +87,8 @@ private:
   celAxisMap* axislist;
   static csStringID id_trigger;
   static csStringID id_command;
-  static csStringID action_bind;
   static csStringID id_x;
   static csStringID id_y;
-  static csStringID action_loadconfig;
-  static csStringID action_saveconfig;
   static csStringID id_prefix;
   bool screenspace;
   csRef<iGraphics2D> g2d;
@@ -99,6 +96,14 @@ private:
   bool do_cooked;
 
   celGenericParameterBlock* mouse_params;
+
+  // For actions.
+  enum actionids
+  {
+    action_bind = 0,
+    action_loadconfig,
+    action_saveconfig
+  };
 
   // For properties.
   enum propids
@@ -115,7 +120,7 @@ public:
   virtual const char* GetName () const { return "pccommandinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   bool HandleEvent (iEvent& ev);

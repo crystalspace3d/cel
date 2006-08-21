@@ -46,20 +46,16 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Billboard, "pcbillboard")
 
-csStringID celPcBillboard::action_drawmesh = csInvalidStringID;
 csStringID celPcBillboard::id_materialname = csInvalidStringID;
 csStringID celPcBillboard::id_factory = csInvalidStringID;
 csStringID celPcBillboard::id_distance = csInvalidStringID;
 csStringID celPcBillboard::id_angle = csInvalidStringID;
 csStringID celPcBillboard::id_rotate = csInvalidStringID;
-
-PropertyHolder celPcBillboard::propinfo;
-
-//---------------------------------------------------------------------------
-
 csStringID celPcBillboard::id_x = csInvalidStringID;
 csStringID celPcBillboard::id_y = csInvalidStringID;
 csStringID celPcBillboard::id_button = csInvalidStringID;
+
+PropertyHolder celPcBillboard::propinfo;
 
 celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -70,9 +66,8 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
 
   scfiBillboardEventHandler = 0;
 
-  if (action_drawmesh == csInvalidStringID)
+  if (id_materialname == csInvalidStringID)
   {
-    action_drawmesh = pl->FetchStringID ("cel.action.DrawMesh");
     id_materialname = pl->FetchStringID ("cel.parameter.materialname");
     id_factory = pl->FetchStringID ("cel.parameter.factory");
     id_distance = pl->FetchStringID ("cel.parameter.distance");
@@ -81,8 +76,13 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   }
 
   propholder = &propinfo;
-  propinfo.SetCount (28);
 
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_drawmesh, "cel.action.DrawMesh");
+  }
+
+  propinfo.SetCount (28);
   AddProperty (propid_billboardname, "cel.property.name",
 	CEL_DATA_STRING, false, "Name of billboard.", &billboard_name);
   AddProperty (propid_materialname, "cel.property.materialname",
@@ -173,11 +173,11 @@ celPcBillboard::~celPcBillboard ()
   delete scfiBillboardEventHandler;
 }
 
-bool celPcBillboard::PerformAction (csStringID actionId,
+bool celPcBillboard::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_drawmesh)
+  if (idx == action_drawmesh)
   {
     CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
     if (!p_materialname) return false;	// @@@ Error report!

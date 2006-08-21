@@ -56,14 +56,18 @@ private:
   static csStringID id_type;
   celVariableParameterBlock* params;
 
-  // For PerformAction.
-  static csStringID action_areadamage;
+  // For actions.
   static csStringID id_radius;
-  static csStringID action_beamdamage;
   static csStringID id_direction;
   static csStringID id_maxdist;
-  static csStringID action_singledamage;
   static csStringID id_target;
+
+  enum actionids
+  {
+    action_areadamage = 0,
+    action_beamdamage,
+    action_singledamage
+  };
 
   // For properties.
   enum propids
@@ -116,7 +120,7 @@ public:
   virtual const char* GetName () const { return "pcdamage"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support

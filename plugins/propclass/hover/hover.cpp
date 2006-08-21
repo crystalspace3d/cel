@@ -46,15 +46,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
   SCF_IMPLEMENTS_INTERFACE (iPcHover)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-// Actions
-csStringID celPcHover::action_setworld = csInvalidStringID;
-csStringID celPcHover::action_sethbeamcutoff = csInvalidStringID;
-csStringID celPcHover::action_setangoff = csInvalidStringID;
-csStringID celPcHover::action_setangheight = csInvalidStringID;
-csStringID celPcHover::action_setangstr = csInvalidStringID;
-csStringID celPcHover::action_usedeffunc = csInvalidStringID;
-csStringID celPcHover::action_hoveron = csInvalidStringID;
-
 // Parameters.
 csStringID celPcHover::param_world = csInvalidStringID;
 csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
@@ -62,6 +53,8 @@ csStringID celPcHover::param_angoff = csInvalidStringID;
 csStringID celPcHover::param_angheight = csInvalidStringID;
 csStringID celPcHover::param_angstr = csInvalidStringID;
 csStringID celPcHover::param_hover = csInvalidStringID;
+
+PropertyHolder celPcHover::propinfo;
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg), celPeriodicTimer (pl)
@@ -77,24 +70,27 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   // init a default upthruster func
   UseDefaultFunction (1.5f);
 
-  if (action_setworld == csInvalidStringID)
+  if (param_world == csInvalidStringID)
   {
-     // Actions
-     action_setworld = pl->FetchStringID ("cel.action.SetWorld");
-     action_sethbeamcutoff = pl->FetchStringID ("cel.action.SetHeightBeamCutoff");
-     action_setangoff = pl->FetchStringID ("cel.action.SetAngularBeamOffset");
-     action_setangheight = pl->FetchStringID ("cel.action.SetAngularCutoffHeight");
-     action_setangstr = pl->FetchStringID ("cel.action.SetAngularCorrectionStrength");
-     action_usedeffunc = pl->FetchStringID ("cel.action.UseDefaultStabiliserFunction");
-     action_hoveron = pl->FetchStringID ("cel.action.HoverOn");
+    // Parameters.
+    param_world = pl->FetchStringID ("cel.parameter.world");
+    param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
+    param_angoff = pl->FetchStringID ("cel.parameter.offset");
+    param_angheight = pl->FetchStringID ("cel.parameter.angheight");
+    param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
+    param_hover = pl->FetchStringID ("cel.parameter.hover");
+  }
 
-     // Parameters.
-     param_world = pl->FetchStringID ("cel.parameter.world");
-     param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
-     param_angoff = pl->FetchStringID ("cel.parameter.offset");
-     param_angheight = pl->FetchStringID ("cel.parameter.angheight");
-     param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
-     param_hover = pl->FetchStringID ("cel.parameter.hover");
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setworld, "cel.action.SetWorld");
+    AddAction (action_sethbeamcutoff, "cel.action.SetHeightBeamCutoff");
+    AddAction (action_setangoff, "cel.action.SetAngularBeamOffset");
+    AddAction (action_setangheight, "cel.action.SetAngularCutoffHeight");
+    AddAction (action_setangstr, "cel.action.SetAngularCorrectionStrength");
+    AddAction (action_usedeffunc, "cel.action.UseDefaultStabiliserFunction");
+    AddAction (action_hoveron, "cel.action.HoverOn");
   }
 }
 
@@ -115,82 +111,89 @@ bool celPcHover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcHover::PerformAction (csStringID actionId, iCelParameterBlock* params,
+bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
     celData& ret)
 {
-  if (actionId == action_setworld)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (world, params, param_world);
-    if (!world)
-    {
-      // CS_REPORT(ERROR,"Couldn't get 'world' parameter for SetWorld!");
-      printf("Couldn't get 'world' parameter for SetWorld!\n");
+    case action_setworld:
+      {
+        CEL_FETCH_STRING_PAR (world, params, param_world);
+        if (!world)
+        {
+          // CS_REPORT(ERROR,"Couldn't get 'world' parameter for SetWorld!");
+          printf("Couldn't get 'world' parameter for SetWorld!\n");
+          return false;
+        }
+        SetWorld (world);
+        return true;
+      }
+    case action_sethbeamcutoff:
+      {
+        CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
+        if (!heightcutoff)
+        {
+          //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
+          printf("Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
+          return false;
+        }
+        SetHeightBeamCutoff (heightcutoff);
+        return true;
+      }
+    case action_setangoff:
+      {
+        CEL_FETCH_FLOAT_PAR (offset, params, param_angoff);
+        if (!offset)
+        {
+          //CS_REPORT(ERROR,"Couldn't get 'offset' parameter for SetAngularBeamOffset!");
+          printf("Couldn't get 'offset' parameter for SetAngularBeamOffset!");
+          return false;
+        }
+        SetAngularBeamOffset (offset);
+	return true;
+      }
+    case action_setangheight:
+      {
+        CEL_FETCH_FLOAT_PAR (angheight, params, param_angheight);
+        if (!angheight)
+        {
+          //CS_REPORT(ERROR,"Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
+          printf("Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
+          return false;
+        }
+        SetAngularCutoffHeight (angheight);
+	return true;
+      }
+    case action_setangstr:
+      {
+        CEL_FETCH_FLOAT_PAR (angstrength, params, param_angstr);
+        if (!angstrength)
+        {
+          //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
+          printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
+          return false;
+        }
+        SetAngularCorrectionStrength (angstrength);
+	return true;
+      }
+    case action_usedeffunc:
+      UseDefaultFunction (1.5f);
+      return true;
+    case action_hoveron:
+      {
+        printf ("This action (HoverOn) is temporarily disabled.\n");
+        /*CEL_FETCH_BOOL_PAR (hover, params, param_hover);
+        if (hover)
+        {
+          //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
+          printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
+          return false;
+        }*/
+	return true;
+      }
+    default:
       return false;
-    }
-    SetWorld (world);
   }
-  else if (actionId == action_sethbeamcutoff)
-  {
-    CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
-    if (!heightcutoff)
-    {
-      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
-      printf("Couldn't get 'heightcutoff' parameter for SetHeightBeamCutoff!");
-      return false;
-    }
-    SetHeightBeamCutoff (heightcutoff);
-  }
-  else if (actionId == action_setangoff)
-  {
-    CEL_FETCH_FLOAT_PAR (offset, params, param_angoff);
-    if (!offset)
-    {
-      //CS_REPORT(ERROR,"Couldn't get 'offset' parameter for SetAngularBeamOffset!");
-      printf("Couldn't get 'offset' parameter for SetAngularBeamOffset!");
-      return false;
-    }
-    SetAngularBeamOffset (offset);
-  }
-  else if (actionId == action_setangheight)
-  {
-    CEL_FETCH_FLOAT_PAR (angheight, params, param_angheight);
-    if (!angheight)
-    {
-      //CS_REPORT(ERROR,"Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
-      printf("Couldn't get 'angheight' parameter for SetAngularCutoffHeight!");
-      return false;
-    }
-    SetAngularCutoffHeight (angheight);
-  }
-  else if (actionId == action_setangstr)
-  {
-    CEL_FETCH_FLOAT_PAR (angstrength, params, param_angstr);
-    if (!angstrength)
-    {
-      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
-      printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
-      return false;
-    }
-    SetAngularCorrectionStrength (angstrength);
-  }
-  else if (actionId == action_usedeffunc)
-  {
-    UseDefaultFunction (1.5f);
-  }
-  else if (actionId == action_hoveron)
-  {
-    printf ("This action (HoverOn) is temporarily disabled.\n");
-    /*CEL_FETCH_BOOL_PAR (hover, params, param_hover);
-    if (hover)
-    {
-      //CS_REPORT(ERROR,"Couldn't get 'heightcutoff' parameter for SetAngularCorrectionStrength!");
-      printf("Couldn't get 'angstrength' parameter for SetAngularCorrectionStrength!");
-      return false;
-    }*/
-  }
-  else return false;
-
-  return true;
 }
 
 void celPcHover::Tick ()
