@@ -331,8 +331,8 @@ public:
   virtual bool PerformAction (csStringID actionId,
   	iCelParameterBlock* params,
 	celData& ret);
-  virtual bool SetProperty (csStringID propertyId, const char* b);
-  virtual const char* GetPropertyString (csStringID propertyId);
+  virtual bool SetPropertyIndexed (int idx, const char* b);
+  virtual bool GetPropertyIndexed (int idx, const char*& b);
   virtual void TickEveryFrame ();
 
   virtual iSector* GetSector ();

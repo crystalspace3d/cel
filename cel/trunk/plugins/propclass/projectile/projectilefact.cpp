@@ -83,16 +83,14 @@ celPcProjectile::~celPcProjectile ()
   pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
-bool celPcProjectile::GetPropertyBool (csStringID propertyId)
+bool celPcProjectile::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_moving, propertyId))
+  if (idx == propid_moving)
   {
-    return is_moving;
+    b = is_moving;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
-  }
+  return false;
 }
 
 #define PROJECTILE_SERIAL 1

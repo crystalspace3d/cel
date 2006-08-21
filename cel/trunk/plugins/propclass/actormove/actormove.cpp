@@ -184,29 +184,24 @@ celPcActorMove::~celPcActorMove ()
     g2d->SetMouseCursor (csmcArrow);
 }
 
-bool celPcActorMove::SetProperty (csStringID propertyId, bool b)
+bool celPcActorMove::SetPropertyIndexed (int idx, bool b)
 {
-  if (propinfo.TestID (propid_mousemove, propertyId))
+  if (idx == propid_mousemove)
   {
     EnableMouseMove (b);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-bool celPcActorMove::GetPropertyBool (csStringID propertyId)
+bool celPcActorMove::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_mousemove, propertyId))
+  if (idx == propid_mousemove)
   {
-    return mousemove;
+    b = mousemove;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
-  }
+  return false;
 }
 
 void celPcActorMove::MouseMove (float x, float y)

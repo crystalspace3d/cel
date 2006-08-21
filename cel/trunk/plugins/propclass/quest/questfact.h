@@ -89,8 +89,8 @@ public:
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
 
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool GetPropertyIndexed (int, const char*&);
 
   struct PcQuest : public iPcQuest
   {

@@ -329,7 +329,7 @@ public:
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock* params,
       celData& ret);

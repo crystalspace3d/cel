@@ -70,12 +70,13 @@ private:
   // which are used for collision detection.
   csWeakRefArray<iCelEntity> entities;
 
+  static csStringID action_load;
+
   enum propids
   {
     propid_worlddir = 0,
     propid_worldfile,
-    propid_regionname,
-    propid_load
+    propid_regionname
   };
   static PropertyHolder propinfo;
 

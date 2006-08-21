@@ -126,45 +126,41 @@ bool celPcPortal::PerformAction (csStringID, iCelParameterBlock*,
   return false;
 }
 
-bool celPcPortal::SetProperty (csStringID propertyId, const char* b)
+bool celPcPortal::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_mesh, propertyId))
+  switch (idx)
   {
-    meshname = b;
-    portal = 0;
-    return true;
-  }
-  else if (propinfo.TestID (propid_portal, propertyId))
-  {
-    portalname = b;
-    portal = 0;
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_mesh:
+      meshname = b;
+      portal = 0;
+      return true;
+    case propid_portal:
+      portalname = b;
+      portal = 0;
+      return true;
+    default:
+      return false;
   }
 }
 
-const char* celPcPortal::GetPropertyString (csStringID propertyId)
+bool celPcPortal::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_mesh, propertyId))
+  switch (idx)
   {
-    return (const char*)meshname;
-  }
-  else if (propinfo.TestID (propid_portal, propertyId))
-  {
-    return (const char*)portalname;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_mesh:
+      b = (const char*)meshname;
+      return true;
+    case propid_portal:
+      b = (const char*)portalname;
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcPortal::SetProperty (csStringID propertyId, bool b)
+bool celPcPortal::SetPropertyIndexed (int idx, bool b)
 {
-  if (propinfo.TestID (propid_closed, propertyId))
+  if (idx == propid_closed)
   {
     if (b)
       ClosePortal ();
@@ -172,22 +168,17 @@ bool celPcPortal::SetProperty (csStringID propertyId, bool b)
       OpenPortal ();
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-bool celPcPortal::GetPropertyBool (csStringID propertyId)
+bool celPcPortal::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_closed, propertyId))
+  if (idx == propid_closed)
   {
-    return closed;
+    b = closed;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
-  }
+  return false;
 }
 
 #define PORTAL_SERIAL 2

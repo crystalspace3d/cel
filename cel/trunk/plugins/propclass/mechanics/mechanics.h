@@ -441,10 +441,10 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
-  virtual bool SetProperty (csStringID, bool v);
-  virtual bool GetPropertyBool (csStringID);
-  virtual bool SetProperty (csStringID, const csVector3& vec);
-  virtual bool GetPropertyVector (csStringID, csVector3& vec);
+  virtual bool SetPropertyIndexed (int, bool v);
+  virtual bool GetPropertyIndexed (int, bool& v);
+  virtual bool SetPropertyIndexed (int, const csVector3& vec);
+  virtual bool GetPropertyIndexed (int, csVector3& vec);
 
   virtual csVector3 LocalToWorld(csVector3 local);
   virtual csVector3 WorldToLocal(csVector3 world);

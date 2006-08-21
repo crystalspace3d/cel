@@ -164,12 +164,12 @@ public:
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the properties.
-  virtual bool SetProperty (csStringID, long);
-  virtual long GetPropertyLong (csStringID);
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool GetPropertyBool (csStringID);
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
+  virtual bool SetPropertyIndexed (int, long);
+  virtual bool GetPropertyIndexed (int, long&);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void SendTriggerMessage (iCelEntity* destentity,
   	iCelEntity* entity, const char* msgid);
