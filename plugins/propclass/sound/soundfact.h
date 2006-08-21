@@ -77,10 +77,10 @@ public:
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
 
-  virtual bool SetProperty (csStringID, const csVector3&);
-  virtual bool GetPropertyVector (csStringID, csVector3&);
-  virtual bool SetProperty (csStringID, float);
-  virtual float GetPropertyFloat (csStringID);
+  virtual bool SetPropertyIndexed (int, const csVector3&);
+  virtual bool GetPropertyIndexed (int, csVector3&);
+  virtual bool SetPropertyIndexed (int, float);
+  virtual bool GetPropertyIndexed (int, float&);
 };
 
 /**
@@ -135,14 +135,14 @@ public:
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
 
-  virtual bool SetProperty (csStringID, const csVector3&);
-  virtual bool GetPropertyVector (csStringID, csVector3&);
-  virtual bool SetProperty (csStringID, float);
-  virtual float GetPropertyFloat (csStringID);
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool GetPropertyBool (csStringID);
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
+  virtual bool SetPropertyIndexed (int, const csVector3&);
+  virtual bool GetPropertyIndexed (int, csVector3&);
+  virtual bool SetPropertyIndexed (int, float);
+  virtual bool GetPropertyIndexed (int, float&);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool GetPropertyIndexed (int, const char*&);
 
   virtual void TickEveryFrame ();
 };

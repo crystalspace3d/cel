@@ -182,8 +182,8 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
-  virtual bool GetPropertyVector (csStringID, csVector3&);
-  virtual const char* GetPropertyString (csStringID propertyId);
+  virtual bool GetPropertyIndexed (int, csVector3&);
+  virtual bool GetPropertyIndexed (int, const char*&);
 
   // Functions to set ShaderVars in the mesh
   virtual void SetShaderVar(csStringID name, float value);
@@ -399,8 +399,8 @@ public:
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'bool' properties.
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool GetPropertyBool (csStringID);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
 };
 
 #endif // __CEL_PF_MESHFACT__

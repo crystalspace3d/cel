@@ -353,9 +353,9 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   movable->UpdateMove ();
 }
 
-bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
+bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_anchor, propertyId))
+  if (idx == propid_anchor)
   {
     if (b == 0 || *b == 0)
     {
@@ -374,28 +374,26 @@ bool celPcLinearMovement::SetProperty (csStringID propertyId, const char* b)
     SetAnchor (m);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-const char* celPcLinearMovement::GetPropertyString (csStringID propertyId)
+bool celPcLinearMovement::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_anchor, propertyId))
+  if (idx == propid_anchor)
   {
     if (anchor)
     {
       csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (anchor,
       	iCelPropertyClass);
-      return pc->GetEntity ()->GetName ();
+      b = pc->GetEntity ()->GetName ();
     }
-    return 0;
+    else
+    {
+      b = 0;
+    }
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
-  }
+  return false;
 }
 
 bool celPcLinearMovement::PerformAction (csStringID actionId,

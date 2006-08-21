@@ -285,8 +285,8 @@ public:
       celData& ret);
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'mousemove' property.
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool GetPropertyBool (csStringID);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
 
   csPtr<iCelDataBuffer> GetPersistentData (
         celPersistenceType persistence_type);

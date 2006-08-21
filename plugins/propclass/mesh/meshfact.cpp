@@ -178,60 +178,53 @@ celPcMesh::~celPcMesh ()
   delete [] propdata;
 }
 
-bool celPcMesh::GetPropertyVector (csStringID propertyId, csVector3& v)
+bool celPcMesh::GetPropertyIndexed (int idx, csVector3& v)
 {
-  if (propinfo.TestID (propid_position, propertyId))
+  switch (idx)
   {
-    if (mesh)
-      v = mesh->GetMovable ()->GetTransform ().GetOrigin ();
-    else
-      v.Set (0, 0, 0);
-    return true;
-  }
-  else if (propinfo.TestID (propid_fullposition, propertyId))
-  {
-    if (mesh)
-      v = mesh->GetMovable ()->GetFullPosition ();
-    else
-      v.Set (0, 0, 0);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyVector (propertyId, v);
+    case propid_position:
+      if (mesh)
+        v = mesh->GetMovable ()->GetTransform ().GetOrigin ();
+      else
+        v.Set (0, 0, 0);
+      return true;
+    case propid_fullposition:
+      if (mesh)
+        v = mesh->GetMovable ()->GetFullPosition ();
+      else
+        v.Set (0, 0, 0);
+      return true;
+    default:
+      return false;
   }
 }
 
-const char* celPcMesh::GetPropertyString (csStringID propertyId)
+bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
 {
-  if (propinfo.TestID (propid_sector, propertyId))
+  switch (idx)
   {
-    if (mesh)
-    {
-      iSectorList* sl = mesh->GetMovable ()->GetSectors ();
-      if (sl->GetCount () > 0)
-        return sl->Get (0)->QueryObject ()->GetName ();
-      else
-        return 0;
-    }
-    else
-      return 0;
-  }
-  else if (propinfo.TestID (propid_path, propertyId))
-  {
-    return path.GetData ();
-  }
-  else if (propinfo.TestID (propid_factory, propertyId))
-  {
-    return factName.GetData ();
-  }
-  else if (propinfo.TestID (propid_filename, propertyId))
-  {
-    return fileName.GetData ();
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_sector:
+      if (mesh)
+      {
+        iSectorList* sl = mesh->GetMovable ()->GetSectors ();
+        if (sl->GetCount () > 0)
+          s = sl->Get (0)->QueryObject ()->GetName ();
+        else
+          s = 0;
+      }
+      s = 0;
+      return true;
+    case propid_path:
+      s = path.GetData ();
+      return true;
+    case propid_factory:
+      s = factName.GetData ();
+      return true;
+    case propid_filename:
+      s = fileName.GetData ();
+      return true;
+    default:
+      return false;
   }
 }
 
@@ -1358,67 +1351,64 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 #endif
 }
 
-bool celPcMeshSelect::SetProperty (csStringID propertyId, bool b)
+bool celPcMeshSelect::SetPropertyIndexed (int idx, bool b)
 {
-  if (propinfo.TestID (propid_global, propertyId))
+  switch (idx)
   {
-    SetGlobalSelection (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_follow, propertyId))
-  {
-    SetFollowMode (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_followalways, propertyId))
-  {
-    SetFollowAlwaysMode (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_drag, propertyId))
-  {
-    SetDragMode (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_sendmove, propertyId))
-  {
-    SetSendmoveEvent (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_sendup, propertyId))
-  {
-    SetSendupEvent (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_senddown, propertyId))
-  {
-    SetSenddownEvent (b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_global:
+      SetGlobalSelection (b);
+      return true;
+    case propid_follow:
+      SetFollowMode (b);
+      return true;
+    case propid_followalways:
+      SetFollowAlwaysMode (b);
+      return true;
+    case propid_drag:
+      SetDragMode (b);
+      return true;
+    case propid_sendmove:
+      SetSendmoveEvent (b);
+      return true;
+    case propid_sendup:
+      SetSendupEvent (b);
+      return true;
+    case propid_senddown:
+      SetSenddownEvent (b);
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcMeshSelect::GetPropertyBool (csStringID propertyId)
+bool celPcMeshSelect::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_global, propertyId))
-    return HasGlobalSelection ();
-  else if (propinfo.TestID (propid_follow, propertyId))
-    return HasFollowMode ();
-  else if (propinfo.TestID (propid_followalways, propertyId))
-    return HasFollowAlwaysMode ();
-  else if (propinfo.TestID (propid_drag, propertyId))
-    return HasDragMode ();
-  else if (propinfo.TestID (propid_sendmove, propertyId))
-    return HasSendmoveEvent ();
-  else if (propinfo.TestID (propid_sendup, propertyId))
-    return HasSendupEvent ();
-  else if (propinfo.TestID (propid_senddown, propertyId))
-    return HasSenddownEvent ();
-  else
-    return celPcCommon::GetPropertyBool (propertyId);
+  switch (idx)
+  {
+    case propid_global:
+      b = HasGlobalSelection ();
+      return true;
+    case propid_follow:
+      b = HasFollowMode ();
+      return true;
+    case propid_followalways:
+      b = HasFollowAlwaysMode ();
+      return true;
+    case propid_drag:
+      b = HasDragMode ();
+      return true;
+    case propid_sendmove:
+      b = HasSendmoveEvent ();
+      return true;
+    case propid_sendup:
+      b = HasSendupEvent ();
+      return true;
+    case propid_senddown:
+      b = HasSenddownEvent ();
+      return true;
+    default:
+      return false;
+  }
 }
 
 void celPcMeshSelect::SetMouseButtons (const char* buttons)

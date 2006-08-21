@@ -121,8 +121,8 @@ public:
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'max' property.
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool GetPropertyIndexed (int, const char*&);
 };
 
 #endif // __CEL_PF_TESTFACT__

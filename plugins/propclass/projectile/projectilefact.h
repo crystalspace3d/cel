@@ -106,7 +106,7 @@ public:
       celData& ret);
   virtual void TickEveryFrame ();
 
-  virtual bool GetPropertyBool (csStringID);
+  virtual bool GetPropertyIndexed (int, bool&);
 };
 
 #endif // __CEL_PF_PROJECTILEFACT__

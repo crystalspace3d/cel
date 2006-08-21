@@ -458,19 +458,18 @@ celPcZoneManager::~celPcZoneManager ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
-const char* celPcZoneManager::GetPropertyString (csStringID propertyId)
+bool celPcZoneManager::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_laststart, propertyId))
+  switch (idx)
   {
-    return last_startname.GetData ();
-  }
-  else if (propinfo.TestID (propid_lastregion, propertyId))
-  {
-    return last_regionname.GetData ();
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_laststart:
+      b = last_startname.GetData ();
+      return true;
+    case propid_lastregion:
+      b = last_regionname.GetData ();
+      return true;
+    default:
+      return false;
   }
 }
 

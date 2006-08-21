@@ -890,53 +890,56 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcMechanicsObject::SetProperty (csStringID propertyId, bool v)
+bool celPcMechanicsObject::SetPropertyIndexed (int idx, bool v)
 {
-  if (propinfo.TestID (propid_static, propertyId))
+  if (idx == propid_static)
   {
     MakeStatic (v);
     return true;
   }
-  return celPcCommon::SetProperty (propertyId, v);
+  return false;
 }
 
-bool celPcMechanicsObject::GetPropertyBool (csStringID propertyId)
+bool celPcMechanicsObject::GetPropertyIndexed (int idx, bool& v)
 {
-  if (propinfo.TestID (propid_static, propertyId))
-    return is_static;
-  return celPcCommon::GetPropertyBool (propertyId);
+  if (idx == propid_static)
+  {
+    v = is_static;
+    return true;
+  }
+  return false;
 }
 
-bool celPcMechanicsObject::SetProperty (csStringID propertyId,
+bool celPcMechanicsObject::SetPropertyIndexed (int idx,
     const csVector3& vec)
 {
-  if (propinfo.TestID (propid_linearvelocity, propertyId))
+  switch (idx)
   {
-    SetLinearVelocity (vec);
-    return true;
+    case propid_linearvelocity:
+      SetLinearVelocity (vec);
+      return true;
+    case propid_angularvelocity:
+      SetAngularVelocity (vec);
+      return true;
+    default:
+      return false;
   }
-  else if (propinfo.TestID (propid_angularvelocity, propertyId))
-  {
-    SetAngularVelocity (vec);
-    return true;
-  }
-  return celPcCommon::SetProperty (propertyId, vec);
 }
 
-bool celPcMechanicsObject::GetPropertyVector (csStringID propertyId,
+bool celPcMechanicsObject::GetPropertyIndexed (int idx,
     csVector3& vec)
 {
-  if (propinfo.TestID (propid_linearvelocity, propertyId))
+  switch (idx)
   {
-    vec = GetLinearVelocity ();
-    return true;
+    case propid_linearvelocity:
+      vec = GetLinearVelocity ();
+      return true;
+    case propid_angularvelocity:
+      vec = GetAngularVelocity ();
+      return true;
+    default:
+      return false;
   }
-  else if (propinfo.TestID (propid_angularvelocity, propertyId))
-  {
-    vec = GetAngularVelocity ();
-    return true;
-  }
-  return celPcCommon::GetPropertyVector (propertyId, vec);
 }
 
 bool celPcMechanicsObject::PerformAction (csStringID actionId,

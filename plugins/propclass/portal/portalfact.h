@@ -90,10 +90,10 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
       celData& ret);
-  virtual bool SetProperty (csStringID, const char*);
-  virtual const char* GetPropertyString (csStringID);
-  virtual bool SetProperty (csStringID, bool);
-  virtual bool GetPropertyBool (csStringID);
+  virtual bool SetPropertyIndexed (int, const char*);
+  virtual bool GetPropertyIndexed (int, const char*&);
+  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, bool&);
 
   struct PcPortal : public iPcPortal
   {

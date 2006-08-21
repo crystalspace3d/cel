@@ -104,37 +104,33 @@ celPcDamage::~celPcDamage ()
   delete params;
 }
 
-bool celPcDamage::SetProperty (csStringID propertyId, const char* b)
+bool celPcDamage::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_type, propertyId))
+  switch (idx)
   {
-    type = b;
-    return true;
-  }
-  else if (propinfo.TestID (propid_sector, propertyId))
-  {
-    sector = b;
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_type:
+      type = b;
+      return true;
+    case propid_sector:
+      sector = b;
+      return true;
+    default:
+      return false;
   }
 }
 
-const char* celPcDamage::GetPropertyString (csStringID propertyId)
+bool celPcDamage::GetPropertyIndexed (int idx, const char*& s)
 {
-  if (propinfo.TestID (propid_type, propertyId))
+  switch (idx)
   {
-    return type;
-  }
-  else if (propinfo.TestID (propid_sector, propertyId))
-  {
-    return sector;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_type:
+      s = type;
+      return true;
+    case propid_sector:
+      s = sector;
+      return true;
+    default:
+      return false;
   }
 }
 

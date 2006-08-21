@@ -83,19 +83,25 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
+csStringID celPcRegion::action_load = csInvalidStringID;
 PropertyHolder celPcRegion::propinfo;
 
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
+  propholder = &propinfo;
+  propinfo.SetCount (3);
   AddProperty (propid_worlddir, "cel.property.worlddir",
 	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
   AddProperty (propid_worldfile, "cel.property.worldfile",
 	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
   AddProperty (propid_regionname, "cel.property.regionname",
 	CEL_DATA_STRING, false, "Name of this region.", &regionname);
-  AddProperty (propid_load, "cel.action.Load",
-	CEL_DATA_ACTION, true, "Load the map.\nNo parameters", 0);
+
+  if (action_load == csInvalidStringID)
+  {
+    action_load = pl->FetchStringID ("cel.action.Load");
+  }
 
   worlddir = 0;
   worldfile = 0;
@@ -178,7 +184,7 @@ bool celPcRegion::PerformAction (csStringID actionId,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (propinfo.TestID (propid_load, actionId))
+  if (actionId == action_load)
   {
     if ((empty_sector || worldfile) && regionname)
       Load ();

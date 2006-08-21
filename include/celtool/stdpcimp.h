@@ -67,10 +67,6 @@ struct PropertyHolder
     propertycount = cnt;
     properties = new Property[cnt];
   }
-  bool TestID (int idx, csStringID id)
-  {
-    return properties[idx].id == id;
-  }
 };
 
 /**

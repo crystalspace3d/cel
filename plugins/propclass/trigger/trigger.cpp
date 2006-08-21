@@ -220,98 +220,85 @@ void celPcTrigger::SetCenter (csVector3 &v)
   }
 }
 
-bool celPcTrigger::SetProperty (csStringID propertyId, long b)
+bool celPcTrigger::SetPropertyIndexed (int idx, long b)
 {
-  if (propinfo.TestID (propid_delay, propertyId))
+  switch (idx)
   {
-    SetMonitorDelay (b, jitter);
-    return true;
-  }
-  else if (propinfo.TestID (propid_jitter, propertyId))
-  {
-    SetMonitorDelay (delay, b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_delay:
+      SetMonitorDelay (b, jitter);
+      return true;
+    case propid_jitter:
+      SetMonitorDelay (delay, b);
+      return true;
+    default:
+      return false;
   }
 }
 
-long celPcTrigger::GetPropertyLong (csStringID propertyId)
+bool celPcTrigger::GetPropertyIndexed (int idx, long& b)
 {
-  if (propinfo.TestID (propid_delay, propertyId))
+  switch (idx)
   {
-    return delay;
-  }
-  else if (propinfo.TestID (propid_jitter, propertyId))
-  {
-    return jitter;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyLong (propertyId);
+    case propid_delay:
+      b = delay;
+      return true;
+    case propid_jitter:
+      b = jitter;
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcTrigger::SetProperty (csStringID propertyId, bool b)
+bool celPcTrigger::SetPropertyIndexed (int idx, bool b)
 {
-  if (propinfo.TestID (propid_invisible, propertyId))
+  switch (idx)
   {
-    EnableMonitorInvisible (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_follow, propertyId))
-  {
-    follow = b;
-    UpdateListener();
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_invisible:
+      EnableMonitorInvisible (b);
+      return true;
+    case propid_follow:
+      follow = b;
+      UpdateListener();
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcTrigger::GetPropertyBool (csStringID propertyId)
+bool celPcTrigger::GetPropertyIndexed (int idx, bool& b)
 {
-  if (propinfo.TestID (propid_invisible, propertyId))
+  switch (idx)
   {
-    return monitor_invisible;
-  }
-  else if (propinfo.TestID (propid_follow, propertyId))
-  {
-    return follow;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
+    case propid_invisible:
+      b = monitor_invisible;
+      return true;
+    case propid_follow:
+      b = follow;
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcTrigger::SetProperty (csStringID propertyId, const char* b)
+bool celPcTrigger::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_monitor, propertyId))
+  if (idx == propid_monitor)
   {
     MonitorEntity (b);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-const char* celPcTrigger::GetPropertyString (csStringID propertyId)
+bool celPcTrigger::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_monitor, propertyId))
+  if (idx == propid_monitor)
   {
-    return monitor_entity;
+    b = monitor_entity;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
-  }
+  return false;
 }
 
 void celPcTrigger::MonitorEntity (const char* entityname)

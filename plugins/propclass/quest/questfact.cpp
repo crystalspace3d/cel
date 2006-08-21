@@ -105,32 +105,28 @@ celPcQuest::~celPcQuest ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcQuest);
 }
 
-bool celPcQuest::SetProperty (csStringID propertyId, const char* b)
+bool celPcQuest::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_state, propertyId))
+  if (idx == propid_state)
   {
     if (quest) quest->SwitchState (b);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-const char* celPcQuest::GetPropertyString (csStringID propertyId)
+bool celPcQuest::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_state, propertyId))
+  switch (idx)
   {
-    return quest ? quest->GetCurrentState () : 0;
-  }
-  else if (propinfo.TestID (propid_name, propertyId))
-  {
-    return questname;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
+    case propid_state:
+      b = quest ? quest->GetCurrentState () : 0;
+      return true;
+    case propid_name:
+      b = questname;
+      return true;
+    default:
+      return false;
   }
 }
 

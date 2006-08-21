@@ -151,93 +151,87 @@ celPcSoundListener::~celPcSoundListener ()
 {
 }
 
-bool celPcSoundListener::SetProperty (csStringID propertyId, const csVector3& b)
+bool celPcSoundListener::SetPropertyIndexed (int idx, const csVector3& b)
 {
   if (!listener) return false;
-  if (propinfo.TestID (propid_front, propertyId))
+  switch (idx)
   {
-    csVector3 f, t;
-    listener->GetDirection (f, t);
-    listener->SetDirection (b, t);
-    return true;
-  }
-  else if (propinfo.TestID (propid_top, propertyId))
-  {
-    csVector3 f, t;
-    listener->GetDirection (f, t);
-    listener->SetDirection (f, b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_position, propertyId))
-  {
-    listener->SetPosition (b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_front:
+      {
+        csVector3 f, t;
+        listener->GetDirection (f, t);
+        listener->SetDirection (b, t);
+        return true;
+      }
+    case propid_top:
+      {
+        csVector3 f, t;
+        listener->GetDirection (f, t);
+        listener->SetDirection (f, b);
+        return true;
+      }
+    case propid_position:
+      listener->SetPosition (b);
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcSoundListener::GetPropertyVector (csStringID propertyId, csVector3& b)
+bool celPcSoundListener::GetPropertyIndexed (int idx, csVector3& b)
 {
   if (!listener) return false;
-  if (propinfo.TestID (propid_front, propertyId))
+  switch (idx)
   {
-    csVector3 t;
-    listener->GetDirection (b, t);
-    return true;
-  }
-  else if (propinfo.TestID (propid_top, propertyId))
-  {
-    csVector3 f;
-    listener->GetDirection (f, b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_position, propertyId))
-  {
-    b = listener->GetPosition ();
-    return true;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyVector (propertyId, b);
+    case propid_front:
+      {
+        csVector3 t;
+        listener->GetDirection (b, t);
+        return true;
+      }
+    case propid_top:
+      {
+        csVector3 f;
+        listener->GetDirection (f, b);
+        return true;
+      }
+    case propid_position:
+      b = listener->GetPosition ();
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcSoundListener::SetProperty (csStringID propertyId, float b)
+bool celPcSoundListener::SetPropertyIndexed (int idx, float b)
 {
   if (!listener) return false;
-  if (propinfo.TestID (propid_distancefactor, propertyId))
+  switch (idx)
   {
-    listener->SetDistanceFactor (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_rollofffactor, propertyId))
-  {
-    listener->SetRollOffFactor (b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_distancefactor:
+      listener->SetDistanceFactor (b);
+      return true;
+    case propid_rollofffactor:
+      listener->SetRollOffFactor (b);
+      return true;
+    default:
+      return false;
   }
 }
 
-float celPcSoundListener::GetPropertyFloat (csStringID propertyId)
+bool celPcSoundListener::GetPropertyIndexed (int idx, float& b)
 {
-  if (!listener) return 0.0f;
-  if (propinfo.TestID (propid_distancefactor, propertyId))
+  if (!listener) return false;
+  switch (idx)
   {
-    return listener->GetDistanceFactor ();
-  }
-  else if (propinfo.TestID (propid_rollofffactor, propertyId))
-  {
-    return listener->GetRollOffFactor ();
-  }
-  else
-  {
-    return celPcCommon::GetPropertyFloat (propertyId);
+    case propid_distancefactor:
+      b = listener->GetDistanceFactor ();
+      return true;
+    case propid_rollofffactor:
+      b = listener->GetRollOffFactor ();
+      return true;
+    default:
+      return false;
   }
 }
 
@@ -323,149 +317,124 @@ celPcSoundSource::~celPcSoundSource ()
 {
 }
 
-bool celPcSoundSource::SetProperty (csStringID propertyId, const csVector3& b)
+bool celPcSoundSource::SetPropertyIndexed (int idx, const csVector3& b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_position, propertyId))
+  if (idx == propid_position)
   {
     source->SetPosition (b);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-bool celPcSoundSource::GetPropertyVector (csStringID propertyId, csVector3& b)
+bool celPcSoundSource::GetPropertyIndexed (int idx, csVector3& b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_position, propertyId))
+  if (idx == propid_position)
   {
     b = source->GetPosition ();
     return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyVector (propertyId, b);
-  }
+  return false;
 }
 
-bool celPcSoundSource::SetProperty (csStringID propertyId, float b)
+bool celPcSoundSource::SetPropertyIndexed (int idx, float b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_volume, propertyId))
+  switch (idx)
   {
-    source->SetVolume (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_directionalradiation, propertyId))
-  {
-    source->SetDirectionalRadiation (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_minimumdistance, propertyId))
-  {
-    source->SetMinimumDistance (b);
-    return true;
-  }
-  else if (propinfo.TestID (propid_maximumdistance, propertyId))
-  {
-    source->SetMaximumDistance (b);
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_volume:
+      source->SetVolume (b);
+      return true;
+    case propid_directionalradiation:
+      source->SetDirectionalRadiation (b);
+      return true;
+    case propid_minimumdistance:
+      source->SetMinimumDistance (b);
+      return true;
+    case propid_maximumdistance:
+      source->SetMaximumDistance (b);
+      return true;
+    default:
+      return false;
   }
 }
 
-float celPcSoundSource::GetPropertyFloat (csStringID propertyId)
+bool celPcSoundSource::GetPropertyIndexed (int idx, float& b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_volume, propertyId))
+  switch (idx)
   {
-    return source->GetVolume ();
-  }
-  else if (propinfo.TestID (propid_directionalradiation, propertyId))
-  {
-    return source->GetDirectionalRadiation ();
-  }
-  else if (propinfo.TestID (propid_minimumdistance, propertyId))
-  {
-    return source->GetMinimumDistance ();
-  }
-  else if (propinfo.TestID (propid_maximumdistance, propertyId))
-  {
-    return source->GetMaximumDistance ();
-  }
-  else
-  {
-    return celPcCommon::GetPropertyFloat (propertyId);
+    case propid_volume:
+      b = source->GetVolume ();
+      return true;
+    case propid_directionalradiation:
+      b = source->GetDirectionalRadiation ();
+      return true;
+    case propid_minimumdistance:
+      b = source->GetMinimumDistance ();
+      return true;
+    case propid_maximumdistance:
+      b = source->GetMaximumDistance ();
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcSoundSource::SetProperty (csStringID propertyId, bool b)
+bool celPcSoundSource::SetPropertyIndexed (int idx, bool b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_loop, propertyId))
+  switch (idx)
   {
-    source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
-    	CS_SNDSYS_STREAM_DONTLOOP);
-    return true;
-  }
-  else if (propinfo.TestID (propid_follow, propertyId))
-  {
-    follow = b;
-    UpdateListener();
-    return true;
-  }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
+    case propid_loop:
+      source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
+    	  CS_SNDSYS_STREAM_DONTLOOP);
+      return true;
+    case propid_follow:
+      follow = b;
+      UpdateListener();
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcSoundSource::GetPropertyBool (csStringID propertyId)
+bool celPcSoundSource::GetPropertyIndexed (int idx, bool& b)
 {
   if (!GetSource ()) return false;
-  if (propinfo.TestID (propid_loop, propertyId))
+  switch (idx)
   {
-    return source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
-  }
-  else if (propinfo.TestID (propid_follow, propertyId))
-  {
-    return follow;
-  }
-  else
-  {
-    return celPcCommon::GetPropertyBool (propertyId);
+    case propid_loop:
+      b = source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
+      return true;
+    case propid_follow:
+      b = follow;
+      return true;
+    default:
+      return false;
   }
 }
 
-bool celPcSoundSource::SetProperty (csStringID propertyId, const char* b)
+bool celPcSoundSource::SetPropertyIndexed (int idx, const char* b)
 {
-  if (propinfo.TestID (propid_soundname, propertyId))
+  if (idx == propid_soundname)
   {
     SetSoundName (b);
     return true;
   }
-  else
-  {
-    return celPcCommon::SetProperty (propertyId, b);
-  }
+  return false;
 }
 
-const char* celPcSoundSource::GetPropertyString (csStringID propertyId)
+bool celPcSoundSource::GetPropertyIndexed (int idx, const char*& b)
 {
-  if (propinfo.TestID (propid_soundname, propertyId))
+  if (idx == propid_soundname)
   {
-    return soundname;
+    b = soundname;
+    return true;
   }
-  else
-  {
-    return celPcCommon::GetPropertyString (propertyId);
-  }
+  return false;
 }
 
 #define SOUNDSOURCE_SERIAL 2
