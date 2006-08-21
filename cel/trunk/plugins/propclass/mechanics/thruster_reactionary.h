@@ -58,7 +58,11 @@ class celPcMechanicsThrusterReactionary : public celPcCommon
 {
 private:
   // Actions
-  static csStringID action_initthruster;
+  enum actionids
+  {
+    action_initthruster = 0
+  };
+  static PropertyHolder propinfo;
 
   // Parameters for action_initthruster
   static csStringID param_object;
@@ -84,7 +88,7 @@ public:
   virtual const char* GetName () const { return "pcmechthrustreactionary"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // iPcMechanicsThruster function implementation

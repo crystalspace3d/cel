@@ -68,11 +68,9 @@ void rulePropertyListener::PropertyChanged (iPcProperties* pcprop, size_t idx)
 
 //---------------------------------------------------------------------------
 
-csStringID celPcRules::action_addrule = csInvalidStringID;
-csStringID celPcRules::action_deleterule = csInvalidStringID;
-csStringID celPcRules::action_deleteallrules = csInvalidStringID;
 csStringID celPcRules::id_name = csInvalidStringID;
 csStringID celPcRules::id_time = csInvalidStringID;
+PropertyHolder celPcRules::propinfo;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcRules)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRules)
@@ -87,14 +85,19 @@ celPcRules::celPcRules (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
 
-  // For PerformAction.
-  if (action_addrule == csInvalidStringID)
+  // For actions.
+  if (id_name == csInvalidStringID)
   {
-    action_addrule = pl->FetchStringID ("cel.action.AddRule");
-    action_deleterule = pl->FetchStringID ("cel.action.DeleteRule");
-    action_deleteallrules = pl->FetchStringID ("cel.action.DeleteAllRules");
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_time = pl->FetchStringID ("cel.parameter.time");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_addrule, "cel.action.AddRule");
+    AddAction (action_deleterule, "cel.action.DeleteRule");
+    AddAction (action_deleteallrules, "cel.action.DeleteAllRules");
   }
 
   // For SendMessage parameters.
@@ -132,46 +135,48 @@ bool celPcRules::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcRules::PerformAction (csStringID actionId,
+bool celPcRules::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
   GetRuleBase ();
   if (!rulebase) return false;
-  if (actionId == action_addrule)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action AddRule!");
-    iCelRule* rule = rulebase->FindRule (name);
-    if (!rule)
-      return Report (object_reg, "Can't find rule '%s'!", name);
-    CEL_FETCH_LONG_PAR (time,params,id_time);
-    if (p_time)
-      AddRule (rule, time);
-    else
-      AddRule (rule);
-    return true;
+    case action_addrule:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action AddRule!");
+        iCelRule* rule = rulebase->FindRule (name);
+        if (!rule)
+          return Report (object_reg, "Can't find rule '%s'!", name);
+        CEL_FETCH_LONG_PAR (time,params,id_time);
+        if (p_time)
+          AddRule (rule, time);
+        else
+          AddRule (rule);
+        return true;
+      }
+    case action_deleterule:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action AddRule!");
+        iCelRule* rule = rulebase->FindRule (name);
+        if (!rule)
+          return Report (object_reg, "Can't find rule '%s'!", name);
+        DeleteRule (rule);
+        return true;
+      }
+    case action_deleteallrules:
+      DeleteAllRules ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_deleterule)
-  {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action AddRule!");
-    iCelRule* rule = rulebase->FindRule (name);
-    if (!rule)
-      return Report (object_reg, "Can't find rule '%s'!", name);
-    DeleteRule (rule);
-    return true;
-  }
-  else if (actionId == action_deleteallrules)
-  {
-    DeleteAllRules ();
-    return true;
-  }
-  return false;
 }
 
 void celPcRules::GetRuleBase ()

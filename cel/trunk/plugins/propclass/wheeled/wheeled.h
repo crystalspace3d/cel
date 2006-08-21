@@ -73,49 +73,52 @@ class celPcWheeled : public scfImplementationExt1<
 {
 private:
   // Actions
-  static csStringID action_setwheelmesh;
-  static csStringID action_settankmode;
+  enum actionids
+  {
+    action_setwheelmesh = 0,
+    action_settankmode,
 
-  static csStringID action_addwheelauto;
-  static csStringID action_addwheel;
-  static csStringID action_deletewheel;
-  static csStringID action_deleteallwheels;
-  static csStringID action_destroywheel;
-  static csStringID action_destroyallwheels;
-  static csStringID action_restorewheel;
-  static csStringID action_restoreallwheels;
-  static csStringID action_accelerate;
-  static csStringID action_brake;
-  static csStringID action_handbrake;
-  static csStringID action_setsteeramount;
-  static csStringID action_steerleft;
-  static csStringID action_steerright;
-  static csStringID action_steerstraight;
-  static csStringID action_reverse;
-  static csStringID action_neutral;
-  static csStringID action_setautotransmission;
-  static csStringID action_setgear;
-  static csStringID action_setgearsettings;
-  static csStringID action_setbrakeforce;
-  static csStringID action_setautoreverse;
+    action_addwheelauto,
+    action_addwheel,
+    action_deletewheel,
+    action_deleteallwheels,
+    action_destroywheel,
+    action_destroyallwheels,
+    action_restorewheel,
+    action_restoreallwheels,
+    action_accelerate,
+    action_brake,
+    action_handbrake,
+    action_setsteeramount,
+    action_steerleft,
+    action_steerright,
+    action_steerstraight,
+    action_reverse,
+    action_neutral,
+    action_setautotransmission,
+    action_setgear,
+    action_setgearsettings,
+    action_setbrakeforce,
+    action_setautoreverse,
 
-  //Presets.
-  static csStringID action_setfrontwheelpreset;
-  static csStringID action_setrearwheelpreset;
-  static csStringID action_setouterwheelsteerpreset;
+    //Presets.
+    action_setfrontwheelpreset,
+    action_setrearwheelpreset,
+    action_setouterwheelsteerpreset,
 
-  //Per-wheel actions
-  static csStringID action_setwheelposition;
-  static csStringID action_setwheelsuspensionsoftness;
-  static csStringID action_setwheelsuspensiondamping;
-  static csStringID action_setwheelleftsteersensitivity;
-  static csStringID action_setwheelrightsteersensitivity;
-  static csStringID action_setwheelturnspeed;
-  static csStringID action_setwheelreturnspeed;
-  static csStringID action_setwheelenginepower;
-  static csStringID action_setwheelbrakepower;
-  static csStringID action_setwheelsteerinverted;
-  static csStringID action_setwheelhandbrakeaffected;
+    //Per-wheel actions
+    action_setwheelposition,
+    action_setwheelsuspensionsoftness,
+    action_setwheelsuspensiondamping,
+    action_setwheelleftsteersensitivity,
+    action_setwheelrightsteersensitivity,
+    action_setwheelturnspeed,
+    action_setwheelreturnspeed,
+    action_setwheelenginepower,
+    action_setwheelbrakepower,
+    action_setwheelsteerinverted,
+    action_setwheelhandbrakeaffected
+  };
 
   // Parameters.
   static csStringID param_meshfile;
@@ -145,6 +148,8 @@ private:
   static csStringID param_brakepower;
   static csStringID param_steerinverted;
   static csStringID param_handbrakeaffected;
+
+  static PropertyHolder propinfo;
 
   float brakeforce;
   int gear;
@@ -339,7 +344,7 @@ public:
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId,
+  virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 };
 

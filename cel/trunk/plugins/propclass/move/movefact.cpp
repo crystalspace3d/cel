@@ -457,7 +457,6 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
 
 //---------------------------------------------------------------------------
 
-csStringID celPcGravity::action_applypermanentforce = csInvalidStringID;
 csStringID celPcGravity::id_force = csInvalidStringID;
 
 PropertyHolder celPcGravity::propinfo;
@@ -482,14 +481,18 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 
   propholder = &propinfo;
+
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_applypermanentforce, "cel.action.ApplyPermanentForce");
+  }
+  
   propinfo.SetCount (1);
   AddProperty (propid_weight, "cel.property.weight",
 	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
 
-  if (action_applypermanentforce == csInvalidStringID)
+  if (id_force == csInvalidStringID)
   {
-    action_applypermanentforce = pl->FetchStringID (
-    	"cel.action.ApplyPermanentForce");
     id_force = pl->FetchStringID (
     	"cel.parameter.force");
   }
@@ -862,11 +865,11 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
   return true;
 }
 
-bool celPcGravity::PerformAction (csStringID actionId,
+bool celPcGravity::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_applypermanentforce)
+  if (idx == action_applypermanentforce)
   {
     CEL_FETCH_VECTOR3_PAR (force,params,id_force);
     if (!p_force) return false;

@@ -62,10 +62,15 @@ CEL_DECLARE_FACTORY(SimpleCamera)
 class celPcSimpleCamera : public celPcCameraCommon
 {
 private:
-  // Actions
-  static csStringID action_initcam;
-  static csStringID action_setpos;
-  static csStringID action_setmesh;
+  // Actions.
+  enum actionids
+  {
+    action_initcam = 0,
+    action_setpos,
+    action_setmesh
+  };
+
+  static PropertyHolder propinfo;
 
   // Parameters for action_initcam
   static csStringID param_campos;
@@ -140,7 +145,7 @@ public:
   virtual const char* GetName () const { return "pcsimplecamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   struct PcSimpleCamera : public iPcSimpleCamera

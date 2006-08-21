@@ -44,14 +44,13 @@ CEL_IMPLEMENT_FACTORY (MechanicsThrusterReactionary, "pcmechthrustreactionary")
 
 //---------------------------------------------------------------------------
 
-// Actions
-csStringID celPcMechanicsThrusterReactionary::action_initthruster = csInvalidStringID;
-
 // Parameters for action_initthruster
 csStringID celPcMechanicsThrusterReactionary::param_object = csInvalidStringID;
 csStringID celPcMechanicsThrusterReactionary::param_position = csInvalidStringID;
 csStringID celPcMechanicsThrusterReactionary::param_orientation = csInvalidStringID;
 csStringID celPcMechanicsThrusterReactionary::param_maxthrust = csInvalidStringID;
+
+PropertyHolder celPcMechanicsThrusterReactionary::propinfo;
 
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsThrusterReactionary)
@@ -71,19 +70,20 @@ celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
   thrust = 0;
   maxthrust = 0;
 
-  // Actions
-  if (action_initthruster == csInvalidStringID)
-    action_initthruster = pl->FetchStringID ("cel.action.InitThruster");
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_initthruster, "cel.action.InitThruster");
+  }
 
   // Parameters for action_initthruster
   if (param_object == csInvalidStringID)
+  {
     param_object = pl->FetchStringID ("cel.parameter.objectpctag");
-  if (param_position == csInvalidStringID)
     param_position = pl->FetchStringID ("cel.parameter.position");
-  if (param_orientation == csInvalidStringID)
     param_orientation = pl->FetchStringID ("cel.parameter.orientation");
-  if (param_maxthrust == csInvalidStringID)
     param_maxthrust = pl->FetchStringID ("cel.parameter.maxthrust");
+  }
 }
 
 celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
@@ -124,11 +124,11 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcMechanicsThrusterReactionary::PerformAction (csStringID actionId,
+bool celPcMechanicsThrusterReactionary::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_initthruster)
+  if (idx == action_initthruster)
   {
     CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
     if (p_objectpctag)

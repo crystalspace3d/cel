@@ -63,11 +63,6 @@ CEL_IMPLEMENT_FACTORY (SimpleCamera, "pcsimplecamera")
 
 //---------------------------------------------------------------------------
 
-// Actions
-csStringID celPcSimpleCamera::action_initcam = csInvalidStringID;
-csStringID celPcSimpleCamera::action_setpos = csInvalidStringID;
-csStringID celPcSimpleCamera::action_setmesh = csInvalidStringID;
-
 // Parameters for action_initcam
 csStringID celPcSimpleCamera::param_campos = csInvalidStringID;
 csStringID celPcSimpleCamera::param_lookat = csInvalidStringID;
@@ -75,6 +70,8 @@ csStringID celPcSimpleCamera::param_drawmesh = csInvalidStringID;
 
 // Parameters for action_setmesh
 csStringID celPcSimpleCamera::param_mesh = csInvalidStringID;
+
+PropertyHolder celPcSimpleCamera::propinfo;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcSimpleCamera)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSimpleCamera)
@@ -99,25 +96,24 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
   lastActorSector = 0;
   meshExplicitlySet = false;
 
+  propholder = &propinfo;
+
   // Actions
-  if (action_initcam == csInvalidStringID)
-    action_initcam = pl->FetchStringID ("cel.action.InitCamera");
-  if (action_setpos == csInvalidStringID)
-    action_setpos = pl->FetchStringID ("cel.action.SetPosition");
-  if (action_setmesh == csInvalidStringID)
-    action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_initcam, "cel.action.InitCamera");
+    AddAction (action_setpos, "cel.action.SetPosition");
+    AddAction (action_setmesh, "cel.action.SetMesh");
+  }
 
   // Parameters for action_initcam
   if (param_campos == csInvalidStringID)
+  {
     param_campos = pl->FetchStringID ("cel.parameter.campos");
-  if (param_lookat == csInvalidStringID)
     param_lookat = pl->FetchStringID ("cel.parameter.lookat");
-  if (param_drawmesh == csInvalidStringID)
     param_drawmesh = pl->FetchStringID ("cel.parameter.drawmesh");
-
-  // Parameters for action_setmesh
-  if (param_mesh == csInvalidStringID)
     param_mesh = pl->FetchStringID ("cel.parameter.meshpctag");
+  }
 }
 
 celPcSimpleCamera::~celPcSimpleCamera ()
@@ -154,64 +150,68 @@ void celPcSimpleCamera::GetActorTransform ()
   }
 }
 
-bool celPcSimpleCamera::PerformAction (csStringID actionId,
+bool celPcSimpleCamera::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_initcam)
+  switch (idx)
   {
-    CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
-    if (p_campos)
-      SetCameraOffset (campos);
-    else
-      Report (object_reg, "Couldn't get campos!");
-    CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
-    if (p_lookat)
-      SetLookAtOffset (lookat);
-    else
-      Report (object_reg, "Couldn't get lookat!");
-    CEL_FETCH_BOOL_PAR (drawmesh,params,param_drawmesh);
-    if (p_drawmesh)
-      SetDrawMesh (drawmesh);
-    else
-      Report (object_reg, "Couldn't get drawmesh flag!");
-    return true;
-  }
-  else if (actionId == action_setpos)
-  {
-    CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
-    if (p_campos)
-      SetCameraOffset (campos);
-    else
-      Report (object_reg, "Couldn't get campos!");
-    CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
-    if (p_lookat)
-      SetLookAtOffset (lookat);
-    else
-      Report (object_reg, "Couldn't get lookat!");
-    return true;
-  }
-  else if (actionId == action_setmesh)
-  {
-    CEL_FETCH_STRING_PAR (mesh,params,param_mesh);
-    if (!p_mesh)
-    {
-      Report (object_reg, "Couldn't get mesh tag!");
+    case action_initcam:
+      {
+        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
+        if (p_campos)
+          SetCameraOffset (campos);
+        else
+          Report (object_reg, "Couldn't get campos!");
+        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
+        if (p_lookat)
+          SetLookAtOffset (lookat);
+        else
+          Report (object_reg, "Couldn't get lookat!");
+        CEL_FETCH_BOOL_PAR (drawmesh,params,param_drawmesh);
+        if (p_drawmesh)
+          SetDrawMesh (drawmesh);
+        else
+          Report (object_reg, "Couldn't get drawmesh flag!");
+        return true;
+      }
+    case action_setpos:
+      {
+        CEL_FETCH_VECTOR3_PAR (campos,params,param_campos);
+        if (p_campos)
+          SetCameraOffset (campos);
+        else
+          Report (object_reg, "Couldn't get campos!");
+        CEL_FETCH_VECTOR3_PAR (lookat,params,param_lookat);
+        if (p_lookat)
+          SetLookAtOffset (lookat);
+        else
+          Report (object_reg, "Couldn't get lookat!");
+        return true;
+      }
+    case action_setmesh:
+      {
+        CEL_FETCH_STRING_PAR (mesh,params,param_mesh);
+        if (!p_mesh)
+        {
+          Report (object_reg, "Couldn't get mesh tag!");
+          return false;
+        }
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
+	    (GetEntity (), iPcMesh, mesh);
+        if (!pcmesh)
+        {
+          csString msg = "Couldn't find mesh with given tag: ";
+          msg += mesh;
+          Report (object_reg, msg);
+          return false;
+        }
+        SetMesh (pcmesh);
+        return true;
+      }
+    default:
       return false;
-    }
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
-	(GetEntity (), iPcMesh, mesh);
-    if (!pcmesh)
-    {
-      csString msg = "Couldn't find mesh with given tag: ";
-      msg += mesh;
-      Report (object_reg, msg);
-      return false;
-    }
-    SetMesh (pcmesh);
-    return true;
   }
-  return false;
 }
 
 void celPcSimpleCamera::SetDrawMesh (bool draw)

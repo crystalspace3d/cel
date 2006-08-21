@@ -305,7 +305,7 @@ private:
   // Last assigned force id for this object
   uint32 forceidseed;
   // Last used tag for AddForceTagged() (only set through
-  // PerformAction).
+  // PerformActionIndexed).
   uint32 last_tag;
 
   csWeakRef<iPcMechanicsSystem> mechsystem;

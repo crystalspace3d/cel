@@ -116,18 +116,14 @@ public:
 
 //---------------------------------------------------------------------------
 
-csStringID celPcTrigger::action_setuptriggersphere = csInvalidStringID;
 csStringID celPcTrigger::id_sector = csInvalidStringID;
 csStringID celPcTrigger::id_position = csInvalidStringID;
 csStringID celPcTrigger::id_radius = csInvalidStringID;
 csStringID celPcTrigger::id_entity = csInvalidStringID;
-csStringID celPcTrigger::action_setuptriggerbox = csInvalidStringID;
 csStringID celPcTrigger::id_minbox = csInvalidStringID;
 csStringID celPcTrigger::id_maxbox = csInvalidStringID;
-csStringID celPcTrigger::action_setuptriggerbeam = csInvalidStringID;
 csStringID celPcTrigger::id_start = csInvalidStringID;
 csStringID celPcTrigger::id_end = csInvalidStringID;
-csStringID celPcTrigger::action_setuptriggerabovemesh = csInvalidStringID;
 csStringID celPcTrigger::id_maxdistance = csInvalidStringID;
 
 PropertyHolder celPcTrigger::propinfo;
@@ -141,14 +137,6 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   if (id_entity == csInvalidStringID)
   {
     id_entity = pl->FetchStringID ("cel.parameter.entity");
-    action_setuptriggersphere = pl->FetchStringID (
-    	"cel.action.SetupTriggerSphere");
-    action_setuptriggerbox = pl->FetchStringID (
-    	"cel.action.SetupTriggerBox");
-    action_setuptriggerbeam = pl->FetchStringID (
-    	"cel.action.SetupTriggerBeam");
-    action_setuptriggerabovemesh = pl->FetchStringID (
-    	"cel.action.SetupTriggerAboveMesh");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_radius = pl->FetchStringID ("cel.parameter.radius");
@@ -161,8 +149,16 @@ celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_entity, "entity");
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setuptriggersphere, "cel.action.SetupTriggerSphere");
+    AddAction (action_setuptriggerbox, "cel.action.SetupTriggerBox");
+    AddAction (action_setuptriggerbeam, "cel.action.SetupTriggerBeam");
+    AddAction (action_setuptriggerabovemesh, "cel.action.SetupTriggerAboveMesh");
+  };
+
+  // For properties.
   propinfo.SetCount (5);
   AddProperty (propid_delay, "cel.property.delay",
 	CEL_DATA_LONG, false, "Update delay to check for entities.", 0);
@@ -898,113 +894,117 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcTrigger::PerformAction (csStringID actionId,
+bool celPcTrigger::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_setuptriggersphere)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!p_sector)
-      return Report (object_reg,
-      	"Missing parameter 'sector' for action SetupTriggerSphere!");
+    case action_setuptriggersphere:
+      {
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!p_sector)
+          return Report (object_reg,
+      	    "Missing parameter 'sector' for action SetupTriggerSphere!");
 
-    CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
-    if (!p_radius)
-      return Report (object_reg,
-      	"Missing parameter 'radius' for action SetupTriggerSphere!");
-    iSector* sec = engine->FindSector (sector);
-    if (!sec)
-      return Report (object_reg,
-      	"Can't find sector '%s' for action SetupTriggerSphere!", sector);
+        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
+        if (!p_radius)
+          return Report (object_reg,
+      	    "Missing parameter 'radius' for action SetupTriggerSphere!");
+        iSector* sec = engine->FindSector (sector);
+        if (!sec)
+          return Report (object_reg,
+      	    "Can't find sector '%s' for action SetupTriggerSphere!", sector);
 
-    const celData* p_position = params->GetParameter (id_position);
-    if (!p_position)
-      return Report (object_reg,
-      	"Missing parameter 'position' for action SetupTriggerSphere!");
-    if (p_position->type == CEL_DATA_VECTOR3)
-    {
-      csVector3 v;
-      v.x = p_position->value.v.x;
-      v.y = p_position->value.v.y;
-      v.z = p_position->value.v.z;
-      SetupTriggerSphere (sec, v, radius);
-    }
-    else if (p_position->type == CEL_DATA_STRING)
-    {
-      const char* position = p_position->value.s->GetData ();
-      SetupTriggerSphere (sec, position, radius);
-    }
-    else
-      return Report (object_reg,
-      	"'position' must be string or vector for SetupTriggerSphere!");
-    return true;
+        const celData* p_position = params->GetParameter (id_position);
+        if (!p_position)
+          return Report (object_reg,
+      	    "Missing parameter 'position' for action SetupTriggerSphere!");
+        if (p_position->type == CEL_DATA_VECTOR3)
+        {
+          csVector3 v;
+          v.x = p_position->value.v.x;
+          v.y = p_position->value.v.y;
+          v.z = p_position->value.v.z;
+          SetupTriggerSphere (sec, v, radius);
+        }
+        else if (p_position->type == CEL_DATA_STRING)
+        {
+          const char* position = p_position->value.s->GetData ();
+          SetupTriggerSphere (sec, position, radius);
+        }
+        else
+          return Report (object_reg,
+      	    "'position' must be string or vector for SetupTriggerSphere!");
+        return true;
+      }
+    case action_setuptriggerbox:
+      {
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!p_sector)
+          return Report (object_reg,
+      	    "Missing parameter 'sector' for action SetupTriggerBox!");
+        CEL_FETCH_VECTOR3_PAR (minbox,params,id_minbox);
+        if (!p_minbox)
+          return Report (object_reg,
+      	    "Missing parameter 'minbox' for action SetupTriggerBox!");
+        CEL_FETCH_VECTOR3_PAR (maxbox,params,id_maxbox);
+        if (!p_maxbox)
+          return Report (object_reg,
+      	    "Missing parameter 'maxbox' for action SetupTriggerBox!");
+        iSector* sec = engine->FindSector (sector);
+        if (!sec)
+          return Report (object_reg,
+      	    "Can't find sector '%s' for action SetupTriggerBox!", sector);
+        SetupTriggerBox (sec, csBox3 (minbox, maxbox));
+        return true;
+      }
+    case action_setuptriggerbeam:
+      {
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!p_sector)
+          return Report (object_reg,
+      	    "Missing parameter 'sector' for action SetupTriggerBeam!");
+        CEL_FETCH_VECTOR3_PAR (start,params,id_start);
+        if (!p_start)
+          return Report (object_reg,
+      	    "Missing parameter 'start' for action SetupTriggerBeam!");
+        CEL_FETCH_VECTOR3_PAR (end,params,id_end);
+        if (!p_end)
+          return Report (object_reg,
+      	    "Missing parameter 'end' for action SetupTriggerBeam!");
+        iSector* sec = engine->FindSector (sector);
+        if (!sec)
+          return Report (object_reg,
+      	    "Can't find sector '%s' for action SetupTriggerBeam!", sector);
+        SetupTriggerBeam (sec, start, end);
+        return true;
+      }
+    case action_setuptriggerabovemesh:
+      {
+        CEL_FETCH_STRING_PAR (entity,params,id_entity);
+        if (!p_entity)
+          return Report (object_reg,
+      	    "Missing parameter 'entity' for action SetupTriggerAboveMesh!");
+        CEL_FETCH_FLOAT_PAR (maxdistance,params,id_maxdistance);
+        if (!p_maxdistance)
+          return Report (object_reg,
+      	    "Missing parameter 'maxdistance' for action SetupTriggerAboveMesh!");
+        iCelEntity* ent = pl->FindEntity (entity);
+        if (!ent)
+          return Report (object_reg,
+      	    "Can't find entity '%s' for action SetupTriggerAboveMesh!", entity);
+        csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+        if (!m)
+          return Report (object_reg,
+      	    "Entity '%s' doesn't support pcmesh (action SetupTriggerAboveMesh)!",
+      	    entity);
+        SetupTriggerAboveMesh (m, maxdistance);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_setuptriggerbox)
-  {
-    CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!p_sector)
-      return Report (object_reg,
-      	"Missing parameter 'sector' for action SetupTriggerBox!");
-    CEL_FETCH_VECTOR3_PAR (minbox,params,id_minbox);
-    if (!p_minbox)
-      return Report (object_reg,
-      	"Missing parameter 'minbox' for action SetupTriggerBox!");
-    CEL_FETCH_VECTOR3_PAR (maxbox,params,id_maxbox);
-    if (!p_maxbox)
-      return Report (object_reg,
-      	"Missing parameter 'maxbox' for action SetupTriggerBox!");
-    iSector* sec = engine->FindSector (sector);
-    if (!sec)
-      return Report (object_reg,
-      	"Can't find sector '%s' for action SetupTriggerBox!", sector);
-    SetupTriggerBox (sec, csBox3 (minbox, maxbox));
-    return true;
-  }
-  else if (actionId == action_setuptriggerbeam)
-  {
-    CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!p_sector)
-      return Report (object_reg,
-      	"Missing parameter 'sector' for action SetupTriggerBeam!");
-    CEL_FETCH_VECTOR3_PAR (start,params,id_start);
-    if (!p_start)
-      return Report (object_reg,
-      	"Missing parameter 'start' for action SetupTriggerBeam!");
-    CEL_FETCH_VECTOR3_PAR (end,params,id_end);
-    if (!p_end)
-      return Report (object_reg,
-      	"Missing parameter 'end' for action SetupTriggerBeam!");
-    iSector* sec = engine->FindSector (sector);
-    if (!sec)
-      return Report (object_reg,
-      	"Can't find sector '%s' for action SetupTriggerBeam!", sector);
-    SetupTriggerBeam (sec, start, end);
-    return true;
-  }
-  else if (actionId == action_setuptriggerabovemesh)
-  {
-    CEL_FETCH_STRING_PAR (entity,params,id_entity);
-    if (!p_entity)
-      return Report (object_reg,
-      	"Missing parameter 'entity' for action SetupTriggerAboveMesh!");
-    CEL_FETCH_FLOAT_PAR (maxdistance,params,id_maxdistance);
-    if (!p_maxdistance)
-      return Report (object_reg,
-      	"Missing parameter 'maxdistance' for action SetupTriggerAboveMesh!");
-    iCelEntity* ent = pl->FindEntity (entity);
-    if (!ent)
-      return Report (object_reg,
-      	"Can't find entity '%s' for action SetupTriggerAboveMesh!", entity);
-    csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
-    if (!m)
-      return Report (object_reg,
-      	"Entity '%s' doesn't support pcmesh (action SetupTriggerAboveMesh)!",
-      	entity);
-    SetupTriggerAboveMesh (m, maxdistance);
-    return true;
-  }
-  return false;
 }
 
 void celPcTrigger::SendTriggerMessage (iCelEntity* destentity,

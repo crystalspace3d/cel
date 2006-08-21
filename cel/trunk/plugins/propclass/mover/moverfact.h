@@ -54,13 +54,17 @@ private:
   csWeakRef<iPcActorMove> pcactormove;
   csWeakRef<iPcMesh> pcmesh;
 
-  // For PerformAction.
+  // For actions.
   static csStringID id_sectorname;
   static csStringID id_position;
   static csStringID id_up;
   static csStringID id_sqradius;
-  static csStringID action_start;
-  static csStringID action_interrupt;
+
+  enum actionids
+  {
+    action_start = 0,
+    action_interrupt
+  };
 
   // For properties.
   enum propids
@@ -99,7 +103,7 @@ public:
   virtual const char* GetName () const { return "pcmover"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
 };

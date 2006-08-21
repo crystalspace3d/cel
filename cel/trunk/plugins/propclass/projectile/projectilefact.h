@@ -53,14 +53,18 @@ private:
   static csStringID id_intersection;
   csRef<celVariableParameterBlock> params;
 
-  // For PerformAction.
+  // For actions.
   // id_message is shared.
-  static csStringID action_start;
   static csStringID id_direction;
   static csStringID id_speed;
   static csStringID id_maxdist;
   static csStringID id_maxhits;
-  static csStringID action_interrupt;
+
+  enum actionids
+  {
+    action_start = 0,
+    action_interrupt
+  };
 
   // For properties.
   enum propids
@@ -102,7 +106,7 @@ public:
   virtual const char* GetName () const { return "pcprojectile"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();
 

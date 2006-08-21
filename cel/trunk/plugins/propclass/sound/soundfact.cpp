@@ -105,7 +105,6 @@ void celPcSoundSource::UpdateListener ()
 
 //---------------------------------------------------------------------------
 
-csStringID celPcSoundListener::action_setdirection = csInvalidStringID;
 csStringID celPcSoundListener::id_front = csInvalidStringID;
 csStringID celPcSoundListener::id_top = csInvalidStringID;
 
@@ -114,16 +113,20 @@ PropertyHolder celPcSoundListener::propinfo;
 celPcSoundListener::celPcSoundListener (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  // For PerformAction.
-  if (action_setdirection == csInvalidStringID)
+  // For actions.
+  if (id_front == csInvalidStringID)
   {
-    action_setdirection = pl->FetchStringID ("cel.action.SetDirection");
     id_front = pl->FetchStringID ("cel.parameter.front");
     id_top = pl->FetchStringID ("cel.parameter.top");
   }
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setdirection, "cel.action.SetDirection");
+  }
+
+  // For properties.
   propinfo.SetCount (5);
   AddProperty (propid_front, "cel.property.front",
 	CEL_DATA_VECTOR3, false, "Front direction vector.", 0);
@@ -256,12 +259,12 @@ bool celPcSoundListener::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcSoundListener::PerformAction (csStringID actionId,
+bool celPcSoundListener::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
   if (!listener) return false;
-  if (actionId == action_setdirection)
+  if (idx == action_setdirection)
   {
     CEL_FETCH_VECTOR3_PAR (front,params,id_front);
     if (!p_front) return false;
@@ -275,23 +278,21 @@ bool celPcSoundListener::PerformAction (csStringID actionId,
 
 //---------------------------------------------------------------------------
 
-csStringID celPcSoundSource::action_pause = csInvalidStringID;
-csStringID celPcSoundSource::action_unpause = csInvalidStringID;
-
 PropertyHolder celPcSoundSource::propinfo;
 
 celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  // For PerformAction.
-  if (action_pause == csInvalidStringID)
+  propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
   {
-    action_pause = pl->FetchStringID ("cel.action.Pause");
-    action_unpause = pl->FetchStringID ("cel.action.Unpause");
+    AddAction (action_pause, "cel.action.Pause");
+    AddAction (action_unpause, "cel.action.Unpause");
   }
 
   // For properties.
-  propholder = &propinfo;
   propinfo.SetCount (8);
   AddProperty (propid_soundname, "cel.property.soundname",
 	CEL_DATA_STRING, false, "Name of the sound.", 0);
@@ -458,22 +459,22 @@ bool celPcSoundSource::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcSoundSource::PerformAction (csStringID actionId,
+bool celPcSoundSource::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
   if (!GetSource ()) return false;
-  if (actionId == action_unpause)
+  switch (idx)
   {
-    source->GetStream ()->Unpause ();
-    return true;
+    case action_unpause:
+      source->GetStream ()->Unpause ();
+      return true;
+    case action_pause:
+      source->GetStream ()->Pause ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_pause)
-  {
-    source->GetStream ()->Pause ();
-    return true;
-  }
-  return false;
 }
 
 void celPcSoundSource::GetSoundWrap ()

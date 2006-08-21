@@ -120,7 +120,7 @@ celPcPortal::~celPcPortal ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcPortal);
 }
 
-bool celPcPortal::PerformAction (csStringID, iCelParameterBlock*,
+bool celPcPortal::PerformActionIndexed (int, iCelParameterBlock*,
     celData& ret)
 {
   return false;

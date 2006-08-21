@@ -77,16 +77,10 @@ csStringID celPcLinearMovement::id_body = csInvalidStringID;
 csStringID celPcLinearMovement::id_legs = csInvalidStringID;
 csStringID celPcLinearMovement::id_offset = csInvalidStringID;
 csStringID celPcLinearMovement::id_percentage = csInvalidStringID;
-csStringID celPcLinearMovement::action_initcd = csInvalidStringID;
-csStringID celPcLinearMovement::action_initcdmesh = csInvalidStringID;
 csStringID celPcLinearMovement::id_sector = csInvalidStringID;
 csStringID celPcLinearMovement::id_position = csInvalidStringID;
 csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
 csStringID celPcLinearMovement::id_velocity = csInvalidStringID;
-csStringID celPcLinearMovement::action_setposition = csInvalidStringID;
-csStringID celPcLinearMovement::action_setvelocity = csInvalidStringID;
-csStringID celPcLinearMovement::action_addvelocity = csInvalidStringID;
-csStringID celPcLinearMovement::action_setangularvelocity = csInvalidStringID;
 
 // collision detection variables
 #define MAXSECTORSOCCUPIED  20
@@ -187,26 +181,30 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   deltaLimit = 0;
 
-  if (action_initcd == csInvalidStringID)
+  if (id_percentage == csInvalidStringID)
   {
-    action_initcd = pl->FetchStringID ("cel.action.InitCD");
     id_percentage = pl->FetchStringID ("cel.parameter.percentage");
-    action_initcdmesh = pl->FetchStringID ("cel.action.InitCDMesh");
     id_body = pl->FetchStringID ("cel.parameter.body");
     id_legs = pl->FetchStringID ("cel.parameter.legs");
     id_offset = pl->FetchStringID ("cel.parameter.offset");
-    action_setposition = pl->FetchStringID ("cel.action.SetPosition");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
     id_velocity = pl->FetchStringID ("cel.parameter.velocity");
-    action_setvelocity = pl->FetchStringID ("cel.action.SetVelocity");
-    action_addvelocity = pl->FetchStringID ("cel.action.AddVelocity");
-    action_setangularvelocity = pl->FetchStringID ("cel.action.SetAngularVelocity");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_initcd, "cel.action.InitCD");
+    AddAction (action_initcdmesh, "cel.action.InitCDMesh");
+    AddAction (action_setposition, "cel.action.SetPosition");
+    AddAction (action_setvelocity, "cel.action.SetVelocity");
+    AddAction (action_addvelocity, "cel.action.AddVelocity");
+    AddAction (action_setangularvelocity, "cel.action.SetAngularVelocity");
   }
 
   // For properties.
-  propholder = &propinfo;
   propinfo.SetCount (2);
   AddProperty (propid_anchor, "cel.property.anchor",
 	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
@@ -396,104 +394,108 @@ bool celPcLinearMovement::GetPropertyIndexed (int idx, const char*& b)
   return false;
 }
 
-bool celPcLinearMovement::PerformAction (csStringID actionId,
+bool celPcLinearMovement::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_initcd)
+  switch (idx)
   {
-    CEL_FETCH_VECTOR3_PAR (body,params,id_body);
-    if (!p_body)
-      return MoveReport (object_reg,
-      	"Missing parameter 'body' for action InitCD!");
-    CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
-    if (!p_legs)
-      return MoveReport (object_reg,
-      	"Missing parameter 'legs' for action InitCD!");
-    CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
-    if (!p_offset)
-      return MoveReport (object_reg,
-      	"Missing parameter 'offset' for action InitCD!");
-    bool rc = InitCD (body, legs, offset);
-    return rc;
+    case action_initcd:
+      {
+        CEL_FETCH_VECTOR3_PAR (body,params,id_body);
+        if (!p_body)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'body' for action InitCD!");
+        CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
+        if (!p_legs)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'legs' for action InitCD!");
+        CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
+        if (!p_offset)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'offset' for action InitCD!");
+        bool rc = InitCD (body, legs, offset);
+        return rc;
+      }
+    case action_initcdmesh:
+      {
+        CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
+        if (!p_percentage)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'percentage' for action InitCDMesh!");
+        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+        if (!pcmesh)
+          return MoveReport (object_reg,
+      	    "Can't find pcmesh in current entity for action InitCDMesh!");
+        bool rc = InitCD (pcmesh->GetMesh (), percentage);
+        return rc;
+      }
+    case action_setposition:
+      {
+        CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
+        if (!p_yrot)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'yrot' for action SetPosition!");
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!sector)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'sector' for action SetPosition!");
+        iSector* sect = engine->FindSector (sector);
+        if (!sect)
+          return MoveReport (object_reg,
+      	    "Can't find sector '%s' for action SetPosition!", sector);
+        const celData* p_position = params->GetParameter (id_position);
+        if (!p_position)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'position' for action SetPosition!");
+        if (p_position->type == CEL_DATA_VECTOR3)
+        {
+          csVector3 vpos;
+          vpos.x = p_position->value.v.x;
+          vpos.y = p_position->value.v.y;
+          vpos.z = p_position->value.v.z;
+          SetPosition (vpos, yrot, sect);
+        }
+        else if (p_position->type == CEL_DATA_STRING)
+        {
+          const char* cpos = p_position->value.s->GetData ();
+          SetPosition (cpos, yrot, sect);
+        }
+        else
+          return MoveReport (object_reg,
+      	    "'position' must be string or vector for SetPosition!");
+        return true;
+      }
+    case action_setvelocity:
+      {
+        CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+        if (!p_velocity)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'velocity' for action SetVelocity!");
+        SetVelocity (velocity);
+        return true;
+      }
+    case action_addvelocity:
+      {
+        CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+        if (!p_velocity)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'velocity' for action AddVelocity!");
+        AddVelocity (velocity);
+        return true;
+      }
+    case action_setangularvelocity:
+      {
+        CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
+        if (!p_velocity)
+          return MoveReport (object_reg,
+      	    "Missing parameter 'velocity' for action SetAngularVelocity!");
+        SetAngularVelocity (velocity);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_initcdmesh)
-  {
-    CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
-    if (!p_percentage)
-      return MoveReport (object_reg,
-      	"Missing parameter 'percentage' for action InitCDMesh!");
-    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    if (!pcmesh)
-      return MoveReport (object_reg,
-      	"Can't find pcmesh in current entity for action InitCDMesh!");
-    bool rc = InitCD (pcmesh->GetMesh (), percentage);
-    return rc;
-  }
-  else if (actionId == action_setposition)
-  {
-    CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-    if (!p_yrot)
-      return MoveReport (object_reg,
-      	"Missing parameter 'yrot' for action SetPosition!");
-    CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!sector)
-      return MoveReport (object_reg,
-      	"Missing parameter 'sector' for action SetPosition!");
-    iSector* sect = engine->FindSector (sector);
-    if (!sect)
-      return MoveReport (object_reg,
-      	"Can't find sector '%s' for action SetPosition!", sector);
-    const celData* p_position = params->GetParameter (id_position);
-    if (!p_position)
-      return MoveReport (object_reg,
-      	"Missing parameter 'position' for action SetPosition!");
-    if (p_position->type == CEL_DATA_VECTOR3)
-    {
-      csVector3 vpos;
-      vpos.x = p_position->value.v.x;
-      vpos.y = p_position->value.v.y;
-      vpos.z = p_position->value.v.z;
-      SetPosition (vpos, yrot, sect);
-    }
-    else if (p_position->type == CEL_DATA_STRING)
-    {
-      const char* cpos = p_position->value.s->GetData ();
-      SetPosition (cpos, yrot, sect);
-    }
-    else
-      return MoveReport (object_reg,
-      	"'position' must be string or vector for SetPosition!");
-    return true;
-  }
-  else if (actionId == action_setvelocity)
-  {
-    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
-    if (!p_velocity)
-      return MoveReport (object_reg,
-      	"Missing parameter 'velocity' for action SetVelocity!");
-    SetVelocity (velocity);
-    return true;
-  }
-  else if (actionId == action_addvelocity)
-  {
-    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
-    if (!p_velocity)
-      return MoveReport (object_reg,
-      	"Missing parameter 'velocity' for action AddVelocity!");
-    AddVelocity (velocity);
-    return true;
-  }
-  else if (actionId == action_setangularvelocity)
-  {
-    CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
-    if (!p_velocity)
-      return MoveReport (object_reg,
-      	"Missing parameter 'velocity' for action SetAngularVelocity!");
-    SetAngularVelocity (velocity);
-    return true;
-  }
-  return false;
 }
 
 static inline bool FindIntersection (const csCollisionPair& cd,

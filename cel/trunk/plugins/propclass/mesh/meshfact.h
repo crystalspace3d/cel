@@ -77,32 +77,36 @@ private:
 
   iMeshFactoryWrapper* LoadMeshFactory ();
 
-  static csStringID action_setmesh;
   static csStringID id_name;
   static csStringID id_path;
   static csStringID id_filename;
   static csStringID id_factoryname;
-  static csStringID action_loadmesh;
-  static csStringID action_loadmeshpath;
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID id_rotation;
-  static csStringID action_movemesh;
-  static csStringID action_rotatemesh;
-  static csStringID action_clearrotation;
-  static csStringID action_lookat;
   static csStringID id_forward;
   static csStringID id_up;
-  static csStringID action_setvisible;
   static csStringID id_visible;
-  static csStringID action_setmaterial;
   static csStringID id_material;
-  static csStringID action_setshadervar;
   static csStringID id_value;
   static csStringID id_type;
-  static csStringID action_setanimation;
   static csStringID id_animation;
   static csStringID id_cycle;
+
+  enum actionids
+  {
+    action_setmesh = 0,
+    action_loadmesh,
+    action_loadmeshpath,
+    action_movemesh,
+    action_rotatemesh,
+    action_clearrotation,
+    action_lookat,
+    action_setvisible,
+    action_setmaterial,
+    action_setshadervar,
+    action_setanimation
+  };
 
   // Remove the mesh from this pcmesh.
   void RemoveMesh ();
@@ -155,7 +159,9 @@ public:
    * or resetaction is set.
    */
   virtual void SetAction (const char* actionName, bool reset = false);
-  virtual void SetAnimation (const char* actionName, bool cycle, float weight=1.0,float fadein=0.1,float fadeout=0.1);
+  virtual void SetAnimation (const char* actionName, bool cycle,
+      float weight=1.0,float fadein=0.1,float fadeout=0.1);
+
   /**
    * Returns the name for the current action.
    */
@@ -180,7 +186,7 @@ public:
   virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual bool GetPropertyIndexed (int, csVector3&);
   virtual bool GetPropertyIndexed (int, const char*&);
@@ -301,12 +307,16 @@ private:
   // Setup the event handler based on settings.
   void SetupEventHandler ();
 
-  static csStringID action_setcamera;
-  static csStringID action_setmousebuttons;
   static csStringID id_buttons;
-  static csStringID action_setdragplanenormal;
   static csStringID id_normal;
   static csStringID id_camera;
+
+  enum actionids
+  {
+    action_setcamera = 0,
+    action_setmousebuttons,
+    action_setdragplanenormal
+  };
 
   // For properties.
   enum propids
@@ -394,7 +404,7 @@ public:
   virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support

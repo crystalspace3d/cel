@@ -97,12 +97,18 @@ private:
   // For SendMessage parameters.
   celOneParameterBlock* params;
 
-  // For PerformAction.
-  static csStringID action_addrule;
-  static csStringID action_deleterule;
-  static csStringID action_deleteallrules;
+  // For actions.
   static csStringID id_name;
   static csStringID id_time;
+
+  enum actionids
+  {
+    action_addrule = 0,
+    action_deleterule,
+    action_deleteallrules
+  };
+
+  static PropertyHolder propinfo;
 
   // Other fields.
   csRef<iCelRuleBase> rulebase;
@@ -145,7 +151,7 @@ public:
   virtual const char* GetName () const { return "pcrules"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();
 

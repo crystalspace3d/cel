@@ -56,16 +56,21 @@ private:
 
   csSet<csString> triggers;
 
-  // For PerformAction.
-  static csStringID action_loaddefinitionfile;
-  static csStringID action_selectdefaultskin;
-  static csStringID action_createwindow;
-  static csStringID action_createsink;
-  static csStringID action_registertrigger;
-  static csStringID action_show;
-  static csStringID action_hide;
-  static csStringID action_raise;
-  static csStringID action_lower;
+  // For actions.
+  enum actionids
+  {
+    action_loaddefinitionfile = 0,
+    action_selectdefaultskin,
+    action_createwindow,
+    action_createsink,
+    action_registertrigger,
+    action_show,
+    action_hide,
+    action_raise,
+    action_lower
+  };
+  static PropertyHolder propinfo;
+
   static csStringID id_filename;
   static csStringID id_name;
   static csStringID id_trigger;
@@ -84,7 +89,7 @@ public:
   virtual const char* GetName () const { return "pcawswindow"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 };
 

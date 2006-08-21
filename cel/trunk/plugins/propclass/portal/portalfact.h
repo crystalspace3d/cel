@@ -88,7 +88,7 @@ public:
   virtual const char* GetName () const { return "pcportal"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual bool SetPropertyIndexed (int, const char*);
   virtual bool GetPropertyIndexed (int, const char*&);

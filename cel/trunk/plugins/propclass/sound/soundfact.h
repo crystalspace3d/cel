@@ -46,10 +46,14 @@ class celPcSoundListener : public scfImplementationExt1<
 	celPcSoundListener, celPcCommon, iPcSoundListener>
 {
 private:
-  // For PerformAction.
-  static csStringID action_setdirection;
+  // For actions.
   static csStringID id_front;
   static csStringID id_top;
+
+  enum actionids
+  {
+    action_setdirection = 0
+  };
 
   // For properties.
   enum propids
@@ -74,7 +78,7 @@ public:
   virtual const char* GetName () const { return "pcsoundlistener"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   virtual bool SetPropertyIndexed (int, const csVector3&);
@@ -90,9 +94,12 @@ class celPcSoundSource : public scfImplementationExt1<
 	celPcSoundSource, celPcCommon, iPcSoundSource>
 {
 private:
-  // For PerformAction.
-  static csStringID action_pause;
-  static csStringID action_unpause;
+  // For actions.
+  enum actionids
+  {
+    action_pause = 0,
+    action_unpause
+  };
 
   // For properties.
   enum propids
@@ -132,7 +139,7 @@ public:
   virtual const char* GetName () const { return "pcsoundsource"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   virtual bool SetPropertyIndexed (int, const csVector3&);

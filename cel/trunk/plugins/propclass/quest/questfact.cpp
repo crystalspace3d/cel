@@ -57,8 +57,6 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-csStringID celPcQuest::action_newquest = csInvalidStringID;
-csStringID celPcQuest::action_stopquest = csInvalidStringID;
 csStringID celPcQuest::id_name = csInvalidStringID;
 
 PropertyHolder celPcQuest::propinfo;
@@ -80,16 +78,20 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
   //params = new celOneParameterBlock ();
   //params->SetParameterDef (id_message, "message");
 
-  // For PerformAction.
-  if (action_newquest == csInvalidStringID)
+  // For actions.
+  if (id_name == csInvalidStringID)
   {
-    action_newquest = pl->FetchStringID ("cel.action.NewQuest");
-    action_stopquest = pl->FetchStringID ("cel.action.StopQuest");
     id_name = pl->FetchStringID ("cel.parameter.name");
   }
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_newquest, "cel.action.NewQuest");
+    AddAction (action_stopquest, "cel.action.StopQuest");
+  }
+
+  // For properties.
   propinfo.SetCount (2);
   AddProperty (propid_name, "cel.property.name",
 	CEL_DATA_STRING, true, "Quest Factory Name.", 0);
@@ -196,37 +198,39 @@ bool celPcQuest::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcQuest::PerformAction (csStringID actionId,
+bool celPcQuest::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_newquest)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (msg,params,id_name);
-    if (!p_msg)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action NewQuest!");
-    celQuestParams par;
-    size_t i;
-    for (i = 0 ; i < params->GetParameterCount () ; i++)
-    {
-      csStringID id;
-      celDataType t;
-      const char* n = params->GetParameter (i, id, t);
-      if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
+    case action_newquest:
       {
-        const celData* cd = params->GetParameter (id);
-        par.Put (n, cd->value.s->GetData ());
+        CEL_FETCH_STRING_PAR (msg,params,id_name);
+        if (!p_msg)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action NewQuest!");
+        celQuestParams par;
+        size_t i;
+        for (i = 0 ; i < params->GetParameterCount () ; i++)
+        {
+          csStringID id;
+          celDataType t;
+          const char* n = params->GetParameter (i, id, t);
+          if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
+          {
+            const celData* cd = params->GetParameter (id);
+            par.Put (n, cd->value.s->GetData ());
+          }
+        }
+        return NewQuest (msg, par);
       }
-    }
-    return NewQuest (msg, par);
+    case action_stopquest:
+      StopQuest ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_stopquest)
-  {
-    StopQuest ();
-    return true;
-  }
-  return false;
 }
 
 void celPcQuest::GetQuestManager ()

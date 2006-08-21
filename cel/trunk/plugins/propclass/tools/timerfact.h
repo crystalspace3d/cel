@@ -62,9 +62,14 @@ private:
   bool wakeupframe;
   bool wakeuponce;
 
-  static csStringID action_wakeup;
-  static csStringID action_wakeupframe;
-  static csStringID action_clear;
+  static PropertyHolder propinfo;
+
+  enum actionids
+  {
+    action_wakeup = 0,
+    action_wakeupframe,
+    action_clear
+  };
 
   static csStringID id_elapsedticks;
   static csStringID id_currentticks;
@@ -85,7 +90,7 @@ public:
   virtual const char* GetName () const { return "pctimer"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
   virtual void TickEveryFrame ();

@@ -38,10 +38,6 @@ CEL_IMPLEMENT_FACTORY (MechanicsBalancedGroup, "pcmechbalancedgroup")
 
 //---------------------------------------------------------------------------
 
-// Actions
-csStringID celPcMechanicsBalancedGroup::action_addthruster = csInvalidStringID;
-csStringID celPcMechanicsBalancedGroup::action_settype = csInvalidStringID;
-
 // Parameters for action_addthruster
 csStringID celPcMechanicsBalancedGroup::param_thruster = csInvalidStringID;
 csStringID celPcMechanicsBalancedGroup::param_multiplier = csInvalidStringID;
@@ -52,6 +48,8 @@ csStringID celPcMechanicsBalancedGroup::param_type = csInvalidStringID;
 // Group types
 csStringID celPcMechanicsBalancedGroup::type_rotation = csInvalidStringID;
 csStringID celPcMechanicsBalancedGroup::type_translation = csInvalidStringID;
+
+PropertyHolder celPcMechanicsBalancedGroup::propinfo;
 
 SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsBalancedGroup)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsBalancedGroup)
@@ -66,12 +64,8 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsBalancedGroup);
 
-  if (action_addthruster == csInvalidStringID)
+  if (param_thruster == csInvalidStringID)
   {
-    // Actions
-    action_addthruster = pl->FetchStringID ("cel.action.AddThruster");
-    action_settype = pl->FetchStringID ("cel.action.SetType");
-
     // Parameters for action_addthruster
     param_thruster = pl->FetchStringID ("cel.parameter.thrusterpctag");
     param_multiplier = pl->FetchStringID ("cel.parameter.multiplier");
@@ -82,6 +76,13 @@ celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
     // Group types
     type_rotation = pl->FetchStringID ("rotation");
     type_translation = pl->FetchStringID ("translation");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_addthruster, "cel.action.AddThruster");
+    AddAction (action_settype, "cel.action.SetType");
   }
 }
 
@@ -127,58 +128,63 @@ bool celPcMechanicsBalancedGroup::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcMechanicsBalancedGroup::PerformAction (csStringID actionId,
+bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_addthruster)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
-    if (!p_thruster)
-    {
-      CS_REPORT(ERROR,"Couldn't get thruster tag!");
+    case action_addthruster:
+      {
+        CEL_FETCH_STRING_PAR (thruster,params,param_thruster);
+        if (!p_thruster)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster tag!");
+          return false;
+        }
+        CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
+        if (!p_mult)
+        {
+          CS_REPORT(ERROR,"Couldn't get multiplier for thruster!");
+          mult = 1.0f;
+        }
+        csRef<iPcMechanicsThruster> th = CEL_QUERY_PROPCLASS_TAG_ENT
+	    (GetEntity (), iPcMechanicsThruster, thruster);
+        if (!th)
+        {
+          csString msg = "Couldn't find thruster with given tag: ";
+          msg += thruster;
+          CS_REPORT(ERROR,msg);
+          return false;
+        }
+        AddThruster (th, mult);
+        return true;
+      }
+    case action_settype:
+      {
+        CEL_FETCH_STRING_PAR (type,params,param_type);
+        if (!p_type)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster group type!");
+          return false;
+        }
+        csStringID type_id = pl->FetchStringID (type);
+        celAxisType gtype;
+        if (type_id == type_rotation)
+          gtype = CEL_AT_ROTATION;
+        else if (type_id == type_translation)
+          gtype = CEL_AT_TRANSLATION;
+        else
+        {
+          CS_REPORT(ERROR,"Invalid thruster group type!");
+          return false;
+        }
+        SetType (gtype);
+	return true;
+      }
+    default:
       return false;
-    }
-    CEL_FETCH_FLOAT_PAR (mult,params,param_multiplier);
-    if (!p_mult)
-    {
-      CS_REPORT(ERROR,"Couldn't get multiplier for thruster!");
-      mult = 1.0f;
-    }
-    csRef<iPcMechanicsThruster> th = CEL_QUERY_PROPCLASS_TAG_ENT
-	(GetEntity (), iPcMechanicsThruster, thruster);
-    if (!th)
-    {
-      csString msg = "Couldn't find thruster with given tag: ";
-      msg += thruster;
-      CS_REPORT(ERROR,msg);
-      return false;
-    }
-    AddThruster (th, mult);
-    return true;
   }
-  else if (actionId == action_settype)
-  {
-    CEL_FETCH_STRING_PAR (type,params,param_type);
-    if (!p_type)
-    {
-      CS_REPORT(ERROR,"Couldn't get thruster group type!");
-      return false;
-    }
-    csStringID type_id = pl->FetchStringID (type);
-    celAxisType gtype;
-    if (type_id == type_rotation)
-      gtype = CEL_AT_ROTATION;
-    else if (type_id == type_translation)
-      gtype = CEL_AT_TRANSLATION;
-    else
-    {
-      CS_REPORT(ERROR,"Invalid thruster group type!");
-      return false;
-    }
-    SetType (gtype);
-  }
-  return false;
 }
 
 void celPcMechanicsBalancedGroup::AddThruster (iPcMechanicsThruster* thruster,
@@ -265,12 +271,6 @@ CEL_IMPLEMENT_FACTORY (MechanicsThrusterController, "pcmechthrustercontroller")
 
 //---------------------------------------------------------------------------
 
-// Actions
-csStringID celPcMechanicsThrusterController::action_addaxis = csInvalidStringID;
-csStringID celPcMechanicsThrusterController::action_applythrust = csInvalidStringID;
-csStringID celPcMechanicsThrusterController::action_addbalancedgroup = csInvalidStringID;
-csStringID celPcMechanicsThrusterController::action_inittc = csInvalidStringID;
-
 // Parameters for action_inittc
 csStringID celPcMechanicsThrusterController::param_object = csInvalidStringID;
 
@@ -291,6 +291,8 @@ csStringID celPcMechanicsThrusterController::param_balancedgroup = csInvalidStri
 csStringID celPcMechanicsThrusterController::type_rotation = csInvalidStringID;
 csStringID celPcMechanicsThrusterController::type_translation = csInvalidStringID;
 
+PropertyHolder celPcMechanicsThrusterController::propinfo;
+
 SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsThrusterController)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsThrusterController)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -304,14 +306,8 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThrusterController);
 
-  if (action_addaxis == csInvalidStringID)
+  if (param_object == csInvalidStringID)
   {
-    // Actions
-    action_addaxis = pl->FetchStringID ("cel.action.AddAxis");
-    action_applythrust = pl->FetchStringID ("cel.action.ApplyThrust");
-    action_addbalancedgroup = pl->FetchStringID ("cel.action.AddBalancedGroup");
-    action_inittc = pl->FetchStringID ("cel.action.InitThrusterController");
-
     // Parameters for action_inittc
     param_object = pl->FetchStringID ("cel.parameter.objectpctag");
 
@@ -329,6 +325,15 @@ celPcMechanicsThrusterController::celPcMechanicsThrusterController (
     // Axis types
     type_rotation = pl->FetchStringID ("rotation");
     type_translation = pl->FetchStringID ("translation");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_addaxis, "cel.action.AddAxis");
+    AddAction (action_applythrust, "cel.action.ApplyThrust");
+    AddAction (action_addbalancedgroup, "cel.action.AddBalancedGroup");
+    AddAction (action_inittc, "cel.action.InitThrusterController");
   }
 }
 
@@ -419,96 +424,101 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcMechanicsThrusterController::PerformAction (csStringID actionId,
+bool celPcMechanicsThrusterController::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_addaxis)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-    if (!p_axisname)
-    {
-      CS_REPORT(ERROR,"Couldn't get axis name!");
+    case action_addaxis:
+      {
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_STRING_PAR (axistype,params,param_axistype);
+        if (!p_axistype)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis type!");
+          return false;
+        }
+        csStringID type_id = pl->FetchStringID (axistype);
+        celAxisType atype;
+        if (type_id == type_rotation)
+          atype = CEL_AT_ROTATION;
+        else if (type_id == type_translation)
+          atype = CEL_AT_TRANSLATION;
+        else
+	{
+          CS_REPORT(ERROR,"Invalid axis type!");
+          return false;
+        }
+        CEL_FETCH_VECTOR3_PAR (axisdir,params,param_axisdir);
+        if (!p_axisdir)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis direction!");
+          return false;
+        }
+        AddAxis (axisname, atype, axisdir);
+        return true;
+      }
+    case action_applythrust:
+      {
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_FLOAT_PAR (thrust,params,param_thrust);
+        if (!p_thrust)
+        {
+          CS_REPORT(ERROR,"Couldn't get thrust!");
+          return false;
+        }
+        uint32 forceid;
+        ApplyThrust (thrust, axisname, forceid);
+        //TODO: Any way to return forceid to the caller?
+	return true;
+      }
+    case action_addbalancedgroup:
+      {
+        CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
+        if (!p_axisname)
+        {
+          CS_REPORT(ERROR,"Couldn't get axis name!");
+          return false;
+        }
+        CEL_FETCH_STRING_PAR (balancedgrouppctag,params,param_balancedgroup);
+        if (!p_balancedgrouppctag)
+        {
+          CS_REPORT(ERROR,"Couldn't get thruster group tag!");
+          return false;
+        }
+        csRef<iPcMechanicsBalancedGroup> tg = CEL_QUERY_PROPCLASS_TAG_ENT
+	    (GetEntity (), iPcMechanicsBalancedGroup, balancedgrouppctag);
+        AddBalancedGroup (tg, axisname);
+	return true;
+      }
+    case action_inittc:
+      {
+        CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
+        if (p_objectpctag)
+        {
+          csRef<iPcMechanicsObject> mechobj = 0;
+          mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
+      	    iPcMechanicsObject,objectpctag);
+          assert (mechobj);
+          SetMechanicsObject (mechobj);
+	  return true;
+        }
+        else return false;
+      }
+    default:
       return false;
-    }
-    CEL_FETCH_STRING_PAR (axistype,params,param_axistype);
-    if (!p_axistype)
-    {
-      CS_REPORT(ERROR,"Couldn't get axis type!");
-      return false;
-    }
-    csStringID type_id = pl->FetchStringID (axistype);
-    celAxisType atype;
-    if (type_id == type_rotation)
-      atype = CEL_AT_ROTATION;
-    else if (type_id == type_translation)
-      atype = CEL_AT_TRANSLATION;
-    else {
-      CS_REPORT(ERROR,"Invalid axis type!");
-      return false;
-    }
-    CEL_FETCH_VECTOR3_PAR (axisdir,params,param_axisdir);
-    if (!p_axisdir)
-    {
-      CS_REPORT(ERROR,"Couldn't get axis direction!");
-      return false;
-    }
-    AddAxis (axisname, atype, axisdir);
-    return true;
   }
-  else if (actionId == action_applythrust)
-  {
-    CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-    if (!p_axisname)
-    {
-      CS_REPORT(ERROR,"Couldn't get axis name!");
-      return false;
-    }
-    CEL_FETCH_FLOAT_PAR (thrust,params,param_thrust);
-    if (!p_thrust)
-    {
-      CS_REPORT(ERROR,"Couldn't get thrust!");
-      return false;
-    }
-    uint32 forceid;
-    ApplyThrust (thrust, axisname, forceid);
-    //TODO: Any way to return forceid to the caller?
-  }
-  else if (actionId == action_addbalancedgroup)
-  {
-    CEL_FETCH_STRING_PAR (axisname,params,param_axisname);
-    if (!p_axisname)
-    {
-      CS_REPORT(ERROR,"Couldn't get axis name!");
-      return false;
-    }
-    CEL_FETCH_STRING_PAR (balancedgrouppctag,params,param_balancedgroup);
-    if (!p_balancedgrouppctag)
-    {
-      CS_REPORT(ERROR,"Couldn't get thruster group tag!");
-      return false;
-    }
-    csRef<iPcMechanicsBalancedGroup> tg = CEL_QUERY_PROPCLASS_TAG_ENT
-	(GetEntity (), iPcMechanicsBalancedGroup, balancedgrouppctag);
-    AddBalancedGroup (tg, axisname);
-  }
-  else if (actionId == action_inittc)
-  {
-    CEL_FETCH_STRING_PAR (objectpctag,params,param_object);
-    if (p_objectpctag)
-    {
-      csRef<iPcMechanicsObject> mechobj = 0;
-      mechobj = CEL_QUERY_PROPCLASS_TAG_ENT(GetEntity (),
-      	iPcMechanicsObject,objectpctag);
-      assert (mechobj);
-      SetMechanicsObject (mechobj);
-    }
-    else
-    {
-      return false;
-    }
-  }
-  return false;
 }
 
 void celPcMechanicsThrusterController::SetMechanicsObject (iPcMechanicsObject*

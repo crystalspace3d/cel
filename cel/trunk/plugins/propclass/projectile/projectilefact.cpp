@@ -43,8 +43,6 @@ csStringID celPcProjectile::id_maxdist = csInvalidStringID;
 csStringID celPcProjectile::id_maxhits = csInvalidStringID;
 csStringID celPcProjectile::id_entity = csInvalidStringID;
 csStringID celPcProjectile::id_intersection = csInvalidStringID;
-csStringID celPcProjectile::action_start = csInvalidStringID;
-csStringID celPcProjectile::action_interrupt = csInvalidStringID;
 
 PropertyHolder celPcProjectile::propinfo;
 
@@ -52,10 +50,8 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   // For SendMessage parameters.
-  if (action_start == csInvalidStringID)
+  if (id_direction == csInvalidStringID)
   {
-    action_start = pl->FetchStringID ("cel.action.Start");
-    action_interrupt = pl->FetchStringID ("cel.action.Interrupt");
     id_direction = pl->FetchStringID ("cel.parameter.direction");
     id_speed = pl->FetchStringID ("cel.parameter.speed");
     id_maxdist = pl->FetchStringID ("cel.parameter.maxdist");
@@ -67,8 +63,14 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   params->SetParameterDef (0, id_entity, "entity");
   params->SetParameterDef (1, id_intersection, "intersection");
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_start, "cel.action.Start");
+    AddAction (action_interrupt, "cel.action.Interrupt");
+  }
+
+  // For properties.
   propinfo.SetCount (1);
   AddProperty (propid_moving, "cel.property.moving",
 	CEL_DATA_BOOL, true, "Moving.", 0);
@@ -142,29 +144,31 @@ void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
   }
 }
 
-bool celPcProjectile::PerformAction (csStringID actionId,
+bool celPcProjectile::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_start)
+  switch (idx)
   {
-    CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
-    if (!p_direction) return false;	// @@@ Error?
-    CEL_FETCH_FLOAT_PAR (speed,params,id_speed);
-    if (!p_speed) speed = 1.0f;
-    CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
-    if (!p_maxdist) maxdist = 1000000000.0f;
-    CEL_FETCH_LONG_PAR (maxhits,params,id_maxhits);
-    if (!p_maxhits) maxhits = 1;
-    Start (direction, speed, maxdist, maxhits);
-    return true;
+    case action_start:
+      {
+        CEL_FETCH_VECTOR3_PAR (direction,params,id_direction);
+        if (!p_direction) return false;	// @@@ Error?
+        CEL_FETCH_FLOAT_PAR (speed,params,id_speed);
+        if (!p_speed) speed = 1.0f;
+        CEL_FETCH_FLOAT_PAR (maxdist,params,id_maxdist);
+        if (!p_maxdist) maxdist = 1000000000.0f;
+        CEL_FETCH_LONG_PAR (maxhits,params,id_maxhits);
+        if (!p_maxhits) maxhits = 1;
+        Start (direction, speed, maxdist, maxhits);
+        return true;
+      }
+    case action_interrupt:
+      Interrupt ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_interrupt)
-  {
-    Interrupt ();
-    return true;
-  }
-  return false;
 }
 
 bool celPcProjectile::Start (const csVector3& direction,
