@@ -423,6 +423,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   conin->SetExecuteCallback (cb);
   cb->DecRef ();
   conout->SetVisible (false);
+  conout->AutoUpdate (false);
 
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
