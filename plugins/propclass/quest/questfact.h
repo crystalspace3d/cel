@@ -50,11 +50,15 @@ private:
   //static csStringID id_message;
   //celOneParameterBlock* params;
 
-  // For PerformAction.
+  // For actions.
   // id_message is shared.
-  static csStringID action_newquest;
-  static csStringID action_stopquest;
   static csStringID id_name;
+
+  enum actionids
+  {
+    action_newquest = 0,
+    action_stopquest
+  };
 
   // For properties.
   enum propids
@@ -86,7 +90,7 @@ public:
   virtual const char* GetName () const { return "pcquest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   virtual bool SetPropertyIndexed (int, const char*);

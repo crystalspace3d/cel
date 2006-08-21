@@ -98,15 +98,6 @@ private:
   int inhibit_count;
   uint32 serialnr;
 
-  static csStringID action_addentitytype;
-  static csStringID action_addentitytpltype;
-  static csStringID action_settiming;
-  static csStringID action_resettiming;
-  static csStringID action_setenabled;
-  static csStringID action_clearentitylist;
-  static csStringID action_inhibit;
-  static csStringID action_spawn;
-  static csStringID action_addspawnposition;
   static csStringID id_repeat_param;
   static csStringID id_random_param;
   static csStringID id_mindelay_param;
@@ -125,6 +116,21 @@ private:
   celGenericParameterBlock* params;
   static csStringID id_entity;
   static csStringID id_behaviour;
+
+  enum actionids
+  {
+    action_addentitytype = 0,
+    action_addentitytpltype,
+    action_settiming,
+    action_resettiming,
+    action_setenabled,
+    action_clearentitylist,
+    action_inhibit,
+    action_spawn,
+    action_addspawnposition
+  };
+
+  static PropertyHolder propinfo;
 
 public:
   celPcSpawn (iObjectRegistry* object_reg);
@@ -152,7 +158,7 @@ public:
   virtual const char* GetName () const { return "pcspawn"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
   virtual void SpawnEntityNr (size_t idx);

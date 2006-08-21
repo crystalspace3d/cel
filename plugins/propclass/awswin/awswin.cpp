@@ -43,37 +43,35 @@ CEL_IMPLEMENT_FACTORY (AwsWin, "pcawswindow")
 
 //---------------------------------------------------------------------------
 
-csStringID celPcAwsWin::action_loaddefinitionfile = csInvalidStringID;
-csStringID celPcAwsWin::action_selectdefaultskin = csInvalidStringID;
-csStringID celPcAwsWin::action_createwindow = csInvalidStringID;
-csStringID celPcAwsWin::action_createsink = csInvalidStringID;
-csStringID celPcAwsWin::action_registertrigger = csInvalidStringID;
-csStringID celPcAwsWin::action_show = csInvalidStringID;
-csStringID celPcAwsWin::action_hide = csInvalidStringID;
-csStringID celPcAwsWin::action_raise = csInvalidStringID;
-csStringID celPcAwsWin::action_lower = csInvalidStringID;
 csStringID celPcAwsWin::id_filename = csInvalidStringID;
 csStringID celPcAwsWin::id_name = csInvalidStringID;
 csStringID celPcAwsWin::id_trigger = csInvalidStringID;
+
+PropertyHolder celPcAwsWin::propinfo;
 
 celPcAwsWin::celPcAwsWin (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   // For actions.
-  if (action_loaddefinitionfile == csInvalidStringID)
+  if (id_filename == csInvalidStringID)
   {
-    action_loaddefinitionfile = pl->FetchStringID ("cel.action.LoadDefinitionFile");
-    action_selectdefaultskin = pl->FetchStringID ("cel.action.SelectDefaultSkin");
-    action_createwindow = pl->FetchStringID ("cel.action.CreateWindow");
-    action_createsink = pl->FetchStringID ("cel.action.CreateSink");
-    action_registertrigger = pl->FetchStringID ("cel.action.RegisterTrigger");
-    action_show = pl->FetchStringID ("cel.action.Show");
-    action_hide = pl->FetchStringID ("cel.action.Hide");
-    action_raise = pl->FetchStringID ("cel.action.Raise");
-    action_lower = pl->FetchStringID ("cel.action.Lower");
     id_filename = pl->FetchStringID ("cel.parameter.filename");
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_trigger = pl->FetchStringID ("cel.parameter.trigger");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_loaddefinitionfile, "cel.action.LoadDefinitionFile");
+    AddAction (action_selectdefaultskin, "cel.action.SelectDefaultSkin");
+    AddAction (action_createwindow, "cel.action.CreateWindow");
+    AddAction (action_createsink, "cel.action.CreateSink");
+    AddAction (action_registertrigger, "cel.action.RegisterTrigger");
+    AddAction (action_show, "cel.action.Show");
+    AddAction (action_hide, "cel.action.Hide");
+    AddAction (action_raise, "cel.action.Raise");
+    AddAction (action_lower, "cel.action.Lower");
   }
 
   awssink = 0;
@@ -140,85 +138,81 @@ static void TriggerFunc (unsigned long id, intptr_t sink, iAwsSource* source)
   pc->Trigger (id, source);
 }
 
-bool celPcAwsWin::PerformAction (csStringID actionId,
+bool celPcAwsWin::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_loaddefinitionfile)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (filename,params,id_filename);
-    if (!p_filename)
-      return Report (object_reg,
-      	"Missing parameter 'filename' for action LoadDefinitionFile!");
-    if (!GetAWS ()) return false;
-    if (!aws->GetPrefMgr ()->Load (filename))
-      return Report (object_reg, "Couldn't load '%s'!", filename);
-    return true;
-  }
-  else if (actionId == action_selectdefaultskin)
-  {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action SelectDefaultSkin!");
-    if (!GetAWS ()) return false;
-    aws->GetPrefMgr ()->SelectDefaultSkin (name);
-    return true;
-  }
-  else if (actionId == action_createwindow)
-  {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action CreateWindow!");
-    if (!CreateWindow (name))
+    case action_loaddefinitionfile:
+      {
+        CEL_FETCH_STRING_PAR (filename,params,id_filename);
+        if (!p_filename)
+          return Report (object_reg,
+      	    "Missing parameter 'filename' for action LoadDefinitionFile!");
+        if (!GetAWS ()) return false;
+        if (!aws->GetPrefMgr ()->Load (filename))
+          return Report (object_reg, "Couldn't load '%s'!", filename);
+        return true;
+      }
+    case action_selectdefaultskin:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action SelectDefaultSkin!");
+        if (!GetAWS ()) return false;
+        aws->GetPrefMgr ()->SelectDefaultSkin (name);
+        return true;
+      }
+    case action_createwindow:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action CreateWindow!");
+        if (!CreateWindow (name))
+          return false;
+        return true;
+      }
+    case action_createsink:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action CreateSink!");
+        if (!CreateSink (name))
+          return false;
+        return true;
+      }
+    case action_registertrigger:
+      {
+        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+        if (!p_trigger)
+          return Report (object_reg,
+      	    "Missing parameter 'trigger' for action RegisterTrigger!");
+        if (!awssink)
+          return Report (object_reg,
+      	    "Missing sink! Please use CreateSink first!");
+        triggers.Add (trigger);
+        awssink->RegisterTrigger (trigger, &TriggerFunc);
+        return true;
+      }
+    case action_show:
+      if (awswindow) awswindow->Show ();
+      return true;
+    case action_hide:
+      if (awswindow) awswindow->Hide ();
+      return true;
+    case action_raise:
+      if (awswindow) awswindow->Raise ();
+      return true;
+    case action_lower:
+      if (awswindow) awswindow->Lower ();
+      return true;
+    default:
       return false;
-    return true;
   }
-  else if (actionId == action_createsink)
-  {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!p_name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action CreateSink!");
-    if (!CreateSink (name))
-      return false;
-    return true;
-  }
-  else if (actionId == action_registertrigger)
-  {
-    CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
-    if (!p_trigger)
-      return Report (object_reg,
-      	"Missing parameter 'trigger' for action RegisterTrigger!");
-    if (!awssink)
-      return Report (object_reg,
-      	"Missing sink! Please use CreateSink first!");
-    triggers.Add (trigger);
-    awssink->RegisterTrigger (trigger, &TriggerFunc);
-    return true;
-  }
-  else if (actionId == action_show)
-  {
-    if (awswindow) awswindow->Show ();
-    return true;
-  }
-  else if (actionId == action_hide)
-  {
-    if (awswindow) awswindow->Hide ();
-    return true;
-  }
-  else if (actionId == action_raise)
-  {
-    if (awswindow) awswindow->Raise ();
-    return true;
-  }
-  else if (actionId == action_lower)
-  {
-    if (awswindow) awswindow->Lower ();
-    return true;
-  }
-  return false;
 }
 
 class awswinEventHandler : public scfImplementation1<awswinEventHandler,

@@ -68,8 +68,13 @@ class celPcMechanicsBalancedGroup : public celPcCommon
 {
 private:
   // Actions
-  static csStringID action_addthruster;
-  static csStringID action_settype;
+  enum actionids
+  {
+    action_addthruster = 0,
+    action_settype
+  };
+
+  static PropertyHolder propinfo;
 
   // Parameters for action_addthruster
   static csStringID param_thruster;
@@ -96,7 +101,7 @@ public:
   virtual const char* GetName () const { return "pcmechbalancedgroup"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // iPcMechanicsBalancedGroup function implementation
@@ -205,10 +210,15 @@ class celPcMechanicsThrusterController : public celPcCommon
 {
 private:
   // Actions
-  static csStringID action_addaxis;
-  static csStringID action_applythrust;
-  static csStringID action_addbalancedgroup;
-  static csStringID action_inittc;
+  enum actionids
+  {
+    action_addaxis = 0,
+    action_applythrust,
+    action_addbalancedgroup,
+    action_inittc
+  };
+
+  static PropertyHolder propinfo;
 
   // Parameters for action_inittc
   static csStringID param_object;
@@ -249,7 +259,7 @@ public:
   virtual const char* GetName () const { return "pcmechthrustercontroller"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // iPcMechanicsBalancedGroup function implementation

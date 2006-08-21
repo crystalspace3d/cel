@@ -87,30 +87,19 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-csStringID celPcMesh::action_setmesh = csInvalidStringID;
 csStringID celPcMesh::id_name = csInvalidStringID;
-csStringID celPcMesh::action_loadmesh = csInvalidStringID;
-csStringID celPcMesh::action_loadmeshpath = csInvalidStringID;
 csStringID celPcMesh::id_path = csInvalidStringID;
 csStringID celPcMesh::id_filename = csInvalidStringID;
 csStringID celPcMesh::id_factoryname = csInvalidStringID;
-csStringID celPcMesh::action_movemesh = csInvalidStringID;
-csStringID celPcMesh::action_rotatemesh = csInvalidStringID;
 csStringID celPcMesh::id_sector = csInvalidStringID;
 csStringID celPcMesh::id_position = csInvalidStringID;
 csStringID celPcMesh::id_rotation = csInvalidStringID;
-csStringID celPcMesh::action_clearrotation = csInvalidStringID;
-csStringID celPcMesh::action_lookat = csInvalidStringID;
 csStringID celPcMesh::id_forward = csInvalidStringID;
 csStringID celPcMesh::id_up = csInvalidStringID;
-csStringID celPcMesh::action_setvisible = csInvalidStringID;
 csStringID celPcMesh::id_visible = csInvalidStringID;
-csStringID celPcMesh::action_setmaterial = csInvalidStringID;
 csStringID celPcMesh::id_material = csInvalidStringID;
-csStringID celPcMesh::action_setshadervar = csInvalidStringID;
 csStringID celPcMesh::id_type = csInvalidStringID;
 csStringID celPcMesh::id_value = csInvalidStringID;
-csStringID celPcMesh::action_setanimation = csInvalidStringID;
 csStringID celPcMesh::id_animation = csInvalidStringID;
 csStringID celPcMesh::id_cycle = csInvalidStringID;
 
@@ -124,39 +113,43 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   creation_flag = CEL_CREATE_NONE;
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
-  if (action_loadmesh == csInvalidStringID)
+  if (id_name == csInvalidStringID)
   {
-    action_setmesh = pl->FetchStringID ("cel.action.SetMesh");
     id_name = pl->FetchStringID ("cel.parameter.name");
-    action_loadmesh = pl->FetchStringID ("cel.action.LoadMesh");
-    action_loadmeshpath = pl->FetchStringID ("cel.action.LoadMeshPath");
     id_path = pl->FetchStringID ("cel.parameter.path");
     id_filename = pl->FetchStringID ("cel.parameter.filename");
     id_factoryname = pl->FetchStringID ("cel.parameter.factoryname");
-    action_movemesh = pl->FetchStringID ("cel.action.MoveMesh");
-    action_rotatemesh = pl->FetchStringID ("cel.action.RotateMesh");
     id_sector = pl->FetchStringID ("cel.parameter.sector");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_rotation = pl->FetchStringID ("cel.parameter.rotation");
-    action_clearrotation = pl->FetchStringID ("cel.action.ClearRotation");
-    action_lookat = pl->FetchStringID ("cel.action.LookAt");
     id_forward = pl->FetchStringID ("cel.parameter.forward");
     id_up = pl->FetchStringID ("cel.parameter.up");
-    action_setvisible = pl->FetchStringID ("cel.action.SetVisible");
     id_visible = pl->FetchStringID ("cel.parameter.visible");
-    action_setmaterial = pl->FetchStringID ("cel.action.SetMaterial");
     id_material = pl->FetchStringID ("cel.parameter.material");
 
-    action_setshadervar = pl->FetchStringID ("cel.action.SetShaderVar");
     id_value = pl->FetchStringID ("cel.parameter.value");
     id_type = pl->FetchStringID ("cel.parameter.type");
-    action_setanimation = pl->FetchStringID ("cel.action.SetAnimation");
     id_animation = pl->FetchStringID ("cel.parameter.animation");
     id_cycle = pl->FetchStringID ("cel.parameter.cycle");
   }
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setmesh, "cel.action.SetMesh");
+    AddAction (action_loadmesh, "cel.action.LoadMesh");
+    AddAction (action_loadmeshpath, "cel.action.LoadMeshPath");
+    AddAction (action_movemesh, "cel.action.MoveMesh");
+    AddAction (action_rotatemesh, "cel.action.RotateMesh");
+    AddAction (action_clearrotation, "cel.action.ClearRotation");
+    AddAction (action_lookat, "cel.action.LookAt");
+    AddAction (action_setvisible, "cel.action.SetVisible");
+    AddAction (action_setmaterial, "cel.action.SetMaterial");
+    AddAction (action_setshadervar, "cel.action.SetShaderVar");
+    AddAction (action_setanimation, "cel.action.SetAnimation");
+  }
+ 
+  // For properties.
   propinfo.SetCount (6);
   AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
@@ -252,198 +245,210 @@ void celPcMesh::RemoveMesh ()
   creation_flag = CEL_CREATE_NONE;
 }
 
-bool celPcMesh::PerformAction (csStringID actionId,
+bool celPcMesh::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_setmesh)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (name,params,id_name);
-    if (!name)
-      return Report (object_reg,
-      	"Missing parameter 'name' for action SetMesh!");
-    iMeshWrapper* m = engine->FindMeshObject (name);
-    if (!m)
-      return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
-      	name);
-    SetMesh (m, false);
-  }
-  else if (actionId == action_setvisible)
-  {
-    CEL_FETCH_BOOL_PAR (visible,params,id_visible);
-    if (!p_visible) visible = true;
-    if (mesh)
-    {
-      if (visible)
-        mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
-      else
-        mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
-    }
-  }
-  else if (actionId == action_setmaterial)
-  {
-    CEL_FETCH_STRING_PAR (material,params,id_material);
-    if (!p_material)
-      return Report (object_reg, "'material' parameter missing for SetMaterial!");
-    iMaterialWrapper* mat = engine->FindMaterial (material);
-    if (!mat)
-      return Report (object_reg, "Can't find material '%s' for SetMaterial!",
-      	material);
-    if (mesh)
-    {
-      mesh->GetMeshObject ()->SetMaterialWrapper (mat);
-    }
-  }
-  else if (actionId == action_loadmesh)
-  {
-    CEL_FETCH_STRING_PAR (file,params,id_filename);
-    CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-    if (!factory)
-      return Report (object_reg,
-      	"Missing parameter 'factoryname' for action LoadMesh!");
-    bool rc = SetMesh (factory, file);
-    if (!rc)
-      return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
-      	factory, file);
-  }
-  else if (actionId == action_loadmeshpath)
-  {
-    CEL_FETCH_STRING_PAR (pa,params,id_path);
-    if (!pa)
-      return Report (object_reg,
-      	"Missing parameter 'path' for action LoadMeshPath!");
-    CEL_FETCH_STRING_PAR (file,params,id_filename);
-    if (!file)
-      return Report (object_reg,
-      	"Missing parameter 'filename' for action LoadMeshPath!");
-    CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
-    if (!factory)
-      return Report (object_reg,
-      	"Missing parameter 'factoryname' for action LoadMeshPath!");
-    SetPath (pa);
-    bool rc = SetMesh (factory, file);
-    if (!rc)
-      return Report (object_reg,
-      	"Can't load mesh '%s/%s' (path '%s') for action LoadMeshPath!",
-      	(const char*)factory, (const char*)file, (const char*)path);
-  }
-  else if (actionId == action_movemesh)
-  {
-    CEL_FETCH_STRING_PAR (sector,params,id_sector);
-    if (!sector)
-      return Report (object_reg,
-      	"Missing parameter 'sector' for action MoveMesh!");
-    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position)
-      return Report (object_reg,
-      	"Missing parameter 'position' for action MoveMesh!");
-    if (*sector == 0)
-    {
-      // Special case. We simply remove the mesh from all sectors.
+    case action_setmesh:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!name)
+          return Report (object_reg,
+      	    "Missing parameter 'name' for action SetMesh!");
+        iMeshWrapper* m = engine->FindMeshObject (name);
+        if (!m)
+          return Report (object_reg, "Can't find mesh '%s' for action SetMesh!",
+      	    name);
+        SetMesh (m, false);
+	return true;
+      }
+    case action_setvisible:
+      {
+        CEL_FETCH_BOOL_PAR (visible,params,id_visible);
+        if (!p_visible) visible = true;
+        if (mesh)
+        {
+          if (visible)
+            mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+          else
+            mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+        }
+	return true;
+      }
+    case action_setmaterial:
+      {
+        CEL_FETCH_STRING_PAR (material,params,id_material);
+        if (!p_material)
+          return Report (object_reg, "'material' parameter missing for SetMaterial!");
+        iMaterialWrapper* mat = engine->FindMaterial (material);
+        if (!mat)
+          return Report (object_reg, "Can't find material '%s' for SetMaterial!",
+      	    material);
+        if (mesh)
+        {
+          mesh->GetMeshObject ()->SetMaterialWrapper (mat);
+        }
+	return true;
+      }
+    case action_loadmesh:
+      {
+        CEL_FETCH_STRING_PAR (file,params,id_filename);
+        CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
+        if (!factory)
+          return Report (object_reg,
+      	    "Missing parameter 'factoryname' for action LoadMesh!");
+        bool rc = SetMesh (factory, file);
+        if (!rc)
+          return Report (object_reg, "Can't load mesh '%s/%s' for action LoadMesh!",
+      	    factory, file);
+	return true;
+      }
+    case action_loadmeshpath:
+      {
+        CEL_FETCH_STRING_PAR (pa,params,id_path);
+        if (!pa)
+          return Report (object_reg,
+      	    "Missing parameter 'path' for action LoadMeshPath!");
+        CEL_FETCH_STRING_PAR (file,params,id_filename);
+        if (!file)
+          return Report (object_reg,
+      	    "Missing parameter 'filename' for action LoadMeshPath!");
+        CEL_FETCH_STRING_PAR (factory,params,id_factoryname);
+        if (!factory)
+          return Report (object_reg,
+      	    "Missing parameter 'factoryname' for action LoadMeshPath!");
+        SetPath (pa);
+        bool rc = SetMesh (factory, file);
+        if (!rc)
+          return Report (object_reg,
+      	    "Can't load mesh '%s/%s' (path '%s') for action LoadMeshPath!",
+      	    (const char*)factory, (const char*)file, (const char*)path);
+	return true;
+      }
+    case action_movemesh:
+      {
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!sector)
+          return Report (object_reg,
+      	    "Missing parameter 'sector' for action MoveMesh!");
+        CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+        if (!p_position)
+          return Report (object_reg,
+      	    "Missing parameter 'position' for action MoveMesh!");
+        if (*sector == 0)
+        {
+          // Special case. We simply remove the mesh from all sectors.
+          if (mesh)
+          {
+            mesh->GetMovable ()->ClearSectors ();
+            mesh->GetMovable ()->UpdateMove ();
+          }
+        }
+        else
+        {
+          iSector* sect = engine->FindSector (sector);
+          if (!sect)
+            return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
+      	      sector);
+          MoveMesh (sect, position);
+        }
+        CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
+        if (p_rotation && mesh)
+        {
+          csQuaternion quat;
+          quat.SetEulerAngles(rotation);
+          mesh->GetMovable()->SetTransform(quat.GetMatrix());
+          mesh->GetMovable()->UpdateMove();
+        }
+	return true;
+      }
+    case action_rotatemesh:
+      {
+        CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
+        if (!p_rotation)
+          return Report (object_reg,
+      	    "Missing parameter 'rotation' for action RotateMesh!");
+        else if (mesh)
+        {
+          iMovable* mov = mesh->GetMovable ();
+          csQuaternion quat;
+          quat.SetEulerAngles(rotation);
+          csReversibleTransform tr (quat.GetMatrix (), csVector3 (0));
+          mov->SetTransform(tr * mov->GetTransform ());
+          mov->UpdateMove();
+        }
+	return true;
+      }
+    case action_clearrotation:
       if (mesh)
       {
-        mesh->GetMovable ()->ClearSectors ();
+        mesh->GetMovable ()->SetTransform (csMatrix3 ());
         mesh->GetMovable ()->UpdateMove ();
       }
-    }
-    else
-    {
-      iSector* sect = engine->FindSector (sector);
-      if (!sect)
-        return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
-      	  sector);
-      MoveMesh (sect, position);
-    }
-    CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
-    if (p_rotation && mesh)
-    {
-      csQuaternion quat;
-      quat.SetEulerAngles(rotation);
-      mesh->GetMovable()->SetTransform(quat.GetMatrix());
-      mesh->GetMovable()->UpdateMove();
-    }
+      return true;
+    case action_lookat:
+      {
+        CEL_FETCH_VECTOR3_PAR (forward,params,id_forward);
+        if (!p_forward) forward.Set (0, 0, 1);
+        CEL_FETCH_VECTOR3_PAR (up,params,id_up);
+        if (!p_up) up.Set (0, 1, 0);
+        if (mesh)
+        {
+          mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
+          mesh->GetMovable ()->UpdateMove ();
+        }
+	return true;
+      }
+    case action_setshadervar:
+      {
+        CEL_FETCH_STRING_PAR (par_name,params,id_name);
+        if (!p_par_name) return false;
+        CEL_FETCH_STRING_PAR (par_type,params,id_type);
+        if (!p_par_type) return false;
+        csRef<iStringSet> strset = CS_QUERY_REGISTRY_TAG_INTERFACE(object_reg,"crystalspace.shared.stringset", iStringSet);
+        if (!strcmp(par_type,"float"))
+        {
+          CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar(strset->Request(par_name),par_value);
+        }
+        else if (!strcmp(par_type,"long"))
+        {
+          CEL_FETCH_LONG_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar(strset->Request(par_name),(int)par_value);
+        }
+        else if (!strcmp(par_type,"vector3"))
+        {
+          CEL_FETCH_VECTOR3_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar(strset->Request(par_name),par_value);
+        }
+        /*else if (!strcmp(par_type,"vector2"))
+        {
+          CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar(strset->Request(par_name),par_value);
+        }*/
+        else
+            return Report (object_reg,
+      	      "Unsupported type %s for action SetShaderVar!",par_type);
+	return true;
+      }
+    case action_setanimation:
+      {
+        CEL_FETCH_STRING_PAR (par_animation,params,id_animation);
+        if (!p_par_animation) return false;
+        CEL_FETCH_BOOL_PAR (par_cycle,params,id_cycle);
+        if (!p_par_cycle) par_cycle = false;
+        SetAnimation(par_animation,par_cycle);
+	return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_rotatemesh)
-  {
-    CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
-    if (!p_rotation)
-      return Report (object_reg,
-      	"Missing parameter 'rotation' for action RotateMesh!");
-    else if (mesh)
-    {
-      iMovable* mov = mesh->GetMovable ();
-      csQuaternion quat;
-      quat.SetEulerAngles(rotation);
-      csReversibleTransform tr (quat.GetMatrix (), csVector3 (0));
-      mov->SetTransform(tr * mov->GetTransform ());
-      mov->UpdateMove();
-    }
-  }
-  else if (actionId == action_clearrotation)
-  {
-    if (mesh)
-    {
-      mesh->GetMovable ()->SetTransform (csMatrix3 ());
-      mesh->GetMovable ()->UpdateMove ();
-    }
-  }
-  else if (actionId == action_lookat)
-  {
-    CEL_FETCH_VECTOR3_PAR (forward,params,id_forward);
-    if (!p_forward) forward.Set (0, 0, 1);
-    CEL_FETCH_VECTOR3_PAR (up,params,id_up);
-    if (!p_up) up.Set (0, 1, 0);
-    if (mesh)
-    {
-      mesh->GetMovable ()->GetTransform ().LookAt (forward, up);
-      mesh->GetMovable ()->UpdateMove ();
-    }
-  }
-  else if (actionId == action_setshadervar)
-  {
-    CEL_FETCH_STRING_PAR (par_name,params,id_name);
-    if (!p_par_name) return false;
-    CEL_FETCH_STRING_PAR (par_type,params,id_type);
-    if (!p_par_type) return false;
-    csRef<iStringSet> strset = CS_QUERY_REGISTRY_TAG_INTERFACE(object_reg,"crystalspace.shared.stringset", iStringSet);
-    if (!strcmp(par_type,"float"))
-    {
-      CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
-      if (!p_par_value) return false;
-      SetShaderVar(strset->Request(par_name),par_value);
-    }
-    else if (!strcmp(par_type,"long"))
-    {
-      CEL_FETCH_LONG_PAR (par_value,params,id_value);
-      if (!p_par_value) return false;
-      SetShaderVar(strset->Request(par_name),(int)par_value);
-    }
-    else if (!strcmp(par_type,"vector3"))
-    {
-      CEL_FETCH_VECTOR3_PAR (par_value,params,id_value);
-      if (!p_par_value) return false;
-      SetShaderVar(strset->Request(par_name),par_value);
-    }
-    /*else if (!strcmp(par_type,"vector2"))
-    {
-      CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
-      if (!p_par_value) return false;
-      SetShaderVar(strset->Request(par_name),par_value);
-    }*/
-    else
-        return Report (object_reg,
-      	  "Unsupported type %s for action SetShaderVar!",par_type);
-  }
-  else if (actionId == action_setanimation)
-  {
-    CEL_FETCH_STRING_PAR (par_animation,params,id_animation);
-    if (!p_par_animation) return false;
-    CEL_FETCH_BOOL_PAR (par_cycle,params,id_cycle);
-    if (!p_par_cycle) par_cycle = false;
-    SetAnimation(par_animation,par_cycle);
-  }
-  else return false;
-  return true;
 }
 
 #define MESH_SERIAL 2
@@ -807,10 +812,7 @@ void celPcMesh::Show ()
 
 //---------------------------------------------------------------------------
 
-csStringID celPcMeshSelect::action_setcamera = csInvalidStringID;
-csStringID celPcMeshSelect::action_setmousebuttons = csInvalidStringID;
 csStringID celPcMeshSelect::id_buttons = csInvalidStringID;
-csStringID celPcMeshSelect::action_setdragplanenormal = csInvalidStringID;
 csStringID celPcMeshSelect::id_normal = csInvalidStringID;
 csStringID celPcMeshSelect::id_camera = csInvalidStringID;
 
@@ -855,10 +857,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
     id_button = pl->FetchStringID ("cel.parameter.button");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
 
-    action_setcamera = pl->FetchStringID ("cel.action.SetCamera");
-    action_setmousebuttons = pl->FetchStringID ("cel.action.SetMouseButtons");
     id_buttons = pl->FetchStringID ("cel.parameter.buttons");
-    action_setdragplanenormal = pl->FetchStringID ("cel.action.SetDragPlaneNormal");
     id_normal = pl->FetchStringID ("cel.parameter.normal");
     id_camera = pl->FetchStringID ("cel.parameter.camera");
   }
@@ -868,8 +867,15 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   params->SetParameterDef (2, id_button, "button");
   params->SetParameterDef (3, id_entity, "entity");
 
-  // For properties.
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setcamera, "cel.action.SetCamera");
+    AddAction (action_setmousebuttons, "cel.action.SetMouseButtons");
+    AddAction (action_setdragplanenormal, "cel.action.SetDragPlaneNormal");
+  }
+
+  // For properties.
   propinfo.SetCount (8);
   AddProperty (propid_global, "cel.property.global",
 	CEL_DATA_BOOL, false, "Global Selection.", 0);
@@ -1425,58 +1431,62 @@ void celPcMeshSelect::SetMouseButtons (const char* buttons)
   SetMouseButtons (but);
 }
 
-bool celPcMeshSelect::PerformAction (csStringID actionId,
+bool celPcMeshSelect::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_setcamera)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (entity,params,id_entity);
-    if (!entity)
-      return Report (object_reg,
-      	"Missing parameter 'entity' for action SetCamera!");
-    iCelEntity* ent = pl->FindEntity (entity);
-    if (!ent)
-      return Report (object_reg, "Can't find entity '%s' for action SetCamera!",
-      	entity);
-    csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
-    if (!pccam)
-      return Report (object_reg,
-      	"Entity '%s' doesn't have a camera (action SetCamera)!", entity);
-    SetCamera (pccam);
-    return true;
+    case action_setcamera:
+      {
+        CEL_FETCH_STRING_PAR (entity,params,id_entity);
+        if (!entity)
+          return Report (object_reg,
+      	    "Missing parameter 'entity' for action SetCamera!");
+        iCelEntity* ent = pl->FindEntity (entity);
+        if (!ent)
+          return Report (object_reg, "Can't find entity '%s' for action SetCamera!",
+      	    entity);
+        csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+        if (!pccam)
+          return Report (object_reg,
+      	    "Entity '%s' doesn't have a camera (action SetCamera)!", entity);
+        SetCamera (pccam);
+        return true;
+      }
+    case action_setmousebuttons:
+      {
+        CEL_FETCH_STRING_PAR (buttons_str,params,id_buttons);
+        if (p_buttons_str)
+        {
+          SetMouseButtons (buttons_str);
+        }
+        else
+        {
+          CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
+          if (!p_buttons)
+            return Report (object_reg,
+      	      "Missing parameter 'buttons' for action SetMouseButtons!");
+          SetMouseButtons (buttons);
+        }
+        return true;
+      }
+    case action_setdragplanenormal:
+      {
+        CEL_FETCH_BOOL_PAR (camera,params,id_camera);
+        if (!p_camera)
+          return Report (object_reg,
+      	    "Missing parameter 'camera' for action SetDragPlaneNormal!");
+        CEL_FETCH_VECTOR3_PAR (normal,params,id_normal);
+        if (!p_normal)
+          return Report (object_reg,
+      	    "Missing parameter 'normal' for action SetDragPlaneNormal!");
+        SetDragPlaneNormal (normal, camera);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_setmousebuttons)
-  {
-    CEL_FETCH_STRING_PAR (buttons_str,params,id_buttons);
-    if (p_buttons_str)
-    {
-      SetMouseButtons (buttons_str);
-    }
-    else
-    {
-      CEL_FETCH_LONG_PAR (buttons,params,id_buttons);
-      if (!p_buttons)
-        return Report (object_reg,
-      	  "Missing parameter 'buttons' for action SetMouseButtons!");
-      SetMouseButtons (buttons);
-    }
-    return true;
-  }
-  else if (actionId == action_setdragplanenormal)
-  {
-    CEL_FETCH_BOOL_PAR (camera,params,id_camera);
-    if (!p_camera)
-      return Report (object_reg,
-      	"Missing parameter 'camera' for action SetDragPlaneNormal!");
-    CEL_FETCH_VECTOR3_PAR (normal,params,id_normal);
-    if (!p_normal)
-      return Report (object_reg,
-      	"Missing parameter 'normal' for action SetDragPlaneNormal!");
-    SetDragPlaneNormal (normal, camera);
-    return true;
-  }
-  return false;
 }
 
 void celPcMesh::SetShaderVar(csStringID name, float value)

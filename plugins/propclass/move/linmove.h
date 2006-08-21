@@ -157,9 +157,7 @@ protected:
 
   void FindSiblingPropertyClasses ();
 
-  static csStringID action_initcdmesh;
   static csStringID id_percentage;
-  static csStringID action_initcd;
   static csStringID id_body;
   static csStringID id_legs;
   static csStringID id_offset;
@@ -167,10 +165,16 @@ protected:
   static csStringID id_position;
   static csStringID id_yrot;
   static csStringID id_velocity;
-  static csStringID action_setposition;
-  static csStringID action_setvelocity;
-  static csStringID action_addvelocity;
-  static csStringID action_setangularvelocity;
+
+  enum actionids
+  {
+    action_initcdmesh = 0,
+    action_initcd,
+    action_setposition,
+    action_setvelocity,
+    action_addvelocity,
+    action_setangularvelocity
+  };
 
   // For properties.
   enum propids
@@ -328,7 +332,7 @@ public:
   virtual const char* GetName () const { return "pclinearmovement"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId,
+  virtual bool PerformActionIndexed (int idx,
   	iCelParameterBlock* params,
 	celData& ret);
   virtual bool SetPropertyIndexed (int idx, const char* b);

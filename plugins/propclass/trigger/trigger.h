@@ -82,20 +82,24 @@ private:
 
   csTicks delay, jitter;
 
-  static csStringID action_setuptriggersphere;
   static csStringID id_sector;
   static csStringID id_position;
   static csStringID id_radius;
   static csStringID id_entity;
-  static csStringID action_setuptriggerbox;
   static csStringID id_minbox;
   static csStringID id_maxbox;
-  static csStringID action_setuptriggerbeam;
   static csStringID id_start;
   static csStringID id_end;
-  static csStringID action_setuptriggerabovemesh;
   static csStringID id_maxdistance;
   celOneParameterBlock* params;
+
+  enum actionids
+  {
+    action_setuptriggersphere = 0,
+    action_setuptriggerbox,
+    action_setuptriggerbeam,
+    action_setuptriggerabovemesh
+  };
 
   // This is a hash of sectors and warped positions
   // that could be relevant for this trigger. It contains at
@@ -156,7 +160,7 @@ public:
   virtual const char* GetName () const { return "pctrigger"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
   // celPcTrigger only function to set center.

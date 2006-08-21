@@ -174,6 +174,10 @@ private:
   bool HandleForce (float delta_t, iCollider* this_collider,
     iCelEntityList* cd_list);
 
+  enum actionids
+  {
+    action_applypermanentforce = 0
+  };
   enum propids
   {
     propid_weight = 0,
@@ -181,7 +185,6 @@ private:
   };
   static PropertyHolder propinfo;
 
-  static csStringID action_applypermanentforce;
   static csStringID id_force;
  
 public:
@@ -207,7 +210,7 @@ public:
   virtual const char* GetName () const { return "pcgravity"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();
 

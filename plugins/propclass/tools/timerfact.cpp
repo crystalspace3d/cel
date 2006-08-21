@@ -51,14 +51,12 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
   SCF_IMPLEMENTS_INTERFACE (iPcTimer)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-csStringID celPcTimer::action_wakeup = csInvalidStringID;
-csStringID celPcTimer::action_wakeupframe = csInvalidStringID;
-csStringID celPcTimer::action_clear = csInvalidStringID;
-
 csStringID celPcTimer::id_elapsedticks = csInvalidStringID;
 csStringID celPcTimer::id_currentticks = csInvalidStringID;
 csStringID celPcTimer::id_time = csInvalidStringID;
 csStringID celPcTimer::id_repeat = csInvalidStringID;
+
+PropertyHolder celPcTimer::propinfo;
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -70,11 +68,8 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
-  if (action_wakeup == csInvalidStringID)
+  if (id_elapsedticks == csInvalidStringID)
   {
-    action_wakeup = pl->FetchStringID ("cel.action.WakeUp");
-    action_wakeupframe = pl->FetchStringID ("cel.action.WakeUpFrame");
-    action_clear = pl->FetchStringID ("cel.action.Clear");
     id_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");
     id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
     id_time = pl->FetchStringID ("cel.parameter.time");
@@ -83,6 +78,14 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_elapsedticks, "elapsedticks");
   params->SetParameterDef (1, id_currentticks, "currentticks");
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_wakeup, "cel.action.WakeUp");
+    AddAction (action_wakeupframe, "cel.action.WakeUpFrame");
+    AddAction (action_clear, "cel.action.Clear");
+  }
 }
 
 celPcTimer::~celPcTimer ()
@@ -90,30 +93,30 @@ celPcTimer::~celPcTimer ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTimer);
 }
 
-bool celPcTimer::PerformAction (csStringID actionId,
+bool celPcTimer::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_wakeup)
+  switch (idx)
   {
-    CEL_FETCH_LONG_PAR (time,params,id_time);
-    if (!p_time) return false;
-    CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
-    if (!p_repeat) return false;
-    WakeUp ((csTicks)time, repeat);
-    return true;
+    case action_wakeup:
+      {
+        CEL_FETCH_LONG_PAR (time,params,id_time);
+        if (!p_time) return false;
+        CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
+        if (!p_repeat) return false;
+        WakeUp ((csTicks)time, repeat);
+        return true;
+      }
+    case action_wakeupframe:
+      WakeUpFrame (CEL_EVENT_PRE);
+      return true;
+    case action_clear:
+      Clear ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_wakeupframe)
-  {
-    WakeUpFrame (CEL_EVENT_PRE);
-    return true;
-  }
-  else if (actionId == action_clear)
-  {
-    Clear ();
-    return true;
-  }
-  return false;
 }
 
 #define TIMER_SERIAL 3

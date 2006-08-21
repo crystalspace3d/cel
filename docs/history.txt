@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	  classes can now also override PerformActionIndexed().
 	- Jorrit converted several property classes to also use the
 	  new PerformActionIndexed() method.
+	- Jorrit converted the remaining property classes to use the
+	  new PerformActionIndexed() method.
 20-Aug-2006
 	- Jorrit cleaned up celPcCommon a bit.
 	- Jorrit optimized property setting and getting for

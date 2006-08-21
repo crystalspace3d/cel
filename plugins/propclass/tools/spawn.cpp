@@ -83,15 +83,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSpawn::PcSpawn)
   SCF_IMPLEMENTS_INTERFACE (iPcSpawn)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
-csStringID celPcSpawn::action_addentitytype = csInvalidStringID;
-csStringID celPcSpawn::action_addentitytpltype = csInvalidStringID;
-csStringID celPcSpawn::action_settiming = csInvalidStringID;
-csStringID celPcSpawn::action_resettiming = csInvalidStringID;
-csStringID celPcSpawn::action_setenabled = csInvalidStringID;
-csStringID celPcSpawn::action_clearentitylist = csInvalidStringID;
-csStringID celPcSpawn::action_inhibit = csInvalidStringID;
-csStringID celPcSpawn::action_spawn = csInvalidStringID;
-csStringID celPcSpawn::action_addspawnposition = csInvalidStringID;
 csStringID celPcSpawn::id_repeat_param = csInvalidStringID;
 csStringID celPcSpawn::id_random_param = csInvalidStringID;
 csStringID celPcSpawn::id_mindelay_param = csInvalidStringID;
@@ -109,6 +100,8 @@ csStringID celPcSpawn::id_position_param = csInvalidStringID;
 csStringID celPcSpawn::id_yrot_param = csInvalidStringID;
 csStringID celPcSpawn::id_entity = csInvalidStringID;
 csStringID celPcSpawn::id_behaviour = csInvalidStringID;
+
+PropertyHolder celPcSpawn::propinfo;
 
 celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -131,17 +124,8 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
 
-  if (action_addentitytype == csInvalidStringID)
+  if (id_repeat_param == csInvalidStringID)
   {
-    action_addentitytype = pl->FetchStringID ("cel.action.AddEntityType");
-    action_addentitytpltype = pl->FetchStringID ("cel.action.AddEntityTemplateType");
-    action_settiming = pl->FetchStringID ("cel.action.SetTiming");
-    action_resettiming = pl->FetchStringID ("cel.action.ResetTiming");
-    action_setenabled = pl->FetchStringID ("cel.action.SetEnabled");
-    action_clearentitylist = pl->FetchStringID ("cel.action.ClearEntityList");
-    action_inhibit = pl->FetchStringID ("cel.action.Inhibit");
-    action_spawn = pl->FetchStringID ("cel.action.Spawn");
-    action_addspawnposition = pl->FetchStringID ("cel.action.AddSpawnPosition");
     id_repeat_param = pl->FetchStringID ("cel.parameter.repeat");
     id_random_param = pl->FetchStringID ("cel.parameter.random");
     id_mindelay_param = pl->FetchStringID ("cel.parameter.mindelay");
@@ -160,6 +144,20 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
     id_entity = pl->FetchStringID ("cel.parameter.entity");
     id_behaviour = pl->FetchStringID ("cel.parameter.behaviour");
   }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_addentitytype, "cel.action.AddEntityType");
+    AddAction (action_addentitytpltype, "cel.action.AddEntityTemplateType");
+    AddAction (action_settiming, "cel.action.SetTiming");
+    AddAction (action_resettiming, "cel.action.ResetTiming");
+    AddAction (action_setenabled, "cel.action.SetEnabled");
+    AddAction (action_clearentitylist, "cel.action.ClearEntityList");
+    AddAction (action_inhibit, "cel.action.Inhibit");
+    AddAction (action_spawn, "cel.action.Spawn");
+    AddAction (action_addspawnposition, "cel.action.AddSpawnPosition");
+  }
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_entity, "entity");
   params->SetParameterDef (1, id_behaviour, "behaviour");
@@ -171,140 +169,138 @@ celPcSpawn::~celPcSpawn ()
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
 }
 
-bool celPcSpawn::PerformAction (csStringID actionId,
+bool celPcSpawn::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_addentitytype)
+  switch (idx)
   {
-    CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
-    if (!p_chance_param) chance_param = 0.0f;
-    CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
-    if (!p_entity_param)
-      return Report (object_reg,
-      	"Missing parameter 'entity' for action AddEntityType!");
-    CEL_FETCH_STRING_PAR (behaviour_param,params,id_behaviour_param);
-    if (!p_behaviour_param) behaviour_param = 0;
-    CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
-    if (!p_call_param) call_param = 0;
-    CEL_FETCH_STRING_PAR (layer_param,params,id_layer_param);
-    if (p_layer_param)
-    {
-      iCelBlLayer* bl = pl->FindBehaviourLayer (layer_param);
-      if (!bl)
-        return Report (object_reg,
-        	"Couldn't find '%s' behaviour layer in action AddEntityType!",
-        	layer_param);
-      scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
-      	behaviour_param, call_param, params, 0);
-    }
-    else
-    {
-      csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
-      if (!bl)
-        return Report (object_reg,
-        	"Couldn't find behaviour layer in action AddEntityType!");
-      scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
-      	behaviour_param, call_param, params, 0);
-    }
-    return true;
+    case action_addentitytype:
+      {
+        CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
+        if (!p_chance_param) chance_param = 0.0f;
+        CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
+        if (!p_entity_param)
+          return Report (object_reg,
+      	    "Missing parameter 'entity' for action AddEntityType!");
+        CEL_FETCH_STRING_PAR (behaviour_param,params,id_behaviour_param);
+        if (!p_behaviour_param) behaviour_param = 0;
+        CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
+        if (!p_call_param) call_param = 0;
+        CEL_FETCH_STRING_PAR (layer_param,params,id_layer_param);
+        if (p_layer_param)
+        {
+          iCelBlLayer* bl = pl->FindBehaviourLayer (layer_param);
+          if (!bl)
+            return Report (object_reg,
+        	    "Couldn't find '%s' behaviour layer in action AddEntityType!",
+        	    layer_param);
+          scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
+      	    behaviour_param, call_param, params, 0);
+        }
+        else
+        {
+          csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+          if (!bl)
+            return Report (object_reg,
+        	    "Couldn't find behaviour layer in action AddEntityType!");
+          scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
+      	    behaviour_param, call_param, params, 0);
+        }
+        return true;
+      }
+    case action_addentitytpltype:
+      {
+        CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
+        if (!p_chance_param) chance_param = 0.0f;
+        CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
+        if (!p_entity_param) entity_param = 0;
+        CEL_FETCH_STRING_PAR (template_param,params,id_template_param);
+        if (!p_template_param)
+          return Report (object_reg,
+      	    "Missing parameter 'template' for action AddEntityTemplateType!");
+        CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
+        if (!p_call_param) call_param = 0;
+        AddEntityTemplateType (chance_param, template_param, entity_param,
+    	    call_param, params);
+        return true;
+      }
+    case action_settiming:
+      {
+        CEL_FETCH_BOOL_PAR (repeat_param,params,id_repeat_param);
+        if (!p_repeat_param)
+          return Report (object_reg,
+      	    "Missing parameter 'repeat' for action SetTiming!");
+        CEL_FETCH_BOOL_PAR (random_param,params,id_random_param);
+        if (!p_random_param)
+          return Report (object_reg,
+      	    "Missing parameter 'random' for action SetTiming!");
+        CEL_FETCH_LONG_PAR (mindelay_param,params,id_mindelay_param);
+        if (!p_mindelay_param)
+          return Report (object_reg,
+      	    "Missing parameter 'mindelay' for action SetTiming!");
+        CEL_FETCH_LONG_PAR (maxdelay_param,params,id_maxdelay_param);
+        if (!p_maxdelay_param)
+          return Report (object_reg,
+      	    "Missing parameter 'maxdelay' for action SetTiming!");
+        SetTiming (repeat_param, random_param, mindelay_param, maxdelay_param);
+        return true;
+      }
+    case action_resettiming:
+      ResetTiming ();
+      return true;
+    case action_setenabled:
+      {
+        CEL_FETCH_BOOL_PAR (enabled_param,params,id_enabled_param);
+        if (!p_enabled_param)
+          return Report (object_reg,
+      	    "Missing parameter 'enabled' for action SetEnabled!");
+        SetEnabled (enabled_param);
+        return true;
+      }
+    case action_clearentitylist:
+      ClearEntityList ();
+      return true;
+    case action_inhibit:
+      {
+        bool ret = false;
+        CEL_FETCH_LONG_PAR (count_param,params,id_count_param);
+        if (p_count_param)
+        {
+          InhibitCount (count_param);
+          ret = true;
+        }
+        return ret;
+      }
+    case action_spawn:
+      Spawn ();
+      return true;
+    case action_addspawnposition:
+      {
+        CEL_FETCH_STRING_PAR (sector_param,params,id_sector_param);
+        if (!p_sector_param)
+          return Report (object_reg,
+      	    "Missing parameter 'sector' for action AddSpawnPosition!");
+        CEL_FETCH_FLOAT_PAR (yrot_param,params,id_yrot_param);
+        if (!p_yrot_param) yrot_param = 0.0f;
+        CEL_FETCH_STRING_PAR (position_param,params,id_position_param);
+        if (p_position_param)
+        {
+          AddSpawnPosition (position_param, yrot_param, sector_param);
+        }
+        else
+        {
+          CEL_FETCH_VECTOR3_PAR (position_param,params,id_position_param);
+          if (!p_position_param)
+            return Report (object_reg,
+        	    "Missing parameter 'sector' for action AddSpawnPosition!");
+          AddSpawnPosition (position_param, yrot_param, sector_param);
+        }
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_addentitytpltype)
-  {
-    CEL_FETCH_FLOAT_PAR (chance_param,params,id_chance_param);
-    if (!p_chance_param) chance_param = 0.0f;
-    CEL_FETCH_STRING_PAR (entity_param,params,id_entity_param);
-    if (!p_entity_param) entity_param = 0;
-    CEL_FETCH_STRING_PAR (template_param,params,id_template_param);
-    if (!p_template_param)
-      return Report (object_reg,
-      	"Missing parameter 'template' for action AddEntityTemplateType!");
-    CEL_FETCH_STRING_PAR (call_param,params,id_call_param);
-    if (!p_call_param) call_param = 0;
-    AddEntityTemplateType (chance_param, template_param, entity_param,
-    	call_param, params);
-    return true;
-  }
-  else if (actionId == action_settiming)
-  {
-    CEL_FETCH_BOOL_PAR (repeat_param,params,id_repeat_param);
-    if (!p_repeat_param)
-      return Report (object_reg,
-      	"Missing parameter 'repeat' for action SetTiming!");
-    CEL_FETCH_BOOL_PAR (random_param,params,id_random_param);
-    if (!p_random_param)
-      return Report (object_reg,
-      	"Missing parameter 'random' for action SetTiming!");
-    CEL_FETCH_LONG_PAR (mindelay_param,params,id_mindelay_param);
-    if (!p_mindelay_param)
-      return Report (object_reg,
-      	"Missing parameter 'mindelay' for action SetTiming!");
-    CEL_FETCH_LONG_PAR (maxdelay_param,params,id_maxdelay_param);
-    if (!p_maxdelay_param)
-      return Report (object_reg,
-      	"Missing parameter 'maxdelay' for action SetTiming!");
-    SetTiming (repeat_param, random_param, mindelay_param, maxdelay_param);
-    return true;
-  }
-  else if (actionId == action_resettiming)
-  {
-    ResetTiming ();
-    return true;
-  }
-  else if (actionId == action_setenabled)
-  {
-    CEL_FETCH_BOOL_PAR (enabled_param,params,id_enabled_param);
-    if (!p_enabled_param)
-      return Report (object_reg,
-      	"Missing parameter 'enabled' for action SetEnabled!");
-    SetEnabled (enabled_param);
-    return true;
-  }
-  else if (actionId == action_clearentitylist)
-  {
-    ClearEntityList ();
-    return true;
-  }
-  else if (actionId == action_inhibit)
-  {
-    bool ret = false;
-    CEL_FETCH_LONG_PAR (count_param,params,id_count_param);
-    if (p_count_param)
-    {
-      InhibitCount (count_param);
-      ret = true;
-    }
-    return ret;
-  }
-  else if (actionId == action_spawn)
-  {
-    Spawn ();
-    return true;
-  }
-  else if (actionId == action_addspawnposition)
-  {
-    CEL_FETCH_STRING_PAR (sector_param,params,id_sector_param);
-    if (!p_sector_param)
-      return Report (object_reg,
-      	"Missing parameter 'sector' for action AddSpawnPosition!");
-    CEL_FETCH_FLOAT_PAR (yrot_param,params,id_yrot_param);
-    if (!p_yrot_param) yrot_param = 0.0f;
-    CEL_FETCH_STRING_PAR (position_param,params,id_position_param);
-    if (p_position_param)
-    {
-      AddSpawnPosition (position_param, yrot_param, sector_param);
-    }
-    else
-    {
-      CEL_FETCH_VECTOR3_PAR (position_param,params,id_position_param);
-      if (!p_position_param)
-        return Report (object_reg,
-        	"Missing parameter 'sector' for action AddSpawnPosition!");
-      AddSpawnPosition (position_param, yrot_param, sector_param);
-    }
-    return true;
-  }
-  return false;
 }
 
 #define SPAWN_SERIAL 1

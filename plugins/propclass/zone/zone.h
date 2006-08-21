@@ -259,20 +259,24 @@ private:
   // The active sector.
   csWeakRef<iSector> active_sector;
 
-  static csStringID action_disablecd;
-  static csStringID action_enablecd;
-  static csStringID action_load;
   static csStringID id_path;
   static csStringID id_file;
   static csStringID id_region;
-  static csStringID action_pointmesh;
-  static csStringID action_pointcamera;
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
-  static csStringID action_setloadingmode;
   static csStringID id_mode;
-  static csStringID action_activateregion;
+
+  enum actionids
+  {
+    action_disablecd = 0,
+    action_enablecd,
+    action_load,
+    action_pointmesh,
+    action_pointcamera,
+    action_setloadingmode,
+    action_activateregion
+  };
 
   celOneParameterBlock* params;
 
@@ -331,7 +335,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool GetPropertyIndexed (int, const char*&);
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
 
   void SendZoneMessage (iCelRegion* region, const char* msgid);

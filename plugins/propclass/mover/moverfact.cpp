@@ -44,8 +44,6 @@ csStringID celPcMover::id_sectorname = csInvalidStringID;
 csStringID celPcMover::id_position = csInvalidStringID;
 csStringID celPcMover::id_up = csInvalidStringID;
 csStringID celPcMover::id_sqradius = csInvalidStringID;
-csStringID celPcMover::action_start = csInvalidStringID;
-csStringID celPcMover::action_interrupt = csInvalidStringID;
 
 PropertyHolder celPcMover::propinfo;
 
@@ -54,19 +52,23 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 {
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
-  // For PerformAction.
+  // For actions.
   if (id_sectorname == csInvalidStringID)
   {
     id_sectorname = pl->FetchStringID ("cel.parameter.sectorname");
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_up = pl->FetchStringID ("cel.parameter.up");
     id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
-    action_start = pl->FetchStringID ("cel.action.Start");
-    action_interrupt = pl->FetchStringID ("cel.action.Interrupt");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_start, "cel.action.Start");
+    AddAction (action_interrupt, "cel.action.Interrupt");
   }
 
   // For properties.
-  propholder = &propinfo;
   propinfo.SetCount (4);
   AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, true, "Desired end position.", &position);
@@ -197,33 +199,35 @@ void celPcMover::Interrupt ()
   }
 }
 
-bool celPcMover::PerformAction (csStringID actionId,
+bool celPcMover::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_start)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
-    if (!p_sectorname) return false;
-    CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-    if (!p_position) return false;
-    CEL_FETCH_VECTOR3_PAR (up,params,id_up);
-    if (!p_up) return false;
-    CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
-    if (!p_sqradius) return false;
-    iSector* s = engine->FindSector (sectorname);
-    if (!s)
+    case action_start:
+      {
+        CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
+        if (!p_sectorname) return false;
+        CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+        if (!p_position) return false;
+        CEL_FETCH_VECTOR3_PAR (up,params,id_up);
+        if (!p_up) return false;
+        CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
+        if (!p_sqradius) return false;
+        iSector* s = engine->FindSector (sectorname);
+        if (!s)
+          return false;
+        Start (sector, position, up, sqradius);
+        // @@@ Return value?
+        return true;
+      }
+    case action_interrupt:
+      Interrupt ();
+      return true;
+    default:
       return false;
-    Start (sector, position, up, sqradius);
-    // @@@ Return value?
-    return true;
   }
-  else if (actionId == action_interrupt)
-  {
-    Interrupt ();
-    return true;
-  }
-  return false;
 }
 
 void celPcMover::TickOnce ()

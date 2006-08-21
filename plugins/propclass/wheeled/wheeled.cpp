@@ -51,54 +51,6 @@ CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
 
 //--------------------------------------------------------------------------
 
-
-// Actions
-csStringID celPcWheeled::action_setwheelmesh = csInvalidStringID;
-csStringID celPcWheeled::action_settankmode = csInvalidStringID;
-csStringID celPcWheeled::action_addwheelauto = csInvalidStringID;
-csStringID celPcWheeled::action_addwheel = csInvalidStringID;
-csStringID celPcWheeled::action_deletewheel = csInvalidStringID;
-csStringID celPcWheeled::action_deleteallwheels = csInvalidStringID;
-csStringID celPcWheeled::action_destroywheel = csInvalidStringID;
-csStringID celPcWheeled::action_destroyallwheels = csInvalidStringID;
-csStringID celPcWheeled::action_restorewheel = csInvalidStringID;
-csStringID celPcWheeled::action_restoreallwheels = csInvalidStringID;
-
-csStringID celPcWheeled::action_accelerate = csInvalidStringID;
-csStringID celPcWheeled::action_brake = csInvalidStringID;
-csStringID celPcWheeled::action_handbrake = csInvalidStringID;
-csStringID celPcWheeled::action_setsteeramount = csInvalidStringID;
-csStringID celPcWheeled::action_steerleft = csInvalidStringID;
-csStringID celPcWheeled::action_steerright = csInvalidStringID;
-csStringID celPcWheeled::action_steerstraight = csInvalidStringID;
-csStringID celPcWheeled::action_reverse = csInvalidStringID;
-csStringID celPcWheeled::action_neutral = csInvalidStringID;
-csStringID celPcWheeled::action_setautotransmission = csInvalidStringID;
-csStringID celPcWheeled::action_setgear = csInvalidStringID;
-csStringID celPcWheeled::action_setgearsettings = csInvalidStringID;
-csStringID celPcWheeled::action_setbrakeforce = csInvalidStringID;
-csStringID celPcWheeled::action_setautoreverse = csInvalidStringID;
-
-//Presets
-csStringID celPcWheeled::action_setfrontwheelpreset = csInvalidStringID;
-csStringID celPcWheeled::action_setrearwheelpreset = csInvalidStringID;
-csStringID celPcWheeled::action_setouterwheelsteerpreset = csInvalidStringID;
-
-//Per-wheel actions
-csStringID celPcWheeled::action_setwheelposition = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelsuspensionsoftness = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelsuspensiondamping = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelleftsteersensitivity
-	= csInvalidStringID;
-csStringID celPcWheeled::action_setwheelrightsteersensitivity
-	= csInvalidStringID;
-csStringID celPcWheeled::action_setwheelturnspeed = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelreturnspeed = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelenginepower = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelbrakepower = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelsteerinverted = csInvalidStringID;
-csStringID celPcWheeled::action_setwheelhandbrakeaffected = csInvalidStringID;
-
 // Parameters.
 csStringID celPcWheeled::param_meshfile = csInvalidStringID;
 csStringID celPcWheeled::param_meshfact = csInvalidStringID;
@@ -127,6 +79,8 @@ csStringID celPcWheeled::param_enginepower = csInvalidStringID;
 csStringID celPcWheeled::param_brakepower = csInvalidStringID;
 csStringID celPcWheeled::param_steerinverted = csInvalidStringID;
 csStringID celPcWheeled::param_handbrakeaffected = csInvalidStringID;
+
+PropertyHolder celPcWheeled::propinfo;
 
 celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
@@ -168,71 +122,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   tankmode=false;
 
-  if(action_setwheelmesh==csInvalidStringID)
+  if(param_meshfile==csInvalidStringID)
   {
-    // Actions
-    action_setwheelmesh= pl->FetchStringID("cel.action.SetWheelMesh");
-    action_settankmode= pl->FetchStringID("cel.action.SetTankMode");
-    action_addwheelauto= pl->FetchStringID("cel.action.AddWheelAuto");
-    action_addwheel= pl->FetchStringID("cel.action.AddWheel");
-    action_deletewheel= pl->FetchStringID("cel.action.DeleteWheel");
-    action_deleteallwheels= pl->FetchStringID("cel.action.DeleteAllWheels");
-    action_destroywheel= pl->FetchStringID("cel.action.DestroyWheel");
-    action_destroyallwheels=
-        pl->FetchStringID("cel.action.DestroyAllWheels");
-    action_restorewheel = pl->FetchStringID("cel.action.RestoreWheel");
-    action_restoreallwheels=
-        pl->FetchStringID("cel.action.RestoreAllWheels");
-
-    action_accelerate= pl->FetchStringID("cel.action.Accelerate");
-    action_brake= pl->FetchStringID("cel.action.Brake");
-    action_handbrake= pl->FetchStringID("cel.action.Handbrake");
-    action_setsteeramount= pl->FetchStringID("cel.action.SetSteerAmount");
-    action_steerleft= pl->FetchStringID("cel.action.SteerLeft");
-    action_steerright= pl->FetchStringID("cel.action.SteerRight");
-    action_steerstraight= pl->FetchStringID("cel.action.SteerStraight");
-    action_reverse= pl->FetchStringID("cel.action.Reverse");
-    action_neutral= pl->FetchStringID("cel.action.Neutral");
-    action_setautotransmission=
-        pl->FetchStringID("cel.action.SetAutoTransmission");
-    action_setgear= pl->FetchStringID("cel.action.SetGear");
-    action_setgearsettings= pl->FetchStringID("cel.action.SetGearSettings");
-    action_setbrakeforce= pl->FetchStringID("cel.action.SetBrakeForce");
-    action_setautoreverse= pl->FetchStringID("cel.action.SetAutoReverse");
-
-    //Presets
-    action_setfrontwheelpreset=
-        pl->FetchStringID("cel.action.SetFrontWheelPreset");
-    action_setrearwheelpreset=
-        pl->FetchStringID("cel.action.SetRearWheelPreset");
-    action_setouterwheelsteerpreset=
-        pl->FetchStringID("cel.action.SetOuterWheelSteerPreset");
-
-    //Per-wheel actions
-    action_setwheelposition=
-        pl->FetchStringID("cel.action.SetWheelPosition");
-    action_setwheelsuspensionsoftness=
-        pl->FetchStringID("cel.action.SetWheelSuspensionSoftness");
-    action_setwheelsuspensiondamping=
-        pl->FetchStringID("cel.action.SetWheelSuspensionDamping");
-    action_setwheelleftsteersensitivity=
-        pl->FetchStringID("cel.action.SetWheelLeftSteerSensitivity");
-    action_setwheelrightsteersensitivity=
-        pl->FetchStringID("cel.action.SetWheelRightSteerSensitivity");
-    action_setwheelturnspeed=
-        pl->FetchStringID("cel.action.SetWheelTurnSpeed");
-    action_setwheelreturnspeed=
-        pl->FetchStringID("cel.action.SetWheelReturnSpeed");
-    action_setwheelenginepower=
-        pl->FetchStringID("cel.action.SetWheelEnginePower");
-    action_setwheelbrakepower=
-        pl->FetchStringID("cel.action.SetWheelBrakePower");
-    action_setwheelsteerinverted=
-        pl->FetchStringID("cel.action.SetWheelSteerInverted");
-    action_setwheelhandbrakeaffected=
-        pl->FetchStringID("cel.action.SetWheelHandbrakeAffected");
-
-
     // Parameters.
     param_meshfile = pl->FetchStringID("cel.parameter.meshfile");
     param_meshfact = pl->FetchStringID("cel.parameter.meshfact");
@@ -271,6 +162,56 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     param_handbrakeaffected =
         pl->FetchStringID("cel.parameter.handbrakeaffected");
   }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setwheelmesh, "cel.action.SetWheelMesh");
+    AddAction (action_settankmode, "cel.action.SetTankMode");
+    AddAction (action_addwheelauto, "cel.action.AddWheelAuto");
+    AddAction (action_addwheel, "cel.action.AddWheel");
+    AddAction (action_deletewheel, "cel.action.DeleteWheel");
+    AddAction (action_deleteallwheels, "cel.action.DeleteAllWheels");
+    AddAction (action_destroywheel, "cel.action.DestroyWheel");
+    AddAction (action_destroyallwheels, "cel.action.DestroyAllWheels");
+    AddAction (action_restorewheel, "cel.action.RestoreWheel");
+    AddAction (action_restoreallwheels, "cel.action.RestoreAllWheels");
+
+    AddAction (action_accelerate, "cel.action.Accelerate");
+    AddAction (action_brake, "cel.action.Brake");
+    AddAction (action_handbrake, "cel.action.Handbrake");
+    AddAction (action_setsteeramount, "cel.action.SetSteerAmount");
+    AddAction (action_steerleft, "cel.action.SteerLeft");
+    AddAction (action_steerright, "cel.action.SteerRight");
+    AddAction (action_steerstraight, "cel.action.SteerStraight");
+    AddAction (action_reverse, "cel.action.Reverse");
+    AddAction (action_neutral, "cel.action.Neutral");
+    AddAction (action_setautotransmission, "cel.action.SetAutoTransmission");
+    AddAction (action_setgear, "cel.action.SetGear");
+    AddAction (action_setgearsettings, "cel.action.SetGearSettings");
+    AddAction (action_setbrakeforce, "cel.action.SetBrakeForce");
+    AddAction (action_setautoreverse, "cel.action.SetAutoReverse");
+
+    //Presets
+    AddAction (action_setfrontwheelpreset, "cel.action.SetFrontWheelPreset");
+    AddAction (action_setrearwheelpreset, "cel.action.SetRearWheelPreset");
+    AddAction (action_setouterwheelsteerpreset, "cel.action.SetOuterWheelSteerPreset");
+
+    //Per-wheel actions
+    AddAction (action_setwheelposition, "cel.action.SetWheelPosition");
+    AddAction (action_setwheelsuspensionsoftness, "cel.action.SetWheelSuspensionSoftness");
+    AddAction (action_setwheelsuspensiondamping, "cel.action.SetWheelSuspensionDamping");
+    AddAction (action_setwheelleftsteersensitivity, "cel.action.SetWheelLeftSteerSensitivity");
+    AddAction (action_setwheelrightsteersensitivity, "cel.action.SetWheelRightSteerSensitivity");
+    AddAction (action_setwheelturnspeed, "cel.action.SetWheelTurnSpeed");
+    AddAction (action_setwheelreturnspeed, "cel.action.SetWheelReturnSpeed");
+    AddAction (action_setwheelenginepower, "cel.action.SetWheelEnginePower");
+    AddAction (action_setwheelbrakepower, "cel.action.SetWheelBrakePower");
+    AddAction (action_setwheelsteerinverted, "cel.action.SetWheelSteerInverted");
+    AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
+  }
+
+
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 
@@ -300,319 +241,304 @@ bool celPcWheeled::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcWheeled::PerformAction (csStringID actionId,
+bool celPcWheeled::PerformActionIndexed (int idx,
                                     iCelParameterBlock* params,
                                     celData& ret)
 {
-  if(actionId==action_setwheelmesh)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
-    SetWheelMesh(factname,filename);
-    return true;
-  }
-  else if(actionId==action_settankmode)
-  {
-    CEL_FETCH_BOOL_PAR (mode, params, param_tankmode);
-    SetTankMode(mode);
-    return true;
-  }
-  else if(actionId==action_addwheelauto)
-  {
-    CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
-    CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
-    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
-    csQuaternion quat;
-    if(!p_factname)
-      factname = 0;
-    if(!p_filename)
-      filename = 0;
-    if (p_rotation)
-      quat.SetEulerAngles(rotation);
+    case action_setwheelmesh:
+      {
+        CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+        CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+        SetWheelMesh(factname,filename);
+        return true;
+      }
+    case action_settankmode:
+      {
+        CEL_FETCH_BOOL_PAR (mode, params, param_tankmode);
+        SetTankMode(mode);
+        return true;
+      }
+    case action_addwheelauto:
+      {
+        CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
+        CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+        CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+        CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+        csQuaternion quat;
+        if(!p_factname)
+          factname = 0;
+        if(!p_filename)
+          filename = 0;
+        if (p_rotation)
+          quat.SetEulerAngles(rotation);
 
-    AddWheelAuto(pos, factname, filename, quat.GetMatrix());
+        AddWheelAuto(pos, factname, filename, quat.GetMatrix());
 
-    return true;
-  }
-  else if(actionId==action_addwheel)
-  {
-    CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
+        return true;
+      }
+    case action_addwheel:
+      {
+        CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
 
-    CEL_FETCH_FLOAT_PAR(turnspeed, params, param_turnspeed);
-    if(!p_turnspeed)
-      turnspeed=2.0f;
+        CEL_FETCH_FLOAT_PAR(turnspeed, params, param_turnspeed);
+        if(!p_turnspeed)
+          turnspeed=2.0f;
 
-    CEL_FETCH_FLOAT_PAR(returnspeed, params, param_returnspeed);
-    if(!p_returnspeed)
-      returnspeed=2.0f;
+        CEL_FETCH_FLOAT_PAR(returnspeed, params, param_returnspeed);
+        if(!p_returnspeed)
+          returnspeed=2.0f;
 
-    CEL_FETCH_FLOAT_PAR(ss, params, param_suspensionsoftness);
-    if(!p_ss)
-      ss=0.000125f;
+        CEL_FETCH_FLOAT_PAR(ss, params, param_suspensionsoftness);
+        if(!p_ss)
+          ss=0.000125f;
 
-    CEL_FETCH_FLOAT_PAR(sd, params, param_suspensiondamping);
-    if(!p_sd)
-      sd=0.125f;
+        CEL_FETCH_FLOAT_PAR(sd, params, param_suspensiondamping);
+        if(!p_sd)
+          sd=0.125f;
 
-    CEL_FETCH_FLOAT_PAR(brakepower, params, param_brakepower);
-    if(!p_brakepower)
-      brakepower=1.0f;
+        CEL_FETCH_FLOAT_PAR(brakepower, params, param_brakepower);
+        if(!p_brakepower)
+          brakepower=1.0f;
 
-    CEL_FETCH_FLOAT_PAR(enginepower, params, param_enginepower);
-    if(!p_enginepower)
-      enginepower=1.0f;
+        CEL_FETCH_FLOAT_PAR(enginepower, params, param_enginepower);
+        if(!p_enginepower)
+          enginepower=1.0f;
 
-    CEL_FETCH_FLOAT_PAR(lss, params, param_leftsteersensitivity);
-    if(!p_lss)
-      lss=1.0f;
+        CEL_FETCH_FLOAT_PAR(lss, params, param_leftsteersensitivity);
+        if(!p_lss)
+          lss=1.0f;
 
-    CEL_FETCH_FLOAT_PAR(rss, params, param_rightsteersensitivity);
-    if(!p_rss)
-      rss=1.0f;
+        CEL_FETCH_FLOAT_PAR(rss, params, param_rightsteersensitivity);
+        if(!p_rss)
+          rss=1.0f;
 
-    CEL_FETCH_BOOL_PAR(hbaffect, params, param_handbrakeaffected);
-    if(!p_hbaffect)
-      hbaffect=false;
+        CEL_FETCH_BOOL_PAR(hbaffect, params, param_handbrakeaffected);
+        if(!p_hbaffect)
+          hbaffect=false;
 
-    CEL_FETCH_BOOL_PAR(sinvert, params, param_steerinverted);
-    if(!p_sinvert)
-      sinvert=false;
+        CEL_FETCH_BOOL_PAR(sinvert, params, param_steerinverted);
+        if(!p_sinvert)
+          sinvert=false;
 
-    CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
-    CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
-    CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
-    csQuaternion quat;
-    if(!p_factname)
-      factname = 0;
-    if(!p_filename)
-      filename = 0;
-    if (p_rotation)
-      quat.SetEulerAngles(rotation);
+        CEL_FETCH_VECTOR3_PAR (rotation,params, param_rotation);
+        CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
+        CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
+        csQuaternion quat;
+        if(!p_factname)
+          factname = 0;
+        if(!p_filename)
+          filename = 0;
+        if (p_rotation)
+          quat.SetEulerAngles(rotation);
 
-    AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
-        lss,rss,hbaffect,sinvert, factname, filename, quat.GetMatrix());
-    return true;
+        AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
+            lss,rss,hbaffect,sinvert, factname, filename, quat.GetMatrix());
+        return true;
+      }
+    case action_deletewheel:
+      {
+        CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
+        DeleteWheel(int(num));
+        return true;
+      }
+    case action_deleteallwheels:
+      DeleteAllWheels();
+      return true;
+    case action_destroywheel:
+      {
+        CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
+        DestroyWheel(int (num));
+        return true;
+      }
+    case action_destroyallwheels:
+      DestroyAllWheels();
+      return true;
+    case action_restorewheel:
+      {
+        CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
+        RestoreWheel(int(num));
+        return true;
+      }
+    case action_restoreallwheels:
+      RestoreAllWheels();
+      return true;
+    case action_accelerate:
+      {
+        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+        Accelerate(applied);
+        return true;
+      }
+    case action_brake:
+      {
+        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+        Brake(applied);
+        return true;
+      }
+    case action_handbrake:
+      {
+        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
+        Handbrake(applied);
+        return true;
+      }
+    case action_setsteeramount:
+      {
+        CEL_FETCH_FLOAT_PAR (amount, params, param_steeramount);
+        SetSteerAmount(amount);
+        return true;
+      }
+    case action_steerleft:
+      SteerLeft();
+      return true;
+    case action_steerright:
+      SteerRight();
+      return true;
+    case action_steerstraight:
+      SteerStraight();
+      return true;
+    case action_reverse:
+      Reverse();
+      return true;
+    case action_neutral:
+      Neutral();
+      return true;
+    case action_setautotransmission:
+      {
+        CEL_FETCH_BOOL_PAR(trans,params,param_autotransmission);
+        SetAutoTransmission(trans);
+        return true;
+      }
+    case action_setgear:
+      {
+        CEL_FETCH_LONG_PAR(g,params,param_gear);
+        SetGear(int(g));
+        return true;
+      }
+    case action_setgearsettings:
+      {
+        CEL_FETCH_FLOAT_PAR(force,params,param_force);
+        CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
+        CEL_FETCH_LONG_PAR(g,params,param_gear);
+        SetGearSettings(int(g),velocity,force);
+        return true;
+      }
+    case action_setbrakeforce:
+      {
+        CEL_FETCH_FLOAT_PAR(force,params,param_brakeforce);
+        SetBrakeForce(force);
+        return true;
+      }
+    case action_setautoreverse:
+      {
+        CEL_FETCH_BOOL_PAR(reverse,params,param_autoreverse);
+        SetAutoReverse(reverse);
+        return true;
+      }
+    case action_setfrontwheelpreset:
+      {
+        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+        CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
+        CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
+        CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
+        SetFrontWheelPreset(sens,power,ss,sd);
+        return true;
+      }
+    case action_setrearwheelpreset:
+      {
+        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+        CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
+        CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
+        CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
+        SetRearWheelPreset(sens,power,ss,sd);
+        return true;
+      }
+    case action_setouterwheelsteerpreset:
+      {
+        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+        SetOuterWheelSteerPreset(sens);
+        return true;
+      }
+    case action_setwheelposition:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_VECTOR3_PAR(pos,params,param_position);
+        SetWheelPosition(int(num),pos);
+        return true;
+      }
+    case action_setwheelsuspensionsoftness:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(softness,params,param_suspensionsoftness);
+        SetWheelSuspensionSoftness(int(num),softness);
+        return true;
+      }
+    case action_setwheelsuspensiondamping:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(damping,params,param_suspensiondamping);
+        SetWheelSuspensionDamping(int(num),damping);
+        return true;
+      }
+    case action_setwheelleftsteersensitivity:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+        SetWheelLeftSteerSensitivity(int(num),sens);
+        return true;
+      }
+    case action_setwheelrightsteersensitivity:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
+        SetWheelRightSteerSensitivity(int(num),sens);
+        return true;
+      }
+    case action_setwheelturnspeed:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(speed,params,param_turnspeed);
+        SetWheelTurnSpeed(int(num),speed);
+        return true;
+      }
+    case action_setwheelreturnspeed:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(speed,params,param_returnspeed);
+        SetWheelReturnSpeed(int(num),speed);
+        return true;
+      }
+    case action_setwheelenginepower:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
+        SetWheelEnginePower(int(num),power);
+        return true;
+      }
+    case action_setwheelbrakepower:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(power,params,param_brakepower);
+        SetWheelBrakePower(int(num),power);
+        return true;
+      }
+    case action_setwheelsteerinverted:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_BOOL_PAR(invert,params,param_steerinverted);
+        SetWheelSteerInverted(int(num),invert);
+        return true;
+      }
+    case action_setwheelhandbrakeaffected:
+      {
+        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_BOOL_PAR(affect,params,param_handbrakeaffected);
+        SetWheelHandbrakeAffected(int(num),affect);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if(actionId==action_deletewheel)
-  {
-    CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-    DeleteWheel(int(num));
-    return true;
-  }
-  else if(actionId==action_deleteallwheels)
-  {
-    DeleteAllWheels();
-    return true;
-  }
-  else if(actionId==action_destroywheel)
-  {
-    CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-    DestroyWheel(int (num));
-    return true;
-  }
-  else if(actionId==action_destroyallwheels)
-  {
-    DestroyAllWheels();
-    return true;
-  }
-  else if(actionId==action_restorewheel)
-  {
-    CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-    RestoreWheel(int(num));
-    return true;
-  }
-  else if(actionId==action_restoreallwheels)
-  {
-    RestoreAllWheels();
-    return true;
-  }
-
-  else if(actionId==action_accelerate)
-  {
-    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-    Accelerate(applied);
-    return true;
-  }
-  else if(actionId==action_brake)
-  {
-    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-    Brake(applied);
-    return true;
-  }
-  else if(actionId==action_handbrake)
-  {
-    CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-    Handbrake(applied);
-    return true;
-  }
-  else if(actionId==action_setsteeramount)
-  {
-    CEL_FETCH_FLOAT_PAR (amount, params, param_steeramount);
-    SetSteerAmount(amount);
-    return true;
-  }
-  else if(actionId==action_steerleft)
-  {
-    SteerLeft();
-    return true;
-  }
-  else if(actionId==action_steerright)
-  {
-    SteerRight();
-    return true;
-  }
-  else if(actionId==action_steerstraight)
-  {
-    SteerStraight();
-    return true;
-  }
-  else if(actionId==action_reverse)
-  {
-    Reverse();
-    return true;
-  }
-  else if(actionId==action_neutral)
-  {
-    Neutral();
-    return true;
-  }
-  else if(actionId==action_setautotransmission)
-  {
-    CEL_FETCH_BOOL_PAR(trans,params,param_autotransmission);
-    SetAutoTransmission(trans);
-    return true;
-  }
-  else if(actionId==action_setgear)
-  {
-    CEL_FETCH_LONG_PAR(g,params,param_gear);
-    SetGear(int(g));
-    return true;
-  }
-  else if(actionId==action_setgearsettings)
-  {
-    CEL_FETCH_FLOAT_PAR(force,params,param_force);
-    CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
-    CEL_FETCH_LONG_PAR(g,params,param_gear);
-    SetGearSettings(int(g),velocity,force);
-    return true;
-  }
-  else if(actionId==action_setbrakeforce)
-  {
-    CEL_FETCH_FLOAT_PAR(force,params,param_brakeforce);
-    SetBrakeForce(force);
-    return true;
-  }
-  else if(actionId==action_setautoreverse)
-  {
-    CEL_FETCH_BOOL_PAR(reverse,params,param_autoreverse);
-    SetAutoReverse(reverse);
-    return true;
-  }
-  //Presets
-  else if(actionId==action_setfrontwheelpreset)
-  {
-    CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-    CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-    CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
-    CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-    SetFrontWheelPreset(sens,power,ss,sd);
-    return true;
-  }
-  else if(actionId==action_setrearwheelpreset)
-  {
-    CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-    CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-    CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
-    CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-    SetRearWheelPreset(sens,power,ss,sd);
-    return true;
-  }
-  else if(actionId==action_setouterwheelsteerpreset)
-  {
-    CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-    SetOuterWheelSteerPreset(sens);
-    return true;
-  }
-    //Per-wheel actions
-  else if(actionId==action_setwheelposition)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_VECTOR3_PAR(pos,params,param_position);
-    SetWheelPosition(int(num),pos);
-    return true;
-  }
-  else if(actionId==action_setwheelsuspensionsoftness)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(softness,params,param_suspensionsoftness);
-    SetWheelSuspensionSoftness(int(num),softness);
-    return true;
-  }
-  else if(actionId==action_setwheelsuspensiondamping)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(damping,params,param_suspensiondamping);
-    SetWheelSuspensionDamping(int(num),damping);
-    return true;
-  }
-  else if(actionId==action_setwheelleftsteersensitivity)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-    SetWheelLeftSteerSensitivity(int(num),sens);
-    return true;
-  }
-  else if(actionId==action_setwheelrightsteersensitivity)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-    SetWheelRightSteerSensitivity(int(num),sens);
-    return true;
-  }
-  else if(actionId==action_setwheelturnspeed)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(speed,params,param_turnspeed);
-    SetWheelTurnSpeed(int(num),speed);
-    return true;
-  }
-  else if(actionId==action_setwheelreturnspeed)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(speed,params,param_returnspeed);
-    SetWheelReturnSpeed(int(num),speed);
-    return true;
-  }
-  else if(actionId==action_setwheelenginepower)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-    SetWheelEnginePower(int(num),power);
-    return true;
-  }
-  else if(actionId==action_setwheelbrakepower)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_FLOAT_PAR(power,params,param_brakepower);
-    SetWheelBrakePower(int(num),power);
-    return true;
-  }
-  else if(actionId==action_setwheelsteerinverted)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_BOOL_PAR(invert,params,param_steerinverted);
-    SetWheelSteerInverted(int(num),invert);
-    return true;
-  }
-  else if(actionId==action_setwheelhandbrakeaffected)
-  {
-    CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
-    CEL_FETCH_BOOL_PAR(affect,params,param_handbrakeaffected);
-    SetWheelHandbrakeAffected(int(num),affect);
-    return true;
-  }
-  return false;
 }
 
 void celPcWheeled::SetWheelMesh(const char* factname,const char* file)

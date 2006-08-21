@@ -382,19 +382,12 @@ bool celZone::ContainsRegion (celRegion* region)
 //---------------------------------------------------------------------------
 
 csStringID celPcZoneManager::id_region = csInvalidStringID;
-csStringID celPcZoneManager::action_disablecd = csInvalidStringID;
-csStringID celPcZoneManager::action_enablecd = csInvalidStringID;
-csStringID celPcZoneManager::action_load = csInvalidStringID;
 csStringID celPcZoneManager::id_path = csInvalidStringID;
 csStringID celPcZoneManager::id_file = csInvalidStringID;
-csStringID celPcZoneManager::action_pointmesh = csInvalidStringID;
-csStringID celPcZoneManager::action_pointcamera = csInvalidStringID;
 csStringID celPcZoneManager::id_entityname = csInvalidStringID;
 csStringID celPcZoneManager::id_regionname = csInvalidStringID;
 csStringID celPcZoneManager::id_startname = csInvalidStringID;
-csStringID celPcZoneManager::action_setloadingmode = csInvalidStringID;
 csStringID celPcZoneManager::id_mode = csInvalidStringID;
-csStringID celPcZoneManager::action_activateregion = csInvalidStringID;
 
 PropertyHolder celPcZoneManager::propinfo;
 
@@ -421,27 +414,31 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   if (id_region == csInvalidStringID)
   {
     id_region = pl->FetchStringID ("cel.parameter.region");
-    action_disablecd = pl->FetchStringID ("cel.action.DisableCD");
-    action_enablecd = pl->FetchStringID ("cel.action.EnableCD");
-    action_load = pl->FetchStringID ("cel.action.Load");
     id_path = pl->FetchStringID ("cel.parameter.path");
     id_file = pl->FetchStringID ("cel.parameter.file");
-    action_pointmesh = pl->FetchStringID ("cel.action.PointMesh");
-    action_pointcamera = pl->FetchStringID ("cel.action.PointCamera");
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
-    action_setloadingmode = pl->FetchStringID ("cel.action.SetLoadingMode");
     id_mode = pl->FetchStringID ("cel.parameter.mode");
-    action_activateregion = pl->FetchStringID ("cel.action.ActivateRegion");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
 
   InitTokenTable (xmltokens);
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_disablecd, "cel.action.DisableCD");
+    AddAction (action_enablecd, "cel.action.EnableCD");
+    AddAction (action_load, "cel.action.Load");
+    AddAction (action_pointmesh, "cel.action.PointMesh");
+    AddAction (action_pointcamera, "cel.action.PointCamera");
+    AddAction (action_setloadingmode, "cel.action.SetLoadingMode");
+    AddAction (action_activateregion, "cel.action.ActivateRegion");
+  }
  
   // For properties.
-  propholder = &propinfo;
   propinfo.SetCount (2);
   AddProperty (propid_laststart, "cel.property.laststart",
 	CEL_DATA_STRING, true, "Last used start location.", 0);
@@ -578,88 +575,88 @@ bool celPcZoneManager::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcZoneManager::PerformAction (csStringID actionId,
+bool celPcZoneManager::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_disablecd)
+  switch (idx)
   {
-    EnableColliderWrappers (false);
-    return true;
-  }
-  else if (actionId == action_enablecd)
-  {
-    EnableColliderWrappers (true);
-    return true;
-  }
-  else if (actionId == action_activateregion)
-  {
-    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-    if (!p_regionname) return false;	// @@@ Error?
-    iCelRegion* region = FindRegion (regionname);
-    if (!region) return false;	// @@@ Error?
-    ActivateRegion (region);
-    return true;
-  }
-  else if (actionId == action_load)
-  {
-    CEL_FETCH_STRING_PAR (path,params,id_path);
-    CEL_FETCH_STRING_PAR (file,params,id_file);
-    if (!p_file) return false;
-    if (!Load (path, file))
-      return false;
-    return true;
-  }
-  else if (actionId == action_setloadingmode)
-  {
-    CEL_FETCH_STRING_PAR (mode,params,id_mode);
-    if (!p_mode)
-      return Report (object_reg,
-	    	"'mode' is missing for SetLoadingMode!");
-    if (!strcmp ("normal", mode))
-    {
-      SetLoadingMode (CEL_ZONE_NORMAL);
+    case action_disablecd:
+      EnableColliderWrappers (false);
       return true;
-    }
-    else if (!strcmp ("keep", mode))
-    {
-      SetLoadingMode (CEL_ZONE_KEEP);
+    case action_enablecd:
+      EnableColliderWrappers (true);
       return true;
-    }
-    else if (!strcmp ("loadall", mode))
-    {
-      SetLoadingMode (CEL_ZONE_LOADALL);
-      return true;
-    }
-    else
-      return Report (object_reg,
-	    	"Unknown mode '%s' for SetLoadingMode!", mode);
-  }
-  else if (actionId == action_pointmesh)
-  {
-    CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-    if (!p_entityname) return false;
-    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-    if (!p_regionname) return false;
-    CEL_FETCH_STRING_PAR (startname,params,id_startname);
-    if (!p_startname) return false;
-    if (!PointMesh (entityname, regionname, startname))
+    case action_activateregion:
+      {
+        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+        if (!p_regionname) return false;	// @@@ Error?
+        iCelRegion* region = FindRegion (regionname);
+        if (!region) return false;	// @@@ Error?
+        ActivateRegion (region);
+        return true;
+      }
+    case action_load:
+      {
+        CEL_FETCH_STRING_PAR (path,params,id_path);
+        CEL_FETCH_STRING_PAR (file,params,id_file);
+        if (!p_file) return false;
+        if (!Load (path, file))
+          return false;
+        return true;
+      }
+    case action_setloadingmode:
+      {
+        CEL_FETCH_STRING_PAR (mode,params,id_mode);
+        if (!p_mode)
+          return Report (object_reg,
+	    	    "'mode' is missing for SetLoadingMode!");
+        if (!strcmp ("normal", mode))
+        {
+          SetLoadingMode (CEL_ZONE_NORMAL);
+          return true;
+        }
+        else if (!strcmp ("keep", mode))
+        {
+          SetLoadingMode (CEL_ZONE_KEEP);
+          return true;
+        }
+        else if (!strcmp ("loadall", mode))
+        {
+          SetLoadingMode (CEL_ZONE_LOADALL);
+          return true;
+        }
+        else
+          return Report (object_reg,
+	    	    "Unknown mode '%s' for SetLoadingMode!", mode);
+      }
+    case action_pointmesh:
+      {
+        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+        if (!p_entityname) return false;
+        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+        if (!p_regionname) return false;
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
+        if (!PointMesh (entityname, regionname, startname))
+          return false;
+        return true;
+      }
+    case action_pointcamera:
+      {
+        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
+        if (!p_entityname) return false;
+        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
+        if (!p_regionname) return false;
+        CEL_FETCH_STRING_PAR (startname,params,id_startname);
+        if (!p_startname) return false;
+        if (!PointCamera (entityname, regionname, startname))
+          return false;
+        return true;
+      }
+    default:
       return false;
-    return true;
   }
-  else if (actionId == action_pointcamera)
-  {
-    CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-    if (!p_entityname) return false;
-    CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-    if (!p_regionname) return false;
-    CEL_FETCH_STRING_PAR (startname,params,id_startname);
-    if (!p_startname) return false;
-    if (!PointCamera (entityname, regionname, startname))
-      return false;
-    return true;
-  }
-  return false;
 }
 
 void celPcZoneManager::SendZoneMessage (iCelRegion* region, const char* msgid)
