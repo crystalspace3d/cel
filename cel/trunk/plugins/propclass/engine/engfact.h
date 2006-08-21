@@ -70,7 +70,10 @@ private:
   // which are used for collision detection.
   csWeakRefArray<iCelEntity> entities;
 
-  static csStringID action_load;
+  enum actionids
+  {
+    action_load = 0
+  };
 
   enum propids
   {
@@ -146,7 +149,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
 
   // For iCelNewEntityCallback.

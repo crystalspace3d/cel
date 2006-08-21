@@ -8,6 +8,10 @@ The history order is reversed so that new features are at the top.
 	  to get rid of the annoying flickering when writing.
 	- Jorrit further optimized the property classes in CEL by using
 	  the new SetPropertyIndexed() system.
+	- Jorrit optimized PerformAction() in a similar way. Property
+	  classes can now also override PerformActionIndexed().
+	- Jorrit converted several property classes to also use the
+	  new PerformActionIndexed() method.
 20-Aug-2006
 	- Jorrit cleaned up celPcCommon a bit.
 	- Jorrit optimized property setting and getting for

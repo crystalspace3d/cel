@@ -76,7 +76,7 @@ public:
   virtual const char* GetName () const { return "pctest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId,
+  virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support

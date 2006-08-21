@@ -59,7 +59,7 @@ public:
   virtual const char* GetName() const { return "pchover"; };
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void Tick ();
 
@@ -137,14 +137,19 @@ public:
   } scfiPcHover;
 
 private:
+  static PropertyHolder propinfo;
+
   // Actions
-  static csStringID action_setworld;
-  static csStringID action_sethbeamcutoff;
-  static csStringID action_setangoff;
-  static csStringID action_setangheight;
-  static csStringID action_setangstr;
-  static csStringID action_usedeffunc;
-  static csStringID action_hoveron;
+  enum actionids
+  {
+    action_setworld = 0,
+    action_sethbeamcutoff,
+    action_setangoff,
+    action_setangheight,
+    action_setangstr,
+    action_usedeffunc,
+    action_hoveron
+  };
 
   // Parameters.
   static csStringID param_world;

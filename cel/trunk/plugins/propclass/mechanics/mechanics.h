@@ -75,13 +75,17 @@ class celPcMechanicsSystem : public scfImplementationExt1<
 {
 private:
   // Actions
-  static csStringID action_setsystem;
-  static csStringID action_setgravity;
-  static csStringID action_quickstep;
-  static csStringID action_enablestepfast;
-  static csStringID action_disablestepfast;
-  static csStringID action_setsteptime;
-  static csStringID action_setsimulationspeed;
+  enum actionids
+  {
+    action_setsystem = 0,
+    action_setgravity,
+    action_quickstep,
+    action_enablestepfast,
+    action_disablestepfast,
+    action_setsteptime,
+    action_setsimulationspeed
+  };
+  static PropertyHolder propinfo;
 
   // Parameters.
   static csStringID param_dynsys;
@@ -151,7 +155,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
   // Made independent to avoid circular refs and leaks.
@@ -238,29 +242,32 @@ class celPcMechanicsObject : public scfImplementationExt1<
 {
 private:
   // Actions
-  static csStringID action_initphys;
-  static csStringID action_makestatic;
-  static csStringID action_setsystem;
-  static csStringID action_setmesh;
-  static csStringID action_setcolliderboundingsphere;
-  static csStringID action_setcollidersphere;
-  static csStringID action_setcollidercylinder;
-  static csStringID action_setcolliderbox;
-  static csStringID action_setcolliderboundingbox;
-  static csStringID action_setcolliderplane;
-  static csStringID action_setcollidermesh;
-  static csStringID action_setlinearvelocity;
-  static csStringID action_setangularvelocity;
-  static csStringID action_addforceonce;
-  static csStringID action_addforceduration;
-  static csStringID action_addforceframe;
-  static csStringID action_addforcetagged;
-  static csStringID action_removeforcetagged;
-  static csStringID action_clearforces;
-  static csStringID action_setposition;
-  static csStringID action_rotate;
-  static csStringID action_clearrotation;
-  static csStringID action_lookat;
+  enum actionids
+  {
+    action_initphys = 0,
+    action_makestatic,
+    action_setsystem,
+    action_setmesh,
+    action_setcolliderboundingsphere,
+    action_setcollidersphere,
+    action_setcollidercylinder,
+    action_setcolliderbox,
+    action_setcolliderboundingbox,
+    action_setcolliderplane,
+    action_setcollidermesh,
+    action_setlinearvelocity,
+    action_setangularvelocity,
+    action_addforceonce,
+    action_addforceduration,
+    action_addforceframe,
+    action_addforcetagged,
+    action_removeforcetagged,
+    action_clearforces,
+    action_setposition,
+    action_rotate,
+    action_clearrotation,
+    action_lookat
+  };
 
   // Parameters.
   static csStringID param_friction;
@@ -439,7 +446,7 @@ public:
   virtual const char* GetName () const { return "pcmechobject"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual bool SetPropertyIndexed (int, bool v);
   virtual bool GetPropertyIndexed (int, bool& v);
@@ -479,12 +486,16 @@ class celPcMechanicsJoint : public scfImplementationExt1<
 {
 private:
   // Actions
-  static csStringID action_setparentbody;
-  static csStringID action_setposition;
-  static csStringID action_setconstraindist;
-  static csStringID action_setdistances;
-  static csStringID action_setconstrainangle;
-  static csStringID action_setangles;
+  enum actionids
+  {
+    action_setparentbody = 0,
+    action_setposition,
+    action_setconstraindist,
+    action_setdistances,
+    action_setconstrainangle,
+    action_setangles
+  };
+  static PropertyHolder propinfo;
 
   // Parameters.
   static csStringID param_body;
@@ -511,7 +522,7 @@ public:
   virtual const char* GetName () const { return "pcmechjoint"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-  virtual bool PerformAction (csStringID actionId, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 };
 

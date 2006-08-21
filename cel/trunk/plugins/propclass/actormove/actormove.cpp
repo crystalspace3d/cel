@@ -82,19 +82,6 @@ public:
 
 //---------------------------------------------------------------------------
 
-csStringID celPcActorMove::action_setspeed = csInvalidStringID;
-csStringID celPcActorMove::action_forward = csInvalidStringID;
-csStringID celPcActorMove::action_backward = csInvalidStringID;
-csStringID celPcActorMove::action_strafeleft = csInvalidStringID;
-csStringID celPcActorMove::action_straferight = csInvalidStringID;
-csStringID celPcActorMove::action_rotateleft = csInvalidStringID;
-csStringID celPcActorMove::action_rotateright = csInvalidStringID;
-csStringID celPcActorMove::action_rotateto = csInvalidStringID;
-csStringID celPcActorMove::action_mousemove = csInvalidStringID;
-csStringID celPcActorMove::action_run = csInvalidStringID;
-csStringID celPcActorMove::action_autorun = csInvalidStringID;
-csStringID celPcActorMove::action_jump = csInvalidStringID;
-csStringID celPcActorMove::action_togglecameramode = csInvalidStringID;
 csStringID celPcActorMove::id_movement = csInvalidStringID;
 csStringID celPcActorMove::id_running = csInvalidStringID;
 csStringID celPcActorMove::id_rotation = csInvalidStringID;
@@ -109,22 +96,8 @@ PropertyHolder celPcActorMove::propinfo;
 celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  if (action_setspeed == csInvalidStringID)
+  if (id_movement == csInvalidStringID)
   {
-    action_setspeed = pl->FetchStringID ("cel.action.SetSpeed");
-    action_forward = pl->FetchStringID ("cel.action.Forward");
-    action_backward = pl->FetchStringID ("cel.action.Backward");
-    action_strafeleft = pl->FetchStringID ("cel.action.StrafeLeft");
-    action_straferight = pl->FetchStringID ("cel.action.StrafeRight");
-    action_rotateleft = pl->FetchStringID ("cel.action.RotateLeft");
-    action_rotateright = pl->FetchStringID ("cel.action.RotateRight");
-    action_rotateto = pl->FetchStringID ("cel.action.RotateTo");
-    action_mousemove = pl->FetchStringID ("cel.action.MouseMove");
-    action_run = pl->FetchStringID ("cel.action.Run");
-    action_autorun = pl->FetchStringID ("cel.action.AutoRun");
-    action_jump = pl->FetchStringID ("cel.action.Jump");
-    action_togglecameramode = pl->FetchStringID (
-    	"cel.action.ToggleCameraMode");
     id_movement = pl->FetchStringID ("cel.parameter.movement");
     id_running = pl->FetchStringID ("cel.parameter.running");
     id_rotation = pl->FetchStringID ("cel.parameter.rotation");
@@ -163,8 +136,27 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   g2d = g3d->GetDriver2D ();
 
-  // For properties.
   propholder = &propinfo;
+
+  // For actions.
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setspeed, "cel.action.SetSpeed");
+    AddAction (action_forward, "cel.action.Forward");
+    AddAction (action_backward, "cel.action.Backward");
+    AddAction (action_strafeleft, "cel.action.StrafeLeft");
+    AddAction (action_straferight, "cel.action.StrafeRight");
+    AddAction (action_rotateleft, "cel.action.RotateLeft");
+    AddAction (action_rotateright, "cel.action.RotateRight");
+    AddAction (action_rotateto, "cel.action.RotateTo");
+    AddAction (action_mousemove, "cel.action.MouseMove");
+    AddAction (action_run, "cel.action.Run");
+    AddAction (action_autorun, "cel.action.AutoRun");
+    AddAction (action_jump, "cel.action.Jump");
+    AddAction (action_togglecameramode, "cel.action.ToggleCameraMode");
+  }
+
+  // For properties.
   propinfo.SetCount (4);
   AddProperty (propid_mousemove, "cel.property.mousemove",
 	CEL_DATA_BOOL, false, "Mouse movement.", 0);
@@ -320,104 +312,104 @@ bool celPcActorMove::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcActorMove::PerformAction (csStringID actionId,
+bool celPcActorMove::PerformActionIndexed (int idx,
 	iCelParameterBlock* params, celData& ret)
 {
-  if (actionId == action_setspeed)
+  switch (idx)
   {
-    CEL_FETCH_FLOAT_PAR (movement,params,id_movement);
-    if (p_movement) SetMovementSpeed (movement);
-    CEL_FETCH_FLOAT_PAR (running,params,id_running);
-    if (p_running) SetRunningSpeed (running);
-    CEL_FETCH_FLOAT_PAR (rotation,params,id_rotation);
-    if (p_rotation) SetRotationSpeed (rotation);
-    CEL_FETCH_FLOAT_PAR (jumping,params,id_jumping);
-    if (p_jumping) SetJumpingVelocity (jumping);
-    return true;
+    case action_setspeed:
+      {
+        CEL_FETCH_FLOAT_PAR (movement,params,id_movement);
+        if (p_movement) SetMovementSpeed (movement);
+        CEL_FETCH_FLOAT_PAR (running,params,id_running);
+        if (p_running) SetRunningSpeed (running);
+        CEL_FETCH_FLOAT_PAR (rotation,params,id_rotation);
+        if (p_rotation) SetRotationSpeed (rotation);
+        CEL_FETCH_FLOAT_PAR (jumping,params,id_jumping);
+        if (p_jumping) SetJumpingVelocity (jumping);
+        return true;
+      }
+    case action_forward:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        Forward (start);
+        return true;
+      }
+    case action_backward:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        Backward (start);
+        return true;
+      }
+    case action_strafeleft:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        StrafeLeft (start);
+        return true;
+      }
+    case action_straferight:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        StrafeRight (start);
+        return true;
+      }
+    case action_rotateleft:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        RotateLeft (start);
+        return true;
+      }
+    case action_rotateright:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        RotateRight (start);
+        return true;
+      }
+    case action_rotateto:
+      {
+        CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
+        if (!p_yrot) return false;
+        RotateTo (yrot);
+        return true;
+      }
+    case action_mousemove:
+      {
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
+        MouseMove (x, y);
+        return true;
+      }
+    case action_run:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        Run (start);
+        return true;
+      }
+    case action_autorun:
+      {
+        CEL_FETCH_BOOL_PAR (start,params,id_start);
+        if (!p_start) return false;
+        AutoRun (start);
+        return true;
+      }
+    case action_jump:
+      Jump ();
+      return true;
+    case action_togglecameramode:
+      ToggleCameraMode ();
+      return true;
+    default:
+      return false;
   }
-  else if (actionId == action_forward)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    Forward (start);
-    return true;
-  }
-  else if (actionId == action_backward)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    Backward (start);
-    return true;
-  }
-  else if (actionId == action_strafeleft)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    StrafeLeft (start);
-    return true;
-  }
-  else if (actionId == action_straferight)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    StrafeRight (start);
-    return true;
-  }
-  else if (actionId == action_rotateleft)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    RotateLeft (start);
-    return true;
-  }
-  else if (actionId == action_rotateright)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    RotateRight (start);
-    return true;
-  }
-  else if (actionId == action_rotateto)
-  {
-    CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-    if (!p_yrot) return false;
-    RotateTo (yrot);
-    return true;
-  }
-  else if (actionId == action_mousemove)
-  {
-    CEL_FETCH_FLOAT_PAR (x,params,id_x);
-    if (!p_x) return false;
-    CEL_FETCH_FLOAT_PAR (y,params,id_y);
-    if (!p_y) return false;
-    MouseMove (x, y);
-    return true;
-  }
-  else if (actionId == action_run)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    Run (start);
-    return true;
-  }
-  else if (actionId == action_autorun)
-  {
-    CEL_FETCH_BOOL_PAR (start,params,id_start);
-    if (!p_start) return false;
-    AutoRun (start);
-    return true;
-  }
-  else if (actionId == action_jump)
-  {
-    Jump ();
-    return true;
-  }
-  else if (actionId == action_togglecameramode)
-  {
-    ToggleCameraMode ();
-    return true;
-  }
-  return false;
 }
 
 void celPcActorMove::FindSiblingPropertyClasses ()

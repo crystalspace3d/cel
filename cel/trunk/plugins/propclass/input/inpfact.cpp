@@ -69,11 +69,8 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 csStringID celPcCommandInput::id_trigger = csInvalidStringID;
 csStringID celPcCommandInput::id_command = csInvalidStringID;
-csStringID celPcCommandInput::action_bind = csInvalidStringID;
 csStringID celPcCommandInput::id_x = csInvalidStringID;
 csStringID celPcCommandInput::id_y = csInvalidStringID;
-csStringID celPcCommandInput::action_loadconfig = csInvalidStringID;
-csStringID celPcCommandInput::action_saveconfig = csInvalidStringID;
 csStringID celPcCommandInput::id_prefix = csInvalidStringID;
 
 PropertyHolder celPcCommandInput::propinfo;
@@ -104,27 +101,25 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   Activate ();
 
-  if (action_bind == csInvalidStringID)
+  if (id_trigger == csInvalidStringID)
   {
-    action_bind = pl->FetchStringID ("cel.action.Bind");
     id_trigger = pl->FetchStringID ("cel.parameter.trigger");
     id_command = pl->FetchStringID ("cel.parameter.command");
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
-  }
-  if (action_loadconfig == csInvalidStringID)
-  {
-    action_loadconfig = pl->FetchStringID ("cel.action.LoadConfig");
-    id_prefix = pl->FetchStringID ("cel.parameter.prefix");
-  }
-  if (action_saveconfig == csInvalidStringID)
-  {
-    action_saveconfig = pl->FetchStringID ("cel.action.SaveConfig");
     id_prefix = pl->FetchStringID ("cel.parameter.prefix");
   }
 
   // For properties.
   propholder = &propinfo;
+
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_saveconfig, "cel.action.SaveConfig");
+    AddAction (action_bind, "cel.action.Bind");
+    AddAction (action_loadconfig, "cel.action.LoadConfig");
+  }
+
   propinfo.SetCount (2);
   AddProperty (propid_cooked, "cel.property.cooked",
 	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
@@ -182,34 +177,38 @@ celPcCommandInput::~celPcCommandInput ()
   }
 }
 
-bool celPcCommandInput::PerformAction (csStringID actionId,
+bool celPcCommandInput::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (actionId == action_bind)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
-    if (!trigger) return false;
-    CEL_FETCH_STRING_PAR (command,params,id_command);
-    if (!command) return false;
-    Bind (trigger, command);
-    return true;
+    case action_bind:
+      {
+        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+        if (!trigger) return false;
+        CEL_FETCH_STRING_PAR (command,params,id_command);
+        if (!command) return false;
+        Bind (trigger, command);
+        return true;
+      }
+    case action_loadconfig:
+      {
+        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
+        if (!prefix) return false;
+        LoadConfig (prefix);
+        return true;
+      }
+    case action_saveconfig:
+      {
+        CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
+        if (!prefix) return false;
+        SaveConfig (prefix);
+        return true;
+      }
+    default:
+      return false;
   }
-  else if (actionId == action_loadconfig)
-  {
-    CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
-    if (!prefix) return false;
-    LoadConfig (prefix);
-    return true;
-  }
-  else if (actionId == action_saveconfig)
-  {
-    CEL_FETCH_STRING_PAR (prefix,params,id_prefix);
-    if (!prefix) return false;
-    SaveConfig (prefix);
-    return true;
-  }
-  return false;
 }
 
 #define COMMANDINPUT_SERIAL 3

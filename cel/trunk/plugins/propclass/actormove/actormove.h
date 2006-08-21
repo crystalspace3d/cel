@@ -111,19 +111,6 @@ private:
   float mousemove_vert_factor;
   csWeakRef<iGraphics2D> g2d;
 
-  static csStringID action_setspeed;
-  static csStringID action_forward;
-  static csStringID action_backward;
-  static csStringID action_strafeleft;
-  static csStringID action_straferight;
-  static csStringID action_rotateleft;
-  static csStringID action_rotateright;
-  static csStringID action_rotateto;
-  static csStringID action_mousemove;
-  static csStringID action_run;
-  static csStringID action_autorun;
-  static csStringID action_jump;
-  static csStringID action_togglecameramode;
   static csStringID id_movement;
   static csStringID id_running;
   static csStringID id_rotation;
@@ -136,6 +123,24 @@ private:
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
   void GetSpriteStates ();
+
+  // For actions.
+  enum actionids
+  {
+    action_setspeed = 0,
+    action_forward,
+    action_backward,
+    action_strafeleft,
+    action_straferight,
+    action_rotateleft,
+    action_rotateright,
+    action_rotateto,
+    action_mousemove,
+    action_run,
+    action_autorun,
+    action_jump,
+    action_togglecameramode
+  };
 
   // For properties.
   enum propids
@@ -281,7 +286,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 
-  virtual bool PerformAction (csStringID, iCelParameterBlock* params,
+  virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'mousemove' property.
