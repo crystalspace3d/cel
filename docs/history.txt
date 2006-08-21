@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Aug-2006
+	- caedes set AutoUpdate to false on the celconsole output console
+	  to get rid of the annoying flickering when writing.
 20-Aug-2006
 	- Jorrit cleaned up celPcCommon a bit.
 	- Jorrit optimized property setting and getting for
