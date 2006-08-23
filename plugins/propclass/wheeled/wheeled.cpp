@@ -943,7 +943,9 @@ void celPcWheeled::TickOnce()
       // reversing.
     if (autoreverse)
     {
-      if(bodyMech->GetBody()->GetLinearVelocity().Norm()<2)
+      csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
+      csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
+      if( trans.Other2ThisRelative(linvel).z > -2.0 )
         Reverse();
     }
   }
@@ -963,7 +965,6 @@ void celPcWheeled::TickOnce()
 
   if(tankmode && steerdir!=0)
     UpdateTankSteer();
-
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 
