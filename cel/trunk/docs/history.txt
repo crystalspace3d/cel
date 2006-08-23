@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Aug-2006
+	- cfraz89 made autoreverse in pcwheeled a bit smarter.
 21-Aug-2006
 	- caedes set AutoUpdate to false on the celconsole output console
 	  to get rid of the annoying flickering when writing.
