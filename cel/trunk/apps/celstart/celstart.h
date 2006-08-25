@@ -20,14 +20,20 @@
 #define __CELSTART_H__
 
 #include <stdarg.h>
+#include "csutil/stringarray.h"
+#include "csutil/parray.h"
+#include "iutil/stringarray.h"
+#include "cstool/cspixmap.h"
 #include "behaviourlayer/bl.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 
 struct iGraphics3D;
+struct iMouseDriver;
 struct iObjectRegistry;
 struct iEvent;
 struct iVFS;
+struct iFont;
 
 class CelStart
 {
@@ -36,16 +42,35 @@ public:
 
 private:
   csRef<iCelPlLayer> pl;
-  csRef<iCelBlLayer> bl;
   csRef<iGraphics3D> g3d;
+  bool do_clearscreen;
+
+  // Everything for the demo selection screen.
+  csRef<iFont> font;
+  csRef<iMouseDriver> mouse;
+  int font_fg, font_bg;
+  int sel_font_fg, sel_font_bg;
+  int box_color1, box_color2, box_color3;
+  int sel_box_color1;
+  csString startme;
+  int argc;
+  const char** argv;
+  csStringArray files;
+  csStringArray names;
+  csStringArray descriptions;
+  csPDelArray<csSimplePixmap> icons;
+  int top_file;
  
   static bool CelStartEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
   void SetupFrame ();
   void FinishFrame ();
-  bool FindPath (iVFS* vfs, csString& path, csString& configname);
-
-  bool do_clearscreen;
+  bool FindPath (iVFS* vfs, csString& realpath, csString& path,
+      csString& configname);
+  void FindCelStartArchives ();
+  bool StartDemo (int argc, const char* const argv[],
+    const char* realpath, const char* path, const char* configname);
+  bool StartDemoSelector (int argc, const char* const argv[]);
 
 public:
   CelStart ();

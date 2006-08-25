@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Aug-2006
+	- Jorrit made celstart a lot smarter in case it is started
+	  with no commandline arguments. In that case it will find all
+	  directories and zip files that are in the same dir as the
+	  celstart executable and list them in a graphical way. It
+	  is also possible to associate an icon to the graphical
+	  view that way. Operating the list is easy. Using arrows
+	  you can scroll up/down if there are more entries then fit
+	  on screen. You can click on an entry to fire up that demo.
+	  So it is no longer needed to extract the demo archives.
 23-Aug-2006
 	- cfraz89 made autoreverse in pcwheeled a bit smarter.
 21-Aug-2006
