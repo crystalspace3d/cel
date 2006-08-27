@@ -2,7 +2,8 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+27-Aug-2006
+        - Piotr fixed bool values reading in xml persistance layer.
 25-Aug-2006
 	- Jorrit made celstart a lot smarter in case it is started
 	  with no commandline arguments. In that case it will find all
