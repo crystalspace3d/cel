@@ -62,7 +62,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     odedynam
     particles
     particlesldr
-    partphys_simple
     ptanimimg
     rain
     rainldr
