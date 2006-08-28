@@ -218,6 +218,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 celPcWheeled::~celPcWheeled ()
 {
   DestroyAllWheels();
+  bodyGroup->RemoveBody(bodyMech->GetBody());
+  dyn->RemoveGroup(bodyGroup);
   bodyMech=0;
   wheelfact=0;
   bodyGroup=0;
