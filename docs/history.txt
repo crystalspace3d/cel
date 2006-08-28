@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 28-Aug-2006
 	- Jorrit removed partphys_simple from static bootstrap and
 	  celstart
+        - cfraz89 fixed a reference leak on destruction of pcwheeled
+          making the bodies remain left behind.
 27-Aug-2006
         - Piotr fixed bool values reading in xml persistance layer.
 25-Aug-2006
