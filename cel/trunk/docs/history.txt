@@ -2,6 +2,10 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
+28-Aug-2006
+	- Jorrit removed partphys_simple from static bootstrap and
+	  celstart
 27-Aug-2006
         - Piotr fixed bool values reading in xml persistance layer.
 25-Aug-2006
