@@ -1,5 +1,5 @@
 <library>
-  <addon plugin="xmlscripts">
+  <addon plugin="cel.addons.xmlscripts">
     <pcfactory> cel.pcfactory.defaultcamera </pcfactory>
     <pcfactory> cel.pcfactory.pccommandinput </pcfactory>
     <pcfactory> cel.pcfactory.actormove </pcfactory>
