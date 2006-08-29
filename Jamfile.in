@@ -21,6 +21,7 @@ Clean maintainerclean : configure aclocal.m4 config.h.in ;
 Depends maintainerclean : distclean ;
 
 # Enable msvcgen
+MsvcGenVariable customize : custom.cslib ;
 MsvcGenSubDir TOP msvc : common ;
 MsvcGenSubDir TOP msvc 7 : 7 ;
 MsvcGenSubDir TOP msvc 71 : 71 ;

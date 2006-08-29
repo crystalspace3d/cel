@@ -723,13 +723,13 @@ echo X"$0" |
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
   srcdir=$ac_confdir
-  if test ! -r $srcdir/$ac_unique_file; then
+  if test ! -r "$srcdir/$ac_unique_file"; then
     srcdir=..
   fi
 else
   ac_srcdir_defaulted=no
 fi
-if test ! -r $srcdir/$ac_unique_file; then
+if test ! -r "$srcdir/$ac_unique_file"; then
   if test "$ac_srcdir_defaulted" = yes; then
     { echo "$as_me: error: cannot find sources ($ac_unique_file) in $ac_confdir or .." >&2
    { (exit 1); exit 1; }; }
@@ -738,7 +738,7 @@ if test ! -r $srcdir/$ac_unique_file; then
    { (exit 1); exit 1; }; }
   fi
 fi
-(cd $srcdir && test -r ./$ac_unique_file) 2>/dev/null ||
+(cd $srcdir && test -r "./$ac_unique_file") 2>/dev/null ||
   { echo "$as_me: error: sources are in $srcdir, but \`cd $srcdir' does not work" >&2
    { (exit 1); exit 1; }; }
 srcdir=`echo "$srcdir" | sed 's%\([^\\/]\)[\\/]*$%\1%'`
@@ -3817,6 +3817,332 @@ else
 
 fi
 
+
+    # Check if binutils support response files
+    rm -f conftest.resp
+    echo "" > conftest.resp
+    if test "" != yes; then
+  echo "$as_me:$LINENO: checking if response files are accepted" >&5
+echo $ECHO_N "checking if response files are accepted... $ECHO_C" >&6
+if test "${cs_cv_prog_link_respfile+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in -Wl,@conftest.resp
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_link_respfile=yes
+		cs_cv_prog_link_respfile_cflags=$cs_build_cflags
+		cs_cv_prog_link_respfile_lflags=$cs_build_lflags
+		cs_cv_prog_link_respfile_libs=$cs_build_libs
+else
+  cs_cv_prog_link_respfile=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_link_respfile" >&5
+echo "${ECHO_T}$cs_cv_prog_link_respfile" >&6
+else
+  echo "$as_me:$LINENO: checking if response files are accepted" >&5
+echo $ECHO_N "checking if response files are accepted... $ECHO_C" >&6
+	    ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in -Wl,@conftest.resp
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_link_respfile=yes
+		cs_cv_prog_link_respfile_cflags=$cs_build_cflags
+		cs_cv_prog_link_respfile_lflags=$cs_build_lflags
+		cs_cv_prog_link_respfile_libs=$cs_build_libs
+else
+  cs_cv_prog_link_respfile=no
+fi
+
+	    echo "$as_me:$LINENO: result: $cs_cv_prog_link_respfile" >&5
+echo "${ECHO_T}$cs_cv_prog_link_respfile" >&6
+fi
+
+    if test $cs_cv_prog_link_respfile = yes; then
+  cs_build_prop_val="yes"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}LINKER.RESPONSEFILES ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+else
+  cs_cv_prog_link_respfile_cflags=''
+	cs_cv_prog_link_respfile_lflags=''
+	cs_cv_prog_link_respfile_libs=''
+
+fi
+
+    rm -f conftest.resp
 
 
 
@@ -7003,6 +7329,231 @@ fi
 fi
 
 
+#------------------------------------------------------------------------------
+# Check if "hidden" visibilty for inline functions is supported.
+#
+# IMPLEMENTATION NOTES
+#
+# There is an obscure bug in gcc 3.4.x and 4.0.x where
+# -fvisibility-inlines-hidden on AMD64 in combination with -fPIC and -shared
+# flags causes the linker to fail with a bogus error stating that the target
+# library needs to be built with -fPIC even when it has been built using that
+# option. On such installations, if Crystal Space is built with
+# -fvisibility-inlines-hidden, then clients liking against Crystal Space
+# experience this bogus error.  Normally, we would test for this anomaly by
+# manipulating a std::basic_string<> in a test program, and avoid
+# -fvisibility-inlines-hidden if the test program fails to link, however,
+# practical experience has shown that this test is not 100% reliable for all
+# such installations. Instead, for simplicity, we disable this flag presently
+# for all versions of gcc on AMD64.  References:
+#
+#     http://dev.gentoo.org/~kugelfang/pappy-visibility.txt
+#     http://www.gnu.org/software/gcc/gcc-4.0/changes.html#visibility
+#     http://www.nedprod.com/programs/gccvisibility.html
+#     http://bugs.gentoo.org/show_bug.cgi?id=78720
+#
+# Furthermore, there seems to be a bug on MacOS/X with gcc 4.0.x where use of
+# -fvisibility-inlines-hidden causes link problems with external clients which
+# do not specify this flag.  For this reason, we also disable this flag on
+# MacOS/X.  In particular, clients receive errors of this sort:
+#
+#    /usr/bin/ld: libcrystalspace.a(scf.o) malformed object, illegal
+#        reference for -dynamic code (reference to a coalesced section
+#        (__TEXT,__textcoal_nt) from section (__TEXT,__text) relocation
+#        entry (1))
+#------------------------------------------------------------------------------
+echo "$as_me:$LINENO: checking for inline visibility flag" >&5
+echo $ECHO_N "checking for inline visibility flag... $ECHO_C" >&6
+if test "${cs_cv_prog_cxx_visibility_inlines_hidden_ok+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_ext=cc
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    cs_cflags_save="$CXXFLAGS"
+    cs_lflags_save="$LDFLAGS"
+    cs_libs_save="$LIBS"
+    cs_build_ok=no
+
+
+    for cs_build_item in `echo @-fvisibility-inlines-hidden@@ | sed 'y% %#%'`
+    do
+
+    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
+	{ for (i=1; i <= NF; ++i)
+	    { if ($i == "") print "filler"; else print $i } }'`
+    shift
+    if test $# -eq 0; then
+  cs_dummy=''
+else
+  if test "$1" = filler; then
+  cs_dummy=''
+else
+  cs_dummy=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_cflags_test=''
+else
+  if test "$1" = filler; then
+  cs_cflags_test=''
+else
+  cs_cflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_lflags_test=''
+else
+  if test "$1" = filler; then
+  cs_lflags_test=''
+else
+  cs_lflags_test=$1
+fi
+
+	shift
+fi
+if test $# -eq 0; then
+  cs_libs_test=''
+else
+  if test "$1" = filler; then
+  cs_libs_test=''
+else
+  cs_libs_test=$1
+fi
+
+	shift
+fi
+
+    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
+    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
+    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
+
+	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
+	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
+	LIBS="$cs_libs_test  $cs_libs_save"
+	cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+int
+main ()
+{
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  cs_build_ok=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+	if test $cs_build_ok = yes; then
+  break
+fi
+
+    done
+
+
+    CXXFLAGS=$cs_cflags_save
+    LDFLAGS=$cs_lflags_save
+    LIBS=$cs_libs_save
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+
+    if test $cs_build_ok = yes; then
+  cs_build_cflags=`echo x$cs_cflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_libs=`echo x$cs_libs_test | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_cv_prog_cxx_visibility_inlines_hidden=`echo x$cs_build_cflags $cs_build_lflags $cs_build_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	    cs_cv_prog_cxx_visibility_inlines_hidden_ok="$cs_cv_prog_cxx_visibility_inlines_hidden"
+else
+  cs_cv_prog_cxx_visibility_inlines_hidden=''
+	    cs_cv_prog_cxx_visibility_inlines_hidden_ok=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_cxx_visibility_inlines_hidden_ok" >&5
+echo "${ECHO_T}$cs_cv_prog_cxx_visibility_inlines_hidden_ok" >&6
+
+
+if test -n "$cs_cv_prog_cxx_visibility_inlines_hidden"; then
+  echo "$as_me:$LINENO: checking if $cs_cv_prog_cxx_visibility_inlines_hidden is buggy" >&5
+echo $ECHO_N "checking if $cs_cv_prog_cxx_visibility_inlines_hidden is buggy... $ECHO_C" >&6
+if test "${cs_cv_prog_cxx_visibility_inlines_hidden_buggy+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test $ac_compiler_gnu = yes; then
+  if test $host_cpu = x86_64 || test x$cs_host_macosx = xyes; then
+  cs_cv_prog_cxx_visibility_inlines_hidden_buggy=yes
+else
+  cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no
+fi
+
+else
+  cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no
+fi
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_cxx_visibility_inlines_hidden_buggy" >&5
+echo "${ECHO_T}$cs_cv_prog_cxx_visibility_inlines_hidden_buggy" >&6
+else
+  cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no
+fi
+
+
+if test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes; then
+  cs_build_prop_val="$cs_cv_prog_cxx_visibility_inlines_hidden"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}COMPILER.C++FLAGS += \"$cs_build_prop_val\" ;
+"
+fi
+
+fi
+
+
+
+
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------
@@ -7923,23 +8474,21 @@ fi
 fi
 
 	    if test -d "$cs_cv_pybase_sysprefix/lib"; then
-  cs_cv_pybase_lflags="$cs_cv_pybase_lflags -L$cs_cv_pybase_sysprefix/lib"
+  cs_cv_pybase_sysprefix_lflags="$cs_cv_pybase_sysprefix_lflags -L$cs_cv_pybase_sysprefix/lib"
 fi
 
 	    if test -d "$cs_cv_pybase_sysprefix/libs"; then
-  cs_cv_pybase_lflags="$cs_cv_pybase_lflags -L$cs_cv_pybase_sysprefix/libs"
+  cs_cv_pybase_sysprefix_lflags="$cs_cv_pybase_sysprefix_lflags -L$cs_cv_pybase_sysprefix/libs"
 fi
 
 
 	    cs_cv_pybase_libs=`{ (echo "$as_me:$LINENO: \$PYTHON -c \\
 		'import distutils.sysconfig; \\
 		print (distutils.sysconfig.get_config_var(\"LIBS\") or \"\")+\" \"+ \\
-		      (distutils.sysconfig.get_config_var(\"LINKFORSHARED\") or \"\")+\" \"+ \\
 		      (distutils.sysconfig.get_config_var(\"SYSLIBS\") or \"\")'") >&5
   ($PYTHON -c \
 		'import distutils.sysconfig; \
 		print (distutils.sysconfig.get_config_var("LIBS") or "")+" "+ \
-		      (distutils.sysconfig.get_config_var("LINKFORSHARED") or "")+" "+ \
 		      (distutils.sysconfig.get_config_var("SYSLIBS") or "")') 2>&5
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -7957,7 +8506,7 @@ fi
 
 	    if test -n "$cs_pyver" &&
 		   test -n "$cs_cv_pybase_cflags" &&
-		   test -n "$cs_cv_pybase_lflags"; then
+		   test -n "$cs_cv_pybase_lflags$cs_cv_pybase_sysprefix_lflags"; then
   cs_cv_python_sdk=yes
 else
   cs_cv_python_sdk=no
@@ -7989,10 +8538,14 @@ echo "${ECHO_T}$cs_cv_python_sdk" >&6
 fi
 
 	    cs_pywinlib=`echo "$cs_cv_pybase" | sed 's/\.//g'`
-	    cs_pyflags="$cs_pyflags `echo @@@-framework Python | sed 'y% %#%'`"
-	    cs_pyflags="$cs_pyflags `echo @@@-l$cs_cv_pybase | sed 'y% %#%'`"
-	    cs_pyflags="$cs_pyflags `echo @@@-l$cs_pywinlib | sed 'y% %#%'`"
-	    cs_pyflags="$cs_pyflags `echo @@-bundle -flat_namespace -undefined suppress@ | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_lflags -framework Python | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_sysprefix_lflags -framework Python | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_lflags -l$cs_cv_pybase | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_sysprefix_lflags -l$cs_cv_pybase | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_lflags -l$cs_pywinlib | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@@$cs_cv_pybase_sysprefix_lflags -l$cs_pywinlib | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@-bundle -flat_namespace -undefined suppress@$cs_cv_pybase_lflags | sed 'y% %#%'`"
+	    cs_pyflags="$cs_pyflags `echo @@-bundle -flat_namespace -undefined suppress@$cs_cv_pybase_sysprefix_lflags | sed 'y% %#%'`"
 	    if test "" != yes; then
   echo "$as_me:$LINENO: checking if python SDK is usable" >&5
 echo $ECHO_N "checking if python SDK is usable... $ECHO_C" >&6
@@ -8068,7 +8621,7 @@ fi
     cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
 
 	CFLAGS="$cs_cflags_test $cs_cv_pybase_cflags $cs_cv_sys_pthread_cflags $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test $cs_cv_pybase_lflags $cs_cv_sys_pthread_lflags $cs_lflags_save"
+	LDFLAGS="$cs_lflags_test                      $cs_cv_sys_pthread_lflags $cs_lflags_save"
 	LIBS="$cs_libs_test $cs_cv_pybase_libs   $cs_cv_sys_pthread_libs $cs_libs_save"
 	cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -8134,7 +8687,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     if test $cs_build_ok = yes; then
   cs_build_cflags=`echo x$cs_cflags_test $cs_cv_pybase_cflags $cs_cv_sys_pthread_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_pybase_lflags $cs_cv_sys_pthread_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test                      $cs_cv_sys_pthread_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_build_libs=`echo x$cs_libs_test $cs_cv_pybase_libs   $cs_cv_sys_pthread_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_cv_python=yes
 		cs_cv_python_cflags=$cs_build_cflags
@@ -8219,7 +8772,7 @@ fi
     cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
 
 	CFLAGS="$cs_cflags_test $cs_cv_pybase_cflags $cs_cv_sys_pthread_cflags $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test $cs_cv_pybase_lflags $cs_cv_sys_pthread_lflags $cs_lflags_save"
+	LDFLAGS="$cs_lflags_test                      $cs_cv_sys_pthread_lflags $cs_lflags_save"
 	LIBS="$cs_libs_test $cs_cv_pybase_libs   $cs_cv_sys_pthread_libs $cs_libs_save"
 	cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
@@ -8285,7 +8838,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
     if test $cs_build_ok = yes; then
   cs_build_cflags=`echo x$cs_cflags_test $cs_cv_pybase_cflags $cs_cv_sys_pthread_cflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test $cs_cv_pybase_lflags $cs_cv_sys_pthread_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+	cs_build_lflags=`echo x$cs_lflags_test                      $cs_cv_sys_pthread_lflags | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_build_libs=`echo x$cs_libs_test $cs_cv_pybase_libs   $cs_cv_sys_pthread_libs | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
 	cs_cv_python=yes
 		cs_cv_python_cflags=$cs_build_cflags
@@ -13714,10 +14267,9 @@ for ac_i in : $LIBOBJS; do test "x$ac_i" = x: && continue
   # 1. Remove the extension, and $U if already installed.
   ac_i=`echo "$ac_i" |
 	 sed 's/\$U\././;s/\.o$//;s/\.obj$//'`
-  # 2. Prepend LIBOBJDIR.  When used with automake>=1.10 LIBOBJDIR
-  #    will be set to the directory where LIBOBJS objects are built.
-  ac_libobjs="$ac_libobjs \${LIBOBJDIR}$ac_i\$U.$ac_objext"
-  ac_ltlibobjs="$ac_ltlibobjs \${LIBOBJDIR}$ac_i"'$U.lo'
+  # 2. Add them.
+  ac_libobjs="$ac_libobjs $ac_i\$U.$ac_objext"
+  ac_ltlibobjs="$ac_ltlibobjs $ac_i"'$U.lo'
 done
 LIBOBJS=$ac_libobjs
 

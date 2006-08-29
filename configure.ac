@@ -115,6 +115,59 @@ AS_IF([test -n "$cs_cv_prog_cc_visibility_hidden"],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS], 
 	[$cs_cv_prog_cc_visibility_hidden], [+])])
 
+#------------------------------------------------------------------------------
+# Check if "hidden" visibilty for inline functions is supported.
+#
+# IMPLEMENTATION NOTES
+#
+# There is an obscure bug in gcc 3.4.x and 4.0.x where
+# -fvisibility-inlines-hidden on AMD64 in combination with -fPIC and -shared
+# flags causes the linker to fail with a bogus error stating that the target
+# library needs to be built with -fPIC even when it has been built using that
+# option. On such installations, if Crystal Space is built with
+# -fvisibility-inlines-hidden, then clients liking against Crystal Space
+# experience this bogus error.  Normally, we would test for this anomaly by
+# manipulating a std::basic_string<> in a test program, and avoid
+# -fvisibility-inlines-hidden if the test program fails to link, however,
+# practical experience has shown that this test is not 100% reliable for all
+# such installations. Instead, for simplicity, we disable this flag presently
+# for all versions of gcc on AMD64.  References:
+#
+#     http://dev.gentoo.org/~kugelfang/pappy-visibility.txt
+#     http://www.gnu.org/software/gcc/gcc-4.0/changes.html#visibility
+#     http://www.nedprod.com/programs/gccvisibility.html
+#     http://bugs.gentoo.org/show_bug.cgi?id=78720
+#
+# Furthermore, there seems to be a bug on MacOS/X with gcc 4.0.x where use of
+# -fvisibility-inlines-hidden causes link problems with external clients which
+# do not specify this flag.  For this reason, we also disable this flag on
+# MacOS/X.  In particular, clients receive errors of this sort:
+#
+#    /usr/bin/ld: libcrystalspace.a(scf.o) malformed object, illegal
+#        reference for -dynamic code (reference to a coalesced section
+#        (__TEXT,__textcoal_nt) from section (__TEXT,__text) relocation
+#        entry (1))
+#------------------------------------------------------------------------------
+CS_CHECK_BUILD_FLAGS([for inline visibility flag],
+    [cs_cv_prog_cxx_visibility_inlines_hidden],
+    [CS_CREATE_TUPLE([-fvisibility-inlines-hidden])],[C++])
+
+AS_IF([test -n "$cs_cv_prog_cxx_visibility_inlines_hidden"],
+    [AC_CACHE_CHECK([if $cs_cv_prog_cxx_visibility_inlines_hidden is buggy],
+	[cs_cv_prog_cxx_visibility_inlines_hidden_buggy],
+	[AS_IF([test $ac_compiler_gnu = yes],
+	    [AS_IF([test $host_cpu = x86_64 || test x$cs_host_macosx = xyes],
+		[cs_cv_prog_cxx_visibility_inlines_hidden_buggy=yes],
+		[cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])],
+	    [cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])])],
+    [cs_cv_prog_cxx_visibility_inlines_hidden_buggy=no])
+
+AS_IF([test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS],
+	[$cs_cv_prog_cxx_visibility_inlines_hidden], [+])])
+
+
+
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------

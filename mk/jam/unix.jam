@@ -117,7 +117,19 @@ rule SystemLinkSharedLibrary
 {
   LFlags $(<) : $(LINKLIBS) ;
   Depends $(<) : $(>) ;
-  LinkSharedLibrary $(<) : $(>) : $(3) ;
+  if $(LINKER.RESPONSEFILES) = "yes"
+  {
+    local response = $(<).resp ;
+    MakeLocate $(response) : $(LOCATE.OBJECTS)/libs ;
+    ResponseFile $(response) : $(>) ;
+    Depends $(response) : $(>) ;
+    Depends $(<) : $(response) ;
+    LinkSharedLibraryRsp $(<) : $(response) ;
+  }
+  else
+  {
+    LinkSharedLibrary $(<) : $(>) ;
+  }
 
   Clean clean : $(<) ;
   Clean $(<)clean : $(<) ;
@@ -147,5 +159,11 @@ else
 actions LinkSharedLibrary bind NEEDLIBS bind EXTRAOBJECTS
 {
   $(CMD.LINK) -shared -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS) \
+    -Wl,-soname,$(<:BS)
+}
+
+actions LinkSharedLibraryRsp bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(CMD.LINK) -shared -o $(<) -Wl,@$(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS) \
     -Wl,-soname,$(<:BS)
 }
