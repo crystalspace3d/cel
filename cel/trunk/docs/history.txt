@@ -21,6 +21,8 @@ The history order is reversed so that new features are at the top.
 	  that had no parameters (i.e. "Action{}").
 	- Jorrit cleaned up the boulderdash game a bit. Made the menu
 	  easier to use (the buttons actually say what they do now :-)
+	- res updated the mk/autoconf, mk/jam and and mk/msvcgen files from
+	  the CS copies.
 28-Aug-2006
 	- Jorrit removed partphys_simple from static bootstrap and
 	  celstart
