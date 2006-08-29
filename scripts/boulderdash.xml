@@ -1,5 +1,13 @@
 <world>
     <textures>
+        <texture name="button">
+	    <file>/cellib/images/button.png</file>
+	    <keepimage />
+        </texture>
+        <texture name="button_press">
+	    <file>/cellib/images/button_press.png</file>
+	    <keepimage />
+        </texture>
         <texture name="sand_stone">
 	    <file>/cellib/images/sand_stone.png</file>
 	    <keepimage />
@@ -392,14 +400,6 @@
 	    <transparent red="0" green="0" blue="0" />
 	    <keepimage />
         </texture>
-        <texture name="save">
-	    <file>/cellib/images/save.png</file>
-	    <keepimage />
-        </texture>
-        <texture name="menu">
-	    <file>/cellib/images/menu.png</file>
-	    <keepimage />
-        </texture>
         <texture name="number_0">
 	    <file>/cellib/images/number_0.png</file>
 	    <transparent red="0" green="0" blue="0" />
@@ -452,6 +452,8 @@
         </texture>
     </textures>
     <materials>
+        <material name="button"> <texture>button</texture> </material>
+        <material name="button_press"> <texture>button_press</texture> </material>
         <material name="sand_stone"> <texture>sand_stone</texture> </material>
         <material name="sand_monster"> <texture>sand_monster</texture> </material>
         <material name="marble"> <texture>marble</texture> </material>
@@ -536,8 +538,6 @@
         <material name="arrow_u"> <texture>arrow_u</texture> </material>
         <material name="arrow_d"> <texture>arrow_d</texture> </material>
         <material name="menu_arrow"> <texture>menu_arrow</texture> </material>
-        <material name="save"> <texture>save</texture> </material>
-        <material name="menu"> <texture>menu</texture> </material>
         <material name="number_0"> <texture>number_0</texture> </material>
         <material name="number_1"> <texture>number_1</texture> </material>
         <material name="number_2"> <texture>number_2</texture> </material>
@@ -566,6 +566,8 @@
         <plugin name="xmlscripts">cel.addons.xmlscripts</plugin>
     </plugins>
 
+    <library file="/cellib/library/blxml/buttons.xml" />
+
     <addon plugin="xmlscripts">
         <pcfactory>cel.pcfactory.mesh</pcfactory>
         <pcfactory>cel.pcfactory.solid</pcfactory>
@@ -578,67 +580,117 @@
         <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
 
 	<!-- *****************************************************
+	  - General superclass for utility functions.
+	  -  ***************************************************** -->
+	<script name="tools">
+	  <!-- Create a button -->
+	  <event name="createbutton">
+	    <createentity name="@name" behaviour="celButton" />
+	    <expr eval="@name::Construct(x=@x,y=@y,w=@w,h=@h,mat=button,matpress=button_press)" />
+	    <expr eval="@name::SetText(text=@text)" />
+	    <expr eval="@name::SetTextFont(font='/fonts/ttf/DejaVuSans.ttf',size=20)" />
+	    <expr eval="@name::SetMessageTarget(target=ent())" />
+	    <var entity="@name" name="action" value="@action" />
+	  </event>
+	  <!-- Create a label -->
+	  <event name="createlabel">
+	    <createentity name="@name" behaviour="celLabel" />
+	    <expr eval="@name::Construct(x=@x,y=@y,w=@w,h=@h)" />
+	    <expr eval="@name::SetText(text=@text)" />
+	    <expr eval="@name::SetTextFont(font='/fonts/ttf/DejaVuSans.ttf',size=20)" />
+	  </event>
+	  <!-- Create a dialog -->
+	  <event name="createdialog">
+	    <createentity name="@name" behaviour="celYesNoDialog" />
+	    <expr eval="@name::Construct(yes='Yes',no='No',mat=button,matpress=button_press,matbg=button,x=60000,y=120000,w=200000,h=80000,bw=30720,bh=19200)" />
+	    <expr eval="@name::SetText(text=@text)" />
+	    <expr eval="@name::SetTextFont(font='/fonts/ttf/DejaVuSans.ttf',size=20)" />
+	    <expr eval="@name::SetMessageTarget(target=ent())" />
+	    <var entity="@name" name="action" value="@action" />
+	  </event>
+	  <!-- Show message -->
+	  <event name="createmessage">
+	    <createentity name="@name" behaviour="celYesNoDialog" />
+	    <expr eval="@name::Construct(yes='',no='Ok',mat=button,matpress=button_press,matbg=button,x=60000,y=120000,w=200000,h=80000,bw=30720,bh=19200)" />
+	    <expr eval="@name::SetText(text=@text)" />
+	    <expr eval="@name::SetTextFont(font='/fonts/ttf/DejaVuSans.ttf',size=20)" />
+	    <expr eval="@name::SetMessageTarget(target=ent())" />
+	    <var entity="@name" name="action" value="@action" />
+	  </event>
+
+	  <event name="celDialogYes">
+	    <lvar name="act" value="?@entity.action" />
+	    <call event="(@entity)::Close()" />
+	    <call event="#act" />
+	  </event>
+	  <event name="celDialogNo">
+	    <call event="(@entity)::Close()" />
+	  </event>
+
+	</script>
+
+	<!-- *****************************************************
 	  - This script handles the menu system of xmlgames.
 	  -  ***************************************************** -->
 	<script name="menu">
-	    <!--
-	      - Initialization.
-	      -->
+	    <superscript name="tools" />
+
 	    <event name="init">
-	        <print value="'Start initializing menu...'" />
-
-		<!-- Boulderdash game button -->
-		<var name="material" value="slanted_stone" />
-		<createentity name="bdash_button" behaviour="game_button" />
-		<default propclass="pc(bdash_button,pcbillboard)" />
-	        <property id="propid(x)" value="10000" />
-	        <property id="propid(y)" value="130000" />
-		<var entity="bdash_button" name="game" value="bdash_main" />
-		<var entity="bdash_button" name="game_bh" value="bdash_main" />
-
-		<!-- Boulderdash game edit button -->
-		<var name="material" value="slanted_stone" />
-		<createentity name="bdashedit_button" behaviour="game_button" />
-		<default propclass="pc(bdashedit_button,pcbillboard)" />
-	        <property id="propid(x)" value="130000" />
-	        <property id="propid(y)" value="130000" />
-		<var entity="bdashedit_button" name="game" value="bdash_main" />
-		<var entity="bdashedit_button" name="game_bh" value="bdashedit_main" />
-
-		<!-- Level buttons -->
-		<var name="level" value="1" />
-		<createentity name="level1_button" behaviour="level_button" />
-		<var name="level" value="2" />
-		<createentity name="level2_button" behaviour="level_button" />
-		<var name="level" value="3" />
-		<createentity name="level3_button" behaviour="level_button" />
-		<var name="level" value="4" />
-		<createentity name="level4_button" behaviour="level_button" />
-		<var name="level" value="5" />
-		<createentity name="level5_button" behaviour="level_button" />
-		<var name="level" value="6" />
-		<createentity name="level6_button" behaviour="level_button" />
-		<var name="level" value="7" />
-		<createentity name="level7_button" behaviour="level_button" />
-		<var name="level" value="8" />
-		<createentity name="level8_button" behaviour="level_button" />
-		<var name="level" value="9" />
-		<createentity name="level9_button" behaviour="level_button" />
-
-		<var name="level" value="1" />
-		<default propclass="pc(level1_button,pcbillboard)" />
-	        <property id="propid(color)" value="rgb(1,1,1)" />
+	      <var name="level" value="1" />
+	      <call event="realinit" />
 	    </event>
 
 	    <!--
-	      - Call this event to start a game. This will destroy the menu
-	      - and create the game entity. Needs the ?game variable to be
-	      - set to the name of the game (the button will do that).
+	      - Initialization.
 	      -->
-	    <event name="startgame">
+	    <event name="realinit">
+	        <print value="'Start initializing menu...'" />
+
+		<expr eval="createbutton(name=bdash_button_start,x=11520,y=76800,w=30720,h=19200,text=Start,action=startgame)" />
+		<expr eval="createbutton(name=bdash_button_edit,x=57600,y=76800,w=30720,h=19200,text=Edit,action=starteditor)" />
+		<expr eval="createbutton(name=bdash_button_exit,x=103680,y=76800,w=30720,h=19200,text=Exit,action=exit)" />
+		<expr eval="createlabel(name=selectlevel,x=1000,y=10000,w=80000,h=20000,text='Select Level:')" />
+
+		<!-- Level buttons -->
+		<var name="l" value="1" />
+		<createentity name="level1_button" behaviour="level_button" />
+		<var name="l" value="2" />
+		<createentity name="level2_button" behaviour="level_button" />
+		<var name="l" value="3" />
+		<createentity name="level3_button" behaviour="level_button" />
+		<var name="l" value="4" />
+		<createentity name="level4_button" behaviour="level_button" />
+		<var name="l" value="5" />
+		<createentity name="level5_button" behaviour="level_button" />
+		<var name="l" value="6" />
+		<createentity name="level6_button" behaviour="level_button" />
+		<var name="l" value="7" />
+		<createentity name="level7_button" behaviour="level_button" />
+		<var name="l" value="8" />
+		<createentity name="level8_button" behaviour="level_button" />
+		<var name="l" value="9" />
+		<createentity name="level9_button" behaviour="level_button" />
+
+		<default propclass="pc(level+?level+_button,pcbillboard)" />
+	        <property id="propid(color)" value="rgb(1,1,1)" />
+	    </event>
+
+	    <event name="celButtonSelect">
+	      <print value="'click:'+@entity" />
+	      <call event="cleanmenu" />
+	      <sound name="boing" loop="false" />
+	      <call event="?@entity.action" />
+	    </event>
+
+	    <!--
+	      - Clean up the menu.
+	      -->
+	    <event name="cleanmenu">
 	        <print value="'Start destroying menu...'" />
-	        <destroyentity name="bdash_button" />
-	        <destroyentity name="bdashedit_button" />
+	        <destroyentity name="selectlevel" />
+	        <destroyentity name="bdash_button_start" />
+	        <destroyentity name="bdash_button_edit" />
+	        <destroyentity name="bdash_button_exit" />
 	        <destroyentity name="level1_button" />
 	        <destroyentity name="level2_button" />
 	        <destroyentity name="level3_button" />
@@ -648,58 +700,28 @@
 	        <destroyentity name="level7_button" />
 	        <destroyentity name="level8_button" />
 	        <destroyentity name="level9_button" />
-		<createentity name="?game" behaviour="?game_bh" />
-	    </event>
-	</script>
-
-	<!-- *****************************************************
-	  - Generic back button handler for returning to the main menu.
-	  - Users of this behaviour should set the 'game_entity' variable
-	  - of the entity which controls this script to the entity controlling
-	  - the game. It will call 'destroy' on that entity as soon as
-	  - the button is clicked.
-	  -  ***************************************************** -->
-        <script name="back_button">
-	    <!--
-	      - Initialize the back button.
-	      -->
-	    <event name="init">
-	        <createpropclass name="pcbillboard" />
-	        <createpropclass name="pcproperties" />
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(name)" value="menu" />
-	        <property id="propid(materialname)" value="menu" />
-	        <property id="propid(movable)" value="false" />
-	        <property id="propid(clickable)" value="true" />
-	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="32000" />
-	        <property id="propid(height)" value="16000" />
-	        <property id="propid(x)" value="270000" />
-	        <property id="propid(y)" value="2000" />
 	    </event>
 
 	    <!--
-	      - Go to the main menu.
+	      - Call this event to start the game.
 	      -->
-	    <event name="pcbillboard_select">
-		<call event="destroygame" />
-		<call entity="menu" event="init" />
-		<destroyentity name="?game_entity" />
+	    <event name="startgame">
+		<createentity name="bdash_main" behaviour="bdash_main" />
 	    </event>
 
 	    <!--
-	      - Destroy all resources created by the current game.
+	      - Call this event to start the editor.
 	      -->
-	    <event name="destroygame">
-	        <print value="'Start destroying game...'" />
-		<inventory propclass="pc(?game_entity,pcinventory)" />
-		<while eval="inventory_count()>0" >
-		    <var name="child" value="inventory_get(0)" />
-		    <inventory_rem child="?child" />
-		    <destroyentity name="?child" />
-		</while>
+	    <event name="starteditor">
+		<createentity name="bdash_main" behaviour="bdashedit_main" />
 	    </event>
 
+	    <!--
+	      - Exit the application.
+	      -->
+	    <event name="exit">
+	      <quit />
+	    </event>
 	</script>
 
 	<!-- *****************************************************
@@ -716,7 +738,7 @@
 	        <createpropclass name="pcproperties" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(name)" value="menu" />
-		<var name="level" value="?menu.level" />
+		<var name="level" value="?menu.l" />
 	        <property id="propid(materialname)" value="number_+?level" />
 	        <property id="propid(movable)" value="false" />
 	        <property id="propid(clickable)" value="true" />
@@ -724,7 +746,7 @@
 	        <property id="propid(width)" value="20000" />
 	        <property id="propid(height)" value="20000" />
 	        <property id="propid(color)" value="rgb(.2,.2,.2)" />
-	        <property id="propid(x)" value="10000+(22000*?level)" />
+	        <property id="propid(x)" value="60000+(20000*?level)" />
 	        <property id="propid(y)" value="10000" />
 	    </event>
 
@@ -738,40 +760,6 @@
 		<var entity="menu" name="level" value="?level" />
 		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(color)" value="rgb(1,1,1)" />
-	    </event>
-	</script>
-
-	<!-- *****************************************************
-	  - This script handles the button for a game.
-	  - Needs the ?menu.material variable for the material of
-	  - the button.
-	  -  ***************************************************** -->
-	<script name="game_button">
-	    <!--
-	      - Initialization.
-	      -->
-	    <event name="init">
-	        <createpropclass name="pcbillboard" />
-	        <createpropclass name="pcproperties" />
-		<default propclass="pc(pcbillboard)" />
-	        <property id="propid(name)" value="menu" />
-	        <property id="propid(materialname)" value="?menu.material" />
-	        <property id="propid(movable)" value="false" />
-	        <property id="propid(clickable)" value="true" />
-	        <property id="propid(restack)" value="true" />
-	        <property id="propid(width)" value="50000" />
-	        <property id="propid(height)" value="50000" />
-	    </event>
-
-	    <!--
-	      - Select this button. Fire up the right game.
-	      -->
-	    <event name="pcbillboard_select">
-	    <print value="test" />
-	    	<sound name="boing" loop="false" />
-		<var entity="menu" name="game" value="?game" />
-		<var entity="menu" name="game_bh" value="?game_bh" />
-	        <call entity="menu" event="startgame" />
 	    </event>
 	</script>
 
@@ -909,6 +897,8 @@
 	  - Generic superclass for games that can keep track of score and print it.
 	  -  ***************************************************** -->
 	<script name="supergame">
+	    <superscript name="tools" />
+
 	    <event name="init">
 		<inventory propclass="pc(pcinventory)" />
 		<for var="i" start="0" end="6">
@@ -985,6 +975,7 @@
 	    <event name="init">
 	        <print value="BOULDERDASH"/>
 		<var name="level" value="?menu.level" />
+		<var name="dirty" value="false" />
 
 	        <createpropclass name="pcinventory" />
 	        <createpropclass name="pctimer" />
@@ -1005,8 +996,7 @@
 		<var name="vis" value="307200/?blockdim" />
 
 		<!-- Create the menu back button -->
-		<createentity name="back_button" behaviour="back_button" />
-		<var entity="back_button" name="game_entity" value="ent()" />
+		<expr eval="createbutton(name=back_button,x=270000,y=2000,w=32000,h=16000,text=Menu,action=check_and_menu)" />
 		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="back_button" />
 
@@ -1356,6 +1346,36 @@
 
 		<!-- Counter to avoid doing too much work every frame -->
 		<var name="counter" value="10" />
+	    </event>
+
+	    <!--
+	      - Go to the menu.
+	      -->
+	    <event name="check_and_menu">
+	        <if eval="?dirty">
+		  <expr eval="createdialog(name=reallyexit,text='Really exit without saving?',action=menu)" />
+		  <stop />
+	        </if>
+		<call event="menu" />
+	    </event>
+
+	    <!--
+	      - Go to the menu.
+	      -->
+	    <event name="menu">
+	        <print value="'Start destroying game...'" />
+		<inventory propclass="pc(pcinventory)" />
+		<while eval="inventory_count()>0" >
+		    <var name="child" value="inventory_get(0)" />
+		    <inventory_rem child="?child" />
+		    <destroyentity name="?child" />
+		</while>
+		<call entity="menu" event="realinit" />
+		<destroyentity name="ent()" />
+	    </event>
+
+	    <event name="celButtonSelect">
+	        <call event="?@entity.action" />
 	    </event>
 
 	    <!--
@@ -4463,8 +4483,10 @@
 		<var name="last_blocktype" value="'. '" />
 
 		<!-- Create the save button -->
+	        <lvar name="y" value="20000+(?bdash_main.lasty+2)*(?bdash_main.menudim+1000)" />
+		<lvar name="w" value="?bdash_main.menudim" />
+		<expr eval="createbutton(name=save_button,x=240000,y=#y,w=#w*2,h=#w,text=Save,action=ask_and_save)" />
 		<inventory propclass="pc(pcinventory)" />
-		<createentity name="save_button" behaviour="bdashedit_save" />
 		<inventory_add child="ent(save_button)" />
 
 		<!-- Create our hero -->
@@ -4507,9 +4529,41 @@
 	    </event>
 
 	    <!--
+	      - Save the board but ask first.
+	      -->
+	    <event name="ask_and_save">
+		<expr eval="createdialog(name=reallysave,text='Really save level?',action=save)" />
+	    </event>
+
+	    <!--
+	      - Check if there is a hero on the board and don't allow saving if not.
+	      -->
+	    <event name="check_hero">
+	        <lvar name="h" value="false" />
+		<for var="y" start="0" end="?dimension-1">
+		    <for var="x" start="0" end="?dimension-1">
+		    	<lvar name="ent" value="?maze[?x,?y]" />
+			<lvar name="bt" value="'. '" />
+			<if eval="#ent!=''">
+			    <lvar name="bt" value="?#ent.blocktype" />
+			</if>
+			<if eval="#bt=='HH'">
+			  <lvar name="h" value="true" />
+			  <stop />
+			</if>
+		    </for>
+		</for>
+		<return value="#h" />
+	    </event>
+
+	    <!--
 	      - Save the board.
 	      -->
 	    <event name="save">
+	        <if eval="!check_hero()">
+		    <expr eval="createmessage(name=nohero,text='There is no hero! Saving not allowed!',action=none)" />
+		    <stop/>
+	        </if>
 		<for var="y" start="0" end="?dimension-1">
 		    <lvar name="row" value="''" />
 		    <for var="x" start="0" end="?dimension-1">
@@ -4524,7 +4578,9 @@
 		</for>
 		<if eval="!writefile(row,'/cellib/objects/maze'+?level+'.txt',0,?dimension-1)">
 		    <reporterror message="'Cannot write maze.txt!'" />
+		    <stop />
 		</if>
+	        <var entity="bdash_main" name="dirty" value="false" />
 	    </event>
 
 	    <!--
@@ -4793,6 +4849,7 @@
 		    <par id="parid(x)" value="#x" />
 		    <par id="parid(y)" value="#y" />
 		</call>
+	        <var entity="bdash_main" name="dirty" value="true" />
 		<call entity="bdash_main" event="createblock">
 		    <par id="parid(blocktype)" value="?bdash_main.last_blocktype" />
 		    <par id="parid(x)" value="#x" />
@@ -4831,7 +4888,7 @@
 	        <property id="propid(height)" value="#dim" />
 	        <property id="propid(layer)" value="menu" />
 	        <property id="propid(x)" value="240000+@x*(#dim+1000)" />
-	        <property id="propid(y)" value="10000+@y*(#dim+1000)" />
+	        <property id="propid(y)" value="20000+@y*(#dim+1000)" />
 		<var name="x" value="@x" />
 		<var name="y" value="@y" />
 	    </event>
@@ -4843,6 +4900,7 @@
 		    <par id="parid(x)" value="#x" />
 		    <par id="parid(y)" value="#y" />
 		</call>
+	        <var entity="bdash_main" name="dirty" value="true" />
 		<call entity="bdash_main" event="createblock">
 		    <par id="parid(blocktype)" value="?blocktype" />
 		    <par id="parid(x)" value="#x" />
@@ -4877,7 +4935,7 @@
 	        <property id="propid(height)" value="#dim+800" />
 	        <property id="propid(layer)" value="menu" />
 	        <property id="propid(x)" value="240000+?bdash_main.menu_x*(#dim+1000)-400" />
-	        <property id="propid(y)" value="10000+?bdash_main.menu_y*(#dim+1000)-400" />
+	        <property id="propid(y)" value="20000+?bdash_main.menu_y*(#dim+1000)-400" />
 		<bb_toback />
 	    </event>
 
@@ -4887,38 +4945,9 @@
 		<var entity="bdash_main" name="menu_x" value="@x" />
 		<var entity="bdash_main" name="menu_y" value="@y" />
 	        <property id="propid(x)" value="240000+@x*(#dim+1000)-400" />
-	        <property id="propid(y)" value="10000+@y*(#dim+1000)-400" />
+	        <property id="propid(y)" value="20000+@y*(#dim+1000)-400" />
 		<lvar name="ent" value="?bdash_main.menu[@x,@y]" />
 		<var entity="bdash_main" name="last_blocktype" value="?#ent.blocktype" />
-	    </event>
-	</script>
-
-	<!-- *****************************************************
-	  - This script handles the save button.
-	  -  ***************************************************** -->
-        <script name="bdashedit_save">
-	    <!--
-	      - Initialize this block.
-	      -->
-	    <event name="init">
-	        <createpropclass name="pcbillboard" />
-	        <createpropclass name="pcproperties" />
-		<var name="pcbb" value="pc(pcbillboard)" />
-		<default propclass="?pcbb" />
-	        <property id="propid(name)" value="block" />
-	        <property id="propid(materialname)" value="save" />
-	        <property id="propid(movable)" value="false" />
-	        <property id="propid(clickable)" value="true" />
-	        <property id="propid(restack)" value="false" />
-	        <property id="propid(width)" value="?bdash_main.menudim*2" />
-	        <property id="propid(height)" value="?bdash_main.menudim" />
-	        <property id="propid(layer)" value="menu" />
-	        <property id="propid(x)" value="240000" />
-	        <property id="propid(y)" value="10000+(?bdash_main.lasty+2)*(?bdash_main.menudim+1000)" />
-	    </event>
-
-	    <event name="pcbillboard_select">
-	    	<call entity="bdash_main" event="save" />
 	    </event>
 	</script>
     </addon>

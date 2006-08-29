@@ -290,6 +290,15 @@ void celBillboard::SetText (const char* txt)
   else text.Empty ();
 }
 
+void celBillboard::GetTextDimensions (int& w, int& h)
+{
+  iFont* f = font;
+  if (!f) f = mgr->GetDefaultFont ();
+  if (!f) { w = h = 0; return; }
+  f->GetDimensions (text, w, h);
+  mgr->ScreenToBillboardSpace (w, h);
+}
+
 void celBillboard::SetTextOffset (int dx, int dy)
 {
   mgr->BillboardToScreenspace (dx, dy);
