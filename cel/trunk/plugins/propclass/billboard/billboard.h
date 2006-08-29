@@ -59,7 +59,9 @@ private:
   // For actions.
   enum actionids
   {
-    action_drawmesh = 0
+    action_drawmesh = 0,
+    action_gettextwidth,
+    action_gettextheight
   };
   static csStringID id_materialname;
   static csStringID id_factory;

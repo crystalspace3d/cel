@@ -42,6 +42,10 @@ struct iBillboard;
  * - DrawMesh: parameters 'materialname' (string),
  *     'factory' (string), optional: 'distance' (float),
  *     optional: 'rotate' (vector3), optional: 'angle' (float).
+ * - GetTextWidth: no parameters, returns an integer with current text width
+ *   in billboard coordinates.
+ * - GetTextHeight: no parameters, returns an integer with current text height
+ *   in billboard coordinates.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:

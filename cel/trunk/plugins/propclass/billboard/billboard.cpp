@@ -80,6 +80,8 @@ celPcBillboard::celPcBillboard (iObjectRegistry* object_reg)
   if (!propinfo.actions_done)
   {
     AddAction (action_drawmesh, "cel.action.DrawMesh");
+    AddAction (action_gettextwidth, "cel.action.GetTextWidth");
+    AddAction (action_gettextheight, "cel.action.GetTextHeight");
   }
 
   propinfo.SetCount (28);
@@ -177,25 +179,44 @@ bool celPcBillboard::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  if (idx == action_drawmesh)
+  switch (idx)
   {
-    CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
-    if (!p_materialname) return false;	// @@@ Error report!
-    CEL_FETCH_STRING_PAR (factory,params,id_factory);
-    if (!p_factory) return false;	// @@@ Error report!
-    CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
-    if (!p_distance) distance = -1.0f;
-    CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);
-    if (!p_rotate) rotate.Set (0, 0, 0);
-    CEL_FETCH_FLOAT_PAR (angle,params,id_angle);
-    if (!p_angle) angle = 0.0f;
-    GetBillboard ();
-    if (billboard)
-    {
-      return billboard->DrawMesh (materialname, factory, rotate, angle,
-      	distance);
-    }
-    return true;
+    case action_drawmesh:
+      {
+        CEL_FETCH_STRING_PAR (materialname,params,id_materialname);
+        if (!p_materialname) return false;	// @@@ Error report!
+        CEL_FETCH_STRING_PAR (factory,params,id_factory);
+        if (!p_factory) return false;	// @@@ Error report!
+        CEL_FETCH_FLOAT_PAR (distance,params,id_distance);
+        if (!p_distance) distance = -1.0f;
+        CEL_FETCH_VECTOR3_PAR (rotate,params,id_rotate);
+        if (!p_rotate) rotate.Set (0, 0, 0);
+        CEL_FETCH_FLOAT_PAR (angle,params,id_angle);
+        if (!p_angle) angle = 0.0f;
+        GetBillboard ();
+        if (billboard)
+        {
+          return billboard->DrawMesh (materialname, factory, rotate, angle,
+      	    distance);
+        }
+        return true;
+      }
+    case action_gettextwidth:
+      {
+	int w = 0, h = 0;
+        GetBillboard ();
+        if (billboard) billboard->GetTextDimensions (w, h);
+        ret.Set ((uint32)w);
+        return true;
+      }
+    case action_gettextheight:
+      {
+	int w = 0, h = 0;
+        GetBillboard ();
+        if (billboard) billboard->GetTextDimensions (w, h);
+        ret.Set ((uint32)h);
+        return true;
+      }
   }
   return false;
 }

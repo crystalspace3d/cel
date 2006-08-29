@@ -316,6 +316,11 @@ struct iBillboard : public iBase
   virtual const char* GetText () const = 0;
 
   /**
+   * Get the dimensions of the current text in billboard coordinates.
+   */
+  virtual void GetTextDimensions (int& w, int& h) = 0;
+
+  /**
    * Set the text offset in billboard space.
    */
   virtual void SetTextOffset (int dx, int dy) = 0;

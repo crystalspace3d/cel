@@ -519,7 +519,8 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
   // We have an action.
   pinput = input;
   input = celXmlParseToken (input, token);
-  input = pinput;	// Restore.
+  if (token != CEL_TOKEN_CLOSECURLY)
+    input = pinput;	// Restore.
   uint32 cnt = 0;
   h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
   while (token != CEL_TOKEN_CLOSECURLY)

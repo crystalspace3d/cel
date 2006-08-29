@@ -228,6 +228,7 @@ public:
   virtual void SetText (const char* txt);
   virtual const char* GetText () const
   { if (text.IsEmpty ()) return 0; else return text.GetData (); }
+  virtual void GetTextDimensions (int& w, int& h);
   virtual void SetTextOffset (int dx, int dy);
   virtual int GetTextOffsetDX () const { return text_dx; }
   virtual int GetTextOffsetDY () const { return text_dy; }
@@ -325,6 +326,7 @@ public:
   bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
 
+  iFont* GetDefaultFont () const { return default_font; }
   iGraphics3D* GetGraphics3D () const { return g3d; }
 
   SCF_DECLARE_IBASE;

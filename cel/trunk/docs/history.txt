@@ -10,6 +10,17 @@ The history order is reversed so that new features are at the top.
 	  in other worlds files. Before you had to copy the script,
 	  template, or quest which is a bad idea.
 	- Jorrit added /cellib/library mount path to vfs.cfg.
+	- Jorrit added new GetTextWidth() and GetTextHeight() actions to
+	  pcbillboard. These actions return the width and height of the
+	  current text (with current font settings) to the caller.
+	  The dimension is returned in billboard coordinates.
+	- Jorrit added new 'celButton', 'celLabel', and 'celYesNoDialog'
+	  scripts (in data/library/blxml/buttons.xml) which are easy ways
+	  to add pressable buttons, labels, and yes/no dialogs in xml scripts.
+	- Jorrit fixed a bug in blxml which prevented calling actions
+	  that had no parameters (i.e. "Action{}").
+	- Jorrit cleaned up the boulderdash game a bit. Made the menu
+	  easier to use (the buttons actually say what they do now :-)
 28-Aug-2006
 	- Jorrit removed partphys_simple from static bootstrap and
 	  celstart
