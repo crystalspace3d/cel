@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	  That way the library actually becomes useful for inclusion
 	  in other worlds files. Before you had to copy the script,
 	  template, or quest which is a bad idea.
+	- Jorrit added /cellib/library mount path to vfs.cfg.
 28-Aug-2006
 	- Jorrit removed partphys_simple from static bootstrap and
 	  celstart
