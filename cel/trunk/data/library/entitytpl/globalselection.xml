@@ -1,6 +1,7 @@
 <!-- ooooooooooooooooooooooooooooooooooooooooooooooooo
 	Template for an global entity that will set all objects draggable,
      ooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
 <addon plugin="cel.addons.celentitytpl" entityname="globalselectionentity" >
     <propclass name="pcmeshselect">
         <action name="SetCamera">
@@ -20,4 +21,6 @@
 	<property name="sendmove" bool="true" />
     </propclass>
 </addon>
+
+</library>
 

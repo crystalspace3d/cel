@@ -5,6 +5,8 @@
       Parameters:
 	 $on_distance: relative move for the button to go on in x axis.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="ButtonDummyOnce">
 	<state name="init">
 		<trigger type="timeout">
@@ -27,4 +29,7 @@
 	    </op>
 	</sequence>
 </quest>
+</addon>
+</library>
+
 

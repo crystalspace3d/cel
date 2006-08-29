@@ -1,3 +1,10 @@
+<library>
+  <addon plugin="xmlscripts">
+    <pcfactory> cel.pcfactory.defaultcamera </pcfactory>
+    <pcfactory> cel.pcfactory.pccommandinput </pcfactory>
+    <pcfactory> cel.pcfactory.actormove </pcfactory>
+    <pcfactory> cel.pcfactory.linmove </pcfactory>
+
     <script name="actor">
 
       <event name="init">
@@ -194,3 +201,6 @@
       </event>
 
     </script>
+  </addon>
+</library>
+

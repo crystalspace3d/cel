@@ -1,6 +1,8 @@
 <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
       Quest for an object that can be picked up on approach.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="PickableTrigger">
     	<default name="monitor" string="camera"/>
     	<state name="onground">
@@ -13,4 +15,7 @@
     	<state name="ininventory">
 	</state>
 </quest>
+</addon>
+</library>
+
 

@@ -4,6 +4,8 @@
       tag 'anchor' which indicates the trigger that should fire when
       we're on top of the anchor.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="MovingPlatformAnchor">
 	<state name="waiting_to_enter">
 	    <trigger type="trigger">
@@ -24,4 +26,7 @@
 	    </trigger>
 	</state>
 </quest>
+</addon>
+</library>
+
 
