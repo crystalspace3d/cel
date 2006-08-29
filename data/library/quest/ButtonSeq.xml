@@ -11,6 +11,8 @@
 	 $onx, $ony, $onz: relative move for the button to go on.
 	 $offx, $offy, $offz: relative move for the button to go off.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="ButtonSeq">
 	<default name="x_on" string="0"/>
     	<default name="x_off" string="0"/>
@@ -65,4 +67,7 @@
 	    </op>
 	</sequence>
 </quest>
+</addon>
+</library>
+
 

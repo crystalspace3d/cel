@@ -1,5 +1,10 @@
-<script name="dummy">
+<library>
+  <addon plugin="xmlscripts">
+    <script name="dummy">
       <event name="init">
         <print value="'Initializing dummy...'" />
       </event>
-</script>
+    </script>
+</addon>
+</library>
+

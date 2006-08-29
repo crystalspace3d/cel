@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Aug-2006
+	- Jorrit added <library> statements to the XML scripts,
+	  entity templates, and quest definitions that are in data/library.
+	  That way the library actually becomes useful for inclusion
+	  in other worlds files. Before you had to copy the script,
+	  template, or quest which is a bad idea.
 28-Aug-2006
 	- Jorrit removed partphys_simple from static bootstrap and
 	  celstart

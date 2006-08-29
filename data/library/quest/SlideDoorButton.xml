@@ -8,6 +8,8 @@
          $monitor: the entity that has the area trigger to open this door.
 	 $*_on, *_off: relative movement factor to open/close the door.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="SlideDoorButton">
 	<default name="x_on" string="0"/>
         <default name="x_off" string="0"/>
@@ -58,4 +60,7 @@
 	    </op>
 	</sequence>
 </quest>
+</addon>
+</library>
+
 

@@ -7,6 +7,8 @@
 	 - x_*: relative movement factor to close the door in each axus.
 	 - duration: duration for open/close movement
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="SlideDoor">
         <default name="x_on" string="0"/>
         <default name="x_off" string="0"/>
@@ -44,4 +46,7 @@
 	    </op>
 	</sequence>
 </quest>
+</addon>
+</library>
+
 

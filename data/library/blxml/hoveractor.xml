@@ -1,3 +1,9 @@
+<library>
+  <addon plugin="xmlscripts">
+    <pcfactory> cel.pcfactory.defaultcamera </pcfactory>
+    <pcfactory> cel.pcfactory.pccommandinput </pcfactory>
+    <pcfactory> cel.pcfactory.craft </pcfactory>
+
     <script name="hoveractor">
 
       <event name="init">
@@ -153,3 +159,6 @@
       </event>
 
     </script>
+  </addon>
+</library>
+

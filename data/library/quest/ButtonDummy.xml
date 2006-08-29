@@ -5,6 +5,8 @@
 	 $*on, *off: relative move for the button to go on or off.
 	 $duration: time for de open/close sequences
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="ButtonDummy">
     <default name="x_on" string="0.5"/>
     <default name="x_off" string="0.5"/>
@@ -56,4 +58,7 @@
 	</op>
     </sequence>
 </quest>
+</addon>
+</library>
+
 

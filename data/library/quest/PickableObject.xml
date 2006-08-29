@@ -3,6 +3,8 @@
       Quest variables:
        - $monitor: the entity that will pick this entity
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="PickableObject">
     	<default name="monitor" string="camera"/>
     	<state name="onground">
@@ -15,4 +17,7 @@
     	<state name="inventory">
 	</state>
 </quest>
+</addon>
+</library>
+
 

@@ -2,6 +2,8 @@
       Quest for a trigger that plays a sound when selected
       No Parameters
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+<library>
+  <addon plugin="cel.addons.quest">
 <quest name="PlaySoundSelection">
     <state name="idle">
         <trigger type="meshselect">
@@ -11,4 +13,7 @@
 	</trigger>
     </state>
 </quest>
+</addon>
+</library>
+
 
