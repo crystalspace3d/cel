@@ -15,6 +15,11 @@ The history order is reversed so that new features are at the top.
 	  csevMouseMove, csevMouseUp, and csevMouseDown separatelly.
 	  Worked around this issue by having pcmeshselect also register
 	  with csevMouseEvent.
+	- res pulled the --as-needed change over from CS.
+	- res made celstart a tad friendlier: now, TrueType fonts are used
+	  by default instead of bitmap ones. Also, when no levels are found, 
+	  no "fatal error" popup is presented, but the message is instead 
+	  displayed in the window.
 29-Aug-2006
 	- Jorrit added <library> statements to the XML scripts,
 	  entity templates, and quest definitions that are in data/library.

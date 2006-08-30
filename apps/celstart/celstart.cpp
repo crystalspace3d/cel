@@ -73,39 +73,63 @@ CelStart::~CelStart ()
   }
 }
 
+int CelStart::GetHitBox (int /*mx*/, int my)
+{
+  return (my-boxTopY)/boxH+top_file;
+}
+
+void CelStart::DrawSelectorBox (iGraphics2D* g2d, int x, int y, int w, int h,
+                                bool highlight)
+{
+  g2d->DrawBox (x,   y,   w,   h,   box_color3);
+  g2d->DrawBox (x+1, y+1, w-2, h-2, box_color2);
+  g2d->DrawBox (x+2, y+2, w-4, h-4, 
+    highlight ? sel_box_color1 : box_color1);
+}
+
 void CelStart::SetupFrame ()
 {
+  iGraphics2D* g2d = g3d->GetDriver2D ();
+  const int fontH = font->GetTextHeight();
   if (files.Length () > 0)
   {
     g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
     size_t i;
-    int my = mouse->GetLastY ();
     for (i = top_file ; i < files.Length () ; i++)
     {
-      iGraphics2D* g2d = g3d->GetDriver2D ();
-      int y = 10 + (i-top_file)*70;
-      if (y+70 > g2d->GetHeight ()) break;
-      bool sel = my >= y && my <= y+63;
-      g2d->DrawBox (7, y+2, g2d->GetWidth ()-14, 70-4, box_color3);
-      g2d->DrawBox (8, y+3, g2d->GetWidth ()-16, 70-6, box_color2);
-      g2d->DrawBox (9, y+4, g2d->GetWidth ()-18, 70-8, sel ? sel_box_color1 : box_color1);
+      int y = boxTopY + (i-top_file)*boxH;
+      if (y+boxH > g2d->GetHeight ()) break;
+      bool sel = int (i) == GetHitBox (mouse->GetLastX(), mouse->GetLastY());
+      DrawSelectorBox (g2d, boxMarginX, y+boxMarginY, 
+        g2d->GetWidth()-2*boxMarginX, boxH-2*boxMarginY, sel); 
+      const int iconLeft = boxMarginX+boxInnerBorder;
       if (icons[i])
-	icons[i]->DrawScaled (g3d, 10, y+5, 80, 60);
+	icons[i]->DrawScaled (g3d, iconLeft, y+boxMarginY+boxInnerBorder, 
+	  iconW, iconH);
       csString w = names[i];
       w += " (";
       w += files[i];
       w += ")";
-      g2d->Write (font, 100, y+10, sel ? sel_font_fg : font_fg,
+      const int textLeft = iconLeft+iconW+iconMarginRight;
+      const int textTop = y+boxMarginY+boxInnerBorder+textY;
+      g2d->Write (font, textLeft, textTop, sel ? sel_font_fg : font_fg,
 	  sel ? sel_font_bg : font_bg, w);
       if (descriptions[i])
-        g2d->Write (font, 100, y+20, sel ? sel_font_fg : font_fg,
+        g2d->Write (font, textLeft, textTop+fontH, sel ? sel_font_fg : font_fg,
 	    sel ? sel_font_bg : font_bg, descriptions[i]);
     }
   }
   else
   {
-    if (do_clearscreen)
-      g3d->BeginDraw (CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
+    const int fontH = font->GetTextHeight();
+    g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
+    int x = boxMarginX;
+    int y = boxTopY;
+    g2d->Write (font, x, y, message_color, -1, 
+      "Couldn't find any celstart compatible game files!");
+    y += fontH;
+    g2d->Write (font, x, y, message_color, -1, 
+      "You can download such demos from http://www.crystalspace3d.org/downloads/celstart");
   }
 }
 
@@ -130,6 +154,22 @@ bool CelStart::HandleEvent (iEvent& ev)
     return true;
   }
 
+  if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
+  {
+    csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
+    if (eventtype == csKeyEventTypeDown)
+    {
+      utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
+      if (code == CSKEY_ESC)
+      {
+	startme = "";
+	csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+	if (q)
+	  q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
+	return true;
+      }
+    }
+  }
   if (files.Length () > 0)
   {
     if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
@@ -138,15 +178,7 @@ bool CelStart::HandleEvent (iEvent& ev)
       if (eventtype == csKeyEventTypeDown)
       {
         utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
-        if (code == CSKEY_ESC)
-        {
-	  startme = "";
-          csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-          if (q)
-            q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
-          return true;
-        }
-	else if (code == CSKEY_UP)
+	if (code == CSKEY_UP)
 	{
 	  if (top_file > 0) top_file--;
 	}
@@ -160,8 +192,8 @@ bool CelStart::HandleEvent (iEvent& ev)
     {
       if (csMouseEventHelper::GetEventType (&ev) == csMouseEventTypeUp)
       {
-        int my = csMouseEventHelper::GetY (&ev);
-        int i = (my-10)/70+top_file;
+        int i = GetHitBox (csMouseEventHelper::GetX (&ev), 
+	  csMouseEventHelper::GetY (&ev));
         if (i >= (int)0 && i < (int)files.Length ())
         {
 	  printf ("Start %d\n", i); fflush (stdout);
@@ -487,7 +519,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
         CS_REQUEST_VFS,
         CS_REQUEST_OPENGL3D,
         CS_REQUEST_ENGINE,
-        CS_REQUEST_FONTSERVER,
+        CS_REQUEST_PLUGIN("crystalspace.font.server.multiplexer", iFontServer),
         CS_REQUEST_IMAGELOADER,
         CS_REQUEST_LEVELLOADER,
         CS_REQUEST_REPORTER,
@@ -535,7 +567,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
     return false;
   }
 
-  font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_COURIER);
+  font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_LARGE);
   font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
   font_bg = g3d->GetDriver2D ()->FindRGB (200, 200, 200);
   sel_font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
@@ -544,16 +576,9 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
   box_color2 = g3d->GetDriver2D ()->FindRGB (120, 120, 120);
   box_color1 = g3d->GetDriver2D ()->FindRGB (200, 200, 200);
   sel_box_color1 = sel_font_bg;
+  message_color = g3d->GetDriver2D ()->FindRGB (255, 255, 255);
 
   FindCelStartArchives ();
-  if (files.Length () == 0)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	  "crystalspace.application.celstart",
-    	  "Couldn't find any celstart compatible game files!\n"
-	  "You can download such demos from http://www.crystalspace3d.org");
-    return false;
-  }
   return true;
 }
 
