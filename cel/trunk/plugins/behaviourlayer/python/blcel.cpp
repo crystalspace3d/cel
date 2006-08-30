@@ -21132,6 +21132,35 @@ static PyObject *_wrap_iBillboard_GetText(PyObject *, PyObject *args) {
 }
 
 
+static PyObject *_wrap_iBillboard_GetTextDimensions(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iBillboard *arg1 = (iBillboard *) 0 ;
+    int *arg2 = 0 ;
+    int *arg3 = 0 ;
+    int temp2 ;
+    int res2 = 0 ;
+    int temp3 ;
+    int res3 = 0 ;
+    PyObject * obj0 = 0 ;
+    
+    arg2 = &temp2; res2 = SWIG_NEWOBJ;
+    arg3 = &temp3; res3 = SWIG_NEWOBJ;
+    if(!PyArg_ParseTuple(args,(char *)"O:iBillboard_GetTextDimensions",&obj0)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iBillboard, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    (arg1)->GetTextDimensions(*arg2,*arg3);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    resultobj = t_output_helper(resultobj, ((res2 == SWIG_NEWOBJ) ?
+    SWIG_From_int((*arg2)) : SWIG_NewPointerObj((void*)(arg2), SWIGTYPE_p_int, 0)));
+    resultobj = t_output_helper(resultobj, ((res3 == SWIG_NEWOBJ) ?
+    SWIG_From_int((*arg3)) : SWIG_NewPointerObj((void*)(arg3), SWIGTYPE_p_int, 0)));
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
 static PyObject *_wrap_iBillboard_SetTextOffset(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iBillboard *arg1 = (iBillboard *) 0 ;
@@ -43053,6 +43082,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iBillboard_RemoveEventHandler", _wrap_iBillboard_RemoveEventHandler, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetText", _wrap_iBillboard_SetText, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetText", _wrap_iBillboard_GetText, METH_VARARGS, NULL},
+	 { (char *)"iBillboard_GetTextDimensions", _wrap_iBillboard_GetTextDimensions, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_SetTextOffset", _wrap_iBillboard_SetTextOffset, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetTextOffsetDX", _wrap_iBillboard_GetTextOffsetDX, METH_VARARGS, NULL},
 	 { (char *)"iBillboard_GetTextOffsetDY", _wrap_iBillboard_GetTextOffsetDY, METH_VARARGS, NULL},
