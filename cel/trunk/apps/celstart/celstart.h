@@ -28,6 +28,7 @@
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 
+struct iGraphics2D;
 struct iGraphics3D;
 struct iMouseDriver;
 struct iObjectRegistry;
@@ -52,6 +53,7 @@ private:
   int sel_font_fg, sel_font_bg;
   int box_color1, box_color2, box_color3;
   int sel_box_color1;
+  int message_color;
   csString startme;
   int argc;
   const char** argv;
@@ -60,6 +62,21 @@ private:
   csStringArray descriptions;
   csPDelArray<csSimplePixmap> icons;
   int top_file;
+  
+  // Some metrics for the selector box
+  static const int boxMarginX = 7;
+  static const int boxMarginY = 2;
+  static const int boxTopY = 7;
+  static const int boxH = 70;
+  static const int boxInnerBorder = 3;
+  static const int iconW = 80;
+  static const int iconH = 60;
+  static const int iconMarginRight = 10;
+  static const int textY = 5;
+  
+  int GetHitBox (int mx, int my);
+  void DrawSelectorBox (iGraphics2D* g2d, int x, int y, int w, int h, 
+    bool highlight);
  
   static bool CelStartEventHandler (iEvent& ev);
   bool HandleEvent (iEvent& ev);
