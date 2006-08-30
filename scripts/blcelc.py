@@ -1564,6 +1564,7 @@ class iBillboard(cspace.iBase):
     def RemoveEventHandler(*args): return _blcelc.iBillboard_RemoveEventHandler(*args)
     def SetText(*args): return _blcelc.iBillboard_SetText(*args)
     def GetText(*args): return _blcelc.iBillboard_GetText(*args)
+    def GetTextDimensions(*args): return _blcelc.iBillboard_GetTextDimensions(*args)
     def SetTextOffset(*args): return _blcelc.iBillboard_SetTextOffset(*args)
     def GetTextOffsetDX(*args): return _blcelc.iBillboard_GetTextOffsetDX(*args)
     def GetTextOffsetDY(*args): return _blcelc.iBillboard_GetTextOffsetDY(*args)
