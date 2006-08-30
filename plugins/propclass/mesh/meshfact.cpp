@@ -1005,9 +1005,10 @@ void celPcMeshSelect::SetupEventHandler ()
       CS_ASSERT (q != 0);
 
       csEventID esub[] = {
-        csevMouseDown (object_reg, 0),
-        csevMouseUp (object_reg, 0),
-        csevMouseMove (object_reg, 0),
+        csevMouseEvent (object_reg),
+        //csevMouseDown (object_reg, 0),
+        //csevMouseUp (object_reg, 0),
+        //csevMouseMove (object_reg, 0),
         CS_EVENTLIST_END
       };
       q->RegisterListener (handler, esub);

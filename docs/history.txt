@@ -3,6 +3,18 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Aug-2006
+	- Jorrit worked around a weird crash with regards to registering
+	  an event handler: If pccommandinput was used before pcmeshselect
+	  and the pcmeshselect was created in the handler of
+	  pccommandinput then there would be an assert error in CS:
+	    CS_ASSERT (self != fatRecord->iterator->baseevent);
+	  (see libs/csutil/cssubscription.cpp at line 133)
+	  This was apparently caused by pccommandinput being registered
+	  with csevMouseEvent while pcmeshselect registered
+	  csevMouseMove, csevMouseUp, and csevMouseDown separatelly.
+	  Worked around this issue by having pcmeshselect also register
+	  with csevMouseEvent.
 29-Aug-2006
 	- Jorrit added <library> statements to the XML scripts,
 	  entity templates, and quest definitions that are in data/library.
