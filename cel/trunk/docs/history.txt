@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
         - res unbroke celstart in "start demo" mode.
         - res changed celstart to also look into the current directory for
           celstart files.
+	- res added an autopackage for celstart_static.
 30-Aug-2006
 	- Jorrit worked around a weird crash with regards to registering
 	  an event handler: If pccommandinput was used before pcmeshselect

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=CELstart
+Comment=Run CrystalSpace+CEL game packages
+Exec=celstart
+Categories=Game;
+StartupWMClass=Crystal Space Application
