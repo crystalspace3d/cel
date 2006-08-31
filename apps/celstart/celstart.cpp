@@ -19,14 +19,14 @@
 
 #include "cssysdef.h"
 #include "celstart.h"
-#include "csutil/sysfunc.h"
 #include "csutil/cfgacc.h"
+#include "csutil/cmdhelp.h"
+#include "csutil/event.h"
+#include "csutil/physfile.h"
+#include "csutil/sysfunc.h"
+#include "csutil/util.h"
 #include "cstool/csview.h"
 #include "cstool/initapp.h"
-#include "csutil/event.h"
-#include "csutil/cmdhelp.h"
-#include "csutil/cfgacc.h"
-#include "csutil/physfile.h"
 #include "iutil/eventq.h"
 #include "iutil/event.h"
 #include "iutil/objreg.h"
@@ -235,13 +235,20 @@ bool CelStart::CelStartEventHandler (iEvent& ev)
     return false;
 }
 
+static bool IsCelPackage (const char* file)
+{
+  return (strstr (file, ".zip") != 0) || (strstr (file, ".celzip") != 0);
+}
+
 void CelStart::FindCelStartArchives ()
 {
   top_file = 0;
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   vfs->Mount ("/tmp/celstart_app", "$.$/, $^");
   csRef<iStringArray> realMounts = vfs->GetRealMountPaths ("/tmp/celstart_app");
-  realAppResDir = realMounts->Get (1);
+  char* realMountExpanded = csExpandName (realMounts->Get (1));
+  realAppResDir = realMountExpanded;
+  delete[] realMountExpanded;
   csRef<iStringArray> filelist = vfs->FindFiles ("/tmp/celstart_app/*");
   size_t i;
   // To work around VFS bug
@@ -263,7 +270,7 @@ void CelStart::FindCelStartArchives ()
       testpath[l] = '/';
       testpath[l+1] = 0;
     }
-    else if (strstr (testpath, ".zip") == 0)
+    else if (!IsCelPackage (testpath))
     {
       delete[] testpath;
       continue;

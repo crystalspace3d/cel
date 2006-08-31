@@ -96,6 +96,18 @@ cp $CS_DIR/vfs.cfg .
 cat $CEL_DIR/vfs.cfg >> vfs.cfg
 echo vfs.cfg | import
 echo $CEL_DIR/scripts/autopackage/celstart.desktop | import
+setup_icon()
+{
+  for size in 16x16 24x24 32x32 48x48 64x64 128x128 scalable ; do
+    mkdir -p hicolor/$size/$2
+    cp $CEL_DIR/scripts/autopackage/icons/$size/$1.* hicolor/$size/$2 
+  done
+}
+setup_icon gnome-mime-application-x-zip-celstart mimetypes
+echo hicolor | import
+mkdir -p share/mime/packages
+cp $CEL_DIR/scripts/autopackage/package-celstart.xml share/mime/packages
+echo share | import
 
 # Wrapper shell script
 cat > celstart <<EOF
@@ -124,8 +136,10 @@ unpack_data library
 unpack_data sounds
 copyFiles *.zip $PREFIX/opt/celstart/data
 copyFiles vfs.cfg $PREFIX/opt/celstart
+installIcon hicolor
 installExe celstart
 installDesktop Games celstart.desktop
+installMime share/mime/packages/package-celstart.xml
 
 [Uninstall]
 # Leaving this at the default is safe unless you use custom commands in

@@ -3,6 +3,8 @@ Type=Application
 Version=1.0
 Name=CELstart
 Comment=Run CrystalSpace+CEL game packages
-Exec=celstart
+Exec=celstart %f
 Categories=Game;
-StartupWMClass=Crystal Space Application
+MimeType=application/x-zip-celstart;
+# FIXME: Make it work, probably on CS side.
+#StartupWMClass=Crystal Space Application

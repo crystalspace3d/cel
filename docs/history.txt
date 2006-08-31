@@ -10,6 +10,10 @@ The history order is reversed so that new features are at the top.
 	- res added an autopackage for celstart_static.
 	- res worked around a VFS bug in celstart where levels could occur
 	  twice if the current directory is the app directory.
+	- res changed celstart to also treat files with a ".celzip" ending
+	  as game packages.
+	- res enhanced the autopackage to associate .celzip files with
+	  celstart.
 30-Aug-2006
 	- Jorrit worked around a weird crash with regards to registering
 	  an event handler: If pccommandinput was used before pcmeshselect
