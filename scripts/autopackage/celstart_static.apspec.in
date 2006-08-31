@@ -4,7 +4,7 @@
 ShortName: celstart
 SoftwareVersion: @PACKAGE_VERSION@
 DisplayName: CELstart
-RootName: @cel.crystalspace.org/celstart:$SOFTWAREVERSION
+RootName: @crystalspace3d.org/celstart:$SOFTWAREVERSION
 Summary: CEL game launcher
 Maintainer: Jorrit Tyberghein <jorrit@crystalspace3d.org>
 Packager: Frank Richter <res@crystalspace3d.org>
