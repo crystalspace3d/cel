@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass quest ;
+
+Plugin pfquest
+	: questfact.cpp questfact.h
+;
+ExternalLibs pfquest : CRYSTAL ;
+LinkWith pfquest : celtool ;
+

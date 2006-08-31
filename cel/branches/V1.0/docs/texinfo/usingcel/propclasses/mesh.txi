@@ -1,0 +1,72 @@
+@c -*-texinfo-*-
+@node PropClass Mesh, PropClass LinMove, PropClass Quest Manager, Property Classes
+@subsection Mesh
+@cindex pcmesh property class
+@cindex pcmesh
+@cindex @code{iPcMesh}
+@cindex @code{iMeshWrapper}
+
+The mesh property class can be used to assign a 3D model to an entity.
+This property class defines a visual representation for an entity.
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{pcmesh}
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.mesh}
+@item @emph{Interface}:
+@code{iPcMesh}
+@item @emph{Header}:
+@file{include/propclass/mesh.h}
+@end itemize
+
+@subsubheading General Information
+
+Using this property class one can assign a 3D mesh from Crystal Space
+to an entity.
+
+@subsubheading Setting the Mesh Data
+
+There are a few ways to set the mesh in @samp{pcmesh}:
+
+@itemize @bullet
+@item
+If you already have a pointer to a mesh wrapper from Crystal Space then
+you can simply use @code{iPcMesh->SetMesh()} with the mesh wrapper as
+a parameter.
+@item
+If you know the mesh factory is already loaded in memory then you can set
+the mesh directly from the mesh factory name by calling
+@code{iPcMesh->SetMesh()} with @samp{factname} given and @samp{filename}
+equal to @samp{0}.
+@item
+Otherwise you have to give a valid filename in which case @code{SetMesh()}
+will first check to see if the factory is already loaded. If not then it
+will load it from the given filename. If you call @code{iPcMesh->SetPath()}
+then you can also control the @sc{vfs} path from which the factory file
+will be loaded.
+@end itemize
+
+Note that the file can be either a @samp{meshfact} @sc{xml} file or else
+a @samp{library} @sc{xml} file.
+
+@subsubheading From Mesh to Entity and Back
+
+It is easy to get from the entity to the mesh by using the following code:
+
+@example
+csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+iMeshWrapper* mesh = pcmesh->GetMesh ();
+@end example
+
+But you can also get from the mesh back to the entity very easily because
+the physical layer maintains a link:
+
+@example
+iMeshWrapper* mesh = @dots{};
+iCelEntity* entity = pl->FindAttachedEntity (mesh->QueryObject ());
+@end example
+
+

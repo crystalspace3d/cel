@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass light ;
+
+Plugin pflight
+	: lightfact.cpp lightfact.h
+;
+ExternalLibs pflight : CRYSTAL ;
+LinkWith pflight : celtool ;
+

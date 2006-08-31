@@ -1,0 +1,26 @@
+@c -*-texinfo-*-
+@node PropClass LinMove, PropClass Timer, PropClass Mesh, Property Classes
+@subsection Linear Movement
+@cindex pclinearmovement property class
+@cindex pclinearmovement
+@cindex @code{iPcLinearMovement}
+
+The linear movement property class implements a movement system that
+handles gravity and collision detection but not accurate physics.
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{pclinearmovement}
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.linmove}
+@item @emph{Interface}:
+@code{iPcLinearMovement}
+@item @emph{Header}:
+@file{include/propclass/linmove.h}
+@end itemize
+
+@subsubheading General Information
+
+TODO

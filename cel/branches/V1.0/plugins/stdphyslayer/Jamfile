@@ -1,0 +1,8 @@
+SubDir TOP plugins stdphyslayer ;
+
+Plugin stdphyslayer
+	: [ Wildcard *.cpp *.h ]
+;
+ExternalLibs stdphyslayer : CRYSTAL ;
+LinkWith stdphyslayer : celtool ;
+

@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass awswin ;
+
+Plugin pfawswin
+	: awswin.cpp awswin.h
+;
+ExternalLibs pfawswin : CRYSTAL ;
+LinkWith pfawswin : celtool ;
+
