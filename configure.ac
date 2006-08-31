@@ -278,7 +278,7 @@ CS_EMIT_PACKAGEINFO
 # source directory.
 #----------------------------------------------------------------------------
 CS_JAMCONFIG_OUTPUT([Jamconfig])
-AC_CONFIG_FILES([Jamfile])
+AC_CONFIG_FILES([Jamfile scripts/autopackage/celstart_static.apspec])
 AC_OUTPUT
 
 AC_MSG_NOTICE([

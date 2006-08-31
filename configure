@@ -14469,7 +14469,7 @@ cs_jamconfig_text="${cs_jamconfig_text}PACKAGE_NAME ?= \"$PACKAGE_NAME\" ;
 #----------------------------------------------------------------------------
           ac_config_commands="$ac_config_commands Jamconfig"
 
-          ac_config_files="$ac_config_files Jamfile"
+                    ac_config_files="$ac_config_files Jamfile scripts/autopackage/celstart_static.apspec"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15071,6 +15071,7 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Jamfile" ) CONFIG_FILES="$CONFIG_FILES Jamfile" ;;
+  "scripts/autopackage/celstart_static.apspec" ) CONFIG_FILES="$CONFIG_FILES scripts/autopackage/celstart_static.apspec" ;;
   "Jamconfig" ) CONFIG_COMMANDS="$CONFIG_COMMANDS Jamconfig" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
