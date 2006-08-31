@@ -244,9 +244,13 @@ void CelStart::FindCelStartArchives ()
   realAppResDir = realMounts->Get (1);
   csRef<iStringArray> filelist = vfs->FindFiles ("/tmp/celstart_app/*");
   size_t i;
+  // To work around VFS bug
+  csSet<csString> testedFiles;
   for (i = 0 ; i < filelist->Length () ; i++)
   {
     const char* file = filelist->Get (i);
+    if (testedFiles.Contains (file)) continue;
+    testedFiles.AddNoTest (file); 
     csRef<iDataBuffer> realpath_db = vfs->GetRealPath (file);
     char* realpath = (char*)(realpath_db->GetData ());
     char* testpath = new char [strlen (realpath)+3];

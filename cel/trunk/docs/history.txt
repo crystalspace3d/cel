@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
         - res changed celstart to also look into the current directory for
           celstart files.
 	- res added an autopackage for celstart_static.
+	- res worked around a VFS bug in celstart where levels could occur
+	  twice if the current directory is the app directory.
 30-Aug-2006
 	- Jorrit worked around a weird crash with regards to registering
 	  an event handler: If pccommandinput was used before pcmeshselect
