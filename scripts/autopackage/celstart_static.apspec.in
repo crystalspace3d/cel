@@ -15,7 +15,7 @@ Type: Application
 License: GNU Library or "Lesser" General Public License (LGPL)
 
 [Description]
-CELstart is a launcher for game packages for CrystalSpace+CEL.
+CELstart is a launcher for game packages made with CrystalSpace+CEL.
 
 [BuildPrepare]
 # If you're using autotools, the default should be enough.
