@@ -60,7 +60,7 @@ CS_IMPLEMENT_APPLICATION
 // The global pointer to celstart
 CelStart* celstart;
 
-CelStart::CelStart ()
+CelStart::CelStart () : do_real_demo (false)
 {
   do_clearscreen = false;
 }
@@ -90,9 +90,9 @@ void CelStart::DrawSelectorBox (iGraphics2D* g2d, int x, int y, int w, int h,
 void CelStart::SetupFrame ()
 {
   iGraphics2D* g2d = g3d->GetDriver2D ();
-  const int fontH = font->GetTextHeight();
   if (files.Length () > 0)
   {
+    const int fontH = font->GetTextHeight();
     g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
     size_t i;
     for (i = top_file ; i < files.Length () ; i++)
@@ -119,17 +119,35 @@ void CelStart::SetupFrame ()
 	    sel ? sel_font_bg : font_bg, descriptions[i]);
     }
   }
-  else
+  else if (!do_real_demo)
   {
     const int fontH = font->GetTextHeight();
     g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
     int x = boxMarginX;
     int y = boxTopY;
     g2d->Write (font, x, y, message_color, -1, 
-      "Couldn't find any celstart compatible game files!");
+      "Couldn't find any celstart compatible game packages!");
     y += fontH;
     g2d->Write (font, x, y, message_color, -1, 
-      "You can download such demos from http://www.crystalspace3d.org/downloads/celstart");
+      "You can download such packages from http://www.crystalspace3d.org/downloads/celstart");
+    y += fontH;
+    csString msg;
+    msg.Format ("Do not extract the package ZIP files, instead place them in the %s directory,",
+      realAppResDir.GetData());
+    g2d->Write (font, x, y, message_color, -1, msg);
+#define LSQUOT  "\342\200\230"
+#define RSQUOT  "\342\200\231"
+    y += fontH;
+    g2d->Write (font, x, y, message_color, -1, 
+      "alternatively can also start " LSQUOT "celstart" RSQUOT " from a directory with such package files");
+    y += fontH;
+    g2d->Write (font, x, y, message_color, -1, 
+      "or pass the filename of a package as a command line argument.");
+  }
+  else
+  {
+    if (do_clearscreen)
+      g3d->BeginDraw (CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
   }
 }
 
@@ -221,7 +239,9 @@ void CelStart::FindCelStartArchives ()
 {
   top_file = 0;
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  vfs->Mount ("/tmp/celstart_app", "$^");
+  vfs->Mount ("/tmp/celstart_app", "$.$/, $^");
+  csRef<iStringArray> realMounts = vfs->GetRealMountPaths ("/tmp/celstart_app");
+  realAppResDir = realMounts->Get (1);
   csRef<iStringArray> filelist = vfs->FindFiles ("/tmp/celstart_app/*");
   size_t i;
   for (i = 0 ; i < filelist->Length () ; i++)
@@ -358,6 +378,8 @@ printf ("5\n"); fflush (stdout);
 bool CelStart::StartDemo (int argc, const char* const argv[],
     const char* realpath, const char* path, const char* configname)
 {
+  do_real_demo = true;
+
   object_reg = csInitializer::CreateEnvironment (argc, argv);
   if (!object_reg) return false;
 

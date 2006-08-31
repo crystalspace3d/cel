@@ -45,6 +45,7 @@ private:
   csRef<iCelPlLayer> pl;
   csRef<iGraphics3D> g3d;
   bool do_clearscreen;
+  bool do_real_demo;
 
   // Everything for the demo selection screen.
   csRef<iFont> font;
@@ -62,6 +63,7 @@ private:
   csStringArray descriptions;
   csPDelArray<csSimplePixmap> icons;
   int top_file;
+  csString realAppResDir;
   
   // Some metrics for the selector box
   static const int boxMarginX = 7;
