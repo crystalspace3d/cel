@@ -132,14 +132,14 @@ void CelStart::SetupFrame ()
       "You can download such packages from http://www.crystalspace3d.org/downloads/celstart");
     y += fontH;
     csString msg;
-    msg.Format ("Do not extract the package ZIP files, instead place them in the %s directory,",
+    msg.Format ("Do not extract the package files, instead place them in the %s directory,",
       realAppResDir.GetData());
     g2d->Write (font, x, y, message_color, -1, msg);
 #define LSQUOT  "\342\200\230"
 #define RSQUOT  "\342\200\231"
     y += fontH;
     g2d->Write (font, x, y, message_color, -1, 
-      "alternatively can also start " LSQUOT "celstart" RSQUOT " from a directory with such package files");
+      "alternatively you can also start " LSQUOT "celstart" RSQUOT " from a directory with such package files");
     y += fontH;
     g2d->Write (font, x, y, message_color, -1, 
       "or pass the filename of a package as a command line argument.");
