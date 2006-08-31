@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-Aug-2006
+        - res unbroke celstart in "start demo" mode.
+        - res changed celstart to also look into the current directory for
+          celstart files.
 30-Aug-2006
 	- Jorrit worked around a weird crash with regards to registering
 	  an event handler: If pccommandinput was used before pcmeshselect
