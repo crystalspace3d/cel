@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Sep-2006
+	- cfraz89 added adjustment of bounding box and sphere, and an XML
+	  AddToGroup action, to mechsys.
 1-Sep-2006
 	- Jorrit added a version warning system to celstart. In a demo file
 	  you can specify a minimum and a maximum desired version of celstart:
