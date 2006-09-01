@@ -1,7 +1,0 @@
-SubDir TOP plugins addons celentitytpl ;
-
-Plugin addon_celentitytpl
-	: celentitytpl.cpp celentitytpl.h
-;
-ExternalLibs addon_celentitytpl : CRYSTAL ;
-LinkWith addon_celentitytpl : celtool ;

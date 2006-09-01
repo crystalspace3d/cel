@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass test ;
-
-Plugin pftest
-	: testfact.cpp testfact.h
-;
-ExternalLibs pftest : CRYSTAL ;
-LinkWith pftest : celtool ;
-

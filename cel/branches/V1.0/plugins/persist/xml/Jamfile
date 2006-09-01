@@ -1,7 +1,0 @@
-SubDir TOP plugins persist xml ;
-
-Plugin xmlpersist
-	: xmlpersist.cpp xmlpersist.h
-;
-ExternalLibs xmlpersist : CRYSTAL ;
-

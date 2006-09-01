@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass defcam ;
-
-Plugin pfdefcam
-	: defcam.cpp defcam.h
-;
-ExternalLibs pfdefcam : CRYSTAL ;
-LinkWith pfdefcam : celtool ;
-

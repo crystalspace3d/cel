@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass mover ;
-
-Plugin pfmover
-	: moverfact.cpp moverfact.h
-;
-ExternalLibs pfmover : CRYSTAL ;
-LinkWith pfmover : celtool ;
-
