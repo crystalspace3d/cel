@@ -494,8 +494,9 @@ struct iPcMechanicsObject : public virtual iBase
   /**
    * Create a sphere collider for this object, automatically sized
    * and positioned from it's mesh.
+   * \param radiusadjustment Amount to vary the radius from actual bounding radius.
    */
-  virtual void AttachColliderBoundingSphere () = 0;
+  virtual void AttachColliderBoundingSphere (float radiusadjustment = 0.0f) = 0;
 
   /**
    * Create a sphere collider for this object.
@@ -516,8 +517,9 @@ struct iPcMechanicsObject : public virtual iBase
 
   /**
    * Create a box collider for this object, automatically sized and positioned from it's mesh.
+   * \param sizeadjustment Amount to vary the size from actual bounding size.
    */
-  virtual void AttachColliderBoundingBox () = 0;
+  virtual void AttachColliderBoundingBox (const csVector3& sizeadjustment = csVector3(0)) = 0;
 
   /**
    * Create a box collider for this object.
