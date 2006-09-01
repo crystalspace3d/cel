@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	  at your own risk.
 	  CelStart itself records a version number (current version is 1)
 	  and also a minimum version number that it is compatible with.
+	- Jorrit removed the not-very-nice mechtest app since an XML
+	  and working-very-nice version is now available from CS site
+	  as a separate download. Use celstart to start.
 31-Aug-2006
         - res unbroke celstart in "start demo" mode.
         - res changed celstart to also look into the current directory for
