@@ -1,0 +1,8 @@
+SubDir TOP libs celtool ;
+
+Description celtool : "CEL tool library" ;
+Library celtool :
+  [ Wildcard *.cpp *.h ]
+  [ Wildcard [ ConcatDirs $(DOTDOT) $(DOTDOT) include celtool ] : *.h ] :
+  shared ;
+ExternalLibs celtool : CRYSTAL ;

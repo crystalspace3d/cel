@@ -1,0 +1,21 @@
+@c -*-texinfo-*-
+@node Using CEL, Index, Applications, Top
+@chapter Using CEL
+
+This chapter explains how to use Crystal Entity Layer in your own
+applications.
+
+@menu
+* The Basics::
+* Tutorials::
+* Property Classes::
+* Addons::
+* XML Behaviour Layer:: The XML Behaviour Layer
+@end menu
+
+@imports{usingcel,basics.txi}
+@importss{usingcel,tutorials,chapter.txi}
+@importss{usingcel,propclasses,chapter.txi}
+@imports{usingcel,addons.txi}
+@imports{usingcel,behavexml.txi}
+

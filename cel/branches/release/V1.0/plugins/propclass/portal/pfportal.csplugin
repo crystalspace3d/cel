@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfportal.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.portal</name>
+        <implementation>celPfPortal</implementation>
+	<description>CEL Portal Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

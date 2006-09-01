@@ -1,0 +1,7 @@
+SubDir TOP apps mechtest ;
+
+Application mechtest : [ Wildcard *.cpp *.h ] ;
+CFlags mechtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith mechtest : celtool ;
+ExternalLibs mechtest : CRYSTAL ;
+

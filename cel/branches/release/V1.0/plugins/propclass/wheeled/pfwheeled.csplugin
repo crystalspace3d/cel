@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- pfwheeled.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.wheeled</name>
+        <implementation>celPfWheeled</implementation>
+        <description>CEL Wheeled Vehicle Class Factory</description>
+        <requires>
+          <class>cel.physicallayer</class>
+          <class>cel.mechobject</class>
+        </requires>
+      </class>
+    </classes>
+  </scf>
+</plugin>
