@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Sep-2006
+	- Jorrit added a version warning system to celstart. In a demo file
+	  you can specify a minimum and a maximum desired version of celstart:
+		CelStart.MinimumVersion = 2
+		CelStart.MaximumVersion = 10 
+	  In the startup screen of celstart you will see a red warning in
+	  case this condition is not valid but you can still continue
+	  at your own risk.
+	  CelStart itself records a version number (current version is 1)
+	  and also a minimum version number that it is compatible with.
 31-Aug-2006
         - res unbroke celstart in "start demo" mode.
         - res changed celstart to also look into the current directory for

@@ -36,6 +36,11 @@ struct iEvent;
 struct iVFS;
 struct iFont;
 
+// This is a version number for celstart.
+#define CELSTART_VERSION 1
+// This is the minimum version for demo files that we still support.
+#define CELSTART_MINIMUMVERSION -1
+
 class CelStart
 {
 public:
@@ -51,6 +56,7 @@ private:
   csRef<iFont> font;
   csRef<iMouseDriver> mouse;
   int font_fg, font_bg;
+  int font_error_fg;
   int sel_font_fg, sel_font_bg;
   int box_color1, box_color2, box_color3;
   int sel_box_color1;
@@ -61,6 +67,7 @@ private:
   csStringArray files;
   csStringArray names;
   csStringArray descriptions;
+  csStringArray warnings;
   csPDelArray<csSimplePixmap> icons;
   int top_file;
   csString realAppResDir;

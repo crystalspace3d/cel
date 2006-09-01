@@ -117,6 +117,10 @@ void CelStart::SetupFrame ()
       if (descriptions[i])
         g2d->Write (font, textLeft, textTop+fontH, sel ? sel_font_fg : font_fg,
 	    sel ? sel_font_bg : font_bg, descriptions[i]);
+      if (warnings[i])
+        g2d->Write (font, textLeft, textTop+fontH*2,
+	    font_error_fg,
+	    sel ? sel_font_bg : font_bg, warnings[i]);
     }
   }
   else if (!do_real_demo)
@@ -301,6 +305,33 @@ void CelStart::FindCelStartArchives ()
 	if (*s) s = testpath;
 	names.Push (s);
       }
+      int minimum_version = acc->GetInt ("CelStart.MinimumVersion",
+	  CELSTART_VERSION);
+      int maximum_version = acc->GetInt ("CelStart.MaximumVersion",
+	  CELSTART_VERSION);
+      if (minimum_version > CELSTART_VERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: Requires at least version %d of CelStart (current is %d)!",
+	    minimum_version, CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else if (maximum_version < CELSTART_VERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: Prefers at most version %d of CelStart (current is %d)!",
+	    maximum_version, CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else if (minimum_version < CELSTART_MINIMUMVERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: CelStart (version %d) may not be compatible with this demo!",
+	    CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else warnings.Push ("");
+
       const char* description = acc->GetStr ("CelStart.Description", 0);
       if (description) descriptions.Push (description);
       else descriptions.Push ("");
@@ -312,8 +343,8 @@ void CelStart::FindCelStartArchives ()
 	csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
 	csString iconpath = "/tmp/celstart_test/";
 	iconpath += icon;
-	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath, CS_TEXTURE_2D,
-	    g3d->GetTextureManager ());
+	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath,
+	    CS_TEXTURE_2D, g3d->GetTextureManager ());
 	csSimplePixmap* pm = new csSimplePixmap (txt);
 	icons.Push (pm);
       }
@@ -603,6 +634,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
   font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_LARGE);
   font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
   font_bg = g3d->GetDriver2D ()->FindRGB (200, 200, 200);
+  font_error_fg = g3d->GetDriver2D ()->FindRGB (255, 0, 0);
   sel_font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
   sel_font_bg = g3d->GetDriver2D ()->FindRGB (40, 210, 170);
   box_color3 = g3d->GetDriver2D ()->FindRGB (60, 60, 60);
@@ -665,6 +697,7 @@ void CelStart::Start ()
     files.DeleteAll ();
     names.DeleteAll ();
     descriptions.DeleteAll ();
+    warnings.DeleteAll ();
     icons.DeleteAll ();
     csInitializer::DestroyApplication (object_reg);
     if (!StartDemo (argc, argv, startme, "/tmp/celstart", "/tmp/celstart/celstart.cfg"))
