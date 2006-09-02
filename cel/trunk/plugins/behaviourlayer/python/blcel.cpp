@@ -17803,7 +17803,30 @@ static PyObject *_wrap_iPcMechanicsObject_IsCollisionCallbackEnabled(PyObject *,
 }
 
 
-static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingSphere(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingSphere__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    float arg2 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsObject_AttachColliderBoundingSphere",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        arg2 = (float)(SWIG_As_float(obj1)); 
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->AttachColliderBoundingSphere(arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingSphere__SWIG_1(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
     PyObject * obj0 = 0 ;
@@ -17816,6 +17839,54 @@ static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingSphere(PyObject 
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingSphere(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsObject, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_iPcMechanicsObject_AttachColliderBoundingSphere__SWIG_1(self,args);
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsObject, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            _v = SWIG_Check_float(argv[1]);
+            if (_v) {
+                return _wrap_iPcMechanicsObject_AttachColliderBoundingSphere__SWIG_0(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcMechanicsObject_AttachColliderBoundingSphere'");
     return NULL;
 }
 
@@ -17892,7 +17963,34 @@ static PyObject *_wrap_iPcMechanicsObject_AttachColliderCylinder(PyObject *, PyO
 }
 
 
-static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingBox(PyObject *, PyObject *args) {
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingBox__SWIG_0(PyObject *, PyObject *args) {
+    PyObject *resultobj;
+    iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
+    csVector3 *arg2 = 0 ;
+    PyObject * obj0 = 0 ;
+    PyObject * obj1 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"OO:iPcMechanicsObject_AttachColliderBoundingBox",&obj0,&obj1)) goto fail;
+    SWIG_Python_ConvertPtr(obj0, (void **)&arg1, SWIGTYPE_p_iPcMechanicsObject, SWIG_POINTER_EXCEPTION | 0);
+    if (SWIG_arg_fail(1)) SWIG_fail;
+    {
+        SWIG_Python_ConvertPtr(obj1, (void **)&arg2, SWIGTYPE_p_csVector3, SWIG_POINTER_EXCEPTION | 0);
+        if (SWIG_arg_fail(2)) SWIG_fail;
+        if (arg2 == NULL) {
+            SWIG_null_ref("csVector3");
+        }
+        if (SWIG_arg_fail(2)) SWIG_fail;
+    }
+    (arg1)->AttachColliderBoundingBox((csVector3 const &)*arg2);
+    
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingBox__SWIG_1(PyObject *, PyObject *args) {
     PyObject *resultobj;
     iPcMechanicsObject *arg1 = (iPcMechanicsObject *) 0 ;
     PyObject * obj0 = 0 ;
@@ -17905,6 +18003,62 @@ static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingBox(PyObject *, 
     Py_INCREF(Py_None); resultobj = Py_None;
     return resultobj;
     fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_iPcMechanicsObject_AttachColliderBoundingBox(PyObject *self, PyObject *args) {
+    int argc;
+    PyObject *argv[3];
+    int ii;
+    
+    argc = PyObject_Length(args);
+    for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+        argv[ii] = PyTuple_GetItem(args,ii);
+    }
+    if (argc == 1) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsObject, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            return _wrap_iPcMechanicsObject_AttachColliderBoundingBox__SWIG_1(self,args);
+        }
+    }
+    if (argc == 2) {
+        int _v;
+        {
+            void *ptr;
+            if (SWIG_ConvertPtr(argv[0], &ptr, SWIGTYPE_p_iPcMechanicsObject, 0) == -1) {
+                _v = 0;
+                PyErr_Clear();
+            } else {
+                _v = 1;
+            }
+        }
+        if (_v) {
+            {
+                void *ptr = 0;
+                if (SWIG_ConvertPtr(argv[1], &ptr, SWIGTYPE_p_csVector3, 0) == -1) {
+                    _v = 0;
+                    PyErr_Clear();
+                } else {
+                    _v = (ptr != 0);
+                }
+            }
+            if (_v) {
+                return _wrap_iPcMechanicsObject_AttachColliderBoundingBox__SWIG_0(self,args);
+            }
+        }
+    }
+    
+    PyErr_SetString(PyExc_NotImplementedError,"No matching function for overloaded 'iPcMechanicsObject_AttachColliderBoundingBox'");
     return NULL;
 }
 
