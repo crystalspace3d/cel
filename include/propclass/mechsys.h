@@ -241,9 +241,9 @@ struct iPcMechanicsSystem : public virtual iBase
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - InitPhys: parameters 'friction' (float), 'elasticity' (float),
- * 	'density' (float), 'softness' (float), 'lift' (vector3), and
- * 	'drag' (float).
+ * - InitPhys: parameters 'mass' (float), 'friction' (float),
+ *      'elasticity' (float), 'density' (float), 'softness' (float),
+ *      'lift' (vector3), and 'drag' (float).
  * - MakeStatic: parameters 'static' (bool).
  * - SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
  * - SetMesh: parameters 'mechpctag' (string).
