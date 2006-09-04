@@ -24,8 +24,7 @@
 #include "csutil/scf.h"
 
 #include "propclass/mechcommon.h"
-
-class csVector3;
+#include "csgeom/vector3.h"
 class csBox3;
 class csOrthoTransform;
 class csPlane3;

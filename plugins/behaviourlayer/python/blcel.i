@@ -39,6 +39,7 @@
 #include "propclass/hover.h"
 #include "propclass/craft.h"
 #include "propclass/wheeled.h"
+#include "propclass/damage.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
@@ -676,6 +677,15 @@ CEL_PC(iPcCraftController, CraftController, pccraft)
 
 %include "propclass/wheeled.h"
 CEL_PC(iPcWheeled, Wheeled, pcwheeled)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/damage.h"
+CEL_PC(iPcDamage, Damage, pcdamage)
+
+GETSET_METHODS(iPcDamage,"damage", Damage)
+GETSET_METHODS(iPcDamage,"damagetype", DamageType)
+GETSET_METHODS(iPcDamage,"falloff", FallOff)
 
 //-----------------------------------------------------------------------------
 
