@@ -2,6 +2,9 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+
+05-Sep-2006
+	- cfraz89 added python to celstart static
 04-Sep-2006
 	- cfraz89 added a vector3 include to mechsys to fix configure
 	  errors outside of cel.
