@@ -154,7 +154,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfprojectile
     stdphyslayer
     xmlpersist
-  : blpython
+    blpython
   : CEL
   ;
 
