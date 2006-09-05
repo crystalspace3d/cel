@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 05-Sep-2006
 	- cfraz89 added python to celstart static
         - cfraz89 added the ':' thingy back into python celstart static.
+        - cfraz89 added 2 increfs to Py_None into blpython 
 04-Sep-2006
 	- cfraz89 added a vector3 include to mechsys to fix configure
 	  errors outside of cel.

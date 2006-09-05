@@ -384,6 +384,7 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 	 return obj;
        }
        else
+         Py_INCREF(Py_None);
 	 return Py_None;
   }
 }
