@@ -3273,6 +3273,55 @@ celGetSetWheeled = _blcelc.celGetSetWheeled
 celGetWheeled = _blcelc.celGetWheeled
 
 scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
+class iPcDamage(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcDamage, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcDamage, name)
+    def __init__(self): raise RuntimeError, "No constructor defined"
+    def __repr__(self):
+        return "<%s.%s; proxy of C++ iPcDamage instance at %s>" % (self.__class__.__module__, self.__class__.__name__, self.this,)
+    def SetDamage(*args): return _blcelc.iPcDamage_SetDamage(*args)
+    def GetDamage(*args): return _blcelc.iPcDamage_GetDamage(*args)
+    def SetDamageType(*args): return _blcelc.iPcDamage_SetDamageType(*args)
+    def GetDamageType(*args): return _blcelc.iPcDamage_GetDamageType(*args)
+    def SetFallOff(*args): return _blcelc.iPcDamage_SetFallOff(*args)
+    def GetFallOff(*args): return _blcelc.iPcDamage_GetFallOff(*args)
+    def SetDamageLocation(*args): return _blcelc.iPcDamage_SetDamageLocation(*args)
+    def GetDamageSector(*args): return _blcelc.iPcDamage_GetDamageSector(*args)
+    def GetDamagePosition(*args): return _blcelc.iPcDamage_GetDamagePosition(*args)
+    def AreaDamage(*args): return _blcelc.iPcDamage_AreaDamage(*args)
+    def BeamDamage(*args): return _blcelc.iPcDamage_BeamDamage(*args)
+    def SingleDamage(*args): return _blcelc.iPcDamage_SingleDamage(*args)
+    __swig_setmethods__["damage"] = _blcelc.iPcDamage_SetDamage  
+    __swig_getmethods__["damage"] = _blcelc.iPcDamage_GetDamage  
+    __swig_setmethods__["damagetype"] = _blcelc.iPcDamage_SetDamageType  
+    __swig_getmethods__["damagetype"] = _blcelc.iPcDamage_GetDamageType  
+    __swig_setmethods__["falloff"] = _blcelc.iPcDamage_SetFallOff  
+    __swig_getmethods__["falloff"] = _blcelc.iPcDamage_GetFallOff  
+    def __del__(self, destroy=_blcelc.delete_iPcDamage):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+
+
+class iPcDamagePtr(iPcDamage):
+    def __init__(self, this):
+        _swig_setattr(self, iPcDamage, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, iPcDamage, 'thisown', 0)
+        _swig_setattr(self, iPcDamage,self.__class__,iPcDamage)
+_blcelc.iPcDamage_swigregister(iPcDamagePtr)
+
+
+celCreateDamage = _blcelc.celCreateDamage
+
+celGetSetDamage = _blcelc.celGetSetDamage
+
+celGetDamage = _blcelc.celGetDamage
+
+scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
 class iCelConsoleCommand(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
