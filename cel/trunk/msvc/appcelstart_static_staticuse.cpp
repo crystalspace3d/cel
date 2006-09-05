@@ -43,4 +43,5 @@ SCF_USE_STATIC_PLUGIN(pfzone)
 SCF_USE_STATIC_PLUGIN(pfprojectile)
 SCF_USE_STATIC_PLUGIN(stdphyslayer)
 SCF_USE_STATIC_PLUGIN(xmlpersist)
+SCF_USE_STATIC_PLUGIN(blpython)
 
