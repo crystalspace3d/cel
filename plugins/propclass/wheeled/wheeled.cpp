@@ -1049,7 +1049,7 @@ void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
     celPcWheeled::frontpower=enginepower;
   celPcWheeled::frontss=suspensionsoftness;
   celPcWheeled::frontsd=suspensiondamping;
-  for(size_t i=0; i++; i < wheels.Length())
+  for(size_t i=0; i < wheels.Length(); i++)
   {
     ApplyWheelPresets(i);
   }
@@ -1066,7 +1066,7 @@ void celPcWheeled::SetRearWheelPreset(float sensitivity,float enginepower,
   celPcWheeled::rearss=suspensionsoftness;
   celPcWheeled::rearsd=suspensiondamping;
 
-  for(size_t i=0 ;i++; i<wheels.Length())
+  for(size_t i=0 ; i<wheels.Length(); i++)
   {
     ApplyWheelPresets(i);
   }
@@ -1077,7 +1077,7 @@ void celPcWheeled::SetOuterWheelSteerPreset(float sensitivity)
   if(outersteer>=0 && outersteer<=1)
     celPcWheeled::outersteer=sensitivity;
 
-  for(size_t i=0; i++; i<wheels.Length())
+  for(size_t i=0; i<wheels.Length(); i++)
   {
     ApplyWheelPresets(i);
   }
