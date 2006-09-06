@@ -878,6 +878,10 @@ public:
     {
       scfParent->SetDistance (distance, mode);
     }
+    virtual float GetDistance (int mode)
+    {
+      return scfParent->GetDistance (mode);
+    }
     virtual void Draw ()
     {
       scfParent->Draw ();
