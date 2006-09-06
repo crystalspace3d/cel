@@ -222,6 +222,13 @@ public:
    * position of the camera.
    */
   virtual void SetDistance (float distance, int mode=-1) = 0;
+
+  /**
+   * Get the distance between the character's eyes and the camera.
+   * The camera algorithms are responsible for calculating the actual
+   * position of the camera.
+   */
+  virtual float GetDistance (int mode=-1) = 0;
 };
 
 #endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__

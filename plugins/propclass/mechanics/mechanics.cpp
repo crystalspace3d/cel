@@ -1390,7 +1390,8 @@ void celPcMechanicsObject::SetLift (const csVector3& lift)
   celPcMechanicsObject::lift = lift;
 }
 
-void celPcMechanicsObject::SetDrag (float drag) {
+void celPcMechanicsObject::SetDrag (float drag)
+{
   celPcMechanicsObject::drag = drag;
 }
 

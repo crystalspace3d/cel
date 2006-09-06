@@ -34,6 +34,7 @@
 #include "propclass/mechsys.h"
 #include "propclass/sound.h"
 #include "propclass/mechthruster.h"
+#include "propclass/mover.h"
 #include "propclass/tooltip.h"
 #include "propclass/prop.h"
 #include "propclass/hover.h"
@@ -663,6 +664,11 @@ CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
 
 %include "propclass/prop.h"
 CEL_PC(iPcProperties, Properties, pcproperties)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/mover.h"
+CEL_PC(iPcMover, Mover, pcmover)
 
 //-----------------------------------------------------------------------------
 
