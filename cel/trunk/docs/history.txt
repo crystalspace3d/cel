@@ -10,6 +10,7 @@ The history order is reversed so that new features are at the top.
 	- Guillaume Libersat added support for pcmover to the python
 	  behaviour layer.
 	- Jorrit added missing spr2dldr to celstart_static.
+        - cfraz89 corrected 3 for loops in pcwheeled.
 5-Sep-2006
 	- cfraz89 added python to celstart static
         - cfraz89 added the ':' thingy back into python celstart static.
