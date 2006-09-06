@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 6-Sep-2006
 	- Jorrit bumped up celstart version to 2 for the fix in
 	  SetMouseCursor() in CS.
+	- Jorrit added missing spr2dldr to celstart_static.
 5-Sep-2006
 	- cfraz89 added python to celstart static
         - cfraz89 added the ':' thingy back into python celstart static.
