@@ -119,6 +119,8 @@ private:
   static csStringID id_yrot;
   static csStringID id_x;
   static csStringID id_y;
+  static csStringID id_aniname;
+  static csStringID id_anicycle;
 
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
@@ -139,7 +141,8 @@ private:
     action_run,
     action_autorun,
     action_jump,
-    action_togglecameramode
+    action_togglecameramode,
+    action_setanimation
   };
 
   // For properties.
@@ -161,9 +164,9 @@ public:
     if (pcmesh && !sprcal3d)
     {
       if (start && !IsMovingForward ())
-	SetAnimation ("walk");
+      	SetAnimation ("walk");
       else if (!start && IsMovingForward())
-	SetAnimation ("stand");
+      	SetAnimation ("stand");
     }
     forward = start;
     HandleMovement (false);
@@ -249,7 +252,7 @@ public:
   virtual void Jump ()
   {
     if (pcmesh)
-      SetAnimation("jump",false);
+      SetAnimation ("jump", false);
     HandleMovement (true);
   }
   virtual void ToggleCameraMode ();
@@ -278,7 +281,7 @@ public:
 
   virtual void SetJumpingVelocity (float speed) { jumping_velocity = speed; }
   virtual float GetJumpingVelocity () const { return jumping_velocity; }
-  
+
   virtual void SetAnimation (const char *name, bool cycle=true);
 
   virtual const char* GetName () const { return "pcactormove"; }
@@ -287,16 +290,16 @@ public:
   virtual void TickEveryFrame ();
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
-      celData& ret);
+  	celData& ret);
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'mousemove' property.
   virtual bool SetPropertyIndexed (int, bool);
   virtual bool GetPropertyIndexed (int, bool&);
 
   csPtr<iCelDataBuffer> GetPersistentData (
-        celPersistenceType persistence_type);
-  celPersistenceResult SetPersistentData (csTicks data_time, 
-        iCelDataBuffer* data, celPersistenceType persistence_type);
+  	celPersistenceType persistence_type);
+  celPersistenceResult SetPersistentData (csTicks data_time,
+  	iCelDataBuffer* data, celPersistenceType persistence_type);
 };
 
 #endif // __CEL_PF_ACTORMOVEFACT__

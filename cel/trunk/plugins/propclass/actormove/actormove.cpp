@@ -90,6 +90,8 @@ csStringID celPcActorMove::id_start = csInvalidStringID;
 csStringID celPcActorMove::id_yrot = csInvalidStringID;
 csStringID celPcActorMove::id_x = csInvalidStringID;
 csStringID celPcActorMove::id_y = csInvalidStringID;
+csStringID celPcActorMove::id_aniname = csInvalidStringID;
+csStringID celPcActorMove::id_anicycle = csInvalidStringID;
 
 PropertyHolder celPcActorMove::propinfo;
 
@@ -106,6 +108,8 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
+    id_aniname = pl->FetchStringID ("cel.parameter.name");
+    id_anicycle = pl->FetchStringID ("cel.parameter.cycle");
   }
 
   movement_speed = 2.0f;
@@ -154,20 +158,21 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     AddAction (action_autorun, "cel.action.AutoRun");
     AddAction (action_jump, "cel.action.Jump");
     AddAction (action_togglecameramode, "cel.action.ToggleCameraMode");
+    AddAction (action_setanimation, "cel.action.SetAnimation");
   }
 
   // For properties.
   propinfo.SetCount (4);
   AddProperty (propid_mousemove, "cel.property.mousemove",
-	CEL_DATA_BOOL, false, "Mouse movement.", 0);
+  	CEL_DATA_BOOL, false, "Mouse movement.", 0);
   AddProperty (propid_mousemove_inverted, "cel.property.mousemove_inverted",
-	CEL_DATA_BOOL, false, "Mouse movement inverted.", &mousemove_inverted);
+  	CEL_DATA_BOOL, false, "Mouse movement inverted.", &mousemove_inverted);
   AddProperty (propid_mousemove_xfactor, "cel.property.mousemove_xfactor",
-	CEL_DATA_FLOAT, false, "Mouse movement x speed factor.",
-	&mousemove_hor_factor);
+  	CEL_DATA_FLOAT, false, "Mouse movement x speed factor.",
+  	&mousemove_hor_factor);
   AddProperty (propid_mousemove_yfactor, "cel.property.mousemove_yfactor",
-	CEL_DATA_FLOAT, false, "Mouse movement y speed factor.",
-	&mousemove_vert_factor);
+  	CEL_DATA_FLOAT, false, "Mouse movement y speed factor.",
+  	&mousemove_vert_factor);
 }
 
 celPcActorMove::~celPcActorMove ()
@@ -252,14 +257,14 @@ void celPcActorMove::TickEveryFrame ()
     if (abs_x > 0.0001 || abs_y > 0.0001)
     {
       // Limit the maximum amount of mouse movement.
-      if (abs_x > .4) abs_x = .4f;
-      if (abs_y > .4) abs_y = .4f;
+      if (abs_x > 0.4) abs_x = 0.4f;
+      if (abs_y > 0.4) abs_y = 0.4f;
 
       pcdefcamera->MovePitch ((-mousemove_lasty)
-	  * mousemove_vert_factor * MOUSEMOVE_VERT_FACTOR);
+      	* mousemove_vert_factor * MOUSEMOVE_VERT_FACTOR);
       float s = GetRotationSpeed();
       SetRotationSpeed (abs_x * mousemove_hor_factor
-	  * MOUSEMOVE_HOR_FACTOR * 100.0f);
+      	* MOUSEMOVE_HOR_FACTOR * 100.0f);
       if (abs_x < 0.0001f)
       {
         RotateRight(false);
@@ -293,7 +298,7 @@ void celPcActorMove::TickEveryFrame ()
 void celPcActorMove::SetAnimation (const char *name, bool cycle)
 {
   if (pcmesh)
-    pcmesh->SetAnimation(name,cycle);
+    pcmesh->SetAnimation (name, cycle);
 }
 
 #define ACTORMOVE_SERIAL 1
@@ -407,6 +412,15 @@ bool celPcActorMove::PerformActionIndexed (int idx,
     case action_togglecameramode:
       ToggleCameraMode ();
       return true;
+    case action_setanimation:
+    {
+      CEL_FETCH_STRING_PAR (aniname,params,id_aniname);
+      if (!p_aniname) return false;
+      CEL_FETCH_BOOL_PAR (anicycle,params,id_anicycle);
+      if (!p_anicycle) anicycle = true;
+      SetAnimation (aniname, anicycle);
+      return true;
+    }
     default:
       return false;
   }
@@ -430,7 +444,7 @@ void celPcActorMove::FindSiblingPropertyClasses ()
     pcnewcamera = CEL_QUERY_PROPCLASS_ENT (entity, iPcNewCamera);
     pcsoundlistener = CEL_QUERY_PROPCLASS_ENT (entity, iPcSoundListener);
     checked_spritestate = false;
-    
+
     if (pcsoundlistener && pcmesh)
     {
       movlistener.AttachNew (new celActorMovableListener (
@@ -461,7 +475,7 @@ void celPcActorMove::RotateTo (float yrot)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pclinmove is missing!");
+    	"cel.pcactormove", "pclinmove is missing!");
     return;
   }
   csVector3 current_position;
@@ -503,14 +517,14 @@ void celPcActorMove::HandleMovement (bool jump)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pclinmove is missing!");
+    	"cel.pcactormove", "pclinmove is missing!");
     return;
   }
   GetSpriteStates ();
   if (!pcmesh)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove", "pcmesh is missing!");
+    	"cel.pcactormove", "pcmesh is missing!");
     return;
   }
 
@@ -520,75 +534,71 @@ void celPcActorMove::HandleMovement (bool jump)
   else
     speed = movement_speed;
 
-  static csVector3 velocity(0,0,0);
+  static csVector3 velocity (0.0f, 0.0f, 0.0f);
 
   if ((autorun || forward) && straferight)
   {
-    velocity.x = -0.75 * speed;
-    velocity.z = -0.75 * speed;
+    velocity.x = -0.75f * speed;
+    velocity.z = -0.75f * speed;
   }
   else if ((autorun || forward) && strafeleft)
   {
-    velocity.x = 0.75 * speed;
-    velocity.z = -0.75 * speed;
+    velocity.x = 0.75f * speed;
+    velocity.z = -0.75f * speed;
   }
   else if (autorun || forward)
   {
-    velocity.x = 0;
+    velocity.x = 0.0f;
     velocity.z = -speed;
   }
   else if (backward && straferight)
   {
-    velocity.x = -0.75 * speed;
-    velocity.z = 0.75 * speed;
+    velocity.x = -0.75f * speed;
+    velocity.z = 0.75f * speed;
   }
   else if (backward && strafeleft)
   {
-    velocity.x = 0.75 * speed;
-    velocity.z = 0.75 * speed;
+    velocity.x = 0.75f * speed;
+    velocity.z = 0.75f * speed;
   }
   else if (backward)
   {
-    velocity.x = 0;
+    velocity.x = 0.0f;
     velocity.z = speed;
   }
   else if (straferight)
   {
     velocity.x = -speed;
-    velocity.z = 0;
+    velocity.z = 0.0f;
   }
   else if (strafeleft)
   {
     velocity.x = speed;
-    velocity.z = 0;
+    velocity.z = 0.0f;
   }
   else
   {
-    velocity.x = 0;
-    velocity.z = 0;
+    velocity.x = 0.0f;
+    velocity.z = 0.0f;
   }
   pclinmove->SetVelocity (velocity);
   if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
   // @@@ do spr3d!
 
-  float actual_rotating_speed = 0;
+  float actual_rotating_speed = 0.0f;
   if (rotateright)
     actual_rotating_speed = -rotating_speed;
   else if (rotateleft)
     actual_rotating_speed = rotating_speed;
   if (rotatetoreached)
-  {
-    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0));
-  }
+    pclinmove->SetAngularVelocity (csVector3 (0.0f, actual_rotating_speed, 0.0f));
   else
-  {
-    pclinmove->SetAngularVelocity (csVector3 (0, actual_rotating_speed, 0),
-				   csVector3 (0, rotate_to, 0));
-  }
+    pclinmove->SetAngularVelocity (csVector3 (0.0f, actual_rotating_speed, 0.0f),
+    	csVector3 (0.0f, rotate_to, 0.0f));
 
   if (jump && pclinmove->IsOnGround ())
   {
-    csVector3 velocity (0,jumping_velocity, 0);
+    csVector3 velocity (0.0f, jumping_velocity, 0.0f);
     pclinmove->AddVelocity (velocity);
     if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
     // @@@ do spr3d!
@@ -601,14 +611,14 @@ void celPcActorMove::ToggleCameraMode ()
   if (!pcdefcamera && !pcnewcamera)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-		    "cel.pcactormove",
-		    "Must have either a pcdefaultcamera or pcnewcamera!");
+    	"cel.pcactormove",
+    	"Must have either a pcdefaultcamera or pcnewcamera!");
     return;
   }
   if (pcdefcamera)
       pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
   if (pcnewcamera)
-      pcnewcamera->NextCameraMode();
+      pcnewcamera->NextCameraMode ();
 }
 
 csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
@@ -652,9 +662,9 @@ csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
   return csPtr<iCelDataBuffer> (databuf);
 }
 
-celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time, 
-		      iCelDataBuffer* databuf,
-		      celPersistenceType persistence_type)
+celPersistenceResult celPcActorMove::SetPersistentData (csTicks data_time,
+	iCelDataBuffer* databuf,
+	celPersistenceType persistence_type)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != ACTORMOVE_SERIAL) return CEL_PERSIST_RESULT_ERROR;
