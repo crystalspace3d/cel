@@ -31,6 +31,9 @@
 #include "physicallayer/persist.h"
 #include "physicallayer/entity.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 // TODO: to be fixed
 #define MAX_PACKET_LENGTH 2048
 
@@ -165,5 +168,8 @@ class celTCPCachedSocket
   // to reuse buffers
   //static celNetworkBuffer* GetNewBufferContext ();
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
 
 #endif //__CEL_TCPUTILS__

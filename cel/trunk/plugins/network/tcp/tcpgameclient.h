@@ -27,6 +27,9 @@
 
 struct iVirtualClock;
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 struct celTCPGame;
 struct celTCPGameFactory;
 struct NetworkLinkClientData;
@@ -130,5 +133,8 @@ class NetworkLinkClientData
   csTicks update_period;
   csTicks last_update;
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
 
 #endif // __CEL_GAMECLIENT_TCP__

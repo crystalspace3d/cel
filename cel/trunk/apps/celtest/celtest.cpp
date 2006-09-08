@@ -501,8 +501,6 @@ bool CelTest::Application ()
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
     return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.awswindow"))
-    return false;
 
   if (!CreateRoom ()) return false;
 

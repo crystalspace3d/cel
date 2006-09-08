@@ -20,10 +20,12 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     bltest
     mgr_quests
     pfactormove
+    pfbillboard
     pfdefcam
     pfinput
     pfinv
     pfengine
+    pflight
     pfmesh
     pfmove
     pfquest
@@ -32,6 +34,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pftrigger
     pfzone
     stdphyslayer
+    tcpnetwork
     xmlpersist
   : blpython
   ;
@@ -73,6 +76,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     haze
     hazeldr
     imgplex
+    null2d
+    null3d
     nullmesh
     protomesh
     protomeshldr
@@ -83,7 +88,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     reporter
     sequence
     shadermgr
-    simpcon
     simpleformer
     simpleformerldr
     snow
@@ -96,8 +100,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr3dldr
     sprcal3d 
     sprcal3dldr
-    starldr
-    stars
     stdpt
     stdrep
     thing
@@ -105,7 +107,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     vfs
     xmlread
     xmlshader
-  : glwin32 glx2d glosx2d xwin
+  : glshader_cg glshader_ps1 glwin32 glx2d glosx2d xwin xext86vm sndmanager
   : CRYSTAL
   ;
   ExternalLibs nettest_static : CRYSTAL ;

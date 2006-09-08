@@ -29,6 +29,9 @@
 
 struct iVirtualClock;
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 struct celTCPGame;
 struct celTCPGameFactory;
 struct celIncomingPlayer;
@@ -248,5 +251,8 @@ class KickedPlayer
   celPlayer* player;
   csString reason;
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
 
 #endif // __CEL_GAMESERVER_TCP__

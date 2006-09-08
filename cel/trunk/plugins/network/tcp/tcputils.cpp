@@ -24,6 +24,9 @@
 #include "celtool/persisthelper.h"
 #include "plugins/network/tcp/tcputils.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 bool IsAddressEmpty (uint8* address)
 {
   int i = 0;
@@ -129,7 +132,7 @@ static iObjectRegistry* buffer_object_reg;
 
 void BufferReporter::SetRegistry (iObjectRegistry* object_reg)
 {
-  buffer_object_reg = object_reg;
+   buffer_object_reg = object_reg;
 }
 
 bool BufferReporter::ReportWrite (csString txt)
@@ -137,7 +140,7 @@ bool BufferReporter::ReportWrite (csString txt)
   csString report = "Error while writing data to celNetworkBuffer";
   if (!txt.IsEmpty ()) report.AppendFmt (": %s", txt.GetData ());
   csReport (buffer_object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "cel.network.tcp", report);
+            "cel.network.tcp", report);
   return false;
 }
 
@@ -146,7 +149,7 @@ bool BufferReporter::ReportRead (csString txt)
   csString report = "Error while reading data from celNetworkBuffer";
   if (!txt.IsEmpty ()) report.AppendFmt (": %s", txt.GetData ());
   csReport (buffer_object_reg, CS_REPORTER_SEVERITY_ERROR,
-	    "cel.network.tcp", report);
+            "cel.network.tcp", report);
   return false;
 }
 
@@ -930,3 +933,7 @@ void celTCPCachedSocket::SendPacket (celNetworkBuffer* packet)
 {
   packets_to_be_sent.Push(packet);
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
+
