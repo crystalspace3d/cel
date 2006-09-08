@@ -49,6 +49,7 @@
  * - AutoRun: parameters 'start' (bool).
  * - Jump.
  * - ToggleCameraMode.
+ * - SetAnimation: parameters 'name' (string) and 'cycle' (bool default=true).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
