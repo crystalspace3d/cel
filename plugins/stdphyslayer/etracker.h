@@ -24,6 +24,7 @@
 #include "csutil/set.h"
 
 #include "plugins/stdphyslayer/pl.h"
+#include "plugins/stdphyslayer/entity.h"
 
 struct iCelEntity;
 struct iMeshWrapper;
@@ -71,6 +72,24 @@ public:
   virtual void RemoveEntities ();
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius);
+  virtual csPtr<iCelEntityIterator> GetIterator ();
+  virtual void AddEntities (iCelEntityTracker* tracker);
+  virtual void RemoveEntities (iCelEntityTracker* tracker);
+
+  class Iterator :
+    public scfImplementation1<Iterator, iCelEntityIterator>
+  {
+  private:
+    csSet<csPtrKey<iCelEntity> >::GlobalIterator it;
+
+  public:
+    Iterator (celEntityTracker* parent);
+
+    virtual iCelEntity* Next ();
+    virtual bool HasNext () const;
+  };
+
+  friend class Iterator;
 };
 
 #endif // __CEL_PLIMP_ETRACKER__

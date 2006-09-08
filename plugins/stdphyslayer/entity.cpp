@@ -168,5 +168,25 @@ iCelEntity* celEntityList::FindByName (const char *Name) const
   return 0;
 }
 
+csPtr<iCelEntityIterator> celEntityList::GetIterator () const
+{
+  return new Iterator (this);
+}
+
 //---------------------------------------------------------------------------
+
+celEntityList::Iterator::Iterator (const celEntityList* parent) :
+  scfImplementationType (this), it (parent->entities.GetIterator ())
+{
+}
+
+iCelEntity* celEntityList::Iterator::Next ()
+{
+  return it.Next ();
+}
+
+bool celEntityList::Iterator::HasNext () const
+{
+  return it.HasNext ();
+}
 

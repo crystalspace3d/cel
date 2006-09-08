@@ -136,6 +136,22 @@ public:
   virtual void RemoveAll ();
   virtual size_t Find (iCelEntity* obj) const;
   virtual iCelEntity* FindByName (const char *Name) const;
+  virtual csPtr<iCelEntityIterator> GetIterator () const;
+
+  class Iterator :
+    public scfImplementation1<Iterator, iCelEntityIterator>
+  {
+  private:
+    csRefArray<iCelEntity>::ConstIterator it;
+
+  public:
+    Iterator (const celEntityList* parent);
+
+    virtual iCelEntity* Next ();
+    virtual bool HasNext () const;
+  };
+
+  friend class Iterator;
 };
 
 #endif // __CEL_PLIMP_ENTITY__
