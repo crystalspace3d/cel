@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- Darek cleaned pcactormove (missing xml stuff, code style).
 	- Darek changed in pcactormove SetAnimation "name" to
 	  compatible with pcmesh convention "animation". 
+	- David Bronke added the iCelEntityIterator interface and added methods
+	  to iCelEntityTracker and iCelEntityList to get iterators over the
+	  entities they contain. Also cleaned up format warnings in
+	  celconsole.cpp.
 6-Sep-2006
 	- Jorrit bumped up celstart version to 2 for the fix in
 	  SetMouseCursor() in CS.

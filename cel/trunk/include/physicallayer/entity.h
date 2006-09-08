@@ -27,6 +27,7 @@
 
 struct iCelPropertyClassList;
 struct iCelBehaviour;
+struct iCelEntityIterator;
 struct iObject;
 
 SCF_VERSION (iCelEntity, 0, 0, 1);
@@ -121,7 +122,7 @@ struct iCelEntity : public iBase
   virtual const csSet<csStringID>& GetClasses () const = 0;
 };
 
-SCF_VERSION (iCelEntityList, 0, 0, 1);
+SCF_VERSION (iCelEntityList, 0, 0, 2);
 
 /**
  * A list of entities.
@@ -206,6 +207,31 @@ struct iCelEntityList : public iBase
    * \return A pointer to the iCelEntity named
    */
   virtual iCelEntity* FindByName (const char *Name) const = 0;
+
+  /**
+   * Get an iterator over the entities in this list.
+   *
+   * \return an iterator over the entities.
+   */
+  virtual csPtr<iCelEntityIterator> GetIterator () const = 0;
+};
+
+/**
+ * An iterator for entities.
+ */
+struct iCelEntityIterator : public virtual iBase
+{
+  SCF_INTERFACE (iCelEntityIterator, 0, 0, 1);
+
+  /**
+   * Move forward, returning the next entity in the iterator.
+   */
+  virtual iCelEntity* Next () = 0;
+
+  /**
+   * Check if we have any more entities to iterate through.
+   */
+  virtual bool HasNext () const = 0;
 };
 
 #endif // __CEL_PL_ENTITY__
