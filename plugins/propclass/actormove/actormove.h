@@ -119,7 +119,7 @@ private:
   static csStringID id_yrot;
   static csStringID id_x;
   static csStringID id_y;
-  static csStringID id_aniname;
+  static csStringID id_animation;
   static csStringID id_anicycle;
 
   void HandleMovement (bool jump);

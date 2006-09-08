@@ -90,7 +90,7 @@ csStringID celPcActorMove::id_start = csInvalidStringID;
 csStringID celPcActorMove::id_yrot = csInvalidStringID;
 csStringID celPcActorMove::id_x = csInvalidStringID;
 csStringID celPcActorMove::id_y = csInvalidStringID;
-csStringID celPcActorMove::id_aniname = csInvalidStringID;
+csStringID celPcActorMove::id_animation = csInvalidStringID;
 csStringID celPcActorMove::id_anicycle = csInvalidStringID;
 
 PropertyHolder celPcActorMove::propinfo;
@@ -108,7 +108,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     id_yrot = pl->FetchStringID ("cel.parameter.yrot");
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
-    id_aniname = pl->FetchStringID ("cel.parameter.name");
+    id_animation = pl->FetchStringID ("cel.parameter.animation");
     id_anicycle = pl->FetchStringID ("cel.parameter.cycle");
   }
 
@@ -414,11 +414,11 @@ bool celPcActorMove::PerformActionIndexed (int idx,
       return true;
     case action_setanimation:
     {
-      CEL_FETCH_STRING_PAR (aniname,params,id_aniname);
-      if (!p_aniname) return false;
+      CEL_FETCH_STRING_PAR (animation,params,id_animation);
+      if (!p_animation) return false;
       CEL_FETCH_BOOL_PAR (anicycle,params,id_anicycle);
       if (!p_anicycle) anicycle = true;
-      SetAnimation (aniname, anicycle);
+      SetAnimation (animation, anicycle);
       return true;
     }
     default:
