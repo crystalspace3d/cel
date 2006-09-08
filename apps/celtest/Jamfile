@@ -17,20 +17,29 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_celentity
     addon_celentitytpl
     addon_questdef
+    addon_ruledef
     bltest
+    blxml
+    celconsole
     mgr_quests
     pfactormove
+    pfbillboard
     pfdefcam
+    pfengine
     pfinput
     pfinv
-    pfengine
+    pflight
     pfmesh
     pfmove
+    pfportal
     pfquest
+    pfrules
+    pfsound
     pftest
     pftools
     pftrigger
     pfzone
+    rulebase
     stdphyslayer
     xmlpersist
   : blpython
@@ -42,6 +51,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     terrainldr
     bugplug
     csconin
+    csconout
     csddsimg
     csfont
     csgifimg
@@ -85,7 +95,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     reporter
     sequence
     shadermgr
-    simpcon
     simpleformer
     simpleformerldr
     snow
@@ -98,8 +107,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     spr3dldr
     sprcal3d 
     sprcal3dldr
-    starldr
-    stars
     stdpt
     stdrep
     thing
@@ -107,7 +114,9 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     vfs
     xmlread
     xmlshader
-  : glwin32 glx2d glosx2d xwin
+  : glwin32 glx2d glosx2d xwin xext86vm
+    sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
+    sndsyscoreaudio sndsysoss sndsysalsa
   : CRYSTAL
   ;
   ExternalLibs celtst_static : CRYSTAL ;

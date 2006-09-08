@@ -22,6 +22,9 @@
 #include "physicallayer/pl.h"
 #include "plugins/network/tcp/tcpgame.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 SCF_IMPLEMENT_IBASE_EXT (celTCPGame)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGame)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -45,3 +48,7 @@ celTCPGame::~celTCPGame ()
   delete server;
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGame);
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
+

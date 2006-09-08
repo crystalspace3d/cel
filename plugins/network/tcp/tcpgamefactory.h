@@ -30,6 +30,9 @@
 #include "physicallayer/network.h"
 #include "plugins/network/tcp/tcpgame.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 /**
  * Implementation of the game manager using the classic 
  * client-server architecture over the TCP protocol. It may be 
@@ -122,5 +125,8 @@ class celTCPGameFactory : public iCelGameFactory
     CS_EVENTHANDLER_NIL_CONSTRAINTS;
   } *scfiEventHandler;
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
 
 #endif // __CEL_GAMEFACT_TCP__

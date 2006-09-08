@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	  to iCelEntityTracker and iCelEntityList to get iterators over the
 	  entities they contain. Also cleaned up format warnings in
 	  celconsole.cpp.
+	- Vincent fixed static builds of celtest and nettest by adding missing
+	  plugins or removing the ones that are gone. Also enclosed tcpnetwork
+	  plugin in 'celTCPNetwork' namespace to avoid some name collision.
 6-Sep-2006
 	- Jorrit bumped up celstart version to 2 for the fix in
 	  SetMouseCursor() in CS.
