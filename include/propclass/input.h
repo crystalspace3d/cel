@@ -29,7 +29,10 @@
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
+ * - Activate: parameter 'activate' (bool default=true).
  * - Bind: parameters 'trigger' (string) and 'command' (string).
+ * - RemoveBind: paramaters 'trigger' (string) and 'command' (string).
+ * - RemoveAllBinds.
  * - LoadConfig: parameters 'prefix' (string).
  * - SaveConfig: parameters 'prefix' (string).
  *
