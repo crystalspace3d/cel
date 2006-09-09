@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Sep-2006
+	- Darek cleaned pcproperties (missing xml stuff, code style).
 8-Sep-2006
 	- Darek cleaned pcactormove (missing xml stuff, code style).
 	- Darek changed in pcactormove SetAnimation "name" to

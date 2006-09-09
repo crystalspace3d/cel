@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001-2005 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -84,8 +84,18 @@ private:
   size_t FindOrNewProperty (csStringID id);
   void ClearPropertyValue (property* p);
 
-  static csStringID id_index;
   celOneParameterBlock* params;
+
+  static csStringID id_index;
+  static csStringID id_name;
+  static csStringID id_value;
+
+  enum actionids
+  {
+    action_setproperty = 0
+  };
+
+  static PropertyHolder propinfo;
 
 public:
   celPcProperties (iObjectRegistry* object_reg);
@@ -165,6 +175,8 @@ public:
   virtual const char* GetName () const { return "pcproperties"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
+  	celData& ret);
 
   struct PcProperties : public iPcProperties
   {
