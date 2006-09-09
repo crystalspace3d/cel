@@ -52,6 +52,10 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcProperties::PcProperties)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 csStringID celPcProperties::id_index = csInvalidStringID;
+csStringID celPcProperties::id_name = csInvalidStringID;
+csStringID celPcProperties::id_value = csInvalidStringID;
+
+PropertyHolder celPcProperties::propinfo;
 
 celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
@@ -59,7 +63,18 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
   DG_TYPE (this, "celPcProperties()");
   if (id_index == csInvalidStringID)
+  {
     id_index = pl->FetchStringID ("cel.parameter.index");
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_value = pl->FetchStringID ("cel.parameter.value");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setproperty, "cel.action.SetProperty");
+  }
+
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_index, "index");
   properties_hash_dirty = false;
@@ -280,39 +295,39 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
     {
       case CEL_DATA_FLOAT:
         databuf->Add (p->v.f);
-	break;
+      break;
       case CEL_DATA_LONG:
         databuf->Add ((int32)p->v.l);
-	break;
+      break;
       case CEL_DATA_BOOL:
         databuf->Add (p->v.b);
-	break;
+      break;
       case CEL_DATA_STRING:
         databuf->Add (p->v.s);
-	break;
+      break;
       case CEL_DATA_VECTOR2:
         databuf->Add (csVector2 (p->v.vec.x, p->v.vec.y));
-	break;
+      break;
       case CEL_DATA_VECTOR3:
         databuf->Add (csVector3 (p->v.vec.x, p->v.vec.y,
-		p->v.vec.z));
-	break;
+        	p->v.vec.z));
+      break;
       case CEL_DATA_COLOR:
         databuf->Add (csVector3 (p->v.col.red, p->v.col.green,
-		p->v.col.blue));
-	break;
+        	p->v.col.blue));
+      break;
       case CEL_DATA_PCLASS:
         databuf->Add (p->pclass);
-	break;
+      break;
       case CEL_DATA_ENTITY:
         databuf->Add (p->entity);
-	break;
+      break;
       case CEL_DATA_IBASE:
         databuf->AddIBase (p->ref);
-	break;
+      break;
       default:
         // @@@ Impossible!
-	break;
+      break;
     }
   }
   return csPtr<iCelDataBuffer> (databuf);
@@ -338,45 +353,92 @@ bool celPcProperties::Load (iCelDataBuffer* databuf)
     {
       case CEL_DATA_FLOAT:
         p->v.f = cd->value.f;
-	break;
+      break;
       case CEL_DATA_LONG:
         p->v.l = cd->value.l;
-	break;
+      break;
       case CEL_DATA_BOOL:
         p->v.b = cd->value.bo;
-	break;
+      break;
       case CEL_DATA_STRING:
         p->v.s = csStrNew (*cd->value.s);
-	break;
+      break;
       case CEL_DATA_VECTOR2:
         p->v.vec.x = cd->value.v.x;
         p->v.vec.y = cd->value.v.y;
-	break;
+      break;
       case CEL_DATA_VECTOR3:
         p->v.vec.x = cd->value.v.x;
         p->v.vec.y = cd->value.v.y;
         p->v.vec.z = cd->value.v.z;
-	break;
+      break;
       case CEL_DATA_COLOR:
         p->v.col.red = cd->value.col.red;
         p->v.col.green = cd->value.col.green;
         p->v.col.blue = cd->value.col.blue;
-	break;
+      break;
       case CEL_DATA_PCLASS:
         p->pclass = cd->value.pc;
-	break;
+      break;
       case CEL_DATA_ENTITY:
         p->entity = cd->value.ent;
-	break;
+      break;
       case CEL_DATA_IBASE:
         p->ref = cd->value.ibase;
-	break;
+      break;
       default:
         return false;
     }
   }
 
   return true;
+}
+
+bool celPcProperties::PerformActionIndexed (int idx,
+	iCelParameterBlock* params,
+	celData& ret)
+{
+  switch (idx)
+  {
+    case action_setproperty:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name) return false;
+        CEL_FETCH_STRING_PAR (value_s,params,id_value);
+        if (p_value_s)
+        {
+          SetProperty (name, (const char*)value_s);
+          return true;
+        }
+        CEL_FETCH_BOOL_PAR (value_b,params,id_value);
+        if (p_value_b)
+        {
+          SetProperty (name, (bool)value_b);
+          return true;
+        }
+        CEL_FETCH_FLOAT_PAR (value_f,params,id_value);
+        if (p_value_f)
+        {
+          SetProperty (name, (float)value_f);
+          return true;
+        }
+        CEL_FETCH_LONG_PAR (value_l,params,id_value);
+        if (p_value_l)
+        {
+          SetProperty (name, (long)value_l);
+          return true;
+        }
+        CEL_FETCH_VECTOR3_PAR (value_v3,params,id_value);
+        if (p_value_v3)
+        {
+          SetProperty (name, (csVector3&)value_v3);
+          return true;
+        }
+        return false;
+      }
+    default:
+      return false;
+  }
 }
 
 size_t celPcProperties::NewProperty (const char* name)
