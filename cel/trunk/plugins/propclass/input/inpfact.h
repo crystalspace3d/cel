@@ -90,6 +90,7 @@ private:
   static csStringID id_x;
   static csStringID id_y;
   static csStringID id_prefix;
+  static csStringID id_activate;
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
@@ -101,8 +102,11 @@ private:
   enum actionids
   {
     action_bind = 0,
+    action_removebind,
+    action_removeallbinds,
     action_loadconfig,
-    action_saveconfig
+    action_saveconfig,
+    action_activate
   };
 
   // For properties.
@@ -121,7 +125,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
-      celData& ret);
+  	celData& ret);
 
   bool HandleEvent (iEvent& ev);
 

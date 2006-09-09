@@ -72,6 +72,7 @@ csStringID celPcCommandInput::id_command = csInvalidStringID;
 csStringID celPcCommandInput::id_x = csInvalidStringID;
 csStringID celPcCommandInput::id_y = csInvalidStringID;
 csStringID celPcCommandInput::id_prefix = csInvalidStringID;
+csStringID celPcCommandInput::id_activate = csInvalidStringID;
 
 PropertyHolder celPcCommandInput::propinfo;
 
@@ -108,6 +109,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_prefix = pl->FetchStringID ("cel.parameter.prefix");
+    id_activate = pl->FetchStringID ("cel.parameter.activate");
   }
 
   // For properties.
@@ -115,16 +117,19 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 
   if (!propinfo.actions_done)
   {
-    AddAction (action_saveconfig, "cel.action.SaveConfig");
+    AddAction (action_activate, "cel.action.Activate");
     AddAction (action_bind, "cel.action.Bind");
+    AddAction (action_removebind, "cel.action.RemoveBind");
+    AddAction (action_removeallbinds, "cel.action.RemoveAllBinds");
     AddAction (action_loadconfig, "cel.action.LoadConfig");
+    AddAction (action_saveconfig, "cel.action.SaveConfig");
   }
 
   propinfo.SetCount (2);
   AddProperty (propid_cooked, "cel.property.cooked",
-	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
+  	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
   AddProperty (propid_screenspace, "cel.property.screenspace",
-	CEL_DATA_BOOL, false, "Screenspace mode.", &screenspace);
+  	CEL_DATA_BOOL, false, "Screenspace mode.", &screenspace);
 
   mouse_params = new celGenericParameterBlock (2);
   mouse_params->SetParameterDef (0, id_x, "x");
@@ -183,6 +188,13 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
+    case action_activate:
+      {
+        CEL_FETCH_BOOL_PAR (activate,params,id_activate);
+        if (!activate) activate = true;
+        Activate (activate);
+        return true;
+      }
     case action_bind:
       {
         CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
@@ -190,6 +202,20 @@ bool celPcCommandInput::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (command,params,id_command);
         if (!command) return false;
         Bind (trigger, command);
+        return true;
+      }
+    case action_removebind:
+      {
+        CEL_FETCH_STRING_PAR (trigger,params,id_trigger);
+        if (!trigger) return false;
+        CEL_FETCH_STRING_PAR (command,params,id_command);
+        if (!command) return false;
+        RemoveBind (trigger, command);
+        return true;
+      }
+    case action_removeallbinds:
+      {
+        RemoveAllBinds ();
         return true;
       }
     case action_loadconfig:
@@ -267,7 +293,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
     newmap->command = new char[strlen (cmd)+2];
     strcpy (newmap->command, cmd);
     newmap->command_end = strchr (newmap->command, 0);
-    *(newmap->command_end+1) = 0;        // Make sure there is an end there too.
+    *(newmap->command_end+1) = 0; // Make sure there is an end there too.
 
     if (keylist)
       keylist->prev = newmap;
@@ -287,11 +313,11 @@ void celPcCommandInput::Activate (bool activate)
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
     csEventID esub[] = {
-      csevKeyboardEvent (object_reg),
-      csevMouseEvent (object_reg),
-      csevJoystickEvent (object_reg),
-      CS_EVENTLIST_END
-    };
+    	csevKeyboardEvent (object_reg),
+    	csevMouseEvent (object_reg),
+    	csevJoystickEvent (object_reg),
+    	CS_EVENTLIST_END
+    	};
     q->RegisterListener (scfiEventHandler, esub);
   }
   else
@@ -332,7 +358,8 @@ void celPcCommandInput::SaveConfig (const char* prefix)
     csKeyEventHelper::GetModifiers (km->modifiers, modifiers);
     csString strbind = csString (prefix);
     strbind += ".CommandInput.Bind.";
-    strbind += csInputDefinition::GetKeyString (name_reg, km->key, &modifiers).GetData ();
+    strbind += csInputDefinition::GetKeyString (
+    	name_reg, km->key, &modifiers).GetData ();
     cfg->SetStr (strbind.GetData (), km->command+15);
     km = km->next;
   }
@@ -383,7 +410,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   const char* trig = strtrigger.GetData ();
   csKeyModifiers modifiers;
   if (!csInputDefinition::ParseOther (name_reg, trig, &type, &device,
-          &numeric, &modifiers))
+  	&numeric, &modifiers))
   {
     Report (object_reg, "Bad input specification '%s'!", trig);
     return false;
@@ -403,11 +430,12 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     {
       newkmap = new celKeyMap;
       // Add a new entry to key mapping list
-      newkmap->next=keylist;
-      newkmap->prev=0;
-      newkmap->key=key;
-      newkmap->modifiers=mods;        // Only used in cooked mode.
-      newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+      newkmap->next = keylist;
+      newkmap->prev = 0;
+      newkmap->key = key;
+      newkmap->modifiers = mods;        // Only used in cooked mode.
+      newkmap->command = new char[
+      	strlen ("pccommandinput_")+strlen (command)+2];
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
       newkmap->command_end = strchr (newkmap->command, 0);
@@ -420,7 +448,8 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
     else
     {
       delete [] newkmap->command;
-      newkmap->command = new char[strlen ("pccommandinput_")+strlen(command)+2];
+      newkmap->command = new char[
+      	strlen ("pccommandinput_")+strlen (command)+2];
       strcpy (newkmap->command, "pccommandinput_");
       strcat (newkmap->command, command);
       newkmap->command_end = strchr (newkmap->command, 0);
@@ -433,7 +462,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     if (type == csevMouseMove (name_reg, device) ||
-        type == csevJoystickMove (name_reg, device))
+    	type == csevJoystickMove (name_reg, device))
     {
       celAxisMap* newamap;
       if (!(newamap = GetAxisMap (type, device, numeric, mods)))
@@ -448,7 +477,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         newamap->modifiers = mods;
         newamap->recenter = centered;
         newamap->command = new char[
-        	strlen ("pccommandinput_")+strlen(command)+1];
+        	strlen ("pccommandinput_")+strlen (command)+1];
         strcpy (newamap->command, "pccommandinput_");
         strcat (newamap->command, command);
 
@@ -461,7 +490,7 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         delete [] newamap->command;
         newamap->recenter = centered;
         newamap->command = new char[
-        	strlen ("pccommandinput_")+strlen(command)+1];
+        	strlen ("pccommandinput_")+strlen (command)+1];
         strcpy (newamap->command, "pccommandinput_");
         strcat (newamap->command, command);
       }
@@ -473,18 +502,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       {
         newbmap = new celButtonMap;
         // Add a new entry to button mapping list
-        newbmap->next=buttonlist;
-        newbmap->prev=0;
-        newbmap->type=type;
-        newbmap->device=device;
-        newbmap->numeric=numeric;
-        newbmap->modifiers=mods;
+        newbmap->next = buttonlist;
+        newbmap->prev = 0;
+        newbmap->type = type;
+        newbmap->device = device;
+        newbmap->numeric = numeric;
+        newbmap->modifiers = mods;
         newbmap->command = new char[
-        	strlen ("pccommandinput_")+strlen(command)+2];
+        	strlen ("pccommandinput_")+strlen (command)+2];
         strcpy (newbmap->command, "pccommandinput_");
         strcat (newbmap->command, command);
         newbmap->command_end = strchr (newbmap->command, 0);
-        *(newbmap->command_end+1) = 0;        // Make sure there is an end there too.
+        *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
 
         if (buttonlist)
           buttonlist->prev = newbmap;
@@ -494,11 +523,11 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       {
         delete [] newbmap->command;
         newbmap->command = new char[
-        	strlen ("pccommandinput_")+strlen(command)+2];
+        	strlen ("pccommandinput_")+strlen (command)+2];
         strcpy (newbmap->command, "pccommandinput_");
         strcat (newbmap->command, command);
         newbmap->command_end = strchr (newbmap->command, 0);
-        *(newbmap->command_end+1) = 0;        // Make sure there is an end there too.
+        *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
       }
     }
     return true;
@@ -652,12 +681,12 @@ void celPcCommandInput::RemoveAllBinds ()
 
 celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 {
-  celKeyMap *p=keylist;
+  celKeyMap *p = keylist;
   while (p)
   {
-    if (p->key==key && p->modifiers==mods)
+    if (p->key == key && p->modifiers == mods)
       break;
-    p=p->next;
+    p = p->next;
   }
 
   return p;
@@ -666,13 +695,13 @@ celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 celAxisMap* celPcCommandInput::GetAxisMap (csEventID type, uint device,
 	int numeric, uint32 mods) const
 {
-  celAxisMap *p=axislist;
+  celAxisMap *p = axislist;
   while (p)
   {
-    if (p->type==type && p->device==device &&
-    	p->numeric==numeric && p->modifiers==mods)
+    if (p->type == type && p->device == device &&
+    	p->numeric == numeric && p->modifiers == mods)
       break;
-    p=p->next;
+    p = p->next;
   }
 
   return p;
@@ -681,13 +710,13 @@ celAxisMap* celPcCommandInput::GetAxisMap (csEventID type, uint device,
 celButtonMap* celPcCommandInput::GetButtonMap (csEventID type, uint device,
 	int numeric, uint32 mods) const
 {
-  celButtonMap *p=buttonlist;
+  celButtonMap *p = buttonlist;
   while (p)
   {
-    if (p->type==type && p->device == device &&
-    	p->numeric==numeric && p->modifiers==mods)
+    if (p->type == type && p->device == device &&
+    	p->numeric == numeric && p->modifiers == mods)
       break;
-    p=p->next;
+    p = p->next;
   }
 
   return p;
@@ -741,7 +770,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       {
         break;
       }
-      p=p->next;
+      p = p->next;
     }
     if (!p)
       return false;
@@ -751,7 +780,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     csRef<iCelEntity> keepref = entity;
     if (type == csKeyEventTypeUp)
     {
-      iCelBehaviour* bh = entity->GetBehaviour();
+      iCelBehaviour* bh = entity->GetBehaviour ();
       if (bh)
       {
         *(p->command_end) = '0';
@@ -765,7 +794,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       if (autorep)
       {
         // Send auto-repeat message.
-        iCelBehaviour* bh = entity->GetBehaviour();
+        iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
           *(p->command_end) = '_';
@@ -776,7 +805,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
       else
       {
-        iCelBehaviour* bh = entity->GetBehaviour();
+        iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
           *(p->command_end) = '1';
@@ -789,7 +818,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
   }
   else if (CS_IS_MOUSE_EVENT(name_reg, ev))
   {
-    uint device = csMouseEventHelper::GetNumber(&ev);
+    uint device = csMouseEventHelper::GetNumber (&ev);
     if (ev.Name == csevMouseMove (name_reg, device))
     {
       // Keep a reference to the entity to prevent deletion
@@ -797,52 +826,52 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csRef<iCelEntity> keepref = entity;
 
       //mouse move event
-      int modifiers = csMouseEventHelper::GetModifiers(&ev);
+      int modifiers = csMouseEventHelper::GetModifiers (&ev);
       //find mapping
       celAxisMap *p = axislist;
       csEventID mouse_id = csevMouseMove (object_reg, device);
       while (p)
       {
         if ((p->device == device) &&
-                 ((modifiers & p->modifiers) == p->modifiers) &&
-                 (csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
+        	((modifiers & p->modifiers) == p->modifiers) &&
+        	(csEventNameRegistry::IsKindOf (name_reg, p->type, mouse_id)))
         {
           iCelBehaviour* bh = entity->GetBehaviour ();
           if (bh)
           {
             float x, y;
-            x = (float) csMouseEventHelper::GetX(&ev);
-            y = (float) csMouseEventHelper::GetY(&ev);
+            x = (float) csMouseEventHelper::GetX (&ev);
+            y = (float) csMouseEventHelper::GetY (&ev);
             celData ret;
             if (screenspace)
             {
-              mouse_params->GetParameter(0).Set(x);
-              mouse_params->GetParameter(1).Set(y);
+              mouse_params->GetParameter (0).Set (x);
+              mouse_params->GetParameter (1).Set (y);
             }
             else
             {
-              mouse_params->GetParameter(0).Set(ScreenToCentered (x, 0));
-              mouse_params->GetParameter(1).Set(ScreenToCentered (y, 1));
+              mouse_params->GetParameter (0).Set (ScreenToCentered (x, 0));
+              mouse_params->GetParameter (1).Set (ScreenToCentered (y, 1));
             }
             bh->SendMessage (p->command, this, ret, mouse_params);
           }
           if (p->recenter)
           {
             // Recenter mouse so we don't lose focus
-            int width = g2d->GetWidth();
-            int height = g2d->GetHeight();
+            int width = g2d->GetWidth ();
+            int height = g2d->GetHeight ();
             g2d->SetMousePosition (width / 2, height / 2);
             g2d->SetMouseCursor (csmcNone);
           }
         }
-        p=p->next;
+        p = p->next;
       }
     }
     else
     {
       //mouse button event
-      int button = csMouseEventHelper::GetButton(&ev);
-      uint32 modifiers = csMouseEventHelper::GetModifiers(&ev);
+      int button = csMouseEventHelper::GetButton (&ev);
+      uint32 modifiers = csMouseEventHelper::GetModifiers (&ev);
       //find mapping
       celButtonMap *p = buttonlist;
       csEventID mouse_id = csevMouseButton (object_reg, device);
@@ -854,7 +883,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         {
           break;
         }
-        p=p->next;
+        p = p->next;
       }
       if (!p)
         return false;
@@ -906,25 +935,28 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       while (p)
       {
         if ((device == p->device) &&
-                 ((modifiers & p->modifiers) == p->modifiers) &&
-                 (csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id)) &&
-                 ((data.axesChanged & (1 << p->numeric)) != 0))
+        	((modifiers & p->modifiers) == p->modifiers) &&
+        	(csEventNameRegistry::IsKindOf (name_reg, p->type, joy_id)) &&
+        	((data.axesChanged & (1 << p->numeric)) != 0))
         {
           iCelBehaviour* bh = entity->GetBehaviour ();
           if (bh)
           {
             //The joystick driver returns values between -32767 and +32767.
             //Get the value in the range -1 to 1.
-            float val = (float) csJoystickEventHelper::GetAxis(&ev, p->numeric) / 32767;
+            float val = (float) csJoystickEventHelper::GetAxis(
+            	&ev, p->numeric) / 32767;
 
             celData ret;
             csStringID id_joyval = pl->FetchStringID ("cel.parameter.value");
-            celGenericParameterBlock *params = new celGenericParameterBlock (1);
+            celGenericParameterBlock *params =
+            	new celGenericParameterBlock (1);
             params->SetParameterDef (0, id_joyval, "value");
             if (screenspace)
-              params->GetParameter(0).Set(CenteredToScreen (val, p->numeric));
+              params->GetParameter (0).Set (
+              	CenteredToScreen (val, p->numeric));
             else
-              params->GetParameter(0).Set(val);
+              params->GetParameter (0).Set (val);
             bh->SendMessage (p->command, this, ret, params);
             params->DecRef ();
           }
@@ -937,9 +969,9 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     else
     {
       //joystick button event
-      int button = csJoystickEventHelper::GetButton(&ev);
-      uint device = csJoystickEventHelper::GetNumber(&ev);
-      uint32 modifiers = csJoystickEventHelper::GetModifiers(&ev);
+      int button = csJoystickEventHelper::GetButton (&ev);
+      uint device = csJoystickEventHelper::GetNumber (&ev);
+      uint32 modifiers = csJoystickEventHelper::GetModifiers (&ev);
 
       //find mapping
       celButtonMap *p = buttonlist;
@@ -952,7 +984,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         {
           break;
         }
-        p=p->next;
+        p = p->next;
       }
       if (!p)
         return false;
@@ -963,7 +995,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
-        iCelBehaviour* bh = entity->GetBehaviour();
+        iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
           *(p->command_end) = '0';
@@ -974,7 +1006,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
       else
       {
-        iCelBehaviour* bh = entity->GetBehaviour();
+        iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
           *(p->command_end) = '1';
