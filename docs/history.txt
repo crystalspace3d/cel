@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 10-Sep2006
         - cfraz89 added a partially working SetRotation to billboard.
+	- Guillaume Libersat added Get/SetDistanceVelocity() to
+	  iPcDefaultCamera, which allow doing zoom in/out.
 9-Sep-2006
 	- Darek cleaned pcproperties (missing xml stuff, code style).
 	- Darek cleaned pccommandinput (missing xml stuff, code style).

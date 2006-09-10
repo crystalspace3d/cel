@@ -257,6 +257,7 @@ csStringID celPcDefaultCamera::id_pitchvelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_yaw = csInvalidStringID;
 csStringID celPcDefaultCamera::id_yawvelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_distance = csInvalidStringID;
+csStringID celPcDefaultCamera::id_distancevelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_entityname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_regionname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_startname = csInvalidStringID;
@@ -363,6 +364,7 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     id_yaw = pl->FetchStringID ("cel.parameter.yaw");
     id_yawvelocity = pl->FetchStringID ("cel.parameter.yawvelocity");
     id_distance = pl->FetchStringID ("cel.parameter.distance");
+    id_distancevelocity = pl->FetchStringID ("cel.parameter.distancevelocity");
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
@@ -468,6 +470,11 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
           SetMinDistance (distance.x);
           SetDistance (distance.y);
           SetMaxDistance (distance.z);
+        }
+        CEL_FETCH_FLOAT_PAR (distancevelocity,params,id_distancevelocity);
+        if (p_distancevelocity)
+        {
+          SetDistanceVelocity (distancevelocity);
         }
         return true;
       }
@@ -781,6 +788,7 @@ void celPcDefaultCamera::UpdateCamera ()
   // Velocity calculations.
   MovePitch (pitchVelocity * elapsed_sec);
   MoveYaw (yawVelocity * elapsed_sec);
+  MoveDistance (distanceVelocity * elapsed_sec);
 
   // Try to get position and sector from either linmove or mesh if
   // linmove is not used.
@@ -1003,6 +1011,16 @@ float celPcDefaultCamera::GetDistance (int mode) const
   return camData[mode].distance;
 }
 
+void celPcDefaultCamera::SetDistanceVelocity (float distanceVel)
+{
+  distanceVelocity = distanceVel;
+}
+
+float celPcDefaultCamera::GetDistanceVelocity () const
+{
+  return distanceVelocity;
+}
+
 csVector3 celPcDefaultCamera::GetForwardVector (int mode) const
 {
   if (mode < 0) mode = cammode;
@@ -1164,6 +1182,7 @@ bool celPcDefaultCamera::SetMode (iPcDefaultCamera::CameraMode cammode,
   // Reset camera velocities.
   SetYawVelocity (0.0f);
   SetPitchVelocity (0.0f);
+  SetDistanceVelocity (0.0f);
 
   delete camalgo;
   switch (cammode)

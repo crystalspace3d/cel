@@ -229,6 +229,19 @@ public:
    * position of the camera.
    */
   virtual float GetDistance (int mode=-1) = 0;
+
+  /**
+   * Sets the distance (zoom) velocity of the camera
+   * \param distanceVel the velocity of the distance
+   */
+  virtual void SetDistanceVelocity (float distanceVel) = 0;
+
+  /**
+   * Gets the distance (zoom) velocity of the camera
+   * \return the distance (zoom) velocity of the camera
+   */
+  virtual float GetDistanceVelocity () const = 0;
+
 };
 
 #endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__
