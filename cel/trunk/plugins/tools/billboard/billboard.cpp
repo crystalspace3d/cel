@@ -36,6 +36,7 @@
 #include "iengine/mesh.h"
 #include "iengine/camera.h"
 #include "iengine/movable.h"
+#include "csgeom/matrix3.h"
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -61,6 +62,7 @@ celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
   image_w = image_h = -1;
   bb_x = bb_y = 0;
   bb_w = bb_h = -1;
+  rotation = 0.0f;
   celBillboard::mgr = mgr;
   has_clickmap = false;
   material_ok = false;
@@ -521,6 +523,16 @@ void celBillboard::Move (int dx, int dy)
   bb_y += dy;
 }
 
+void celBillboard::SetRotation (float angle)
+{
+  rotation = angle;
+}
+
+float celBillboard::GetRotation () const
+{
+  return rotation;
+}
+
 void celBillboard::StackTop ()
 {
   mgr->StackTop (this);
@@ -761,6 +773,8 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     mesh_indices.Put (i, i);
   }
 
+  csZRotMatrix3 rot = csZRotMatrix3(rotation);
+
   csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
   	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
   csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
@@ -769,10 +783,17 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
   csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
   	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+
+  v1 = rot * v1;
+  v2 = rot * v2;
+  v3 = rot * v3;
+  v4 = rot * v4;
+
   mesh_vertices.Push (v1);
   mesh_vertices.Push (v2);
   mesh_vertices.Push (v3);
   mesh_vertices.Push (v4);
+
 
   mesh_texels.Push (uvtl);
   mesh_texels.Push (csVector2 (uvbr.x, uvtl.y));

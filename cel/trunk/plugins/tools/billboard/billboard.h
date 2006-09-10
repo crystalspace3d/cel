@@ -113,6 +113,9 @@ private:
   int image_w, image_h;
   // Coordinates in billboard space.
   int bb_x, bb_y, bb_w, bb_h;
+
+  //Rotation of the billboard.
+  float rotation;
   csRefArray<iBillboardEventHandler> handlers;
   celBillboardManager* mgr;
   celBillboardLayer* layer;
@@ -206,6 +209,8 @@ public:
   virtual void SetPositionScreen (int x, int y);
   virtual void GetPositionScreen (int& x, int& y) const;
   virtual void Move (int dx, int dy);
+  virtual void SetRotation (float angle);
+  virtual float GetRotation () const;
   virtual void StackTop ();
   virtual void StackBottom ();
   virtual void StackUp ();
