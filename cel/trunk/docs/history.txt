@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Sep2006
+	- Jorrit optimized the rotation of billboards by only doing
+	  the rotation in case the angle is actually not 0.
+	  A further optimization would be to do the rotation in 2D and
+	  not in 3D as is done now.
 10-Sep2006
         - cfraz89 added a partially working SetRotation to billboard.
 	- Guillaume Libersat added Get/SetDistanceVelocity() to
