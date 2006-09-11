@@ -166,7 +166,7 @@
 				RelativePath="..\..\apps\celstart\celstart.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appcelstart_static_staticuse.cpp">
+				RelativePath="..\..\msvc\appcelstart_static_staticuse_CEL.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\appcelstart_static_staticuse_CRYSTAL.cpp">
