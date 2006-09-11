@@ -447,7 +447,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     old += realpath;
     csString full = "PYTHONPATH=";
     full += old;
-    putenv (full);
+    //putenv (full);
     printf ("%s\n", full.GetData ()); fflush (stdout);
   }
 

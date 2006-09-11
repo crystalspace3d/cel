@@ -36,7 +36,8 @@
 #include "iengine/mesh.h"
 #include "iengine/camera.h"
 #include "iengine/movable.h"
-#include "csgeom/matrix3.h"
+#include "csgeom/matrix2.h"
+#include <math.h>
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -772,24 +773,44 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   {
     mesh_indices.Put (i, i);
   }
+  int halfh = fh/2;
+  int halfw = fw/2;
 
-  csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
-  csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
-  csVector3 v3 (((r.xmax) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
-  csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+  float co = cos(rotation);
+  float si = sin(rotation);
+  csMatrix2 rot = csMatrix2(co, -si, si, co);
+  
+  csVector2 v1_2d (r.xmin, r.ymin);
+  csVector2 v2_2d (r.xmax, r.ymin);
+  csVector2 v3_2d (r.xmax, r.ymax);
+  csVector2 v4_2d (r.xmin, r.ymax);
 
   if (fabs (rotation) > 0.01)
   {
-    csZRotMatrix3 rot = csZRotMatrix3 (rotation);
-    v1 = rot * v1;
-    v2 = rot * v2;
-    v3 = rot * v3;
-    v4 = rot * v4;
+    v1_2d = rot * v1_2d;
+    v2_2d = rot * v2_2d;
+    v3_2d = rot * v3_2d;
+    v4_2d = rot * v4_2d;
   }
+
+  csVector3 v1 ((v1_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v1_2d.y) * z_inv_aspect, z);
+  csVector3 v2 ((v2_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v2_2d.y) * z_inv_aspect, z);
+  csVector3 v3 ((v3_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v3_2d.y) * z_inv_aspect, z);
+  csVector3 v4 ((v4_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v4_2d.y) * z_inv_aspect, z);
+
+//   csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
+//   	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
+//   csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
+//   	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
+//   csVector3 v3 (((r.xmax) - fw/2) * z_inv_aspect,
+//   	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+//   csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
+//   	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+
 
   mesh_vertices.Push (v1);
   mesh_vertices.Push (v2);

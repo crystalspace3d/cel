@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	  not in 3D as is done now.
 	- Jorrit added some partially not-working code to celstart to set
 	  the PYTHONPATH.
+        - cfraz89 moved billboard rotation to 2D, but is still not
+	  complete, and commented a broken line in celstart
 10-Sep2006
         - cfraz89 added a partially working SetRotation to billboard.
 	- Guillaume Libersat added Get/SetDistanceVelocity() to
