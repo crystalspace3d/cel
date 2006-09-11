@@ -373,7 +373,6 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
     bool is_zip = buf[0] == 'P' && buf[1] == 'K' && buf[2] == 3 && buf[3] == 4;
     if (is_zip)
     {
-printf ("1\n"); fflush (stdout);
       vfs->Mount ("/tmp/celstart", arg);
       configname = "/tmp/celstart/celstart.cfg";
       path = "/tmp/celstart";
@@ -382,7 +381,6 @@ printf ("1\n"); fflush (stdout);
     }
     else
     {
-printf ("2\n"); fflush (stdout);
       path = "/this";
       configname = "/this/";
       configname += arg;
@@ -394,21 +392,18 @@ printf ("2\n"); fflush (stdout);
   bool exists = vfs->Exists (arg);
   if (exists)
   {
-printf ("3\n"); fflush (stdout);
     configname = arg;
     path = "/this";
     realpath = "";
   }
   else if (vfs->ChDirAuto (arg, 0, "/tmp/celstart", "celstart.cfg"))
   {
-printf ("4\n"); fflush (stdout);
     configname = "/tmp/celstart/celstart.cfg";
     path = "/tmp/celstart";
     realpath = arg;
   }
   else
   {
-printf ("5\n"); fflush (stdout);
     // ChDir failed. Try to see if the path is a config file directly.
     configname = arg;
     path = "/this";
@@ -434,7 +429,27 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
   if (realpath && *realpath)
+  {
     vfs->Mount (path, realpath);
+    csString old = getenv ("PYTHONPATH");
+    if (!old.IsEmpty ())
+    {
+#if defined(CS_PLATFORM_WIN32)
+      old += ";";
+#elif defined(CS_PLATFORM_UNIX)
+      old += ":";
+#elif defined(CS_PLATFORM_MACOSX)
+#error "Don't know this. Can someone fill in?"
+#else
+#error "What a strange platform you have!"
+#endif
+    }
+    old += realpath;
+    csString full = "PYTHONPATH=";
+    full += old;
+    putenv (full);
+    printf ("%s\n", full.GetData ()); fflush (stdout);
+  }
 
   if (!csInitializer::SetupConfigManager (object_reg, configname))
   {

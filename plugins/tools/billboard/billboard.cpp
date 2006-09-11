@@ -773,8 +773,6 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     mesh_indices.Put (i, i);
   }
 
-  csZRotMatrix3 rot = csZRotMatrix3(rotation);
-
   csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
   	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
   csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
@@ -784,10 +782,14 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
   	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
 
-  v1 = rot * v1;
-  v2 = rot * v2;
-  v3 = rot * v3;
-  v4 = rot * v4;
+  if (fabs (rotation) > 0.01)
+  {
+    csZRotMatrix3 rot = csZRotMatrix3 (rotation);
+    v1 = rot * v1;
+    v2 = rot * v2;
+    v3 = rot * v3;
+    v4 = rot * v4;
+  }
 
   mesh_vertices.Push (v1);
   mesh_vertices.Push (v2);
