@@ -81,7 +81,7 @@ struct iPcWheeled : public virtual iBase
   /**
    * Get if tank mode is enabled
    */
-  virtual int GetTankMode() = 0;
+  virtual bool GetTankMode() = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout. This method uses the

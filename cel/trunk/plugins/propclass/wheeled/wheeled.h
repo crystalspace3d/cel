@@ -303,7 +303,7 @@ public:
   virtual int GetTopGear() {return topgear;}
   virtual int GetGear(){return gear;}
   virtual float GetSteerAmount(){return steeramount;}
-  virtual int GetTankMode(){return tankmode;}
+  virtual bool GetTankMode(){return tankmode;}
   virtual bool GetBrakeApplied(){return brakeapplied;}
   virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
 
