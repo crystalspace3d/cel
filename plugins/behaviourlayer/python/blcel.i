@@ -654,36 +654,79 @@ CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
 %include "propclass/tooltip.h"
 CEL_PC(iPcTooltip, ToolTip, pctooltip)
 
+SETTER_METHOD(iPcTooltip,"text", SetText)
+GETTER_METHOD(iPcTooltip,"visible", IsVisible)
 //-----------------------------------------------------------------------------
 
 %include "propclass/sound.h"
 CEL_PC(iPcSoundSource, SoundSource, pcsoundsource)
+
+GETTER_METHOD(iPcSoundSource,"soundsource", GetSoundSource)
+GETSET_METHODS(iPcSoundSource,"soundname", SoundName)
+
 CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
+
+GETTER_METHOD(iPcSoundListener,"soundlistener", GetSoundListener)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/prop.h"
 CEL_PC(iPcProperties, Properties, pcproperties)
 
+GETTER_METHOD(iPcProperties, "propcount", GetPropertyCount)
+
 //-----------------------------------------------------------------------------
 
 %include "propclass/mover.h"
 CEL_PC(iPcMover, Mover, pcmover)
 
+GETTER_METHOD(iPcMover, "sector", GetSector)
+GETTER_METHOD(iPcMover, "position", GetPosition)
+GETTER_METHOD(iPcMover, "up", GetUp)
+GETTER_METHOD(iPcMover, "sqradius", GetSqRadius)
+GETTER_METHOD(iPcMover, "moving", IsMoving)
 //-----------------------------------------------------------------------------
 
 %include "propclass/hover.h"
 CEL_PC(iPcHover, Hover, pchover)
+
+SETTER_METHOD(iPcHover, "worldmesh", SetWorldMesh)
+SETTER_METHOD(iPcHover, "world", SetWorld)
+SETTER_METHOD(iPcHover, "heightbeamcutoff", SetHeightBeamCutoff)
+SETTER_METHOD(iPcHover, "angularbeamoffset", SetAngularBeamOffset)
+SETTER_METHOD(iPcHover, "angularcutoffheight", SetAngularCutoffHeight)
+SETTER_METHOD(iPcHover, "angularcorrectionstrength", SetAngularCorrectionStrength)
+GETTER_METHOD(iPcHover, "height", GetHeight)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/craft.h"
 CEL_PC(iPcCraftController, CraftController, pccraft)
 
+SETTER_METHOD(iPcCraftController, "accturn", SetAccTurn)
+SETTER_METHOD(iPcCraftController, "accpitch", SetAccPitch)
+SETTER_METHOD(iPcCraftController, "maxturn", SetMaxTurn)
+SETTER_METHOD(iPcCraftController, "maxpitch", SetMaxPitch)
+SETTER_METHOD(iPcCraftController, "thrustforce", SetThrustForce)
+SETTER_METHOD(iPcCraftController, "topspeed", SetTopSpeed)
+SETTER_METHOD(iPcCraftController, "redirectvelocityratio", SetRedirectVelocityRatio)
+SETTER_METHOD(iPcCraftController, "decelerationrate", SetDecelerationRate)
+SETTER_METHOD(iPcCraftController, "brakingspeed", SetBrakingSpeed)
+SETTER_METHOD(iPcCraftController, "afterburnertopspeed", SetAfterBurnerTopSpeed)
+GETTER_METHOD(iPcCraftController, "thrusteron", IsThrusterOn)
+
 //-----------------------------------------------------------------------------
 
 %include "propclass/wheeled.h"
 CEL_PC(iPcWheeled, Wheeled, pcwheeled)
+
+GETSET_METHODS(iPcWheeled,"tankmode", TankMode)
+GETTER_METHOD(iPcWheeled, "accelerating", IsAccelerating)
+GETTER_METHOD(iPcWheeled, "braking", IsBraking)
+GETTER_METHOD(iPcWheeled, "handbraking", IsHandbraking)
+GETSET_METHODS(iPcWheeled,"steeramount", SteerAmount)
+GETSET_METHODS(iPcWheeled,"gear", Gear)
+GETTER_METHODS(iPcWheeled,"topgear", GetTopGear)
 
 //-----------------------------------------------------------------------------
 
