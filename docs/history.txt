@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Sep2006
+	- Jorrit fixed a bug in pcmover which caused crashes at exit.
 11-Sep2006
 	- Jorrit optimized the rotation of billboards by only doing
 	  the rotation in case the angle is actually not 0.
