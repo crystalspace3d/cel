@@ -16,6 +16,7 @@ The history order is reversed so that new features are at the top.
 	  complete, and commented a broken line in celstart.
 	- cfraz89 completed billboard rotation. Clickmaps do not work
 	  however with rotation.
+        - cfraz89 optimised billboard rotation a little more.
 10-Sep2006
         - cfraz89 added a partially working SetRotation to billboard.
 	- Guillaume Libersat added Get/SetDistanceVelocity() to
