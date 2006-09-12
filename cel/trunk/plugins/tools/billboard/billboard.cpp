@@ -779,11 +779,19 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   float co = cos(rotation);
   float si = sin(rotation);
   csMatrix2 rot = csMatrix2(co, -si, si, co);
+
+  int x = bb_x + layer->bb_layer_x;
+  int y = bb_y + layer->bb_layer_y;
+  mgr->BillboardToScreenspace (x, y);
+
+  int w = bb_w / 2;
+  int h = bb_h / 2;
+  mgr->BillboardToScreenspace (w, h);
   
-  csVector2 v1_2d (r.xmin, r.ymin);
-  csVector2 v2_2d (r.xmax, r.ymin);
-  csVector2 v3_2d (r.xmax, r.ymax);
-  csVector2 v4_2d (r.xmin, r.ymax);
+  csVector2 v1_2d (-w, -h);
+  csVector2 v2_2d (w, -h);
+  csVector2 v3_2d (w, h);
+  csVector2 v4_2d (-w, h);
 
   if (fabs (rotation) > 0.01)
   {
@@ -792,6 +800,11 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     v3_2d = rot * v3_2d;
     v4_2d = rot * v4_2d;
   }
+
+  v1_2d.Set(v1_2d.x + x + w, v1_2d.y + y + h);
+  v2_2d.Set(v2_2d.x + x + w, v2_2d.y + y + h);
+  v3_2d.Set(v3_2d.x + x + w, v3_2d.y + y + h);
+  v4_2d.Set(v4_2d.x + x + w, v4_2d.y + y + h);
 
   csVector3 v1 ((v1_2d.x - halfw) * z_inv_aspect,
   	        (halfh - v1_2d.y) * z_inv_aspect, z);
