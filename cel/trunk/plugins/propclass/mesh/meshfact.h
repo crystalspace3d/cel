@@ -69,7 +69,8 @@ private:
     CEL_CREATE_FACTORY,
     CEL_CREATE_MESH,
     CEL_CREATE_MESHREMOVE,
-    CEL_CREATE_THING
+    CEL_CREATE_THING,
+    CEL_CREATE_GENMESH
   };
 
   // This flag indicates how the mesh was created.
@@ -105,7 +106,9 @@ private:
     action_setvisible,
     action_setmaterial,
     action_setshadervar,
-    action_setanimation
+    action_setanimation,
+    action_createemptything,
+    action_createemptygenmesh
   };
 
   // Remove the mesh from this pcmesh.
@@ -145,7 +148,11 @@ public:
   /**
    * Creates an empty thing mesh for this pcmesh-entity.
    */
-  virtual void CreateEmptyThing ();
+  virtual void CreateEmptyThing ( const char* factname);
+  /**
+   * Creates an empty genmesh mesh for this pcmesh-entity.
+   */
+  virtual void CreateEmptyGenmesh (const char* factname);
   /**
    * Get the mesh of this pcmesh-entity.
    */

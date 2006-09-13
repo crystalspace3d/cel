@@ -57,6 +57,8 @@ class csVector3;
  * - SetAnimation: parameters 'animation' (string) and 'cycle' (bool).
  * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
  *     (type depending on type parameter).
+ * - CreateEmptyThing: parameters 'factoryname' (string)
+ * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -103,8 +105,19 @@ struct iPcMesh : public virtual iBase
   /**
    * Create an empty thing mesh (use instead of SetMesh()).
    * After this use GetMesh() to add polygons to the mesh.
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
    */
-  virtual void CreateEmptyThing () = 0;
+  virtual void CreateEmptyThing (const char* factname) = 0;
+
+  /**
+   * Create an empty genmesh (use instead of SetMesh()).
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
+   */
+  virtual void CreateEmptyGenmesh (const char* factname) = 0;
 
   /**
    * Get the mesh.

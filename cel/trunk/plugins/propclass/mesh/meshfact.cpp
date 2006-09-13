@@ -147,6 +147,8 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     AddAction (action_setmaterial, "cel.action.SetMaterial");
     AddAction (action_setshadervar, "cel.action.SetShaderVar");
     AddAction (action_setanimation, "cel.action.SetAnimation");
+    AddAction (action_createemptything, "cel.action.CreateEmptyThing");
+    AddAction (action_createemptygenmesh, "cel.action.CreateEmptyGenmesh");
   }
  
   // For properties.
@@ -446,6 +448,20 @@ bool celPcMesh::PerformActionIndexed (int idx,
         SetAnimation(par_animation,par_cycle);
 	return true;
       }
+    case action_createemptything:
+      {
+        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
+        if (!p_par_factoryname) return false;
+        CreateEmptyThing (par_factoryname);
+	return true;
+      }
+    case action_createemptygenmesh:
+      {
+        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
+        if (!p_par_factoryname) return false;
+        CreateEmptyGenmesh (par_factoryname);
+	return true;
+      }
     default:
       return false;
   }
@@ -475,6 +491,15 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
     // @@@ Loading or saving meshes with this creation option is
     // not going to work properly as we can't easily save the thing data itself.
     // Perhaps we should consider combining this with the thing saver somehow.
+    databuf->Add (mesh->QueryObject ()->GetName ());
+  }
+  else if (creation_flag == CEL_CREATE_GENMESH)
+  {
+    // @@@ Loading or saving meshes with this creation option is
+    // not going to work properly as we can't easily save the genmesh
+    // data itself. Perhaps we should consider combining this with the thing
+    // saver somehow.
+    databuf->Add (mesh->QueryObject ()->GetName ());
   }
 
   databuf->Add (visible);
@@ -535,7 +560,13 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   }
   else if (creation_flag == CEL_CREATE_THING)
   {
-    CreateEmptyThing ();
+    const char* n = databuf->GetString ()->GetData ();
+    CreateEmptyThing (n);
+  }
+  else if (creation_flag == CEL_CREATE_GENMESH)
+  {
+    const char* n = databuf->GetString ()->GetData ();
+    CreateEmptyGenmesh (n);
   }
 
   if (databuf->GetBool ()) Show ();
@@ -689,12 +720,43 @@ void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
-void celPcMesh::CreateEmptyThing ()
+void celPcMesh::CreateEmptyThing (const char* factname)
 {
   RemoveMesh ();
-  creation_flag = CEL_CREATE_THING;
 
-  mesh = engine->CreateThingMesh (0, 0);
+  csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
+				        	->FindByName (factname);
+  if (meshfact)
+  {
+    SetMesh (factname, 0);
+    return;
+  }
+
+  creation_flag = CEL_CREATE_THING;
+  meshfact = engine->CreateMeshFactory ("crystalspace.mesh.object.thing",
+      factname);
+
+  mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
+  pl->AttachEntity (mesh->QueryObject (), entity);
+  FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
+}
+
+void celPcMesh::CreateEmptyGenmesh (const char* factname)
+{
+  RemoveMesh ();
+
+  csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
+				        	->FindByName (factname);
+  if (meshfact)
+  {
+    SetMesh (factname, 0);
+    return;
+  }
+
+  creation_flag = CEL_CREATE_GENMESH;
+  meshfact = engine->CreateMeshFactory ("crystalspace.mesh.object.genmesh",
+      factname);
+  mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
