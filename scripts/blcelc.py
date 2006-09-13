@@ -2534,6 +2534,8 @@ class iPcTooltip(cspace.iBase):
     def SetBackgroundColor(*args): return _blcelc.iPcTooltip_SetBackgroundColor(*args)
     def SetFont(*args): return _blcelc.iPcTooltip_SetFont(*args)
     def SetJustify(*args): return _blcelc.iPcTooltip_SetJustify(*args)
+    __swig_setmethods__["text"] = _blcelc.iPcTooltip_SetText  
+    __swig_getmethods__["visible"] = _blcelc.iPcTooltip_IsVisible  
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
 _blcelc.iPcTooltip_swigregister(iPcTooltip)
@@ -2559,6 +2561,7 @@ class iPcSoundListener(cspace.iBase):
         except: strthis = "" 
         return "<%s.%s; proxy of C++ iPcSoundListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
+    __swig_getmethods__["soundlistener"] = _blcelc.iPcSoundListener_GetSoundListener  
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
 _blcelc.iPcSoundListener_swigregister(iPcSoundListener)
@@ -2578,6 +2581,9 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundSource(*args): return _blcelc.iPcSoundSource_GetSoundSource(*args)
     def SetSoundName(*args): return _blcelc.iPcSoundSource_SetSoundName(*args)
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
+    __swig_getmethods__["soundsource"] = _blcelc.iPcSoundSource_GetSoundSource  
+    __swig_setmethods__["soundname"] = _blcelc.iPcSoundSource_SetSoundName  
+    __swig_getmethods__["soundname"] = _blcelc.iPcSoundSource_GetSoundName  
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
 _blcelc.iPcSoundSource_swigregister(iPcSoundSource)
@@ -2647,6 +2653,7 @@ class iPcProperties(cspace.iBase):
     def GetPropertyCount(*args): return _blcelc.iPcProperties_GetPropertyCount(*args)
     def GetPropertyName(*args): return _blcelc.iPcProperties_GetPropertyName(*args)
     def Dump(*args): return _blcelc.iPcProperties_Dump(*args)
+    __swig_getmethods__["propcount"] = _blcelc.iPcProperties_GetPropertyCount  
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
 _blcelc.iPcProperties_swigregister(iPcProperties)
@@ -2678,6 +2685,11 @@ class iPcMover(cspace.iBase):
     def GetUp(*args): return _blcelc.iPcMover_GetUp(*args)
     def GetSqRadius(*args): return _blcelc.iPcMover_GetSqRadius(*args)
     def IsMoving(*args): return _blcelc.iPcMover_IsMoving(*args)
+    __swig_getmethods__["sector"] = _blcelc.iPcMover_GetSector  
+    __swig_getmethods__["position"] = _blcelc.iPcMover_GetPosition  
+    __swig_getmethods__["up"] = _blcelc.iPcMover_GetUp  
+    __swig_getmethods__["sqradius"] = _blcelc.iPcMover_GetSqRadius  
+    __swig_getmethods__["moving"] = _blcelc.iPcMover_IsMoving  
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
 _blcelc.iPcMover_swigregister(iPcMover)
@@ -2713,6 +2725,13 @@ class iPcHover(cspace.iBase):
     def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
     def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
     def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
+    __swig_setmethods__["worldmesh"] = _blcelc.iPcHover_SetWorldMesh  
+    __swig_setmethods__["world"] = _blcelc.iPcHover_SetWorld  
+    __swig_setmethods__["heightbeamcutoff"] = _blcelc.iPcHover_SetHeightBeamCutoff  
+    __swig_setmethods__["angularbeamoffset"] = _blcelc.iPcHover_SetAngularBeamOffset  
+    __swig_setmethods__["angularcutoffheight"] = _blcelc.iPcHover_SetAngularCutoffHeight  
+    __swig_setmethods__["angularcorrectionstrength"] = _blcelc.iPcHover_SetAngularCorrectionStrength  
+    __swig_getmethods__["height"] = _blcelc.iPcHover_GetHeight  
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
 _blcelc.iPcHover_swigregister(iPcHover)
@@ -2764,6 +2783,17 @@ class iPcCraftController(cspace.iBase):
     def BrakesOff(*args): return _blcelc.iPcCraftController_BrakesOff(*args)
     def SlideOn(*args): return _blcelc.iPcCraftController_SlideOn(*args)
     def SlideOff(*args): return _blcelc.iPcCraftController_SlideOff(*args)
+    __swig_setmethods__["accturn"] = _blcelc.iPcCraftController_SetAccTurn  
+    __swig_setmethods__["accpitch"] = _blcelc.iPcCraftController_SetAccPitch  
+    __swig_setmethods__["maxturn"] = _blcelc.iPcCraftController_SetMaxTurn  
+    __swig_setmethods__["maxpitch"] = _blcelc.iPcCraftController_SetMaxPitch  
+    __swig_setmethods__["thrustforce"] = _blcelc.iPcCraftController_SetThrustForce  
+    __swig_setmethods__["topspeed"] = _blcelc.iPcCraftController_SetTopSpeed  
+    __swig_setmethods__["redirectvelocityratio"] = _blcelc.iPcCraftController_SetRedirectVelocityRatio  
+    __swig_setmethods__["decelerationrate"] = _blcelc.iPcCraftController_SetDecelerationRate  
+    __swig_setmethods__["brakingspeed"] = _blcelc.iPcCraftController_SetBrakingSpeed  
+    __swig_setmethods__["afterburnertopspeed"] = _blcelc.iPcCraftController_SetAfterBurnerTopSpeed  
+    __swig_getmethods__["thrusteron"] = _blcelc.iPcCraftController_IsThrusterOn  
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
 _blcelc.iPcCraftController_swigregister(iPcCraftController)
@@ -2845,6 +2875,15 @@ class iPcWheeled(cspace.iBase):
     def GetWheelBrakePower(*args): return _blcelc.iPcWheeled_GetWheelBrakePower(*args)
     def GetWheelSteerInverted(*args): return _blcelc.iPcWheeled_GetWheelSteerInverted(*args)
     def GetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_GetWheelHandbrakeAffected(*args)
+    __swig_setmethods__["tankmode"] = _blcelc.iPcWheeled_SetTankMode  
+    __swig_getmethods__["tankmode"] = _blcelc.iPcWheeled_GetTankMode  
+    __swig_getmethods__["accelerating"] = _blcelc.iPcWheeled_IsAccelerating  
+    __swig_getmethods__["braking"] = _blcelc.iPcWheeled_IsBraking  
+    __swig_getmethods__["handbraking"] = _blcelc.iPcWheeled_IsHandbraking  
+    __swig_setmethods__["steeramount"] = _blcelc.iPcWheeled_SetSteerAmount  
+    __swig_getmethods__["steeramount"] = _blcelc.iPcWheeled_GetSteerAmount  
+    __swig_setmethods__["gear"] = _blcelc.iPcWheeled_SetGear  
+    __swig_getmethods__["gear"] = _blcelc.iPcWheeled_GetGear  
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 _blcelc.iPcWheeled_swigregister(iPcWheeled)

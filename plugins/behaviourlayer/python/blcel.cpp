@@ -50641,7 +50641,7 @@ fail:
 SWIGINTERN PyObject *_wrap_iPcWheeled_GetTankMode(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
-  int result;
+  bool result;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
@@ -50652,9 +50652,9 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_GetTankMode(PyObject *SWIGUNUSEDPARM(self)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetTankMode" "', argument " "1"" of type '" "iPcWheeled *""'"); 
   }
   arg1 = reinterpret_cast<iPcWheeled * >(argp1);
-  result = (int)(arg1)->GetTankMode();
+  result = (bool)(arg1)->GetTankMode();
   
-  resultobj = SWIG_From_int(static_cast<int >(result));
+  resultobj = SWIG_From_bool(static_cast<bool >(result));
   return resultobj;
 fail:
   return NULL;
