@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Sep2006
+	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
+	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
+	- Jorrit added actions for CreateEmptyThing() and CreateEmptyGenmesh().
 12-Sep2006
 	- Jorrit fixed a bug in pcmover which caused crashes at exit.
 	- cfraz89 completed setters and getters in python bl.
