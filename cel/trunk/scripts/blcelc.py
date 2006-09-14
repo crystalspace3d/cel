@@ -2129,6 +2129,7 @@ class iPcMesh(cspace.iBase):
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
     def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
+    def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
     def GetMesh(*args): return _blcelc.iPcMesh_GetMesh(*args)
     def MoveMesh(*args): return _blcelc.iPcMesh_MoveMesh(*args)
     def SetAction(*args): return _blcelc.iPcMesh_SetAction(*args)
@@ -2884,6 +2885,7 @@ class iPcWheeled(cspace.iBase):
     __swig_getmethods__["steeramount"] = _blcelc.iPcWheeled_GetSteerAmount  
     __swig_setmethods__["gear"] = _blcelc.iPcWheeled_SetGear  
     __swig_getmethods__["gear"] = _blcelc.iPcWheeled_GetGear  
+    __swig_getmethods__["topgear"] = _blcelc.iPcWheeled_GetTopGear  
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 _blcelc.iPcWheeled_swigregister(iPcWheeled)
