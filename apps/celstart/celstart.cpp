@@ -436,19 +436,15 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     {
 #if defined(CS_PLATFORM_WIN32)
       old += ";";
-#elif defined(CS_PLATFORM_UNIX)
+#elif defined(CS_PLATFORM_UNIX) || defined(CS_PLATFORM_MACOSX)
       old += ":";
-#elif defined(CS_PLATFORM_MACOSX)
-#error "Don't know this. Can someone fill in?"
 #else
 #error "What a strange platform you have!"
 #endif
     }
     old += realpath;
-    csString full = "PYTHONPATH=";
-    full += old;
-    //putenv (full);
-    printf ("%s\n", full.GetData ()); fflush (stdout);
+    setenv ("PYTHONPATH",old.GetData(),1);
+    printf ("PYTHONPATH: %s\n", old.GetData ()); fflush (stdout);
   }
 
   if (!csInitializer::SetupConfigManager (object_reg, configname))
