@@ -726,7 +726,7 @@ GETTER_METHOD(iPcWheeled, "braking", IsBraking)
 GETTER_METHOD(iPcWheeled, "handbraking", IsHandbraking)
 GETSET_METHODS(iPcWheeled,"steeramount", SteerAmount)
 GETSET_METHODS(iPcWheeled,"gear", Gear)
-GETTER_METHODS(iPcWheeled,"topgear", GetTopGear)
+GETTER_METHOD(iPcWheeled,"topgear", GetTopGear)
 
 //-----------------------------------------------------------------------------
 
