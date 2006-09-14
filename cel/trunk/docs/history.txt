@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Sep-2006
+        - cfraz89 added the setting of source to pcdamage.
 14-Sep2006
 	- caedes added pycel.py, a high level interface for blpython, it
 	  provides nicer access for some common things.

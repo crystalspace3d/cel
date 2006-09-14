@@ -93,6 +93,15 @@ struct iPcDamage : public virtual iBase
   /// Get the source position for the damage (only if explicitly set).
   virtual const csVector3& GetDamagePosition () const = 0;
 
+  /**
+   * Set the source name for the damage. If not set it is sent as the name
+   * of the entity setting the damage.
+   */
+  virtual void SetDamageSource (const char* source) = 0;
+
+  /// Get the source name for the damage.
+  virtual const char* GetDamageSource() const = 0;
+
   /// Do area damage.
   virtual void AreaDamage (float radius) = 0;
 
