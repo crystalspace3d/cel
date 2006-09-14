@@ -15,6 +15,11 @@ The history order is reversed so that new features are at the top.
 	  plus a python script to do the marshalling).
 	- caedes added pycel.py unmarshalling code to blpython, and adapted 
 	  blpython Jamfile to do the marshalling.
+	- caedes added a new way in the python bl to define attribute
+	  accessors in file cel_attributes.i.
+	- caedes changed all attribute getters to use capital letters to
+	  augment consistency through the api (now follows the same notation
+	  as cs).
 13-Sep2006
 	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
 	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
