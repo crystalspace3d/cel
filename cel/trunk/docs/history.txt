@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  provides nicer access for some common things.
 	- caedes fixed a mistype in blcel.i (using SETTER_METHODS instead of
 	  SETTER_METHOD for pcwheeled topgear).
+	- caedes added emitter to python check in configure.ac so PYTHON is
+	  emitted to Jamconfig (will be needed for marshalling pycel.py).
 13-Sep2006
 	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
 	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
