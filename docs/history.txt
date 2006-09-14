@@ -13,8 +13,8 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed setting pythonpath in celstart.
 	- caedes added tools to marshall python code into cpp (a jam rule,
 	  plus a python script to do the marshalling).
-	- caedes added unmarshalling code to blpython, and adapted blpython
-	  Jamfile to do the marshalling.
+	- caedes added pycel.py unmarshalling code to blpython, and adapted 
+	  blpython Jamfile to do the marshalling.
 13-Sep2006
 	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
 	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
