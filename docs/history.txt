@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Sep2006
+	- caedes added pycel.py, a high level interface for blpython, it
+	  provides nicer access for some common things.
 13-Sep2006
 	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
 	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
