@@ -50,6 +50,7 @@ include $(jamrulesdir)/assembler.jam ;
 include $(jamrulesdir)/bisonflex.jam ;
 include $(jamrulesdir)/swig.jam ;
 include $(jamrulesdir)/pythmod.jam ;
+include $(jamrulesdir)/pymarshall.jam ;
 include $(jamrulesdir)/strip.jam ;
 
 include $(jamrulesdir)/flags.jam ;
