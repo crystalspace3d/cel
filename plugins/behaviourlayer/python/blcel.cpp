@@ -40525,21 +40525,67 @@ fail:
 SWIGINTERN PyObject *_wrap_iPcMesh_CreateEmptyThing(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcMesh *arg1 = (iPcMesh *) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:iPcMesh_CreateEmptyThing",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcMesh_CreateEmptyThing",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcMesh, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcMesh_CreateEmptyThing" "', argument " "1"" of type '" "iPcMesh *""'"); 
   }
   arg1 = reinterpret_cast<iPcMesh * >(argp1);
-  (arg1)->CreateEmptyThing();
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcMesh_CreateEmptyThing" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  (arg1)->CreateEmptyThing((char const *)arg2);
   
   resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
 fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcMesh_CreateEmptyGenmesh(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcMesh *arg1 = (iPcMesh *) 0 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcMesh_CreateEmptyGenmesh",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcMesh, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcMesh_CreateEmptyGenmesh" "', argument " "1"" of type '" "iPcMesh *""'"); 
+  }
+  arg1 = reinterpret_cast<iPcMesh * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcMesh_CreateEmptyGenmesh" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  (arg1)->CreateEmptyGenmesh((char const *)arg2);
+  
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return NULL;
 }
 
@@ -55407,6 +55453,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcMesh_SetPath", _wrap_iPcMesh_SetPath, METH_VARARGS, NULL},
 	 { (char *)"iPcMesh_LoadMesh", _wrap_iPcMesh_LoadMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcMesh_CreateEmptyThing", _wrap_iPcMesh_CreateEmptyThing, METH_VARARGS, NULL},
+	 { (char *)"iPcMesh_CreateEmptyGenmesh", _wrap_iPcMesh_CreateEmptyGenmesh, METH_VARARGS, NULL},
 	 { (char *)"iPcMesh_GetMesh", _wrap_iPcMesh_GetMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcMesh_MoveMesh", _wrap_iPcMesh_MoveMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcMesh_SetAction", _wrap_iPcMesh_SetAction, METH_VARARGS, NULL},
