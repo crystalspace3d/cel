@@ -3,6 +3,12 @@ SubDir TOP plugins behaviourlayer python ;
 if $(PYTHON.AVAILABLE) = yes
 {
   #--------
+  # pycel.py marshalling
+  #--------
+  local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
+  MarshallPyFile $(pycelcpp) : pycel.py : scripts ;
+
+  #--------
   # Swig-generated files.
   #--------
   local blcelcpp = blcel.cpp ;
@@ -49,7 +55,7 @@ if $(PYTHON.AVAILABLE) = yes
   #--------
   # blpython plugin.
   #--------
-  Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp ;
+  Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
   LinkWith blpython : celtool ;
   ExternalLibs blpython : PYTHON CRYSTAL ;
   CFlags blpython :
