@@ -21,10 +21,10 @@ CreateEntity = pl.CreateEntity
 RemoveEntity = pl.RemoveEntity
 
 # objects in the physical layer
-Entities = pl.entities
-EntityTemplates = pl.entitytpls
-BehaviourLayers = pl.behaviourlayers
-PcFactories = pl.pcfactories
+Entities = pl.Entities
+EntityTemplates = pl.EntityTemplates
+BehaviourLayers = pl.BehaviourLayers
+PcFactories = pl.PcFactories
 
 # pretty physical layer
 PhysicalLayer = physicallayer_ptr
