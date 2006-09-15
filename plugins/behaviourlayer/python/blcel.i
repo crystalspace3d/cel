@@ -49,7 +49,20 @@
 %}
 %inline %{
   struct _csPyEventHandler;
+  extern PyObject *    // from crystalspace_python
+  _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
+
 %}
+
+//=============================================================================
+// Interfaces that need csRef,csPtr,csRefArray
+// uses INTERFACE_POST and INTERFACE_PRE from cspace.i
+//=============================================================================
+
+%define CEL_APPLY_FOR_EACH_INTERFACE
+  INTERFACE_APPLY(iCelEntity)
+  INTERFACE_APPLY(iCelEntityList)
+%enddef
 
 //=============================================================================
 // Helper macros.
@@ -174,6 +187,12 @@ class contenttype ## pref ## FakeArray:
 %ignore celData::GetDebugInfo;
 %include "datatype.i"
 %include "physicallayer/datatype.h"
+
+//-----------------------------------------------------------------------------
+
+#undef INTERFACE_APPLY
+#define INTERFACE_APPLY(x) INTERFACE_PRE(x)
+CEL_APPLY_FOR_EACH_INTERFACE
 
 //-----------------------------------------------------------------------------
 
@@ -534,7 +553,7 @@ CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 %cel_attribute(iPcActorMove,bool,MovingBackward,IsMovingBackward,Backward)
 %cel_attribute(iPcActorMove,bool,StrafingLeft,IsStrafingLeft,StrafeLeft)
 %cel_attribute(iPcActorMove,bool,StrafingRight,IsStrafingRight,StrafeRight)
-%cel_attribute(iPcActorMove,bool,RotatingRight,IsRotatingLeft,RotateLeft)
+%cel_attribute(iPcActorMove,bool,RotatingLeft,IsRotatingLeft,RotateLeft)
 %cel_attribute(iPcActorMove,bool,RotatingRight,IsRotatingRight,RotateRight)
 %cel_attribute(iPcActorMove,bool,Running,IsRunning,Run)
 %cel_attribute(iPcActorMove,bool,AutoRunEnabled,IsAutoRunning,AutoRun)
@@ -770,6 +789,13 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 }
 %}
 
+//-----------------------------------------------------------------------------
+
+#undef INTERFACE_APPLY
+#define INTERFACE_APPLY(x) INTERFACE_POST(x)
+CEL_APPLY_FOR_EACH_INTERFACE
+
+//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 // helpers to redirect output to cel console
 
