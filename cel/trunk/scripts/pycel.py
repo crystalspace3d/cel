@@ -37,6 +37,7 @@ Clock = CS_QUERY_REGISTRY(oreg,iVirtualClock)
 Graphics2D = CS_QUERY_REGISTRY(oreg,iGraphics2D)
 Graphics3D = CS_QUERY_REGISTRY(oreg,iGraphics3D)
 Config = CS_QUERY_REGISTRY(oreg,iConfigManager)
+Loader = CS_QUERY_REGISTRY(oreg,iLoader)
 StringSet = CS_QUERY_REGISTRY_TAG_INTERFACE (oreg,"crystalspace.shared.stringset", iStringSet)
 
 # Prettier handlers for pc creators
