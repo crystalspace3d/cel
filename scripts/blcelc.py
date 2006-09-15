@@ -381,10 +381,10 @@ class iCelPlLayer(cspace.iBase):
     def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
     def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
     def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
-    __swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
-    __swig_getmethods__["pcfactories"] = lambda self: self.GetPcFactories()
-    __swig_getmethods__["behaviourlayers"] = lambda self: self.GetBehaviourLayers()
-    __swig_getmethods__["entities"] = lambda self: self.GetEntities() 
+    __swig_getmethods__["EntityTemplates"] = lambda self: self.GetEntityTemplates()
+    __swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
+    __swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
+    __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
 _blcelc.iCelPlLayer_swigregister(iCelPlLayer)
@@ -408,7 +408,9 @@ class iCelEntityTracker(cspace.iBase):
     def GetIterator(*args): return _blcelc.iCelEntityTracker_GetIterator(*args)
     def AddEntities(*args): return _blcelc.iCelEntityTracker_AddEntities(*args)
     def RemoveEntities(*args): return _blcelc.iCelEntityTracker_RemoveEntities(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelEntityTracker_GetName  
+    Name = property(_blcelc.iCelEntityTracker_Name_get, None, None,
+                    "iCelEntityTracker.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelEntityTracker::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iCelEntityTracker
     __del__ = lambda self : None;
 _blcelc.iCelEntityTracker_swigregister(iCelEntityTracker)
@@ -535,15 +537,28 @@ class iCelEntity(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntity_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntity_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntity_GetClasses(*args)
+    __swig_setmethods__["Name"] = _blcelc.iCelEntity_Name_set
+    Name = property(_blcelc.iCelEntity_Name_get, _blcelc.iCelEntity_Name_set, None,
+                    "iCelEntity.Name -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelEntity::GetName()\n\tset: void iCelEntity::SetName(const char*)")
+
+
+    __swig_setmethods__["ID"] = _blcelc.iCelEntity_ID_set
+    ID = property(_blcelc.iCelEntity_ID_get, _blcelc.iCelEntity_ID_set, None,
+                    "iCelEntity.ID -> uint\n\nThis is equivalent to calling the C++ cel methods:\n\tget: uint iCelEntity::GetID()\n\tset: void iCelEntity::SetID(uint)")
+
+
+    __swig_setmethods__["Behaviour"] = _blcelc.iCelEntity_Behaviour_set
+    Behaviour = property(_blcelc.iCelEntity_Behaviour_get, _blcelc.iCelEntity_Behaviour_set, None,
+                    "iCelEntity.Behaviour -> iCelBehaviour*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iCelBehaviour* iCelEntity::GetBehaviour()\n\tset: void iCelEntity::SetBehaviour(iCelBehaviour*)")
+
+
+    PropertyClasses = property(_blcelc.iCelEntity_PropertyClasses_get, None, None,
+                    "iCelEntity.PropertyClasses -> iCelPropertyClassList*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCelPropertyClassList* iCelEntity::GetPropertyClassList()")
+
+    Classes = property(_blcelc.iCelEntity_Classes_get, None, None,
+                    "iCelEntity.Classes -> csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csSet<csStringID>& iCelEntity::GetClasses()")
+
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
-    __swig_setmethods__["name"] = _blcelc.iCelEntity_SetName  
-    __swig_getmethods__["name"] = _blcelc.iCelEntity_GetName  
-    __swig_setmethods__["id"] = _blcelc.iCelEntity_SetID  
-    __swig_getmethods__["id"] = _blcelc.iCelEntity_GetID  
-    __swig_setmethods__["behaviour"] = _blcelc.iCelEntity_SetBehaviour  
-    __swig_getmethods__["behaviour"] = _blcelc.iCelEntity_GetBehaviour  
-    __swig_getmethods__["pcclasses"] = _blcelc.iCelEntity_GetPropertyClassList  
-    __swig_getmethods__["classes"] = _blcelc.iCelEntity_GetClasses  
     __swig_destroy__ = _blcelc.delete_iCelEntity
     __del__ = lambda self : None;
 _blcelc.iCelEntity_swigregister(iCelEntity)
@@ -629,11 +644,20 @@ class iCelEntityTemplate(cspace.iBase):
     def RemoveClass(*args): return _blcelc.iCelEntityTemplate_RemoveClass(*args)
     def HasClass(*args): return _blcelc.iCelEntityTemplate_HasClass(*args)
     def GetClasses(*args): return _blcelc.iCelEntityTemplate_GetClasses(*args)
-    __swig_setmethods__["name"] = _blcelc.iCelEntityTemplate_SetName  
-    __swig_getmethods__["name"] = _blcelc.iCelEntityTemplate_GetName  
-    __swig_setmethods__["behaviour"] = _blcelc.iCelEntityTemplate_SetBehaviour  
-    __swig_getmethods__["behaviour"] = _blcelc.iCelEntityTemplate_GetBehaviour  
-    __swig_getmethods__["behaviourlayer"] = _blcelc.iCelEntityTemplate_GetBehaviourLayer  
+    __swig_setmethods__["Name"] = _blcelc.iCelEntityTemplate_Name_set
+    Name = property(_blcelc.iCelEntityTemplate_Name_get, _blcelc.iCelEntityTemplate_Name_set, None,
+                    "iCelEntityTemplate.Name -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelEntityTemplate::GetName()\n\tset: void iCelEntityTemplate::SetName(const char*)")
+
+
+    Behaviour = property(_blcelc.iCelEntityTemplate_Behaviour_get, None, None,
+                    "iCelEntityTemplate.Behaviour -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelEntityTemplate::GetBehaviour()")
+
+    BehaviourLayer = property(_blcelc.iCelEntityTemplate_BehaviourLayer_get, None, None,
+                    "iCelEntityTemplate.BehaviourLayer -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelEntityTemplate::GetBehaviourLayer()")
+
+    Classes = property(_blcelc.iCelEntityTemplate_Classes_get, None, None,
+                    "iCelEntityTemplate.Classes -> csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csSet<csStringID>& iCelEntityTemplate::GetClasses()")
+
     __swig_destroy__ = _blcelc.delete_iCelEntityTemplate
     __del__ = lambda self : None;
 _blcelc.iCelEntityTemplate_swigregister(iCelEntityTemplate)
@@ -753,10 +777,14 @@ class iCelBehaviour(cspace.iBase):
         return "<%s.%s; proxy of C++ iCelBehaviour instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def GetName(*args): return _blcelc.iCelBehaviour_GetName(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelBehaviour_GetBehaviourLayer(*args)
-    def GetInternalObject(*args): return _blcelc.iCelBehaviour_GetInternalObject(*args)
+    Name = property(_blcelc.iCelBehaviour_Name_get, None, None,
+                    "iCelBehaviour.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelBehaviour::GetName()")
+
+    BehaviourLayer = property(_blcelc.iCelBehaviour_BehaviourLayer_get, None, None,
+                    "iCelBehaviour.BehaviourLayer -> iCelBlLayer*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCelBlLayer* iCelBehaviour::GetBehaviourLayer()")
+
     def GetPythonObject(*args): return _blcelc.iCelBehaviour_GetPythonObject(*args)
     def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelBehaviour_GetName  
     __swig_destroy__ = _blcelc.delete_iCelBehaviour
     __del__ = lambda self : None;
 _blcelc.iCelBehaviour_swigregister(iCelBehaviour)
@@ -892,7 +920,9 @@ class iCelPropertyClassFactory(cspace.iBase):
         return "<%s.%s; proxy of C++ iCelPropertyClassFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def GetName(*args): return _blcelc.iCelPropertyClassFactory_GetName(*args)
     def CreatePropertyClass(*args): return _blcelc.iCelPropertyClassFactory_CreatePropertyClass(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelPropertyClassFactory_GetName  
+    Name = property(_blcelc.iCelPropertyClassFactory_Name_get, None, None,
+                    "iCelPropertyClassFactory.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelPropertyClassFactory::GetName()")
+
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassFactory
     __del__ = lambda self : None;
 _blcelc.iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
@@ -938,16 +968,24 @@ class iCelPropertyClass(cspace.iBase):
     def PropertyClassesHaveChanged(*args): return _blcelc.iCelPropertyClass_PropertyClassesHaveChanged(*args)
     def GetPersistentData(*args): return _blcelc.iCelPropertyClass_GetPersistentData(*args)
     def SetPersistentData(*args): return _blcelc.iCelPropertyClass_SetPersistentData(*args)
+    Name = property(_blcelc.iCelPropertyClass_Name_get, None, None,
+                    "iCelPropertyClass.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelPropertyClass::GetName()")
+
+    __swig_setmethods__["Tag"] = _blcelc.iCelPropertyClass_Tag_set
+    Tag = property(_blcelc.iCelPropertyClass_Tag_get, _blcelc.iCelPropertyClass_Tag_set, None,
+                    "iCelPropertyClass.Tag -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelPropertyClass::GetTag()\n\tset: void iCelPropertyClass::SetTag(const char*)")
+
+
+    __swig_setmethods__["Entity"] = _blcelc.iCelPropertyClass_Entity_set
+    Entity = property(_blcelc.iCelPropertyClass_Entity_get, _blcelc.iCelPropertyClass_Entity_set, None,
+                    "iCelPropertyClass.Entity -> iCelEntity*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iCelEntity* iCelPropertyClass::GetEntity()\n\tset: void iCelPropertyClass::SetEntity(iCelEntity*)")
+
+
     def SetPropertyLong(*args): return _blcelc.iCelPropertyClass_SetPropertyLong(*args)
     def SetPropertyFloat(*args): return _blcelc.iCelPropertyClass_SetPropertyFloat(*args)
     def SetPropertyBool(*args): return _blcelc.iCelPropertyClass_SetPropertyBool(*args)
     def SetPropertyString(*args): return _blcelc.iCelPropertyClass_SetPropertyString(*args)
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelPropertyClass_GetName  
-    __swig_setmethods__["tag"] = _blcelc.iCelPropertyClass_SetTag  
-    __swig_getmethods__["tag"] = _blcelc.iCelPropertyClass_GetTag  
-    __swig_setmethods__["entity"] = _blcelc.iCelPropertyClass_SetEntity  
-    __swig_getmethods__["entity"] = _blcelc.iCelPropertyClass_GetEntity  
     __swig_destroy__ = _blcelc.delete_iCelPropertyClass
     __del__ = lambda self : None;
 _blcelc.iCelPropertyClass_swigregister(iCelPropertyClass)
@@ -1024,12 +1062,26 @@ class iPcMechanicsSystem(cspace.iBase):
     def DisableStepFast(*args): return _blcelc.iPcMechanicsSystem_DisableStepFast(*args)
     def EnableStepFast(*args): return _blcelc.iPcMechanicsSystem_EnableStepFast(*args)
     def EnableQuickStep(*args): return _blcelc.iPcMechanicsSystem_EnableQuickStep(*args)
-    __swig_setmethods__["dynsys"] = _blcelc.iPcMechanicsSystem_SetDynamicSystem  
-    __swig_getmethods__["dynsys"] = _blcelc.iPcMechanicsSystem_GetDynamicSystem  
-    __swig_setmethods__["steptime"] = _blcelc.iPcMechanicsSystem_SetStepTime  
-    __swig_getmethods__["steptime"] = _blcelc.iPcMechanicsSystem_GetStepTime  
-    __swig_setmethods__["gravity"] = _blcelc.iPcMechanicsSystem_SetGravity  
-    __swig_getmethods__["gravity"] = _blcelc.iPcMechanicsSystem_GetGravity  
+    __swig_setmethods__["DynamicSystem"] = _blcelc.iPcMechanicsSystem_DynamicSystem_set
+    DynamicSystem = property(_blcelc.iPcMechanicsSystem_DynamicSystem_get, _blcelc.iPcMechanicsSystem_DynamicSystem_set, None,
+                    "iPcMechanicsSystem.DynamicSystem -> iDynamicSystem*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iDynamicSystem* iPcMechanicsSystem::GetDynamicSystem()\n\tset: void iPcMechanicsSystem::SetDynamicSystem(iDynamicSystem*)")
+
+
+    __swig_setmethods__["StepTime"] = _blcelc.iPcMechanicsSystem_StepTime_set
+    StepTime = property(_blcelc.iPcMechanicsSystem_StepTime_get, _blcelc.iPcMechanicsSystem_StepTime_set, None,
+                    "iPcMechanicsSystem.StepTime -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsSystem::GetStepTime()\n\tset: void iPcMechanicsSystem::SetStepTime(float)")
+
+
+    __swig_setmethods__["Gravity"] = _blcelc.iPcMechanicsSystem_Gravity_set
+    Gravity = property(_blcelc.iPcMechanicsSystem_Gravity_get, _blcelc.iPcMechanicsSystem_Gravity_set, None,
+                    "iPcMechanicsSystem.Gravity -> csVector3\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3 iPcMechanicsSystem::GetGravity()\n\tset: void iPcMechanicsSystem::SetGravity(csVector3)")
+
+
+    __swig_setmethods__["SimulationSpeed"] = _blcelc.iPcMechanicsSystem_SimulationSpeed_set
+    SimulationSpeed = property(_blcelc.iPcMechanicsSystem_SimulationSpeed_get, _blcelc.iPcMechanicsSystem_SimulationSpeed_set, None,
+                    "iPcMechanicsSystem.SimulationSpeed -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsSystem::GetSimulationSpeed()\n\tset: void iPcMechanicsSystem::SetSimulationSpeed(float)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsSystem
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsSystem_swigregister(iPcMechanicsSystem)
@@ -1095,33 +1147,84 @@ class iPcMechanicsObject(cspace.iBase):
     def CreateJoint(*args): return _blcelc.iPcMechanicsObject_CreateJoint(*args)
     def LocalToWorld(*args): return _blcelc.iPcMechanicsObject_LocalToWorld(*args)
     def WorldToLocal(*args): return _blcelc.iPcMechanicsObject_WorldToLocal(*args)
-    __swig_setmethods__["mesh"] = _blcelc.iPcMechanicsObject_SetMesh  
-    __swig_getmethods__["mesh"] = _blcelc.iPcMechanicsObject_GetMesh  
-    __swig_setmethods__["light"] = _blcelc.iPcMechanicsObject_SetLight  
-    __swig_getmethods__["light"] = _blcelc.iPcMechanicsObject_GetLight  
-    __swig_setmethods__["camera"] = _blcelc.iPcMechanicsObject_SetCamera  
-    __swig_getmethods__["camera"] = _blcelc.iPcMechanicsObject_GetCamera  
-    __swig_setmethods__["mechsys"] = _blcelc.iPcMechanicsObject_SetMechanicsSystem  
-    __swig_getmethods__["mechsys"] = _blcelc.iPcMechanicsObject_GetMechanicsSystem  
-    __swig_getmethods__["body"] = _blcelc.iPcMechanicsObject_GetBody  
-    __swig_setmethods__["friction"] = _blcelc.iPcMechanicsObject_SetFriction  
-    __swig_getmethods__["friction"] = _blcelc.iPcMechanicsObject_GetFriction  
-    __swig_setmethods__["mass"] = _blcelc.iPcMechanicsObject_SetMass  
-    __swig_getmethods__["mass"] = _blcelc.iPcMechanicsObject_GetMass  
-    __swig_setmethods__["elasticity"] = _blcelc.iPcMechanicsObject_SetElasticity  
-    __swig_getmethods__["elasticity"] = _blcelc.iPcMechanicsObject_GetElasticity  
-    __swig_setmethods__["softness"] = _blcelc.iPcMechanicsObject_SetSoftness  
-    __swig_getmethods__["softness"] = _blcelc.iPcMechanicsObject_GetSoftness  
-    __swig_setmethods__["drag"] = _blcelc.iPcMechanicsObject_SetDrag  
-    __swig_getmethods__["drag"] = _blcelc.iPcMechanicsObject_GetDrag  
-    __swig_setmethods__["lift"] = _blcelc.iPcMechanicsObject_SetLift  
-    __swig_getmethods__["lift"] = _blcelc.iPcMechanicsObject_GetLift  
-    __swig_setmethods__["linearvelocity"] = _blcelc.iPcMechanicsObject_SetLinearVelocity  
-    __swig_getmethods__["linearvelocity"] = _blcelc.iPcMechanicsObject_GetLinearVelocity  
-    __swig_setmethods__["angularvelocity"] = _blcelc.iPcMechanicsObject_SetAngularVelocity  
-    __swig_getmethods__["angularvelocity"] = _blcelc.iPcMechanicsObject_GetAngularVelocity  
-    __swig_setmethods__["static"] = _blcelc.iPcMechanicsObject_MakeStatic  
-    __swig_getmethods__["static"] = _blcelc.iPcMechanicsObject_IsStatic  
+    __swig_setmethods__["Mesh"] = _blcelc.iPcMechanicsObject_Mesh_set
+    Mesh = property(_blcelc.iPcMechanicsObject_Mesh_get, _blcelc.iPcMechanicsObject_Mesh_set, None,
+                    "iPcMechanicsObject.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMesh* iPcMechanicsObject::GetMesh()\n\tset: void iPcMechanicsObject::SetMesh(iPcMesh*)")
+
+
+    __swig_setmethods__["Light"] = _blcelc.iPcMechanicsObject_Light_set
+    Light = property(_blcelc.iPcMechanicsObject_Light_get, _blcelc.iPcMechanicsObject_Light_set, None,
+                    "iPcMechanicsObject.Light -> iPcLight*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcLight* iPcMechanicsObject::GetLight()\n\tset: void iPcMechanicsObject::SetLight(iPcLight*)")
+
+
+    __swig_setmethods__["Camera"] = _blcelc.iPcMechanicsObject_Camera_set
+    Camera = property(_blcelc.iPcMechanicsObject_Camera_get, _blcelc.iPcMechanicsObject_Camera_set, None,
+                    "iPcMechanicsObject.Camera -> iPcCamera*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcCamera* iPcMechanicsObject::GetCamera()\n\tset: void iPcMechanicsObject::SetCamera(iPcCamera*)")
+
+
+    __swig_setmethods__["MechanicsSystem"] = _blcelc.iPcMechanicsObject_MechanicsSystem_set
+    MechanicsSystem = property(_blcelc.iPcMechanicsObject_MechanicsSystem_get, _blcelc.iPcMechanicsObject_MechanicsSystem_set, None,
+                    "iPcMechanicsObject.MechanicsSystem -> iPcMechanicsSystem*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMechanicsSystem* iPcMechanicsObject::GetMechanicsSystem()\n\tset: void iPcMechanicsObject::SetMechanicsSystem(iPcMechanicsSystem*)")
+
+
+    Body = property(_blcelc.iPcMechanicsObject_Body_get, None, None,
+                    "iPcMechanicsObject.Body -> iRigidBody*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iRigidBody* iPcMechanicsObject::GetBody()")
+
+    __swig_setmethods__["Friction"] = _blcelc.iPcMechanicsObject_Friction_set
+    Friction = property(_blcelc.iPcMechanicsObject_Friction_get, _blcelc.iPcMechanicsObject_Friction_set, None,
+                    "iPcMechanicsObject.Friction -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetFriction()\n\tset: void iPcMechanicsObject::SetFriction(float)")
+
+
+    __swig_setmethods__["Mass"] = _blcelc.iPcMechanicsObject_Mass_set
+    Mass = property(_blcelc.iPcMechanicsObject_Mass_get, _blcelc.iPcMechanicsObject_Mass_set, None,
+                    "iPcMechanicsObject.Mass -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetMass()\n\tset: void iPcMechanicsObject::SetMass(float)")
+
+
+    __swig_setmethods__["Elasticity"] = _blcelc.iPcMechanicsObject_Elasticity_set
+    Elasticity = property(_blcelc.iPcMechanicsObject_Elasticity_get, _blcelc.iPcMechanicsObject_Elasticity_set, None,
+                    "iPcMechanicsObject.Elasticity -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetElasticity()\n\tset: void iPcMechanicsObject::SetElasticity(float)")
+
+
+    __swig_setmethods__["Density"] = _blcelc.iPcMechanicsObject_Density_set
+    Density = property(_blcelc.iPcMechanicsObject_Density_get, _blcelc.iPcMechanicsObject_Density_set, None,
+                    "iPcMechanicsObject.Density -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetDensity()\n\tset: void iPcMechanicsObject::SetDensity(float)")
+
+
+    __swig_setmethods__["Softness"] = _blcelc.iPcMechanicsObject_Softness_set
+    Softness = property(_blcelc.iPcMechanicsObject_Softness_get, _blcelc.iPcMechanicsObject_Softness_set, None,
+                    "iPcMechanicsObject.Softness -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetSoftness()\n\tset: void iPcMechanicsObject::SetSoftness(float)")
+
+
+    __swig_setmethods__["Lift"] = _blcelc.iPcMechanicsObject_Lift_set
+    Lift = property(_blcelc.iPcMechanicsObject_Lift_get, _blcelc.iPcMechanicsObject_Lift_set, None,
+                    "iPcMechanicsObject.Lift -> csVector3&\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3& iPcMechanicsObject::GetLift()\n\tset: void iPcMechanicsObject::SetLift(csVector3&)")
+
+
+    __swig_setmethods__["Drag"] = _blcelc.iPcMechanicsObject_Drag_set
+    Drag = property(_blcelc.iPcMechanicsObject_Drag_get, _blcelc.iPcMechanicsObject_Drag_set, None,
+                    "iPcMechanicsObject.Drag -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMechanicsObject::GetDrag()\n\tset: void iPcMechanicsObject::SetDrag(float)")
+
+
+    __swig_setmethods__["LinearVelocity"] = _blcelc.iPcMechanicsObject_LinearVelocity_set
+    LinearVelocity = property(_blcelc.iPcMechanicsObject_LinearVelocity_get, _blcelc.iPcMechanicsObject_LinearVelocity_set, None,
+                    "iPcMechanicsObject.LinearVelocity -> csVector3\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3 iPcMechanicsObject::GetLinearVelocity()\n\tset: void iPcMechanicsObject::SetLinearVelocity(csVector3)")
+
+
+    __swig_setmethods__["AngularVelocity"] = _blcelc.iPcMechanicsObject_AngularVelocity_set
+    AngularVelocity = property(_blcelc.iPcMechanicsObject_AngularVelocity_get, _blcelc.iPcMechanicsObject_AngularVelocity_set, None,
+                    "iPcMechanicsObject.AngularVelocity -> csVector3\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3 iPcMechanicsObject::GetAngularVelocity()\n\tset: void iPcMechanicsObject::SetAngularVelocity(csVector3)")
+
+
+    __swig_setmethods__["Static"] = _blcelc.iPcMechanicsObject_Static_set
+    Static = property(_blcelc.iPcMechanicsObject_Static_get, _blcelc.iPcMechanicsObject_Static_set, None,
+                    "iPcMechanicsObject.Static -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMechanicsObject::IsStatic()\n\tset: void iPcMechanicsObject::MakeStatic(bool)")
+
+
+    __swig_setmethods__["CollisionCallbackEnabled"] = _blcelc.iPcMechanicsObject_CollisionCallbackEnabled_set
+    CollisionCallbackEnabled = property(_blcelc.iPcMechanicsObject_CollisionCallbackEnabled_get, _blcelc.iPcMechanicsObject_CollisionCallbackEnabled_set, None,
+                    "iPcMechanicsObject.CollisionCallbackEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMechanicsObject::IsCollisionCallbackEnabled()\n\tset: void iPcMechanicsObject::SetCollisionCallbackEnabled(bool)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsObject
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsObject_swigregister(iPcMechanicsObject)
@@ -1139,7 +1242,9 @@ class iPcMechanicsJoint(cspace.iBase):
         except: strthis = "" 
         return "<%s.%s; proxy of C++ iPcMechanicsJoint instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
-    __swig_getmethods__["joint"] = _blcelc.iPcMechanicsJoint_GetJoint  
+    Joint = property(_blcelc.iPcMechanicsJoint_Joint_get, None, None,
+                    "iPcMechanicsJoint.Joint -> iJoint*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iJoint* iPcMechanicsJoint::GetJoint()")
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsJoint
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
@@ -1165,6 +1270,8 @@ scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
 
 scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
 
+scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
+
 celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
 
 celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
@@ -1172,8 +1279,6 @@ celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
 celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
 
 scfQuery_iPcMechanicsJoint = _blcelc.scfQuery_iPcMechanicsJoint
-
-scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
 class iPcMechanicsThruster(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -1197,6 +1302,24 @@ class iPcMechanicsThruster(cspace.iBase):
     def GetThrustForce(*args): return _blcelc.iPcMechanicsThruster_GetThrustForce(*args)
     def AvailableThrust(*args): return _blcelc.iPcMechanicsThruster_AvailableThrust(*args)
     def ThrustChange(*args): return _blcelc.iPcMechanicsThruster_ThrustChange(*args)
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThruster_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThruster_MechanicsObject_get, _blcelc.iPcMechanicsThruster_MechanicsObject_set, None,
+                    "iPcMechanicsThruster.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMechanicsObject* iPcMechanicsThruster::GetMechanicsObject()\n\tset: void iPcMechanicsThruster::SetMechanicsObject(iPcMechanicsObject*)")
+
+
+    __swig_setmethods__["Position"] = _blcelc.iPcMechanicsThruster_Position_set
+    Position = property(_blcelc.iPcMechanicsThruster_Position_get, _blcelc.iPcMechanicsThruster_Position_set, None,
+                    "iPcMechanicsThruster.Position -> csVector3&\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3& iPcMechanicsThruster::GetPosition()\n\tset: void iPcMechanicsThruster::SetPosition(csVector3&)")
+
+
+    __swig_setmethods__["Orientation"] = _blcelc.iPcMechanicsThruster_Orientation_set
+    Orientation = property(_blcelc.iPcMechanicsThruster_Orientation_get, _blcelc.iPcMechanicsThruster_Orientation_set, None,
+                    "iPcMechanicsThruster.Orientation -> csVector3&\n\nThis is equivalent to calling the C++ cel methods:\n\tget: csVector3& iPcMechanicsThruster::GetOrientation()\n\tset: void iPcMechanicsThruster::SetOrientation(csVector3&)")
+
+
+    MaxThrust = property(_blcelc.iPcMechanicsThruster_MaxThrust_get, None, None,
+                    "iPcMechanicsThruster.MaxThrust -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcMechanicsThruster::GetMaxThrust()")
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThruster
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsThruster_swigregister(iPcMechanicsThruster)
@@ -1224,6 +1347,11 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
     def AvailableThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrust(*args)
     def AvailableThrustForce(*args): return _blcelc.iPcMechanicsBalancedGroup_AvailableThrustForce(*args)
     def ChangeThrust(*args): return _blcelc.iPcMechanicsBalancedGroup_ChangeThrust(*args)
+    __swig_setmethods__["Type"] = _blcelc.iPcMechanicsBalancedGroup_Type_set
+    Type = property(_blcelc.iPcMechanicsBalancedGroup_Type_get, _blcelc.iPcMechanicsBalancedGroup_Type_set, None,
+                    "iPcMechanicsBalancedGroup.Type -> celAxisType\n\nThis is equivalent to calling the C++ cel methods:\n\tget: celAxisType iPcMechanicsBalancedGroup::GetType()\n\tset: void iPcMechanicsBalancedGroup::SetType(celAxisType)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsBalancedGroup
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsBalancedGroup_swigregister(iPcMechanicsBalancedGroup)
@@ -1252,6 +1380,11 @@ class iPcMechanicsThrusterController(cspace.iBase):
     def RemoveBalancedGroup(*args): return _blcelc.iPcMechanicsThrusterController_RemoveBalancedGroup(*args)
     def ApplyThrust(*args): return _blcelc.iPcMechanicsThrusterController_ApplyThrust(*args)
     def CancelThrust(*args): return _blcelc.iPcMechanicsThrusterController_CancelThrust(*args)
+    __swig_setmethods__["MechanicsObject"] = _blcelc.iPcMechanicsThrusterController_MechanicsObject_set
+    MechanicsObject = property(_blcelc.iPcMechanicsThrusterController_MechanicsObject_get, _blcelc.iPcMechanicsThrusterController_MechanicsObject_set, None,
+                    "iPcMechanicsThrusterController.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMechanicsObject* iPcMechanicsThrusterController::GetMechanicsObject()\n\tset: void iPcMechanicsThrusterController::SetMechanicsObject(iPcMechanicsObject*)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThrusterController
     __del__ = lambda self : None;
 _blcelc.iPcMechanicsThrusterController_swigregister(iPcMechanicsThrusterController)
@@ -1459,10 +1592,19 @@ class iPcBillboard(cspace.iBase):
     def GetBillboard(*args): return _blcelc.iPcBillboard_GetBillboard(*args)
     def EnableEvents(*args): return _blcelc.iPcBillboard_EnableEvents(*args)
     def AreEventsEnabled(*args): return _blcelc.iPcBillboard_AreEventsEnabled(*args)
-    __swig_setmethods__["name"] = _blcelc.iPcBillboard_SetBillboardName  
-    __swig_getmethods__["name"] = _blcelc.iPcBillboard_GetBillboardName  
-    __swig_setmethods__["events"] = _blcelc.iPcBillboard_EnableEvents  
-    __swig_getmethods__["events"] = _blcelc.iPcBillboard_AreEventsEnabled  
+    __swig_setmethods__["Name"] = _blcelc.iPcBillboard_Name_set
+    Name = property(_blcelc.iPcBillboard_Name_get, _blcelc.iPcBillboard_Name_set, None,
+                    "iPcBillboard.Name -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcBillboard::GetBillboardName()\n\tset: void iPcBillboard::SetBillboardName(const char*)")
+
+
+    Billboard = property(_blcelc.iPcBillboard_Billboard_get, None, None,
+                    "iPcBillboard.Billboard -> iBillboard*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iBillboard* iPcBillboard::GetBillboard()")
+
+    __swig_setmethods__["EventsEnabled"] = _blcelc.iPcBillboard_EventsEnabled_set
+    EventsEnabled = property(_blcelc.iPcBillboard_EventsEnabled_get, _blcelc.iPcBillboard_EventsEnabled_set, None,
+                    "iPcBillboard.EventsEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcBillboard::AreEventsEnabled()\n\tset: void iPcBillboard::EnableEvents(bool)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcBillboard
     __del__ = lambda self : None;
 _blcelc.iPcBillboard_swigregister(iPcBillboard)
@@ -1502,10 +1644,21 @@ class iPcRegion(cspace.iBase):
     def GetStartPosition(*args): return _blcelc.iPcRegion_GetStartPosition(*args)
     def PointCamera(*args): return _blcelc.iPcRegion_PointCamera(*args)
     def GetRegion(*args): return _blcelc.iPcRegion_GetRegion(*args)
+    __swig_setmethods__["Name"] = _blcelc.iPcRegion_Name_set
+    Name = property(_blcelc.iPcRegion_Name_get, _blcelc.iPcRegion_Name_set, None,
+                    "iPcRegion.Name -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcRegion::GetRegionName()\n\tset: void iPcRegion::SetRegionName(const char*)")
+
+
+    Region = property(_blcelc.iPcRegion_Region_get, None, None,
+                    "iPcRegion.Region -> iRegion*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iRegion* iPcRegion::GetRegion()")
+
+    StartSector = property(_blcelc.iPcRegion_StartSector_get, None, None,
+                    "iPcRegion.StartSector -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iPcRegion::GetStartSector()")
+
+    StartPosition = property(_blcelc.iPcRegion_StartPosition_get, None, None,
+                    "iPcRegion.StartPosition -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csVector3 iPcRegion::GetStartPosition()")
+
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
-    __swig_setmethods__["name"] = _blcelc.iPcRegion_SetRegionName  
-    __swig_getmethods__["name"] = _blcelc.iPcRegion_GetRegionName  
-    __swig_getmethods__["region"] = _blcelc.iPcRegion_GetRegion  
     __swig_destroy__ = _blcelc.delete_iPcRegion
     __del__ = lambda self : None;
 _blcelc.iPcRegion_swigregister(iPcRegion)
@@ -1536,12 +1689,21 @@ class iCelMapFile(cspace.iBase):
     def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
     def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
     def GetSectorName(*args): return _blcelc.iCelMapFile_GetSectorName(*args)
-    __swig_setmethods__["path"] = _blcelc.iCelMapFile_SetPath  
-    __swig_getmethods__["path"] = _blcelc.iCelMapFile_GetPath  
-    __swig_setmethods__["file"] = _blcelc.iCelMapFile_SetFile  
-    __swig_getmethods__["file"] = _blcelc.iCelMapFile_GetFile  
-    __swig_setmethods__["sectorname"] = _blcelc.iCelMapFile_SetSectorName  
-    __swig_getmethods__["sectorname"] = _blcelc.iCelMapFile_GetSectorName  
+    __swig_setmethods__["Path"] = _blcelc.iCelMapFile_Path_set
+    Path = property(_blcelc.iCelMapFile_Path_get, _blcelc.iCelMapFile_Path_set, None,
+                    "iCelMapFile.Path -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelMapFile::GetPath()\n\tset: void iCelMapFile::SetPath(const char*)")
+
+
+    __swig_setmethods__["File"] = _blcelc.iCelMapFile_File_set
+    File = property(_blcelc.iCelMapFile_File_get, _blcelc.iCelMapFile_File_set, None,
+                    "iCelMapFile.File -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelMapFile::GetFile()\n\tset: void iCelMapFile::SetFile(const char*)")
+
+
+    __swig_setmethods__["SectorName"] = _blcelc.iCelMapFile_SectorName_set
+    SectorName = property(_blcelc.iCelMapFile_SectorName_get, _blcelc.iCelMapFile_SectorName_set, None,
+                    "iCelMapFile.SectorName -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelMapFile::GetSectorName()\n\tset: void iCelMapFile::SetSectorName(const char*)")
+
+
     __swig_destroy__ = _blcelc.delete_iCelMapFile
     __del__ = lambda self : None;
 _blcelc.iCelMapFile_swigregister(iCelMapFile)
@@ -1568,9 +1730,17 @@ class iCelRegion(cspace.iBase):
     def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelRegion_GetName  
-    __swig_setmethods__["cachepath"] = _blcelc.iCelRegion_SetCachePath  
-    __swig_getmethods__["cachepath"] = _blcelc.iCelRegion_GetCachePath  
+    Name = property(_blcelc.iCelRegion_Name_get, None, None,
+                    "iCelRegion.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelRegion::GetName()")
+
+    __swig_setmethods__["CachePath"] = _blcelc.iCelRegion_CachePath_set
+    CachePath = property(_blcelc.iCelRegion_CachePath_get, _blcelc.iCelRegion_CachePath_set, None,
+                    "iCelRegion.CachePath -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iCelRegion::GetCachePath()\n\tset: void iCelRegion::SetCachePath(const char*)")
+
+
+    MapFileCount = property(_blcelc.iCelRegion_MapFileCount_get, None, None,
+                    "iCelRegion.MapFileCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: size_t iCelRegion::GetMapFileCount()")
+
     __swig_destroy__ = _blcelc.delete_iCelRegion
     __del__ = lambda self : None;
 _blcelc.iCelRegion_swigregister(iCelRegion)
@@ -1594,7 +1764,12 @@ class iCelZone(cspace.iBase):
     def FindRegion(*args): return _blcelc.iCelZone_FindRegion(*args)
     def UnlinkRegion(*args): return _blcelc.iCelZone_UnlinkRegion(*args)
     def UnlinkAllRegions(*args): return _blcelc.iCelZone_UnlinkAllRegions(*args)
-    __swig_getmethods__["name"] = _blcelc.iCelZone_GetName  
+    Name = property(_blcelc.iCelZone_Name_get, None, None,
+                    "iCelZone.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iCelZone::GetName()")
+
+    RegionCount = property(_blcelc.iCelZone_RegionCount_get, None, None,
+                    "iCelZone.RegionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: size_t iCelZone::GetRegionCount()")
+
     __swig_destroy__ = _blcelc.delete_iCelZone
     __del__ = lambda self : None;
 _blcelc.iCelZone_swigregister(iCelZone)
@@ -1642,6 +1817,28 @@ class iPcZoneManager(cspace.iBase):
     def PointCamera(*args): return _blcelc.iPcZoneManager_PointCamera(*args)
     def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
     def ActivateRegion(*args): return _blcelc.iPcZoneManager_ActivateRegion(*args)
+    __swig_setmethods__["ColliderWrappersEnabled"] = _blcelc.iPcZoneManager_ColliderWrappersEnabled_set
+    ColliderWrappersEnabled = property(_blcelc.iPcZoneManager_ColliderWrappersEnabled_get, _blcelc.iPcZoneManager_ColliderWrappersEnabled_set, None,
+                    "iPcZoneManager.ColliderWrappersEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcZoneManager::IsColliderWrappers()\n\tset: void iPcZoneManager::EnableColliderWrappers(bool)")
+
+
+    __swig_setmethods__["LoadingMode"] = _blcelc.iPcZoneManager_LoadingMode_set
+    LoadingMode = property(_blcelc.iPcZoneManager_LoadingMode_get, _blcelc.iPcZoneManager_LoadingMode_set, None,
+                    "iPcZoneManager.LoadingMode -> int\n\nThis is equivalent to calling the C++ cel methods:\n\tget: int iPcZoneManager::GetLoadingMode()\n\tset: void iPcZoneManager::SetLoadingMode(int)")
+
+
+    ZoneCount = property(_blcelc.iPcZoneManager_ZoneCount_get, None, None,
+                    "iPcZoneManager.ZoneCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: size_t iPcZoneManager::GetZoneCount()")
+
+    RegionCount = property(_blcelc.iPcZoneManager_RegionCount_get, None, None,
+                    "iPcZoneManager.RegionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: size_t iPcZoneManager::GetRegionCount()")
+
+    LastStartRegionName = property(_blcelc.iPcZoneManager_LastStartRegionName_get, None, None,
+                    "iPcZoneManager.LastStartRegionName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iPcZoneManager::GetLastStartRegionName()")
+
+    LastStartName = property(_blcelc.iPcZoneManager_LastStartName_get, None, None,
+                    "iPcZoneManager.LastStartName -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iPcZoneManager::GetLastStartName()")
+
     __swig_destroy__ = _blcelc.delete_iPcZoneManager
     __del__ = lambda self : None;
 _blcelc.iPcZoneManager_swigregister(iPcZoneManager)
@@ -1678,8 +1875,11 @@ class iPcCommandInput(cspace.iBase):
     def GetBind(*args): return _blcelc.iPcCommandInput_GetBind(*args)
     def RemoveBind(*args): return _blcelc.iPcCommandInput_RemoveBind(*args)
     def RemoveAllBinds(*args): return _blcelc.iPcCommandInput_RemoveAllBinds(*args)
-    __swig_setmethods__["cookedmode"] = _blcelc.iPcCommandInput_SetCookedMode  
-    __swig_getmethods__["cookedmode"] = _blcelc.iPcCommandInput_GetCookedMode  
+    __swig_setmethods__["CookedModeEnabled"] = _blcelc.iPcCommandInput_CookedModeEnabled_set
+    CookedModeEnabled = property(_blcelc.iPcCommandInput_CookedModeEnabled_get, _blcelc.iPcCommandInput_CookedModeEnabled_set, None,
+                    "iPcCommandInput.CookedModeEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcCommandInput::GetCookedMode()\n\tset: void iPcCommandInput::SetCookedMode(bool)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcCommandInput
     __del__ = lambda self : None;
 _blcelc.iPcCommandInput_swigregister(iPcCommandInput)
@@ -1762,19 +1962,27 @@ class iPcLinearMovement(cspace.iBase):
     def ClearPortalDisplacement(*args): return _blcelc.iPcLinearMovement_ClearPortalDisplacement(*args)
     def SetFullPosition(*args): return _blcelc.iPcLinearMovement_SetFullPosition(*args)
     def SetPosition(*args): return _blcelc.iPcLinearMovement_SetPosition(*args)
-    __swig_setmethods__["anchor"] = _blcelc.iPcLinearMovement_SetAnchor  
-    __swig_getmethods__["anchor"] = _blcelc.iPcLinearMovement_GetAnchor  
-    __swig_setmethods__["angularvelocity"] = _blcelc.iPcLinearMovement_SetAngularVelocity  
-    __swig_getmethods__["angularvelocity"] = _blcelc.iPcLinearMovement_GetAngularVelocity  
-    __swig_setmethods__["velocity"] = _blcelc.iPcLinearMovement_SetVelocity  
-    __swig_getmethods__["velocity"] = _blcelc.iPcLinearMovement_GetVelocity  
-    __swig_setmethods__["path"] = _blcelc.iPcLinearMovement_SetPath  
-    __swig_getmethods__["path"] = _blcelc.iPcLinearMovement_IsPath  
-    __swig_getmethods__["sector"] = _blcelc.iPcLinearMovement_GetSector  
-    __swig_setmethods__["onground"] = _blcelc.iPcLinearMovement_SetOnGround  
-    __swig_getmethods__["onground"] = _blcelc.iPcLinearMovement_IsOnGround  
-    __swig_setmethods__["gravity"] = _blcelc.iPcLinearMovement_SetGravity  
-    __swig_getmethods__["gravity"] = _blcelc.iPcLinearMovement_GetGravity  
+    __swig_setmethods__["Anchor"] = _blcelc.iPcLinearMovement_Anchor_set
+    Anchor = property(_blcelc.iPcLinearMovement_Anchor_get, _blcelc.iPcLinearMovement_Anchor_set, None,
+                    "iPcLinearMovement.Anchor -> iPcMesh*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMesh* iPcLinearMovement::GetAnchor()\n\tset: void iPcLinearMovement::SetAnchor(iPcMesh*)")
+
+
+    Sector = property(_blcelc.iPcLinearMovement_Sector_get, None, None,
+                    "iPcLinearMovement.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iSector* iPcLinearMovement::GetSector()")
+
+    __swig_setmethods__["OnGround"] = _blcelc.iPcLinearMovement_OnGround_set
+    OnGround = property(_blcelc.iPcLinearMovement_OnGround_get, _blcelc.iPcLinearMovement_OnGround_set, None,
+                    "iPcLinearMovement.OnGround -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcLinearMovement::IsOnGround()\n\tset: void iPcLinearMovement::SetOnGround(bool)")
+
+
+    __swig_setmethods__["Gravity"] = _blcelc.iPcLinearMovement_Gravity_set
+    Gravity = property(_blcelc.iPcLinearMovement_Gravity_get, _blcelc.iPcLinearMovement_Gravity_set, None,
+                    "iPcLinearMovement.Gravity -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcLinearMovement::GetGravity()\n\tset: void iPcLinearMovement::SetGravity(float)")
+
+
+    PortalDisplacement = property(_blcelc.iPcLinearMovement_PortalDisplacement_get, None, None,
+                    "iPcLinearMovement.PortalDisplacement -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csVector3 iPcLinearMovement::GetPortalDisplacement()")
+
     __swig_destroy__ = _blcelc.delete_iPcLinearMovement
     __del__ = lambda self : None;
 _blcelc.iPcLinearMovement_swigregister(iPcLinearMovement)
@@ -1835,30 +2043,66 @@ class iPcActorMove(cspace.iBase):
     def SetJumpingVelocity(*args): return _blcelc.iPcActorMove_SetJumpingVelocity(*args)
     def GetJumpingVelocity(*args): return _blcelc.iPcActorMove_GetJumpingVelocity(*args)
     def SetAnimation(*args): return _blcelc.iPcActorMove_SetAnimation(*args)
-    __swig_setmethods__["forward"] = _blcelc.iPcActorMove_Forward  
-    __swig_getmethods__["forward"] = _blcelc.iPcActorMove_IsMovingForward  
-    __swig_setmethods__["backward"] = _blcelc.iPcActorMove_Backward  
-    __swig_getmethods__["backward"] = _blcelc.iPcActorMove_IsMovingBackward  
-    __swig_setmethods__["strafeleft"] = _blcelc.iPcActorMove_StrafeLeft  
-    __swig_getmethods__["strafeleft"] = _blcelc.iPcActorMove_IsStrafingLeft  
-    __swig_setmethods__["straferight"] = _blcelc.iPcActorMove_StrafeRight  
-    __swig_getmethods__["straferight"] = _blcelc.iPcActorMove_IsStrafingRight  
-    __swig_setmethods__["rotateleft"] = _blcelc.iPcActorMove_RotateLeft  
-    __swig_getmethods__["rotateleft"] = _blcelc.iPcActorMove_IsRotatingLeft  
-    __swig_setmethods__["rotateright"] = _blcelc.iPcActorMove_RotateRight  
-    __swig_getmethods__["rotateright"] = _blcelc.iPcActorMove_IsRotatingRight  
-    __swig_setmethods__["run"] = _blcelc.iPcActorMove_Run  
-    __swig_getmethods__["run"] = _blcelc.iPcActorMove_IsRunning  
-    __swig_setmethods__["autorun"] = _blcelc.iPcActorMove_AutoRun  
-    __swig_getmethods__["autorun"] = _blcelc.iPcActorMove_IsAutoRunning  
-    __swig_setmethods__["movementspeed"] = _blcelc.iPcActorMove_SetMovementSpeed  
-    __swig_getmethods__["movementspeed"] = _blcelc.iPcActorMove_GetMovementSpeed  
-    __swig_setmethods__["runningspeed"] = _blcelc.iPcActorMove_SetRunningSpeed  
-    __swig_getmethods__["runningspeed"] = _blcelc.iPcActorMove_GetRunningSpeed  
-    __swig_setmethods__["rotationspeed"] = _blcelc.iPcActorMove_SetRotationSpeed  
-    __swig_getmethods__["rotationspeed"] = _blcelc.iPcActorMove_GetRotationSpeed  
-    __swig_setmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_SetJumpingVelocity  
-    __swig_getmethods__["jumpingvelocity"] = _blcelc.iPcActorMove_GetJumpingVelocity  
+    __swig_setmethods__["MovingForward"] = _blcelc.iPcActorMove_MovingForward_set
+    MovingForward = property(_blcelc.iPcActorMove_MovingForward_get, _blcelc.iPcActorMove_MovingForward_set, None,
+                    "iPcActorMove.MovingForward -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMovingForward()\n\tset: void iPcActorMove::Forward(bool)")
+
+
+    __swig_setmethods__["MovingBackward"] = _blcelc.iPcActorMove_MovingBackward_set
+    MovingBackward = property(_blcelc.iPcActorMove_MovingBackward_get, _blcelc.iPcActorMove_MovingBackward_set, None,
+                    "iPcActorMove.MovingBackward -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMovingBackward()\n\tset: void iPcActorMove::Backward(bool)")
+
+
+    __swig_setmethods__["StrafingLeft"] = _blcelc.iPcActorMove_StrafingLeft_set
+    StrafingLeft = property(_blcelc.iPcActorMove_StrafingLeft_get, _blcelc.iPcActorMove_StrafingLeft_set, None,
+                    "iPcActorMove.StrafingLeft -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsStrafingLeft()\n\tset: void iPcActorMove::StrafeLeft(bool)")
+
+
+    __swig_setmethods__["StrafingRight"] = _blcelc.iPcActorMove_StrafingRight_set
+    StrafingRight = property(_blcelc.iPcActorMove_StrafingRight_get, _blcelc.iPcActorMove_StrafingRight_set, None,
+                    "iPcActorMove.StrafingRight -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsStrafingRight()\n\tset: void iPcActorMove::StrafeRight(bool)")
+
+
+    __swig_setmethods__["RotatingRight"] = _blcelc.iPcActorMove_RotatingRight_set
+    RotatingRight = property(_blcelc.iPcActorMove_RotatingRight_get, _blcelc.iPcActorMove_RotatingRight_set, None,
+                    "iPcActorMove.RotatingRight -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsRotatingLeft()\n\tset: void iPcActorMove::RotateLeft(bool)")
+
+
+    __swig_setmethods__["Running"] = _blcelc.iPcActorMove_Running_set
+    Running = property(_blcelc.iPcActorMove_Running_get, _blcelc.iPcActorMove_Running_set, None,
+                    "iPcActorMove.Running -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsRunning()\n\tset: void iPcActorMove::Run(bool)")
+
+
+    __swig_setmethods__["AutoRunEnabled"] = _blcelc.iPcActorMove_AutoRunEnabled_set
+    AutoRunEnabled = property(_blcelc.iPcActorMove_AutoRunEnabled_get, _blcelc.iPcActorMove_AutoRunEnabled_set, None,
+                    "iPcActorMove.AutoRunEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsAutoRunning()\n\tset: void iPcActorMove::AutoRun(bool)")
+
+
+    __swig_setmethods__["RunningSpeed"] = _blcelc.iPcActorMove_RunningSpeed_set
+    RunningSpeed = property(_blcelc.iPcActorMove_RunningSpeed_get, _blcelc.iPcActorMove_RunningSpeed_set, None,
+                    "iPcActorMove.RunningSpeed -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcActorMove::GetRunningSpeed()\n\tset: void iPcActorMove::SetRunningSpeed(float)")
+
+
+    __swig_setmethods__["RotationSpeed"] = _blcelc.iPcActorMove_RotationSpeed_set
+    RotationSpeed = property(_blcelc.iPcActorMove_RotationSpeed_get, _blcelc.iPcActorMove_RotationSpeed_set, None,
+                    "iPcActorMove.RotationSpeed -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcActorMove::GetRotationSpeed()\n\tset: void iPcActorMove::SetRotationSpeed(float)")
+
+
+    __swig_setmethods__["MovementSpeed"] = _blcelc.iPcActorMove_MovementSpeed_set
+    MovementSpeed = property(_blcelc.iPcActorMove_MovementSpeed_get, _blcelc.iPcActorMove_MovementSpeed_set, None,
+                    "iPcActorMove.MovementSpeed -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcActorMove::GetMovementSpeed()\n\tset: void iPcActorMove::SetMovementSpeed(float)")
+
+
+    __swig_setmethods__["MouseMoveEnabled"] = _blcelc.iPcActorMove_MouseMoveEnabled_set
+    MouseMoveEnabled = property(_blcelc.iPcActorMove_MouseMoveEnabled_get, _blcelc.iPcActorMove_MouseMoveEnabled_set, None,
+                    "iPcActorMove.MouseMoveEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMoveMoveEnabled()\n\tset: void iPcActorMove::EnableMouseMove(bool)")
+
+
+    __swig_setmethods__["MouseMoveInverted"] = _blcelc.iPcActorMove_MouseMoveInverted_set
+    MouseMoveInverted = property(_blcelc.iPcActorMove_MouseMoveInverted_get, _blcelc.iPcActorMove_MouseMoveInverted_set, None,
+                    "iPcActorMove.MouseMoveInverted -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMouseMoveInverted()\n\tset: void iPcActorMove::SetMouseMoveInverted(bool)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcActorMove
     __del__ = lambda self : None;
 _blcelc.iPcActorMove_swigregister(iPcActorMove)
@@ -1905,12 +2149,37 @@ class iPcCamera(cspace.iBase):
     def Draw(*args): return _blcelc.iPcCamera_Draw(*args)
     def UpdateCamera(*args): return _blcelc.iPcCamera_UpdateCamera(*args)
     def GetDrawFlags(*args): return _blcelc.iPcCamera_GetDrawFlags(*args)
-    __swig_getmethods__["camera"] = _blcelc.iPcCamera_GetCamera  
-    __swig_getmethods__["view"] = _blcelc.iPcCamera_GetView  
-    __swig_setmethods__["clearzbuffer"] = _blcelc.iPcCamera_SetClearZBuffer  
-    __swig_getmethods__["clearzbuffer"] = _blcelc.iPcCamera_GetClearZBuffer  
-    __swig_setmethods__["clearscreen"] = _blcelc.iPcCamera_SetClearScreen  
-    __swig_getmethods__["clearscreen"] = _blcelc.iPcCamera_GetClearScreen  
+    Camera = property(_blcelc.iPcCamera_Camera_get, None, None,
+                    "iPcCamera.Camera -> iCamera*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCamera* iPcCamera::GetCamera()")
+
+    View = property(_blcelc.iPcCamera_View_get, None, None,
+                    "iPcCamera.View -> iView*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iView* iPcCamera::GetView()")
+
+    __swig_setmethods__["ClearZBuffer"] = _blcelc.iPcCamera_ClearZBuffer_set
+    ClearZBuffer = property(_blcelc.iPcCamera_ClearZBuffer_get, _blcelc.iPcCamera_ClearZBuffer_set, None,
+                    "iPcCamera.ClearZBuffer -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcCamera::GetClearZBuffer()\n\tset: void iPcCamera::SetClearZBuffer(bool)")
+
+
+    __swig_setmethods__["ClearScreen"] = _blcelc.iPcCamera_ClearScreen_set
+    ClearScreen = property(_blcelc.iPcCamera_ClearScreen_get, _blcelc.iPcCamera_ClearScreen_set, None,
+                    "iPcCamera.ClearScreen -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcCamera::GetClearScreen()\n\tset: void iPcCamera::SetClearScreen(bool)")
+
+
+    DrawFlags = property(_blcelc.iPcCamera_DrawFlags_get, None, None,
+                    "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: int iPcCamera::GetDrawFlags()")
+
+    FixedDistance = property(_blcelc.iPcCamera_FixedDistance_get, None, None,
+                    "iPcCamera.FixedDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcCamera::GetFixedDistance()")
+
+    AdaptiveMaxFPS = property(_blcelc.iPcCamera_AdaptiveMaxFPS_get, None, None,
+                    "iPcCamera.AdaptiveMaxFPS -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcCamera::GetAdaptiveMaxFPS()")
+
+    AdaptiveMinFPS = property(_blcelc.iPcCamera_AdaptiveMinFPS_get, None, None,
+                    "iPcCamera.AdaptiveMinFPS -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcCamera::GetAdaptiveMinFPS()")
+
+    AdaptiveMinDistance = property(_blcelc.iPcCamera_AdaptiveMinDistance_get, None, None,
+                    "iPcCamera.AdaptiveMinDistance -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcCamera::GetAdaptiveMinDistance()")
+
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
 _blcelc.iPcCamera_swigregister(iPcCamera)
@@ -1973,16 +2242,46 @@ class iPcDefaultCamera(iPcCamera):
     def GetDistance(*args): return _blcelc.iPcDefaultCamera_GetDistance(*args)
     def SetDistanceVelocity(*args): return _blcelc.iPcDefaultCamera_SetDistanceVelocity(*args)
     def GetDistanceVelocity(*args): return _blcelc.iPcDefaultCamera_GetDistanceVelocity(*args)
-    __swig_setmethods__["yaw"] = _blcelc.iPcDefaultCamera_SetYaw  
-    __swig_getmethods__["yaw"] = _blcelc.iPcDefaultCamera_GetYaw  
-    __swig_setmethods__["pitch"] = _blcelc.iPcDefaultCamera_SetPitch  
-    __swig_getmethods__["pitch"] = _blcelc.iPcDefaultCamera_GetPitch  
-    __swig_setmethods__["yaw_vel"] = _blcelc.iPcDefaultCamera_SetYawVelocity  
-    __swig_getmethods__["yaw_vel"] = _blcelc.iPcDefaultCamera_GetYawVelocity  
-    __swig_setmethods__["pitch_vel"] = _blcelc.iPcDefaultCamera_SetPitchVelocity  
-    __swig_getmethods__["pitch_vel"] = _blcelc.iPcDefaultCamera_GetPitchVelocity  
-    __swig_setmethods__["mode"] = _blcelc.iPcDefaultCamera_SetModeName  
-    __swig_getmethods__["mode"] = _blcelc.iPcDefaultCamera_GetModeName  
+    __swig_setmethods__["Mode"] = _blcelc.iPcDefaultCamera_Mode_set
+    Mode = property(_blcelc.iPcDefaultCamera_Mode_get, _blcelc.iPcDefaultCamera_Mode_set, None,
+                    "iPcDefaultCamera.Mode -> iPcDefaultCamera::CameraMode\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcDefaultCamera::CameraMode iPcDefaultCamera::GetMode()\n\tset: void iPcDefaultCamera::SetMode(iPcDefaultCamera::CameraMode)")
+
+
+    __swig_setmethods__["ModeName"] = _blcelc.iPcDefaultCamera_ModeName_set
+    ModeName = property(_blcelc.iPcDefaultCamera_ModeName_get, _blcelc.iPcDefaultCamera_ModeName_set, None,
+                    "iPcDefaultCamera.ModeName -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcDefaultCamera::GetModeName()\n\tset: void iPcDefaultCamera::SetModeName(const char*)")
+
+
+    __swig_setmethods__["Pitch"] = _blcelc.iPcDefaultCamera_Pitch_set
+    Pitch = property(_blcelc.iPcDefaultCamera_Pitch_get, _blcelc.iPcDefaultCamera_Pitch_set, None,
+                    "iPcDefaultCamera.Pitch -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetPitch()\n\tset: void iPcDefaultCamera::SetPitch(float)")
+
+
+    __swig_setmethods__["PitchVelocity"] = _blcelc.iPcDefaultCamera_PitchVelocity_set
+    PitchVelocity = property(_blcelc.iPcDefaultCamera_PitchVelocity_get, _blcelc.iPcDefaultCamera_PitchVelocity_set, None,
+                    "iPcDefaultCamera.PitchVelocity -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetPitchVelocity()\n\tset: void iPcDefaultCamera::SetPitchVelocity(float)")
+
+
+    __swig_setmethods__["Yaw"] = _blcelc.iPcDefaultCamera_Yaw_set
+    Yaw = property(_blcelc.iPcDefaultCamera_Yaw_get, _blcelc.iPcDefaultCamera_Yaw_set, None,
+                    "iPcDefaultCamera.Yaw -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetYaw()\n\tset: void iPcDefaultCamera::SetYaw(float)")
+
+
+    __swig_setmethods__["YawVelocity"] = _blcelc.iPcDefaultCamera_YawVelocity_set
+    YawVelocity = property(_blcelc.iPcDefaultCamera_YawVelocity_get, _blcelc.iPcDefaultCamera_YawVelocity_set, None,
+                    "iPcDefaultCamera.YawVelocity -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetYawVelocity()\n\tset: void iPcDefaultCamera::SetYawVelocity(float)")
+
+
+    __swig_setmethods__["Distance"] = _blcelc.iPcDefaultCamera_Distance_set
+    Distance = property(_blcelc.iPcDefaultCamera_Distance_get, _blcelc.iPcDefaultCamera_Distance_set, None,
+                    "iPcDefaultCamera.Distance -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetDistance()\n\tset: void iPcDefaultCamera::SetDistance(float)")
+
+
+    __swig_setmethods__["DistanceVelocity"] = _blcelc.iPcDefaultCamera_DistanceVelocity_set
+    DistanceVelocity = property(_blcelc.iPcDefaultCamera_DistanceVelocity_get, _blcelc.iPcDefaultCamera_DistanceVelocity_set, None,
+                    "iPcDefaultCamera.DistanceVelocity -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDefaultCamera::GetDistanceVelocity()\n\tset: void iPcDefaultCamera::SetDistanceVelocity(float)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcDefaultCamera
     __del__ = lambda self : None;
 _blcelc.iPcDefaultCamera_swigregister(iPcDefaultCamera)
@@ -2081,26 +2380,51 @@ class iPcMeshSelect(cspace.iBase):
     def HasSenddownEvent(*args): return _blcelc.iPcMeshSelect_HasSenddownEvent(*args)
     def SetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_SetMaxSelectionDistance(*args)
     def GetMaxSelectionDistance(*args): return _blcelc.iPcMeshSelect_GetMaxSelectionDistance(*args)
-    __swig_setmethods__["mousebuttons"] = _blcelc.iPcMeshSelect_SetMouseButtons  
-    __swig_getmethods__["mousebuttons"] = _blcelc.iPcMeshSelect_GetMouseButtons  
-    __swig_setmethods__["global"] = _blcelc.iPcMeshSelect_SetGlobalSelection  
-    __swig_getmethods__["global"] = _blcelc.iPcMeshSelect_HasGlobalSelection  
-    __swig_setmethods__["follow"] = _blcelc.iPcMeshSelect_SetFollowMode  
-    __swig_getmethods__["follow"] = _blcelc.iPcMeshSelect_HasFollowMode  
-    __swig_setmethods__["followalways"] = _blcelc.iPcMeshSelect_SetFollowAlwaysMode  
-    __swig_getmethods__["followalways"] = _blcelc.iPcMeshSelect_HasFollowAlwaysMode  
-    __swig_setmethods__["drag"] = _blcelc.iPcMeshSelect_SetDragMode  
-    __swig_getmethods__["drag"] = _blcelc.iPcMeshSelect_HasDragMode  
-    __swig_setmethods__["dragnormal"] = _blcelc.iPcMeshSelect_SetDragPlaneNormal  
-    __swig_getmethods__["dragnormal"] = _blcelc.iPcMeshSelect_GetDragPlaneNormal  
-    __swig_setmethods__["moveevent"] = _blcelc.iPcMeshSelect_SetSendmoveEvent  
-    __swig_getmethods__["moveevent"] = _blcelc.iPcMeshSelect_HasSendmoveEvent  
-    __swig_setmethods__["moveup"] = _blcelc.iPcMeshSelect_SetSendupEvent  
-    __swig_getmethods__["moveup"] = _blcelc.iPcMeshSelect_HasSendupEvent  
-    __swig_setmethods__["movedown"] = _blcelc.iPcMeshSelect_SetSenddownEvent  
-    __swig_getmethods__["movedown"] = _blcelc.iPcMeshSelect_HasSenddownEvent  
-    __swig_setmethods__["distance"] = _blcelc.iPcMeshSelect_SetMaxSelectionDistance  
-    __swig_getmethods__["distance"] = _blcelc.iPcMeshSelect_GetMaxSelectionDistance  
+    __swig_setmethods__["MouseButtons"] = _blcelc.iPcMeshSelect_MouseButtons_set
+    MouseButtons = property(_blcelc.iPcMeshSelect_MouseButtons_get, _blcelc.iPcMeshSelect_MouseButtons_set, None,
+                    "iPcMeshSelect.MouseButtons -> int\n\nThis is equivalent to calling the C++ cel methods:\n\tget: int iPcMeshSelect::GetMouseButtons()\n\tset: void iPcMeshSelect::SetMouseButtons(int)")
+
+
+    __swig_setmethods__["GlobalSelection"] = _blcelc.iPcMeshSelect_GlobalSelection_set
+    GlobalSelection = property(_blcelc.iPcMeshSelect_GlobalSelection_get, _blcelc.iPcMeshSelect_GlobalSelection_set, None,
+                    "iPcMeshSelect.GlobalSelection -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasGlobalSelection()\n\tset: void iPcMeshSelect::SetGlobalSelection(bool)")
+
+
+    __swig_setmethods__["FollowMode"] = _blcelc.iPcMeshSelect_FollowMode_set
+    FollowMode = property(_blcelc.iPcMeshSelect_FollowMode_get, _blcelc.iPcMeshSelect_FollowMode_set, None,
+                    "iPcMeshSelect.FollowMode -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasFollowMode()\n\tset: void iPcMeshSelect::SetFollowMode(bool)")
+
+
+    __swig_setmethods__["FollowAlwaysMode"] = _blcelc.iPcMeshSelect_FollowAlwaysMode_set
+    FollowAlwaysMode = property(_blcelc.iPcMeshSelect_FollowAlwaysMode_get, _blcelc.iPcMeshSelect_FollowAlwaysMode_set, None,
+                    "iPcMeshSelect.FollowAlwaysMode -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasFollowAlwaysMode()\n\tset: void iPcMeshSelect::SetFollowAlwaysMode(bool)")
+
+
+    __swig_setmethods__["DragMode"] = _blcelc.iPcMeshSelect_DragMode_set
+    DragMode = property(_blcelc.iPcMeshSelect_DragMode_get, _blcelc.iPcMeshSelect_DragMode_set, None,
+                    "iPcMeshSelect.DragMode -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasDragMode()\n\tset: void iPcMeshSelect::SetDragMode(bool)")
+
+
+    __swig_setmethods__["SendmoveEvent"] = _blcelc.iPcMeshSelect_SendmoveEvent_set
+    SendmoveEvent = property(_blcelc.iPcMeshSelect_SendmoveEvent_get, _blcelc.iPcMeshSelect_SendmoveEvent_set, None,
+                    "iPcMeshSelect.SendmoveEvent -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasSendmoveEvent()\n\tset: void iPcMeshSelect::SetSendmoveEvent(bool)")
+
+
+    __swig_setmethods__["SendupEvent"] = _blcelc.iPcMeshSelect_SendupEvent_set
+    SendupEvent = property(_blcelc.iPcMeshSelect_SendupEvent_get, _blcelc.iPcMeshSelect_SendupEvent_set, None,
+                    "iPcMeshSelect.SendupEvent -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasSendupEvent()\n\tset: void iPcMeshSelect::SetSendupEvent(bool)")
+
+
+    __swig_setmethods__["SenddownEvent"] = _blcelc.iPcMeshSelect_SenddownEvent_set
+    SenddownEvent = property(_blcelc.iPcMeshSelect_SenddownEvent_get, _blcelc.iPcMeshSelect_SenddownEvent_set, None,
+                    "iPcMeshSelect.SenddownEvent -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcMeshSelect::HasSenddownEvent()\n\tset: void iPcMeshSelect::SetSenddownEvent(bool)")
+
+
+    __swig_setmethods__["MaxSelectionDistance"] = _blcelc.iPcMeshSelect_MaxSelectionDistance_set
+    MaxSelectionDistance = property(_blcelc.iPcMeshSelect_MaxSelectionDistance_get, _blcelc.iPcMeshSelect_MaxSelectionDistance_set, None,
+                    "iPcMeshSelect.MaxSelectionDistance -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcMeshSelect::GetMaxSelectionDistance()\n\tset: void iPcMeshSelect::SetMaxSelectionDistance(float)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMeshSelect
     __del__ = lambda self : None;
 _blcelc.iPcMeshSelect_swigregister(iPcMeshSelect)
@@ -2128,6 +2452,7 @@ class iPcMesh(cspace.iBase):
         return "<%s.%s; proxy of C++ iPcMesh instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
     def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
+    def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
     def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
     def GetMesh(*args): return _blcelc.iPcMesh_GetMesh(*args)
@@ -2139,7 +2464,11 @@ class iPcMesh(cspace.iBase):
     def Hide(*args): return _blcelc.iPcMesh_Hide(*args)
     def Show(*args): return _blcelc.iPcMesh_Show(*args)
     def IsVisible(*args): return _blcelc.iPcMesh_IsVisible(*args)
-    __swig_getmethods__["mesh"] = _blcelc.iPcMesh_GetMesh  
+    __swig_setmethods__["Mesh"] = _blcelc.iPcMesh_Mesh_set
+    Mesh = property(_blcelc.iPcMesh_Mesh_get, _blcelc.iPcMesh_Mesh_set, None,
+                    "iPcMesh.Mesh -> iMeshWrapper*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iMeshWrapper* iPcMesh::GetMesh()\n\tset: void iPcMesh::SetMesh(iMeshWrapper*)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMesh
     __del__ = lambda self : None;
 _blcelc.iPcMesh_swigregister(iPcMesh)
@@ -2194,7 +2523,9 @@ class iPcProjectile(cspace.iBase):
     def Start(*args): return _blcelc.iPcProjectile_Start(*args)
     def Interrupt(*args): return _blcelc.iPcProjectile_Interrupt(*args)
     def IsMoving(*args): return _blcelc.iPcProjectile_IsMoving(*args)
-    __swig_getmethods__["moving"] = _blcelc.iPcProjectile_IsMoving  
+    Moving = property(_blcelc.iPcProjectile_Moving_get, None, None,
+                    "iPcProjectile.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: bool iPcProjectile::IsMoving()")
+
     __swig_destroy__ = _blcelc.delete_iPcProjectile
     __del__ = lambda self : None;
 _blcelc.iPcProjectile_swigregister(iPcProjectile)
@@ -2222,9 +2553,14 @@ class iPcSolid(cspace.iBase):
     def SetMesh(*args): return _blcelc.iPcSolid_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcSolid_GetMesh(*args)
     def GetCollider(*args): return _blcelc.iPcSolid_GetCollider(*args)
-    __swig_getmethods__["collider"] = _blcelc.iPcSolid_GetCollider  
-    __swig_setmethods__["mesh"] = _blcelc.iPcSolid_SetMesh  
-    __swig_getmethods__["mesh"] = _blcelc.iPcSolid_GetMesh  
+    __swig_setmethods__["Mesh"] = _blcelc.iPcSolid_Mesh_set
+    Mesh = property(_blcelc.iPcSolid_Mesh_get, _blcelc.iPcSolid_Mesh_set, None,
+                    "iPcSolid.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMesh* iPcSolid::GetMesh()\n\tset: void iPcSolid::SetMesh(iPcMesh*)")
+
+
+    Collider = property(_blcelc.iPcSolid_Collider_get, None, None,
+                    "iPcSolid.Collider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCollider* iPcSolid::GetCollider()")
+
     __swig_destroy__ = _blcelc.delete_iPcSolid
     __del__ = lambda self : None;
 _blcelc.iPcSolid_swigregister(iPcSolid)
@@ -2265,15 +2601,32 @@ class iPcGravity(cspace.iBase):
     def IsResting(*args): return _blcelc.iPcGravity_IsResting(*args)
     def SetActive(*args): return _blcelc.iPcGravity_SetActive(*args)
     def IsActive(*args): return _blcelc.iPcGravity_IsActive(*args)
-    __swig_getmethods__["gravitycollider"] = _blcelc.iPcGravity_GetGravityCollider  
-    __swig_setmethods__["solid"] = _blcelc.iPcGravity_SetSolid  
-    __swig_getmethods__["solid"] = _blcelc.iPcGravity_GetSolid  
-    __swig_setmethods__["weight"] = _blcelc.iPcGravity_SetWeight  
-    __swig_getmethods__["weight"] = _blcelc.iPcGravity_GetWeight  
-    __swig_setmethods__["active"] = _blcelc.iPcGravity_SetActive  
-    __swig_getmethods__["active"] = _blcelc.iPcGravity_IsActive  
-    __swig_setmethods__["movable"] = _blcelc.iPcGravity_SetMovable  
-    __swig_getmethods__["movable"] = _blcelc.iPcGravity_GetMovable  
+    GravityCollider = property(_blcelc.iPcGravity_GravityCollider_get, None, None,
+                    "iPcGravity.GravityCollider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCollider* iPcGravity::GetGravityCollider()")
+
+    __swig_setmethods__["Movable"] = _blcelc.iPcGravity_Movable_set
+    Movable = property(_blcelc.iPcGravity_Movable_get, _blcelc.iPcGravity_Movable_set, None,
+                    "iPcGravity.Movable -> iPcMovable*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMovable* iPcGravity::GetMovable()\n\tset: void iPcGravity::SetMovable(iPcMovable*)")
+
+
+    __swig_setmethods__["Solid"] = _blcelc.iPcGravity_Solid_set
+    Solid = property(_blcelc.iPcGravity_Solid_get, _blcelc.iPcGravity_Solid_set, None,
+                    "iPcGravity.Solid -> iPcSolid*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcSolid* iPcGravity::GetSolid()\n\tset: void iPcGravity::SetSolid(iPcSolid*)")
+
+
+    __swig_setmethods__["Weight"] = _blcelc.iPcGravity_Weight_set
+    Weight = property(_blcelc.iPcGravity_Weight_get, _blcelc.iPcGravity_Weight_set, None,
+                    "iPcGravity.Weight -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcGravity::GetWeight()\n\tset: void iPcGravity::SetWeight(float)")
+
+
+    __swig_setmethods__["Active"] = _blcelc.iPcGravity_Active_set
+    Active = property(_blcelc.iPcGravity_Active_get, _blcelc.iPcGravity_Active_set, None,
+                    "iPcGravity.Active -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcGravity::IsActive()\n\tset: void iPcGravity::SetActive(bool)")
+
+
+    Resting = property(_blcelc.iPcGravity_Resting_get, None, None,
+                    "iPcGravity.Resting -> bool  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: bool iPcGravity::IsResting()")
+
     __swig_destroy__ = _blcelc.delete_iPcGravity
     __del__ = lambda self : None;
 _blcelc.iPcGravity_swigregister(iPcGravity)
@@ -2308,8 +2661,11 @@ class iPcMovable(cspace.iBase):
     def AddConstraint(*args): return _blcelc.iPcMovable_AddConstraint(*args)
     def RemoveConstraint(*args): return _blcelc.iPcMovable_RemoveConstraint(*args)
     def RemoveAllConstraints(*args): return _blcelc.iPcMovable_RemoveAllConstraints(*args)
-    __swig_setmethods__["mesh"] = _blcelc.iPcMovable_SetMesh  
-    __swig_getmethods__["mesh"] = _blcelc.iPcMovable_GetMesh  
+    __swig_setmethods__["Mesh"] = _blcelc.iPcMovable_Mesh_set
+    Mesh = property(_blcelc.iPcMovable_Mesh_get, _blcelc.iPcMovable_Mesh_set, None,
+                    "iPcMovable.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMesh* iPcMovable::GetMesh()\n\tset: void iPcMovable::SetMesh(iPcMesh*)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcMovable
     __del__ = lambda self : None;
 _blcelc.iPcMovable_swigregister(iPcMovable)
@@ -2438,7 +2794,7 @@ class iPcInventory(cspace.iBase):
     def SetSpace(*args): return _blcelc.iPcInventory_SetSpace(*args)
     def GetSpace(*args): return _blcelc.iPcInventory_GetSpace(*args)
     def GetEntities(self): return iCelEntityInvFakeArray(self)
-    __swig_getmethods__["entities"] = lambda self: self.GetEntities() 
+    __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iPcInventory
     __del__ = lambda self : None;
 _blcelc.iPcInventory_swigregister(iPcInventory)
@@ -2535,8 +2891,10 @@ class iPcTooltip(cspace.iBase):
     def SetBackgroundColor(*args): return _blcelc.iPcTooltip_SetBackgroundColor(*args)
     def SetFont(*args): return _blcelc.iPcTooltip_SetFont(*args)
     def SetJustify(*args): return _blcelc.iPcTooltip_SetJustify(*args)
-    __swig_setmethods__["text"] = _blcelc.iPcTooltip_SetText  
-    __swig_getmethods__["visible"] = _blcelc.iPcTooltip_IsVisible  
+    Visible = property(_blcelc.iPcTooltip_Visible_get, None, None,
+                    "iPcTooltip.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: bool iPcTooltip::IsVisible()")
+
+    __swig_setmethods__["Text"] = _blcelc.iPcTooltip_SetText  
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
 _blcelc.iPcTooltip_swigregister(iPcTooltip)
@@ -2562,7 +2920,9 @@ class iPcSoundListener(cspace.iBase):
         except: strthis = "" 
         return "<%s.%s; proxy of C++ iPcSoundListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
     def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
-    __swig_getmethods__["soundlistener"] = _blcelc.iPcSoundListener_GetSoundListener  
+    SoundListener = property(_blcelc.iPcSoundListener_SoundListener_get, None, None,
+                    "iPcSoundListener.SoundListener -> iSndSysListener*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iSndSysListener* iPcSoundListener::GetSoundListener()")
+
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
 _blcelc.iPcSoundListener_swigregister(iPcSoundListener)
@@ -2582,9 +2942,14 @@ class iPcSoundSource(cspace.iBase):
     def GetSoundSource(*args): return _blcelc.iPcSoundSource_GetSoundSource(*args)
     def SetSoundName(*args): return _blcelc.iPcSoundSource_SetSoundName(*args)
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
-    __swig_getmethods__["soundsource"] = _blcelc.iPcSoundSource_GetSoundSource  
-    __swig_setmethods__["soundname"] = _blcelc.iPcSoundSource_SetSoundName  
-    __swig_getmethods__["soundname"] = _blcelc.iPcSoundSource_GetSoundName  
+    SoundSource = property(_blcelc.iPcSoundSource_SoundSource_get, None, None,
+                    "iPcSoundSource.SoundSource -> iSndSysSource*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iSndSysSource* iPcSoundSource::GetSoundSource()")
+
+    __swig_setmethods__["SoundName"] = _blcelc.iPcSoundSource_SoundName_set
+    SoundName = property(_blcelc.iPcSoundSource_SoundName_get, _blcelc.iPcSoundSource_SoundName_set, None,
+                    "iPcSoundSource.SoundName -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcSoundSource::GetSoundName()\n\tset: void iPcSoundSource::SetSoundName(const char*)")
+
+
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
 _blcelc.iPcSoundSource_swigregister(iPcSoundSource)
@@ -2654,7 +3019,6 @@ class iPcProperties(cspace.iBase):
     def GetPropertyCount(*args): return _blcelc.iPcProperties_GetPropertyCount(*args)
     def GetPropertyName(*args): return _blcelc.iPcProperties_GetPropertyName(*args)
     def Dump(*args): return _blcelc.iPcProperties_Dump(*args)
-    __swig_getmethods__["propcount"] = _blcelc.iPcProperties_GetPropertyCount  
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
 _blcelc.iPcProperties_swigregister(iPcProperties)
@@ -2686,11 +3050,21 @@ class iPcMover(cspace.iBase):
     def GetUp(*args): return _blcelc.iPcMover_GetUp(*args)
     def GetSqRadius(*args): return _blcelc.iPcMover_GetSqRadius(*args)
     def IsMoving(*args): return _blcelc.iPcMover_IsMoving(*args)
-    __swig_getmethods__["sector"] = _blcelc.iPcMover_GetSector  
-    __swig_getmethods__["position"] = _blcelc.iPcMover_GetPosition  
-    __swig_getmethods__["up"] = _blcelc.iPcMover_GetUp  
-    __swig_getmethods__["sqradius"] = _blcelc.iPcMover_GetSqRadius  
-    __swig_getmethods__["moving"] = _blcelc.iPcMover_IsMoving  
+    Sector = property(_blcelc.iPcMover_Sector_get, None, None,
+                    "iPcMover.Sector -> iSector*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iSector* iPcMover::GetSector()")
+
+    Position = property(_blcelc.iPcMover_Position_get, None, None,
+                    "iPcMover.Position -> csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csVector3& iPcMover::GetPosition()")
+
+    Up = property(_blcelc.iPcMover_Up_get, None, None,
+                    "iPcMover.Up -> csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csVector3& iPcMover::GetUp()")
+
+    SqRadius = property(_blcelc.iPcMover_SqRadius_get, None, None,
+                    "iPcMover.SqRadius -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcMover::GetSqRadius()")
+
+    Moving = property(_blcelc.iPcMover_Moving_get, None, None,
+                    "iPcMover.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: bool iPcMover::IsMoving()")
+
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
 _blcelc.iPcMover_swigregister(iPcMover)
@@ -2726,13 +3100,15 @@ class iPcHover(cspace.iBase):
     def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
     def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
     def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
-    __swig_setmethods__["worldmesh"] = _blcelc.iPcHover_SetWorldMesh  
-    __swig_setmethods__["world"] = _blcelc.iPcHover_SetWorld  
-    __swig_setmethods__["heightbeamcutoff"] = _blcelc.iPcHover_SetHeightBeamCutoff  
-    __swig_setmethods__["angularbeamoffset"] = _blcelc.iPcHover_SetAngularBeamOffset  
-    __swig_setmethods__["angularcutoffheight"] = _blcelc.iPcHover_SetAngularCutoffHeight  
-    __swig_setmethods__["angularcorrectionstrength"] = _blcelc.iPcHover_SetAngularCorrectionStrength  
-    __swig_getmethods__["height"] = _blcelc.iPcHover_GetHeight  
+    Height = property(_blcelc.iPcHover_Height_get, None, None,
+                    "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcHover::GetHeight()")
+
+    __swig_setmethods__["WorldMesh"] = _blcelc.iPcHover_SetWorldMesh  
+    __swig_setmethods__["World"] = _blcelc.iPcHover_SetWorld  
+    __swig_setmethods__["HeightBeamCutoff"] = _blcelc.iPcHover_SetHeightBeamCutoff  
+    __swig_setmethods__["AngularBeamOffset"] = _blcelc.iPcHover_SetAngularBeamOffset  
+    __swig_setmethods__["AngularCutoffHeight"] = _blcelc.iPcHover_SetAngularCutoffHeight  
+    __swig_setmethods__["AngularCorrectionStrength"] = _blcelc.iPcHover_SetAngularCorrectionStrength  
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
 _blcelc.iPcHover_swigregister(iPcHover)
@@ -2784,17 +3160,19 @@ class iPcCraftController(cspace.iBase):
     def BrakesOff(*args): return _blcelc.iPcCraftController_BrakesOff(*args)
     def SlideOn(*args): return _blcelc.iPcCraftController_SlideOn(*args)
     def SlideOff(*args): return _blcelc.iPcCraftController_SlideOff(*args)
-    __swig_setmethods__["accturn"] = _blcelc.iPcCraftController_SetAccTurn  
-    __swig_setmethods__["accpitch"] = _blcelc.iPcCraftController_SetAccPitch  
-    __swig_setmethods__["maxturn"] = _blcelc.iPcCraftController_SetMaxTurn  
-    __swig_setmethods__["maxpitch"] = _blcelc.iPcCraftController_SetMaxPitch  
-    __swig_setmethods__["thrustforce"] = _blcelc.iPcCraftController_SetThrustForce  
-    __swig_setmethods__["topspeed"] = _blcelc.iPcCraftController_SetTopSpeed  
-    __swig_setmethods__["redirectvelocityratio"] = _blcelc.iPcCraftController_SetRedirectVelocityRatio  
-    __swig_setmethods__["decelerationrate"] = _blcelc.iPcCraftController_SetDecelerationRate  
-    __swig_setmethods__["brakingspeed"] = _blcelc.iPcCraftController_SetBrakingSpeed  
-    __swig_setmethods__["afterburnertopspeed"] = _blcelc.iPcCraftController_SetAfterBurnerTopSpeed  
-    __swig_getmethods__["thrusteron"] = _blcelc.iPcCraftController_IsThrusterOn  
+    ThrusterOn = property(_blcelc.iPcCraftController_ThrusterOn_get, None, None,
+                    "iPcCraftController.ThrusterOn -> bool  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: bool iPcCraftController::IsThrusterOn()")
+
+    __swig_setmethods__["AccTurn"] = _blcelc.iPcCraftController_SetAccTurn  
+    __swig_setmethods__["AccPitch"] = _blcelc.iPcCraftController_SetAccPitch  
+    __swig_setmethods__["MaxTurn"] = _blcelc.iPcCraftController_SetMaxTurn  
+    __swig_setmethods__["MaxPitch"] = _blcelc.iPcCraftController_SetMaxPitch  
+    __swig_setmethods__["ThrustForce"] = _blcelc.iPcCraftController_SetThrustForce  
+    __swig_setmethods__["TopSpeed"] = _blcelc.iPcCraftController_SetTopSpeed  
+    __swig_setmethods__["RedirectVelocityRatio"] = _blcelc.iPcCraftController_SetRedirectVelocityRatio  
+    __swig_setmethods__["DecelerationRate"] = _blcelc.iPcCraftController_SetDecelerationRate  
+    __swig_setmethods__["BrakingSpeed"] = _blcelc.iPcCraftController_SetBrakingSpeed  
+    __swig_setmethods__["AfterBurnerTopSpeed"] = _blcelc.iPcCraftController_SetAfterBurnerTopSpeed  
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
 _blcelc.iPcCraftController_swigregister(iPcCraftController)
@@ -2876,16 +3254,44 @@ class iPcWheeled(cspace.iBase):
     def GetWheelBrakePower(*args): return _blcelc.iPcWheeled_GetWheelBrakePower(*args)
     def GetWheelSteerInverted(*args): return _blcelc.iPcWheeled_GetWheelSteerInverted(*args)
     def GetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_GetWheelHandbrakeAffected(*args)
-    __swig_setmethods__["tankmode"] = _blcelc.iPcWheeled_SetTankMode  
-    __swig_getmethods__["tankmode"] = _blcelc.iPcWheeled_GetTankMode  
-    __swig_getmethods__["accelerating"] = _blcelc.iPcWheeled_IsAccelerating  
-    __swig_getmethods__["braking"] = _blcelc.iPcWheeled_IsBraking  
-    __swig_getmethods__["handbraking"] = _blcelc.iPcWheeled_IsHandbraking  
-    __swig_setmethods__["steeramount"] = _blcelc.iPcWheeled_SetSteerAmount  
-    __swig_getmethods__["steeramount"] = _blcelc.iPcWheeled_GetSteerAmount  
-    __swig_setmethods__["gear"] = _blcelc.iPcWheeled_SetGear  
-    __swig_getmethods__["gear"] = _blcelc.iPcWheeled_GetGear  
-    __swig_getmethods__["topgear"] = _blcelc.iPcWheeled_GetTopGear  
+    __swig_setmethods__["TankMode"] = _blcelc.iPcWheeled_TankMode_set
+    TankMode = property(_blcelc.iPcWheeled_TankMode_get, _blcelc.iPcWheeled_TankMode_set, None,
+                    "iPcWheeled.TankMode -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcWheeled::GetTankMode()\n\tset: void iPcWheeled::SetTankMode(bool)")
+
+
+    __swig_setmethods__["Accelerating"] = _blcelc.iPcWheeled_Accelerating_set
+    Accelerating = property(_blcelc.iPcWheeled_Accelerating_get, _blcelc.iPcWheeled_Accelerating_set, None,
+                    "iPcWheeled.Accelerating -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcWheeled::IsAccelerating()\n\tset: void iPcWheeled::Accelerate(bool)")
+
+
+    __swig_setmethods__["Braking"] = _blcelc.iPcWheeled_Braking_set
+    Braking = property(_blcelc.iPcWheeled_Braking_get, _blcelc.iPcWheeled_Braking_set, None,
+                    "iPcWheeled.Braking -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcWheeled::IsBraking()\n\tset: void iPcWheeled::Brake(bool)")
+
+
+    __swig_setmethods__["Handbraking"] = _blcelc.iPcWheeled_Handbraking_set
+    Handbraking = property(_blcelc.iPcWheeled_Handbraking_get, _blcelc.iPcWheeled_Handbraking_set, None,
+                    "iPcWheeled.Handbraking -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcWheeled::IsHandbraking()\n\tset: void iPcWheeled::Handbrake(bool)")
+
+
+    __swig_setmethods__["SteerAmount"] = _blcelc.iPcWheeled_SteerAmount_set
+    SteerAmount = property(_blcelc.iPcWheeled_SteerAmount_get, _blcelc.iPcWheeled_SteerAmount_set, None,
+                    "iPcWheeled.SteerAmount -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcWheeled::GetSteerAmount()\n\tset: void iPcWheeled::SetSteerAmount(float)")
+
+
+    __swig_setmethods__["Gear"] = _blcelc.iPcWheeled_Gear_set
+    Gear = property(_blcelc.iPcWheeled_Gear_get, _blcelc.iPcWheeled_Gear_set, None,
+                    "iPcWheeled.Gear -> int\n\nThis is equivalent to calling the C++ cel methods:\n\tget: int iPcWheeled::GetGear()\n\tset: void iPcWheeled::SetGear(int)")
+
+
+    TopGear = property(_blcelc.iPcWheeled_TopGear_get, None, None,
+                    "iPcWheeled.TopGear -> int  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: int iPcWheeled::GetTopGear()")
+
+    BodyGroup = property(_blcelc.iPcWheeled_BodyGroup_get, None, None,
+                    "iPcWheeled.BodyGroup -> iBodyGroup*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iBodyGroup* iPcWheeled::GetBodyGroup()")
+
+    __swig_setmethods__["BrakeForce"] = _blcelc.iPcWheeled_SetBrakeForce  
+    __swig_setmethods__["AutoReverse"] = _blcelc.iPcWheeled_SetAutoReverse  
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 _blcelc.iPcWheeled_swigregister(iPcWheeled)
@@ -2919,15 +3325,32 @@ class iPcDamage(cspace.iBase):
     def SetDamageLocation(*args): return _blcelc.iPcDamage_SetDamageLocation(*args)
     def GetDamageSector(*args): return _blcelc.iPcDamage_GetDamageSector(*args)
     def GetDamagePosition(*args): return _blcelc.iPcDamage_GetDamagePosition(*args)
+    def SetDamageSource(*args): return _blcelc.iPcDamage_SetDamageSource(*args)
+    def GetDamageSource(*args): return _blcelc.iPcDamage_GetDamageSource(*args)
     def AreaDamage(*args): return _blcelc.iPcDamage_AreaDamage(*args)
     def BeamDamage(*args): return _blcelc.iPcDamage_BeamDamage(*args)
     def SingleDamage(*args): return _blcelc.iPcDamage_SingleDamage(*args)
-    __swig_setmethods__["damage"] = _blcelc.iPcDamage_SetDamage  
-    __swig_getmethods__["damage"] = _blcelc.iPcDamage_GetDamage  
-    __swig_setmethods__["damagetype"] = _blcelc.iPcDamage_SetDamageType  
-    __swig_getmethods__["damagetype"] = _blcelc.iPcDamage_GetDamageType  
-    __swig_setmethods__["falloff"] = _blcelc.iPcDamage_SetFallOff  
-    __swig_getmethods__["falloff"] = _blcelc.iPcDamage_GetFallOff  
+    __swig_setmethods__["Damage"] = _blcelc.iPcDamage_Damage_set
+    Damage = property(_blcelc.iPcDamage_Damage_get, _blcelc.iPcDamage_Damage_set, None,
+                    "iPcDamage.Damage -> float\n\nThis is equivalent to calling the C++ cel methods:\n\tget: float iPcDamage::GetDamage()\n\tset: void iPcDamage::SetDamage(float)")
+
+
+    __swig_setmethods__["DamageType"] = _blcelc.iPcDamage_DamageType_set
+    DamageType = property(_blcelc.iPcDamage_DamageType_get, _blcelc.iPcDamage_DamageType_set, None,
+                    "iPcDamage.DamageType -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcDamage::GetDamageType()\n\tset: void iPcDamage::SetDamageType(const char*)")
+
+
+    __swig_setmethods__["FallOff"] = _blcelc.iPcDamage_FallOff_set
+    FallOff = property(_blcelc.iPcDamage_FallOff_get, _blcelc.iPcDamage_FallOff_set, None,
+                    "iPcDamage.FallOff -> const char*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: const char* iPcDamage::GetFallOff()\n\tset: void iPcDamage::SetFallOff(const char*)")
+
+
+    DamageSector = property(_blcelc.iPcDamage_DamageSector_get, None, None,
+                    "iPcDamage.DamageSector -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: const char* iPcDamage::GetDamageSector()")
+
+    DamagePosition = property(_blcelc.iPcDamage_DamagePosition_get, None, None,
+                    "iPcDamage.DamagePosition -> csVector3&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csVector3& iPcDamage::GetDamagePosition()")
+
     __swig_destroy__ = _blcelc.delete_iPcDamage
     __del__ = lambda self : None;
 _blcelc.iPcDamage_swigregister(iPcDamage)
@@ -2975,6 +3398,12 @@ class iCelConsole(cspace.iBase):
     def GetInputConsole(*args): return _blcelc.iCelConsole_GetInputConsole(*args)
     def GetOutputConsole(*args): return _blcelc.iCelConsole_GetOutputConsole(*args)
     def RegisterCommand(*args): return _blcelc.iCelConsole_RegisterCommand(*args)
+    InputConsole = property(_blcelc.iCelConsole_InputConsole_get, None, None,
+                    "iCelConsole.InputConsole -> iConsoleInput*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iConsoleInput* iCelConsole::GetInputConsole()")
+
+    OutputConsole = property(_blcelc.iCelConsole_OutputConsole_get, None, None,
+                    "iCelConsole.OutputConsole -> iConsoleOutput*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iConsoleOutput* iCelConsole::GetOutputConsole()")
+
     __swig_destroy__ = _blcelc.delete_iCelConsole
     __del__ = lambda self : None;
 _blcelc.iCelConsole_swigregister(iCelConsole)
