@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 16-Sep-2006
 	- caedes fixed the MarshallPy rule so it works on python<2.4. It was
 	  using -m option for python that didnt exist previously.
+	- caedes fixed the specification of pycel.py directory at blpython
+	  Jamfile as it was not working when building out of cel directory.
 15-Sep-2006
         - cfraz89 added the setting of source to pcdamage.
         - cfraz89 fixed the breakage in pycel caused by the capital letters.
