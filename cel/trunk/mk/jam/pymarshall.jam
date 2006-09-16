@@ -21,12 +21,13 @@
 ## MarshallPyFile cppfile : pyfile : python_file_location
 rule MarshallPyFile
 {
+  MARSHALLPY = [ ConcatDirs $(TOP) bin marshall-py.py ] ;
   MakeLocate $(2) : $(3) ;
   MakeLocate $(1) : $(LOCATE_TARGET) ;
   Depends $(1) : $(2) ;
   actions MarshallPy
   {
-    PYTHONPATH=bin $(PYTHON) -m marshall-py $(>) $(<)
+    $(PYTHON) $(MARSHALLPY) $(>) $(<)
   }
   MarshallPy $(1) : $(2) ;
 }
