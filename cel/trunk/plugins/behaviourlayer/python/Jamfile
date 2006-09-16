@@ -6,7 +6,7 @@ if $(PYTHON.AVAILABLE) = yes
   # pycel.py marshalling
   #--------
   local pycelcpp = [ DoSourceGrist PYCEL_py.cpp ] ;
-  MarshallPyFile $(pycelcpp) : pycel.py : scripts ;
+  MarshallPyFile $(pycelcpp) : pycel.py : [ ConcatDirs $(TOP) scripts ] ;
 
   #--------
   # Swig-generated files.
