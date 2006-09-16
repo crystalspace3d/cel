@@ -38,6 +38,8 @@ del types
 
 
 import cspace
+
+_csRef_to_Python = _blcelc._csRef_to_Python
 class celInitializer(cspace.csInitializer):
     __swig_setmethods__ = {}
     for _s in [cspace.csInitializer]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -561,7 +563,11 @@ class iCelEntity(cspace.iBase):
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
     __swig_destroy__ = _blcelc.delete_iCelEntity
     __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntity_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
 _blcelc.iCelEntity_swigregister(iCelEntity)
+
+iCelEntity_scfGetVersion = _blcelc.iCelEntity_scfGetVersion
 
 class iCelEntityList(cspace.iBase):
     __swig_setmethods__ = {}
@@ -594,7 +600,11 @@ class iCelEntityList(cspace.iBase):
     def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
     __swig_destroy__ = _blcelc.delete_iCelEntityList
     __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntityList_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
 _blcelc.iCelEntityList_swigregister(iCelEntityList)
+
+iCelEntityList_scfGetVersion = _blcelc.iCelEntityList_scfGetVersion
 
 class iCelEntityIterator(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2063,9 +2073,14 @@ class iPcActorMove(cspace.iBase):
                     "iPcActorMove.StrafingRight -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsStrafingRight()\n\tset: void iPcActorMove::StrafeRight(bool)")
 
 
+    __swig_setmethods__["RotatingLeft"] = _blcelc.iPcActorMove_RotatingLeft_set
+    RotatingLeft = property(_blcelc.iPcActorMove_RotatingLeft_get, _blcelc.iPcActorMove_RotatingLeft_set, None,
+                    "iPcActorMove.RotatingLeft -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsRotatingLeft()\n\tset: void iPcActorMove::RotateLeft(bool)")
+
+
     __swig_setmethods__["RotatingRight"] = _blcelc.iPcActorMove_RotatingRight_set
     RotatingRight = property(_blcelc.iPcActorMove_RotatingRight_get, _blcelc.iPcActorMove_RotatingRight_set, None,
-                    "iPcActorMove.RotatingRight -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsRotatingLeft()\n\tset: void iPcActorMove::RotateLeft(bool)")
+                    "iPcActorMove.RotatingRight -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsRotatingRight()\n\tset: void iPcActorMove::RotateRight(bool)")
 
 
     __swig_setmethods__["Running"] = _blcelc.iPcActorMove_Running_set
