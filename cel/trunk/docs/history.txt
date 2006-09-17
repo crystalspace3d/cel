@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Sep-2006
+        - Genjix added minor improved track4.zip
 16-Sep-2006
 	- caedes fixed the MarshallPy rule so it works on python<2.4. It was
 	  using -m option for python that didnt exist previously.
@@ -25,7 +27,7 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed setting pythonpath in celstart.
 	- caedes added tools to marshall python code into cpp (a jam rule,
 	  plus a python script to do the marshalling).
-	- caedes added pycel.py unmarshalling code to blpython, and adapted 
+	- caedes added pycel.py unmarshalling code to blpython, and adapted
 	  blpython Jamfile to do the marshalling.
 	- caedes added a new way in the python bl to define attribute
 	  accessors in file cel_attributes.i.
@@ -61,7 +63,7 @@ The history order is reversed so that new features are at the top.
 8-Sep-2006
 	- Darek cleaned pcactormove (missing xml stuff, code style).
 	- Darek changed in pcactormove SetAnimation "name" to
-	  compatible with pcmesh convention "animation". 
+	  compatible with pcmesh convention "animation".
 	- David Bronke added the iCelEntityIterator interface and added methods
 	  to iCelEntityTracker and iCelEntityList to get iterators over the
 	  entities they contain. Also cleaned up format warnings in
@@ -80,7 +82,7 @@ The history order is reversed so that new features are at the top.
 5-Sep-2006
 	- cfraz89 added python to celstart static
         - cfraz89 added the ':' thingy back into python celstart static.
-        - cfraz89 added 2 increfs to Py_None into blpython 
+        - cfraz89 added 2 increfs to Py_None into blpython
 4-Sep-2006
 	- cfraz89 added a vector3 include to mechsys to fix configure
 	  errors outside of cel.
@@ -92,7 +94,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added a version warning system to celstart. In a demo file
 	  you can specify a minimum and a maximum desired version of celstart:
 		CelStart.MinimumVersion = 2
-		CelStart.MaximumVersion = 10 
+		CelStart.MaximumVersion = 10
 	  In the startup screen of celstart you will see a red warning in
 	  case this condition is not valid but you can still continue
 	  at your own risk.
@@ -126,8 +128,8 @@ The history order is reversed so that new features are at the top.
 	  with csevMouseEvent.
 	- res pulled the --as-needed change over from CS.
 	- res made celstart a tad friendlier: now, TrueType fonts are used
-	  by default instead of bitmap ones. Also, when no levels are found, 
-	  no "fatal error" popup is presented, but the message is instead 
+	  by default instead of bitmap ones. Also, when no levels are found,
+	  no "fatal error" popup is presented, but the message is instead
 	  displayed in the window.
 29-Aug-2006
 	- Jorrit added <library> statements to the XML scripts,
@@ -286,7 +288,7 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 added a static target to bootstrap.
 5-Aug-2006
         - cfraz89 added a -python option to bootstrap -bare mode, which
-          will create an entity with python bl of a given name. 
+          will create an entity with python bl of a given name.
         - cfraz89 fixed forgetting to register the new bl.
 4-Aug-2006
 	- Jorrit added a new ActivateRegion action to pczonemanager.
@@ -424,7 +426,7 @@ The history order is reversed so that new features are at the top.
 		    <par id="parid(trigger)" value="'ctrl-down'" />
 		    <par id="parid(command)" value="rot_down" />
 		</action>
-	  and here is how to do it the new way:	  
+	  and here is how to do it the new way:
 		<expr eval="Bind{trigger='ctrl-down',command=rot_down}" />
 	  Note that you can also assign the result of this to a variable
 	  so that you can check for success of the action.
