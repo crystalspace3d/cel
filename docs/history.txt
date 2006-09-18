@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	- caedes changed the IsMoveMoveEnabled method in ActorMove to the more
 	  appropiate IsMouseMoveEnabled, also adapted blcel.i as it was using
 	  this.
+	- Jorrit bumped up celstart version and added pchover and pccraft
+	  property classes to celstart_static.
 17-Sep-2006
         - Genjix added minor improved track4.zip
 16-Sep-2006
