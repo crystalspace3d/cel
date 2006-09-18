@@ -259,7 +259,7 @@ public:
 
   virtual void MouseMove (float x, float y);
   virtual void EnableMouseMove (bool en);
-  virtual bool IsMoveMoveEnabled () const { return mousemove; }
+  virtual bool IsMouseMoveEnabled () const { return mousemove; }
   virtual void SetMouseMoveInverted (bool en) { mousemove_inverted = en; }
   virtual bool IsMouseMoveInverted () const { return mousemove_inverted; }
   virtual void SetMouseMoveSpeed (float xs, float ys)
