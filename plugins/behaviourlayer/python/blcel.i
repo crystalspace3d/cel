@@ -1,7 +1,6 @@
 #define __CEL__
 %module blcelc
 %import "bindings/cspace.i"
-%import "swig_doc.i"
 %include "cel_attributes.i"
 %{
 #include <crystalspace.h>
