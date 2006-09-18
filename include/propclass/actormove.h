@@ -114,7 +114,7 @@ struct iPcActorMove : public virtual iBase
    */
   virtual void EnableMouseMove (bool en) = 0;
   /// Test if mouse move is enabled.
-  virtual bool IsMoveMoveEnabled () const = 0;
+  virtual bool IsMouseMoveEnabled () const = 0;
 
   /**
    * Enable mouse move inverted mode. In this mode the

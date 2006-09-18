@@ -1,6 +1,7 @@
 #define __CEL__
 %module blcelc
 %import "bindings/cspace.i"
+%import "swig_doc.i"
 %include "cel_attributes.i"
 %{
 #include <crystalspace.h>
@@ -560,8 +561,7 @@ CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 %cel_attribute(iPcActorMove,float,RunningSpeed)
 %cel_attribute(iPcActorMove,float,RotationSpeed)
 %cel_attribute(iPcActorMove,float,MovementSpeed)
-// TODO the following is weird (IsMoveMoveEnabled???)
-%cel_attribute(iPcActorMove,bool,MouseMoveEnabled,IsMoveMoveEnabled,EnableMouseMove)
+%cel_attribute(iPcActorMove,bool,MouseMoveEnabled,IsMouseMoveEnabled,EnableMouseMove)
 %cel_attribute(iPcActorMove,bool,MouseMoveInverted,IsMouseMoveInverted,SetMouseMoveInverted)
 //%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
