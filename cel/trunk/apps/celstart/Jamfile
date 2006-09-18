@@ -99,7 +99,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   STATIC.OPTIONALPLUGINLIST =
     cspython
     glshader_cg
-    glshader_ps1
+    glshader_ps/
     sndmanager
     sndsyssoft
     sndsysloader
@@ -141,6 +141,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfinv
     pflight
     pfmechanics
+    pfhover
     pfmesh
     pfmove
     pfmover
