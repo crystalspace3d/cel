@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 19-Sep-2006
         - cfraz89 added speed-sensitive steering force in pcwheeled.
+	- cfraz89 added GetWheelBody and GetWheelJoint functions to
+	  pcwheeled.
 18-Sep-2006
 	- caedes added blpython section to the manual.
 	- caedes changed the IsMoveMoveEnabled method in ActorMove to the more
