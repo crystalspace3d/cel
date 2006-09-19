@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -46,7 +46,7 @@ class csVector3;
  * Factory for mesh.
  */
 CEL_DECLARE_FACTORY (Mesh)
-CEL_DECLARE_FACTORY (MeshSelect)   
+CEL_DECLARE_FACTORY (MeshSelect)
 
 /**
  * This is a mesh property class.
@@ -119,6 +119,7 @@ private:
   {
     propid_position = 0,
     propid_fullposition,
+    propid_rotation,
     propid_sector,
     propid_path,
     propid_factory,
@@ -148,7 +149,7 @@ public:
   /**
    * Creates an empty thing mesh for this pcmesh-entity.
    */
-  virtual void CreateEmptyThing ( const char* factname);
+  virtual void CreateEmptyThing (const char* factname);
   /**
    * Creates an empty genmesh mesh for this pcmesh-entity.
    */
@@ -167,7 +168,7 @@ public:
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
-      float weight=1.0,float fadein=0.1,float fadeout=0.1);
+  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1);
 
   /**
    * Returns the name for the current action.
@@ -194,7 +195,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
-      celData& ret);
+  	celData& ret);
   virtual bool GetPropertyIndexed (int, csVector3&);
   virtual bool GetPropertyIndexed (int, const char*&);
 
@@ -214,9 +215,9 @@ typedef csSet<csPtrKey<celPcMeshSelect> > celMeshSelectSet;
  * is not very fast in CS.
  */
 class celMeshSelectListener : public scfImplementation2<
-			      celMeshSelectListener,
-			      scfFakeInterface<celMeshSelectListener>,
-			      iEventHandler>
+	celMeshSelectListener,
+	scfFakeInterface<celMeshSelectListener>,
+	iEventHandler>
 {
 private:
   celMeshSelectSet listeners;
@@ -231,8 +232,8 @@ public:
   SCF_INTERFACE (celMeshSelectListener, 0, 0, 1);
 
   celMeshSelectListener (iEventNameRegistry* name_reg)
-    : scfImplementationType (this), is_iterating (false),
-      name_reg (name_reg) { }
+  	: scfImplementationType (this), is_iterating (false),
+  	name_reg (name_reg) { }
   virtual ~celMeshSelectListener () { }
   virtual bool HandleEvent (iEvent& ev);
   void RegisterMeshSelect (celPcMeshSelect* meshsel, bool withmove);
@@ -307,7 +308,7 @@ private:
 
   // If true then send mouse-down events.
   bool do_senddown;
-  
+
   // The maximum distance to perform mesh selection over.
   float max_distance;
 
@@ -377,7 +378,7 @@ public:
   }
   virtual bool HasDragMode () const { return do_drag; }
   virtual void SetDragPlaneNormal (const csVector3& drag_normal,
-      bool camera_space)
+  	bool camera_space)
   {
     celPcMeshSelect::drag_normal = drag_normal;
     drag_normal_camera = camera_space;
@@ -399,7 +400,7 @@ public:
   virtual void SetSenddownEvent (bool sd) { do_senddown = sd; }
   virtual bool HasSenddownEvent () const { return do_senddown; }
   virtual void SetMaxSelectionDistance (float distance)
-  { max_distance = distance; }
+  	{ max_distance = distance; }
   virtual float GetMaxSelectionDistance () const { return max_distance; }
 
   virtual void AddMeshSelectListener (iPcMeshSelectListener* listener);
@@ -412,7 +413,7 @@ public:
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params,
-      celData& ret);
+  	celData& ret);
 
   // Override SetProperty from celPcCommon in order to provide support
   // for the 'bool' properties.
