@@ -905,6 +905,12 @@ void celPcWheeled::TickOnce()
   //First ensure everything is set and ready to go.
   GetMech();
 
+  //Work out the straight velocity of the car, which will be useful
+  //further on.
+  csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
+  csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
+  float straightvel = trans.Other2ThisRelative(linvel).z;
+
   //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
     UpdateGear();
@@ -918,12 +924,19 @@ void celPcWheeled::TickOnce()
     vel=gears[gear+1].x;
     fmax=gears[gear+1].y;
   }
+
+  float steerfactor = 1000.0f - straightvel * 100.0f;
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint!=0)
     {
       wheels[i].WheelJoint->SetVel(vel,1);
       wheels[i].WheelJoint->SetFMax(fmax*wheels[i].EnginePower,1);
+
+      // Set the power of steering proportional to the spee dof the car.
+      // This gives smooth steer and return at low speeds, while
+      // preventing wheels from bending at high speeds.
+      wheels[i].WheelJoint->SetFMax(steerfactor, 0);
     }
   }
     //Apply the brakes
@@ -943,13 +956,8 @@ void celPcWheeled::TickOnce()
     }
       //if autoreverse is on, check if the vehicle is slow enough to start
       // reversing.
-    if (autoreverse)
-    {
-      csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
-      csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
-      if( trans.Other2ThisRelative(linvel).z > -2.0 )
-        Reverse();
-    }
+    if (autoreverse && straightvel > -2.0)
+      Reverse();
   }
     //Apply the handbrake
   if(handbrakeapplied)
