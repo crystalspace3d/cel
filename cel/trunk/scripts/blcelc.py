@@ -2038,7 +2038,7 @@ class iPcActorMove(cspace.iBase):
     def Jump(*args): return _blcelc.iPcActorMove_Jump(*args)
     def ToggleCameraMode(*args): return _blcelc.iPcActorMove_ToggleCameraMode(*args)
     def EnableMouseMove(*args): return _blcelc.iPcActorMove_EnableMouseMove(*args)
-    def IsMoveMoveEnabled(*args): return _blcelc.iPcActorMove_IsMoveMoveEnabled(*args)
+    def IsMouseMoveEnabled(*args): return _blcelc.iPcActorMove_IsMouseMoveEnabled(*args)
     def SetMouseMoveInverted(*args): return _blcelc.iPcActorMove_SetMouseMoveInverted(*args)
     def IsMouseMoveInverted(*args): return _blcelc.iPcActorMove_IsMouseMoveInverted(*args)
     def SetMouseMoveSpeed(*args): return _blcelc.iPcActorMove_SetMouseMoveSpeed(*args)
@@ -2110,7 +2110,7 @@ class iPcActorMove(cspace.iBase):
 
     __swig_setmethods__["MouseMoveEnabled"] = _blcelc.iPcActorMove_MouseMoveEnabled_set
     MouseMoveEnabled = property(_blcelc.iPcActorMove_MouseMoveEnabled_get, _blcelc.iPcActorMove_MouseMoveEnabled_set, None,
-                    "iPcActorMove.MouseMoveEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMoveMoveEnabled()\n\tset: void iPcActorMove::EnableMouseMove(bool)")
+                    "iPcActorMove.MouseMoveEnabled -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcActorMove::IsMouseMoveEnabled()\n\tset: void iPcActorMove::EnableMouseMove(bool)")
 
 
     __swig_setmethods__["MouseMoveInverted"] = _blcelc.iPcActorMove_MouseMoveInverted_set
