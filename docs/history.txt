@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 19-Sep-2006
+        - Genjix updated track4.zip map and fixed hovertest and
+          wheeledtest.
         - cfraz89 added speed-sensitive steering force in pcwheeled.
 	- cfraz89 added GetWheelBody and GetWheelJoint functions to
 	  pcwheeled.

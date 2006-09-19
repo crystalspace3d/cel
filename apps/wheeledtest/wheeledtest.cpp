@@ -251,7 +251,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
     to modify car handling. The first setting is steering sensitivity, second
-    setting is drive power.*/ 
+    setting is drive power.*/
   pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
@@ -289,12 +289,10 @@ bool WheeledTest::CreateMap ()
   //===============================
   // Create the map entity.
   //===============================
-  entity_map = pl->CreateEntity ("map", bltest, "room",
+  entity_map = pl->CreateEntity ("ent_level", 0, 0,
                                  "pczonemanager",
                                  "pcinventory",
-                                 "pcmesh",
                                  "pcmechsys",
-                                 "pcmechobject",
                                  CEL_PROPCLASS_END);
 
   //===============================
@@ -354,7 +352,7 @@ bool WheeledTest::CreateMap ()
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.01f);
 
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_map,
+  /*csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_map,
       iPcMesh);
   pcmesh->SetMesh(engine->FindMeshObject("Terrain"));
 
@@ -365,7 +363,7 @@ bool WheeledTest::CreateMap ()
   pcmechobj->SetDensity(99999999999999999999.0f);
   pcmechobj->SetFriction(0.6f);
   pcmechobj->AttachColliderMesh ();
-  pcmechobj->MakeStatic (true);
+  pcmechobj->MakeStatic (true);*/
 
   game = entity_map;
   return true;
