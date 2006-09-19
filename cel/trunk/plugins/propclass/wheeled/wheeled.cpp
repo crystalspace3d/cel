@@ -90,7 +90,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   bodyGroup=0;
   steerdir=0;
   gear=1;
-  numberwheels=0;
   topgear=0;
   frontsteer=1.0f;
   rearsteer=0.0f;

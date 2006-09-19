@@ -153,7 +153,6 @@ private:
 
   float brakeforce;
   int gear;
-  int numberwheels;
   bool autotransmission;
   bool autoreverse;
   bool tankmode;
@@ -340,6 +339,14 @@ public:
 
   virtual bool GetWheelHandbrakeAffected(int wheelnum)
   {return wheels[wheelnum].HandbrakeAffected;}
+
+  virtual iRigidBody* GetWheelBody(int wheelnum)
+  {return wheels[wheelnum].RigidBody;}
+
+  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum)
+  {return wheels[wheelnum].WheelJoint;}
+
+  virtual int GetWheelCount() { return wheels.Length(); }
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();

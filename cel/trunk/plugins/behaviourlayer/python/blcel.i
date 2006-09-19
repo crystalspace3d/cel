@@ -764,6 +764,7 @@ CEL_PC(iPcWheeled, Wheeled, pcwheeled)
 
 SETTER_METHOD(iPcWheeled,"BrakeForce", SetBrakeForce)
 SETTER_METHOD(iPcWheeled,"AutoReverse", SetAutoReverse)
+GETTER_METHOD(iPcWheeled,"WheelCount", GetWheelCount)
 
 //-----------------------------------------------------------------------------
 

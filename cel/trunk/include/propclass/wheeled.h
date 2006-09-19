@@ -475,6 +475,23 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to get.
    */
   virtual bool GetWheelHandbrakeAffected(int wheelnum) = 0;
+
+  /**
+   * Get the number of wheels on this vehicle
+   */
+  virtual int GetWheelCount() = 0;
+
+  /**
+   * Get whether the rigid body of this wheel
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual iRigidBody* GetWheelBody(int wheelnum) = 0;
+
+  /**
+   * Get whether the joint connecting this wheel
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum) = 0;
 };
 
 #endif // __CEL_PF_WHEELED__
