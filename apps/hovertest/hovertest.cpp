@@ -311,9 +311,7 @@ bool HoverTest::CreateRoom ()
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
   if (!pccamera) return false;
-  printf ("stuffs\n");
   pccamera->SetZoneManager (pczonemgr, true, regionname, startname);
-  printf ("stuffs\n");
   if (pczonemgr->PointMesh ("ent_player", regionname, startname) != CEL_ZONEERROR_OK)
     return ReportError ("Error finding start position!");
 
