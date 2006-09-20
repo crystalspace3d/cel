@@ -3269,6 +3269,9 @@ class iPcWheeled(cspace.iBase):
     def GetWheelBrakePower(*args): return _blcelc.iPcWheeled_GetWheelBrakePower(*args)
     def GetWheelSteerInverted(*args): return _blcelc.iPcWheeled_GetWheelSteerInverted(*args)
     def GetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_GetWheelHandbrakeAffected(*args)
+    def GetWheelCount(*args): return _blcelc.iPcWheeled_GetWheelCount(*args)
+    def GetWheelBody(*args): return _blcelc.iPcWheeled_GetWheelBody(*args)
+    def GetWheelJoint(*args): return _blcelc.iPcWheeled_GetWheelJoint(*args)
     __swig_setmethods__["TankMode"] = _blcelc.iPcWheeled_TankMode_set
     TankMode = property(_blcelc.iPcWheeled_TankMode_get, _blcelc.iPcWheeled_TankMode_set, None,
                     "iPcWheeled.TankMode -> bool\n\nThis is equivalent to calling the C++ cel methods:\n\tget: bool iPcWheeled::GetTankMode()\n\tset: void iPcWheeled::SetTankMode(bool)")
@@ -3307,6 +3310,7 @@ class iPcWheeled(cspace.iBase):
 
     __swig_setmethods__["BrakeForce"] = _blcelc.iPcWheeled_SetBrakeForce  
     __swig_setmethods__["AutoReverse"] = _blcelc.iPcWheeled_SetAutoReverse  
+    __swig_getmethods__["WheelCount"] = _blcelc.iPcWheeled_GetWheelCount  
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
 _blcelc.iPcWheeled_swigregister(iPcWheeled)
