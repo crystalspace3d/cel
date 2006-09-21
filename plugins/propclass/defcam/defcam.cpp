@@ -662,10 +662,6 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
   if (!pcmesh)
     return pseudoPosition; // no mesh
 
-  if (pcmesh->GetMesh ()->GetFlags ().Check (CS_ENTITY_NOHITBEAM))
-    printf ("START: mesh has CS_ENTITY_NOHITBEAM\n");
-  else
-    printf ("START: not here....\n");
   // get the initial flags so it can be reset afterwards
   uint32 flags = pcmesh->GetMesh()->GetFlags().Get ();
   // turn on NOHITBEAM
@@ -709,10 +705,6 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
     default:
       break;
   }
-  if (pcmesh->GetMesh ()->GetFlags ().Check (CS_ENTITY_NOHITBEAM))
-    printf ("END: mesh has CS_ENTITY_NOHITBEAM\n");
-  else
-    printf ("END: not here....\n");
   // reset flags to original state
   pcmesh->GetMesh()->GetFlags().SetAll (flags);
   return pseudoPosition;
