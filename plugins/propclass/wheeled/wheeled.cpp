@@ -198,6 +198,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
     //Per-wheel actions
     AddAction (action_setwheelposition, "cel.action.SetWheelPosition");
+    AddAction (action_setwheelrotation, "cel.action.SetWheelRotation");
     AddAction (action_setwheelsuspensionsoftness, "cel.action.SetWheelSuspensionSoftness");
     AddAction (action_setwheelsuspensiondamping, "cel.action.SetWheelSuspensionDamping");
     AddAction (action_setwheelleftsteersensitivity, "cel.action.SetWheelLeftSteerSensitivity");
@@ -340,8 +341,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       }
     case action_deletewheel:
       {
-        CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-        DeleteWheel(int(num));
+        CEL_FETCH_LONG_PAR (num, params, param_wheelnum);
+        DeleteWheel(num);
         return true;
       }
     case action_deleteallwheels:
@@ -358,8 +359,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       return true;
     case action_restorewheel:
       {
-        CEL_FETCH_FLOAT_PAR (num, params, param_wheelnum);
-        RestoreWheel(int(num));
+        CEL_FETCH_LONG_PAR (num, params, param_wheelnum);
+        RestoreWheel(num);
         return true;
       }
     case action_restoreallwheels:
@@ -413,7 +414,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     case action_setgear:
       {
         CEL_FETCH_LONG_PAR(g,params,param_gear);
-        SetGear(int(g));
+        SetGear(g);
         return true;
       }
     case action_setgearsettings:
@@ -421,7 +422,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR(force,params,param_force);
         CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
         CEL_FETCH_LONG_PAR(g,params,param_gear);
-        SetGearSettings(int(g),velocity,force);
+        SetGearSettings(g,velocity,force);
         return true;
       }
     case action_setbrakeforce:
@@ -462,79 +463,89 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       }
     case action_setwheelposition:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_VECTOR3_PAR(pos,params,param_position);
-        SetWheelPosition(int(num),pos);
+        SetWheelPosition(num,pos);
+        return true;
+      }
+    case action_setwheelrotation:
+      {
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+        CEL_FETCH_VECTOR3_PAR(rotation,params,param_rotation);
+        csQuaternion quat;
+        if (p_rotation)
+          quat.SetEulerAngles(rotation);
+        SetWheelRotation(num, quat.GetMatrix());
         return true;
       }
     case action_setwheelsuspensionsoftness:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(softness,params,param_suspensionsoftness);
         SetWheelSuspensionSoftness(int(num),softness);
         return true;
       }
     case action_setwheelsuspensiondamping:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(damping,params,param_suspensiondamping);
-        SetWheelSuspensionDamping(int(num),damping);
+        SetWheelSuspensionDamping(num,damping);
         return true;
       }
     case action_setwheelleftsteersensitivity:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-        SetWheelLeftSteerSensitivity(int(num),sens);
+        SetWheelLeftSteerSensitivity(num,sens);
         return true;
       }
     case action_setwheelrightsteersensitivity:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-        SetWheelRightSteerSensitivity(int(num),sens);
+        SetWheelRightSteerSensitivity(num,sens);
         return true;
       }
     case action_setwheelturnspeed:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(speed,params,param_turnspeed);
-        SetWheelTurnSpeed(int(num),speed);
+        SetWheelTurnSpeed(num, speed);
         return true;
       }
     case action_setwheelreturnspeed:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(speed,params,param_returnspeed);
-        SetWheelReturnSpeed(int(num),speed);
+        SetWheelReturnSpeed(num, speed);
         return true;
       }
     case action_setwheelenginepower:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
-        SetWheelEnginePower(int(num),power);
+        SetWheelEnginePower(num, power);
         return true;
       }
     case action_setwheelbrakepower:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(power,params,param_brakepower);
-        SetWheelBrakePower(int(num),power);
+        SetWheelBrakePower(num,power);
         return true;
       }
     case action_setwheelsteerinverted:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_BOOL_PAR(invert,params,param_steerinverted);
-        SetWheelSteerInverted(int(num),invert);
+        SetWheelSteerInverted(num, invert);
         return true;
       }
     case action_setwheelhandbrakeaffected:
       {
-        CEL_FETCH_FLOAT_PAR(num,params,param_wheelnum);
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_BOOL_PAR(affect,params,param_handbrakeaffected);
-        SetWheelHandbrakeAffected(int(num),affect);
+        SetWheelHandbrakeAffected(num, affect);
         return true;
       }
     default:
@@ -690,6 +701,7 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
  
   csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
+  csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
   csOrthoTransform t = csOrthoTransform(wheels[wheelnum].Rotation, fullpos);
   wheelbody->SetTransform(t);
   wheelbody->SetPosition(fullpos);
@@ -1022,6 +1034,28 @@ void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
     wheels[wheelnum].WheelJoint->
         SetHingeAnchor(bodyMech->LocalToWorld(position));
   }
+}
+
+void celPcWheeled::SetWheelRotation(int wheelnum, csMatrix3 rotation)
+{
+  wheels[wheelnum].Rotation = rotation;
+/*
+  csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
+  csOrthoTransform
+      bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
+
+    //If the wheel is already created, have to rotate it aswell.
+  if(wheels[wheelnum].WheelJoint!=0)
+  {
+      wheels[wheelnum].RigidBody->DestroyColliders();
+      csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
+      csOrthoTransform t = csOrthoTransform(wheels[wheelnum].Rotation, fullpos);
+      wheels[wheelnum].RigidBody->SetTransform(t);
+
+      csVector3 wheelcenter;
+      wheels[wheelnum].RigidBody->AttachColliderSphere (
+      wheelradius, csVector3(0),0.8f,1,0.5f,0.05f);
+  }*/
 }
 
 void celPcWheeled::SetWheelSuspensionSoftness(int wheelnum, float

@@ -108,6 +108,7 @@ private:
 
     //Per-wheel actions
     action_setwheelposition,
+    action_setwheelrotation,
     action_setwheelsuspensionsoftness,
     action_setwheelsuspensiondamping,
     action_setwheelleftsteersensitivity,
@@ -257,6 +258,7 @@ public:
   // Stuff independent for each wheel
   //Settings related to the joints which need extra setup--------------
   virtual void SetWheelPosition(int wheelnum, csVector3 position);
+  virtual void SetWheelRotation(int wheelnum, csMatrix3 position);
   virtual void SetWheelSuspensionSoftness(int wheelnum, float softness);
   virtual void SetWheelSuspensionDamping(int wheelnum, float damping);
   //--------------
@@ -309,6 +311,9 @@ public:
   // Per-wheel settings
   virtual csVector3 GetWheelPosition(int wheelnum)
   {return wheels[wheelnum].Position;}
+
+  virtual csMatrix3 GetWheelRotation(int wheelnum)
+  {return wheels[wheelnum].Rotation;}
 
   virtual float GetWheelSuspensionSoftness(int wheelnum)
   {return wheels[wheelnum].SuspensionSoftness;}

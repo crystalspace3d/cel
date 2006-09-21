@@ -324,6 +324,13 @@ struct iPcWheeled : public virtual iBase
   virtual void SetWheelPosition(int wheelnum, csVector3 position) = 0;
 
   /**
+   * Set the rotation of a wheel.
+   * \param wheelnum Index of the wheel to set.
+   * \param rotation The new rotation of the wheel.
+   */
+  virtual void SetWheelRotation(int wheelnum, csMatrix3 rotation) = 0;
+
+  /**
    * Set the softness of a wheel's suspension. It is initially 0.000125.
    * \param wheelnum Index of the wheel to set.
    * \param softness Softness of the suspension, from 0 to 1.
@@ -414,6 +421,12 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to get.
    */
   virtual csVector3 GetWheelPosition(int wheelnum) = 0;
+
+  /**
+   * Get the rotation of a wheel.
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual csMatrix3 GetWheelRotation(int wheelnum) = 0;
 
   /**
    * Get the softness of a wheel's suspension.
