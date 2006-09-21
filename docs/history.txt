@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
         - Genjix changed defcam so it sets and unsets CS_ENTITY_NOHITBEAM
           flag properly, and sets CS_ENTITY_INVISIBLEMESH- not INVISIBLE,
           which affects NOHITBEAM flag.
+        - Genjix has changed pchover so it now hovers over everything
+          that doesn't have CS_ENTITY_NOHITBEAM flag set.
 19-Sep-2006
         - Genjix updated track4.zip map and fixed hovertest and
           wheeledtest.

@@ -170,7 +170,7 @@ class contenttype ## pref ## FakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.findmethod(val)
 		else: return self.parent.getmethod(val)
-	def append(self,obj): return self.parent. ## addmethod(obj)	
+	def append(self,obj): return self.parent. ## addmethod(obj)
 %}
 %enddef
 
@@ -211,7 +211,7 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 %extend iCelPlLayer {
 	%pythoncode %{
 	def CreateParameterBlock(self,valdict):
-		"""Create a celGenericParameterBlock from a dict, list or 
+		"""Create a celGenericParameterBlock from a dict, list or
 		tuple"""
 		parblock = celGenericParameterBlock(len(valdict))
 		for idx,valkey in enumerate(valdict):
@@ -585,7 +585,7 @@ CEL_PC(iPcCamera, Camera, pccamera)
 
 %cel_attribute(iPcDefaultCamera,iPcDefaultCamera::CameraMode,Mode)
 %cel_attribute(iPcDefaultCamera,const char*,ModeName)
-//%cel_attribute(iPcDefaultCamera,float,TurnSpeed) ONLY HAS SETTER 
+//%cel_attribute(iPcDefaultCamera,float,TurnSpeed) ONLY HAS SETTER
 //%cel_attribute(iPcDefaultCamera,float,SwingCoef) ONLY HAS SETTER
 %cel_attribute(iPcDefaultCamera,float,Pitch)
 %cel_attribute(iPcDefaultCamera,float,PitchVelocity)
@@ -722,8 +722,6 @@ CEL_PC(iPcMover, Mover, pcmover)
 %include "propclass/hover.h"
 CEL_PC(iPcHover, Hover, pchover)
 
-SETTER_METHOD(iPcHover, "WorldMesh", SetWorldMesh)
-SETTER_METHOD(iPcHover, "World", SetWorld)
 SETTER_METHOD(iPcHover, "HeightBeamCutoff", SetHeightBeamCutoff)
 SETTER_METHOD(iPcHover, "AngularBeamOffset", SetAngularBeamOffset)
 SETTER_METHOD(iPcHover, "AngularCutoffHeight", SetAngularCutoffHeight)
@@ -817,6 +815,6 @@ class CelConsoleOutOverride:
 		sys.stderr = CelConsoleOut(oreg)
 	def __del__(self):
 		import sys
-		sys.stdout = self.oldstdout	
+		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
 %}

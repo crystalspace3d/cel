@@ -224,19 +224,6 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pchover->SetAngularCutoffHeight (8.0);
   pchover->SetAngularBeamOffset (0.5);
 
-  // this should be in pchover
-  iMeshWrapper *meshw = pcmesh->GetMesh ();
-  if (!meshw)
-    return ReportError ("Error loading model!");
-  meshw->GetFlags ().Set (CS_ENTITY_NOHITBEAM);
-  if (meshw->GetFlags ().Check (CS_ENTITY_NOHITBEAM))
-    printf ("mesh has CS_ENTITY_NOHITBEAM\n");
-
-  pchover->SetWorld ("ent_scene");
-
-  //csRef<iPcMesh> wmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
-  //pchover->SetWorldMesh (wmesh);
-
   csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
         iPcCraftController);
   pccraft->SetAccTurn (0.4f);

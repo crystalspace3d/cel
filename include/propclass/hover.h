@@ -36,22 +36,6 @@ struct iPcHover : public virtual iBase
   SCF_INTERFACE (iPcHover, 0, 0, 1);
 
   /**
-   * Set the mesh to do the height tests on (the ground)
-   * \param wmesh ground object
-   */
-  virtual void SetWorldMesh (csRef<iPcMesh> wmesh) = 0;
-
-  /**
-   * Get world mesh using a name by querying
-   * this objects physical layer.
-   * The entity does not have to exist yet,
-   * as it is not queried till the first game
-   * engine tick.
-   * \param name name of world mesh
-   */
-  virtual void SetWorld (const char *name) = 0;
-
-  /**
    * The height for hit beams. Above this height, all height tests
    * return infinity
    */
