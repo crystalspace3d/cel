@@ -662,7 +662,11 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
   if (!pcmesh)
     return pseudoPosition; // no mesh
 
+  // get the initial flags so it can be reset afterwards
+  uint32 flags = pcmesh->GetMesh()->GetFlags().Get ();
+  // turn on NOHITBEAM
   pcmesh->GetMesh()->GetFlags().Set (CS_ENTITY_NOHITBEAM);
+
   switch (GetMode ())
   {
     case iPcDefaultCamera::thirdperson:
@@ -679,7 +683,7 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
       	pseudoPosition, isect, &sel);
       if (mesh)
       {
-        pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+        pcmesh->GetMesh()->GetFlags().SetAll (flags);
         return isect;
       }
 #else
@@ -692,7 +696,7 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
 
       if (sqdist >= 0)
       {
-        pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+        pcmesh->GetMesh()->GetFlags().SetAll (flags);
         return isect;
       }
 #endif
@@ -701,7 +705,8 @@ csVector3 celPcDefaultCamera::CalcCollisionPos (const csVector3& pseudoTarget,
     default:
       break;
   }
-  pcmesh->GetMesh()->GetFlags().Reset (CS_ENTITY_NOHITBEAM);
+  // reset flags to original state
+  pcmesh->GetMesh()->GetFlags().SetAll (flags);
   return pseudoPosition;
 }
 
