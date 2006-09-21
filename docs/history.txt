@@ -5,7 +5,8 @@ The history order is reversed so that new features are at the top.
 
 21-Sep-2006
         - Genjix changed defcam so it sets and unsets CS_ENTITY_NOHITBEAM
-          flag properly.
+          flag properly, and sets CS_ENTITY_INVISIBLEMESH- not INVISIBLE,
+          which affects NOHITBEAM flag.
 19-Sep-2006
         - Genjix updated track4.zip map and fixed hovertest and
           wheeledtest.
