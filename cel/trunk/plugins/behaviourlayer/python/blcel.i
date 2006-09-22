@@ -256,7 +256,7 @@ CEL_FAKE_ARRAY(Pl,iCelPropertyClassFactory,GetPropertyClassFactoryCount,
 %cel_attribute(iCelEntity,const char*,Name)
 %cel_attribute(iCelEntity,uint,ID)
 %cel_attribute(iCelEntity,iCelBehaviour*,Behaviour)
-%cel_attribute(iCelEntity,iCelPropertyClassList*,PropertyClasses,GetPropertyClassList)
+%cel_attribute(iCelEntity,iCelPropertyClassList*,PropertyClassList,GetPropertyClassList)
 %cel_attribute(iCelEntity,csSet<csStringID>&,Classes,GetClasses)
 
 %include "physicallayer/entity.h"
