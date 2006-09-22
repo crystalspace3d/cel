@@ -194,8 +194,11 @@ bool celPcMesh::GetPropertyIndexed (int idx, csVector3& v)
       if (mesh)
       {
         csQuaternion quat;
+        csVector3 vec;
+        float ang;
         quat.SetMatrix (mesh->GetMovable ()->GetTransform ().GetT2O ());
-        v.Set (quat.GetEulerAngles ());
+        quat.GetAxisAngle (vec, ang);
+        v.Set (vec.x * ang, vec.y * ang, vec.z * ang);
       }
       else
         v.Set (0.0f, 0.0f, 0.0f);
