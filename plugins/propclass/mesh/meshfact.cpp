@@ -151,13 +151,15 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (7);
+  propinfo.SetCount (8);
   AddProperty (propid_position, "cel.property.position",
   	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
   AddProperty (propid_fullposition, "cel.property.fullposition",
   	CEL_DATA_VECTOR3, true, "Current full position of mesh.", 0);
   AddProperty (propid_rotation, "cel.property.rotation",
   	CEL_DATA_VECTOR3, true, "Current rotation of mesh.", 0);
+  AddProperty (propid_eulerrotation, "cel.property.eulerrotation",
+  	CEL_DATA_VECTOR3, true, "Current euler rotation of mesh.", 0);
   AddProperty (propid_sector, "cel.property.sector",
   	CEL_DATA_STRING, true, "Current sector of mesh.", 0);
   AddProperty (propid_path, "cel.property.path",
@@ -199,6 +201,16 @@ bool celPcMesh::GetPropertyIndexed (int idx, csVector3& v)
         quat.SetMatrix (mesh->GetMovable ()->GetTransform ().GetT2O ());
         quat.GetAxisAngle (vec, ang);
         v.Set (vec.x * ang, vec.y * ang, vec.z * ang);
+      }
+      else
+        v.Set (0.0f, 0.0f, 0.0f);
+      return true;
+    case propid_eulerrotation:
+      if (mesh)
+      {
+        csQuaternion quat;
+        quat.SetMatrix (mesh->GetMovable ()->GetTransform ().GetT2O ());
+        v.Set (quat.GetEulerAngles ());
       }
       else
         v.Set (0.0f, 0.0f, 0.0f);

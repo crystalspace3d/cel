@@ -6,7 +6,8 @@ The history order is reversed so that new features are at the top.
 22-Sep-2006
 	- caedes changed PropertyClasses accessor in CelEntity to 
 	  PropertyClassList as it is more coherent with real cel api.
-	- Darek changed a little bit pcmesh:cel.property.rotation.
+	- Darek changed a little bit pcmesh:cel.property.rotation
+	  and added cel.property.eulerrotation.
 21-Sep-2006
         - Genjix changed defcam so it sets and unsets CS_ENTITY_NOHITBEAM
           flag properly, and sets CS_ENTITY_INVISIBLEMESH- not INVISIBLE,
