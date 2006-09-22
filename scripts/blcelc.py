@@ -351,7 +351,7 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
     def CreateParameterBlock(self,valdict):
-    	"""Create a celGenericParameterBlock from a dict, list or 
+    	"""Create a celGenericParameterBlock from a dict, list or
     	tuple"""
     	parblock = celGenericParameterBlock(len(valdict))
     	for idx,valkey in enumerate(valdict):
@@ -420,7 +420,7 @@ class iCelEntityTemplatePlFakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindEntityTemplate(val)
 		else: return self.parent.GetEntityTemplateByIndex(val)
-	def append(self,obj): return self.parent.__noappend__(obj)	
+	def append(self,obj): return self.parent.__noappend__(obj)
 
 class iCelEntityPlFakeArray:
 	def __init__(self,parent): self.parent = parent
@@ -444,7 +444,7 @@ class iCelEntityPlFakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindEntity(val)
 		else: return self.parent.GetEntityByIndex(val)
-	def append(self,obj): return self.parent.__noappend__(obj)	
+	def append(self,obj): return self.parent.__noappend__(obj)
 
 class iCelBlLayerPlFakeArray:
 	def __init__(self,parent): self.parent = parent
@@ -468,7 +468,7 @@ class iCelBlLayerPlFakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindBehaviourLayer(val)
 		else: return self.parent.GetBehaviourLayer(val)
-	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)	
+	def append(self,obj): return self.parent.RegisterBehaviourLayer(obj)
 
 class iCelPropertyClassFactoryPlFakeArray:
 	def __init__(self,parent): self.parent = parent
@@ -492,7 +492,7 @@ class iCelPropertyClassFactoryPlFakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.FindPropertyClassFactory(val)
 		else: return self.parent.GetPropertyClassFactory(val)
-	def append(self,obj): return self.parent.LoadPropertyClassFactory(obj)	
+	def append(self,obj): return self.parent.LoadPropertyClassFactory(obj)
 
 class iCelEntity(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2617,7 +2617,7 @@ class iCelEntityInvFakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.In(val)
 		else: return self.parent.GetEntity(val)
-	def append(self,obj): return self.parent.AddEntity(obj)	
+	def append(self,obj): return self.parent.AddEntity(obj)
 
 class iPcCharacteristics(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2836,8 +2836,6 @@ class iPcHover(cspace.iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iPcHover, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def SetWorldMesh(*args): return _blcelc.iPcHover_SetWorldMesh(*args)
-    def SetWorld(*args): return _blcelc.iPcHover_SetWorld(*args)
     def SetHeightBeamCutoff(*args): return _blcelc.iPcHover_SetHeightBeamCutoff(*args)
     def SetAngularBeamOffset(*args): return _blcelc.iPcHover_SetAngularBeamOffset(*args)
     def SetAngularCutoffHeight(*args): return _blcelc.iPcHover_SetAngularCutoffHeight(*args)
@@ -2850,8 +2848,6 @@ class iPcHover(cspace.iBase):
     Height = property(_blcelc.iPcHover_Height_get, None, None,
                     "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcHover::GetHeight()")
 
-    __swig_setmethods__["WorldMesh"] = _blcelc.iPcHover_SetWorldMesh  
-    __swig_setmethods__["World"] = _blcelc.iPcHover_SetWorld  
     __swig_setmethods__["HeightBeamCutoff"] = _blcelc.iPcHover_SetHeightBeamCutoff  
     __swig_setmethods__["AngularBeamOffset"] = _blcelc.iPcHover_SetAngularBeamOffset  
     __swig_setmethods__["AngularCutoffHeight"] = _blcelc.iPcHover_SetAngularCutoffHeight  
@@ -2968,6 +2964,7 @@ class iPcWheeled(cspace.iBase):
     def SetAutoReverse(*args): return _blcelc.iPcWheeled_SetAutoReverse(*args)
     def GetBodyGroup(*args): return _blcelc.iPcWheeled_GetBodyGroup(*args)
     def SetWheelPosition(*args): return _blcelc.iPcWheeled_SetWheelPosition(*args)
+    def SetWheelRotation(*args): return _blcelc.iPcWheeled_SetWheelRotation(*args)
     def SetWheelSuspensionSoftness(*args): return _blcelc.iPcWheeled_SetWheelSuspensionSoftness(*args)
     def SetWheelSuspensionDamping(*args): return _blcelc.iPcWheeled_SetWheelSuspensionDamping(*args)
     def SetWheelLeftSteerSensitivity(*args): return _blcelc.iPcWheeled_SetWheelLeftSteerSensitivity(*args)
@@ -2979,6 +2976,7 @@ class iPcWheeled(cspace.iBase):
     def SetWheelSteerInverted(*args): return _blcelc.iPcWheeled_SetWheelSteerInverted(*args)
     def SetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_SetWheelHandbrakeAffected(*args)
     def GetWheelPosition(*args): return _blcelc.iPcWheeled_GetWheelPosition(*args)
+    def GetWheelRotation(*args): return _blcelc.iPcWheeled_GetWheelRotation(*args)
     def GetWheelSuspensionSoftness(*args): return _blcelc.iPcWheeled_GetWheelSuspensionSoftness(*args)
     def GetWheelSuspensionDamping(*args): return _blcelc.iPcWheeled_GetWheelSuspensionDamping(*args)
     def GetWheelLeftSteerSensitivity(*args): return _blcelc.iPcWheeled_GetWheelLeftSteerSensitivity(*args)
@@ -3152,7 +3150,7 @@ class CelConsoleOutOverride:
 		sys.stderr = CelConsoleOut(oreg)
 	def __del__(self):
 		import sys
-		sys.stdout = self.oldstdout	
+		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
 
 
