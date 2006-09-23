@@ -116,8 +116,6 @@
         <plugin name="thing">crystalspace.mesh.loader.thing</plugin>
         <plugin name="fireFact">crystalspace.mesh.loader.factory.fire</plugin>
         <plugin name="fire">crystalspace.mesh.loader.fire</plugin>
-        <plugin name="snowFact">crystalspace.mesh.loader.factory.snow</plugin>
-        <plugin name="snow">crystalspace.mesh.loader.snow</plugin>
         <plugin name="fountainFact">crystalspace.mesh.loader.factory.fountain</plugin>
         <plugin name="fountain">crystalspace.mesh.loader.fountain</plugin>
         <plugin name="emitFact">crystalspace.mesh.loader.factory.emit</plugin>
@@ -129,10 +127,6 @@
     </plugins>
     <meshfact name="fireFact">
         <plugin>fireFact</plugin>
-        <params />
-    </meshfact>
-    <meshfact name="snowFact">
-        <plugin>snowFact</plugin>
         <params />
     </meshfact>
     <meshfact name="emitFact">
@@ -371,31 +365,6 @@
                 <lighting>no</lighting>
                 <swirl>1.3</swirl>
                 <colorscale>0.2</colorscale>
-            </params>
-        </meshobj>
-        <meshobj name="snowfall">
-            <priority>alpha</priority>
-            <plugin>snow</plugin>
-            <ztest />
-            <move>
-                <v x="10" y="0" z="10" />
-            </move>
-            <params>
-                <factory>snowFact</factory>
-                <box>
-                    <min x="-5" y="-0.3" z="-5" />
-                    <max x="10" y="6" z="10" />
-                </box>
-                <mixmode>
-                    <add />
-                </mixmode>
-                <number>500</number>
-                <material>snow</material>
-                <dropsize w="0.17" h="0.17" />
-                <lighting>no</lighting>
-                <swirl>0.5</swirl>
-                <color red="0.2" green="0.2" blue="0.5" />
-                <fallspeed x="0" y="-0.4" z="0" />
             </params>
         </meshobj>
         <meshobj name="fount1">
