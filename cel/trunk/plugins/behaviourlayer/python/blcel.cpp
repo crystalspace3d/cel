@@ -3479,7 +3479,7 @@ SWIGINTERN void iCelEntity_ID_set(iCelEntity *self,uint _val){ self->SetID(_val)
 SWIGINTERN uint iCelEntity_ID_get(iCelEntity *self){ return (uint)(self->GetID()); }
 SWIGINTERN void iCelEntity_Behaviour_set(iCelEntity *self,iCelBehaviour *_val){ self->SetBehaviour(_val); }
 SWIGINTERN iCelBehaviour *iCelEntity_Behaviour_get(iCelEntity *self){ return (iCelBehaviour*)(self->GetBehaviour()); }
-SWIGINTERN iCelPropertyClassList *iCelEntity_PropertyClasses_get(iCelEntity *self){ return (iCelPropertyClassList*)(self->GetPropertyClassList()); }
+SWIGINTERN iCelPropertyClassList *iCelEntity_PropertyClassList_get(iCelEntity *self){ return (iCelPropertyClassList*)(self->GetPropertyClassList()); }
 SWIGINTERN csSet<csStringID > &iCelEntity_Classes_get(iCelEntity *self){ return (csSet<csStringID>&)(self->GetClasses()); }
 SWIGINTERN iCelBehaviour *iCelEntity_CreateBehaviour(iCelEntity *self,iCelBlLayer *bl,char const *name){
     csRef<iCelBehaviour> bh(bl->CreateBehaviour(self, name));
@@ -11424,7 +11424,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iCelEntity_PropertyClasses_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iCelEntity_PropertyClassList_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelEntity *arg1 = (iCelEntity *) 0 ;
   iCelPropertyClassList *result = 0 ;
@@ -11432,13 +11432,13 @@ SWIGINTERN PyObject *_wrap_iCelEntity_PropertyClasses_get(PyObject *SWIGUNUSEDPA
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:iCelEntity_PropertyClasses_get",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:iCelEntity_PropertyClassList_get",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelEntity_PropertyClasses_get" "', argument " "1"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelEntity_PropertyClassList_get" "', argument " "1"" of type '" "iCelEntity *""'"); 
   }
   arg1 = reinterpret_cast< iCelEntity * >(argp1);
-  result = (iCelPropertyClassList *)iCelEntity_PropertyClasses_get(arg1);
+  result = (iCelPropertyClassList *)iCelEntity_PropertyClassList_get(arg1);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelPropertyClassList, 0 |  0 );
   return resultobj;
 fail:
@@ -60176,7 +60176,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelEntity_ID_get", _wrap_iCelEntity_ID_get, METH_VARARGS, NULL},
 	 { (char *)"iCelEntity_Behaviour_set", _wrap_iCelEntity_Behaviour_set, METH_VARARGS, NULL},
 	 { (char *)"iCelEntity_Behaviour_get", _wrap_iCelEntity_Behaviour_get, METH_VARARGS, NULL},
-	 { (char *)"iCelEntity_PropertyClasses_get", _wrap_iCelEntity_PropertyClasses_get, METH_VARARGS, NULL},
+	 { (char *)"iCelEntity_PropertyClassList_get", _wrap_iCelEntity_PropertyClassList_get, METH_VARARGS, NULL},
 	 { (char *)"iCelEntity_Classes_get", _wrap_iCelEntity_Classes_get, METH_VARARGS, NULL},
 	 { (char *)"iCelEntity_CreateBehaviour", _wrap_iCelEntity_CreateBehaviour, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelEntity", _wrap_delete_iCelEntity, METH_VARARGS, NULL},

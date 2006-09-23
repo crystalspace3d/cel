@@ -530,8 +530,8 @@ class iCelEntity(cspace.iBase):
                     "iCelEntity.Behaviour -> iCelBehaviour*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iCelBehaviour* iCelEntity::GetBehaviour()\n\tset: void iCelEntity::SetBehaviour(iCelBehaviour*)")
 
 
-    PropertyClasses = property(_blcelc.iCelEntity_PropertyClasses_get, None, None,
-                    "iCelEntity.PropertyClasses -> iCelPropertyClassList*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCelPropertyClassList* iCelEntity::GetPropertyClassList()")
+    PropertyClassList = property(_blcelc.iCelEntity_PropertyClassList_get, None, None,
+                    "iCelEntity.PropertyClassList -> iCelPropertyClassList*  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: iCelPropertyClassList* iCelEntity::GetPropertyClassList()")
 
     Classes = property(_blcelc.iCelEntity_Classes_get, None, None,
                     "iCelEntity.Classes -> csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: csSet<csStringID>& iCelEntity::GetClasses()")
