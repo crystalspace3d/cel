@@ -508,6 +508,34 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
 
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (object_reg);
   csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
+
+  // Load all config dirs specified in config file.
+  csRef<iConfigIterator> cfgdir_it = cfg->Enumerate ("CelStart.ConfigDir.");
+  vfs->PushDir(path);
+  while (cfgdir_it && cfgdir_it->Next ())
+  {
+    csString config_dir = cfgdir_it->GetStr();
+    config_dir.Append("/");   // otherwise vfs wont treat as a dir
+    if (vfs->Exists(config_dir))
+    {
+      size_t i;
+      csRef<iStringArray> cfg_files = vfs->FindFiles(config_dir);
+      for (i=0;i<cfg_files->GetSize();i++)
+      {
+        cfg->Load(cfg_files->Get(i),vfs,true);
+      }
+    }
+    else
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    	"crystalspace.application.celstart",
+    	"Specified directory for '%s' cfg files '%s' does not exist in vfs!", 
+	cfgdir_it->GetKey(true),cfgdir_it->GetStr());
+    }
+  }
+  vfs->PopDir();
+
+  // Load behaviour layers
   csRef<iConfigIterator> it = cfg->Enumerate ("CelStart.BehaviourLayer.");
   while (it && it->Next ())
   {
@@ -525,6 +553,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     pl->RegisterBehaviourLayer (bl);
   }
 
+  // Load initial entities specified in config file
   it = cfg->Enumerate ("CelStart.Entity.");
   while (it && it->Next ())
   {
@@ -564,6 +593,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     }
   }
 
+  // Load map files
   csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   it = cfg->Enumerate ("CelStart.MapFile.");
   while (it && it->Next ())

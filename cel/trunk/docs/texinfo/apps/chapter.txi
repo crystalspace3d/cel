@@ -85,6 +85,11 @@ if you use only @sc{xml} behaviours.
 If you have a 2D only @sc{xml} game then it might be needed to force @samp{celstart}
 into clearing the screen every frame since there will be no 3D camera that will do
 this.
+@item @samp{CelStart.ConfigDir.<somename> = <dirname>}
+With this option you can let @samp{celstart} load all config files from the
+specified vfs dir (specified relative to the celstart.cfg path). It is possible
+to have multiple of these in the same configuration in which case 
+@samp{celstart} will load from them all.
 @end itemize
 
 Here is an example config file:
@@ -100,6 +105,8 @@ CelStart.BehaviourLayer.blxml = cel.behaviourlayer.xml
 CelStart.Entity.start = start
 CelStart.EntityBehaviourLayer.start = blxml
 CelStart.EntityBehaviour.start = start_behaviour
+; Load config files from the 'config' dir (under map vfs).
+CelStart.ConfigDir.Behaviours = config
 ; Some CS stuff.
 Video.ScreenWidth = 1024
 Video.ScreenHeight = 768
