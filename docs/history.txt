@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 26-Sep-2006
 	- caedes added Celstart.ConfigDir.* config keys to celstart so it will
 	  load all config files from the specified dirs. Also updated manual.
+	- cfraz89 removed the old particle plugins from the celstart_static
+	  target in Jamfile.
 22-Sep-2006
 	- caedes changed PropertyClasses accessor in CelEntity to 
 	  PropertyClassList as it is more coherent with real cel api.
