@@ -58,13 +58,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     emitldr
     engine
     engseq
-    explo
-    exploldr
-    fire
-    fireldr
     fontplex
-    fountain
-    fountldr
     frustvis
     genmesh
     gl3d 
@@ -81,8 +75,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     nullmesh
     protomesh
     protomeshldr
-    rain
-    rainldr
     rendloop_loader
     rendstep_std
     reporter
@@ -90,10 +82,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     shadermgr
     simpleformer
     simpleformerldr
-    snow
-    snowldr
-    spiral
-    spirldr
     spr2d
     spr2dldr
     spr3d

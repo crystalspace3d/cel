@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Sep-2006
+	- Jorrit fixed CEL for latest particle removals in CS.
 26-Sep-2006
 	- caedes added Celstart.ConfigDir.* config keys to celstart so it will
 	  load all config files from the specified dirs. Also updated manual.
