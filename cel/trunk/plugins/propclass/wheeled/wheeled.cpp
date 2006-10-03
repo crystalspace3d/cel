@@ -40,7 +40,7 @@
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
 
-#include "iostream"
+#include <cmath>
 
 //--------------------------------------------------------------------------
 
@@ -701,7 +701,7 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
  
   csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
-  csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
+  //csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
   csOrthoTransform t = csOrthoTransform(wheels[wheelnum].Rotation, fullpos);
   wheelbody->SetTransform(t);
   wheelbody->SetPosition(fullpos);
@@ -932,11 +932,11 @@ void celPcWheeled::TickOnce()
   float fmax=gears[1].y;
   if(accelerating)
   {
-    vel=gears[gear+1].x;
-    fmax=gears[gear+1].y;
+    vel=gears[gear + 1].x;
+    fmax=gears[gear + 1].y;
   }
 
-  float steerfactor = 1000.0f - straightvel * 100.0f;
+  float steerfactor = 1000.0f + fabs(straightvel) * 100.0f;
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint!=0)
@@ -944,7 +944,7 @@ void celPcWheeled::TickOnce()
       wheels[i].WheelJoint->SetVel(vel,1);
       wheels[i].WheelJoint->SetFMax(fmax*wheels[i].EnginePower,1);
 
-      // Set the power of steering proportional to the spee dof the car.
+      // Set the power of steering proportional to the speed of the car.
       // This gives smooth steer and return at low speeds, while
       // preventing wheels from bending at high speeds.
       wheels[i].WheelJoint->SetFMax(steerfactor, 0);

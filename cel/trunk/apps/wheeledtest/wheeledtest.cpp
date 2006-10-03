@@ -91,7 +91,7 @@
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "iostream"
+#include "propclass/meshdeform.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -193,6 +193,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       "pcdefaultcamera",
       "pcmechobject",
       "pcwheeled",
+      "pcmeshdeform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -245,7 +246,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->SetWheelMesh("celCarWheel","/cel/data/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
- // pcwheeled->SetTankMode(true);
+  pcwheeled->SetTankMode(true);
 
   /*This part demos how to use presets to modify the steer and drive settings
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
@@ -278,6 +279,9 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetGearSettings(3,50,700);
   pcwheeled->SetGearSettings(4,75,450);
   pcwheeled->SetGearSettings(5,100,200);
+
+  csRef<iPcMeshDeform> pcmeshdeform
+    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -502,6 +506,8 @@ bool WheeledTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechobject"))
     return false;
   if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
+    return false;
+  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
     return false;
   if (!CreateMap ()) return false;
 
