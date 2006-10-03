@@ -95,6 +95,8 @@ enum
   XMLTOKEN_STOP,
   XMLTOKEN_RANDOMIZE,
   XMLTOKEN_QUIT,
+  XMLTOKEN_HIDEMOUSE,
+  XMLTOKEN_SHOWMOUSE,
 
   XMLTOKEN_LAST
 };
@@ -193,7 +195,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"cel.behaviourlayer.xml",
-	"Can't find syntax services!");
+    	"Can't find syntax services!");
     return false;
   }
   csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
@@ -256,6 +258,8 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("stop", XMLTOKEN_STOP);
   xmltokens.Register ("randomize", XMLTOKEN_RANDOMIZE);
   xmltokens.Register ("quit", XMLTOKEN_QUIT);
+  xmltokens.Register ("hidemouse", XMLTOKEN_HIDEMOUSE);
+  xmltokens.Register ("showmouse", XMLTOKEN_SHOWMOUSE);
 
   functions.Register ("pc", XMLFUNCTION_PC);
   functions.Register ("pctag", XMLFUNCTION_PCTAG);
@@ -329,8 +333,8 @@ const char* celBlXml::GetAttributeValue (iDocumentNode* child,
   if (!rc)
   {
     synldr->ReportError (
-	"cel.behaviour.xml", child,
-	"Can't find attribute '%s'!", propname);
+    	"cel.behaviour.xml", child,
+    	"Can't find attribute '%s'!", propname);
     return 0;
   }
   return rc;
@@ -343,9 +347,9 @@ const char* celBlXml::GetAttributeString (iDocumentNode* child,
   if (!value && parentname)
   {
     synldr->ReportError (
-	"cel.behaviour.xml", child,
-	"'%s' attribute is missing for <%s>!",
-	attrname, parentname);
+    	"cel.behaviour.xml", child,
+    	"'%s' attribute is missing for <%s>!",
+    	attrname, parentname);
     return 0;
   }
   return value;
@@ -360,7 +364,7 @@ bool celBlXml::ParseExpressionOrConstantString (
   if (!input)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-		"Can't find attribute '%s' for '%s'!", attrname, name);
+    	"Can't find attribute '%s' for '%s'!", attrname, name);
     return false;
   }
   char buf[100];
@@ -374,7 +378,7 @@ bool celBlXml::ParseExpressionOrConstantString (
   if (*input != 0)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-		"Unexpected tokens found for '%s'!", buf);
+    	"Unexpected tokens found for '%s'!", buf);
     return false;
   }
 
@@ -2603,51 +2607,57 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_PRINT:
         if (!ParseExpression (local_vars, child, h, "value", "print"))
-	  return false;
+          return false;
         h->AddOperation (CEL_OPERATION_PRINT);
         break;
       case XMLTOKEN_DEFAULT:
         if (!ParseExpression (local_vars, child, h, "propclass", "default"))
-	  return false;
+          return false;
         h->AddOperation (CEL_OPERATION_DEFAULTPC);
         break;
       case XMLTOKEN_INVENTORY:
         if (!ParseExpression (local_vars, child, h, "propclass", "inventory"))
-	  return false;
+          return false;
         h->AddOperation (CEL_OPERATION_DEFAULTINV);
         break;
       case XMLTOKEN_INVENTORY_ADD:
         if (!ParseExpression (local_vars, child, h, "child", "inventory_add"))
-	  return false;
+          return false;
         h->AddOperation (CEL_OPERATION_INVENTORY_ADD);
         break;
       case XMLTOKEN_INVENTORY_REM:
         if (!ParseExpression (local_vars, child, h, "child", "inventory_rem"))
-	  return false;
+          return false;
         h->AddOperation (CEL_OPERATION_INVENTORY_REM);
         break;
       case XMLTOKEN_PROPERTY:
         {
           if (!ParseExpression (local_vars, child, h, "propclass", "property",
-	  	CEL_DATA_PCLASS))
-	    return false;
+          	CEL_DATA_PCLASS))
+            return false;
           if (!ParseExpression (local_vars, child, h, "id", "property"))
-	    return false;
+            return false;
           if (!ParseExpression (local_vars, child, h, "value", "property"))
-	    return false;
-	  h->AddOperation (CEL_OPERATION_PROPERTY);
-	}
-	break;
+            return false;
+          h->AddOperation (CEL_OPERATION_PROPERTY);
+        }
+        break;
+      case XMLTOKEN_HIDEMOUSE:
+        h->AddOperation (CEL_OPERATION_HIDEMOUSE);
+        break;
+      case XMLTOKEN_SHOWMOUSE:
+        h->AddOperation (CEL_OPERATION_SHOWMOUSE);
+        break;
       default:
         synldr->ReportBadToken (child);
-	return false;
+        return false;
     }
   }
   return true;
 }
 
 bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
-  	iDocumentNode* node)
+	iDocumentNode* node)
 {
   celXmlScript* script = new celXmlScript (pl, object_reg);
   script->SetName (name);
