@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+03-Oct-2006
+	- Darek added <hidemouse/> and <shoumouse/> to xml behaviour.
 27-Sep-2006
 	- Jorrit fixed CEL for latest particle removals in CS.
 	- cfraz89 fixed a bug in pcwheeled which made the wheels bend when
