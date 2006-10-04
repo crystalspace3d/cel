@@ -270,6 +270,9 @@ enum
   CEL_OPERATION_STRLEN,		// A:-		S:S		OS:I
   CEL_OPERATION_STRSPLIT,	// A:-		S:S,S,S,S	OS:-
 
+  CEL_OPERATION_HIDEMOUSE,	// A:-		S:-		OS:-
+  CEL_OPERATION_SHOWMOUSE,	// A:-		S:-		OS:-
+
   CEL_OPERATION_FINALOP
 };
 
@@ -454,11 +457,11 @@ private:
   void DumpCallStack (celBlXml* cbl);
   void DumpVariables (celBehaviourXml* behave);
   void FindMouseTarget (iPcCamera* pccam, int screenx, int screeny,
-    float maxdist, csVector3& isect, iCelEntity*& selent);
+  	float maxdist, csVector3& isect, iCelEntity*& selent);
   void HitBeam (iSector* sector,
   	const csVector3& start, const csVector3& end,
   	csVector3& isect, iCelEntity*& selent,
-	iMeshWrapper*& mesh);
+  	iMeshWrapper*& mesh);
 
 public:
   celXmlScriptEventHandler (iCelPlLayer* pl, celXmlScript* script);
@@ -476,9 +479,9 @@ public:
   void ReplaceLastOperation (int op) { operations.Top ().op = op; }
 
   iPcRules* GetRules (iCelEntity* entity,
-      celBehaviourXml* behave);
+  	celBehaviourXml* behave);
   iPcProperties* GetProperties (iCelEntity* entity,
-      celBehaviourXml* behave);
+  	celBehaviourXml* behave);
 
   // Get argument for last operation.
   celXmlArg& GetArgument ();
@@ -495,7 +498,7 @@ public:
 
   bool Execute (iCelEntity* entity, celBlXml* cbl, celBehaviourXml* behave,
   	celData& ret, iCelParameterBlock* params, size_t startop = 0,
-	bool newscope = true, int expected_stack_size = 0);
+  	bool newscope = true, int expected_stack_size = 0);
 };
 
 /**

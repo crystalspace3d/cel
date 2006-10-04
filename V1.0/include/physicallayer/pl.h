@@ -28,6 +28,7 @@
 struct iObject;
 struct iCelEntity;
 struct iCelEntityList;
+struct iCelEntityIterator;
 struct iCelDataBuffer;
 struct iCelMessage;
 struct iCelPropertyClass;
@@ -528,7 +529,7 @@ struct iCelPlLayer : public iBase
   virtual int AddScope (csString version, int size) = 0;
 };
 
-SCF_VERSION (iCelEntityTracker, 0, 0, 1);
+SCF_VERSION (iCelEntityTracker, 0, 0, 2);
 
 /**
  * This structure maintains a tracker for entities. You can use this
@@ -565,6 +566,21 @@ struct iCelEntityTracker : public iBase
    */
   virtual csPtr<iCelEntityList> FindNearbyEntities (iSector* sector,
   	const csVector3& pos, float radius) = 0;
+
+  /**
+   * Get an iterator for all entities in this tracker.
+   */
+  virtual csPtr<iCelEntityIterator> GetIterator () = 0;
+
+  /**
+   * Add all entities in the given tracker to this tracker.
+   */
+  virtual void AddEntities (iCelEntityTracker* tracker) = 0;
+
+  /**
+   * Remove all entities in the given tracker from this tracker.
+   */
+  virtual void RemoveEntities (iCelEntityTracker* tracker) = 0;
 };
 
 #endif // __CEL_PL_PL__

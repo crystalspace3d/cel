@@ -81,7 +81,7 @@ struct iPcWheeled : public virtual iBase
   /**
    * Get if tank mode is enabled
    */
-  virtual int GetTankMode() = 0;
+  virtual bool GetTankMode() = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout. This method uses the
@@ -324,6 +324,13 @@ struct iPcWheeled : public virtual iBase
   virtual void SetWheelPosition(int wheelnum, csVector3 position) = 0;
 
   /**
+   * Set the rotation of a wheel.
+   * \param wheelnum Index of the wheel to set.
+   * \param rotation The new rotation of the wheel.
+   */
+  virtual void SetWheelRotation(int wheelnum, csMatrix3 rotation) = 0;
+
+  /**
    * Set the softness of a wheel's suspension. It is initially 0.000125.
    * \param wheelnum Index of the wheel to set.
    * \param softness Softness of the suspension, from 0 to 1.
@@ -416,6 +423,12 @@ struct iPcWheeled : public virtual iBase
   virtual csVector3 GetWheelPosition(int wheelnum) = 0;
 
   /**
+   * Get the rotation of a wheel.
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual csMatrix3 GetWheelRotation(int wheelnum) = 0;
+
+  /**
    * Get the softness of a wheel's suspension.
    * \param wheelnum Index of the wheel to get.
    */
@@ -475,6 +488,23 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to get.
    */
   virtual bool GetWheelHandbrakeAffected(int wheelnum) = 0;
+
+  /**
+   * Get the number of wheels on this vehicle
+   */
+  virtual int GetWheelCount() = 0;
+
+  /**
+   * Get whether the rigid body of this wheel
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual iRigidBody* GetWheelBody(int wheelnum) = 0;
+
+  /**
+   * Get whether the joint connecting this wheel
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum) = 0;
 };
 
 #endif // __CEL_PF_WHEELED__

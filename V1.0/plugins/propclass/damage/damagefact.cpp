@@ -30,7 +30,6 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
-
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
@@ -57,7 +56,7 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   amount = 1.0;
   falloff = FALLOFF_NORMAL;
   position.Set (0, 0, 0);
-
+  sourceset = false;
   if (id_amount == csInvalidStringID)
   {
     id_amount = pl->FetchStringID ("cel.parameter.amount");
@@ -89,7 +88,7 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
   }
  
   // For properties.
-  propinfo.SetCount (4);
+  propinfo.SetCount (5);
   AddProperty (propid_amount, "cel.property.amount",
 	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
   AddProperty (propid_type, "cel.property.type",
@@ -98,6 +97,8 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
 	CEL_DATA_STRING, false, "Originating sector.", 0);
   AddProperty (propid_position, "cel.property.position",
 	CEL_DATA_VECTOR3, false, "Originating position.", &position);
+  AddProperty (propid_source, "cel.property.source",
+	CEL_DATA_STRING, false, "Source of damage.", &amount);
 
   engine = csQueryRegistry<iEngine> (object_reg);
 }
@@ -117,6 +118,9 @@ bool celPcDamage::SetPropertyIndexed (int idx, const char* b)
     case propid_sector:
       sector = b;
       return true;
+    case propid_source:
+      source = b;
+      return true;
     default:
       return false;
   }
@@ -131,6 +135,9 @@ bool celPcDamage::GetPropertyIndexed (int idx, const char*& s)
       return true;
     case propid_sector:
       s = sector;
+      return true;
+    case propid_source:
+      s = source;
       return true;
     default:
       return false;
@@ -288,6 +295,21 @@ void celPcDamage::DoDamage (iCelEntity* ent, const csVector3& p)
   behave->SendMessage ("pcdamage_hurt", 0, ret, params);
 }
 
+void celPcDamage::SetDamageSource (const char* source)
+{
+    sourceset = true;
+    celPcDamage::source = source;
+}
+
+void celPcDamage::CheckSource ()
+{
+  if (!sourceset)
+  {
+    sourceset = true;
+    source = entity->GetName ();
+  }
+}
+
 void celPcDamage::DoDamage (iCelEntityList* list, const csVector3& p)
 {
   size_t i;
@@ -300,6 +322,7 @@ void celPcDamage::DoDamage (iCelEntityList* list, const csVector3& p)
 
 void celPcDamage::AreaDamage (float radius)
 {
+  CheckSource ();
   // @@@ Should be more configurable!!!
 #define MIN_FORCE 0.5f
   float max_radius;
@@ -318,7 +341,7 @@ void celPcDamage::AreaDamage (float radius)
   GetLocation (s, p);
   if (s == 0) return;	// Can't do area damage.
 
-  params->GetParameter (1).Set (entity->GetName ());
+  params->GetParameter (1).Set (source);
   params->GetParameter (2).Set (s->QueryObject ()->GetName ());
   params->GetParameter (3).Set (p);
   params->GetParameter (4).Set (type);
@@ -331,6 +354,7 @@ void celPcDamage::AreaDamage (float radius)
 
 void celPcDamage::BeamDamage (const csVector3& direction, float maxdist)
 {
+  CheckSource ();
   // @@@ Should be more configurable!!!
   float max_radius;
   switch (falloff)
@@ -348,7 +372,7 @@ void celPcDamage::BeamDamage (const csVector3& direction, float maxdist)
   GetLocation (s, p);
   if (s == 0) return;	// Can't do beam damage.
 
-  params->GetParameter (1).Set (entity->GetName ());
+  params->GetParameter (1).Set (source);
   params->GetParameter (2).Set (s->QueryObject ()->GetName ());
   params->GetParameter (3).Set (p);
   params->GetParameter (4).Set (type);
@@ -362,6 +386,7 @@ void celPcDamage::BeamDamage (const csVector3& direction, float maxdist)
 
 void celPcDamage::SingleDamage (const char* target)
 {
+  CheckSource ();
   iCelEntity* ent = pl->FindEntity (target);
   if (!ent) return;
 
@@ -382,7 +407,7 @@ void celPcDamage::SingleDamage (const char* target)
   csVector3 p;
   GetLocation (s, p);
 
-  params->GetParameter (1).Set (entity->GetName ());
+  params->GetParameter (1).Set (source);
   params->GetParameter (2).Set (s == 0 ? "" : (s->QueryObject ()->GetName ()));
   params->GetParameter (3).Set (p);
   params->GetParameter (4).Set (type);

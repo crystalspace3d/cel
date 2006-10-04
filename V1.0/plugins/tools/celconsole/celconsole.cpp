@@ -875,26 +875,26 @@ void celConsole::ListInfoEntity (const csStringArray& args)
       {
 	case CEL_DATA_LONG:
 	  conout->PutText ("        prop: LONG id=%u/%s ro=%d v=%ld (%s)\n",
-	      id, idstr, ro, pc->GetPropertyLong (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyLong (id), desc);
 	  break;
 	case CEL_DATA_FLOAT:
 	  conout->PutText ("        prop: FLOAT id=%u/%s ro=%d v=%g (%s)\n",
-	      id, idstr, ro, pc->GetPropertyFloat (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyFloat (id), desc);
 	  break;
 	case CEL_DATA_BOOL:
 	  conout->PutText ("        prop: BOOL id=%u/%s ro=%d v=%d (%s)\n",
-	      id, idstr, ro, pc->GetPropertyBool (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyBool (id), desc);
 	  break;
 	case CEL_DATA_STRING:
 	  conout->PutText ("        prop: STRING id=%u/%s ro=%d v=%s (%s)\n",
-	      id, idstr, ro, pc->GetPropertyString (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyString (id), desc);
 	  break;
 	case CEL_DATA_VECTOR2:
 	  {
 	    csVector2 v;
 	    pc->GetPropertyVector (id, v);
 	    conout->PutText ("        prop: VECTOR2 id=%u/%s ro=%d v=%g,%g (%s)\n",
-	      id, idstr, ro, v.x, v.y, desc);
+	      (unsigned int) id, idstr, ro, v.x, v.y, desc);
 	  }
 	  break;
 	case CEL_DATA_VECTOR3:
@@ -902,7 +902,7 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	    csVector3 v;
 	    pc->GetPropertyVector (id, v);
 	    conout->PutText ("        prop: VECTOR3 id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
-	      id, idstr, ro, v.x, v.y, v.z, desc);
+	      (unsigned int) id, idstr, ro, v.x, v.y, v.z, desc);
 	  }
 	  break;
 	case CEL_DATA_COLOR:
@@ -910,30 +910,30 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	    csColor v;
 	    pc->GetPropertyColor (id, v);
 	    conout->PutText ("        prop: COLOR id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
-	      id, idstr, ro, v.red, v.green, v.blue, desc);
+	      (unsigned int) id, idstr, ro, v.red, v.green, v.blue, desc);
 	  }
 	  break;
 	case CEL_DATA_ACTION:
 	  conout->PutText ("        prop: ACTION id=%u/%s ro=%d (%s)\n",
-	      id, idstr, ro, desc);
+	      (unsigned int) id, idstr, ro, desc);
 	  break;
 	case CEL_DATA_PCLASS:
 	  {
 	    iCelPropertyClass* p = pc->GetPropertyPClass (id);;
 	    conout->PutText ("        prop: PC id=%u/%s ro=%d v=%p/%s (%s)\n",
-	      id, idstr, ro, p, p ? p->GetName () : "0", desc);
+	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }
 	  break;
 	case CEL_DATA_ENTITY:
 	  {
 	    iCelEntity* p = pc->GetPropertyEntity (id);;
 	    conout->PutText ("        prop: ENTITY id=%u/%s ro=%d v=%p/%s (%s)\n",
-	      id, idstr, ro, p, p ? p->GetName () : "0", desc);
+	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }
 	  break;
 	default:
 	  conout->PutText ("        prop: ? id=%u/%s ro=%d (%s)\n",
-	      id, idstr, ro, desc);
+	      (unsigned int) id, idstr, ro, desc);
 	  break;
       }
     }

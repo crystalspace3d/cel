@@ -231,6 +231,16 @@ struct iBillboard : public iBase
   virtual void Move (int dx, int dy) = 0;
 
   /**
+   * Rotate the billboard.
+   */
+  virtual void SetRotation (float angle) = 0;
+
+  /**
+   * Get rotation of the billboard.
+   */
+  virtual float GetRotation () const = 0;
+
+  /**
    * Bring this billboard to the top of the stack (first visible).
    */
   virtual void StackTop () = 0;

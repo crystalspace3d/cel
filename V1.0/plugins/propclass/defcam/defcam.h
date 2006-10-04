@@ -189,6 +189,7 @@ private:
   static csStringID id_yaw;
   static csStringID id_yawvelocity;
   static csStringID id_distance;
+  static csStringID id_distancevelocity;
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
@@ -209,6 +210,7 @@ public://@@@
   // velocity stuff
   float pitchVelocity;
   float yawVelocity;
+  float distanceVelocity;
 
   // some camera settings
   // NOTE: the offsets are not in the format you think they are, due to speed
@@ -478,6 +480,18 @@ public:
    * @return the distance from the camera position to its target
    */
   float GetDistance (int mode = -1) const;
+
+  /**
+   * Sets the distance (zoom) velocity of the camera
+   * @param distanceVel the velocity of the zoom
+   */
+  void SetDistanceVelocity (float distanceVel);
+
+  /**
+   * Gets the distance (zoom) velocity of the camera
+   * @return the distance (zoom) velocity of the camera
+   */
+  float GetDistanceVelocity () const;
 
   /**
    * Resets the actual camera data to the player position and stuff
@@ -877,6 +891,18 @@ public:
     virtual void SetDistance (float distance, int mode)
     {
       scfParent->SetDistance (distance, mode);
+    }
+    virtual float GetDistance (int mode)
+    {
+      return scfParent->GetDistance (mode);
+    }
+    virtual void SetDistanceVelocity (float distanceVel)
+    {
+      scfParent->SetDistanceVelocity (distanceVel);
+    }
+    virtual float GetDistanceVelocity () const
+    {
+      return scfParent->GetDistanceVelocity ();
     }
     virtual void Draw ()
     {

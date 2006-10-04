@@ -24,8 +24,7 @@
 #include "csutil/scf.h"
 
 #include "propclass/mechcommon.h"
-
-class csVector3;
+#include "csgeom/vector3.h"
 class csBox3;
 class csOrthoTransform;
 class csPlane3;
@@ -242,9 +241,9 @@ struct iPcMechanicsSystem : public virtual iBase
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - InitPhys: parameters 'friction' (float), 'elasticity' (float),
- * 	'density' (float), 'softness' (float), 'lift' (vector3), and
- * 	'drag' (float).
+ * - InitPhys: parameters 'mass' (float), 'friction' (float),
+ *      'elasticity' (float), 'density' (float), 'softness' (float),
+ *      'lift' (vector3), and 'drag' (float).
  * - MakeStatic: parameters 'static' (bool).
  * - SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
  * - SetMesh: parameters 'mechpctag' (string).
@@ -494,8 +493,9 @@ struct iPcMechanicsObject : public virtual iBase
   /**
    * Create a sphere collider for this object, automatically sized
    * and positioned from it's mesh.
+   * \param radiusadjustment Amount to vary the radius from actual bounding radius.
    */
-  virtual void AttachColliderBoundingSphere () = 0;
+  virtual void AttachColliderBoundingSphere (float radiusadjustment = 0.0f) = 0;
 
   /**
    * Create a sphere collider for this object.
@@ -516,8 +516,9 @@ struct iPcMechanicsObject : public virtual iBase
 
   /**
    * Create a box collider for this object, automatically sized and positioned from it's mesh.
+   * \param sizeadjustment Amount to vary the size from actual bounding size.
    */
-  virtual void AttachColliderBoundingBox () = 0;
+  virtual void AttachColliderBoundingBox (const csVector3& sizeadjustment = csVector3(0)) = 0;
 
   /**
    * Create a box collider for this object.

@@ -108,6 +108,7 @@ private:
 
     //Per-wheel actions
     action_setwheelposition,
+    action_setwheelrotation,
     action_setwheelsuspensionsoftness,
     action_setwheelsuspensiondamping,
     action_setwheelleftsteersensitivity,
@@ -153,7 +154,6 @@ private:
 
   float brakeforce;
   int gear;
-  int numberwheels;
   bool autotransmission;
   bool autoreverse;
   bool tankmode;
@@ -258,6 +258,7 @@ public:
   // Stuff independent for each wheel
   //Settings related to the joints which need extra setup--------------
   virtual void SetWheelPosition(int wheelnum, csVector3 position);
+  virtual void SetWheelRotation(int wheelnum, csMatrix3 position);
   virtual void SetWheelSuspensionSoftness(int wheelnum, float softness);
   virtual void SetWheelSuspensionDamping(int wheelnum, float damping);
   //--------------
@@ -303,13 +304,16 @@ public:
   virtual int GetTopGear() {return topgear;}
   virtual int GetGear(){return gear;}
   virtual float GetSteerAmount(){return steeramount;}
-  virtual int GetTankMode(){return tankmode;}
+  virtual bool GetTankMode(){return tankmode;}
   virtual bool GetBrakeApplied(){return brakeapplied;}
   virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
 
   // Per-wheel settings
   virtual csVector3 GetWheelPosition(int wheelnum)
   {return wheels[wheelnum].Position;}
+
+  virtual csMatrix3 GetWheelRotation(int wheelnum)
+  {return wheels[wheelnum].Rotation;}
 
   virtual float GetWheelSuspensionSoftness(int wheelnum)
   {return wheels[wheelnum].SuspensionSoftness;}
@@ -340,6 +344,14 @@ public:
 
   virtual bool GetWheelHandbrakeAffected(int wheelnum)
   {return wheels[wheelnum].HandbrakeAffected;}
+
+  virtual iRigidBody* GetWheelBody(int wheelnum)
+  {return wheels[wheelnum].RigidBody;}
+
+  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum)
+  {return wheels[wheelnum].WheelJoint;}
+
+  virtual int GetWheelCount() { return wheels.Length(); }
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();

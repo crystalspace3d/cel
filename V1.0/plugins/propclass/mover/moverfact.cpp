@@ -84,7 +84,8 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 
 celPcMover::~celPcMover ()
 {
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  if (pl)
+    pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
 
 #define MOVER_SERIAL 1

@@ -224,11 +224,6 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pchover->SetAngularCutoffHeight (8.0);
   pchover->SetAngularBeamOffset (0.5);
 
-  //pchover->SetWorld ("ent_scene");
-
-  csRef<iPcMesh> wmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
-  pchover->SetWorldMesh (wmesh);
-
   csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
         iPcCraftController);
   pccraft->SetAccTurn (0.4f);
@@ -298,27 +293,7 @@ bool HoverTest::CreateRoom ()
   pcmechsys->EnableQuickStep ();
   pcmechsys->SetStepTime (0.02f);
 
-  scene = pl->CreateEntity("ent_scene", 0, 0,
-        "pcmesh",
-        "pcmechobject",
-        (void*)0);
-
-  csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (scene, iPcMesh);
-  pcmesh->SetPath (path.GetData ());
-  if (!pcmesh->SetMesh (terrain, terrainfile))
-    return ReportError ("could not load TerrainFact mesh factory!");
-
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (scene,
-  	iPcMechanicsObject);
-  pcmechobj->AttachColliderMesh();
-  pcmechobj->MakeStatic(true);
-
-  iCameraPosition* campos;
-  campos = engine->GetCameraPositions ()->Get (0);
-  printf("campos %f %f %f\n", campos->GetPosition ().x,
-        campos->GetPosition ().y, campos->GetPosition ().z);
-
-  if (!CreatePlayer (campos->GetPosition ()))
+  if (!CreatePlayer (csVector3 (0, 0, 0)))
     return ReportError ("Could not create entity 'ent_player'!");
 
   csRef<iPcCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (player, iPcCamera);
@@ -330,7 +305,21 @@ bool HoverTest::CreateRoom ()
   csRef<iPcInventory> pcinv_room = CEL_QUERY_PROPCLASS_ENT (level,
   	iPcInventory);
   if (!pcinv_room->AddEntity (player)) return false;
-  if (!pcinv_room->AddEntity (scene)) return false;
+  //if (!pcinv_room->AddEntity (scene)) return false;
+
+    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+          iPcMechanicsObject);
+    // Get the first start position available.
+    // \todo manage multiple start positions.
+    iCameraPosition* campos;
+    campos = engine->GetCameraPositions ()->Get (0);
+    csVector3 up (campos->GetUpwardVector ());
+    csVector3 fw (campos->GetForwardVector ());
+    csVector3 cr;
+    cr.Cross (up, fw);
+    csMatrix3 mat (cr.x, cr.y, cr.z, up.x, up.y, up.z, fw.x, fw.y, fw.z);
+    pcmechobj->GetBody ()->SetOrientation (mat);
+    pcmechobj->GetBody ()->SetPosition (campos->GetPosition ());
 
   return true;
 }

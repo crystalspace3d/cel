@@ -92,6 +92,7 @@
 			case CEL_DATA_PARAMETER:
 				/*data->value.par (iString+celDataType)*/
 			default:
+                                Py_INCREF(Py_None);
 				obj = Py_None;
 				break;
 		    }

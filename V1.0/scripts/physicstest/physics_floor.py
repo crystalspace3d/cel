@@ -5,7 +5,7 @@ class physics_floor:
 		print "Initializing floor..."
 	def real_init(self,celEntity,room,dynsys):
 		mesh = celCreateMesh(physicallayer_ptr,celEntity)
-		mesh.CreateEmptyThing()
+		mesh.CreateEmptyThing("floor")
 		state = SCF_QUERY_INTERFACE(mesh.GetMesh().GetMeshObject(),
 			iThingState)
 		factstate = state.GetFactory()

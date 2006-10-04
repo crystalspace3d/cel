@@ -29,6 +29,9 @@
 #include "plugins/network/tcp/tcpgamefactory.h"
 #include "plugins/network/tcp/tcpgameclient.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 SCF_IMPLEMENT_IBASE_EXT (celTCPGameClient)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameClient)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -720,3 +723,7 @@ void celTCPGameClient::GetNetworkStats (celNetworkServerStats& stats) const
     stats.latency = connection_latency > 999 ? 999 : connection_latency;
   // TODO: other stats
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
+

@@ -172,7 +172,7 @@ AS_IF([test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes],
 # Check for external libraries.
 #----------------------------------------------------------------------------
 CS_CHECK_CSWIN32LIBS
-CS_CHECK_PYTHON()
+CS_CHECK_PYTHON([emit])
 CS_CHECK_CPPUNIT([emit])
 CS_CHECK_PTHREAD([cygwin*])
 
