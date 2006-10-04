@@ -551,11 +551,13 @@ csStringID celPcMechanicsObject::param_systempcent = csInvalidStringID;
 csStringID celPcMechanicsObject::param_systempctag = csInvalidStringID;
 csStringID celPcMechanicsObject::param_meshpctag = csInvalidStringID;
 csStringID celPcMechanicsObject::param_radius = csInvalidStringID;
+csStringID celPcMechanicsObject::param_radiusadjustment = csInvalidStringID;
 csStringID celPcMechanicsObject::param_offset = csInvalidStringID;
 csStringID celPcMechanicsObject::param_length = csInvalidStringID;
 csStringID celPcMechanicsObject::param_axis = csInvalidStringID;
 csStringID celPcMechanicsObject::param_angle = csInvalidStringID;
 csStringID celPcMechanicsObject::param_size = csInvalidStringID;
+csStringID celPcMechanicsObject::param_sizeadjustment = csInvalidStringID;
 csStringID celPcMechanicsObject::param_normal = csInvalidStringID;
 csStringID celPcMechanicsObject::param_otherbody = csInvalidStringID;
 csStringID celPcMechanicsObject::param_force = csInvalidStringID;
@@ -568,6 +570,7 @@ csStringID celPcMechanicsObject::param_tag = csInvalidStringID;
 csStringID celPcMechanicsObject::param_forward = csInvalidStringID;
 csStringID celPcMechanicsObject::param_up = csInvalidStringID;
 csStringID celPcMechanicsObject::param_depth = csInvalidStringID;
+csStringID celPcMechanicsObject::param_group = csInvalidStringID;
 
 PropertyHolder celPcMechanicsObject::propinfo;
 
@@ -616,11 +619,13 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_systempctag = pl->FetchStringID ("cel.parameter.systempctag");
     param_meshpctag = pl->FetchStringID ("cel.parameter.meshpctag");
     param_radius = pl->FetchStringID ("cel.parameter.radius");
+    param_radiusadjustment = pl->FetchStringID ("cel.parameter.radiusadjustment");
     param_offset = pl->FetchStringID ("cel.parameter.offset");
     param_length = pl->FetchStringID ("cel.parameter.length");
     param_axis = pl->FetchStringID ("cel.parameter.axis");
     param_angle = pl->FetchStringID ("cel.parameter.angle");
     param_size = pl->FetchStringID ("cel.parameter.size");
+    param_sizeadjustment = pl->FetchStringID ("cel.parameter.sizeadjustment");
     param_normal = pl->FetchStringID ("cel.parameter.normal");
     param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
     param_force = pl->FetchStringID ("cel.parameter.force");
@@ -633,6 +638,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     param_up = pl->FetchStringID ("cel.parameter.up");
     param_rotation = pl->FetchStringID ("cel.parameter.rotation");
     param_depth = pl->FetchStringID ("cel.parameter.depth");
+    param_group = pl->FetchStringID ("cel.parameter.group");
   }
 
   params = new celGenericParameterBlock (4);
@@ -669,6 +675,7 @@ celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
     AddAction (action_clearrotation, "cel.action.ClearRotation");
     AddAction (action_rotate, "cel.action.Rotate");
     AddAction (action_lookat, "cel.action.LookAt");
+    AddAction (action_addtogroup, "cel.action.AddToGroup");
   }
 
   // For properties.
@@ -1145,8 +1152,12 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
         return true;
       }
     case action_setcolliderboundingsphere:
-      AttachColliderBoundingSphere ();
-      return true;
+      {
+        CEL_FETCH_FLOAT_PAR (radiusadjustment,params,param_radiusadjustment);
+        if (!p_radiusadjustment) radiusadjustment = 0.0f;
+        AttachColliderBoundingSphere (radiusadjustment);
+        return true;
+      }
     case action_setcollidercylinder:
       {
         CEL_FETCH_FLOAT_PAR (length,params,param_length);
@@ -1168,8 +1179,12 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
 	return true;
       }
     case action_setcolliderboundingbox:
-      AttachColliderBoundingBox ();
-      return true;
+      {
+        CEL_FETCH_VECTOR3_PAR (sizeadjustment,params,param_sizeadjustment);
+        if (!p_sizeadjustment) sizeadjustment.Set (0, 0, 0);
+        AttachColliderBoundingBox (sizeadjustment);
+        return true;
+      }
     case action_setcolliderbox:
       {
         CEL_FETCH_VECTOR3_PAR (size,params,param_size);
@@ -1198,8 +1213,17 @@ bool celPcMechanicsObject::PerformActionIndexed (int idx,
 	return true;
       }
     case action_setcollidermesh:
-      AttachColliderMesh ();
-      return true;
+      {
+        AttachColliderMesh ();
+        return true;
+      }
+    case action_addtogroup:
+      {
+        CEL_FETCH_STRING_PAR (group,params,param_group);
+        if (!p_group) group = 0;
+        AddToGroup (group);
+        return true;
+      }
     default:
       return false;
   }
@@ -1366,7 +1390,8 @@ void celPcMechanicsObject::SetLift (const csVector3& lift)
   celPcMechanicsObject::lift = lift;
 }
 
-void celPcMechanicsObject::SetDrag (float drag) {
+void celPcMechanicsObject::SetDrag (float drag)
+{
   celPcMechanicsObject::drag = drag;
 }
 
@@ -1443,7 +1468,7 @@ void celPcMechanicsObject::AttachColliderSphere (float radius,
   btype = CEL_BODY_SPHERE;
 }
 
-void celPcMechanicsObject::AttachColliderBoundingSphere ()
+void celPcMechanicsObject::AttachColliderBoundingSphere (float sizeadjustment)
 {
   if (!GetBody ()) return;
   FindMeshLightCamera ();
@@ -1453,7 +1478,7 @@ void celPcMechanicsObject::AttachColliderBoundingSphere ()
   csRef<iObjectModel> meshobjmodel;
   meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
   meshobjmodel->GetRadius(radius,offset);
-  body->AttachColliderSphere (radius, offset, friction, density,
+  body->AttachColliderSphere (radius + sizeadjustment, offset, friction, density,
   	elasticity, softness);
   body->AdjustTotalMass (mass);
   body->SetTransform (GetFullTransform ());
@@ -1496,7 +1521,7 @@ void celPcMechanicsObject::AttachColliderBox (const csVector3& size,
   btype = CEL_BODY_BOX;
 }
 
-void celPcMechanicsObject::AttachColliderBoundingBox ()
+void celPcMechanicsObject::AttachColliderBoundingBox (const csVector3& sizeadjustment)
 {
   if (!GetBody ()) return;
   FindMeshLightCamera ();
@@ -1507,7 +1532,8 @@ void celPcMechanicsObject::AttachColliderBoundingBox ()
   meshobjmodel->GetObjectBoundingBox(boundingbox);
   csOrthoTransform t;
   t.SetOrigin(boundingbox.GetCenter());
-  body->AttachColliderBox(boundingbox.GetSize(), t, friction, density, elasticity,
+  csVector3 size = boundingbox.GetSize() + sizeadjustment;
+  body->AttachColliderBox(size, t, friction, density, elasticity,
   	softness);
   body->AdjustTotalMass (mass);
   body->SetTransform (GetFullTransform ());

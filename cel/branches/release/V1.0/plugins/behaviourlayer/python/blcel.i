@@ -1,6 +1,7 @@
 #define __CEL__
 %module blcelc
 %import "bindings/cspace.i"
+%include "cel_attributes.i"
 %{
 #include <crystalspace.h>
 #include "celtool/initapp.h"
@@ -34,11 +35,13 @@
 #include "propclass/mechsys.h"
 #include "propclass/sound.h"
 #include "propclass/mechthruster.h"
+#include "propclass/mover.h"
 #include "propclass/tooltip.h"
 #include "propclass/prop.h"
 #include "propclass/hover.h"
 #include "propclass/craft.h"
 #include "propclass/wheeled.h"
+#include "propclass/damage.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
@@ -46,7 +49,20 @@
 %}
 %inline %{
   struct _csPyEventHandler;
+  extern PyObject *    // from crystalspace_python
+  _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
+
 %}
+
+//=============================================================================
+// Interfaces that need csRef,csPtr,csRefArray
+// uses INTERFACE_POST and INTERFACE_PRE from cspace.i
+//=============================================================================
+
+%define CEL_APPLY_FOR_EACH_INTERFACE
+  INTERFACE_APPLY(iCelEntity)
+  INTERFACE_APPLY(iCelEntityList)
+%enddef
 
 //=============================================================================
 // Helper macros.
@@ -122,31 +138,6 @@ CEL_PC_QUERY(pcType)
 %enddef
 
 //-----------------------------------------------------------------------------
-
-%define GETTER_METHOD(classname,varname,getfunc)
-%extend classname {
- %pythoncode %{
-  __swig_getmethods__[varname] = _blcelc. ## classname ## _ ## getfunc  %}
-}
-%enddef
-
-%define SETTER_METHOD(classname,varname,setfunc)
-%extend classname {
- %pythoncode %{
-  __swig_setmethods__[varname] = _blcelc. ## classname ## _ ## setfunc  %}
-}
-%enddef
-
-%define GETSET_METHODS2(classname, varname, getfunc, setfunc)
-SETTER_METHOD(classname, varname, setfunc)
-GETTER_METHOD(classname, varname, getfunc)
-%enddef
-
-%define GETSET_METHODS(classname, varname, parname)
-SETTER_METHOD(classname, varname, Set ## parname)
-GETTER_METHOD(classname, varname, Get ## parname)
-%enddef
-
 %define CELLIST_METHODS(classname,typename)
 	PYLIST_BASE_FUNCTIONS(classname,typename,size_t,GetCount,Get,Add,Remove,Find)
 	PYLIST_BYNAME_FUNCTIONS(classname,typename,FindByName)
@@ -179,7 +170,7 @@ class contenttype ## pref ## FakeArray:
 	def __getitem__(self,val):
 		if type(val) == type(""): return self.parent.findmethod(val)
 		else: return self.parent.getmethod(val)
-	def append(self,obj): return self.parent. ## addmethod(obj)	
+	def append(self,obj): return self.parent. ## addmethod(obj)
 %}
 %enddef
 
@@ -199,6 +190,14 @@ class contenttype ## pref ## FakeArray:
 
 //-----------------------------------------------------------------------------
 
+#undef INTERFACE_APPLY
+#define INTERFACE_APPLY(x) INTERFACE_PRE(x)
+CEL_APPLY_FOR_EACH_INTERFACE
+
+//-----------------------------------------------------------------------------
+
+%cel_attribute(iCelEntityTracker,const char*,Name,GetName)
+
 %include "physicallayer/pl.h"
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
@@ -212,7 +211,7 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 %extend iCelPlLayer {
 	%pythoncode %{
 	def CreateParameterBlock(self,valdict):
-		"""Create a celGenericParameterBlock from a dict, list or 
+		"""Create a celGenericParameterBlock from a dict, list or
 		tuple"""
 		parblock = celGenericParameterBlock(len(valdict))
 		for idx,valkey in enumerate(valdict):
@@ -246,15 +245,19 @@ CEL_FAKE_ARRAY(Pl,iCelPropertyClassFactory,GetPropertyClassFactoryCount,
 	def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
 	def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
 	def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
-	__swig_getmethods__["entitytpls"] = lambda self: self.GetEntityTemplates()
-	__swig_getmethods__["pcfactories"] = lambda self: self.GetPcFactories()
-	__swig_getmethods__["behaviourlayers"] = lambda self: self.GetBehaviourLayers()
-	__swig_getmethods__["entities"] = lambda self: self.GetEntities() %}
+	__swig_getmethods__["EntityTemplates"] = lambda self: self.GetEntityTemplates()
+	__swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
+	__swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
+	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
 }
 
-GETTER_METHOD(iCelEntityTracker,"name",GetName)
-
 //-----------------------------------------------------------------------------
+
+%cel_attribute(iCelEntity,const char*,Name)
+%cel_attribute(iCelEntity,uint,ID)
+%cel_attribute(iCelEntity,iCelBehaviour*,Behaviour)
+%cel_attribute(iCelEntity,iCelPropertyClassList*,PropertyClassList,GetPropertyClassList)
+%cel_attribute(iCelEntity,csSet<csStringID>&,Classes,GetClasses)
 
 %include "physicallayer/entity.h"
 %extend iCelEntity {
@@ -265,13 +268,6 @@ GETTER_METHOD(iCelEntityTracker,"name",GetName)
     return bh;
   }
 }
-GETSET_METHODS(iCelEntity,"name",Name)
-GETSET_METHODS(iCelEntity,"id",ID)
-GETSET_METHODS(iCelEntity,"behaviour",Behaviour)
-
-GETTER_METHOD(iCelEntity,"pcclasses",GetPropertyClassList)
-GETTER_METHOD(iCelEntity,"classes",GetClasses)
-
 CELLIST_METHODS(iCelEntityList,iCelEntity)
 
 %inline %{
@@ -342,11 +338,11 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 %}
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iCelEntityTemplate,const char*,Name)
+%cel_attribute(iCelEntityTemplate,const char*,Behaviour,GetBehaviour)
+%cel_attribute(iCelEntityTemplate,const char*,BehaviourLayer,GetBehaviourLayer)
+%cel_attribute(iCelEntityTemplate,csSet<csStringID>&,Classes,GetClasses)
 %include "physicallayer/entitytpl.h"
-
-GETSET_METHODS(iCelEntityTemplate,"name",Name)
-GETSET_METHODS(iCelEntityTemplate,"behaviour",Behaviour)
-GETTER_METHOD(iCelEntityTemplate,"behaviourlayer",GetBehaviourLayer)
 
 //-----------------------------------------------------------------------------
 
@@ -361,9 +357,11 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iCelBehaviour,const char*,Name,GetName)
+%cel_attribute(iCelBehaviour,iCelBlLayer*,BehaviourLayer,GetBehaviourLayer)
 %ignore iCelBehaviour::SendMessageV;
+%ignore iCelBehaviour::GetInternalObject;
 %include "behaviourlayer/behave.h"
-
 
 //iParameterBlock Extensions
 %include "parblock.i"
@@ -383,10 +381,10 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 	 return obj;
        }
        else
+         Py_INCREF(Py_None);
 	 return Py_None;
   }
 }
-GETTER_METHOD(iCelBehaviour,"name",GetName)
 
 //-----------------------------------------------------------------------------
 
@@ -396,9 +394,12 @@ GETTER_METHOD(iCelBehaviour,"name",GetName)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iCelPropertyClass,const char*,Name,GetName)
+%cel_attribute(iCelPropertyClass,const char*,Tag)
+%cel_attribute(iCelPropertyClass,iCelEntity*,Entity)
+%cel_attribute(iCelPropertyClassFactory,const char*,Name,GetName)
 %ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
-GETTER_METHOD(iCelPropertyClassFactory,"name",GetName)
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
@@ -412,41 +413,48 @@ GETTER_METHOD(iCelPropertyClassFactory,"name",GetName)
   bool SetPropertyVector3 (csStringID id, const csVector3& v)
   { return self->SetProperty (id, v); }
 }
-GETTER_METHOD(iCelPropertyClass,"name",GetName)
-GETSET_METHODS(iCelPropertyClass,"tag",Tag)
-GETSET_METHODS(iCelPropertyClass,"entity",Entity)
 CELLIST_METHODS(iCelPropertyClassList,iCelPropertyClass)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcMechanicsSystem,iDynamicSystem*,DynamicSystem)
+%cel_attribute(iPcMechanicsSystem,float,StepTime)
+%cel_attribute(iPcMechanicsSystem,csVector3,Gravity)
+%cel_attribute(iPcMechanicsSystem,float,SimulationSpeed)
 %include "propclass/mechsys.h"
 CEL_PC(iPcMechanicsSystem, MechanicsSystem, pcmechsys)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsSystem)
-GETSET_METHODS(iPcMechanicsSystem,"dynsys",DynamicSystem)
-GETSET_METHODS(iPcMechanicsSystem,"steptime",StepTime)
-GETSET_METHODS(iPcMechanicsSystem,"gravity",Gravity)
 
+%cel_attribute(iPcMechanicsObject,iPcMesh*,Mesh)
+%cel_attribute(iPcMechanicsObject,iPcLight*,Light)
+%cel_attribute(iPcMechanicsObject,iPcCamera*,Camera)
+%cel_attribute(iPcMechanicsObject,iPcMechanicsSystem*,MechanicsSystem)
+%cel_attribute(iPcMechanicsObject,iRigidBody*,Body,GetBody)
+%cel_attribute(iPcMechanicsObject,float,Friction)
+%cel_attribute(iPcMechanicsObject,float,Mass)
+%cel_attribute(iPcMechanicsObject,float,Elasticity)
+%cel_attribute(iPcMechanicsObject,float,Density)
+%cel_attribute(iPcMechanicsObject,float,Softness)
+%cel_attribute(iPcMechanicsObject,csVector3&,Lift)
+%cel_attribute(iPcMechanicsObject,float,Drag)
+%cel_attribute(iPcMechanicsObject,csVector3,LinearVelocity)
+%cel_attribute(iPcMechanicsObject,csVector3,AngularVelocity)
+%cel_attribute(iPcMechanicsObject,csVector3&,Lift)
+%cel_attribute(iPcMechanicsObject,bool,Static,IsStatic,MakeStatic)
+%cel_attribute(iPcMechanicsObject,bool,CollisionCallbackEnabled,IsCollisionCallbackEnabled,SetCollisionCallbackEnabled)
 CEL_PC(iPcMechanicsObject, MechanicsObject, pcmechobject)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsObject)
-GETSET_METHODS(iPcMechanicsObject,"mesh",Mesh)
-GETSET_METHODS(iPcMechanicsObject,"light",Light)
-GETSET_METHODS(iPcMechanicsObject,"camera",Camera)
-GETSET_METHODS(iPcMechanicsObject,"mechsys",MechanicsSystem)
-GETTER_METHOD(iPcMechanicsObject,"body",GetBody)
-GETSET_METHODS(iPcMechanicsObject,"friction",Friction)
-GETSET_METHODS(iPcMechanicsObject,"mass",Mass)
-GETSET_METHODS(iPcMechanicsObject,"elasticity",Elasticity)
-GETSET_METHODS(iPcMechanicsObject,"softness",Softness)
-GETSET_METHODS(iPcMechanicsObject,"drag",Drag)
-GETSET_METHODS(iPcMechanicsObject,"lift",Lift)
-GETSET_METHODS(iPcMechanicsObject,"linearvelocity",LinearVelocity)
-GETSET_METHODS(iPcMechanicsObject,"angularvelocity",AngularVelocity)
-GETSET_METHODS2(iPcMechanicsObject,"static",IsStatic,MakeStatic)
 
-CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcmechjoint)
-GETTER_METHOD(iPcMechanicsJoint,"joint",GetJoint)
+%cel_attribute(iPcMechanicsJoint,iJoint*,Joint,GetJoint)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsJoint)
+CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcmechjoint)
 
+%cel_attribute(iPcMechanicsThruster,iPcMechanicsObject*,MechanicsObject)
+%cel_attribute(iPcMechanicsThruster,csVector3&,Position)
+%cel_attribute(iPcMechanicsThruster,csVector3&,Orientation)
+%cel_attribute(iPcMechanicsThruster,float,MaxThrust,GetMaxThrust)
+%cel_attribute(iPcMechanicsThrusterController,iPcMechanicsObject*,MechanicsObject)
+%cel_attribute(iPcMechanicsBalancedGroup,celAxisType,Type)
 %include "propclass/mechthruster.h"
 CEL_PC(iPcMechanicsThruster, MechanicsThrusterReactionary,
 	pcmechthrustreactionary)
@@ -461,14 +469,19 @@ CEL_PC_QUERY_CLASSLIST(iPcMechanicsThrusterController)
 
 %include "tools/billboard.h"
 
+%cel_attribute(iPcBillboard,const char*,Name,GetBillboardName,SetBillboardName)
+%cel_attribute(iPcBillboard,iBillboard*,Billboard,GetBillboard)
+%cel_attribute(iPcBillboard,bool,EventsEnabled,AreEventsEnabled,EnableEvents)
 %include "propclass/billboard.h"
 CEL_PC(iPcBillboard, Billboard, pcbillboard)
 CEL_PC_QUERY_CLASSLIST(iPcBillboard)
-GETSET_METHODS(iPcBillboard,"name",BillboardName)
-GETSET_METHODS2(iPcBillboard,"events",AreEventsEnabled,EnableEvents)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcRegion,const char*,Name,GetRegionName,SetRegionName)
+%cel_attribute(iPcRegion,iRegion*,Region,GetRegion)
+%cel_attribute(iPcRegion,const char*,StartSector,GetStartSector)
+%cel_attribute(iPcRegion,csVector3,StartPosition,GetStartPosition)
 %include "propclass/region.h"
 %extend iPcRegion {
   bool LoadWorld (const char *vfsdir, const char *name)
@@ -494,140 +507,163 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 CEL_PC_GET(iPcRegion, Region)
 CEL_PC_QUERY(iPcRegion)
 CEL_PC_QUERY_CLASSLIST(iPcRegion)
-GETSET_METHODS(iPcRegion,"name",RegionName)
-GETTER_METHOD(iPcRegion,"region",GetRegion)
 
 //-----------------------------------------------------------------------------
 
+// TODO these need pseudo-dict like interfaces for some stuff
+%cel_attribute(iCelMapFile,const char*,Path)
+%cel_attribute(iCelMapFile,const char*,File)
+%cel_attribute(iCelMapFile,const char*,SectorName)
+%cel_attribute(iCelRegion,const char*,Name,GetName)
+%cel_attribute(iCelRegion,const char*,CachePath)
+%cel_attribute(iCelRegion,size_t,MapFileCount,GetMapFileCount)
+%cel_attribute(iCelZone,const char*,Name,GetName)
+%cel_attribute(iCelZone,size_t,RegionCount,GetRegionCount)
+%cel_attribute(iPcZoneManager,bool,ColliderWrappersEnabled,IsColliderWrappers,EnableColliderWrappers)
+%cel_attribute(iPcZoneManager,int,LoadingMode)
+%cel_attribute(iPcZoneManager,size_t,ZoneCount,GetZoneCount)
+%cel_attribute(iPcZoneManager,size_t,RegionCount,GetRegionCount)
+%cel_attribute(iPcZoneManager,const char*,LastStartRegionName,GetLastStartRegionName)
+%cel_attribute(iPcZoneManager,const char*,LastStartName,GetLastStartName)
 %include "propclass/zone.h"
 CEL_PC(iPcZoneManager, ZoneManager, pczonemanager)
-GETSET_METHODS(iCelMapFile,"path",Path)
-GETSET_METHODS(iCelMapFile,"file",File)
-GETSET_METHODS(iCelMapFile,"sectorname",SectorName)
-GETTER_METHOD(iCelRegion,"name",GetName)
-GETSET_METHODS(iCelRegion,"cachepath",CachePath)
-GETTER_METHOD(iCelZone,"name",GetName)
 
 //-----------------------------------------------------------------------------
 
+// TODO this needs dict like interface for binds
+%cel_attribute(iPcCommandInput,bool,CookedModeEnabled,GetCookedMode,SetCookedMode)
 %include "propclass/input.h"
 CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
-GETSET_METHODS(iPcCommandInput,"cookedmode",CookedMode)
 
 //-----------------------------------------------------------------------------
-
+// TODO this class has a horrible interface, must review carefully
+%cel_attribute(iPcLinearMovement,iPcMesh*,Anchor)
+//%cel_attribute(iPcLinearMovement,csVector3&,AngularVelocity)
+//%cel_attribute(iPcLinearMovement,csVector3&,Velocity)
+//%cel_attribute(iPcLinearMovement,float,Speed)
+%cel_attribute(iPcLinearMovement,iSector*,Sector,GetSector)
+%cel_attribute(iPcLinearMovement,bool,OnGround,IsOnGround,SetOnGround)
+%cel_attribute(iPcLinearMovement,float,Gravity)
+%cel_attribute(iPcLinearMovement,csVector3,PortalDisplacement,GetPortalDisplacement)
 %include "propclass/linmove.h"
 CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
-GETSET_METHODS(iPcLinearMovement,"anchor",Anchor)
-GETSET_METHODS(iPcLinearMovement,"angularvelocity",AngularVelocity)
-//GETSET_METHODS(iPcLinearMovement,"speed",Speed)
-GETSET_METHODS(iPcLinearMovement,"velocity",Velocity)
-//GETSET_METHODS(iPcLinearMovement,"position",Position)
-//GETSET_METHODS(iPcLinearMovement,"fullposition",FullPosition)
-GETSET_METHODS2(iPcLinearMovement,"path",IsPath,SetPath)
-GETTER_METHOD(iPcLinearMovement,"sector",GetSector)
-GETSET_METHODS2(iPcLinearMovement,"onground",IsOnGround,SetOnGround)
-GETSET_METHODS(iPcLinearMovement,"gravity",Gravity)
 
 //-----------------------------------------------------------------------------
+%cel_attribute(iPcActorMove,bool,MovingForward,IsMovingForward,Forward)
+%cel_attribute(iPcActorMove,bool,MovingBackward,IsMovingBackward,Backward)
+%cel_attribute(iPcActorMove,bool,StrafingLeft,IsStrafingLeft,StrafeLeft)
+%cel_attribute(iPcActorMove,bool,StrafingRight,IsStrafingRight,StrafeRight)
+%cel_attribute(iPcActorMove,bool,RotatingLeft,IsRotatingLeft,RotateLeft)
+%cel_attribute(iPcActorMove,bool,RotatingRight,IsRotatingRight,RotateRight)
+%cel_attribute(iPcActorMove,bool,Running,IsRunning,Run)
+%cel_attribute(iPcActorMove,bool,AutoRunEnabled,IsAutoRunning,AutoRun)
+%cel_attribute(iPcActorMove,float,RunningSpeed)
+%cel_attribute(iPcActorMove,float,RotationSpeed)
+%cel_attribute(iPcActorMove,float,MovementSpeed)
+%cel_attribute(iPcActorMove,bool,MouseMoveEnabled,IsMouseMoveEnabled,EnableMouseMove)
+%cel_attribute(iPcActorMove,bool,MouseMoveInverted,IsMouseMoveInverted,SetMouseMoveInverted)
+//%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
 CEL_PC(iPcActorMove, ActorMove, pcactormove)
-GETSET_METHODS2(iPcActorMove,"forward",IsMovingForward,Forward)
-GETSET_METHODS2(iPcActorMove,"backward",IsMovingBackward,Backward)
-GETSET_METHODS2(iPcActorMove,"strafeleft",IsStrafingLeft,StrafeLeft)
-GETSET_METHODS2(iPcActorMove,"straferight",IsStrafingRight,StrafeRight)
-GETSET_METHODS2(iPcActorMove,"rotateleft",IsRotatingLeft,RotateLeft)
-GETSET_METHODS2(iPcActorMove,"rotateright",IsRotatingRight,RotateRight)
-GETSET_METHODS2(iPcActorMove,"run",IsRunning,Run)
-GETSET_METHODS2(iPcActorMove,"autorun",IsAutoRunning,AutoRun)
-GETSET_METHODS(iPcActorMove,"movementspeed",MovementSpeed)
-GETSET_METHODS(iPcActorMove,"runningspeed",RunningSpeed)
-GETSET_METHODS(iPcActorMove,"rotationspeed",RotationSpeed)
-GETSET_METHODS(iPcActorMove,"jumpingvelocity",JumpingVelocity)
 
 //-----------------------------------------------------------------------------
 
+// TODO must review distance methods
+%cel_attribute(iPcCamera,iCamera*,Camera,GetCamera)
+%cel_attribute(iPcCamera,iView*,View,GetView)
+%cel_attribute(iPcCamera,bool,ClearZBuffer)
+%cel_attribute(iPcCamera,bool,ClearScreen)
+%cel_attribute(iPcCamera,int,DrawFlags,GetDrawFlags)
+%cel_attribute(iPcCamera,float,FixedDistance,GetFixedDistance)
+%cel_attribute(iPcCamera,float,AdaptiveMaxFPS,GetAdaptiveMaxFPS)
+%cel_attribute(iPcCamera,float,AdaptiveMinFPS,GetAdaptiveMinFPS)
+%cel_attribute(iPcCamera,float,AdaptiveMinDistance,GetAdaptiveMinDistance)
 %include "propclass/camera.h"
 CEL_PC(iPcCamera, Camera, pccamera)
-GETTER_METHOD(iPcCamera,"camera",GetCamera)
-GETTER_METHOD(iPcCamera,"view",GetView)
-GETSET_METHODS(iPcCamera,"clearzbuffer",ClearZBuffer)
-GETSET_METHODS(iPcCamera,"clearscreen",ClearScreen)
 
+//-----------------------------------------------------------------------------
+
+%cel_attribute(iPcDefaultCamera,iPcDefaultCamera::CameraMode,Mode)
+%cel_attribute(iPcDefaultCamera,const char*,ModeName)
+//%cel_attribute(iPcDefaultCamera,float,TurnSpeed) ONLY HAS SETTER
+//%cel_attribute(iPcDefaultCamera,float,SwingCoef) ONLY HAS SETTER
+%cel_attribute(iPcDefaultCamera,float,Pitch)
+%cel_attribute(iPcDefaultCamera,float,PitchVelocity)
+%cel_attribute(iPcDefaultCamera,float,Yaw)
+%cel_attribute(iPcDefaultCamera,float,YawVelocity)
+%cel_attribute(iPcDefaultCamera,float,Distance)
+%cel_attribute(iPcDefaultCamera,float,DistanceVelocity)
 %include "propclass/defcam.h"
 CEL_PC(iPcDefaultCamera, DefaultCamera, pcdefaultcamera)
-GETSET_METHODS(iPcDefaultCamera,"yaw",Yaw)
-GETSET_METHODS(iPcDefaultCamera,"pitch",Pitch)
-GETSET_METHODS(iPcDefaultCamera,"yaw_vel",YawVelocity)
-GETSET_METHODS(iPcDefaultCamera,"pitch_vel",PitchVelocity)
-GETSET_METHODS(iPcDefaultCamera,"mode",ModeName)
 
+// TODO simpcam missing
 %include "propclass/simpcam.h"
 CEL_PC(iPcSimpleCamera, SimpleCamera, pcsimplecamera)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcMeshSelect,int,MouseButtons) // has another way to set
+%cel_attribute(iPcMeshSelect,bool,GlobalSelection,HasGlobalSelection,SetGlobalSelection)
+%cel_attribute(iPcMeshSelect,bool,FollowMode,HasFollowMode,SetFollowMode)
+%cel_attribute(iPcMeshSelect,bool,FollowAlwaysMode,HasFollowAlwaysMode,SetFollowAlwaysMode)
+%cel_attribute(iPcMeshSelect,bool,DragMode,HasDragMode,SetDragMode)
+// %cel_attribute(iPcMeshSelect,bool,DragPlaneNormal) HAS TWO PARAMETERS
+%cel_attribute(iPcMeshSelect,bool,SendmoveEvent,HasSendmoveEvent,SetSendmoveEvent)
+%cel_attribute(iPcMeshSelect,bool,SendupEvent,HasSendupEvent,SetSendupEvent)
+%cel_attribute(iPcMeshSelect,bool,SenddownEvent,HasSenddownEvent,SetSenddownEvent)
+%cel_attribute(iPcMeshSelect,float,MaxSelectionDistance)
 %include "propclass/meshsel.h"
 CEL_PC(iPcMeshSelect, MeshSelect, pcmeshselect)
-GETSET_METHODS(iPcMeshSelect,"mousebuttons",MouseButtons)
-GETSET_METHODS2(iPcMeshSelect,"global",HasGlobalSelection,SetGlobalSelection)
-GETSET_METHODS2(iPcMeshSelect,"follow",HasFollowMode,SetFollowMode)
-GETSET_METHODS2(iPcMeshSelect,"followalways",HasFollowAlwaysMode,SetFollowAlwaysMode)
-GETSET_METHODS2(iPcMeshSelect,"drag",HasDragMode,SetDragMode)
-GETSET_METHODS(iPcMeshSelect,"dragnormal",DragPlaneNormal)
-GETSET_METHODS2(iPcMeshSelect,"moveevent",HasSendmoveEvent,SetSendmoveEvent)
-GETSET_METHODS2(iPcMeshSelect,"moveup",HasSendupEvent,SetSendupEvent)
-GETSET_METHODS2(iPcMeshSelect,"movedown",HasSenddownEvent,SetSenddownEvent)
-GETSET_METHODS(iPcMeshSelect,"distance",MaxSelectionDistance)
 
 //-----------------------------------------------------------------------------
 
-%rename(LoadMesh) iPcMesh::SetMesh;
+// TODO Visible method should be a getter/setter
+%cel_attribute(iPcMesh,iMeshWrapper*,Mesh)
+%rename(LoadMesh) iPcMesh::SetMesh(const char* factname, const char* filename);
 %include "propclass/mesh.h"
 CEL_PC(iPcMesh, Mesh, pcmesh)
-GETTER_METHOD(iPcMesh,"mesh",GetMesh)
 
 //-----------------------------------------------------------------------------
 
+// no getters/setters
 %include "propclass/timer.h"
 CEL_PC(iPcTimer, Timer, pctimer)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcProjectile,bool,Moving,IsMoving)
 %include "propclass/projectile.h"
 CEL_PC(iPcProjectile, Projectile, pcprojectile)
-GETTER_METHOD(iPcProjectile,"moving",IsMoving)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcSolid,iPcMesh*,Mesh)
+%cel_attribute(iPcSolid,iCollider*,Collider,GetCollider)
 %include "propclass/solid.h"
 CEL_PC(iPcSolid, Solid, pcsolid)
 
-GETTER_METHOD(iPcSolid,"collider", GetCollider)
-GETSET_METHODS(iPcSolid,"mesh", Mesh)
-
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcGravity,iCollider*,GravityCollider,GetGravityCollider)
+%cel_attribute(iPcGravity,iPcMovable*,Movable)
+%cel_attribute(iPcGravity,iPcSolid*,Solid)
+%cel_attribute(iPcGravity,float,Weight)
+%cel_attribute(iPcGravity,bool,Active,IsActive,SetActive)
+%cel_attribute(iPcGravity,bool,Resting,IsResting)
 %rename(CreateGravityColliderFromMesh) iPcGravity::CreateGravityCollider;
 %include "propclass/gravity.h"
 CEL_PC(iPcGravity, Gravity, pcgravity)
 
-GETTER_METHOD(iPcGravity,"gravitycollider", GetGravityCollider)
-GETSET_METHODS(iPcGravity,"solid", Solid)
-GETSET_METHODS(iPcGravity,"weight", Weight)
-GETSET_METHODS2(iPcGravity,"active", IsActive, SetActive)
-GETSET_METHODS(iPcGravity,"movable", Movable)
-
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcMovable,iPcMesh*,Mesh)
 %rename(SetPos) iPcMovable::Move;
 %include "propclass/move.h"
 CEL_PC(iPcMovable, Movable, pcmovable)
 
-GETSET_METHODS(iPcMovable,"mesh", Mesh)
-
 //-----------------------------------------------------------------------------
 
+// TODO more things to do here
 %include "propclass/inv.h"
 CEL_PC(iPcInventory, Inventory, pcinventory)
 
@@ -637,48 +673,111 @@ CEL_FAKE_ARRAY(Inv,iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity
 %extend iPcInventory {
 	%pythoncode %{
 	def GetEntities(self): return iCelEntityInvFakeArray(self)
-	__swig_getmethods__["entities"] = lambda self: self.GetEntities() %}
+	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
 }
 
 
 //-----------------------------------------------------------------------------
 
+// TODO add dict like interface for characteristics
 %include "propclass/chars.h"
 CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
 
 //-----------------------------------------------------------------------------
 
+// TODO visible interface is inconsistent
+%cel_attribute(iPcTooltip,bool,Visible,IsVisible)
 %include "propclass/tooltip.h"
 CEL_PC(iPcTooltip, ToolTip, pctooltip)
 
+SETTER_METHOD(iPcTooltip,"Text", SetText)
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcSoundSource,iSndSysSource*,SoundSource,GetSoundSource)
+%cel_attribute(iPcSoundSource,const char*,SoundName)
+%cel_attribute(iPcSoundListener,iSndSysListener*,SoundListener,GetSoundListener)
 %include "propclass/sound.h"
 CEL_PC(iPcSoundSource, SoundSource, pcsoundsource)
 CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
 
 //-----------------------------------------------------------------------------
 
+// TODO needs dict like interface
 %include "propclass/prop.h"
 CEL_PC(iPcProperties, Properties, pcproperties)
 
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcMover,iSector*,Sector,GetSector)
+%cel_attribute(iPcMover,csVector3&,Position,GetPosition)
+%cel_attribute(iPcMover,csVector3&,Up,GetUp)
+%cel_attribute(iPcMover,float,SqRadius,GetSqRadius)
+%cel_attribute(iPcMover,bool,Moving,IsMoving)
+%include "propclass/mover.h"
+CEL_PC(iPcMover, Mover, pcmover)
+
+//-----------------------------------------------------------------------------
+
+%cel_attribute(iPcHover,float,Height, GetHeight)
 %include "propclass/hover.h"
 CEL_PC(iPcHover, Hover, pchover)
 
+SETTER_METHOD(iPcHover, "HeightBeamCutoff", SetHeightBeamCutoff)
+SETTER_METHOD(iPcHover, "AngularBeamOffset", SetAngularBeamOffset)
+SETTER_METHOD(iPcHover, "AngularCutoffHeight", SetAngularCutoffHeight)
+SETTER_METHOD(iPcHover, "AngularCorrectionStrength", SetAngularCorrectionStrength)
+
+
 //-----------------------------------------------------------------------------
 
+// TODO *very* inconsistent interfaces
+%cel_attribute(iPcCraftController,bool,ThrusterOn,IsThrusterOn)
 %include "propclass/craft.h"
 CEL_PC(iPcCraftController, CraftController, pccraft)
 
+SETTER_METHOD(iPcCraftController, "AccTurn", SetAccTurn)
+SETTER_METHOD(iPcCraftController, "AccPitch", SetAccPitch)
+SETTER_METHOD(iPcCraftController, "MaxTurn", SetMaxTurn)
+SETTER_METHOD(iPcCraftController, "MaxPitch", SetMaxPitch)
+SETTER_METHOD(iPcCraftController, "ThrustForce", SetThrustForce)
+SETTER_METHOD(iPcCraftController, "TopSpeed", SetTopSpeed)
+SETTER_METHOD(iPcCraftController, "RedirectVelocityRatio", SetRedirectVelocityRatio)
+SETTER_METHOD(iPcCraftController, "DecelerationRate", SetDecelerationRate)
+SETTER_METHOD(iPcCraftController, "BrakingSpeed", SetBrakingSpeed)
+SETTER_METHOD(iPcCraftController, "AfterBurnerTopSpeed", SetAfterBurnerTopSpeed)
+
 //-----------------------------------------------------------------------------
 
+// TODO this deserves some pseudo-dict for wheels
+%cel_attribute(iPcWheeled,bool,TankMode)
+%cel_attribute(iPcWheeled,bool,Accelerating,IsAccelerating,Accelerate)
+%cel_attribute(iPcWheeled,bool,Braking,IsBraking,Brake)
+%cel_attribute(iPcWheeled,bool,Handbraking,IsHandbraking,Handbrake)
+%cel_attribute(iPcWheeled,float,SteerAmount)
+%cel_attribute(iPcWheeled,int,Gear)
+%cel_attribute(iPcWheeled,int,TopGear,GetTopGear)
+%cel_attribute(iPcWheeled,iBodyGroup*,BodyGroup,GetBodyGroup)
 %include "propclass/wheeled.h"
 CEL_PC(iPcWheeled, Wheeled, pcwheeled)
 
+SETTER_METHOD(iPcWheeled,"BrakeForce", SetBrakeForce)
+SETTER_METHOD(iPcWheeled,"AutoReverse", SetAutoReverse)
+GETTER_METHOD(iPcWheeled,"WheelCount", GetWheelCount)
+
 //-----------------------------------------------------------------------------
 
+%cel_attribute(iPcDamage,float,Damage)
+%cel_attribute(iPcDamage,const char*,DamageType)
+%cel_attribute(iPcDamage,const char*,FallOff)
+%cel_attribute(iPcDamage,const char*,DamageSector,GetDamageSector)
+%cel_attribute(iPcDamage,csVector3&,DamagePosition,GetDamagePosition)
+%include "propclass/damage.h"
+CEL_PC(iPcDamage, Damage, pcdamage)
+
+//-----------------------------------------------------------------------------
+
+%cel_attribute(iCelConsole,iConsoleInput*,InputConsole,GetInputConsole)
+%cel_attribute(iCelConsole,iConsoleOutput*,OutputConsole,GetOutputConsole)
 %include "tools/celconsole.h"
 %inline %{
 iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
@@ -688,6 +787,13 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 }
 %}
 
+//-----------------------------------------------------------------------------
+
+#undef INTERFACE_APPLY
+#define INTERFACE_APPLY(x) INTERFACE_POST(x)
+CEL_APPLY_FOR_EACH_INTERFACE
+
+//-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 // helpers to redirect output to cel console
 
@@ -709,6 +815,6 @@ class CelConsoleOutOverride:
 		sys.stderr = CelConsoleOut(oreg)
 	def __del__(self):
 		import sys
-		sys.stdout = self.oldstdout	
+		sys.stdout = self.oldstdout
 		sys.stderr = self.oldstderr
 %}

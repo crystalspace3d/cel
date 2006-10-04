@@ -19,20 +19,21 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "iutil/evdefs.h"
 
 #include "plugins/propclass/hover/hover.h"
-#include "physicallayer/pl.h"
-#include "physicallayer/entity.h"
-#include "physicallayer/persist.h"
 
 #include "propclass/mechsys.h"
 #include "propclass/mesh.h"
+#include "propclass/defcam.h"
 
+#include "csgeom/box.h"
+#include "csgeom/math3d.h"
+#include "iengine/camera.h"
 #include "iengine/mesh.h"
+#include "iengine/sector.h"
+#include "imesh/object.h"
+#include "imesh/objmodel.h"
 #include "ivaria/dynamics.h"
-#include "ivaria/reporter.h"
-#include "iutil/virtclk.h"
 
 //---------------------------------------------------------------------------
 
@@ -47,7 +48,6 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 // Parameters.
-csStringID celPcHover::param_world = csInvalidStringID;
 csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
 csStringID celPcHover::param_angoff = csInvalidStringID;
 csStringID celPcHover::param_angheight = csInvalidStringID;
@@ -70,10 +70,9 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   // init a default upthruster func
   UseDefaultFunction (1.5f);
 
-  if (param_world == csInvalidStringID)
+  if (param_hover == csInvalidStringID)
   {
     // Parameters.
-    param_world = pl->FetchStringID ("cel.parameter.world");
     param_hbeamcutoff = pl->FetchStringID ("cel.parameter.heightcutoff");
     param_angoff = pl->FetchStringID ("cel.parameter.offset");
     param_angheight = pl->FetchStringID ("cel.parameter.angheight");
@@ -84,7 +83,6 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_setworld, "cel.action.SetWorld");
     AddAction (action_sethbeamcutoff, "cel.action.SetHeightBeamCutoff");
     AddAction (action_setangoff, "cel.action.SetAngularBeamOffset");
     AddAction (action_setangheight, "cel.action.SetAngularCutoffHeight");
@@ -116,18 +114,6 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
 {
   switch (idx)
   {
-    case action_setworld:
-      {
-        CEL_FETCH_STRING_PAR (world, params, param_world);
-        if (!world)
-        {
-          // CS_REPORT(ERROR,"Couldn't get 'world' parameter for SetWorld!");
-          printf("Couldn't get 'world' parameter for SetWorld!\n");
-          return false;
-        }
-        SetWorld (world);
-        return true;
-      }
     case action_sethbeamcutoff:
       {
         CEL_FETCH_FLOAT_PAR (heightcutoff, params, param_hbeamcutoff);
@@ -201,20 +187,6 @@ void celPcHover::Tick ()
   PerformStabilising ();
 }
 
-
-void celPcHover::SetWorld (const char *name)
-{
-  world_mesh_name = name;
-}
-void celPcHover::LookUpWorldMesh ()
-{
-  /* at the moment this doesn't seem to work */
-  iCelEntity *went = pl->FindEntity (world_mesh_name);
-  if(!went)  return;
-  world_mesh = CEL_QUERY_PROPCLASS_ENT (went , iPcMesh);
-  world_mesh_name = 0;
-}
-
 void celPcHover::UseDefaultFunction (float dampening)
 {
   func.AttachNew(new celDefaultHoverUpthruster (dampening));
@@ -222,8 +194,6 @@ void celPcHover::UseDefaultFunction (float dampening)
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
 {
-  csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
-  	iPcMechanicsObject);
   offset *= ang_beam_offset;  // this will convert the (0,0,1) to (0,0,K) vector
 
   // do first rotation test - simple trigonmetry
@@ -268,24 +238,12 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 void celPcHover::PerformStabilising ()
 {
-  // if this hasn't been init, return safely
-  if (!world_mesh)
-  {
-    if (world_mesh_name)
-    {
-      LookUpWorldMesh ();
-      if (!world_mesh)  // invalid world_mesh_name
-      {
-        world_mesh_name = 0;
-        return;
-      }
-    }
-    else
-      return;
-  }
-
-  if (!ship_mech)
-    ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  if (!pcmechobj)
+    pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
+  if (!pccamera)
+    pccamera = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcDefaultCamera);
+  if (!pcmechobj || !pccamera)
+    return;
 
   /* here we get ship info which can be used to calculate
       upthrust force, from functor object */
@@ -293,7 +251,7 @@ void celPcHover::PerformStabilising ()
   // ships height
   object_height = obj_info.height = Height();
   // ships local vertical velocity
-  obj_info.yvel = ship_mech->WorldToLocal (ship_mech->GetLinearVelocity ()).y;
+  obj_info.yvel = pcmechobj->WorldToLocal (pcmechobj->GetLinearVelocity ()).y;
 
   if (hover_on)
   {
@@ -303,7 +261,7 @@ void celPcHover::PerformStabilising ()
     //printf ("%f %f\n",obj_info.height,force);
 
     // apply the force
-    ship_mech->AddForceDuration(csVector3 (0, force, 0), false,
+    pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
         csVector3 (0,0,0), 0.1f);
     //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
     //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
@@ -316,37 +274,57 @@ void celPcHover::PerformStabilising ()
     float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
 
     // align the ship by getting it to rotate in whatever direction
-    ship_mech->SetAngularVelocity (ship_mech->GetAngularVelocity() +
-        ship_mech->LocalToWorld (csVector3 (rx,0,rz) * ang_mult));
+    pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +
+        pcmechobj->LocalToWorld (csVector3 (rx,0,rz) * ang_mult));
   }
 }
 
-float celPcHover::Height (csVector3 offset)
+float celPcHover::Height (csVector3 offset, bool accurate)
 {
+  if (!pcmesh)
+    pcmesh = CEL_QUERY_PROPCLASS_ENT (GetEntity (), iPcMesh);
+  if (!pcmesh)
+    // do something proper here
+    return 999999999.9f;
+  // get the initial flags so it can be reset afterwards
+  uint32 flags = pcmesh->GetMesh()->GetFlags().Get ();
+  // set flag so height tests don't hit object itself
+  pcmesh->GetMesh ()->GetFlags ().Set (CS_ENTITY_NOHITBEAM);
+
   /* height is calculated using a hitbeam from objects
       position down along the objects coord system
       through height_beam_cutoff */
-  csVector3 start = ship_mech->GetBody()->GetPosition() + offset;
+  csVector3 start = pcmechobj->GetBody ()->GetPosition () + offset;
   csVector3 end = start + csVector3 (0,-height_beam_cutoff,0);
 
-  csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
-  if(bres.hit)
+  iSector *sector = pccamera->GetCamera ()->GetSector ();
+  csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
+  //if(bres.hit)
     // beam height * proportion of beam hit
-    return height_beam_cutoff * bres.r;
-  else
+    float height = (bres.isect - start).Norm ();
+    if (!csFinite (height))
+    {
+      // reset flags to original state
+      pcmesh->GetMesh()->GetFlags().SetAll (flags);
+      return 999999999.9f;
+    }
+    // reset flags to original state
+    pcmesh->GetMesh()->GetFlags().SetAll (flags);
+    return height;
+  //else
     /* beam didn't hit so we try going upwards
         from object */
-    return ReverseHeight(start);
+    //return ReverseHeight(start);
 }
 
-float celPcHover::ReverseHeight (csVector3 &start)
+float celPcHover::ReverseHeight (csVector3 &start, iSector *sector)
 {
   // instead of downwards the beam goes upwards
   csVector3 end = start + csVector3 (0,height_beam_cutoff,0);
 
-  csHitBeamResult bres = world_mesh->GetMesh()->HitBeam(start , end);
-  if(bres.hit)
-    return -height_beam_cutoff * bres.r;
+  csSectorHitBeamResult bres = sector->HitBeam(start, end, false);
+  if(false)
+    return (start - bres.isect).Norm ();
   else
     return 999999999.0f;
 }

@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -57,11 +57,15 @@ class csVector3;
  * - SetAnimation: parameters 'animation' (string) and 'cycle' (bool).
  * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
  *     (type depending on type parameter).
+ * - CreateEmptyThing: parameters 'factoryname' (string)
+ * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read): current position.
  * - fullposition (vector3, read): current full position.
+ * - rotation (vector3, read): current rotation.
+ * - eulerrotation (vector3, read): current euler rotation.
  * - sector (string, read): current sector.
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.
@@ -103,8 +107,19 @@ struct iPcMesh : public virtual iBase
   /**
    * Create an empty thing mesh (use instead of SetMesh()).
    * After this use GetMesh() to add polygons to the mesh.
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
    */
-  virtual void CreateEmptyThing () = 0;
+  virtual void CreateEmptyThing (const char* factname) = 0;
+
+  /**
+   * Create an empty genmesh (use instead of SetMesh()).
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
+   */
+  virtual void CreateEmptyGenmesh (const char* factname) = 0;
 
   /**
    * Get the mesh.

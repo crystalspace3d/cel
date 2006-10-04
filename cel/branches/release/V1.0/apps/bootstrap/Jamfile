@@ -45,8 +45,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     engine
     engseq
     imgplex
-    fire
-    fireldr
     fontplex
     freefnt2
     frustvis
@@ -63,15 +61,11 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     particles
     particlesldr
     ptanimimg
-    rain
-    rainldr
     rendloop_loader
     rendstep_std
     reporter
     sequence
     shadermgr
-    snow
-    snowldr
     skeleton
     skelldr
     spr2d

@@ -117,6 +117,10 @@ void CelStart::SetupFrame ()
       if (descriptions[i])
         g2d->Write (font, textLeft, textTop+fontH, sel ? sel_font_fg : font_fg,
 	    sel ? sel_font_bg : font_bg, descriptions[i]);
+      if (warnings[i])
+        g2d->Write (font, textLeft, textTop+fontH*2,
+	    font_error_fg,
+	    sel ? sel_font_bg : font_bg, warnings[i]);
     }
   }
   else if (!do_real_demo)
@@ -301,6 +305,33 @@ void CelStart::FindCelStartArchives ()
 	if (*s) s = testpath;
 	names.Push (s);
       }
+      int minimum_version = acc->GetInt ("CelStart.MinimumVersion",
+	  CELSTART_VERSION);
+      int maximum_version = acc->GetInt ("CelStart.MaximumVersion",
+	  CELSTART_VERSION);
+      if (minimum_version > CELSTART_VERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: Requires at least version %d of CelStart (current is %d)!",
+	    minimum_version, CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else if (maximum_version < CELSTART_VERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: Prefers at most version %d of CelStart (current is %d)!",
+	    maximum_version, CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else if (minimum_version < CELSTART_MINIMUMVERSION)
+      {
+	csString warn;
+	warn.Format ("WARNING: CelStart (version %d) may not be compatible with this demo!",
+	    CELSTART_VERSION);
+	warnings.Push (warn);
+      }
+      else warnings.Push ("");
+
       const char* description = acc->GetStr ("CelStart.Description", 0);
       if (description) descriptions.Push (description);
       else descriptions.Push ("");
@@ -312,8 +343,8 @@ void CelStart::FindCelStartArchives ()
 	csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
 	csString iconpath = "/tmp/celstart_test/";
 	iconpath += icon;
-	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath, CS_TEXTURE_2D,
-	    g3d->GetTextureManager ());
+	csRef<iTextureHandle> txt = loader->LoadTexture (iconpath,
+	    CS_TEXTURE_2D, g3d->GetTextureManager ());
 	csSimplePixmap* pm = new csSimplePixmap (txt);
 	icons.Push (pm);
       }
@@ -342,7 +373,6 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
     bool is_zip = buf[0] == 'P' && buf[1] == 'K' && buf[2] == 3 && buf[3] == 4;
     if (is_zip)
     {
-printf ("1\n"); fflush (stdout);
       vfs->Mount ("/tmp/celstart", arg);
       configname = "/tmp/celstart/celstart.cfg";
       path = "/tmp/celstart";
@@ -351,7 +381,6 @@ printf ("1\n"); fflush (stdout);
     }
     else
     {
-printf ("2\n"); fflush (stdout);
       path = "/this";
       configname = "/this/";
       configname += arg;
@@ -363,21 +392,18 @@ printf ("2\n"); fflush (stdout);
   bool exists = vfs->Exists (arg);
   if (exists)
   {
-printf ("3\n"); fflush (stdout);
     configname = arg;
     path = "/this";
     realpath = "";
   }
   else if (vfs->ChDirAuto (arg, 0, "/tmp/celstart", "celstart.cfg"))
   {
-printf ("4\n"); fflush (stdout);
     configname = "/tmp/celstart/celstart.cfg";
     path = "/tmp/celstart";
     realpath = arg;
   }
   else
   {
-printf ("5\n"); fflush (stdout);
     // ChDir failed. Try to see if the path is a config file directly.
     configname = arg;
     path = "/this";
@@ -403,7 +429,23 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
   if (realpath && *realpath)
+  {
     vfs->Mount (path, realpath);
+    csString old = getenv ("PYTHONPATH");
+    if (!old.IsEmpty ())
+    {
+#if defined(CS_PLATFORM_WIN32)
+      old += ";";
+#elif defined(CS_PLATFORM_UNIX) || defined(CS_PLATFORM_MACOSX)
+      old += ":";
+#else
+#error "What a strange platform you have!"
+#endif
+    }
+    old += realpath;
+    setenv ("PYTHONPATH",old.GetData(),1);
+    printf ("PYTHONPATH: %s\n", old.GetData ()); fflush (stdout);
+  }
 
   if (!csInitializer::SetupConfigManager (object_reg, configname))
   {
@@ -466,6 +508,34 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
 
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (object_reg);
   csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
+
+  // Load all config dirs specified in config file.
+  csRef<iConfigIterator> cfgdir_it = cfg->Enumerate ("CelStart.ConfigDir.");
+  vfs->PushDir(path);
+  while (cfgdir_it && cfgdir_it->Next ())
+  {
+    csString config_dir = cfgdir_it->GetStr();
+    config_dir.Append("/");   // otherwise vfs wont treat as a dir
+    if (vfs->Exists(config_dir))
+    {
+      size_t i;
+      csRef<iStringArray> cfg_files = vfs->FindFiles(config_dir);
+      for (i=0;i<cfg_files->GetSize();i++)
+      {
+        cfg->Load(cfg_files->Get(i),vfs,true);
+      }
+    }
+    else
+    {
+      csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    	"crystalspace.application.celstart",
+    	"Specified directory for '%s' cfg files '%s' does not exist in vfs!", 
+	cfgdir_it->GetKey(true),cfgdir_it->GetStr());
+    }
+  }
+  vfs->PopDir();
+
+  // Load behaviour layers
   csRef<iConfigIterator> it = cfg->Enumerate ("CelStart.BehaviourLayer.");
   while (it && it->Next ())
   {
@@ -483,6 +553,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     pl->RegisterBehaviourLayer (bl);
   }
 
+  // Load initial entities specified in config file
   it = cfg->Enumerate ("CelStart.Entity.");
   while (it && it->Next ())
   {
@@ -522,6 +593,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     }
   }
 
+  // Load map files
   csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   it = cfg->Enumerate ("CelStart.MapFile.");
   while (it && it->Next ())
@@ -603,6 +675,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
   font = g3d->GetDriver2D ()->GetFontServer ()->LoadFont (CSFONT_LARGE);
   font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
   font_bg = g3d->GetDriver2D ()->FindRGB (200, 200, 200);
+  font_error_fg = g3d->GetDriver2D ()->FindRGB (255, 0, 0);
   sel_font_fg = g3d->GetDriver2D ()->FindRGB (0, 0, 0);
   sel_font_bg = g3d->GetDriver2D ()->FindRGB (40, 210, 170);
   box_color3 = g3d->GetDriver2D ()->FindRGB (60, 60, 60);
@@ -665,6 +738,7 @@ void CelStart::Start ()
     files.DeleteAll ();
     names.DeleteAll ();
     descriptions.DeleteAll ();
+    warnings.DeleteAll ();
     icons.DeleteAll ();
     csInitializer::DestroyApplication (object_reg);
     if (!StartDemo (argc, argv, startme, "/tmp/celstart", "/tmp/celstart/celstart.cfg"))

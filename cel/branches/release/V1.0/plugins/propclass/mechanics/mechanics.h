@@ -266,7 +266,8 @@ private:
     action_setposition,
     action_rotate,
     action_clearrotation,
-    action_lookat
+    action_lookat,
+    action_addtogroup
   };
 
   // Parameters.
@@ -281,12 +282,14 @@ private:
   static csStringID param_systempcent;
   static csStringID param_systempctag;
   static csStringID param_meshpctag;
-  static csStringID param_radius;
   static csStringID param_offset;
   static csStringID param_length;
   static csStringID param_axis;
   static csStringID param_angle;
   static csStringID param_size;
+  static csStringID param_sizeadjustment;
+  static csStringID param_radius;
+  static csStringID param_radiusadjustment;
   static csStringID param_normal;
   static csStringID param_otherbody;
   static csStringID param_force;
@@ -299,6 +302,7 @@ private:
   static csStringID param_up;
   static csStringID param_rotation;
   static csStringID param_depth;
+  static csStringID param_group;
 
   celGenericParameterBlock* params;
 
@@ -416,12 +420,12 @@ public:
   virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
 
   virtual void AttachColliderSphere (float radius, const csVector3& offset);
-  virtual void AttachColliderBoundingSphere();
+  virtual void AttachColliderBoundingSphere(float radiusadjusment = 0.0f);
   virtual void AttachColliderCylinder (float length, float radius,
   	const csOrthoTransform& trans);
   virtual void AttachColliderBox (const csVector3& size,
   	const csOrthoTransform& trans);
-  virtual void AttachColliderBoundingBox();
+  virtual void AttachColliderBoundingBox(const csVector3& sizeadjustment = csVector3(0));
   virtual void AttachColliderPlane (const csPlane3& plane);
   virtual void AttachColliderMesh ();
 

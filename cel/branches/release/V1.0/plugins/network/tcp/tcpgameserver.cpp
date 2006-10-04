@@ -30,6 +30,9 @@
 #include "plugins/network/tcp/tcpgamefactory.h"
 #include "plugins/network/tcp/tcpgameserver.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 SCF_IMPLEMENT_IBASE_EXT (celTCPGameServer)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameServer)
 SCF_IMPLEMENT_IBASE_EXT_END
@@ -1180,3 +1183,7 @@ size_t celPlayerList::Find (celPlayer* player) const
 {
   return players.Find (player);
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
+

@@ -30,6 +30,7 @@
 #include "iutil/csinput.h"
 #include "iutil/cfgmgr.h"
 #include "ivaria/reporter.h"
+#include "ivideo/graph2d.h"
 #include "ivideo/graph3d.h"
 #include "iengine/camera.h"
 #include "iengine/sector.h"
@@ -159,7 +160,7 @@ static void CleanupTemporaryStrings ()
 }
 
 static const char* ArgToString (const char* prefix, const char* prefix2,
-		const celXmlArg& a)
+	const celXmlArg& a)
 {
   switch (a.type)
   {
@@ -167,89 +168,89 @@ static const char* ArgToString (const char* prefix, const char* prefix2,
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_%d", prefix, prefix2, a.arg.i);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_%u", prefix, prefix2, a.arg.ui);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_%g", prefix, prefix2, a.arg.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_%s", prefix, prefix2, a.arg.b ? "true" : "false");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_STRING:
        {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_%s", prefix, prefix2, a.arg.str.s);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_[%g,%g]", prefix, prefix2, a.arg.vec.x, a.arg.vec.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_[%g,%g,%g]", prefix, prefix2,
-			a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
-	used_strings.Push (str);
+        	a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_pc(%p)", prefix, prefix2, a.arg.pc);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_ent(%s)", prefix, prefix2,
-			a.arg.entity ? a.arg.entity->GetName () : "<null>");
-	used_strings.Push (str);
+        	a.arg.entity ? a.arg.entity->GetName () : "<null>");
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_IBASE:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_ibase(%p)", prefix, prefix2,
-			a.arg.ref);
-	used_strings.Push (str);
+        	a.arg.ref);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format("%s_%s_id(%lu)", prefix, prefix2, (unsigned long)a.arg.id);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s_rgb(%g,%g,%g)", prefix, prefix2,
-			a.arg.col.red, a.arg.col.green,
-      	  a.arg.col.blue);
-	used_strings.Push (str);
+        	a.arg.col.red, a.arg.col.green,
+        	a.arg.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     default:
@@ -265,86 +266,86 @@ static const char* ArgToString (const char* prefix, const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%d", prefix, a.arg.i);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%u", prefix, a.arg.ui);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%g", prefix, a.arg.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s", prefix, a.arg.b ? "true" : "false");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_STRING:
        {
         csString* str = GetUnusedString ();
         str->Format ("%s_%s", prefix, a.arg.str.s);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_[%g,%g]", prefix, a.arg.vec.x, a.arg.vec.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_[%g,%g,%g]", prefix, a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_pc(%p)", prefix, a.arg.pc);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_ent(%s)", prefix,
-			a.arg.entity ? a.arg.entity->GetName () : "<null>");
-	used_strings.Push (str);
+        	a.arg.entity ? a.arg.entity->GetName () : "<null>");
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_IBASE:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_ibase(%p)", prefix, a.arg.ref);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_id(%lu)", prefix, (unsigned long)a.arg.id);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s_rgb(%g,%g,%g)", prefix, a.arg.col.red, a.arg.col.green,
-      	  a.arg.col.blue);
-	used_strings.Push (str);
+        	a.arg.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     default:
@@ -360,21 +361,21 @@ static const char* ArgToString (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("%d", a.arg.i);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%u", a.arg.ui);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("%g", a.arg.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL: return a.arg.b ? "true" : "false";
@@ -383,50 +384,50 @@ static const char* ArgToString (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("[%g,%g]", a.arg.vec.x, a.arg.vec.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("[%g,%g,%g]", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("pc(%p)", a.arg.pc);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("ent(%s)", a.arg.entity ? a.arg.entity->GetName () : "<null>");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_IBASE:
       {
         csString* str = GetUnusedString ();
         str->Format ("ibase(%p)", a.arg.ref);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format ("id(%lu)", (unsigned long)a.arg.id);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("rgb(%g,%g,%g)", a.arg.col.red, a.arg.col.green,
-      	  a.arg.col.blue);
-	used_strings.Push (str);
+        	a.arg.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     default:
@@ -442,21 +443,21 @@ static const char* ArgToStringTpl (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("%d", a.arg.i);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("%u", a.arg.ui);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("%g", a.arg.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL: return a.arg.b ? "true" : "false";
@@ -465,29 +466,29 @@ static const char* ArgToStringTpl (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("%g,%g", a.arg.vec.x, a.arg.vec.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("%g,%g,%g", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("%s", a.arg.entity ? a.arg.entity->GetName () : "");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("%g,%g,%g", a.arg.col.red, a.arg.col.green,
-      	  a.arg.col.blue);
-	used_strings.Push (str);
+        	a.arg.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     default:
@@ -504,93 +505,93 @@ static const char* A2S (const celXmlArg& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("{int32:%d}", a.arg.i);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("{uint32:%u}", a.arg.ui);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("{float:%g}", a.arg.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL:
       {
         csString* str = GetUnusedString ();
         str->Format ("{bool:%s}", a.arg.b ? "true" : "false");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_STRING:
       {
         csString* str = GetUnusedString ();
         str->Format ("{str:%s}", a.arg.str.s);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g]}", a.arg.vec.x, a.arg.vec.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g,%g]}", a.arg.vec.x, a.arg.vec.y, a.arg.vec.z);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("{rgb:(%g,%g,%g)}", a.arg.col.red, a.arg.col.green,
-      	  a.arg.col.blue);
-	used_strings.Push (str);
+        	a.arg.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("{pc:%p}", a.arg.pc);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("{ent:%s}", a.arg.entity ? a.arg.entity->GetName ()
-		: "<null>");
-	used_strings.Push (str);
+        	: "<null>");
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_IBASE:
       {
         csString* str = GetUnusedString ();
         str->Format ("{ibase:%p}", a.arg.ref);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ID:
       {
         csString* str = GetUnusedString ();
         str->Format ("{id:%lu}", (unsigned long)a.arg.id);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     default:
       {
         csString* str = GetUnusedString ();
         str->Format ("{unknown}");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
   }
@@ -691,9 +692,9 @@ static uint32 ArgToUInt32 (const celXmlArg& a)
     case CEL_DATA_STRING:
       {
         if (!a.arg.str.s) return 0;
-	uint i;
+        uint i;
         sscanf (a.arg.str.s, "%u", &i);
-	return i;
+        return i;
       }
     default:
       return 0;
@@ -712,8 +713,8 @@ static int32 ArgToInt32 (const celXmlArg& a)
       {
         if (!a.arg.str.s) return 0;
         int i;
-	sscanf (a.arg.str.s, "%d", &i);
-	return i;
+        sscanf (a.arg.str.s, "%d", &i);
+        return i;
       }
     default:
       return 0;
@@ -732,8 +733,8 @@ static float ArgToFloat (const celXmlArg& a)
       {
         if (!a.arg.str.s) return 0.0;
         float f;
-	sscanf (a.arg.str.s, "%f", &f);
-	return f;
+        sscanf (a.arg.str.s, "%f", &f);
+        return f;
       }
     default:
       return 0.0;
@@ -829,8 +830,8 @@ bool celXmlScriptEventHandler::EvaluateTrue (
   {
     case CEL_DATA_STRING:
       {
-	const char* s = ArgToString (eval);
-	rc = s ? *s != 0 : false;
+        const char* s = ArgToString (eval);
+        rc = s ? *s != 0 : false;
       }
       break;
     case CEL_DATA_ENTITY:
@@ -847,23 +848,23 @@ bool celXmlScriptEventHandler::EvaluateTrue (
       break;
     case CEL_DATA_VECTOR2:
       {
-	csVector2 v = ArgToVector2 (eval);
-	rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
+        csVector2 v = ArgToVector2 (eval);
+        rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON;
       }
       break;
     case CEL_DATA_VECTOR3:
       {
         csVector3 v = ArgToVector3 (eval);
         rc = ABS (v.x) >= SMALL_EPSILON || ABS (v.y) >= SMALL_EPSILON ||
-          ABS (v.z) >= SMALL_EPSILON;
+        	ABS (v.z) >= SMALL_EPSILON;
       }
       break;
     case CEL_DATA_COLOR:
       {
         csColor v = ArgToColor (eval);
         rc = ABS (v.red) >= SMALL_EPSILON ||
-            ABS (v.green) >= SMALL_EPSILON ||
-            ABS (v.blue) >= SMALL_EPSILON;
+        	ABS (v.green) >= SMALL_EPSILON ||
+        	ABS (v.blue) >= SMALL_EPSILON;
       }
       break;
     case CEL_DATA_FLOAT:
@@ -892,86 +893,86 @@ static const char* D2S (const celData& a)
       {
         csString* str = GetUnusedString ();
         str->Format ("{int32:%d}", a.value.l);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ULONG:
       {
         csString* str = GetUnusedString ();
         str->Format ("{uint32:%u}", a.value.ul);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_FLOAT:
       {
         csString* str = GetUnusedString ();
         str->Format ("{float:%g}", a.value.f);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_BOOL:
       {
         csString* str = GetUnusedString ();
         str->Format ("{bool:%s}", a.value.bo ? "true" : "false");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_STRING:
       {
         csString* str = GetUnusedString ();
         str->Format ("{str:%s}", (const char*)(*a.value.s));
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR2:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g]}", a.value.v.x, a.value.v.y);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_VECTOR3:
       {
         csString* str = GetUnusedString ();
         str->Format ("{vec:[%g,%g,%g]}", a.value.v.x, a.value.v.y, a.value.v.z);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_COLOR:
       {
         csString* str = GetUnusedString ();
         str->Format ("{rgb:(%g,%g,%g)}", a.value.col.red, a.value.col.green,
-      	  a.value.col.blue);
-	used_strings.Push (str);
+        	a.value.col.blue);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_PCLASS:
       {
         csString* str = GetUnusedString ();
         str->Format ("{pc:%p}", a.value.pc);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_ENTITY:
       {
         csString* str = GetUnusedString ();
         str->Format ("{ent:%s}", a.value.ent ? a.value.ent->GetName ()
-		: "<null>");
-	used_strings.Push (str);
+        	: "<null>");
+        used_strings.Push (str);
         return *str;
       }
     case CEL_DATA_IBASE:
       {
         csString* str = GetUnusedString ();
         str->Format ("{ibase:%p}", a.value.ibase);
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
     default:
       {
         csString* str = GetUnusedString ();
         str->Format ("{unknown}");
-	used_strings.Push (str);
+        used_strings.Push (str);
         return *str;
       }
   }
@@ -5168,17 +5169,37 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  top.SetFloat (GetAngle (v1, v2));
 	}
 	break;
+      case CEL_OPERATION_HIDEMOUSE:
+        {
+          DUMP_EXEC ((":%04d: hidemouse\n", i-1));
+          csRef<iGraphics2D> g2d = csQueryRegistry<iGraphics2D> (
+          	cbl->GetObjectRegistry ());
+          if (!g2d)
+            return ReportError (cbl, "No iGraphics2D!");
+          g2d->SetMouseCursor (csmcNone);
+        }
+      break;
+      case CEL_OPERATION_SHOWMOUSE:
+        {
+          DUMP_EXEC ((":%04d: showmouse\n", i-1));
+          csRef<iGraphics2D> g2d = csQueryRegistry<iGraphics2D> (
+          	cbl->GetObjectRegistry ());
+          if (!g2d)
+            return ReportError (cbl, "No iGraphics2D!");
+          g2d->SetMouseCursor (csmcArrow);
+        }
+      break;
     }
   }
 }
 
 void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
-    int screenx, int screeny,
-    float maxdist, csVector3& isect, iCelEntity*& selent)
+	int screenx, int screeny,
+	float maxdist, csVector3& isect, iCelEntity*& selent)
 {
   iCamera* camera = pccam->GetCamera ();
   csScreenTargetResult result = csEngineTools::FindScreenTarget (
-      csVector2 (screenx, screeny), maxdist, camera);
+  	csVector2 (screenx, screeny), maxdist, camera);
   isect = result.isect;
   if (result.mesh)
     selent = pl->FindAttachedEntity (result.mesh->QueryObject ());

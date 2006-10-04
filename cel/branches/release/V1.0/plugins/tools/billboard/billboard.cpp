@@ -36,6 +36,8 @@
 #include "iengine/mesh.h"
 #include "iengine/camera.h"
 #include "iengine/movable.h"
+#include "csgeom/matrix2.h"
+#include <math.h>
 
 #include "plugins/tools/billboard/billboard.h"
 
@@ -61,6 +63,7 @@ celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
   image_w = image_h = -1;
   bb_x = bb_y = 0;
   bb_w = bb_h = -1;
+  rotation = 0.0f;
   celBillboard::mgr = mgr;
   has_clickmap = false;
   material_ok = false;
@@ -521,6 +524,16 @@ void celBillboard::Move (int dx, int dy)
   bb_y += dy;
 }
 
+void celBillboard::SetRotation (float angle)
+{
+  rotation = angle;
+}
+
+float celBillboard::GetRotation () const
+{
+  return rotation;
+}
+
 void celBillboard::StackTop ()
 {
   mgr->StackTop (this);
@@ -760,19 +773,53 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   {
     mesh_indices.Put (i, i);
   }
+  int halfh = fh/2;
+  int halfw = fw/2;
 
-  csVector3 v1 (((r.xmin) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
-  csVector3 v2 (((r.xmax) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymin) - fh/2) * z_inv_aspect, z);
-  csVector3 v3 (((r.xmax) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
-  csVector3 v4 (((r.xmin) - fw/2) * z_inv_aspect,
-  	        ((fh-r.ymax) - fh/2) * z_inv_aspect, z);
+  int x = bb_x + layer->bb_layer_x;
+  int y = bb_y + layer->bb_layer_y;
+  mgr->BillboardToScreenspace (x, y);
+
+  int w = bb_w / 2;
+  int h = bb_h / 2;
+  mgr->BillboardToScreenspace (w, h);
+  
+  csVector2 v1_2d (-w, -h);
+  csVector2 v2_2d (w, -h);
+  csVector2 v3_2d (w, h);
+  csVector2 v4_2d (-w, h);
+
+  if (fabs (rotation) > 0.01)
+  {
+
+    float co = cos(rotation);
+    float si = sin(rotation);
+    csMatrix2 rot = csMatrix2(co, -si, si, co);
+    v1_2d = rot * v1_2d;
+    v2_2d = rot * v2_2d;
+    v3_2d = rot * v3_2d;
+    v4_2d = rot * v4_2d;
+  }
+
+  v1_2d.Set(v1_2d.x + x + w, v1_2d.y + y + h);
+  v2_2d.Set(v2_2d.x + x + w, v2_2d.y + y + h);
+  v3_2d.Set(v3_2d.x + x + w, v3_2d.y + y + h);
+  v4_2d.Set(v4_2d.x + x + w, v4_2d.y + y + h);
+
+  csVector3 v1 ((v1_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v1_2d.y) * z_inv_aspect, z);
+  csVector3 v2 ((v2_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v2_2d.y) * z_inv_aspect, z);
+  csVector3 v3 ((v3_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v3_2d.y) * z_inv_aspect, z);
+  csVector3 v4 ((v4_2d.x - halfw) * z_inv_aspect,
+  	        (halfh - v4_2d.y) * z_inv_aspect, z);
+
   mesh_vertices.Push (v1);
   mesh_vertices.Push (v2);
   mesh_vertices.Push (v3);
   mesh_vertices.Push (v4);
+
 
   mesh_texels.Push (uvtl);
   mesh_texels.Push (csVector2 (uvbr.x, uvtl.y));

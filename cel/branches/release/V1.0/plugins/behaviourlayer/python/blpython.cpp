@@ -17,6 +17,7 @@
 */
 
 #include <Python.h>
+#include <marshal.h>
 
 #include "cssysdef.h"
 #include "csutil/sysfunc.h"
@@ -32,6 +33,10 @@
 #include "ivaria/reporter.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/pl.h"
+
+extern unsigned char pycel_py_wrapper[]; // pycel.py file compiled and marshalled
+extern size_t pycel_py_wrapper_size;
+
 
 CS_IMPLEMENT_PLUGIN
 
@@ -130,6 +135,37 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   Store ("blcelc.physicallayer_ptr", pl, (void *) "iCelPlLayer *");
   //RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
 
+  // Unmarshall embedded pycel.py
+  PyObject* s_mainModule;
+  s_mainModule = PyImport_AddModule("__main__");
+  if (!s_mainModule)
+  {
+    printf("Couldn't get __main__ module");
+    return false;
+  }
+  Py_INCREF(s_mainModule);
+  printf("Unmarshall pycel.py\n");
+  PyObject* pycelModuleCode = PyMarshal_ReadObjectFromString((char*)pycel_py_wrapper, (int)pycel_py_wrapper_size);
+  if (!pycelModuleCode)
+  {
+    printf("Error in embedded pycel.py code\n");
+    return false;
+  }
+  PyObject* pycelModule = PyImport_ExecCodeModule("pycel", pycelModuleCode);
+  Py_DECREF(pycelModuleCode); // don't need this at this point
+  if (!pycelModule)
+  {
+    printf("Error compiling embedded pycel.py code\n");
+    PyRun_SimpleString ("pdb.pm()");
+    return false;
+  }
+  if (PyModule_AddObject(s_mainModule, "pycel", pycelModule))
+  {
+    printf("Error adding pycel module to __main__\n");
+    return false;
+  }
+  
+  // Register event queue
   csRef<iEventQueue> queue = CS_QUERY_REGISTRY(object_reg, iEventQueue);
   if (queue.IsValid())
     queue->RegisterListener(&scfiEventHandler, csevCommandLineHelp(object_reg));

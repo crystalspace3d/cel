@@ -27,6 +27,9 @@
 #include "plugins/network/tcp/tcpgameclient.h"
 #include "plugins/network/tcp/tcpgameserver.h"
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 class celTCPGame : public csObject
 {
   friend class celTCPGameFactory;
@@ -77,5 +80,8 @@ class celTCPGame : public csObject
   } scfiCelGame;
   friend struct TCPGame;
 };
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
 
 #endif // __CEL_GAME_TCP__

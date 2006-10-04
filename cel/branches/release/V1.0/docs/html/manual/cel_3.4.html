@@ -103,6 +103,11 @@ if you use only <small>XML</small> behaviours.
 If you have a 2D only <small>XML</small> game then it might be needed to force <samp>`celstart'</samp>
 into clearing the screen every frame since there will be no 3D camera that will do
 this.
+</li><li> <samp>`CelStart.ConfigDir.&lt;somename&gt; = &lt;dirname&gt;'</samp>
+With this option you can let <samp>`celstart'</samp> load all config files from the
+specified vfs dir (specified relative to the celstart.cfg path). It is possible
+to have multiple of these in the same configuration in which case 
+<samp>`celstart'</samp> will load from them all.
 </li></ul>
 
 <p>Here is an example config file:
@@ -117,6 +122,8 @@ CelStart.BehaviourLayer.blxml = cel.behaviourlayer.xml
 CelStart.Entity.start = start
 CelStart.EntityBehaviourLayer.start = blxml
 CelStart.EntityBehaviour.start = start_behaviour
+; Load config files from the 'config' dir (under map vfs).
+CelStart.ConfigDir.Behaviours = config
 ; Some CS stuff.
 Video.ScreenWidth = 1024
 Video.ScreenHeight = 768

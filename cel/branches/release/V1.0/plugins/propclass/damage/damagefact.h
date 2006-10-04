@@ -75,7 +75,8 @@ private:
     propid_amount = 0,
     propid_type,
     propid_sector,
-    propid_position
+    propid_position,
+    propid_source,
   };
   static PropertyHolder propinfo;
 
@@ -86,6 +87,8 @@ private:
   csString type;
   float amount;
   csString sector;
+  csString source;
+  bool sourceset;
   csWeakRef<iSector> sector_ref;
   csVector3 position;
   csWeakRef<iPcMesh> pcmesh;
@@ -94,6 +97,7 @@ private:
   void GetLocation (iSector*& s, csVector3& p);
   void DoDamage (iCelEntityList* list, const csVector3& p);
   void DoDamage (iCelEntity* ent, const csVector3& p);
+  void CheckSource ();
 
 public:
   celPcDamage (iObjectRegistry* object_reg);
@@ -112,6 +116,9 @@ public:
       const csVector3& pos);
   virtual const char* GetDamageSector () const { return sector; }
   virtual const csVector3& GetDamagePosition () const { return position; }
+
+  virtual void SetDamageSource (const char* source) ;
+  virtual const char* GetDamageSource() const { return source; }
 
   virtual void AreaDamage (float radius);
   virtual void BeamDamage (const csVector3& direction, float maxdist);

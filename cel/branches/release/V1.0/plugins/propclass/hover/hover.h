@@ -34,8 +34,11 @@
 #include "propclass/stabiliser_dist.h"
 #include "../mechanics/ticktimer.h"
 
-struct iPcMesh;
+struct iSector;
+
 struct iPcMechanicsObject;
+struct iPcMesh;
+struct iPcDefaultCamera;
 struct iVirtualClock;
 
 /**
@@ -69,8 +72,6 @@ public:
    */
   virtual void PerformStabilising();
 
-  virtual void SetWorldMesh (csRef<iPcMesh> wmesh) { world_mesh = wmesh; }
-  virtual void SetWorld (const char *name);
   virtual void SetHeightBeamCutoff (float chm) { height_beam_cutoff = chm; }
   virtual void SetAngularBeamOffset (float abo) { ang_beam_offset = abo; }
   virtual void SetAngularCutoffHeight (float ach) { ang_cutoff_height = ach; }
@@ -87,14 +88,6 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcHover);
 
-    virtual void SetWorldMesh (csRef<iPcMesh> wmesh)
-    {
-      scfParent->SetWorldMesh (wmesh);
-    }
-    virtual void SetWorld (const char *name)
-    {
-      scfParent->SetWorld (name);
-    }
     virtual void SetHeightBeamCutoff (float chm)
     {
       scfParent->SetHeightBeamCutoff (chm);
@@ -142,8 +135,7 @@ private:
   // Actions
   enum actionids
   {
-    action_setworld = 0,
-    action_sethbeamcutoff,
+    action_sethbeamcutoff = 0,
     action_setangoff,
     action_setangheight,
     action_setangstr,
@@ -152,7 +144,6 @@ private:
   };
 
   // Parameters.
-  static csStringID param_world;
   static csStringID param_hbeamcutoff;
   static csStringID param_angoff;
   static csStringID param_angheight;
@@ -162,14 +153,15 @@ private:
   /**
    * Calculate height of object to ground (world mesh)
    */
-  float Height(csVector3 offset = csVector3(0,0,0));
+  float Height(csVector3 offset = csVector3(0,0,0),
+      bool accurate = false);
 
   /**
    * In case of object not being in range in Height(),
    * extend another beam upwards to calculate reverse distance,
    * else return infinity
    */
-  float ReverseHeight(csVector3 &start);
+  float ReverseHeight(csVector3 &start, iSector *sector);
 
   /**
    * This function computes the angle the ship has to roll through to
@@ -182,18 +174,8 @@ private:
    */
   float AngularAlignment(csVector3 offset , float height);
 
-  /**
-   * Looks up the world_mesh and gets the csWeakRef.
-   */
-  void LookUpWorldMesh ();
-
   /// so we can turn the hovering off and on.
   bool hover_on;
-
-  /// because the ref isn't gotten until first tick
-  csString world_mesh_name;
-  /// mesh used for height calculation
-  csWeakRef<iPcMesh> world_mesh;
 
   /// offset used for calculating alignment wrt to ground
   float ang_beam_offset;
@@ -210,7 +192,11 @@ private:
   float object_height;
 
   /// stored ship mech interface
-  csWeakRef<iPcMechanicsObject> ship_mech;
+  csWeakRef<iPcMechanicsObject> pcmechobj;
+  /// stored mesh interface
+  csWeakRef<iPcMesh> pcmesh;
+  /// stored camera interface
+  csWeakRef<iPcDefaultCamera> pccamera;
 };
 
 #endif

@@ -31,7 +31,6 @@
 #include "iengine/portal.h"
 
 #include "plugins/stdphyslayer/etracker.h"
-#include "plugins/stdphyslayer/entity.h"
 #include "physicallayer/propclas.h"
 #include "propclass/mesh.h"
 
@@ -325,6 +324,29 @@ csPtr<iCelEntityList> celEntityTracker::FindNearbyEntities (iSector* sector,
   return list;
 }
 
+csPtr<iCelEntityIterator> celEntityTracker::GetIterator ()
+{
+  return new Iterator (this);
+}
+
+void celEntityTracker::AddEntities (iCelEntityTracker* tracker)
+{
+  csRef<iCelEntityIterator> it = tracker->GetIterator ();
+  while (it->HasNext ())
+  {
+    AddEntity (it->Next ());
+  }
+}
+
+void celEntityTracker::RemoveEntities (iCelEntityTracker* tracker)
+{
+  csRef<iCelEntityIterator> it = tracker->GetIterator ();
+  while (it->HasNext ())
+  {
+    RemoveEntity (it->Next ());
+  }
+}
+
 void celEntityTracker::RegisterSector (celMeshcb* cb)
 {
   mesh_cbs.Push (cb);
@@ -347,4 +369,19 @@ void celEntityTracker::UnregisterSector (iSector* sector)
 }
 
 //---------------------------------------------------------------------------
+
+celEntityTracker::Iterator::Iterator (celEntityTracker* parent) :
+  scfImplementationType (this), it (parent->entities.GetIterator ())
+{
+}
+
+iCelEntity* celEntityTracker::Iterator::Next ()
+{
+  return it.Next ();
+}
+
+bool celEntityTracker::Iterator::HasNext () const
+{
+  return it.HasNext ();
+}
 

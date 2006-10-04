@@ -31,6 +31,9 @@
 
 CS_IMPLEMENT_PLUGIN
 
+CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
+{
+
 SCF_IMPLEMENT_IBASE (celTCPGameFactory)
   SCF_IMPLEMENTS_INTERFACE (iCelGameFactory)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
@@ -249,3 +252,7 @@ void celTCPGameFactory::StartPlayBackGame (csString filename,
 {
   // @@@ TODO
 }
+
+}
+CS_PLUGIN_NAMESPACE_END(celTCPNetwork)
+

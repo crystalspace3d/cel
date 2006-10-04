@@ -3,6 +3,144 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+03-Oct-2006
+	- Darek added <hidemouse/> and <shoumouse/> to xml behaviour.
+27-Sep-2006
+	- Jorrit fixed CEL for latest particle removals in CS.
+	- cfraz89 fixed a bug in pcwheeled which made the wheels bend when
+	  reversing.
+26-Sep-2006
+	- caedes added Celstart.ConfigDir.* config keys to celstart so it will
+	  load all config files from the specified dirs. Also updated manual.
+	- cfraz89 removed the old particle plugins from the celstart_static
+	  target in Jamfile.
+22-Sep-2006
+	- caedes changed PropertyClasses accessor in CelEntity to 
+	  PropertyClassList as it is more coherent with real cel api.
+	- Darek changed a little bit pcmesh:cel.property.rotation
+	  and added cel.property.eulerrotation.
+21-Sep-2006
+        - Genjix changed defcam so it sets and unsets CS_ENTITY_NOHITBEAM
+          flag properly, and sets CS_ENTITY_INVISIBLEMESH- not INVISIBLE,
+          which affects NOHITBEAM flag.
+        - Genjix has changed pchover so it now hovers over everything
+          that doesn't have CS_ENTITY_NOHITBEAM flag set.
+19-Sep-2006
+        - Genjix updated track4.zip map and fixed hovertest and
+          wheeledtest.
+        - cfraz89 added speed-sensitive steering force in pcwheeled.
+	- cfraz89 added GetWheelBody and GetWheelJoint functions to
+	  pcwheeled.
+	- Darek added to pcmesh cel.property.rotation.
+18-Sep-2006
+	- caedes added blpython section to the manual.
+	- caedes changed the IsMoveMoveEnabled method in ActorMove to the more
+	  appropiate IsMouseMoveEnabled, also adapted blcel.i as it was using
+	  this.
+	- Jorrit bumped up celstart version and added pchover and pccraft
+	  property classes to celstart_static.
+	- caedes removed an experimental line he had added to blcel.i by
+	  mistake.
+17-Sep-2006
+        - Genjix added minor improved track4.zip
+16-Sep-2006
+	- caedes fixed the MarshallPy rule so it works on python<2.4. It was
+	  using -m option for python that didnt exist previously.
+	- caedes fixed the specification of pycel.py directory at blpython
+	  Jamfile as it was not working when building out of cel directory.
+15-Sep-2006
+        - cfraz89 added the setting of source to pcdamage.
+        - cfraz89 fixed the breakage in pycel caused by the capital letters.
+        - cfraz89 added Loader (iLoader) to pycel.
+	- caedes fixed a mistype in blcel.i (in RotatingLeft attribute).
+	- caedes added necessary code to wrap csPtr (and other pointer types)
+	  for iCelEntity and iCelEntityList at blcel.i.
+14-Sep2006
+	- caedes added pycel.py, a high level interface for blpython, it
+	  provides nicer access for some common things.
+	- caedes fixed a mistype in blcel.i (using SETTER_METHODS instead of
+	  SETTER_METHOD for pcwheeled topgear).
+	- caedes added emitter to python check in configure.ac so PYTHON is
+	  emitted to Jamconfig (will be needed for marshalling pycel.py).
+	- caedes fixed setting pythonpath in celstart.
+	- caedes added tools to marshall python code into cpp (a jam rule,
+	  plus a python script to do the marshalling).
+	- caedes added pycel.py unmarshalling code to blpython, and adapted
+	  blpython Jamfile to do the marshalling.
+	- caedes added a new way in the python bl to define attribute
+	  accessors in file cel_attributes.i.
+	- caedes changed all attribute getters to use capital letters to
+	  augment consistency through the api (now follows the same notation
+	  as cs).
+13-Sep2006
+	- Jorrit added a new iPcMesh->CreateEmptyGenmesh() method.
+	- Jorrit added a factory name parameter to iPcMesh->CreateEmptyThing().
+	- Jorrit added actions for CreateEmptyThing() and CreateEmptyGenmesh().
+12-Sep2006
+	- Jorrit fixed a bug in pcmover which caused crashes at exit.
+	- cfraz89 completed setters and getters in python bl.
+11-Sep2006
+	- Jorrit optimized the rotation of billboards by only doing
+	  the rotation in case the angle is actually not 0.
+	  A further optimization would be to do the rotation in 2D and
+	  not in 3D as is done now.
+	- Jorrit added some partially not-working code to celstart to set
+	  the PYTHONPATH.
+        - cfraz89 moved billboard rotation to 2D, but is still not
+	  complete, and commented a broken line in celstart.
+	- cfraz89 completed billboard rotation. Clickmaps do not work
+	  however with rotation.
+        - cfraz89 optimised billboard rotation a little more.
+10-Sep2006
+        - cfraz89 added a partially working SetRotation to billboard.
+	- Guillaume Libersat added Get/SetDistanceVelocity() to
+	  iPcDefaultCamera, which allow doing zoom in/out.
+9-Sep-2006
+	- Darek cleaned pcproperties (missing xml stuff, code style).
+	- Darek cleaned pccommandinput (missing xml stuff, code style).
+8-Sep-2006
+	- Darek cleaned pcactormove (missing xml stuff, code style).
+	- Darek changed in pcactormove SetAnimation "name" to
+	  compatible with pcmesh convention "animation".
+	- David Bronke added the iCelEntityIterator interface and added methods
+	  to iCelEntityTracker and iCelEntityList to get iterators over the
+	  entities they contain. Also cleaned up format warnings in
+	  celconsole.cpp.
+	- Vincent fixed static builds of celtest and nettest by adding missing
+	  plugins or removing the ones that are gone. Also enclosed tcpnetwork
+	  plugin in 'celTCPNetwork' namespace to avoid some name collision.
+6-Sep-2006
+	- Jorrit bumped up celstart version to 2 for the fix in
+	  SetMouseCursor() in CS.
+	- Guillaume Libersat added a GetDistance() method to iPcDefaultCamera.
+	- Guillaume Libersat added support for pcmover to the python
+	  behaviour layer.
+	- Jorrit added missing spr2dldr to celstart_static.
+        - cfraz89 corrected 3 for loops in pcwheeled.
+5-Sep-2006
+	- cfraz89 added python to celstart static
+        - cfraz89 added the ':' thingy back into python celstart static.
+        - cfraz89 added 2 increfs to Py_None into blpython
+4-Sep-2006
+	- cfraz89 added a vector3 include to mechsys to fix configure
+	  errors outside of cel.
+	- cfraz89 added Damage to python bl.
+2-Sep-2006
+	- cfraz89 added adjustment of bounding box and sphere, and an XML
+	  AddToGroup action, to mechsys.
+1-Sep-2006
+	- Jorrit added a version warning system to celstart. In a demo file
+	  you can specify a minimum and a maximum desired version of celstart:
+		CelStart.MinimumVersion = 2
+		CelStart.MaximumVersion = 10
+	  In the startup screen of celstart you will see a red warning in
+	  case this condition is not valid but you can still continue
+	  at your own risk.
+	  CelStart itself records a version number (current version is 1)
+	  and also a minimum version number that it is compatible with.
+	- Jorrit removed the not-very-nice mechtest app since an XML
+	  and working-very-nice version is now available from CS site
+	  as a separate download. Use celstart to start.
 31-Aug-2006
         - res unbroke celstart in "start demo" mode.
         - res changed celstart to also look into the current directory for
@@ -28,8 +166,8 @@ The history order is reversed so that new features are at the top.
 	  with csevMouseEvent.
 	- res pulled the --as-needed change over from CS.
 	- res made celstart a tad friendlier: now, TrueType fonts are used
-	  by default instead of bitmap ones. Also, when no levels are found, 
-	  no "fatal error" popup is presented, but the message is instead 
+	  by default instead of bitmap ones. Also, when no levels are found,
+	  no "fatal error" popup is presented, but the message is instead
 	  displayed in the window.
 29-Aug-2006
 	- Jorrit added <library> statements to the XML scripts,
@@ -188,7 +326,7 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 added a static target to bootstrap.
 5-Aug-2006
         - cfraz89 added a -python option to bootstrap -bare mode, which
-          will create an entity with python bl of a given name. 
+          will create an entity with python bl of a given name.
         - cfraz89 fixed forgetting to register the new bl.
 4-Aug-2006
 	- Jorrit added a new ActivateRegion action to pczonemanager.
@@ -326,7 +464,7 @@ The history order is reversed so that new features are at the top.
 		    <par id="parid(trigger)" value="'ctrl-down'" />
 		    <par id="parid(command)" value="rot_down" />
 		</action>
-	  and here is how to do it the new way:	  
+	  and here is how to do it the new way:
 		<expr eval="Bind{trigger='ctrl-down',command=rot_down}" />
 	  Note that you can also assign the result of this to a variable
 	  so that you can check for success of the action.
