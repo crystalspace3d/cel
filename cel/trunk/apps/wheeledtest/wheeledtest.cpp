@@ -192,7 +192,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       "pcdefaultcamera",
       "pcmechobject",
       "pcwheeled",
-      "pcmeshdeform",
+     // "pcmeshdeform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -279,8 +279,8 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetGearSettings(4,75,450);
   pcwheeled->SetGearSettings(5,100,200);
 
-  csRef<iPcMeshDeform> pcmeshdeform
-    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
+ // csRef<iPcMeshDeform> pcmeshdeform
+  //  = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
   return csPtr<iCelEntity> (entity_cam);
 }
 
