@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Oct-2006
+        - Darek optimized a little bit <hidemouse/> and <showmouse/>.
 4-Oct-2006
         - Genjix added a quick fix to blpython to stop it breaking due
           to iScript changed until he knows more.
