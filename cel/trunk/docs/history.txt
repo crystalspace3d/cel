@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 4-Oct-2006
 	- Jorrit bumped up celstart version to 4.
+        - cfraz89 removed non-existent header from wheeledtest
 3-Oct-2006
 	- Darek added <hidemouse/> and <shoumouse/> to xml behaviour.
 27-Sep-2006
