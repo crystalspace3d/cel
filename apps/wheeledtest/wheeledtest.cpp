@@ -91,7 +91,6 @@
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 
 #define PATHFIND_VERBOSE 0
 
