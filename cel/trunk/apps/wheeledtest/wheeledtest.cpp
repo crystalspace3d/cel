@@ -506,8 +506,8 @@ bool WheeledTest::Application ()
     return false;
   if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
     return false;
-  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
-    return false;
+//  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
+//    return false;
   if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep
