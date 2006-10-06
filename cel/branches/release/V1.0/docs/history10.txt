@@ -8,6 +8,7 @@ chronological order.
 
 6-Oct-2006
 	- Jorrit merged r2886 into 1.0 (celstart bump to 4).
+	- res bumped the version number in configure.ac to 1.0rc1.
 4-Oct-2006
 	- Jorrit merged r2198:2284 into 1.0 (everything).
 1-Sep-2006
