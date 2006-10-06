@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- res changed the blpython Jamfile to use the CrystalSpace CFLAGS
 	  (which currently are only include directories and more complete
 	  than CRYSTAL.INCLUDE_DIR.)
+	- res added a configure check for strict aliasing.
 5-Oct-2006
         - Darek optimized a little bit <hidemouse/> and <showmouse/>.
         - Genjix added a quick fix to blpython to stop it breaking due
