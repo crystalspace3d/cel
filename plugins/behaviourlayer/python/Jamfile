@@ -24,8 +24,8 @@ if $(PYTHON.AVAILABLE) = yes
       Swig $(blcelcpp) $(blcelpy) :
         [ DoSourceGrist blcel.i ] :
         python :
-	-c++ -shadow :
-	[ ConcatDirs $(TOP) include ] $(CRYSTAL.INCLUDE_DIR) :
+	-c++ -shadow $(CRYSTAL.CFLAGS) :
+	[ ConcatDirs $(TOP) include ] :
 	:
 	$(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts ] :
 	blcel :
@@ -60,5 +60,6 @@ if $(PYTHON.AVAILABLE) = yes
   ExternalLibs blpython : PYTHON CRYSTAL ;
   CFlags blpython :
     $(COMPILER.C++FLAGS.WARNING.NO_UNUSED) 
-    $(COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED) ;
+    $(COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED)
+    $(COMPILER.C++FLAGS.STRICTALIASING.DISABLE) ;
 }
