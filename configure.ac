@@ -14,6 +14,7 @@ CS_PACKAGEINFO([Crystal Entity Layer],
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
+CS_CHECK_MNO_CYGWIN
 
 #----------------------------------------------------------------------------
 # Check for tools.

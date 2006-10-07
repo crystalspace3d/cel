@@ -313,7 +313,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX RANLIB ac_ct_RANLIB DLLTOOL ac_ct_DLLTOOL DLLWRAP ac_ct_DLLWRAP WINDRES ac_ct_WINDRES STRINGS ac_ct_STRINGS OBJCOPY ac_ct_OBJCOPY LIBTOOL_TEST ac_ct_LIBTOOL_TEST LIBTOOL_PATH LIBTOOL ac_ct_LIBTOOL CS_LT_APPLE APPLE_LIBTOOL MKDIR MKDIRS INSTALL TEXI2DVI TEXI2PDF DVIPS DVIPDF MAKEINFO DOXYGEN DOT ac_ct_DOT PERL TTREE SWIG CSLIBS_CONFIG ac_ct_CSLIBS_CONFIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CONFIG_NL ac_ct_CONFIG_NL CRYSTAL CRYSTAL_CONFIG_TOOL ac_pt_CRYSTAL_CONFIG_TOOL CPP EGREP CONFIG_BFD ac_ct_CONFIG_BFD LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX LD ac_ct_LD RANLIB ac_ct_RANLIB DLLTOOL ac_ct_DLLTOOL DLLWRAP ac_ct_DLLWRAP WINDRES ac_ct_WINDRES STRINGS ac_ct_STRINGS OBJCOPY ac_ct_OBJCOPY LIBTOOL_TEST ac_ct_LIBTOOL_TEST LIBTOOL_PATH LIBTOOL ac_ct_LIBTOOL CS_LT_APPLE APPLE_LIBTOOL MKDIR MKDIRS INSTALL TEXI2DVI TEXI2PDF DVIPS DVIPDF MAKEINFO DOXYGEN DOT ac_ct_DOT PERL TTREE SWIG CSLIBS_CONFIG ac_ct_CSLIBS_CONFIG PYTHON PKG_CONFIG ac_ct_PKG_CONFIG CONFIG_CPPUNIT ac_ct_CONFIG_CPPUNIT CONFIG_NL ac_ct_CONFIG_NL CRYSTAL CRYSTAL_CONFIG_TOOL ac_pt_CRYSTAL_CONFIG_TOOL CPP EGREP CONFIG_BFD ac_ct_CONFIG_BFD LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -723,13 +723,13 @@ echo X"$0" |
   	  /^X\(\/\).*/{ s//\1/; q; }
   	  s/.*/./; q'`
   srcdir=$ac_confdir
-  if test ! -r $srcdir/$ac_unique_file; then
+  if test ! -r "$srcdir/$ac_unique_file"; then
     srcdir=..
   fi
 else
   ac_srcdir_defaulted=no
 fi
-if test ! -r $srcdir/$ac_unique_file; then
+if test ! -r "$srcdir/$ac_unique_file"; then
   if test "$ac_srcdir_defaulted" = yes; then
     { echo "$as_me: error: cannot find sources ($ac_unique_file) in $ac_confdir or .." >&2
    { (exit 1); exit 1; }; }
@@ -738,7 +738,7 @@ if test ! -r $srcdir/$ac_unique_file; then
    { (exit 1); exit 1; }; }
   fi
 fi
-(cd $srcdir && test -r ./$ac_unique_file) 2>/dev/null ||
+(cd $srcdir && test -r "./$ac_unique_file") 2>/dev/null ||
   { echo "$as_me: error: sources are in $srcdir, but \`cd $srcdir' does not work" >&2
    { (exit 1); exit 1; }; }
 srcdir=`echo "$srcdir" | sed 's%\([^\\/]\)[\\/]*$%\1%'`
@@ -862,6 +862,10 @@ if test -n "$ac_init_help"; then
 Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-mno-cygwin     Compile with the -mno-cygwin option. (default YES)
+  --enable-as-needed      Utilize --as-needed linker flag, if supported by
+                          linker and if the used binutils version is recent
+                          enough to support it properly (default NO)
   --enable-separate-debug-info
                           split debug information into separate files.
                           (default YES if binutils >= 2.16 detected and not on
@@ -1014,7 +1018,7 @@ esac
     else
       echo "$as_me: WARNING: no configuration information is in $ac_dir" >&2
     fi
-    cd "$ac_popdir"
+    cd $ac_popdir
   done
 fi
 
@@ -1454,6 +1458,47 @@ host_cpu=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
 host_vendor=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\2/'`
 host_os=`echo $ac_cv_host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
 
+
+
+    echo "$as_me:$LINENO: checking whether to enable -mno-cygwin" >&5
+echo $ECHO_N "checking whether to enable -mno-cygwin... $ECHO_C" >&6
+    # Check whether --enable-mno-cygwin or --disable-mno-cygwin was given.
+if test "${enable_mno_cygwin+set}" = set; then
+  enableval="$enable_mno_cygwin"
+  enable_m_no_cygwin=$enableval
+else
+  enable_m_no_cygwin=yes
+fi;
+    if test "$enable_m_no_cygwin" != "no"; then
+  case $host_os in
+	    cygwin*)
+		if test -n "$CC"; then
+  CC="$CC -mno-cygwin"
+else
+  CC="gcc -mno-cygwin"
+fi
+
+		if test -n "$CXX"; then
+  CXX="$CXX -mno-cygwin"
+else
+  CXX="g++ -mno-cygwin"
+fi
+
+		CPP="$CC -E"
+		CXXCPP="$CXX -E"
+		cs_mno_cygwin=yes
+		;;
+	    *)
+		cs_mno_cygwin=no
+		;;
+	esac
+
+else
+  cs_mno_cygwin=no
+fi
+
+    echo "$as_me:$LINENO: result: $cs_mno_cygwin" >&5
+echo "${ECHO_T}$cs_mno_cygwin" >&6
 
 
 #----------------------------------------------------------------------------
@@ -2030,7 +2075,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2088,7 +2134,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2204,7 +2251,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2258,7 +2306,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2303,7 +2352,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2347,7 +2397,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2504,7 +2555,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2718,7 +2770,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2776,7 +2829,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2847,7 +2901,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -2891,7 +2946,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3045,7 +3101,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3197,7 +3254,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3271,6 +3329,330 @@ fi
 
 fi
 
+
+
+    if test "$cs_prog_path_prepared" != yes; then
+  cs_prog_path_prepared=yes
+	PATH="$PATH$PATH_SEPARATOR/usr/local/bin$PATH_SEPARATOR/sw/bin"
+	export PATH
+fi
+
+    if test -n "$ac_tool_prefix"; then
+  for ac_prog in ld
+  do
+    # Extract the first word of "$ac_tool_prefix$ac_prog", so it can be a program name with args.
+set dummy $ac_tool_prefix$ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_LD+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$LD"; then
+  ac_cv_prog_LD="$LD" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_LD="$ac_tool_prefix$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+LD=$ac_cv_prog_LD
+if test -n "$LD"; then
+  echo "$as_me:$LINENO: result: $LD" >&5
+echo "${ECHO_T}$LD" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+    test -n "$LD" && break
+  done
+fi
+if test -z "$LD"; then
+  ac_ct_LD=$LD
+  for ac_prog in ld
+do
+  # Extract the first word of "$ac_prog", so it can be a program name with args.
+set dummy $ac_prog; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_prog_ac_ct_LD+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  if test -n "$ac_ct_LD"; then
+  ac_cv_prog_ac_ct_LD="$ac_ct_LD" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_ac_ct_LD="$ac_prog"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+
+fi
+fi
+ac_ct_LD=$ac_cv_prog_ac_ct_LD
+if test -n "$ac_ct_LD"; then
+  echo "$as_me:$LINENO: result: $ac_ct_LD" >&5
+echo "${ECHO_T}$ac_ct_LD" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+  test -n "$ac_ct_LD" && break
+done
+
+  LD=$ac_ct_LD
+fi
+
+    if test -n "$LD"; then
+  # binutils versions come in the flavors X.Y as well as X.Y.Z
+        echo "$as_me:$LINENO: checking if binutils version >= 2.17" >&5
+echo $ECHO_N "checking if binutils version >= 2.17... $ECHO_C" >&6
+if test "${cs_cv_prog_binutils_version_2_17_ok_annotated+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cs_prog_binutils_is_version=
+cs_prog_binutils_min_version=
+cs_prog_binutils_is_suffix=
+cs_prog_binutils_min_suffix=
+cs_prog_binutils_is_suffix_done=
+cs_prog_binutils_min_suffix_done=
+
+
+
+
+
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix= ; }
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix=.0 ; }
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix=.0.0 ; }
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix=.0.0.0 ; }
+
+
+
+
+
+
+
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.17 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix= ; }
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.17 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix=.0 ; }
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.17 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix=.0.0 ; }
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.17 | sed '/[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix=.0.0.0 ; }
+
+
+cs_prog_binutils_is_ver_1=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_binutils_is_ver_2=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_binutils_is_ver_3=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+cs_prog_binutils_is_ver_4=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\4/'`
+cs_prog_binutils_is_ver_5=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\5/'`
+
+cs_prog_binutils_min_ver_1=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_binutils_min_ver_2=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_binutils_min_ver_3=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+cs_prog_binutils_min_ver_4=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\4/'`
+cs_prog_binutils_min_ver_5=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\5/'`
+
+cs_cv_prog_binutils_version_2_17_ok=''
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_is_ver_1" ">=" "$cs_prog_binutils_min_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_min_ver_1" ">=" "$cs_prog_binutils_is_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_is_ver_2" ">=" "$cs_prog_binutils_min_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_min_ver_2" ">=" "$cs_prog_binutils_is_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_is_ver_3" ">=" "$cs_prog_binutils_min_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_min_ver_3" ">=" "$cs_prog_binutils_is_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_is_ver_4" ">=" "$cs_prog_binutils_min_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_min_ver_4" ">=" "$cs_prog_binutils_is_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_is_ver_5" ">=" "$cs_prog_binutils_min_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_17_ok" \
+  && { expr "$cs_prog_binutils_min_ver_5" ">=" "$cs_prog_binutils_is_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_17_ok=yes ; }
+
+if test -z "$cs_cv_prog_binutils_version_2_17_ok"; then
+  cs_cv_prog_binutils_version_2_17_ok=yes
+fi
+
+cs_cv_prog_binutils_version_2_17_ok_annotated="$cs_cv_prog_binutils_version_2_17_ok"
+if test -n "$cs_prog_binutils_is_version"; then
+  cs_cv_prog_binutils_version_2_17_ok_annotated="$cs_cv_prog_binutils_version_2_17_ok_annotated (version $cs_prog_binutils_is_version)"
+fi
+
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_binutils_version_2_17_ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_binutils_version_2_17_ok_annotated" >&6
+if test "$cs_cv_prog_binutils_version_2_17_ok" = yes; then
+  cs_cv_binutils_true_2_17=yes
+
+else
+  cs_cv_binutils_true_2_17=no
+fi
+
+        if test "$cs_cv_binutils_true_2_17" = yes; then
+  cs_cv_binutils_2_17=yes
+fi
+
+	if test -z "$cs_cv_binutils_2_17"; then
+  echo "$as_me:$LINENO: checking if binutils version >= 2.16.91" >&5
+echo $ECHO_N "checking if binutils version >= 2.16.91... $ECHO_C" >&6
+if test "${cs_cv_prog_binutils_version_2_16_91_ok_annotated+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cs_prog_binutils_is_version=
+cs_prog_binutils_min_version=
+cs_prog_binutils_is_suffix=
+cs_prog_binutils_min_suffix=
+cs_prog_binutils_is_suffix_done=
+cs_prog_binutils_min_suffix_done=
+
+
+
+
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix= ; }
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix=.0 ; }
+
+test -z $cs_prog_binutils_is_version && cs_prog_binutils_is_version=`$LD -v | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_is_version" && test -z $cs_prog_binutils_is_suffix_done  && { cs_prog_binutils_is_suffix_done=yes ; cs_prog_binutils_is_suffix=.0.0 ; }
+
+
+
+
+
+
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.16.91 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix= ; }
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.16.91 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix=.0 ; }
+
+test -z $cs_prog_binutils_min_version && cs_prog_binutils_min_version=`echo 2.16.91 | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/;q'`
+test -n "$cs_prog_binutils_min_version" && test -z $cs_prog_binutils_min_suffix_done  && { cs_prog_binutils_min_suffix_done=yes ; cs_prog_binutils_min_suffix=.0.0 ; }
+
+
+cs_prog_binutils_is_ver_1=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_binutils_is_ver_2=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_binutils_is_ver_3=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+cs_prog_binutils_is_ver_4=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\4/'`
+cs_prog_binutils_is_ver_5=`echo ${cs_prog_binutils_is_version}${cs_prog_binutils_is_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\5/'`
+
+cs_prog_binutils_min_ver_1=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\1/'`
+cs_prog_binutils_min_ver_2=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
+cs_prog_binutils_min_ver_3=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
+cs_prog_binutils_min_ver_4=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\4/'`
+cs_prog_binutils_min_ver_5=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\5/'`
+
+cs_cv_prog_binutils_version_2_16_91_ok=''
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_is_ver_1" ">=" "$cs_prog_binutils_min_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_min_ver_1" ">=" "$cs_prog_binutils_is_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_is_ver_2" ">=" "$cs_prog_binutils_min_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_min_ver_2" ">=" "$cs_prog_binutils_is_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_is_ver_3" ">=" "$cs_prog_binutils_min_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_min_ver_3" ">=" "$cs_prog_binutils_is_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_is_ver_4" ">=" "$cs_prog_binutils_min_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_min_ver_4" ">=" "$cs_prog_binutils_is_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_is_ver_5" ">=" "$cs_prog_binutils_min_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_91_ok" \
+  && { expr "$cs_prog_binutils_min_ver_5" ">=" "$cs_prog_binutils_is_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_91_ok=yes ; }
+
+if test -z "$cs_cv_prog_binutils_version_2_16_91_ok"; then
+  cs_cv_prog_binutils_version_2_16_91_ok=yes
+fi
+
+cs_cv_prog_binutils_version_2_16_91_ok_annotated="$cs_cv_prog_binutils_version_2_16_91_ok"
+if test -n "$cs_prog_binutils_is_version"; then
+  cs_cv_prog_binutils_version_2_16_91_ok_annotated="$cs_cv_prog_binutils_version_2_16_91_ok_annotated (version $cs_prog_binutils_is_version)"
+fi
+
+
+fi
+echo "$as_me:$LINENO: result: $cs_cv_prog_binutils_version_2_16_91_ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_binutils_version_2_16_91_ok_annotated" >&6
+if test "$cs_cv_prog_binutils_version_2_16_91_ok" = yes; then
+  cs_cv_binutils_2_17=yes
+
+fi
+
+fi
+
+	if test -z "$cs_cv_binutils_2_17"; then
+  cs_cv_binutils_2_17=no
+fi
+
+fi
 
 
 
@@ -3408,7 +3790,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3583,7 +3966,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3733,7 +4117,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -3906,7 +4291,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -4056,7 +4442,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -4127,7 +4514,19 @@ fi
     rm -f conftest.resp
 
     # Check if linker supports --as-needed.
-    echo "$as_me:$LINENO: checking if --as-needed is supported" >&5
+    # Check whether --enable-as-needed or --disable-as-needed was given.
+if test "${enable_as_needed+set}" = set; then
+  enableval="$enable_as_needed"
+
+fi;
+    if test -z "$enable_as_needed"; then
+  enable_as_needed=no
+fi
+
+    if test "$enable_as_needed" != "no"; then
+
+	if test "$cs_cv_binutils_2_17" = "yes"; then
+  echo "$as_me:$LINENO: checking if --as-needed is supported" >&5
 echo $ECHO_N "checking if --as-needed is supported... $ECHO_C" >&6
 if test "${cs_cv_prog_link_as_needed_ok+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4227,7 +4626,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -4289,7 +4689,7 @@ fi
 
 fi
 
-    echo "$as_me:$LINENO: checking if --no-as-needed is supported" >&5
+	    echo "$as_me:$LINENO: checking if --no-as-needed is supported" >&5
 echo $ECHO_N "checking if --no-as-needed is supported... $ECHO_C" >&6
 if test "${cs_cv_prog_link_no_as_needed_ok+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4389,7 +4789,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -4440,6 +4841,11 @@ fi
 fi
 echo "$as_me:$LINENO: result: $cs_cv_prog_link_no_as_needed_ok" >&5
 echo "${ECHO_T}$cs_cv_prog_link_no_as_needed_ok" >&6
+
+fi
+
+fi
+
 
 
 
@@ -4726,6 +5132,10 @@ fi
 done
 
   DLLWRAP=$ac_ct_DLLWRAP
+fi
+
+    if test "$cs_mno_cygwin" = "yes"; then
+  DLLWRAP="$DLLWRAP --target i386-mingw32"
 fi
 
     cs_build_prop_val="$DLLWRAP"
@@ -6212,7 +6622,7 @@ done
 if test -n "$SWIG"; then
   echo "$as_me:$LINENO: checking if swig version >= 1.3.22" >&5
 echo $ECHO_N "checking if swig version >= 1.3.22... $ECHO_C" >&6
-if test "${cs_cv_prog_swig_version_ok_annotated+set}" = set; then
+if test "${cs_cv_prog_swig_version_1_3_22_ok_annotated+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cs_prog_swig_is_version=
@@ -6251,34 +6661,47 @@ cs_prog_swig_min_ver_1=`echo $cs_prog_swig_min_version${cs_prog_swig_min_suffix}
 cs_prog_swig_min_ver_2=`echo $cs_prog_swig_min_version${cs_prog_swig_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
 cs_prog_swig_min_ver_3=`echo $cs_prog_swig_min_version${cs_prog_swig_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
 
-cs_cv_prog_swig_version_ok=''
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_is_ver_1" ">=" "$cs_prog_swig_min_ver_1" >/dev/null || cs_cv_prog_swig_version_ok=no ; }
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_min_ver_1" ">=" "$cs_prog_swig_is_ver_1" >/dev/null || cs_cv_prog_swig_version_ok=yes ; }
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_is_ver_2" ">=" "$cs_prog_swig_min_ver_2" >/dev/null || cs_cv_prog_swig_version_ok=no ; }
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_min_ver_2" ">=" "$cs_prog_swig_is_ver_2" >/dev/null || cs_cv_prog_swig_version_ok=yes ; }
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_is_ver_3" ">=" "$cs_prog_swig_min_ver_3" >/dev/null || cs_cv_prog_swig_version_ok=no ; }
-test -z "$cs_cv_prog_swig_version_ok" && { expr "$cs_prog_swig_min_ver_3" ">=" "$cs_prog_swig_is_ver_3" >/dev/null || cs_cv_prog_swig_version_ok=yes ; }
+cs_cv_prog_swig_version_1_3_22_ok=''
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_is_ver_1" ">=" "$cs_prog_swig_min_ver_1" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=no ; }
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_min_ver_1" ">=" "$cs_prog_swig_is_ver_1" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=yes ; }
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_is_ver_2" ">=" "$cs_prog_swig_min_ver_2" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=no ; }
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_min_ver_2" ">=" "$cs_prog_swig_is_ver_2" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=yes ; }
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_is_ver_3" ">=" "$cs_prog_swig_min_ver_3" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=no ; }
+test -z "$cs_cv_prog_swig_version_1_3_22_ok" \
+  && { expr "$cs_prog_swig_min_ver_3" ">=" "$cs_prog_swig_is_ver_3" >/dev/null \
+    || cs_cv_prog_swig_version_1_3_22_ok=yes ; }
 
-if test -z "$cs_cv_prog_swig_version_ok"; then
-  cs_cv_prog_swig_version_ok=yes
+if test -z "$cs_cv_prog_swig_version_1_3_22_ok"; then
+  cs_cv_prog_swig_version_1_3_22_ok=yes
 fi
 
-cs_cv_prog_swig_version_ok_annotated="$cs_cv_prog_swig_version_ok"
+cs_cv_prog_swig_version_1_3_22_ok_annotated="$cs_cv_prog_swig_version_1_3_22_ok"
 if test -n "$cs_prog_swig_is_version"; then
-  cs_cv_prog_swig_version_ok_annotated="$cs_cv_prog_swig_version_ok_annotated (version $cs_prog_swig_is_version)"
+  cs_cv_prog_swig_version_1_3_22_ok_annotated="$cs_cv_prog_swig_version_1_3_22_ok_annotated (version $cs_prog_swig_is_version)"
 fi
 
 
 fi
-echo "$as_me:$LINENO: result: $cs_cv_prog_swig_version_ok_annotated" >&5
-echo "${ECHO_T}$cs_cv_prog_swig_version_ok_annotated" >&6
-if test "$cs_cv_prog_swig_version_ok" = yes; then
+echo "$as_me:$LINENO: result: $cs_cv_prog_swig_version_1_3_22_ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_swig_version_1_3_22_ok_annotated" >&6
+if test "$cs_cv_prog_swig_version_1_3_22_ok" = yes; then
   cs_build_prop_val="$SWIG"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}CMD.SWIG ?= \"$cs_build_prop_val\" ;
 "
 fi
+
 
 fi
 
@@ -6360,7 +6783,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -6587,7 +7011,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -6749,7 +7174,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -6911,7 +7337,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -7154,7 +7581,7 @@ binutils_recent=no
 if test -n "$OBJCOPY"; then
   echo "$as_me:$LINENO: checking if binutils version >= 2.16" >&5
 echo $ECHO_N "checking if binutils version >= 2.16... $ECHO_C" >&6
-if test "${cs_cv_prog_binutils_version_ok_annotated+set}" = set; then
+if test "${cs_cv_prog_binutils_version_2_16_ok_annotated+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cs_prog_binutils_is_version=
@@ -7213,33 +7640,54 @@ cs_prog_binutils_min_ver_3=`echo $cs_prog_binutils_min_version${cs_prog_binutils
 cs_prog_binutils_min_ver_4=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\4/'`
 cs_prog_binutils_min_ver_5=`echo $cs_prog_binutils_min_version${cs_prog_binutils_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\5/'`
 
-cs_cv_prog_binutils_version_ok=''
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_is_ver_1" ">=" "$cs_prog_binutils_min_ver_1" >/dev/null || cs_cv_prog_binutils_version_ok=no ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_min_ver_1" ">=" "$cs_prog_binutils_is_ver_1" >/dev/null || cs_cv_prog_binutils_version_ok=yes ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_is_ver_2" ">=" "$cs_prog_binutils_min_ver_2" >/dev/null || cs_cv_prog_binutils_version_ok=no ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_min_ver_2" ">=" "$cs_prog_binutils_is_ver_2" >/dev/null || cs_cv_prog_binutils_version_ok=yes ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_is_ver_3" ">=" "$cs_prog_binutils_min_ver_3" >/dev/null || cs_cv_prog_binutils_version_ok=no ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_min_ver_3" ">=" "$cs_prog_binutils_is_ver_3" >/dev/null || cs_cv_prog_binutils_version_ok=yes ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_is_ver_4" ">=" "$cs_prog_binutils_min_ver_4" >/dev/null || cs_cv_prog_binutils_version_ok=no ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_min_ver_4" ">=" "$cs_prog_binutils_is_ver_4" >/dev/null || cs_cv_prog_binutils_version_ok=yes ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_is_ver_5" ">=" "$cs_prog_binutils_min_ver_5" >/dev/null || cs_cv_prog_binutils_version_ok=no ; }
-test -z "$cs_cv_prog_binutils_version_ok" && { expr "$cs_prog_binutils_min_ver_5" ">=" "$cs_prog_binutils_is_ver_5" >/dev/null || cs_cv_prog_binutils_version_ok=yes ; }
+cs_cv_prog_binutils_version_2_16_ok=''
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_is_ver_1" ">=" "$cs_prog_binutils_min_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_min_ver_1" ">=" "$cs_prog_binutils_is_ver_1" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_is_ver_2" ">=" "$cs_prog_binutils_min_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_min_ver_2" ">=" "$cs_prog_binutils_is_ver_2" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_is_ver_3" ">=" "$cs_prog_binutils_min_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_min_ver_3" ">=" "$cs_prog_binutils_is_ver_3" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_is_ver_4" ">=" "$cs_prog_binutils_min_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_min_ver_4" ">=" "$cs_prog_binutils_is_ver_4" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=yes ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_is_ver_5" ">=" "$cs_prog_binutils_min_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=no ; }
+test -z "$cs_cv_prog_binutils_version_2_16_ok" \
+  && { expr "$cs_prog_binutils_min_ver_5" ">=" "$cs_prog_binutils_is_ver_5" >/dev/null \
+    || cs_cv_prog_binutils_version_2_16_ok=yes ; }
 
-if test -z "$cs_cv_prog_binutils_version_ok"; then
-  cs_cv_prog_binutils_version_ok=yes
+if test -z "$cs_cv_prog_binutils_version_2_16_ok"; then
+  cs_cv_prog_binutils_version_2_16_ok=yes
 fi
 
-cs_cv_prog_binutils_version_ok_annotated="$cs_cv_prog_binutils_version_ok"
+cs_cv_prog_binutils_version_2_16_ok_annotated="$cs_cv_prog_binutils_version_2_16_ok"
 if test -n "$cs_prog_binutils_is_version"; then
-  cs_cv_prog_binutils_version_ok_annotated="$cs_cv_prog_binutils_version_ok_annotated (version $cs_prog_binutils_is_version)"
+  cs_cv_prog_binutils_version_2_16_ok_annotated="$cs_cv_prog_binutils_version_2_16_ok_annotated (version $cs_prog_binutils_is_version)"
 fi
 
 
 fi
-echo "$as_me:$LINENO: result: $cs_cv_prog_binutils_version_ok_annotated" >&5
-echo "${ECHO_T}$cs_cv_prog_binutils_version_ok_annotated" >&6
-if test "$cs_cv_prog_binutils_version_ok" = yes; then
+echo "$as_me:$LINENO: result: $cs_cv_prog_binutils_version_2_16_ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_binutils_version_2_16_ok_annotated" >&6
+if test "$cs_cv_prog_binutils_version_2_16_ok" = yes; then
   binutils_recent=yes
+
 fi
 
 fi
@@ -7372,7 +7820,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -7555,7 +8004,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -7730,7 +8180,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -7926,7 +8377,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -8020,6 +8472,11 @@ fi
 #----------------------------------------------------------------------------
 # Check for external libraries.
 #----------------------------------------------------------------------------
+PKG_CONFIG_PATH="/usr/local/lib/pkgconfig$PATH_SEPARATOR/sw/lib/pkgconfig$PATH_SEPARATOR/opt/local/lib/pkgconfig$PATH_SEPARATOR/opt/lib/pkgconfig$PATH_SEPARATOR$PKG_CONFIG_PATH"
+    export PKG_CONFIG_PATH
+
+    # ensure PKGCONFIG is set since we may meddle with it
+
 
     case $host_os in
     mingw*|cygwin*)
@@ -8128,6 +8585,13 @@ if test "${cs_cv_cslibs+set}" = set; then
 else
   if test -n "$CSLIBS_CONFIG"; then
   cs_cv_cslibs=yes
+               if test "x$cs_mno_cygwin" = "xyes"; then
+  if $CSLIBS_CONFIG -mno-cygwin --cflags >/dev/null 2>&1; then
+  cs_cv_cslibs_compiler="-mno-cygwin $cs_cv_cslibs_compiler"
+fi
+
+fi
+
 	       cs_cv_cslibs_cflags=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --cflags \$cs_cv_cslibs_compiler") >&5
   ($CSLIBS_CONFIG --cflags $cs_cv_cslibs_compiler) 2>&5
   ac_status=$?
@@ -8143,6 +8607,14 @@ else
   ac_status=$?
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+               if $CSLIBS_CONFIG --pcpath >/dev/null 2>&1; then
+  cs_cv_cslibs_pcpath=`{ (echo "$as_me:$LINENO: \$CSLIBS_CONFIG --pcpath \$cs_cv_cslibs_compiler") >&5
+  ($CSLIBS_CONFIG --pcpath $cs_cv_cslibs_compiler) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } | tr '\\\\' '/' | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+fi
+
 else
   cs_cv_cslibs=no
 fi
@@ -8155,6 +8627,11 @@ echo "${ECHO_T}$cs_cv_cslibs" >&6
 	    CPPFLAGS="$CPPFLAGS $cs_cv_cslibs_cflags"
 	    LDFLAGS="$LDFLAGS $cs_cv_cslibs_lflags"
 	    PATH="$cs_cv_cslibs_binpath$PATH_SEPARATOR$PATH"
+	    if test -n "$cs_cv_cslibs_pcpath"; then
+  PKG_CONFIG_PATH="$cs_cv_cslibs_pcpath$PATH_SEPARATOR$PKG_CONFIG_PATH"
+		export PKG_CONFIG_PATH
+fi
+
 fi
 
         ;;
@@ -8275,7 +8752,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -8436,7 +8914,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -8603,7 +9082,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -8757,7 +9237,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -9106,7 +9587,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -9256,7 +9738,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -9871,7 +10354,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10021,7 +10505,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10193,7 +10678,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10343,7 +10829,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10549,7 +11036,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10710,7 +11198,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -10877,7 +11366,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -11453,7 +11943,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -11603,7 +12094,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -11876,7 +12368,7 @@ if test -n "$CRYSTAL_CONFIG_TOOL"; then
 
     echo "$as_me:$LINENO: checking if Crystal Space version >= 0.99" >&5
 echo $ECHO_N "checking if Crystal Space version >= 0.99... $ECHO_C" >&6
-if test "${cs_cv_prog_Crystal_Space_version_ok_annotated+set}" = set; then
+if test "${cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   cs_prog_Crystal_Space_is_version=
@@ -11915,29 +12407,42 @@ cs_prog_Crystal_Space_min_ver_1=`echo $cs_prog_Crystal_Space_min_version${cs_pro
 cs_prog_Crystal_Space_min_ver_2=`echo $cs_prog_Crystal_Space_min_version${cs_prog_Crystal_Space_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\2/'`
 cs_prog_Crystal_Space_min_ver_3=`echo $cs_prog_Crystal_Space_min_version${cs_prog_Crystal_Space_min_suffix} | sed '/[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/!d;s/.*\([0-9][0-9]*\)\.\([0-9][0-9]*\)\.\([0-9][0-9]*\).*/\3/'`
 
-cs_cv_prog_Crystal_Space_version_ok=''
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_1" ">=" "$cs_prog_Crystal_Space_min_ver_1" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_1" ">=" "$cs_prog_Crystal_Space_is_ver_1" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_2" ">=" "$cs_prog_Crystal_Space_min_ver_2" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_2" ">=" "$cs_prog_Crystal_Space_is_ver_2" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_is_ver_3" ">=" "$cs_prog_Crystal_Space_min_ver_3" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=no ; }
-test -z "$cs_cv_prog_Crystal_Space_version_ok" && { expr "$cs_prog_Crystal_Space_min_ver_3" ">=" "$cs_prog_Crystal_Space_is_ver_3" >/dev/null || cs_cv_prog_Crystal_Space_version_ok=yes ; }
+cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=''
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_is_ver_1" ">=" "$cs_prog_Crystal_Space_min_ver_1" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_min_ver_1" ">=" "$cs_prog_Crystal_Space_is_ver_1" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=yes ; }
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_is_ver_2" ">=" "$cs_prog_Crystal_Space_min_ver_2" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_min_ver_2" ">=" "$cs_prog_Crystal_Space_is_ver_2" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=yes ; }
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_is_ver_3" ">=" "$cs_prog_Crystal_Space_min_ver_3" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=no ; }
+test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" \
+  && { expr "$cs_prog_Crystal_Space_min_ver_3" ">=" "$cs_prog_Crystal_Space_is_ver_3" >/dev/null \
+    || cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=yes ; }
 
-if test -z "$cs_cv_prog_Crystal_Space_version_ok"; then
-  cs_cv_prog_Crystal_Space_version_ok=yes
+if test -z "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok"; then
+  cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok=yes
 fi
 
-cs_cv_prog_Crystal_Space_version_ok_annotated="$cs_cv_prog_Crystal_Space_version_ok"
+cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated="$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok"
 if test -n "$cs_prog_Crystal_Space_is_version"; then
-  cs_cv_prog_Crystal_Space_version_ok_annotated="$cs_cv_prog_Crystal_Space_version_ok_annotated (version $cs_prog_Crystal_Space_is_version)"
+  cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated="$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated (version $cs_prog_Crystal_Space_is_version)"
 fi
 
 
 fi
-echo "$as_me:$LINENO: result: $cs_cv_prog_Crystal_Space_version_ok_annotated" >&5
-echo "${ECHO_T}$cs_cv_prog_Crystal_Space_version_ok_annotated" >&6
-if test "$cs_cv_prog_Crystal_Space_version_ok" = yes; then
+echo "$as_me:$LINENO: result: $cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated" >&5
+echo "${ECHO_T}$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok_annotated" >&6
+if test "$cs_cv_prog_Crystal_Space_version_m4_default__0_99___cs_min_version_default___ok" = yes; then
   cs_sdk=yes
+
 else
   cs_sdk=no
 fi
@@ -12084,7 +12589,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -12236,7 +12742,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_cxx_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -12741,7 +13248,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -12911,7 +13419,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -12980,7 +13489,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -13870,7 +14380,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -14020,7 +14531,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -14200,7 +14712,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -14358,7 +14871,8 @@ if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
   cat conftest.err >&5
   echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_c_werror_flag"			 || test ! -s conftest.err'
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
   (eval $ac_try) 2>&5
   ac_status=$?
@@ -15297,6 +15811,8 @@ s,@OBJEXT@,$OBJEXT,;t t
 s,@CXX@,$CXX,;t t
 s,@CXXFLAGS@,$CXXFLAGS,;t t
 s,@ac_ct_CXX@,$ac_ct_CXX,;t t
+s,@LD@,$LD,;t t
+s,@ac_ct_LD@,$ac_ct_LD,;t t
 s,@RANLIB@,$RANLIB,;t t
 s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
 s,@DLLTOOL@,$DLLTOOL,;t t
@@ -15510,6 +16026,11 @@ esac
 
 
 
+  if test x"$ac_file" != x-; then
+    { echo "$as_me:$LINENO: creating $ac_file" >&5
+echo "$as_me: creating $ac_file" >&6;}
+    rm -f "$ac_file"
+  fi
   # Let's still pretend it is `configure' which instantiates (i.e., don't
   # use $as_me), people would be surprised to read:
   #    /* config.h.  Generated by config.status.  */
@@ -15548,12 +16069,6 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
 	 fi;;
       esac
     done` || { (exit 1); exit 1; }
-
-  if test x"$ac_file" != x-; then
-    { echo "$as_me:$LINENO: creating $ac_file" >&5
-echo "$as_me: creating $ac_file" >&6;}
-    rm -f "$ac_file"
-  fi
 _ACEOF
 cat >>$CONFIG_STATUS <<_ACEOF
   sed "$ac_vpsub
