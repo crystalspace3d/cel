@@ -223,7 +223,7 @@ AS_IF([test -z "$with_cs"], [with_cs=yes])
 AS_IF([test $with_cs != no],
     [AS_IF([test $cs_cv_python != no],
 	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
-    CS_PATH_CRYSTAL_EMIT([0.99], [],
+    CS_PATH_CRYSTAL_EMIT([1.0], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/

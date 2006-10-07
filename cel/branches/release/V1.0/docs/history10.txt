@@ -9,6 +9,7 @@ chronological order.
 7-Oct-2006
 	- res merged trunk r2293:2297 into 1.0 (build system updates).
 	- res removed pfaws (as AWS is not CS 1.0 either).
+	- res bumped the required CS version to 1.0.
 6-Oct-2006
 	- Jorrit merged r2886 into 1.0 (celstart bump to 4).
 	- res bumped the version number in configure.ac to 1.0rc1.
