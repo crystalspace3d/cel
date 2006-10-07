@@ -14,6 +14,7 @@ CS_PACKAGEINFO([Crystal Entity Layer],
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_HOST
+CS_CHECK_MNO_CYGWIN
 
 #----------------------------------------------------------------------------
 # Check for tools.
@@ -57,6 +58,23 @@ CS_COMPILER_IGNORE_UNUSED([C++], [cs_cv_prog_cxx_ignore_unused],
 CS_COMPILER_IGNORE_UNINITIALIZED([C++], [cs_cv_prog_cxx_ignore_uninitialized],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED],
 	[$cs_cv_prog_cxx_ignore_uninitialized])])
+
+
+
+#------------------------------------------------------------------------------
+# Check for option to disable strict-aliasing (enabled by gcc on higher 
+# optimization levels). This is needed for some code we don't have
+# control over (e.g. SWIG-generated code) that breaks strict-aliasing rules.
+#------------------------------------------------------------------------------
+CS_CHECK_BUILD_FLAGS([for flag to disable string-aliasing],
+    [cs_cv_prog_cxx_no_strict_aliasing],
+    [CS_CREATE_TUPLE([-fno-strict-aliasing])], [C++])
+
+AS_IF([test $cs_cv_prog_cxx_no_strict_aliasing != no],
+    [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.STRICTALIASING.DISABLE],
+	[$cs_cv_prog_cxx_no_strict_aliasing], [+])])
+
+
 
 #------------------------------------------------------------------------------
 # Check for compiler debug flags.
