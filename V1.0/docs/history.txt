@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Oct-2006
+	- res updated the autopackage for the removal of stdtex.zip and fixed
+	  an error in case of a missing icon resolution.
 6-Oct-2006
 	- res changed the blpython Jamfile to use the CrystalSpace CFLAGS
 	  (which currently are only include directories and more complete
