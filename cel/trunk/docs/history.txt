@@ -4,6 +4,11 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 7-Oct-2006
+	- Jorrit fixed celstart so that it works from the commandline
+	  in more situations:
+	  	./celstart bla.celzip
+		./celstart bla (with bla a real directory)
+		./celstart /this/bla (with /this/bla a vfs dir)
 	- res updated the autopackage for the removal of stdtex.zip and fixed
 	  an error in case of a missing icon resolution.
 6-Oct-2006
