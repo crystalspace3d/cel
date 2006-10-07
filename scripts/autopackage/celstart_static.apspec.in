@@ -80,7 +80,6 @@ if [ -n $CS_DIR ] ; then
   fetch_data shader $CS_DIR/data/shader | import
   echo $CS_DIR/data/ttf-dejavu.zip | import
   echo $CS_DIR/data/standard.zip | import
-  echo $CS_DIR/data/stdtex.zip | import
 else
   exit 1
 fi
@@ -100,7 +99,10 @@ setup_icon()
 {
   for size in 16x16 24x24 32x32 48x48 64x64 128x128 scalable ; do
     mkdir -p hicolor/$size/$2
-    cp $CEL_DIR/scripts/autopackage/icons/$size/$1.* hicolor/$size/$2 
+    srcdir=$CEL_DIR/scripts/autopackage/icons/$size
+    if [ -d $srcdir ] ; then
+      cp $srcdir/$1.* hicolor/$size/$2 
+    fi
   done
 }
 setup_icon gnome-mime-application-x-zip-celstart mimetypes
