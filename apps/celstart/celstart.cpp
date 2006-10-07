@@ -218,7 +218,6 @@ bool CelStart::HandleEvent (iEvent& ev)
 	  csMouseEventHelper::GetY (&ev));
         if (i >= (int)0 && i < (int)files.Length ())
         {
-	  printf ("Start %d\n", i); fflush (stdout);
 	  startme = files[i];
           csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
           if (q)
@@ -393,7 +392,8 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
   if (exists)
   {
     configname = arg;
-    path = "/this";
+    configname += "/celstart.cfg";
+    path = arg;
     realpath = "";
   }
   else if (vfs->ChDirAuto (arg, 0, "/tmp/celstart", "celstart.cfg"))
@@ -401,6 +401,7 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
     configname = "/tmp/celstart/celstart.cfg";
     path = "/tmp/celstart";
     realpath = arg;
+    realpath += "$/";
   }
   else
   {
