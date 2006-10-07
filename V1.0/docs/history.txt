@@ -3,6 +3,15 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Oct-2006
+	- res changed the blpython Jamfile to use the CrystalSpace CFLAGS
+	  (which currently are only include directories and more complete
+	  than CRYSTAL.INCLUDE_DIR.)
+	- res added a configure check for strict aliasing.
+	- res updated mk/jam to the latest master copies from the CS 
+	  repository.
+	- res updated mk/autoconf to the latest master copies from the CS
+	  repository.
 4-Oct-2006
 	- Jorrit bumped up celstart version to 4.
 3-Oct-2006
