@@ -53,6 +53,8 @@ SCF_IMPLEMENT_IBASE (celBehaviourXml)
   SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
+csRandomGen celBehaviourXml::rng (1234567);
+
 celBehaviourXml::celBehaviourXml (iCelEntity* entity,
 	iObjectRegistry* object_reg)
 {
@@ -61,7 +63,6 @@ celBehaviourXml::celBehaviourXml (iCelEntity* entity,
   celBehaviourXml::object_reg = object_reg;
   name = 0;
   script = 0;
-  rng.Initialize (1234567);
 }
 
 iPcBillboard* celBehaviourXml::GetBillboard ()
