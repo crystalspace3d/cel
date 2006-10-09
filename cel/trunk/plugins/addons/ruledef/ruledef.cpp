@@ -49,6 +49,7 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnRuleDef::Component)
   SCF_IMPLEMENTS_INTERFACE (iComponent)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+
 enum
 {
   XMLTOKEN_RULE,
@@ -77,8 +78,8 @@ bool celAddOnRuleDef::Initialize (iObjectRegistry* object_reg)
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.addons.xmlscripts",
-	"Can't find syntax services!");
+    	"cel.addons.ruledef",
+    	"Can't find syntax services!");
     return false;
   }
 
@@ -103,9 +104,9 @@ iCelExpressionParser* celAddOnRuleDef::GetParser ()
   if (!parser)
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
-	object_reg);
+    	object_reg);
     parser = CS_LOAD_PLUGIN (plugmgr, "cel.behaviourlayer.xml",
-	iCelExpressionParser);
+    	iCelExpressionParser);
     if (!parser)
     {
       // @@@ Error report.
@@ -125,8 +126,8 @@ csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
   if (!rulebase)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-	  "cel.addons.ruledef",
-	  "Can't load the rule base plugin!");
+    	"cel.addons.ruledef",
+    	"Can't load the rule base plugin!");
     return 0;
   }
   iCelExpressionParser* parser = GetParser ();
@@ -142,71 +143,71 @@ csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
     {
       case XMLTOKEN_PRIORITIES:
         {
-	  rulebase->ClearPriorityTable ();
-	  csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
-	  while (child_it->HasNext ())
- 	  {
- 	    csRef<iDocumentNode> child_child = child_it->Next ();
-	    if (child_child->GetType () != CS_NODE_ELEMENT) continue;
-	    const char* child_value = child_child->GetValue ();
-	    csStringID child_id = xmltokens.Request (child_value);
-	    if (child_id == XMLTOKEN_PRIORITY)
-	    {
-	      const char* name = child_child->GetAttributeValue ("name");
-	      rulebase->AddPriority (pl->FetchStringID (name));
-	    }
-	    else
-	    {
-	      synldr->ReportBadToken (child_child);
-	      return 0;
-	    }
-	  }
-	}
-	break;
+          rulebase->ClearPriorityTable ();
+          csRef<iDocumentNodeIterator> child_it = child->GetNodes ();
+          while (child_it->HasNext ())
+          {
+            csRef<iDocumentNode> child_child = child_it->Next ();
+            if (child_child->GetType () != CS_NODE_ELEMENT) continue;
+            const char* child_value = child_child->GetValue ();
+            csStringID child_id = xmltokens.Request (child_value);
+            if (child_id == XMLTOKEN_PRIORITY)
+            {
+              const char* name = child_child->GetAttributeValue ("name");
+              rulebase->AddPriority (pl->FetchStringID (name));
+            }
+            else
+            {
+              synldr->ReportBadToken (child_child);
+              return 0;
+            }
+          }
+        }
+        break;
       case XMLTOKEN_RULE:
         {
-	  const char* name = child->GetAttributeValue ("name");
-	  if (!name)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.ruledef",
-	        child, "'name' attribute for the rule is missing!");
-	    return 0;
-	  }
-	  const char* priority = child->GetAttributeValue ("priority");
-	  const char* var = child->GetAttributeValue ("var");
-	  if (!var)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.ruledef",
-	        child, "'var' attribute for rule '%s' is missing!", name);
-	    return 0;
-	  }
-	  const char* expr = child->GetAttributeValue ("expr");
-	  if (!expr)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.ruledef",
-	        child, "'expr' attribute for rule '%s' is missing!", name);
-	    return 0;
-	  }
-	  iCelRule* rule = rulebase->CreateRule (name);
-	  rule->SetVariable (var);
-	  rule->SetPriority (pl->FetchStringID (priority));
-	  csRef<iCelExpression> expression = parser->Parse (expr);
-	  if (!expression)
-	  {
-	    synldr->ReportError (
-	        "cel.addons.ruledef",
-	        child, "Error parsing expression for rule '%s'!", name);
-	    return 0;
-	  }
-	  rule->SetExpression (expression);
-	}
-	break;
+          const char* name = child->GetAttributeValue ("name");
+          if (!name)
+          {
+            synldr->ReportError (
+            	"cel.addons.ruledef",
+            	child, "'name' attribute for the rule is missing!");
+            return 0;
+          }
+          const char* priority = child->GetAttributeValue ("priority");
+          const char* var = child->GetAttributeValue ("var");
+          if (!var)
+          {
+            synldr->ReportError (
+            	"cel.addons.ruledef",
+            	child, "'var' attribute for rule '%s' is missing!", name);
+            return 0;
+          }
+          const char* expr = child->GetAttributeValue ("expr");
+          if (!expr)
+          {
+            synldr->ReportError (
+            	"cel.addons.ruledef",
+            	child, "'expr' attribute for rule '%s' is missing!", name);
+            return 0;
+          }
+          iCelRule* rule = rulebase->CreateRule (name);
+          rule->SetVariable (var);
+          rule->SetPriority (pl->FetchStringID (priority));
+          csRef<iCelExpression> expression = parser->Parse (expr);
+          if (!expression)
+          {
+            synldr->ReportError (
+            	"cel.addons.ruledef",
+            	child, "Error parsing expression for rule '%s'!", name);
+            return 0;
+          }
+          rule->SetExpression (expression);
+        }
+        break;
       default:
         synldr->ReportBadToken (child);
-	return 0;
+        return 0;
     }
   }
   // Just return something to indicate success.
