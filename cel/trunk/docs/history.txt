@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Oct-2006
+	- Jorrit changed the random generator in blxml so that there is
+	  only one generator for all behaviours together instead of one per
+	  behaviour. That makes it easier to get proper random numbers.
 7-Oct-2006
 	- Jorrit fixed celstart so that it works from the commandline
 	  in more situations:
