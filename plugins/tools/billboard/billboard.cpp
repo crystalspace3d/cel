@@ -731,6 +731,8 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
 
   csVector2 uvtl = uv_topleft;
   csVector2 uvbr = uv_botright;
+#if 0
+  // This clipping section is not needed and messes up the rotation.
   if (r.xmin < 0)
   {
     int dx = r.xmax - r.xmin;
@@ -759,6 +761,7 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
     uvbr.y = (1-rr) * uvbr.y + uvtl.y * rr;
     r.ymax = fh-1;
   }
+#endif
 
   float z_inv_aspect = z / g3d->GetPerspectiveAspect ();
 
@@ -791,7 +794,6 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
 
   if (fabs (rotation) > 0.01)
   {
-
     float co = cos(rotation);
     float si = sin(rotation);
     csMatrix2 rot = csMatrix2(co, -si, si, co);

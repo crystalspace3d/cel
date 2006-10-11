@@ -13,6 +13,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added a new feature to pccommandinput. If you bind the
 	  trigger 'key' to some command then all keyboard events will
 	  react. That way you only need one Bind to catch all events.
+	- Jorrit fixed the billboard manager so that billboards are properly
+	  rendered again when they go beyond screen boundaries. This got
+	  broken when rotation was added.
 9-Oct-2006
 	- Jorrit changed the random generator in blxml so that there is
 	  only one generator for all behaviours together instead of one per
