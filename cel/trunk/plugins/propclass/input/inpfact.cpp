@@ -91,6 +91,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   scfiEventHandler = 0;
   screenspace = false;
   do_cooked = false;
+  do_sendtrigger = false;
 
   g2d = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
   if (!g2d)
@@ -125,20 +126,26 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     AddAction (action_saveconfig, "cel.action.SaveConfig");
   }
 
-  propinfo.SetCount (2);
+  propinfo.SetCount (3);
   AddProperty (propid_cooked, "cel.property.cooked",
   	CEL_DATA_BOOL, false, "Cooked mode.", &do_cooked);
   AddProperty (propid_screenspace, "cel.property.screenspace",
   	CEL_DATA_BOOL, false, "Screenspace mode.", &screenspace);
+  AddProperty (propid_sendtrigger, "cel.property.sendtrigger",
+  	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
   mouse_params = new celGenericParameterBlock (2);
   mouse_params->SetParameterDef (0, id_x, "x");
   mouse_params->SetParameterDef (1, id_y, "y");
+
+  key_params = new celOneParameterBlock ();
+  key_params->SetParameterDef (id_trigger, "trigger");
 }
 
 celPcCommandInput::~celPcCommandInput ()
 {
   mouse_params->DecRef ();
+  key_params->DecRef ();
 
   if (scfiEventHandler)
   {
@@ -153,8 +160,7 @@ celPcCommandInput::~celPcCommandInput ()
   while (k)
   {
     kn = k->next;
-    if (k->command)
-      delete [] k->command;
+    delete [] k->command;
     delete k;
     k=kn;
   }
@@ -164,8 +170,7 @@ celPcCommandInput::~celPcCommandInput ()
   while (a)
   {
     an = a->next;
-    if (a->command)
-      delete [] a->command;
+    delete [] a->command;
     delete a;
     a=an;
   }
@@ -750,6 +755,27 @@ static bool KeyEqual (utf32_char key1, utf32_char key2)
   	&& CSKEY_MODIFIER_COMPARE_CODE (key1, key2));
 }
 
+void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
+    csKeyModifiers key_modifiers, char end)
+{
+  iCelBehaviour* bh = entity->GetBehaviour ();
+  if (!bh) return;
+  *(p->command_end) = end;
+  celData ret;
+  if (do_sendtrigger)
+  {
+    const char* trigger = csInputDefinition::GetKeyString (
+		  name_reg, key, &key_modifiers).GetData ();
+    key_params->GetParameter (0).Set (trigger);
+  }
+  else
+  {
+    key_params->GetParameter (0).Clear ();
+  }
+  bh->SendMessage (p->command, this, ret, key_params);
+  *(p->command_end) = 0;
+}
+
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
@@ -780,39 +806,18 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     csRef<iCelEntity> keepref = entity;
     if (type == csKeyEventTypeUp)
     {
-      iCelBehaviour* bh = entity->GetBehaviour ();
-      if (bh)
-      {
-        *(p->command_end) = '0';
-        celData ret;
-        bh->SendMessage (p->command, this, ret, 0);
-        *(p->command_end) = 0;
-      }
+      SendKeyMessage (p, key, key_modifiers, '0');
     }
     else
     {
       if (autorep)
       {
         // Send auto-repeat message.
-        iCelBehaviour* bh = entity->GetBehaviour ();
-        if (bh)
-        {
-          *(p->command_end) = '_';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
-        }
+        SendKeyMessage (p, key, key_modifiers, '_');
       }
       else
       {
-        iCelBehaviour* bh = entity->GetBehaviour ();
-        if (bh)
-        {
-          *(p->command_end) = '1';
-          celData ret;
-          bh->SendMessage (p->command, this, ret, 0);
-          *(p->command_end) = 0;
-        }
+        SendKeyMessage (p, key, key_modifiers, '1');
       }
     }
   }

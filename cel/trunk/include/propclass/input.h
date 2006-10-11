@@ -38,17 +38,22 @@
  *
  * This property class can send out the following messages
  * to the behaviour:
- * - pccommandinput_<key>0: key is unpressed
- * - pccommandinput_<key>1: key is pressed
- * - pccommandinput_<key>_: key is pressed and auto-repeating
- * - pccommandinput_<axis>: movement on the given axis
+ * - pccommandinput_<key>0: key is unpressed. Message has optional
+ *   'trigger' parameter.
+ * - pccommandinput_<key>1: key is pressed. Message has optional
+ *   'trigger' parameter.
+ * - pccommandinput_<key>_: key is pressed and auto-repeating. Message
+ *   has optional 'trigger' parameter.
+ * - pccommandinput_<axis>: movement on the given axis.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - screenspace (bool, read/write): use screenspace instead of -1/1
- *     normalized coordinates (-1/1 is default).
+ *   normalized coordinates (-1/1 is default).
  * - cooked (bool, read/write): use cooked mode instead of raw (default
- *     is raw.
+ *   is raw.
+ * - sendtrigger (bool, read/write): send out trigger name in the
+ *   message to the behaviour. Default is false.
  */
 struct iPcCommandInput : public virtual iBase
 {
@@ -58,6 +63,19 @@ struct iPcCommandInput : public virtual iBase
    * Activates the input to get Commands
    */
   virtual void Activate (bool activate=true) = 0;
+
+  /**
+   * Enable/disable sending trigger name. When this is enabled
+   * this property class will add a 'trigger' parameter to all
+   * keyboard messages. That parameter will be the name of the keyboard
+   * event that triggered the message. By default this is disabled.
+   */
+  virtual void SetSendTrigger (bool send) = 0;
+
+  /**
+   * Is send trigger enabled or disabled?
+   */
+  virtual bool IsSendTriggerEnabled () const = 0;
 
   /**
    * Enable/disable cooked mode. By default raw mode is used
