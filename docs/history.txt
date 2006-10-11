@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  can examine which message caused the event. That way you can
 	  bind several keyboard events to the same command and use the
 	  command itself to distinguish on the keyboard event.
+	- Jorrit added a new feature to pccommandinput. If you bind the
+	  trigger 'key' to some command then all keyboard events will
+	  react. That way you only need one Bind to catch all events.
 9-Oct-2006
 	- Jorrit changed the random generator in blxml so that there is
 	  only one generator for all behaviours together instead of one per

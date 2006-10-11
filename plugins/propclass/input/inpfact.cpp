@@ -359,12 +359,19 @@ void celPcCommandInput::SaveConfig (const char* prefix)
   celKeyMap* km = keylist;
   while (km)
   {
-    csKeyModifiers modifiers;
-    csKeyEventHelper::GetModifiers (km->modifiers, modifiers);
     csString strbind = csString (prefix);
     strbind += ".CommandInput.Bind.";
-    strbind += csInputDefinition::GetKeyString (
-    	name_reg, km->key, &modifiers).GetData ();
+    if (km->key == CS_UC_INVALID)
+    {
+      strbind += "key";
+    }
+    else
+    {
+      csKeyModifiers modifiers;
+      csKeyEventHelper::GetModifiers (km->modifiers, modifiers);
+      strbind += csInputDefinition::GetKeyString (
+    	  name_reg, km->key, &modifiers).GetData ();
+    }
     cfg->SetStr (strbind.GetData (), km->command+15);
     km = km->next;
   }
@@ -401,6 +408,33 @@ void celPcCommandInput::SaveConfig (const char* prefix)
 
 bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
+  // Catch a special case that catches all keys.
+  if (!strcasecmp ("key", triggername))
+  {
+    celKeyMap* newkmap;
+    if (!(newkmap = GetMap (CS_UC_INVALID, 0)))
+    {
+      newkmap = new celKeyMap;
+      // Add a new entry to key mapping list
+      newkmap->next = keylist;
+      newkmap->prev = 0;
+      newkmap->key = CS_UC_INVALID;
+      newkmap->modifiers = 0;
+
+      if (keylist)
+        keylist->prev = newkmap;
+      keylist = newkmap;
+    }
+    delete [] newkmap->command;
+    newkmap->command = new char[
+      	strlen ("pccommandinput_")+strlen (command)+2];
+    strcpy (newkmap->command, "pccommandinput_");
+    strcat (newkmap->command, command);
+    newkmap->command_end = strchr (newkmap->command, 0);
+    *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
+    return true;
+  }
+
   csEventID type;
   uint device;
   int numeric;
@@ -439,27 +473,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
       newkmap->prev = 0;
       newkmap->key = key;
       newkmap->modifiers = mods;        // Only used in cooked mode.
-      newkmap->command = new char[
-      	strlen ("pccommandinput_")+strlen (command)+2];
-      strcpy (newkmap->command, "pccommandinput_");
-      strcat (newkmap->command, command);
-      newkmap->command_end = strchr (newkmap->command, 0);
-      *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
 
       if (keylist)
         keylist->prev = newkmap;
       keylist = newkmap;
     }
-    else
-    {
-      delete [] newkmap->command;
-      newkmap->command = new char[
+    delete [] newkmap->command;
+    newkmap->command = new char[
       	strlen ("pccommandinput_")+strlen (command)+2];
-      strcpy (newkmap->command, "pccommandinput_");
-      strcat (newkmap->command, command);
-      newkmap->command_end = strchr (newkmap->command, 0);
-      *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
-    }
+    strcpy (newkmap->command, "pccommandinput_");
+    strcat (newkmap->command, command);
+    newkmap->command_end = strchr (newkmap->command, 0);
+    *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
 
     return true;
   }
@@ -480,25 +505,17 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         newamap->device = device;
         newamap->numeric = numeric;
         newamap->modifiers = mods;
-        newamap->recenter = centered;
-        newamap->command = new char[
-        	strlen ("pccommandinput_")+strlen (command)+1];
-        strcpy (newamap->command, "pccommandinput_");
-        strcat (newamap->command, command);
 
         if (axislist)
           axislist->prev = newamap;
         axislist = newamap;
       }
-      else
-      {
-        delete [] newamap->command;
-        newamap->recenter = centered;
-        newamap->command = new char[
+      delete [] newamap->command;
+      newamap->recenter = centered;
+      newamap->command = new char[
         	strlen ("pccommandinput_")+strlen (command)+1];
-        strcpy (newamap->command, "pccommandinput_");
-        strcat (newamap->command, command);
-      }
+      strcpy (newamap->command, "pccommandinput_");
+      strcat (newamap->command, command);
     }
     else
     {
@@ -513,27 +530,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* command)
         newbmap->device = device;
         newbmap->numeric = numeric;
         newbmap->modifiers = mods;
-        newbmap->command = new char[
-        	strlen ("pccommandinput_")+strlen (command)+2];
-        strcpy (newbmap->command, "pccommandinput_");
-        strcat (newbmap->command, command);
-        newbmap->command_end = strchr (newbmap->command, 0);
-        *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
 
         if (buttonlist)
           buttonlist->prev = newbmap;
         buttonlist = newbmap;
       }
-      else
-      {
-        delete [] newbmap->command;
-        newbmap->command = new char[
+      delete [] newbmap->command;
+      newbmap->command = new char[
         	strlen ("pccommandinput_")+strlen (command)+2];
-        strcpy (newbmap->command, "pccommandinput_");
-        strcat (newbmap->command, command);
-        newbmap->command_end = strchr (newbmap->command, 0);
-        *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
-      }
+      strcpy (newbmap->command, "pccommandinput_");
+      strcat (newbmap->command, command);
+      newbmap->command_end = strchr (newbmap->command, 0);
+      *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
     }
     return true;
   }
@@ -791,6 +799,8 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     celKeyMap *p = keylist;
     while (p)
     {
+      if (p->key == CS_UC_INVALID)
+	break;
       if (KeyEqual (p->key, key)
         && (!do_cooked || ((modifiers & p->modifiers) == p->modifiers)))
       {
