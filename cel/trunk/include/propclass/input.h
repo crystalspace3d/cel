@@ -30,7 +30,8 @@
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - Activate: parameter 'activate' (bool default=true).
- * - Bind: parameters 'trigger' (string) and 'command' (string).
+ * - Bind: parameters 'trigger' (string) and 'command' (string). The 'trigger'
+ *   can be equal to 'key' in which cases all keys will be bound.
  * - RemoveBind: paramaters 'trigger' (string) and 'command' (string).
  * - RemoveAllBinds.
  * - LoadConfig: parameters 'prefix' (string).
@@ -126,7 +127,8 @@ struct iPcCommandInput : public virtual iBase
   virtual void SaveConfig (const char* prefix) = 0;
 
   /**
-   * Binds a trigger to a command
+   * Binds a trigger to a command. The triggername can be equal to 'key'
+   * in which case all keys will be bound.
    */
   virtual bool Bind (const char* triggername, const char* command) = 0;
 

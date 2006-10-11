@@ -48,10 +48,11 @@ CEL_DECLARE_FACTORY (CommandInput)
 struct celKeyMap
 {
   celKeyMap *next, *prev;
-  utf32_char key;
+  utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celKeyMap () : command (0) { }
 };
 
 struct celButtonMap
@@ -63,6 +64,7 @@ struct celButtonMap
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celButtonMap () : command (0) { }
 };
 
 struct celAxisMap
@@ -74,6 +76,7 @@ struct celAxisMap
   uint32 modifiers;
   bool recenter;
   char *command;
+  celAxisMap () : command (0) { }
 };
 
 /**
