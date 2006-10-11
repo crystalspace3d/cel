@@ -35,6 +35,7 @@ struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
 class celGenericParameterBlock;
+class celOneParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 {
@@ -95,8 +96,10 @@ private:
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
   bool do_cooked;
+  bool do_sendtrigger;	// If true then send trigger name with messages.
 
   celGenericParameterBlock* mouse_params;
+  celOneParameterBlock* key_params;
 
   // For actions.
   enum actionids
@@ -113,7 +116,8 @@ private:
   enum propids
   {
     propid_cooked = 0,
-    propid_screenspace
+    propid_screenspace,
+    propid_sendtrigger
   };
   static PropertyHolder propinfo;
 
@@ -130,6 +134,8 @@ public:
   bool HandleEvent (iEvent& ev);
 
   virtual void Activate (bool activate = true);
+  virtual void SetSendTrigger (bool send) { do_sendtrigger = send; }
+  virtual bool IsSendTriggerEnabled () const { return do_sendtrigger; }
   virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }
   virtual bool GetCookedMode () const { return do_cooked; }
   virtual void ScreenCoordinates (bool screen = true);
@@ -179,6 +185,8 @@ protected:
   	uint32 modifiers) const;
   celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
   	uint32 modifiers) const;
+  void SendKeyMessage (celKeyMap* p, utf32_char key,
+    csKeyModifiers key_modifiers, char end);
 };
 
 }

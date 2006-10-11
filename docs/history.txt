@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Oct-2006
+	- Jorrit added a new 'sendtrigger' mechanism to pccommandinput.
+	  When this is enabled (default it is disabled) the keyboard
+	  messages will get a 'trigger' parameter so that the handler
+	  can examine which message caused the event. That way you can
+	  bind several keyboard events to the same command and use the
+	  command itself to distinguish on the keyboard event.
 9-Oct-2006
 	- Jorrit changed the random generator in blxml so that there is
 	  only one generator for all behaviours together instead of one per
