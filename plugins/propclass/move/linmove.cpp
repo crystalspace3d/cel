@@ -1108,7 +1108,7 @@ void celPcLinearMovement::TickEveryFrame ()
   float delta = elapsed_time / 1000.0f;
   // Compensate for offset
   OffsetSprite (delta);
-  if (deltaLimit != 0)
+  if (fabsf (deltaLimit) > SMALL_EPSILON)
     delta = MIN(delta, deltaLimit);
 
   // Adjust the properties.
