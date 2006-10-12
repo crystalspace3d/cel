@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+12-Oct-2006
+	- Darek did some work in pclinearmovement: cleaning code style, 
+	  updated documentation, in xml InitCD 'offset' now is optional,
+	  added new property 'hug'.  
 11-Oct-2006
 	- Jorrit added a new 'sendtrigger' mechanism to pccommandinput.
 	  When this is enabled (default it is disabled) the keyboard
