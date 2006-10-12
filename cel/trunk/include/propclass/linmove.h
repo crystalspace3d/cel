@@ -41,9 +41,9 @@ struct iMeshWrapper;
 
 /**
  * Inherit this class if you want to know when gravity is applied to a certain
- * iPcLinearMovement. This is usefully if you for example want to apply certain
- * gravity or something on the way up, but not on the way down (Parachutes and
- * things like that).
+ * iPcLinearMovement. This is usefully if you for example want to apply
+ * certain gravity or something on the way up, but not on the way down
+ * (Parachutes and things like that).
  * Register this callback with AddGravityCallback in iPcLinearMovement, and
  * remove with RemoveGravityCallback
  */
@@ -67,7 +67,7 @@ struct iPcGravityCallback : public virtual iBase
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset'
- *     (vector3).
+ *     (vector3 default=0,0,0).
  * - InitCDMesh: parameters 'percentage' (float).
  * - SetPosition: parameters 'sector' (string), 'position' (vector3 or
  *     string (name of mapnode in that case)), and
@@ -80,6 +80,8 @@ struct iPcGravityCallback : public virtual iBase
  * 'cel.property.' to get the ID of the property:
  * - anchor (string, read/write): name of the entity on which we are
  *   anchored.
+ * - gravity (float, read/write): gravity of the entity (default=19.6).
+ * - hug (bool, read/write): hug mesh to ground (default=false).
  */
 struct iPcLinearMovement : public virtual iBase
 {
@@ -167,7 +169,7 @@ struct iPcLinearMovement : public virtual iBase
    * Get CD box for the object.
    */
   virtual void GetCDDimensions (csVector3& body, csVector3& legs,
-	csVector3& shift, iPcCollisionDetection*& pc_cd) = 0;
+  	csVector3& shift, iPcCollisionDetection*& pc_cd) = 0;
 
   /**
    * Initialize CD again?@@@
@@ -303,7 +305,7 @@ struct iPcLinearMovement : public virtual iBase
   /// Set if pcmesh should be transformed to follow the contour of the ground
   virtual void SetHugGround (bool hugGround) = 0;
 
-  virtual void SetDeltaLimit(float deltaLimit) = 0;
+  virtual void SetDeltaLimit (float deltaLimit) = 0;
 
   virtual bool RotateV (float delta) = 0;
 

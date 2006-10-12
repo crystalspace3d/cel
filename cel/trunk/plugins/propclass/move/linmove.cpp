@@ -83,12 +83,12 @@ csStringID celPcLinearMovement::id_yrot = csInvalidStringID;
 csStringID celPcLinearMovement::id_velocity = csInvalidStringID;
 
 // collision detection variables
-#define MAXSECTORSOCCUPIED  20
+#define MAXSECTORSOCCUPIED 20
 
 // velocity = prevVelocity + ACCEL
 #define ACCEL 0.5f
 
-#define LEGOFFSET	  0
+#define LEGOFFSET 0
 
 // This is the distance the CD will use to look for objects to collide with.
 
@@ -137,7 +137,7 @@ csStringID celPcLinearMovement::id_velocity = csInvalidStringID;
 PropertyHolder celPcLinearMovement::propinfo;
 
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
-  : scfImplementationType (this, object_reg)
+	: scfImplementationType (this, object_reg)
 {
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc)
@@ -155,11 +155,11 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 
   velBody = angularVelocity = velWorld = 0;
   angleToReachFlag = false;
-  angDelta = 0;
+  angDelta = 0.0f;
   lastDRUpdate = 0;
 
-  xRot = 0;
-  zRot = 0;
+  xRot = 0.0f;
+  zRot = 0.0f;
   hugGround = false;
   called = false;
 
@@ -167,8 +167,8 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   anchor_needsinit = false;
 
   path = 0;
-  path_speed = 0;
-  path_time  = 0;
+  path_speed = 0.0f;
+  path_time  = 0.0f;
 
   offset_err = 0;
   offset_rate = 0;
@@ -179,7 +179,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
    */
   speed = 1.0f;
 
-  deltaLimit = 0;
+  deltaLimit = 0.0f;
 
   if (id_percentage == csInvalidStringID)
   {
@@ -205,19 +205,21 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (2);
+  propinfo.SetCount (3);
   AddProperty (propid_anchor, "cel.property.anchor",
-	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
+  	CEL_DATA_STRING, false, "Mesh Anchor.", 0);
   AddProperty (propid_gravity, "cel.property.gravity",
-	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
+  	CEL_DATA_FLOAT, false, "Gravity.", &gravity);
+  AddProperty (propid_hug, "cel.property.hug",
+  	CEL_DATA_BOOL, false, "Hug to ground.", &hugGround);
 
-  ResetGravity();
+  ResetGravity ();
 
   /*
    * Initialize bouding box parameters to detect if they have been
    * loaded or not
    */
-  topSize.Set(0, 0, 0);
+  topSize.Set (0, 0, 0);
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
 }
@@ -314,7 +316,7 @@ void celPcLinearMovement::LoadAnchor (iPcMesh* a)
     {
       iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
       pcmesh->GetMesh ()->QuerySceneNode ()->SetParent (
-		      anchor->GetMesh ()->QuerySceneNode ());
+      	anchor->GetMesh ()->QuerySceneNode ());
       movable->UpdateMove ();
     }
   }
@@ -342,7 +344,7 @@ void celPcLinearMovement::SetAnchor (iPcMesh* a)
   if (anchor)
   {
     pcmesh->GetMesh ()->QuerySceneNode ()->SetParent (
-		      anchor->GetMesh ()->QuerySceneNode ());
+    	anchor->GetMesh ()->QuerySceneNode ());
     csReversibleTransform newtrans = trans / anchor->GetMesh ()
     	->GetMovable ()->GetFullTransform ();
     movable->SetTransform (newtrans);
@@ -368,7 +370,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     if (!m)
       return MoveReport (object_reg,
       	"Entity '%s' doesn't have a pcmesh (property 'anchor' in pclinmove)!",
-	b);
+      	b);
     SetAnchor (m);
     return true;
   }
@@ -405,15 +407,14 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_VECTOR3_PAR (body,params,id_body);
         if (!p_body)
           return MoveReport (object_reg,
-      	    "Missing parameter 'body' for action InitCD!");
+          	"Missing parameter 'body' for action InitCD!");
         CEL_FETCH_VECTOR3_PAR (legs,params,id_legs);;
         if (!p_legs)
           return MoveReport (object_reg,
-      	    "Missing parameter 'legs' for action InitCD!");
+          	"Missing parameter 'legs' for action InitCD!");
         CEL_FETCH_VECTOR3_PAR (offset,params,id_offset);
         if (!p_offset)
-          return MoveReport (object_reg,
-      	    "Missing parameter 'offset' for action InitCD!");
+          offset = csVector3 (0.0f, 0.0f, 0.0f);
         bool rc = InitCD (body, legs, offset);
         return rc;
       }
@@ -422,11 +423,11 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (percentage,params,id_percentage);
         if (!p_percentage)
           return MoveReport (object_reg,
-      	    "Missing parameter 'percentage' for action InitCDMesh!");
+          	"Missing parameter 'percentage' for action InitCDMesh!");
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
         if (!pcmesh)
           return MoveReport (object_reg,
-      	    "Can't find pcmesh in current entity for action InitCDMesh!");
+          	"Can't find pcmesh in current entity for action InitCDMesh!");
         bool rc = InitCD (pcmesh->GetMesh (), percentage);
         return rc;
       }
@@ -435,19 +436,19 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
         if (!p_yrot)
           return MoveReport (object_reg,
-      	    "Missing parameter 'yrot' for action SetPosition!");
+          	"Missing parameter 'yrot' for action SetPosition!");
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
         if (!sector)
           return MoveReport (object_reg,
-      	    "Missing parameter 'sector' for action SetPosition!");
+          	"Missing parameter 'sector' for action SetPosition!");
         iSector* sect = engine->FindSector (sector);
         if (!sect)
           return MoveReport (object_reg,
-      	    "Can't find sector '%s' for action SetPosition!", sector);
+          	"Can't find sector '%s' for action SetPosition!", sector);
         const celData* p_position = params->GetParameter (id_position);
         if (!p_position)
           return MoveReport (object_reg,
-      	    "Missing parameter 'position' for action SetPosition!");
+          	"Missing parameter 'position' for action SetPosition!");
         if (p_position->type == CEL_DATA_VECTOR3)
         {
           csVector3 vpos;
@@ -463,7 +464,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         }
         else
           return MoveReport (object_reg,
-      	    "'position' must be string or vector for SetPosition!");
+          	"'position' must be string or vector for SetPosition!");
         return true;
       }
     case action_setvelocity:
@@ -471,7 +472,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
         if (!p_velocity)
           return MoveReport (object_reg,
-      	    "Missing parameter 'velocity' for action SetVelocity!");
+          	"Missing parameter 'velocity' for action SetVelocity!");
         SetVelocity (velocity);
         return true;
       }
@@ -480,7 +481,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
         if (!p_velocity)
           return MoveReport (object_reg,
-      	    "Missing parameter 'velocity' for action AddVelocity!");
+          	"Missing parameter 'velocity' for action AddVelocity!");
         AddVelocity (velocity);
         return true;
       }
@@ -489,7 +490,7 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
         CEL_FETCH_VECTOR3_PAR (velocity,params,id_velocity);
         if (!p_velocity)
           return MoveReport (object_reg,
-      	    "Missing parameter 'velocity' for action SetAngularVelocity!");
+          	"Missing parameter 'velocity' for action SetAngularVelocity!");
         SetAngularVelocity (velocity);
         return true;
       }
@@ -499,16 +500,16 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
 }
 
 static inline bool FindIntersection (const csCollisionPair& cd,
-    			   csVector3 line[2])
+	csVector3 line[2])
 {
-  csVector3 tri1[3]; tri1[0]=cd.a1; tri1[1]=cd.b1; tri1[2]=cd.c1;
-  csVector3 tri2[3]; tri2[0]=cd.a2; tri2[1]=cd.b2; tri2[2]=cd.c2;
+  csVector3 tri1[3]; tri1[0] = cd.a1; tri1[1] = cd.b1; tri1[2] = cd.c1;
+  csVector3 tri2[3]; tri2[0] = cd.a2; tri2[1] = cd.b2; tri2[2] = cd.c2;
   csSegment3 isect;
   bool coplanar, ret;
 
   ret = csIntersect3::TriangleTriangle (tri1, tri2, isect, coplanar);
-  line[0]=isect.Start ();
-  line[1]=isect.End ();
+  line[0] = isect.Start ();
+  line[1] = isect.End ();
   return ret;
 }
 
@@ -537,19 +538,19 @@ void celPcLinearMovement::SetSpeed (float speedZ)
 // coordinate.
 static float GetAngle (float x, float y)
 {
-  if (x > 1.0 )  x = 1.0;
-  if (x < -1.0 ) x = -1.0;
+  if (x > 1.0f )  x = 1.0f;
+  if (x < -1.0f ) x = -1.0f;
 
   float angle = acos (x);
-  if (y < 0)
-    angle = 2*PI - angle;
+  if (y < 0.0f)
+    angle = 2.0f * PI - angle;
 
   return angle;
 }
 
 static float Matrix2YRot (const csMatrix3& mat)
 {
-  csVector3 vec (0,0,1);
+  csVector3 vec (0.0f, 0.0f, 1.0f);
   vec = mat * vec;
 
   return GetAngle (vec.z, vec.x);
@@ -573,7 +574,7 @@ bool celPcLinearMovement::RotateV (float delta)
     const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
     	->GetTransform ().GetT2O ();
     float current_yrot = Matrix2YRot (transf);
-    current_yrot = atan2f (sin (current_yrot), cos (current_yrot) );
+    current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
     float yrot_delta = fabs (atan2f (sin (angleToReach.y - current_yrot),
     	cos (angleToReach.y - current_yrot)));
     if (fabs(angle.y) > yrot_delta)
@@ -584,11 +585,11 @@ bool celPcLinearMovement::RotateV (float delta)
     }
   }
 
-  iMovable* movable = pcmesh->GetMesh()->GetMovable();
-  csYRotMatrix3 rotMat(angle.y);
-  movable->SetTransform(movable->GetTransform().GetT2O () * rotMat );
+  iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+  csYRotMatrix3 rotMat (angle.y);
+  movable->SetTransform (movable->GetTransform ().GetT2O () * rotMat);
   movable->UpdateMove ();
-  //pcmesh->GetMesh ()->GetMovable()->Transform (rotMat);
+  //pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
   return true;
 }
 
@@ -642,16 +643,16 @@ int celPcLinearMovement::MoveSprite (float delta)
 	 // MAX (temp1, MIN_CD_INTERVAL);
 
   // Calculate the total velocity (body and world) in OBJECT space.
-  csVector3 bodyVel(fulltransf.Other2ThisRelative (velWorld) + velBody);
+  csVector3 bodyVel (fulltransf.Other2ThisRelative (velWorld) + velBody);
 
   float local_max_interval =
-    MAX (MIN (MIN ((bodyVel.y==0.0f)
+  	MAX (MIN (MIN ((bodyVel.y==0.0f)
   	? MAX_CD_INTERVAL
-	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
-		? MAX_CD_INTERVAL
-		: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
-			? MAX_CD_INTERVAL
-			: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
+  	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
+  	? MAX_CD_INTERVAL
+  	: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
+  	? MAX_CD_INTERVAL
+  	: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
 
   // Compensate for speed
   local_max_interval /= speed;
@@ -664,12 +665,12 @@ int celPcLinearMovement::MoveSprite (float delta)
     {
       ret = MoveV (local_max_interval);
 
-      if (pccolldet->QueryRevert())
+      if (pccolldet->QueryRevert ())
       {
         // Revert Rotation for safety
         //@@@ This need to be revised! You can't change the full transform!
         //@@@csMatrix3 matrix = (csMatrix3) csYRotMatrix3 (yrot);
-	//@@@pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ().SetO2T (matrix);
+        //@@@pcmesh->GetMesh ()->GetMovable ()->GetFullTransform ().SetO2T (matrix);
       }
       else
       {
@@ -686,11 +687,11 @@ int celPcLinearMovement::MoveSprite (float delta)
       delta -= local_max_interval;
       local_max_interval = MAX (MIN (MIN ((bodyVel.y==0.0f)
       	? MAX_CD_INTERVAL
-	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
-		? MAX_CD_INTERVAL
-		: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
-			? MAX_CD_INTERVAL
-			: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
+      	: ABS (intervalSize.y/bodyVel.y), (bodyVel.x==0.0f)
+      	? MAX_CD_INTERVAL
+      	: ABS (intervalSize.x/bodyVel.x)), (bodyVel.z==0.0f)
+      	? MAX_CD_INTERVAL
+      	: ABS (intervalSize.z/bodyVel.z)), MIN_CD_INTERVAL);
       // Compensate for speed
       local_max_interval /= speed;
       // Err on the side of safety
@@ -710,7 +711,7 @@ int celPcLinearMovement::MoveSprite (float delta)
 // Apply the gradual offset correction from SetSoftDRUpdate to the mesh position
 void celPcLinearMovement::OffsetSprite (float delta)
 {
-  if (offset_err.IsZero()) return;  // no offset correction to perform
+  if (offset_err.IsZero ()) return;  // no offset correction to perform
 
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
   csVector3 oldpos = movable->GetPosition ();
@@ -720,28 +721,28 @@ void celPcLinearMovement::OffsetSprite (float delta)
   del_offset *= delta;
 
   // Check for NaN conditions:
-  if (del_offset.x != del_offset.x) del_offset.x = 0;
-  if (del_offset.y != del_offset.y) del_offset.y = 0;
-  if (del_offset.z != del_offset.z) del_offset.z = 0;
+  if (del_offset.x != del_offset.x) del_offset.x = 0.0f;
+  if (del_offset.y != del_offset.y) del_offset.y = 0.0f;
+  if (del_offset.z != del_offset.z) del_offset.z = 0.0f;
 
   // Calculate error correction for this time interval
-  if ((del_offset.x > offset_err.x && del_offset.x > 0) ||
-      (del_offset.x < offset_err.x && del_offset.x < 0))
+  if ((del_offset.x > offset_err.x && del_offset.x > 0.0f) ||
+  	(del_offset.x < offset_err.x && del_offset.x < 0.0f))
   {
     del_offset.x = offset_err.x;
-    offset_rate.x = 0;
+    offset_rate.x = 0.0f;
   }
-  if ((del_offset.y > offset_err.y && del_offset.y > 0) ||
-      (del_offset.y < offset_err.y && del_offset.y < 0))
+  if ((del_offset.y > offset_err.y && del_offset.y > 0.0f) ||
+  	(del_offset.y < offset_err.y && del_offset.y < 0.0f))
   {
     del_offset.y = offset_err.y;
-    offset_rate.y = 0;
+    offset_rate.y = 0.0f;
   }
-  if ((del_offset.z > offset_err.z && del_offset.z > 0) ||
-      (del_offset.z < offset_err.z && del_offset.z < 0))
+  if ((del_offset.z > offset_err.z && del_offset.z > 0.0f) ||
+  	(del_offset.z < offset_err.z && del_offset.z < 0.0f))
   {
     del_offset.z = offset_err.z;
-    offset_rate.z = 0;
+    offset_rate.z = 0.0f;
   }
   offset_err -= del_offset;
 
@@ -754,9 +755,8 @@ void celPcLinearMovement::OffsetSprite (float delta)
 int celPcLinearMovement::MoveV (float delta)
 {
   if (velBody < SMALL_EPSILON && velWorld < SMALL_EPSILON
-		&& (!pccolldet || pccolldet->IsOnGround()))
+  	&& (!pccolldet || pccolldet->IsOnGround ()))
     return CEL_MOVE_DONTMOVE;  // didn't move anywhere
-
 
   int ret = CEL_MOVE_SUCCEED;
   iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
@@ -778,8 +778,8 @@ int celPcLinearMovement::MoveV (float delta)
 
   // Check for collisions and adjust position
   if (pccolldet)
-    if(!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
-	  delta, movable))
+    if (!pccolldet->AdjustForCollisions (oldpos, newpos, worldVel,
+    	delta, movable))
     {
       ret = CEL_MOVE_FAIL;
       newpos = oldpos;
@@ -787,9 +787,9 @@ int celPcLinearMovement::MoveV (float delta)
     else
     {
       // check if we collided
-      if ((newpos - bufpos).Norm()>0.000001)
+      if ((newpos - bufpos).Norm () > 0.000001f)
       {
-	ret = CEL_MOVE_PARTIAL;
+        ret = CEL_MOVE_PARTIAL;
       }
     }
 
@@ -803,19 +803,20 @@ int celPcLinearMovement::MoveV (float delta)
   // @@@ Jorrit: had to do this add!
   // We need to measure slightly above the position of the actor or else
   // we won't really cross a portal.
-  float height5 = (bottomSize.y + topSize.y) / 10.0;
+  float height5 = (bottomSize.y + topSize.y) / 10.0f;
   newpos.y += height5;
   csMatrix3 id;
-  csOrthoTransform transform_oldpos (id, oldpos + csVector3 (0, height5, 0));
+  csOrthoTransform transform_oldpos (id, oldpos +
+  	csVector3 (0.0f, height5, 0.0f));
 
   new_sector = new_sector->FollowSegment (transform_oldpos, newpos, mirror,
-      CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
+  	CEL_LINMOVE_FOLLOW_ONLY_PORTALS);
   newpos.y -= height5;
   if (new_sector != old_sector)
     movable->SetSector (new_sector);
 
   portalDisplaced += newpos - origNewpos;
-  if(!IsOnGround())
+  if(!IsOnGround ())
   {
     // gravity! move down!
     velWorld.y  -= gravity * delta;
@@ -830,19 +831,19 @@ int celPcLinearMovement::MoveV (float delta)
       // Call callbacks
       if (!called)
       {
-	size_t i = gravityCallbacks.Length ();
-	while (i > 0)
-	{
-	  i--;
-	  gravityCallbacks[i]->Callback ();
-	}
-	called = true;
+        size_t i = gravityCallbacks.Length ();
+        while (i > 0)
+        {
+          i--;
+          gravityCallbacks[i]->Callback ();
+        }
+        called = true;
       }
 
-      if (fulltransf.This2OtherRelative(velBody).y
-          + velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
-        velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
-	  - fulltransf.This2OtherRelative(velBody).y;
+      if (fulltransf.This2OtherRelative (velBody).y
+      	+ velWorld.y < -(ABS_MAX_FREEFALL_VELOCITY))
+      	velWorld.y = -(ABS_MAX_FREEFALL_VELOCITY)
+      	- fulltransf.This2OtherRelative (velBody).y;
       if (velWorld.y > 0)
         velWorld.y = 0;
     }
@@ -857,26 +858,26 @@ int celPcLinearMovement::MoveV (float delta)
       size_t i = gravityCallbacks.Length ();
       while (i > 0)
       {
-	i--;
-	gravityCallbacks[i]->Callback ();
+        i--;
+        gravityCallbacks[i]->Callback ();
       }
       velWorld.y = 0;
     }
 
-    if(hugGround)
-      HugGround(newpos, new_sector);
+    if (hugGround)
+      HugGround (newpos, new_sector);
   }
 
   // Move to the new position. If we have an anchor we have to convert
   // the new position from absolute to relative.
   if (anchor)
   {
-    newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ().Other2This (
-       newpos);
+    newpos = anchor->GetMesh ()->GetMovable ()->GetFullTransform ()
+    	.Other2This (newpos);
   }
   movable->GetTransform ().SetOrigin (newpos);
   movable->GetTransform ().SetT2O(
-      movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
+  	movable->GetTransform ().GetT2O () * transform_oldpos.GetT2O ());
 
   if (pccolldet)
   {
@@ -889,7 +890,7 @@ int celPcLinearMovement::MoveV (float delta)
   return ret;
 }
 
-void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
+void celPcLinearMovement::HugGround (const csVector3& pos, iSector* sector)
 {
   csVector3 start, end;
   csIntersectingTriangle closest_tri;
@@ -911,7 +912,7 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
   end.y -= 5;
 
   hit[0] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
-    false, closest_tri, isect[0]) != -1;
+  	false, closest_tri, isect[0]) != -1;
 
   // Assuming the bounding box is axis-aligned: (Upper-left point)
   start.x = pos.x - legsXlimit;
@@ -921,7 +922,7 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
   end.y -= 5;
 
   hit[1] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
-    false, closest_tri, isect[1]) != -1;
+  	false, closest_tri, isect[1]) != -1;
 
   // Assuming the bounding box is axis-aligned: (Upper-right point)
   start.x = pos.x + legsXlimit;
@@ -931,7 +932,7 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
   end.y -= 5;
 
   hit[2] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
-    false, closest_tri, isect[2]) != -1;
+  	false, closest_tri, isect[2]) != -1;
 
   // Assuming the bounding box is axis-aligned: (Lower-right point)
   start.x = pos.x + legsXlimit;
@@ -941,15 +942,15 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
   end.y -= 5;
 
   hit[3] = csColliderHelper::TraceBeam (cdsys, sector, start, end,
-    false, closest_tri, isect[3]) != -1;
+  	false, closest_tri, isect[3]) != -1;
 
   //printf("Isect (%f %f %f %f)\n",hit[0] ? isect[0].y : -999, hit[1] ? isect[1].y : -999, hit[2] ? isect[2].y: -999, hit[3] ? isect[3].y: -999);
 
   int notHit = 0;
   int lowest = -1;
-  for(int i = 0; i<4 && notHit <= 1;i++)
+  for (int i = 0; i < 4 && notHit <= 1; i++)
   {
-    if(!hit[i])
+    if (!hit[i])
     {
       notHit++;
       lowest = i;
@@ -959,33 +960,33 @@ void celPcLinearMovement::HugGround(const csVector3& pos, iSector* sector)
     {
       if(lowest == -1)
         lowest = i;
-      else if(isect[lowest].y > isect[i].y)
+      else if (isect[lowest].y > isect[i].y)
         lowest = i;
     }
   }
-  if(notHit <= 1)
+  if (notHit <= 1)
   {
-    switch(lowest)
+    switch (lowest)
     {
       case 0:
-        plane.Set(isect[1], isect[2], isect[3]);
+        plane.Set (isect[1], isect[2], isect[3]);
         break;
       case 1:
-        plane.Set(isect[0], isect[2], isect[3]);
+        plane.Set (isect[0], isect[2], isect[3]);
         break;
       case 2:
-        plane.Set(isect[0], isect[1], isect[3]);
+        plane.Set (isect[0], isect[1], isect[3]);
         break;
       case 3:
-        plane.Set(isect[0], isect[1], isect[2]);
+        plane.Set (isect[0], isect[1], isect[2]);
         break;
     }
-    csVector3 normal = plane.GetNormal().Unit();
+    csVector3 normal = plane.GetNormal ().Unit ();
 
-    float newxRot = atan2(normal.z, normal.y );
-    float newzRot = -atan2(normal.x, normal.y );
-    csMatrix3 rotMat = csZRotMatrix3(newzRot) * csXRotMatrix3(newxRot - xRot)
-    	* csZRotMatrix3(-zRot);
+    float newxRot = atan2 (normal.z, normal.y );
+    float newzRot = -atan2 (normal.x, normal.y );
+    csMatrix3 rotMat = csZRotMatrix3 (newzRot) * csXRotMatrix3 (newxRot - xRot)
+    	* csZRotMatrix3 (-zRot);
     pcmesh->GetMesh ()->GetMovable ()->Transform (rotMat);
     xRot = newxRot;
     zRot = newzRot;
@@ -1024,9 +1025,9 @@ void celPcLinearMovement::UpdateDR ()
   lastDRUpdate = time;
 }
 
-csTicks celPcLinearMovement::TimeDiff()
+csTicks celPcLinearMovement::TimeDiff ()
 {
-  return csGetTicks() - lastDRUpdate;
+  return csGetTicks () - lastDRUpdate;
 }
 
 void celPcLinearMovement::ExtrapolatePosition (float delta)
@@ -1034,36 +1035,36 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
   if (path)
   {
     path_time += delta;
-    path->CalculateAtTime(path_time);
-    csVector3 pos,look,up;
+    path->CalculateAtTime (path_time);
+    csVector3 pos, look, up;
 
-    path->GetInterpolatedPosition(pos);
-    path->GetInterpolatedUp(up);
-    path->GetInterpolatedForward(look);
+    path->GetInterpolatedPosition (pos);
+    path->GetInterpolatedUp (up);
+    path->GetInterpolatedForward (look);
 
-    pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin(pos);
+    pcmesh->GetMesh ()->GetMovable ()->GetTransform().SetOrigin (pos);
     pcmesh->GetMesh ()->GetMovable ()->GetTransform().LookAt(
-    	look.Unit(),up.Unit());
+    	look.Unit (), up.Unit ());
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
     csRef<iSprite3DState> spstate =
-            SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
-                                 iSprite3DState);
+    	SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
+    	iSprite3DState);
 
-    if (spstate && strcmp(path_actions[path->GetCurrentIndex()],
-	                  spstate->GetCurAction()->GetName() ) )
+    if (spstate && strcmp (path_actions[path->GetCurrentIndex ()],
+    	spstate->GetCurAction ()->GetName ()))
     {
-      spstate->SetAction(path_actions[path->GetCurrentIndex()]);
+      spstate->SetAction (path_actions[path->GetCurrentIndex ()]);
     }
-    if (path_time>path->GetTime(path->Length()-1))
+    if (path_time>path->GetTime (path->Length () - 1))
     {
-      path=0;
-      path_time=0;
+      path = 0;
+      path_time = 0;
       iCelBehaviour* behaviour = entity->GetBehaviour ();
       if (behaviour)
       {
-	celData ret;
-	behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
+        celData ret;
+        behaviour->SendMessage ("pclinearmovement_arrived", this, ret, 0);
       }
     }
   }
@@ -1076,11 +1077,11 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
       iCelBehaviour* behaviour = entity->GetBehaviour ();
       if (behaviour)
       {
-    	celData ret;
-	if (move_result==CEL_MOVE_FAIL)
-    	  behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
-	if (move_result==CEL_MOVE_PARTIAL)
-    	  behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
+        celData ret;
+        if (move_result==CEL_MOVE_FAIL)
+          behaviour->SendMessage ("pclinearmovement_stuck", this, ret, 0);
+        if (move_result==CEL_MOVE_PARTIAL)
+          behaviour->SendMessage ("pclinearmovement_collision", this, ret, 0);
       }
     }
     //if (rc)
@@ -1104,9 +1105,9 @@ void celPcLinearMovement::TickEveryFrame ()
   if (!elapsed_time)
     return;
 
-  float delta = elapsed_time/1000.0;
+  float delta = elapsed_time / 1000.0f;
   // Compensate for offset
-  OffsetSprite(delta);
+  OffsetSprite (delta);
   if (deltaLimit != 0)
     delta = MIN(delta, deltaLimit);
 
@@ -1152,7 +1153,7 @@ void celPcLinearMovement::GetCDDimensions (csVector3& body, csVector3& legs,
 }
 
 bool celPcLinearMovement::InitCD (iMeshWrapper* mesh, float percentage,
-  	iPcCollisionDetection* pc_cd)
+	iPcCollisionDetection* pc_cd)
 {
   csBox3 bbox;
   mesh->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox (bbox);
@@ -1160,7 +1161,7 @@ bool celPcLinearMovement::InitCD (iMeshWrapper* mesh, float percentage,
   csVector3 legs = body;
   csVector3 shift (0); shift.y = bbox.MinY ();
   legs.y = percentage * legs.y / 100.0f;
-  body.y = (100.0f-percentage) * body.y / 100.0f;
+  body.y = (100.0f - percentage) * body.y / 100.0f;
   return InitCD (body, legs, shift, pc_cd);
 }
 
@@ -1174,7 +1175,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   topSize = body;
   bottomSize = legs;
 
-  if(bottomSize.z > 1)
+  if (bottomSize.z > 1.0f)
     hugGround = true;
 
   intervalSize.x = MIN(topSize.x, bottomSize.x);
@@ -1188,12 +1189,12 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   if (!pc_cd)
   {
     csRef<iCelPropertyClass> pc;
-    pc = pl->CreatePropertyClass(entity, "pccollisiondetection");
+    pc = pl->CreatePropertyClass (entity, "pccollisiondetection");
     if (!pc)
       return MoveReport (object_reg,
-		"Could not create property class pccollisiondetection.");
+      	"Could not create property class pccollisiondetection.");
     csRef<iPcCollisionDetection> pctemp;
-    pctemp = SCF_QUERY_INTERFACE(pc, iPcCollisionDetection);
+    pctemp = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
 
     pccolldet = pctemp;
   }
@@ -1208,11 +1209,10 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 bool celPcLinearMovement::IsOnGround () const
 {
   if (pccolldet)
-    return pccolldet->IsOnGround();
+    return pccolldet->IsOnGround ();
 
   return true;
 }
-
 
 /**
  * WARNING:  At present time this function does not work correctly!
@@ -1221,12 +1221,12 @@ bool celPcLinearMovement::IsOnGround () const
  * Instead it returns only your current sector.
  */
 int celPcLinearMovement::FindSectors (const csVector3& pos, float radius,
-    			   iSector** sectors)
+	iSector** sectors)
 {
   int numsector = 0;
 
   csRef<iSectorIterator> sectorit =
-    engine->GetNearbySectors (GetSector (), pos, radius);
+  	engine->GetNearbySectors (GetSector (), pos, radius);
 
   iSector* sector;
   while (sectorit->HasNext ())
@@ -1240,18 +1240,13 @@ int celPcLinearMovement::FindSectors (const csVector3& pos, float radius,
   return numsector;
 }
 
-void celPcLinearMovement::GetDRData(bool& on_ground,
-                                    float& speed,
-                                    csVector3& pos,
-                                    float& yrot,
-                                    iSector*& sector,
-                                    csVector3& vel,
-                                    csVector3& worldVel,
-                                    float& ang_vel)
+void celPcLinearMovement::GetDRData (bool& on_ground, float& speed,
+	csVector3& pos, float& yrot, iSector*& sector, csVector3& vel,
+	csVector3& worldVel, float& ang_vel)
 {
-  on_ground = IsOnGround();
+  on_ground = IsOnGround ();
   speed = this->speed;
-  GetLastPosition(pos,yrot,sector);
+  GetLastPosition (pos, yrot, sector);
   vel = velBody;
   ang_vel = angularVelocity.y;
   worldVel = this->velWorld;
@@ -1268,13 +1263,11 @@ iSector* celPcLinearMovement::GetSector ()
 
 void celPcLinearMovement::SetPathAction (int which, const char *action)
 {
-  path_actions.Put(which,action);
+  path_actions.Put (which,action);
 }
-
 
 //#define DRDBG(X) printf ("DR: [ %f ] : %s\n", delta, X);
 #define DRDBG(x)
-
 
 void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 	iSector*& sector)
@@ -1301,7 +1294,7 @@ void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
 }
 
 void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
-  	iSector*& sector)
+	iSector*& sector)
 {
   if (!pcmesh || !pcmesh->GetMesh ())
   {
@@ -1397,63 +1390,61 @@ void celPcLinearMovement::SetPosition (const char* center_name, float yrot,
   }
 }
 
-void celPcLinearMovement::SetDRData(bool on_ground,float speed,
-                                    csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel, csVector3& worldVel,
-				    float ang_vel)
+void celPcLinearMovement::SetDRData (bool on_ground, float speed,
+	csVector3& pos, float yrot, iSector *sector, csVector3& vel,
+	csVector3& worldVel, float ang_vel)
 {
   if (pccolldet)
-    pccolldet->SetOnGround(on_ground);
+    pccolldet->SetOnGround (on_ground);
 
   this->speed = speed;
-  SetPosition(pos,yrot,sector);
-  SetVelocity(vel);
-  ClearWorldVelocity();
-  AddVelocity(worldVel);
-  csVector3 rot(0,ang_vel,0);
-  SetAngularVelocity(rot);
-  lastDRUpdate = csGetTicks();
+  SetPosition (pos,yrot,sector);
+  SetVelocity (vel);
+  ClearWorldVelocity ();
+  AddVelocity (worldVel);
+  csVector3 rot (0.0f, ang_vel, 0.0f);
+  SetAngularVelocity (rot);
+  lastDRUpdate = csGetTicks ();
 }
 
-void celPcLinearMovement::SetSoftDRData(bool on_ground,float speed,
-                                    csVector3& pos,float yrot,iSector *sector,
-                                    csVector3& vel, csVector3& worldVel,
-				    float ang_vel)
+void celPcLinearMovement::SetSoftDRData (bool on_ground, float speed,
+	csVector3& pos, float yrot, iSector *sector, csVector3& vel,
+	csVector3& worldVel, float ang_vel)
 {
   if (pccolldet)
-    pccolldet->SetOnGround(on_ground);
+    pccolldet->SetOnGround (on_ground);
 
   csVector3 cur_pos;
   float cur_rot;
   iSector *cur_sect;
-  GetLastPosition(cur_pos, cur_rot, cur_sect);
+  GetLastPosition (cur_pos, cur_rot, cur_sect);
   if (cur_sect == sector)
   {
     offset_err = pos - cur_pos;
     // Check for NaN conditions:
-    if (offset_err.x != offset_err.x) offset_err.x = 0;
-    if (offset_err.y != offset_err.y) offset_err.y = 0;
-    if (offset_err.z != offset_err.z) offset_err.z = 0;
+    if (offset_err.x != offset_err.x) offset_err.x = 0.0f;
+    if (offset_err.y != offset_err.y) offset_err.y = 0.0f;
+    if (offset_err.z != offset_err.z) offset_err.z = 0.0f;
     offset_rate = offset_err;
-    SetPosition(cur_pos,yrot,sector);
+    SetPosition (cur_pos, yrot, sector);
   }
   else
   {
-    offset_rate = offset_err = csVector3(0,0,0);
-    SetPosition(pos,yrot,sector);
+    offset_rate = offset_err = csVector3 (0.0f, 0.0f ,0.0f);
+    SetPosition (pos, yrot, sector);
   }
 
   this->speed = speed;
-  SetVelocity(vel);
-  ClearWorldVelocity();
-  AddVelocity(worldVel);
-  csVector3 rot(0,ang_vel,0);
-  SetAngularVelocity(rot);
-  lastDRUpdate = csGetTicks();
+  SetVelocity (vel);
+  ClearWorldVelocity ();
+  AddVelocity (worldVel);
+  csVector3 rot (0.0f, ang_vel, 0.0f);
+  SetAngularVelocity (rot);
+  lastDRUpdate = csGetTicks ();
 }
 
 csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
-        celPersistenceType persistence_type)
+	celPersistenceType persistence_type)
 {
   if (persistence_type == CEL_PERSIST_TYPE_RECORD_FIRST_PASS)
     return SaveFirstPass ();
@@ -1485,7 +1476,7 @@ csPtr<iCelDataBuffer> celPcLinearMovement::GetPersistentData (
 }
 
 celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
-        iCelDataBuffer* databuf, celPersistenceType persistence_type)
+	iCelDataBuffer* databuf, celPersistenceType persistence_type)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != LINMOVE_SERIAL) return CEL_PERSIST_RESULT_ERROR;
@@ -1520,7 +1511,7 @@ celPersistenceResult celPcLinearMovement::SetPersistentData (csTicks data_time,
   // TODO: use data_time for DR data time
   // TODO: send also sector
   SetSoftDRData (dr_on_ground, dr_speed, dr_pos, dr_yrot, GetSector (),
-  		 dr_vel, dr_worldVel, dr_ang_vel);
+  	dr_vel, dr_worldVel, dr_ang_vel);
 
   return CEL_PERSIST_RESULT_OK;
 }
