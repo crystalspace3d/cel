@@ -414,7 +414,6 @@
       <event name="pccommandinput_handlekey1">
         <if eval="!?active"> <stop /> </if>
 	<lvar name="t" value="@trigger" />
-	<print value="#t" />
 	<default propclass="pc(pcbillboard)" />
 	<lvar name="text" value="property(propid(text))" />
 	<if eval="strlen(#t)==1">
