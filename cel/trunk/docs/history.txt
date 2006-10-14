@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Oct-2006
+	- Jorrit added a limited text input field in buttons.xml (for
+	  XML scripts). Only supports single characters (no shifted
+	  characters), enter (to stop entering characters) and backspace
+	  to erase last character. Only limited use for now due to
+	  the inability to type 'shift-a' for example.
 12-Oct-2006
 	- Darek did some work in pclinearmovement: cleaning code style, 
 	  updated documentation, in xml InitCD 'offset' now is optional,
