@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Oct-2006
+	- Jorrit added two actions to pcsolid: Setup() allows you to
+	  manually force creation of the collider. That way you can easily
+	  add meshes from code (scripted or not) and add a pcsolid to
+	  get a useful collider.
+	  Also added a SetupBox() action that allows you to specify a box
+	  collider instead of the collider belonging with the mesh. Useful
+	  for cal3d objects for example.
 14-Oct-2006
 	- Jorrit added a limited text input field in buttons.xml (for
 	  XML scripts). Only supports single characters (no shifted
