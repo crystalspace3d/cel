@@ -200,7 +200,7 @@ bool celPcMesh::SetPropertyIndexed (int idx, bool val)
     case propid_hitbeam:
       if (mesh)
 	mesh->SetFlagsRecursive (CS_ENTITY_NOHITBEAM,
-	    val ? CS_ENTITY_NOHITBEAM : 0);
+	    val ? 0: CS_ENTITY_NOHITBEAM);
       return true;
     default:
       return false;
