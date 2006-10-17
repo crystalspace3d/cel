@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 17-Oct-2006
 	- Jorrit added a patch from 'DistantShores' to set a window title
 	  from the CelStart.WindowTitle config option in celstart.cfg.
+	- Jorrit fixed a serious bug in the 'sector' property of pcmesh.
+	  It always returned empty string.
 16-Oct-2006
 	- Jorrit added two actions to pcsolid: Setup() allows you to
 	  manually force creation of the collider. That way you can easily
