@@ -151,7 +151,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (8);
+  propinfo.SetCount (9);
   AddProperty (propid_position, "cel.property.position",
   	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
   AddProperty (propid_fullposition, "cel.property.fullposition",
@@ -168,12 +168,43 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   	CEL_DATA_STRING, true, "Factory name for the model.", 0);
   AddProperty (propid_filename, "cel.property.filename",
   	CEL_DATA_STRING, true, "Filename for the model.", 0);
+  AddProperty (propid_hitbeam, "cel.property.hitbeam",
+  	CEL_DATA_BOOL, false, "Allow hitbeams for the mesh.", 0);
 }
 
 celPcMesh::~celPcMesh ()
 {
   Clear ();
   delete [] propdata;
+}
+
+bool celPcMesh::GetPropertyIndexed (int idx, bool& val)
+{
+  switch (idx)
+  {
+    case propid_hitbeam:
+      if (mesh)
+	val = !(mesh->GetFlags ().Check (CS_ENTITY_NOHITBEAM));
+      else
+        val = false;
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool celPcMesh::SetPropertyIndexed (int idx, bool val)
+{
+  switch (idx)
+  {
+    case propid_hitbeam:
+      if (mesh)
+	mesh->SetFlagsRecursive (CS_ENTITY_NOHITBEAM,
+	    val ? CS_ENTITY_NOHITBEAM : 0);
+      return true;
+    default:
+      return false;
+  }
 }
 
 bool celPcMesh::GetPropertyIndexed (int idx, csVector3& v)

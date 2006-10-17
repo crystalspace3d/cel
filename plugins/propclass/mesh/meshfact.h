@@ -124,7 +124,8 @@ private:
     propid_sector,
     propid_path,
     propid_factory,
-    propid_filename
+    propid_filename,
+    propid_hitbeam
   };
   static PropertyHolder propinfo;
 
@@ -199,6 +200,8 @@ public:
   	celData& ret);
   virtual bool GetPropertyIndexed (int, csVector3&);
   virtual bool GetPropertyIndexed (int, const char*&);
+  virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool SetPropertyIndexed (int, bool);
 
   // Functions to set ShaderVars in the mesh
   virtual void SetShaderVar(csStringID name, float value);

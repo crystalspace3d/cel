@@ -70,6 +70,7 @@ class csVector3;
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.
  * - filename (string, read): filename for model.
+ * - hitbeam (bool, read/write): allow hitbeam for this mesh.
  */
 struct iPcMesh : public virtual iBase
 {

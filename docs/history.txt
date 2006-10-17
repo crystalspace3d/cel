@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  from the CelStart.WindowTitle config option in celstart.cfg.
 	- Jorrit fixed a serious bug in the 'sector' property of pcmesh.
 	  It always returned empty string.
+	- Jorrit added a new 'hitbeam' property to pcmesh. With that property
+	  you can enable/disable hitbeams through the mesh.
 16-Oct-2006
 	- Jorrit added two actions to pcsolid: Setup() allows you to
 	  manually force creation of the collider. That way you can easily
