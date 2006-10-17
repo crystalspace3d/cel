@@ -233,7 +233,10 @@ bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
         else
           s = 0;
       }
-      s = 0;
+      else
+      {
+        s = 0;
+      }
       return true;
     case propid_path:
       s = path.GetData ();
