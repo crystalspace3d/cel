@@ -40,6 +40,7 @@
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
 #include "ivideo/texture.h"
+#include "ivideo/natwin.h"
 #include "igraphic/imageio.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
@@ -607,6 +608,10 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   }
 
   do_clearscreen = cfg->GetBool ("CelStart.ClearScreen", false);
+
+  iNativeWindow* nw = g3d->GetDriver2D ()->GetNativeWindow ();
+  if (nw) nw->SetTitle (
+      cfg->GetStr ("CelStart.WindowTitle","CelStart Application"));
 
   return true;
 }
