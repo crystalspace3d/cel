@@ -3,6 +3,7 @@
   xmlns:apkg="http://autopackage.org/xdgmime-extensions">
   <mime-type type="application/x-zip-celstart">
     <comment>CELstart package</comment>
+    <comment xml:lang="de">CELstart-Paket</comment>
     <glob pattern="*.celzip" />
     <apkg:icon>gnome-mime-application-x-zip-celstart.png</apkg:icon>
   </mime-type>
