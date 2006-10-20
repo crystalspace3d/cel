@@ -14,7 +14,7 @@ AutopackageTarget: 1.0
 Type: Application
 License: GNU Library or "Lesser" General Public License (LGPL)
 PackageDesktop: celstart.desktop
-Repository: http://crystalspace3d.org/downloads/$SOFTWAREVERSION/$SHORTNAME.xml
+Repository: http://crystalspace3d.org/downloads/celstart/$SOFTWAREVERSION/$SHORTNAME.xml
 
 [Description]
 CELstart is a launcher for game packages made with CrystalSpace+CEL.
