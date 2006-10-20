@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  package: for "local" plugins, omit the package).
 	- res fixed a couple more static linking issues in bootstrap_static, 
 	  celstart_static, nettest_static.
+	- res make a number of tweaks to the autopackage.
 17-Oct-2006
 	- Jorrit added a patch from 'DistantShores' to set a window title
 	  from the CelStart.WindowTitle config option in celstart.cfg.
