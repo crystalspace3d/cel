@@ -8,11 +8,13 @@ RootName: @crystalspace3d.org/celstart:$SOFTWAREVERSION
 Summary: CEL game launcher
 Maintainer: Jorrit Tyberghein <jorrit@crystalspace3d.org>
 Packager: Frank Richter <res@crystalspace3d.org>
-PackageVersion: 1
+PackageVersion: 2
 CPUArchitectures: x86
 AutopackageTarget: 1.0
 Type: Application
 License: GNU Library or "Lesser" General Public License (LGPL)
+PackageDesktop: celstart.desktop
+Repository: http://crystalspace3d.org/downloads/$SOFTWAREVERSION/$SHORTNAME.xml
 
 [Description]
 CELstart is a launcher for game packages made with CrystalSpace+CEL.
@@ -39,6 +41,7 @@ require '@freetype.org/freetype' 6
 require '@xfree86.org/xlib' 6
 require '@zlib.org/zlib' 1
 require '@opengl.org/opengl' 1.4
+require '@python.org/python' 2.4
 
 [Imports]
 # This command will tell makeinstaller what to include in the package.
@@ -140,7 +143,7 @@ copyFiles *.zip $PREFIX/opt/celstart/data
 copyFiles vfs.cfg $PREFIX/opt/celstart
 installIcon hicolor
 installExe celstart
-installDesktop Games celstart.desktop
+installMenuItem Games celstart.desktop
 installMime share/mime/packages/package-celstart.xml
 
 [Uninstall]
