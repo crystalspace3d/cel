@@ -24,7 +24,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     bindoc
     bruteblock
     bugplug
-    cpersist
     csbmpimg
     csconin
     csconout
@@ -118,6 +117,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_xmlscripts
     blxml
     celconsole
+    cpersist
     mgr_quests
     mgr_billboard
     pfactormove
@@ -144,7 +144,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     stdphyslayer
     xmlpersist
   : blpython
-  : CEL
   ;
 
   ExternalLibs bootstrap_static : CRYSTAL CEL ;
