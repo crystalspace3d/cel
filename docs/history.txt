@@ -16,6 +16,7 @@ The history order is reversed so that new features are at the top.
 	  in the menu and no longer in the game. It is up to the game
 	  to handle exit.
 	- res updated mk/autoconf/checkpython.m4 from the CS master copy.
+	- res fixed the autopackage to include the CS and CEL .py files.
 17-Oct-2006
 	- Jorrit added a patch from 'DistantShores' to set a window title
 	  from the CelStart.WindowTitle config option in celstart.cfg.
