@@ -151,7 +151,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     stdphyslayer
     xmlpersist
   : blpython
-  : CEL
   ;
 
   ExternalLibs celstart_static : CRYSTAL CEL ;
