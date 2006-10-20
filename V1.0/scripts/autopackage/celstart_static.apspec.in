@@ -10,7 +10,7 @@ Maintainer: Jorrit Tyberghein <jorrit@crystalspace3d.org>
 Packager: Frank Richter <res@crystalspace3d.org>
 PackageVersion: 2
 CPUArchitectures: x86
-AutopackageTarget: 1.0
+AutopackageTarget: 1.2
 Type: Application
 License: GNU Library or "Lesser" General Public License (LGPL)
 PackageDesktop: celstart.desktop
