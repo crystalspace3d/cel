@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	- res fixed celtst static linking for removal of gmeshskelanim in CS.
 	- res fixed celstart static linking (there is no "CEL" static plugin
 	  package: for "local" plugins, omit the package).
+	- res fixed a couple more static linking issues in bootstrap_static, 
+	  celstart_static, nettest_static.
 17-Oct-2006
 	- Jorrit added a patch from 'DistantShores' to set a window title
 	  from the CelStart.WindowTitle config option in celstart.cfg.
