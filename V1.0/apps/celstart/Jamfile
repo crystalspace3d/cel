@@ -26,7 +26,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     simpleformer
     simpleformerldr
     bugplug
-    cpersist
     csbmpimg
     csconin
     csconout
@@ -124,6 +123,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     addon_xmlscripts
     blxml
     celconsole
+    cpersist
     mgr_quests
     mgr_billboard
     pfactormove
@@ -151,7 +151,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     stdphyslayer
     xmlpersist
   : blpython
-  : CEL
   ;
 
   ExternalLibs celstart_static : CRYSTAL CEL ;
