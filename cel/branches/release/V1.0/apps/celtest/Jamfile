@@ -75,7 +75,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     glshader_ps1
     gmeshanim
     gmeshldr
-    gmeshskelanim
     haze
     hazeldr
     imgplex
