@@ -12,6 +12,8 @@ The history order is reversed so that new features are at the top.
 	- res fixed a couple more static linking issues in bootstrap_static, 
 	  celstart_static, nettest_static.
 	- res make a number of tweaks to the autopackage.
+	- res updated mk/autoconf/checkpython.m4 from the CS master copy.
+	- res fixed the autopackage to include the CS and CEL .py files.
 7-Oct-2006
 	- res updated the autopackage for the removal of stdtex.zip and fixed
 	  an error in case of a missing icon resolution.

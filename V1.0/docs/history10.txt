@@ -10,6 +10,7 @@ chronological order.
 	- res merged r2317:2320 into 1.0 (static linking issues).
 	- res merged r2322:2323 into 1.0 (autopackage tweaks).
 	- res merged r2326 into into 1.0 (autopackage fix).
+	- res merged r2327:2329 into 1.0 (python + autopackage).
 7-Oct-2006
 	- res merged trunk r2293:2297 into 1.0 (build system updates).
 	- res removed pfaws (as AWS is not CS 1.0 either).

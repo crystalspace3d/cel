@@ -8,7 +8,7 @@ RootName: @crystalspace3d.org/celstart:$SOFTWAREVERSION
 Summary: CEL game launcher
 Maintainer: Jorrit Tyberghein <jorrit@crystalspace3d.org>
 Packager: Frank Richter <res@crystalspace3d.org>
-PackageVersion: 2
+PackageVersion: 3
 CPUArchitectures: x86
 AutopackageTarget: 1.2
 Type: Application
@@ -54,16 +54,20 @@ import <<EOF
 EOF
 
 # look for CS
-locatedata()
+locatedir()
 {
   my_IFS=$IFS; IFS=:
   for dir in $1 ; do
-      if [ -d $dir/data ] ; then
+      if [ -d $dir/$2 ] ; then
 	  echo $dir
 	  break
       fi
   done
   IFS=$my_IFS
+}
+locatedata()
+{
+  locatedir "$CRYSTAL" data
 }
 CS_DIR=`locatedata "$CRYSTAL"`
 CEL_DIR="$source_dir/scripts/autopackage/@top_srcdir@"
@@ -93,10 +97,17 @@ if [ -n $CEL_DIR ] ; then
 else
   exit 1
 fi
+
+# .py files (from the build directories)
+echo "$source_dir/*.py" | import
+echo "`locatedir "$CRYSTAL" out`/*.py" | import
+
 # Merge CS+CEL vfs.cfg
 cp $CS_DIR/vfs.cfg .
 cat $CEL_DIR/vfs.cfg >> vfs.cfg
 echo vfs.cfg | import
+
+# Icons
 echo $CEL_DIR/scripts/autopackage/celstart.desktop | import
 setup_icon()
 {
@@ -141,6 +152,7 @@ unpack_data library
 unpack_data sounds
 copyFiles *.zip $PREFIX/opt/celstart/data
 copyFiles vfs.cfg $PREFIX/opt/celstart
+copyFiles *.py $PREFIX/opt/celstart/scripts
 installIcon hicolor
 installExe celstart
 installMenuItem Games celstart.desktop
