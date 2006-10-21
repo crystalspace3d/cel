@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Oct-2006
+	- cfraz89 added null renderer (null3d) to celstart_static. 
 20-Oct-2006
 	- res updated static.jam from the CS master copy (reports static
 	  plugin  linking issues).
