@@ -375,7 +375,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     else
     {
       printf ("Warning: couldn't find template '%s'!\n",
-	  spawninfo[idx].templ);
+	  spawninfo[idx].templ.GetData ());
       fflush (stdout);
     }
   }
