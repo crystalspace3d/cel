@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "iutil/object.h"
 #include "csutil/debug.h"
 #include "plugins/propclass/projectile/projectilefact.h"
 #include "physicallayer/pl.h"
@@ -43,6 +44,7 @@ csStringID celPcProjectile::id_maxdist = csInvalidStringID;
 csStringID celPcProjectile::id_maxhits = csInvalidStringID;
 csStringID celPcProjectile::id_entity = csInvalidStringID;
 csStringID celPcProjectile::id_intersection = csInvalidStringID;
+csStringID celPcProjectile::id_meshname = csInvalidStringID;
 
 PropertyHolder celPcProjectile::propinfo;
 
@@ -58,10 +60,12 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
     id_maxhits = pl->FetchStringID ("cel.parameter.maxhits");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
     id_intersection = pl->FetchStringID ("cel.parameter.intersection");
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
   }
   params.AttachNew (new celVariableParameterBlock ());
   params->SetParameterDef (0, id_entity, "entity");
   params->SetParameterDef (1, id_intersection, "intersection");
+  params->SetParameterDef (2, id_meshname, "meshname");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
@@ -132,7 +136,7 @@ void celPcProjectile::SendMessage (const char* msg)
 }
 
 void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
-	const csVector3& isect)
+	const csVector3& isect, const char* meshname)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -140,6 +144,7 @@ void celPcProjectile::SendMessage (const char* msg, iCelEntity* hitent,
     celData ret;
     params->GetParameter (0).Set (hitent);
     params->GetParameter (1).Set (isect);
+    params->GetParameter (2).Set (meshname);
     bh->SendMessage (msg, this, ret, params);
   }
 }
@@ -226,7 +231,8 @@ void celPcProjectile::TickEveryFrame ()
     curhits++;
     iCelEntity* hitent = pl->FindAttachedEntity (rc.mesh->QueryObject ());
     keepref = entity;
-    SendMessage ("pcprojectile_hit", hitent, rc.isect);
+    SendMessage ("pcprojectile_hit", hitent, rc.isect,
+	rc.mesh->QueryObject ()->GetName ());
     if (curhits >= maxhits)
     {
       Interrupt ();
