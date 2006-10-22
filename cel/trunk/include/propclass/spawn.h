@@ -46,6 +46,13 @@ SCF_VERSION (iPcSpawn, 1, 1, 0);
  * - AddSpawnPosition: parameters 'sector' (string), 'yrot' (float),
  *     'position' (vector or name of the node)
  *
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * - namecounter (bool, read/write): enable/disable unique name counter
+ *   (default true).
+ * - spawnunique (bool, read/write): enable/disable prevention of spawning
+ *   of entities with same name (default false).
+ *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * - pcspawn_newentity: new entity has been created (entity,behaviour)
@@ -124,6 +131,32 @@ struct iPcSpawn : public iBase
    * sequence of entities back to the first one.
    */
   virtual void ResetTiming () = 0;
+
+  /**
+   * Enable/disable entity name counter. With this enabled (default)
+   * every entity will get a unique name formed by the name
+   * given in AddEntityTemplateType() and a unique number. With this
+   * disabled this will not occur.
+   */
+  virtual void SetEntityNameCounter (bool en) = 0;
+
+  /**
+   * Return true if the unique entity name counter is enabled.
+   */
+  virtual bool IsEntityNameCounterCounter () const = 0;
+
+  /**
+   * This is useful in combination with a disabled entity name
+   * counter (SetEntityNameCounter(false)). In spawn unique
+   * is true then spawning will not occur if the entity with that
+   * name is already in existance. By default this is false.
+   */
+  virtual void EnableSpawnUnique (bool en) = 0;
+
+  /**
+   * Return true if spawn unique is enabled.
+   */
+  virtual bool IsSpawnUniqueEnabled () const = 0;
 
   /**
    * Inhibit respawn in case count will reach given number

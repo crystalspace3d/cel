@@ -118,6 +118,8 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   count = 0;
   inhibit_count = 0;
   serialnr = 1;
+  do_name_counter = true;
+  do_spawn_unique = false;
 
   vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
@@ -158,6 +160,14 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
     AddAction (action_spawn, "cel.action.Spawn");
     AddAction (action_addspawnposition, "cel.action.AddSpawnPosition");
   }
+
+  // For properties.
+  propinfo.SetCount (2);
+  AddProperty (propid_namecounter, "cel.property.namecounter",
+  	CEL_DATA_BOOL, false, "Enable name counter.", &do_name_counter);
+  AddProperty (propid_spawnunique, "cel.property.spawnunique",
+  	CEL_DATA_BOOL, false, "Enable unique spawning.", &do_spawn_unique);
+
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_entity, "entity");
   params->SetParameterDef (1, id_behaviour, "behaviour");
@@ -362,7 +372,10 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   if (spawninfo[idx].templ)
   {
     csString entity_name = spawninfo[idx].name;
-    entity_name += serialnr;
+    if (do_spawn_unique && pl->FindEntity (entity_name))
+      return;
+    if (do_name_counter)
+      entity_name += serialnr;
     iCelEntityTemplate* entpl = pl->FindEntityTemplate (
     	spawninfo[idx].templ);
     if (entpl)
@@ -381,7 +394,10 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   }
   else
   {
-    spawninfo[idx].newent = pl->CreateEntity (spawninfo[idx].name,
+    csString entity_name = spawninfo[idx].name;
+    if (do_spawn_unique && pl->FindEntity (entity_name))
+      return;
+    spawninfo[idx].newent = pl->CreateEntity (entity_name,
     	spawninfo[idx].bl, spawninfo[idx].behaviour, CEL_PROPCLASS_END);
   }
 
