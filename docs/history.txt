@@ -6,6 +6,14 @@ The history order is reversed so that new features are at the top.
 22-Oct-2006
 	- Jorrit protected pcspawn so it no longer crashes when it can't
 	  find an entity template.
+	- Jorrit added iPcSpawn->SetEntityNameCounter(). With this method
+	  you can disable the unique entity naming that normally occurs
+	  when creating entities from a template. Also added a 'namecounter'
+	  property.
+	- Jorrit added iPcSpawn->EnableSpawnUnique(). With this method
+	  you can make sure that the spawner will not spawn an entity if
+	  an entity with that name already exists. Also added a 'spawnunique'
+	  property.
 21-Oct-2006
 	- cfraz89 added null renderer (null3d) to celstart_static.
 	- cfraz89 added null2d to celstart_static. 
