@@ -89,7 +89,8 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 void cameraSectorListener::NewSector (iCamera* /*camera*/, iSector* sector)
 {
-  zonemgr->ActivateSector (sector);
+  if (zonemgr)
+    zonemgr->ActivateSector (sector);
 }
 
 SCF_IMPLEMENT_IBASE (cameraSectorListener)
@@ -98,6 +99,7 @@ SCF_IMPLEMENT_IBASE_END
 
 void meshmoveListener::MovableChanged (iMovable* movable)
 {
+  if (!zonemgr) return;
   if (movable->GetSectors ()->GetCount () > 0)
     zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
 }
