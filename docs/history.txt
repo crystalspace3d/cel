@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Oct-2006
+	- Jorrit protected pcspawn so it no longer crashes when it can't
+	  find an entity template.
 21-Oct-2006
 	- cfraz89 added null renderer (null3d) to celstart_static.
 	- cfraz89 added null2d to celstart_static. 
