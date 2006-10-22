@@ -365,10 +365,19 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
     entity_name += serialnr;
     iCelEntityTemplate* entpl = pl->FindEntityTemplate (
     	spawninfo[idx].templ);
-    celEntityTemplateParams entpl_params;
-    spawninfo[idx].newent = pl->CreateEntity (entpl,
-    	entity_name, entpl_params);
-    serialnr ++;
+    if (entpl)
+    {
+      celEntityTemplateParams entpl_params;
+      spawninfo[idx].newent = pl->CreateEntity (entpl,
+    	  entity_name, entpl_params);
+      serialnr ++;
+    }
+    else
+    {
+      printf ("Warning: couldn't find template '%s'!\n",
+	  spawninfo[idx].templ);
+      fflush (stdout);
+    }
   }
   else
   {
