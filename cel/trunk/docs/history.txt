@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Oct-2006
+	- Jorrit bumped up celstart version to 5.
 22-Oct-2006
 	- Jorrit protected pcspawn so it no longer crashes when it can't
 	  find an entity template.

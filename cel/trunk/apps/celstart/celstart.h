@@ -37,7 +37,7 @@ struct iVFS;
 struct iFont;
 
 // This is a version number for celstart.
-#define CELSTART_VERSION 4
+#define CELSTART_VERSION 5
 // This is the minimum version for demo files that we still support.
 #define CELSTART_MINIMUMVERSION -1
 
