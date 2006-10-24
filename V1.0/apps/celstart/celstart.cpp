@@ -177,7 +177,7 @@ bool CelStart::HandleEvent (iEvent& ev)
     return true;
   }
 
-  if (files.Length () > 0)
+  if (files.Length () > 0 || !do_real_demo)
   {
     if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
     {

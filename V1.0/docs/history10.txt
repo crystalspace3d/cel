@@ -11,6 +11,7 @@ chronological order.
 	- Jorrit merged r2303:2317 into 1.0 (various changes).
 	- Jorrit merged r2325 into 1.0 (celstart esc).
 	- Jorrit merged r2331:2339 into 1.0 (various changes).
+	- Jorrit merged r2344:2345 into 1.0 (celstart and pcmesh SetAnimation).
 20-Oct-2006
 	- res merged r2318:2320 into 1.0 (static linking issues).
 	- res merged r2322:2323 into 1.0 (autopackage tweaks).

@@ -874,7 +874,8 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
             if (skel)
             {
               skel->StopAll();
-              skel->Execute (actionName);
+              iSkeletonScript* script = skel->Execute (actionName);
+	      if (script) script->SetLoop (cycle);
             }
           }
         }
