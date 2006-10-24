@@ -31,6 +31,7 @@
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
+#include "cstool/collider.h"
 #include "propclass/move.h"
 #include "propclass/solid.h"
 #include "propclass/gravity.h"
@@ -90,6 +91,16 @@ private:
   csRef<csColliderWrapper> collider_wrap;
   bool no_collider;
 
+  static csStringID id_min;
+  static csStringID id_max;
+
+  enum actionids
+  {
+    action_setup = 0,
+    action_setupbox
+  };
+  static PropertyHolder propinfo;
+
 public:
   celPcSolid (iObjectRegistry* object_reg);
   virtual ~celPcSolid ();
@@ -100,6 +111,16 @@ public:
   virtual const char* GetName () const { return "pcsolid"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
+  	celData& ret);
+
+  virtual void Setup ()
+  {
+    collider_wrap = 0;
+    no_collider = false;
+    GetCollider ();
+  }
+  virtual void SetupBox (const csBox3& box);
 };
 
 /**

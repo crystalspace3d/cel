@@ -8,8 +8,9 @@ chronological order.
 
 24-Oct-2006
 	- Jorrit merged r2287:2292 into 1.0 (various changes).
+	- Jorrit merged r2303:2317 into 1.0 (various changes).
 20-Oct-2006
-	- res merged r2317:2320 into 1.0 (static linking issues).
+	- res merged r2318:2320 into 1.0 (static linking issues).
 	- res merged r2322:2323 into 1.0 (autopackage tweaks).
 	- res merged r2326 into into 1.0 (autopackage fix).
 	- res merged r2327:2329 into 1.0 (python + autopackage).

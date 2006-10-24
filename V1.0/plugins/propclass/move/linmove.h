@@ -79,8 +79,7 @@ CEL_DECLARE_FACTORY (LinearMovement)
  * dead reckoning and actual entity movement.
  */
 class celPcLinearMovement : public scfImplementationExt1<
-			    celPcLinearMovement, celPcCommon,
-			    iPcLinearMovement>
+	celPcLinearMovement, celPcCommon, iPcLinearMovement>
 {
 protected:
   csWeakRef<iPcMesh> pcmesh;
@@ -116,7 +115,7 @@ protected:
 
   // Path vars
   csRef<iPath> path;
-  float path_time,path_speed;
+  float path_time, path_speed;
   csStringArray path_actions;
   bool path_sent;
   csString path_sector;
@@ -180,7 +179,8 @@ protected:
   enum propids
   {
     propid_anchor = 0,
-    propid_gravity
+    propid_gravity,
+    propid_hug
   };
   static PropertyHolder propinfo;
 
@@ -334,7 +334,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
   	iCelParameterBlock* params,
-	celData& ret);
+  	celData& ret);
   virtual bool SetPropertyIndexed (int idx, const char* b);
   virtual bool GetPropertyIndexed (int idx, const char*& b);
   virtual void TickEveryFrame ();

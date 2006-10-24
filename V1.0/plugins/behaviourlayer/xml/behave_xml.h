@@ -50,7 +50,7 @@ protected:
   iObjectRegistry* object_reg;
   celXmlScript* script;
   char* name;
-  csRandomGen rng;
+  static csRandomGen rng;
 
 public:
   celBehaviourXml (iCelEntity* entity, iObjectRegistry* object_reg);
