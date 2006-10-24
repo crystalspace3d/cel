@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed pcspawn so it no longer holds a hard reference
 	  to the newly spawned entity. Instead it keeps a weak
 	  reference.
+	- Jorrit fixed iPcMesh->SetAnimation() so that looping of
+	  animations now also works for gmeshanim2.
 23-Oct-2006
 	- Jorrit bumped up celstart version to 5.
 22-Oct-2006
@@ -745,12 +747,10 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 finished the basic vehicle setup
           in pcwheeled and wheeledtest.
 	- cfraz89 got wheeledtest to a drivable state!
-
 25-Jun-2006
 	- cfraz89 set up a tonne of stub functions to pcwheeled.
 	- cfraz89 did more work on pcwheeled and wheeledtest,
 	  added a little car mesh.
-
 23-Jun-2006
 	- Jorrit removed some unneeded statements in the sound xml
 	  operations.
