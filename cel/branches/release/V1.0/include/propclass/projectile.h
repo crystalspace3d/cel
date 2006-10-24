@@ -31,9 +31,10 @@
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * - pcprojectile_stopped: the projectile movement has stopped but no object
  *     was hit.
- * - pcprojectile_hit: we hit some object (entity, intersection). If we
- *     hit a mesh that is not an entity then this message will still be sent
- *     but with entity equal to 0.
+ * - pcprojectile_hit: we hit some object (entity, intersection, meshname).
+ *     If we hit a mesh that is not an entity then this message will still
+ *     be sent but with entity equal to 0 (you can then use the 'meshname'
+ *     to see what mesh has been hit).
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
