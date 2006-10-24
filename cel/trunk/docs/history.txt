@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Oct-2006
+	- Jorrit changed pcspawn so it no longer holds a hard reference
+	  to the newly spawned entity. Instead it keeps a weak
+	  reference.
 23-Oct-2006
 	- Jorrit bumped up celstart version to 5.
 22-Oct-2006
