@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	  reference.
 	- Jorrit fixed iPcMesh->SetAnimation() so that looping of
 	  animations now also works for gmeshanim2.
+	- Jorrit fixed celstart so that it also exits if user presses
+	  escape while there are no demos to try.
 23-Oct-2006
 	- Jorrit bumped up celstart version to 5.
 22-Oct-2006
