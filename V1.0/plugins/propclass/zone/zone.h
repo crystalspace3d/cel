@@ -61,7 +61,7 @@ CEL_DECLARE_FACTORY(ZoneManager)
 class cameraSectorListener : public iCameraSectorListener
 {
 private:
-  celPcZoneManager* zonemgr;
+  csWeakRef<celPcZoneManager> zonemgr;
 
 public:
   cameraSectorListener (celPcZoneManager* zonemgr)
@@ -80,7 +80,7 @@ public:
 class meshmoveListener : public iMovableListener
 {
 private:
-  celPcZoneManager* zonemgr;
+  csWeakRef<celPcZoneManager> zonemgr;
 
 public:
   meshmoveListener (celPcZoneManager* zonemgr)

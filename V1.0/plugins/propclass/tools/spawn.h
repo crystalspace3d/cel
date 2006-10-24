@@ -56,7 +56,7 @@ struct SpawnInfo
   csString msg_id;
   csRef<iCelParameterBlock> params;
   csStringArray pcs;
-  csRef<iCelEntity> newent;
+  csWeakRef<iCelEntity> newent;
 };
 
 // Spawn position
@@ -97,6 +97,8 @@ private:
   int count;
   int inhibit_count;
   uint32 serialnr;
+  bool do_name_counter;
+  bool do_spawn_unique;
 
   static csStringID id_repeat_param;
   static csStringID id_random_param;
@@ -129,6 +131,12 @@ private:
     action_spawn,
     action_addspawnposition
   };
+  // For properties.
+  enum propids
+  {
+    propid_namecounter = 0,
+    propid_spawnunique
+  };
 
   static PropertyHolder propinfo;
 
@@ -152,6 +160,10 @@ public:
   void Spawn ();
   void AddSpawnPosition (const char* node, float yrot, const char* sector);
   void AddSpawnPosition (const csVector3& pos, float yrot, const char* sector);
+  void SetEntityNameCounter (bool en) { do_name_counter = en; }
+  bool IsEntityNameCounterCounter () const { return do_name_counter; }
+  void EnableSpawnUnique (bool en) { do_spawn_unique = en; }
+  bool IsSpawnUniqueEnabled () const { return do_spawn_unique; }
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
@@ -221,6 +233,22 @@ public:
     	const char* sector)
     {
       scfParent->AddSpawnPosition (pos, yrot, sector);
+    }
+    virtual void SetEntityNameCounter (bool en)
+    {
+      scfParent->SetEntityNameCounter (en);
+    }
+    virtual bool IsEntityNameCounterCounter () const
+    {
+      return scfParent->IsEntityNameCounterCounter ();
+    }
+    virtual void EnableSpawnUnique (bool en)
+    {
+      scfParent->EnableSpawnUnique (en);
+    }
+    virtual bool IsSpawnUniqueEnabled () const
+    {
+      return scfParent->IsSpawnUniqueEnabled ();
     }
   } scfiPcSpawn;
 };

@@ -3,6 +3,32 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Oct-2006
+	- Jorrit changed pcspawn so it no longer holds a hard reference
+	  to the newly spawned entity. Instead it keeps a weak
+	  reference.
+23-Oct-2006
+	- Jorrit bumped up celstart version to 5.
+22-Oct-2006
+	- Jorrit protected pcspawn so it no longer crashes when it can't
+	  find an entity template.
+	- Jorrit added iPcSpawn->SetEntityNameCounter(). With this method
+	  you can disable the unique entity naming that normally occurs
+	  when creating entities from a template. Also added a 'namecounter'
+	  property.
+	- Jorrit added iPcSpawn->EnableSpawnUnique(). With this method
+	  you can make sure that the spawner will not spawn an entity if
+	  an entity with that name already exists. Also added a 'spawnunique'
+	  property.
+	- Jorrit fixed a bug in the zone manager where the movable and
+	  camera callbacks tried to access a non-existant zone manager.
+	  Solved this by using a weak reference.
+	- Jorrit added a feature to pcprojectile where the pcprojectile_hit
+	  message now also gets a 'meshname' parameter which will be set
+	  even if the entity is null.
+21-Oct-2006
+	- cfraz89 added null renderer (null3d) to celstart_static.
+	- cfraz89 added null2d to celstart_static. 
 20-Oct-2006
 	- res updated static.jam from the CS master copy (reports static
 	  plugin  linking issues).
@@ -719,12 +745,10 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 finished the basic vehicle setup
           in pcwheeled and wheeledtest.
 	- cfraz89 got wheeledtest to a drivable state!
-
 25-Jun-2006
 	- cfraz89 set up a tonne of stub functions to pcwheeled.
 	- cfraz89 did more work on pcwheeled and wheeledtest,
 	  added a little car mesh.
-
 23-Jun-2006
 	- Jorrit removed some unneeded statements in the sound xml
 	  operations.

@@ -51,6 +51,7 @@ private:
   // For SendMessage parameters.
   static csStringID id_entity;
   static csStringID id_intersection;
+  static csStringID id_meshname;
   csRef<celVariableParameterBlock> params;
 
   // For actions.
@@ -76,7 +77,7 @@ private:
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg);
   void SendMessage (const char* msg, iCelEntity* hitent,
-  	const csVector3& isect);
+  	const csVector3& isect, const char* meshname);
 
   csRef<iVirtualClock> vc;
   csWeakRef<iPcLinearMovement> pclinmove;
