@@ -26,8 +26,15 @@ The history order is reversed so that new features are at the top.
 	  repository.
 	- res updated mk/autoconf to the latest master copies from the CS
 	  repository.
+5-Oct-2006
+        - Darek optimized a little bit <hidemouse/> and <showmouse/>.
+        - Genjix added a quick fix to blpython to stop it breaking due
+          to iScript changes until he knows more.
+	- Genjix commented loading of pfmeshdeform from wheeledtest causing
+	  crashes at the suggestion of sueastside.
 4-Oct-2006
 	- Jorrit bumped up celstart version to 4.
+        - cfraz89 removed non-existent header from wheeledtest
 3-Oct-2006
 	- Darek added <hidemouse/> and <shoumouse/> to xml behaviour.
 27-Sep-2006

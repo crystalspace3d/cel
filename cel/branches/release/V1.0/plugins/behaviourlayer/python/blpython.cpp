@@ -284,6 +284,12 @@ bool celBlPython::LoadModule (const char *name)
   return RunText (s);  
 }
 
+bool celBlPython::LoadModule (const char *path, const char *name)
+{
+  /// @@@ (ge) will fix this later, once I know more.
+  return false;
+}
+
 void celBlPython::Print (bool Error, const char *msg)
 {
   csRef<iReporter> rep = CS_QUERY_REGISTRY (object_reg, iReporter);

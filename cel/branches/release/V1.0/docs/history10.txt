@@ -6,6 +6,8 @@ each new day's entries apears before the previous day's entries.  The
 individual changes for each given day, however, are in normal (ascending)
 chronological order.
 
+24-Oct-2006
+	- Jorrit merged r2287:2292 into 1.0 (various changes).
 20-Oct-2006
 	- res merged r2317:2320 into 1.0 (static linking issues).
 	- res merged r2322:2323 into 1.0 (autopackage tweaks).
@@ -17,7 +19,7 @@ chronological order.
 	- res bumped the required CS version to 1.0.
 	- res merged trunk 2301 into 1.0 (autopackage).
 6-Oct-2006
-	- Jorrit merged r2886 into 1.0 (celstart bump to 4).
+	- Jorrit merged r2286 into 1.0 (celstart bump to 4).
 	- res bumped the version number in configure.ac to 1.0rc1.
 4-Oct-2006
 	- Jorrit merged r2198:2284 into 1.0 (everything).

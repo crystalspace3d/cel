@@ -91,7 +91,6 @@
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -193,7 +192,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       "pcdefaultcamera",
       "pcmechobject",
       "pcwheeled",
-      "pcmeshdeform",
+     // "pcmeshdeform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -280,8 +279,8 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetGearSettings(4,75,450);
   pcwheeled->SetGearSettings(5,100,200);
 
-  csRef<iPcMeshDeform> pcmeshdeform
-    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
+ // csRef<iPcMeshDeform> pcmeshdeform
+  //  = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -507,8 +506,8 @@ bool WheeledTest::Application ()
     return false;
   if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
     return false;
-  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
-    return false;
+//  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
+//    return false;
   if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep
