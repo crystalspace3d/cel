@@ -58,6 +58,9 @@ private:
   csString target_tag_par;
   csString time_par;
   csString radius_par;
+  csString offsetx_par;
+  csString offsety_par;
+  csString offsetz_par;
 
 public:
   celWatchTriggerFactory (celWatchTriggerType* type);
@@ -69,9 +72,12 @@ public:
 
   //----------------- iWatchQuestTriggerFactory ----------------------
   virtual void SetEntityParameter (const char* entity, const char* tag = 0);
-  virtual void SetTargetEntityParameter (const char* entity, const char* tag = 0);
+  virtual void SetTargetEntityParameter (const char* entity,
+      const char* tag = 0);
   virtual void SetChecktimeParameter (const char* time);
   virtual void SetRadiusParameter (const char* radius);
+  virtual void SetOffsetParameter (const char* offsetx,
+      const char* offsety, const char* offsetz);
 };
 
 /**
@@ -91,6 +97,7 @@ private:
   float radius, sqradius;
   csRef<iCelPlLayer> pl;
   csRef<iCollideSystem> cdsys;
+  csVector3 offset;
 
   csWeakRef<iPcMesh> source_mesh;
   csWeakRef<iPcMesh> target_mesh;
@@ -102,7 +109,9 @@ public:
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
-	const char* time_par, const char* radius_par);
+	const char* time_par, const char* radius_par,
+	const char* offsetx_par, const char* offsety_par,
+	const char* offsetz_par);
   virtual ~celWatchTrigger ();
 
   virtual void TickEveryFrame () { }
