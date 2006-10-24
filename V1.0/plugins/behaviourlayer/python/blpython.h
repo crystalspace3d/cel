@@ -49,6 +49,7 @@ public:
 
   bool RunText (const char *Text);
   bool LoadModule (const char *Text);
+  bool LoadModule (const char *path, const char *name);
   bool Store (const char* name, void* data, void* tag);
   
   void ShowError ();
@@ -76,6 +77,8 @@ public:
     { return scfParent->RunText(iStr); }
     virtual bool LoadModule(const char *iStr)
     { return scfParent->LoadModule(iStr); }
+    virtual bool LoadModule(const char *path, const char *name)
+    { return scfParent->LoadModule(path, name); }
     virtual bool Store(const char *name, void *data, void *tag)
     { return scfParent->Store(name, data, tag); }
 

@@ -5115,65 +5115,64 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SELECTENTITY:
         {
-	  CHECK_STACK(6)
-	  celXmlArg a_entvar = stack.Pop ();
-	  celXmlArg a_isectvar = stack.Pop ();
-	  celXmlArg a_maxdist = stack.Pop ();
-	  celXmlArg a_screeny = stack.Pop ();
-	  celXmlArg a_screenx = stack.Pop ();
-	  celXmlArg a_pc = stack.Pop ();
-	  DUMP_EXEC ((":%04d: selectentity pc=%s sx=%s sy=%s md=%s isectv=%s entv=%s\n",
-		i-1, A2S (a_pc), A2S (a_screenx), A2S (a_screeny),
-		A2S (a_maxdist), A2S (a_isectvar), A2S (a_entvar)));
+          CHECK_STACK(6)
+          celXmlArg a_entvar = stack.Pop ();
+          celXmlArg a_isectvar = stack.Pop ();
+          celXmlArg a_maxdist = stack.Pop ();
+          celXmlArg a_screeny = stack.Pop ();
+          celXmlArg a_screenx = stack.Pop ();
+          celXmlArg a_pc = stack.Pop ();
+          DUMP_EXEC ((":%04d: selectentity pc=%s sx=%s sy=%s md=%s isectv=%s entv=%s\n",
+          	i-1, A2S (a_pc), A2S (a_screenx), A2S (a_screeny),
+          	A2S (a_maxdist), A2S (a_isectvar), A2S (a_entvar)));
 
-	  iPcProperties* props = GetProperties (entity, behave);
-	  if (!props) return ReportError (cbl, "Can't find properties!");
-	  const char* entvarname = ArgToString (a_entvar);
-	  if (!entvarname)
-	    return ReportError (cbl,
-		"Illegal variable name for 'selectentity'!");
-	  const char* isectvarname = ArgToString (a_isectvar);
-	  if (!isectvarname)
-	    return ReportError (cbl,
-		"Illegal variable name for 'selectentity'!");
+          iPcProperties* props = GetProperties (entity, behave);
+          if (!props) return ReportError (cbl, "Can't find properties!");
+          const char* entvarname = ArgToString (a_entvar);
+          if (!entvarname)
+            return ReportError (cbl,
+            	"Illegal variable name for 'selectentity'!");
+          const char* isectvarname = ArgToString (a_isectvar);
+          if (!isectvarname)
+            return ReportError (cbl,
+            	"Illegal variable name for 'selectentity'!");
 
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc)
-	    return ReportError (cbl,
-		"Illegal property class for 'selectentity'!");
-	  csRef<iPcCamera> pccam = scfQueryInterface<iPcCamera> (pc);
-	  if (!pccam)
-	    return ReportError (cbl,
-		"Property class is not a pccamera for 'selectentity'!");
-	  int screenx = ArgToInt32 (a_screenx);
-	  int screeny = ArgToInt32 (a_screeny);
-	  float maxdist = ArgToFloat (a_maxdist);
-	  if (maxdist < 0.000001f) maxdist = 1000000000.0f;
-	  iCelEntity* selent;
-	  csVector3 isect;
-	  FindMouseTarget (pccam, screenx, screeny, maxdist, isect, selent);
+          iCelPropertyClass* pc = ArgToPClass (a_pc);
+          if (!pc)
+            return ReportError (cbl,
+            	"Illegal property class for 'selectentity'!");
+          csRef<iPcCamera> pccam = scfQueryInterface<iPcCamera> (pc);
+          if (!pccam)
+            return ReportError (cbl,
+            	"Property class is not a pccamera for 'selectentity'!");
+          int screenx = ArgToInt32 (a_screenx);
+          int screeny = ArgToInt32 (a_screeny);
+          float maxdist = ArgToFloat (a_maxdist);
+          if (maxdist < 0.000001f) maxdist = 1000000000.0f;
+          iCelEntity* selent;
+          csVector3 isect;
+          FindMouseTarget (pccam, screenx, screeny, maxdist, isect, selent);
 
-	  props->SetProperty (entvarname, selent);
-	  props->SetProperty (isectvarname, isect);
-	}
-	break;
+          props->SetProperty (entvarname, selent);
+          props->SetProperty (isectvarname, isect);
+        }
+        break;
       case CEL_OPERATION_GETYROT:
         {
-	  CHECK_STACK(2)
-	  celXmlArg a_dy = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: getyrot dx=%s dy=%s\n", i-1, A2S (top),
-	  	A2S (a_dy)));
+          CHECK_STACK(2)
+          celXmlArg a_dy = stack.Pop ();
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: getyrot dx=%s dy=%s\n", i-1, A2S (top),
+          	A2S (a_dy)));
           csVector3 v1 = ArgToVector3 (top);
           csVector3 v2 = ArgToVector3 (a_dy);
-	  top.SetFloat (GetAngle (v1, v2));
-	}
-	break;
+          top.SetFloat (GetAngle (v1, v2));
+        }
+        break;
       case CEL_OPERATION_HIDEMOUSE:
         {
           DUMP_EXEC ((":%04d: hidemouse\n", i-1));
-          csRef<iGraphics2D> g2d = csQueryRegistry<iGraphics2D> (
-          	cbl->GetObjectRegistry ());
+          iGraphics2D* g2d = cbl->GetG3D ()->GetDriver2D ();
           if (!g2d)
             return ReportError (cbl, "No iGraphics2D!");
           g2d->SetMouseCursor (csmcNone);
@@ -5182,8 +5181,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_SHOWMOUSE:
         {
           DUMP_EXEC ((":%04d: showmouse\n", i-1));
-          csRef<iGraphics2D> g2d = csQueryRegistry<iGraphics2D> (
-          	cbl->GetObjectRegistry ());
+          iGraphics2D* g2d = cbl->GetG3D ()->GetDriver2D ();
           if (!g2d)
             return ReportError (cbl, "No iGraphics2D!");
           g2d->SetMouseCursor (csmcArrow);
