@@ -177,24 +177,25 @@ bool CelStart::HandleEvent (iEvent& ev)
     return true;
   }
 
-  if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
-  {
-    csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
-    if (eventtype == csKeyEventTypeDown)
-    {
-      utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
-      if (code == CSKEY_ESC)
-      {
-	startme = "";
-	csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
-	if (q)
-	  q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
-	return true;
-      }
-    }
-  }
   if (files.Length () > 0)
   {
+    if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
+    {
+      csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
+      if (eventtype == csKeyEventTypeDown)
+      {
+        utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
+        if (code == CSKEY_ESC)
+        {
+	  startme = "";
+	  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+	  if (q)
+	    q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
+	  return true;
+        }
+      }
+    }
+
     if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
     {
       csKeyEventType eventtype = csKeyEventHelper::GetEventType(&ev);
