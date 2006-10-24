@@ -1153,6 +1153,9 @@ struct iTriggerQuestTriggerFactory : public virtual iBase
  *   class from the target entity.
  * - <em>checktime</em>: optional tag to specify the check interval.
  * - <em>radius</em>: optional tag to specify the maximum radius.
+ * - <em>offset</em>: optional offset vector.
+ *   This node has 'x', 'y, and 'z' attributes. Each of these attributes
+ *   can be a parameter.
  */
 struct iWatchQuestTriggerFactory : public virtual iBase
 {
@@ -1195,6 +1198,16 @@ struct iWatchQuestTriggerFactory : public virtual iBase
    * with '$').
    */
   virtual void SetRadiusParameter (const char* radius) = 0;
+
+  /**
+   * Optional offset parameter. This offset will be added to the
+   * position of the start and target locations.
+   * \param offsetx is the x offset or a parameter (starts with '$').
+   * \param offsety is the y offset or a parameter (starts with '$').
+   * \param offsetz is the z offset or a parameter (starts with '$').
+   */
+  virtual void SetOffsetParameter (const char* offsetx,
+      const char* offsety, const char* offsetz) = 0;
 };
 
 //-------------------------------------------------------------------------
