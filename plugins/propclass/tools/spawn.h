@@ -56,7 +56,7 @@ struct SpawnInfo
   csString msg_id;
   csRef<iCelParameterBlock> params;
   csStringArray pcs;
-  csRef<iCelEntity> newent;
+  csWeakRef<iCelEntity> newent;
 };
 
 // Spawn position
