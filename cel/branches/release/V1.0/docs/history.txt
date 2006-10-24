@@ -12,6 +12,9 @@ The history order is reversed so that new features are at the top.
 	- res fixed a couple more static linking issues in bootstrap_static, 
 	  celstart_static, nettest_static.
 	- res make a number of tweaks to the autopackage.
+	- Jorrit fixed celstart so that escape only exits with escape
+	  in the menu and no longer in the game. It is up to the game
+	  to handle exit.
 	- res updated mk/autoconf/checkpython.m4 from the CS master copy.
 	- res fixed the autopackage to include the CS and CEL .py files.
 17-Oct-2006
