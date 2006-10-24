@@ -35,6 +35,7 @@ struct iCelPlLayer;
 struct iObjectRegistry;
 struct iGraphics2D;
 class celGenericParameterBlock;
+class celOneParameterBlock;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 {
@@ -47,10 +48,11 @@ CEL_DECLARE_FACTORY (CommandInput)
 struct celKeyMap
 {
   celKeyMap *next, *prev;
-  utf32_char key;
+  utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celKeyMap () : command (0) { }
 };
 
 struct celButtonMap
@@ -62,6 +64,7 @@ struct celButtonMap
   uint32 modifiers;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
+  celButtonMap () : command (0) { }
 };
 
 struct celAxisMap
@@ -73,6 +76,7 @@ struct celAxisMap
   uint32 modifiers;
   bool recenter;
   char *command;
+  celAxisMap () : command (0) { }
 };
 
 /**
@@ -95,8 +99,10 @@ private:
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
   bool do_cooked;
+  bool do_sendtrigger;	// If true then send trigger name with messages.
 
   celGenericParameterBlock* mouse_params;
+  celOneParameterBlock* key_params;
 
   // For actions.
   enum actionids
@@ -113,7 +119,8 @@ private:
   enum propids
   {
     propid_cooked = 0,
-    propid_screenspace
+    propid_screenspace,
+    propid_sendtrigger
   };
   static PropertyHolder propinfo;
 
@@ -130,6 +137,8 @@ public:
   bool HandleEvent (iEvent& ev);
 
   virtual void Activate (bool activate = true);
+  virtual void SetSendTrigger (bool send) { do_sendtrigger = send; }
+  virtual bool IsSendTriggerEnabled () const { return do_sendtrigger; }
   virtual void SetCookedMode (bool cooked) { do_cooked = cooked; }
   virtual bool GetCookedMode () const { return do_cooked; }
   virtual void ScreenCoordinates (bool screen = true);
@@ -179,6 +188,8 @@ protected:
   	uint32 modifiers) const;
   celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
   	uint32 modifiers) const;
+  void SendKeyMessage (celKeyMap* p, utf32_char key,
+    csKeyModifiers key_modifiers, char end);
 };
 
 }

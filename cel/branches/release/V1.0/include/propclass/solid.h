@@ -25,14 +25,23 @@
 
 struct iCollider;
 struct iPcMesh;
+class csBox3;
 
 /**
  * A solid representation of an entity. This is used
  * for collision detection.
+ *
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * - Setup: no parameters. Call this after creation to actually setup
+ *   the collider from the mesh that is attached so same entity.
+ * - SetupBox: parameters 'min' (vector3) and 'max' (vector3).
+ *   Setup a box collider (ignore attached mesh).
  */
 struct iPcSolid : public virtual iBase
 {
-  SCF_INTERFACE (iPcSolid, 0, 0, 1);
+  SCF_INTERFACE (iPcSolid, 0, 0, 2);
 
   /**
    * Set mesh from which to create the solid
@@ -53,6 +62,18 @@ struct iPcSolid : public virtual iBase
    * not support collision detection.
    */
   virtual iCollider* GetCollider () = 0;
+
+  /**
+   * Force creation of the collider (equivalent to calling
+   * GetCollider() except that it forces a clean up of the previous
+   * collider).
+   */
+  virtual void Setup () = 0;
+
+  /**
+   * Initialize a box collider (so ignore the mesh for collider).
+   */
+  virtual void SetupBox (const csBox3& box) = 0;
 };
 
 #endif // __CEL_PF_SOLID__

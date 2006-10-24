@@ -286,6 +286,155 @@
     </script>
 
     <!-- **********************************************************************
+      -  A text input field.
+      -  This script can be used for text input.
+      -  Call Construct() to setup the text input field.
+      -  ********************************************************************** -->
+    <script name="celTextInput">
+      <superscript name="celButtonTools" />
+
+      <event name="init">
+	<super />
+	<var name="color" value="rgb(1,1,1)" />
+	<var name="textoffset" value="[0,0]" />
+	<var name="active" value="false" />
+
+
+	<createpropclass name="pccommandinput" />
+	<default propclass="pc(pccommandinput)" />
+	<property id="propid(cooked)" value="true" />
+	<property id="propid(sendtrigger)" value="true" />
+	<expr eval="Bind{trigger=key,command=handlekey}" />
+      </event>
+
+      <!--
+        - Construct the text input field.
+	- Parameters:
+	-    @x: x location
+	-    @y: y location
+	-    @w: width
+	-    @h: height
+	-->
+      <event name="Construct">
+	<createpropclass name="pcbillboard" />
+	<default propclass="pc(pcbillboard)" />
+	<property id="propid(name)" value="label+entname()" />
+	<property id="propid(movable)" value="false" />
+	<property id="propid(clickable)" value="true" />
+	<property id="propid(restack)" value="false" />
+	<property id="propid(sendmove)" value="true" />
+	<property id="propid(x)" value="@x" />
+	<property id="propid(y)" value="@y" />
+	<property id="propid(width)" value="@w" />
+	<property id="propid(height)" value="@h" />
+      </event>
+
+      <event name="recalc_textoffset">
+	<default propclass="pc(pcbillboard)" />
+	<lvar name="h" value="GetTextHeight{}" />
+	<lvar name="dx" value="100" />
+	<lvar name="dy" value="(property(propid(height))-#h)/2" />
+	<var name="textoffset" value="[#dx,#dy]" />
+	<property id="propid(text_offset)" value="?textoffset" />
+      </event>
+
+      <!--
+        - Set optional material for this text input field.
+	- Parameters:
+	-    @mat: material used for the text input field
+	-->
+      <event name="SetMaterial">
+	<default propclass="pc(pcbillboard)" />
+	<property id="propid(materialname)" value="@mat" />
+      </event>
+
+
+      <!--
+        - Set optional starting text for this text input field.
+	- Parameters:
+	-    @text: text to use.
+	-->
+      <event name="SetText">
+	<default propclass="pc(pcbillboard)" />
+	<property id="propid(text)" value="@text" />
+	<call event="recalc_textoffset" />
+	<property id="propid(text_fg_color)" value="?color" />
+      </event>
+
+      <!--
+        - Get the text that is currently in the field.
+        -->
+      <event name="GetText">
+	<default propclass="pc(pcbillboard)" />
+	<return value="property(propid(text))" />
+      </event>
+
+      <!--
+        - Set optional font for this text input field.
+	- Parameters:
+	-    @font: font to use.
+	-    @size: size.
+	-->
+      <event name="SetTextFont">
+	<default propclass="pc(pcbillboard)" />
+	<property id="propid(text_font_size)" value="@size" />
+	<property id="propid(text_font)" value="@font" />
+	<call event="recalc_textoffset" />
+      </event>
+
+      <!--
+        - Set normal text color.
+	- Default is white text.
+	- Parameters:
+	-   @color: color
+	-->
+      <event name="SetColor">
+	<var name="color" value="@color" />
+	<default propclass="pc(pcbillboard)" />
+	<property id="propid(text_fg_color)" value="?color" />
+      </event>
+
+      <!--
+        - Activate this text input.
+        -->
+      <event name="Activate">
+      	<var name="active" value="true" />
+      </event>
+
+      <!--
+        - Deactivate this text input.
+        -->
+      <event name="Deactivate">
+      	<var name="active" value="false" />
+      </event>
+
+      <!--
+        - Handle key.
+        -->
+      <event name="pccommandinput_handlekey1">
+        <if eval="!?active"> <stop /> </if>
+	<lvar name="t" value="@trigger" />
+	<default propclass="pc(pcbillboard)" />
+	<lvar name="text" value="property(propid(text))" />
+	<if eval="strlen(#t)==1">
+	    <property id="propid(text)" value="#text+#t" />
+	    <stop />
+	</if>
+	<if eval="#t==Back">
+	    <lvar name="l" value="strlen(#text)" />
+	    <if eval="#l>0">
+	        <property id="propid(text)" value="strsub(#text,0,strlen(#text)-1)" />
+	    </if>
+	    <stop />
+	</if>
+	<if eval="#t==Enter">
+	    <call event="Deactivate" />
+	    <stop />
+	</if>
+      </event>
+    </script>
+
+    <!-- **********************************************************************
       -  A yes/no dialog.
       -  This script can be used for a yes/no dialog. There are two ways to use this:
       -    1. Subclass this script so you can override 'celDialogYes' and

@@ -40,6 +40,7 @@
 #include "ivideo/graph3d.h"
 #include "ivideo/fontserv.h"
 #include "ivideo/texture.h"
+#include "ivideo/natwin.h"
 #include "igraphic/imageio.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
@@ -218,7 +219,6 @@ bool CelStart::HandleEvent (iEvent& ev)
 	  csMouseEventHelper::GetY (&ev));
         if (i >= (int)0 && i < (int)files.Length ())
         {
-	  printf ("Start %d\n", i); fflush (stdout);
 	  startme = files[i];
           csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
           if (q)
@@ -393,7 +393,8 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
   if (exists)
   {
     configname = arg;
-    path = "/this";
+    configname += "/celstart.cfg";
+    path = arg;
     realpath = "";
   }
   else if (vfs->ChDirAuto (arg, 0, "/tmp/celstart", "celstart.cfg"))
@@ -401,6 +402,7 @@ bool CelStart::FindPath (iVFS* vfs, csString& realpath,
     configname = "/tmp/celstart/celstart.cfg";
     path = "/tmp/celstart";
     realpath = arg;
+    realpath += "$/";
   }
   else
   {
@@ -606,6 +608,10 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   }
 
   do_clearscreen = cfg->GetBool ("CelStart.ClearScreen", false);
+
+  iNativeWindow* nw = g3d->GetDriver2D ()->GetNativeWindow ();
+  if (nw) nw->SetTitle (
+      cfg->GetStr ("CelStart.WindowTitle","CelStart Application"));
 
   return true;
 }

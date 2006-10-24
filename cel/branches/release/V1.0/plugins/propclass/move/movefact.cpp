@@ -29,7 +29,6 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
-#include "cstool/collider.h"
 #include "csutil/util.h"
 #include "csutil/debug.h"
 #include "csutil/csobject.h"
@@ -242,11 +241,28 @@ void celPcMovable::RemoveAllConstraints ()
 
 //---------------------------------------------------------------------------
 
+csStringID celPcSolid::id_min = csInvalidStringID;
+csStringID celPcSolid::id_max = csInvalidStringID;
+PropertyHolder celPcSolid::propinfo;
+
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   DG_TYPE (this, "celPcSolid()");
   no_collider = false;
+
+  if (id_min == csInvalidStringID)
+  {
+    id_min = pl->FetchStringID ("cel.parameter.min");
+    id_max = pl->FetchStringID ("cel.parameter.max");
+  }
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_setup, "cel.action.Setup");
+    AddAction (action_setupbox, "cel.action.SetupBox");
+  }
 }
 
 celPcSolid::~celPcSolid ()
@@ -287,6 +303,28 @@ void celPcSolid::SetMesh (iPcMesh* mesh)
   no_collider = false;
 }
 
+void celPcSolid::SetupBox (const csBox3& box)
+{
+  no_collider = false;
+  if (!pcmesh)
+  {
+    pcmesh = CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (), iPcMesh);
+  }
+  collider_wrap = 0;
+  if (!pcmesh->GetMesh ())
+  {
+    no_collider = true;
+    return;
+  }
+  CS_ASSERT (pcmesh != 0);
+  csPolygonMeshBox pmbox (box);
+  csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
+    	iCollideSystem);
+  collider_wrap.AttachNew (new csColliderWrapper (
+	pcmesh->GetMesh ()->QueryObject (),
+	cdsys, &pmbox));
+}
+
 iCollider* celPcSolid::GetCollider ()
 {
   if (collider_wrap) return collider_wrap->GetCollider ();
@@ -307,6 +345,35 @@ iCollider* celPcSolid::GetCollider ()
   }
   no_collider = true;
   return 0;
+}
+
+bool celPcSolid::PerformActionIndexed (int idx,
+	iCelParameterBlock* params,
+	celData& ret)
+{
+  switch (idx)
+  {
+    case action_setup:
+      {
+	Setup ();
+	return true;
+      }
+    case action_setupbox:
+      {
+        CEL_FETCH_VECTOR3_PAR (min,params,id_min);
+	if (!p_min)
+          return MoveReport (object_reg,
+	      "'min' parameter missing for SetupBox!");
+        CEL_FETCH_VECTOR3_PAR (max,params,id_max);
+	if (!p_max)
+          return MoveReport (object_reg,
+	      "'max' parameter missing for SetupBox!");
+	SetupBox (csBox3 (min, max));
+        return true;
+      }
+    default:
+      return false;
+  }
 }
 
 //---------------------------------------------------------------------------
