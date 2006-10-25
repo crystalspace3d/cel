@@ -55,7 +55,8 @@ class csBox3;
  * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * - SetVisible: parameters 'visible' (bool).
  * - SetMaterial: parameters 'material' (string).
- * - SetAnimation: parameters 'animation' (string) and 'cycle' (bool).
+ * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
+ *   default false), and 'reset' (bool: default false).
  * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
  *     (type depending on type parameter).
  * - CreateEmptyThing: parameters 'factoryname' (string)
@@ -177,7 +178,8 @@ struct iPcMesh : public virtual iBase
    * support the same feature set.
    */
   virtual void SetAnimation (const char* actionName, bool cycle,
-      float weight=1.0,float fadein=0.1,float fadeout=0.1) = 0;
+      float weight=1.0, float fadein=0.1, float fadeout=0.1,
+      bool reset = false) = 0;
 
   /**
    * Hide this mesh.
