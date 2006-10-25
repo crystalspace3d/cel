@@ -16,6 +16,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit enhanced pcmover so that it also tries to trace a beam
 	  one unit above position. That way it can follow some entity
 	  easier and has less chance to miss it.
+	- Jorrit added support for 'reset' parameter in the pcmesh
+	  SetAnimation() action.
 24-Oct-2006
 	- Jorrit changed pcspawn so it no longer holds a hard reference
 	  to the newly spawned entity. Instead it keeps a weak

@@ -94,6 +94,7 @@ private:
   static csStringID id_type;
   static csStringID id_animation;
   static csStringID id_cycle;
+  static csStringID id_reset;
   static csStringID id_min;
   static csStringID id_max;
   static csStringID id_entity;
@@ -162,7 +163,8 @@ public:
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
-  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1);
+  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
+	bool reset = false);
 
   /**
    * Returns the name for the current action.

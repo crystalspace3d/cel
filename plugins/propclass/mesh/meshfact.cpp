@@ -104,6 +104,7 @@ csStringID celPcMesh::id_type = csInvalidStringID;
 csStringID celPcMesh::id_value = csInvalidStringID;
 csStringID celPcMesh::id_animation = csInvalidStringID;
 csStringID celPcMesh::id_cycle = csInvalidStringID;
+csStringID celPcMesh::id_reset = csInvalidStringID;
 csStringID celPcMesh::id_min = csInvalidStringID;
 csStringID celPcMesh::id_max = csInvalidStringID;
 csStringID celPcMesh::id_entity = csInvalidStringID;
@@ -136,6 +137,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_type = pl->FetchStringID ("cel.parameter.type");
     id_animation = pl->FetchStringID ("cel.parameter.animation");
     id_cycle = pl->FetchStringID ("cel.parameter.cycle");
+    id_reset = pl->FetchStringID ("cel.parameter.reset");
     id_min = pl->FetchStringID ("cel.parameter.min");
     id_max = pl->FetchStringID ("cel.parameter.max");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
@@ -519,7 +521,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_animation) return false;
         CEL_FETCH_BOOL_PAR (par_cycle,params,id_cycle);
         if (!p_par_cycle) par_cycle = false;
-        SetAnimation (par_animation, par_cycle);
+        CEL_FETCH_BOOL_PAR (par_reset,params,id_reset);
+        if (!p_par_reset) par_reset = false;
+        SetAnimation (par_animation, par_cycle, 1.0, 0.1, 0.1, par_reset);
         return true;
       }
     case action_createemptything:
@@ -937,7 +941,7 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
 }
 
 void celPcMesh::SetAnimation (const char* actionName, bool cycle,
-	float weight,float fadein,float fadeout)
+	float weight, float fadein, float fadeout, bool reset)
 {
 //   printf("set anim %s\n", actionName);
   if (!actionName) return;
@@ -976,9 +980,20 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
             csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
             if (skel)
             {
-              skel->StopAll();
-              iSkeletonScript* script = skel->Execute (actionName);
-	      if (script) script->SetLoop (cycle);
+	      iSkeletonScript* script;
+	      if (reset) script = 0;
+	      else script  = skel->FindScript (actionName);
+	      if (script)
+	      {
+		if (script->GetLoop () != cycle)
+		  script->SetLoop (cycle);
+	      }
+	      else
+	      {
+                skel->StopAll();
+                script = skel->Execute (actionName);
+	        if (script) script->SetLoop (cycle);
+	      }
             }
           }
         }
