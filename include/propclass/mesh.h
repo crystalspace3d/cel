@@ -27,6 +27,7 @@
 struct iMeshWrapper;
 struct iSector;
 class csVector3;
+class csBox3;
 
 /**
  * Property ID used when the mesh changes (for use with
@@ -59,6 +60,13 @@ class csVector3;
  *     (type depending on type parameter).
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
+ * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),
+ *   'max' (vector3).
+ * - ParentMesh: parameters 'entity' (string) and 'tag' (string).
+ *   Parent this mesh to some parent. The parent should be given
+ *   as an entity with the optional tag specifying which pcmesh to use.
+ *   If entity is not given then the current entity will be used.
+ * - ClearParent: no parameters. Remove this mesh from its parent.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -121,6 +129,16 @@ struct iPcMesh : public virtual iBase
    * equivalent to SetMesh(factname,0).
    */
   virtual void CreateEmptyGenmesh (const char* factname) = 0;
+
+  /**
+   * Create a nullmesh (use instead of SetMesh()).
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
+   * A nullmesh can be used in mesh hierarchies.
+   */
+  virtual void CreateNullMesh (const char* factname,
+      const csBox3& box) = 0;
 
   /**
    * Get the mesh.
