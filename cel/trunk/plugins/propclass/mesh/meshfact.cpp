@@ -47,11 +47,13 @@
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/engine.h"
+#include "iengine/scenenode.h"
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
 #include "imesh/object.h"
 #include "imesh/sprite3d.h"
 #include "imesh/gmeshskel2.h"
+#include "imesh/nullmesh.h"
 #include "imesh/spritecal3d.h"
 #include "imesh/skeleton.h"
 #include <csgfx/shadervar.h>
@@ -102,6 +104,10 @@ csStringID celPcMesh::id_type = csInvalidStringID;
 csStringID celPcMesh::id_value = csInvalidStringID;
 csStringID celPcMesh::id_animation = csInvalidStringID;
 csStringID celPcMesh::id_cycle = csInvalidStringID;
+csStringID celPcMesh::id_min = csInvalidStringID;
+csStringID celPcMesh::id_max = csInvalidStringID;
+csStringID celPcMesh::id_entity = csInvalidStringID;
+csStringID celPcMesh::id_tag = csInvalidStringID;
 
 PropertyHolder celPcMesh::propinfo;
 
@@ -130,6 +136,10 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_type = pl->FetchStringID ("cel.parameter.type");
     id_animation = pl->FetchStringID ("cel.parameter.animation");
     id_cycle = pl->FetchStringID ("cel.parameter.cycle");
+    id_min = pl->FetchStringID ("cel.parameter.min");
+    id_max = pl->FetchStringID ("cel.parameter.max");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_tag = pl->FetchStringID ("cel.parameter.tag");
   }
 
   propholder = &propinfo;
@@ -148,6 +158,9 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     AddAction (action_setanimation, "cel.action.SetAnimation");
     AddAction (action_createemptything, "cel.action.CreateEmptyThing");
     AddAction (action_createemptygenmesh, "cel.action.CreateEmptyGenmesh");
+    AddAction (action_createnullmesh, "cel.action.CreateNullMesh");
+    AddAction (action_parentmesh, "cel.action.ParentMesh");
+    AddAction (action_clearparent, "cel.action.ClearParent");
   }
 
   // For properties.
@@ -333,9 +346,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (mesh)
         {
           if (visible)
-            mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
+	    mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
           else
-            mesh->GetFlags ().Set (CS_ENTITY_INVISIBLE);
+	    mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, CS_ENTITY_INVISIBLE);
         }
         return true;
       }
@@ -523,6 +536,54 @@ bool celPcMesh::PerformActionIndexed (int idx,
         CreateEmptyGenmesh (par_factoryname);
         return true;
       }
+    case action_createnullmesh:
+      {
+        CEL_FETCH_STRING_PAR (par_factoryname,params,id_factoryname);
+        if (!p_par_factoryname) return false;
+        CEL_FETCH_VECTOR3_PAR (par_min,params,id_min);
+        if (!p_par_min) return false;
+        CEL_FETCH_VECTOR3_PAR (par_max,params,id_max);
+        if (!p_par_max) return false;
+        CreateNullMesh (par_factoryname, csBox3 (par_min, par_max));
+        return true;
+      }
+    case action_parentmesh:
+      {
+	if (!mesh) return true;
+        CEL_FETCH_STRING_PAR (par_entity,params,id_entity);
+	iCelEntity* ent;
+        if (!p_par_entity) ent = entity;
+	else
+	{
+	  ent = pl->FindEntity (par_entity);
+	  if (!ent)
+	    return Report (object_reg, "Can't find entity '%s'!",
+		par_entity);
+	}
+        CEL_FETCH_STRING_PAR (par_tag,params,id_tag);
+	csRef<iPcMesh> parent_mesh;
+	if (!p_par_tag)
+	  parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
+	else
+	  parent_mesh = celQueryPropertyClassTag<iPcMesh> (
+	      ent->GetPropertyClassList (), par_tag);
+	if (!parent_mesh)
+	  return Report (object_reg, "Can't find a mesh!");
+	mesh->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
+	    ->QuerySceneNode ());
+	mesh->GetMovable ()->UpdateMove ();
+
+	return true;
+      }
+    case action_clearparent:
+      {
+	if (mesh)
+	{
+	  mesh->QuerySceneNode ()->SetParent (0);
+	  mesh->GetMovable ()->UpdateMove ();
+	}
+	return true;
+      }
     default:
       return false;
   }
@@ -561,6 +622,16 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
     // data itself. Perhaps we should consider combining this with the thing
     // saver somehow.
     databuf->Add (mesh->QueryObject ()->GetName ());
+  }
+  else if (creation_flag == CEL_CREATE_NULLMESH)
+  {
+    databuf->Add (mesh->QueryObject ()->GetName ());
+    csRef<iNullFactoryState> nullmesh = scfQueryInterface<iNullFactoryState> (
+      mesh->GetFactory ()->GetMeshObjectFactory ());
+    csBox3 b;
+    nullmesh->GetBoundingBox (b);
+    databuf->Add (b.Min ());
+    databuf->Add (b.Max ());
   }
 
   databuf->Add (visible);
@@ -628,6 +699,14 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
   {
     const char* n = databuf->GetString ()->GetData ();
     CreateEmptyGenmesh (n);
+  }
+  else if (creation_flag == CEL_CREATE_NULLMESH)
+  {
+    const char* n = databuf->GetString ()->GetData ();
+    csVector3 minbox, maxbox;
+    databuf->GetVector3 (minbox);
+    databuf->GetVector3 (maxbox);
+    CreateNullMesh (n, csBox3 (minbox, maxbox));
   }
 
   if (databuf->GetBool ())
@@ -818,6 +897,30 @@ void celPcMesh::CreateEmptyGenmesh (const char* factname)
   creation_flag = CEL_CREATE_GENMESH;
   meshfact = engine->CreateMeshFactory ("crystalspace.mesh.object.genmesh",
   	factname);
+  mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
+  pl->AttachEntity (mesh->QueryObject (), entity);
+  FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
+}
+
+void celPcMesh::CreateNullMesh (const char* factname,
+    const csBox3& box)
+{
+  RemoveMesh ();
+
+  csRef<iMeshFactoryWrapper> meshfact = engine->GetMeshFactories ()
+  	->FindByName (factname);
+  if (meshfact)
+  {
+    SetMesh (factname, 0);
+    return;
+  }
+
+  creation_flag = CEL_CREATE_NULLMESH;
+  meshfact = engine->CreateMeshFactory ("crystalspace.mesh.object.null",
+  	factname);
+  csRef<iNullFactoryState> nullmesh = scfQueryInterface<iNullFactoryState> (
+      meshfact->GetMeshObjectFactory ());
+  nullmesh->SetBoundingBox (box);
   mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);

@@ -3,6 +3,19 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Oct-2006
+	- Jorrit added support for null mesh in pcmesh. That way you can
+	  easily make a null mesh that is useful in a hierarchy. Added
+	  CreateNullMesh() action.
+	- Jorrit added ParentMesh() and ClearParent() actions to
+	  pcmesh.
+	- Jorrit fixed the SetVisible() action in pcmesh so that it sets
+	  the entire hierarchy to visible/invisible.
+	- Jorrit enhanced pcmover so that it sends out the name of the
+	  mesh that is preventing moving in case of 'pcmover_impossible'.
+	- Jorrit enhanced pcmover so that it also tries to trace a beam
+	  one unit above position. That way it can follow some entity
+	  easier and has less chance to miss it.
 24-Oct-2006
 	- Jorrit changed pcspawn so it no longer holds a hard reference
 	  to the newly spawned entity. Instead it keeps a weak

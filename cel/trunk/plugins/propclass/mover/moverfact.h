@@ -84,8 +84,11 @@ private:
   bool is_moving;
 
   void FindSiblingPropertyClasses ();
-  void SendMessage (const char* msg);
+  void SendMessage (const char* msg, const char* meshname = 0);
   void StopMovement ();
+
+  static csStringID id_meshname;
+  celOneParameterBlock* params;
 
 public:
   celPcMover (iObjectRegistry* object_reg);
