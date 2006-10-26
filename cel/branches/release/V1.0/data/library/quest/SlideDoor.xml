@@ -10,13 +10,13 @@
 <library>
   <addon plugin="cel.addons.quest">
 <quest name="SlideDoor">
-        <default name="x_on" string="0"/>
-        <default name="x_off" string="0"/>
-        <default name="y_on" string="0"/>
-        <default name="y_off" string="0"/>
-        <default name="z_on" string="2"/>
-        <default name="z_off" string="-2"/>
-        <default name="duration" string="500"/>
+        <default name="x_on" value="0"/>
+        <default name="x_off" value="0"/>
+        <default name="y_on" value="0"/>
+        <default name="y_off" value="0"/>
+        <default name="z_on" value="2"/>
+        <default name="z_off" value="-2"/>
+        <default name="duration" value="500"/>
     	<state name="closed">
 	    <trigger type="trigger">
 	    	<fireon entity="$this" />

@@ -27,6 +27,7 @@
 struct iMeshWrapper;
 struct iSector;
 class csVector3;
+class csBox3;
 
 /**
  * Property ID used when the mesh changes (for use with
@@ -54,11 +55,19 @@ class csVector3;
  * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
  * - SetVisible: parameters 'visible' (bool).
  * - SetMaterial: parameters 'material' (string).
- * - SetAnimation: parameters 'animation' (string) and 'cycle' (bool).
+ * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
+ *   default false), and 'reset' (bool: default false).
  * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
  *     (type depending on type parameter).
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
+ * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),
+ *   'max' (vector3).
+ * - ParentMesh: parameters 'entity' (string) and 'tag' (string).
+ *   Parent this mesh to some parent. The parent should be given
+ *   as an entity with the optional tag specifying which pcmesh to use.
+ *   If entity is not given then the current entity will be used.
+ * - ClearParent: no parameters. Remove this mesh from its parent.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -123,6 +132,16 @@ struct iPcMesh : public virtual iBase
   virtual void CreateEmptyGenmesh (const char* factname) = 0;
 
   /**
+   * Create a nullmesh (use instead of SetMesh()).
+   * Note that if the factory name already exists then the mesh
+   * will be created from that factory and this call becomes
+   * equivalent to SetMesh(factname,0).
+   * A nullmesh can be used in mesh hierarchies.
+   */
+  virtual void CreateNullMesh (const char* factname,
+      const csBox3& box) = 0;
+
+  /**
    * Get the mesh.
    */
   virtual iMeshWrapper* GetMesh () const = 0;
@@ -159,7 +178,8 @@ struct iPcMesh : public virtual iBase
    * support the same feature set.
    */
   virtual void SetAnimation (const char* actionName, bool cycle,
-      float weight=1.0,float fadein=0.1,float fadeout=0.1) = 0;
+      float weight=1.0, float fadein=0.1, float fadeout=0.1,
+      bool reset = false) = 0;
 
   /**
    * Hide this mesh.
