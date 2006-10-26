@@ -7,6 +7,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit changed parsing of the default quest variables to use
 	  'value' instead of 'string'. The values are not always strings
 	  so using string here is weird. Also improved error checking.
+	- Jorrit fixed the default celtest level so that it works again
+	  (still contained spiral).
 25-Oct-2006
 	- Jorrit added support for null mesh in pcmesh. That way you can
 	  easily make a null mesh that is useful in a hierarchy. Added
