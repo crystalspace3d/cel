@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	  so using string here is weird. Also improved error checking.
 	- Jorrit fixed the default celtest level so that it works again
 	  (still contained spiral).
+	- Jorrit added a new 'cssequence' reward to the quest manager.
+	  With this reward you can fire up Crystal Space sequences (as
+	  opposed to CEL/quest sequences) from within a quest.
 25-Oct-2006
 	- Jorrit added support for null mesh in pcmesh. That way you can
 	  easily make a null mesh that is useful in a hierarchy. Added

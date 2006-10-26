@@ -784,6 +784,14 @@ struct iQuestManager : public virtual iBase
 	const char* delay_par) = 0;
 
   /**
+   * Convenience method to add an 'cssequence' reward factory
+   * to a response factory.
+   */
+  virtual iQuestRewardFactory* AddCsSequenceReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par) = 0;
+
+  /**
    * Convenience method to add an 'sequencefinish' reward factory
    * to a response factory.
    */
@@ -1406,6 +1414,37 @@ struct iInventoryQuestRewardFactory : public virtual iBase
    */
   virtual void SetChildEntityParameter (const char* entity,
   	const char* tag = 0) = 0;
+};
+
+/**
+ * This interface is implemented by the reward that fires a Crystal
+ * Space sequence.
+ * You can query this interface from the reward factory if you want
+ * to manually control this factory as opposed to loading its definition
+ * from an XML document.
+ *
+ * The predefined name of this reward type is 'cel.questreward.cssequence'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>sequence</em>: the name of the Crystal Space sequence.
+ * - <em>delay</em>: delay before we start the sequence. Default is 0.
+ */
+struct iCsSequenceQuestRewardFactory : public virtual iBase
+{
+  SCF_INTERFACE (iCsSequenceQuestRewardFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the sequence.
+   * \param sequence is the name of the sequence or a parameter (starts
+   * with '$').
+   */
+  virtual void SetSequenceParameter (const char* sequence) = 0;
+
+  /**
+   * Set the delay.
+   * \param delay is delay or a parameter (starts with '$').
+   */
+  virtual void SetDelayParameter (const char* delay) = 0;
 };
 
 /**
