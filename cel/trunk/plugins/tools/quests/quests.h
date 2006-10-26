@@ -416,6 +416,9 @@ public:
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par,
 	const char* delay_par);
+  virtual iQuestRewardFactory* AddCsSequenceReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par);
   virtual iQuestRewardFactory* AddSequenceFinishReward (
   	iQuestTriggerResponseFactory* response,
   	const char* entity_par, const char* sequence_par);

@@ -43,6 +43,7 @@
 #include "plugins/tools/quests/reward_newstate.h"
 #include "plugins/tools/quests/reward_changeproperty.h"
 #include "plugins/tools/quests/reward_inventory.h"
+#include "plugins/tools/quests/reward_cssequence.h"
 #include "plugins/tools/quests/reward_sequence.h"
 #include "plugins/tools/quests/reward_sequencefinish.h"
 #include "plugins/tools/quests/reward_message.h"
@@ -1025,6 +1026,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
   }
 
   {
+    celCsSequenceRewardType* type = new celCsSequenceRewardType (
+    	object_reg);
+    RegisterRewardType (type);
+    type->DecRef ();
+  }
+
+  {
     celSequenceRewardType* type = new celSequenceRewardType (
     	object_reg);
     RegisterRewardType (type);
@@ -1270,6 +1278,20 @@ iQuestRewardFactory* celQuestManager::AddSequenceReward (
   csRef<iSequenceQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
   	iSequenceQuestRewardFactory);
   newstate->SetEntityParameter (entity_par);
+  newstate->SetSequenceParameter (sequence_par);
+  newstate->SetDelayParameter (delay_par);
+  response->AddRewardFactory (rewfact);
+  return rewfact;
+}
+
+iQuestRewardFactory* celQuestManager::AddCsSequenceReward (
+  	iQuestTriggerResponseFactory* response,
+  	const char* sequence_par, const char* delay_par)
+{
+  iQuestRewardType* type = GetRewardType ("cel.questreward.cssequence");
+  csRef<iQuestRewardFactory> rewfact = type->CreateRewardFactory ();
+  csRef<iCsSequenceQuestRewardFactory> newstate = SCF_QUERY_INTERFACE (rewfact,
+  	iCsSequenceQuestRewardFactory);
   newstate->SetSequenceParameter (sequence_par);
   newstate->SetDelayParameter (delay_par);
   response->AddRewardFactory (rewfact);
