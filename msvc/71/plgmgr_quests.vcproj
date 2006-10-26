@@ -172,6 +172,9 @@
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
 			</File>
 			<File
@@ -243,6 +246,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">

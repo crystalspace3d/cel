@@ -1748,6 +1748,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_quests_reward_cssequence.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_quests_reward_cssequence.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2266,6 +2281,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">

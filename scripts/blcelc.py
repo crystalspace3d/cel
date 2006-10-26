@@ -1740,6 +1740,8 @@ class iPcCommandInput(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
+    def SetSendTrigger(*args): return _blcelc.iPcCommandInput_SetSendTrigger(*args)
+    def IsSendTriggerEnabled(*args): return _blcelc.iPcCommandInput_IsSendTriggerEnabled(*args)
     def SetCookedMode(*args): return _blcelc.iPcCommandInput_SetCookedMode(*args)
     def GetCookedMode(*args): return _blcelc.iPcCommandInput_GetCookedMode(*args)
     def ScreenCoordinates(*args): return _blcelc.iPcCommandInput_ScreenCoordinates(*args)
@@ -2290,6 +2292,7 @@ class iPcMesh(cspace.iBase):
     def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
     def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
+    def CreateNullMesh(*args): return _blcelc.iPcMesh_CreateNullMesh(*args)
     def GetMesh(*args): return _blcelc.iPcMesh_GetMesh(*args)
     def MoveMesh(*args): return _blcelc.iPcMesh_MoveMesh(*args)
     def SetAction(*args): return _blcelc.iPcMesh_SetAction(*args)
@@ -2370,6 +2373,8 @@ class iPcSolid(cspace.iBase):
     def SetMesh(*args): return _blcelc.iPcSolid_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcSolid_GetMesh(*args)
     def GetCollider(*args): return _blcelc.iPcSolid_GetCollider(*args)
+    def Setup(*args): return _blcelc.iPcSolid_Setup(*args)
+    def SetupBox(*args): return _blcelc.iPcSolid_SetupBox(*args)
     __swig_setmethods__["Mesh"] = _blcelc.iPcSolid_Mesh_set
     Mesh = property(_blcelc.iPcSolid_Mesh_get, _blcelc.iPcSolid_Mesh_set, None,
                     "iPcSolid.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cel methods:\n\tget: iPcMesh* iPcSolid::GetMesh()\n\tset: void iPcSolid::SetMesh(iPcMesh*)")
