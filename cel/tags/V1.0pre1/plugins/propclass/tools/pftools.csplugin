@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!-- pftools.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.spawn</name>
+        <implementation>celPfSpawn</implementation>
+	<description>CEL Spawn Property Class Factory</description>
+      </class>
+      <class>
+        <name>cel.pcfactory.tooltip</name>
+        <implementation>celPfTooltip</implementation>
+	<description>CEL Tooltip Property Class Factory</description>
+      </class>
+      <class>
+        <name>cel.pcfactory.timer</name>
+        <implementation>celPfTimer</implementation>
+	<description>CEL Timer Property Class Factory</description>
+      </class>
+      <class>
+        <name>cel.pcfactory.properties</name>
+        <implementation>celPfProperties</implementation>
+	<description>CEL Properties Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

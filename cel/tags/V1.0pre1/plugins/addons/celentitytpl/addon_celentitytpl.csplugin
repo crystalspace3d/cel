@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_celentitytpl.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.celentitytpl</name>
+        <implementation>celAddOnCelEntityTemplate</implementation>
+	<description>CEL AddOn for Entity Templates</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

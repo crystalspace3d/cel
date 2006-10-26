@@ -1,0 +1,126 @@
+@c -*-texinfo-*-
+@node PropClass ZoneMgr, PropClass Hover, PropClass Timer, Property Classes
+@subsection Zone Manager
+@cindex pczonemanager property class
+@cindex pczonemanager
+@cindex @code{iPcZoneManager}
+
+The zone manager is a useful property class for managing level
+loading.
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{pczonemanager}
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.zonemanager}
+@item @emph{Interface}:
+@code{iPcZoneManager}
+@item @emph{Header}:
+@file{include/propclass/zone.h}
+@end itemize
+
+@subsubheading General Information
+
+The zone manager is a powerful property class that manages dynamic loading
+(loading of the map files that are required at a given time in the game)
+but it can also be used for single map loading for simple games. A commonly
+used scenario is to setup the zone manager with a single map file for geometry
+and another file for entity descriptions.
+
+@subsubheading Concepts
+
+The following concepts are defined in the zone manager:
+
+@itemize @bullet
+@item @dfn{zone}:
+A zone is a collection of regions that are either all together in memory
+or not at all.
+@item @dfn{region}:
+A region is a set of maps. A region can be in multiple zones in which 
+case all those zones will be loaded when the region is active. This is useful
+for small transition regions between two bigger regions.
+@item @dfn{map}:
+A map is either a world file or an entity description file.
+@end itemize
+
+@subsubheading Loading A Simple Map File
+
+The @code{iPcZoneManager->Load()} method which accepts a @sc{vfs} @samp{path}
+and a @samp{file} accepts both normal Crystal Space world files or else
+an @sc{xml} zone description file. In the first case the zone manager will
+automatically setup a region and a zone which are both called @samp{main}.
+
+@subsubheading Loading A Complex Level Set
+
+The other case is where you pass a @sc{xml} zone description file to the
+@code{Load()} method (of course you can also setup the zone manager purely
+with @sc{api} calls but using an @sc{xml} description file is more flexible
+and easier). Here is an example of such a description file:
+
+@example
+<level name="SuperLevel" description="Super Complex Level">
+    <mount vfs="/sl/part1" real="$*data$/levels$/part1.zip" />
+    <mount vfs="/sl/part2" real="$*data$/levels$/part2.zip" />
+    <mount vfs="/sl/part_trans" real="$*data$/levels$/part_trans.zip" />
+    <mount vfs="/sl/textures" real="$*data$/levels$/textures.zip" />
+    <region name="part1">
+       <map
+          name="part1_entities"
+          path="/sl/part1"
+          file="entities.xml" />
+       <map
+          name="part1_world"
+          path="/sl/part1"
+          file="world" />
+    </region>
+    <region name="part2">
+       <map
+          name="part2_entities"
+          path="/sl/part2"
+          file="entities.xml" />
+       <map
+          name="part2_world"
+          path="/sl/part2"
+          file="world" />
+    </region>
+    <region name="part_trans">
+       <map
+          name="part_trans_entities"
+          path="/sl/part_trans"
+          file="entities.xml" />
+       <map
+          name="part_trans_world"
+          path="/sl/part_trans"
+          file="world" />
+    </region>
+    <zone name="zone1">
+       <region>part1</region>
+       <region>part_trans</region>
+    </zone>
+    <zone name="zone2">
+       <region>part2</region>
+       <region>part_trans</region>
+    </zone>
+    <start>
+       <region>part1</region>
+       <name>Camera</name>
+    </start>
+</level>
+@end example
+
+In this example we have created three levels in our 3D modeller program:
+@samp{part1}, @samp{part2}, and @samp{part_trans}. The last one is a transition
+level that connects @samp{part1} and @samp{part2}. Preferably this is a
+small level like a corridor which should ensure that from @samp{part1} you
+can't see anything of @samp{part2} by looking through @samp{part_trans} (and
+vice versa). Every level zip files contains a @file{world} file with geometry
+and an @file{entities.xml} file for entity descriptions.
+
+For every map file (geometry and entities) we have a region. Finally we create
+two zones. Both zones contain the transition map as that is always needed.
+As soon as the player enters the transition map both zones will be activated
+and everything will be in memory. If you want to avoid this then you need
+to define two transition maps.
+

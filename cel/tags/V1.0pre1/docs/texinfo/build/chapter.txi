@@ -1,0 +1,170 @@
+@c -*-texinfo-*-
+@node Building, Applications, Introduction, Top
+@chapter Building and Installing
+This chapter explains how to build and install Crystal Entity Layer.
+
+@menu
+* Directory Hierachy::
+* Requirements::
+* External Libraries::
+* CEL Environment Variable::
+@end menu
+
+It will describe the pre-requisites for building and installing on each
+platform along with specific instructions on how to do this.
+
+If you have used Crystal Entity Layer on a platform which is not described
+please let us know via the mailing list so we can add instructions.
+
+@node Directory Hierachy, Requirements, Building, Building
+@section Directory Hierachy
+This section will explain the layout of the directory hierachy within
+Crystal Entity Layer.  
+
+@table @code
+@item cel         
+            This is the main directy for Crystal Entity Layer. This can be any
+            path supported by your operating system. 
+            This folder also currently contains the configure scripts and
+            Microsoft Visual C++ workspace and project files.
+
+@item cel/apps    
+            This is where all the applications shipped with Crystal Entity
+            layer reside.  Please see the manual section entitled Applications
+            for more information on these.
+
+@item cel/data    
+            This is where data for the Crystal Entity Layer applications,
+            as well as any applications you build yourself within the
+            Crystal Entity Layer source tree, reside.
+
+@item cel/docs    
+            This is where the Crystal Entity Layer documentation resides.
+            It is currently available in HTML and TexInfo formats.
+
+@item cel/include 
+            This is where the header files for the various Crystal Entity
+            Layer modules reside.  
+
+@table @code            
+            @item cel/include/behaviourlayer
+            This directory contains the definitions of the Behaviour Layer
+            interfaces.
+
+            @item cel/include/physicallayer
+            This directory contains the definitions of the Physical Layer
+            interfaces.  Including such things as entities, property classes,
+            messaging and persistence.
+
+            @item cel/include/propclass
+            This directory contains the definitions of the various property
+            class interfaces.
+
+            @item cel/include/tools
+            This directory contains definitions for interfaces for various
+            utility classes.
+@end table            
+
+@item cel/mk      
+            This directory includes various makefiles and build
+            configurations for various platforms.
+
+@item cel/msvc    
+            This directory contains the project files and resource
+            scripts for building under Microsoft Windows using Microsoft
+            Visual C++.
+
+@item cel/plugins 
+            This is where the implementations of the plugins that make up
+            Crystal Entity Layer reside.
+
+@table @code            
+            @item cel/plugins/addons
+            These are various additional, and optional, Crystal Space plugins.
+
+            @table @code
+                @item cel/plugins/addons/celentity
+                @item cel/plugins/addons/xmlscript
+                These plugins allow the loading of Crystal Entity Layer
+                entities from a standard Crystal Space map file.
+            @end table
+
+            @item cel/plugins/behaviourlayer
+            These are the various behaviour layers which have been already
+            implemented for use with Crystal Entity Layer.
+
+            @table @code    
+                @item cel/plugins/behaviourlayer/python
+                This is a behaviour layer that allows entity behaviours
+                to be implemented using the Python scripting language.
+
+                @item cel/plugins/behaviourlayer/test
+                This is the test behaviourlayer implemented in C++.
+
+                @item cel/plugins/behaviourlayer/xml
+                This is a behaviour layer that allows entity behavours
+                to be implemented using scripts stored as XML.
+            @end table    
+
+            @item cel/plugins/persist
+            These are the various persistence layers which have already
+            been implemented for use with Crystal Entity Layer.
+
+            @table @code
+                @item cel/plugins/persist/classic
+                This is the Crystal Entity Layer Classic Persistence Module.
+                This allows the persisting of Crystal Entity Layer entities
+                to a Crystal Space VFS file.
+            @end table                
+
+            @item cel/plugins/propclass
+            These are the various property classes which have already
+            been implemented for use with Crystal Entity Layer.  For more
+            information on these please see the section entitled Property
+            Classes
+
+            @item cel/plugins/stdphyslayer
+            This is the Crystal Entity Layer's Standard Physical Layer.
+@end table            
+
+@item cel/scripts 
+            This is where scripts used by the Crystal Entity Layer
+            applications and examples reside.
+@end table
+            
+@node Requirements, External Libraries, Directory Hierachy, Building
+@section Requirements
+
+In order to be able to build and install Crystal Entity Layer your
+development environment must meet the requirements for Crystal Space.
+
+For more information on these please see the Crystal Space documentation.
+
+If you are planning to use any form of scripting language in conjunction
+with Crystal Entity Layer (currently only Python is supported) then you
+will also need to have this scripting language installed.
+
+TODO: Document requirement for Jam, where and how to get it.
+
+@node External Libraries, CEL Environment Variable, Requirements, Building
+@section External Libraries
+Crystal Entity Layer currently has two external dependencies, the first of 
+these of course being Crystal Space.
+
+You may obtain Crystal Space from:@*
+@uref{http://www.crystalspace3d.org/}
+
+The second dependency is Python.  Python is a scripting language which is 
+used by the Python Behaviour Layer.  This is not required in order to build
+Crystal Entity Layer (it is an optional module), however if you wish to use
+Python in your own Behaviour Layer, or build the blpython example, then you
+will need to download Python from:@*
+@uref{http://www.python.org/}
+
+@node CEL Environment Variable, , External Libraries, Building
+@section CEL Environment Variable
+Crystal Entity Layer applications may use the CEL environment variable in 
+order to locate your Crystal Entity Layer installation.
+
+Please ensure this environment variable points to your CEL installation.
+

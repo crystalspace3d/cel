@@ -1,0 +1,112 @@
+SubDir TOP apps celtest ;
+
+Application celtst : [ Wildcard *.cpp *.h ] ;
+CFlags celtst : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith celtst : celtool ;
+ExternalLibs celtst : CRYSTAL ;
+
+if $(HAVE_STATIC_PLUGINS) = "yes"
+{
+  SubVariant static ;
+  
+  Application celtst_static : [ Wildcard *.cpp *.h ] : independent noinstall ;
+  CFlags celtst_static : [ FDefines CS_STATIC_LINKED ] ;
+  MsvcDefine celtst_static : CS_STATIC_LINKED ;
+  LinkWith celtst_static : cel_staticplugins celtool ;
+  LinkStaticPlugins celtst_static :
+    addon_celentity
+    addon_celentitytpl
+    addon_questdef
+    addon_ruledef
+    bltest
+    blxml
+    celconsole
+    mgr_quests
+    pfactormove
+    pfbillboard
+    pfdefcam
+    pfengine
+    pfinput
+    pfinv
+    pflight
+    pfmesh
+    pfmove
+    pfportal
+    pfquest
+    pfrules
+    pfsound
+    pftest
+    pftools
+    pftrigger
+    pfzone
+    rulebase
+    stdphyslayer
+    xmlpersist
+  : blpython
+  ;
+  LinkStaticPlugins celtst_static : 
+    bezier
+    bezierldr
+    bruteblock
+    terrainldr
+    bugplug
+    csconin
+    csconout
+    csddsimg
+    csfont
+    csgifimg
+    csjpgimg
+    csopcode
+    csparser
+    cspngimg
+    cssynldr
+    dynavis
+    emit
+    emitldr
+    engine
+    engseq
+    fontplex
+    frustvis
+    genmesh
+    gl3d 
+    glshader_arb 
+    glshader_cg
+    glshader_fixed
+    glshader_ps1
+    gmeshanim
+    gmeshldr
+    haze
+    hazeldr
+    imgplex
+    nullmesh
+    protomesh
+    protomeshldr
+    rendloop_loader
+    rendstep_std
+    reporter
+    sequence
+    shadermgr
+    simpleformer
+    simpleformerldr
+    spr2d
+    spr2dldr
+    spr3d
+    spr3dldr
+    sprcal3d 
+    sprcal3dldr
+    stdpt
+    stdrep
+    thing
+    thingldr
+    vfs
+    xmlread
+    xmlshader
+  : glwin32 glx2d glosx2d xwin xext86vm
+    sndmanager sndsyssoft sndsysloader sndsysnull sndsysogg sndsyswav sndsyswin
+    sndsyscoreaudio sndsysoss sndsysalsa
+  : CRYSTAL
+  ;
+  ExternalLibs celtst_static : CRYSTAL ;
+  
+  SubVariant ;
+}
