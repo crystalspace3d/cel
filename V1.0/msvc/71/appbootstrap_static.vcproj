@@ -166,7 +166,7 @@
 				RelativePath="..\..\apps\bootstrap\bootstrap.cpp">
 			</File>
 			<File
-				RelativePath="..\..\msvc\appbootstrap_static_staticuse_CEL.cpp">
+				RelativePath="..\..\msvc\appbootstrap_static_staticuse.cpp">
 			</File>
 			<File
 				RelativePath="..\..\msvc\appbootstrap_static_staticuse_CRYSTAL.cpp">

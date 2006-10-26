@@ -338,21 +338,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfawswin_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libpfbillboard_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -980,21 +965,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_actormove_npcmove.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\awswin\awswin.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_awswin_awswin.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_awswin_awswin.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1748,6 +1718,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_quests_reward_cssequence.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_quests_reward_cssequence.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2112,9 +2097,6 @@
 				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\awswin\awswin.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
 			</File>
 			<File
@@ -2266,6 +2248,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_changeproperty.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\reward_cssequence.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\reward_debugprint.h">
