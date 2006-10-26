@@ -60,7 +60,7 @@ csPtr<iQuestTrigger> celWatchTriggerFactory::CreateTrigger (
 {
   celWatchTrigger* trig = new celWatchTrigger (type, params,
   	entity_par, tag_par, target_entity_par, target_tag_par,
-	time_par, radius_par);
+	time_par, radius_par, offsetx_par, offsety_par, offsetz_par);
   return trig;
 }
 
@@ -89,6 +89,14 @@ bool celWatchTriggerFactory::Load (iDocumentNode* node)
   time_par = node->GetAttributeValue ("checktime");
   radius_par = node->GetAttributeValue ("radius");
 
+  csRef<iDocumentNode> offset_node = node->GetNode ("offset");
+  if (offset_node)
+  {
+    offsetx_par = csStrNew (offset_node->GetAttributeValue ("x"));
+    offsety_par = csStrNew (offset_node->GetAttributeValue ("y"));
+    offsetz_par = csStrNew (offset_node->GetAttributeValue ("z"));
+  }
+
   return true;
 }
 
@@ -116,14 +124,32 @@ void celWatchTriggerFactory::SetRadiusParameter (const char* radius)
   radius_par = radius;
 }
 
+void celWatchTriggerFactory::SetOffsetParameter (const char* offsetx,
+    const char* offsety, const char* offsetz)
+{
+  offsetx_par = offsetx;
+  offsety_par = offsety;
+  offsetz_par = offsetz;
+}
+
 //---------------------------------------------------------------------------
+
+static float ToFloat (const char* s)
+{
+  if (!s) return 0.0f;
+  float f;
+  sscanf (s, "%f", &f);
+  return f;
+}
 
 celWatchTrigger::celWatchTrigger (
 	celWatchTriggerType* type,
   	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* target_entity_par, const char* target_tag_par,
-	const char* time_par, const char* radius_par)
+	const char* time_par, const char* radius_par,
+	const char* offsetx_par, const char* offsety_par,
+	const char* offsetz_par)
 	: scfImplementationType (this)
 {
   celWatchTrigger::type = type;
@@ -143,6 +169,14 @@ celWatchTrigger::celWatchTrigger (
   else
     radius = 10000000.0f;
   sqradius = radius * radius;
+
+  offset.Set (0, 0, 0);
+  if (offsetx_par && *offsetx_par)
+    offset.x = ToFloat (qm->ResolveParameter (params, offsetx_par));
+  if (offsety_par && *offsety_par)
+    offset.y = ToFloat (qm->ResolveParameter (params, offsety_par));
+  if (offsetz_par && *offsetz_par)
+    offset.z = ToFloat (qm->ResolveParameter (params, offsetz_par));
 
   pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
   cdsys = csQueryRegistry<iCollideSystem> (type->object_reg);
@@ -213,6 +247,7 @@ bool celWatchTrigger::Check ()
   if (source_movable->GetSectors ()->GetCount () == 0) return false;
   iSector* source_sector = source_movable->GetSectors ()->Get (0);
   csVector3 source_pos = source_movable->GetFullPosition ();
+  source_pos += offset;
 
   iMeshWrapper* target_wrap = target_mesh->GetMesh ();
   if (!target_wrap) return false;
@@ -220,6 +255,7 @@ bool celWatchTrigger::Check ()
   if (target_movable->GetSectors ()->GetCount () == 0) return false;
   iSector* target_sector = target_movable->GetSectors ()->Get (0);
   csVector3 target_pos = target_movable->GetFullPosition ();
+  target_pos += offset;
 
   csShortestDistanceResult rc = csEngineTools::FindShortestDistance (
   	source_pos, source_sector,
@@ -230,6 +266,7 @@ bool celWatchTrigger::Check ()
   csTraceBeamResult tbrc = csColliderHelper::TraceBeam (
   	cdsys, source_sector, source_pos, source_pos + rc.direction,
 	true);
+printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqradius, tbrc.closest_mesh ? (tbrc.closest_mesh->QueryObject ()->GetName ()) : "<null>"); fflush (stdout);
   // If we hit no mesh then we assume we reached the target (target
   // can be invisible in first player mode for example).
   if (tbrc.closest_mesh == 0) return true;

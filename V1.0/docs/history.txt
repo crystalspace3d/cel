@@ -3,6 +3,30 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Oct-2006
+	- Jorrit changed parsing of the default quest variables to use
+	  'value' instead of 'string'. The values are not always strings
+	  so using string here is weird. Also improved error checking.
+	- Jorrit fixed the default celtest level so that it works again
+	  (still contained spiral).
+	- Jorrit added a new 'cssequence' reward to the quest manager.
+	  With this reward you can fire up Crystal Space sequences (as
+	  opposed to CEL/quest sequences) from within a quest.
+25-Oct-2006
+	- Jorrit added support for null mesh in pcmesh. That way you can
+	  easily make a null mesh that is useful in a hierarchy. Added
+	  CreateNullMesh() action.
+	- Jorrit added ParentMesh() and ClearParent() actions to
+	  pcmesh.
+	- Jorrit fixed the SetVisible() action in pcmesh so that it sets
+	  the entire hierarchy to visible/invisible.
+	- Jorrit enhanced pcmover so that it sends out the name of the
+	  mesh that is preventing moving in case of 'pcmover_impossible'.
+	- Jorrit enhanced pcmover so that it also tries to trace a beam
+	  one unit above position. That way it can follow some entity
+	  easier and has less chance to miss it.
+	- Jorrit added support for 'reset' parameter in the pcmesh
+	  SetAnimation() action.
 24-Oct-2006
 	- Jorrit changed pcspawn so it no longer holds a hard reference
 	  to the newly spawned entity. Instead it keeps a weak
@@ -11,6 +35,7 @@ The history order is reversed so that new features are at the top.
 	  animations now also works for gmeshanim2.
 	- Jorrit fixed celstart so that it also exits if user presses
 	  escape while there are no demos to try.
+	- Jorrit added an offset to the watch trigger (quest manager).
 23-Oct-2006
 	- Jorrit bumped up celstart version to 5.
 22-Oct-2006

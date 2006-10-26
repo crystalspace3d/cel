@@ -70,7 +70,8 @@ private:
     CEL_CREATE_MESH,
     CEL_CREATE_MESHREMOVE,
     CEL_CREATE_THING,
-    CEL_CREATE_GENMESH
+    CEL_CREATE_GENMESH,
+    CEL_CREATE_NULLMESH
   };
 
   // This flag indicates how the mesh was created.
@@ -93,6 +94,11 @@ private:
   static csStringID id_type;
   static csStringID id_animation;
   static csStringID id_cycle;
+  static csStringID id_reset;
+  static csStringID id_min;
+  static csStringID id_max;
+  static csStringID id_entity;
+  static csStringID id_tag;
 
   enum actionids
   {
@@ -108,7 +114,10 @@ private:
     action_setshadervar,
     action_setanimation,
     action_createemptything,
-    action_createemptygenmesh
+    action_createemptygenmesh,
+    action_createnullmesh,
+    action_parentmesh,
+    action_clearparent
   };
 
   // Remove the mesh from this pcmesh.
@@ -132,30 +141,14 @@ private:
 public:
   celPcMesh (iObjectRegistry* object_reg);
   virtual ~celPcMesh ();
-  /**
-   * Unattaches this entity from the physical layer and removes this
-   * mesh from the engine.
-   */
   void Clear ();
-  /// Set path.
   virtual void SetPath (const char* path);
-  /**
-   * Assign a mesh created from factname and/or loaded from filename
-   * to this pcmesh.
-   */
   virtual bool SetMesh (const char* factname, const char* filename);
-  /**
-   * Assign a mesh from a meshwrapper to this pcmesh.
-   */
   virtual void SetMesh (iMeshWrapper* mesh, bool do_remove);
-  /**
-   * Creates an empty thing mesh for this pcmesh-entity.
-   */
   virtual void CreateEmptyThing (const char* factname);
-  /**
-   * Creates an empty genmesh mesh for this pcmesh-entity.
-   */
   virtual void CreateEmptyGenmesh (const char* factname);
+  virtual void CreateNullMesh (const char* factname,
+      const csBox3& box);
   /**
    * Get the mesh of this pcmesh-entity.
    */
@@ -170,7 +163,8 @@ public:
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
-  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1);
+  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
+	bool reset = false);
 
   /**
    * Returns the name for the current action.

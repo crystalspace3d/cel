@@ -4,7 +4,7 @@
 <library>
   <addon plugin="cel.addons.quest">
 <quest name="PickableTrigger">
-    	<default name="monitor" string="camera"/>
+    	<default name="monitor" value="camera"/>
     	<state name="onground">
 	    <trigger type="trigger">
 	    	<fireon entity="$this" />

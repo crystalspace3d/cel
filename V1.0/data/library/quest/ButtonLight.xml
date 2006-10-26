@@ -11,7 +11,7 @@
 <library>
   <addon plugin="cel.addons.quest">
 <quest name="ButtonLight">
-    <default name="duration" string="500"/>
+    <default name="duration" value="500"/>
 	<state name="none">
 	</state>
 	<sequence name="light_on">

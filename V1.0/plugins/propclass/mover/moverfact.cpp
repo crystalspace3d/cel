@@ -44,6 +44,7 @@ csStringID celPcMover::id_sectorname = csInvalidStringID;
 csStringID celPcMover::id_position = csInvalidStringID;
 csStringID celPcMover::id_up = csInvalidStringID;
 csStringID celPcMover::id_sqradius = csInvalidStringID;
+csStringID celPcMover::id_meshname = csInvalidStringID;
 
 PropertyHolder celPcMover::propinfo;
 
@@ -59,7 +60,11 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
     id_position = pl->FetchStringID ("cel.parameter.position");
     id_up = pl->FetchStringID ("cel.parameter.up");
     id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
+    id_meshname = pl->FetchStringID ("cel.parameter.meshname");
   }
+
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_meshname, "meshname");
 
   propholder = &propinfo;
   if (!propinfo.actions_done)
@@ -86,6 +91,7 @@ celPcMover::~celPcMover ()
 {
   if (pl)
     pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  delete params;
 }
 
 #define MOVER_SERIAL 1
@@ -103,14 +109,16 @@ bool celPcMover::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-void celPcMover::SendMessage (const char* msg)
+void celPcMover::SendMessage (const char* msg, const char* meshname)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
   {
     csRef<iCelEntity> ref = (iCelEntity*)entity;
+    if (meshname)
+      params->GetParameter (0).Set (meshname);
     celData ret;
-    bh->SendMessage (msg, this, ret, 0);
+    bh->SendMessage (msg, this, ret, meshname ? params : 0);
   }
 }
 
@@ -166,8 +174,11 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
   csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
       position);
   if (rc.mesh)
+    rc = cur_sector->HitBeamPortals (cur_position+csVector3 (0,1,0),
+	position+csVector3 (0,1,0));
+  if (rc.mesh)
   {
-    SendMessage ("pcmover_impossible");
+    SendMessage ("pcmover_impossible", rc.mesh->QueryObject ()->GetName ());
     return false;
   }
 
