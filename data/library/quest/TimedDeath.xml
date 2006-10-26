@@ -6,7 +6,7 @@ oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
   <addon plugin="cel.addons.quest">
 <quest name="TimedDeath">
-    <default name="timeout" string="10000"/>
+    <default name="timeout" value="10000"/>
     <state name="init">
         <trigger type="timeout">
             <fireon timeout="$timeout" />

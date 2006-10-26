@@ -595,9 +595,32 @@ bool celQuestFactory::Load (iDocumentNode* node)
       case celQuestFactory::XMLTOKEN_DEFAULT:
         {
 	  const char* name = child->GetAttributeValue ("name");
-	  const char* value = child->GetAttributeValue ("string");
-	  if (name)
-	  	SetDefaultParameter(name,value);
+	  if (!name)
+	  {
+            csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"'name' missing for default quest parameter!");
+	    return false;
+	  }
+	  const char* value = child->GetAttributeValue ("value");
+	  if (!value)
+	  {
+	    value = child->GetAttributeValue ("string");
+	    if (!value)
+	    {
+              csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_WARNING,
+		"cel.questmanager.load",
+		"'string' is deprecated for quest default parameters. Use 'value'!");
+	      return false;
+	    }
+	    else
+	    {
+              csReport (questmgr->object_reg, CS_REPORTER_SEVERITY_ERROR,
+		"cel.questmanager.load",
+		"'value' missing for default quest parameter!");
+	    }
+	  }
+	  SetDefaultParameter(name,value);
 	}
         break;
       case XMLTOKEN_STATE:
