@@ -6,7 +6,7 @@
 <library>
   <addon plugin="cel.addons.quest">
 <quest name="PickableObject">
-    	<default name="monitor" string="camera"/>
+    	<default name="monitor" value="camera"/>
     	<state name="onground">
 	    <trigger type="meshselect">
 	    	<fireon entity="$this" />
