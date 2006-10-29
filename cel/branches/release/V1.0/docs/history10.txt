@@ -6,6 +6,9 @@ each new day's entries apears before the previous day's entries.  The
 individual changes for each given day, however, are in normal (ascending)
 chronological order.
 
+29-Oct-2006
+	- res changed the autopackage PackageVersion to 1 due to the
+	  software version bump.
 26-Oct-2006
 	- Jorrit merged r2347:2352 into 1.0 (various changes).
 24-Oct-2006
