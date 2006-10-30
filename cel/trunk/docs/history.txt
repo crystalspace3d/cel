@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Oct-2006
+	- Jorrit protected several string operations in the XML
+	  behaviour layer so that they no longer crash on null
+	  pointers with empty strings.
+	- Jorrit did a small change to the input field xml
+	  component.
 26-Oct-2006
 	- Jorrit changed parsing of the default quest variables to use
 	  'value' instead of 'string'. The values are not always strings

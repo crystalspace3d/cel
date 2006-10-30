@@ -435,6 +435,14 @@ static const char* ArgToString (const celXmlArg& a)
   }
 }
 
+static const char* ArgToStringSafe (const celXmlArg& a)
+{
+  const char* s = ArgToString (a);
+  if (s) return s;
+  else return "";
+}
+
+
 static const char* ArgToStringTpl (const celXmlArg& a)
 {
   switch (a.type)
@@ -2117,10 +2125,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_str = stack.Pop ();
           DUMP_EXEC ((":%04d: strsplit string=%s left=%d del=%s right=%s\n", i-1,
 	  	A2S (a_str), A2S (a_left), A2S (a_del), A2S (a_right)));
-	  const char* str = ArgToString (a_str);
-	  const char* leftvar = ArgToString (a_left);
-	  const char* del = ArgToString (a_del);
-	  const char* rightvar = ArgToString (a_right);
+	  const char* str = ArgToStringSafe (a_str);
+	  const char* leftvar = ArgToStringSafe (a_left);
+	  const char* del = ArgToStringSafe (a_del);
+	  const char* rightvar = ArgToStringSafe (a_right);
 	  const char* s = strstr (str, del);
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
@@ -2146,8 +2154,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: stridx (%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_sub)));
-	  const char* str = ArgToString (top);
-	  const char* sub = ArgToString (a_sub);
+	  const char* str = ArgToStringSafe (top);
+	  const char* sub = ArgToStringSafe (a_sub);
 	  const char* rc = strstr (str, sub);
 	  if (rc)
 	    top.SetInt32 (rc-str);
@@ -2163,7 +2171,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: strsub (%s,%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_pos), A2S (a_len)));
-	  const char* str = ArgToString (top);
+	  const char* str = ArgToStringSafe (top);
 	  int32 pos = ArgToInt32 (a_pos);
 	  int32 len = ArgToInt32 (a_len);
 	  size_t real_len = strlen (str) - pos;
@@ -2180,7 +2188,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: strlen (%s)\n", i-1, A2S (top)));
-	  const char* str = ArgToString (top);
+	  const char* str = ArgToStringSafe (top);
 	  if (str) top.SetInt32 ((int32)strlen (str));
 	  else top.SetInt32 (0);
 	}
@@ -2381,8 +2389,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (top);
-	        const char* sb = ArgToString (elb);
+	        const char* sa = ArgToStringSafe (top);
+	        const char* sb = ArgToStringSafe (elb);
 	        if (strcmp (sa, sb) < 0)
 	          top.SetString (sa, true);
 	        else
@@ -2427,8 +2435,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (top);
-	        const char* sb = ArgToString (elb);
+	        const char* sa = ArgToStringSafe (top);
+	        const char* sb = ArgToStringSafe (elb);
 	        if (strcmp (sa, sb) > 0)
 	          top.SetString (sa, true);
 	        else
@@ -2947,8 +2955,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-              ArgToString (elb))? true : false);
+	      top.Set (strcmp (ArgToStringSafe (top),
+                ArgToStringSafe (elb))? true : false);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3007,8 +3015,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (!strcmp (ArgToString (top),
-	      	ArgToString (elb)));
+	      top.Set (!strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)));
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3034,8 +3042,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) < ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) < 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) < 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3061,8 +3069,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) <= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) <= 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) <= 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3088,8 +3096,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) > ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) > 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) > 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3115,8 +3123,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) >= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) >= 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) >= 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3170,7 +3178,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
-	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (a_index1), a_index2);
+	  const char* varname = ArgToString (op.arg.arg.str.s,
+	      ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
@@ -3198,7 +3207,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
-	  const char* varname = ArgToString (ArgToString (a_array), ArgToString (a_index1), a_index2);
+	  const char* varname = ArgToString (ArgToString (a_array),
+	      ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
