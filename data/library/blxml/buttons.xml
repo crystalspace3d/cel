@@ -295,6 +295,7 @@
 
       <event name="init">
 	<super />
+	<var name="message_target" value="ent()" />
 	<var name="color" value="rgb(1,1,1)" />
 	<var name="textoffset" value="[0,0]" />
 	<var name="active" value="false" />
@@ -418,20 +419,36 @@
 	<lvar name="text" value="property(propid(text))" />
 	<if eval="strlen(#t)==1">
 	    <property id="propid(text)" value="#text+#t" />
+	    <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=property(propid(text)))" />
 	    <stop />
 	</if>
 	<if eval="#t==Back">
 	    <lvar name="l" value="strlen(#text)" />
 	    <if eval="#l>0">
 	        <property id="propid(text)" value="strsub(#text,0,strlen(#text)-1)" />
+	        <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=property(propid(text)))" />
 	    </if>
 	    <stop />
 	</if>
 	<if eval="#t==Enter">
 	    <call event="Deactivate" />
+	    <expr eval="(?message_target)::celTextInput(entity=ent(),text=#text)" />
 	    <stop />
 	</if>
       </event>
+
+      <!--
+        - Set the message target for receiving celTextInput
+	- messages.
+	- Parameters:
+	-    @target: target entity or name
+	- The message will get the following parameters:
+	-    @entity: entity causing the message (i.e. this textfield)
+	-->
+      <event name="SetMessageTarget">
+	<var name="message_target" value="@target" />
+      </event>
+
     </script>
 
     <!-- **********************************************************************
