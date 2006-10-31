@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 31-Oct-2006
 	- Jorrit added some better error reporting to blxml.
+	- Jorrit added some protection to crashes to blxml in case of
+	  null stings with finding entities.
 30-Oct-2006
 	- Jorrit protected several string operations in the XML
 	  behaviour layer so that they no longer crash on null

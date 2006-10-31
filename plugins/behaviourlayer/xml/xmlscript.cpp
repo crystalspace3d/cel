@@ -612,6 +612,7 @@ static iCelEntity* ArgToEntity (const celXmlArg& a, iCelPlLayer* pl)
   else
   {
     const char* entname = ArgToString (a);
+    if (!entname) return 0;
     return pl->FindEntity (entname);
   }
 }
@@ -3736,7 +3737,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		(unsigned long)i-1, A2S (atpl), A2S (aname));
 	    fflush (stdout);
 	  }
-	  const char* tplname = ArgToString (atpl);
+	  const char* tplname = ArgToStringSafe (atpl);
 	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (tplname);
 	  if (!entpl)
 	    return ReportError (cbl,
@@ -4683,7 +4684,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_findname name=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToString (top)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (
+		ArgToStringSafe (top)));
 	}
 	break;
       case CEL_OPERATION_INVENTORY_IN:
@@ -4703,7 +4705,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_find ent=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToEntity (top, pl)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (
+		ArgToEntity (top, pl)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:
