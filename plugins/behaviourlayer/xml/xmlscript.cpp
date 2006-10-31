@@ -4595,7 +4595,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for getproperty!");
 	  csStringID id = ArgToID (a_id);
 	  if (!pcProp2celXmlArg (pc, id, top))
 	    return ReportError (cbl, "Type not supported for getproperty!");
@@ -4713,7 +4713,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultinv pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for default inventory!");
 	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
 	  if (!inv)
 	    return ReportError (cbl, "Property class is not an inventory!");
@@ -4727,7 +4727,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for default pc!");
 	  default_pc = pc;
 	}
 	break;
