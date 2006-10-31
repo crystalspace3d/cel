@@ -299,6 +299,7 @@
 	<var name="color" value="rgb(1,1,1)" />
 	<var name="textoffset" value="[0,0]" />
 	<var name="active" value="false" />
+	<var name="text" value="''" />
 
 
 	<createpropclass name="pccommandinput" />
@@ -357,7 +358,8 @@
 	-->
       <event name="SetText">
 	<default propclass="pc(pcbillboard)" />
-	<property id="propid(text)" value="@text" />
+	<var name="text" value="@text" />
+	<property id="propid(text)" value="?text+'_'" />
 	<call event="recalc_textoffset" />
 	<property id="propid(text_fg_color)" value="?color" />
       </event>
@@ -366,8 +368,7 @@
         - Get the text that is currently in the field.
         -->
       <event name="GetText">
-	<default propclass="pc(pcbillboard)" />
-	<return value="property(propid(text))" />
+	<return value="?text" />
       </event>
 
       <!--
@@ -416,23 +417,24 @@
         <if eval="!?active"> <stop /> </if>
 	<lvar name="t" value="@trigger" />
 	<default propclass="pc(pcbillboard)" />
-	<lvar name="text" value="property(propid(text))" />
 	<if eval="strlen(#t)==1">
-	    <property id="propid(text)" value="#text+#t" />
-	    <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=property(propid(text)))" />
+	    <var name="text" value="?text+#t" />
+	    <property id="propid(text)" value="?text+'_'" />
+	    <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=?text)" />
 	    <stop />
 	</if>
 	<if eval="#t==Back">
-	    <lvar name="l" value="strlen(#text)" />
+	    <lvar name="l" value="strlen(?text)" />
 	    <if eval="#l>0">
-	        <property id="propid(text)" value="strsub(#text,0,strlen(#text)-1)" />
-	        <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=property(propid(text)))" />
+	    	<var name="text" value="strsub(?text,0,strlen(?text)-1)" />
+	        <property id="propid(text)" value="?text+'_'" />
+	        <expr eval="(?message_target)::celTextInputNewText(entity=ent(),text=?text)" />
 	    </if>
 	    <stop />
 	</if>
 	<if eval="#t==Enter">
 	    <call event="Deactivate" />
-	    <expr eval="(?message_target)::celTextInput(entity=ent(),text=#text)" />
+	    <expr eval="(?message_target)::celTextInput(entity=ent(),text=?text)" />
 	    <stop />
 	</if>
       </event>
