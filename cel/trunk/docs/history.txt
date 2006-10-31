@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-Oct-2006
+	- Jorrit added some better error reporting to blxml.
 30-Oct-2006
 	- Jorrit protected several string operations in the XML
 	  behaviour layer so that they no longer crash on null
