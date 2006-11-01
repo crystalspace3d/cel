@@ -261,6 +261,15 @@ struct iPcLinearMovement : public virtual iBase
   virtual void UpdateDR (csTicks ticks) = 0;
 
   /**
+   * This function calls ExtrapolatePosition with by calculating
+   * the delta from now relative to the last update, not
+   * a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  virtual void UpdateDR () = 0;
+
+  /**
    * This function lets linmove store a ref to the supplied
    * iPath.  If this path is present, it will be used for
    * movement instead of linear velocity vector.

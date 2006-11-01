@@ -362,7 +362,7 @@ public:
    * happening at different times.
    */
   virtual void UpdateDR (csTicks delta);
-  void UpdateDR ();
+  virtual void UpdateDR ();
 
   /**
    * This function lets linmove store a ref to the supplied

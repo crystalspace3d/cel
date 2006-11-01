@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+01-Nov-2006
+  - Andrew Dai added a very old declaration for
+    iPcLinearMovement::UpdateDR() which seems to have been
+    forgotten about but which is important for correct
+    extrapolation.
 31-Oct-2006
 	- Jorrit added some better error reporting to blxml.
 	- Jorrit added some protection to crashes to blxml in case of
