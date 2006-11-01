@@ -2001,10 +2001,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg p2 = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: sqdist p1=%s p2=%s\n", i-1, A2S (top), A2S (p2)));
-	  csVector3 v1 = ArgToVector3 (top);
-	  csVector3 v2 = ArgToVector3 (p2);
-	  float sqdist = csSquaredDist::PointPoint (v1, v2);
-	  top.SetFloat (sqdist);
+	  if (top.type == CEL_DATA_VECTOR2)
+	  {
+	    csVector2 v1 = ArgToVector2 (top);
+	    csVector2 v2 = ArgToVector2 (p2);
+	    csVector2 d = v1-v2;
+	    float sqdist = d * d;
+	    top.SetFloat (sqdist);
+	  }
+	  else
+	  {
+	    csVector3 v1 = ArgToVector3 (top);
+	    csVector3 v2 = ArgToVector3 (p2);
+	    float sqdist = csSquaredDist::PointPoint (v1, v2);
+	    top.SetFloat (sqdist);
+	  }
 	}
 	break;
       case CEL_OPERATION_ABS:
