@@ -6,7 +6,6 @@ The history order is reversed so that new features are at the top.
 1-Nov-2006
 	- Jorrit extended sqdist in blxml so that it also works for
 	  2D vectors.
-1-Nov-2006
 	- Andrew Dai added a very old declaration for
 	  iPcLinearMovement::UpdateDR() which seems to have been
 	  forgotten about but which is important for correct
