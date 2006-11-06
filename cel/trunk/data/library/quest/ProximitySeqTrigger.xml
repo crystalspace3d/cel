@@ -7,8 +7,8 @@
          $target_op_off: the sequence to be activated when leaving
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="ProximitySeqTrigger">
+  <addon plugin="cel.addons.questdef">
+     <quest name="ProximitySeqTrigger">
     	<state name="init">
 	    <trigger type="timeout">
 	    	<fireon timeout="100" />

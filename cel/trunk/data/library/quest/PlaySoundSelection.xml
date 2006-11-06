@@ -3,8 +3,8 @@
       No Parameters
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="PlaySoundSelection">
+  <addon plugin="cel.addons.questdef">
+   <quest name="PlaySoundSelection">
     <state name="idle">
         <trigger type="meshselect">
             <fireon entity="$this" />

@@ -8,8 +8,8 @@
 	 - duration: duration for open/close movement
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="SlideDoor">
+  <addon plugin="cel.addons.questdef">
+    <quest name="SlideDoor">
         <default name="x_on" value="0"/>
         <default name="x_off" value="0"/>
         <default name="y_on" value="0"/>

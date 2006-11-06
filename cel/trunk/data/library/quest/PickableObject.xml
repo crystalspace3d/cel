@@ -4,8 +4,8 @@
        - $monitor: the entity that will pick this entity
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="PickableObject">
+  <addon plugin="cel.addons.questdef">
+     <quest name="PickableObject">
     	<default name="monitor" value="camera"/>
     	<state name="onground">
 	    <trigger type="meshselect">
