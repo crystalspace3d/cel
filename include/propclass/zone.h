@@ -79,7 +79,7 @@ struct iCelMapFile : public iBase
   virtual const char* GetSectorName () const = 0;
 };
 
-SCF_VERSION (iCelRegion, 0, 1, 1);
+SCF_VERSION (iCelRegion, 0, 2, 1);
 
 /**
  * A region. A region is a collection of map files
@@ -89,6 +89,14 @@ struct iCelRegion : public iBase
 {
   /// Get the name of this region.
   virtual const char* GetName () const = 0;
+
+  /**
+   * Get the name of the CS region that is used for this region.
+   * This will be the name of the entity containing the zone
+   * manager appended with the name of the region. i.e. like:
+   * <entity>_<region>
+   */
+  virtual const char* GetCsRegionName () const = 0;
 
   /**
    * Set the VFS path that will be used during the call to engine->Prepare()
