@@ -6,8 +6,8 @@
 	 $duration: time for de open/close sequences
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="ButtonDummy">
+  <addon plugin="cel.addons.questdef">
+   <quest name="ButtonDummy">
     <default name="x_on" value="0.5"/>
     <default name="x_off" value="0.5"/>
     <default name="y_on" value="0"/>

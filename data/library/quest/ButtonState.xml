@@ -12,8 +12,8 @@
 	 (x axis).
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="ButtonState">
+  <addon plugin="cel.addons.questdef">
+     <quest name="ButtonState">
     	<state name="init">
 	    <trigger type="timeout">
 	    	<fireon timeout="100" />

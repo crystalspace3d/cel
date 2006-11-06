@@ -4,8 +4,8 @@
 	$timeout: time this entity will live.
 oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="TimedDeath">
+  <addon plugin="cel.addons.questdef">
+   <quest name="TimedDeath">
     <default name="timeout" value="10000"/>
     <state name="init">
         <trigger type="timeout">
