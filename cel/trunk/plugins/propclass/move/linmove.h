@@ -180,7 +180,8 @@ protected:
   {
     propid_anchor = 0,
     propid_gravity,
-    propid_hug
+    propid_hug,
+    propid_speed
   };
   static PropertyHolder propinfo;
 

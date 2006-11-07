@@ -407,14 +407,11 @@ bool celPcMesh::PerformActionIndexed (int idx,
     case action_movemesh:
       {
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
-        if (!sector)
-          return Report (object_reg,
-          	"Missing parameter 'sector' for action MoveMesh!");
         CEL_FETCH_VECTOR3_PAR (position,params,id_position);
         if (!p_position)
           return Report (object_reg,
           	"Missing parameter 'position' for action MoveMesh!");
-        if (*sector == 0)
+        if (sector && *sector == 0)
         {
           // Special case. We simply remove the mesh from all sectors.
           if (mesh)
@@ -425,10 +422,20 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else
         {
-          iSector* sect = engine->FindSector (sector);
-          if (!sect)
-            return Report (object_reg, "Can't find sector '%s' for action MoveMesh!",
+	  iSector* sect = 0;
+	  if (sector)
+	  {
+	    sect = engine->FindSector (sector);
+            if (!sect)
+              return Report (object_reg,
+		"Can't find sector '%s' for action MoveMesh!",
             	sector);
+	  }
+	  else
+	  {
+	    if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
+	      sect = mesh->GetMovable ()->GetSectors ()->Get (0);
+	  }
           MoveMesh (sect, position);
         }
         CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
