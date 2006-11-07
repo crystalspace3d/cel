@@ -282,7 +282,7 @@ MainApp::~MainApp ()
 @end example
 
 In @code{LoadLevel()} we create the level entity. @code{iCelPlLayer} has
-a @code{CreateEntity()} conveniance function which creates the entity,
+a @code{CreateEntity()} convenience function which creates the entity,
 assigns a behaviour to it and also creates the property classes for it. In
 this particular case we create an entity called @samp{level} and assign it
 with the behaviour that is called @samp{level_behave} (this one will be
