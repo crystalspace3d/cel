@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Nov-2006
+	- Jorrit added a feature to the pcmesh MoveMesh action. If the
+	  sector parameter is not given the sector will be unchanged.
+	- Jorrit added a new 'speed' property to pclinmove.
 6-Nov-2006
 	- Jorrit changed the zone manager so that CS regions are now
 	  named like <entity>_<region>. That avoids a problem with
