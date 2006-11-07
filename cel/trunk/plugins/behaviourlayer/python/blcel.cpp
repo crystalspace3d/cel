@@ -31749,6 +31749,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iCelRegion_GetCsRegionName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelRegion *arg1 = (iCelRegion *) 0 ;
+  char *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iCelRegion_GetCsRegionName",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelRegion, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelRegion_GetCsRegionName" "', argument " "1"" of type '" "iCelRegion const *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelRegion * >(argp1);
+  result = (char *)((iCelRegion const *)arg1)->GetCsRegionName();
+  resultobj = SWIG_FromCharPtr(result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iCelRegion_SetCachePath(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelRegion *arg1 = (iCelRegion *) 0 ;
@@ -61083,6 +61105,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_iCelMapFile", _wrap_delete_iCelMapFile, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_swigregister", iCelMapFile_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_GetName", _wrap_iCelRegion_GetName, METH_VARARGS, NULL},
+	 { (char *)"iCelRegion_GetCsRegionName", _wrap_iCelRegion_GetCsRegionName, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_SetCachePath", _wrap_iCelRegion_SetCachePath, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_GetCachePath", _wrap_iCelRegion_GetCachePath, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_CreateMapFile", _wrap_iCelRegion_CreateMapFile, METH_VARARGS, NULL},
