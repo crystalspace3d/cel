@@ -15,6 +15,8 @@ The history order is reversed so that new features are at the top.
 	  this command you can set a variable for another entity.
 	- Jorrit added 'yawvelocity', 'distancevelocity', 'pitch', 'yaw',
 	  and 'velocity' properties to pcdefaultcamera.
+	- Jorrit fixed pcsolid so that removing the property class will
+	  also remove the collider.
 6-Nov-2006
 	- Jorrit changed the zone manager so that CS regions are now
 	  named like <entity>_<region>. That avoids a problem with
