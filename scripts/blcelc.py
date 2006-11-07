@@ -1607,6 +1607,7 @@ class iCelRegion(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
+    def GetCsRegionName(*args): return _blcelc.iCelRegion_GetCsRegionName(*args)
     def SetCachePath(*args): return _blcelc.iCelRegion_SetCachePath(*args)
     def GetCachePath(*args): return _blcelc.iCelRegion_GetCachePath(*args)
     def CreateMapFile(*args): return _blcelc.iCelRegion_CreateMapFile(*args)
