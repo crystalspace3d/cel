@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  GetPropertyAndActionCount() from working properly. As a result
 	  it was not possible to list variables from within the cel
 	  console.
+	- Jorrit added a new 'varent' command to the cel console. With
+	  this command you can set a variable for another entity.
 6-Nov-2006
 	- Jorrit changed the zone manager so that CS regions are now
 	  named like <entity>_<region>. That avoids a problem with
