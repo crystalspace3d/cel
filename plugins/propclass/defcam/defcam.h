@@ -307,7 +307,12 @@ public://@@@
   // For properties.
   enum propids
   {
-    propid_pitchvelocity = 0
+    propid_pitchvelocity = 0,
+    propid_yawvelocity,
+    propid_distancevelocity,
+    propid_pitch,
+    propid_yaw,
+    propid_distance
   };
   static PropertyHolder propinfo;
 
@@ -317,6 +322,8 @@ public:
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
       celData& ret);
+  virtual bool SetPropertyIndexed (int idx, float b);
+  virtual bool GetPropertyIndexed (int idx, float& b);
 
   bool SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd = true);
   iPcDefaultCamera::CameraMode GetMode () const { return cammode; }

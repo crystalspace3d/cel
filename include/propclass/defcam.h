@@ -46,6 +46,11 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - pitchvelocity (float, read/write): pitch velocity.
+ * - yawvelocity (float, read/write): yaw velocity.
+ * - distancevelocity (float, read/write): distance (zoom) velocity.
+ * - pitch (float, read/write): pitch.
+ * - yaw (float, read/write): yaw.
+ * - distance (float, read/write): distance (zoom).
  */
 struct iPcDefaultCamera : public iPcCamera
 {
