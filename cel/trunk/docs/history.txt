@@ -9,6 +9,15 @@ The history order is reversed so that new features are at the top.
 	- Jorrit added better error reporting to the sound operations
 	  in the XML behaviour layer.
 	- Jorrit bumped up celstart version to 6.
+	- Jorrit fixed a big memory leak in the XML behaviour layer.
+	  Basically every behaviour that was assigned to an entity
+	  would never get removed even if the entity was removed.
+	- Jorrit added a new feature to CEL. Every time someone calls
+	  pl->RemoveEntity() the behaviour will get a message with
+	  name 'destruct'. Note that this destruct will be called
+	  at the time that RemoveEntity() is called. It is possible that
+	  the entity still remains in memory after that if there are
+	  more references to it from elsewhere.
 7-Nov-2006
 	- Jorrit added a feature to the pcmesh MoveMesh action. If the
 	  sector parameter is not given the sector will be unchanged.

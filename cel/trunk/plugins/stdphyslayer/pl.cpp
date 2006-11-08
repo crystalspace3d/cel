@@ -703,6 +703,13 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
   // deleted in the call to entities.Delete().
   csRef<iCelEntity> entity = entities[idx];
 
+  // First notify the behaviour of the destruction.
+  if (entity->GetBehaviour ())
+  {
+    celData ret;
+    entity->GetBehaviour ()->SendMessage ("destruct", 0, ret, 0);
+  }
+
   // First register this entity from all trackers.
   size_t i;
   for (i = 0 ; i < trackers.Length () ; i++)
