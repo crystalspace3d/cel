@@ -18,6 +18,7 @@ The history order is reversed so that new features are at the top.
 	  at the time that RemoveEntity() is called. It is possible that
 	  the entity still remains in memory after that if there are
 	  more references to it from elsewhere.
+	- Jorrit added vproc_std to celstart_static.
 7-Nov-2006
 	- Jorrit added a feature to the pcmesh MoveMesh action. If the
 	  sector parameter is not given the sector will be unchanged.
