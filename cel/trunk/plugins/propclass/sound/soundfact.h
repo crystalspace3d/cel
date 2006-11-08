@@ -115,7 +115,8 @@ private:
   };
   static PropertyHolder propinfo;
 
-  csRef<iSndSysSourceSoftware3D> source;
+  csRef<iSndSysSourceSoftware3D> source3d;
+  csRef<iSndSysSourceSoftware> source;
   csString soundname;
   csRef<iSndSysWrapper> soundwrap;
   void GetSoundWrap ();

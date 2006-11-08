@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Nov-2006
+	- Jorrit fixed pcsoundsource so that it correctly handles
+	  2D versus 3D sounds now.
 7-Nov-2006
 	- Jorrit added a feature to the pcmesh MoveMesh action. If the
 	  sector parameter is not given the sector will be unchanged.

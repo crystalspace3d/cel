@@ -90,13 +90,13 @@ void celPcSoundSource::UpdateListener ()
   }
   // Create a new listener if possible and requested
   if (!GetSource ()) return;
-  if (follow)
+  if (follow && source3d)
   {
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
     if (pcmesh)
     {
       movlistener.AttachNew (new celSoundSourceMovableListener (
-        source));
+        source3d));
       movable_for_listener = pcmesh->GetMesh ()->GetMovable ();
       movable_for_listener->AddListener (movlistener);
     }
@@ -323,7 +323,7 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, const csVector3& b)
   if (!GetSource ()) return false;
   if (idx == propid_position)
   {
-    source->SetPosition (b);
+    if (source3d) source3d->SetPosition (b);
     return true;
   }
   return false;
@@ -334,7 +334,8 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, csVector3& b)
   if (!GetSource ()) return false;
   if (idx == propid_position)
   {
-    b = source->GetPosition ();
+    if (source3d) b = source3d->GetPosition ();
+    else b.Set (0, 0, 0);
     return true;
   }
   return false;
@@ -349,13 +350,13 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, float b)
       source->SetVolume (b);
       return true;
     case propid_directionalradiation:
-      source->SetDirectionalRadiation (b);
+      if (source3d) source3d->SetDirectionalRadiation (b);
       return true;
     case propid_minimumdistance:
-      source->SetMinimumDistance (b);
+      if (source3d) source3d->SetMinimumDistance (b);
       return true;
     case propid_maximumdistance:
-      source->SetMaximumDistance (b);
+      if (source3d) source3d->SetMaximumDistance (b);
       return true;
     default:
       return false;
@@ -371,13 +372,22 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, float& b)
       b = source->GetVolume ();
       return true;
     case propid_directionalradiation:
-      b = source->GetDirectionalRadiation ();
+      if (source3d)
+        b = source3d->GetDirectionalRadiation ();
+      else
+	b = 0.0f;
       return true;
     case propid_minimumdistance:
-      b = source->GetMinimumDistance ();
+      if (source3d)
+        b = source3d->GetMinimumDistance ();
+      else
+	b = 0.0f;
       return true;
     case propid_maximumdistance:
-      b = source->GetMaximumDistance ();
+      if (source3d)
+        b = source3d->GetMaximumDistance ();
+      else
+	b = 0.0f;
       return true;
     default:
       return false;
@@ -515,7 +525,10 @@ bool celPcSoundSource::GetSource ()
   }
   csRef<iSndSysSource> src = renderer->CreateSource (soundwrap->GetStream ());
   if (src)
-    source = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware3D);
+  {
+    source = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware);
+    source3d = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware3D);
+  }
   return source != 0;
 }
 
@@ -524,6 +537,7 @@ void celPcSoundSource::SetSoundName (const char* name)
   soundname = name;
   soundwrap = 0;
   source = 0;
+  source3d = 0;
 }
 
 //---------------------------------------------------------------------------
