@@ -2764,6 +2764,7 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
   celData ret;
   entity->SetBehaviour (behave);
   behave->SendMessage ("init", 0, ret, 0);
+  behave->DecRef ();
   return behave;
 }
 
