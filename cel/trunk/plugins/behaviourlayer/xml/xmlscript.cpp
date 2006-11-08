@@ -4946,6 +4946,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      sound_source->GetStream ()->Unpause ();
 	    top.SetIBase (static_cast<iBase*> (sound_source));
 	  }
+	  else
+	    return ReportError (cbl, "Error! Can't find sound '%s'!",
+		A2S (top));
 	}
         break;
       case CEL_OPERATION_SOUNDPAUSED:
@@ -5085,6 +5088,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
 	    sound_source->GetStream ()->Unpause ();
 	  }
+	  else
+	    return ReportError (cbl, "Error! Can't find sound '%s'!",
+		A2S (a_name));
 	}
         break;
       case CEL_OPERATION_HITBEAM:
