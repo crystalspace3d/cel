@@ -152,7 +152,6 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfzone
     pfprojectile
     stdphyslayer
-    vproc_std
     xmlpersist
   : blpython
   ;
