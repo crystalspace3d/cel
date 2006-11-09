@@ -61,6 +61,14 @@ struct iPcHover : public virtual iBase
    * to the slope. Smaller values and it will slowly align
    */
   virtual void SetAngularCorrectionStrength (float mul) = 0;
+  /**
+   * Set the various PID factors to affect hovering behaviour.
+   */
+  virtual void SetFactors (float p, float i, float d) = 0;
+  /**
+   * Set the height at which the object should hover.
+   */
+  virtual void SetHoverHeight (float height) = 0;
 
   /**
    * Turn hovering on (on by default).
@@ -71,18 +79,6 @@ struct iPcHover : public virtual iBase
    * Turn hovering off, until HoverOn () is called.
    */
   virtual void HoverOff () = 0;
-
-  /**
-   * Set the distribution functions which decide upthrust depending on
-   * height of ship
-   */
-  virtual void SetStabiliserFunction (celStabiliserFunction *sfunc) = 0;
-
-  /**
-   * Use a default stabiliser function - not recommended unless
-   * not possible to create own, use SetStabiliserFunction instead.
-   */
-  virtual void UseDefaultFunction (float dampening = 1.5f) = 0;
 
   /**
    * Get's the last calculated height for object.

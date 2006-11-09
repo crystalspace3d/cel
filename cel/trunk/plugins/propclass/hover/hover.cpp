@@ -53,6 +53,10 @@ csStringID celPcHover::param_angoff = csInvalidStringID;
 csStringID celPcHover::param_angheight = csInvalidStringID;
 csStringID celPcHover::param_angstr = csInvalidStringID;
 csStringID celPcHover::param_hover = csInvalidStringID;
+csStringID celPcHover::param_p_factor = csInvalidStringID;
+csStringID celPcHover::param_i_factor = csInvalidStringID;
+csStringID celPcHover::param_d_factor = csInvalidStringID;
+csStringID celPcHover::param_hoverheight = csInvalidStringID;
 
 PropertyHolder celPcHover::propinfo;
 
@@ -62,13 +66,20 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
 
   hover_on = true;
-  ang_beam_offset = 2;
-  ang_cutoff_height = 5;
+  ang_beam_offset = 0.5;
+  ang_cutoff_height = 8;
   ang_mult = 1;
   height_beam_cutoff = 200;
 
-  // init a default upthruster func
-  UseDefaultFunction (1.5f);
+  // set default PID values
+  pid.p_factor = 8.98;
+  pid.i_factor = 0.0;
+  pid.d_factor = 0.0;
+  pid.hover_height = 4.0;
+  pid.sum_errors = 0.0;
+  pid.last_height = 0.0;
+  pid.dampening = 1.0;
+  pid.clamp = 100.0;
 
   if (param_hover == csInvalidStringID)
   {
@@ -78,6 +89,10 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
     param_angheight = pl->FetchStringID ("cel.parameter.angheight");
     param_angstr = pl->FetchStringID ("cel.parameter.angstrength");
     param_hover = pl->FetchStringID ("cel.parameter.hover");
+    param_p_factor = pl->FetchStringID ("cel.parameter.pfactor");
+    param_i_factor = pl->FetchStringID ("cel.parameter.ifactor");
+    param_d_factor = pl->FetchStringID ("cel.parameter.dfactor");
+    param_hoverheight = pl->FetchStringID ("cel.parameter.hoverheight");
   }
 
   propholder = &propinfo;
@@ -87,9 +102,20 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
     AddAction (action_setangoff, "cel.action.SetAngularBeamOffset");
     AddAction (action_setangheight, "cel.action.SetAngularCutoffHeight");
     AddAction (action_setangstr, "cel.action.SetAngularCorrectionStrength");
-    AddAction (action_usedeffunc, "cel.action.UseDefaultStabiliserFunction");
     AddAction (action_hoveron, "cel.action.HoverOn");
+    AddAction (action_setfactors, "cel.action.SetFactors");
+    AddAction (action_sethoverheight, "cel.action.SetHoverHeight");
   }
+
+  propinfo.SetCount (4);
+  AddProperty (propid_p_factor, "cel.property.p_factor",
+        CEL_DATA_FLOAT, false, "Proportional factor.", &pid.p_factor);
+  AddProperty (propid_i_factor, "cel.property.i_factor",
+        CEL_DATA_FLOAT, false, "Integral factor.", &pid.i_factor);
+  AddProperty (propid_d_factor, "cel.property.d_factor",
+        CEL_DATA_FLOAT, false, "Differential factor.", &pid.d_factor);
+  AddProperty (propid_hover_height, "cel.property.hover_height",
+        CEL_DATA_FLOAT, false, "Height for the object to hover at.", &pid.hover_height);
 }
 
 celPcHover::~celPcHover ()
@@ -162,9 +188,6 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
         SetAngularCorrectionStrength (angstrength);
 	return true;
       }
-    case action_usedeffunc:
-      UseDefaultFunction (1.5f);
-      return true;
     case action_hoveron:
       {
         printf ("This action (HoverOn) is temporarily disabled.\n");
@@ -177,19 +200,34 @@ bool celPcHover::PerformActionIndexed (int idx, iCelParameterBlock* params,
         }*/
 	return true;
       }
+    case action_setfactors:
+      {
+        CEL_FETCH_FLOAT_PAR (p_factor, params, param_p_factor);
+        CEL_FETCH_FLOAT_PAR (i_factor, params, param_i_factor);
+        CEL_FETCH_FLOAT_PAR (d_factor, params, param_d_factor);
+        SetFactors (p_factor, i_factor, d_factor);
+        return true;
+      }
+    case action_sethoverheight:
+      {
+        CEL_FETCH_FLOAT_PAR (hoverheight, params, param_hoverheight);
+        SetHoverHeight (hoverheight);
+      }
     default:
       return false;
   }
 }
 
+void celPcHover::SetFactors (float p, float i, float d)
+{
+  pid.p_factor = p;
+  pid.i_factor = i;
+  pid.d_factor = d;
+}
+
 void celPcHover::Tick ()
 {
   PerformStabilising ();
-}
-
-void celPcHover::UseDefaultFunction (float dampening)
-{
-  func.AttachNew(new celDefaultHoverUpthruster (dampening));
 }
 
 float celPcHover::AngularAlignment (csVector3 offset, float height)
@@ -236,6 +274,30 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
   return (r_down + r_up) / 2.0f;	// 2 good rotation values - average them
 }
 
+float celPcHover::PIDStatus::Force (float curr_height)
+{
+    float pval, dval, ival;
+    float error = hover_height - curr_height;
+    //printf ("E: %f\n", error);
+
+    // calculate the proportional term
+    pval = p_factor * error;
+    csClamp (pval, -clamp, clamp);
+
+    // calculate the integral term
+    sum_errors += error;
+    ival = i_factor * sum_errors;
+    csClamp (ival, -clamp, clamp);
+
+    // calculate the differential term
+    dval = d_factor * (curr_height - last_height);
+    last_height = curr_height;
+    csClamp (dval, -clamp, clamp);
+
+    //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+    return pval + ival + dval;
+}
+
 void celPcHover::PerformStabilising ()
 {
   if (!pcmechobj)
@@ -247,17 +309,12 @@ void celPcHover::PerformStabilising ()
 
   /* here we get ship info which can be used to calculate
       upthrust force, from functor object */
-  celHoverObjectInfo obj_info;
-  // ships height
-  object_height = obj_info.height = Height();
-  // ships local vertical velocity
-  obj_info.yvel = pcmechobj->WorldToLocal (pcmechobj->GetLinearVelocity ()).y;
+  float height = Height();
 
   if (hover_on)
   {
-    /* get functor object to calculate upthrust force
-        from ships info */
-    float force = func->Force (obj_info);
+    // do PID calculation here.
+    float force = pid.Force (height);
     //printf ("%f %f\n",obj_info.height,force);
 
     // apply the force
@@ -266,12 +323,18 @@ void celPcHover::PerformStabilising ()
     //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
     //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
   }
+  else
+  {
+    // if hover is turned off we still need to update this since this
+    // can be queried outside the property class and its stored here.
+    pid.last_height = height;
+  }
 
   // the ships roll and pitch should try to remain level
-  if ((ang_mult > 0.0) && (obj_info.height < ang_cutoff_height))
+  if ((ang_mult > 0.0) && (height < ang_cutoff_height))
   {
-    float rx = AngularAlignment (csVector3 (0,0,-1), obj_info.height);
-    float rz = AngularAlignment (csVector3 (1,0,0), obj_info.height);
+    float rx = AngularAlignment (csVector3 (0,0,-1), height);
+    float rz = AngularAlignment (csVector3 (1,0,0), height);
 
     // align the ship by getting it to rotate in whatever direction
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +
