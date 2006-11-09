@@ -76,13 +76,12 @@ public:
   virtual void SetAngularBeamOffset (float abo) { ang_beam_offset = abo; }
   virtual void SetAngularCutoffHeight (float ach) { ang_cutoff_height = ach; }
   virtual void SetAngularCorrectionStrength (float mul) { ang_mult = mul; }
-  virtual void SetStabiliserFunction (celStabiliserFunction *sfunc)
-  { func.AttachNew (sfunc); }
+  virtual void SetFactors (float p, float i, float d);
+  virtual void SetHoverHeight (float height) { pid.hover_height = height; }
 
   virtual void HoverOn () { hover_on = true; }
   virtual void HoverOff () { hover_on = false; }
-  virtual void UseDefaultFunction (float dampening);
-  virtual float GetHeight () { return object_height; }
+  virtual float GetHeight () { return pid.last_height; }
 
   struct PcHover : public iPcHover
   {
@@ -104,9 +103,13 @@ public:
     {
       scfParent->SetAngularCorrectionStrength (mul);
     }
-    virtual void SetStabiliserFunction (celStabiliserFunction *sfunc)
+    virtual void SetFactors (float p, float i, float d)
     {
-      scfParent->SetStabiliserFunction (sfunc);
+      scfParent->SetFactors (p, i, d);
+    }
+    virtual void SetHoverHeight (float height)
+    {
+      scfParent->SetHoverHeight (height);
     }
 
     virtual void HoverOn ()
@@ -116,11 +119,6 @@ public:
     virtual void HoverOff ()
     {
       scfParent->HoverOff ();
-    }
-
-    virtual void UseDefaultFunction (float dampening)
-    {
-      scfParent->UseDefaultFunction (dampening);
     }
 
     virtual float GetHeight ()
@@ -140,7 +138,18 @@ private:
     action_setangheight,
     action_setangstr,
     action_usedeffunc,
-    action_hoveron
+    action_hoveron,
+    action_setfactors,
+    action_sethoverheight
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_p_factor = 0,
+    propid_i_factor,
+    propid_d_factor,
+    propid_hover_height
   };
 
   // Parameters.
@@ -149,6 +158,10 @@ private:
   static csStringID param_angheight;
   static csStringID param_angstr;
   static csStringID param_hover;
+  static csStringID param_p_factor;
+  static csStringID param_i_factor;
+  static csStringID param_d_factor;
+  static csStringID param_hoverheight;
 
   /**
    * Calculate height of object to ground (world mesh)
@@ -185,11 +198,18 @@ private:
   float ang_cutoff_height;
   /// cutoff height at which height test returns inf
   float height_beam_cutoff;
-  /// function which computes upthrust depending on height
-  csRef<celStabiliserFunction> func;
 
-  /// last calculated height of object
-  float object_height;
+  /// PID controller status
+  struct PIDStatus
+  {
+    /// calculate the required upthrust force
+    float Force (float curr_height);
+
+    float p_factor, i_factor, d_factor, hover_height;
+
+    float sum_errors, last_height;
+    float dampening, clamp;
+  } pid;
 
   /// stored ship mech interface
   csWeakRef<iPcMechanicsObject> pcmechobj;
