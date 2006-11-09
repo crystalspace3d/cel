@@ -22,6 +22,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a bug in iPcQuest->NewQuest(). It would modify
 	  a read only hashmap that it gets from another module.
 	- Genjix made pchover now use a PID controller interface.
+	- Genjix updated texinfo manual sources about pchover.
 7-Nov-2006
 	- Jorrit added a feature to the pcmesh MoveMesh action. If the
 	  sector parameter is not given the sector will be unchanged.
