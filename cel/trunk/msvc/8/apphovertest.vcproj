@@ -187,9 +187,6 @@
 			<File
 				RelativePath="..\..\apps\hovertest\hovertest.h">
 			</File>
-			<File
-				RelativePath="..\..\apps\hovertest\upthruster.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
