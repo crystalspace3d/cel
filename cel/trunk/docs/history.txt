@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+10-Nov-2006
+	- Jorrit fixed a bug in the quest manager which could cause
+	  memory leaks in some cases.
 8-Nov-2006
 	- Jorrit fixed pcsoundsource so that it correctly handles
 	  2D versus 3D sounds now.
