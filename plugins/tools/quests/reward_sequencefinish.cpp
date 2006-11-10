@@ -151,7 +151,7 @@ void celSequenceFinishReward::Reward ()
   {
     if (!ent)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+      iCelPlLayer* pl = type->pl;
       ent = pl->FindEntity (entity);
       if (!ent) return;
     }
