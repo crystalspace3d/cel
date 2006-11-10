@@ -2846,10 +2846,10 @@ class iPcHover(cspace.iBase):
     def SetAngularBeamOffset(*args): return _blcelc.iPcHover_SetAngularBeamOffset(*args)
     def SetAngularCutoffHeight(*args): return _blcelc.iPcHover_SetAngularCutoffHeight(*args)
     def SetAngularCorrectionStrength(*args): return _blcelc.iPcHover_SetAngularCorrectionStrength(*args)
+    def SetFactors(*args): return _blcelc.iPcHover_SetFactors(*args)
+    def SetHoverHeight(*args): return _blcelc.iPcHover_SetHoverHeight(*args)
     def HoverOn(*args): return _blcelc.iPcHover_HoverOn(*args)
     def HoverOff(*args): return _blcelc.iPcHover_HoverOff(*args)
-    def SetStabiliserFunction(*args): return _blcelc.iPcHover_SetStabiliserFunction(*args)
-    def UseDefaultFunction(*args): return _blcelc.iPcHover_UseDefaultFunction(*args)
     def GetHeight(*args): return _blcelc.iPcHover_GetHeight(*args)
     Height = property(_blcelc.iPcHover_Height_get, None, None,
                     "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cel method:\n\tget: float iPcHover::GetHeight()")
