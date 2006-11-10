@@ -22,6 +22,9 @@ The history order is reversed so that new features are at the top.
 	  the words 'disable', 'relative', or 'absolute'.
 	  The sound function also has an additional optional parameter
 	  with same possible values.
+	- Jorrit fixed pcsoundsource so that it is compatible with the new
+	  way to do sound in CS. There are new SetMode()/GetMode()
+	  functions in iPcSoundSource and also a new 'mode' property.
 8-Nov-2006
 	- Jorrit fixed pcsoundsource so that it correctly handles
 	  2D versus 3D sounds now.

@@ -283,6 +283,8 @@ PropertyHolder celPcSoundSource::propinfo;
 celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  mode = CS_SND3D_DISABLE;
+
   propholder = &propinfo;
 
   // For actions.
@@ -293,7 +295,7 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (8);
+  propinfo.SetCount (9);
   AddProperty (propid_soundname, "cel.property.soundname",
 	CEL_DATA_STRING, false, "Name of the sound.", 0);
   AddProperty (propid_volume, "cel.property.volume",
@@ -310,8 +312,33 @@ celPcSoundSource::celPcSoundSource (iObjectRegistry* object_reg)
 	CEL_DATA_BOOL, false, "Loop.", 0);
   AddProperty (propid_follow, "cel.property.follow",
 	CEL_DATA_BOOL, false, "Whether to follow own entity pcmesh.", 0);
+  AddProperty (propid_mode, "cel.property.mode",
+	CEL_DATA_STRING, false, "'absolute', 'relative', or 'disable'.", 0);
 
   follow = 0;
+}
+
+const char* celPcSoundSource::GetMode () const
+{
+  switch (mode)
+  {
+    case CS_SND3D_RELATIVE: return "relative";
+    case CS_SND3D_ABSOLUTE: return "absolute";
+    default: return "disable";
+  }
+}
+
+void celPcSoundSource::SetMode (const char* modename)
+{
+  int m;
+  if (!strcasecmp ("absolute", modename)) m = CS_SND3D_ABSOLUTE;
+  else if (!strcasecmp ("relative", modename)) m = CS_SND3D_RELATIVE;
+  else m = CS_SND3D_DISABLE;
+  if (mode == m) return;
+  mode = m;
+  stream = 0;
+  source = 0;
+  source3d = 0;
 }
 
 celPcSoundSource::~celPcSoundSource ()
@@ -400,7 +427,7 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, bool b)
   switch (idx)
   {
     case propid_loop:
-      source->GetStream ()->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
+      stream->SetLoopState (b ? CS_SNDSYS_STREAM_LOOP :
     	  CS_SNDSYS_STREAM_DONTLOOP);
       return true;
     case propid_follow:
@@ -418,7 +445,7 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, bool& b)
   switch (idx)
   {
     case propid_loop:
-      b = source->GetStream ()->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
+      b = stream->GetLoopState () == CS_SNDSYS_STREAM_LOOP;
       return true;
     case propid_follow:
       b = follow;
@@ -435,6 +462,11 @@ bool celPcSoundSource::SetPropertyIndexed (int idx, const char* b)
     SetSoundName (b);
     return true;
   }
+  else if (idx == propid_mode)
+  {
+    SetMode (b);
+    return true;
+  }
   return false;
 }
 
@@ -443,6 +475,11 @@ bool celPcSoundSource::GetPropertyIndexed (int idx, const char*& b)
   if (idx == propid_soundname)
   {
     b = soundname;
+    return true;
+  }
+  else if (idx == propid_mode)
+  {
+    b = GetMode ();
     return true;
   }
   return false;
@@ -477,10 +514,10 @@ bool celPcSoundSource::PerformActionIndexed (int idx,
   switch (idx)
   {
     case action_unpause:
-      source->GetStream ()->Unpause ();
+      stream->Unpause ();
       return true;
     case action_pause:
-      source->GetStream ()->Pause ();
+      stream->Pause ();
       return true;
     default:
       return false;
@@ -523,7 +560,16 @@ bool celPcSoundSource::GetSource ()
     printf ("Error! No sound renderer!\n"); fflush (stdout);
     return false;
   }
-  csRef<iSndSysSource> src = renderer->CreateSource (soundwrap->GetStream ());
+
+  // If the stream is present in the sound wrapper then that
+  // means we have a deprecated old-style sound wrapper that
+  // still has a stream associated with it (uses 'mode3d'
+  // attribute in <sound> section on map file).
+  if (soundwrap->GetStream ())
+    stream = soundwrap->GetStream ();
+  else
+    stream = renderer->CreateStream (soundwrap->GetData (), mode);
+  csRef<iSndSysSource> src = renderer->CreateSource (stream);
   if (src)
   {
     source = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware);
@@ -538,6 +584,7 @@ void celPcSoundSource::SetSoundName (const char* name)
   soundwrap = 0;
   source = 0;
   source3d = 0;
+  stream = 0;
 }
 
 //---------------------------------------------------------------------------

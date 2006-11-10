@@ -72,6 +72,8 @@ struct iPcSoundListener : public virtual iBase
  * - maximumdistance (float, read/write): maximum play distance.
  * - loop (bool, read/write): true=loop, false=don't loop.
  * - follow (bool, read/write): follow own entity pcmesh (default off).
+ * - mode (string, read/write): one of 'disable', 'relative', or 'asbolute'
+ *   (default 'disable'). This is the 3D mode of the sound source.
  */
 struct iPcSoundSource : public virtual iBase
 {
@@ -84,6 +86,16 @@ struct iPcSoundSource : public virtual iBase
   virtual void SetSoundName (const char* name) = 0;
   /// Get the name of the sound wrapper that is used.
   virtual const char* GetSoundName () const = 0;
+  /**
+   * Set the mode for this sound. Should be one of
+   * 'disable' (default), 'absolute', or 'relative'.
+   */
+  virtual void SetMode (const char* modename) = 0;
+  /**
+   * Return the mode for this sound.
+   * One of 'disable', 'absolute', or 'relative'.
+   */
+  virtual const char* GetMode () const = 0;
 };
 
 #endif // __CEL_PF_SOUND__
