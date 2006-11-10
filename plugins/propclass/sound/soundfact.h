@@ -111,12 +111,15 @@ private:
     propid_minimumdistance,
     propid_maximumdistance,
     propid_loop,
-    propid_follow
+    propid_follow,
+    propid_mode
   };
   static PropertyHolder propinfo;
 
   csRef<iSndSysSourceSoftware3D> source3d;
   csRef<iSndSysSourceSoftware> source;
+  csRef<iSndSysStream> stream;
+  int mode;
   csString soundname;
   csRef<iSndSysWrapper> soundwrap;
   void GetSoundWrap ();
@@ -136,6 +139,8 @@ public:
   virtual iSndSysSource* GetSoundSource () { return source; }
   virtual void SetSoundName (const char* name);
   virtual const char* GetSoundName () const { return soundname; }
+  virtual void SetMode (const char* modename);
+  virtual const char* GetMode () const;
 
   virtual const char* GetName () const { return "pcsoundsource"; }
   virtual csPtr<iCelDataBuffer> Save ();
