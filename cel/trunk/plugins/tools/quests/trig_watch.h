@@ -95,7 +95,6 @@ private:
   csString target_tag;
   csTicks time;
   float radius, sqradius;
-  csWeakRef<iCelPlLayer> pl;
   csWeakRef<iCollideSystem> cdsys;
   csVector3 offset;
 

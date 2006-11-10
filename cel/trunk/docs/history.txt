@@ -6,6 +6,12 @@ The history order is reversed so that new features are at the top.
 10-Nov-2006
 	- Jorrit fixed a bug in the quest manager which could cause
 	  memory leaks in some cases.
+	- Jorrit optimized the quest manager slightly. Every trigger
+	  and reward had to query for the physical layer and most of
+	  them did it all the time whenever a reward or trigger
+	  had to be used. Now the reward and trigger types do this
+	  query once.
+	- Jorrit added a new Clear action to pcactormove.
 8-Nov-2006
 	- Jorrit fixed pcsoundsource so that it correctly handles
 	  2D versus 3D sounds now.

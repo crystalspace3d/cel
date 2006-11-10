@@ -178,7 +178,6 @@ celWatchTrigger::celWatchTrigger (
   if (offsetz_par && *offsetz_par)
     offset.z = ToFloat (qm->ResolveParameter (params, offsetz_par));
 
-  pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
   cdsys = csQueryRegistry<iCollideSystem> (type->object_reg);
 }
 
@@ -201,6 +200,7 @@ bool celWatchTrigger::FindEntities ()
 {
   if (!source_mesh)
   {
+    iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return false;
     source_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, tag);
@@ -208,6 +208,7 @@ bool celWatchTrigger::FindEntities ()
   }
   if (!target_mesh)
   {
+    iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (target_entity);
     if (!ent) return false;
     target_mesh = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcMesh, target_tag);
@@ -225,6 +226,7 @@ void celWatchTrigger::TickOnce ()
   }
   else
   {
+    iCelPlLayer* pl = type->pl;
     pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
   	CEL_EVENT_PRE);
   }
@@ -233,6 +235,7 @@ void celWatchTrigger::TickOnce ()
 void celWatchTrigger::ActivateTrigger ()
 {
   if (!FindEntities ()) return;
+  iCelPlLayer* pl = type->pl;
   pl->CallbackOnce (static_cast<iCelTimerListener*> (this), time, 
   	CEL_EVENT_PRE);
 }
@@ -276,6 +279,7 @@ printf ("check sqdistance=%g sqradius=%g closest_mesh=%s\n", rc.sqdistance, sqra
 
 void celWatchTrigger::DeactivateTrigger ()
 {
+  iCelPlLayer* pl = type->pl;
   pl->RemoveCallbackOnce (static_cast<iCelTimerListener*> (this),
   	CEL_EVENT_PRE);
 }

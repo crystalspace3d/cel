@@ -44,9 +44,11 @@
  * - RotateLeft: parameters 'start' (bool).
  * - RotateRight: parameters 'start' (bool).
  * - RotateTo: parameters 'yrot' (float).
+ *   StrafeRight, ... with parameter false).
  * - MouseMove: parameters 'x' (float) and 'y' (float).
  * - Run: parameters 'start' (bool).
  * - AutoRun: parameters 'start' (bool).
+ * - Clear: clear all movement (equivalent to calling Forward,
  * - Jump.
  * - ToggleCameraMode.
  * - SetAnimation: parameters 'name' (string) and 'cycle' (bool default=true).

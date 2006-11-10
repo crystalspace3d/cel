@@ -206,7 +206,7 @@ void celTransformSeqOp::FindMesh ()
   if (mesh) return;
 
   // @@@ To many queries for efficiency?
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (ent)
   {
