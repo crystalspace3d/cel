@@ -4917,13 +4917,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUNDFUN:
         {
-	  CHECK_STACK(4)
+	  CHECK_STACK(5)
+	  celXmlArg a_mode3d = stack.Pop ();
 	  celXmlArg a_play = stack.Pop ();
 	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s\n",
-		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s mode3d=%s\n",
+		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play),
+		A2S (a_mode3d)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -4938,12 +4940,36 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    if (!renderer)
 	      return ReportError (cbl, "Error! No sound renderer!");
 	    csRef<iSndSysSource> sound_source;
-	    sound_source = renderer->CreateSource(w->GetStream());
+	    csRef<iSndSysStream> sound_stream;
+	    // If the stream is present in the sound wrapper then that
+	    // means we have a deprecated old-style sound wrapper that
+	    // still has a stream associated with it (uses 'mode3d'
+	    // attribute in <sound> section on map file).
+	    if (w->GetStream ())
+	      sound_stream = w->GetStream ();
+	    else
+	    {
+	      int mode3d;
+	      if (IsNumericType (a_mode3d))
+		mode3d = ArgToInt32 (a_mode3d);
+	      else
+	      {
+		const char* modestring = ArgToString (a_mode3d);
+		if (!strcasecmp ("absolute", modestring))
+		  mode3d = CS_SND3D_ABSOLUTE;
+		else if (!strcasecmp ("relative", modestring))
+		  mode3d = CS_SND3D_RELATIVE;
+		else
+		  mode3d = CS_SND3D_DISABLE;
+	      }
+	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+	    }
+	    sound_source = renderer->CreateSource (sound_stream);
 	    sound_source->SetVolume (ArgToFloat (a_volume));
-	    sound_source->GetStream ()->ResetPosition ();
-	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
+	    sound_stream->ResetPosition ();
+	    sound_stream->SetLoopState(ArgToInt32 (a_loop));
 	    if (ArgToBool (a_play))
-	      sound_source->GetStream ()->Unpause ();
+	      sound_stream->Unpause ();
 	    top.SetIBase (static_cast<iBase*> (sound_source));
 	  }
 	  else
@@ -5062,12 +5088,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUND:
         {
-	  CHECK_STACK(3)
+	  CHECK_STACK(4)
+	  celXmlArg a_mode3d = stack.Pop ();
 	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg a_name = stack.Pop ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s\n",
-		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
+		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
+		A2S (a_mode3d)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -5082,11 +5110,37 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    if (!renderer)
 	      return ReportError (cbl, "Error! No sound renderer!");
 	    csRef<iSndSysSource> sound_source;
-	    sound_source = renderer->CreateSource(w->GetStream());
+	    csRef<iSndSysStream> sound_stream;
+	    // If the stream is present in the sound wrapper then that
+	    // means we have a deprecated old-style sound wrapper that
+	    // still has a stream associated with it (uses 'mode3d'
+	    // attribute in <sound> section on map file).
+	    if (w->GetStream ())
+	      sound_stream = w->GetStream ();
+	    else
+	    {
+	      int mode3d;
+	      if (IsNumericType (a_mode3d))
+		mode3d = ArgToInt32 (a_mode3d);
+	      else
+	      {
+		const char* modestring = ArgToString (a_mode3d);
+		if (!strcasecmp ("absolute", modestring))
+		  mode3d = CS_SND3D_ABSOLUTE;
+		else if (!strcasecmp ("relative", modestring))
+		  mode3d = CS_SND3D_RELATIVE;
+		else
+		  mode3d = CS_SND3D_DISABLE;
+	      }
+	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+	    }
+	    sound_source = renderer->CreateSource (sound_stream);
 	    sound_source->SetVolume (ArgToFloat (a_volume));
-	    sound_source->GetStream ()->ResetPosition ();
-	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
-	    sound_source->GetStream ()->Unpause ();
+	    sound_stream->ResetPosition ();
+	    sound_stream->SetLoopState(ArgToInt32 (a_loop));
+	    sound_stream->Unpause ();
+	    if (!w->GetStream ())
+	      sound_stream->SetAutoUnregister (true);
 	  }
 	  else
 	    return ReportError (cbl, "Error! Can't find sound '%s'!",

@@ -25,6 +25,7 @@
 #include "iengine/engine.h"
 #include "csutil/scanstr.h"
 #include "csutil/stringarray.h"
+#include "isndsys/ss_stream.h"
 
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -741,6 +742,19 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
 	{
           h->AddOperation (CEL_OPERATION_PUSH);
           h->GetArgument ().Set (true);			// Default play.
+	  input = pinput;	// Set back to ')'
+	}
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	if (token == CEL_TOKEN_COMMA)
+	{
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+	    return false;
+	}
+	else
+	{
+          h->AddOperation (CEL_OPERATION_PUSH);
+          h->GetArgument ().SetInt32 (0);		// No 3D mode.
 	  input = pinput;	// Set back to ')'
 	}
 	h->AddOperation (CEL_OPERATION_SOUNDFUN);
@@ -1995,6 +2009,16 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	{
 	  h->AddOperation (CEL_OPERATION_PUSH);
 	  h->GetArgument ().SetFloat (1.0f);
+	}
+	if (child->GetAttributeValue ("mode"))
+	{
+          if (!ParseExpression (local_vars, child, h, "mode", "sound"))
+	    return false;
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_PUSH);
+	  h->GetArgument ().SetInt32 (CS_SND3D_DISABLE);
 	}
 	h->AddOperation (CEL_OPERATION_SOUND);
         break;

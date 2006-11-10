@@ -15,6 +15,13 @@ The history order is reversed so that new features are at the top.
 	- caedes moved all accessors in blcel.i to a new separate file
 	  celproperties.i, and made them use the new macros in cs to
 	  define them.
+	- Jorrit fixed CEL for the latest changes to CS sound system.
+	  That means that in blxml the sound operation now has an extra
+	  optional 'mode' parameter which can be set to either 0, 1,
+	  or 2 (disable, relative, or absolute) but you can also use
+	  the words 'disable', 'relative', or 'absolute'.
+	  The sound function also has an additional optional parameter
+	  with same possible values.
 8-Nov-2006
 	- Jorrit fixed pcsoundsource so that it correctly handles
 	  2D versus 3D sounds now.
