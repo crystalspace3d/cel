@@ -50,7 +50,7 @@ class csString;
 #define CEL_PARAM_END (void*)0
 
 /// Parameters used to create an entity from a template.
-typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
+typedef csHash<csString, csString> celEntityTemplateParams;
 
 struct iCelEntityTracker;
 
