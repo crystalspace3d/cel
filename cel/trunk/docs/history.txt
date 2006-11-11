@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Nov-2006
+	- Arianna fixed a compiler warning (hopefully) in pl.h
+
 10-Nov-2006
 	- Jorrit fixed a bug in the quest manager which could cause
 	  memory leaks in some cases.
