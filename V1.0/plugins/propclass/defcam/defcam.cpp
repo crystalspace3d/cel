@@ -384,15 +384,61 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (1);
+  propinfo.SetCount (6);
   AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
 	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
+  AddProperty (propid_yawvelocity, "cel.property.yawvelocity",
+	CEL_DATA_FLOAT, false, "Yaw velocity.", &yawVelocity);
+  AddProperty (propid_distancevelocity, "cel.property.distancevelocity",
+	CEL_DATA_FLOAT, false, "Distance (zoom) velocity.", &distanceVelocity);
+  AddProperty (propid_pitch, "cel.property.pitch",
+	CEL_DATA_FLOAT, false, "Pitch.", 0);
+  AddProperty (propid_yaw, "cel.property.yaw",
+	CEL_DATA_FLOAT, false, "Yaw.", 0);
+  AddProperty (propid_distance, "cel.property.distance",
+	CEL_DATA_FLOAT, false, "Distance (zoom).", 0);
 }
 
 celPcDefaultCamera::~celPcDefaultCamera ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
+}
+
+bool celPcDefaultCamera::SetPropertyIndexed (int idx, float b)
+{
+  switch (idx)
+  {
+    case propid_yaw:
+      SetYaw (b);
+      return true;
+    case propid_distance:
+      SetDistance (b);
+      return true;
+    case propid_pitch:
+      SetPitch (b);
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool celPcDefaultCamera::GetPropertyIndexed (int idx, float& b)
+{
+  switch (idx)
+  {
+    case propid_yaw:
+      b = GetYaw ();
+      return true;
+    case propid_distance:
+      b = GetDistance ();
+      return true;
+    case propid_pitch:
+      b = GetPitch ();
+      return true;
+    default:
+      return false;
+  }
 }
 
 bool celPcDefaultCamera::PerformActionIndexed (int idx,

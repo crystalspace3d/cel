@@ -435,6 +435,14 @@ static const char* ArgToString (const celXmlArg& a)
   }
 }
 
+static const char* ArgToStringSafe (const celXmlArg& a)
+{
+  const char* s = ArgToString (a);
+  if (s) return s;
+  else return "";
+}
+
+
 static const char* ArgToStringTpl (const celXmlArg& a)
 {
   switch (a.type)
@@ -604,6 +612,7 @@ static iCelEntity* ArgToEntity (const celXmlArg& a, iCelPlLayer* pl)
   else
   {
     const char* entname = ArgToString (a);
+    if (!entname) return 0;
     return pl->FindEntity (entname);
   }
 }
@@ -1992,10 +2001,21 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg p2 = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: sqdist p1=%s p2=%s\n", i-1, A2S (top), A2S (p2)));
-	  csVector3 v1 = ArgToVector3 (top);
-	  csVector3 v2 = ArgToVector3 (p2);
-	  float sqdist = csSquaredDist::PointPoint (v1, v2);
-	  top.SetFloat (sqdist);
+	  if (top.type == CEL_DATA_VECTOR2)
+	  {
+	    csVector2 v1 = ArgToVector2 (top);
+	    csVector2 v2 = ArgToVector2 (p2);
+	    csVector2 d = v1-v2;
+	    float sqdist = d * d;
+	    top.SetFloat (sqdist);
+	  }
+	  else
+	  {
+	    csVector3 v1 = ArgToVector3 (top);
+	    csVector3 v2 = ArgToVector3 (p2);
+	    float sqdist = csSquaredDist::PointPoint (v1, v2);
+	    top.SetFloat (sqdist);
+	  }
 	}
 	break;
       case CEL_OPERATION_ABS:
@@ -2117,10 +2137,10 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg a_str = stack.Pop ();
           DUMP_EXEC ((":%04d: strsplit string=%s left=%d del=%s right=%s\n", i-1,
 	  	A2S (a_str), A2S (a_left), A2S (a_del), A2S (a_right)));
-	  const char* str = ArgToString (a_str);
-	  const char* leftvar = ArgToString (a_left);
-	  const char* del = ArgToString (a_del);
-	  const char* rightvar = ArgToString (a_right);
+	  const char* str = ArgToStringSafe (a_str);
+	  const char* leftvar = ArgToStringSafe (a_left);
+	  const char* del = ArgToStringSafe (a_del);
+	  const char* rightvar = ArgToStringSafe (a_right);
 	  const char* s = strstr (str, del);
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
@@ -2146,8 +2166,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: stridx (%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_sub)));
-	  const char* str = ArgToString (top);
-	  const char* sub = ArgToString (a_sub);
+	  const char* str = ArgToStringSafe (top);
+	  const char* sub = ArgToStringSafe (a_sub);
 	  const char* rc = strstr (str, sub);
 	  if (rc)
 	    top.SetInt32 (rc-str);
@@ -2163,7 +2183,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: strsub (%s,%s,%s)\n", i-1, A2S (top),
 	  	A2S (a_pos), A2S (a_len)));
-	  const char* str = ArgToString (top);
+	  const char* str = ArgToStringSafe (top);
 	  int32 pos = ArgToInt32 (a_pos);
 	  int32 len = ArgToInt32 (a_len);
 	  size_t real_len = strlen (str) - pos;
@@ -2180,7 +2200,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  CHECK_STACK(1)
 	  celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: strlen (%s)\n", i-1, A2S (top)));
-	  const char* str = ArgToString (top);
+	  const char* str = ArgToStringSafe (top);
 	  if (str) top.SetInt32 ((int32)strlen (str));
 	  else top.SetInt32 (0);
 	}
@@ -2381,8 +2401,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (top);
-	        const char* sb = ArgToString (elb);
+	        const char* sa = ArgToStringSafe (top);
+	        const char* sb = ArgToStringSafe (elb);
 	        if (strcmp (sa, sb) < 0)
 	          top.SetString (sa, true);
 	        else
@@ -2427,8 +2447,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_STRING:
 	      {
-	        const char* sa = ArgToString (top);
-	        const char* sb = ArgToString (elb);
+	        const char* sa = ArgToStringSafe (top);
+	        const char* sb = ArgToStringSafe (elb);
 	        if (strcmp (sa, sb) > 0)
 	          top.SetString (sa, true);
 	        else
@@ -2947,8 +2967,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-              ArgToString (elb))? true : false);
+	      top.Set (strcmp (ArgToStringSafe (top),
+                ArgToStringSafe (elb))? true : false);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3007,8 +3027,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      }
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (!strcmp (ArgToString (top),
-	      	ArgToString (elb)));
+	      top.Set (!strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)));
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3034,8 +3054,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) < ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) < 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) < 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3061,8 +3081,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) <= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) <= 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) <= 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3088,8 +3108,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) > ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) > 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) > 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3115,8 +3135,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      top.Set (ArgToUInt32 (top) >= ArgToUInt32 (elb));
 	      break;
 	    case CEL_DATA_STRING:
-	      top.Set (strcmp (ArgToString (top),
-	      	ArgToString (elb)) >= 0);
+	      top.Set (strcmp (ArgToStringSafe (top),
+	      	ArgToStringSafe (elb)) >= 0);
 	      break;
 	    default:
 	      return ReportError (cbl, "Can't compare these types!");
@@ -3170,7 +3190,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
-	  const char* varname = ArgToString (op.arg.arg.str.s, ArgToString (a_index1), a_index2);
+	  const char* varname = ArgToString (op.arg.arg.str.s,
+	      ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
@@ -3198,7 +3219,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl,
 	    	"Entity '%s' doesn't have 'pcproperties'!",
 	    	EntityNameForError (top));
-	  const char* varname = ArgToString (ArgToString (a_array), ArgToString (a_index1), a_index2);
+	  const char* varname = ArgToString (ArgToString (a_array),
+	      ArgToString (a_index1), a_index2);
 	  size_t idx = props->GetPropertyIndex (varname);
           if (idx == csArrayItemNotFound)
 	    return ReportError (cbl, "Can't find variable '%s'!", varname);
@@ -3726,7 +3748,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 		(unsigned long)i-1, A2S (atpl), A2S (aname));
 	    fflush (stdout);
 	  }
-	  const char* tplname = ArgToString (atpl);
+	  const char* tplname = ArgToStringSafe (atpl);
 	  iCelEntityTemplate* entpl = pl -> FindEntityTemplate (tplname);
 	  if (!entpl)
 	    return ReportError (cbl,
@@ -4585,7 +4607,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for getproperty!");
 	  csStringID id = ArgToID (a_id);
 	  if (!pcProp2celXmlArg (pc, id, top))
 	    return ReportError (cbl, "Type not supported for getproperty!");
@@ -4673,7 +4695,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_findname name=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToString (top)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (
+		ArgToStringSafe (top)));
 	}
 	break;
       case CEL_OPERATION_INVENTORY_IN:
@@ -4693,7 +4716,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: inventory_find ent=%s\n", i-1, A2S (top)));
 	  if (!default_inv)
 	    return ReportError (cbl, "Default inventory isn't set!");
-	  top.SetUInt32 ((uint32)default_inv->FindEntity (ArgToEntity (top, pl)));
+	  top.SetUInt32 ((uint32)default_inv->FindEntity (
+		ArgToEntity (top, pl)));
 	}
 	break;
       case CEL_OPERATION_DEFAULTINV:
@@ -4703,7 +4727,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultinv pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for default inventory!");
 	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
 	  if (!inv)
 	    return ReportError (cbl, "Property class is not an inventory!");
@@ -4717,7 +4741,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: defaultpc pc=%s\n", i-1, A2S (a_pc)));
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
-	    return ReportError (cbl, "Property class is 0!");
+	    return ReportError (cbl, "Property class is 0 for default pc!");
 	  default_pc = pc;
 	}
 	break;
@@ -4893,13 +4917,15 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUNDFUN:
         {
-	  CHECK_STACK(4)
+	  CHECK_STACK(5)
+	  celXmlArg a_mode3d = stack.Pop ();
 	  celXmlArg a_play = stack.Pop ();
 	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s\n",
-		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s mode3d=%s\n",
+		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play),
+		A2S (a_mode3d)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -4914,14 +4940,41 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    if (!renderer)
 	      return ReportError (cbl, "Error! No sound renderer!");
 	    csRef<iSndSysSource> sound_source;
-	    sound_source = renderer->CreateSource(w->GetStream());
+	    csRef<iSndSysStream> sound_stream;
+	    // If the stream is present in the sound wrapper then that
+	    // means we have a deprecated old-style sound wrapper that
+	    // still has a stream associated with it (uses 'mode3d'
+	    // attribute in <sound> section on map file).
+	    if (w->GetStream ())
+	      sound_stream = w->GetStream ();
+	    else
+	    {
+	      int mode3d;
+	      if (IsNumericType (a_mode3d))
+		mode3d = ArgToInt32 (a_mode3d);
+	      else
+	      {
+		const char* modestring = ArgToString (a_mode3d);
+		if (!strcasecmp ("absolute", modestring))
+		  mode3d = CS_SND3D_ABSOLUTE;
+		else if (!strcasecmp ("relative", modestring))
+		  mode3d = CS_SND3D_RELATIVE;
+		else
+		  mode3d = CS_SND3D_DISABLE;
+	      }
+	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+	    }
+	    sound_source = renderer->CreateSource (sound_stream);
 	    sound_source->SetVolume (ArgToFloat (a_volume));
-	    sound_source->GetStream ()->ResetPosition ();
-	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
+	    sound_stream->ResetPosition ();
+	    sound_stream->SetLoopState(ArgToInt32 (a_loop));
 	    if (ArgToBool (a_play))
-	      sound_source->GetStream ()->Unpause ();
+	      sound_stream->Unpause ();
 	    top.SetIBase (static_cast<iBase*> (sound_source));
 	  }
+	  else
+	    return ReportError (cbl, "Error! Can't find sound '%s'!",
+		A2S (top));
 	}
         break;
       case CEL_OPERATION_SOUNDPAUSED:
@@ -5035,12 +5088,14 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	break;
       case CEL_OPERATION_SOUND:
         {
-	  CHECK_STACK(3)
+	  CHECK_STACK(4)
+	  celXmlArg a_mode3d = stack.Pop ();
 	  celXmlArg a_volume = stack.Pop ();
 	  celXmlArg a_loop = stack.Pop ();
 	  celXmlArg a_name = stack.Pop ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s\n",
-		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume)));
+	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
+		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
+		A2S (a_mode3d)));
 	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
 	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
@@ -5055,12 +5110,41 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    if (!renderer)
 	      return ReportError (cbl, "Error! No sound renderer!");
 	    csRef<iSndSysSource> sound_source;
-	    sound_source = renderer->CreateSource(w->GetStream());
+	    csRef<iSndSysStream> sound_stream;
+	    // If the stream is present in the sound wrapper then that
+	    // means we have a deprecated old-style sound wrapper that
+	    // still has a stream associated with it (uses 'mode3d'
+	    // attribute in <sound> section on map file).
+	    if (w->GetStream ())
+	      sound_stream = w->GetStream ();
+	    else
+	    {
+	      int mode3d;
+	      if (IsNumericType (a_mode3d))
+		mode3d = ArgToInt32 (a_mode3d);
+	      else
+	      {
+		const char* modestring = ArgToString (a_mode3d);
+		if (!strcasecmp ("absolute", modestring))
+		  mode3d = CS_SND3D_ABSOLUTE;
+		else if (!strcasecmp ("relative", modestring))
+		  mode3d = CS_SND3D_RELATIVE;
+		else
+		  mode3d = CS_SND3D_DISABLE;
+	      }
+	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+	    }
+	    sound_source = renderer->CreateSource (sound_stream);
 	    sound_source->SetVolume (ArgToFloat (a_volume));
-	    sound_source->GetStream ()->ResetPosition ();
-	    sound_source->GetStream ()->SetLoopState(ArgToInt32 (a_loop));
-	    sound_source->GetStream ()->Unpause ();
+	    sound_stream->ResetPosition ();
+	    sound_stream->SetLoopState(ArgToInt32 (a_loop));
+	    sound_stream->Unpause ();
+	    if (!w->GetStream ())
+	      sound_stream->SetAutoUnregister (true);
 	  }
+	  else
+	    return ReportError (cbl, "Error! Can't find sound '%s'!",
+		A2S (a_name));
 	}
         break;
       case CEL_OPERATION_HITBEAM:

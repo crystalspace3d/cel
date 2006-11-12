@@ -77,6 +77,9 @@ private:
   iCelEntity* GetConsoleEntity ();
   iCelExpressionParser* GetParser ();
 
+  void AssignVar (iCelEntity* ent, iCelExpression* exprvar,
+    iCelExpression* expr);
+
 public:
   celConsole (iBase* parent);
   virtual ~celConsole ();
@@ -98,6 +101,7 @@ public:
   void SnapshotDiff ();
   void EvalulateExpression (const csStringArray& args);
   void AssignVar (const csStringArray& args);
+  void AssignVarEntity (const csStringArray& args);
 
   virtual iConsoleInput* GetInputConsole () { return conin; }
   virtual iConsoleOutput* GetOutputConsole () { return conout; }

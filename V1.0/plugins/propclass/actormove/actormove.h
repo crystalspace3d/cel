@@ -140,6 +140,7 @@ private:
     action_mousemove,
     action_run,
     action_autorun,
+    action_clear,
     action_jump,
     action_togglecameramode,
     action_setanimation

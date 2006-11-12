@@ -50,7 +50,7 @@ class csString;
 #define CEL_PARAM_END (void*)0
 
 /// Parameters used to create an entity from a template.
-typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
+typedef csHash<csString, csString> celEntityTemplateParams;
 
 struct iCelEntityTracker;
 
@@ -146,7 +146,9 @@ struct iCelPlLayer : public iBase
   	iCelBlLayer* bl, const char* bhname, ...) = 0;
 
   /**
-   * Remove an entity from the physical layer.
+   * Remove an entity from the physical layer. If there is a behaviour
+   * associated with the entity then it will first get a 'destruct'
+   * message.
    */
   virtual void RemoveEntity (iCelEntity* entity) = 0;
 

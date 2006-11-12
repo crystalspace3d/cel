@@ -4,7 +4,7 @@
 This chapter explains how to build and install Crystal Entity Layer.
 
 @menu
-* Directory Hierachy::
+* Directory Hierarchy::
 * Requirements::
 * External Libraries::
 * CEL Environment Variable::
@@ -16,9 +16,9 @@ platform along with specific instructions on how to do this.
 If you have used Crystal Entity Layer on a platform which is not described
 please let us know via the mailing list so we can add instructions.
 
-@node Directory Hierachy, Requirements, Building, Building
-@section Directory Hierachy
-This section will explain the layout of the directory hierachy within
+@node Directory Hierarchy, Requirements, Building, Building
+@section Directory Hierarchy
+This section will explain the layout of the directory hierarchy within
 Crystal Entity Layer.  
 
 @table @code
@@ -132,7 +132,7 @@ Crystal Entity Layer.
             applications and examples reside.
 @end table
             
-@node Requirements, External Libraries, Directory Hierachy, Building
+@node Requirements, External Libraries, Directory Hierarchy, Building
 @section Requirements
 
 In order to be able to build and install Crystal Entity Layer your

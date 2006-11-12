@@ -78,6 +78,7 @@ struct iPcGravityCallback : public virtual iBase
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
+ * - speed (float, read/write): control speed (default 1.0).
  * - anchor (string, read/write): name of the entity on which we are
  *   anchored.
  * - gravity (float, read/write): gravity of the entity (default=19.6).
@@ -259,6 +260,15 @@ struct iPcLinearMovement : public virtual iBase
    * happening at different times.
    */
   virtual void UpdateDR (csTicks ticks) = 0;
+
+  /**
+   * This function calls ExtrapolatePosition with by calculating
+   * the delta from now relative to the last update, not
+   * a fixed delta.  This allows all entities linmoves to be
+   * synchronized to the same ticks, even if updates are all
+   * happening at different times.
+   */
+  virtual void UpdateDR () = 0;
 
   /**
    * This function lets linmove store a ref to the supplied

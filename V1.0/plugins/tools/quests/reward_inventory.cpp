@@ -165,7 +165,7 @@ celInventoryReward::~celInventoryReward ()
 
 void celInventoryReward::Reward ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelPlLayer* pl = type->pl;
   if (!inventory)
   {
     if (!ent)

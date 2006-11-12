@@ -114,7 +114,7 @@ C++, or it may be implemented in some form of scripting language.
 This manual was written and is currently maintained by Daniel Thoroughgood.
 Constructive feedback, suggestions and contributions are always welcome.
 
-If you find something in this manual which you beleive is not correct please
+If you find something in this manual which you believe is not correct please
 notify the mailing list in order to have this investigated and corrected.
 
 This manual is intended to also serve the purpose of a reference and as such
@@ -162,7 +162,7 @@ and Crystal Entity Layer.
 @node Guide, Features, Using CEL For Your Project, Introduction
 @section A Guide To This Documentation
 TODO: Complete this section when the layout of the manual is solid and cross
-refernces are all in place.
+references are all in place.
 
 @node Features, Where To Get CEL, Guide, Introduction
 @section Feature List
@@ -203,19 +203,17 @@ be build against a development version of Crystal Space from the same date.
 Mixing and matching of versions is not guaranteed to work, and in fact quite
 likely will not.
 
-@subheading CVS
+@subheading SVN
 As Crystal Entity Layer is being actively developed changes are quite often
 made to the sources on a daily basis.
 
 The latest sources to Crystal Entity Layer may be downloaded from 
-SourceForge's Anonymous CVS Servers.
+SourceForge's @sc{svn} Servers.
 
-TODO: Add instructions for downloading from SourceForge CVS
-
-Please keep in mind that currently SourceForge's Anonymous CVS servers are
-running approximately 5 hours behind the developer's CVS servers.  This
-means that bugfix's, new features, etc. which are updated by developers may
-not become available on the public servers immediatelly.
+To checkout @sc{svn} trunk in a @file{cel} subdirectory, use:
+@example
+svn co https://svn.sourceforge.net/svnroot/cel/cel/trunk cel
+@end example
 
 @node Mailing Lists, Licence, Where To Get CEL, Introduction
 @section Mailing Lists
@@ -229,7 +227,7 @@ subscribe to this list by visiting:@*
 You may also view an archive of prior posts to this list at:@*
 @uref{http://sourceforge.net/mailarchive/forum.php?forum_id=1108}
 
-The CVS update list is for notification of changes to the CVS source
+The @sc{svn} update list is for notification of changes to the @sc{svn} source
 repository.  All users subscribed to this list will receive an e-mail every
 time a developer updates the source.   You may subscribe to this list at:@*
 @uref{http://lists.sourceforge.net/mailman/listinfo/cel-cvs-update}

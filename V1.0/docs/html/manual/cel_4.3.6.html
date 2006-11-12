@@ -60,9 +60,7 @@ ul.toc {list-style: none}
 </tr></table>
 <h3 class="subsection"> 4.3.6 Hover </h3>
 
-<p>The mesh property class can be used to assign a 3D model to an entity.
-This property class defines a visual representation for an entity.
-This property class, defines a hovering object when used in conjunction
+<p>This property class, defines a hovering object when used in conjunction
 with <samp>`pcmechobject'</samp>.
 </p>
 <a name="SEC73"></a>
@@ -86,71 +84,32 @@ with <samp>`pcmechobject'</samp>.
 As well as hovering your object, it will also align it to the terrain, so
 that as it goes down a hill, the ship will also tilt.
 </p>
-<p>This property class requires you to load it with an entity, which has a
-<samp>`pcmesh'</samp> property class to act as the terrain it hovers over.
-</p>
 <a name="SEC75"></a>
-<h4 class="subsubheading"> Setting the Terrain </h4>
+<h4 class="subsubheading"> PID parameters </h4>
 
-<p>There are 2 ways to set the terrain mesh in <samp>`pchover'</samp>:
+<p>How your object corrects its height can be done by messing with 3 parameters called
+p_factor, i_factor and d_factor.
 </p>
-<ul>
-<li>
-Assuming you have the <code>iPcMesh</code> object, call <code>iPcHover-&gt;SetWorldMesh(pcmeshobj)</code>
-</li><li>
-Or you can use the entities name, as in <code>iPcHover-&gt;SetWorld(&quot;ent_level&quot;)</code>
-</li></ul>
-
-<p>This step is crucial, if you forget to do it the hovering system will not work.
+<p>  <code>iPcHover-&gt;SetAngularBeamOffset (2.0, 3.0, 4.0)</code>
+</p>
+<p>Will set p_factor to 2.0, i_factor to 3.0 and d_factor to 4.0 - there is no magic
+formula for adjusting these values, it's just educated guesswork and playing around
+with them.
+</p>
+<p>You may also wish to set the hovering height with <code>iPcHover-&gt;SetHoverHeight (float)</code>
 </p>
 <a name="SEC76"></a>
-<h4 class="subsubheading"> Setting the Upthruster Function </h4>
+<h4 class="subsubheading"> Stopping hovering over some objects. </h4>
 
-<p>Instead of using the default upthruster function, you may want to provide your
-own reactionary calculator.
+<p>If you don't want hovering over a certain object then just set the flag CS_ENTITY_NOHITBEAM
+on that object.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">// CEL Includes
-#include &quot;tools/stabiliser_dist.h&quot;
-
-class CustomUpthrusterFunction : public celStabiliserFunction
-{
-public:
-  float Force(celHoverObjectInfo obj_info)
-  {
-    /* when the height of the object
-        is less then 2, use an
-        upthrust force of 8 */
-    if (obj_info.height &lt; 2)
-      return 8.0;
-
-    return 0.0;
-  }
-};
-</pre></td></tr></table>
-<p>Then to insert into the property class you would do
+<p>You can switch off hovering entirely with <code>iPcHover-&gt;HoverOff ()</code> and use
+<code>iPcHover-&gt;HoverOn ()</code> to turn it back on. Note that angular correction will
+still be happening though (which will do nothing if you're resting on the ground).
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">pchover-&gt;SetStabiliserFunction (new CustomUpthrusterFunction ());
-</pre></td></tr></table>
-<p>At runtime, everytime the objects iPcHover is updated, your upthruster function
-will get called with information with the objects information on its state.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">struct celHoverObjectInfo
-{
-  /**
-   * The height of the object above the
-   * ground in along the world's y axis.
-   */
-  float height;
-
-  /**
-   * The vertical velocity of the object
-   * along the objects local y axis.
-   */
-  float yvel;
-};
-</pre></td></tr></table>
 <a name="SEC77"></a>
-<h4 class="subsubheading"> angular correction </h4>
+<h4 class="subsubheading"> Angular Correction </h4>
 
 <p>This refers to the object correcting its angle as it flies over terrain (facing
 downwards as it flies down hills).

@@ -96,7 +96,7 @@ bool celMessageRewardFactory::Load (iDocumentNode* node)
   if (!id_par)
     Report (type->object_reg,
       "'id' attribute is missing for the message reward!");
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
+  iCelPlLayer* pl = type->pl;
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
@@ -270,9 +270,9 @@ celMessageReward::~celMessageReward ()
 
 void celMessageReward::Reward ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
   if (!ent)
   {
+    iCelPlLayer* pl = type->pl;
     ent = pl->FindEntity (entity);
     if (!ent) return;
   }

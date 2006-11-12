@@ -2,8 +2,8 @@
       Quest for an object that can be picked up on approach.
       oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 <library>
-  <addon plugin="cel.addons.quest">
-<quest name="PickableTrigger">
+  <addon plugin="cel.addons.questdef">
+     <quest name="PickableTrigger">
     	<default name="monitor" value="camera"/>
     	<state name="onground">
 	    <trigger type="trigger">

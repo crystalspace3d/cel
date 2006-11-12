@@ -48,8 +48,11 @@ class csBox3;
  *   be in memory.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *   and 'factoryname' (string).
- * - MoveMesh: parameters 'sector' (string), 'position' (vector3),
+ * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3),
  *   'rotation' (vector3: optional. Represents an absolute rotation).
+ *   If 'sector' is empty string then we will remove the mesh
+ *   from all sectors. If 'sector' is not given then we simply move
+ *   the mesh inside current sector.
  * - RotateMesh: 'rotation' (vector3). This is a relative transform.
  * - ClearRotation: no parameters.
  * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).

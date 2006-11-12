@@ -99,7 +99,6 @@
 #define PATHFIND_VERBOSE 0
 
 #include "bl.h"
-#include "upthruster.h"
 
 //-----------------------------------------------------------------------------
 
@@ -218,11 +217,8 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pcmechobj->SetMass (1.0f);
   pcmechobj->SetDensity (3.0f);
 
-  csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (player, iPcHover);
-  pchover->SetStabiliserFunction (new xdShipUpthrusterFunction ());
-  pchover->SetAngularCorrectionStrength (1.0);
-  pchover->SetAngularCutoffHeight (8.0);
-  pchover->SetAngularBeamOffset (0.5);
+  //csRef<iPcHover> pchover = CEL_QUERY_PROPCLASS_ENT (player, iPcHover);
+  // defaults are fine
 
   csRef<iPcCraftController> pccraft = CEL_QUERY_PROPCLASS_ENT (player,
         iPcCraftController);

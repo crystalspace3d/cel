@@ -267,6 +267,11 @@ celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 
 celPcSolid::~celPcSolid ()
 {
+  if (collider_wrap && collider_wrap->GetObjectParent ())
+  {
+    collider_wrap->GetObjectParent ()->ObjRemove (static_cast<iObject*> (
+	  collider_wrap));
+  }
 }
 
 #define SOLID_SERIAL 1

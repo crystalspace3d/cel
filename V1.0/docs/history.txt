@@ -3,6 +3,93 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Nov-2006
+	- Arianna fixed a compiler warning (hopefully) in pl.h
+
+10-Nov-2006
+	- Jorrit fixed a bug in the quest manager which could cause
+	  memory leaks in some cases.
+	- Jorrit optimized the quest manager slightly. Every trigger
+	  and reward had to query for the physical layer and most of
+	  them did it all the time whenever a reward or trigger
+	  had to be used. Now the reward and trigger types do this
+	  query once.
+	- Jorrit added a new Clear action to pcactormove.
+	- caedes moved all accessors in blcel.i to a new separate file
+	  celproperties.i, and made them use the new macros in cs to
+	  define them.
+	- Jorrit fixed CEL for the latest changes to CS sound system.
+	  That means that in blxml the sound operation now has an extra
+	  optional 'mode' parameter which can be set to either 0, 1,
+	  or 2 (disable, relative, or absolute) but you can also use
+	  the words 'disable', 'relative', or 'absolute'.
+	  The sound function also has an additional optional parameter
+	  with same possible values.
+	- Jorrit fixed pcsoundsource so that it is compatible with the new
+	  way to do sound in CS. There are new SetMode()/GetMode()
+	  functions in iPcSoundSource and also a new 'mode' property.
+8-Nov-2006
+	- Jorrit fixed pcsoundsource so that it correctly handles
+	  2D versus 3D sounds now.
+	- Jorrit added better error reporting to the sound operations
+	  in the XML behaviour layer.
+	- Jorrit bumped up celstart version to 6.
+	- Jorrit fixed a big memory leak in the XML behaviour layer.
+	  Basically every behaviour that was assigned to an entity
+	  would never get removed even if the entity was removed.
+	- Jorrit added a new feature to CEL. Every time someone calls
+	  pl->RemoveEntity() the behaviour will get a message with
+	  name 'destruct'. Note that this destruct will be called
+	  at the time that RemoveEntity() is called. It is possible that
+	  the entity still remains in memory after that if there are
+	  more references to it from elsewhere.
+	- Jorrit added vproc_std to celstart_static.
+	- Jorrit fixed a bug in iPcQuest->NewQuest(). It would modify
+	  a read only hashmap that it gets from another module.
+	- Genjix made pchover now use a PID controller interface.
+	- Genjix updated texinfo manual sources about pchover.
+7-Nov-2006
+	- Jorrit added a feature to the pcmesh MoveMesh action. If the
+	  sector parameter is not given the sector will be unchanged.
+	- Jorrit added a new 'speed' property to pclinmove.
+	- Jorrit fixed a bug in pcproperties which prevented
+	  GetPropertyAndActionCount() from working properly. As a result
+	  it was not possible to list variables from within the cel
+	  console.
+	- Jorrit added a new 'varent' command to the cel console. With
+	  this command you can set a variable for another entity.
+	- Jorrit added 'yawvelocity', 'distancevelocity', 'pitch', 'yaw',
+	  and 'velocity' properties to pcdefaultcamera.
+	- Jorrit fixed pcsolid so that removing the property class will
+	  also remove the collider.
+	- Vincent made various fixes to the manual (typos, formatting, SVN).
+	- Vincent added version.txi for setting manual version and update
+	  date.
+6-Nov-2006
+	- Jorrit changed the zone manager so that CS regions are now
+	  named like <entity>_<region>. That avoids a problem with
+	  different zone managers using the same region name. Added
+	  an iCelRegion->GetCsRegionName() so that you can query the
+	  region name that will be used.
+	- caedes fixed all quests in the library to use questdef addon instead
+	  of the incorrect quest addon.
+1-Nov-2006
+	- Jorrit extended sqdist in blxml so that it also works for
+	  2D vectors.
+	- Andrew Dai added a very old declaration for
+	  iPcLinearMovement::UpdateDR() which seems to have been
+	  forgotten about but which is important for correct
+	  extrapolation.
+31-Oct-2006
+	- Jorrit added some better error reporting to blxml.
+	- Jorrit added some protection to crashes to blxml in case of
+	  null stings with finding entities.
+30-Oct-2006
+	- Jorrit protected several string operations in the XML
+	  behaviour layer so that they no longer crash on null
+	  pointers with empty strings.
+	- Jorrit did a small change to the input field xml
+	  component.
 26-Oct-2006
 	- Jorrit changed parsing of the default quest variables to use
 	  'value' instead of 'string'. The values are not always strings
