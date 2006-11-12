@@ -105,7 +105,7 @@ bool celActionRewardFactory::Load (iDocumentNode* node)
   if (!pcclass_par)
     Report (type->object_reg,
       "'pc' attribute is missing for the action reward!");
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (type->object_reg);
+  iCelPlLayer* pl = type->pl;
   csRef<iDocumentNodeIterator> it = node->GetNodes ();
   while (it->HasNext ())
   {
@@ -305,7 +305,7 @@ celActionReward::~celActionReward ()
 
 void celActionReward::Reward ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelPlLayer* pl = type->pl;
   if (!ent)
   {
     ent = pl->FindEntity (entity);

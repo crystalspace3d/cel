@@ -181,7 +181,7 @@ celChangePropertyReward::~celChangePropertyReward ()
 
 void celChangePropertyReward::Reward ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelPlLayer* pl = type->pl;
   if (pc.IsEmpty () && !properties)
   {
     pclass = 0;
@@ -204,7 +204,8 @@ void celChangePropertyReward::Reward ()
     if (!pclass) return;
   }
 
-  if (pstring.GetData () != 0)	// Do NOT use IsEmpty() here! Empty string is valid data.
+  // Do NOT use IsEmpty() here! Empty string is valid data.
+  if (pstring.GetData () != 0)
   {
     if (pclass) pclass->SetProperty (pl->FetchStringID (prop), pstring);
     else properties->SetProperty (prop, pstring);

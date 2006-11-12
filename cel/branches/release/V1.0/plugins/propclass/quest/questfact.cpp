@@ -255,12 +255,12 @@ bool celPcQuest::NewQuest (const char* name, celQuestParams& params)
   iQuestFactory* fact = quest_mgr->GetQuestFactory (name);
   if (!fact)
     return Report (object_reg, "Couldn't find quest factory '%s'!", name);
-  params.Put ("this", entity->GetName ());
-  quest = fact->CreateQuest (params);
-  params.Delete ("this", entity->GetName ());
+  quest_params = params;
+  quest_params.Put ("this", entity->GetName ());
+  quest = fact->CreateQuest (quest_params);
+  quest_params.Delete ("this", entity->GetName ());
   if (!quest)
     Report (object_reg, "Couldn't create quest from factory '%s'!", name);
-  quest_params = params;
   questname = name;
   return true;
 }

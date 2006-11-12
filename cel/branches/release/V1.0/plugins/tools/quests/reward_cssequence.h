@@ -77,7 +77,7 @@ private:
   celCsSequenceRewardType* type;
   csString sequence;
   csTicks delay;
-  csRef<iEngineSequenceManager> eseqmgr;
+  csWeakRef<iEngineSequenceManager> eseqmgr;
 
 public:
   celCsSequenceReward (celCsSequenceRewardType* type,

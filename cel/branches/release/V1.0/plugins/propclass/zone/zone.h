@@ -136,7 +136,8 @@ class celRegion : public iCelRegion,
 {
 private:
   celPcZoneManager* mgr;
-  char* name;
+  csString name;
+  csString csregionname;
   csString cache_path;
   bool loaded;
   csRefArray<celMapFile> mapfiles;
@@ -150,14 +151,14 @@ public:
   {
     SCF_CONSTRUCT_IBASE (0);
     celRegion::mgr = mgr;
-    celRegion::name = csStrNew (name);
+    celRegion::name = name;
     loaded = false;
   }
   virtual ~celRegion ()
   {
-    delete[] name;
     SCF_DESTRUCT_IBASE ();
   }
+  void SetEntityName (const char* entname);
 
   /**
    * \param allow_entity_addon if false then entity addons will not
@@ -174,6 +175,7 @@ public:
   SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
+  virtual const char* GetCsRegionName () const { return csregionname; }
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();

@@ -160,7 +160,7 @@ void celTriggerTrigger::FindEntities ()
 {
   if (!pctrigger)
   {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+    iCelPlLayer* pl = type->pl;
     iCelEntity* ent = pl->FindEntity (entity);
     if (!ent) return;
     pctrigger = CEL_QUERY_PROPCLASS_TAG_ENT (ent, iPcTrigger, tag);

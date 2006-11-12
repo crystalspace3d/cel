@@ -190,7 +190,7 @@ You can combine this in complex expressions:
 <print value="3.14*(?variable+?othervar)" />
 @end example
 
-Global variables have one big advantage: they are persistant. Internally
+Global variables have one big advantage: they are persistent. Internally
 the @sc{xml} behaviour layer will automatically use a @samp{pcproperties}
 property class to store these variables (such a property class will be
 created on the entity if it doesn't already exist). This also means you

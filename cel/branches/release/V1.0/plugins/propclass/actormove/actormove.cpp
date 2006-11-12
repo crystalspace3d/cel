@@ -156,6 +156,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
     AddAction (action_mousemove, "cel.action.MouseMove");
     AddAction (action_run, "cel.action.Run");
     AddAction (action_autorun, "cel.action.AutoRun");
+    AddAction (action_clear, "cel.action.Clear");
     AddAction (action_jump, "cel.action.Jump");
     AddAction (action_togglecameramode, "cel.action.ToggleCameraMode");
     AddAction (action_setanimation, "cel.action.SetAnimation");
@@ -404,6 +405,19 @@ bool celPcActorMove::PerformActionIndexed (int idx,
         CEL_FETCH_BOOL_PAR (start,params,id_start);
         if (!p_start) return false;
         AutoRun (start);
+        return true;
+      }
+    case action_clear:
+      {
+	Forward (false);
+	Backward (false);
+	StrafeLeft (false);
+	StrafeRight (false);
+	RotateLeft (false);
+	RotateRight (false);
+        Run (false);
+        AutoRun (false);
+  	rotatetoreached = true;
         return true;
       }
     case action_jump:

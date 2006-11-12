@@ -146,6 +146,13 @@ SCF_IMPLEMENT_IBASE (celRegion)
   SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
 SCF_IMPLEMENT_IBASE_END
 
+void celRegion::SetEntityName (const char* entname)
+{
+  csregionname = entname;
+  csregionname += "_";
+  csregionname += name;
+}
+
 iCelMapFile* celRegion::CreateMapFile ()
 {
   celMapFile* mapfile = new celMapFile ();
@@ -195,7 +202,7 @@ bool celRegion::Load (bool allow_entity_addon)
 
   iEngine* engine = mgr->GetEngine ();
   iLoader* loader = mgr->GetLoader ();
-  iRegion* cur_region = engine->CreateRegion (name);
+  iRegion* cur_region = engine->CreateRegion (csregionname);
   cur_region->DeleteAll ();
 
   iCelPlLayer* pl = mgr->GetPL ();
@@ -290,7 +297,7 @@ void celRegion::Unload ()
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_remregion");
 
   iEngine* engine = mgr->GetEngine ();
-  iRegion* cur_region = engine->CreateRegion (name);
+  iRegion* cur_region = engine->CreateRegion (csregionname);
 
   iCelPlLayer* pl = mgr->GetPL ();
   if (pl)
@@ -944,6 +951,7 @@ iCelRegion* celPcZoneManager::CreateRegion (const char* name)
 {
   celRegion* region = new celRegion (this, name);
   regions.Push (region);
+  region->SetEntityName (entity->GetName ());
   region->DecRef ();
   return region;
 }
@@ -1097,7 +1105,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
     return CEL_ZONEERROR_LOAD;
 
   // Find the created region.
-  iRegion* cur_region = engine->CreateRegion (regionname);
+  iRegion* cur_region = engine->CreateRegion (region->GetCsRegionName ());
 
   // Find the right start position.
   iCameraPosition* campos = 0;
@@ -1181,7 +1189,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
     return CEL_ZONEERROR_LOAD;
 
   // Find the created region.
-  iRegion* cur_region = engine->CreateRegion (regionname);
+  iRegion* cur_region = engine->CreateRegion (region->GetCsRegionName ());
 
   // Find the right start position.
   iCameraPosition* campos = 0;

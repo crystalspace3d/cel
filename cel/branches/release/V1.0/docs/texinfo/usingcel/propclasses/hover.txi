@@ -5,8 +5,6 @@
 @cindex pchover
 @cindex @code{iPcHover}
 
-The mesh property class can be used to assign a 3D model to an entity.
-This property class defines a visual representation for an entity.
 This property class, defines a hovering object when used in conjunction
 with @samp{pcmechobject}.
 
@@ -29,74 +27,29 @@ A Hovering object can be something like a hovercraft or a anti-gravity ship.
 As well as hovering your object, it will also align it to the terrain, so
 that as it goes down a hill, the ship will also tilt.
 
-This property class requires you to load it with an entity, which has a
-@samp{pcmesh} property class to act as the terrain it hovers over.
+@subsubheading PID parameters
 
-@subsubheading Setting the Terrain
+How your object corrects its height can be done by messing with 3 parameters called
+p_factor, i_factor and d_factor.
 
-There are 2 ways to set the terrain mesh in @samp{pchover}:
+  @code{iPcHover->SetAngularBeamOffset (2.0, 3.0, 4.0)}
 
-@itemize @bullet
-@item
-Assuming you have the @code{iPcMesh} object, call @code{iPcHover->SetWorldMesh(pcmeshobj)}
-@item
-Or you can use the entities name, as in @code{iPcHover->SetWorld("ent_level")}
-@end itemize
+Will set p_factor to 2.0, i_factor to 3.0 and d_factor to 4.0 - there is no magic
+formula for adjusting these values, it's just educated guesswork and playing around
+with them.
 
-This step is crucial, if you forget to do it the hovering system will not work.
+You may also wish to set the hovering height with @code{iPcHover->SetHoverHeight (float)}
 
-@subsubheading Setting the Upthruster Function
+@subsubheading Stopping hovering over some objects.
 
-Instead of using the default upthruster function, you may want to provide your
-own reactionary calculator.
+If you don't want hovering over a certain object then just set the flag CS_ENTITY_NOHITBEAM
+on that object.
 
-@example
-// CEL Includes
-#include "tools/stabiliser_dist.h"
+You can switch off hovering entirely with @code{iPcHover->HoverOff ()} and use
+@code{iPcHover->HoverOn ()} to turn it back on. Note that angular correction will
+still be happening though (which will do nothing if you're resting on the ground).
 
-class CustomUpthrusterFunction : public celStabiliserFunction
-@{
-public:
-  float Force(celHoverObjectInfo obj_info)
-  @{
-    /* when the height of the object
-        is less then 2, use an
-        upthrust force of 8 */
-    if (obj_info.height < 2)
-      return 8.0;
-
-    return 0.0;
-  @}
-@};
-@end example
-
-Then to insert into the property class you would do
-
-@example
-pchover->SetStabiliserFunction (new CustomUpthrusterFunction ());
-@end example
-
-At runtime, everytime the objects iPcHover is updated, your upthruster function
-will get called with information with the objects information on its state.
-
-@example
-struct celHoverObjectInfo
-@{
-  /**
-   * The height of the object above the
-   * ground in along the world's y axis.
-   */
-  float height;
-
-  /**
-   * The vertical velocity of the object
-   * along the objects local y axis.
-   */
-  float yvel;
-@};
-@end example
-
-@subsubheading angular correction
+@subsubheading Angular Correction
 
 This refers to the object correcting its angle as it flies over terrain (facing
 downwards as it flies down hills).

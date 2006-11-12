@@ -111,13 +111,13 @@ celDestroyEntityReward::~celDestroyEntityReward ()
 
 void celDestroyEntityReward::Reward ()
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (type->object_reg, iCelPlLayer);
+  iCelPlLayer* pl = type->pl;
   iCelEntity* ent = pl->FindEntity (entity);
   if (!ent)
   {
-    	Report (type->object_reg,
+    Report (type->object_reg,
       		"entity %s not found for destroyentity reward!",entity);
-	return;
+    return;
   }
 
   pl->RemoveEntity(ent);

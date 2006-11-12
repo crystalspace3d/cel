@@ -368,6 +368,34 @@ public:
   }
 };
 
+class cmdVarEnt : public scfImplementation1<cmdVarEnt, iCelConsoleCommand>
+{
+private:
+  celConsole* parent;
+
+public:
+  cmdVarEnt (celConsole* parent) : scfImplementationType (this),
+				    parent (parent) { }
+  virtual ~cmdVarEnt () { }
+  virtual const char* GetCommand () { return "varent"; }
+  virtual const char* GetDescription ()
+  { return "Evaluate an expression and assign to variable from other entity."; }
+  virtual void Help ()
+  {
+    parent->GetOutputConsole ()->PutText (
+	"Usage: varent <entname> <varname> <expression>\n");
+    parent->GetOutputConsole ()->PutText (
+	"  Evaluate the expression and assign to a variable\n");
+    parent->GetOutputConsole ()->PutText (
+	"  from another entity.\n");
+  }
+  virtual void Execute (const csStringArray& args)
+  {
+    parent->AssignVarEntity (args);
+  }
+};
+
+
 
 //--------------------------------------------------------------------------
 
@@ -453,6 +481,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdSnapDiff (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdExpr (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdVar (this)); RegisterCommand (cmd);
+  cmd.AttachNew (new cmdVarEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdPython (this)); RegisterCommand (cmd);
 
   return true;
@@ -544,22 +573,14 @@ iCelExpressionParser* celConsole::GetParser ()
   return parser;
 }
 
-void celConsole::AssignVar (const csStringArray& args)
+void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
+    iCelExpression* expr)
 {
-  if (args.Length () < 2)
-  {
-    conout->PutText ("Too few parameters for 'var'!\n");
-    return;
-  }
-  iCelExpressionParser* parser = GetParser ();
-  if (!parser) return;
-  csRef<iCelExpression> exprvar = parser->Parse (args[1]);
   if (!exprvar)
   {
-    conout->PutText ("Error parsing expression!\n");
+    conout->PutText ("Error parsing expression for variable!\n");
     return;
   }
-  csRef<iCelExpression> expr = parser->Parse (args[2]);
   if (!expr)
   {
     conout->PutText ("Error parsing expression!\n");
@@ -582,8 +603,7 @@ void celConsole::AssignVar (const csStringArray& args)
     conout->PutText ("Variable expression must be a string!\n");
     return;
   }
-  if (!GetConsoleEntity ()) return;
-  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (console_entity,
+  csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT (ent,
       iPcProperties);
   switch (ret.type)
   {
@@ -594,7 +614,8 @@ void celConsole::AssignVar (const csStringArray& args)
       pcprop->SetProperty (retvar.value.s->GetData (), (long)ret.value.ul);
       break;
     case CEL_DATA_BOOL:
-        pcprop->SetProperty (retvar.value.s->GetData (), (ret.value.b ? true : false));
+        pcprop->SetProperty (retvar.value.s->GetData (),
+	    (ret.value.b ? true : false));
       break;
     case CEL_DATA_FLOAT:
       pcprop->SetProperty (retvar.value.s->GetData (), ret.value.f);
@@ -631,6 +652,57 @@ void celConsole::AssignVar (const csStringArray& args)
       conout->PutText ("Warning! Unknown type!\n");
       break;
   }
+}
+
+void celConsole::AssignVarEntity (const csStringArray& args)
+{
+  if (args.Length () < 3)
+  {
+    conout->PutText ("Too few parameters for 'varent'!\n");
+    return;
+  }
+  iCelExpressionParser* parser = GetParser ();
+  if (!parser) return;
+  csRef<iCelExpression> exprent = parser->Parse (args[1]);
+  if (!exprent)
+  {
+    conout->PutText ("Error parsing expression for entity!\n");
+    return;
+  }
+  csRef<iCelExpression> exprvar = parser->Parse (args[2]);
+  csRef<iCelExpression> expr = parser->Parse (args[3]);
+  celData retent;
+  if (!exprent->Execute (GetConsoleEntity (), retent))
+  {
+    conout->PutText ("Error running expression for entity!\n");
+    return;
+  }
+  if (retent.type != CEL_DATA_ENTITY && retent.type != CEL_DATA_STRING)
+  {
+    conout->PutText ("Entity expression must be an entity or a string!\n");
+    return;
+  }
+  iCelEntity* ent;
+  if (retent.type == CEL_DATA_ENTITY)
+    ent = retent.value.ent;
+  else
+    ent = pl->FindEntity (retent.value.s->GetData ());
+  AssignVar (ent, exprvar, expr);
+}
+
+void celConsole::AssignVar (const csStringArray& args)
+{
+  if (args.Length () < 2)
+  {
+    conout->PutText ("Too few parameters for 'var'!\n");
+    return;
+  }
+  iCelExpressionParser* parser = GetParser ();
+  if (!parser) return;
+  csRef<iCelExpression> exprvar = parser->Parse (args[1]);
+  csRef<iCelExpression> expr = parser->Parse (args[2]);
+  if (!GetConsoleEntity ()) return;
+  AssignVar (GetConsoleEntity (), exprvar, expr);
 }
 
 void celConsole::EvalulateExpression (const csStringArray& args)

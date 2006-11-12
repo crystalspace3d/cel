@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "csutil/weakref.h"
 #include "csutil/hash.h"
 #include "csgeom/vector3.h"
 
@@ -1830,6 +1831,7 @@ class cel##name##RewardType : public scfImplementation1<		\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
+  csWeakRef<iCelPlLayer> pl;						\
   cel##name##RewardType (iObjectRegistry* object_reg);			\
   virtual ~cel##name##RewardType () { }					\
   virtual const char* GetName () const { return id; }			\
@@ -1844,6 +1846,7 @@ cel##name##RewardType::cel##name##RewardType (				\
 	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
   cel##name##RewardType::object_reg = object_reg;			\
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);			\
 }									\
 csPtr<iQuestRewardFactory> cel##name##RewardType::CreateRewardFactory ()\
 {									\
@@ -1861,6 +1864,7 @@ class cel##name##TriggerType : public scfImplementation1<		\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
+  csWeakRef<iCelPlLayer> pl;						\
   cel##name##TriggerType (iObjectRegistry* object_reg);			\
   virtual ~cel##name##TriggerType () { }				\
   virtual const char* GetName () const { return id; }			\
@@ -1875,6 +1879,7 @@ cel##name##TriggerType::cel##name##TriggerType (			\
 	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
   cel##name##TriggerType::object_reg = object_reg;			\
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);			\
 }									\
 csPtr<iQuestTriggerFactory> cel##name##TriggerType::CreateTriggerFactory () \
 {									\
@@ -1891,6 +1896,7 @@ class cel##name##SeqOpType : public scfImplementation1<			\
 {									\
 public:									\
   iObjectRegistry* object_reg;						\
+  csWeakRef<iCelPlLayer> pl;						\
   cel##name##SeqOpType (iObjectRegistry* object_reg);			\
   virtual ~cel##name##SeqOpType () { }					\
   virtual const char* GetName () const { return id; }			\
@@ -1905,6 +1911,7 @@ cel##name##SeqOpType::cel##name##SeqOpType (				\
 	iObjectRegistry* object_reg) : scfImplementationType (this)	\
 {									\
   cel##name##SeqOpType::object_reg = object_reg;			\
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);			\
 }									\
 csPtr<iQuestSeqOpFactory> cel##name##SeqOpType::CreateSeqOpFactory ()	\
 {									\
