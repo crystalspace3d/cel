@@ -336,6 +336,10 @@ void celPcHover::PerformStabilising ()
     float rx = AngularAlignment (csVector3 (0,0,-1), height);
     float rz = AngularAlignment (csVector3 (1,0,0), height);
 
+    // offset hack for tendency of nose to dip into ground when going uphill
+    if (rx > 0.0)
+      rx *= 3.0;
+
     // align the ship by getting it to rotate in whatever direction
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +
         pcmechobj->LocalToWorld (csVector3 (rx,0,rz) * ang_mult));

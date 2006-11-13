@@ -91,6 +91,12 @@ struct iPcCraftController : public virtual iBase
    */
   virtual void SetMaxPitch(float mud) = 0;
   /**
+   * Set the roll factor.
+   * Roll is how much a craft rolls when turning
+   * left and right.
+   */
+  virtual void SetRoll (float roll) = 0;
+  /**
    * Set the thrust force of the craft
    */
   virtual void SetThrustForce(float tf) = 0;
