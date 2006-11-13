@@ -14,6 +14,10 @@ The history order is reversed so that new features are at the top.
 	  there are entities which are deleted (pl->RemoveEntity()) but
 	  are still in memory. Usually that means a leak. By default
 	  monitoring is disabled. Enable it in celconsole.cfg.
+	- Jorrit attempted to fix the problem with celtest no longer
+	  working due to celconsole changes by adding a plugin requirement
+	  from pl to the CS engine. This works more or less but celtest
+	  now crashes unless it is run in the debugger???
 11-Nov-2006
 	- Arianna fixed a compiler warning (hopefully) in pl.h
 10-Nov-2006
