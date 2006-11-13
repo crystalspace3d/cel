@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 13-Nov-2006
+	- Genjix added SetRoll (float) to pccraft.
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
 	- Jorrit added a new celconsole.cfg file. There you can configure

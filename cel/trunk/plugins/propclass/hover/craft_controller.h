@@ -78,6 +78,7 @@ public:
   virtual void SetMaxTurn (float turn) { turn_max = turn; }
   virtual void SetAccPitch (float uacc) { pitch_acc = uacc; }
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
+  virtual void SetRoll (float rol) { roll = rol; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
   virtual void SetAfterBurnerTopSpeed (float tspeed)
@@ -155,6 +156,10 @@ public:
     virtual void SetMaxPitch (float mud)
     {
       scfParent->SetMaxPitch (mud);
+    }
+    virtual void SetRoll (float roll)
+    {
+      scfParent->SetRoll (roll);
     }
     virtual void SetThrustForce (float tf)
     {
@@ -234,6 +239,9 @@ private:
 
   float turn_acc, pitch_acc;
   float turn_max, pitch_max;
+
+  // how much roll when turning left and right
+  float roll;
 
   // thruster variables
   bool thrust_on;
