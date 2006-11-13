@@ -7,6 +7,9 @@
         <name>cel.celconsole</name>
         <implementation>celConsole</implementation>
 	<description>CEL Console</description>
+        <requires>
+          <class>cel.physicallayer</class>
+        </requires>
       </class>
     </classes>
   </scf>

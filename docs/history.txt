@@ -6,6 +6,13 @@ The history order is reversed so that new features are at the top.
 13-Nov-2006
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
+	- Jorrit added a new celconsole.cfg file. There you can configure
+	  the key used to open the console (default tab).
+	- Jorrit added a new feature to the cel console that tracks entities.
+	  With this tool you can discover (by pressing ctrl-shift-e) that
+	  there are entities which are deleted (pl->RemoveEntity()) but
+	  are still in memory. Usually that means a leak. By default
+	  monitoring is disabled. Enable it in celconsole.cfg.
 11-Nov-2006
 	- Arianna fixed a compiler warning (hopefully) in pl.h
 10-Nov-2006
