@@ -276,26 +276,23 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 float celPcHover::PIDStatus::Force (float curr_height)
 {
-    float pval, dval, ival;
-    float error = hover_height - curr_height;
-    //printf ("E: %f\n", error);
+  float pval, dval, ival;
+  float error = hover_height - curr_height;
+  //printf ("E: %f\n", error);
 
-    // calculate the proportional term
-    pval = p_factor * error;
-    csClamp (pval, -clamp, clamp);
+  // calculate the proportional term
+  pval = p_factor * error;
 
-    // calculate the integral term
-    sum_errors += error;
-    ival = i_factor * sum_errors;
-    csClamp (ival, -clamp, clamp);
+  // calculate the integral term
+  sum_errors += error;
+  ival = i_factor * sum_errors;
 
-    // calculate the differential term
-    dval = d_factor * (curr_height - last_height);
-    last_height = curr_height;
-    csClamp (dval, -clamp, clamp);
+  // calculate the differential term
+  dval = d_factor * (curr_height - last_height);
+  last_height = curr_height;
 
-    //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
-    return pval + ival + dval;
+  printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+  return csClamp (pval + ival + dval, clamp, -clamp);
 }
 
 void celPcHover::PerformStabilising ()
@@ -315,7 +312,7 @@ void celPcHover::PerformStabilising ()
   {
     // do PID calculation here.
     float force = pid.Force (height);
-    //printf ("%f %f\n",obj_info.height,force);
+    printf ("%f %f\n",height,force);
 
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
