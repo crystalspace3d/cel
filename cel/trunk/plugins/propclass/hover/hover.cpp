@@ -291,7 +291,7 @@ float celPcHover::PIDStatus::Force (float curr_height)
   dval = d_factor * (curr_height - last_height);
   last_height = curr_height;
 
-  printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+  //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
   return csClamp (pval + ival + dval, clamp, -clamp);
 }
 
@@ -312,7 +312,7 @@ void celPcHover::PerformStabilising ()
   {
     // do PID calculation here.
     float force = pid.Force (height);
-    printf ("%f %f\n",height,force);
+    //printf ("%f %f\n",height,force);
 
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
