@@ -2518,7 +2518,7 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_csColor swig_types[36]
 #define SWIGTYPE_p_csColor4 swig_types[37]
 #define SWIGTYPE_p_csFlags swig_types[38]
-#define SWIGTYPE_p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t swig_types[39]
+#define SWIGTYPE_p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t swig_types[39]
 #define SWIGTYPE_p_csImageBase swig_types[40]
 #define SWIGTYPE_p_csImageMemory swig_types[41]
 #define SWIGTYPE_p_csInitializer swig_types[42]
@@ -8548,7 +8548,7 @@ SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity__SWIG_3(PyObject *SWIGUNUSED
     SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iCelPlLayer_CreateEntity" "', argument " "3"" of type '" "char const *""'");
   }
   arg3 = buf3;
-  res4 = SWIG_ConvertPtr(obj3, &argp4, SWIGTYPE_p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t,  0  | 0);
+  res4 = SWIG_ConvertPtr(obj3, &argp4, SWIGTYPE_p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t,  0  | 0);
   if (!SWIG_IsOK(res4)) {
     SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "iCelPlLayer_CreateEntity" "', argument " "4"" of type '" "celEntityTemplateParams const &""'"); 
   }
@@ -8692,7 +8692,7 @@ SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *ar
         int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
         _v = SWIG_CheckState(res);
         if (_v) {
-          int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t, 0);
+          int res = SWIG_ConvertPtr(argv[3], 0, SWIGTYPE_p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t, 0);
           _v = SWIG_CheckState(res);
           if (_v) {
             return _wrap_iCelPlLayer_CreateEntity__SWIG_3(self, args);
@@ -57469,6 +57469,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcCraftController_SetRoll(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCraftController *arg1 = (iPcCraftController *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcCraftController_SetRoll",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCraftController, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCraftController_SetRoll" "', argument " "1"" of type '" "iPcCraftController *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCraftController * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcCraftController_SetRoll" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SetRoll(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcCraftController_SetThrustForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcCraftController *arg1 = (iPcCraftController *) 0 ;
@@ -64736,6 +64766,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCraftController_SetAccPitch", _wrap_iPcCraftController_SetAccPitch, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetMaxTurn", _wrap_iPcCraftController_SetMaxTurn, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetMaxPitch", _wrap_iPcCraftController_SetMaxPitch, METH_VARARGS, NULL},
+	 { (char *)"iPcCraftController_SetRoll", _wrap_iPcCraftController_SetRoll, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetThrustForce", _wrap_iPcCraftController_SetThrustForce, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetTopSpeed", _wrap_iPcCraftController_SetTopSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcCraftController_SetRedirectVelocityRatio", _wrap_iPcCraftController_SetRedirectVelocityRatio, METH_VARARGS, NULL},
@@ -66018,7 +66049,7 @@ static swig_type_info _swigt__p_csBox3 = {"_p_csBox3", "csBox3 *", 0, 0, (void*)
 static swig_type_info _swigt__p_csColor = {"_p_csColor", "csColor *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_csColor4 = {"_p_csColor4", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_csFlags = {"_p_csFlags", "csFlags *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t = {"_p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t", "csHash<csString,csString,CS::Memory::AllocatorMalloc > *|celEntityTemplateParams *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t = {"_p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t", "csHash<csStrKey,csStrKey,CS::Memory::AllocatorMalloc > *|celEntityTemplateParams *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_csInitializer = {"_p_csInitializer", "csInitializer *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_csMatrix3 = {"_p_csMatrix3", "csMatrix3 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_csXRotMatrix3 = {"_p_csXRotMatrix3", 0, 0, 0, 0, 0};
@@ -66445,7 +66476,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_csColor,
   &_swigt__p_csColor4,
   &_swigt__p_csFlags,
-  &_swigt__p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t,
+  &_swigt__p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t,
   &_swigt__p_csImageBase,
   &_swigt__p_csImageMemory,
   &_swigt__p_csInitializer,
@@ -66872,7 +66903,7 @@ static swig_cast_info _swigc__p_csBox3[] = {  {&_swigt__p_csBox3, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_csColor4[] = {{&_swigt__p_csColor4, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csColor[] = {  {&_swigt__p_csColor, 0, 0, 0},  {&_swigt__p_csColor4, _p_csColor4To_p_csColor, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csFlags[] = {  {&_swigt__p_csFlags, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t[] = {  {&_swigt__p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t[] = {  {&_swigt__p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csInitializer[] = {  {&_swigt__p_csInitializer, 0, 0, 0},  {&_swigt__p_celInitializer, _p_celInitializerTo_p_csInitializer, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csXRotMatrix3[] = {{&_swigt__p_csXRotMatrix3, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csYRotMatrix3[] = {{&_swigt__p_csYRotMatrix3, 0, 0, 0},{0, 0, 0, 0}};
@@ -67299,7 +67330,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_csColor,
   _swigc__p_csColor4,
   _swigc__p_csFlags,
-  _swigc__p_csHashTcsString_csString_CS__Memory__AllocatorMalloc_t,
+  _swigc__p_csHashTcsStrKey_csStrKey_CS__Memory__AllocatorMalloc_t,
   _swigc__p_csImageBase,
   _swigc__p_csImageMemory,
   _swigc__p_csInitializer,

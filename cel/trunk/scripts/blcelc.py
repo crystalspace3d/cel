@@ -3314,6 +3314,7 @@ class iPcCraftController(cspace.iBase):
     def SetAccPitch(*args): return _blcelc.iPcCraftController_SetAccPitch(*args)
     def SetMaxTurn(*args): return _blcelc.iPcCraftController_SetMaxTurn(*args)
     def SetMaxPitch(*args): return _blcelc.iPcCraftController_SetMaxPitch(*args)
+    def SetRoll(*args): return _blcelc.iPcCraftController_SetRoll(*args)
     def SetThrustForce(*args): return _blcelc.iPcCraftController_SetThrustForce(*args)
     def SetTopSpeed(*args): return _blcelc.iPcCraftController_SetTopSpeed(*args)
     def SetRedirectVelocityRatio(*args): return _blcelc.iPcCraftController_SetRedirectVelocityRatio(*args)
