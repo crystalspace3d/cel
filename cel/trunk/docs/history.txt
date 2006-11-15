@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Nov-2006
+	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
+	  limit of 60 distance units and couldn't handle portals.
 14-Nov-2006
 	- Genjix corrected upthrust force clamping in pchover.
 13-Nov-2006
