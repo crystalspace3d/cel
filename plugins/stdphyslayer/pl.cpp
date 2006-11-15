@@ -44,6 +44,7 @@
 #include "iutil/plugin.h"
 #include "iutil/virtclk.h"
 #include "ivaria/reporter.h"
+#include "cstool/enginetools.h"
 
 //---------------------------------------------------------------------------
 
@@ -1034,27 +1035,11 @@ void celPlLayer::RemoveEntityTracker (iCelEntityTracker* tracker)
 
 iCelEntity* celPlLayer::GetHitEntity (iCamera* camera, int x, int y)
 {
-  // Vector from (0,0,0) to 'vc' in camera space corresponding to
-  // the point we clicked on.
-  csVector3 vc;
-  // Vector from 'vo' to 'vw' in world space corresponding to
-  // same vector.
-  csVector3 vo, vw;
-
-  // Setup perspective vertex, invert mouse Y axis.
-  csVector2 p (x, camera->GetShiftY() * 2 - y);
-
-  vc = camera->InvPerspective (p, 1 );
-  vw = camera->GetTransform ().This2Other (vc);
-
-  iSector* sector = camera->GetSector ();
-  vo = camera->GetTransform ().GetO2TTranslation ();
-  csVector3 end = vo + (vw - vo) * 60;
-
-  csSectorHitBeamResult rc = sector->HitBeam (vo, end);
-  if (rc.mesh)
+  csScreenTargetResult result = csEngineTools::FindScreenTarget (
+  	csVector2 (x, y), 1000000000.0f, camera);
+  if (result.mesh)
   {
-    iObject* sel_obj = rc.mesh->QueryObject ();
+    iObject* sel_obj = result.mesh->QueryObject ();
     return FindAttachedEntity (sel_obj);
   }
   return 0;
