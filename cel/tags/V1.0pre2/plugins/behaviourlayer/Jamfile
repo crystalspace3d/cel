@@ -1,0 +1,6 @@
+SubDir TOP plugins behaviourlayer ;
+
+SubInclude TOP plugins behaviourlayer test ;
+SubInclude TOP plugins behaviourlayer python ;
+SubInclude TOP plugins behaviourlayer xml ;
+
