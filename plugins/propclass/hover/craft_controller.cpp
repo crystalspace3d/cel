@@ -63,7 +63,6 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
   pitch_acc = 0.4f;
   turn_max = 1.5f;
   pitch_max = 0.5f;
-  roll = 0.8f;
 
   thrust_on = false;
   thrust = 10.0f;
@@ -123,9 +122,6 @@ void celPcCraftController::DoTurningCalc (bool isturning, float &turn,
 
 void celPcCraftController::UpdateBody ()
 {
-  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
-        iPcMechanicsObject);
-
   DoTurningCalc (turn_left, current_turning_left, turn_acc, turn_max);
   DoTurningCalc (turn_right, current_turning_right, turn_acc, turn_max);
   DoTurningCalc (turn_up, current_up, pitch_acc, pitch_max);
@@ -133,11 +129,11 @@ void celPcCraftController::UpdateBody ()
 
   /*! at the moment roll in the ships turning is disabled
       until I write a self angular stabilising component */
-  float xrot = current_up - current_down;
-  float yrot = current_turning_right - current_turning_left;
-  csVector3 turning = ship_mech->LocalToWorld (csVector3 (xrot, 0, roll * yrot)) +
-        csVector3 (0, yrot, 0);
+  csVector3 turning(current_up - current_down, current_turning_right
+  	- current_turning_left, 0);
 
+  csRef<iPcMechanicsObject> ship_mech = CEL_QUERY_PROPCLASS_ENT (GetEntity(),
+  	iPcMechanicsObject);
   float height = 2.0;   // disable height dependence for now
 
   // angular suppressant is dependant on height
@@ -149,7 +145,8 @@ void celPcCraftController::UpdateBody ()
   else
     angular_supressant /= 0.1f;
 
-  ship_mech->SetAngularVelocity(turning + angular_supressant);
+  ship_mech->SetAngularVelocity(ship_mech->LocalToWorld(turning)
+  	+ angular_supressant);
 
   // normalize velocity vector
   if (!slide_on && redirect_vel_ratio > 0.0)

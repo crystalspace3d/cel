@@ -7,9 +7,9 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf.
 #----------------------------------------------------------------------------
-AC_INIT([cel], [0.99], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.0pre1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
-    [Copyright (C)2002-2005 Jorrit Tyberghein and others.],
+    [Copyright (C)2002-2006 Jorrit Tyberghein and others.],
     [http://cel.crystalspace3d.org/])
 AC_CONFIG_SRCDIR([mk/jam/build.jam])
 AC_CONFIG_AUX_DIR([mk/autoconf])
@@ -223,7 +223,7 @@ AS_IF([test -z "$with_cs"], [with_cs=yes])
 AS_IF([test $with_cs != no],
     [AS_IF([test $cs_cv_python != no],
 	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
-    CS_PATH_CRYSTAL_EMIT([0.99], [],
+    CS_PATH_CRYSTAL_EMIT([1.0], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/

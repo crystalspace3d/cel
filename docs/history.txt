@@ -6,24 +6,9 @@ The history order is reversed so that new features are at the top.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
-	- Jorrit bumped celstart to 7.
-14-Nov-2006
-	- Genjix corrected upthrust force clamping in pchover.
 13-Nov-2006
-	- Genjix added SetRoll (float) to pccraft.
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
-	- Jorrit added a new celconsole.cfg file. There you can configure
-	  the key used to open the console (default tab).
-	- Jorrit added a new feature to the cel console that tracks entities.
-	  With this tool you can discover (by pressing ctrl-shift-e) that
-	  there are entities which are deleted (pl->RemoveEntity()) but
-	  are still in memory. Usually that means a leak. By default
-	  monitoring is disabled. Enable it in celconsole.cfg.
-	- Jorrit attempted to fix the problem with celtest no longer
-	  working due to celconsole changes by adding a plugin requirement
-	  from pl to the CS engine. This works more or less but celtest
-	  now crashes unless it is run in the debugger???
 11-Nov-2006
 	- Arianna fixed a compiler warning (hopefully) in pl.h
 10-Nov-2006
