@@ -782,24 +782,40 @@ iCelBehaviour* celPlLayer::GetBehaviour (uint id)
   return 0;
 }
 
+iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
+{
+  // if already loaded return existing propfact
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
+  if (pf)
+    return pf;
+
+  // use cel.pcfactory.propname if it is able to load
+  // and propclass is queried successfully
+  csString pfid ("cel.pcfactory."), pc (propname);
+  // strip 'pc'
+  if (pc.GetAt (0) == 'p' && pc.GetAt (1) == 'c')
+    pc.DeleteAt (0, 2);
+  pfid += pc;
+  if (!LoadPropertyClassFactory (pfid))
+  {
+    //return 0;
+    // workaround for pccommandinput
+    if (!LoadPropertyClassFactory (csString ("cel.pcfactory.pc") + pc))
+      return 0;
+  }
+  return FindPropertyClassFactory (propname);
+}
+
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 	const char *propname)
 {
-  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
+  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
   if (!pf)
   {
-    // use cel.pcfactory.propname if it is able to load
-    // and propclass is queried successfully
-    csString pfid ("cel.pcfactory.");
-    pfid += propname;
-    if (!LoadPropertyClassFactory (pfid) ||
-        !(pf = FindPropertyClassFactory (propname)))
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-          "crystalspace.cel.pllayer",
-          "No factory for type '%s' registered!", propname);
-      return 0;
-    }
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "crystalspace.cel.pllayer",
+        "No factory for type '%s' registered!", propname);
+    return 0;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
@@ -811,21 +827,13 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
 	const char *propname, const char* tagname)
 {
-  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
+  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
   if (!pf)
   {
-    // use cel.pcfactory.propname if it is able to load
-    // and propclass is queried successfully
-    csString pfid ("cel.pcfactory.");
-    pfid += propname;
-    if (!LoadPropertyClassFactory (pfid) ||
-        !(pf = FindPropertyClassFactory (propname)))
-    {
-      csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-          "crystalspace.cel.pllayer",
-          "No factory for type '%s' registered!", propname);
-      return 0;
-    }
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        "crystalspace.cel.pllayer",
+        "No factory for type '%s' registered!", propname);
+    return 0;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
