@@ -79,6 +79,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     hazeldr
     imgplex
     nullmesh
+    particles
+    particlesldr
     protomesh
     protomeshldr
     rendloop_loader
