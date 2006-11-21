@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iCelPropertyClass Struct Reference</h1><!-- doxytag: class="iCelPropertyClass" -->This is a property class for an entity.  
+<h1>iCelPropertyClass Struct Reference</h1><!-- doxytag: class="iCelPropertyClass" --><!-- doxytag: inherits="iBase" -->This is a property class for an entity.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="propclas_8h-source.html">physicallayer/propclas.h</a>&gt;</code>
 <p>
-<a href="structiCelPropertyClass-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iCelPropertyClass:<p><center><img src="structiCelPropertyClass__inherit__graph.png" border="0" usemap="#iCelPropertyClass__inherit__map" alt="Inheritance graph"></center>
+<map name="iCelPropertyClass__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="45,5,104,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiCelPropertyClass-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#c70770cd5367393b7c5ff8948cc4e8c4">AddPropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
@@ -45,28 +49,28 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#bbbc7a02c9fed6b7faaadef34a5431ca">GetName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this property class.  <a href="#bbbc7a02c9fed6b7faaadef34a5431ca"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a2c16dfc478ee3f5abfa59adb6cb48e4">GetPersistentData</a> (celPersistenceType persistence_type)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#a2c16dfc478ee3f5abfa59adb6cb48e4">GetPersistentData</a> (celPersistenceType persistence_type)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the persistent data of this property class.  <a href="#a2c16dfc478ee3f5abfa59adb6cb48e4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#d6f6a44350d3129d82985a5230b298e7">GetPropertyAndActionCount</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#9ac210ddf1bcc7b2f81fce00a86e20d3">GetPropertyAndActionCount</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of supported properties and actions.  <a href="#d6f6a44350d3129d82985a5230b298e7"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the number of supported properties and actions.  <a href="#9ac210ddf1bcc7b2f81fce00a86e20d3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#fe6aebe7c64f0bf3a7af293dcce1c2f5">GetPropertyBool</a> (csStringID propertyID)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as bool.  <a href="#fe6aebe7c64f0bf3a7af293dcce1c2f5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#c3cee8ddfe568cabf95fcffee1e91527">GetPropertyColor</a> (csStringID propertyID, csColor &amp;v)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#c3cee8ddfe568cabf95fcffee1e91527">GetPropertyColor</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;v)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a color.  <a href="#c3cee8ddfe568cabf95fcffee1e91527"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#2793530346d6aa19742b475a6f907fa4">GetPropertyEntity</a> (csStringID propertyID)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as entity.  <a href="#2793530346d6aa19742b475a6f907fa4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#8a12521fe0ae4f8d55cf75df53c0589f">GetPropertyFloat</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#8a12521fe0ae4f8d55cf75df53c0589f">GetPropertyFloat</a> (csStringID propertyID)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as float.  <a href="#8a12521fe0ae4f8d55cf75df53c0589f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iBase *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e47fdf4a68ad0c08de84d94e317ec14a">GetPropertyIBase</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e47fdf4a68ad0c08de84d94e317ec14a">GetPropertyIBase</a> (csStringID propertyID)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as iBase.  <a href="#e47fdf4a68ad0c08de84d94e317ec14a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual long&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#5ff6b0fdb093fc902a9e364eb822e52a">GetPropertyLong</a> (csStringID propertyID)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>.  <a href="#e47fdf4a68ad0c08de84d94e317ec14a"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#5ff6b0fdb093fc902a9e364eb822e52a">GetPropertyLong</a> (csStringID propertyID)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as long.  <a href="#5ff6b0fdb093fc902a9e364eb822e52a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#bf9bde220adcd2dd2234b63eb2e88b03">GetPropertyOrActionDescription</a> (csStringID)=0</td></tr>
@@ -84,10 +88,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#b818e7c14accd00553ee257b7a1139f9">GetPropertyString</a> (csStringID propertyID)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as string.  <a href="#b818e7c14accd00553ee257b7a1139f9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#55d7eb224b207b4c0bbe2fecdd8a9924">GetPropertyVector</a> (csStringID propertyID, csVector3 &amp;v)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#55d7eb224b207b4c0bbe2fecdd8a9924">GetPropertyVector</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;v)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 3D vector.  <a href="#55d7eb224b207b4c0bbe2fecdd8a9924"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#254f6477cf22da489140af614f20fe35">GetPropertyVector</a> (csStringID propertyID, csVector2 &amp;v)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#254f6477cf22da489140af614f20fe35">GetPropertyVector</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;v)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a property as a 2D vector.  <a href="#254f6477cf22da489140af614f20fe35"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#852cb0ae0e167bd91228442bc9f2b983">GetTag</a> () const =0</td></tr>
@@ -111,10 +115,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#bfe26c6414dca745816cd65b40df94a7">RemovePropertyChangeCallback</a> (<a class="el" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> *cb)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a callback.  <a href="#bfe26c6414dca745816cd65b40df94a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#8c5e094d742ab099be618f3327f4fd54">Save</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#8c5e094d742ab099be618f3327f4fd54">Save</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#8c5e094d742ab099be618f3327f4fd54"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#f9edd0e77d8046e9b1fe05ff23a2927a">SaveFirstPass</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#f9edd0e77d8046e9b1fe05ff23a2927a">SaveFirstPass</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save this object to a data buffer.  <a href="#f9edd0e77d8046e9b1fe05ff23a2927a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#898a39b6e49e36ed54cf3dd3966cc334">SetEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
@@ -123,7 +127,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual celPersistenceResult&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#460573f03fe5b2b85c0bee31c35c938a">SetPersistentData</a> (csTicks data_time, <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> *data, celPersistenceType persistence_type)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Read the state of this property class from some persistent data.  <a href="#460573f03fe5b2b85c0bee31c35c938a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#03b527f0e56b03af2b01c38fa71e6e70">SetProperty</a> (csStringID propertyID, iBase *ibase)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#03b527f0e56b03af2b01c38fa71e6e70">SetProperty</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *ibase)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#03b527f0e56b03af2b01c38fa71e6e70"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e1de1b4180c01ac04e1e5bcd5fd3ed74">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
@@ -132,13 +136,13 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#d48ae52e45efdcc8ffa8aa8575b994a8">SetProperty</a> (csStringID propertyID, <a class="el" href="structiCelPropertyClass.html">iCelPropertyClass</a> *value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#d48ae52e45efdcc8ffa8aa8575b994a8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#58dfee00b8fc5c4488865bf58a091d72">SetProperty</a> (csStringID propertyID, const csColor &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#58dfee00b8fc5c4488865bf58a091d72">SetProperty</a> (csStringID propertyID, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#58dfee00b8fc5c4488865bf58a091d72"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#906edd96f54af7b4eb78064c8f15e6a7">SetProperty</a> (csStringID propertyID, const csVector3 &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#906edd96f54af7b4eb78064c8f15e6a7">SetProperty</a> (csStringID propertyID, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#906edd96f54af7b4eb78064c8f15e6a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#eb1f04adb0177905a61a4a97c4362d0f">SetProperty</a> (csStringID propertyID, const csVector2 &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#eb1f04adb0177905a61a4a97c4362d0f">SetProperty</a> (csStringID propertyID, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#eb1f04adb0177905a61a4a97c4362d0f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#c74d975a95d98de9223941792418b8d0">SetProperty</a> (csStringID propertyID, const char *value)=0</td></tr>
@@ -147,10 +151,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#85196fecdf0d1cc32a994284e986dcfd">SetProperty</a> (csStringID propertyID, bool value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#85196fecdf0d1cc32a994284e986dcfd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e48352529c0dc20286260849b6b625d8">SetProperty</a> (csStringID propertyID, float value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e48352529c0dc20286260849b6b625d8">SetProperty</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#e48352529c0dc20286260849b6b625d8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e5923aa79bf54d542cb6d760fe444b40">SetProperty</a> (csStringID propertyID, long value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#e5923aa79bf54d542cb6d760fe444b40">SetProperty</a> (csStringID propertyID, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a> value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set a generic property.  <a href="#e5923aa79bf54d542cb6d760fe444b40"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPropertyClass.html#df05a4da86fc02ddbb9a71f954f57a22">SetTag</a> (const char *tagname)=0</td></tr>
@@ -236,7 +240,7 @@ Get the name of this property class.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::GetPersistentData           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::GetPersistentData           </td>
           <td>(</td>
           <td class="paramtype">celPersistenceType&nbsp;</td>
           <td class="paramname"> <em>persistence_type</em>          </td>
@@ -253,7 +257,7 @@ Return the persistent data of this property class.
 Note: this function replaces the Save function. 
 </div>
 </div><p>
-<a class="anchor" name="d6f6a44350d3129d82985a5230b298e7"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyAndActionCount" ref="d6f6a44350d3129d82985a5230b298e7" args="() const =0" -->
+<a class="anchor" name="9ac210ddf1bcc7b2f81fce00a86e20d3"></a><!-- doxytag: member="iCelPropertyClass::GetPropertyAndActionCount" ref="9ac210ddf1bcc7b2f81fce00a86e20d3" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -262,7 +266,7 @@ Note: this function replaces the Save function.
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
+          <td width="100%"><code> [pure virtual]</code></td>
         </tr>
       </table>
 </div>
@@ -309,7 +313,7 @@ Get a property as bool.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">csColor &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>v</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -354,7 +358,7 @@ Get a property as entity.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iCelPropertyClass::GetPropertyFloat           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iCelPropertyClass::GetPropertyFloat           </td>
           <td>(</td>
           <td class="paramtype">csStringID&nbsp;</td>
           <td class="paramname"> <em>propertyID</em>          </td>
@@ -376,7 +380,7 @@ Get a property as float.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iBase* iCelPropertyClass::GetPropertyIBase           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>* iCelPropertyClass::GetPropertyIBase           </td>
           <td>(</td>
           <td class="paramtype">csStringID&nbsp;</td>
           <td class="paramname"> <em>propertyID</em>          </td>
@@ -388,7 +392,7 @@ Get a property as float.
 <div class="memdoc">
 
 <p>
-Get a property as iBase. 
+Get a property as <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>. 
 <p>
 
 </div>
@@ -398,7 +402,7 @@ Get a property as iBase.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual long iCelPropertyClass::GetPropertyLong           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a> iCelPropertyClass::GetPropertyLong           </td>
           <td>(</td>
           <td class="paramtype">csStringID&nbsp;</td>
           <td class="paramname"> <em>propertyID</em>          </td>
@@ -478,28 +482,8 @@ Get the ID of the given property or action.
 <p>
 Get the type of the given property or action. 
 <p>
-Returns CEL_DATA_NONE if property is not supported. Only the following types are supported: <ul>
-<li>
-CEL_DATA_LONG </li>
-<li>
-CEL_DATA_FLOAT </li>
-<li>
-CEL_DATA_BOOL </li>
-<li>
-CEL_DATA_STRING </li>
-<li>
-CEL_DATA_VECTOR2 </li>
-<li>
-CEL_DATA_VECTOR3 </li>
-<li>
-CEL_DATA_COLOR </li>
-<li>
-CEL_DATA_ACTION </li>
-<li>
-CEL_DATA_PCLASS </li>
-<li>
-CEL_DATA_ENTITY </li>
-</ul>
+Returns CEL_DATA_NONE if property is not supported. Only the following types are supported:<ul>
+<li>CEL_DATA_LONG</li><li>CEL_DATA_FLOAT</li><li>CEL_DATA_BOOL</li><li>CEL_DATA_STRING</li><li>CEL_DATA_VECTOR2</li><li>CEL_DATA_VECTOR3</li><li>CEL_DATA_COLOR</li><li>CEL_DATA_ACTION</li><li>CEL_DATA_PCLASS</li><li>CEL_DATA_ENTITY </li></ul>
 
 </div>
 </div><p>
@@ -560,7 +544,7 @@ Get a property as string.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">csVector3 &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>v</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -591,7 +575,7 @@ Get a property as a 3D vector.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">csVector2 &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>v</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -788,7 +772,7 @@ It is safe to call this function for a callback that is not registered. Nothing 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::Save           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::Save           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -809,7 +793,7 @@ Save this object to a data buffer.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::SaveFirstPass           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPropertyClass::SaveFirstPass           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -905,7 +889,7 @@ Note: this function replaces the Load function. <dl compact><dt><b>Parameters:</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">iBase *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *&nbsp;</td>
           <td class="paramname"> <em>ibase</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -998,7 +982,7 @@ Set a generic property.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csColor &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1029,7 +1013,7 @@ Set a generic property.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1060,7 +1044,7 @@ Set a generic property.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector2 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1153,7 +1137,7 @@ Set a generic property.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1184,7 +1168,7 @@ Set a generic property.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">long&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a>&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1199,8 +1183,8 @@ Set a generic property.
 <p>
 Set a generic property. 
 <p>
-In order to make it easier to access properties in a property class from general scripting languages this generic interface to properties is provided. It is always faster and more efficient to set properties directly but this system is usable in general. <p>
-This function returns false if the property could not be set for some reason. <p>
+In order to make it easier to access properties in a property class from general scripting languages this generic interface to properties is provided. It is always faster and more efficient to set properties directly but this system is usable in general.<p>
+This function returns false if the property could not be set for some reason.<p>
 The physical layer maintains a registry of ID's to use. The convention is to use property names like: 'cel.property.num'. 
 </div>
 </div><p>

@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,46 +28,38 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMechanicsJoint Struct Reference</h1><!-- doxytag: class="iPcMechanicsJoint" -->A joint.  
+<h1>iPcMechanicsJoint Struct Reference</h1><!-- doxytag: class="iPcMechanicsJoint" --><!-- doxytag: inherits="iBase" -->A joint.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="mechsys_8h-source.html">propclass/mechsys.h</a>&gt;</code>
 <p>
-<a href="structiPcMechanicsJoint-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcMechanicsJoint:<p><center><img src="structiPcMechanicsJoint__inherit__graph.png" border="0" usemap="#iPcMechanicsJoint__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcMechanicsJoint__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="47,5,105,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMechanicsJoint-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the joint corresponding with this.  <a href="#c79f260efb5b6fc9e4c2d4f533e78cb3"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 A joint. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
-<li>
-SetParentBody: parameters 'body' (string). </li>
-<li>
-SetPosition: parameters 'position' (vector3). </li>
-<li>
-SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool). </li>
-<li>
-SetDistances: parameters 'min' (vector3) and 'max' (vector3). </li>
-<li>
-SetConstrainAngle: parameters 'x' (bool), 'y' (bool), and 'z' (bool). </li>
-<li>
-SetAngles: parameters 'min' (vector3) and 'max' (vector3). </li>
-</ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
+<li>SetParentBody: parameters 'body' (string).</li><li>SetPosition: parameters 'position' (vector3).</li><li>SetConstrainDist: parameters 'x' (bool), 'y' (bool), and 'z' (bool).</li><li>SetDistances: parameters 'min' (vector3) and 'max' (vector3).</li><li>SetConstrainAngle: parameters 'x' (bool), 'y' (bool), and 'z' (bool).</li><li>SetAngles: parameters 'min' (vector3) and 'max' (vector3). </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mechsys_8h-source.html#l00641">641</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechsys_8h-source.html#l00645">645</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="c79f260efb5b6fc9e4c2d4f533e78cb3"></a><!-- doxytag: member="iPcMechanicsJoint::GetJoint" ref="c79f260efb5b6fc9e4c2d4f533e78cb3" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iJoint* iPcMechanicsJoint::GetJoint           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* iPcMechanicsJoint::GetJoint           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>

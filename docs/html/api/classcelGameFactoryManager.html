@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -39,13 +39,13 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#39c1ea28335081be506112b125b924b2">GameInfoReceived</a> (<a class="el" href="classcelGameInfo.html">celGameInfo</a> *game_info, csTicks server_latency)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The game factory is searching for available games (it has been started with <a class="el" href="structiCelGameFactory.html#7756c198de88c4b38ad29199dd92e1ca">iCelGameFactory::StartSearchForGameList</a>), and a game has been found.  <a href="#39c1ea28335081be506112b125b924b2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">GetClientEventBaseline</a> (celClientEventType event_type)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">GetClientEventBaseline</a> (celClientEventType event_type)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a client event.  <a href="#988219ab5ffebdadbc1b91ea4f29eda5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">GetNetworkLinkBaseline</a> (celNetworkLinkType link_type)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">GetNetworkLinkBaseline</a> (celNetworkLinkType link_type)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a network link.  <a href="#1b0660f3f2c949f4c8df6af2053707dd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">GetServerEventBaseline</a> (celServerEventType event_type)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">GetServerEventBaseline</a> (celServerEventType event_type)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the baseline of a server event.  <a href="#e05afe2920598098eeccb26327aea192"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#b2b906cb592b493f0563221e4238333f">InitClient</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
@@ -54,7 +54,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#bef391e780d2a9874f70a674cf8b741a">InitServer</a> (<a class="el" href="structiCelGame.html">iCelGame</a> *game)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A server is created and has to be initialized.  <a href="#bef391e780d2a9874f70a674cf8b741a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#5033231d4a327aefc3c33b31d060168f">ServerNetworkStateChanged</a> (celServerNetworkState new_state, celServerNetworkState previous_state, csString reason=&quot;&quot;)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelGameFactoryManager.html#5033231d4a327aefc3c33b31d060168f">ServerNetworkStateChanged</a> (celServerNetworkState new_state, celServerNetworkState previous_state, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> reason=&quot;&quot;)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The state of the network connection from the client to the server has changed.  <a href="#5033231d4a327aefc3c33b31d060168f"></a><br></td></tr>
 </table>
@@ -120,7 +120,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00251">251</a> of
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetClientEventBaseline           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetClientEventBaseline           </td>
           <td>(</td>
           <td class="paramtype">celClientEventType&nbsp;</td>
           <td class="paramname"> <em>event_type</em>          </td>
@@ -145,7 +145,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00304">304</a> of
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetNetworkLinkBaseline           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetNetworkLinkBaseline           </td>
           <td>(</td>
           <td class="paramtype">celNetworkLinkType&nbsp;</td>
           <td class="paramname"> <em>link_type</em>          </td>
@@ -169,7 +169,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00320">320</a> of
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetServerEventBaseline           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; celGameFactoryManager::GetServerEventBaseline           </td>
           <td>(</td>
           <td class="paramtype">celServerEventType&nbsp;</td>
           <td class="paramname"> <em>event_type</em>          </td>
@@ -259,7 +259,7 @@ Definition at line <a class="el" href="network_8h-source.html#l00294">294</a> of
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">csString&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&nbsp;</td>
           <td class="paramname"> <em>reason</em> = <code>&quot;&quot;</code></td><td>&nbsp;</td>
         </tr>
         <tr>

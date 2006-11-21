@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,15 +28,19 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcNavGraphRules Struct Reference</h1><!-- doxytag: class="iPcNavGraphRules" -->Interfaces for the navigation classes.  
+<h1>iPcNavGraphRules Struct Reference</h1><!-- doxytag: class="iPcNavGraphRules" --><!-- doxytag: inherits="iBase" -->Interfaces for the navigation classes.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="navgraph_8h-source.html">propclass/navgraph.h</a>&gt;</code>
 <p>
-<a href="structiPcNavGraphRules-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcNavGraphRules:<p><center><img src="structiPcNavGraphRules__inherit__graph.png" border="0" usemap="#iPcNavGraphRules__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcNavGraphRules__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="49,5,108,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcNavGraphRules-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#b603b6435ac6eeec81ea0a51e7945555">FindNearestNode</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph, csVector3 *point, iSector *sector, <a class="el" href="structiCelEntity.html">iCelEntity</a> *ent)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#b603b6435ac6eeec81ea0a51e7945555">FindNearestNode</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> *point, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="el" href="structiCelEntity.html">iCelEntity</a> *ent)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Various virtual methods that can be used to change the graph behaviour.  <a href="#b603b6435ac6eeec81ea0a51e7945555"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#1563422315126ce18faf6f0789b7813d">FindShortestPath</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph, size_t iNodeStart, size_t iNodeEnd, size_t *&amp;ipath)=0</td></tr>
@@ -45,7 +49,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#65b6ce7b2fc7125aa6fbee5bd23646ae">OptimiseGraph</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Various virtual methods that can be used to change the graph behaviour.  <a href="#65b6ce7b2fc7125aa6fbee5bd23646ae"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#2ed226ef3675c0c62c77e97d8341f293">TraverseLink</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph, iSector *sector, <a class="el" href="structiPcNavLink.html">iPcNavLink</a> *plink, <a class="el" href="structiCelEntity.html">iCelEntity</a> *ent)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcNavGraphRules.html#2ed226ef3675c0c62c77e97d8341f293">TraverseLink</a> (<a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *graph, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="el" href="structiPcNavLink.html">iPcNavLink</a> *plink, <a class="el" href="structiCelEntity.html">iCelEntity</a> *ent)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Various virtual methods that can be used to change the graph behaviour.  <a href="#2ed226ef3675c0c62c77e97d8341f293"></a><br></td></tr>
 </table>
@@ -68,13 +72,13 @@ Definition at line <a class="el" href="navgraph_8h-source.html#l00038">38</a> of
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">csVector3 *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> *&nbsp;</td>
           <td class="paramname"> <em>point</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">iSector *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
@@ -168,7 +172,7 @@ Sorts the final graph.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int iPcNavGraphRules::TraverseLink           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iPcNavGraphRules::TraverseLink           </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structiPcNavGraph.html">iPcNavGraph</a> *&nbsp;</td>
           <td class="paramname"> <em>graph</em>, </td>
@@ -176,7 +180,7 @@ Sorts the final graph.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">iSector *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>

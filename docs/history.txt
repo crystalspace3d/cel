@@ -8,6 +8,11 @@ The history order is reversed so that new features are at the top.
 	  PYTHONPATH in celstart.
 	- Genjix changed workaround to more cross platform solution using
 	  existing realpath and stripping problematic $'s.
+	- Genjix added doxygen tagfile and to allow linking to cs api docs, and
+	  installdox script to set the link.
+	  Pointed the links to $CRYSTAL.
+	  To set the link do:
+	    ./docs/doxygen/installdox -l crystalspace.tag@$CS/out/docs/html/api docs/html/api/*
 17-Nov-2006
 	- Genjix made iCelPlLayer->CreatePropclass*() try to load the propclass
 	  if propfact can't be queried.

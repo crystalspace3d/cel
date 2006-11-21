@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -45,24 +45,24 @@
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
 <a name="l00023"></a>00023 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00024"></a>00024 
-<a name="l00041"></a><a class="code" href="structiNumReg.html">00041</a> <span class="keyword">struct </span><a class="code" href="structiNumReg.html">iNumReg</a> : <span class="keyword">public</span> iBase
+<a name="l00041"></a><a class="code" href="structiNumReg.html">00041</a> <span class="keyword">struct </span><a class="code" href="structiNumReg.html">iNumReg</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
 <a name="l00042"></a>00042 {
-<a name="l00047"></a>00047   <span class="keyword">virtual</span> uint <a class="code" href="structiNumReg.html#7bae6564611f85cd8cf64c2117f7b501">Register</a> (<span class="keywordtype">void</span> *obj) = 0;
+<a name="l00047"></a>00047   <span class="keyword">virtual</span> <a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> <a class="code" href="structiNumReg.html#7bae6564611f85cd8cf64c2117f7b501">Register</a> (<span class="keywordtype">void</span> *obj) = 0;
 <a name="l00048"></a>00048 
-<a name="l00054"></a>00054   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNumReg.html#2a6bb44a69c6ea49a4d9a0139791782d">RegisterWithID</a> (<span class="keywordtype">void</span> *obj, uint <span class="keywordtype">id</span>) = 0;
+<a name="l00054"></a>00054   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNumReg.html#2a6bb44a69c6ea49a4d9a0139791782d">RegisterWithID</a> (<span class="keywordtype">void</span> *obj, <a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> <span class="keywordtype">id</span>) = 0;
 <a name="l00055"></a>00055 
-<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiNumReg.html#97ac47fa228d0b651c383c810520db71">Remove</a> (uint <span class="keywordtype">id</span>) = 0;
+<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiNumReg.html#97ac47fa228d0b651c383c810520db71">Remove</a> (<a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> <span class="keywordtype">id</span>) = 0;
 <a name="l00060"></a>00060 
 <a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiNumReg.html#97ac47fa228d0b651c383c810520db71">Remove</a> (<span class="keywordtype">void</span> *obj) = 0;
 <a name="l00066"></a>00066 
 <a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiNumReg.html#c58de74c1a716b2cba13a917ef59f2b6">Clear</a> () = 0;
 <a name="l00071"></a>00071 
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="structiNumReg.html#942fda5440db2b741bdf36452398c72c">Get</a> (uint <span class="keywordtype">id</span>) = 0;
+<a name="l00075"></a>00075   <span class="keyword">virtual</span> <span class="keywordtype">void</span>* <a class="code" href="structiNumReg.html#942fda5440db2b741bdf36452398c72c">Get</a> (<a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> <span class="keywordtype">id</span>) = 0;
 <a name="l00076"></a>00076 
 <a name="l00082"></a>00082   <span class="keyword">virtual</span> size_t <a class="code" href="structiNumReg.html#e9d7f3e8e49b79cce7bb4c267653b401">Length</a>() = 0;
 <a name="l00083"></a>00083 };
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085 SCF_VERSION(<a class="code" href="structiNumReg.html">iNumReg</a>, 0, 0, 1);
+<a name="l00085"></a>00085 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a>(<a class="code" href="structiNumReg.html">iNumReg</a>, 0, 0, 1);
 <a name="l00086"></a>00086 
 <a name="l00087"></a>00087 <span class="preprocessor">#endif</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 

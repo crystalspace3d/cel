@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMovable Struct Reference</h1><!-- doxytag: class="iPcMovable" -->Control moving an <a class="el" href="structiPcMesh.html">iPcMesh</a>.  
+<h1>iPcMovable Struct Reference</h1><!-- doxytag: class="iPcMovable" --><!-- doxytag: inherits="iBase" -->Control moving an <a class="el" href="structiPcMesh.html">iPcMesh</a>.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="move_8h-source.html">propclass/move.h</a>&gt;</code>
 <p>
-<a href="structiPcMovable-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcMovable:<p><center><img src="structiPcMovable__inherit__graph.png" border="0" usemap="#iPcMovable__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcMovable__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="25,5,84,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMovable-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#1fbe42e59d654568f2b5328142e5a318">AddConstraint</a> (<a class="el" href="structiPcMovableConstraint.html">iPcMovableConstraint</a> *constraint)=0</td></tr>
@@ -42,10 +46,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#c6f7966e64d72a1c18fb4b10a2458d69">GetMesh</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current mesh on which we're working.  <a href="#c6f7966e64d72a1c18fb4b10a2458d69"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#57a22a7e71cfa9e9be17b7b7e7573e7d">Move</a> (const csVector3 &amp;relpos)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#57a22a7e71cfa9e9be17b7b7e7573e7d">Move</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;relpos)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Relative move.  <a href="#57a22a7e71cfa9e9be17b7b7e7573e7d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#3e67a9b22dd7d7ce119838dc51b1aa66">Move</a> (iSector *sector, const csVector3 &amp;pos)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#3e67a9b22dd7d7ce119838dc51b1aa66">Move</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Move object while checking constraints.  <a href="#3e67a9b22dd7d7ce119838dc51b1aa66"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMovable.html#b4833e9015462536c3c28570c7492bf5">RemoveAllConstraints</a> ()=0</td></tr>
@@ -112,9 +116,9 @@ Get the current mesh on which we're working.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int iPcMovable::Move           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iPcMovable::Move           </td>
           <td>(</td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>relpos</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -142,15 +146,15 @@ CEL_MOVE_PARTIAL: if object could move partially. </li>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int iPcMovable::Move           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iPcMovable::Move           </td>
           <td>(</td>
-          <td class="paramtype">iSector *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em></td><td>&nbsp;</td>
         </tr>
         <tr>

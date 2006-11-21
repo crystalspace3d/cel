@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -68,6 +68,7 @@
   <tr><td class="indexkey"><a class="el" href="structiCelConsoleCommand.html">iCelConsoleCommand</a></td><td class="indexvalue">A single command for the CEL console </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a></td><td class="indexvalue">This interface describes persistable data </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelEntity.html">iCelEntity</a></td><td class="indexvalue">This is an entity in the CEL layer at the PL (physical layer) side </td></tr>
+  <tr><td class="indexkey"><a class="el" href="structiCelEntityIterator.html">iCelEntityIterator</a></td><td class="indexvalue">An iterator for entities </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelEntityList.html">iCelEntityList</a></td><td class="indexvalue">A list of entities </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a></td><td class="indexvalue">Implement this interface if you want to know when entities are removed </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a></td><td class="indexvalue">This is an entity template </td></tr>
@@ -100,6 +101,7 @@
   <tr><td class="indexkey"><a class="el" href="structiCelTimerListener.html">iCelTimerListener</a></td><td class="indexvalue">Generic timing system in CEL </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiCelZone.html">iCelZone</a></td><td class="indexvalue">A zone </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a></td><td class="indexvalue">This interface is implemented by the reward that changes the value of a property (either on a property from pcproperties or a generic property on any property class) </td></tr>
+  <tr><td class="indexkey"><a class="el" href="structiCsSequenceQuestRewardFactory.html">iCsSequenceQuestRewardFactory</a></td><td class="indexvalue">This interface is implemented by the reward that fires a Crystal Space sequence </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a></td><td class="indexvalue">This interface is implemented by the reward that prints debug messages on standard output </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiDebugPrintQuestSeqOpFactory.html">iDebugPrintQuestSeqOpFactory</a></td><td class="indexvalue">This interface is implemented by the seqop that prints debug messages on standard output </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiDestroyEntityQuestRewardFactory.html">iDestroyEntityQuestRewardFactory</a></td><td class="indexvalue">This interface is implemented by the reward that destroys an entity </td></tr>
@@ -122,6 +124,7 @@
   <tr><td class="indexkey"><a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a></td><td class="indexvalue">This property class controls collision detection of an entity with the world map and other meshes </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiPcCommandInput.html">iPcCommandInput</a></td><td class="indexvalue">Input propery class </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiPcCraftController.html">iPcCraftController</a></td><td class="indexvalue">Craft controller property class </td></tr>
+  <tr><td class="indexkey"><a class="el" href="structiPcDamage.html">iPcDamage</a></td><td class="indexvalue">This is a property class for damage emitting </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td class="indexvalue">This is a property class that wraps a standard first-person and third-person camera and related functionality </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiPcEnvAttractor.html">iPcEnvAttractor</a></td><td class="indexvalue">A property class representing an attractor or a repulsor </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiPcGravity.html">iPcGravity</a></td><td class="indexvalue">Gravity handling property class </td></tr>
@@ -197,6 +200,7 @@
   <tr><td class="indexkey"><a class="el" href="structiTriggerQuestTriggerFactory.html">iTriggerQuestTriggerFactory</a></td><td class="indexvalue">This interface is implemented by the trigger that fires when a pctrigger fires </td></tr>
   <tr><td class="indexkey"><a class="el" href="structiWatchQuestTriggerFactory.html">iWatchQuestTriggerFactory</a></td><td class="indexvalue">This interface is implemented by the trigger that fires when a mesh becomes visible </td></tr>
   <tr><td class="indexkey"><a class="el" href="structProperty.html">Property</a></td><td class="indexvalue"></td></tr>
+  <tr><td class="indexkey"><a class="el" href="structPropertyHolder.html">PropertyHolder</a></td><td class="indexvalue">Keep a static instance of this structure in your property class so that your property class can implement properties more easily </td></tr>
 </table>
 <hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
