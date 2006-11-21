@@ -94,7 +94,6 @@
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
-#include "propclass/stabiliser_dist.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -352,6 +351,25 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
           iCollideSystem),
       CS_REQUEST_END))
     return ReportError("Failed to initialize plugins!");
+
+  // Attempt to load a joystick plugin.
+  csRef<iStringArray> joystickClasses =
+    iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
+  if (joystickClasses.IsValid())
+  {
+    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
+      iPluginManager);
+    for (size_t i = 0; i < joystickClasses->Length (); i++)
+    {
+      const char* className = joystickClasses->Get (i);
+      iBase* b = plugmgr->LoadPlugin (className);
+
+      csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
+	className, (b != 0) ? "successful" : "failed");
+      if (b != 0) b->DecRef ();
+    }
+  }
 
   // "Warm up" the event handler so it can interact with the world
   csBaseEventHandler::Initialize (r);
