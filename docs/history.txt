@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	  Pointed the links to $CRYSTAL.
 	  To set the link do:
 	    ./docs/doxygen/installdox -l crystalspace.tag@$CS/out/docs/html/api docs/html/api/*
+	- caedes added particles and particlesldr to celtest_static.
 17-Nov-2006
 	- Genjix made iCelPlLayer->CreatePropclass*() try to load the propclass
 	  if propfact can't be queried.
