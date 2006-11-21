@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Nov-2006
+	- Genjix added workaround to CEL mangling path when appending to
+	  PYTHONPATH in celstart.
 17-Nov-2006
 	- Genjix made iCelPlLayer->CreatePropclass*() try to load the propclass
 	  if propfact can't be queried.

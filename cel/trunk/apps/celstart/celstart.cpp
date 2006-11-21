@@ -445,7 +445,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
 #error "What a strange platform you have!"
 #endif
     }
-    old += realpath;
+    old += argv[1];
     setenv ("PYTHONPATH",old.GetData(),1);
     printf ("PYTHONPATH: %s\n", old.GetData ()); fflush (stdout);
   }
