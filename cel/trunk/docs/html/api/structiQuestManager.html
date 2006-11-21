@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,17 +28,24 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iQuestManager Struct Reference</h1><!-- doxytag: class="iQuestManager" -->This is the quest manager.  
+<h1>iQuestManager Struct Reference</h1><!-- doxytag: class="iQuestManager" --><!-- doxytag: inherits="iBase" -->This is the quest manager.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-<a href="structiQuestManager-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iQuestManager:<p><center><img src="structiQuestManager__inherit__graph.png" border="0" usemap="#iQuestManager__inherit__map" alt="Inheritance graph"></center>
+<map name="iQuestManager__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="39,5,97,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiQuestManager-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#5ff00abc09620c0bf6c73054ae18dbf8">AddChangePropertyReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *prop_par)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'changeproperty' reward factory to a response factory.  <a href="#5ff00abc09620c0bf6c73054ae18dbf8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#23c2832f8fd45b4c8579181094929ac8">AddCsSequenceReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *sequence_par, const char *delay_par)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add an 'cssequence' reward factory to a response factory.  <a href="#23c2832f8fd45b4c8579181094929ac8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#0e96773da2d028624ac05345a241b147">AddDebugPrintReward</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *msg_par)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience method to add a 'debugprint' reward factory to a response factory.  <a href="#0e96773da2d028624ac05345a241b147"></a><br></td></tr>
@@ -69,7 +76,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerType.html">iQuestTriggerType</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#61b6eda0f19cb938cf012d3f78257054">GetTriggerType</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get a trigger type from the quest manager.  <a href="#61b6eda0f19cb938cf012d3f78257054"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#c8fcc591814839a9d6af627420401f93">Load</a> (iDocumentNode *node)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#c8fcc591814839a9d6af627420401f93">Load</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *node)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load a bunch of quest factories.  <a href="#c8fcc591814839a9d6af627420401f93"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#006d40be1553e77fe70e7e81efa8f1df">RegisterRewardType</a> (<a class="el" href="structiQuestRewardType.html">iQuestRewardType</a> *trigger)=0</td></tr>
@@ -81,7 +88,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#5bae677edf4f8bf373814bf3db6e184f">RegisterTriggerType</a> (<a class="el" href="structiQuestTriggerType.html">iQuestTriggerType</a> *trigger)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a quest trigger type.  <a href="#5bae677edf4f8bf373814bf3db6e184f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#540a9dae76daa762e38ad031721b0e0f">ResolveParameter</a> (const celQuestParams &amp;params, const char *param)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#540a9dae76daa762e38ad031721b0e0f">ResolveParameter</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;params, const char *param)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is a convenience function to resolve a quest parameter during creation of rewards, triggers, and sequence operations.  <a href="#540a9dae76daa762e38ad031721b0e0f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestManager.html#1bb10ef0fa68d6e0ca200112986f3b3e">SetEnterSectorTrigger</a> (<a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *response, const char *entity_par, const char *sector_par)=0</td></tr>
@@ -113,7 +120,7 @@ This manager can be used to handle quests. A quest is basically a state machine 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00624">624</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00625">625</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="5ff00abc09620c0bf6c73054ae18dbf8"></a><!-- doxytag: member="iQuestManager::AddChangePropertyReward" ref="5ff00abc09620c0bf6c73054ae18dbf8" args="(iQuestTriggerResponseFactory *response, const char *entity_par, const char *prop_par)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -149,6 +156,43 @@ Definition at line <a class="el" href="questmanager_8h-source.html#l00624">624</
 Convenience method to add a 'changeproperty' reward factory to a response factory. 
 <p>
 You need to specify exactly which value should be modified after calling this. 
+</div>
+</div><p>
+<a class="anchor" name="23c2832f8fd45b4c8579181094929ac8"></a><!-- doxytag: member="iQuestManager::AddCsSequenceReward" ref="23c2832f8fd45b4c8579181094929ac8" args="(iQuestTriggerResponseFactory *response, const char *sequence_par, const char *delay_par)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="structiQuestRewardFactory.html">iQuestRewardFactory</a>* iQuestManager::AddCsSequenceReward           </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structiQuestTriggerResponseFactory.html">iQuestTriggerResponseFactory</a> *&nbsp;</td>
+          <td class="paramname"> <em>response</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>sequence_par</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>delay_par</em></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td width="100%"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Convenience method to add an 'cssequence' reward factory to a response factory. 
+<p>
+
 </div>
 </div><p>
 <a class="anchor" name="0e96773da2d028624ac05345a241b147"></a><!-- doxytag: member="iQuestManager::AddDebugPrintReward" ref="0e96773da2d028624ac05345a241b147" args="(iQuestTriggerResponseFactory *response, const char *msg_par)=0" -->
@@ -453,7 +497,7 @@ Returns 0 if no such trigger type exists.
         <tr>
           <td class="memname">virtual bool iQuestManager::Load           </td>
           <td>(</td>
-          <td class="paramtype">iDocumentNode *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *&nbsp;</td>
           <td class="paramname"> <em>node</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -493,27 +537,9 @@ Load a bunch of quest factories.
 <p>
 Register a quest reward type. 
 <p>
-Quest rewards can be used by quests to give out some kind of reward to the game. Returns false on failure (reward type with that name already exists). <p>
-The following predefined reward types are automatically registered in the quest manager: <ul>
-<li>
-cel.questreward.debugprint: print a debug message on stdout. See <a class="el" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.newstate: switch to a new state. See <a class="el" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.changeproperty: change a property. See <a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.inventory: manipulate inventory. See <a class="el" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.sequence: fire sequence. See <a class="el" href="structiSequenceQuestRewardFactory.html">iSequenceQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.sequencefinish: finish sequence. See <a class="el" href="structiSequenceFinishQuestRewardFactory.html">iSequenceFinishQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.message: send a message to some entity. See <a class="el" href="structiMessageQuestRewardFactory.html">iMessageQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.action: send an action to some property class on an entity. See <a class="el" href="structiActionQuestRewardFactory.html">iActionQuestRewardFactory</a>. </li>
-<li>
-cel.questreward.destroyentity: remove an entity from the physical. layer. See <a class="el" href="structiDestroyEntityQuestRewardFactory.html">iDestroyEntityQuestRewardFactory</a>. </li>
-</ul>
+Quest rewards can be used by quests to give out some kind of reward to the game. Returns false on failure (reward type with that name already exists).<p>
+The following predefined reward types are automatically registered in the quest manager:<ul>
+<li>cel.questreward.debugprint: print a debug message on stdout. See <a class="el" href="structiDebugPrintQuestRewardFactory.html">iDebugPrintQuestRewardFactory</a>.</li><li>cel.questreward.newstate: switch to a new state. See <a class="el" href="structiNewStateQuestRewardFactory.html">iNewStateQuestRewardFactory</a>.</li><li>cel.questreward.changeproperty: change a property. See <a class="el" href="structiChangePropertyQuestRewardFactory.html">iChangePropertyQuestRewardFactory</a>.</li><li>cel.questreward.inventory: manipulate inventory. See <a class="el" href="structiInventoryQuestRewardFactory.html">iInventoryQuestRewardFactory</a>.</li><li>cel.questreward.sequence: fire sequence. See <a class="el" href="structiSequenceQuestRewardFactory.html">iSequenceQuestRewardFactory</a>.</li><li>cel.questreward.sequencefinish: finish sequence. See <a class="el" href="structiSequenceFinishQuestRewardFactory.html">iSequenceFinishQuestRewardFactory</a>.</li><li>cel.questreward.message: send a message to some entity. See <a class="el" href="structiMessageQuestRewardFactory.html">iMessageQuestRewardFactory</a>.</li><li>cel.questreward.action: send an action to some property class on an entity. See <a class="el" href="structiActionQuestRewardFactory.html">iActionQuestRewardFactory</a>.</li><li>cel.questreward.destroyentity: remove an entity from the physical. layer. See <a class="el" href="structiDestroyEntityQuestRewardFactory.html">iDestroyEntityQuestRewardFactory</a>. </li></ul>
 
 </div>
 </div><p>
@@ -536,17 +562,9 @@ cel.questreward.destroyentity: remove an entity from the physical. layer. See <a
 <p>
 Register a seqop reward type. 
 <p>
-Seqop rewards can be used by quest sequences to define operations in the sequence. Returns false on failure (swqop type with that name already exists). <p>
-The following predefined sequence operation types are automatically registered in the quest manager: <ul>
-<li>
-cel.questseqop.debugprint: print a debug message on stdout. See <a class="el" href="structiDebugPrintQuestSeqOpFactory.html">iDebugPrintQuestSeqOpFactory</a>. </li>
-<li>
-cel.questseqop.transform: transform a mesh. See <a class="el" href="structiTransformQuestSeqOpFactory.html">iTransformQuestSeqOpFactory</a>. </li>
-<li>
-cel.questseqop.movepath: move a mesh along a path. See <a class="el" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a>. </li>
-<li>
-cel.questseqop.light: animate a light color. See <a class="el" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a>. </li>
-</ul>
+Seqop rewards can be used by quest sequences to define operations in the sequence. Returns false on failure (swqop type with that name already exists).<p>
+The following predefined sequence operation types are automatically registered in the quest manager:<ul>
+<li>cel.questseqop.debugprint: print a debug message on stdout. See <a class="el" href="structiDebugPrintQuestSeqOpFactory.html">iDebugPrintQuestSeqOpFactory</a>.</li><li>cel.questseqop.transform: transform a mesh. See <a class="el" href="structiTransformQuestSeqOpFactory.html">iTransformQuestSeqOpFactory</a>.</li><li>cel.questseqop.movepath: move a mesh along a path. See <a class="el" href="structiMovePathQuestSeqOpFactory.html">iMovePathQuestSeqOpFactory</a>.</li><li>cel.questseqop.light: animate a light color. See <a class="el" href="structiLightQuestSeqOpFactory.html">iLightQuestSeqOpFactory</a>. </li></ul>
 
 </div>
 </div><p>
@@ -569,27 +587,9 @@ cel.questseqop.light: animate a light color. See <a class="el" href="structiLigh
 <p>
 Register a quest trigger type. 
 <p>
-Quest triggers can be used by quests to decide when to go to another state or when to activate a reward. Returns false on failure (trigger type with that name already exists). <p>
-The following predefined trigger types are automatically registered in the quest manager: <ul>
-<li>
-cel.questtrigger.entersector: triggers when a camera (from entity) enters a sector. See <a class="el" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.meshentersector: triggers when a mesh (from entity) enters a sector. See <a class="el" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.timeout: triggers after a specified time. See <a class="el" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.propertychange: triggers when a property changes. See <a class="el" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.sequencefinish: triggers when a sequence finishes. See <a class="el" href="structiSequenceFinishQuestTriggerFactory.html">iSequenceFinishQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.trigger: triggers when a pctrigger fires. See <a class="el" href="structiTriggerQuestTriggerFactory.html">iTriggerQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.inventory: triggers when an object enters inventory. See <a class="el" href="structiInventoryQuestTriggerFactory.html">iInventoryQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.meshselect: triggers when a mesh is selected. See <a class="el" href="structiMeshSelectQuestTriggerFactory.html">iMeshSelectQuestTriggerFactory</a>. </li>
-<li>
-cel.questtrigger.watch: triggers when a mesh becomes visible. See <a class="el" href="structiWatchQuestTriggerFactory.html">iWatchQuestTriggerFactory</a>. </li>
-</ul>
+Quest triggers can be used by quests to decide when to go to another state or when to activate a reward. Returns false on failure (trigger type with that name already exists).<p>
+The following predefined trigger types are automatically registered in the quest manager:<ul>
+<li>cel.questtrigger.entersector: triggers when a camera (from entity) enters a sector. See <a class="el" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>.</li><li>cel.questtrigger.meshentersector: triggers when a mesh (from entity) enters a sector. See <a class="el" href="structiEnterSectorQuestTriggerFactory.html">iEnterSectorQuestTriggerFactory</a>.</li><li>cel.questtrigger.timeout: triggers after a specified time. See <a class="el" href="structiTimeoutQuestTriggerFactory.html">iTimeoutQuestTriggerFactory</a>.</li><li>cel.questtrigger.propertychange: triggers when a property changes. See <a class="el" href="structiPropertyChangeQuestTriggerFactory.html">iPropertyChangeQuestTriggerFactory</a>.</li><li>cel.questtrigger.sequencefinish: triggers when a sequence finishes. See <a class="el" href="structiSequenceFinishQuestTriggerFactory.html">iSequenceFinishQuestTriggerFactory</a>.</li><li>cel.questtrigger.trigger: triggers when a pctrigger fires. See <a class="el" href="structiTriggerQuestTriggerFactory.html">iTriggerQuestTriggerFactory</a>.</li><li>cel.questtrigger.inventory: triggers when an object enters inventory. See <a class="el" href="structiInventoryQuestTriggerFactory.html">iInventoryQuestTriggerFactory</a>.</li><li>cel.questtrigger.meshselect: triggers when a mesh is selected. See <a class="el" href="structiMeshSelectQuestTriggerFactory.html">iMeshSelectQuestTriggerFactory</a>.</li><li>cel.questtrigger.watch: triggers when a mesh becomes visible. See <a class="el" href="structiWatchQuestTriggerFactory.html">iWatchQuestTriggerFactory</a>. </li></ul>
 
 </div>
 </div><p>
@@ -600,7 +600,7 @@ cel.questtrigger.watch: triggers when a mesh becomes visible. See <a class="el" 
         <tr>
           <td class="memname">virtual const char* iQuestManager::ResolveParameter           </td>
           <td>(</td>
-          <td class="paramtype">const celQuestParams &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>params</em>, </td>
         </tr>
         <tr>

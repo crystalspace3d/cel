@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iDestroyEntityQuestRewardFactory Struct Reference</h1><!-- doxytag: class="iDestroyEntityQuestRewardFactory" -->This interface is implemented by the reward that destroys an entity.  
+<h1>iDestroyEntityQuestRewardFactory Struct Reference</h1><!-- doxytag: class="iDestroyEntityQuestRewardFactory" --><!-- doxytag: inherits="iBase" -->This interface is implemented by the reward that destroys an entity.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-<a href="structiDestroyEntityQuestRewardFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iDestroyEntityQuestRewardFactory:<p><center><img src="structiDestroyEntityQuestRewardFactory__inherit__graph.png" border="0" usemap="#iDestroyEntityQuestRewardFactory__inherit__map" alt="Inheritance graph"></center>
+<map name="iDestroyEntityQuestRewardFactory__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="105,5,164,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiDestroyEntityQuestRewardFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiDestroyEntityQuestRewardFactory.html#5596ca73918910e787ddb0f828b15f16">SetEntityParameter</a> (const char *entity)=0</td></tr>
@@ -43,17 +47,15 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface is implemented by the reward that destroys an entity. 
 <p>
-You can query this interface from the reward factory if you want to manually control this factory as opposed to loading its definition from an XML document. <p>
-The predefined name of this reward type is 'cel.questreward.destroyentity'. <p>
-In XML, factories recognize the following attribute on the 'op' node: <ul>
-<li>
-<em>entity</em>: the name of the entity to send the message too. </li>
-</ul>
+You can query this interface from the reward factory if you want to manually control this factory as opposed to loading its definition from an XML document.<p>
+The predefined name of this reward type is 'cel.questreward.destroyentity'.<p>
+In XML, factories recognize the following attribute on the 'op' node:<ul>
+<li><em>entity</em>: the name of the entity to send the message too. </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l01633">1633</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l01645">1645</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="5596ca73918910e787ddb0f828b15f16"></a><!-- doxytag: member="iDestroyEntityQuestRewardFactory::SetEntityParameter" ref="5596ca73918910e787ddb0f828b15f16" args="(const char *entity)=0" -->
 <div class="memitem">
 <div class="memproto">

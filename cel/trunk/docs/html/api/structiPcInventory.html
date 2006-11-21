@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcInventory Struct Reference</h1><!-- doxytag: class="iPcInventory" -->This is an inventory property class.  
+<h1>iPcInventory Struct Reference</h1><!-- doxytag: class="iPcInventory" --><!-- doxytag: inherits="iBase" -->This is an inventory property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="inv_8h-source.html">propclass/inv.h</a>&gt;</code>
 <p>
-<a href="structiPcInventory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcInventory:<p><center><img src="structiPcInventory__inherit__graph.png" border="0" usemap="#iPcInventory__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcInventory__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="28,5,87,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcInventory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#20f2b6402a444281b9377612aaec2279">AddEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
@@ -54,10 +58,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#9176010d01eccebfff136a34f504bcb2">FindEntity</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find the index of some entity in the inventory.  <a href="#9176010d01eccebfff136a34f504bcb2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c2a1b904eb4fd1b3db554dd0f93188f5">GetConstraints</a> (const char *charName, float &amp;minValue, float &amp;maxValue, float &amp;totalMaxValue) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c2a1b904eb4fd1b3db554dd0f93188f5">GetConstraints</a> (const char *charName, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;minValue, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;maxValue, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;totalMaxValue) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the constraints for some characteristic.  <a href="#c2a1b904eb4fd1b3db554dd0f93188f5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#dc73f72657311cdbabe2001d24379671">GetCurrentCharacteristic</a> (const char *charName) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#dc73f72657311cdbabe2001d24379671">GetCurrentCharacteristic</a> (const char *charName) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current value for some characteristic.  <a href="#dc73f72657311cdbabe2001d24379671"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#51d9e5bd68dfd0a7ce138e85f7b7323d">GetEntity</a> (size_t idx) const =0</td></tr>
@@ -102,7 +106,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c7cb9b83546fdb3114da3abf85ed11b4">RemoveInventoryListener</a> (<a class="el" href="structiPcInventoryListener.html">iPcInventoryListener</a> *listener)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an inventory listener.  <a href="#c7cb9b83546fdb3114da3abf85ed11b4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c4961aad36682ab5600cb8ab8f9e4fba">SetConstraints</a> (const char *charName, float minValue, float maxValue, float totalMaxValue)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c4961aad36682ab5600cb8ab8f9e4fba">SetConstraints</a> (const char *charName, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> minValue, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> maxValue, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> totalMaxValue)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the constraints for some characteristic.  <a href="#c4961aad36682ab5600cb8ab8f9e4fba"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcInventory.html#c01ae1173b42cd9eb15ae265d390c579">SetSpace</a> (<a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a> *space)=0</td></tr>
@@ -118,21 +122,13 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is an inventory property class. 
 <p>
-This property class can send out the following messages to the behaviour (possibly the behaviour of the child entity too): (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
-<li>
-pcinventory_addchild: new child will be added (entity) </li>
-<li>
-pcinventory_added: this entity is added as a new child (entity) </li>
-<li>
-pcinventory_removechild: new child will be removed (entity) </li>
-<li>
-pcinventory_removed: this entity is removed (entity) </li>
-</ul>
+This property class can send out the following messages to the behaviour (possibly the behaviour of the child entity too): (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
+<li>pcinventory_addchild: new child will be added (entity)</li><li>pcinventory_added: this entity is added as a new child (entity)</li><li>pcinventory_removechild: new child will be removed (entity)</li><li>pcinventory_removed: this entity is removed (entity) </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="inv_8h-source.html#l00164">164</a> of file <a class="el" href="inv_8h-source.html">inv.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="inv_8h-source.html#l00162">162</a> of file <a class="el" href="inv_8h-source.html">inv.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="20f2b6402a444281b9377612aaec2279"></a><!-- doxytag: member="iPcInventory::AddEntity" ref="20f2b6402a444281b9377612aaec2279" args="(iCelEntity *entity, iCelParameterBlock *params)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -161,7 +157,12 @@ Definition at line <a class="el" href="inv_8h-source.html#l00164">164</a> of fil
 <p>
 Add an entity on a given slot using the space system. 
 <p>
-Returns false if the entity could not be added (capacity exceeded for example). Note that it is safe to add entities that are already in the inventory. Nothing will happen then and true will be returned.  is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>). 
+Returns false if the entity could not be added (capacity exceeded for example). Note that it is safe to add entities that are already in the inventory. Nothing will happen then and true will be returned. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>params</em>&nbsp;</td><td>is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>). </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="47f2ad2707e4070e2d51950201ebc1cc"></a><!-- doxytag: member="iPcInventory::AddEntity" ref="47f2ad2707e4070e2d51950201ebc1cc" args="(iCelEntity *entity)=0" -->
@@ -286,19 +287,19 @@ Return csArrayItemNotFound if not in inventory.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>minValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>maxValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>totalMaxValue</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -321,7 +322,7 @@ Returns false if there are no constraints defined.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iPcInventory::GetCurrentCharacteristic           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcInventory::GetCurrentCharacteristic           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>charName</em>          </td>
@@ -595,7 +596,12 @@ Remove constraints for a characteristic.
 <p>
 Remove an entity on a slot using the space system. 
 <p>
-This can fail if removing an entity causes an upstream inventory to fail its constraints.  is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>). It can also contain additional information to specify which entity to remove from some slot (if stacked items are supported). 
+This can fail if removing an entity causes an upstream inventory to fail its constraints. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>params</em>&nbsp;</td><td>is a generic slot specification (used by <a class="el" href="structiCelInventorySpace.html">iCelInventorySpace</a>). It can also contain additional information to specify which entity to remove from some slot (if stacked items are supported). </td></tr>
+  </table>
+</dl>
+
 </div>
 </div><p>
 <a class="anchor" name="fda56d9d67a36c0404a60b11a2d0635b"></a><!-- doxytag: member="iPcInventory::RemoveEntity" ref="fda56d9d67a36c0404a60b11a2d0635b" args="(iCelEntity *entity)=0" -->
@@ -655,19 +661,19 @@ Remove an inventory listener.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>minValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>maxValue</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>totalMaxValue</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -682,7 +688,7 @@ Remove an inventory listener.
 <p>
 Set the constraints for some characteristic. 
 <p>
-There is a min and max value for one entity and also a total max value for the entire inventory. <p>
+There is a min and max value for one entity and also a total max value for the entire inventory.<p>
 This function can fail if the new constraints cause current contents to be invalidated. 
 </div>
 </div><p>
@@ -736,7 +742,7 @@ If you don't do this then the inventory system will use no space/slot system.
 <p>
 If true reject any entities that don't have this characteristic. 
 <p>
-By default this is false which means that the inventory will automatically assume valid values when this characteristic is not present. <p>
+By default this is false which means that the inventory will automatically assume valid values when this characteristic is not present.<p>
 This function can fail if this inventory already has contents and entities in this inventory do not satisfy the strict condition. 
 </div>
 </div><p>

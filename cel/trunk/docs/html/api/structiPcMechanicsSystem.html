@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,24 +28,28 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMechanicsSystem Struct Reference</h1><!-- doxytag: class="iPcMechanicsSystem" --><a class="el" href="structProperty.html">Property</a> class representing a dynamic system.  
+<h1>iPcMechanicsSystem Struct Reference</h1><!-- doxytag: class="iPcMechanicsSystem" --><!-- doxytag: inherits="iBase" --><a class="el" href="structProperty.html">Property</a> class representing a dynamic system.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="mechsys_8h-source.html">propclass/mechsys.h</a>&gt;</code>
 <p>
-<a href="structiPcMechanicsSystem-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcMechanicsSystem:<p><center><img src="structiPcMechanicsSystem__inherit__graph.png" border="0" usemap="#iPcMechanicsSystem__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcMechanicsSystem__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="57,5,116,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMechanicsSystem-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a6605fe85b17a3967f2c7ffd188d156c">AddBodyToGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a6605fe85b17a3967f2c7ffd188d156c">AddBodyToGroup</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *body, const char *group)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a body to the specified group.  <a href="#a6605fe85b17a3967f2c7ffd188d156c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a0a4c67c06729a0e2c7efdbe0f5b6624">AddForceDuration</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, float seconds)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a0a4c67c06729a0e2c7efdbe0f5b6624">AddForceDuration</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;force, bool relative, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;position, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> seconds)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the specified time (in milliseconds) add the force every step to the given body.  <a href="#a0a4c67c06729a0e2c7efdbe0f5b6624"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#6cd6eb8ef8fa95c17a08d307640e6197">AddForceFrame</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#6cd6eb8ef8fa95c17a08d307640e6197">AddForceFrame</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;force, bool relative, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;position)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the next frame add the force every step.  <a href="#6cd6eb8ef8fa95c17a08d307640e6197"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#b8146239599f913a887f1a91ceb9c69c">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const csVector3 &amp;force, bool relative, const csVector3 &amp;position, uint32 forceid)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#b8146239599f913a887f1a91ceb9c69c">AddForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;force, bool relative, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;position, uint32 forceid)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a force with the given tag, to be manually removed later.  <a href="#b8146239599f913a887f1a91ceb9c69c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#ea34586e2f75402735d8762609dedf34">ClearAllForces</a> ()=0</td></tr>
@@ -54,10 +58,10 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#66e846da993f6f45ca5822da3f22b8cd">ClearForces</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the given body from the force queues (filled with <a class="el" href="structiPcMechanicsSystem.html#6cd6eb8ef8fa95c17a08d307640e6197">AddForceFrame()</a> and <a class="el" href="structiPcMechanicsSystem.html#a0a4c67c06729a0e2c7efdbe0f5b6624">AddForceDuration()</a>).  <a href="#66e846da993f6f45ca5822da3f22b8cd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; iRigidBody &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#26331bf3719aec973d12542e68228a28">CreateBody</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#26331bf3719aec973d12542e68228a28">CreateBody</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an iRigidBody and add it to the system.  <a href="#26331bf3719aec973d12542e68228a28"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iJoint *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#681e216fcd4ea94756079db991fb08b2">CreateJoint</a> (iRigidBody *body1, iRigidBody *body2)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> and add it to the system.  <a href="#26331bf3719aec973d12542e68228a28"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#681e216fcd4ea94756079db991fb08b2">CreateJoint</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *body1, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *body2)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a joint between the two given bodies.  <a href="#681e216fcd4ea94756079db991fb08b2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#183bef0750f4ec65218e4565dff5170e">DisableStepFast</a> ()=0</td></tr>
@@ -69,68 +73,56 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#9592bca8e4a970bfa751c4c2268f8bbb">EnableStepFast</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fast stepping.  <a href="#9592bca8e4a970bfa751c4c2268f8bbb"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iDynamicSystem *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a39c48c25494ae1944d0e13cf478a12d">GetDynamicSystem</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#a39c48c25494ae1944d0e13cf478a12d">GetDynamicSystem</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dynamic system.  <a href="#a39c48c25494ae1944d0e13cf478a12d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#382b478e07493d8213b8c1ed20686c59">GetGravity</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#382b478e07493d8213b8c1ed20686c59">GetGravity</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current gravity.  <a href="#382b478e07493d8213b8c1ed20686c59"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#83fe7bf00d4863deadf2ca2c1619e21c">GetSimulationSpeed</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#83fe7bf00d4863deadf2ca2c1619e21c">GetSimulationSpeed</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current simulation speed.  <a href="#83fe7bf00d4863deadf2ca2c1619e21c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#866e3a73d01886da9b542d6f952fa4a7">GetStepTime</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#866e3a73d01886da9b542d6f952fa4a7">GetStepTime</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current step time.  <a href="#866e3a73d01886da9b542d6f952fa4a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#227506631a4037a021da79c954317544">RemoveBody</a> (iRigidBody *body)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#227506631a4037a021da79c954317544">RemoveBody</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *body)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given iRigidBody from the system.  <a href="#227506631a4037a021da79c954317544"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#dc134ad0279deaeee795cba8e4c0a9ed">RemoveBodyFromGroup</a> (iRigidBody *body, const char *group)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> from the system.  <a href="#227506631a4037a021da79c954317544"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#dc134ad0279deaeee795cba8e4c0a9ed">RemoveBodyFromGroup</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *body, const char *group)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a body from the specified group.  <a href="#dc134ad0279deaeee795cba8e4c0a9ed"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#02269b5ef7612e4696b2670f87cec808">RemoveForceTagged</a> (<a class="el" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> *pcobject, uint32 forceid)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the force with the given tag.  <a href="#02269b5ef7612e4696b2670f87cec808"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#7d89886a80aecd759309b39fb57f5d0b">RemoveJoint</a> (iJoint *joint)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#7d89886a80aecd759309b39fb57f5d0b">RemoveJoint</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a> *joint)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a given joint from the system.  <a href="#7d89886a80aecd759309b39fb57f5d0b"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#582e666ad59cc47d134572fdc55b820f">SetDynamicSystem</a> (const char *dynsysname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system.  <a href="#582e666ad59cc47d134572fdc55b820f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (iDynamicSystem *dynsys)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a> *dynsys)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the dynamic system.  <a href="#0800838f9f24bc76e228c0ea7ae3d8e2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#3f57b714c19eadb805dbf997bfb26adf">SetGravity</a> (const csVector3 &amp;grav)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#3f57b714c19eadb805dbf997bfb26adf">SetGravity</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;grav)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the gravity for the system.  <a href="#3f57b714c19eadb805dbf997bfb26adf"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#52253434ae32186614f40c7bbd34c7b9">SetSimulationSpeed</a> (float simulationspeed)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#52253434ae32186614f40c7bbd34c7b9">SetSimulationSpeed</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> simulationspeed)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the how fast we want the simulation to go.  <a href="#52253434ae32186614f40c7bbd34c7b9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#9d565faebb30ab13361bcc7550e3ca54">SetStepTime</a> (float delta)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsSystem.html#9d565faebb30ab13361bcc7550e3ca54">SetStepTime</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> delta)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Define the time we want for one step.  <a href="#9d565faebb30ab13361bcc7550e3ca54"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a dynamic system. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
-<li>
-SetSystem: parameters 'dynsys' (string). </li>
-<li>
-SetGravity: parameters 'gravity' (float). </li>
-<li>
-SetStepTime: parameters 'time' (float). </li>
-<li>
-QuickStep: no parameters. </li>
-<li>
-EnableStepFast: no parameters. </li>
-<li>
-DisableStepFast: no parameters. </li>
-</ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
+<li>SetSystem: parameters 'dynsys' (string).</li><li>SetGravity: parameters 'gravity' (float).</li><li>SetStepTime: parameters 'time' (float).</li><li>QuickStep: no parameters.</li><li>EnableStepFast: no parameters.</li><li>DisableStepFast: no parameters. </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mechsys_8h-source.html#l00056">56</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechsys_8h-source.html#l00053">53</a> of file <a class="el" href="mechsys_8h-source.html">mechsys.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a6605fe85b17a3967f2c7ffd188d156c"></a><!-- doxytag: member="iPcMechanicsSystem::AddBodyToGroup" ref="a6605fe85b17a3967f2c7ffd188d156c" args="(iRigidBody *body, const char *group)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +130,7 @@ Definition at line <a class="el" href="mechsys_8h-source.html#l00056">56</a> of 
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::AddBodyToGroup           </td>
           <td>(</td>
-          <td class="paramtype">iRigidBody *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *&nbsp;</td>
           <td class="paramname"> <em>body</em>, </td>
         </tr>
         <tr>
@@ -181,7 +173,7 @@ Add a body to the specified group.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>force</em>, </td>
         </tr>
         <tr>
@@ -193,13 +185,13 @@ Add a body to the specified group.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>position</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>seconds</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -239,7 +231,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#987
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>force</em>, </td>
         </tr>
         <tr>
@@ -251,7 +243,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#987
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>position</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -290,7 +282,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#505
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>force</em>, </td>
         </tr>
         <tr>
@@ -302,7 +294,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#505
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>position</em>, </td>
         </tr>
         <tr>
@@ -388,7 +380,7 @@ Remove the given body from the force queues (filled with <a class="el" href="str
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual csPtr&lt;iRigidBody&gt; iPcMechanicsSystem::CreateBody           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>&gt; iPcMechanicsSystem::CreateBody           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -399,7 +391,7 @@ Remove the given body from the force queues (filled with <a class="el" href="str
 <div class="memdoc">
 
 <p>
-Create an iRigidBody and add it to the system. 
+Create an <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> and add it to the system. 
 <p>
 
 </div>
@@ -409,15 +401,15 @@ Create an iRigidBody and add it to the system.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iJoint* iPcMechanicsSystem::CreateJoint           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* iPcMechanicsSystem::CreateJoint           </td>
           <td>(</td>
-          <td class="paramtype">iRigidBody *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *&nbsp;</td>
           <td class="paramname"> <em>body1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">iRigidBody *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *&nbsp;</td>
           <td class="paramname"> <em>body2</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -503,7 +495,7 @@ This is a lot faster then <a class="el" href="structiPcMechanicsSystem.html#183b
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iDynamicSystem* iPcMechanicsSystem::GetDynamicSystem           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a>* iPcMechanicsSystem::GetDynamicSystem           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -524,7 +516,7 @@ Get the dynamic system.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const csVector3 iPcMechanicsSystem::GetGravity           </td>
+          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> iPcMechanicsSystem::GetGravity           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -545,7 +537,7 @@ Get the current gravity.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iPcMechanicsSystem::GetSimulationSpeed           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcMechanicsSystem::GetSimulationSpeed           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -566,7 +558,7 @@ Get the current simulation speed.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iPcMechanicsSystem::GetStepTime           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcMechanicsSystem::GetStepTime           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -589,7 +581,7 @@ Get the current step time.
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::RemoveBody           </td>
           <td>(</td>
-          <td class="paramtype">iRigidBody *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *&nbsp;</td>
           <td class="paramname"> <em>body</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -599,7 +591,7 @@ Get the current step time.
 <div class="memdoc">
 
 <p>
-Remove a given iRigidBody from the system. 
+Remove a given <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> from the system. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -616,7 +608,7 @@ Remove a given iRigidBody from the system.
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::RemoveBodyFromGroup           </td>
           <td>(</td>
-          <td class="paramtype">iRigidBody *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a> *&nbsp;</td>
           <td class="paramname"> <em>body</em>, </td>
         </tr>
         <tr>
@@ -690,7 +682,7 @@ This function is called by <a class="el" href="structiPcMechanicsObject.html#366
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::RemoveJoint           </td>
           <td>(</td>
-          <td class="paramtype">iJoint *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a> *&nbsp;</td>
           <td class="paramname"> <em>joint</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -726,7 +718,7 @@ Set the dynamic system.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>dynsysname</em>&nbsp;</td><td>the name of the iDynamicSystem that this <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> represents. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dynsysname</em>&nbsp;</td><td>the name of the <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a> that this <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> represents. </td></tr>
   </table>
 </dl>
 
@@ -739,7 +731,7 @@ Set the dynamic system.
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::SetDynamicSystem           </td>
           <td>(</td>
-          <td class="paramtype">iDynamicSystem *&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a> *&nbsp;</td>
           <td class="paramname"> <em>dynsys</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -753,7 +745,7 @@ Set the dynamic system.
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>dynsys</em>&nbsp;</td><td>a pointer to the iDynamicSystem that this <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> represents. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dynsys</em>&nbsp;</td><td>a pointer to the <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a> that this <a class="el" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> represents. </td></tr>
   </table>
 </dl>
 
@@ -766,7 +758,7 @@ Set the dynamic system.
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::SetGravity           </td>
           <td>(</td>
-          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>grav</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -793,7 +785,7 @@ By default this is (0,-9.8,0). <dl compact><dt><b>Parameters:</b></dt><dd>
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::SetSimulationSpeed           </td>
           <td>(</td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>simulationspeed</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -820,7 +812,7 @@ Default is 1.0. Less is slower, more is faster <dl compact><dt><b>Parameters:</b
         <tr>
           <td class="memname">virtual void iPcMechanicsSystem::SetStepTime           </td>
           <td>(</td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>delta</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

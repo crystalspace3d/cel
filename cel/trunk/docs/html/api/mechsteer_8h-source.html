@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,63 +43,62 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_MECHANICS_STEER__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_MECHANICS_STEER__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
 <a name="l00026"></a>00026 <span class="preprocessor">#include "propclass/mechcommon.h"</span>
 <a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="keyword">class </span>csVector3;
+<a name="l00028"></a>00028 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>;
 <a name="l00029"></a>00029 <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>;
 <a name="l00030"></a>00030 
-<a name="l00031"></a>00031 SCF_VERSION (<a class="code" href="structiPcMechanicsSteering.html">iPcMechanicsSteering</a>, 0, 0, 1);
+<a name="l00031"></a>00031 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcMechanicsSteering.html">iPcMechanicsSteering</a>, 0, 0, 1);
 <a name="l00032"></a>00032 
-<a name="l00037"></a><a class="code" href="structiPcMechanicsSteering.html">00037</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsSteering.html">iPcMechanicsSteering</a> : <span class="keyword">public</span> iBase
+<a name="l00037"></a><a class="code" href="structiPcMechanicsSteering.html">00037</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsSteering.html">iPcMechanicsSteering</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
 <a name="l00038"></a>00038 {
 <a name="l00042"></a>00042   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#6072c8f4e8f66aa7cf96d400c470471f">SetID</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* <span class="keywordtype">id</span>) = 0;
 <a name="l00043"></a>00043 
 <a name="l00047"></a>00047   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcMechanicsSteering.html#8721528b0854f77a9eb3aab6f0803795">GetID</a> () = 0;
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 
-<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#4c80ff461f6ad7cf4ac414f017eb4149">SetMechanicsObject</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* mechsys) = 0;
-<a name="l00054"></a>00054 
-<a name="l00058"></a>00058   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* <a class="code" href="structiPcMechanicsSteering.html#77ade08a0e0777a0701947d123927c1d">GetMechanicsObject</a> () = 0;
+<a name="l00052"></a>00052   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#4c80ff461f6ad7cf4ac414f017eb4149">SetMechanicsObject</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* mechsys) = 0;
+<a name="l00053"></a>00053 
+<a name="l00057"></a>00057   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* <a class="code" href="structiPcMechanicsSteering.html#77ade08a0e0777a0701947d123927c1d">GetMechanicsObject</a> () = 0;
+<a name="l00058"></a>00058 
 <a name="l00059"></a>00059 
-<a name="l00060"></a>00060 
-<a name="l00062"></a>00062   <span class="comment">//MechanicsSteering properties</span>
-<a name="l00063"></a>00063 
-<a name="l00067"></a>00067   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#777dc92538a7fab2fd08bee1b57ea04e">SetPosition</a> (<span class="keyword">const</span> csVector3 position) = 0;
-<a name="l00068"></a>00068 
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsSteering.html#08e00cee4549bf76c16f76980fa3b026">GetPosition</a> () = 0;
+<a name="l00061"></a>00061   <span class="comment">//MechanicsSteering properties</span>
+<a name="l00062"></a>00062 
+<a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#777dc92538a7fab2fd08bee1b57ea04e">SetPosition</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> position) = 0;
+<a name="l00067"></a>00067 
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsSteering.html#08e00cee4549bf76c16f76980fa3b026">GetPosition</a> () = 0;
+<a name="l00072"></a>00072 
 <a name="l00073"></a>00073 
-<a name="l00074"></a>00074 
-<a name="l00078"></a>00078   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#d78df612953d3c6120f1ea7fde397ab2">SetAxis</a> (<span class="keyword">const</span> csVector3 axis) = 0;
-<a name="l00079"></a>00079 
-<a name="l00083"></a>00083   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsSteering.html#b472530885b6f2bcc309ed32a317c52b">GetAxis</a> () = 0;
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#d78df612953d3c6120f1ea7fde397ab2">SetAxis</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> axis) = 0;
+<a name="l00078"></a>00078 
+<a name="l00082"></a>00082   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsSteering.html#b472530885b6f2bcc309ed32a317c52b">GetAxis</a> () = 0;
+<a name="l00083"></a>00083 
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085 
-<a name="l00087"></a>00087   <span class="comment">//Angle</span>
-<a name="l00088"></a>00088 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#dd56d73e59d2671019d772d207583c2e">SetAngle</a> (percentage angle) = 0;
-<a name="l00093"></a>00093 
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> percentage <a class="code" href="structiPcMechanicsSteering.html#494f09283c28ea7217313bc81f530141">GetAngle</a> () = 0;
-<a name="l00098"></a>00098 
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#d012825c7caf6798dcb8e728a4a0e403">SetMaxAngle</a> (<span class="keywordtype">float</span> maxangle) = 0;
-<a name="l00103"></a>00103 
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSteering.html#c5212dd4531172eaf7bafd4613f52b94">GetMaxAngle</a> () = 0;
+<a name="l00086"></a>00086   <span class="comment">//Angle</span>
+<a name="l00087"></a>00087 
+<a name="l00091"></a>00091   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#dd56d73e59d2671019d772d207583c2e">SetAngle</a> (percentage angle) = 0;
+<a name="l00092"></a>00092 
+<a name="l00096"></a>00096   <span class="keyword">virtual</span> percentage <a class="code" href="structiPcMechanicsSteering.html#494f09283c28ea7217313bc81f530141">GetAngle</a> () = 0;
+<a name="l00097"></a>00097 
+<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#d012825c7caf6798dcb8e728a4a0e403">SetMaxAngle</a> (<span class="keywordtype">float</span> maxangle) = 0;
+<a name="l00102"></a>00102 
+<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSteering.html#c5212dd4531172eaf7bafd4613f52b94">GetMaxAngle</a> () = 0;
+<a name="l00107"></a>00107 
 <a name="l00108"></a>00108 
-<a name="l00109"></a>00109 
-<a name="l00111"></a>00111   <span class="comment">//Turning</span>
-<a name="l00112"></a>00112 
-<a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#bd95beddadfe6c7da6baf6229867875b">Turn</a> (percentage speed = 0.0) = 0;
-<a name="l00118"></a>00118 
-<a name="l00122"></a>00122   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#6634ba7201499a99364e666a4ac07465">TurnTo</a> (percentage angle, percentage speed = 1.0) = 0;
-<a name="l00123"></a>00123 
-<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#314479b4f9a6c9176d77dfe0b54ce291">SetMaxTurnSpeed</a> (<span class="keywordtype">float</span> maxspeed) = 0;
-<a name="l00128"></a>00128 
-<a name="l00132"></a>00132   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSteering.html#e2049d17abad9d3214d777fe492e2118">GetMaxTurnSpeed</a> () = 0;
-<a name="l00133"></a>00133 };
-<a name="l00134"></a>00134 
-<a name="l00135"></a>00135 <span class="preprocessor">#endif //__CEL_PF_MECHANICS_STEER__</span>
+<a name="l00110"></a>00110   <span class="comment">//Turning</span>
+<a name="l00111"></a>00111 
+<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#bd95beddadfe6c7da6baf6229867875b">Turn</a> (percentage speed = 0.0) = 0;
+<a name="l00117"></a>00117 
+<a name="l00121"></a>00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#6634ba7201499a99364e666a4ac07465">TurnTo</a> (percentage angle, percentage speed = 1.0) = 0;
+<a name="l00122"></a>00122 
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSteering.html#314479b4f9a6c9176d77dfe0b54ce291">SetMaxTurnSpeed</a> (<span class="keywordtype">float</span> maxspeed) = 0;
+<a name="l00127"></a>00127 
+<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSteering.html#e2049d17abad9d3214d777fe492e2118">GetMaxTurnSpeed</a> () = 0;
+<a name="l00132"></a>00132 };
+<a name="l00133"></a>00133 
+<a name="l00134"></a>00134 <span class="preprocessor">#endif //__CEL_PF_MECHANICS_STEER__</span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

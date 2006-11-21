@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iCelEntityTemplate Struct Reference</h1><!-- doxytag: class="iCelEntityTemplate" -->This is an entity template.  
+<h1>iCelEntityTemplate Struct Reference</h1><!-- doxytag: class="iCelEntityTemplate" --><!-- doxytag: inherits="iBase" -->This is an entity template.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="entitytpl_8h-source.html">physicallayer/entitytpl.h</a>&gt;</code>
 <p>
-<a href="structiCelEntityTemplate-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iCelEntityTemplate:<p><center><img src="structiCelEntityTemplate__inherit__graph.png" border="0" usemap="#iCelEntityTemplate__inherit__map" alt="Inheritance graph"></center>
+<map name="iCelEntityTemplate__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="51,5,109,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiCelEntityTemplate-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#e0b4b111d1e0b30fd909fecab45882e2">AddClass</a> (csStringID cls)=0</td></tr>
@@ -51,7 +55,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#1ba93485bac47a92122aa3a29a96cedd">GetBehaviourLayer</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the layer for this template.  <a href="#1ba93485bac47a92122aa3a29a96cedd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csSet&lt; csStringID &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#80b3e69c956b839b328a1a24939cc982">GetClasses</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsSet.html">csSet</a>&lt; csStringID &gt; &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#80b3e69c956b839b328a1a24939cc982">GetClasses</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the set of classes for this entity.  <a href="#80b3e69c956b839b328a1a24939cc982"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#cf81c0aaaf027783db9fb0dbd4422d65">GetName</a> () const =0</td></tr>
@@ -60,9 +64,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#6ad2194d5e574a7e901518ae89ead470">HasClass</a> (csStringID cls)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Check if this entity belongs to some class.  <a href="#6ad2194d5e574a7e901518ae89ead470"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iObject *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#ceccd02f43b6dd7dd98f698341cf9f4a">QueryObject</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#ceccd02f43b6dd7dd98f698341cf9f4a">QueryObject</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the iObject for this entity template.  <a href="#ceccd02f43b6dd7dd98f698341cf9f4a"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> for this entity template.  <a href="#ceccd02f43b6dd7dd98f698341cf9f4a"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelEntityTemplate.html#ff21f1484e1dcb3db093423d0e03588f">RemoveClass</a> (csStringID cls)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a class from this entity.  <a href="#ff21f1484e1dcb3db093423d0e03588f"></a><br></td></tr>
@@ -202,7 +206,7 @@ Get the layer for this template.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const csSet&lt;csStringID&gt;&amp; iCelEntityTemplate::GetClasses           </td>
+          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsSet.html">csSet</a>&lt;csStringID&gt;&amp; iCelEntityTemplate::GetClasses           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -267,7 +271,7 @@ Check if this entity belongs to some class.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iObject* iCelEntityTemplate::QueryObject           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a>* iCelEntityTemplate::QueryObject           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -278,9 +282,9 @@ Check if this entity belongs to some class.
 <div class="memdoc">
 
 <p>
-Get the iObject for this entity template. 
+Get the <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> for this entity template. 
 <p>
-<dl compact><dt><b>Returns:</b></dt><dd>A pointer to the iObject for this entity. </dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>A pointer to the <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> for this entity. </dd></dl>
 
 </div>
 </div><p>

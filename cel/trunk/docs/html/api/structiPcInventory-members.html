@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -32,6 +32,8 @@
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#47f2ad2707e4070e2d51950201ebc1cc">AddEntity</a>(iCelEntity *entity)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#20f2b6402a444281b9377612aaec2279">AddEntity</a>(iCelEntity *entity, iCelParameterBlock *params)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#38e202d14c73293263a79746f5dcbf82">AddInventoryListener</a>(iPcInventoryListener *listener)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#5d0ec17cc4948f7bdcf668fcb52b9eb1">AddRefOwner</a>(void **ref_owner)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#3a44d46ca155e6ab0c0179db01011bb0">DecRef</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#565438b4a7bfa37ab9ded7043c539c1c">Dump</a>()=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#9176010d01eccebfff136a34f504bcb2">FindEntity</a>(iCelEntity *entity) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#680d8d8700cd125477d7265b08307e1e">FindEntity</a>(const char *name) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
@@ -40,21 +42,26 @@
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#51d9e5bd68dfd0a7ce138e85f7b7323d">GetEntity</a>(size_t idx) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#24c35023211ea9a8836a9dfaa0b34cd7">GetEntityCount</a>() const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#7b90a84b0b511a6f4438711dca0e69db">GetEntitySlot</a>(iCelParameterBlock *params) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#74696c1b99c7161216ee26161944adfd">GetRefCount</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#187de0b1cfda0eb99faf3a617dff2067">GetSpace</a>()=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#fe2db71149a9a75ba1449b2143e943a6">HasStrictCharacteristics</a>(const char *charName) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#19952f942aa82542a386c445011a078b">In</a>(iCelEntity *entity) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#9a47e6693c0b6f990f50c7afcb48249a">In</a>(const char *name) const =0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#426a2763702fbbc33a213f849042284a">IncRef</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#610fbc3e67be3080b20d4c0ed557fecb">MarkDirty</a>(const char *charName)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#2adc74eb0286a65f2310f221be4ddded">QueryInterface</a>(scfInterfaceID iInterfaceID, int iVersion)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#61935394ff6fdcf3318563085d470a44">RemoveAll</a>()=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#6a672a6f3e9e54fccbff4cc9ccbb483b">RemoveAllConstraints</a>()=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#0bd4364372136439a6948047ae3783fa">RemoveConstraints</a>(const char *charName)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#fda56d9d67a36c0404a60b11a2d0635b">RemoveEntity</a>(iCelEntity *entity)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#fd0f0f4d6b3758e6442b4035b776a1b3">RemoveEntity</a>(iCelParameterBlock *params)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#c7cb9b83546fdb3114da3abf85ed11b4">RemoveInventoryListener</a>(iPcInventoryListener *listener)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#0292fc77bd2b4f8ff5ff25e9540417e0">RemoveRefOwner</a>(void **ref_owner)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#c4961aad36682ab5600cb8ab8f9e4fba">SetConstraints</a>(const char *charName, float minValue, float maxValue, float totalMaxValue)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#c01ae1173b42cd9eb15ae265d390c579">SetSpace</a>(iCelInventorySpace *space)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#7de24939946dc84e64aef80144e953ba">SetStrictCharacteristics</a>(const char *charName, bool strict)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcInventory.html#e5101f45cf2cd0e2947baf020e89b0c3">TestConstraints</a>(const char *charName)=0</td><td><a class="el" href="structiPcInventory.html">iPcInventory</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#64186fd7973d2ef0bc16013e302b6ea3">~iBase</a>()</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
 </table><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,21 +28,25 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcCommandInput Struct Reference</h1><!-- doxytag: class="iPcCommandInput" -->Input propery class.  
+<h1>iPcCommandInput Struct Reference</h1><!-- doxytag: class="iPcCommandInput" --><!-- doxytag: inherits="iBase" -->Input propery class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="input_8h-source.html">propclass/input.h</a>&gt;</code>
 <p>
-<a href="structiPcCommandInput-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcCommandInput:<p><center><img src="structiPcCommandInput__inherit__graph.png" border="0" usemap="#iPcCommandInput__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcCommandInput__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="48,5,107,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcCommandInput-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#10455cb15dd2925bb181019348789668">Activate</a> (bool activate=true)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#10455cb15dd2925bb181019348789668">Activate</a> (bool activate=<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a>)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Activates the input to get Commands.  <a href="#10455cb15dd2925bb181019348789668"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#ee8718df1f1f1f0f8275f1169c1bf3fb">Bind</a> (const char *triggername, const char *command)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Binds a trigger to a command.  <a href="#ee8718df1f1f1f0f8275f1169c1bf3fb"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#5cf4e27b34bff47c64755eca16f981ee">CenteredToScreen</a> (float centeredcoord, float axis=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#5cf4e27b34bff47c64755eca16f981ee">CenteredToScreen</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> centeredcoord, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> axis=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a coordinate from a value between -1 and 1 to screen-space.  <a href="#5cf4e27b34bff47c64755eca16f981ee"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#2baa7df6e7cf5d936024fd98ea6bc9e6">GetBind</a> (const char *triggername) const =0</td></tr>
@@ -51,6 +55,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#1467dbf47394bc873e1308f76a1d6e68">GetCookedMode</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get cooked or raw.  <a href="#1467dbf47394bc873e1308f76a1d6e68"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#00f03e40f31ae1454801a5c554e26c42">IsSendTriggerEnabled</a> () const =0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is send trigger enabled or disabled?  <a href="#00f03e40f31ae1454801a5c554e26c42"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#c8f1c49d631b6ae05d2b1905457360b8">LoadConfig</a> (const char *prefix)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Loads from a config file binding triggers(for example keys) to commands.  <a href="#c8f1c49d631b6ae05d2b1905457360b8"></a><br></td></tr>
@@ -63,50 +70,35 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#85859c7191ca2b7a0b0b150791533290">SaveConfig</a> (const char *prefix)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Saves to a config file binding triggers(for example keys) to commands.  <a href="#85859c7191ca2b7a0b0b150791533290"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#af5ba714f8082294c28ea9621fb5d34e">ScreenCoordinates</a> (bool screen=true)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#af5ba714f8082294c28ea9621fb5d34e">ScreenCoordinates</a> (bool screen=<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a>)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Send screen coordinates instead of coordinates between -1 and 1 for axis movement messages.  <a href="#af5ba714f8082294c28ea9621fb5d34e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#3beb5793d0086d6cb141013a38882405">ScreenToCentered</a> (float screencoord, float axis=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#3beb5793d0086d6cb141013a38882405">ScreenToCentered</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> screencoord, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> axis=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convert a coordinate from screen-space to a value between -1 and 1.  <a href="#3beb5793d0086d6cb141013a38882405"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#ac16ee5acf3f980493e598fc5961aec3">SetCookedMode</a> (bool cooked)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable cooked mode.  <a href="#ac16ee5acf3f980493e598fc5961aec3"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCommandInput.html#7d55029174ae48c5a2e894a20b13f2ce">SetSendTrigger</a> (bool send)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable sending trigger name.  <a href="#7d55029174ae48c5a2e894a20b13f2ce"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Input propery class. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
-<li>
-Bind: parameters 'trigger' (string) and 'command' (string). </li>
-<li>
-LoadConfig: parameters 'prefix' (string). </li>
-<li>
-SaveConfig: parameters 'prefix' (string). </li>
-</ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
+<li>Activate: parameter 'activate' (bool default=true).</li><li>Bind: parameters 'trigger' (string) and 'command' (string). The 'trigger' can be equal to 'key' in which cases all keys will be bound.</li><li>RemoveBind: paramaters 'trigger' (string) and 'command' (string).</li><li>RemoveAllBinds.</li><li>LoadConfig: parameters 'prefix' (string).</li><li>SaveConfig: parameters 'prefix' (string).</li></ul>
 <p>
-This property class can send out the following messages to the behaviour: <ul>
-<li>
-pccommandinput_&lt;key&gt;0: key is unpressed </li>
-<li>
-pccommandinput_&lt;key&gt;1: key is pressed </li>
-<li>
-pccommandinput_&lt;key&gt;_: key is pressed and auto-repeating </li>
-<li>
-pccommandinput_&lt;axis&gt;: movement on the given axis </li>
-</ul>
+This property class can send out the following messages to the behaviour:<ul>
+<li>pccommandinput_&lt;key&gt;0: key is unpressed. Message has optional 'trigger' parameter.</li><li>pccommandinput_&lt;key&gt;1: key is pressed. Message has optional 'trigger' parameter.</li><li>pccommandinput_&lt;key&gt;_: key is pressed and auto-repeating. Message has optional 'trigger' parameter.</li><li>pccommandinput_&lt;axis&gt;: movement on the given axis.</li></ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
-<li>
-screenspace (bool, read/write): use screenspace instead of -1/1 normalized coordinates (-1/1 is default). </li>
-<li>
-cooked (bool, read/write): use cooked mode instead of raw (default is raw. </li>
-</ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
+<li>screenspace (bool, read/write): use screenspace instead of -1/1 normalized coordinates (-1/1 is default).</li><li>cooked (bool, read/write): use cooked mode instead of raw (default is raw.</li><li>sendtrigger (bool, read/write): send out trigger name in the message to the behaviour. Default is false. </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="input_8h-source.html#l00056">56</a> of file <a class="el" href="input_8h-source.html">input.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="input_8h-source.html#l00059">59</a> of file <a class="el" href="input_8h-source.html">input.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="10455cb15dd2925bb181019348789668"></a><!-- doxytag: member="iPcCommandInput::Activate" ref="10455cb15dd2925bb181019348789668" args="(bool activate=true)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -115,7 +107,7 @@ Definition at line <a class="el" href="input_8h-source.html#l00056">56</a> of fi
           <td class="memname">virtual void iPcCommandInput::Activate           </td>
           <td>(</td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>activate</em> = <code>true</code>          </td>
+          <td class="paramname"> <em>activate</em> = <code><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a></code>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
         </tr>
@@ -157,7 +149,7 @@ Activates the input to get Commands.
 <p>
 Binds a trigger to a command. 
 <p>
-
+The triggername can be equal to 'key' in which case all keys will be bound. 
 </div>
 </div><p>
 <a class="anchor" name="5cf4e27b34bff47c64755eca16f981ee"></a><!-- doxytag: member="iPcCommandInput::CenteredToScreen" ref="5cf4e27b34bff47c64755eca16f981ee" args="(float centeredcoord, float axis=0)=0" -->
@@ -165,15 +157,15 @@ Binds a trigger to a command.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iPcCommandInput::CenteredToScreen           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCommandInput::CenteredToScreen           </td>
           <td>(</td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>centeredcoord</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>axis</em> = <code>0</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -236,6 +228,27 @@ returns the command bind to a key
 
 <p>
 Get cooked or raw. 
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="00f03e40f31ae1454801a5c554e26c42"></a><!-- doxytag: member="iPcCommandInput::IsSendTriggerEnabled" ref="00f03e40f31ae1454801a5c554e26c42" args="() const =0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool iPcCommandInput::IsSendTriggerEnabled           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"> const<code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Is send trigger enabled or disabled? 
 <p>
 
 </div>
@@ -354,7 +367,7 @@ Saves to a config file binding triggers(for example keys) to commands.
           <td class="memname">virtual void iPcCommandInput::ScreenCoordinates           </td>
           <td>(</td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>screen</em> = <code>true</code>          </td>
+          <td class="paramname"> <em>screen</em> = <code><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a></code>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
         </tr>
@@ -373,15 +386,15 @@ Send screen coordinates instead of coordinates between -1 and 1 for axis movemen
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual float iPcCommandInput::ScreenToCentered           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCommandInput::ScreenToCentered           </td>
           <td>(</td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>screencoord</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
           <td class="paramname"> <em>axis</em> = <code>0</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -427,6 +440,28 @@ Enable/disable cooked mode.
 By default raw mode is used which means that keyboard events are parsed in raw mode. That implies the following:<ul>
 <li>You can't bind on key combinations like Shift-F3</li><li>Binding on 'a' is the same as 'A'. In cooked mode you can bind on key combinations and on keys like 'shift'. </li></ul>
 
+</div>
+</div><p>
+<a class="anchor" name="7d55029174ae48c5a2e894a20b13f2ce"></a><!-- doxytag: member="iPcCommandInput::SetSendTrigger" ref="7d55029174ae48c5a2e894a20b13f2ce" args="(bool send)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void iPcCommandInput::SetSendTrigger           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>send</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Enable/disable sending trigger name. 
+<p>
+When this is enabled this property class will add a 'trigger' parameter to all keyboard messages. That parameter will be the name of the keyboard event that triggered the message. By default this is disabled. 
 </div>
 </div><p>
 <hr>The documentation for this struct was generated from the following file:<ul>

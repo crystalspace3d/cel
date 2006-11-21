@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,55 +43,55 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_SOUND__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_SOUND__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="keyword">struct </span>iSndSysListener;
-<a name="l00027"></a>00027 <span class="keyword">struct </span>iSndSysSource;
+<a name="l00026"></a>00026 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysListener.html">iSndSysListener</a>;
+<a name="l00027"></a>00027 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysSource.html">iSndSysSource</a>;
 <a name="l00028"></a>00028 
-<a name="l00052"></a><a class="code" href="structiPcSoundListener.html">00052</a> <span class="keyword">struct </span><a class="code" href="structiPcSoundListener.html">iPcSoundListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00053"></a>00053 {
-<a name="l00054"></a>00054   SCF_INTERFACE (<a class="code" href="structiPcSoundListener.html">iPcSoundListener</a>, 0, 0, 1);
+<a name="l00048"></a><a class="code" href="structiPcSoundListener.html">00048</a> <span class="keyword">struct </span><a class="code" href="structiPcSoundListener.html">iPcSoundListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00049"></a>00049 {
+<a name="l00050"></a>00050   SCF_INTERFACE (<a class="code" href="structiPcSoundListener.html">iPcSoundListener</a>, 0, 0, 1);
+<a name="l00051"></a>00051 
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysListener.html">iSndSysListener</a>* <a class="code" href="structiPcSoundListener.html#c3fb9d6f8dfee835c4d682e340514583">GetSoundListener</a> () = 0;
+<a name="l00054"></a>00054 };
 <a name="l00055"></a>00055 
-<a name="l00057"></a>00057   <span class="keyword">virtual</span> iSndSysListener* <a class="code" href="structiPcSoundListener.html#c3fb9d6f8dfee835c4d682e340514583">GetSoundListener</a> () = 0;
-<a name="l00058"></a>00058 };
-<a name="l00059"></a>00059 
-<a name="l00060"></a>00060 <span class="comment">/*</span>
-<a name="l00061"></a>00061 <span class="comment"> * This is the sound source property class.</span>
-<a name="l00062"></a>00062 <span class="comment"> * &lt;p&gt;</span>
-<a name="l00063"></a>00063 <span class="comment"> * This property class supports the following actions (add prefix</span>
-<a name="l00064"></a>00064 <span class="comment"> * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'</span>
-<a name="l00065"></a>00065 <span class="comment"> * to get the ID of the parameter):</span>
-<a name="l00066"></a>00066 <span class="comment"> * &lt;ul&gt;</span>
-<a name="l00067"></a>00067 <span class="comment"> * &lt;li&gt;Unpause: no parameters.</span>
-<a name="l00068"></a>00068 <span class="comment"> * &lt;li&gt;Pause: no parameters.</span>
-<a name="l00069"></a>00069 <span class="comment"> * &lt;/ul&gt;</span>
-<a name="l00070"></a>00070 <span class="comment"> * &lt;p&gt;</span>
-<a name="l00071"></a>00071 <span class="comment"> * This property class supports the following properties (add prefix</span>
-<a name="l00072"></a>00072 <span class="comment"> * 'cel.property.' to get the ID of the property:</span>
-<a name="l00073"></a>00073 <span class="comment"> * &lt;ul&gt;</span>
-<a name="l00074"></a>00074 <span class="comment"> * &lt;li&gt;soundname (string, read/write): name of the sound that will be used.</span>
-<a name="l00075"></a>00075 <span class="comment"> * &lt;li&gt;volume (float, read/write): 0=off, 1=normal, &gt;1 is above normal.</span>
-<a name="l00076"></a>00076 <span class="comment"> * &lt;li&gt;directionalradiation (float, read/write): directional radiation.</span>
-<a name="l00077"></a>00077 <span class="comment"> * &lt;li&gt;position (vector3, read/write): position.</span>
-<a name="l00078"></a>00078 <span class="comment"> * &lt;li&gt;minimumdistance (float, read/write): minimum play distance.</span>
-<a name="l00079"></a>00079 <span class="comment"> * &lt;li&gt;maximumdistance (float, read/write): maximum play distance.</span>
-<a name="l00080"></a>00080 <span class="comment"> * &lt;li&gt;loop (bool, read/write): true=loop, false=don't loop.</span>
-<a name="l00081"></a>00081 <span class="comment"> * &lt;li&gt;follow (bool, read/write): follow own entity pcmesh (default off).</span>
-<a name="l00082"></a>00082 <span class="comment"> * &lt;/ul&gt;</span>
-<a name="l00083"></a>00083 <span class="comment"> */</span>
-<a name="l00084"></a><a class="code" href="structiPcSoundSource.html">00084</a> <span class="keyword">struct </span><a class="code" href="structiPcSoundSource.html">iPcSoundSource</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00085"></a>00085 {
-<a name="l00086"></a>00086   SCF_INTERFACE (<a class="code" href="structiPcSoundSource.html">iPcSoundSource</a>, 0, 0, 1);
-<a name="l00087"></a>00087 
-<a name="l00089"></a>00089   <span class="keyword">virtual</span> iSndSysSource* <a class="code" href="structiPcSoundSource.html#6e62d546b862b600bb2f46a57daeca07">GetSoundSource</a> () = 0;
-<a name="l00090"></a>00090 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSoundSource.html#31445fd0443fd9303210854baa8d2989">SetSoundName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
-<a name="l00094"></a>00094   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcSoundSource.html#aa1921652676033793dcacf04bf8748a">GetSoundName</a> () <span class="keyword">const </span>= 0;
-<a name="l00095"></a>00095 };
-<a name="l00096"></a>00096 
-<a name="l00097"></a>00097 <span class="preprocessor">#endif // __CEL_PF_SOUND__</span>
-<a name="l00098"></a>00098 <span class="preprocessor"></span>
+<a name="l00056"></a>00056 <span class="comment">/*</span>
+<a name="l00057"></a>00057 <span class="comment"> * This is the sound source property class.</span>
+<a name="l00058"></a>00058 <span class="comment"> *</span>
+<a name="l00059"></a>00059 <span class="comment"> * This property class supports the following actions (add prefix</span>
+<a name="l00060"></a>00060 <span class="comment"> * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'</span>
+<a name="l00061"></a>00061 <span class="comment"> * to get the ID of the parameter):</span>
+<a name="l00062"></a>00062 <span class="comment"> * - Unpause: no parameters.</span>
+<a name="l00063"></a>00063 <span class="comment"> * - Pause: no parameters.</span>
+<a name="l00064"></a>00064 <span class="comment"> *</span>
+<a name="l00065"></a>00065 <span class="comment"> * This property class supports the following properties (add prefix</span>
+<a name="l00066"></a>00066 <span class="comment"> * 'cel.property.' to get the ID of the property:</span>
+<a name="l00067"></a>00067 <span class="comment"> * - soundname (string, read/write): name of the sound that will be used.</span>
+<a name="l00068"></a>00068 <span class="comment"> * - volume (float, read/write): 0=off, 1=normal, &gt;1 is above normal.</span>
+<a name="l00069"></a>00069 <span class="comment"> * - directionalradiation (float, read/write): directional radiation.</span>
+<a name="l00070"></a>00070 <span class="comment"> * - position (vector3, read/write): position.</span>
+<a name="l00071"></a>00071 <span class="comment"> * - minimumdistance (float, read/write): minimum play distance.</span>
+<a name="l00072"></a>00072 <span class="comment"> * - maximumdistance (float, read/write): maximum play distance.</span>
+<a name="l00073"></a>00073 <span class="comment"> * - loop (bool, read/write): true=loop, false=don't loop.</span>
+<a name="l00074"></a>00074 <span class="comment"> * - follow (bool, read/write): follow own entity pcmesh (default off).</span>
+<a name="l00075"></a>00075 <span class="comment"> * - mode (string, read/write): one of 'disable', 'relative', or 'asbolute'</span>
+<a name="l00076"></a>00076 <span class="comment"> *   (default 'disable'). This is the 3D mode of the sound source.</span>
+<a name="l00077"></a>00077 <span class="comment"> */</span>
+<a name="l00078"></a><a class="code" href="structiPcSoundSource.html">00078</a> <span class="keyword">struct </span><a class="code" href="structiPcSoundSource.html">iPcSoundSource</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00079"></a>00079 {
+<a name="l00080"></a>00080   SCF_INTERFACE (<a class="code" href="structiPcSoundSource.html">iPcSoundSource</a>, 0, 0, 1);
+<a name="l00081"></a>00081 
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysSource.html">iSndSysSource</a>* <a class="code" href="structiPcSoundSource.html#6e62d546b862b600bb2f46a57daeca07">GetSoundSource</a> () = 0;
+<a name="l00084"></a>00084 
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSoundSource.html#31445fd0443fd9303210854baa8d2989">SetSoundName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
+<a name="l00088"></a>00088   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcSoundSource.html#aa1921652676033793dcacf04bf8748a">GetSoundName</a> () <span class="keyword">const </span>= 0;
+<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSoundSource.html#787ed1e060839b58b0de2edc13d7b382">SetMode</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* modename) = 0;
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcSoundSource.html#c99df42cba038be46009efd83773ba88">GetMode</a> () <span class="keyword">const </span>= 0;
+<a name="l00099"></a>00099 };
+<a name="l00100"></a>00100 
+<a name="l00101"></a>00101 <span class="preprocessor">#endif // __CEL_PF_SOUND__</span>
+<a name="l00102"></a>00102 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

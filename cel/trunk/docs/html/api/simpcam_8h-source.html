@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -47,23 +47,23 @@
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
 <a name="l00026"></a>00026 
-<a name="l00027"></a>00027 SCF_VERSION (<a class="code" href="structiPcSimpleCamera.html">iPcSimpleCamera</a>, 0, 0, 3);
+<a name="l00027"></a>00027 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcSimpleCamera.html">iPcSimpleCamera</a>, 0, 0, 3);
 <a name="l00028"></a>00028 
-<a name="l00042"></a><a class="code" href="structiPcSimpleCamera.html">00042</a> <span class="keyword">struct </span><a class="code" href="structiPcSimpleCamera.html">iPcSimpleCamera</a> : <span class="keyword">public</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>
-<a name="l00043"></a>00043 {
-<a name="l00049"></a>00049   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#f64d423d879548ffdda09fdbeb1e3afb">SetDrawMesh</a> (<span class="keywordtype">bool</span> draw) = 0;
-<a name="l00050"></a>00050 
-<a name="l00059"></a>00059   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#95ffb58b6cc9bfffca79cb86fee8d740">SetCameraOffset</a> (<span class="keyword">const</span> csVector3&amp; offset, <span class="keywordtype">bool</span> world = <span class="keyword">false</span>) = 0;
-<a name="l00060"></a>00060 
-<a name="l00067"></a>00067   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#db33dfbbf5e30145e13092fa20a87257">SetLookAtOffset</a> (<span class="keyword">const</span> csVector3&amp; lookat) = 0;
-<a name="l00068"></a>00068 
-<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#58f73bf946a932c5308565219cf32786">SetMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
-<a name="l00074"></a>00074 
-<a name="l00078"></a>00078   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#58e46c1f9586b737abad025db270fc85">Draw</a>() = 0;
-<a name="l00079"></a>00079 };
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 <span class="preprocessor">#endif // __CEL_PF_SIMPLE_CAMERA__</span>
-<a name="l00082"></a>00082 <span class="preprocessor"></span>
+<a name="l00041"></a><a class="code" href="structiPcSimpleCamera.html">00041</a> <span class="keyword">struct </span><a class="code" href="structiPcSimpleCamera.html">iPcSimpleCamera</a> : <span class="keyword">public</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>
+<a name="l00042"></a>00042 {
+<a name="l00048"></a>00048   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#f64d423d879548ffdda09fdbeb1e3afb">SetDrawMesh</a> (<span class="keywordtype">bool</span> draw) = 0;
+<a name="l00049"></a>00049 
+<a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#95ffb58b6cc9bfffca79cb86fee8d740">SetCameraOffset</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; offset, <span class="keywordtype">bool</span> world = <span class="keyword">false</span>) = 0;
+<a name="l00059"></a>00059 
+<a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#db33dfbbf5e30145e13092fa20a87257">SetLookAtOffset</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; lookat) = 0;
+<a name="l00067"></a>00067 
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#58f73bf946a932c5308565219cf32786">SetMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
+<a name="l00073"></a>00073 
+<a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcSimpleCamera.html#58e46c1f9586b737abad025db270fc85">Draw</a>() = 0;
+<a name="l00078"></a>00078 };
+<a name="l00079"></a>00079 
+<a name="l00080"></a>00080 <span class="preprocessor">#endif // __CEL_PF_SIMPLE_CAMERA__</span>
+<a name="l00081"></a>00081 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

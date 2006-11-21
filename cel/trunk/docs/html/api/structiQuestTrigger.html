@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iQuestTrigger Struct Reference</h1><!-- doxytag: class="iQuestTrigger" -->This is a trigger for a quest.  
+<h1>iQuestTrigger Struct Reference</h1><!-- doxytag: class="iQuestTrigger" --><!-- doxytag: inherits="iBase" -->This is a trigger for a quest.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-<a href="structiQuestTrigger-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iQuestTrigger:<p><center><img src="structiQuestTrigger__inherit__graph.png" border="0" usemap="#iQuestTrigger__inherit__map" alt="Inheritance graph"></center>
+<map name="iQuestTrigger__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="33,5,92,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiQuestTrigger-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTrigger.html#27178babb2cf1f1fef13e943d256f64c">ActivateTrigger</a> ()=0</td></tr>
@@ -61,12 +65,12 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a trigger for a quest. 
 <p>
-When a trigger fires the quest can go to another state and/or activate rewards. The quest manager knows a few standard triggers but you can also create your own triggers here. Triggers are created by trigger factories. To be able to use your own trigger implementations you must also make associated trigger factories which you then register with the quest manager. See <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>. <p>
+When a trigger fires the quest can go to another state and/or activate rewards. The quest manager knows a few standard triggers but you can also create your own triggers here. Triggers are created by trigger factories. To be able to use your own trigger implementations you must also make associated trigger factories which you then register with the quest manager. See <a class="el" href="structiQuestTriggerFactory.html">iQuestTriggerFactory</a>.<p>
 Triggers must start in deactivated state. They will be activated by the quest when the 'state' containing this trigger is activated. 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00106">106</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00107">107</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="27178babb2cf1f1fef13e943d256f64c"></a><!-- doxytag: member="iQuestTrigger::ActivateTrigger" ref="27178babb2cf1f1fef13e943d256f64c" args="()=0" -->
 <div class="memitem">
 <div class="memproto">

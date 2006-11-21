@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,7 +43,7 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_TRIGGER__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_TRIGGER__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csgeom/vector3.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csgeom/box.h"</span>
 <a name="l00026"></a>00026 <span class="preprocessor">#include "csutil/scf.h"</span>
@@ -53,7 +53,7 @@
 <a name="l00030"></a>00030 <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a>;
 <a name="l00031"></a>00031 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
 <a name="l00032"></a>00032 
-<a name="l00036"></a><a class="code" href="structiPcTriggerListener.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00036"></a><a class="code" href="structiPcTriggerListener.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
 <a name="l00037"></a>00037 {
 <a name="l00038"></a>00038   SCF_INTERFACE (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>, 0, 0, 1);
 <a name="l00039"></a>00039 
@@ -66,49 +66,49 @@
 <a name="l00058"></a>00058   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTriggerListener.html#66ca231906da50bd3dca4c2a163b418b">LeaveTrigger</a> (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>* trigger, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00059"></a>00059 };
 <a name="l00060"></a>00060 
-<a name="l00103"></a><a class="code" href="structiPcTrigger.html">00103</a> <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
-<a name="l00104"></a>00104 {
-<a name="l00105"></a>00105   SCF_INTERFACE (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>, 0, 1, 0);
-<a name="l00106"></a>00106 
-<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#4f70fa9b1204bf5c78d6a53a23c87361">AddTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
-<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#39e6b01129b753fa96f620e116508e12">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+<a name="l00097"></a><a class="code" href="structiPcTrigger.html">00097</a> <span class="keyword">struct </span><a class="code" href="structiPcTrigger.html">iPcTrigger</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00098"></a>00098 {
+<a name="l00099"></a>00099   SCF_INTERFACE (<a class="code" href="structiPcTrigger.html">iPcTrigger</a>, 0, 1, 0);
+<a name="l00100"></a>00100 
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#4f70fa9b1204bf5c78d6a53a23c87361">AddTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#39e6b01129b753fa96f620e116508e12">RemoveTriggerListener</a> (<a class="code" href="structiPcTriggerListener.html">iPcTriggerListener</a>* listener) = 0;
+<a name="l00110"></a>00110 
+<a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#d1901fe0820f039d07c27cbf90135335">SetupTriggerSphere</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector,
+<a name="l00115"></a>00115         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; center, <span class="keywordtype">float</span> radius) = 0;
 <a name="l00116"></a>00116 
-<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#d1901fe0820f039d07c27cbf90135335">SetupTriggerSphere</a> (iSector* sector,
-<a name="l00121"></a>00121         <span class="keyword">const</span> csVector3&amp; center, <span class="keywordtype">float</span> radius) = 0;
-<a name="l00122"></a>00122 
-<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#d1901fe0820f039d07c27cbf90135335">SetupTriggerSphere</a> (iSector* sector,
-<a name="l00128"></a>00128         <span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> radius) = 0;
-<a name="l00129"></a>00129 
-<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#76b21a885847ce2afc4ba07386c99111">SetupTriggerBox</a> (iSector* sector, <span class="keyword">const</span> csBox3&amp; box) = 0;
+<a name="l00121"></a>00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#d1901fe0820f039d07c27cbf90135335">SetupTriggerSphere</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector,
+<a name="l00122"></a>00122         <span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> radius) = 0;
+<a name="l00123"></a>00123 
+<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#76b21a885847ce2afc4ba07386c99111">SetupTriggerBox</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a>&amp; box) = 0;
+<a name="l00128"></a>00128 
+<a name="l00132"></a>00132   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#42e94ff5734555b8237e371d9585ec81">SetupTriggerBeam</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; start,
+<a name="l00133"></a>00133         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; end) = 0;
 <a name="l00134"></a>00134 
-<a name="l00138"></a>00138   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#42e94ff5734555b8237e371d9585ec81">SetupTriggerBeam</a> (iSector* sector, <span class="keyword">const</span> csVector3&amp; start,
-<a name="l00139"></a>00139         <span class="keyword">const</span> csVector3&amp; end) = 0;
+<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#c0d4e3a1e2a9e3715fd0c1b1721a5d7c">SetupTriggerAboveMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh, <span class="keywordtype">float</span> maxdistance) = 0;
 <a name="l00140"></a>00140 
-<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#c0d4e3a1e2a9e3715fd0c1b1721a5d7c">SetupTriggerAboveMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh, <span class="keywordtype">float</span> maxdistance) = 0;
-<a name="l00146"></a>00146 
-<a name="l00154"></a>00154   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#cebddd45942c6805f6af3795c7c4a04e">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
+<a name="l00148"></a>00148   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#cebddd45942c6805f6af3795c7c4a04e">MonitorEntity</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* entityname) = 0;
+<a name="l00149"></a>00149 
+<a name="l00154"></a>00154   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#9fd53da08ca23c7827609b3cd9a508d3">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
 <a name="l00155"></a>00155 
-<a name="l00160"></a>00160   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcTrigger.html#9fd53da08ca23c7827609b3cd9a508d3">GetMonitorEntity</a> () <span class="keyword">const </span>= 0;
-<a name="l00161"></a>00161 
-<a name="l00169"></a>00169   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#c2b7070f0f9432a49f53b5b91b8132ab">SetMonitorDelay</a> (csTicks delay, csTicks jitter) = 0;
-<a name="l00170"></a>00170 
-<a name="l00176"></a>00176   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#280c3ccf877e9efabd2136694d37b05d">EnableMonitorInvisible</a> (<span class="keywordtype">bool</span> en) = 0;
-<a name="l00177"></a>00177 
-<a name="l00184"></a>00184   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#42885ee0543f0407d51315dae06a517a">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
-<a name="l00185"></a>00185 
-<a name="l00192"></a>00192   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#2d4334fb6ed10595d46cbe486338e1ab">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
-<a name="l00193"></a>00193 
-<a name="l00197"></a>00197   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#95ed2e9e6c0dcb5f5f35e52bbe18693a">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
-<a name="l00198"></a>00198 
-<a name="l00202"></a>00202   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#5b730c845446ac29be6c07942f601710">IsEnabled</a> () <span class="keyword">const </span>= 0;
+<a name="l00163"></a>00163   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#c2b7070f0f9432a49f53b5b91b8132ab">SetMonitorDelay</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> delay, <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> jitter) = 0;
+<a name="l00164"></a>00164 
+<a name="l00170"></a>00170   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#280c3ccf877e9efabd2136694d37b05d">EnableMonitorInvisible</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00171"></a>00171 
+<a name="l00178"></a>00178   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#42885ee0543f0407d51315dae06a517a">EnableMessagesToSelf</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00179"></a>00179 
+<a name="l00186"></a>00186   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#2d4334fb6ed10595d46cbe486338e1ab">EnableMessagesToOthers</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00187"></a>00187 
+<a name="l00191"></a>00191   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTrigger.html#95ed2e9e6c0dcb5f5f35e52bbe18693a">EnableTrigger</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00192"></a>00192 
+<a name="l00196"></a>00196   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#5b730c845446ac29be6c07942f601710">IsEnabled</a> () <span class="keyword">const </span>= 0;
+<a name="l00197"></a>00197 
+<a name="l00202"></a>00202   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsWeakRefArray.html">csWeakRefArray&lt;iCelEntity&gt;</a>&amp; <a class="code" href="structiPcTrigger.html#e271544b2adc7f4189605032358189cb">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
 <a name="l00203"></a>00203 
-<a name="l00208"></a>00208   <span class="keyword">virtual</span> <span class="keyword">const</span> csWeakRefArray&lt;iCelEntity&gt;&amp; <a class="code" href="structiPcTrigger.html#e271544b2adc7f4189605032358189cb">GetEntitiesInTrigger</a> () <span class="keyword">const </span>= 0;
-<a name="l00209"></a>00209 
-<a name="l00214"></a>00214   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#1f82e15788fa2aa5ce893c6418c37fe2">Check</a> () = 0;
-<a name="l00215"></a>00215 };
-<a name="l00216"></a>00216 
-<a name="l00217"></a>00217 <span class="preprocessor">#endif // __CEL_PF_TRIGGER__</span>
-<a name="l00218"></a>00218 <span class="preprocessor"></span>
+<a name="l00208"></a>00208   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcTrigger.html#1f82e15788fa2aa5ce893c6418c37fe2">Check</a> () = 0;
+<a name="l00209"></a>00209 };
+<a name="l00210"></a>00210 
+<a name="l00211"></a>00211 <span class="preprocessor">#endif // __CEL_PF_TRIGGER__</span>
+<a name="l00212"></a>00212 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

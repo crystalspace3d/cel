@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,52 +28,42 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcSoundListener Struct Reference</h1><!-- doxytag: class="iPcSoundListener" -->This is the sound listener property class.  
+<h1>iPcSoundListener Struct Reference</h1><!-- doxytag: class="iPcSoundListener" --><!-- doxytag: inherits="iBase" -->This is the sound listener property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="sound_8h-source.html">propclass/sound.h</a>&gt;</code>
 <p>
-<a href="structiPcSoundListener-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcSoundListener:<p><center><img src="structiPcSoundListener__inherit__graph.png" border="0" usemap="#iPcSoundListener__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcSoundListener__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="45,5,104,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcSoundListener-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSndSysListener *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundListener.html#c3fb9d6f8dfee835c4d682e340514583">GetSoundListener</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysListener.html">iSndSysListener</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundListener.html#c3fb9d6f8dfee835c4d682e340514583">GetSoundListener</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the sound listener.  <a href="#c3fb9d6f8dfee835c4d682e340514583"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is the sound listener property class. 
 <p>
-There can really be only one listener at any moment. It represents the listener (i.e. player of the game). <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
-<li>
-SetDirection: parameters 'front' (vector3), 'top' (vector3). </li>
-</ul>
+There can really be only one listener at any moment. It represents the listener (i.e. player of the game).<p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
+<li>SetDirection: parameters 'front' (vector3), 'top' (vector3).</li></ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
-<li>
-front (vector3, read/write): front direction. </li>
-<li>
-top (vector3, read/write): top direction. </li>
-<li>
-position (vector3, read/write): position. </li>
-<li>
-distancefactor (float, read/write): distance factor. </li>
-<li>
-rollofffactor (float, read/write): rolloff factor. </li>
-<li>
-headsize (float, read/write): headsize. </li>
-</ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
+<li>front (vector3, read/write): front direction.</li><li>top (vector3, read/write): top direction.</li><li>position (vector3, read/write): position.</li><li>distancefactor (float, read/write): distance factor.</li><li>rollofffactor (float, read/write): rolloff factor.</li><li>headsize (float, read/write): headsize. </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="sound_8h-source.html#l00052">52</a> of file <a class="el" href="sound_8h-source.html">sound.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="sound_8h-source.html#l00048">48</a> of file <a class="el" href="sound_8h-source.html">sound.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="c3fb9d6f8dfee835c4d682e340514583"></a><!-- doxytag: member="iPcSoundListener::GetSoundListener" ref="c3fb9d6f8dfee835c4d682e340514583" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual iSndSysListener* iPcSoundListener::GetSoundListener           </td>
+          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysListener.html">iSndSysListener</a>* iPcSoundListener::GetSoundListener           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>

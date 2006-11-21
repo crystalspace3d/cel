@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -49,17 +49,17 @@
 <a name="l00026"></a>00026 <span class="preprocessor">#ifndef __CEL_PF_COLL_DET__</span>
 <a name="l00027"></a>00027 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_COLL_DET__</span>
 <a name="l00028"></a>00028 <span class="preprocessor"></span>
-<a name="l00029"></a>00029 <span class="preprocessor">#include "cstypes.h"</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
 <a name="l00030"></a>00030 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include "csutil/strhash.h"</span>
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 
-<a name="l00034"></a>00034 SCF_VERSION (<a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>, 0, 0, 1);
+<a name="l00034"></a>00034 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>, 0, 0, 1);
 <a name="l00035"></a>00035 
-<a name="l00043"></a><a class="code" href="structiPcCollisionDetection.html">00043</a> <span class="keyword">struct </span><a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> : <span class="keyword">public</span> iBase
+<a name="l00043"></a><a class="code" href="structiPcCollisionDetection.html">00043</a> <span class="keyword">struct </span><a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
 <a name="l00044"></a>00044 {
-<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#c7cc478a4dd33033012ad9ba982c3904">Init</a> (<span class="keyword">const</span> csVector3&amp; body, <span class="keyword">const</span> csVector3&amp; legs,
-<a name="l00054"></a>00054         <span class="keyword">const</span> csVector3&amp; shift)=0;
+<a name="l00053"></a>00053   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#c7cc478a4dd33033012ad9ba982c3904">Init</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; body, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; legs,
+<a name="l00054"></a>00054         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; shift)=0;
 <a name="l00055"></a>00055 
 <a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#c7cc478a4dd33033012ad9ba982c3904">Init</a> ()=0;
 <a name="l00057"></a>00057 
@@ -69,11 +69,11 @@
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> UseCD(<span class="keywordtype">bool</span> flag) = 0;
 <a name="l00067"></a>00067 
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#1d7fbb6983f498f7924c1b9cf67872f8">AdjustForCollisions</a> (csVector3&amp; oldpos,
-<a name="l00073"></a>00073                                     csVector3&amp; newpos,
-<a name="l00074"></a>00074                                     csVector3&amp; vel,
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCollisionDetection.html#1d7fbb6983f498f7924c1b9cf67872f8">AdjustForCollisions</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; oldpos,
+<a name="l00073"></a>00073                                     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; newpos,
+<a name="l00074"></a>00074                                     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel,
 <a name="l00075"></a>00075                                     <span class="keywordtype">float</span> delta,
-<a name="l00076"></a>00076                                     iMovable* movable) = 0;
+<a name="l00076"></a>00076                                     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMovable.html">iMovable</a>* movable) = 0;
 <a name="l00077"></a>00077   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> QueryRevert() = 0;
 <a name="l00078"></a>00078 };
 <a name="l00079"></a>00079 

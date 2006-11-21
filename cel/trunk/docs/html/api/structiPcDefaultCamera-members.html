@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -29,8 +29,10 @@
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
 <h1>iPcDefaultCamera Member List</h1>This is the complete list of members for <a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a>, including all inherited members.<p><table>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#5d0ec17cc4948f7bdcf668fcb52b9eb1">AddRefOwner</a>(void **ref_owner)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> enum name</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#e1d609377426bec83deabeb55054c557">CenterCamera</a>()=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#3a44d46ca155e6ab0c0179db01011bb0">DecRef</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#e183982b9beb1b2139f7580cdbd2f33d">DisableDistanceClipping</a>()=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#f8f854a9ed62fa704a00cbabfa5e8539">Draw</a>()=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#b5c71dc2df46fba42939d3fea00a969c">EnableAdaptiveDistanceClipping</a>(float min_fps, float max_fps, float min_dist)=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
@@ -41,6 +43,8 @@
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#b78ef09e09cc2c03e0c8560921ecc2e2">GetCamera</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#a04779c151ea489fe8f046b7c1b646b8">GetClearScreen</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#264ed335bb9f38562cb9f10be704fb83">GetClearZBuffer</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#21c345e68cd9a29dec9a0e680419d685">GetDistance</a>(int mode=-1)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#4a708428afeb0c396f9057cea909e2f5">GetDistanceVelocity</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#f7a386dc347bba63a79cc0f53c671497">GetDrawFlags</a>()=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#0041a68464d819fc859febb39e14b847">GetFixedDistance</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#45976932c411a0e3d6c5a6c2564777ed">GetMode</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
@@ -48,15 +52,21 @@
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#d8e6fc27783dd641f5d9b0dfb3cc65f5">GetNextMode</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#02730a3cbc9e5d99186d2fc76e3aac85">GetPitch</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#fe0dbbe377092218bc0dea78ea7264f8">GetPitchVelocity</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#74696c1b99c7161216ee26161944adfd">GetRefCount</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#366442a0a6d366f7a6e69d7da85fc9a3">GetView</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#a5b16c297076a40742fbf624c8d52b4a">GetYaw</a>(int mode=-1) const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#a2d31e13b58c79196f7df8e3a30b9c00">GetYawVelocity</a>() const =0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#426a2763702fbbc33a213f849042284a">IncRef</a>()=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#f510fc23b21feb673317036941742b8f">MovePitch</a>(float deltaPitch, int mode=-1)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#b08a3f6b62af17063d3c28e58d351903">MoveYaw</a>(float deltaYaw, int mode=-1)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#6a501724281f185506af71717d1218a4">PointCamera</a>(const char *start)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#2adc74eb0286a65f2310f221be4ddded">QueryInterface</a>(scfInterfaceID iInterfaceID, int iVersion)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#0292fc77bd2b4f8ff5ff25e9540417e0">RemoveRefOwner</a>(void **ref_owner)=0</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#c98cb5337f0ab6b454cf41abb2b7fdce">SetAutoDraw</a>(bool auto_draw)=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#04ecb72332e8f5dcefe14c906e5d5b18">SetClearScreen</a>(bool flag)=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#e4eb456aa5a4e4130ac5b623229eda2f">SetClearZBuffer</a>(bool flag)=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#a021f6392b9313df925622e8beb0a192">SetDistance</a>(float distance, int mode=-1)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#fa8a9399df7956da558e5f2b2d73dfbf">SetDistanceVelocity</a>(float distanceVel)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#45f0983e9866a4a1f743eaa00b811d7d">SetFirstPersonOffset</a>(const csVector3 &amp;offset)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#b5a645969079916bbef46ea364372352">SetFollowEntity</a>(iCelEntity *entity)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcDefaultCamera.html#523df60e1f635a48e6a594e4659f31a7">SetMinMaxCameraDistance</a>(float minDistance, float maxDistance)=0</td><td><a class="el" href="structiPcDefaultCamera.html">iPcDefaultCamera</a></td><td><code> [pure virtual]</code></td></tr>
@@ -77,6 +87,7 @@
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#b7113f961b2aebee0108e8cd6a15663d">UpdateCamera</a>()=0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#dc6b621187072bac9875304b6d48a719">UseDistanceClipping</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
   <tr class="memlist"><td><a class="el" href="structiPcCamera.html#288fcaa10a1e34f73b3e67cf16414144">UseFixedDistanceClipping</a>() const =0</td><td><a class="el" href="structiPcCamera.html">iPcCamera</a></td><td><code> [pure virtual]</code></td></tr>
+  <tr class="memlist"><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html#64186fd7973d2ef0bc16013e302b6ea3">~iBase</a>()</td><td><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a></td><td></td></tr>
 </table><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

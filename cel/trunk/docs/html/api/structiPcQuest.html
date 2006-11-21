@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr heigth="59">
+ <tr height="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr heigth="11">
+ <tr height="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,12 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcQuest Struct Reference</h1><!-- doxytag: class="iPcQuest" -->This property class represents a quest.  
+<h1>iPcQuest Struct Reference</h1><!-- doxytag: class="iPcQuest" --><!-- doxytag: inherits="iBase" -->This property class represents a quest.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="quest_8h-source.html">propclass/quest.h</a>&gt;</code>
 <p>
-<a href="structiPcQuest-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+Inheritance diagram for iPcQuest:<p><center><img src="structiPcQuest__inherit__graph.png" border="0" usemap="#iPcQuest__inherit__map" alt="Inheritance graph"></center>
+<map name="iPcQuest__inherit__map">
+<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="16,5,75,32" alt="">
+</map>
+<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcQuest-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiQuest.html">iQuest</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#cdd613ec325dc9559af9da95ad450f86">GetQuest</a> () const =0</td></tr>
@@ -42,7 +46,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#a9b5e1a2446353a8cb5cbdaf9947965a">GetQuestName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of the running quest.  <a href="#a9b5e1a2446353a8cb5cbdaf9947965a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#c8739870d4f0a12e32ba15a01fcf9a26">NewQuest</a> (const char *name, celQuestParams &amp;params)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#c8739870d4f0a12e32ba15a01fcf9a26">NewQuest</a> (const char *name, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize this quest with a new named quest.  <a href="#c8739870d4f0a12e32ba15a01fcf9a26"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcQuest.html#087152294b0d826576a842bf4d5fade4">StopQuest</a> ()=0</td></tr>
@@ -52,30 +56,20 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class represents a quest. 
 <p>
-It uses the quest manager to manage quests. Note that this property class will automatically load the quest manager if it is missing. <p>
-This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
-<li>
-pcquest_???: ??? (???) </li>
-</ul>
+It uses the quest manager to manage quests. Note that this property class will automatically load the quest manager if it is missing.<p>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
+<li>pcquest_???: ??? (???)</li></ul>
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
-<li>
-NewQuest: parameters 'name' (string). All other string parameters will be passed to the quest itself. </li>
-<li>
-StopQuest: no parameters. </li>
-</ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
+<li>NewQuest: parameters 'name' (string). All other string parameters will be passed to the quest itself.</li><li>StopQuest: no parameters.</li></ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
-<li>
-name (string, read only): name of the quest factory or null if no quest. </li>
-<li>
-state (string, read/write): name of the current state. </li>
-</ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
+<li>name (string, read only): name of the quest factory or null if no quest.</li><li>state (string, read/write): name of the current state. </li></ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="quest_8h-source.html#l00057">57</a> of file <a class="el" href="quest_8h-source.html">quest.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="quest_8h-source.html#l00051">51</a> of file <a class="el" href="quest_8h-source.html">quest.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="cdd613ec325dc9559af9da95ad450f86"></a><!-- doxytag: member="iPcQuest::GetQuest" ref="cdd613ec325dc9559af9da95ad450f86" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
@@ -131,7 +125,7 @@ Get the name of the running quest.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">celQuestParams &amp;&nbsp;</td>
+          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;&nbsp;</td>
           <td class="paramname"> <em>params</em></td><td>&nbsp;</td>
         </tr>
         <tr>
