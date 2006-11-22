@@ -1088,21 +1088,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\hover\stabiliser_dist.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\input\inpfact.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
