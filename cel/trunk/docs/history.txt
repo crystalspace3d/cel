@@ -26,6 +26,8 @@ The history order is reversed so that new features are at the top.
 	    of InstallData, so they get installed in system config path.
 	- caedes modified celstart to use CS_PATH_SEPARATOR instead of finding
 	  out itself.
+	- caedes modified celstart to use CS_PATH_DELIMITER instead of
+	  CS_PATH_SEPARATOR, which was wrong.
 21-Nov-2006
 	- Genjix removed redundant stabiliser_dist.
 	- Genjix added workaround to CEL mangling path when appending to

@@ -437,7 +437,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     csString old = getenv ("PYTHONPATH");
     if (!old.IsEmpty ())
     {
-      old += CS_PATH_SEPARATOR;
+      old += CS_PATH_DELIMITER;
     }
     csString pypath (realpath);
     // strip the $'s out for appending to PYTHONPATH
