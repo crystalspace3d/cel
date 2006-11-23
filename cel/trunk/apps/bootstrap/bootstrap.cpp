@@ -113,7 +113,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 
   csString configname = "/celconfig/bootstrap.cfg";
 
-  if (!csInitializer::SetupConfigManager (object_reg, configname))
+  if (!celInitializer::SetupConfigManager (object_reg, configname))
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
     	"crystalspace.application.bootstrap",

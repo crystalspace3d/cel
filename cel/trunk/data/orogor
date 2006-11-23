@@ -1,7 +1,7 @@
 <library>
   <textures>
     <texture name="all.bmp">
-      <file>/cel/data/orogor.png</file>
+      <file>/cellib/objects/orogor.png</file>
     </texture>
   </textures>
   <materials>
