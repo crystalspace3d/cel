@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 23-Nov-2006
+	- Genjix added automatic loading of most commonly used property classes
+	  via a second factory name (non conforming names should be deprecated).
 	- caedes did the following changes to fix cel installation:
 	  - added SetupConfigManager and SetupVFS to celInitializer, this
 	    methods extend the ones in csInitializer with cel vfs.cfg loading.

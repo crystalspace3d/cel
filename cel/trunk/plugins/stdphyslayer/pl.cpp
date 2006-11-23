@@ -797,12 +797,7 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
     pc.DeleteAt (0, 2);
   pfid += pc;
   if (!LoadPropertyClassFactory (pfid))
-  {
-    //return 0;
-    // workaround for pccommandinput
-    if (!LoadPropertyClassFactory (csString ("cel.pcfactory.pc") + pc))
-      return 0;
-  }
+    return 0;
   return FindPropertyClassFactory (propname);
 }
 
