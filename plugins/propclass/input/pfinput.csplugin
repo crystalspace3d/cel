@@ -3,8 +3,14 @@
 <plugin>
   <scf>
     <classes>
+      <!-- Should be deprecated in favour of commandinput -->
       <class>
         <name>cel.pcfactory.pccommandinput</name>
+        <implementation>celPfCommandInput</implementation>
+	<description>CEL Key Input Property Class Factory</description>
+      </class>
+      <class>
+        <name>cel.pcfactory.commandinput</name>
         <implementation>celPfCommandInput</implementation>
 	<description>CEL Key Input Property Class Factory</description>
       </class>

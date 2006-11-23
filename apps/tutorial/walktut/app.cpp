@@ -188,30 +188,6 @@ bool MainApp::Application ()
     return ReportError ("Can't register our behaviour layer!");
 
   pl->RegisterBehaviourLayer (bl);
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-    return ReportError ("Error loading pczonemanager factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-    return ReportError ("Error loading pcsolid factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return ReportError ("Error loading pccolldet factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-    return ReportError ("Error loading pcdefaultcamera factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-    return ReportError ("Error loading pcmesh factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
-    return ReportError ("Error loading pcmeshselect factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-    return ReportError ("Error loading pclinmove factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-    return ReportError ("Error loading pccommandinput factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-    return ReportError ("Error loading pcactormove factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
-    return ReportError ("Error loading pcinventory factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-    return ReportError ("Error loading pcproperties factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
-    return ReportError ("Error loading pctimer factory!");
 
   if (!LoadLevel ())
     return ReportError ("Error loading level!");

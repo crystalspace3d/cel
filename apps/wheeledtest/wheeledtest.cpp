@@ -438,69 +438,6 @@ bool WheeledTest::Application ()
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
 
-  // XXX: This should be in a config file...
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechsys"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechobject"))
-    return false;
-  if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
-    return false;
-//  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
-//    return false;
   if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep

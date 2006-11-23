@@ -409,40 +409,6 @@ bool HoverTest::Application()
 
   vfs = CS_QUERY_REGISTRY(r, iVFS);
 
-  #define LOAD_PROPERTY_CLASS(class)  if(!pl->LoadPropertyClassFactory(class))\
-                                        return ReportError("error loading property class "\
-                                        class "!");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.test");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.linmove");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.actormove");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.solid");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.colldet");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.region");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.zonemanager");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.defaultcamera");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.tooltip");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.timer");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.inventory");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.characteristics");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.mesh");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.light");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.portal");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.meshselect");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.pccommandinput");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.quest");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.properties");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.trigger");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.billboard");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.graph");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.link");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.node");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrules");
-  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrulesfps");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.mechsys");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.mechobject");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.hover");
-  LOAD_PROPERTY_CLASS("cel.pcfactory.craft");
-
   behaviour_layer.AttachNew (new htBehaviourLayer (this));
   pl->RegisterBehaviourLayer (behaviour_layer);
   if (!r->Register (behaviour_layer , "iCelBlLayer"))

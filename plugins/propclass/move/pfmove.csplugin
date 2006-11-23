@@ -35,6 +35,7 @@
 	  <class>cel.physicallayer</class>
 	</requires>
       </class>
+      <!-- Should be deprecated in favour of linearmovement -->
       <class>
 	<name>cel.pcfactory.linmove</name>
 	<implementation>celPfLinearMovement</implementation>
@@ -44,7 +45,24 @@
 	</requires>
       </class>
       <class>
+	<name>cel.pcfactory.linearmovement</name>
+	<implementation>celPfLinearMovement</implementation>
+	<description>CEL Linear Movement Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <!-- Should be deprecated in favour of collisiondetection -->
+      <class>
 	<name>cel.pcfactory.colldet</name>
+	<implementation>celPfCollisionDetection</implementation>
+	<description>CEL Collision Detection Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+	<name>cel.pcfactory.collisiondetection</name>
 	<implementation>celPfCollisionDetection</implementation>
 	<description>CEL Collision Detection Class Factory</description>
 	<requires>
@@ -83,8 +101,17 @@
 	  <class>cel.physicallayer</class>
 	</requires>
       </class>
+      <!-- Should be deprecated in favour of graphrulesfps -->
       <class>
 	<name>cel.pcfactory.navgraphrulesfps</name>
+	<implementation>celPfNavGraphRulesFPS</implementation>
+	<description>CEL Navigation Graph - FPS Rules</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+	<name>cel.pcfactory.graphrulesfps</name>
 	<implementation>celPfNavGraphRulesFPS</implementation>
 	<description>CEL Navigation Graph - FPS Rules</description>
 	<requires>
