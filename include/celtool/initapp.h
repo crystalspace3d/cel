@@ -40,7 +40,8 @@ class celInitializer : public csInitializer
 {
 private:
   typedef csInitializer superclass;
-
+  static bool LoadCelVFS(iObjectRegistry* r);
+  static bool LoadMountsFromFile(iObjectRegistry* r, char const* configPath);
 protected:
   static void setup_plugin_dirs(iObjectRegistry*, char const* detected_dir);
 
@@ -73,7 +74,8 @@ public:
 
   /**
    * A convenience wrapper for csInitializer::RequestPlugins() which first
-   * invokes celInitializer::SetupCelPluginDirs().
+   * invokes celInitializer::SetupCelPluginDirs() and also loads cel vfs file
+   * through celInitializer::SetupVFS().
    *
    * The variable arguments should contain four entries for every plugin you
    * wish to load: SCF class name, SCF interface name, inteface ID, and
@@ -92,7 +94,8 @@ public:
 
   /**
    * A convenience wrapper for csInitializer::RequestPlugins() which first
-   * invokes celInitializer::SetupCelPluginDirs().
+   * invokes celInitializer::SetupCelPluginDirs() and also loads cel vfs file
+   * through celInitializer::SetupVFS().
    *
    * Unlike the variable-argument RequestPlugins(...) method which expects you
    * to know the list of requested plugins at compile-time, this overload
@@ -110,6 +113,21 @@ public:
    * terminate the list with #CS_REQUEST_END.
    */
   static bool RequestPlugins(iObjectRegistry*,csArray<csPluginRequest> const&);
+  
+  /**
+   * A convenience wrapper for csInitializer::SetupVFS that will also load
+   * cel vfs.cfg file.
+  */
+  static iVFS* SetupVFS(iObjectRegistry* objectReg,
+	                const char* pluginID = "crystalspace.kernel.vfs");
+
+  /**
+   * A convenience wrapper for csInitializer::SetupConfigManager() which makes 
+   * sure cel vfs.cfg is loaded so config files can be loaded from cel vfs.
+  */ 
+  static bool SetupConfigManager (iObjectRegistry* r, char const* configName, 
+		  	          char const* AppID = 0);
+
 };
 
 #endif // __CELTOOL_INITAPP_H__

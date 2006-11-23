@@ -71,7 +71,7 @@ bool MainApp::CreatePlayer ()
   // Get the iPcMesh interface so we can load the right mesh
   // for our player.
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player_entity, iPcMesh);
-  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("test", "cally.cal3d");
   if (!pcmesh->GetMesh ())
     return ReportError ("Error loading model!");
@@ -186,9 +186,6 @@ bool MainApp::Application ()
   // We also need to register it to the object registry.
   if (!object_reg->Register (bl, "iCelBlLayer"))
     return ReportError ("Can't register our behaviour layer!");
-
-  // Make sure the application dir is mounted at /cel
-  vfs->Mount ("cel", "$.$/");
 
   pl->RegisterBehaviourLayer (bl);
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))

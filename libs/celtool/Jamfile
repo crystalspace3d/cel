@@ -6,3 +6,7 @@ Library celtool :
   [ Wildcard [ ConcatDirs $(DOTDOT) $(DOTDOT) include celtool ] : *.h ] :
   shared ;
 ExternalLibs celtool : CRYSTAL ;
+
+CFlags celtool : [ FDefines CEL_CONFIGDIR='\"$(appconfdir)\"' ]
+  [ FDefines CEL_PLUGINDIR='\"$(plugindir)\"'  ] ;
+

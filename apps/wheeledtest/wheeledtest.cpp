@@ -208,7 +208,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcinp->Bind ("pgdn", "lookdown");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
-  pcmesh->SetMesh ("celCarBody","/cel/data/celcarbody");
+  pcmesh->SetMesh ("celCarBody","/cellib/objects/celcarbody");
   iSector* sector = engine->FindSector (sectorname);
   pcmesh->MoveMesh (sector, pos);
 
@@ -243,7 +243,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcmech->AttachColliderBoundingBox();
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
-  pcwheeled->SetWheelMesh("celCarWheel","/cel/data/celcarwheel");
+  pcwheeled->SetWheelMesh("celCarWheel","/cellib/objects/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
   pcwheeled->SetTankMode(true);
 
@@ -437,13 +437,6 @@ bool WheeledTest::Application ()
                                             "iCelBlLayer.Test", iCelBlLayer);
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
-
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
-#else // VFS_PKGDATADIR
-  vfs->Mount ("cel", "$.$/");
-#endif // VFS_PKGDATADIR
 
   // XXX: This should be in a config file...
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))

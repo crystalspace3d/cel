@@ -3,6 +3,27 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Nov-2006
+	- caedes did the following changes to fix cel installation:
+	  - added SetupConfigManager and SetupVFS to celInitializer, this
+	    methods extend the ones in csInitializer with cel vfs.cfg loading.
+	  - modified celInitializer::RequestPlugins methods so they also make
+	    sure cel vfs is loaded.
+	  - modified celInitializer to set some build variables with config
+	    and install path so they can be used appropiately on the helper
+	    functions.
+	  - modified celInitializer so it uses configuration install path
+	    to load plugins instead of hardcoded path.
+	  - modified apps to use new methods in celInitializer where 
+	    appropiate.
+	  - removed ad-hoc mounting of /cel/ in cel apps, to use /cellib/ from
+	    vfs, and also adapted cel maps where necessary for this.
+	  - added vfs.cfg generation on install from vfs.cfg.template.
+	  - added some missing maps and object files from data to installation.
+	  - changed data/config install to use InstallConfig jam rule instead
+	    of InstallData, so they get installed in system config path.
+	- caedes modified celstart to use CS_PATH_SEPARATOR instead of finding
+	  out itself.
 21-Nov-2006
 	- Genjix removed redundant stabiliser_dist.
 	- Genjix added workaround to CEL mangling path when appending to
