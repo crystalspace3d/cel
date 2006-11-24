@@ -1,6 +1,4 @@
 # an example dummy behaviour (for a billboard)
-from cspace import *
-from blcelc import *
 
 class dummy:
 	def __init__(self,celEntity):

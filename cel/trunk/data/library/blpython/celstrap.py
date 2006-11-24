@@ -1,28 +1,27 @@
 #! BLCEL
-# A behaviour that can be run from bootstrap and receives
+# An application that can be run from bootstrap and receives
 # the world as a parameter from the command line.
 
 # It is intended for zipping with the world and then running
 # as follows:
 #
 # export PYTHONPATH=_full_path_to_zipfile_.zip
-# $(CEL)/bootstrap cel.behaviourlayer.python celstrap load _full_path_to_world_.zip
+# $(CEL)/bootstrap cel.behaviourlayer.python celstrap _full_path_to_world_.zip
 # 
 # although it can also run if celstrap.py and all other scripts are
 # in the pythonpath (for example ($PWD)/scripts/)
+# blender2crystal will be able to run using this from the RUN button.
 
 # Usually you won't need to touch this file, but it is as easy to add
 # new functionality to it.
 # The file needs to evolve
-# XXX for now it looks for a player called "camera", and level file level.xml.
-
-from cspace import *
-from blcelc import *
 
 # This is the list of property classes the app is registering.
 # Add any new ones here.
 
-pcclasses = ["region","tooltip","mesh","solid","meshselect","test","zonemanager","trigger","quest","light","inventory","defaultcamera","gravity","movable","pccommandinput","linmove","actormove","colldet","timer","mechsys","mechobject","soundlistener","soundsource","billboard","properties","hover","craft","mechjoint"]
+from pycel import *
+
+pcclasses = ["region","tooltip","mesh","solid","meshselect","test","zonemanager","trigger","quest","light","inventory","defaultcamera","gravity","movable","pccommandinput","linmove","actormove","colldet","timer","mechsys","mechobject","soundlistener","soundsource","billboard","properties","hover","craft","mechjoint","mover"]
 
 # The class that implements the main application behaviour.
 # if you want to make your own just copy it and set the same name for
@@ -33,23 +32,36 @@ pcclasses = ["region","tooltip","mesh","solid","meshselect","test","zonemanager"
 
 class celstrap:
 	def __init__(self,celEntity):
-		# XXX ugly hardcoded name for the player
-		self.playername="camera"
 		print "Initializing game..."
 		self.entity=celEntity
 		# Register property classes
 		for pcclass in pcclasses:
-			celRegisterPCFactory(object_reg_ptr,"cel.pcfactory."+pcclass)
+			PcFactories.append("cel.pcfactory."+pcclass)
 		# Initialize app entity
 		self.entity = celEntity
-		self.input = celCreateCommandInput(physicallayer_ptr,self.entity)
-		self.input.Bind("r", "restart")
-		self.input.Bind("i", "startrecord")
-		self.input.Bind("o", "stoprecord")
-		self.input.Bind("p", "pauserecord")
-		
+		# key bindings
+		self.input = celCommandInput(self.entity)
+		self.input.LoadConfig("Bootstrap")
+
+		self.loadMovieRecorder()
+		# graphic interfaces
+		self.font = Graphics2D.GetFontServer ().LoadFont("*large")
+		self.timer = celTimer(celEntity)
+		# check for tooltip
+		self.logs=[]
+		# the zone manager entity
+		self.game_entity=CreateEntity("ZoneManager",None,None)
+
+		# create the tooltip for logs
+		self.createTooltip()
+		self.do_save=False
+		self.map = "level.xml"
+		self.loadMap(self.map)
+		print "End initializing game..."
+
+	def loadMovieRecorder(self):
 		# load the movierecorder
-		self.mr = CS_QUERY_REGISTRY(object_reg_ptr,iMovieRecorder)
+		self.mr = CS_QUERY_REGISTRY(oreg,iMovieRecorder)
 		if not self.mr:
 			plugmgr = CS_QUERY_REGISTRY(object_reg_ptr,iPluginManager)
 			self.mr = CS_LOAD_PLUGIN (plugmgr, "crystalspace.utilities.movierecorder",iMovieRecorder)
@@ -57,122 +69,51 @@ class celstrap:
 				object_reg_ptr.Register (self.mr, "iMovieRecorder")
 			else:
 				self.mr = None
-		# check for tooltip
-		self.logs=[]
 
-
-		# Load dynamics plugin (in case we want to use physics)
-		# otherwise this call can be commented
-		self.loadDynamics()
-		
-		# the zone manager entity
-		# XXX this should not be necessary
-		self.game_entity=celCreateEntity(physicallayer_ptr,"room")
-
-		# create the tooltip for logs
-		self.createTooltip()
-
-	def loadDynamics(self):
-		# load dynamics plugin, as for now cs physics loader doesn't
-		# do it for us
-		plugmgr = CS_QUERY_REGISTRY(object_reg_ptr,iPluginManager)
-		dynamics = CS_LOAD_PLUGIN (plugmgr, "crystalspace.dynamics.ode",
-		        iDynamics)
-		if dynamics:
-			object_reg_ptr.Register (dynamics, "iDynamics")
-
-	
-
-	# TODO this way to load the map is not very nice, but
-	# it is the same celtest uses, i don't know about
 	# doing it better
 	def createTooltip(self):
-		self.tooltip = celCreateToolTip(physicallayer_ptr,self.entity)
+		self.tooltip = celToolTip(self.entity)
 		self.tooltip.SetBackgroundColor(-1,-1,-1)
 		self.tooltip.SetTextColor(255,255,255)
 		self.tooltip.Show(20,20)
-		self.log_event("celstrap started")
+		self.log_event("celstart started")
 		self.log_event("i: start record")
 		self.log_event("o: stop record")
 		self.log_event("p: pause record")
-		self.log_event("r: restart")
 
+	# TODO this way to load the map is not very nice, but
+	# it is the same celtest uses, i don't know about
 	def loadMap(self,map_file):
+		if (not Graphics3D.BeginDraw (CSDRAW_2DGRAPHICS)):
+			return
+		Graphics2D.Clear(0)
+		Graphics2D.Write(self.font,100,100,Graphics2D.FindRGB(255,255,255),Graphics2D.FindRGB(0,0,0),"Loading... "+str(map_file))
+		Graphics2D.Print(csRect(0,0,640,480))
+		Graphics3D.FinishDraw ()
+		# XXX ugly hardcoded name for the player
+		self.playername="camera"
 		# create an initial environment to load the map
-		zoneManager = celCreateZoneManager(physicallayer_ptr,self.game_entity)
-		zoneManager.Load("/celstrap/","level.xml")
-		
+		zoneManager = celZoneManager(self.game_entity)
+		Vfs.ChDirAuto("/tmp/celstart/");
+		zoneManager.Load("/tmp/celstart",map_file)
 		# the map won't load until we put a dummy camera into
 		# the region
-		dummy = celCreateEntity(physicallayer_ptr,"dcamera")
-		dummy_cam = celCreateDefaultCamera(physicallayer_ptr,dummy)
-		self.startregion=zoneManager.GetLastStartRegionName()
-		self.startname=zoneManager.GetLastStartName()
+		dummy = CreateEntity("dcamera",None,None)
+		dummy_cam = celDefaultCamera(dummy)
+		self.startregion=zoneManager.LastStartRegionName
+		self.startname=zoneManager.LastStartName
 		dummy_cam.SetZoneManager(zoneManager,True,self.startregion,"")
 		
 		# now the map is loaded we want to find the real
 		# player entity and do some setup.
-		actor = physicallayer_ptr.FindEntity(self.playername)
-
-		# get actor region and dissociate from it
-		engine= CS_QUERY_REGISTRY(object_reg_ptr,iEngine)
-		regions=engine.GetRegions()
-		i=0
-		# default region name
-		# find the actor region based on mesh, and dissociate player
-		# from regions (so it can move freely).
-		mesh=celGetMesh(actor).GetMesh()
-		while(i<regions.GetCount ()):
-			# XXX it is currently not possible to directly test
-			# if an entity is associated to a region.
-			# (so test the mesh wrapper against cs region)
-			if mesh and regions.Get(i).IsInRegion(mesh.QueryObject ()):
-				self.startregion = regions.Get(i).QueryObject().GetName()
-				regions.Get(i).Remove(mesh.QueryObject ())
-				regions.Get(i).Remove(mesh.GetFactory().QueryObject ())
-				celregion=zoneManager.FindRegion(self.startregion)
-				celregion.DissociateEntity(actor)
-			i=i+1
-		if mesh:
+		actor = Entities[self.playername]
+		if celGetMesh(actor):
 			zoneManager.PointMesh(self.playername,self.startregion,self.startname)
 		else:
 			zoneManager.PointCamera(self.playername,self.startregion,self.startname)
-
 		# kill the dummy camera
-		# XXX removing property classes IS important before
-		# removing them from the physical layer
-		dummy.GetPropertyClassList().RemoveAll()
-		physicallayer_ptr.RemoveEntity(dummy)
-		
-	def unloadMap(self):
-		# reassociate the player with its region
-		actor = physicallayer_ptr.FindEntity(self.playername)
-		zoneManager=celGetZoneManager(self.game_entity)
-		celregion=zoneManager.FindRegion(self.startregion)
-		if actor:
-			celregion.AssociateEntity(actor)
-			# reassociate with the engine region
-			mesh=celGetMesh(actor).GetMesh()
-			if mesh:
-				engine= CS_QUERY_REGISTRY(object_reg_ptr,iEngine)
-				region=engine.GetRegions().FindByName(self.startregion)
-				region.Add(mesh.QueryObject ())
-				region.Add(mesh.GetFactory().QueryObject ())
-		# this removes the zone manager
-		self.game_entity.GetPropertyClassList().RemoveAll()
+		RemoveEntity(dummy)
 
-	# Restart command
-	# XXX this still fails to restart correctly on some maps
-	def pccommandinput_restart1(self,celEntity,args):
-		self.unloadMap()
-		self.loadMap(self.map)
-		self.logs=[]
-		self.log_event("map restarted")
-	def pccommandinput_restart0(self,celEntity,args):
-		pass
-	def pccommandinput_restart_(self,celEntity,args):
-		pass
-	
 	# video record commands
 	def pccommandinput_startrecord1(self,celEntity,args):
 		self.log_event("start recording")
@@ -198,12 +139,21 @@ class celstrap:
 		self.tooltip.Show(20,20)
 		self.tooltip.SetText(tooltip_text)
 
+	# this are callbacks for pczonemanager (not used at the moment
+	# as the zonemanager is a separate entity)
+	#def pczonemanager_startloading(self,celEntity,args):
+	#	self.log_event("start loading")
+	#def pczonemanager_stoploading(self,celEntity,args):
+	#	self.log_event("stop loading")
+	#def pczonemanager_addregion(self,celEntity,args):
+	#	self.log_event("add region")
+	#def pczonemanager_remregion(self,celEntity,args):
+	#	self.log_event("remove region")
+
 	# starting command, here we can pass map name, player name...
 	def load(self,celEntity,args):
 		# mount the file at some path in vfs
-		self.map = args.GetParameterValue(physicallayer_ptr.FetchStringID ("cel.parameter.parameter1"))
-		vfs=CS_QUERY_REGISTRY(object_reg_ptr,iVFS)
-		vfs.Mount("/celstrap",self.map)
-		vfs.ChDirAuto("/celstrap/");
+		self.map = args[getid("cel.parameter.parameter1")]
+		#vfs.ChDirAuto("/celstrap/");
 		self.loadMap(self.map)
 	

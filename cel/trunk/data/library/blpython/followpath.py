@@ -2,17 +2,15 @@
 # sets another path... and so on.from time to time the path passes through the
 # monitored entity.
 
-from cspace import *
-from blcelc import *
+from pycel import *
 import random
+import math
 class followpath:
 	# INITIALIZATION
 	def __init__(self,celEntity):
-		print "Initializing followpath..."
+		print "Initializing followpath...",celEntity.Name
 		# check for linmove
-		self.linmove = celGetLinearMovement(celEntity)
-		if not self.linmove:
-			self.linmove = celCreateLinearMovement(physicallayer_ptr,celEntity)
+		self.linmove = celLinearMovement(celEntity)
 		self.mesh = celGetMesh(celEntity)
 		self.mypath = csPath(4)
 		self.monitor = "camera"
@@ -29,9 +27,9 @@ class followpath:
 		mypath.SetTime(3,25)
 		self.linmove.SetPath(self.mypath)
 		# get the movable for monitored entity
-                monitor_ent=physicallayer_ptr.FindEntity(self.monitor)
+                monitor_ent=Entities[self.monitor]
 		if monitor_ent: 
-			self.dest = celGetMesh(monitor_ent).GetMesh().GetMovable()
+			self.dest = celGetMesh(monitor_ent).Mesh.GetMovable()
 		else:
 			self.dest = None
 
