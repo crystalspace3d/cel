@@ -5519,6 +5519,149 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_celInitializer_SetupVFS__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+  char *arg2 = (char *) 0 ;
+  iVFS *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:celInitializer_SetupVFS",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iObjectRegistry, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celInitializer_SetupVFS" "', argument " "1"" of type '" "iObjectRegistry *""'"); 
+  }
+  arg1 = reinterpret_cast< iObjectRegistry * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celInitializer_SetupVFS" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  result = (iVFS *)celInitializer::SetupVFS(arg1,(char const *)arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iVFS, 0 |  0 );
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celInitializer_SetupVFS__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+  iVFS *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:celInitializer_SetupVFS",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iObjectRegistry, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celInitializer_SetupVFS" "', argument " "1"" of type '" "iObjectRegistry *""'"); 
+  }
+  arg1 = reinterpret_cast< iObjectRegistry * >(argp1);
+  result = (iVFS *)celInitializer::SetupVFS(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iVFS, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celInitializer_SetupVFS(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iObjectRegistry, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_celInitializer_SetupVFS__SWIG_1(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iObjectRegistry, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_celInitializer_SetupVFS__SWIG_0(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celInitializer_SetupVFS'");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celInitializer_SetupConfigManager(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iObjectRegistry *arg1 = (iObjectRegistry *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO|O:celInitializer_SetupConfigManager",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iObjectRegistry, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celInitializer_SetupConfigManager" "', argument " "1"" of type '" "iObjectRegistry *""'"); 
+  }
+  arg1 = reinterpret_cast< iObjectRegistry * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celInitializer_SetupConfigManager" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  if (obj2) {
+    res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+    if (!SWIG_IsOK(res3)) {
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celInitializer_SetupConfigManager" "', argument " "3"" of type '" "char const *""'");
+    }
+    arg3 = buf3;
+  }
+  result = (bool)celInitializer::SetupConfigManager(arg1,(char const *)arg2,(char const *)arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_new_celInitializer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   celInitializer *result = 0 ;
@@ -63308,6 +63451,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"_csRef_to_Python", _wrap__csRef_to_Python, METH_VARARGS, NULL},
 	 { (char *)"celInitializer_SetupCelPluginDirs", _wrap_celInitializer_SetupCelPluginDirs, METH_VARARGS, NULL},
 	 { (char *)"celInitializer__RequestPlugins", _wrap_celInitializer__RequestPlugins, METH_VARARGS, NULL},
+	 { (char *)"celInitializer_SetupVFS", _wrap_celInitializer_SetupVFS, METH_VARARGS, NULL},
+	 { (char *)"celInitializer_SetupConfigManager", _wrap_celInitializer_SetupConfigManager, METH_VARARGS, NULL},
 	 { (char *)"new_celInitializer", _wrap_new_celInitializer, METH_VARARGS, NULL},
 	 { (char *)"delete_celInitializer", _wrap_delete_celInitializer, METH_VARARGS, NULL},
 	 { (char *)"celInitializer_swigregister", celInitializer_swigregister, METH_VARARGS, NULL},
@@ -66085,7 +66230,6 @@ static swig_type_info _swigt__p_iRegionList = {"_p_iRegionList", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_scfImplementation1TcsPath_iPath_t = {"_p_scfImplementation1TcsPath_iPath_t", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iSceneNode = {"_p_iSceneNode", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iParticleBuiltinEffectorLinColor = {"_p_iParticleBuiltinEffectorLinColor", 0, 0, 0, 0, 0};
-static swig_type_info _swigt__p_iVFS = {"_p_iVFS", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iThingEnvironment = {"_p_iThingEnvironment", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iClipper2D = {"_p_iClipper2D", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_scfImplementation1TcsImageBase_iImage_t = {"_p_scfImplementation1TcsImageBase_iImage_t", 0, 0, 0, 0, 0};
@@ -66416,6 +66560,7 @@ static swig_type_info _swigt__p_iSndSysListener = {"_p_iSndSysListener", "iSndSy
 static swig_type_info _swigt__p_iSndSysSource = {"_p_iSndSysSource", "iSndSysSource *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iString = {"_p_iString", "iString *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iStringArray = {"_p_iStringArray", "iStringArray *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_iVFS = {"_p_iVFS", "iVFS *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iView = {"_p_iView", "iView *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_int16_t = {"_p_int16_t", "int16_t *|int16 *", 0, 0, (void*)0, 0};
@@ -66938,7 +67083,6 @@ static swig_cast_info _swigc__p_iRegionList[] = {{&_swigt__p_iRegionList, 0, 0, 
 static swig_cast_info _swigc__p_scfImplementation1TcsPath_iPath_t[] = {{&_swigt__p_scfImplementation1TcsPath_iPath_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSceneNode[] = {{&_swigt__p_iSceneNode, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iParticleBuiltinEffectorLinColor[] = {{&_swigt__p_iParticleBuiltinEffectorLinColor, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_iVFS[] = {{&_swigt__p_iVFS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iThingEnvironment[] = {{&_swigt__p_iThingEnvironment, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iClipper2D[] = {{&_swigt__p_iClipper2D, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_scfImplementation1TcsImageBase_iImage_t[] = {{&_swigt__p_scfImplementation1TcsImageBase_iImage_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -67270,6 +67414,7 @@ static swig_cast_info _swigc__p_iSndSysListener[] = {  {&_swigt__p_iSndSysListen
 static swig_cast_info _swigc__p_iSndSysSource[] = {  {&_swigt__p_iSndSysSourceSoftware3D, _p_iSndSysSourceSoftware3DTo_p_iSndSysSource, 0, 0},  {&_swigt__p_iSndSysSource, 0, 0, 0},  {&_swigt__p_iSndSysSourceSoftware, _p_iSndSysSourceSoftwareTo_p_iSndSysSource, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iString[] = {  {&_swigt__p_iString, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iStringArray[] = {  {&_swigt__p_iStringArray, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_iVFS[] = {  {&_swigt__p_iVFS, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iView[] = {  {&_swigt__p_iView, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_int16_t[] = {  {&_swigt__p_int16_t, 0, 0, 0},{0, 0, 0, 0}};
