@@ -1,68 +1,22 @@
 # Python behaviour that can be used as a base to control a camera
 # whose player does not move.
-# Uses: defaultcamera,commandinput,actormove,linmove,meshselect,mesh,tooltip
+# Uses: defaultcamera,commandinput,actormove,linmove
 
-from cspace import *
-from blcelc import *
+from pycel import *
 
 class cameracontrol:
 	# INITIALIZATION
 	def __init__(self,celEntity):
-		print "Initializing actor..."
+		print "Initializing cameracontrol...",celEntity.Name
+		# create/get pcdefaultcamera
+		self.camera = celDefaultCamera(celEntity)
 		# check for pcdefaultcamera
-		#self.camera = celGetDefaultCamera(celEntity)
-		#if not self.camera:
-		#	self.camera = celCreateDefaultCamera(physicallayer_ptr,celEntity)
-		# check for pcdefaultcamera
-		input = celGetCommandInput(celEntity)
-		if not input:
-			input = celCreateCommandInput(physicallayer_ptr,celEntity)
+		input = celCommandInput(celEntity)
 		# check for actormove
-		self.actormove = celGetActorMove(celEntity)
-		if not self.actormove:
-			self.actormove = celCreateActorMove(physicallayer_ptr,celEntity)
-		# check for mesh
-		#self.mesh = celGetMesh(celEntity)
-		#if not self.mesh:
-		#	self.mesh = celCreateMesh(physicallayer_ptr,celEntity)
-		#	self.mesh.LoadMesh("box", "/cellib/objects/box")
-		#	pos = csVector3 (0, 1, 0)
-		#	self.mesh.MoveMesh(room,pos)
-		#meshobj = self.mesh.GetMesh()
-		#self.cal3dstate = SCF_QUERY_INTERFACE(meshobj.GetMeshObject(), iSpriteCal3DState)
-		# check for meshselect
-		#self.select = celGetMeshSelect(celEntity)
-		#if not self.select:
-		#	self.select = celCreateMeshSelect(physicallayer_ptr,celEntity)
-		# check for linmove
-		#self.linmove = celGetLinearMovement(celEntity)
-		#if not self.linmove:
-		#	self.linmove = celCreateLinearMovement(physicallayer_ptr,celEntity)
-		# check for tooltip
-		self.tooltip = celGetToolTip(celEntity)
-		if not self.tooltip:
-			self.tooltip = celCreateToolTip(physicallayer_ptr,celEntity)
-		# set some default parameters
-		#self.camera.SetModeName ("thirdperson")
-		self.actormove.SetMovementSpeed(1.5)
-		self.actormove.SetRunningSpeed (3.2)
-		self.actormove.SetRotationSpeed (2.0)
-		self.actormove.SetJumpingVelocity (5.9)
+		self.actormove = celActorMove(celEntity)
 
-		# init collider, note that this invalidates any collider
-		# set to the mesh
-		#self.linmove.InitCD(csVector3(.5,1.0/3.0,.5),csVector3(.5,2.0/3.0,.5),
-		#	csVector3(0,0.0,0))
-
-		# XXX this should go in template
 		# bind some keys
-		input.Bind("left", "rotateleft")
-		input.Bind("right", "rotateright")
-		input.Bind("a", "strafeleft")
-		input.Bind("d", "straferight")
-		input.Bind("pgup", "lookup")
-		input.Bind("pgdn", "lookdown")
-		input.Bind("m", "cammode")
+		input.LoadConfig("cameracontrol")
 	
 	# ENTITY CALLBACKS
 	# the engine will call this functions in response
@@ -79,32 +33,32 @@ class cameracontrol:
 	# pccommandinput_(bindcode)_     -> Key hold events
 	# ROTATE
 	def pccommandinput_rotateleft1(self,celEntity,args):
-		self.actormove.RotateLeft(1)
+		self.actormove.RotatingLeft = 1
 	def pccommandinput_rotateleft0(self,celEntity,args):
-		self.actormove.RotateLeft(0)
+		self.actormove.RotatingLeft = 0
 	def pccommandinput_rotateleft_(self,celentity,args):
 		pass
 	def pccommandinput_rotateright1(self,celEntity,args):
-		self.actormove.RotateRight(1)
+		self.actormove.RotatingRight = 1
 	def pccommandinput_rotateright0(self,celEntity,args):
-		self.actormove.RotateRight(0)
+		self.actormove.RotatingRight = 0
 	def pccommandinput_rotateright_(self,celentity,args):
 		pass
 
 	# LOOK UP AND DOWN
 	def pccommandinput_lookup1(self,celEntity,args):
-		self.camera.SetPitchVelocity(1.0)
+		self.camera.PitchVelocity = 1.0
 
 	def pccommandinput_lookup0(self,celEntity,args):
-		self.camera.SetPitchVelocity(0.0)
+		self.camera.PitchVelocity = 0.0
 
 	def pccommandinput_lookdown1(self,celEntity,args):
-		self.camera.SetPitchVelocity(-1.0)
+		self.camera.PitchVelocity = -1.0
 
 	def pccommandinput_lookdown0(self,celEntity,args):
-		self.camera.SetPitchVelocity(0.0)
+		self.camera.PitchVelocity = 0.0
 
 	# CAMERA MODES
 	def pccommandinput_cammode1(self,celEntity,args):
-		self.camera.SetMode(self.camera.GetNextMode ())
+		self.camera.Mode = self.camera.GetNextMode ()
 

@@ -1,48 +1,34 @@
 # Python behaviour that can be used as a base to control a hovercraft.
 # Uses: defaultcamera,commandinput,craft,mesh
 
-from cspace import *
-from blcelc import *
+from pycel import *
 
 class hoveractor:
 	# INITIALIZATION
 	def __init__(self,celEntity):
-		print "Initializing hoveractor..."
+		print "Initializing hoveractor...",celEntity.Name
 		# check for pcdefaultcamera
 		self.camera = celGetDefaultCamera(celEntity)
 		if not self.camera:
-			self.camera = celCreateDefaultCamera(physicallayer_ptr,celEntity)
+			self.camera = celAddDefaultCamera(celEntity)
 			self.camera.SetModeName ("thirdperson")
 		# check for pccommandinput
-		input = celGetCommandInput(celEntity)
-		if not input:
-			input = celCreateCommandInput(physicallayer_ptr,celEntity)
+		input = celCommandInput(celEntity)
 		# check for mechanics object
 		self.mechobj = celGetMechanicsObject(celEntity)
 		if not self.mechobj:
 			print "Object does not have a mechobj!!!"
 			return
 		# check for actormove
-		self.craftmove = celGetCraftController(celEntity)
-		if not self.craftmove:
-			self.craftmove = celCreateCraftController(physicallayer_ptr,celEntity)
+		self.craftmove = celCraftController(celEntity)
 		# check for mesh
 		self.mesh = celGetMesh(celEntity)
-		meshobj = self.mesh.GetMesh()
+		meshobj = self.mesh.Mesh
 		if not self.mesh:
 			print "Object does not have a mesh!!!"
 			return
 		# bind some keys
-		input.Bind("up", "forward")
-		input.Bind("down", "backward")
-		input.Bind("left", "rotateleft")
-		input.Bind("right", "rotateright")
-		input.Bind("pgup", "lookup")
-		input.Bind("pgdn", "lookdown")
-		input.Bind("shift", "run")
-		input.Bind("space", "jump")
-		input.Bind("m", "cammode")
-		input.Bind("x", "thrust")
+		input.LoadConfig("hoveractor")
 	
 	# ENTITY CALLBACKS
 	# the engine will call this functions in response
@@ -101,20 +87,20 @@ class hoveractor:
 
 	# LOOK UP AND DOWN
 	def pccommandinput_lookup1(self,celEntity,args):
-		self.camera.SetPitchVelocity(1.0)
+		self.camera.PitchVelocity = 1.0
 
 	def pccommandinput_lookup0(self,celEntity,args):
-		self.camera.SetPitchVelocity(0.0)
+		self.camera.PitchVelocity = 0.0
 
 	def pccommandinput_lookdown1(self,celEntity,args):
-		self.camera.SetPitchVelocity(-1.0)
+		self.camera.PitchVelocity = -1.0
 
 	def pccommandinput_lookdown0(self,celEntity,args):
-		self.camera.SetPitchVelocity(0.0)
+		self.camera.PitchVelocity = 0.0
 
 	# CAMERA MODES
 	def pccommandinput_cammode1(self,celEntity,args):
-		self.camera.SetMode(self.camera.GetNextMode ())
+		self.camera.Mode = self.camera.GetNextMode ()
 	def pccommandinput_jump1(self,celEntity,args):
 		self.mechobj.AddForceDuration(csVector3 (0, 25.0, 0), False,csVector3 (0, 0, 0), 0.2)
 
