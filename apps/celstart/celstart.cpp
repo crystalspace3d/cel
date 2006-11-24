@@ -481,6 +481,25 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
 
+  // Attempt to load a joystick plugin.
+  csRef<iStringArray> joystickClasses =
+    iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
+  if (joystickClasses.IsValid())
+  {
+    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
+      iPluginManager);
+    for (size_t i = 0; i < joystickClasses->Length (); i++)
+    {
+      const char* className = joystickClasses->Get (i);
+      iBase* b = plugmgr->LoadPlugin (className);
+
+      csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
+	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
+	className, (b != 0) ? "successful" : "failed");
+      if (b != 0) b->DecRef ();
+    }
+  }
+
   g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d)
   {
