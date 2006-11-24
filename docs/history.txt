@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Nov-2006
+	- caedes added Jamfile to data/library so it also gets installed.
 23-Nov-2006
 	- Genjix added automatic loading of most commonly used property classes
 	  via a second factory name (non conforming names should be deprecated).
