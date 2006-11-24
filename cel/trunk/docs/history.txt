@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 24-Nov-2006
+	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.
 	- caedes made the following changes to the cel python behaviour
 	  library:
