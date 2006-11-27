@@ -445,7 +445,12 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
 #error "What a strange platform you have!"
 #endif
     }
-    old += realpath;
+    csString pypath (realpath);
+    // strip the $'s out for appending to PYTHONPATH
+    size_t i;
+    while ((i = pypath.FindFirst ('$')) != (size_t)-1)
+      pypath.DeleteAt (i);
+    old += pypath;
     setenv ("PYTHONPATH",old.GetData(),1);
     printf ("PYTHONPATH: %s\n", old.GetData ()); fflush (stdout);
   }

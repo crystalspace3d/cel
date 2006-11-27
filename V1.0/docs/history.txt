@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Nov-2006
+	- Genjix added workaround to CEL mangling path when appending to
+	  PYTHONPATH in celstart.
+	- Genjix changed workaround to more cross platform solution using
+	  existing realpath and stripping problematic $'s.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
