@@ -1,5 +1,7 @@
 SubDir TOP data ;
 
+SubInclude TOP data library ;
+
 InstallData
   [ Wildcard *.txt *.cal3d ]
   ball

@@ -1,31 +1,27 @@
 # a "behaviour" for an entity that appears and dissapears.
 # you can set up a wakeup and the behaviour will blink using that instead
 # of the predefined.
-from cspace import *
-from blcelc import *
-
-
-import random
+from pycel import *
 
 class blink:
 	def __init__(self,celEntity):
-		print "initializing blink",celEntity.GetName()
+		print "initializing blink",celEntity.Name
 		# some variables for the counter
 		self.on		=	True
-		self.counter	=25
+		self.counter	=	25
 		# see if this has a mesh propclass
 		self.mesh = celGetMesh(celEntity)
 		if not self.mesh:
 			print "Entity does not have a mesh (required for alphapulse)!!"
 			return
 		# get some pointers to interfaces and start position
-		self.movable = self.mesh.GetMesh().GetMovable()
+		self.movable = self.mesh.Mesh.GetMovable()
 		self.startpos = csVector3(self.movable.GetPosition())
 
 		# set up the frame callback
 		self.timer = celGetTimer(celEntity)
 		if not self.timer:
-			self.timer = celCreateTimer(physicallayer_ptr,celEntity)
+			self.timer = celAddTimer(celEntity)
 			self.timer.WakeUp (500,True)
 
 	def pctimer_wakeup(self,celEntity,args):

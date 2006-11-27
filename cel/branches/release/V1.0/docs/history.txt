@@ -3,6 +3,16 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Nov-2006
+	- caedes added Jamfile to data/library so it also gets installed.
+	- caedes made the following changes to the cel python behaviour
+	  library:
+	  - updated behaviours to use new pycel simplified syntax.
+	  - removed wheel and backwheel as they are not working currently
+	    and also not very elegant (should use pcwheeled now).
+	  - added fovcontrol, actortimer, playsound and crashsound example
+	    behaviours.
+	  - made all behaviours define input in helper cfg files.
 23-Nov-2006
 	- caedes did the following changes to fix cel installation:
 	  - added SetupConfigManager and SetupVFS to celInitializer, this
