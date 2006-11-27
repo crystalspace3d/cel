@@ -437,13 +437,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     csString old = getenv ("PYTHONPATH");
     if (!old.IsEmpty ())
     {
-#if defined(CS_PLATFORM_WIN32)
-      old += ";";
-#elif defined(CS_PLATFORM_UNIX) || defined(CS_PLATFORM_MACOSX)
-      old += ":";
-#else
-#error "What a strange platform you have!"
-#endif
+      old += CS_PATH_SEPARATOR;
     }
     csString pypath (realpath);
     // strip the $'s out for appending to PYTHONPATH

@@ -179,7 +179,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   pcinp->Bind ("pgdn", "lookdown");
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (player, iPcMesh);
-  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetPath ("/cellib/objects");
   pcmesh->SetMesh ("craft", "orogor");
 
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
@@ -324,16 +324,12 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
 {
   iObjectRegistry* r = GetObjectRegistry();
 
-#ifdef USE_CEL
-  celInitializer::SetupCelPluginDirs(r);
-#endif
-
   // RequestPlugins() will load all plugins we specify.  In addition it will
   // also check if there are plugins that need to be loaded from the
   // configuration system (both the application configuration and CS or global
   // configurations).  It also supports specifying plugins on the command line
   // via the --plugin= option.
-  if (!csInitializer::RequestPlugins(r,
+  if (!celInitializer::RequestPlugins(r,
       CS_REQUEST_VFS,
       CS_REQUEST_OPENGL3D,
       CS_REQUEST_ENGINE,
@@ -433,13 +429,6 @@ bool HoverTest::Application()
   pl->RegisterBehaviourLayer (behaviour_layer);
   if (!r->Register (behaviour_layer , "iCelBlLayer"))
     return ReportError ("unable to register behaviour layer!");
-
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
-#else // VFS_PKGDATADIR
-  vfs->Mount ("cel", "$.$/");
-#endif // VFS_PKGDATADIR
 
   if (!CreateRoom ()) return false;
 

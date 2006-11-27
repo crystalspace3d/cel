@@ -343,7 +343,7 @@ csPtr<iCelEntity> NetTest::CreateActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
-  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -402,7 +402,7 @@ csPtr<iCelEntity> NetTest::CreateActorNPC (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
-  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -615,13 +615,6 @@ bool NetTest::Application ()
   if (!game_factory) return ReportError ("CEL network layer missing!");
   game_factory->SetGameName ("CEL network test");
   game_factory->SetProtocolVersion ("v0.1");
-
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
-#else // VFS_PKGDATADIR
-  vfs->Mount ("cel", "$.$/");
-#endif // VFS_PKGDATADIR
 
   // XXX: This should be in a config file...
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
