@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
+	- Jorrit bumped celstart to 7.
 13-Nov-2006
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
