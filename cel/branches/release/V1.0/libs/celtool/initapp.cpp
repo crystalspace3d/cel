@@ -18,11 +18,36 @@
 
 #include "celtool/initapp.h"
 #include <csutil/syspath.h>
+#include "iutil/cfgmgr.h"
+
+#include "ivaria/reporter.h"
+#include "csutil/verbosity.h"
+#include "csutil/cfgacc.h"
+#include "csutil/cfgfile.h"
+#include "csutil/cmdline.h"
+#include "csutil/csshlib.h"
 
 // Recurse into subdirectories when scanning for plugins? Disabled presently
 // because some developers run CEL programs from within the source tree, and it
 // can be quite costly to recurse over the entire tree.
 #define CEL_PLUGIN_SCAN_RECURSE false
+
+// These defines should be set by the configure script
+#ifndef CEL_CONFIGDIR
+#ifdef CS_COMPILER_GCC
+#warning CEL_CONFIGDIR not set
+#endif
+#define CEL_CONFIGDIR "/usr/local/" CS_PACKAGE_NAME
+#endif
+#ifndef CEL_PLUGINDIR
+#ifdef CEL_COMPILER_GCC
+#warning CEL_PLUGINDIR not set
+#endif
+#define CEL_PLUGINDIR "/usr/local/" CS_PACKAGE_NAME "/lib"
+#endif
+
+
+static bool cel_config_done = false;
 
 void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
 {
@@ -48,7 +73,7 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
     }
     else
     {
-      cel_paths.AddUniqueExpanded("/usr/lib/cel/", CEL_PLUGIN_SCAN_RECURSE);
+      cel_paths.AddUniqueExpanded(CEL_PLUGINDIR, CEL_PLUGIN_SCAN_RECURSE);
     }
 
     if (dir0 != 0)
@@ -71,12 +96,69 @@ bool celInitializer::RequestPlugins(iObjectRegistry* r, ...)
 bool celInitializer::RequestPluginsV(iObjectRegistry* r, va_list args)
 {
   SetupCelPluginDirs(r);
-  return superclass::RequestPluginsV(r, args);
+  bool const ok = superclass::RequestPluginsV(r, args);
+  LoadCelVFS(r);
+  return ok;
 }
 
 bool celInitializer::RequestPlugins(iObjectRegistry* r,
   csArray<csPluginRequest> const& a)
 {
   SetupCelPluginDirs(r);
-  return superclass::RequestPlugins(r, a);
+  bool const ok = superclass::RequestPlugins(r, a);
+  // find and add cel vfs file if its not done already
+  LoadCelVFS(r);
+  return ok;
+}
+
+bool celInitializer::LoadMountsFromFile(iObjectRegistry* r, char const* configPath)
+{
+  csRef<iConfigManager> cfg_mgr = CS_QUERY_REGISTRY(r, iConfigManager);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY(r, iVFS);
+  csRef<iConfigFile> vfs_file = cfg_mgr->AddDomain(configPath, NULL, 0);
+  return vfs->LoadMountsFromFile(vfs_file);
+}
+
+bool celInitializer::LoadCelVFS(iObjectRegistry* r)
+{
+  bool ok = false;
+  if (cel_config_done) return true;
+  // find and add cel vfs file
+  csPathsList cel_env_path;
+  csString cel_env (getenv ("CEL"));
+  // find dir
+  if (cel_env.IsEmpty())
+    cel_env_path = csPathsList(CEL_CONFIGDIR);
+  else
+  {
+    cel_env_path = csPathsList(cel_env);
+  }
+  // check vfs.cfg file is actually there.
+  csPathsList vfs_file_path = 
+	    csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
+  if (vfs_file_path.Length())
+  {
+    csString cel_vfs_file = 
+      vfs_file_path[0].path+csString(CS_PATH_SEPARATOR)+csString("vfs.cfg");
+    ok = LoadMountsFromFile(r,cel_vfs_file);
+    cel_config_done = true;
+  }
+  else
+    csReport(r,CS_REPORTER_SEVERITY_ERROR,"cel.initializer",
+	     "Couldn't find vfs.cfg!");
+  return ok;
+}
+
+iVFS* celInitializer::SetupVFS(iObjectRegistry* r, const char* pluginID)
+{
+  csRef<iVFS> vfs = superclass::SetupVFS(r, pluginID);
+  LoadCelVFS(r);
+  return vfs;
+}
+
+bool celInitializer::SetupConfigManager (
+		  iObjectRegistry* r, char const* configName, char const* AppID)
+{
+  SetupVFS(r);
+  return superclass::SetupConfigManager(r,configName,AppID);  
 }

@@ -264,7 +264,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
-  pcmesh->SetPath ("/cel/data");
+  pcmesh->SetPath ("/cellib/objects");
   hascal3d = pcmesh->SetMesh ("test", "cally.cal3d");
 
   csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -358,12 +358,11 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 {
   csDebuggingGraph::SetupGraph (object_reg);
 
-  if (!csInitializer::SetupConfigManager (object_reg,
+  if (!celInitializer::SetupConfigManager (object_reg,
   	"/celconfig/celtest.cfg"))
   {
     return ReportError ("Can't setup config file!");
   }
-
 
   if (!celInitializer::RequestPlugins (object_reg,
   	CS_REQUEST_VFS,
@@ -429,13 +428,6 @@ bool CelTest::Application ()
   	"iCelBlLayer.Test", iCelBlLayer);
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
-
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-#if defined(VFS_PKGDATADIR) && defined(VFS_TOPSRCDIR)
-  vfs->Mount ("cel", VFS_PKGDATADIR"$/, "VFS_TOPSRCDIR"$/");
-#else // VFS_PKGDATADIR
-  vfs->Mount ("cel", "$.$/");
-#endif // VFS_PKGDATADIR
 
   // XXX: This should be in a config file...
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))

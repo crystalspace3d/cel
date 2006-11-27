@@ -159,7 +159,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="small" />
 		    <par name="factoryname" string="small" />
 		</action>
@@ -220,7 +220,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="large" />
 		    <par name="factoryname" string="large" />
 		</action>
@@ -241,7 +241,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="large" />
 		    <par name="factoryname" string="large" />
 		</action>
@@ -262,7 +262,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="medium" />
 		    <par name="factoryname" string="medium" />
 		</action>
@@ -283,7 +283,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="small" />
 		    <par name="factoryname" string="small" />
 		</action>
@@ -304,7 +304,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="medium" />
 		    <par name="factoryname" string="medium" />
 		</action>
@@ -343,7 +343,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="box" />
 		    <par name="factoryname" string="box" />
 		</action>
@@ -382,7 +382,7 @@
 	    </propclass>
 	    <propclass name="pcmesh">
 	        <action name="LoadMeshPath">
-		    <par name="path" string="/cel/data" />
+		    <par name="path" string="/cellib/objects" />
 		    <par name="filename" string="smallbox" />
 		    <par name="factoryname" string="smallbox" />
 		</action>

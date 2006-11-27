@@ -1,7 +1,7 @@
 <library>
   <textures>
     <texture name="celcarbody.png">
-      <file>/cel/data/celcarbody.png</file>
+      <file>/cellib/objects/celcarbody.png</file>
     </texture>
   </textures>
   <materials>

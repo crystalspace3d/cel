@@ -67,21 +67,29 @@ SubInclude TOP plugins ;
 SubInclude TOP apps ;
 SubInclude TOP data ;
 
-# Install vfs.cfg
-# @@@ FIXME: There are at least two problems which prevent our vfs.cfg from
-#     working properly once installed:
-# (1) It incorrectly mounts directories relative to $*, the application
-#     resource directory, rather than relative to the CEL installation
-#     directory.  We need instead to install a specially customized version of
-#     vfs.cfg.
-# (2) VFS will never see our installed vfs.cfg because it only scans the
-#     application resource directory, the application directory, and the CS
-#     installation directory for vfs.cfg files; and there is no API allowing us
-#     to tell VFS to scan for additional foreign vfs.cfg files, such as ours.
-#     To resolve this issue, VFS and/or csInitializer API will need to be
-#     updated to allow specification of foreign configuration locations.
+# helper rules to create cel vfs.cfg
+rule VfsCfgGen
+{
+  Depends $(<) : $(>) ;
+  Always $(<) ;
+  Clean vfsclean : $(<) ;
+}
+
+actions VfsCfgGen
+{
+  cat $(>) > $(<)
+  echo "" >> $(<)
+  echo "; Configuration-time installation paths." >> $(<)
+  echo "VFS.$(TARGET.OS.NORMALIZED).CEL_DATADIR = $(appdatadir)/data" >> $(<)
+  echo "VFS.$(TARGET.OS.NORMALIZED).CEL_CONFIGDIR = $(appconfdir)" >> $(<)
+}
+
+# Build our own vfs.cfg
 VFS_CONFIGFILE = vfs.cfg ;
-SEARCH on $(VFS_CONFIGFILE) = $(SUBDIR) ;
+MakeLocate $(VFS_CONFIGFILE) : $(LOCATE_TARGET) ;
+SEARCH on $(VFS_CONFIGFILE) = $(LOCATE_TARGET) ;
+VfsCfgGen $(VFS_CONFIGFILE) : $(SUBDIR)/vfs.cfg.template ;
+
 Depends install_config : [ DoInstall $(VFS_CONFIGFILE) : $(appconfdir) ] ;
 
 # Generate cel-config

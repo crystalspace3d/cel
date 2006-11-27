@@ -7,14 +7,25 @@ InstallData
   basic_level.xml
   basic_world
   box
+  celcarbody
+  celcarbody.png
+  celcarwheel
   large
+  rock2.jpg
   medium
+  monkey
   portal_world
   small
   smallbox
+  track4.zip
+  orogor
+  orogor.png
+  walktut_box
+  walktut_entities
+  walktut_world
   : data ;
 
 InstallData [ Wildcard cally : *.caf *.cmf *.csf ] : data cally ;
-InstallData [ Wildcard config : *.cfg ] : data config ;
+InstallConfig [ Wildcard config : *.cfg ] ;
 InstallData [ Wildcard images : *.jpg *.png *.gif ] : data images ;
 InstallData [ Wildcard sounds : *.zip ] : data sounds ;
