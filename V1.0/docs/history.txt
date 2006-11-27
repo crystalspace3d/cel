@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  PYTHONPATH in celstart.
 	- Genjix changed workaround to more cross platform solution using
 	  existing realpath and stripping problematic $'s.
+	- caedes added particles and particlesldr to celtest_static.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
