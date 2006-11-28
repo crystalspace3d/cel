@@ -174,8 +174,8 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
         break;
       case XMLTOKEN_LAYER:
         {
-	  bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-	  	child->GetContentsValue (), iCelBlLayer);
+	  bl = csQueryRegistryTagInterface<iCelBlLayer> (
+	  	object_reg, child->GetContentsValue ());
 	  if (!bl)
 	  {
 	    synldr->ReportError (

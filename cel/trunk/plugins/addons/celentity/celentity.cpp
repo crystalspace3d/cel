@@ -487,8 +487,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  const char* blname = child->GetAttributeValue ("layer");
 	  if (blname)
 	  {
-	    bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg, blname,
-	    	iCelBlLayer);
+	    bl = csQueryRegistryTagInterface<iCelBlLayer> ( object_reg, blname);
 	    if (!bl) bl = pl->FindBehaviourLayer (blname);
 	  }
 	  else

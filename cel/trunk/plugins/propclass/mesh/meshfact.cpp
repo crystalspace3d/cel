@@ -491,8 +491,8 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_name) return false;
         CEL_FETCH_STRING_PAR (par_type,params,id_type);
         if (!p_par_type) return false;
-        csRef<iStringSet> strset = CS_QUERY_REGISTRY_TAG_INTERFACE(object_reg,
-        	"crystalspace.shared.stringset", iStringSet);
+        csRef<iStringSet> strset = csQueryRegistryTagInterface<iStringSet> (
+        	object_reg, "crystalspace.shared.stringset");
         if (!strcmp(par_type,"float"))
         {
           CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
