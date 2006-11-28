@@ -65,6 +65,10 @@ class celInitializer(cspace.csInitializer):
     if _newclass:SetupCelPluginDirs = staticmethod(_blcelc.celInitializer_SetupCelPluginDirs)
     __swig_getmethods__["_RequestPlugins"] = lambda x: _blcelc.celInitializer__RequestPlugins
     if _newclass:_RequestPlugins = staticmethod(_blcelc.celInitializer__RequestPlugins)
+    __swig_getmethods__["SetupVFS"] = lambda x: _blcelc.celInitializer_SetupVFS
+    if _newclass:SetupVFS = staticmethod(_blcelc.celInitializer_SetupVFS)
+    __swig_getmethods__["SetupConfigManager"] = lambda x: _blcelc.celInitializer_SetupConfigManager
+    if _newclass:SetupConfigManager = staticmethod(_blcelc.celInitializer_SetupConfigManager)
     def __init__(self, *args): 
         this = _blcelc.new_celInitializer(*args)
         try: self.this.append(this)
@@ -75,6 +79,8 @@ celInitializer_swigregister = _blcelc.celInitializer_swigregister
 celInitializer_swigregister(celInitializer)
 celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
+celInitializer_SetupVFS = _blcelc.celInitializer_SetupVFS
+celInitializer_SetupConfigManager = _blcelc.celInitializer_SetupConfigManager
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
 CEL_DATA_BOOL = _blcelc.CEL_DATA_BOOL
