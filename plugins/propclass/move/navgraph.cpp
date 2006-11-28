@@ -334,7 +334,7 @@ int celPcNavGraph::LoadNodesFromRegion( char* regionname )
    * TODO test this..
    */
 
-  csRef<iEngine> engine (CS_QUERY_REGISTRY (object_reg, iEngine));
+  csRef<iEngine> engine (csQueryRegistry<iEngine> (object_reg));
   CS_ASSERT (engine != 0);
 
   // Select the region for this graph

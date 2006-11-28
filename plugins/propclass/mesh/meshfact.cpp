@@ -72,7 +72,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mesh",
     	msg, arg);
@@ -118,7 +118,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
 
   if (id_name == csInvalidStringID)
   {
@@ -761,7 +761,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!path.IsEmpty ())
   {
     // If we have a path then we first ChDir to that.
@@ -769,7 +769,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     vfs->ChDir (path);
   }
 
-  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   CS_ASSERT (loader != 0);
   iBase* result;
   bool success = loader->Load (fileName, result, 0, false, true);
@@ -1089,7 +1089,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_senddown = true;
   do_sendmove = false;
 
-  mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  mousedrv = csQueryRegistry<iMouseDriver> (object_reg);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   // Initialize the maximum selection distance to a very large number

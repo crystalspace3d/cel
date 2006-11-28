@@ -70,7 +70,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -412,10 +412,10 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
-  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  engine = csQueryRegistry<iEngine> (object_reg);
+  loader = csQueryRegistry<iLoader> (object_reg);
+  vfs = csQueryRegistry<iVFS> (object_reg);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   do_colliderwrappers = true;
   loading_mode = CEL_ZONE_NORMAL;
@@ -803,12 +803,12 @@ bool celPcZoneManager::Load (const char* path, const char* file)
   celPcZoneManager::path = path;
   celPcZoneManager::file = file;
 
-  csRef<iDocumentSystem> docsys = CS_QUERY_REGISTRY (object_reg,
-  	iDocumentSystem);
+  csRef<iDocumentSystem> docsys = 
+  	csQueryRegistry<iDocumentSystem> (object_reg);
   if (!docsys)
     docsys.AttachNew (new csTinyDocumentSystem ());
   csRef<iDocument> doc = docsys->CreateDocument ();
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (path)
   {
     vfs->PushDir ();

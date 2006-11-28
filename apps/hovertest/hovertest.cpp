@@ -243,8 +243,8 @@ bool HoverTest::CreateRoom ()
         "pcmechsys",
 	(void*)0);
 
-  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
-  	iCommandLineParser);
+  csRef<iCommandLineParser> cmdline = 
+  	csQueryRegistry<iCommandLineParser> (object_reg);
   csString path, file, terrain, terrainfile;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
@@ -264,7 +264,7 @@ bool HoverTest::CreateRoom ()
     terrainfile = "world";
   }
 
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs->ChDirAuto (path, 0, 0, file))
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
@@ -353,8 +353,8 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
     iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
   if (joystickClasses.IsValid())
   {
-    csRef<iPluginManager> plugmgr = CS_QUERY_REGISTRY (object_reg,
-      iPluginManager);
+    csRef<iPluginManager> plugmgr = 
+      csQueryRegistry<iPluginManager> (object_reg);
     for (size_t i = 0; i < joystickClasses->Length (); i++)
     {
       const char* className = joystickClasses->Get (i);
@@ -403,11 +403,11 @@ bool HoverTest::Application()
   LOAD_PLUGIN(kbd, iKeyboardDriver);
   LOAD_PLUGIN(pl,  iCelPlLayer);
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
     return ReportError ("Can't find the CEL physical layer!");
 
-  vfs = CS_QUERY_REGISTRY(r, iVFS);
+  vfs = csQueryRegistry<iVFS> (r);
 
   behaviour_layer.AttachNew (new htBehaviourLayer (this));
   pl->RegisterBehaviourLayer (behaviour_layer);

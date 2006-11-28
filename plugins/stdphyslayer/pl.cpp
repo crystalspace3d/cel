@@ -86,7 +86,7 @@ celPlLayer::~celPlLayer ()
 
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -154,12 +154,12 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
   idlist.Clear ();
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return false;	// Engine is required.
 
   scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   csEventID esub[] = { 
     csevPreProcess (object_reg),   // this goes away...
     csevPostProcess (object_reg),  // this goes away...
@@ -497,7 +497,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   }
   else
   {
-    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+    bl = csQueryRegistry<iCelBlLayer> (object_reg);
     if (!bl && cfact->GetBehaviour ())
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -1072,7 +1072,7 @@ csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
 bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 {
   csRef<iPluginManager> plugin_mgr =
-  	CS_QUERY_REGISTRY (object_reg, iPluginManager);
+  	csQueryRegistry<iPluginManager> (object_reg);
   csRef<iBase> pf;
   pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)

@@ -72,7 +72,7 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
     csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
       if (pc)
 	b = scfQueryInterface<iPcBillboard> (pc);
@@ -89,7 +89,7 @@ iPcRules* celBehaviourXml::GetRules ()
     csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
       if (pc)
 	p = scfQueryInterface<iPcRules> (pc);
@@ -108,7 +108,7 @@ iPcProperties* celBehaviourXml::GetProperties ()
     	iPcProperties);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
       if (pc)
 	p = scfQueryInterface<iPcProperties> (pc);
@@ -267,7 +267,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
     if (!strcmp (msg_id, "load"))
     {
      csString path,worldname;
@@ -314,7 +314,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     // find path
     csStringArray paths;
     paths.Push ("/lev/");
-    csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
+    csRef<iVFS> VFS = csQueryRegistry<iVFS> (object_reg);
     VFS->PushDir ();
     if (!VFS->ChDirAuto (path.GetData(),&paths,0,worldname.GetData()))
     {

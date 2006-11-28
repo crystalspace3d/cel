@@ -183,7 +183,7 @@ celTransformSeqOp::celTransformSeqOp (
 	int axis, const char* angle) : scfImplementationType (this)
 {
   celTransformSeqOp::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   vector.x = ToFloat (qm->ResolveParameter (params, vectorx));

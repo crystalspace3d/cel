@@ -68,7 +68,7 @@ bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
 {
   celPersistClassic::object_reg = object_reg;
 
-  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) return false;
   
   return true;
@@ -79,7 +79,7 @@ bool celPersistClassic::Report (const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persist.classic",
     	msg, arg);
@@ -594,7 +594,7 @@ bool celPersistClassic::Read (csRef<iCelDataBuffer>& db)
   if (!Read (ser)) return false;
   uint16 cnt;
   if (!Read (cnt)) return false;
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   db = pl->CreateDataBuffer (ser);
   int i;
   for (i = 0 ; i < cnt ; i++)
@@ -666,7 +666,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
     loadpcdata = false;
   }
 
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pc)
   {
     iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
@@ -753,7 +753,7 @@ bool celPersistClassic::Read (iCelEntity*& entity)
       return false;
     if (!bhlayername.IsEmpty () && !bhname.IsEmpty ())
     {
-      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
       iCelBlLayer* bl = pl->FindBehaviourLayer (bhlayername);
       if (!bl) return Report ("Couldn't find behaviour layer '%s'!",
       	(const char*)bhlayername);
@@ -784,7 +784,7 @@ bool celPersistClassic::ReadFirstPass (iCelEntity* entity)
     if (!Read (tagname)) return false;
 
     // @@@ Not efficient! Store pl!
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
     iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
     if (!pf)
       return Report ("Couldn't create property class '%s'!",
@@ -832,7 +832,7 @@ bool celPersistClassic::Load (iCelLocalEntitySet* set, iFile* file)
   for (i = 0 ; i < cnt ; i++)
   {
     // @@@ Not efficient! Store pl!
-    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+    csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
     csRef<iCelEntity> ent = pl->CreateEntity ();
     entities_map.Put ((iCelEntity*)ent, i);
     set->AddEntity (ent);

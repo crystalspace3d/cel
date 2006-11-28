@@ -66,7 +66,7 @@ bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -86,7 +86,7 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.persistence",
     	msg, arg);
@@ -322,8 +322,8 @@ void celPcSolid::SetupBox (const csBox3& box)
   }
   CS_ASSERT (pcmesh != 0);
   csPolygonMeshBox pmbox (box);
-  csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
-    	iCollideSystem);
+  csRef<iCollideSystem> cdsys = 
+    	csQueryRegistry<iCollideSystem> (object_reg);
   collider_wrap.AttachNew (new csColliderWrapper (
 	pcmesh->GetMesh ()->QueryObject (),
 	cdsys, &pmbox));
@@ -340,8 +340,8 @@ iCollider* celPcSolid::GetCollider ()
   CS_ASSERT (pcmesh != 0);
   if (pcmesh->GetMesh ())
   {
-    csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
-    	iCollideSystem);
+    csRef<iCollideSystem> cdsys = 
+    	csQueryRegistry<iCollideSystem> (object_reg);
     CS_ASSERT (cdsys != 0);
     collider_wrap = csColliderHelper::InitializeCollisionWrapper (
     	cdsys, pcmesh->GetMesh ());
@@ -429,7 +429,7 @@ public:
 celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
   DG_TYPE (this, "celPcMovableConstraintCD()");
 }
@@ -535,9 +535,9 @@ PropertyHolder celPcGravity::propinfo;
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
   weight = 1;
   is_resting = false;

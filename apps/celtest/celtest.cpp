@@ -141,13 +141,13 @@ bool CelTest::OnKeyboard (iEvent &ev)
       // is by broadcasting a cscmdQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
-      csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
     else if (code == 's')
     {
-      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
-      	iCelPersistence);
+      csRef<iCelPersistence> p = 
+      	csQueryRegistry<iCelPersistence> (object_reg);
       celStandardLocalEntitySet set (pl);
       size_t i;
       for (i = 0 ; i < pl->GetEntityCount () ; i++)
@@ -167,8 +167,8 @@ bool CelTest::OnKeyboard (iEvent &ev)
     }
     else if (code == 'l')
     {
-      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
-      	iCelPersistence);
+      csRef<iCelPersistence> p = 
+      	csQueryRegistry<iCelPersistence> (object_reg);
       celStandardLocalEntitySet set (pl);
       if (!p->Load (&set, "/this/savefile"))
       {
@@ -305,8 +305,8 @@ bool CelTest::CreateRoom ()
   //===============================
   engine->Prepare ();
 
-  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
-  	iCommandLineParser);
+  csRef<iCommandLineParser> cmdline = 
+  	csQueryRegistry<iCommandLineParser> (object_reg);
   csString path, file;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
@@ -320,7 +320,7 @@ bool CelTest::CreateRoom ()
     file = "basic_level.xml";
   }
 
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   csStringArray paths;
   paths.Push ("/cellib/lev/");
   if (!vfs->ChDirAuto (path, &paths, 0, file))
@@ -405,23 +405,23 @@ bool CelTest::Application ()
     return ReportError ("Error opening system!");
 
   // The virtual clock.
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   if (!vc) return ReportError ("Can't find the virtual clock!");
 
   // Find the pointer to engine plugin
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine) return ReportError ("No iEngine plugin!");
 
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  loader = csQueryRegistry<iLoader> (object_reg);
   if (!loader) return ReportError ("No iLoader plugin!");
 
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
   if (!g3d) return ReportError ("No iGraphics3D plugin!");
 
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
   if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
   bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,

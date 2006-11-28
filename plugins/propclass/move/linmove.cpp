@@ -139,14 +139,14 @@ PropertyHolder celPcLinearMovement::propinfo;
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   if (!vc)
   {
     MoveReport (object_reg, "iVirtualClock Missing!");
     return;
   }
 
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
     MoveReport (object_reg, "Engine missing!");
@@ -1184,7 +1184,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   celPcLinearMovement::shift = shift;
 
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   if (!pc_cd)
   {

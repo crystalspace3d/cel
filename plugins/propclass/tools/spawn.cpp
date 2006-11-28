@@ -60,7 +60,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.spawn",
     	msg, arg);
@@ -123,9 +123,9 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   do_name_counter = true;
   do_spawn_unique = false;
 
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
 
   if (id_repeat_param == csInvalidStringID)
@@ -212,7 +212,7 @@ bool celPcSpawn::PerformActionIndexed (int idx,
         }
         else
         {
-          csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+          csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
           if (!bl)
             return Report (object_reg,
         	    "Couldn't find behaviour layer in action AddEntityType!");
