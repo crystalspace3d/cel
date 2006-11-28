@@ -605,8 +605,8 @@ bool NetTest::Application ()
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
-  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-  	"iCelBlLayer.Test", iCelBlLayer);
+  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
+  	object_reg, "iCelBlLayer.Test");
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
 

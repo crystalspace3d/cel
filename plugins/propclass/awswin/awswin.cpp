@@ -75,8 +75,8 @@ celPcAwsWin::celPcAwsWin (iObjectRegistry* object_reg)
   }
 
   awssink = 0;
-  strset = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
-      "crystalspace.shared.stringset", iStringSet);
+  strset = csQueryRegistryTagInterface<iStringSet> (
+      object_reg, "crystalspace.shared.stringset");
 }
 
 celPcAwsWin::~celPcAwsWin ()
@@ -261,9 +261,8 @@ iAws* celPcAwsWin::GetAWS ()
       csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
       iGraphics2D* g2d = g3d->GetDriver2D ();
       aws->SetupCanvas (0, g2d, g3d);
-      csRef<iEventHandler> handler = CS_QUERY_REGISTRY_TAG_INTERFACE (
-	  object_reg, "cel.awswindow.eventhandler",
-	  iEventHandler);
+      csRef<iEventHandler> handler = 
+	  csQueryRegistryTagInterface<iEventHandler> (object_reg, "cel.awswindow.eventhandler");
       if (!handler)
       {
         csRef<awswinEventHandler> lst;
