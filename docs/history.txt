@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit enhanced pclight with ParentMesh and ClearParent actions.
 	- Jorrit added support for 'color' parameters in celentity and
 	  celentitytpl actions.
+	- Jorrit added support to place lights (pclight) to pcspawn.
 24-Nov-2006
 	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.
