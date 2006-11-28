@@ -26,6 +26,7 @@
 #include "behaviourlayer/behave.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
+#include "propclass/light.h"
 #include "propclass/linmove.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
@@ -46,6 +47,7 @@
 #include "csgeom/math3d.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
+#include "iengine/light.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
 
@@ -486,23 +488,27 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
           if (pcmesh)
           {
             iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-            if (movable)
-            {
-              spawnposition[number].reserved = true;
-              movable->SetPosition (sect, pos);
-              movable->GetTransform ().SetO2T (
+            spawnposition[number].reserved = true;
+            movable->SetPosition (sect, pos);
+            movable->GetTransform ().SetO2T (
                 (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-              movable->UpdateMove ();
-            }
-            else
-            {
-              Report (object_reg, "Error: entity '%s' is not movable!",
-                spawninfo[idx].newent->GetName ());
-            }
+            movable->UpdateMove ();
           }
-          else
+          csRef<iPcLight> pclight = CEL_QUERY_PROPCLASS_ENT (
+            spawninfo[idx].newent, iPcLight);
+          if (pclight)
           {
-            Report (object_reg, "Error: entity '%s' is not a mesh!",
+            iMovable* movable = pclight->GetLight ()->GetMovable ();
+            spawnposition[number].reserved = true;
+            movable->SetPosition (sect, pos);
+            movable->GetTransform ().SetO2T (
+                (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
+            movable->UpdateMove ();
+	    pclight->GetLight ()->Setup ();
+          }
+          if (!pcmesh && !pclight)
+          {
+            Report (object_reg, "Error: entity '%s' is not a mesh or light!",
               spawninfo[idx].newent->GetName ());
           }
         }
