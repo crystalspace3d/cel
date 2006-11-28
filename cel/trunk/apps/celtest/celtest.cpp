@@ -471,7 +471,7 @@ bool CelTest::Application ()
     for (j = -2; j<=2;j++)
     {
       csRef<iCelPropertyClass> pc = pl->CreatePropertyClass (graph, "pcnode");
-      csRef<iPcNavNode> pcnode = SCF_QUERY_INTERFACE (pc, iPcNavNode);
+      csRef<iPcNavNode> pcnode = scfQueryInterface<iPcNavNode> (pc);
       pcnode->SetPos (csVector3 (i,0,j));
       pcgraph->AddNode (pcnode); // Add the Node PC to the graph
     }

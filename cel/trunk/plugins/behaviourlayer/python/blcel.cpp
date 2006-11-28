@@ -3555,7 +3555,7 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
-  csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
+  csRef<iCelEntity> ent = scfQueryInterface<iCelEntity> (base);
   return ent;
 }
 
@@ -4247,7 +4247,7 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
   if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
+  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion> (pc);
   if (!pcregion.IsValid()) return 0;
   pcregion->SetRegionName (name);
   return pcregion;

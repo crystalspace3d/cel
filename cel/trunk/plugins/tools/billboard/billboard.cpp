@@ -174,8 +174,8 @@ void celBillboard::SetupMaterial ()
     // calculate the clickmap.
     if (!image)
     {
-      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
-    	  material->GetMaterial (), iMaterialEngine);
+      csRef<iMaterialEngine> mateng = 
+    	  scfQueryInterface<iMaterialEngine> (material->GetMaterial ());
       if (mateng)
       {
         iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
@@ -211,8 +211,8 @@ void celBillboard::SetupMaterial ()
     memset (clickmap, 0, image_h * (1 + image_w / 8));
     if ((image->GetFormat () & CS_IMGFMT_MASK) == CS_IMGFMT_TRUECOLOR)
     {
-      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
-    	  material->GetMaterial (), iMaterialEngine);
+      csRef<iMaterialEngine> mateng = 
+    	  scfQueryInterface<iMaterialEngine> (material->GetMaterial ());
       iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
       int r, g, b;
       texwrap->GetKeyColor (r, g, b);

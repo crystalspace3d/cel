@@ -856,7 +856,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
     iCelPropertyClass* pc = databuf->GetPC ();
     csRef<iPcMesh> pcmesh;
     if (pc)
-      pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+      pcmesh = scfQueryInterface<iPcMesh> (pc);
     float r = databuf->GetFloat ();
     if (pcmesh)
       SetupTriggerAboveMesh (pcmesh, r);
@@ -889,7 +889,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   ent = databuf->GetEntity ();
   if (ent) monitoring_entity = ent;
   iCelPropertyClass* pc = databuf->GetPC ();
-  if (pc) monitoring_entity_pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+  if (pc) monitoring_entity_pcmesh = scfQueryInterface<iPcMesh> (pc);
 
   return true;
 }

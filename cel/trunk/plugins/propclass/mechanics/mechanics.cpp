@@ -240,8 +240,7 @@ void celPcMechanicsSystem::DisableStepFast ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
-    	iODEDynamicSystemState);
+  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
   if (osys)
     osys->EnableStepFast (0);
 }
@@ -250,8 +249,7 @@ void celPcMechanicsSystem::EnableStepFast ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
-    	iODEDynamicSystemState);
+  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
   if (osys)
     osys->EnableStepFast (1);
 }
@@ -260,8 +258,7 @@ void celPcMechanicsSystem::EnableQuickStep ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
-    	iODEDynamicSystemState);
+  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
   if (osys)
     osys->EnableQuickStep (1);
 }
@@ -719,7 +716,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh)
   {
-    pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+    pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
     databuf->Add (pc);
   }
   else
@@ -727,7 +724,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   GetMechSystem ();
   if (mechsystem)
   {
-    pc = SCF_QUERY_INTERFACE (mechsystem, iCelPropertyClass);
+    pc = scfQueryInterface<iCelPropertyClass> (mechsystem);
     databuf->Add (pc);
   }
   else
@@ -797,10 +794,9 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
     CS_REPORT(ERROR,"serialnr != DYNBODY_SERIAL.  Cannot load.");
     return false;
   }
-  csRef<iPcMesh> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcMesh);
+  csRef<iPcMesh> pcm = scfQueryInterface<iPcMesh> (databuf->GetPC ());
   SetMesh (pcm);
-  csRef<iPcMechanicsSystem> pcms = SCF_QUERY_INTERFACE (databuf->GetPC (),
-  	iPcMechanicsSystem);
+  csRef<iPcMechanicsSystem> pcms = scfQueryInterface<iPcMechanicsSystem> (databuf->GetPC ());
   SetMechanicsSystem (pcms);
   btype = (int) databuf->GetInt32 ();
   switch (btype)

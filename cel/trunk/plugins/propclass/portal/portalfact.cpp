@@ -217,8 +217,7 @@ void celPcPortal::ResolvePortal ()
   {
     iMeshWrapper* m = engine->FindMeshObject (meshname);
     if (!m) return;
-    csRef<iPortalContainer> pc = SCF_QUERY_INTERFACE (m->GetMeshObject (),
-    	iPortalContainer);
+    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (m->GetMeshObject ());
     if (!pc) return;	// @@@ ERROR?
     if (portalname.IsEmpty ())
     {

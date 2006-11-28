@@ -1041,7 +1041,7 @@ void celPcCharacteristics::Dump ()
   {
     iPcInventory* inv = inventories[i];
     csRef<iCelPropertyClass> pc (
-    	SCF_QUERY_INTERFACE (inv, iCelPropertyClass));
+    	scfQueryInterface<iCelPropertyClass> (inv));
     if (pc)
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());
   }

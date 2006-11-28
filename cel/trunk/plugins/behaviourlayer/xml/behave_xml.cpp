@@ -75,7 +75,7 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
       if (pc)
-	b = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	b = scfQueryInterface<iPcBillboard> (pc);
     }
     billboard = b;
   }
@@ -92,7 +92,7 @@ iPcRules* celBehaviourXml::GetRules ()
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
       if (pc)
-	p = SCF_QUERY_INTERFACE (pc, iPcRules);
+	p = scfQueryInterface<iPcRules> (pc);
     }
     rules = p;
   }
@@ -111,7 +111,7 @@ iPcProperties* celBehaviourXml::GetProperties ()
       csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
       if (pc)
-	p = SCF_QUERY_INTERFACE (pc, iPcProperties);
+	p = scfQueryInterface<iPcProperties> (pc);
     }
     props = p;
   }
@@ -299,7 +299,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	  "Couldn't create 'pccamera' property class!");
       return false;
     }
-    pccamera = SCF_QUERY_INTERFACE (pc, iPcCamera);
+    pccamera = scfQueryInterface<iPcCamera> (pc);
     //pccamera->SetMode (iPcCamera::firstperson);
 
     csRef<iPcRegion> pcregion;
@@ -329,7 +329,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     VFS->PopDir ();
 		
     // load with pcregion
-    pcregion = SCF_QUERY_INTERFACE (pc, iPcRegion);
+    pcregion = scfQueryInterface<iPcRegion> (pc);
     pcregion->SetWorldFile (path, worldname);
     pcregion->SetRegionName (worldname);
     if (!pcregion->Load ())

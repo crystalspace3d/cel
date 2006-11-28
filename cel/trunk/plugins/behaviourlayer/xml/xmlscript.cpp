@@ -4070,7 +4070,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4124,7 +4124,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4139,7 +4139,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4154,7 +4154,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4169,7 +4169,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4199,7 +4199,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4216,7 +4216,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl, "Bad property class!\n");
 
 	  // @@@ Efficiency?
-	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
+	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4728,7 +4728,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
 	    return ReportError (cbl, "Property class is 0 for default inventory!");
-	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
+	  csRef<iPcInventory> inv = scfQueryInterface<iPcInventory> (pc);
 	  if (!inv)
 	    return ReportError (cbl, "Property class is not an inventory!");
 	  default_inv = inv;

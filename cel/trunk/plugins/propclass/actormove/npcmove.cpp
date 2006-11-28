@@ -111,9 +111,9 @@ void celPcNpcMove::GetSpriteStates ()
   iMeshObject* o = m->GetMeshObject ();
   if (!o) return;
   checked_spritestate = true;
-  sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
+  sprcal3d = scfQueryInterface<iSpriteCal3DState> (o);
   if (sprcal3d) return;
-  spr3d = SCF_QUERY_INTERFACE (o, iSprite3DState);
+  spr3d = scfQueryInterface<iSprite3DState> (o);
 }
 
 //---------------------------------------------------------------------------

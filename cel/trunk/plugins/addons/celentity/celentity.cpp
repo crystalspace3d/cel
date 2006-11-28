@@ -350,7 +350,7 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   if (pl->IsEntityAddonAllowed ())
   {
     // If the context is not a mesh we will create a standalone entity.
-    csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
+    csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (context);
     iCelEntity* ent = Load (node, mesh);
     csRef<iBase> ent_return = (iBase*)ent;
     return csPtr<iBase> (ent_return);
@@ -468,7 +468,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
     pc = pl->CreatePropertyClass (ent, "pcmesh");
-    csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
     pcmesh->SetMesh (mesh);
   }
 

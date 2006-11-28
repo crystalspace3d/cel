@@ -115,7 +115,7 @@ void celAddOnXmlScripts::GetBlGen (iDocumentNode* child)
   }
   if (!blgen)
   {
-    blgen = SCF_QUERY_INTERFACE (bl, iCelBlLayerGenerate);
+    blgen = scfQueryInterface<iCelBlLayerGenerate> (bl);
     if (!blgen)
     {
       synldr->ReportError (
