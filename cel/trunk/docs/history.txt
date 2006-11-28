@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Nov-2006
+	- Jorrit enhanced pclight so that it can now also create lights.
+	  Added CreateLight and ChangeColor actions.
+	- Jorrit enhanced pclight with ParentMesh and ClearParent actions.
+	- Jorrit added support for 'color' parameters in celentity and
+	  celentitytpl actions.
 24-Nov-2006
 	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.

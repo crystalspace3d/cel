@@ -50,33 +50,36 @@ class celPcLight : public scfImplementationExt1<
 {
 private:
   csRef<iLight> light;
+  bool created;	// If true we created this light ourselves.
   csWeakRef<iEngine> engine;
 
   static csStringID id_name;
   static csStringID id_pos;
+  static csStringID id_sector;
+  static csStringID id_radius;
+  static csStringID id_color;
+  static csStringID id_entity;
+  static csStringID id_tag;
 
   enum actionids
   {
     action_setlight = 0,
-    action_movelight
+    action_createlight,
+    action_changecolor,
+    action_movelight,
+    action_parentmesh,
+    action_clearparent
   };
   static PropertyHolder propinfo;
 
 public:
   celPcLight (iObjectRegistry* object_reg);
   virtual ~celPcLight ();
-  /**
-   * Assign a named light to this property class.
-   * Returns false if light cannot be found.
-   */
   virtual bool SetLight (const char* lightname);
-  /**
-   * Assign a light to this property class.
-   */
   virtual void SetLight (iLight* mesh);
-  /**
-   * Get the light.
-   */
+  virtual iLight* CreateLight (const char* lightname,
+      iSector* sector, const csVector3& pos,
+      float radius, const csColor& color);
   virtual iLight* GetLight () const { return light; }
 
   virtual const char* GetName () const { return "pclight"; }
