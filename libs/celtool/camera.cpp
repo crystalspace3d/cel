@@ -92,7 +92,7 @@ bool celPcCameraCommon::SetRegion (iPcRegion* newregion, bool point,
 
   if (point)
   {
-    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
+    csRef<iPcCamera> camera = scfQueryInterface<iPcCamera> (this);
 
     if (region)
       region->PointCamera (camera, name);
@@ -114,7 +114,7 @@ bool celPcCameraCommon::SetZoneManager (iPcZoneManager* newzonemgr,
 
   if (point)
   {
-    csRef<iPcCamera> camera = SCF_QUERY_INTERFACE (this, iPcCamera);
+    csRef<iPcCamera> camera = scfQueryInterface<iPcCamera> (this);
 
     if (zonemgr)
       zonemgr->PointCamera (entity->GetName (), regionname, name);
@@ -281,9 +281,9 @@ void celPcCameraCommon::TickEveryFrame ()
 void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
 {
   csRef<iCelPropertyClass> pc;
-  if (region) pc = SCF_QUERY_INTERFACE (region, iCelPropertyClass);
+  if (region) pc = scfQueryInterface<iCelPropertyClass> (region);
   databuf->Add (pc);
-  if (zonemgr) pc = SCF_QUERY_INTERFACE (zonemgr, iCelPropertyClass);
+  if (zonemgr) pc = scfQueryInterface<iCelPropertyClass> (zonemgr);
   databuf->Add (pc);
   databuf->Add (view->GetCamera()->GetSector()->QueryObject()->GetName());
   const csTransform& tr = view->GetCamera ()->GetTransform ();
@@ -317,7 +317,7 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   iCelPropertyClass* pc = databuf->GetPC ();
   if (pc)
   {
-    region = SCF_QUERY_INTERFACE (pc, iPcRegion);
+    region = scfQueryInterface<iPcRegion> (pc);
     if (region)
       SetRegion (region, false, 0);
   }
@@ -325,7 +325,7 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   pc = databuf->GetPC ();
   if (pc)
   {
-    zonemgr = SCF_QUERY_INTERFACE (pc, iPcZoneManager);
+    zonemgr = scfQueryInterface<iPcZoneManager> (pc);
     if (zonemgr)
       SetZoneManager (zonemgr, false, 0, 0);
   }

@@ -571,13 +571,13 @@ size_t celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
   // Create a new node at the point
   csRef<iCelEntity> tempnode = pl->CreateEntity ();
   pc = pl->CreatePropertyClass (tempnode, "pcnode");
-  csRef<iPcNavNode> pcnode = SCF_QUERY_INTERFACE (pc, iPcNavNode);
+  csRef<iPcNavNode> pcnode = scfQueryInterface<iPcNavNode> (pc);
   pcnode->SetPos (*point);
 
   // Create a temporary link
   csRef<iCelEntity> templink = pl->CreateEntity ();
   pc = pl->CreatePropertyClass (templink, "pclink");
-  csRef<iPcNavLink> pclink = SCF_QUERY_INTERFACE (pc, iPcNavLink);
+  csRef<iPcNavLink> pclink = scfQueryInterface<iPcNavLink> (pc);
 
   iclosestnode = (size_t)-1;
   fclosestdist = -1;

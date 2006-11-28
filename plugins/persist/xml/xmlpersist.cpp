@@ -719,7 +719,7 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
     fflush (stdout);
   }
   csMemFile m;
-  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
+  csRef<iFile> mf = scfQueryInterface<iFile> (&m);
 
   if (Save (set, mf))
   {

@@ -903,7 +903,7 @@ void celPcWheeled::GetMech()
     if(!bodyMech)
       return;
     dyn=bodyMech->GetMechanicsSystem()->GetDynamicSystem();
-    osys=SCF_QUERY_INTERFACE (dyn, iODEDynamicSystemState);
+    osys=scfQueryInterface<iODEDynamicSystemState> (dyn);
     bodyGroup=dyn->CreateGroup();
     bodyGroup->AddBody(bodyMech->GetBody());
   }

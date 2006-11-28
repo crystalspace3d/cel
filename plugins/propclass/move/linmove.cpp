@@ -240,19 +240,19 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 
   csRef<iCelPropertyClass> pc;
   if (pccolldet)
-    pc = SCF_QUERY_INTERFACE (pccolldet, iCelPropertyClass);
+    pc = scfQueryInterface<iCelPropertyClass> (pccolldet);
   else
     pc = 0;
   databuf->Add (pc);
 
   if (pcmesh)
-    pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+    pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   else
     pc = 0;
   databuf->Add (pc);
 
   if (anchor)
-    pc = SCF_QUERY_INTERFACE (anchor, iCelPropertyClass);
+    pc = scfQueryInterface<iCelPropertyClass> (anchor);
   else
     pc = 0;
   databuf->Add (pc);
@@ -276,15 +276,15 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcCollisionDetection> pccd;
   if (pc)
-    pccd = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
+    pccd = scfQueryInterface<iPcCollisionDetection> (pc);
   pc = databuf->GetPC ();
   pcmesh = 0;
-  if (pc) pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+  if (pc) pcmesh = scfQueryInterface<iPcMesh> (pc);
 
   pc = databuf->GetPC ();
   if (pc)
   {
-    csRef<iPcMesh> new_anchor = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    csRef<iPcMesh> new_anchor = scfQueryInterface<iPcMesh> (pc);
     LoadAnchor (new_anchor);
   }
 
@@ -385,8 +385,7 @@ bool celPcLinearMovement::GetPropertyIndexed (int idx, const char*& b)
   {
     if (anchor)
     {
-      csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (anchor,
-      	iCelPropertyClass);
+      csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (anchor);
       b = pc->GetEntity ()->GetName ();
     }
     else
@@ -1050,8 +1049,7 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
     csRef<iSprite3DState> spstate =
-    	SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
-    	iSprite3DState);
+    	scfQueryInterface<iSprite3DState> (pcmesh->GetMesh ()->GetMeshObject ());
 
     if (spstate && strcmp (path_actions[path->GetCurrentIndex ()],
     	spstate->GetCurAction ()->GetName ()))
@@ -1196,7 +1194,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
       return MoveReport (object_reg,
       	"Could not create property class pccollisiondetection.");
     csRef<iPcCollisionDetection> pctemp;
-    pctemp = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
+    pctemp = scfQueryInterface<iPcCollisionDetection> (pc);
 
     pccolldet = pctemp;
   }

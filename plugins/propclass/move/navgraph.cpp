@@ -350,7 +350,7 @@ int celPcNavGraph::LoadNodesFromRegion( char* regionname )
     MoveNotify (object_reg, "Found an object in this region: %s", o->GetName());
 
     // Check if object is a PcNavNode type
-    csRef<iPcNavNode> navnode = SCF_QUERY_INTERFACE (o, iPcNavNode);
+    csRef<iPcNavNode> navnode = scfQueryInterface<iPcNavNode> (o);
     if (navnode)
     {
       // Add a reference to the NavNode PC to the graph
@@ -394,7 +394,7 @@ int celPcNavGraph::LinkNodes ()
 
         // Assign Link PC and set node info
         pc = pl->CreatePropertyClass (link, "pclink");
-        csRef<iPcNavLink> pclink = SCF_QUERY_INTERFACE (pc, iPcNavLink);
+        csRef<iPcNavLink> pclink = scfQueryInterface<iPcNavLink> (pc);
                 
         pclink->SetSource (aNodes[i]);
         pclink->SetDest (aNodes[j]);
