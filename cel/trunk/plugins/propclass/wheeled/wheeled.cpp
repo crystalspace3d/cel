@@ -85,7 +85,7 @@ PropertyHolder celPcWheeled::propinfo;
 celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
   dyn=0;
   bodyGroup=0;
   steerdir=0;
@@ -557,7 +557,7 @@ void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
 {
   if(file!=0)
   {
-    csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+    csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
     CS_ASSERT (loader != 0);
     iBase* result;
     loader->Load (file, result, 0, false, true);
@@ -569,7 +569,7 @@ void celPcWheeled::SetWheelMesh(int wheelnum, const char* factname,const char* f
 {
   if(file!=0)
   {
-    csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+    csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
     CS_ASSERT (loader != 0);
     iBase* result;
     loader->Load (file, result, 0, false, true);

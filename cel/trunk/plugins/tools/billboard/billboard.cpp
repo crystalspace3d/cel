@@ -887,7 +887,7 @@ celBillboardManager::~celBillboardManager ()
 
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
     if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -901,7 +901,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   celBillboardManager::object_reg = object_reg;
 
   scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   csEventID esub[] = { 
@@ -914,9 +914,9 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   };
   q->RegisterListener (scfiEventHandler, esub);
 
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   screen_w_fact = BSX / g3d->GetWidth ();

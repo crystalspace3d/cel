@@ -48,7 +48,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -78,7 +78,7 @@ PropertyHolder celPcLight::propinfo;
 celPcLight::celPcLight (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
   created = false;
 
   if (id_name == csInvalidStringID)

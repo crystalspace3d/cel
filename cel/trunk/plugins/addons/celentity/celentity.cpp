@@ -88,7 +88,7 @@ celAddOnCelEntity::~celAddOnCelEntity ()
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnCelEntity::object_reg = object_reg;
-  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
+  synldr = csQueryRegistry<iSyntaxService> (object_reg);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -96,7 +96,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -493,7 +493,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  }
 	  else
 	  {
-	    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+	    bl = csQueryRegistry<iCelBlLayer> (object_reg);
 	  }
 	  if (!bl)
 	  {

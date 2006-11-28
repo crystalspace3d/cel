@@ -42,7 +42,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
     	"cel.quests.trigger.propertychange", msg, arg);
@@ -150,7 +150,7 @@ celPropertyChangeTrigger::celPropertyChangeTrigger (
 	: scfImplementationType (this)
 {
   celPropertyChangeTrigger::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   prop = csStrNew (qm->ResolveParameter (params, prop_par));

@@ -71,7 +71,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.trigger",
     	msg, arg);
@@ -131,8 +131,8 @@ PropertyHolder celPcTrigger::propinfo;
 celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  engine = csQueryRegistry<iEngine> (object_reg);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   if (id_entity == csInvalidStringID)
   {

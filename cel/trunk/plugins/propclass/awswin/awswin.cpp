@@ -106,7 +106,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.awswin",
     	msg, arg);
@@ -258,7 +258,7 @@ iAws* celPcAwsWin::GetAWS ()
     }
     else
     {
-      csRef<iGraphics3D> g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+      csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
       iGraphics2D* g2d = g3d->GetDriver2D ();
       aws->SetupCanvas (0, g2d, g3d);
       csRef<iEventHandler> handler = CS_QUERY_REGISTRY_TAG_INTERFACE (
@@ -270,7 +270,7 @@ iAws* celPcAwsWin::GetAWS ()
         lst.AttachNew (new awswinEventHandler (object_reg, g3d, aws));
 	object_reg->Register ((iEventHandler*)lst,
 		"cel.awswindow.eventhandler");
-	csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
+	csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
 	csEventID esub[] = { 
 	  csevKeyboardEvent (object_reg),
 	  csevMouseEvent (object_reg),

@@ -929,8 +929,8 @@ celQuestManager::~celQuestManager ()
 bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 {
   celQuestManager::object_reg = object_reg;
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
 
   //--- Triggers -----------------------------------------------------
   {
@@ -1190,8 +1190,8 @@ bool celQuestManager::Load (iDocumentNode* node)
       if (filename)
       {
         // Load quest from a file.
-	csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg,
-		iDocumentSystem);
+	csRef<iDocumentSystem> xml = 
+		csQueryRegistry<iDocumentSystem> (object_reg);
 	if (!xml)
 	  xml.AttachNew (new csTinyDocumentSystem ());
 	doc = xml->CreateDocument ();

@@ -140,7 +140,7 @@ celLightSeqOp::celLightSeqOp (
 		const char* abs_blue_par) : scfImplementationType (this)
 {
   celLightSeqOp::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
   rel.red = ToFloat (qm->ResolveParameter (params, rel_red_par));

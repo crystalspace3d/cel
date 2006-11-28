@@ -67,7 +67,7 @@ PropertyHolder celPcMechanicsSystem::propinfo;
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   scfiCelTimerListener = new CelTimerListener (this);
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
@@ -1255,7 +1255,7 @@ void celPcMechanicsObject::GetMechSystem ()
 {
   if (!mechsystem)
   {
-    mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
+    mechsystem = csQueryRegistry<iPcMechanicsSystem> (object_reg);
   }
 }
 
@@ -1704,7 +1704,7 @@ celPcMechanicsJoint::~celPcMechanicsJoint ()
 {
   if (joint)
   {
-    csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
+    csRef<iPcMechanicsSystem> mechsystem = csQueryRegistry<iPcMechanicsSystem> (object_reg);
     if (mechsystem)
       mechsystem->RemoveJoint (joint);
   }
@@ -1751,8 +1751,8 @@ void celPcMechanicsJoint::CreateJoint ()
     return;	// @@@ Error?
   }
   iRigidBody* body2 = pcmechobj->GetBody ();
-  csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg,
-  	iPcMechanicsSystem);
+  csRef<iPcMechanicsSystem> mechsystem = 
+  	csQueryRegistry<iPcMechanicsSystem> (object_reg);
   if (!mechsystem)
   {
     fprintf (stderr, "Can't find mechanics system!\n"); fflush (stderr);

@@ -74,7 +74,7 @@ celAddOnXmlScripts::~celAddOnXmlScripts ()
 bool celAddOnXmlScripts::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnXmlScripts::object_reg = object_reg;
-  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
+  synldr = csQueryRegistry<iSyntaxService> (object_reg);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -139,8 +139,8 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
     {
       case XMLTOKEN_PCFACTORY:
         {
-	  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
-	  	iCelPlLayer);
+	  csRef<iCelPlLayer> pl = 
+	  	csQueryRegistry<iCelPlLayer> (object_reg);
 	  if (!pl->LoadPropertyClassFactory (child->GetContentsValue ()))
 	  {
 	    synldr->ReportError (

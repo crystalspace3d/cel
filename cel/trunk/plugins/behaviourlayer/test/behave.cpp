@@ -100,7 +100,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
 #if 0
   (void)arg;
   // @@@ Should store the id's for the parameters below.
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return false;
   const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
   	"cel.parameter.button")) : 0;
@@ -121,7 +121,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
       	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh));
       csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcCamera));
-      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
+      csRef<iCelPlLayer> pl (csQueryRegistry<iCelPlLayer> (object_reg));
       pcmesh->Hide ();
       iCelEntity* drop_ent = pl->GetHitEntity (pccamera->GetCamera (), x, y);
       pcmesh->Show ();
@@ -189,7 +189,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 {
 #if 1
   (void)arg;
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   iCelEntity* ent = 0;
   if (params)
   {

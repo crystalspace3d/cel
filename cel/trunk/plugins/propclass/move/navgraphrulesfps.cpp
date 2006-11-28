@@ -437,7 +437,7 @@ size_t celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
   float flOurDistance;
 
   //TODO: fix this for timing tests
-  //csRef<iVirtualClock> vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  //csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
   //vc->Advance ();
 
   inumnodes = graph->GetNodeCount();

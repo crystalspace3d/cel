@@ -45,12 +45,12 @@
 celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
   view = csPtr<iView> (new csView (engine, g3d));
 
   rect_set = false;
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
 
   clear_zbuf = false;
@@ -70,7 +70,7 @@ void celPcCameraCommon::Report(iObjectRegistry* reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);

@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  celentitytpl actions.
 	- Jorrit added support to place lights (pclight) to pcspawn.
 	- res replaced SCF_QUERY_INTERFACEs with scfQueryInterface<>s.
+	- res replaced some CS_QUERY_REGISTRYs with csQueryRegistry<>s.
 24-Nov-2006
 	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.

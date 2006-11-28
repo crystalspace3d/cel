@@ -57,7 +57,7 @@ celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg, celTCPGameFacto
   connection_latency = 0;
 
   // TODO: use virtual clock to send time
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   if (!vc) ReportError (object_reg, "iVirtualClock Missing!");
 }
 

@@ -142,7 +142,7 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl->CallbackEveryFrame((iCelTimerListener*)this, CEL_EVENT_VIEW);
 

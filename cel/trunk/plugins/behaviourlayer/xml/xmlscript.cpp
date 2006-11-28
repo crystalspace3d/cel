@@ -4815,8 +4815,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: chdirauto dir=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
-	  	iVFS);
+	  csRef<iVFS> vfs = 
+	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  top.Set (vfs->ChDirAuto (ArgToString (top), 0, 0,
 		ArgToString (a_file)));
 	}
@@ -4828,8 +4828,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: readfile vararray=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
-	  	iVFS);
+	  csRef<iVFS> vfs = 
+	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  csRef<iDataBuffer> buf = vfs->ReadFile (ArgToString (a_file));
 	  if (!buf)
 	  {
@@ -4879,8 +4879,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: writefile vararray=%s file=%s start=%s stop=%s\n",
 	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
-	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
-	  	iVFS);
+	  csRef<iVFS> vfs = 
+	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* vararray = ArgToString (top);
