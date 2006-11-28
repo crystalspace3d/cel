@@ -238,6 +238,20 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
 	}
         continue;
       }
+      const char* col_value = par_child->GetAttributeValue ("color");
+      if (col_value)
+      {
+	if (*col_value == '$')
+          params->GetParameter (par_idx-1).SetParameter (col_value+1,
+	  	CEL_DATA_COLOR);
+	else
+	{
+	  csColor v;
+	  csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	  params->GetParameter (par_idx-1).Set (v);
+	}
+        continue;
+      }
       const char* float_value = par_child->GetAttributeValue ("float");
       if (float_value)
       {

@@ -32,7 +32,10 @@
 #include "iengine/light.h"
 #include "iengine/movable.h"
 #include "iengine/engine.h"
+#include "iengine/scenenode.h"
+#include "iengine/mesh.h"
 #include "ivaria/reporter.h"
+#include "propclass/mesh.h"
 
 //---------------------------------------------------------------------------
 
@@ -40,7 +43,7 @@ CS_IMPLEMENT_PLUGIN
 
 CEL_IMPLEMENT_FACTORY (Light, "pclight")
 
-static void Report (iObjectRegistry* object_reg, const char* msg, ...)
+static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
   va_list arg;
   va_start (arg, msg);
@@ -57,23 +60,36 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   }
 
   va_end (arg);
+  return false;
 }
 
 //---------------------------------------------------------------------------
 
 csStringID celPcLight::id_name = csInvalidStringID;
 csStringID celPcLight::id_pos = csInvalidStringID;
+csStringID celPcLight::id_sector = csInvalidStringID;
+csStringID celPcLight::id_radius = csInvalidStringID;
+csStringID celPcLight::id_color = csInvalidStringID;
+csStringID celPcLight::id_entity = csInvalidStringID;
+csStringID celPcLight::id_tag = csInvalidStringID;
+
 PropertyHolder celPcLight::propinfo;
 
 celPcLight::celPcLight (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  created = false;
 
   if (id_name == csInvalidStringID)
   {
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_pos = pl->FetchStringID ("cel.parameter.pos");
+    id_sector = pl->FetchStringID ("cel.parameter.sector");
+    id_radius = pl->FetchStringID ("cel.parameter.radius");
+    id_color = pl->FetchStringID ("cel.parameter.color");
+    id_entity = pl->FetchStringID ("cel.parameter.entity");
+    id_tag = pl->FetchStringID ("cel.parameter.tag");
   }
 
   propholder = &propinfo;
@@ -83,11 +99,38 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
   {
     AddAction (action_setlight, "cel.action.SetLight");
     AddAction (action_movelight, "cel.action.MoveLight");
+    AddAction (action_createlight, "cel.action.CreateLight");
+    AddAction (action_changecolor, "cel.action.ChangeColor");
+    AddAction (action_parentmesh, "cel.action.ParentMesh");
+    AddAction (action_clearparent, "cel.action.ClearParent");
   }
 }
 
 celPcLight::~celPcLight ()
 {
+  if (light && created)
+  {
+    engine->RemoveLight (light);
+  }
+}
+
+iLight* celPcLight::CreateLight (const char* lightname,
+      iSector* sector, const csVector3& pos,
+      float radius, const csColor& color)
+{
+  if (light && created)
+  {
+    engine->RemoveLight (light);
+  }
+  created = true;
+  light = engine->CreateLight (lightname, pos, radius, color,
+      CS_LIGHT_DYNAMICTYPE_DYNAMIC);
+  if (sector)
+  {
+    sector->GetLights ()->Add (light);
+    light->Setup ();
+  }
+  return light;
 }
 
 bool celPcLight::PerformActionIndexed (int idx,
@@ -100,24 +143,92 @@ bool celPcLight::PerformActionIndexed (int idx,
       {
         CEL_FETCH_STRING_PAR (name,params,id_name);
         if (!name)
-        {
-          Report (object_reg, "'name' parameter missing for the light!");
-          return false;
-        }
+          return Report (object_reg, "'name' parameter missing for the light!");
         SetLight (name);
+        return true;
+      }
+    case action_createlight:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!name)
+          return Report (object_reg, "'name' parameter missing for the light!");
+	iSector* sectorptr;
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        if (!sector) sectorptr = 0;
+	else
+	{
+	  sectorptr = engine->FindSector (sector);
+          if (!sectorptr)
+            return Report (object_reg, "Could not find sector '%s''!", sector);
+	}
+        CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
+        if (!p_pos)
+          return Report (object_reg, "'pos' parameter missing!");
+        CEL_FETCH_FLOAT_PAR (radius,params,id_radius);
+        if (!p_radius)
+          return Report (object_reg, "'radius' parameter missing!");
+        CEL_FETCH_COLOR_PAR (color,params,id_color);
+        if (!p_color)
+          return Report (object_reg, "'color' parameter missing!");
+        CreateLight (name, sectorptr, pos, radius, color);
+        return true;
+      }
+    case action_changecolor:
+      {
+        CEL_FETCH_COLOR_PAR (color,params,id_color);
+        if (!p_color)
+          return Report (object_reg, "'color' parameter missing!");
+	if (light)
+	  light->SetColor (color);
         return true;
       }
     case action_movelight:
       {
         CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
         if (!p_pos)
-        {
-          Report (object_reg, "'pos' parameter missing for moving the light!");
-          return false;
-        }
+          return Report (object_reg,
+	      "'pos' parameter missing for moving the light!");
         if (light)
           light->SetCenter (pos);
         return true;
+      }
+    case action_parentmesh:
+      {
+	if (!light) return true;
+        CEL_FETCH_STRING_PAR (par_entity,params,id_entity);
+	iCelEntity* ent;
+        if (!p_par_entity) ent = entity;
+	else
+	{
+	  ent = pl->FindEntity (par_entity);
+	  if (!ent)
+	    return Report (object_reg, "Can't find entity '%s'!",
+		par_entity);
+	}
+        CEL_FETCH_STRING_PAR (par_tag,params,id_tag);
+	csRef<iPcMesh> parent_mesh;
+	if (!p_par_tag)
+	  parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
+	else
+	  parent_mesh = celQueryPropertyClassTag<iPcMesh> (
+	      ent->GetPropertyClassList (), par_tag);
+	if (!parent_mesh)
+	  return Report (object_reg, "Can't find a mesh!");
+	light->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
+	    ->QuerySceneNode ());
+	light->GetMovable ()->UpdateMove ();
+	light->Setup ();
+
+	return true;
+      }
+    case action_clearparent:
+      {
+	if (light)
+	{
+	  light->QuerySceneNode ()->SetParent (0);
+	  light->GetMovable ()->UpdateMove ();
+	}
+	return true;
       }
     default:
       return false;
@@ -128,6 +239,7 @@ bool celPcLight::PerformActionIndexed (int idx,
 
 csPtr<iCelDataBuffer> celPcLight::Save ()
 {
+  // @@@ TODO: support with created.
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (LIGHT_SERIAL);
   if (light)
   {
@@ -151,35 +263,24 @@ bool celPcLight::Load (iCelDataBuffer* databuf)
 {
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != LIGHT_SERIAL)
-  {
-    Report (object_reg, "Serialnr != LIGHT_SERIAL.  Cannot load.");
-    return false;
-  }
+    return Report (object_reg, "Serialnr != LIGHT_SERIAL.  Cannot load.");
 
   const char* lightn = databuf->GetString ()->GetData ();
   if (lightn)
   {
     if (!SetLight (lightn))
-    {
-      Report (object_reg, "Light '%s' could not be found!", lightn);
-      return false;
-    }
+      return Report (object_reg, "Light '%s' could not be found!", lightn);
     csVector3 center;
     databuf->GetVector3 (center);
     light->SetCenter (center);
     const char* sectorn = databuf->GetString ()->GetData ();
     if (!sectorn)
-    {
-      Report (object_reg, "Sector name missing for light '%s'!", lightn);
-      return false;
-    }
+      return Report (object_reg, "Sector name missing for light '%s'!", lightn);
     iSector* sector = engine->FindSector (sectorn);
     if (!sector)
-    {
-      Report (object_reg, "Could not find sector '%s' missing for light '%s'!",
-      	sectorn, lightn);
-      return false;
-    }
+      return Report (object_reg,
+	  "Could not find sector '%s' missing for light '%s'!",
+      	  sectorn, lightn);
     light->GetMovable ()->SetSector (sector);
     csColor color;
     databuf->GetColor (color);
@@ -191,6 +292,11 @@ bool celPcLight::Load (iCelDataBuffer* databuf)
 
 bool celPcLight::SetLight (const char* lightname)
 {
+  if (light && created)
+  {
+    engine->RemoveLight (light);
+  }
+  created = false;
   light = engine->FindLight (lightname);
   if (light) return true;
   else return false;
@@ -198,6 +304,11 @@ bool celPcLight::SetLight (const char* lightname)
 
 void celPcLight::SetLight (iLight* l)
 {
+  if (light && created)
+  {
+    engine->RemoveLight (light);
+  }
+  created = false;
   light = l;
 }
 

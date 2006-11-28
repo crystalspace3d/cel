@@ -195,6 +195,30 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
 	}
         continue;
       }
+      const char* vec3_value = par_child->GetAttributeValue ("vector3");
+      if (vec3_value)
+      {
+	csVector3 v;
+	csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
+	params->GetParameter (par_idx-1).Set (v);
+        continue;
+      }
+      const char* vec2_value = par_child->GetAttributeValue ("vector2");
+      if (vec2_value)
+      {
+	csVector2 v;
+	csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
+	params->GetParameter (par_idx-1).Set (v);
+        continue;
+      }
+      const char* col_value = par_child->GetAttributeValue ("color");
+      if (col_value)
+      {
+	csColor v;
+	csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
+	params->GetParameter (par_idx-1).Set (v);
+        continue;
+      }
       const char* float_value = par_child->GetAttributeValue ("float");
       if (float_value)
       {

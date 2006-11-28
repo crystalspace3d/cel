@@ -42,6 +42,12 @@
   if (p_##var && p_##var->type == CEL_DATA_VECTOR3) { \
     var.Set (p_##var->value.v.x, p_##var->value.v.y, p_##var->value.v.z); \
   } else { p_##var = 0; }
+#define CEL_FETCH_COLOR_PAR(var,params,id) \
+  const celData* p_##var = params ? params->GetParameter (id) : 0; \
+  csColor var; \
+  if (p_##var && p_##var->type == CEL_DATA_COLOR) { \
+    var.Set (p_##var->value.col.red, p_##var->value.col.green, p_##var->value.col.blue); \
+  } else { p_##var = 0; }
 #define CEL_FETCH_FLOAT_PAR(var,params,id) \
   const celData* p_##var = params ? params->GetParameter (id) : 0; \
   float var = 0.0f; \
