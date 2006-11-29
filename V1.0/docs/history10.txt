@@ -6,6 +6,9 @@ each new day's entries apears before the previous day's entries.  The
 individual changes for each given day, however, are in normal (ascending)
 chronological order.
 
+29-Nov-2006
+	- res merged r2455 without the compiler.m4 change into
+	  1.0 (mk/autoconf/*.m4 update).
 26-Nov-2006
 	- Jorrit merged r2429:2430 into 1.0 (install and python fixes).
 	- Jorrit merged r2427 into 1.0 (path delimiter fix to celstart).
