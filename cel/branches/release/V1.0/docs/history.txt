@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Nov-2006
+	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 24-Nov-2006
 	- caedes added Jamfile to data/library so it also gets installed.
 	- caedes made the following changes to the cel python behaviour
