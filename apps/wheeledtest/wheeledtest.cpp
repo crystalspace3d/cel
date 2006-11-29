@@ -252,11 +252,11 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
     to modify car handling. The first setting is steering sensitivity, second
     setting is drive power.*/
-  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125);
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125, 0.07f, 10.0f);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
     the vehicle's handling becomes much more twitchy. */
-  pcwheeled->SetRearWheelPreset(0.2f,1.0f, 0.000125, 0.125);
+  pcwheeled->SetRearWheelPreset(0.2f, 1.0f, 0.000125, 0.125, 0.09f, 15.0f);
 
   //Making the outer wheels steer a wider arc also improves traction while turning.
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
@@ -266,10 +266,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.7f));
-  pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
-  pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
-  pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
-  pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
+//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
+//   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
+//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
+//   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
 
