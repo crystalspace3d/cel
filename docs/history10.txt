@@ -1,0 +1,49 @@
+Crystal Entity Layer detailed change log for 1.0 release branch.
+http://www.crystalspace3d.org/
+
+The overall history is in reverse (descending) chronological order, so that
+each new day's entries apears before the previous day's entries.  The
+individual changes for each given day, however, are in normal (ascending)
+chronological order.
+
+26-Nov-2006
+	- Jorrit merged r2429:2430 into 1.0 (install and python fixes).
+	- Jorrit merged r2427 into 1.0 (path delimiter fix to celstart).
+	- Jorrit merged r2425 into 1.0 (many changes to init of CEL).
+	- Jorrit merged r2422 into 1.0 (particles to celstartstatic).
+	- Jorrit merged r2419:2420 into 1.0 (celstart name mangling).
+	- Jorrit merged r2415 into 1.0 (celstart to version 7).
+15-Nov-2006
+	- Jorrit merged r2412 into 1.0 (GetHitEntity() fix).
+13-Nov-2006
+	- Jorrit merged r2404 into 1.0 (reverting warning fix from Arianna).
+12-Nov-2006
+	- Jorrit merged r2353:2401 into 1.0 (various changes).
+29-Oct-2006
+	- res changed the autopackage PackageVersion to 1 due to the
+	  software version bump.
+26-Oct-2006
+	- Jorrit merged r2347:2352 into 1.0 (various changes).
+24-Oct-2006
+	- Jorrit merged r2287:2292 into 1.0 (various changes).
+	- Jorrit merged r2303:2317 into 1.0 (various changes).
+	- Jorrit merged r2325 into 1.0 (celstart esc).
+	- Jorrit merged r2331:2339 into 1.0 (various changes).
+	- Jorrit merged r2344:2345 into 1.0 (celstart and pcmesh SetAnimation).
+20-Oct-2006
+	- res merged r2318:2320 into 1.0 (static linking issues).
+	- res merged r2322:2323 into 1.0 (autopackage tweaks).
+	- res merged r2326 into into 1.0 (autopackage fix).
+	- res merged r2327:2329 into 1.0 (python + autopackage).
+7-Oct-2006
+	- res merged trunk r2293:2297 into 1.0 (build system updates).
+	- res removed pfaws (as AWS is not CS 1.0 either).
+	- res bumped the required CS version to 1.0.
+	- res merged trunk 2301 into 1.0 (autopackage).
+6-Oct-2006
+	- Jorrit merged r2286 into 1.0 (celstart bump to 4).
+	- res bumped the version number in configure.ac to 1.0rc1.
+4-Oct-2006
+	- Jorrit merged r2198:2284 into 1.0 (everything).
+1-Sep-2006
+	- Marten created the V1.0 release branch from trunk revision 2198.

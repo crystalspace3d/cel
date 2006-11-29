@@ -51,7 +51,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -93,7 +93,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   do_cooked = false;
   do_sendtrigger = false;
 
-  g2d = csQueryRegistry<iGraphics2D> (object_reg);
+  g2d = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
   if (!g2d)
   {
     Report (object_reg, "Can't find the graphics2d plugin!");
@@ -149,7 +149,7 @@ celPcCommandInput::~celPcCommandInput ()
 
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     if (q)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -314,7 +314,7 @@ void celPcCommandInput::Activate (bool activate)
     if (scfiEventHandler)
       return;
 
-    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     scfiEventHandler = new EventHandler (this);
     csEventID esub[] = {
@@ -330,7 +330,7 @@ void celPcCommandInput::Activate (bool activate)
     if (!scfiEventHandler)
       return;
 
-    csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+    csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
     CS_ASSERT (q);
     q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -340,7 +340,7 @@ void celPcCommandInput::Activate (bool activate)
 
 bool celPcCommandInput::LoadConfig (const char* prefix)
 {
-  csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
+  csRef<iConfigManager> cfg = CS_QUERY_REGISTRY (object_reg, iConfigManager);
   if (!cfg) return false;
   csString strbind = csString (prefix);
   strbind += ".CommandInput.Bind.";
@@ -354,7 +354,7 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
 
 void celPcCommandInput::SaveConfig (const char* prefix)
 {
-  csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
+  csRef<iConfigManager> cfg = CS_QUERY_REGISTRY (object_reg, iConfigManager);
   if (!cfg) return;
   celKeyMap* km = keylist;
   while (km)

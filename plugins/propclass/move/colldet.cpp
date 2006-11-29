@@ -79,7 +79,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCollisionDetection);
 
-  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
   if (!cdsys)
   {
     MoveReport (object_reg, "iCollideSystem missing!");
@@ -88,7 +88,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   collider_actor.SetCollideSystem (cdsys);
   collider_actor.SetGravity (19.2f);
 
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   collider_actor.SetEngine (engine);
 
   pcmesh = 0;

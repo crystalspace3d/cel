@@ -74,7 +74,7 @@ celAddOnRuleDef::~celAddOnRuleDef ()
 bool celAddOnRuleDef::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnRuleDef::object_reg = object_reg;
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -120,7 +120,7 @@ iCelExpressionParser* celAddOnRuleDef::GetParser ()
 csPtr<iBase> celAddOnRuleDef::Parse (iDocumentNode* node,
 	iStreamSource*, iLoaderContext* ldr_context, iBase*)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   csRef<iCelRuleBase> rulebase = csQueryRegistryOrLoad<iCelRuleBase> (
   	object_reg, "cel.rulebase");
   if (!rulebase)

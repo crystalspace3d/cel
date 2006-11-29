@@ -139,13 +139,13 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
       //First, give the vehicle a chance to remove itself properly.
       csRef<iCelEntity> vehicle=pl->FindEntity("vehicle");
       pl->RemoveEntity(vehicle);
-      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+      csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
     else if (code == 's')
     {
-      csRef<iCelPersistence> p = 
-          csQueryRegistry<iCelPersistence> (object_reg);
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+          iCelPersistence);
       celStandardLocalEntitySet set (pl);
       size_t i;
       for (i = 0 ; i < pl->GetEntityCount () ; i++)
@@ -165,8 +165,8 @@ bool WheeledTest::OnKeyboard (iEvent &ev)
     }
     else if (code == 'l')
     {
-      csRef<iCelPersistence> p = 
-          csQueryRegistry<iCelPersistence> (object_reg);
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+          iCelPersistence);
       celStandardLocalEntitySet set (pl);
       if (!p->Load (&set, "/this/savefile"))
       {
@@ -245,18 +245,18 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->SetWheelMesh("celCarWheel","/cellib/objects/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
-  //pcwheeled->SetTankMode(true);
+  pcwheeled->SetTankMode(true);
 
   /*This part demos how to use presets to modify the steer and drive settings
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
     to modify car handling. The first setting is steering sensitivity, second
     setting is drive power.*/
-  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125, 0.07f, 10.0f);
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
     the vehicle's handling becomes much more twitchy. */
-  pcwheeled->SetRearWheelPreset(0.2f, 1.0f, 0.000125, 0.125, 0.09f, 15.0f);
+  pcwheeled->SetRearWheelPreset(0.2f,1.0f, 0.000125, 0.125);
 
   //Making the outer wheels steer a wider arc also improves traction while turning.
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
@@ -266,10 +266,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.7f));
-//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
 
@@ -303,8 +303,8 @@ bool WheeledTest::CreateMap ()
   //===============================
   engine->Prepare ();
 
-  csRef<iCommandLineParser> cmdline = 
-      csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+      iCommandLineParser);
   csString path, file;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
@@ -318,7 +318,7 @@ bool WheeledTest::CreateMap ()
     file = "level.xml";
   }
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   csStringArray paths;
   paths.Push ("/cellib/lev/");
   if (!vfs->ChDirAuto (path, &paths, 0, file))
@@ -414,30 +414,93 @@ bool WheeledTest::Application ()
     return ReportError ("Error opening system!");
 
   // The virtual clock.
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc) return ReportError ("Can't find the virtual clock!");
   //vc->SetClockSpeed(0.3f);
   // Find the pointer to engine plugin
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return ReportError ("No iEngine plugin!");
 
-  loader = csQueryRegistry<iLoader> (object_reg);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   if (!loader) return ReportError ("No iLoader plugin!");
 
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d) return ReportError ("No iGraphics3D plugin!");
 
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-                                            object_reg, "iCelBlLayer.Test");
+  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+                                            "iCelBlLayer.Test", iCelBlLayer);
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
 
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechsys"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechobject"))
+    return false;
+  if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
+    return false;
+//  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
+//    return false;
   if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep

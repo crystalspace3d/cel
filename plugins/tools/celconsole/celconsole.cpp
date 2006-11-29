@@ -21,8 +21,6 @@
 #include "cstool/initapp.h"
 #include "csutil/objreg.h"
 #include "csutil/event.h"
-#include "csutil/cfgacc.h"
-#include "csutil/inputdef.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/plugin.h"
@@ -401,48 +399,6 @@ public:
 
 //--------------------------------------------------------------------------
 
-class celNewEntityCallback : public scfImplementation1<celNewEntityCallback,
-  iCelNewEntityCallback>
-{
-private:
-  csWeakRef<celConsole> console;
-
-public:
-  celNewEntityCallback (celConsole* console) : scfImplementationType (this),
-  	console (console)
-  {
-  }
-  virtual ~celNewEntityCallback () { }
-  virtual void NewEntity (iCelEntity* entity)
-  {
-    if (console)
-      console->RegisterNewEntity (entity);
-  }
-};
-
-
-class celEntityRemoveCallback : public scfImplementation1<celEntityRemoveCallback,
-  iCelEntityRemoveCallback>
-{
-private:
-  csWeakRef<celConsole> console;
-
-public:
-  celEntityRemoveCallback (celConsole* console) : scfImplementationType (this),
-  	console (console)
-  {
-  }
-  virtual ~celEntityRemoveCallback () { }
-  virtual void RemoveEntity (iCelEntity* entity)
-  {
-    if (console)
-      console->RegisterRemoveEntity (entity);
-  }
-};
-
-
-//--------------------------------------------------------------------------
-
 celConsole::celConsole (iBase* parent)
   : scfImplementationType (this, parent)
 {
@@ -457,7 +413,7 @@ celConsole::~celConsole ()
   delete snapshot;
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
     if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -467,23 +423,6 @@ celConsole::~celConsole ()
 bool celConsole::Initialize (iObjectRegistry* object_reg)
 {
   celConsole::object_reg = object_reg;
-
-  csRef<iEventNameRegistry> namereg = csEventNameRegistry::GetRegistry (
-      object_reg);
-
-  csConfigAccess config;
-  config.AddConfig (object_reg, "/celconfig/celconsole.cfg");
-  const char* bind = config->GetStr ("CelConsole.Bind.Open", "tab");
-  utf32_char cooked;
-  csKeyModifiers modifiers;
-  csInputDefinition::ParseKey (namereg, bind, &console_key, &cooked, &modifiers);
-  console_modifiers = csKeyEventHelper::GetModifiersBits (modifiers);
-
-  bind = config->GetStr ("CelConsole.Bind.List", "ctrl-shift-e");
-  csInputDefinition::ParseKey (namereg, bind, &entlist_key, &cooked, &modifiers);
-  entlist_modifiers = csKeyEventHelper::GetModifiersBits (modifiers);
-
-  do_monitor = config->GetBool ("CelConsole.Monitor", false);
 
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
       object_reg);
@@ -545,8 +484,6 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdVarEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdPython (this)); RegisterCommand (cmd);
 
-  GetPL ();
-
   return true;
 }
 
@@ -565,57 +502,16 @@ bool celConsole::HandleEvent (iEvent& ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
-    utf32_char key = csKeyEventHelper::GetRawCode (&ev);
-    csKeyModifiers key_modifiers;
-    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
-    uint32 type = csKeyEventHelper::GetEventType (&ev);
-
-    if (key == console_key && modifiers == console_modifiers)
+    utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
+    if (key == CSKEY_TAB)
     {
+      uint32 type = csKeyEventHelper::GetEventType (&ev);
       if (type == csKeyEventTypeDown)
       {
         if (conout->GetVisible ())
 	  conout->SetVisible (false);
         else
 	  conout->SetVisible (true);
-      }
-    }
-    else if (key == entlist_key && modifiers == entlist_modifiers)
-    {
-      if (type == csKeyEventTypeDown)
-      {
-	if (!do_monitor)
-	{
-	  csReport (object_reg,
-	    	CS_REPORTER_SEVERITY_WARNING, "cel.console",
-		"Monitor is not enabled. Enable in celconsole.cfg!");
-	}
-	else
-	{
-	  printf ("List all entities still in memory:\n");
-	  size_t i = 0;
-	  while (i < monitor_entities.Length ())
-	  {
-	    iCelEntity* ent = monitor_entities[i];
-	    if (ent)
-	    {
-	      if (monitor_wasremoved[i])
-	        printf ("  ###### Entity %p/'%s' removed but still in memory (ref=%d)!\n",
-		    ent, ent->GetName (), ent->GetRefCount ());
-	      else
-	        printf ("  Entity %p/'%s' not removed yet (ref=%d).\n",
-		    ent, ent->GetName (), ent->GetRefCount ());
-	      i++;
-	    }
-	    else
-	    {
-	      monitor_entities.DeleteIndex (i);
-	      monitor_wasremoved.DeleteIndex (i);
-	    }
-	  }
-	  fflush (stdout);
-	}
       }
     }
     else
@@ -628,7 +524,6 @@ bool celConsole::HandleEvent (iEvent& ev)
   }
   if (ev.Name == csevPostProcess (name_reg))
   {
-    GetPL ();
     if (conout->GetVisible ())
     {
       g3d->BeginDraw (CSDRAW_2DGRAPHICS);
@@ -645,16 +540,8 @@ iCelPlLayer* celConsole::GetPL ()
   if (!pl)
   {
     pl = csQueryRegistry<iCelPlLayer> (object_reg);
-    if (!pl) return 0;
-    if (do_monitor)
-    {
-      csRef<celNewEntityCallback> new_cb;
-      new_cb.AttachNew (new celNewEntityCallback (this));
-      csRef<celEntityRemoveCallback> rem_cb;
-      rem_cb.AttachNew (new celEntityRemoveCallback (this));
-      pl->AddNewEntityCallback (new_cb);
-      pl->AddEntityRemoveCallback (rem_cb);
-    }
+    if (!pl)
+      conout->PutText ("Can't find physical layer!\n");
   }
   return pl;
 }
@@ -684,21 +571,6 @@ iCelExpressionParser* celConsole::GetParser ()
     object_reg->Register (parser, "iCelExpressionParser");
   }
   return parser;
-}
-
-void celConsole::RegisterNewEntity (iCelEntity* entity)
-{
-  if (!do_monitor) return;
-  monitor_entities.Push (entity);
-  monitor_wasremoved.Push (false);
-}
-
-void celConsole::RegisterRemoveEntity (iCelEntity* entity)
-{
-  if (!do_monitor) return;
-  size_t idx = monitor_entities.Find (entity);
-  if (idx != csArrayItemNotFound)
-    monitor_wasremoved[idx] = true;
 }
 
 void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,

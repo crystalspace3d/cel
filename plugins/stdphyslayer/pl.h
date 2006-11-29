@@ -115,9 +115,6 @@ private:
   	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
 
-  // Used by CreatePropertyClass*() - makes a guess at propfact id
-  iCelPropertyClassFactory* FindOrLoadPropfact (const char *propname);
-
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();

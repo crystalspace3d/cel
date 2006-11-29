@@ -45,7 +45,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.message",
     	msg, arg);
@@ -198,7 +198,7 @@ celMessageReward::celMessageReward (
 	const csArray<parSpec>& parameters) : scfImplementationType (this)
 {
   celMessageReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   id = csStrNew (qm->ResolveParameter (params, id_par));
   msg_params = new celVariableParameterBlock ();

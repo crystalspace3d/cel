@@ -42,7 +42,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
     	"cel.quests.trigger.meshentersector", msg, arg);
@@ -135,7 +135,7 @@ celMeshEnterSectorTrigger::celMeshEnterSectorTrigger (
 	const char* sector_par) : scfImplementationType (this)
 {
   celMeshEnterSectorTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sector = csStrNew (qm->ResolveParameter (params, sector_par));
@@ -181,7 +181,7 @@ void celMeshEnterSectorTrigger::FindSectorAndMesh ()
   if (mesh && sector) return;
   sect = 0;
   mesh = 0;
-  csRef<iEngine> engine = csQueryRegistry<iEngine> (type->object_reg);
+  csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
   if (!engine)
   {
     Report (type->object_reg, "Missing engine in meshentersector trigger!");

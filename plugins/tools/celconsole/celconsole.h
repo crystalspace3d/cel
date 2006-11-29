@@ -77,18 +77,8 @@ private:
   iCelEntity* GetConsoleEntity ();
   iCelExpressionParser* GetParser ();
 
-  utf32_char console_key;
-  utf32_char entlist_key;
-  uint32 console_modifiers;
-  uint32 entlist_modifiers;
-
   void AssignVar (iCelEntity* ent, iCelExpression* exprvar,
     iCelExpression* expr);
-
-  // Array of entities we are monitoring.
-  csWeakRefArray<iCelEntity> monitor_entities;
-  csArray<bool> monitor_wasremoved;
-  bool do_monitor;
 
 public:
   celConsole (iBase* parent);
@@ -96,8 +86,6 @@ public:
   virtual bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
   iCelPlLayer* GetPL ();
-  void RegisterNewEntity (iCelEntity* entity);
-  void RegisterRemoveEntity (iCelEntity* entity);
   void SetOverrideCommand (iCelConsoleCommand *override_cmd,
 		  	   const char*prompt=CELPROMPT);
   void Execute (const char* cmd);

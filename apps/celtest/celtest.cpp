@@ -141,13 +141,13 @@ bool CelTest::OnKeyboard (iEvent &ev)
       // is by broadcasting a cscmdQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
-      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+      csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
     else if (code == 's')
     {
-      csRef<iCelPersistence> p = 
-      	csQueryRegistry<iCelPersistence> (object_reg);
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+      	iCelPersistence);
       celStandardLocalEntitySet set (pl);
       size_t i;
       for (i = 0 ; i < pl->GetEntityCount () ; i++)
@@ -167,8 +167,8 @@ bool CelTest::OnKeyboard (iEvent &ev)
     }
     else if (code == 'l')
     {
-      csRef<iCelPersistence> p = 
-      	csQueryRegistry<iCelPersistence> (object_reg);
+      csRef<iCelPersistence> p = CS_QUERY_REGISTRY (object_reg,
+      	iCelPersistence);
       celStandardLocalEntitySet set (pl);
       if (!p->Load (&set, "/this/savefile"))
       {
@@ -305,8 +305,8 @@ bool CelTest::CreateRoom ()
   //===============================
   engine->Prepare ();
 
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
   csString path, file;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
@@ -320,7 +320,7 @@ bool CelTest::CreateRoom ()
     file = "basic_level.xml";
   }
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   csStringArray paths;
   paths.Push ("/cellib/lev/");
   if (!vfs->ChDirAuto (path, &paths, 0, file))
@@ -405,29 +405,94 @@ bool CelTest::Application ()
     return ReportError ("Error opening system!");
 
   // The virtual clock.
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc) return ReportError ("Can't find the virtual clock!");
 
   // Find the pointer to engine plugin
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return ReportError ("No iEngine plugin!");
 
-  loader = csQueryRegistry<iLoader> (object_reg);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   if (!loader) return ReportError ("No iLoader plugin!");
 
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d) return ReportError ("No iGraphics3D plugin!");
 
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-  	object_reg, "iCelBlLayer.Test");
+  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+  	"iCelBlLayer.Test", iCelBlLayer);
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
+
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+#ifdef CEL_USE_NEW_CAMERA
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
+    return false;
+#endif
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.rules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundlistener"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundsource"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
 
   if (!CreateRoom ()) return false;
 
@@ -471,7 +536,7 @@ bool CelTest::Application ()
     for (j = -2; j<=2;j++)
     {
       csRef<iCelPropertyClass> pc = pl->CreatePropertyClass (graph, "pcnode");
-      csRef<iPcNavNode> pcnode = scfQueryInterface<iPcNavNode> (pc);
+      csRef<iPcNavNode> pcnode = SCF_QUERY_INTERFACE (pc, iPcNavNode);
       pcnode->SetPos (csVector3 (i,0,j));
       pcgraph->AddNode (pcnode); // Add the Node PC to the graph
     }

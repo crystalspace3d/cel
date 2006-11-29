@@ -3,23 +3,7 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-29-Nov-2006
-	- cfraz89 added a message to pcwheeled that is sent when a wheel
-	  collides with another body. Also added parameters for wheel friction
-	  and mass.
-28-Nov-2006
-	- Jorrit enhanced pclight so that it can now also create lights.
-	  Added CreateLight and ChangeColor actions.
-	- Jorrit enhanced pclight with ParentMesh and ClearParent actions.
-	- Jorrit added support for 'color' parameters in celentity and
-	  celentitytpl actions.
-	- Jorrit added support to place lights (pclight) to pcspawn.
-	- res replaced SCF_QUERY_INTERFACEs with scfQueryInterface<>s.
-	- res replaced some CS_QUERY_REGISTRYs with csQueryRegistry<>s.
-	- res replaced some CS_QUERY_REGISTRY_TAG_INTERFACEs with
-	  csQueryRegistryTagInterface<>s.
 24-Nov-2006
-	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.
 	- caedes made the following changes to the cel python behaviour
 	  library:
@@ -30,8 +14,6 @@ The history order is reversed so that new features are at the top.
 	    behaviours.
 	  - made all behaviours define input in helper cfg files.
 23-Nov-2006
-	- Genjix added automatic loading of most commonly used property classes
-	  via a second factory name (non conforming names should be deprecated).
 	- caedes did the following changes to fix cel installation:
 	  - added SetupConfigManager and SetupVFS to celInitializer, this
 	    methods extend the ones in csInitializer with cel vfs.cfg loading.
@@ -55,43 +37,18 @@ The history order is reversed so that new features are at the top.
 	- caedes modified celstart to use CS_PATH_DELIMITER instead of
 	  CS_PATH_SEPARATOR, which was wrong.
 21-Nov-2006
-	- Genjix removed redundant stabiliser_dist.
 	- Genjix added workaround to CEL mangling path when appending to
 	  PYTHONPATH in celstart.
 	- Genjix changed workaround to more cross platform solution using
 	  existing realpath and stripping problematic $'s.
-	- Genjix added doxygen tagfile and to allow linking to cs api docs, and
-	  installdox script to set the link.
-	  Pointed the links to $CRYSTAL.
-	  To set the link do:
-	    ./docs/doxygen/installdox -l crystalspace.tag@$CS/out/docs/html/api docs/html/api/*
 	- caedes added particles and particlesldr to celtest_static.
-17-Nov-2006
-	- Genjix made iCelPlLayer->CreatePropclass*() try to load the propclass
-	  if propfact can't be queried.
-	- Genjix updated CreatePropclass*() to primarily load non 'pc' prefixed
-	  propfactories.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
 	- Jorrit bumped celstart to 7.
-14-Nov-2006
-	- Genjix corrected upthrust force clamping in pchover.
 13-Nov-2006
-	- Genjix added SetRoll (float) to pccraft.
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
-	- Jorrit added a new celconsole.cfg file. There you can configure
-	  the key used to open the console (default tab).
-	- Jorrit added a new feature to the cel console that tracks entities.
-	  With this tool you can discover (by pressing ctrl-shift-e) that
-	  there are entities which are deleted (pl->RemoveEntity()) but
-	  are still in memory. Usually that means a leak. By default
-	  monitoring is disabled. Enable it in celconsole.cfg.
-	- Jorrit attempted to fix the problem with celtest no longer
-	  working due to celconsole changes by adding a plugin requirement
-	  from pl to the CS engine. This works more or less but celtest
-	  now crashes unless it is run in the debugger???
 11-Nov-2006
 	- Arianna fixed a compiler warning (hopefully) in pl.h
 10-Nov-2006

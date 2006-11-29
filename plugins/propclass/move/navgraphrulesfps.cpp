@@ -437,7 +437,7 @@ size_t celPcNavGraphRulesFPS::FindShortestPath (celPcNavGraph* graph,
   float flOurDistance;
 
   //TODO: fix this for timing tests
-  //csRef<iVirtualClock> vc = csQueryRegistry<iVirtualClock> (object_reg);
+  //csRef<iVirtualClock> vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   //vc->Advance ();
 
   inumnodes = graph->GetNodeCount();
@@ -571,13 +571,13 @@ size_t celPcNavGraphRulesFPS::FindNearestNode (celPcNavGraph* graph,
   // Create a new node at the point
   csRef<iCelEntity> tempnode = pl->CreateEntity ();
   pc = pl->CreatePropertyClass (tempnode, "pcnode");
-  csRef<iPcNavNode> pcnode = scfQueryInterface<iPcNavNode> (pc);
+  csRef<iPcNavNode> pcnode = SCF_QUERY_INTERFACE (pc, iPcNavNode);
   pcnode->SetPos (*point);
 
   // Create a temporary link
   csRef<iCelEntity> templink = pl->CreateEntity ();
   pc = pl->CreatePropertyClass (templink, "pclink");
-  csRef<iPcNavLink> pclink = scfQueryInterface<iPcNavLink> (pc);
+  csRef<iPcNavLink> pclink = SCF_QUERY_INTERFACE (pc, iPcNavLink);
 
   iclosestnode = (size_t)-1;
   fclosestdist = -1;

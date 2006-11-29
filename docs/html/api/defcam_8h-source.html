@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -47,89 +47,80 @@
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 <span class="keyword">struct </span><a class="code" href="structiCelEntity.html">iCelEntity</a>;
 <a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcDefaultCamera.html">iPcDefaultCamera</a>, 0, 0, 3);
+<a name="l00027"></a>00027 SCF_VERSION (<a class="code" href="structiPcDefaultCamera.html">iPcDefaultCamera</a>, 0, 0, 3);
 <a name="l00028"></a>00028 
-<a name="l00055"></a><a class="code" href="structiPcDefaultCamera.html">00055</a> <span class="keyword">struct </span><a class="code" href="structiPcDefaultCamera.html">iPcDefaultCamera</a> : <span class="keyword">public</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>
-<a name="l00056"></a>00056 {
-<a name="l00057"></a>00057 <span class="keyword">public</span>:
-<a name="l00061"></a><a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">00061</a>   <span class="keyword">enum</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a>
-<a name="l00062"></a>00062   {
-<a name="l00063"></a>00063     freelook = 0,
-<a name="l00064"></a>00064     firstperson,
-<a name="l00065"></a>00065     thirdperson,
-<a name="l00066"></a>00066     m64_thirdperson,
-<a name="l00067"></a>00067     lara_thirdperson,
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069     actual_data,        <span class="comment">// The actual camera data</span>
-<a name="l00070"></a>00070     last_actual,        <span class="comment">// Keep reference to the actual data last frame</span>
-<a name="l00071"></a>00071     transition,
-<a name="l00072"></a>00072     camerror,           <span class="comment">// Error between actual camera pos and ideal.</span>
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074     CameraMode_count
-<a name="l00075"></a>00075   };
-<a name="l00076"></a>00076 
-<a name="l00082"></a>00082   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#b5a645969079916bbef46ea364372352">SetFollowEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
-<a name="l00083"></a>00083 
-<a name="l00087"></a>00087   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcDefaultCamera.html#a18c3d0433532eb9cd64a64ffdf2077a">SetMode</a> (<a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> m, <span class="keywordtype">bool</span> use_cd = <span class="keyword">true</span>) = 0;
-<a name="l00088"></a>00088 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> <a class="code" href="structiPcDefaultCamera.html#45976932c411a0e3d6c5a6c2564777ed">GetMode</a> () <span class="keyword">const </span>= 0;
-<a name="l00093"></a>00093 
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcDefaultCamera.html#e7a8d0c43513fc75e7fc6362b9efc32c">SetModeName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* m, <span class="keywordtype">bool</span> use_cd = <span class="keyword">true</span>) = 0;
-<a name="l00098"></a>00098 
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcDefaultCamera.html#85a6e8df8def146e805dc450c665ef7b">GetModeName</a> () <span class="keyword">const </span>= 0;
-<a name="l00103"></a>00103 
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> <a class="code" href="structiPcDefaultCamera.html#d8e6fc27783dd641f5d9b0dfb3cc65f5">GetNextMode</a> () <span class="keyword">const </span>= 0;
-<a name="l00109"></a>00109 
-<a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcDefaultCamera.html#6a501724281f185506af71717d1218a4">PointCamera</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* start) = 0;
-<a name="l00115"></a>00115 
-<a name="l00119"></a>00119   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#1f5e917c9f0f68a20b19795a92572daf">SetSpringParameters</a> (<span class="keywordtype">float</span> springCoef,
-<a name="l00120"></a>00120         <span class="keywordtype">float</span> intertialDampeningCoef, <span class="keywordtype">float</span> springLength) = 0;
-<a name="l00121"></a>00121 
-<a name="l00127"></a>00127   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#523df60e1f635a48e6a594e4659f31a7">SetMinMaxCameraDistance</a> (<span class="keywordtype">float</span> minDistance,
-<a name="l00128"></a>00128         <span class="keywordtype">float</span> maxDistance) = 0;
-<a name="l00129"></a>00129 
-<a name="l00134"></a>00134   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a8a85ff9ca1bfcb62e6b1396dc580717">SetTurnSpeed</a> (<span class="keywordtype">float</span> turnSpeed) = 0;
-<a name="l00135"></a>00135 
-<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#d7ef8c2f8d1306e8f5b5c487a38fabaf">SetSwingCoef</a> (<span class="keywordtype">float</span> swingCoef) = 0;
-<a name="l00140"></a>00140 
-<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#45f0983e9866a4a1f743eaa00b811d7d">SetFirstPersonOffset</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; offset) = 0;
-<a name="l00146"></a>00146 
-<a name="l00151"></a>00151   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a0f1a274161df1bf511222afae856636">SetThirdPersonOffset</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; offset) = 0;
-<a name="l00152"></a>00152 
-<a name="l00157"></a>00157   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#e1d609377426bec83deabeb55054c557">CenterCamera</a> () = 0;
-<a name="l00158"></a>00158 
-<a name="l00162"></a>00162   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#8b65bdbf416ca69a76be0e1bc76983aa">SetPitch</a> (<span class="keywordtype">float</span> pitch) = 0;
-<a name="l00163"></a>00163 
-<a name="l00167"></a>00167   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#02730a3cbc9e5d99186d2fc76e3aac85">GetPitch</a> () <span class="keyword">const </span>= 0;
-<a name="l00168"></a>00168 
-<a name="l00173"></a>00173   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#088588c7bcadd6e6ffd2ba681b7fc26e">SetPitchVelocity</a> (<span class="keywordtype">float</span> pitchVel) = 0;
-<a name="l00174"></a>00174 
-<a name="l00178"></a>00178   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#fe0dbbe377092218bc0dea78ea7264f8">GetPitchVelocity</a> () <span class="keyword">const </span>= 0;
-<a name="l00179"></a>00179 
-<a name="l00186"></a>00186   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#f510fc23b21feb673317036941742b8f">MovePitch</a> (<span class="keywordtype">float</span> deltaPitch, <span class="keywordtype">int</span> mode = -1) = 0;
-<a name="l00187"></a>00187 
-<a name="l00194"></a>00194   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#7a5ae08ed28bb260240525b83e88b056">SetYaw</a> (<span class="keywordtype">float</span> yaw, <span class="keywordtype">int</span> mode = -1) = 0;
-<a name="l00195"></a>00195 
-<a name="l00202"></a>00202   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#b08a3f6b62af17063d3c28e58d351903">MoveYaw</a> (<span class="keywordtype">float</span> deltaYaw, <span class="keywordtype">int</span> mode = -1) = 0;
-<a name="l00203"></a>00203 
-<a name="l00210"></a>00210   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#a5b16c297076a40742fbf624c8d52b4a">GetYaw</a> (<span class="keywordtype">int</span> mode = -1) <span class="keyword">const </span>= 0;
-<a name="l00211"></a>00211 
-<a name="l00216"></a>00216   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#8e57412555ea6596a155739a0e652b10">SetYawVelocity</a> (<span class="keywordtype">float</span> yawVel) = 0;
-<a name="l00217"></a>00217 
-<a name="l00222"></a>00222   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#a2d31e13b58c79196f7df8e3a30b9c00">GetYawVelocity</a> () <span class="keyword">const </span>= 0;
-<a name="l00223"></a>00223 
-<a name="l00229"></a>00229   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a021f6392b9313df925622e8beb0a192">SetDistance</a> (<span class="keywordtype">float</span> distance, <span class="keywordtype">int</span> mode=-1) = 0;
-<a name="l00230"></a>00230 
-<a name="l00236"></a>00236   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#21c345e68cd9a29dec9a0e680419d685">GetDistance</a> (<span class="keywordtype">int</span> mode=-1) = 0;
-<a name="l00237"></a>00237 
-<a name="l00242"></a>00242   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#fa8a9399df7956da558e5f2b2d73dfbf">SetDistanceVelocity</a> (<span class="keywordtype">float</span> distanceVel) = 0;
-<a name="l00243"></a>00243 
-<a name="l00248"></a>00248   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#4a708428afeb0c396f9057cea909e2f5">GetDistanceVelocity</a> () <span class="keyword">const </span>= 0;
-<a name="l00249"></a>00249 
-<a name="l00250"></a>00250 };
-<a name="l00251"></a>00251 
-<a name="l00252"></a>00252 <span class="preprocessor">#endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__</span>
-<a name="l00253"></a>00253 <span class="preprocessor"></span>
+<a name="l00046"></a><a class="code" href="structiPcDefaultCamera.html">00046</a> <span class="keyword">struct </span><a class="code" href="structiPcDefaultCamera.html">iPcDefaultCamera</a> : <span class="keyword">public</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>
+<a name="l00047"></a>00047 {
+<a name="l00048"></a>00048 <span class="keyword">public</span>:
+<a name="l00052"></a><a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">00052</a>   <span class="keyword">enum</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a>
+<a name="l00053"></a>00053   {
+<a name="l00054"></a>00054     freelook = 0,
+<a name="l00055"></a>00055     firstperson,
+<a name="l00056"></a>00056     thirdperson,
+<a name="l00057"></a>00057     m64_thirdperson,
+<a name="l00058"></a>00058     lara_thirdperson,
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     actual_data,        <span class="comment">// The actual camera data</span>
+<a name="l00061"></a>00061     last_actual,        <span class="comment">// Keep reference to the actual data last frame</span>
+<a name="l00062"></a>00062     transition,
+<a name="l00063"></a>00063     camerror,           <span class="comment">// Error between actual camera pos and ideal.</span>
+<a name="l00064"></a>00064 
+<a name="l00065"></a>00065     CameraMode_count
+<a name="l00066"></a>00066   };
+<a name="l00067"></a>00067 
+<a name="l00073"></a>00073   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#b5a645969079916bbef46ea364372352">SetFollowEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
+<a name="l00074"></a>00074 
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcDefaultCamera.html#a18c3d0433532eb9cd64a64ffdf2077a">SetMode</a> (<a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> m, <span class="keywordtype">bool</span> use_cd = <span class="keyword">true</span>) = 0;
+<a name="l00079"></a>00079 
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> <a class="code" href="structiPcDefaultCamera.html#45976932c411a0e3d6c5a6c2564777ed">GetMode</a> () <span class="keyword">const </span>= 0;
+<a name="l00084"></a>00084 
+<a name="l00088"></a>00088   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcDefaultCamera.html#e7a8d0c43513fc75e7fc6362b9efc32c">SetModeName</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* m, <span class="keywordtype">bool</span> use_cd = <span class="keyword">true</span>) = 0;
+<a name="l00089"></a>00089 
+<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code" href="structiPcDefaultCamera.html#85a6e8df8def146e805dc450c665ef7b">GetModeName</a> () <span class="keyword">const </span>= 0;
+<a name="l00094"></a>00094 
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> <a class="code" href="structiPcDefaultCamera.html#53a7f09fa80118f6029c2f65edda315e">CameraMode</a> <a class="code" href="structiPcDefaultCamera.html#d8e6fc27783dd641f5d9b0dfb3cc65f5">GetNextMode</a> () <span class="keyword">const </span>= 0;
+<a name="l00100"></a>00100 
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#1f5e917c9f0f68a20b19795a92572daf">SetSpringParameters</a> (<span class="keywordtype">float</span> springCoef,
+<a name="l00105"></a>00105         <span class="keywordtype">float</span> intertialDampeningCoef, <span class="keywordtype">float</span> springLength) = 0;
+<a name="l00106"></a>00106 
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#523df60e1f635a48e6a594e4659f31a7">SetMinMaxCameraDistance</a> (<span class="keywordtype">float</span> minDistance,
+<a name="l00113"></a>00113         <span class="keywordtype">float</span> maxDistance) = 0;
+<a name="l00114"></a>00114 
+<a name="l00119"></a>00119   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a8a85ff9ca1bfcb62e6b1396dc580717">SetTurnSpeed</a> (<span class="keywordtype">float</span> turnSpeed) = 0;
+<a name="l00120"></a>00120 
+<a name="l00124"></a>00124   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#d7ef8c2f8d1306e8f5b5c487a38fabaf">SetSwingCoef</a> (<span class="keywordtype">float</span> swingCoef) = 0;
+<a name="l00125"></a>00125 
+<a name="l00130"></a>00130   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#45f0983e9866a4a1f743eaa00b811d7d">SetFirstPersonOffset</a> (<span class="keyword">const</span> csVector3&amp; offset) = 0;
+<a name="l00131"></a>00131 
+<a name="l00136"></a>00136   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a0f1a274161df1bf511222afae856636">SetThirdPersonOffset</a> (<span class="keyword">const</span> csVector3&amp; offset) = 0;
+<a name="l00137"></a>00137 
+<a name="l00142"></a>00142   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#e1d609377426bec83deabeb55054c557">CenterCamera</a> () = 0;
+<a name="l00143"></a>00143 
+<a name="l00147"></a>00147   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#8b65bdbf416ca69a76be0e1bc76983aa">SetPitch</a> (<span class="keywordtype">float</span> pitch) = 0;
+<a name="l00148"></a>00148 
+<a name="l00152"></a>00152   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#02730a3cbc9e5d99186d2fc76e3aac85">GetPitch</a> () <span class="keyword">const </span>= 0;
+<a name="l00153"></a>00153 
+<a name="l00158"></a>00158   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#088588c7bcadd6e6ffd2ba681b7fc26e">SetPitchVelocity</a> (<span class="keywordtype">float</span> pitchVel) = 0;
+<a name="l00159"></a>00159 
+<a name="l00163"></a>00163   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#fe0dbbe377092218bc0dea78ea7264f8">GetPitchVelocity</a> () <span class="keyword">const </span>= 0;
+<a name="l00164"></a>00164 
+<a name="l00171"></a>00171   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#f510fc23b21feb673317036941742b8f">MovePitch</a> (<span class="keywordtype">float</span> deltaPitch, <span class="keywordtype">int</span> mode = -1) = 0;
+<a name="l00172"></a>00172 
+<a name="l00179"></a>00179   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#7a5ae08ed28bb260240525b83e88b056">SetYaw</a> (<span class="keywordtype">float</span> yaw, <span class="keywordtype">int</span> mode = -1) = 0;
+<a name="l00180"></a>00180 
+<a name="l00187"></a>00187   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#b08a3f6b62af17063d3c28e58d351903">MoveYaw</a> (<span class="keywordtype">float</span> deltaYaw, <span class="keywordtype">int</span> mode = -1) = 0;
+<a name="l00188"></a>00188 
+<a name="l00195"></a>00195   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#a5b16c297076a40742fbf624c8d52b4a">GetYaw</a> (<span class="keywordtype">int</span> mode = -1) <span class="keyword">const </span>= 0;
+<a name="l00196"></a>00196 
+<a name="l00201"></a>00201   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#8e57412555ea6596a155739a0e652b10">SetYawVelocity</a> (<span class="keywordtype">float</span> yawVel) = 0;
+<a name="l00202"></a>00202 
+<a name="l00207"></a>00207   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcDefaultCamera.html#a2d31e13b58c79196f7df8e3a30b9c00">GetYawVelocity</a> () <span class="keyword">const </span>= 0;
+<a name="l00208"></a>00208 
+<a name="l00214"></a>00214   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcDefaultCamera.html#a021f6392b9313df925622e8beb0a192">SetDistance</a> (<span class="keywordtype">float</span> distance, <span class="keywordtype">int</span> mode=-1) = 0;
+<a name="l00215"></a>00215 };
+<a name="l00216"></a>00216 
+<a name="l00217"></a>00217 <span class="preprocessor">#endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__</span>
+<a name="l00218"></a>00218 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

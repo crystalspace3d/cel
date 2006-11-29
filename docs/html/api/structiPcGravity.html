@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,22 +28,18 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcGravity Struct Reference</h1><!-- doxytag: class="iPcGravity" --><!-- doxytag: inherits="iBase" -->Gravity handling property class.  
+<h1>iPcGravity Struct Reference</h1><!-- doxytag: class="iPcGravity" -->Gravity handling property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="gravity_8h-source.html">propclass/gravity.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcGravity:<p><center><img src="structiPcGravity__inherit__graph.png" border="0" usemap="#iPcGravity__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcGravity__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="21,5,80,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcGravity-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcGravity-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#5f64dab083f3ca2465f64aa370c2ff08">ApplyForce</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;force, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> time)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#5f64dab083f3ca2465f64aa370c2ff08">ApplyForce</a> (const csVector3 &amp;force, float time)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply a non-permanent force.  <a href="#5f64dab083f3ca2465f64aa370c2ff08"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#eaf5997493d26ebf63c30e8e7d8cac2c">ApplyPermanentForce</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;force)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#eaf5997493d26ebf63c30e8e7d8cac2c">ApplyPermanentForce</a> (const csVector3 &amp;force)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply an permanent force.  <a href="#eaf5997493d26ebf63c30e8e7d8cac2c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#3a731dee91b14abd048a5c52a37ba381">ClearForces</a> ()=0</td></tr>
@@ -52,13 +48,13 @@ Inheritance diagram for iPcGravity:<p><center><img src="structiPcGravity__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#8389b079c598733912e6e3211ef8dfac">ClearPermanentForces</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear all permanent forces.  <a href="#8389b079c598733912e6e3211ef8dfac"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#e93b777b680d54f8fdcfe45ef12d855f">CreateGravityCollider</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;dim, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;offs)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#e93b777b680d54f8fdcfe45ef12d855f">CreateGravityCollider</a> (const csVector3 &amp;dim, const csVector3 &amp;offs)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a gravity collider with the specified dimensions.  <a href="#e93b777b680d54f8fdcfe45ef12d855f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#b033fe8fcf1eeb194beb1ebc87090af9">CreateGravityCollider</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *mesh)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a gravity collider from the given mesh.  <a href="#b033fe8fcf1eeb194beb1ebc87090af9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCollider.html">iCollider</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#71935abdc0149fb07f893d78b349f150">GetGravityCollider</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCollider *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#71935abdc0149fb07f893d78b349f150">GetGravityCollider</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the gravity collider.  <a href="#71935abdc0149fb07f893d78b349f150"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMovable.html">iPcMovable</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#f873104570c91c239e476b1faeef0b72">GetMovable</a> ()=0</td></tr>
@@ -67,7 +63,7 @@ Inheritance diagram for iPcGravity:<p><center><img src="structiPcGravity__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcSolid.html">iPcSolid</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#f26827a54c25d5c4807ac3e2e5fd614b">GetSolid</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current solid.  <a href="#f26827a54c25d5c4807ac3e2e5fd614b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#31dae2fddc1156aa37c16eaa9f7a1357">GetWeight</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#31dae2fddc1156aa37c16eaa9f7a1357">GetWeight</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the weight of this object.  <a href="#31dae2fddc1156aa37c16eaa9f7a1357"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#7003be52c06218499a9ba974ba1fde9c">IsActive</a> () const =0</td></tr>
@@ -88,23 +84,27 @@ Inheritance diagram for iPcGravity:<p><center><img src="structiPcGravity__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#04a4cd61dcb780c0256f98fe142aa94e">SetSolid</a> (<a class="el" href="structiPcSolid.html">iPcSolid</a> *solid)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the solid representation which we will additionally use for collision detection.  <a href="#04a4cd61dcb780c0256f98fe142aa94e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#36ee790700f1344455bffdd8748264c4">SetWeight</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> w)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcGravity.html#36ee790700f1344455bffdd8748264c4">SetWeight</a> (float w)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the weight of this object.  <a href="#36ee790700f1344455bffdd8748264c4"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Gravity handling property class. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>ApplyPermanentForce: parameters 'force' (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>).</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+ApplyPermanentForce: parameters 'force' (csVector3). </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property):<ul>
-<li>weight (float, read/write): the weight of the object. </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property): <ul>
+<li>
+weight (float, read/write): the weight of the object. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="gravity_8h-source.html#l00044">44</a> of file <a class="el" href="gravity_8h-source.html">gravity.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="gravity_8h-source.html#l00048">48</a> of file <a class="el" href="gravity_8h-source.html">gravity.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="5f64dab083f3ca2465f64aa370c2ff08"></a><!-- doxytag: member="iPcGravity::ApplyForce" ref="5f64dab083f3ca2465f64aa370c2ff08" args="(const csVector3 &amp;force, float time)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -112,13 +112,13 @@ Definition at line <a class="el" href="gravity_8h-source.html#l00044">44</a> of 
         <tr>
           <td class="memname">virtual void iPcGravity::ApplyForce           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>force</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>time</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -143,7 +143,7 @@ Apply a non-permanent force.
         <tr>
           <td class="memname">virtual void iPcGravity::ApplyPermanentForce           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>force</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -207,13 +207,13 @@ Clear all permanent forces.
         <tr>
           <td class="memname">virtual void iPcGravity::CreateGravityCollider           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>dim</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>offs</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -258,7 +258,7 @@ A gravity collider is a small box at the bottom of the mesh.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCollider.html">iCollider</a>* iPcGravity::GetGravityCollider           </td>
+          <td class="memname">virtual iCollider* iPcGravity::GetGravityCollider           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -321,7 +321,7 @@ Get the current solid.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcGravity::GetWeight           </td>
+          <td class="memname">virtual float iPcGravity::GetWeight           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -473,7 +473,7 @@ If not set then we will find the default solid.
         <tr>
           <td class="memname">virtual void iPcGravity::SetWeight           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>w</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

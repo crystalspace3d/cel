@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,14 +43,14 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_RULEBASE__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_RULEBASE__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csutil/ref.h"</span>
 <a name="l00026"></a>00026 <span class="preprocessor">#include "csutil/hash.h"</span>
 <a name="l00027"></a>00027 
 <a name="l00028"></a>00028 <span class="keyword">struct </span><a class="code" href="structiCelExpression.html">iCelExpression</a>;
 <a name="l00029"></a>00029 
-<a name="l00033"></a><a class="code" href="structiCelRule.html">00033</a> <span class="keyword">struct </span><a class="code" href="structiCelRule.html">iCelRule</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00033"></a><a class="code" href="structiCelRule.html">00033</a> <span class="keyword">struct </span><a class="code" href="structiCelRule.html">iCelRule</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
 <a name="l00034"></a>00034 {
 <a name="l00035"></a>00035   SCF_INTERFACE (<a class="code" href="structiCelRule.html">iCelRule</a>, 0, 0, 1);
 <a name="l00036"></a>00036 
@@ -66,16 +66,16 @@
 <a name="l00062"></a>00062 
 <a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#7833d49f741e627926e2d9cadf5fa5cf">SetExpression</a> (<a class="code" href="structiCelExpression.html">iCelExpression</a>* expr) = 0;
 <a name="l00067"></a>00067 
-<a name="l00071"></a>00071   <span class="keyword">virtual</span> <a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> <a class="code" href="structiCelRule.html#e28edbf087bbce17e7f9a388a1742cee">GetPriority</a> () = 0;
+<a name="l00071"></a>00071   <span class="keyword">virtual</span> csStringID <a class="code" href="structiCelRule.html#e28edbf087bbce17e7f9a388a1742cee">GetPriority</a> () = 0;
 <a name="l00072"></a>00072 
-<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#0e6c7226d6cc796a7131000be0b4ea6d">SetPriority</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> priority) = 0;
+<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRule.html#0e6c7226d6cc796a7131000be0b4ea6d">SetPriority</a> (csStringID priority) = 0;
 <a name="l00077"></a>00077 
 <a name="l00081"></a>00081   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelRule.html#5bfb94cca3565bf04c95e4d45be7dcfe">GetPriorityNumber</a> () <span class="keyword">const </span>= 0;
 <a name="l00082"></a>00082 };
 <a name="l00083"></a>00083 
-<a name="l00085"></a>00085 <span class="keyword">typedef</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">csHash&lt;csRef&lt;iCelRule&gt;</a>,<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsStrKey.html">csStrKey</a>&gt; <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celRuleHash</a>;
+<a name="l00085"></a>00085 <span class="keyword">typedef</span> csHash&lt;csRef&lt;iCelRule&gt;,csStrKey&gt; celRuleHash;
 <a name="l00086"></a>00086 
-<a name="l00090"></a><a class="code" href="structiCelRuleBase.html">00090</a> <span class="keyword">struct </span><a class="code" href="structiCelRuleBase.html">iCelRuleBase</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00090"></a><a class="code" href="structiCelRuleBase.html">00090</a> <span class="keyword">struct </span><a class="code" href="structiCelRuleBase.html">iCelRuleBase</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
 <a name="l00091"></a>00091 {
 <a name="l00092"></a>00092   SCF_INTERFACE (<a class="code" href="structiCelRuleBase.html">iCelRuleBase</a>, 0, 0, 1);
 <a name="l00093"></a>00093 
@@ -83,13 +83,13 @@
 <a name="l00098"></a>00098 
 <a name="l00102"></a>00102   <span class="keyword">virtual</span> <a class="code" href="structiCelRule.html">iCelRule</a>* <a class="code" href="structiCelRuleBase.html#fc66ea6e4d704b9cce80ba5340df8a87">FindRule</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) = 0;
 <a name="l00103"></a>00103 
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celRuleHash</a>&amp; <a class="code" href="structiCelRuleBase.html#23f67dd724a600f9454cf58f6c44c4d0">GetRules</a> () <span class="keyword">const </span>= 0;
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keyword">const</span> celRuleHash&amp; <a class="code" href="structiCelRuleBase.html#23f67dd724a600f9454cf58f6c44c4d0">GetRules</a> () <span class="keyword">const </span>= 0;
 <a name="l00108"></a>00108 
 <a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#73dcbd1292aa66a5e57108a2af5f6bda">DeleteRule</a> (<a class="code" href="structiCelRule.html">iCelRule</a>* rule) = 0;
 <a name="l00113"></a>00113 
 <a name="l00117"></a>00117   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#55649c68ef39f574916720d2f8fcbcd3">ClearPriorityTable</a> () = 0;
 <a name="l00118"></a>00118 
-<a name="l00124"></a>00124   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#2a7197222fe2a57b3143eeb4732ef65d">AddPriority</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> priority) = 0;
+<a name="l00124"></a>00124   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelRuleBase.html#2a7197222fe2a57b3143eeb4732ef65d">AddPriority</a> (csStringID priority) = 0;
 <a name="l00125"></a>00125 };
 <a name="l00126"></a>00126 
 <a name="l00127"></a>00127 <span class="preprocessor">#endif // __CEL_RULEBASE__</span>

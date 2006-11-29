@@ -46,7 +46,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.portal",
     	msg, arg);
@@ -100,7 +100,7 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcPortal);
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   closed = false;
 
@@ -217,7 +217,8 @@ void celPcPortal::ResolvePortal ()
   {
     iMeshWrapper* m = engine->FindMeshObject (meshname);
     if (!m) return;
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (m->GetMeshObject ());
+    csRef<iPortalContainer> pc = SCF_QUERY_INTERFACE (m->GetMeshObject (),
+    	iPortalContainer);
     if (!pc) return;	// @@@ ERROR?
     if (portalname.IsEmpty ())
     {

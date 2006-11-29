@@ -8,7 +8,7 @@ RootName: @crystalspace3d.org/celstart:$SOFTWAREVERSION
 Summary: CEL game launcher
 Maintainer: Jorrit Tyberghein <jorrit@crystalspace3d.org>
 Packager: Frank Richter <res@crystalspace3d.org>
-PackageVersion: 3
+PackageVersion: 1
 CPUArchitectures: x86
 AutopackageTarget: 1.2
 Type: Application

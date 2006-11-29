@@ -115,7 +115,7 @@ celNewStateReward::celNewStateReward (
 	: scfImplementationType (this)
 {
   celNewStateReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));

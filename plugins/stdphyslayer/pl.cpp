@@ -86,7 +86,7 @@ celPlLayer::~celPlLayer ()
 
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
     if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -154,12 +154,12 @@ bool celPlLayer::Initialize (iObjectRegistry* object_reg)
 {
   celPlLayer::object_reg = object_reg;
   idlist.Clear ();
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return false;	// Engine is required.
 
   scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   csEventID esub[] = { 
     csevPreProcess (object_reg),   // this goes away...
     csevPostProcess (object_reg),  // this goes away...
@@ -497,7 +497,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   }
   else
   {
-    bl = csQueryRegistry<iCelBlLayer> (object_reg);
+    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
     if (!bl && cfact->GetBehaviour ())
     {
       csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -782,34 +782,15 @@ iCelBehaviour* celPlLayer::GetBehaviour (uint id)
   return 0;
 }
 
-iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
-{
-  // if already loaded return existing propfact
-  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
-  if (pf)
-    return pf;
-
-  // use cel.pcfactory.propname if it is able to load
-  // and propclass is queried successfully
-  csString pfid ("cel.pcfactory."), pc (propname);
-  // strip 'pc'
-  if (pc.GetAt (0) == 'p' && pc.GetAt (1) == 'c')
-    pc.DeleteAt (0, 2);
-  pfid += pc;
-  if (!LoadPropertyClassFactory (pfid))
-    return 0;
-  return FindPropertyClassFactory (propname);
-}
-
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 	const char *propname)
 {
-  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "crystalspace.cel.pllayer",
-        "No factory for type '%s' registered!", propname);
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
     return 0;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
@@ -822,12 +803,12 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
 iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
 	const char *propname, const char* tagname)
 {
-  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "crystalspace.cel.pllayer",
-        "No factory for type '%s' registered!", propname);
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
     return 0;
   }
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
@@ -932,7 +913,7 @@ void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
   csRef<celEntityFinder> cef =
     csPtr<celEntityFinder> (new celEntityFinder (entity));
   cef->SetName ("__entfind__");	// @@@ For debugging mostly.
-  csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+  csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
   object->ObjAdd (cef_obj);
 }
 
@@ -943,7 +924,7 @@ void celPlLayer::UnattachEntity (iObject* object, iCelEntity* entity)
   {
     if (cef->GetEntity () != entity)
     { return; }
-    csRef<iObject> cef_obj (scfQueryInterface<iObject> (cef));
+    csRef<iObject> cef_obj (SCF_QUERY_INTERFACE (cef, iObject));
     object->ObjRemove (cef_obj);
   }
 }
@@ -1072,7 +1053,7 @@ csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
 bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 {
   csRef<iPluginManager> plugin_mgr =
-  	csQueryRegistry<iPluginManager> (object_reg);
+  	CS_QUERY_REGISTRY (object_reg, iPluginManager);
   csRef<iBase> pf;
   pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)

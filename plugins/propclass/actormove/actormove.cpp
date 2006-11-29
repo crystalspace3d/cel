@@ -478,7 +478,7 @@ void celPcActorMove::GetSpriteStates ()
   iMeshObject* o = m->GetMeshObject ();
   if (!o) return;
   checked_spritestate = true;
-  sprcal3d = scfQueryInterface<iSpriteCal3DState> (o);
+  sprcal3d = SCF_QUERY_INTERFACE (o, iSpriteCal3DState);
 }
 
 void celPcActorMove::RotateTo (float yrot)

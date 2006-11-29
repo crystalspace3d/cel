@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,23 +43,23 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_TIMER__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_TIMER__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "iutil/evdefs.h"</span>
 <a name="l00026"></a>00026 
-<a name="l00027"></a>00027 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcTimer.html">iPcTimer</a>, 0, 0, 1);
+<a name="l00027"></a>00027 SCF_VERSION (<a class="code" href="structiPcTimer.html">iPcTimer</a>, 0, 0, 1);
 <a name="l00028"></a>00028 
-<a name="l00044"></a><a class="code" href="structiPcTimer.html">00044</a> <span class="keyword">struct </span><a class="code" href="structiPcTimer.html">iPcTimer</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
-<a name="l00045"></a>00045 {
-<a name="l00051"></a>00051   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#1e2375e39acabf2b0594aac5b8a785d4">WakeUp</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> t, <span class="keywordtype">bool</span> repeat) = 0;
-<a name="l00052"></a>00052 
-<a name="l00056"></a>00056   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#91d78d0d8b92632f27cdce9aa03aaa61">WakeUpFrame</a> (<span class="keywordtype">int</span> where) = 0;
-<a name="l00057"></a>00057 
-<a name="l00061"></a>00061   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#047cb1e3dbe2ec88805be4b78118d236">Clear</a> () = 0;
-<a name="l00062"></a>00062 };
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 <span class="preprocessor">#endif // __CEL_PF_TIMER__</span>
-<a name="l00065"></a>00065 <span class="preprocessor"></span>
+<a name="l00048"></a><a class="code" href="structiPcTimer.html">00048</a> <span class="keyword">struct </span><a class="code" href="structiPcTimer.html">iPcTimer</a> : <span class="keyword">public</span> iBase
+<a name="l00049"></a>00049 {
+<a name="l00055"></a>00055   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#1e2375e39acabf2b0594aac5b8a785d4">WakeUp</a> (csTicks t, <span class="keywordtype">bool</span> repeat) = 0;
+<a name="l00056"></a>00056 
+<a name="l00060"></a>00060   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#91d78d0d8b92632f27cdce9aa03aaa61">WakeUpFrame</a> (<span class="keywordtype">int</span> where) = 0;
+<a name="l00061"></a>00061 
+<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcTimer.html#047cb1e3dbe2ec88805be4b78118d236">Clear</a> () = 0;
+<a name="l00066"></a>00066 };
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 <span class="preprocessor">#endif // __CEL_PF_TIMER__</span>
+<a name="l00069"></a>00069 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

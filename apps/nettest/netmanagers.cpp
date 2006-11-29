@@ -70,7 +70,7 @@ GameFactoryManager::GameFactoryManager (NetTest* nettest,
   GameFactoryManager::factory = factory;
   GameFactoryManager::level_path = level_path;
   GameFactoryManager::level_file = level_file;
-  pl = csQueryRegistry<iCelPlLayer> (nettest->GetObjectRegistry ());
+  pl = CS_QUERY_REGISTRY (nettest->GetObjectRegistry (), iCelPlLayer);
   connection_state = "No connection";
   server_manager = 0;
   client_manager = 0;
@@ -224,7 +224,7 @@ bool GameFactoryManager::InitServer (iCelGame* game)
 GameServerManager::GameServerManager (GameFactoryManager* factory)
 {
   GameServerManager:: factory = factory;
-  pl = csQueryRegistry<iCelPlLayer> (factory->nettest->GetObjectRegistry ());
+  pl = CS_QUERY_REGISTRY (factory->nettest->GetObjectRegistry (), iCelPlLayer);
 }
 
 GameServerManager::~GameServerManager ()
@@ -348,8 +348,8 @@ void GameServerManager::PlayerNetworkStateChanged (celPlayer* player,
     factory->GetServer()->SetNetworkLink (player, npc_link_data, false);
 
     // add a network link to the avatars of the other players
-    pl = 
-    	csQueryRegistry<iCelPlLayer> (factory->nettest->GetObjectRegistry ());
+    pl = CS_QUERY_REGISTRY (factory->nettest->GetObjectRegistry (),
+    	iCelPlLayer);
     iCelPlayerList* player_list = factory->GetServer ()->GetPlayerList ();
     size_t i = 0;
     for ( ; i < player_list->GetCount (); i++)
@@ -477,7 +477,7 @@ void GameServerManager::ServerEnd ()
 GameClientManager::GameClientManager (GameFactoryManager* factory)
 {
   GameClientManager::factory = factory;
-  pl = csQueryRegistry<iCelPlLayer> (factory->nettest->GetObjectRegistry ());
+  pl = CS_QUERY_REGISTRY (factory->nettest->GetObjectRegistry (), iCelPlLayer);
   entity_counter = 0;
 }
 

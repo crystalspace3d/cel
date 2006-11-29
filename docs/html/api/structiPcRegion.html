@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,34 +28,30 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcRegion Struct Reference</h1><!-- doxytag: class="iPcRegion" --><!-- doxytag: inherits="iBase" -->The representation of a region.  
+<h1>iPcRegion Struct Reference</h1><!-- doxytag: class="iPcRegion" -->The representation of a region.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="region_8h-source.html">propclass/region.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcRegion:<p><center><img src="structiPcRegion__inherit__graph.png" border="0" usemap="#iPcRegion__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcRegion__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="20,5,79,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcRegion-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcRegion-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#f666276f6cbd10d660307b1ffd384c1b">CreateEmptySector</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create empty sector.  <a href="#f666276f6cbd10d660307b1ffd384c1b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#978b4a379ce4c3427c7d8edcada259ff">FindSector</a> (const char *sectorname)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#978b4a379ce4c3427c7d8edcada259ff">FindSector</a> (const char *sectorname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns a sector.  <a href="#978b4a379ce4c3427c7d8edcada259ff"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRegion.html">iRegion</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#22e556c3031fc97dd286b8e52c8b8ef2">GetRegion</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iRegion *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#22e556c3031fc97dd286b8e52c8b8ef2">GetRegion</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the CS region associated to this propclass.  <a href="#22e556c3031fc97dd286b8e52c8b8ef2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#a709315a55829d72c07a6949c94f71bd">GetRegionName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this region.  <a href="#a709315a55829d72c07a6949c94f71bd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#bcf1d25358a15077b87a5278d200062c">GetStartPosition</a> (const char *name=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#bcf1d25358a15077b87a5278d200062c">GetStartPosition</a> (const char *name=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get start position.  <a href="#bcf1d25358a15077b87a5278d200062c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#ac3265303d4806c37488bd2be5da633f">GetStartSector</a> (const char *name=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#ac3265303d4806c37488bd2be5da633f">GetStartSector</a> (const char *name=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get start sector.  <a href="#ac3265303d4806c37488bd2be5da633f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcRegion.html#b130d1f6bbce4498635c6088086aea48">GetWorldDir</a> () const =0</td></tr>
@@ -83,16 +79,24 @@ Inheritance diagram for iPcRegion:<p><center><img src="structiPcRegion__inherit_
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 The representation of a region. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>Load: no parameters.</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+Load: no parameters. </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>worlddir (string, read/write): the VFS directory of the world file.</li><li>worldfile (string, read/write): the world filename.</li><li>regionname (string, read/write): region name. </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+worlddir (string, read/write): the VFS directory of the world file. </li>
+<li>
+worldfile (string, read/write): the world filename. </li>
+<li>
+regionname (string, read/write): region name. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="region_8h-source.html#l00045">45</a> of file <a class="el" href="region_8h-source.html">region.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="region_8h-source.html#l00049">49</a> of file <a class="el" href="region_8h-source.html">region.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="f666276f6cbd10d660307b1ffd384c1b"></a><!-- doxytag: member="iPcRegion::CreateEmptySector" ref="f666276f6cbd10d660307b1ffd384c1b" args="(const char *name)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -120,7 +124,7 @@ Use this instead of <a class="el" href="structiPcRegion.html#e7d0738d08587e19baa
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* iPcRegion::FindSector           </td>
+          <td class="memname">virtual iSector* iPcRegion::FindSector           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>sectorname</em>          </td>
@@ -142,7 +146,7 @@ Returns a sector.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRegion.html">iRegion</a>* iPcRegion::GetRegion           </td>
+          <td class="memname">virtual iRegion* iPcRegion::GetRegion           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -184,7 +188,7 @@ Get the name of this region.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> iPcRegion::GetStartPosition           </td>
+          <td class="memname">virtual csVector3 iPcRegion::GetStartPosition           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>name</em> = <code>0</code>          </td>
@@ -206,7 +210,7 @@ The given name is the name of the starting position to use. If 0 is given then t
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* iPcRegion::GetStartSector           </td>
+          <td class="memname">virtual iSector* iPcRegion::GetStartSector           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>name</em> = <code>0</code>          </td>

@@ -179,7 +179,7 @@ bool NetTest::OnKeyboard (iEvent &ev)
       // is by broadcasting a csevQuit event. That will cause the
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
-      csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+      csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
       q->GetEventOutlet ()->Broadcast (csevQuit (object_reg));
     }
 
@@ -474,7 +474,7 @@ bool NetTest::CreateRoom (const csString path, const csString file)
   engine->Prepare ();
 
   // Load the level
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   csStringArray paths;
   paths.Push ("/cellib/lev/");
   if (!vfs->ChDirAuto (path, &paths, 0, file))
@@ -498,8 +498,8 @@ bool NetTest::OnInitialize (int argc, char* argv[])
   csDebuggingGraph::SetupGraph (object_reg);
 
   // analyse command line arguments
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
 
   // help
   if (cmdline->GetOption ("nethelp") != 0 || cmdline->GetOption ("help") != 0)
@@ -579,17 +579,17 @@ bool NetTest::Application ()
     return ReportError ("Error opening system!");
 
   // The virtual clock.
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc) return ReportError ("Can't find the virtual clock!");
 
   // Find the pointer to engine plugin
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine) return ReportError ("No iEngine plugin!");
 
-  loader = csQueryRegistry<iLoader> (object_reg);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   if (!loader) return ReportError ("No iLoader plugin!");
 
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d) return ReportError ("No iGraphics3D plugin!");
 
   g2d = g3d->GetDriver2D ();
@@ -599,19 +599,19 @@ bool NetTest::Application ()
   font = fs->LoadFont (CSFONT_LARGE);
   if (!font) return ReportError("Failed to locate font!");
 
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
   if (!kbd) return ReportError ("No iKeyboardDriver plugin!");
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
-  bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-  	object_reg, "iCelBlLayer.Test");
+  bltest = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+  	"iCelBlLayer.Test", iCelBlLayer);
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
 
   // initialize game factory
-  game_factory = csQueryRegistry<iCelGameFactory> (object_reg);
+  game_factory = CS_QUERY_REGISTRY (object_reg, iCelGameFactory);
   if (!game_factory) return ReportError ("CEL network layer missing!");
   game_factory->SetGameName ("CEL network test");
   game_factory->SetProtocolVersion ("v0.1");
@@ -670,8 +670,8 @@ bool NetTest::Application ()
     return false;
 
   // analyse command line arguments
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
 
   // read level path and file
   csString level_path;

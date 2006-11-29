@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iCelPlLayer Struct Reference</h1><!-- doxytag: class="iCelPlLayer" --><!-- doxytag: inherits="iBase" -->This is the Physical Layer itself.  
+<h1>iCelPlLayer Struct Reference</h1><!-- doxytag: class="iCelPlLayer" -->This is the Physical Layer itself.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="pl_8h-source.html">physicallayer/pl.h</a>&gt;</code>
 <p>
-Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inherit__graph.png" border="0" usemap="#iCelPlLayer__inherit__map" alt="Inheritance graph"></center>
-<map name="iCelPlLayer__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="24,5,83,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiCelPlLayer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiCelPlLayer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#040f187dbcebea19c47ec90477d385cc">AddEntityRemoveCallback</a> (<a class="el" href="structiCelEntityRemoveCallback.html">iCelEntityRemoveCallback</a> *clback)=0</td></tr>
@@ -46,46 +42,46 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#f124c829891d263e28e2b1f3480f3e93">AddNewEntityCallback</a> (<a class="el" href="structiCelNewEntityCallback.html">iCelNewEntityCallback</a> *clback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This registers a callback that is called each time when an entity is added.  <a href="#f124c829891d263e28e2b1f3480f3e93"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#1b3ede99908786ef0f6c4c0092b44907">AddScope</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> version, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> size)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#1b3ede99908786ef0f6c4c0092b44907">AddScope</a> (csString version, int size)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an ID scope to the physical layer.  <a href="#1b3ede99908786ef0f6c4c0092b44907"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#9ffff853a142b640db3b0e7521534a38">AttachEntity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#9ffff853a142b640db3b0e7521534a38">AttachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Attach an entity to some object (usually an object from the engine).  <a href="#9ffff853a142b640db3b0e7521534a38"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#55e34d6c37d9e47383089a0d6388da0c">Cache</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *object)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#55e34d6c37d9e47383089a0d6388da0c">Cache</a> (iBase *object)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Cache an SCF object.  <a href="#55e34d6c37d9e47383089a0d6388da0c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#39dfdf2310553577c344ee9855e79568">CallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#39dfdf2310553577c344ee9855e79568">CallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event every frame.  <a href="#39dfdf2310553577c344ee9855e79568"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#bce10f3516458623c47eb0688855318c">CallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, csTicks delta, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#bce10f3516458623c47eb0688855318c">CallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, csTicks delta, int where)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register this listener as one that is interested in getting an event in 'delta' milliseconds.  <a href="#bce10f3516458623c47eb0688855318c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#38d9d1f6232c6de2e03606c3eb506373">CleanCache</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clean up the cache.  <a href="#38d9d1f6232c6de2e03606c3eb506373"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#998ebd26adc1ae8623a7f85248329133">CreateDataBuffer</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a> serialnr)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#998ebd26adc1ae8623a7f85248329133">CreateDataBuffer</a> (long serialnr)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a data buffer.  <a href="#998ebd26adc1ae8623a7f85248329133"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#fcbc3c2ab071a8177a235dcbca73bd9d">CreateEmptyEntityList</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#fcbc3c2ab071a8177a235dcbca73bd9d">CreateEmptyEntityList</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty entity list for personal use.  <a href="#fcbc3c2ab071a8177a235dcbca73bd9d"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#d7303ad91e99d4f76b34831630601068">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name,...)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity from a template.  <a href="#d7303ad91e99d4f76b34831630601068"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#2531016dcaa8eb64ee592842266d4e6b">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celEntityTemplateParams</a> &amp;params)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#2531016dcaa8eb64ee592842266d4e6b">CreateEntity</a> (<a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *factory, const char *name, const celEntityTemplateParams &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an entity from a template.  <a href="#2531016dcaa8eb64ee592842266d4e6b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#00c35635aa52f44171ba69ae711fa615">CreateEntity</a> (const char *entname, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *bhname,...)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#00c35635aa52f44171ba69ae711fa615">CreateEntity</a> (const char *entname, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *bhname,...)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#00c35635aa52f44171ba69ae711fa615"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#793245ed93fae360fa568b4a85d19afd">CreateEntity</a> (uint id)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#793245ed93fae360fa568b4a85d19afd">CreateEntity</a> (uint id)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with an id provided.  <a href="#793245ed93fae360fa568b4a85d19afd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#e45f263656dcaa3b54d110df9a3ead31">CreateEntity</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#e45f263656dcaa3b54d110df9a3ead31">CreateEntity</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity.  <a href="#e45f263656dcaa3b54d110df9a3ead31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#d3736d26f1097e257df3009f93a09736">CreateEntityInScope</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> scope)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntity.html">iCelEntity</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#d3736d26f1097e257df3009f93a09736">CreateEntityInScope</a> (int scope)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a new physical layer entity, with the ID being allocated in the given scope.  <a href="#d3736d26f1097e257df3009f93a09736"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTemplate.html">iCelEntityTemplate</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#568903352efa88aa88f7a7b7c5c1c0ad">CreateEntityTemplate</a> (const char *factname)=0</td></tr>
@@ -106,9 +102,9 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csStringID&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#15665b412868c19a954f99557993d2e5">FetchStringID</a> (const char *str)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Retreive the unique ID associated with this string or create a new ID if needed.  <a href="#15665b412868c19a954f99557993d2e5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#93deea269a499dae1038e96f6fe094ca">FindAttachedEntity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *object)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#93deea269a499dae1038e96f6fe094ca">FindAttachedEntity</a> (iObject *object)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given an <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a>, find the attached entity (if any).  <a href="#93deea269a499dae1038e96f6fe094ca"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given an iObject, find the attached entity (if any).  <a href="#93deea269a499dae1038e96f6fe094ca"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a37b222e835d9dbb119b3d7d02f2a7f8">FindBehaviourLayer</a> (const char *name) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a behaviour layer by name.  <a href="#a37b222e835d9dbb119b3d7d02f2a7f8"></a><br></td></tr>
@@ -121,13 +117,13 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntityTracker.html">iCelEntityTracker</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#1b643503028bbff6a8f6f85e36572656">FindEntityTracker</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a tracker by name.  <a href="#1b643503028bbff6a8f6f85e36572656"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#094dceb205e5f059a2ca7bff5dd79fb8">FindNearbyEntities</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;start, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;end, bool do_invisible=false)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#094dceb205e5f059a2ca7bff5dd79fb8">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;start, const csVector3 &amp;end, bool do_invisible=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are intersected by a beam.  <a href="#094dceb205e5f059a2ca7bff5dd79fb8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#86824f68f537d12621668f3f0b7747ea">FindNearbyEntities</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a> &amp;box, bool do_invisible=false)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#86824f68f537d12621668f3f0b7747ea">FindNearbyEntities</a> (iSector *sector, const csBox3 &amp;box, bool do_invisible=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are in a given box.  <a href="#86824f68f537d12621668f3f0b7747ea"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#b8fea33a9d9a08479bd303fd7633a634">FindNearbyEntities</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> radius, bool do_invisible=false)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiCelEntityList.html">iCelEntityList</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#b8fea33a9d9a08479bd303fd7633a634">FindNearbyEntities</a> (iSector *sector, const csVector3 &amp;pos, float radius, bool do_invisible=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find all entities that are within a certain radius of a given position.  <a href="#b8fea33a9d9a08479bd303fd7633a634"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#ce043764d8d16e99f9399588b083a885">FindPropertyClassFactory</a> (const char *name) const =0</td></tr>
@@ -157,7 +153,7 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#09fb0df557f52cb0a53f47ac510f1c56">GetEntityTemplateCount</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the number of entity templates.  <a href="#09fb0df557f52cb0a53f47ac510f1c56"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#00cca50f1c79efbaebda3651cec0bbc9">GetHitEntity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a> *camera, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> x, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> y)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#00cca50f1c79efbaebda3651cec0bbc9">GetHitEntity</a> (iCamera *camera, int x, int y)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Given a position on screen find the nearest entity to the camera.  <a href="#00cca50f1c79efbaebda3651cec0bbc9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#97bdc3b314db6cd0361d787609c083d0">GetPropertyClassFactory</a> (size_t idx) const =0</td></tr>
@@ -178,10 +174,10 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#29125a4bc2bc9c4123fbcc0f306e8728">RegisterPropertyClassFactory</a> (<a class="el" href="structiCelPropertyClassFactory.html">iCelPropertyClassFactory</a> *pf)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Register a property class factory with this physical layer.  <a href="#29125a4bc2bc9c4123fbcc0f306e8728"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#c98955f35fbf2cebc19649b531782f8b">RemoveCallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#c98955f35fbf2cebc19649b531782f8b">RemoveCallbackEveryFrame</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'every-frame' callbacks to a specific listener.  <a href="#c98955f35fbf2cebc19649b531782f8b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#b5d2563a790e49a0221bea631a7447cd">RemoveCallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#b5d2563a790e49a0221bea631a7447cd">RemoveCallbackOnce</a> (<a class="el" href="structiCelTimerListener.html">iCelTimerListener</a> *listener, int where)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove all 'once' callbacks to a specific listener.  <a href="#b5d2563a790e49a0221bea631a7447cd"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#a41dcf525d3c1de01c33fea1080d1bb4">RemoveEntities</a> ()=0</td></tr>
@@ -208,10 +204,10 @@ Inheritance diagram for iCelPlLayer:<p><center><img src="structiCelPlLayer__inhe
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#7ba29a05b7f81f15a2dc87fb06e6820e">SetEntityAddonAllowed</a> (bool allow)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable or disable the operations of the cel entity addon.  <a href="#7ba29a05b7f81f15a2dc87fb06e6820e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#8c2087ff76a2a7444718fc57eaefbf22">UnattachEntity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#8c2087ff76a2a7444718fc57eaefbf22">UnattachEntity</a> (iObject *object, <a class="el" href="structiCelEntity.html">iCelEntity</a> *entity)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Unattach an entity from some object.  <a href="#8c2087ff76a2a7444718fc57eaefbf22"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#7c9c125ffa8ac122a662d35b22556fb5">Uncache</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *object)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#7c9c125ffa8ac122a662d35b22556fb5">Uncache</a> (iBase *object)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Uncache an SCF object.  <a href="#7c9c125ffa8ac122a662d35b22556fb5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelPlLayer.html#4f57b041754c2b638511b73346b73efd">UnregisterBehaviourLayer</a> (<a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl)=0</td></tr>
@@ -226,7 +222,7 @@ This is the Physical Layer itself.
 <p>
 
 <p>
-Definition at line <a class="el" href="pl_8h-source.html#l00108">108</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="pl_8h-source.html#l00107">107</a> of file <a class="el" href="pl_8h-source.html">pl.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="040f187dbcebea19c47ec90477d385cc"></a><!-- doxytag: member="iCelPlLayer::AddEntityRemoveCallback" ref="040f187dbcebea19c47ec90477d385cc" args="(iCelEntityRemoveCallback *clback)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -276,15 +272,15 @@ This registers a callback that is called each time when an entity is added.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iCelPlLayer::AddScope           </td>
+          <td class="memname">virtual int iCelPlLayer::AddScope           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&nbsp;</td>
+          <td class="paramtype">csString&nbsp;</td>
           <td class="paramname"> <em>version</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>size</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -309,7 +305,7 @@ Entities are created by propclasses only in the default scope so you can complet
         <tr>
           <td class="memname">virtual void iCelPlLayer::AttachEntity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *&nbsp;</td>
+          <td class="paramtype">iObject *&nbsp;</td>
           <td class="paramname"> <em>object</em>, </td>
         </tr>
         <tr>
@@ -340,7 +336,7 @@ This function will check if the entity was already attached and do nothing in th
         <tr>
           <td class="memname">virtual void iCelPlLayer::Cache           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *&nbsp;</td>
+          <td class="paramtype">iBase *&nbsp;</td>
           <td class="paramname"> <em>object</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -368,7 +364,7 @@ This effectively means that the PL will keep a references to this object. This f
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>where</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -413,7 +409,7 @@ Special note. The physical layer will keep a weak reference to the listener only
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>where</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -466,9 +462,9 @@ This will decrease the ref count of all objects in the cache. Possibly this will
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPlLayer::CreateDataBuffer           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelDataBuffer.html">iCelDataBuffer</a>&gt; iCelPlLayer::CreateDataBuffer           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01long_01_4.html">long</a>&nbsp;</td>
+          <td class="paramtype">long&nbsp;</td>
           <td class="paramname"> <em>serialnr</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -488,7 +484,7 @@ Usually property class implementations will call this to create a data buffer fo
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::CreateEmptyEntityList           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::CreateEmptyEntityList           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -566,7 +562,7 @@ Create an entity from a template.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celEntityTemplateParams</a> &amp;&nbsp;</td>
+          <td class="paramtype">const celEntityTemplateParams &amp;&nbsp;</td>
           <td class="paramname"> <em>params</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -596,7 +592,7 @@ Create an entity from a template.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
           <td>(</td>
           <td class="paramtype">const char *&nbsp;</td>
           <td class="paramname"> <em>entname</em>, </td>
@@ -646,7 +642,7 @@ The physical layer will keep a reference to this entity. You need to call <a cla
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
           <td>(</td>
           <td class="paramtype">uint&nbsp;</td>
           <td class="paramname"> <em>id</em>          </td>
@@ -668,7 +664,7 @@ You should ensure that the id provided isn't already used and that you use the h
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntity           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -689,9 +685,9 @@ The physical layer will keep a reference to this entity. You need to call <a cla
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntityInScope           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntity.html">iCelEntity</a>&gt; iCelPlLayer::CreateEntityInScope           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>scope</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -864,7 +860,7 @@ Returns 0 if there is no such string.
 <p>
 Retreive the unique ID associated with this string or create a new ID if needed. 
 <p>
-There are various places in CEL where this is used.<p>
+There are various places in CEL where this is used. <p>
 The convention on string names is usually 'cel.xxx.yyy'. With 'xxx' equal to the type of string (i.e. 'property'), and 'yyy' the name of the given type (i.e. the property name). An example: 'cel.property.startsector'. 
 </div>
 </div><p>
@@ -875,7 +871,7 @@ The convention on string names is usually 'cel.xxx.yyy'. With 'xxx' equal to the
         <tr>
           <td class="memname">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a>* iCelPlLayer::FindAttachedEntity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *&nbsp;</td>
+          <td class="paramtype">iObject *&nbsp;</td>
           <td class="paramname"> <em>object</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -885,7 +881,7 @@ The convention on string names is usually 'cel.xxx.yyy'. With 'xxx' equal to the
 <div class="memdoc">
 
 <p>
-Given an <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a>, find the attached entity (if any). 
+Given an iObject, find the attached entity (if any). 
 <p>
 
 </div>
@@ -983,21 +979,21 @@ Find a tracker by name.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>start</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>end</em>, </td>
         </tr>
         <tr>
@@ -1031,15 +1027,15 @@ This uses the attached entities from above. <dl compact><dt><b>Parameters:</b></
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csBox3 &amp;&nbsp;</td>
           <td class="paramname"> <em>box</em>, </td>
         </tr>
         <tr>
@@ -1073,21 +1069,21 @@ This uses the attached entities from above. <dl compact><dt><b>Parameters:</b></
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiCelEntityList.html">iCelEntityList</a>&gt; iCelPlLayer::FindNearbyEntities           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>radius</em>, </td>
         </tr>
         <tr>
@@ -1318,19 +1314,19 @@ Get the number of entity templates.
         <tr>
           <td class="memname">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a>* iCelPlLayer::GetHitEntity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a> *&nbsp;</td>
+          <td class="paramtype">iCamera *&nbsp;</td>
           <td class="paramname"> <em>camera</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>y</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1491,7 +1487,7 @@ It is not needed for apps to call this function as the property class factory it
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>where</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1522,7 +1518,7 @@ Remove all 'every-frame' callbacks to a specific listener.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>where</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1580,7 +1576,7 @@ Remove all entities.
 <p>
 Remove an entity from the physical layer. 
 <p>
-If there is a behaviour associated with the entity then it will first get a 'destruct' message. 
+
 </div>
 </div><p>
 <a class="anchor" name="834791980921e9d062be29509b745ee4"></a><!-- doxytag: member="iCelPlLayer::RemoveEntityRemoveCallback" ref="834791980921e9d062be29509b745ee4" args="(iCelEntityRemoveCallback *clback)=0" -->
@@ -1721,7 +1717,7 @@ This addon will enable users to add entities from a CS world file. This addon wi
         <tr>
           <td class="memname">virtual void iCelPlLayer::UnattachEntity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObject.html">iObject</a> *&nbsp;</td>
+          <td class="paramtype">iObject *&nbsp;</td>
           <td class="paramname"> <em>object</em>, </td>
         </tr>
         <tr>
@@ -1752,7 +1748,7 @@ Unattach an entity from some object.
         <tr>
           <td class="memname">virtual void iCelPlLayer::Uncache           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a> *&nbsp;</td>
+          <td class="paramtype">iBase *&nbsp;</td>
           <td class="paramname"> <em>object</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

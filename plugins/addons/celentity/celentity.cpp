@@ -88,7 +88,7 @@ celAddOnCelEntity::~celAddOnCelEntity ()
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnCelEntity::object_reg = object_reg;
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -96,7 +96,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -193,30 +193,6 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
 	  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
 	  params->GetParameter (par_idx-1).Set (v2);
 	}
-        continue;
-      }
-      const char* vec3_value = par_child->GetAttributeValue ("vector3");
-      if (vec3_value)
-      {
-	csVector3 v;
-	csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* vec2_value = par_child->GetAttributeValue ("vector2");
-      if (vec2_value)
-      {
-	csVector2 v;
-	csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
-	params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* col_value = par_child->GetAttributeValue ("color");
-      if (col_value)
-      {
-	csColor v;
-	csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-	params->GetParameter (par_idx-1).Set (v);
         continue;
       }
       const char* float_value = par_child->GetAttributeValue ("float");
@@ -350,7 +326,7 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   if (pl->IsEntityAddonAllowed ())
   {
     // If the context is not a mesh we will create a standalone entity.
-    csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (context);
+    csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
     iCelEntity* ent = Load (node, mesh);
     csRef<iBase> ent_return = (iBase*)ent;
     return csPtr<iBase> (ent_return);
@@ -468,7 +444,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
     pc = pl->CreatePropertyClass (ent, "pcmesh");
-    csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
+    csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
     pcmesh->SetMesh (mesh);
   }
 
@@ -487,12 +463,13 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  const char* blname = child->GetAttributeValue ("layer");
 	  if (blname)
 	  {
-	    bl = csQueryRegistryTagInterface<iCelBlLayer> ( object_reg, blname);
+	    bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg, blname,
+	    	iCelBlLayer);
 	    if (!bl) bl = pl->FindBehaviourLayer (blname);
 	  }
 	  else
 	  {
-	    bl = csQueryRegistry<iCelBlLayer> (object_reg);
+	    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
 	  }
 	  if (!bl)
 	  {

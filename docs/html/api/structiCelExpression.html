@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iCelExpression Struct Reference</h1><!-- doxytag: class="iCelExpression" --><!-- doxytag: inherits="iBase" -->Interface for a single expression.  
+<h1>iCelExpression Struct Reference</h1><!-- doxytag: class="iCelExpression" -->Interface for a single expression.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="expression_8h-source.html">tools/expression.h</a>&gt;</code>
 <p>
-Inheritance diagram for iCelExpression:<p><center><img src="structiCelExpression__inherit__graph.png" border="0" usemap="#iCelExpression__inherit__map" alt="Inheritance graph"></center>
-<map name="iCelExpression__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="36,5,95,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiCelExpression-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiCelExpression-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute</a> (<a class="el" href="structiCelEntity.html">iCelEntity</a> *entity, <a class="el" href="structcelData.html">celData</a> &amp;ret)=0</td></tr>
@@ -46,7 +42,7 @@ Inheritance diagram for iCelExpression:<p><center><img src="structiCelExpression
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual size_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#821d0efb2663d020a53c7e87902e226f">FindLocalVariable</a> (const char *name) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Find a local variable for this expression.  <a href="#821d0efb2663d020a53c7e87902e226f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsStringArray.html">csStringArray</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#135d663d70f628d7ad067591f4c1a3b5">GetLocalVariables</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csStringArray &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#135d663d70f628d7ad067591f4c1a3b5">GetLocalVariables</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get an array of local variables.  <a href="#135d663d70f628d7ad067591f4c1a3b5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#4b96ae366136f80dab0e1293953c5b62">SetLocalVariable</a> (size_t idx, const <a class="el" href="structcelData.html">celData</a> &amp;value)=0</td></tr>
@@ -55,10 +51,10 @@ Inheritance diagram for iCelExpression:<p><center><img src="structiCelExpression
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#2c52aa227424bb5b9e0049b8c4a91f61">SetLocalVariableBool</a> (size_t idx, bool value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#2c52aa227424bb5b9e0049b8c4a91f61"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#3b196f98b60a84055fda306e9eab469a">SetLocalVariableColor</a> (size_t idx, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#3b196f98b60a84055fda306e9eab469a">SetLocalVariableColor</a> (size_t idx, const csColor &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#3b196f98b60a84055fda306e9eab469a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#8742cec238fe014e1bbb4961b9eaa73c">SetLocalVariableFloat</a> (size_t idx, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#8742cec238fe014e1bbb4961b9eaa73c">SetLocalVariableFloat</a> (size_t idx, float value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#8742cec238fe014e1bbb4961b9eaa73c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#c841cd8f0e024dc34558c3d8627a854f">SetLocalVariableLong</a> (size_t idx, int32 value)=0</td></tr>
@@ -70,10 +66,10 @@ Inheritance diagram for iCelExpression:<p><center><img src="structiCelExpression
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#9f709184e1dde4615155c9fbe4a1a9eb">SetLocalVariableULong</a> (size_t idx, uint32 value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#9f709184e1dde4615155c9fbe4a1a9eb"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#ffd0e78690f324b72e6f58810fbcd25c">SetLocalVariableVector2</a> (size_t idx, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#ffd0e78690f324b72e6f58810fbcd25c">SetLocalVariableVector2</a> (size_t idx, const csVector2 &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#ffd0e78690f324b72e6f58810fbcd25c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#5b9b8476fd4ac8ca3036df0a08db3705">SetLocalVariableVector3</a> (size_t idx, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;value)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiCelExpression.html#5b9b8476fd4ac8ca3036df0a08db3705">SetLocalVariableVector3</a> (size_t idx, const csVector3 &amp;value)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the value of a local variable. Do this before calling <a class="el" href="structiCelExpression.html#f4f2a1a979caeaa697d9cb03282d105f">Execute()</a>.  <a href="#5b9b8476fd4ac8ca3036df0a08db3705"></a><br></td></tr>
 </table>
@@ -147,7 +143,7 @@ Returns csArrayItemNotFound if local variable is not present.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsStringArray.html">csStringArray</a>&amp; iCelExpression::GetLocalVariables           </td>
+          <td class="memname">virtual const csStringArray&amp; iCelExpression::GetLocalVariables           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -238,7 +234,7 @@ Set the value of a local variable. Do this before calling <a class="el" href="st
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csColor &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -269,7 +265,7 @@ Set the value of a local variable. Do this before calling <a class="el" href="st
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -393,7 +389,7 @@ Set the value of a local variable. Do this before calling <a class="el" href="st
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector2 &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -424,7 +420,7 @@ Set the value of a local variable. Do this before calling <a class="el" href="st
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>value</em></td><td>&nbsp;</td>
         </tr>
         <tr>

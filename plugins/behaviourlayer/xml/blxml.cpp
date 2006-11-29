@@ -191,7 +191,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 {
   celBlXml::object_reg = object_reg;
 
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -199,12 +199,12 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
     	"Can't find syntax services!");
     return false;
   }
-  csRef<iCelPlLayer> player = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   pl = (iCelPlLayer*)player;
-  mouse = csQueryRegistry<iMouseDriver> (object_reg);
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  billboard_mgr = csQueryRegistry<iBillboardManager> (object_reg);
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);

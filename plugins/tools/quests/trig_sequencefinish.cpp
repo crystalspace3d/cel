@@ -123,7 +123,7 @@ celSequenceFinishTrigger::celSequenceFinishTrigger (
 	const char* sequence_par) : scfImplementationType (this)
 {
   celSequenceFinishTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sequence = csStrNew (qm->ResolveParameter (params, sequence_par));

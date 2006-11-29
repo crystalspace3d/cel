@@ -572,8 +572,8 @@ bool celPcSoundSource::GetSource ()
   csRef<iSndSysSource> src = renderer->CreateSource (stream);
   if (src)
   {
-    source = scfQueryInterface<iSndSysSourceSoftware> (src);
-    source3d = scfQueryInterface<iSndSysSourceSoftware3D> (src);
+    source = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware);
+    source3d = SCF_QUERY_INTERFACE (src, iSndSysSourceSoftware3D);
   }
   return source != 0;
 }

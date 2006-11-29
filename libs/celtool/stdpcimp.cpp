@@ -40,7 +40,7 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   propclasses_dirty = true;
   tag = 0;
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
 }
 
 celPcCommon::~celPcCommon ()

@@ -188,7 +188,7 @@ bool CelStart::HandleEvent (iEvent& ev)
         if (code == CSKEY_ESC)
         {
 	  startme = "";
-	  csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+	  csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
 	  if (q)
 	    q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
 	  return true;
@@ -221,7 +221,7 @@ bool CelStart::HandleEvent (iEvent& ev)
         if (i >= (int)0 && i < (int)files.Length ())
         {
 	  startme = files[i];
-          csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
+          csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
           if (q)
             q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
 	}
@@ -362,8 +362,8 @@ void CelStart::FindCelStartArchives ()
 bool CelStart::FindPath (iVFS* vfs, csString& realpath,
     csString& path, csString& configname)
 {
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
   const char* arg = cmdline->GetName (0);
 
   csPhysicalFile physfile (arg, "rb");
@@ -481,26 +481,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
 
-  // Attempt to load a joystick plugin.
-  csRef<iStringArray> joystickClasses =
-    iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
-  if (joystickClasses.IsValid())
-  {
-    csRef<iPluginManager> plugmgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
-    for (size_t i = 0; i < joystickClasses->Length (); i++)
-    {
-      const char* className = joystickClasses->Get (i);
-      iBase* b = plugmgr->LoadPlugin (className);
-
-      csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
-	className, (b != 0) ? "successful" : "failed");
-      if (b != 0) b->DecRef ();
-    }
-  }
-
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -509,7 +490,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
     return false;
   }
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -640,8 +621,8 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
   CelStart::argc = argc;
   CelStart::argv = (const char**)argv;
 
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
   cmdline->AddOption ("silent", "");
   cmdline->AddOption ("mode", "800x600");
 
@@ -677,7 +658,7 @@ bool CelStart::StartDemoSelector (int argc, const char* const argv[])
     return false;
   }
 
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
   if (!g3d)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -727,8 +708,8 @@ bool CelStart::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  csRef<iCommandLineParser> cmdline = 
-  	csQueryRegistry<iCommandLineParser> (object_reg);
+  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
+  	iCommandLineParser);
   const char* arg = cmdline->GetName (0);
   if (!arg)
   {

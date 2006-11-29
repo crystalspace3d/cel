@@ -74,7 +74,7 @@ celAddOnXmlScripts::~celAddOnXmlScripts ()
 bool celAddOnXmlScripts::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnXmlScripts::object_reg = object_reg;
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -115,7 +115,7 @@ void celAddOnXmlScripts::GetBlGen (iDocumentNode* child)
   }
   if (!blgen)
   {
-    blgen = scfQueryInterface<iCelBlLayerGenerate> (bl);
+    blgen = SCF_QUERY_INTERFACE (bl, iCelBlLayerGenerate);
     if (!blgen)
     {
       synldr->ReportError (
@@ -139,8 +139,8 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
     {
       case XMLTOKEN_PCFACTORY:
         {
-	  csRef<iCelPlLayer> pl = 
-	  	csQueryRegistry<iCelPlLayer> (object_reg);
+	  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
+	  	iCelPlLayer);
 	  if (!pl->LoadPropertyClassFactory (child->GetContentsValue ()))
 	  {
 	    synldr->ReportError (
@@ -174,8 +174,8 @@ csPtr<iBase> celAddOnXmlScripts::Parse (iDocumentNode* node,
         break;
       case XMLTOKEN_LAYER:
         {
-	  bl = csQueryRegistryTagInterface<iCelBlLayer> (
-	  	object_reg, child->GetContentsValue ());
+	  bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg,
+	  	child->GetContentsValue (), iCelBlLayer);
 	  if (!bl)
 	  {
 	    synldr->ReportError (

@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,22 +28,18 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcLinearMovement Struct Reference</h1><!-- doxytag: class="iPcLinearMovement" --><!-- doxytag: inherits="iBase" -->This property class controls movement of an entity in a realistic manner.  
+<h1>iPcLinearMovement Struct Reference</h1><!-- doxytag: class="iPcLinearMovement" -->This property class controls movement of an entity in a realistic manner.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="linmove_8h-source.html">propclass/linmove.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcLinearMovement:<p><center><img src="structiPcLinearMovement__inherit__graph.png" border="0" usemap="#iPcLinearMovement__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcLinearMovement__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="53,5,112,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcLinearMovement-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcLinearMovement-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d3277adf4f3f41f2b0723b05ca7be340">AddGravityCallback</a> (<a class="el" href="structiPcGravityCallback.html">iPcGravityCallback</a> *callback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Shedules a callback when gravity has grasped an object and is dragging it down.  <a href="#d3277adf4f3f41f2b0723b05ca7be340"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#7f4455ea9bec08259033db47c0e4ac48">AddVelocity</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;vel)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#7f4455ea9bec08259033db47c0e4ac48">AddVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Exerts a velocity on the body in world coordinates.  <a href="#7f4455ea9bec08259033db47c0e4ac48"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#cd5fa1510e1363a67baaaff4dd4c8013">ClearPortalDisplacement</a> ()=0</td></tr>
@@ -52,108 +48,105 @@ Inheritance diagram for iPcLinearMovement:<p><center><img src="structiPcLinearMo
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#91037fa284476c7f09dc56fd8c7f83e7">ClearWorldVelocity</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Resets the velocity of this body in world coordinates.  <a href="#91037fa284476c7f09dc56fd8c7f83e7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#08ad2def333cd5425ff7f4123ada25f1">ExtrapolatePosition</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> delta)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#08ad2def333cd5425ff7f4123ada25f1">ExtrapolatePosition</a> (float delta)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function actually moves and rotates the mesh, relighting if necessary.  <a href="#08ad2def333cd5425ff7f4123ada25f1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMesh.html">iPcMesh</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#3127ba33866324151c029f986a21d905">GetAnchor</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current anchor or 0 if movement is not anchored.  <a href="#3127ba33866324151c029f986a21d905"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#ac57682caae7fb4eb602f408a8db654c">GetAngularVelocity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;v) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#ac57682caae7fb4eb602f408a8db654c">GetAngularVelocity</a> (csVector3 &amp;v) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current angular velocity vector.  <a href="#ac57682caae7fb4eb602f408a8db654c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#2a0510c3c6b80e6ff9bdc5ecfaf6ddad">GetCDDimensions</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;body, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;legs, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *&amp;pc_cd)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#2a0510c3c6b80e6ff9bdc5ecfaf6ddad">GetCDDimensions</a> (csVector3 &amp;body, csVector3 &amp;legs, csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *&amp;pc_cd)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get CD box for the object.  <a href="#2a0510c3c6b80e6ff9bdc5ecfaf6ddad"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#7fd0424179e33852fa873b6e3a4ae3eb">GetDRData</a> (bool &amp;on_ground, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;speed, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;sector, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;vel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;worldVel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;ang_vel)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#7fd0424179e33852fa873b6e3a4ae3eb">GetDRData</a> (bool &amp;on_ground, float &amp;speed, csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector, csVector3 &amp;vel, csVector3 &amp;worldVel, float &amp;ang_vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return all necessary data for Dead Reckoning.  <a href="#7fd0424179e33852fa873b6e3a4ae3eb"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#2e269bc67e867d43a07afe03c0bebcd9">GetLastFullPosition</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#2e269bc67e867d43a07afe03c0bebcd9">GetLastFullPosition</a> (csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get full position and sector.  <a href="#2e269bc67e867d43a07afe03c0bebcd9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#88318839a7bb34215ae62e8512827972">GetLastPosition</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#88318839a7bb34215ae62e8512827972">GetLastPosition</a> (csVector3 &amp;pos, float &amp;yrot, iSector *&amp;sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get position and sector.  <a href="#88318839a7bb34215ae62e8512827972"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#437c8c531eab184fd8c62f61dc705d30">GetPortalDisplacement</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csVector3&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#437c8c531eab184fd8c62f61dc705d30">GetPortalDisplacement</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the total displacement caused by space warping portals.  <a href="#437c8c531eab184fd8c62f61dc705d30"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#43e7ab4c68db0f545ef3dd40a968b444">GetSector</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSector *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#43e7ab4c68db0f545ef3dd40a968b444">GetSector</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get sector.  <a href="#43e7ab4c68db0f545ef3dd40a968b444"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#0d7d79f582ef3a6868fdd7a99278afb6">GetVelocity</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;v) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#0d7d79f582ef3a6868fdd7a99278afb6">GetVelocity</a> (csVector3 &amp;v) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the current velocity vector.  <a href="#0d7d79f582ef3a6868fdd7a99278afb6"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#863788f37b5f3f531688fe99c3580a37">InitCD</a> (<a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD again?@@.  <a href="#863788f37b5f3f531688fe99c3580a37"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a43bb92ef162fb9748fa90a8bb7880e7">InitCD</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;body, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;legs, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a43bb92ef162fb9748fa90a8bb7880e7">InitCD</a> (const csVector3 &amp;body, const csVector3 &amp;legs, const csVector3 &amp;shift, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object.  <a href="#a43bb92ef162fb9748fa90a8bb7880e7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *mesh, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> percentage, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (iMeshWrapper *mesh, float percentage, <a class="el" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initialize CD box for the object from a mesh.  <a href="#385ad0f1d45d02e2f4497c3a901dd868"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#73ec77995294b032f1238173f082689c">IsPath</a> () const =0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is a <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPath.html">csPath</a> active now or standard DR movement?  <a href="#73ec77995294b032f1238173f082689c"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is a csPath active now or standard DR movement?  <a href="#73ec77995294b032f1238173f082689c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#bc5860587b113c8cb3dabf50e25f20f8">RemoveGravityCallback</a> (<a class="el" href="structiPcGravityCallback.html">iPcGravityCallback</a> *callback)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove a gravity callback.  <a href="#bc5860587b113c8cb3dabf50e25f20f8"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#19692e09c4bb839549a8fadc1d671366">SetAnchor</a> (<a class="el" href="structiPcMesh.html">iPcMesh</a> *pcmesh)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set an anchor for this movement class.  <a href="#19692e09c4bb839549a8fadc1d671366"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#0b67a1f554a5272731bdb3f3a16221f2">SetAngularVelocity</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;angle, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;angle_to_reach)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#0b67a1f554a5272731bdb3f3a16221f2">SetAngularVelocity</a> (const csVector3 &amp;angle, const csVector3 &amp;angle_to_reach)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles with a maximum to reached.  <a href="#0b67a1f554a5272731bdb3f3a16221f2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;angle)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (const csVector3 &amp;angle)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the orientation of the mesh with three given euler angles.  <a href="#bc0d6aa757b0bbeb122792bad05f4254"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d144753dbf091089abfd47a2dc46109c">SetDRData</a> (bool on_ground, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> speed, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;vel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;worldVel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> ang_vel)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d144753dbf091089abfd47a2dc46109c">SetDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, csVector3 &amp;worldVel, float ang_vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets all relevant dead reckoning data on this entity.  <a href="#d144753dbf091089abfd47a2dc46109c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#f00c129526ae72ed91239e0a54e529e8">SetFullPosition</a> (const char *center_name, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#f00c129526ae72ed91239e0a54e529e8">SetFullPosition</a> (const char *center_name, float yrot, iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set full position and sector.  <a href="#f00c129526ae72ed91239e0a54e529e8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set full position and sector.  <a href="#c2e794bf145fbd5230bc731d0a3bc8e1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a0273003a0eb9f30a034fa7a6811ab4f">SetHugGround</a> (bool hugGround)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set if pcmesh should be transformed to follow the contour of the ground.  <a href="#a0273003a0eb9f30a034fa7a6811ab4f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#6f568b2fd4d19f261af885a076bf0995">SetPath</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a> *newpath)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#6f568b2fd4d19f261af885a076bf0995">SetPath</a> (iPath *newpath)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function lets linmove store a ref to the supplied <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a>.  <a href="#6f568b2fd4d19f261af885a076bf0995"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d253b78fb9cc3041ff73faa1aa80115e">SetPathAction</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> which, const char *action)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function lets linmove store a ref to the supplied iPath.  <a href="#6f568b2fd4d19f261af885a076bf0995"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d253b78fb9cc3041ff73faa1aa80115e">SetPathAction</a> (int which, const char *action)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates a particular action name to be used between two points in the path.  <a href="#d253b78fb9cc3041ff73faa1aa80115e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#d9857e6ae7fd065734b93eedf7982ca1">SetPathSector</a> (const char *sectorname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This sets the sector which will be used for the entire path.  <a href="#d9857e6ae7fd065734b93eedf7982ca1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#503edf85cf3f8e020da21cd5bcff9abd">SetPathSpeed</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> speed)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#503edf85cf3f8e020da21cd5bcff9abd">SetPathSpeed</a> (float speed)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This relates the movement of the entity along the path to the time values specified by the path.  <a href="#503edf85cf3f8e020da21cd5bcff9abd"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#05c5ee10d53720176bb591f1a910c6bb">SetPathTime</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> timeval)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#05c5ee10d53720176bb591f1a910c6bb">SetPathTime</a> (float timeval)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the current position on the path for use when time deltas are added later.  <a href="#05c5ee10d53720176bb591f1a910c6bb"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#aa9d43289e9a440d8c733691f5b3c4c0">SetPosition</a> (const char *center_name, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#aa9d43289e9a440d8c733691f5b3c4c0">SetPosition</a> (const char *center_name, float yrot, iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#aa9d43289e9a440d8c733691f5b3c4c0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (const csVector3 &amp;pos, float yrot, const iSector *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set position and sector.  <a href="#a665242aafa97f3204e4118595c93442"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#8e9b86a3512378b504b94269934edb1c">SetSoftDRData</a> (bool on_ground, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> speed, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;vel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;worldVel, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> ang_vel)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#8e9b86a3512378b504b94269934edb1c">SetSoftDRData</a> (bool on_ground, float speed, csVector3 &amp;pos, float yrot, iSector *sector, csVector3 &amp;vel, csVector3 &amp;worldVel, float ang_vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets dead reckoning data in a 'soft' way.  <a href="#8e9b86a3512378b504b94269934edb1c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#5d2b89b2f25fffa741900bc5b34e5a2c">SetSpeed</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> speedZ)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#5d2b89b2f25fffa741900bc5b34e5a2c">SetSpeed</a> (float speedZ)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current speed.  <a href="#5d2b89b2f25fffa741900bc5b34e5a2c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#5ee8d69c5959001a620761dcaddd6ec0">SetVelocity</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;vel)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#5ee8d69c5959001a620761dcaddd6ec0">SetVelocity</a> (const csVector3 &amp;vel)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the current velocity vector in body coordinates.  <a href="#5ee8d69c5959001a620761dcaddd6ec0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csTicks&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#8a055fc1e2c0d083c05c9d21e11aae26">TimeDiff</a> (void)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the difference in time between now and when the last DR update or extrapolation took place.  <a href="#8a055fc1e2c0d083c05c9d21e11aae26"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#eb8b4e42a7eddca820afa7c73a8806f2">UpdateDR</a> ()=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with by calculating the delta from now relative to the last update, not a fixed delta.  <a href="#eb8b4e42a7eddca820afa7c73a8806f2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcLinearMovement.html#0de76aed9dbf4ab79c4b2245aaf59d78">UpdateDR</a> (csTicks ticks)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function calls ExtrapolatePosition with a certain time but calculates the delta relative to the last update, not a fixed delta.  <a href="#0de76aed9dbf4ab79c4b2245aaf59d78"></a><br></td></tr>
@@ -164,18 +157,32 @@ Inheritance diagram for iPcLinearMovement:<p><center><img src="structiPcLinearMo
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This property class controls movement of an entity in a realistic manner. 
 <p>
-It should be used in combination with <a class="el" href="structiPcMesh.html">iPcMesh</a> but otherwise doesn't depend on any other property classes. So in that sense it is unrelated to the other movement property classes.<p>
-This property class supports dead reckoning which is useful for networking.<p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset' (vector3 default=0,0,0).</li><li>InitCDMesh: parameters 'percentage' (float).</li><li>SetPosition: parameters 'sector' (string), 'position' (vector3 or string (name of mapnode in that case)), and 'yrot' (y rotation degrees).</li><li>SetVelocity: parameters 'velocity' (vector3) in body coordinates.</li><li>AddVelocity: parameters 'velocity' (vector3) in world coordinates.</li><li>SetAngularVelocity: parameters 'velocity' (vector3).</li></ul>
+It should be used in combination with <a class="el" href="structiPcMesh.html">iPcMesh</a> but otherwise doesn't depend on any other property classes. So in that sense it is unrelated to the other movement property classes. <p>
+This property class supports dead reckoning which is useful for networking. <p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+InitCD: parameters 'body' (vector3), 'legs' (vector3), and 'offset' (vector3). </li>
+<li>
+InitCDMesh: parameters 'percentage' (float). </li>
+<li>
+SetPosition: parameters 'sector' (string), 'position' (vector3 or string (name of mapnode in that case)), and 'yrot' (y rotation degrees). </li>
+<li>
+SetVelocity: parameters 'velocity' (vector3) in body coordinates. </li>
+<li>
+AddVelocity: parameters 'velocity' (vector3) in world coordinates. </li>
+<li>
+SetAngularVelocity: parameters 'velocity' (vector3). </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>speed (float, read/write): control speed (default 1.0).</li><li>anchor (string, read/write): name of the entity on which we are anchored.</li><li>gravity (float, read/write): gravity of the entity (default=19.6).</li><li>hug (bool, read/write): hug mesh to ground (default=false). </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+anchor (string, read/write): name of the entity on which we are anchored. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="linmove_8h-source.html#l00087">87</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="linmove_8h-source.html#l00088">88</a> of file <a class="el" href="linmove_8h-source.html">linmove.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="d3277adf4f3f41f2b0723b05ca7be340"></a><!-- doxytag: member="iPcLinearMovement::AddGravityCallback" ref="d3277adf4f3f41f2b0723b05ca7be340" args="(iPcGravityCallback *callback)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -210,7 +217,7 @@ I.e, calls when the object changes to negative Y velocity <dl compact><dt><b>Par
         <tr>
           <td class="memname">virtual void iPcLinearMovement::AddVelocity           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>vel</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -274,7 +281,7 @@ Resets the velocity of this body in world coordinates.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::ExtrapolatePosition           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>delta</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -317,7 +324,7 @@ Get the current anchor or 0 if movement is not anchored.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::GetAngularVelocity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>v</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"> const<code> [pure virtual]</code></td>
@@ -339,19 +346,19 @@ Get the current angular velocity vector.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::GetCDDimensions           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>body</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>legs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>shift</em>, </td>
         </tr>
         <tr>
@@ -388,43 +395,43 @@ Get CD box for the object.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
+          <td class="paramtype">float &amp;&nbsp;</td>
           <td class="paramname"> <em>speed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
+          <td class="paramtype">float &amp;&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;&nbsp;</td>
+          <td class="paramtype">iSector *&amp;&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>vel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>worldVel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
+          <td class="paramtype">float &amp;&nbsp;</td>
           <td class="paramname"> <em>ang_vel</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -449,19 +456,19 @@ Return all necessary data for Dead Reckoning.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::GetLastFullPosition           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
+          <td class="paramtype">float &amp;&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;&nbsp;</td>
+          <td class="paramtype">iSector *&amp;&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -486,19 +493,19 @@ This is an absolute position which is not relative to the anchor.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::GetLastPosition           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> &amp;&nbsp;</td>
+          <td class="paramtype">float &amp;&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&amp;&nbsp;</td>
+          <td class="paramtype">iSector *&amp;&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -521,7 +528,7 @@ If there is an anchor then this position is relative to the anchor. Use SetLastF
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> iPcLinearMovement::GetPortalDisplacement           </td>
+          <td class="memname">virtual csVector3 iPcLinearMovement::GetPortalDisplacement           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -542,7 +549,7 @@ Get the total displacement caused by space warping portals.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* iPcLinearMovement::GetSector           </td>
+          <td class="memname">virtual iSector* iPcLinearMovement::GetSector           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -565,7 +572,7 @@ Get sector.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::GetVelocity           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>v</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"> const<code> [pure virtual]</code></td>
@@ -609,19 +616,19 @@ Initialize CD again?@@.
         <tr>
           <td class="memname">virtual bool iPcLinearMovement::InitCD           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>body</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>legs</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>shift</em>, </td>
         </tr>
         <tr>
@@ -652,13 +659,13 @@ The two parameters are the dimensions of the body and the legs collider boxes. T
         <tr>
           <td class="memname">virtual bool iPcLinearMovement::InitCD           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *&nbsp;</td>
+          <td class="paramtype">iMeshWrapper *&nbsp;</td>
           <td class="paramname"> <em>mesh</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>percentage</em>, </td>
         </tr>
         <tr>
@@ -705,7 +712,7 @@ Initialize CD box for the object from a mesh.
 <div class="memdoc">
 
 <p>
-Is a <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPath.html">csPath</a> active now or standard DR movement? 
+Is a csPath active now or standard DR movement? 
 <p>
 
 </div>
@@ -761,13 +768,13 @@ When this linmove is anchored it basically means that all movement will be done 
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetAngularVelocity           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>angle</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>angle_to_reach</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -792,7 +799,7 @@ It returns true if this maximum has has been reached.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetAngularVelocity           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>angle</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -820,43 +827,43 @@ Set the orientation of the mesh with three given euler angles.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>speed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>vel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>worldVel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>ang_vel</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -887,13 +894,13 @@ Sets all relevant dead reckoning data on this entity.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -918,19 +925,19 @@ The position is absolute and will be corrected to fit on the anchor if there is 
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetFullPosition           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">const iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -977,7 +984,7 @@ Set if pcmesh should be transformed to follow the contour of the ground.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetPath           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a> *&nbsp;</td>
+          <td class="paramtype">iPath *&nbsp;</td>
           <td class="paramname"> <em>newpath</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -987,7 +994,7 @@ Set if pcmesh should be transformed to follow the contour of the ground.
 <div class="memdoc">
 
 <p>
-This function lets linmove store a ref to the supplied <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a>. 
+This function lets linmove store a ref to the supplied iPath. 
 <p>
 If this path is present, it will be used for movement instead of linear velocity vector. 
 </div>
@@ -999,7 +1006,7 @@ If this path is present, it will be used for movement instead of linear velocity
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetPathAction           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>which</em>, </td>
         </tr>
         <tr>
@@ -1052,7 +1059,7 @@ This sets the sector which will be used for the entire path.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetPathSpeed           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>speed</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1074,7 +1081,7 @@ Speed=0 makes the entity stationary. Speed=1 is normal traversal of the path.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetPathTime           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>timeval</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1102,13 +1109,13 @@ This function sets the current position on the path for use when time deltas are
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1133,19 +1140,19 @@ The position is relative to the anchor (if there is one). Use node name as cente
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetPosition           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">const iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1176,43 +1183,43 @@ The position is relative to the anchor (if there is one).
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>speed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>vel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>worldVel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>ang_vel</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1237,7 +1244,7 @@ Instead of immediately setting the position, an error (offset) is measured betwe
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetSpeed           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>speedZ</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1259,7 +1266,7 @@ Set the current speed.
         <tr>
           <td class="memname">virtual void iPcLinearMovement::SetVelocity           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>vel</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1294,27 +1301,6 @@ Set the current velocity vector in body coordinates.
 Returns the difference in time between now and when the last DR update or extrapolation took place. 
 <p>
 
-</div>
-</div><p>
-<a class="anchor" name="eb8b4e42a7eddca820afa7c73a8806f2"></a><!-- doxytag: member="iPcLinearMovement::UpdateDR" ref="eb8b4e42a7eddca820afa7c73a8806f2" args="()=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcLinearMovement::UpdateDR           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-This function calls ExtrapolatePosition with by calculating the delta from now relative to the last update, not a fixed delta. 
-<p>
-This allows all entities linmoves to be synchronized to the same ticks, even if updates are all happening at different times. 
 </div>
 </div><p>
 <a class="anchor" name="0de76aed9dbf4ab79c4b2245aaf59d78"></a><!-- doxytag: member="iPcLinearMovement::UpdateDR" ref="0de76aed9dbf4ab79c4b2245aaf59d78" args="(csTicks ticks)=0" -->

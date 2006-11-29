@@ -71,7 +71,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.trigger",
     	msg, arg);
@@ -131,8 +131,8 @@ PropertyHolder celPcTrigger::propinfo;
 celPcTrigger::celPcTrigger (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  engine = csQueryRegistry<iEngine> (object_reg);
-  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   if (id_entity == csInvalidStringID)
   {
@@ -856,7 +856,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
     iCelPropertyClass* pc = databuf->GetPC ();
     csRef<iPcMesh> pcmesh;
     if (pc)
-      pcmesh = scfQueryInterface<iPcMesh> (pc);
+      pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
     float r = databuf->GetFloat ();
     if (pcmesh)
       SetupTriggerAboveMesh (pcmesh, r);
@@ -889,7 +889,7 @@ bool celPcTrigger::Load (iCelDataBuffer* databuf)
   ent = databuf->GetEntity ();
   if (ent) monitoring_entity = ent;
   iCelPropertyClass* pc = databuf->GetPC ();
-  if (pc) monitoring_entity_pcmesh = scfQueryInterface<iPcMesh> (pc);
+  if (pc) monitoring_entity_pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
   return true;
 }

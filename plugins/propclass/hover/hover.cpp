@@ -276,23 +276,26 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 float celPcHover::PIDStatus::Force (float curr_height)
 {
-  float pval, dval, ival;
-  float error = hover_height - curr_height;
-  //printf ("E: %f\n", error);
+    float pval, dval, ival;
+    float error = hover_height - curr_height;
+    //printf ("E: %f\n", error);
 
-  // calculate the proportional term
-  pval = p_factor * error;
+    // calculate the proportional term
+    pval = p_factor * error;
+    csClamp (pval, -clamp, clamp);
 
-  // calculate the integral term
-  sum_errors += error;
-  ival = i_factor * sum_errors;
+    // calculate the integral term
+    sum_errors += error;
+    ival = i_factor * sum_errors;
+    csClamp (ival, -clamp, clamp);
 
-  // calculate the differential term
-  dval = d_factor * (curr_height - last_height);
-  last_height = curr_height;
+    // calculate the differential term
+    dval = d_factor * (curr_height - last_height);
+    last_height = curr_height;
+    csClamp (dval, -clamp, clamp);
 
-  //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
-  return csClamp (pval + ival + dval, clamp, -clamp);
+    //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+    return pval + ival + dval;
 }
 
 void celPcHover::PerformStabilising ()
@@ -312,7 +315,7 @@ void celPcHover::PerformStabilising ()
   {
     // do PID calculation here.
     float force = pid.Force (height);
-    //printf ("%f %f\n",height,force);
+    //printf ("%f %f\n",obj_info.height,force);
 
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
@@ -332,10 +335,6 @@ void celPcHover::PerformStabilising ()
   {
     float rx = AngularAlignment (csVector3 (0,0,-1), height);
     float rz = AngularAlignment (csVector3 (1,0,0), height);
-
-    // offset hack for tendency of nose to dip into ground when going uphill
-    if (rx > 0.0)
-      rx *= 3.0;
 
     // align the ship by getting it to rotate in whatever direction
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +

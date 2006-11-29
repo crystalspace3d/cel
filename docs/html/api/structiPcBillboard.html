@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcBillboard Struct Reference</h1><!-- doxytag: class="iPcBillboard" --><!-- doxytag: inherits="iBase" -->Billboard property class.  
+<h1>iPcBillboard Struct Reference</h1><!-- doxytag: class="iPcBillboard" -->Billboard property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="propclass_2billboard_8h-source.html">propclass/billboard.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcBillboard:<p><center><img src="structiPcBillboard__inherit__graph.png" border="0" usemap="#iPcBillboard__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcBillboard__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="27,5,85,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcBillboard.html#a584e7f4b274a4d72f905721305b59c7">AreEventsEnabled</a> () const =0</td></tr>
@@ -59,19 +55,87 @@ Inheritance diagram for iPcBillboard:<p><center><img src="structiPcBillboard__in
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Billboard property class. 
 <p>
-This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
-<li>pcbillboard_select: billboard is selected (x,y,button)</li><li>pcbillboard_move: mouse moves over billboard (x,y,button)</li><li>pcbillboard_moveaway: mouse moves away from billboard (x,y,button)</li><li>pcbillboard_unselect: billboard is unselected (x,y,button)</li><li>pcbillboard_doubleclick: billboard is double clicked (x,y,button)</li></ul>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
+<li>
+pcbillboard_select: billboard is selected (x,y,button) </li>
+<li>
+pcbillboard_move: mouse moves over billboard (x,y,button) </li>
+<li>
+pcbillboard_moveaway: mouse moves away from billboard (x,y,button) </li>
+<li>
+pcbillboard_unselect: billboard is unselected (x,y,button) </li>
+<li>
+pcbillboard_doubleclick: billboard is double clicked (x,y,button) </li>
+</ul>
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>DrawMesh: parameters 'materialname' (string), 'factory' (string), optional: 'distance' (float), optional: 'rotate' (vector3), optional: 'angle' (float).</li><li>GetTextWidth: no parameters, returns an integer with current text width in billboard coordinates.</li><li>GetTextHeight: no parameters, returns an integer with current text height in billboard coordinates.</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+DrawMesh: parameters 'materialname' (string), 'factory' (string), optional: 'distance' (float), optional: 'rotate' (vector3), optional: 'angle' (float). </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>name (string, read/write): name of the billboard.</li><li>materialname (string, read/write): name of the material. Warning! It is important to make sure the materials using the billboard have the &lt;keepimage&gt; flag set!</li><li>materialnamefast (string, read/write): name of the material (faster way to set).</li><li>clickable (bool, read/write): clickable (default no).</li><li>movable (bool, read/write): movable (default no).</li><li>visible (bool, read/write): visible (default yes).</li><li>restack (bool, read/write): restackable on selection (default no).</li><li>sendmove (bool, read/write): send move/moveaway events (default no).</li><li>color (color, read/write): color of this billboard.</li><li>width (long, read/write): width of this billboard.</li><li>height (long, read/write): height of this billboard.</li><li>widthpct (float, read/write): width of this billboard in percentage.</li><li>heightpct (float, read/write): height of this billboard in percentage.</li><li>x (long, read/write): x position of this billboard.</li><li>y (long, read/write): y position of this billboard.</li><li>uv_topleft (vector2, read/write): topleft uv coordinate in material.</li><li>uv_botright (vector2, read/write): botright uv coordinate in material.</li><li>layer (string, read/write): layer name.</li><li>text (string, read/write): optional text on billboard.</li><li>text_offset (vector2, write): offset for text in billboard space.</li><li>text_fg_color (color, write): foreground color.</li><li>text_bg_color (color, write): background color.</li><li>text_font_size (float, write): font size. Set this before setting text_font. Otherwise default is 10.</li><li>text_font (string, write): font.</li><li>text_default_fg_color (color, write): default foreground color (for all billboards).</li><li>text_default_bg_color (color, write): default background color (for all billboards).</li><li>text_default_font_size (float, write): font size. Set this before setting text_default_font. Otherwise default is 10.</li><li>text_default_font (string, write): default font (for all billboards). </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+name (string, read/write): name of the billboard. </li>
+<li>
+materialname (string, read/write): name of the material. Warning! It is important to make sure the materials using the billboard have the &lt;keepimage&gt; flag set! </li>
+<li>
+materialnamefast (string, read/write): name of the material (faster way to set). </li>
+<li>
+clickable (bool, read/write): clickable (default no). </li>
+<li>
+movable (bool, read/write): movable (default no). </li>
+<li>
+visible (bool, read/write): visible (default yes). </li>
+<li>
+restack (bool, read/write): restackable on selection (default no). </li>
+<li>
+sendmove (bool, read/write): send move/moveaway events (default no). </li>
+<li>
+color (color, read/write): color of this billboard. </li>
+<li>
+width (long, read/write): width of this billboard. </li>
+<li>
+height (long, read/write): height of this billboard. </li>
+<li>
+widthpct (float, read/write): width of this billboard in percentage. </li>
+<li>
+heightpct (float, read/write): height of this billboard in percentage. </li>
+<li>
+x (long, read/write): x position of this billboard. </li>
+<li>
+y (long, read/write): y position of this billboard. </li>
+<li>
+uv_topleft (vector2, read/write): topleft uv coordinate in material. </li>
+<li>
+uv_botright (vector2, read/write): botright uv coordinate in material. </li>
+<li>
+layer (string, read/write): layer name. </li>
+<li>
+text (string, read/write): optional text on billboard. </li>
+<li>
+text_offset (vector2, write): offset for text in billboard space. </li>
+<li>
+text_fg_color (color, write): foreground color. </li>
+<li>
+text_bg_color (color, write): background color. </li>
+<li>
+text_font_size (float, write): font size. Set this before setting text_font. Otherwise default is 10. </li>
+<li>
+text_font (string, write): font. </li>
+<li>
+text_default_fg_color (color, write): default foreground color (for all billboards). </li>
+<li>
+text_default_bg_color (color, write): default background color (for all billboards). </li>
+<li>
+text_default_font_size (float, write): font size. Set this before setting text_default_font. Otherwise default is 10. </li>
+<li>
+text_default_font (string, write): default font (for all billboards). </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="propclass_2billboard_8h-source.html#l00089">89</a> of file <a class="el" href="propclass_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="propclass_2billboard_8h-source.html#l00091">91</a> of file <a class="el" href="propclass_2billboard_8h-source.html">billboard.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a584e7f4b274a4d72f905721305b59c7"></a><!-- doxytag: member="iPcBillboard::AreEventsEnabled" ref="a584e7f4b274a4d72f905721305b59c7" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">

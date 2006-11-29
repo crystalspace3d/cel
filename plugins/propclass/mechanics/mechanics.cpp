@@ -67,7 +67,7 @@ PropertyHolder celPcMechanicsSystem::propinfo;
 celPcMechanicsSystem::celPcMechanicsSystem (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   scfiCelTimerListener = new CelTimerListener (this);
   pl->CallbackEveryFrame (scfiCelTimerListener, CEL_EVENT_PRE);
 
@@ -240,7 +240,8 @@ void celPcMechanicsSystem::DisableStepFast ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
   if (osys)
     osys->EnableStepFast (0);
 }
@@ -249,7 +250,8 @@ void celPcMechanicsSystem::EnableStepFast ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
   if (osys)
     osys->EnableStepFast (1);
 }
@@ -258,7 +260,8 @@ void celPcMechanicsSystem::EnableQuickStep ()
 {
   GetDynamicSystem ();
   if (!dynsystem) return;
-  csRef<iODEDynamicSystemState> osys= scfQueryInterface<iODEDynamicSystemState> (dynsystem);
+  csRef<iODEDynamicSystemState> osys= SCF_QUERY_INTERFACE (dynsystem,
+    	iODEDynamicSystemState);
   if (osys)
     osys->EnableQuickStep (1);
 }
@@ -716,7 +719,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh)
   {
-    pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
+    pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
     databuf->Add (pc);
   }
   else
@@ -724,7 +727,7 @@ csPtr<iCelDataBuffer> celPcMechanicsObject::Save ()
   GetMechSystem ();
   if (mechsystem)
   {
-    pc = scfQueryInterface<iCelPropertyClass> (mechsystem);
+    pc = SCF_QUERY_INTERFACE (mechsystem, iCelPropertyClass);
     databuf->Add (pc);
   }
   else
@@ -794,9 +797,10 @@ bool celPcMechanicsObject::Load (iCelDataBuffer* databuf)
     CS_REPORT(ERROR,"serialnr != DYNBODY_SERIAL.  Cannot load.");
     return false;
   }
-  csRef<iPcMesh> pcm = scfQueryInterface<iPcMesh> (databuf->GetPC ());
+  csRef<iPcMesh> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (), iPcMesh);
   SetMesh (pcm);
-  csRef<iPcMechanicsSystem> pcms = scfQueryInterface<iPcMechanicsSystem> (databuf->GetPC ());
+  csRef<iPcMechanicsSystem> pcms = SCF_QUERY_INTERFACE (databuf->GetPC (),
+  	iPcMechanicsSystem);
   SetMechanicsSystem (pcms);
   btype = (int) databuf->GetInt32 ();
   switch (btype)
@@ -1255,7 +1259,7 @@ void celPcMechanicsObject::GetMechSystem ()
 {
   if (!mechsystem)
   {
-    mechsystem = csQueryRegistry<iPcMechanicsSystem> (object_reg);
+    mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
   }
 }
 
@@ -1704,7 +1708,7 @@ celPcMechanicsJoint::~celPcMechanicsJoint ()
 {
   if (joint)
   {
-    csRef<iPcMechanicsSystem> mechsystem = csQueryRegistry<iPcMechanicsSystem> (object_reg);
+    csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg, iPcMechanicsSystem);
     if (mechsystem)
       mechsystem->RemoveJoint (joint);
   }
@@ -1751,8 +1755,8 @@ void celPcMechanicsJoint::CreateJoint ()
     return;	// @@@ Error?
   }
   iRigidBody* body2 = pcmechobj->GetBody ();
-  csRef<iPcMechanicsSystem> mechsystem = 
-  	csQueryRegistry<iPcMechanicsSystem> (object_reg);
+  csRef<iPcMechanicsSystem> mechsystem = CS_QUERY_REGISTRY (object_reg,
+  	iPcMechanicsSystem);
   if (!mechsystem)
   {
     fprintf (stderr, "Can't find mechanics system!\n"); fflush (stderr);

@@ -30,11 +30,7 @@
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcwheeled_collision: an entity has collided with this entity.
- *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
- *   point of collision, 'normal' (vector3: normal of collision),
- *   'depth' (float: penetration depth), and 'index' (int: index of colliding
- *   wheel).
+ * - pcvehicle_print: a message has been printed (message)
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
@@ -114,8 +110,6 @@ struct iPcWheeled : public virtual iBase
    * \param brakepower Fraction of vehicle's brake force this wheel recieves.
    * \param leftsteersensitivity How sensitive wheel is when steering left.
    * \param rightsteersensitivity How sensitive wheel is when steering right.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    * \param handbrakeaffect Wether the handbrake applies to this wheel.
    * \param steerinvert Wether this wheel steers back-to-front.
    *  \param wheelfact The name of the factory to use for wheel meshes.
@@ -127,7 +121,7 @@ struct iPcWheeled : public virtual iBase
                        float turnspeed, float returnspeed,
                        float suspensionsoftness, float suspensiondamping,
                        float brakepower, float enginepower,
-		       float leftsteersensitivity, float friction, float mass,
+		       float leftsteersensitivity,
                        float rightsteersensitivity, bool handbrakeaffect,
                        bool steerinvert, const char* wheelfact = 0, 
                        const char* wheelfile = 0,
@@ -186,12 +180,9 @@ struct iPcWheeled : public virtual iBase
    * \param suspensionsoftness How soft the suspension on the wheel should be.
    * \param suspensiondamping How dampened the suspension on the wheel should
    * be.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    */
   virtual void SetFrontWheelPreset(float sensitivity,float power,
-     float suspensionsoftness, float suspensiondamping, float friction,
-     float mass) = 0;
+     float suspensionsoftness, float suspensiondamping) = 0;
 
   /**
    * A wheel grouping preset which sets steering amount and drive power to
@@ -203,12 +194,9 @@ struct iPcWheeled : public virtual iBase
    * \param suspensionsoftness How soft the suspension on the wheel should be.
    * \param suspensiondamping How dampened the suspension on the wheel
    * should be.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    */
   virtual void SetRearWheelPreset(float sensitivity,float power,
-     float suspensionsoftness, float suspensiondamping, float friction,
-     float mass) = 0;
+     float suspensionsoftness, float suspensiondamping) = 0;
 
   /**
    * Set wether the vehicle will accelerate.
@@ -357,7 +345,10 @@ struct iPcWheeled : public virtual iBase
   virtual void SetWheelSuspensionDamping(int wheelnum, float damping) = 0;
 
   /**
-   * Set the sensitivity of a wheel when steering left.
+   * Set the sensitivity of a wheel when steering left.This is initially
+   * automatically determined from the wheels position. If it is an outer
+   * wheel when steering left, it is decreased. If it is a back wheel it
+   * is decreased further.
    * \param wheelnum Index of the wheel to set.
    * \param sensitivity Sensitivity of the steering, from 0 to 1.
    */
@@ -365,28 +356,15 @@ struct iPcWheeled : public virtual iBase
       float sensitivity) = 0;
 
   /**
-   * Set the sensitivity of a wheel when steering right.
+   * Set the sensitivity of a wheel when steering right. This is initially
+   * automatically determined from the wheels position. If it is an outer
+   * wheel when steering right, it is decreased. If it is a back wheel it
+   * is decreased further.
    * \param wheelnum Index of the wheel to set.
    * \param sensitivity Sensitivity of the steering, from 0 to 1.
    */
   virtual void SetWheelRightSteerSensitivity(int wheelnum,
       float sensitivity) = 0;
-
-  /**
-   * Set the friction of a wheel. The default is 0.7.
-   * \param wheelnum Index of the wheel to set.
-   * \param friction Friction of the wheel.
-   */
-  virtual void SetWheelFriction(int wheelnum,
-      float friction) = 0;
-
-  /**
-   * Set the mass of a wheel. The default is 10.0.
-   * \param wheelnum Index of the wheel to set.
-   * \param mass Mass of the wheel.
-   */
-  virtual void SetWheelMass(int wheelnum,
-      float mass) = 0;
 
   /**
    * Set the speed at which a wheel turns away from the middle. This is
@@ -475,18 +453,6 @@ struct iPcWheeled : public virtual iBase
   virtual float GetWheelRightSteerSensitivity(int wheelnum) = 0;
 
   /**
-   * Get the friction of the wheel.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual float GetWheelFriction(int wheelnum) = 0;
-
-  /**
-   * Get the mass of the wheel.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual float GetWheelMass(int wheelnum) = 0;
-
-  /**
    * Get the speed at which a wheel turns away from the middle.
    * \param wheelnum Index of the wheel to get.
    */
@@ -539,19 +505,6 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to get.
    */
   virtual iODEHinge2Joint* GetWheelJoint(int wheelnum) = 0;
-
-  /**
-   * Set whether to send messages back to the entity when wheels collide with
-   * other bodies.
-   * \param en Wether callback is enabled
-   */
-  virtual void SetCollisionCallbackEnabled (bool en) = 0;
-
-  /**
-   * Get whether to send messages back to the entity when wheels collide with
-   * other bodies. Is true by default.
-   */
-  virtual bool IsCollisionCallbackEnabled () const = 0;
 };
 
 #endif // __CEL_PF_WHEELED__

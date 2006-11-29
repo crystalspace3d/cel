@@ -285,10 +285,10 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   camalgo = 0;
 
   use_cd = false;
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
-  mouse = csQueryRegistry<iMouseDriver> (object_reg);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   CS_ASSERT (kbd != 0);
-  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   // Most of these are default values that will be overwritten
   firstPersonPositionOffset = csVector3 (0, 1, 0);

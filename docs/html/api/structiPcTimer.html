@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcTimer Struct Reference</h1><!-- doxytag: class="iPcTimer" --><!-- doxytag: inherits="iBase" -->Timer propery class.  
+<h1>iPcTimer Struct Reference</h1><!-- doxytag: class="iPcTimer" -->Timer propery class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="timer_8h-source.html">propclass/timer.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcTimer:<p><center><img src="structiPcTimer__inherit__graph.png" border="0" usemap="#iPcTimer__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcTimer__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="16,5,75,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcTimer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcTimer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTimer.html#047cb1e3dbe2ec88805be4b78118d236">Clear</a> ()=0</td></tr>
@@ -46,23 +42,33 @@ Inheritance diagram for iPcTimer:<p><center><img src="structiPcTimer__inherit__g
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTimer.html#1e2375e39acabf2b0594aac5b8a785d4">WakeUp</a> (csTicks t, bool repeat)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Wake up the Behaviour in 't' ticks.  <a href="#1e2375e39acabf2b0594aac5b8a785d4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTimer.html#91d78d0d8b92632f27cdce9aa03aaa61">WakeUpFrame</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> where)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcTimer.html#91d78d0d8b92632f27cdce9aa03aaa61">WakeUpFrame</a> (int where)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Wake up the Behaviour every frame.  <a href="#91d78d0d8b92632f27cdce9aa03aaa61"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Timer propery class. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>WakeUp: parameters 'time' (long) and 'repeat' (bool).</li><li>WakeUpFrame: no parameters.</li><li>Clear: no parameters.</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+WakeUp: parameters 'time' (long) and 'repeat' (bool). </li>
+<li>
+WakeUpFrame: no parameters. </li>
+<li>
+Clear: no parameters. </li>
+</ul>
 <p>
-This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
-<li>pctimer_wakeup: wakeup message</li><li>pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks) </li></ul>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
+<li>
+pctimer_wakeup: wakeup message </li>
+<li>
+pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks) </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="timer_8h-source.html#l00044">44</a> of file <a class="el" href="timer_8h-source.html">timer.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="timer_8h-source.html#l00048">48</a> of file <a class="el" href="timer_8h-source.html">timer.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="047cb1e3dbe2ec88805be4b78118d236"></a><!-- doxytag: member="iPcTimer::Clear" ref="047cb1e3dbe2ec88805be4b78118d236" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +128,7 @@ If 'repeat' is true then this will be repeated. Otherwise there will only be one
         <tr>
           <td class="memname">virtual void iPcTimer::WakeUpFrame           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>where</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

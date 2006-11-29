@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,22 +28,18 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iEntityLoader Struct Reference</h1><!-- doxytag: class="iEntityLoader" --><!-- doxytag: inherits="iBase" -->This interface allows one to access the celentity addon with an easier interface.  
+<h1>iEntityLoader Struct Reference</h1><!-- doxytag: class="iEntityLoader" -->This interface allows one to access the celentity addon with an easier interface.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="entityloader_8h-source.html">tools/entityloader.h</a>&gt;</code>
 <p>
-Inheritance diagram for iEntityLoader:<p><center><img src="structiEntityLoader__inherit__graph.png" border="0" usemap="#iEntityLoader__inherit__map" alt="Inheritance graph"></center>
-<map name="iEntityLoader__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="32,5,91,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiEntityLoader-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiEntityLoader-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiEntityLoader.html#0816f500bb741de4c3cc81608d377ec6">Load</a> (const char *path, const char *file, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *mesh=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiEntityLoader.html#0816f500bb741de4c3cc81608d377ec6">Load</a> (const char *path, const char *file, iMeshWrapper *mesh=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Conveniance function to load the entity from a vfs file.  <a href="#0816f500bb741de4c3cc81608d377ec6"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiEntityLoader.html#30a9b65d3033a666605f781478185537">Load</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *node, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *mesh=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiEntityLoader.html#30a9b65d3033a666605f781478185537">Load</a> (iDocumentNode *node, iMeshWrapper *mesh=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load the entity from the document node.  <a href="#30a9b65d3033a666605f781478185537"></a><br></td></tr>
 </table>
@@ -74,7 +70,7 @@ Definition at line <a class="el" href="entityloader_8h-source.html#l00038">38</a
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *&nbsp;</td>
+          <td class="paramtype">iMeshWrapper *&nbsp;</td>
           <td class="paramname"> <em>mesh</em> = <code>0</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -104,13 +100,13 @@ Conveniance function to load the entity from a vfs file.
         <tr>
           <td class="memname">virtual <a class="el" href="structiCelEntity.html">iCelEntity</a>* iEntityLoader::Load           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *&nbsp;</td>
+          <td class="paramtype">iDocumentNode *&nbsp;</td>
           <td class="paramname"> <em>node</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *&nbsp;</td>
+          <td class="paramtype">iMeshWrapper *&nbsp;</td>
           <td class="paramname"> <em>mesh</em> = <code>0</code></td><td>&nbsp;</td>
         </tr>
         <tr>

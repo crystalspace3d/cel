@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,17 +43,17 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_TOOLS_EXPRESSION__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_TOOLS_EXPRESSION__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csutil/stringarray.h"</span>
 <a name="l00026"></a>00026 
 <a name="l00027"></a>00027 <span class="preprocessor">#include "physicallayer/datatype.h"</span>
 <a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a>;
-<a name="l00030"></a>00030 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>;
-<a name="l00031"></a>00031 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a>;
+<a name="l00029"></a>00029 <span class="keyword">class </span>csVector2;
+<a name="l00030"></a>00030 <span class="keyword">class </span>csVector3;
+<a name="l00031"></a>00031 <span class="keyword">class </span>csColor;
 <a name="l00032"></a>00032 
-<a name="l00036"></a><a class="code" href="structiCelExpression.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiCelExpression.html">iCelExpression</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00036"></a><a class="code" href="structiCelExpression.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiCelExpression.html">iCelExpression</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> iBase
 <a name="l00037"></a>00037 {
 <a name="l00038"></a>00038   SCF_INTERFACE (<a class="code" href="structiCelExpression.html">iCelExpression</a>, 0, 0, 1);
 <a name="l00039"></a>00039 
@@ -61,25 +61,25 @@
 <a name="l00047"></a>00047 
 <a name="l00052"></a>00052   <span class="keyword">virtual</span> size_t <a class="code" href="structiCelExpression.html#821d0efb2663d020a53c7e87902e226f">FindLocalVariable</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* name) <span class="keyword">const </span>= 0;
 <a name="l00053"></a>00053 
-<a name="l00057"></a>00057   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsStringArray.html">csStringArray</a>&amp; <a class="code" href="structiCelExpression.html#135d663d70f628d7ad067591f4c1a3b5">GetLocalVariables</a> () <span class="keyword">const </span>= 0;
+<a name="l00057"></a>00057   <span class="keyword">virtual</span> <span class="keyword">const</span> csStringArray&amp; <a class="code" href="structiCelExpression.html#135d663d70f628d7ad067591f4c1a3b5">GetLocalVariables</a> () <span class="keyword">const </span>= 0;
 <a name="l00058"></a>00058 
 <a name="l00060"></a>00060   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#4b96ae366136f80dab0e1293953c5b62">SetLocalVariable</a> (size_t idx, <span class="keyword">const</span> <a class="code" href="structcelData.html">celData</a>&amp; value) = 0;
-<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#c841cd8f0e024dc34558c3d8627a854f">SetLocalVariableLong</a> (size_t idx, <a class="code" href="dummy.html#g56f1a81c92849566ae864511088eb7e8">int32</a> value) = 0;
-<a name="l00064"></a>00064   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#9f709184e1dde4615155c9fbe4a1a9eb">SetLocalVariableULong</a> (size_t idx, <a class="code" href="dummy.html#g1134b580f8da4de94ca6b1de4d37975e">uint32</a> value) = 0;
+<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#c841cd8f0e024dc34558c3d8627a854f">SetLocalVariableLong</a> (size_t idx, int32 value) = 0;
+<a name="l00064"></a>00064   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#9f709184e1dde4615155c9fbe4a1a9eb">SetLocalVariableULong</a> (size_t idx, uint32 value) = 0;
 <a name="l00066"></a>00066   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#8742cec238fe014e1bbb4961b9eaa73c">SetLocalVariableFloat</a> (size_t idx, <span class="keywordtype">float</span> value) = 0;
 <a name="l00068"></a>00068   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#2c52aa227424bb5b9e0049b8c4a91f61">SetLocalVariableBool</a> (size_t idx, <span class="keywordtype">bool</span> value) = 0;
 <a name="l00070"></a>00070   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#51e65b56ed9884b298cc3ae0cd8c1dbe">SetLocalVariableString</a> (size_t idx, <span class="keyword">const</span> <span class="keywordtype">char</span>* value) = 0;
-<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#ffd0e78690f324b72e6f58810fbcd25c">SetLocalVariableVector2</a> (size_t idx, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a>&amp; value) = 0;
-<a name="l00074"></a>00074   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#5b9b8476fd4ac8ca3036df0a08db3705">SetLocalVariableVector3</a> (size_t idx, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; value) = 0;
-<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#3b196f98b60a84055fda306e9eab469a">SetLocalVariableColor</a> (size_t idx, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a>&amp; value) = 0;
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#ffd0e78690f324b72e6f58810fbcd25c">SetLocalVariableVector2</a> (size_t idx, <span class="keyword">const</span> csVector2&amp; value) = 0;
+<a name="l00074"></a>00074   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#5b9b8476fd4ac8ca3036df0a08db3705">SetLocalVariableVector3</a> (size_t idx, <span class="keyword">const</span> csVector3&amp; value) = 0;
+<a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelExpression.html#3b196f98b60a84055fda306e9eab469a">SetLocalVariableColor</a> (size_t idx, <span class="keyword">const</span> csColor&amp; value) = 0;
 <a name="l00077"></a>00077 };
 <a name="l00078"></a>00078 
 <a name="l00079"></a>00079 
-<a name="l00084"></a><a class="code" href="structiCelExpressionParser.html">00084</a> <span class="keyword">struct </span><a class="code" href="structiCelExpressionParser.html">iCelExpressionParser</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00084"></a><a class="code" href="structiCelExpressionParser.html">00084</a> <span class="keyword">struct </span><a class="code" href="structiCelExpressionParser.html">iCelExpressionParser</a> : <span class="keyword">virtual</span> <span class="keyword">public</span> iBase
 <a name="l00085"></a>00085 {
 <a name="l00086"></a>00086   SCF_INTERFACE (<a class="code" href="structiCelExpressionParser.html">iCelExpressionParser</a>, 0, 0, 1);
 <a name="l00087"></a>00087 
-<a name="l00092"></a>00092   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelExpression&gt;</a> <a class="code" href="structiCelExpressionParser.html#e7141fe473815be661f096cdb3afcb53">Parse</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* string) = 0;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> csPtr&lt;iCelExpression&gt; <a class="code" href="structiCelExpressionParser.html#e7141fe473815be661f096cdb3afcb53">Parse</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* string) = 0;
 <a name="l00093"></a>00093 };
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095 <span class="preprocessor">#endif // __CEL_TOOLS_EXPRESSION__</span>

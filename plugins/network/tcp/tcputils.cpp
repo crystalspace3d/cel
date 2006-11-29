@@ -215,7 +215,7 @@ celNetworkBuffer::celNetworkBuffer ()
 {
   // TODO: can't we create iCelDataBuffers more easily without using the physical layer?
   if (!pl)
-    pl = csQueryRegistry<iCelPlLayer> (buffer_object_reg);
+    pl = CS_QUERY_REGISTRY (buffer_object_reg, iCelPlLayer);
   data_size = position = 0;
 }
 
