@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 3.4 celstart</title>
+
+<meta name="description" content="Crystal Entity Layer: 3.4 celstart">
+<meta name="keywords" content="Crystal Entity Layer: 3.4 celstart">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="AppCelstart"></a>
+<a name="3.4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_3.3.html#3.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 3.4 celstart </h2>
+<p><samp>`celstart'</samp> is a simple application that is designed to fire up a game that
+uses CEL. If you use this application then you can write games using <small>XML</small> or
+python scripts without having to write a single line of C++ code.
+</p>
+<p><samp>`celstart'</samp> has a single argument which can be of the form:
+</p>
+<ul>
+<li> <samp>`zip archive'</samp> 
+In this case the zip archive should contain a config file called <tt>`celstart.cfg'</tt>.
+</li><li> <samp>`real filesystem directory'</samp>
+In this case the directory should also contain a config file called <tt>`celstart.cfg'</tt>.
+</li><li> <samp>`vfs directory'</samp>
+Same as with the real directory. It should contain <samp>`celstart.cfg'</samp>
+</li><li> <samp>`real path to config file'</samp>
+In this case the config file can have another name.
+</li><li> <samp>`vfs path to config file'</samp>
+In this case the config file can have another name.
+</li></ul>
+
+<p>After starting <samp>`celstart'</samp> will first try to open the config and then it will
+give that config file to Crystal Space. So basically the config file is treated like
+a normal Crystal Space configuration file and thus can contain information about which
+plugins to load, the desired resolution, and many other options. In addition to that
+<samp>`celstart'</samp> will understand the following additional configuration options:
+</p>
+<ul>
+<li> <samp>`CelStart.MapFile.&lt;somename&gt; = &lt;filename&gt;'</samp>
+With this option you can let <samp>`celstart'</samp> load the given map file. It is possible
+to have multiple of these in the same configuration in which case <samp>`celstart'</samp> will
+try to load them all.
+</li><li> <samp>`CelStart.Entity.&lt;name&gt; = &lt;name&gt;'</samp>
+This is a way to let celstart create an entity from the start. If this option is
+present then <samp>`celstart'</samp> will also try to find <samp>`CelStart.EntityBehaviour.&lt;name&gt;'</samp>
+and <samp>`CelStart.EntityBehaviourLayer.&lt;name&gt;'</samp>. With those two you can specify the
+name of the behaviour (and optionally the name of the behaviour layer, otherwise the
+default name is taken).
+</li><li> <samp>`CelStart.BehaviourLayer.&lt;bhname&gt; = &lt;classid&gt;'</samp>
+This is a way to load additional behaviour layers. Note that by default <small>XML</small>
+scripts will automatically load their behaviour layer so it is not needed to add this
+if you use only <small>XML</small> behaviours.
+</li><li> <samp>`CelStart.ClearScreen = true'</samp>
+If you have a 2D only <small>XML</small> game then it might be needed to force <samp>`celstart'</samp>
+into clearing the screen every frame since there will be no 3D camera that will do
+this.
+</li><li> <samp>`CelStart.ConfigDir.&lt;somename&gt; = &lt;dirname&gt;'</samp>
+With this option you can let <samp>`celstart'</samp> load all config files from the
+specified vfs dir (specified relative to the celstart.cfg path). It is possible
+to have multiple of these in the same configuration in which case 
+<samp>`celstart'</samp> will load from them all.
+</li></ul>
+
+<p>Here is an example config file:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">; We always need a dummy name after CelStart.MapFile. Even if we have only one map file.
+CelStart.MapFile.a = data/maingame.xml
+CelStart.MapFile.b = data/screenmanager.xml
+; Use 'iCelBlLayer' for the default behaviour layer. Use another name for the others.
+CelStart.BehaviourLayer.iCelBlLayer = cel.behaviourlayer.python
+CelStart.BehaviourLayer.blxml = cel.behaviourlayer.xml
+; Create one entity.
+CelStart.Entity.start = start
+CelStart.EntityBehaviourLayer.start = blxml
+CelStart.EntityBehaviour.start = start_behaviour
+; Load config files from the 'config' dir (under map vfs).
+CelStart.ConfigDir.Behaviours = config
+; Some CS stuff.
+Video.ScreenWidth = 1024
+Video.ScreenHeight = 768
+System.Plugins.iGraphics3D = crystalspace.graphics3d.opengl
+System.Plugins.iEngine = crystalspace.engine.3d
+...
+</pre></td></tr></table>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_3.3.html#3.3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
