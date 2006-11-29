@@ -140,13 +140,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   tankmode=false;
 
-  params = new celGenericParameterBlock (5);
-  params->SetParameterDef (0, param_otherbody, "otherbody");
-  params->SetParameterDef (1, param_position, "position");
-  params->SetParameterDef (2, param_normal, "normal");
-  params->SetParameterDef (3, param_depth, "depth");
-  params->SetParameterDef (4, param_index, "index");
-
   if(param_meshfile==csInvalidStringID)
   {
     // Parameters.
@@ -248,6 +241,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
+  params = new celGenericParameterBlock (5);
+  params->SetParameterDef (0, param_otherbody, "otherbody");
+  params->SetParameterDef (1, param_position, "position");
+  params->SetParameterDef (2, param_normal, "normal");
+  params->SetParameterDef (3, param_depth, "depth");
+  params->SetParameterDef (4, param_index, "index");
 
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
