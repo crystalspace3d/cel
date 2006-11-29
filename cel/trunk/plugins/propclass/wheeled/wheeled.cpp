@@ -77,15 +77,29 @@ csStringID celPcWheeled::param_turnspeed = csInvalidStringID;
 csStringID celPcWheeled::param_returnspeed = csInvalidStringID;
 csStringID celPcWheeled::param_enginepower = csInvalidStringID;
 csStringID celPcWheeled::param_brakepower = csInvalidStringID;
+csStringID celPcWheeled::param_friction = csInvalidStringID;
+csStringID celPcWheeled::param_mass = csInvalidStringID;
 csStringID celPcWheeled::param_steerinverted = csInvalidStringID;
 csStringID celPcWheeled::param_handbrakeaffected = csInvalidStringID;
 
+csStringID celPcWheeled::param_otherbody = csInvalidStringID;
+csStringID celPcWheeled::param_depth = csInvalidStringID;
+csStringID celPcWheeled::param_normal = csInvalidStringID;
+csStringID celPcWheeled::param_index = csInvalidStringID;
+
 PropertyHolder celPcWheeled::propinfo;
+
+SCF_IMPLEMENT_IBASE (celPcWheeled::WheeledCollisionCallback)
+  SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
+SCF_IMPLEMENT_IBASE_END
 
 celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
+
+  scfiWheeledCollisionCallback = new WheeledCollisionCallback (this);
+
   dyn=0;
   bodyGroup=0;
   steerdir=0;
@@ -100,6 +114,10 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   frontsd=0.125;
   rearss=0.000125;
   rearsd=0.125;
+  frontmass = 10.0f;
+  rearmass = 10.0f;
+  frontfriction = 0.7f;
+  rearfriction = 0.7f;
 
   autotransmission=true;
   brakeapplied=false;
@@ -107,6 +125,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   autotransmission=true;
   autoreverse=true;
   accelerating=false;
+  cd_enabled = true;
   wheelradius=0;
 
   steeramount=0.7;
@@ -120,6 +139,13 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   brakeforce=1000;
 
   tankmode=false;
+
+  params = new celGenericParameterBlock (5);
+  params->SetParameterDef (0, param_otherbody, "otherbody");
+  params->SetParameterDef (1, param_position, "position");
+  params->SetParameterDef (2, param_normal, "normal");
+  params->SetParameterDef (3, param_depth, "depth");
+  params->SetParameterDef (4, param_index, "index");
 
   if(param_meshfile==csInvalidStringID)
   {
@@ -141,6 +167,10 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     param_autoreverse = pl->FetchStringID("cel.parameter.autoreverse");
     param_applied = pl->FetchStringID("cel.parameter.applied");
 
+    param_mass =
+        pl->FetchStringID("cel.parameter.mass");
+    param_friction =
+        pl->FetchStringID("cel.parameter.friction");
     param_suspensionsoftness =
         pl->FetchStringID("cel.parameter.suspensionsoftness");
     param_suspensiondamping =
@@ -160,6 +190,11 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     param_steerinverted = pl->FetchStringID("cel.parameter.steerinverted");
     param_handbrakeaffected =
         pl->FetchStringID("cel.parameter.handbrakeaffected");
+
+    param_normal = pl->FetchStringID ("cel.parameter.normal");
+    param_otherbody = pl->FetchStringID ("cel.parameter.otherbody");
+    param_depth = pl->FetchStringID ("cel.parameter.depth");
+    param_index = pl->FetchStringID ("cel.parameter.index");
   }
 
   propholder = &propinfo;
@@ -203,6 +238,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelsuspensiondamping, "cel.action.SetWheelSuspensionDamping");
     AddAction (action_setwheelleftsteersensitivity, "cel.action.SetWheelLeftSteerSensitivity");
     AddAction (action_setwheelrightsteersensitivity, "cel.action.SetWheelRightSteerSensitivity");
+    AddAction (action_setwheelfriction, "cel.action.SetWheelFriction");
+    AddAction (action_setwheelmass, "cel.action.SetWheelMass");
     AddAction (action_setwheelturnspeed, "cel.action.SetWheelTurnSpeed");
     AddAction (action_setwheelreturnspeed, "cel.action.SetWheelReturnSpeed");
     AddAction (action_setwheelenginepower, "cel.action.SetWheelEnginePower");
@@ -228,6 +265,8 @@ celPcWheeled::~celPcWheeled ()
   osys=0;
   gears=0;
   wheels=0;
+  if (scfiWheeledCollisionCallback)
+    scfiWheeledCollisionCallback->DecRef ();
 }
 
 
@@ -316,6 +355,14 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         if(!p_rss)
           rss=1.0f;
 
+        CEL_FETCH_FLOAT_PAR(friction, params, param_friction);
+        if(!p_friction)
+          friction=0.7f;
+
+        CEL_FETCH_FLOAT_PAR(mass, params, param_mass);
+        if(!p_mass)
+          mass=10.0f;
+
         CEL_FETCH_BOOL_PAR(hbaffect, params, param_handbrakeaffected);
         if(!p_hbaffect)
           hbaffect=false;
@@ -336,7 +383,8 @@ bool celPcWheeled::PerformActionIndexed (int idx,
           quat.SetEulerAngles(rotation);
 
         AddWheel(pos,turnspeed,returnspeed,ss,sd,brakepower,enginepower,
-            lss,rss,hbaffect,sinvert, factname, filename, quat.GetMatrix());
+            lss,rss, friction, mass, hbaffect,sinvert, factname, filename,
+            quat.GetMatrix());
         return true;
       }
     case action_deletewheel:
@@ -443,7 +491,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
         CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
         CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-        SetFrontWheelPreset(sens,power,ss,sd);
+        CEL_FETCH_FLOAT_PAR(fr,params,param_friction);
+        CEL_FETCH_FLOAT_PAR(ma,params,param_mass);
+        SetFrontWheelPreset(sens,power,ss,sd,fr,ma);
         return true;
       }
     case action_setrearwheelpreset:
@@ -452,7 +502,9 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR(power,params,param_enginepower);
         CEL_FETCH_FLOAT_PAR(ss,params,param_suspensionsoftness);
         CEL_FETCH_FLOAT_PAR(sd,params,param_suspensiondamping);
-        SetRearWheelPreset(sens,power,ss,sd);
+        CEL_FETCH_FLOAT_PAR(fr,params,param_friction);
+        CEL_FETCH_FLOAT_PAR(ma,params,param_mass);
+        SetRearWheelPreset(sens,power,ss,sd,fr,ma);
         return true;
       }
     case action_setouterwheelsteerpreset:
@@ -504,6 +556,20 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
         CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
         SetWheelRightSteerSensitivity(num,sens);
+        return true;
+      }
+    case action_setwheelfriction:
+      {
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(friction,params,param_friction);
+        SetWheelFriction(num,friction);
+        return true;
+      }
+    case action_setwheelmass:
+      {
+        CEL_FETCH_LONG_PAR(num,params,param_wheelnum);
+        CEL_FETCH_FLOAT_PAR(mass,params,param_mass);
+        SetWheelMass(num,mass);
         return true;
       }
     case action_setwheelturnspeed:
@@ -601,8 +667,9 @@ int celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
 
 int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
       returnspeed, float ss, float sd,float brakepower,float enginepower,
-      float lss, float rss,bool hbaffect, bool sinvert, const char* wheelfact,
-      const char* wheelfile,  csMatrix3 rotation)
+      float lss, float rss, float friction, float mass, bool hbaffect,
+      bool sinvert, const char* wheelfact, const char* wheelfile,
+      csMatrix3 rotation)
 {
   celWheel wheel;
   wheel.Position=position;
@@ -614,6 +681,8 @@ int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.EnginePower=enginepower;
   wheel.LeftSteerSensitivity=lss;
   wheel.RightSteerSensitivity=rss;
+  wheel.WheelFriction=friction;
+  wheel.WheelMass=mass;
   wheel.HandbrakeAffected=hbaffect;
   wheel.SteerInverted=sinvert;
   wheel.Rotation = rotation;
@@ -640,6 +709,7 @@ void celPcWheeled::DestroyWheel(int wheelnum)
         wheels[wheelnum].RigidBody->GetAttachedMesh();
     engine->WantToDie(mesh);
     bodyGroup->RemoveBody(wheels[wheelnum].RigidBody);
+    wheels[wheelnum].RigidBody->SetCollisionCallback (0);
     dyn->RemoveBody(wheels[wheelnum].RigidBody);
     wheels[wheelnum].RigidBody=0;
   }
@@ -694,11 +764,12 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   //Create the dynamic body
   csRef<iRigidBody> wheelbody=dyn->CreateBody();
   bodyGroup->AddBody(wheelbody);
+  wheelbody->SetCollisionCallback (scfiWheeledCollisionCallback);
 
   csVector3 wheelcenter;
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
-  wheelbody->SetProperties (10, csVector3 (0), csMatrix3 ());
+  wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0),csMatrix3 ());
  
   csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
   //csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
@@ -708,7 +779,7 @@ void celPcWheeled::RestoreWheel(int wheelnum)
   wheelbody->AttachMesh(wheelmesh);
 
   wheelbody->AttachColliderSphere (
-      wheelradius,wheelcenter,0.8f,1,0.5f,0.05f);
+      wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1,0.5f,0.05f);
   
    //If it a right wheel, and using the default mesh, flip it.
    if (wheels[wheelnum].Position.x < 0 &&
@@ -1030,10 +1101,63 @@ void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
     //If the wheel is already created, have to move it's body aswell.
   if(wheels[wheelnum].WheelJoint!=0)
   {
-
     wheels[wheelnum].WheelJoint->
         SetHingeAnchor(bodyMech->LocalToWorld(position));
   }
+}
+
+//A wheel collision. Send a message back to wheeled entity
+void celPcWheeled::Collision (iRigidBody *thisbody,
+        iRigidBody *otherbody, const csVector3& pos,
+        const csVector3& normal, float depth)
+{
+  if (cd_enabled)
+  {
+    //This is a slow way to find index!
+    int wheelindex = 0;
+    for(size_t i = 0; i < wheels.Length(); i++)
+    {
+        if (wheels[i].RigidBody == thisbody)
+        {
+        wheelindex = i;
+        }
+    }
+    
+    iCelBehaviour* behaviour = entity->GetBehaviour ();
+    if (!behaviour) return;
+    celData ret;
+    // Find the other body's entity
+    params->GetParameter (0).Set (0);
+    if (otherbody)
+    {
+        iObject* obj = otherbody->QueryObject ();
+        if (obj)
+        {
+        iCelEntity* ent = pl->FindAttachedEntity (obj);
+        if (ent)
+            params->GetParameter (0).Set (ent->GetName ());
+        }
+    }
+    params->GetParameter (1).Set (pos);
+    params->GetParameter (2).Set (normal);
+    params->GetParameter (3).Set (depth);
+    params->GetParameter (4).Set (wheelindex);
+    behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
+  }
+}
+
+void celPcWheeled::SetWheelFriction(int wheelnum, float friction)
+{
+  wheels[wheelnum].WheelFriction = friction;
+  DestroyWheel(wheelnum);
+  RestoreWheel(wheelnum);
+}
+
+void celPcWheeled::SetWheelMass(int wheelnum, float mass)
+{
+  wheels[wheelnum].WheelMass = mass;
+  DestroyWheel(wheelnum);
+  RestoreWheel(wheelnum);
 }
 
 void celPcWheeled::SetWheelRotation(int wheelnum, csMatrix3 rotation)
@@ -1082,7 +1206,8 @@ void celPcWheeled::SetWheelSuspensionDamping(int wheelnum, float
 
 void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
                                        float suspensionsoftness,
-                                       float suspensiondamping)
+                                       float suspensiondamping,
+                                       float friction, float mass)
 {
   if (rearsteer>=0 && rearsteer<=1)
     celPcWheeled::frontsteer=sensitivity;
@@ -1090,6 +1215,8 @@ void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
     celPcWheeled::frontpower=enginepower;
   celPcWheeled::frontss=suspensionsoftness;
   celPcWheeled::frontsd=suspensiondamping;
+  celPcWheeled::frontfriction=friction;
+  celPcWheeled::frontmass=mass;
   for(size_t i=0; i < wheels.Length(); i++)
   {
     ApplyWheelPresets(i);
@@ -1098,7 +1225,8 @@ void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
 
 void celPcWheeled::SetRearWheelPreset(float sensitivity,float enginepower,
                                       float suspensionsoftness,
-                                      float suspensiondamping)
+                                      float suspensiondamping,
+                                      float friction, float mass)
 {
   if (rearsteer>=0 && rearsteer<=1)
     celPcWheeled::rearsteer=sensitivity;
@@ -1106,7 +1234,8 @@ void celPcWheeled::SetRearWheelPreset(float sensitivity,float enginepower,
     celPcWheeled::rearpower=enginepower;
   celPcWheeled::rearss=suspensionsoftness;
   celPcWheeled::rearsd=suspensiondamping;
-
+  celPcWheeled::rearfriction=friction;
+  celPcWheeled::rearmass=mass;
   for(size_t i=0 ; i<wheels.Length(); i++)
   {
     ApplyWheelPresets(i);
@@ -1134,6 +1263,8 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
     wheels[wheelnum].EnginePower=frontpower;
     wheels[wheelnum].SuspensionSoftness=frontss;
     wheels[wheelnum].SuspensionDamping=frontsd;
+    wheels[wheelnum].WheelFriction=frontfriction;
+    wheels[wheelnum].WheelMass=frontmass;
     wheels[wheelnum].SteerInverted=false;
     wheels[wheelnum].HandbrakeAffected=false;
   }
@@ -1144,6 +1275,8 @@ void celPcWheeled::ApplyWheelPresets(int wheelnum)
     wheels[wheelnum].EnginePower=rearpower;
     wheels[wheelnum].SuspensionSoftness=rearss;
     wheels[wheelnum].SuspensionDamping=rearsd;
+    wheels[wheelnum].WheelFriction=rearfriction;
+    wheels[wheelnum].WheelMass=rearmass;
     wheels[wheelnum].SteerInverted=true;
     wheels[wheelnum].HandbrakeAffected=true;
   }
