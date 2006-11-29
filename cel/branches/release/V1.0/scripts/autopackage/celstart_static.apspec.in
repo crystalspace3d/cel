@@ -133,6 +133,7 @@ mypath="\`dirname \$0\`"
 celstartpath="\${mypath}/../opt/celstart/"
 export LD_LIBRARY_PATH="\$celstartpath:\${LD_LIBRARY_PATH}"
 export CRYSTAL="\$celstartpath"
+export CEL="\$celstartpath"
 "\$celstartpath/celstart_static" \$@
 EOF
 echo celstart | import
