@@ -8,6 +8,8 @@ The history order is reversed so that new features are at the top.
 	  collides with another body. Also added parameters for wheel friction
 	  and mass.
 	- res updated the mk/autoconf/*.m4 file from the CS master copies.
+	- res fixed the celstart wrapper script used in the autopackage to
+	  also set the CEL environment variable.
 28-Nov-2006
 	- Jorrit enhanced pclight so that it can now also create lights.
 	  Added CreateLight and ChangeColor actions.
