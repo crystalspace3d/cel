@@ -1,7 +1,0 @@
-SubDir TOP plugins addons questdef ;
-
-Plugin addon_questdef
-	: questdef.cpp questdef.h
-;
-ExternalLibs addon_questdef : CRYSTAL ;
-LinkWith addon_questdef : celtool ;

@@ -1,7 +1,0 @@
-SubDir TOP apps hovertest ;
-
-Application hovertest : [ Wildcard *.cpp *.h ] ;
-CFlags hovertest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith hovertest : celtool ;
-ExternalLibs hovertest : CRYSTAL ;
-

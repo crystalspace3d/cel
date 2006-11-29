@@ -1,6 +1,0 @@
-SubDir TOP plugins propclass engine ;
-
-Plugin pfengine : [ Wildcard *.cpp *.h ] ;
-ExternalLibs pfengine : CRYSTAL ;
-LinkWith pfengine : celtool ;
-

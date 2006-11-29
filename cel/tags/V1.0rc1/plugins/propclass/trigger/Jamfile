@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass trigger ;
-
-Plugin pftrigger
-	: trigger.cpp trigger.h
-;
-ExternalLibs pftrigger : CRYSTAL ;
-LinkWith pftrigger : celtool ;
-

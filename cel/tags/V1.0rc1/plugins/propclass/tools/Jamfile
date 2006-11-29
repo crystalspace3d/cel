@@ -1,6 +1,0 @@
-SubDir TOP plugins propclass tools ;
-
-Plugin pftools : [ Wildcard *.cpp *.h ] ;
-ExternalLibs pftools : CRYSTAL ;
-LinkWith pftools : celtool ;
-

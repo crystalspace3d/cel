@@ -1,7 +1,0 @@
-SubDir TOP apps wheeledtest ;
-
-Application wheeledtest : [ Wildcard *.cpp *.h ] ;
-CFlags wheeledtest : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
-LinkWith wheeledtest : celtool ;
-ExternalLibs wheeledtest : CRYSTAL ;
-

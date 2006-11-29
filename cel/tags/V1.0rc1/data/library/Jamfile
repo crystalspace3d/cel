@@ -1,8 +1,0 @@
-SubDir TOP data library ;
-
-InstallData [ Wildcard blpython : *.py *.cfg ] : data library blpython ;
-InstallData [ Wildcard blxml : *.xml ] : data library blxml ;
-InstallData [ Wildcard entitytpl : *.xml ] : data library entitytpl ;
-InstallData [ Wildcard quest : *.xml ] : data library quest ;
-
-
