@@ -10,6 +10,7 @@ The history order is reversed so that new features are at the top.
 	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 	- res fixed the celstart wrapper script used in the autopackage to
 	  also set the CEL environment variable.
+	- res bumped the CEL version in configure to 1.1.
 28-Nov-2006
 	- Jorrit enhanced pclight so that it can now also create lights.
 	  Added CreateLight and ChangeColor actions.
