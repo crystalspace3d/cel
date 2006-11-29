@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 added a message to pcwheeled that is sent when a wheel
 	  collides with another body. Also added parameters for wheel friction
 	  and mass.
+	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 28-Nov-2006
 	- Jorrit enhanced pclight so that it can now also create lights.
 	  Added CreateLight and ChangeColor actions.
