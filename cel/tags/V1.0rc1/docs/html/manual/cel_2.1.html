@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 2.1 Directory Hierarchy</title>
+
+<meta name="description" content="Crystal Entity Layer: 2.1 Directory Hierarchy">
+<meta name="keywords" content="Crystal Entity Layer: 2.1 Directory Hierarchy">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Directory-Hierarchy"></a>
+<a name="2.1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_2.html#2." title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_2.2.html#2.2" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_2.html#2." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_2.html#2." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.1 Directory Hierarchy </h2>
+<p>This section will explain the layout of the directory hierarchy within
+Crystal Entity Layer.  
+</p>
+<dl compact="compact">
+<dt> <code>cel</code>         </dt>
+<dd><p>            This is the main directy for Crystal Entity Layer. This can be any
+            path supported by your operating system. 
+            This folder also currently contains the configure scripts and
+            Microsoft Visual C++ workspace and project files.
+</p>
+</dd>
+<dt> <code>cel/apps</code>    </dt>
+<dd><p>            This is where all the applications shipped with Crystal Entity
+            layer reside.  Please see the manual section entitled Applications
+            for more information on these.
+</p>
+</dd>
+<dt> <code>cel/data</code>    </dt>
+<dd><p>            This is where data for the Crystal Entity Layer applications,
+            as well as any applications you build yourself within the
+            Crystal Entity Layer source tree, reside.
+</p>
+</dd>
+<dt> <code>cel/docs</code>    </dt>
+<dd><p>            This is where the Crystal Entity Layer documentation resides.
+            It is currently available in HTML and TexInfo formats.
+</p>
+</dd>
+<dt> <code>cel/include</code> </dt>
+<dd><p>            This is where the header files for the various Crystal Entity
+            Layer modules reside.  
+</p>
+<dl compact="compact">
+<dt> <code>cel/include/behaviourlayer</code></dt>
+<dd><p>            This directory contains the definitions of the Behaviour Layer
+            interfaces.
+</p>
+            </dd>
+<dt> <code>cel/include/physicallayer</code></dt>
+<dd><p>            This directory contains the definitions of the Physical Layer
+            interfaces.  Including such things as entities, property classes,
+            messaging and persistence.
+</p>
+            </dd>
+<dt> <code>cel/include/propclass</code></dt>
+<dd><p>            This directory contains the definitions of the various property
+            class interfaces.
+</p>
+            </dd>
+<dt> <code>cel/include/tools</code></dt>
+<dd><p>            This directory contains definitions for interfaces for various
+            utility classes.
+</p></dd>
+</dl>
+           
+
+</dd>
+<dt> <code>cel/mk</code>      </dt>
+<dd><p>            This directory includes various makefiles and build
+            configurations for various platforms.
+</p>
+</dd>
+<dt> <code>cel/msvc</code>    </dt>
+<dd><p>            This directory contains the project files and resource
+            scripts for building under Microsoft Windows using Microsoft
+            Visual C++.
+</p>
+</dd>
+<dt> <code>cel/plugins</code> </dt>
+<dd><p>            This is where the implementations of the plugins that make up
+            Crystal Entity Layer reside.
+</p>
+<dl compact="compact">
+<dt> <code>cel/plugins/addons</code></dt>
+<dd><p>            These are various additional, and optional, Crystal Space plugins.
+</p>
+            <dl compact="compact">
+<dt> <code>cel/plugins/addons/celentity</code></dt>
+<dt> <code>cel/plugins/addons/xmlscript</code></dt>
+<dd><p>                These plugins allow the loading of Crystal Entity Layer
+                entities from a standard Crystal Space map file.
+            </p></dd>
+</dl>
+
+            </dd>
+<dt> <code>cel/plugins/behaviourlayer</code></dt>
+<dd><p>            These are the various behaviour layers which have been already
+            implemented for use with Crystal Entity Layer.
+</p>
+            <dl compact="compact">
+<dt> <code>cel/plugins/behaviourlayer/python</code></dt>
+<dd><p>                This is a behaviour layer that allows entity behaviours
+                to be implemented using the Python scripting language.
+</p>
+                </dd>
+<dt> <code>cel/plugins/behaviourlayer/test</code></dt>
+<dd><p>                This is the test behaviourlayer implemented in C++.
+</p>
+                </dd>
+<dt> <code>cel/plugins/behaviourlayer/xml</code></dt>
+<dd><p>                This is a behaviour layer that allows entity behavours
+                to be implemented using scripts stored as XML.
+            </p></dd>
+</dl>
+   
+
+            </dd>
+<dt> <code>cel/plugins/persist</code></dt>
+<dd><p>            These are the various persistence layers which have already
+            been implemented for use with Crystal Entity Layer.
+</p>
+            <dl compact="compact">
+<dt> <code>cel/plugins/persist/classic</code></dt>
+<dd><p>                This is the Crystal Entity Layer Classic Persistence Module.
+                This allows the persisting of Crystal Entity Layer entities
+                to a Crystal Space VFS file.
+            </p></dd>
+</dl>
+               
+
+            </dd>
+<dt> <code>cel/plugins/propclass</code></dt>
+<dd><p>            These are the various property classes which have already
+            been implemented for use with Crystal Entity Layer.  For more
+            information on these please see the section entitled Property
+            Classes
+</p>
+            </dd>
+<dt> <code>cel/plugins/stdphyslayer</code></dt>
+<dd><p>            This is the Crystal Entity Layer's Standard Physical Layer.
+</p></dd>
+</dl>
+           
+
+</dd>
+<dt> <code>cel/scripts</code> </dt>
+<dd><p>            This is where scripts used by the Crystal Entity Layer
+            applications and examples reside.
+</p></dd>
+</dl>
+            
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_2.html#2." title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_2.2.html#2.2" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_2.html#2." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_2.html#2." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_3.html#3." title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

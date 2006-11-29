@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- blxml.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.behaviourlayer.xml</name>
+        <implementation>celBlXml</implementation>
+	<description>CEL XML Behaviour Layer</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

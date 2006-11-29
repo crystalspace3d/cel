@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- mgr_billboard.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.manager.billboard</name>
+        <implementation>celBillboardManager</implementation>
+	<description>CEL Billboard Manager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

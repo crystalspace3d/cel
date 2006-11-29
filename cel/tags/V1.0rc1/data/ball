@@ -1,0 +1,4 @@
+<meshfact name="ball">
+    <plugin>crystalspace.mesh.loader.factory.ball</plugin>
+    <params />
+</meshfact>

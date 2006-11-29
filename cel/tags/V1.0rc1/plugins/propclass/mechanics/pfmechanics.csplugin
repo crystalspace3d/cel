@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- pfmechanics.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.mechsys</name>
+        <implementation>celPfMechanicsSystem</implementation>
+	<description>CEL Mechanics System Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.mechobject</name>
+        <implementation>celPfMechanicsObject</implementation>
+	<description>CEL Mechanics Object Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.mechjoint</name>
+        <implementation>celPfMechanicsJoint</implementation>
+	<description>CEL Mechanics Joint Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.mechbalancedgroup</name>
+        <implementation>celPfMechanicsBalancedGroup</implementation>
+	<description>CEL Mechanics Balanced Thruster Group Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.mechthrustercontroller</name>
+        <implementation>celPfMechanicsThrusterController</implementation>
+	<description>CEL Mechanics Thruster Controller Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+      <class>
+        <name>cel.pcfactory.mechthrustreactionary</name>
+        <implementation>celPfMechanicsThrusterReactionary</implementation>
+	<description>CEL Mechanics Reactionary Thruster Class Factory</description>
+	<requires>
+	  <class>cel.physicallayer</class>
+	</requires>
+      </class>
+    </classes>
+  </scf>
+</plugin>
