@@ -3485,7 +3485,7 @@ SWIGINTERN csPtr<iCelEntityIterator > iCelEntityTracker_Iterator_get(iCelEntityT
 
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   return pl;
 }
 
@@ -3536,8 +3536,8 @@ SWIGINTERN bool iCelEntityIterator_Next_get(iCelEntityIterator *self){ return (b
 
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
-  csRef<iCelPlLayer> pl = 
-  	csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
+  	iCelPlLayer);
   bool rc = pl->LoadPropertyClassFactory (pcfactname);
   return rc;
 }
@@ -3555,7 +3555,7 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
-  csRef<iCelEntity> ent = scfQueryInterface<iCelEntity> (base);
+  csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
   return ent;
 }
 
@@ -3563,7 +3563,7 @@ iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 	iSector *sector, csVector3 pos, float radius, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, radius, do_invisible);
   entlist->IncRef();
@@ -3574,7 +3574,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csVector3 pos, csVector3 dest, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, dest, do_invisible);
   entlist->IncRef();
@@ -3585,7 +3585,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csBox3 box, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, box, do_invisible);
   entlist->IncRef();
@@ -3605,7 +3605,7 @@ SWIGINTERN char const *iCelBlLayer_Name_get(iCelBlLayer *self){ return (const ch
 
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
+  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
   return bl;
 }
 
@@ -3873,7 +3873,7 @@ SWIGINTERN iJoint *iPcMechanicsJoint_Joint_get(iPcMechanicsJoint *self){ return 
 iPcMechanicsSystem *celCreateMechanicsSystem(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechsys" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsSystem> pclm =    scfQueryInterface<iPcMechanicsSystem> (pc);
+  csRef<iPcMechanicsSystem> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsSystem> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3885,7 +3885,7 @@ iPcMechanicsSystem * celGetSetMechanicsSystem (iCelPlLayer *pl, iCelEntity *enti
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechsys" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsSystem> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsSystem> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3901,7 +3901,7 @@ iPcMechanicsSystem * celGetMechanicsSystem (iCelEntity *entity)
 
 iPcMechanicsSystem *scfQuery_iPcMechanicsSystem (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsSystem> iface =    scfQueryInterface<iPcMechanicsSystem> (pc);
+  csRef<iPcMechanicsSystem> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsSystem> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -3909,7 +3909,7 @@ iPcMechanicsSystem *scfQuery_iPcMechanicsSystem (iCelPropertyClass *pc)
 
 iPcMechanicsSystem *scfQueryPC_iPcMechanicsSystem (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsSystem> iface =    scfQueryInterface<iPcMechanicsSystem> (pclist);
+  csRef<iPcMechanicsSystem> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsSystem> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -3918,7 +3918,7 @@ iPcMechanicsSystem *scfQueryPC_iPcMechanicsSystem (iCelPropertyClassList *pclist
 iPcMechanicsObject *celCreateMechanicsObject(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechobject" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsObject> pclm =    scfQueryInterface<iPcMechanicsObject> (pc);
+  csRef<iPcMechanicsObject> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsObject> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3930,7 +3930,7 @@ iPcMechanicsObject * celGetSetMechanicsObject (iCelPlLayer *pl, iCelEntity *enti
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechobject" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsObject> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsObject> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3946,7 +3946,7 @@ iPcMechanicsObject * celGetMechanicsObject (iCelEntity *entity)
 
 iPcMechanicsObject *scfQuery_iPcMechanicsObject (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsObject> iface =    scfQueryInterface<iPcMechanicsObject> (pc);
+  csRef<iPcMechanicsObject> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsObject> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -3954,7 +3954,7 @@ iPcMechanicsObject *scfQuery_iPcMechanicsObject (iCelPropertyClass *pc)
 
 iPcMechanicsObject *scfQueryPC_iPcMechanicsObject (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsObject> iface =    scfQueryInterface<iPcMechanicsObject> (pclist);
+  csRef<iPcMechanicsObject> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsObject> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -3962,7 +3962,7 @@ iPcMechanicsObject *scfQueryPC_iPcMechanicsObject (iCelPropertyClassList *pclist
 
 iPcMechanicsJoint *scfQueryPC_iPcMechanicsJoint (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsJoint> iface =    scfQueryInterface<iPcMechanicsJoint> (pclist);
+  csRef<iPcMechanicsJoint> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsJoint> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -3971,7 +3971,7 @@ iPcMechanicsJoint *scfQueryPC_iPcMechanicsJoint (iCelPropertyClassList *pclist)
 iPcMechanicsJoint *celCreateMechanicsJoint(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechjoint" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsJoint> pclm =    scfQueryInterface<iPcMechanicsJoint> (pc);
+  csRef<iPcMechanicsJoint> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsJoint> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3983,7 +3983,7 @@ iPcMechanicsJoint * celGetSetMechanicsJoint (iCelPlLayer *pl, iCelEntity *entity
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechjoint" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsJoint> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsJoint> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -3999,7 +3999,7 @@ iPcMechanicsJoint * celGetMechanicsJoint (iCelEntity *entity)
 
 iPcMechanicsJoint *scfQuery_iPcMechanicsJoint (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsJoint> iface =    scfQueryInterface<iPcMechanicsJoint> (pc);
+  csRef<iPcMechanicsJoint> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsJoint> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4020,7 +4020,7 @@ SWIGINTERN iPcMechanicsObject *iPcMechanicsThrusterController_MechanicsObject_ge
 iPcMechanicsThruster *celCreateMechanicsThrusterReactionary(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustreactionary" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsThruster> pclm =    scfQueryInterface<iPcMechanicsThruster> (pc);
+  csRef<iPcMechanicsThruster> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThruster> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4032,7 +4032,7 @@ iPcMechanicsThruster * celGetSetMechanicsThrusterReactionary (iCelPlLayer *pl, i
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustreactionary" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsThruster> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThruster> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4048,7 +4048,7 @@ iPcMechanicsThruster * celGetMechanicsThrusterReactionary (iCelEntity *entity)
 
 iPcMechanicsThruster *scfQuery_iPcMechanicsThruster (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsThruster> iface =    scfQueryInterface<iPcMechanicsThruster> (pc);
+  csRef<iPcMechanicsThruster> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThruster> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4056,7 +4056,7 @@ iPcMechanicsThruster *scfQuery_iPcMechanicsThruster (iCelPropertyClass *pc)
 
 iPcMechanicsThruster *scfQueryPC_iPcMechanicsThruster (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsThruster> iface =    scfQueryInterface<iPcMechanicsThruster> (pclist);
+  csRef<iPcMechanicsThruster> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThruster> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4065,7 +4065,7 @@ iPcMechanicsThruster *scfQueryPC_iPcMechanicsThruster (iCelPropertyClassList *pc
 iPcMechanicsBalancedGroup *celCreateMechanicsBalancedGroup(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechbalancedgroup" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsBalancedGroup> pclm =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+  csRef<iPcMechanicsBalancedGroup> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsBalancedGroup> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4077,7 +4077,7 @@ iPcMechanicsBalancedGroup * celGetSetMechanicsBalancedGroup (iCelPlLayer *pl, iC
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechbalancedgroup" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsBalancedGroup> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4093,7 +4093,7 @@ iPcMechanicsBalancedGroup * celGetMechanicsBalancedGroup (iCelEntity *entity)
 
 iPcMechanicsBalancedGroup *scfQuery_iPcMechanicsBalancedGroup (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsBalancedGroup> iface =    scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+  csRef<iPcMechanicsBalancedGroup> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsBalancedGroup> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4101,7 +4101,7 @@ iPcMechanicsBalancedGroup *scfQuery_iPcMechanicsBalancedGroup (iCelPropertyClass
 
 iPcMechanicsBalancedGroup *scfQueryPC_iPcMechanicsBalancedGroup (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsBalancedGroup> iface =    scfQueryInterface<iPcMechanicsBalancedGroup> (pclist);
+  csRef<iPcMechanicsBalancedGroup> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsBalancedGroup> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4110,7 +4110,7 @@ iPcMechanicsBalancedGroup *scfQueryPC_iPcMechanicsBalancedGroup (iCelPropertyCla
 iPcMechanicsThrusterController *celCreateMechanicsThrusterController(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustercontroller" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMechanicsThrusterController> pclm =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
+  csRef<iPcMechanicsThrusterController> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThrusterController> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4122,7 +4122,7 @@ iPcMechanicsThrusterController * celGetSetMechanicsThrusterController (iCelPlLay
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmechthrustercontroller" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThrusterController> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4138,7 +4138,7 @@ iPcMechanicsThrusterController * celGetMechanicsThrusterController (iCelEntity *
 
 iPcMechanicsThrusterController *scfQuery_iPcMechanicsThrusterController (iCelPropertyClass *pc)
 {
-  csRef<iPcMechanicsThrusterController> iface =    scfQueryInterface<iPcMechanicsThrusterController> (pc);
+  csRef<iPcMechanicsThrusterController> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThrusterController> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4146,7 +4146,7 @@ iPcMechanicsThrusterController *scfQuery_iPcMechanicsThrusterController (iCelPro
 
 iPcMechanicsThrusterController *scfQueryPC_iPcMechanicsThrusterController (iCelPropertyClassList *pclist)
 {
-  csRef<iPcMechanicsThrusterController> iface =    scfQueryInterface<iPcMechanicsThrusterController> (pclist);
+  csRef<iPcMechanicsThrusterController> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMechanicsThrusterController> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4192,7 +4192,7 @@ SWIGINTERN iBillboard *iPcBillboard_Billboard_get(iPcBillboard *self){ return (i
 iPcBillboard *celCreateBillboard(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcbillboard" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcBillboard> pclm =    scfQueryInterface<iPcBillboard> (pc);
+  csRef<iPcBillboard> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcBillboard> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4204,7 +4204,7 @@ iPcBillboard * celGetSetBillboard (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcbillboard" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcBillboard> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcBillboard> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4220,7 +4220,7 @@ iPcBillboard * celGetBillboard (iCelEntity *entity)
 
 iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
 {
-  csRef<iPcBillboard> iface =    scfQueryInterface<iPcBillboard> (pc);
+  csRef<iPcBillboard> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcBillboard> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4228,7 +4228,7 @@ iPcBillboard *scfQuery_iPcBillboard (iCelPropertyClass *pc)
 
 iPcBillboard *scfQueryPC_iPcBillboard (iCelPropertyClassList *pclist)
 {
-  csRef<iPcBillboard> iface =    scfQueryInterface<iPcBillboard> (pclist);
+  csRef<iPcBillboard> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcBillboard> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4247,7 +4247,7 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
   if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion> (pc);
+  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
   if (!pcregion.IsValid()) return 0;
   pcregion->SetRegionName (name);
   return pcregion;
@@ -4264,7 +4264,7 @@ iPcRegion * Region (iCelEntity *entity)
 
 iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
 {
-  csRef<iPcRegion> iface =    scfQueryInterface<iPcRegion> (pc);
+  csRef<iPcRegion> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcRegion> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4272,7 +4272,7 @@ iPcRegion *scfQuery_iPcRegion (iCelPropertyClass *pc)
 
 iPcRegion *scfQueryPC_iPcRegion (iCelPropertyClassList *pclist)
 {
-  csRef<iPcRegion> iface =    scfQueryInterface<iPcRegion> (pclist);
+  csRef<iPcRegion> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcRegion> (pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4301,7 +4301,7 @@ SWIGINTERN char const *iPcZoneManager_LastStartName_get(iPcZoneManager *self){ r
 iPcZoneManager *celCreateZoneManager(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pczonemanager" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcZoneManager> pclm =    scfQueryInterface<iPcZoneManager> (pc);
+  csRef<iPcZoneManager> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcZoneManager> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4313,7 +4313,7 @@ iPcZoneManager * celGetSetZoneManager (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pczonemanager" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcZoneManager> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcZoneManager> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4329,7 +4329,7 @@ iPcZoneManager * celGetZoneManager (iCelEntity *entity)
 
 iPcZoneManager *scfQuery_iPcZoneManager (iCelPropertyClass *pc)
 {
-  csRef<iPcZoneManager> iface =    scfQueryInterface<iPcZoneManager> (pc);
+  csRef<iPcZoneManager> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcZoneManager> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4342,7 +4342,7 @@ SWIGINTERN bool iPcCommandInput_CookedMode_get(iPcCommandInput *self){ return (b
 iPcCommandInput *celCreateCommandInput(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccommandinput" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCommandInput> pclm =    scfQueryInterface<iPcCommandInput> (pc);
+  csRef<iPcCommandInput> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCommandInput> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4354,7 +4354,7 @@ iPcCommandInput * celGetSetCommandInput (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccommandinput" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcCommandInput> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCommandInput> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4370,7 +4370,7 @@ iPcCommandInput * celGetCommandInput (iCelEntity *entity)
 
 iPcCommandInput *scfQuery_iPcCommandInput (iCelPropertyClass *pc)
 {
-  csRef<iPcCommandInput> iface =    scfQueryInterface<iPcCommandInput> (pc);
+  csRef<iPcCommandInput> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcCommandInput> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4393,7 +4393,7 @@ SWIGINTERN csVector3 iPcLinearMovement_PortalDisplacement_get(iPcLinearMovement 
 iPcLinearMovement *celCreateLinearMovement(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pclinearmovement" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcLinearMovement> pclm =    scfQueryInterface<iPcLinearMovement> (pc);
+  csRef<iPcLinearMovement> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcLinearMovement> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4405,7 +4405,7 @@ iPcLinearMovement * celGetSetLinearMovement (iCelPlLayer *pl, iCelEntity *entity
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pclinearmovement" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcLinearMovement> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcLinearMovement> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4421,7 +4421,7 @@ iPcLinearMovement * celGetLinearMovement (iCelEntity *entity)
 
 iPcLinearMovement *scfQuery_iPcLinearMovement (iCelPropertyClass *pc)
 {
-  csRef<iPcLinearMovement> iface =    scfQueryInterface<iPcLinearMovement> (pc);
+  csRef<iPcLinearMovement> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcLinearMovement> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4459,7 +4459,7 @@ SWIGINTERN float iPcActorMove_JumpingVelocity_get(iPcActorMove *self){ return (f
 iPcActorMove *celCreateActorMove(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcactormove" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcActorMove> pclm =    scfQueryInterface<iPcActorMove> (pc);
+  csRef<iPcActorMove> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcActorMove> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4471,7 +4471,7 @@ iPcActorMove * celGetSetActorMove (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcactormove" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcActorMove> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcActorMove> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4487,7 +4487,7 @@ iPcActorMove * celGetActorMove (iCelEntity *entity)
 
 iPcActorMove *scfQuery_iPcActorMove (iCelPropertyClass *pc)
 {
-  csRef<iPcActorMove> iface =    scfQueryInterface<iPcActorMove> (pc);
+  csRef<iPcActorMove> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcActorMove> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4508,7 +4508,7 @@ SWIGINTERN int iPcCamera_DrawFlags_get(iPcCamera *self){ return (int)(self->GetD
 iPcCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCamera> pclm =    scfQueryInterface<iPcCamera> (pc);
+  csRef<iPcCamera> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4520,7 +4520,7 @@ iPcCamera * celGetSetCamera (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccamera" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcCamera> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4536,7 +4536,7 @@ iPcCamera * celGetCamera (iCelEntity *entity)
 
 iPcCamera *scfQuery_iPcCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcCamera> iface =    scfQueryInterface<iPcCamera> (pc);
+  csRef<iPcCamera> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4563,7 +4563,7 @@ SWIGINTERN float iPcDefaultCamera_DistanceVelocity_get(iPcDefaultCamera *self){ 
 iPcDefaultCamera *celCreateDefaultCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdefaultcamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcDefaultCamera> pclm =    scfQueryInterface<iPcDefaultCamera> (pc);
+  csRef<iPcDefaultCamera> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcDefaultCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4575,7 +4575,7 @@ iPcDefaultCamera * celGetSetDefaultCamera (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdefaultcamera" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcDefaultCamera> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcDefaultCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4591,7 +4591,7 @@ iPcDefaultCamera * celGetDefaultCamera (iCelEntity *entity)
 
 iPcDefaultCamera *scfQuery_iPcDefaultCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcDefaultCamera> iface =    scfQueryInterface<iPcDefaultCamera> (pc);
+  csRef<iPcDefaultCamera> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcDefaultCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4603,7 +4603,7 @@ SWIGINTERN void iPcSimpleCamera_Mesh_set(iPcSimpleCamera *self,iPcMesh *_val){ s
 iPcSimpleCamera *celCreateSimpleCamera(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsimplecamera" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSimpleCamera> pclm =    scfQueryInterface<iPcSimpleCamera> (pc);
+  csRef<iPcSimpleCamera> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSimpleCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4615,7 +4615,7 @@ iPcSimpleCamera * celGetSetSimpleCamera (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsimplecamera" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcSimpleCamera> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSimpleCamera> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4631,7 +4631,7 @@ iPcSimpleCamera * celGetSimpleCamera (iCelEntity *entity)
 
 iPcSimpleCamera *scfQuery_iPcSimpleCamera (iCelPropertyClass *pc)
 {
-  csRef<iPcSimpleCamera> iface =    scfQueryInterface<iPcSimpleCamera> (pc);
+  csRef<iPcSimpleCamera> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcSimpleCamera> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4657,7 +4657,7 @@ SWIGINTERN float iPcMeshSelect_MaxSelectionDistance_get(iPcMeshSelect *self){ re
 iPcMeshSelect *celCreateMeshSelect(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmeshselect" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMeshSelect> pclm =    scfQueryInterface<iPcMeshSelect> (pc);
+  csRef<iPcMeshSelect> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMeshSelect> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4669,7 +4669,7 @@ iPcMeshSelect * celGetSetMeshSelect (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmeshselect" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMeshSelect> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMeshSelect> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4685,7 +4685,7 @@ iPcMeshSelect * celGetMeshSelect (iCelEntity *entity)
 
 iPcMeshSelect *scfQuery_iPcMeshSelect (iCelPropertyClass *pc)
 {
-  csRef<iPcMeshSelect> iface =    scfQueryInterface<iPcMeshSelect> (pc);
+  csRef<iPcMeshSelect> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMeshSelect> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4699,7 +4699,7 @@ SWIGINTERN bool iPcMesh_Visible_get(iPcMesh *self){ return (bool)(self->IsVisibl
 iPcMesh *celCreateMesh(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmesh" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMesh> pclm =    scfQueryInterface<iPcMesh> (pc);
+  csRef<iPcMesh> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMesh> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4711,7 +4711,7 @@ iPcMesh * celGetSetMesh (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmesh" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMesh> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMesh> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4727,7 +4727,7 @@ iPcMesh * celGetMesh (iCelEntity *entity)
 
 iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
 {
-  csRef<iPcMesh> iface =    scfQueryInterface<iPcMesh> (pc);
+  csRef<iPcMesh> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMesh> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4736,7 +4736,7 @@ iPcMesh *scfQuery_iPcMesh (iCelPropertyClass *pc)
 iPcTimer *celCreateTimer(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctimer" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcTimer> pclm =    scfQueryInterface<iPcTimer> (pc);
+  csRef<iPcTimer> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcTimer> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4748,7 +4748,7 @@ iPcTimer * celGetSetTimer (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctimer" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcTimer> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcTimer> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4764,7 +4764,7 @@ iPcTimer * celGetTimer (iCelEntity *entity)
 
 iPcTimer *scfQuery_iPcTimer (iCelPropertyClass *pc)
 {
-  csRef<iPcTimer> iface =    scfQueryInterface<iPcTimer> (pc);
+  csRef<iPcTimer> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcTimer> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4774,7 +4774,7 @@ SWIGINTERN bool iPcProjectile_Moving_get(iPcProjectile *self){ return (bool)(sel
 iPcProjectile *celCreateProjectile(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcprojectile" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcProjectile> pclm =    scfQueryInterface<iPcProjectile> (pc);
+  csRef<iPcProjectile> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcProjectile> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4786,7 +4786,7 @@ iPcProjectile * celGetSetProjectile (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcprojectile" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcProjectile> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcProjectile> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4802,7 +4802,7 @@ iPcProjectile * celGetProjectile (iCelEntity *entity)
 
 iPcProjectile *scfQuery_iPcProjectile (iCelPropertyClass *pc)
 {
-  csRef<iPcProjectile> iface =    scfQueryInterface<iPcProjectile> (pc);
+  csRef<iPcProjectile> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcProjectile> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4814,7 +4814,7 @@ SWIGINTERN iCollider *iPcSolid_Collider_get(iPcSolid *self){ return (iCollider*)
 iPcSolid *celCreateSolid(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsolid" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSolid> pclm =    scfQueryInterface<iPcSolid> (pc);
+  csRef<iPcSolid> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSolid> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4826,7 +4826,7 @@ iPcSolid * celGetSetSolid (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsolid" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcSolid> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSolid> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4842,7 +4842,7 @@ iPcSolid * celGetSolid (iCelEntity *entity)
 
 iPcSolid *scfQuery_iPcSolid (iCelPropertyClass *pc)
 {
-  csRef<iPcSolid> iface =    scfQueryInterface<iPcSolid> (pc);
+  csRef<iPcSolid> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcSolid> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4861,7 +4861,7 @@ SWIGINTERN bool iPcGravity_Active_get(iPcGravity *self){ return (bool)(self->IsA
 iPcGravity *celCreateGravity(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcgravity" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcGravity> pclm =    scfQueryInterface<iPcGravity> (pc);
+  csRef<iPcGravity> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcGravity> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4873,7 +4873,7 @@ iPcGravity * celGetSetGravity (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcgravity" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcGravity> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcGravity> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4889,7 +4889,7 @@ iPcGravity * celGetGravity (iCelEntity *entity)
 
 iPcGravity *scfQuery_iPcGravity (iCelPropertyClass *pc)
 {
-  csRef<iPcGravity> iface =    scfQueryInterface<iPcGravity> (pc);
+  csRef<iPcGravity> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcGravity> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4900,7 +4900,7 @@ SWIGINTERN iPcMesh *iPcMovable_Mesh_get(iPcMovable *self){ return (iPcMesh*)(sel
 iPcMovable *celCreateMovable(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmovable" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMovable> pclm =    scfQueryInterface<iPcMovable> (pc);
+  csRef<iPcMovable> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMovable> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4912,7 +4912,7 @@ iPcMovable * celGetSetMovable (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmovable" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMovable> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMovable> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4928,7 +4928,7 @@ iPcMovable * celGetMovable (iCelEntity *entity)
 
 iPcMovable *scfQuery_iPcMovable (iCelPropertyClass *pc)
 {
-  csRef<iPcMovable> iface =    scfQueryInterface<iPcMovable> (pc);
+  csRef<iPcMovable> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMovable> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4945,7 +4945,7 @@ SWIGINTERN iCelInventorySpace *iPcInventory_Space_get(iPcInventory *self){ retur
 iPcInventory *celCreateInventory(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcinventory" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcInventory> pclm =    scfQueryInterface<iPcInventory> (pc);
+  csRef<iPcInventory> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcInventory> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4957,7 +4957,7 @@ iPcInventory * celGetSetInventory (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcinventory" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcInventory> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcInventory> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4973,7 +4973,7 @@ iPcInventory * celGetInventory (iCelEntity *entity)
 
 iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
 {
-  csRef<iPcInventory> iface =    scfQueryInterface<iPcInventory> (pc);
+  csRef<iPcInventory> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcInventory> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -4982,7 +4982,7 @@ iPcInventory *scfQuery_iPcInventory (iCelPropertyClass *pc)
 iPcCharacteristics *celCreateCharacteristics(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccharacteristics" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCharacteristics> pclm =    scfQueryInterface<iPcCharacteristics> (pc);
+  csRef<iPcCharacteristics> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCharacteristics> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -4994,7 +4994,7 @@ iPcCharacteristics * celGetSetCharacteristics (iCelPlLayer *pl, iCelEntity *enti
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccharacteristics" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcCharacteristics> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCharacteristics> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5010,7 +5010,7 @@ iPcCharacteristics * celGetCharacteristics (iCelEntity *entity)
 
 iPcCharacteristics *scfQuery_iPcCharacteristics (iCelPropertyClass *pc)
 {
-  csRef<iPcCharacteristics> iface =    scfQueryInterface<iPcCharacteristics> (pc);
+  csRef<iPcCharacteristics> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcCharacteristics> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5023,7 +5023,7 @@ SWIGINTERN void iPcTooltip_Justify_set(iPcTooltip *self,celTooltipJustify _val){
 iPcTooltip *celCreateToolTip(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctooltip" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcTooltip> pclm =    scfQueryInterface<iPcTooltip> (pc);
+  csRef<iPcTooltip> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcTooltip> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5035,7 +5035,7 @@ iPcTooltip * celGetSetToolTip (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pctooltip" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcTooltip> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcTooltip> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5051,7 +5051,7 @@ iPcTooltip * celGetToolTip (iCelEntity *entity)
 
 iPcTooltip *scfQuery_iPcTooltip (iCelPropertyClass *pc)
 {
-  csRef<iPcTooltip> iface =    scfQueryInterface<iPcTooltip> (pc);
+  csRef<iPcTooltip> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcTooltip> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5064,7 +5064,7 @@ SWIGINTERN char const *iPcSoundSource_SoundName_get(iPcSoundSource *self){ retur
 iPcSoundSource *celCreateSoundSource(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundsource" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSoundSource> pclm =    scfQueryInterface<iPcSoundSource> (pc);
+  csRef<iPcSoundSource> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundSource> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5076,7 +5076,7 @@ iPcSoundSource * celGetSetSoundSource (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundsource" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcSoundSource> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundSource> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5092,7 +5092,7 @@ iPcSoundSource * celGetSoundSource (iCelEntity *entity)
 
 iPcSoundSource *scfQuery_iPcSoundSource (iCelPropertyClass *pc)
 {
-  csRef<iPcSoundSource> iface =    scfQueryInterface<iPcSoundSource> (pc);
+  csRef<iPcSoundSource> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundSource> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5101,7 +5101,7 @@ iPcSoundSource *scfQuery_iPcSoundSource (iCelPropertyClass *pc)
 iPcSoundListener *celCreateSoundListener(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundlistener" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcSoundListener> pclm =    scfQueryInterface<iPcSoundListener> (pc);
+  csRef<iPcSoundListener> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundListener> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5113,7 +5113,7 @@ iPcSoundListener * celGetSetSoundListener (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcsoundlistener" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcSoundListener> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundListener> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5129,7 +5129,7 @@ iPcSoundListener * celGetSoundListener (iCelEntity *entity)
 
 iPcSoundListener *scfQuery_iPcSoundListener (iCelPropertyClass *pc)
 {
-  csRef<iPcSoundListener> iface =    scfQueryInterface<iPcSoundListener> (pc);
+  csRef<iPcSoundListener> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcSoundListener> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5139,7 +5139,7 @@ SWIGINTERN size_t iPcProperties_PropertyCount_get(iPcProperties *self){ return (
 iPcProperties *celCreateProperties(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcproperties" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcProperties> pclm =    scfQueryInterface<iPcProperties> (pc);
+  csRef<iPcProperties> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcProperties> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5151,7 +5151,7 @@ iPcProperties * celGetSetProperties (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcproperties" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcProperties> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcProperties> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5167,7 +5167,7 @@ iPcProperties * celGetProperties (iCelEntity *entity)
 
 iPcProperties *scfQuery_iPcProperties (iCelPropertyClass *pc)
 {
-  csRef<iPcProperties> iface =    scfQueryInterface<iPcProperties> (pc);
+  csRef<iPcProperties> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcProperties> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5181,7 +5181,7 @@ SWIGINTERN bool iPcMover_Moving_get(iPcMover *self){ return (bool)(self->IsMovin
 iPcMover *celCreateMover(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmover" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcMover> pclm =    scfQueryInterface<iPcMover> (pc);
+  csRef<iPcMover> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMover> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5193,7 +5193,7 @@ iPcMover * celGetSetMover (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcmover" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcMover> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcMover> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5209,7 +5209,7 @@ iPcMover * celGetMover (iCelEntity *entity)
 
 iPcMover *scfQuery_iPcMover (iCelPropertyClass *pc)
 {
-  csRef<iPcMover> iface =    scfQueryInterface<iPcMover> (pc);
+  csRef<iPcMover> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcMover> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5224,7 +5224,7 @@ SWIGINTERN float iPcHover_Height_get(iPcHover *self){ return (float)(self->GetHe
 iPcHover *celCreateHover(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pchover" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcHover> pclm =    scfQueryInterface<iPcHover> (pc);
+  csRef<iPcHover> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcHover> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5236,7 +5236,7 @@ iPcHover * celGetSetHover (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pchover" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcHover> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcHover> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5252,7 +5252,7 @@ iPcHover * celGetHover (iCelEntity *entity)
 
 iPcHover *scfQuery_iPcHover (iCelPropertyClass *pc)
 {
-  csRef<iPcHover> iface =    scfQueryInterface<iPcHover> (pc);
+  csRef<iPcHover> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcHover> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5272,7 +5272,7 @@ SWIGINTERN void iPcCraftController_AfterBurnerTopSpeed_set(iPcCraftController *s
 iPcCraftController *celCreateCraftController(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccraft" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcCraftController> pclm =    scfQueryInterface<iPcCraftController> (pc);
+  csRef<iPcCraftController> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCraftController> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5284,7 +5284,7 @@ iPcCraftController * celGetSetCraftController (iCelPlLayer *pl, iCelEntity *enti
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pccraft" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcCraftController> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcCraftController> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5300,7 +5300,7 @@ iPcCraftController * celGetCraftController (iCelEntity *entity)
 
 iPcCraftController *scfQuery_iPcCraftController (iCelPropertyClass *pc)
 {
-  csRef<iPcCraftController> iface =    scfQueryInterface<iPcCraftController> (pc);
+  csRef<iPcCraftController> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcCraftController> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5326,7 +5326,7 @@ SWIGINTERN int iPcWheeled_WheelCount_get(iPcWheeled *self){ return (int)(self->G
 iPcWheeled *celCreateWheeled(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcwheeled" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcWheeled> pclm =    scfQueryInterface<iPcWheeled> (pc);
+  csRef<iPcWheeled> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcWheeled> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5338,7 +5338,7 @@ iPcWheeled * celGetSetWheeled (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcwheeled" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcWheeled> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcWheeled> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5354,7 +5354,7 @@ iPcWheeled * celGetWheeled (iCelEntity *entity)
 
 iPcWheeled *scfQuery_iPcWheeled (iCelPropertyClass *pc)
 {
-  csRef<iPcWheeled> iface =    scfQueryInterface<iPcWheeled> (pc);
+  csRef<iPcWheeled> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcWheeled> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5373,7 +5373,7 @@ SWIGINTERN char const *iPcDamage_DamageSource_get(iPcDamage *self){ return (cons
 iPcDamage *celCreateDamage(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdamage" );
   if (!pc.IsValid()) return 0;
-  csRef<iPcDamage> pclm =    scfQueryInterface<iPcDamage> (pc);
+  csRef<iPcDamage> pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcDamage> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5385,7 +5385,7 @@ iPcDamage * celGetSetDamage (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity,"pcdamage" );
   if (!pc.IsValid()) return 0;
-  pclm =    scfQueryInterface<iPcDamage> (pc);
+  pclm =    SCF_QUERY_INTERFACE_is_deprecated<iPcDamage> (pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -5401,7 +5401,7 @@ iPcDamage * celGetDamage (iCelEntity *entity)
 
 iPcDamage *scfQuery_iPcDamage (iCelPropertyClass *pc)
 {
-  csRef<iPcDamage> iface =    scfQueryInterface<iPcDamage> (pc);
+  csRef<iPcDamage> iface =    SCF_QUERY_INTERFACE_is_deprecated<iPcDamage> (pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -5413,7 +5413,7 @@ SWIGINTERN iConsoleOutput *iCelConsole_OutputConsole_get(iCelConsole *self){ ret
 
 iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 {
-  csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
+  csRef<iCelConsole> bl = CS_QUERY_REGISTRY (object_reg, iCelConsole);
   return bl;
 }
 
