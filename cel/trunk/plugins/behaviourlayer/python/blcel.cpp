@@ -59015,11 +59015,13 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_0(PyObject *SWIGUNUSEDPARM(
   float arg8 ;
   float arg9 ;
   float arg10 ;
-  bool arg11 ;
-  bool arg12 ;
-  char *arg13 = (char *) 0 ;
-  char *arg14 = (char *) 0 ;
-  csMatrix3 arg15 ;
+  float arg11 ;
+  float arg12 ;
+  bool arg13 ;
+  bool arg14 ;
+  char *arg15 = (char *) 0 ;
+  char *arg16 = (char *) 0 ;
+  csMatrix3 arg17 ;
   int result;
   void *argp1 = 0 ;
   int res1 = 0 ;
@@ -59041,18 +59043,374 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_0(PyObject *SWIGUNUSEDPARM(
   int ecode9 = 0 ;
   float val10 ;
   int ecode10 = 0 ;
-  bool val11 ;
+  float val11 ;
   int ecode11 = 0 ;
-  bool val12 ;
+  float val12 ;
   int ecode12 = 0 ;
-  int res13 ;
-  char *buf13 = 0 ;
-  int alloc13 = 0 ;
-  int res14 ;
-  char *buf14 = 0 ;
-  int alloc14 = 0 ;
-  void *argp15 ;
-  int res15 = 0 ;
+  bool val13 ;
+  int ecode13 = 0 ;
+  bool val14 ;
+  int ecode14 = 0 ;
+  int res15 ;
+  char *buf15 = 0 ;
+  int alloc15 = 0 ;
+  int res16 ;
+  char *buf16 = 0 ;
+  int alloc16 = 0 ;
+  void *argp17 ;
+  int res17 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
+  PyObject * obj8 = 0 ;
+  PyObject * obj9 = 0 ;
+  PyObject * obj10 = 0 ;
+  PyObject * obj11 = 0 ;
+  PyObject * obj12 = 0 ;
+  PyObject * obj13 = 0 ;
+  PyObject * obj14 = 0 ;
+  PyObject * obj15 = 0 ;
+  PyObject * obj16 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15,&obj16)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_AddWheel" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_csVector3,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'");
+    } else {
+      csVector3 * temp = reinterpret_cast< csVector3 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_AddWheel" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcWheeled_AddWheel" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  ecode5 = SWIG_AsVal_float(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_AddWheel" "', argument " "5"" of type '" "float""'");
+  } 
+  arg5 = static_cast< float >(val5);
+  ecode6 = SWIG_AsVal_float(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_AddWheel" "', argument " "6"" of type '" "float""'");
+  } 
+  arg6 = static_cast< float >(val6);
+  ecode7 = SWIG_AsVal_float(obj6, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_AddWheel" "', argument " "7"" of type '" "float""'");
+  } 
+  arg7 = static_cast< float >(val7);
+  ecode8 = SWIG_AsVal_float(obj7, &val8);
+  if (!SWIG_IsOK(ecode8)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "iPcWheeled_AddWheel" "', argument " "8"" of type '" "float""'");
+  } 
+  arg8 = static_cast< float >(val8);
+  ecode9 = SWIG_AsVal_float(obj8, &val9);
+  if (!SWIG_IsOK(ecode9)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "iPcWheeled_AddWheel" "', argument " "9"" of type '" "float""'");
+  } 
+  arg9 = static_cast< float >(val9);
+  ecode10 = SWIG_AsVal_float(obj9, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
+  } 
+  arg10 = static_cast< float >(val10);
+  ecode11 = SWIG_AsVal_float(obj10, &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "float""'");
+  } 
+  arg11 = static_cast< float >(val11);
+  ecode12 = SWIG_AsVal_float(obj11, &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "float""'");
+  } 
+  arg12 = static_cast< float >(val12);
+  ecode13 = SWIG_AsVal_bool(obj12, &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "bool""'");
+  } 
+  arg13 = static_cast< bool >(val13);
+  ecode14 = SWIG_AsVal_bool(obj13, &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "bool""'");
+  } 
+  arg14 = static_cast< bool >(val14);
+  res15 = SWIG_AsCharPtrAndSize(obj14, &buf15, NULL, &alloc15);
+  if (!SWIG_IsOK(res15)) {
+    SWIG_exception_fail(SWIG_ArgError(res15), "in method '" "iPcWheeled_AddWheel" "', argument " "15"" of type '" "char const *""'");
+  }
+  arg15 = buf15;
+  res16 = SWIG_AsCharPtrAndSize(obj15, &buf16, NULL, &alloc16);
+  if (!SWIG_IsOK(res16)) {
+    SWIG_exception_fail(SWIG_ArgError(res16), "in method '" "iPcWheeled_AddWheel" "', argument " "16"" of type '" "char const *""'");
+  }
+  arg16 = buf16;
+  {
+    res17 = SWIG_ConvertPtr(obj16, &argp17, SWIGTYPE_p_csMatrix3,  0  | 0);
+    if (!SWIG_IsOK(res17)) {
+      SWIG_exception_fail(SWIG_ArgError(res17), "in method '" "iPcWheeled_AddWheel" "', argument " "17"" of type '" "csMatrix3""'"); 
+    }  
+    if (!argp17) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "17"" of type '" "csMatrix3""'");
+    } else {
+      csMatrix3 * temp = reinterpret_cast< csMatrix3 * >(argp17);
+      arg17 = *temp;
+      if (SWIG_IsNewObj(res17)) delete temp;
+    }
+  }
+  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,(char const *)arg15,(char const *)arg16,arg17);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
+  if (alloc16 == SWIG_NEWOBJ) delete[] buf16;
+  return resultobj;
+fail:
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
+  if (alloc16 == SWIG_NEWOBJ) delete[] buf16;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  csVector3 arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  float arg6 ;
+  float arg7 ;
+  float arg8 ;
+  float arg9 ;
+  float arg10 ;
+  float arg11 ;
+  float arg12 ;
+  bool arg13 ;
+  bool arg14 ;
+  char *arg15 = (char *) 0 ;
+  char *arg16 = (char *) 0 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  float val5 ;
+  int ecode5 = 0 ;
+  float val6 ;
+  int ecode6 = 0 ;
+  float val7 ;
+  int ecode7 = 0 ;
+  float val8 ;
+  int ecode8 = 0 ;
+  float val9 ;
+  int ecode9 = 0 ;
+  float val10 ;
+  int ecode10 = 0 ;
+  float val11 ;
+  int ecode11 = 0 ;
+  float val12 ;
+  int ecode12 = 0 ;
+  bool val13 ;
+  int ecode13 = 0 ;
+  bool val14 ;
+  int ecode14 = 0 ;
+  int res15 ;
+  char *buf15 = 0 ;
+  int alloc15 = 0 ;
+  int res16 ;
+  char *buf16 = 0 ;
+  int alloc16 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
+  PyObject * obj7 = 0 ;
+  PyObject * obj8 = 0 ;
+  PyObject * obj9 = 0 ;
+  PyObject * obj10 = 0 ;
+  PyObject * obj11 = 0 ;
+  PyObject * obj12 = 0 ;
+  PyObject * obj13 = 0 ;
+  PyObject * obj14 = 0 ;
+  PyObject * obj15 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12,&obj13,&obj14,&obj15)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_AddWheel" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_csVector3,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'");
+    } else {
+      csVector3 * temp = reinterpret_cast< csVector3 * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_AddWheel" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcWheeled_AddWheel" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  ecode5 = SWIG_AsVal_float(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_AddWheel" "', argument " "5"" of type '" "float""'");
+  } 
+  arg5 = static_cast< float >(val5);
+  ecode6 = SWIG_AsVal_float(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_AddWheel" "', argument " "6"" of type '" "float""'");
+  } 
+  arg6 = static_cast< float >(val6);
+  ecode7 = SWIG_AsVal_float(obj6, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_AddWheel" "', argument " "7"" of type '" "float""'");
+  } 
+  arg7 = static_cast< float >(val7);
+  ecode8 = SWIG_AsVal_float(obj7, &val8);
+  if (!SWIG_IsOK(ecode8)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "iPcWheeled_AddWheel" "', argument " "8"" of type '" "float""'");
+  } 
+  arg8 = static_cast< float >(val8);
+  ecode9 = SWIG_AsVal_float(obj8, &val9);
+  if (!SWIG_IsOK(ecode9)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "iPcWheeled_AddWheel" "', argument " "9"" of type '" "float""'");
+  } 
+  arg9 = static_cast< float >(val9);
+  ecode10 = SWIG_AsVal_float(obj9, &val10);
+  if (!SWIG_IsOK(ecode10)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
+  } 
+  arg10 = static_cast< float >(val10);
+  ecode11 = SWIG_AsVal_float(obj10, &val11);
+  if (!SWIG_IsOK(ecode11)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "float""'");
+  } 
+  arg11 = static_cast< float >(val11);
+  ecode12 = SWIG_AsVal_float(obj11, &val12);
+  if (!SWIG_IsOK(ecode12)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "float""'");
+  } 
+  arg12 = static_cast< float >(val12);
+  ecode13 = SWIG_AsVal_bool(obj12, &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "bool""'");
+  } 
+  arg13 = static_cast< bool >(val13);
+  ecode14 = SWIG_AsVal_bool(obj13, &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "bool""'");
+  } 
+  arg14 = static_cast< bool >(val14);
+  res15 = SWIG_AsCharPtrAndSize(obj14, &buf15, NULL, &alloc15);
+  if (!SWIG_IsOK(res15)) {
+    SWIG_exception_fail(SWIG_ArgError(res15), "in method '" "iPcWheeled_AddWheel" "', argument " "15"" of type '" "char const *""'");
+  }
+  arg15 = buf15;
+  res16 = SWIG_AsCharPtrAndSize(obj15, &buf16, NULL, &alloc16);
+  if (!SWIG_IsOK(res16)) {
+    SWIG_exception_fail(SWIG_ArgError(res16), "in method '" "iPcWheeled_AddWheel" "', argument " "16"" of type '" "char const *""'");
+  }
+  arg16 = buf16;
+  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,(char const *)arg15,(char const *)arg16);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
+  if (alloc16 == SWIG_NEWOBJ) delete[] buf16;
+  return resultobj;
+fail:
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
+  if (alloc16 == SWIG_NEWOBJ) delete[] buf16;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  csVector3 arg2 ;
+  float arg3 ;
+  float arg4 ;
+  float arg5 ;
+  float arg6 ;
+  float arg7 ;
+  float arg8 ;
+  float arg9 ;
+  float arg10 ;
+  float arg11 ;
+  float arg12 ;
+  bool arg13 ;
+  bool arg14 ;
+  char *arg15 = (char *) 0 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  float val5 ;
+  int ecode5 = 0 ;
+  float val6 ;
+  int ecode6 = 0 ;
+  float val7 ;
+  int ecode7 = 0 ;
+  float val8 ;
+  int ecode8 = 0 ;
+  float val9 ;
+  int ecode9 = 0 ;
+  float val10 ;
+  int ecode10 = 0 ;
+  float val11 ;
+  int ecode11 = 0 ;
+  float val12 ;
+  int ecode12 = 0 ;
+  bool val13 ;
+  int ecode13 = 0 ;
+  bool val14 ;
+  int ecode14 = 0 ;
+  int res15 ;
+  char *buf15 = 0 ;
+  int alloc15 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -59128,52 +59486,42 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_0(PyObject *SWIGUNUSEDPARM(
     SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
   } 
   arg10 = static_cast< float >(val10);
-  ecode11 = SWIG_AsVal_bool(obj10, &val11);
+  ecode11 = SWIG_AsVal_float(obj10, &val11);
   if (!SWIG_IsOK(ecode11)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "float""'");
   } 
-  arg11 = static_cast< bool >(val11);
-  ecode12 = SWIG_AsVal_bool(obj11, &val12);
+  arg11 = static_cast< float >(val11);
+  ecode12 = SWIG_AsVal_float(obj11, &val12);
   if (!SWIG_IsOK(ecode12)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "float""'");
   } 
-  arg12 = static_cast< bool >(val12);
-  res13 = SWIG_AsCharPtrAndSize(obj12, &buf13, NULL, &alloc13);
-  if (!SWIG_IsOK(res13)) {
-    SWIG_exception_fail(SWIG_ArgError(res13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "char const *""'");
+  arg12 = static_cast< float >(val12);
+  ecode13 = SWIG_AsVal_bool(obj12, &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "bool""'");
+  } 
+  arg13 = static_cast< bool >(val13);
+  ecode14 = SWIG_AsVal_bool(obj13, &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "bool""'");
+  } 
+  arg14 = static_cast< bool >(val14);
+  res15 = SWIG_AsCharPtrAndSize(obj14, &buf15, NULL, &alloc15);
+  if (!SWIG_IsOK(res15)) {
+    SWIG_exception_fail(SWIG_ArgError(res15), "in method '" "iPcWheeled_AddWheel" "', argument " "15"" of type '" "char const *""'");
   }
-  arg13 = buf13;
-  res14 = SWIG_AsCharPtrAndSize(obj13, &buf14, NULL, &alloc14);
-  if (!SWIG_IsOK(res14)) {
-    SWIG_exception_fail(SWIG_ArgError(res14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "char const *""'");
-  }
-  arg14 = buf14;
-  {
-    res15 = SWIG_ConvertPtr(obj14, &argp15, SWIGTYPE_p_csMatrix3,  0  | 0);
-    if (!SWIG_IsOK(res15)) {
-      SWIG_exception_fail(SWIG_ArgError(res15), "in method '" "iPcWheeled_AddWheel" "', argument " "15"" of type '" "csMatrix3""'"); 
-    }  
-    if (!argp15) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "15"" of type '" "csMatrix3""'");
-    } else {
-      csMatrix3 * temp = reinterpret_cast< csMatrix3 * >(argp15);
-      arg15 = *temp;
-      if (SWIG_IsNewObj(res15)) delete temp;
-    }
-  }
-  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13,(char const *)arg14,arg15);
+  arg15 = buf15;
+  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14,(char const *)arg15);
   resultobj = SWIG_From_int(static_cast< int >(result));
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  if (alloc14 == SWIG_NEWOBJ) delete[] buf14;
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
   return resultobj;
 fail:
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  if (alloc14 == SWIG_NEWOBJ) delete[] buf14;
+  if (alloc15 == SWIG_NEWOBJ) delete[] buf15;
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
   csVector3 arg2 ;
@@ -59185,10 +59533,10 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *SWIGUNUSEDPARM(
   float arg8 ;
   float arg9 ;
   float arg10 ;
-  bool arg11 ;
-  bool arg12 ;
-  char *arg13 = (char *) 0 ;
-  char *arg14 = (char *) 0 ;
+  float arg11 ;
+  float arg12 ;
+  bool arg13 ;
+  bool arg14 ;
   int result;
   void *argp1 = 0 ;
   int res1 = 0 ;
@@ -59210,16 +59558,14 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *SWIGUNUSEDPARM(
   int ecode9 = 0 ;
   float val10 ;
   int ecode10 = 0 ;
-  bool val11 ;
+  float val11 ;
   int ecode11 = 0 ;
-  bool val12 ;
+  float val12 ;
   int ecode12 = 0 ;
-  int res13 ;
-  char *buf13 = 0 ;
-  int alloc13 = 0 ;
-  int res14 ;
-  char *buf14 = 0 ;
-  int alloc14 = 0 ;
+  bool val13 ;
+  int ecode13 = 0 ;
+  bool val14 ;
+  int ecode14 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -59294,301 +59640,27 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_1(PyObject *SWIGUNUSEDPARM(
     SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
   } 
   arg10 = static_cast< float >(val10);
-  ecode11 = SWIG_AsVal_bool(obj10, &val11);
+  ecode11 = SWIG_AsVal_float(obj10, &val11);
   if (!SWIG_IsOK(ecode11)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "float""'");
   } 
-  arg11 = static_cast< bool >(val11);
-  ecode12 = SWIG_AsVal_bool(obj11, &val12);
+  arg11 = static_cast< float >(val11);
+  ecode12 = SWIG_AsVal_float(obj11, &val12);
   if (!SWIG_IsOK(ecode12)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "bool""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "float""'");
   } 
-  arg12 = static_cast< bool >(val12);
-  res13 = SWIG_AsCharPtrAndSize(obj12, &buf13, NULL, &alloc13);
-  if (!SWIG_IsOK(res13)) {
-    SWIG_exception_fail(SWIG_ArgError(res13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "char const *""'");
-  }
-  arg13 = buf13;
-  res14 = SWIG_AsCharPtrAndSize(obj13, &buf14, NULL, &alloc14);
-  if (!SWIG_IsOK(res14)) {
-    SWIG_exception_fail(SWIG_ArgError(res14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "char const *""'");
-  }
-  arg14 = buf14;
-  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13,(char const *)arg14);
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  if (alloc14 == SWIG_NEWOBJ) delete[] buf14;
-  return resultobj;
-fail:
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  if (alloc14 == SWIG_NEWOBJ) delete[] buf14;
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
-  csVector3 arg2 ;
-  float arg3 ;
-  float arg4 ;
-  float arg5 ;
-  float arg6 ;
-  float arg7 ;
-  float arg8 ;
-  float arg9 ;
-  float arg10 ;
-  bool arg11 ;
-  bool arg12 ;
-  char *arg13 = (char *) 0 ;
-  int result;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  float val3 ;
-  int ecode3 = 0 ;
-  float val4 ;
-  int ecode4 = 0 ;
-  float val5 ;
-  int ecode5 = 0 ;
-  float val6 ;
-  int ecode6 = 0 ;
-  float val7 ;
-  int ecode7 = 0 ;
-  float val8 ;
-  int ecode8 = 0 ;
-  float val9 ;
-  int ecode9 = 0 ;
-  float val10 ;
-  int ecode10 = 0 ;
-  bool val11 ;
-  int ecode11 = 0 ;
-  bool val12 ;
-  int ecode12 = 0 ;
-  int res13 ;
-  char *buf13 = 0 ;
-  int alloc13 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  PyObject * obj3 = 0 ;
-  PyObject * obj4 = 0 ;
-  PyObject * obj5 = 0 ;
-  PyObject * obj6 = 0 ;
-  PyObject * obj7 = 0 ;
-  PyObject * obj8 = 0 ;
-  PyObject * obj9 = 0 ;
-  PyObject * obj10 = 0 ;
-  PyObject * obj11 = 0 ;
-  PyObject * obj12 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11,&obj12)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_AddWheel" "', argument " "1"" of type '" "iPcWheeled *""'"); 
-  }
-  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_csVector3,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'");
-    } else {
-      csVector3 * temp = reinterpret_cast< csVector3 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  ecode3 = SWIG_AsVal_float(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_AddWheel" "', argument " "3"" of type '" "float""'");
+  arg12 = static_cast< float >(val12);
+  ecode13 = SWIG_AsVal_bool(obj12, &val13);
+  if (!SWIG_IsOK(ecode13)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "bool""'");
   } 
-  arg3 = static_cast< float >(val3);
-  ecode4 = SWIG_AsVal_float(obj3, &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcWheeled_AddWheel" "', argument " "4"" of type '" "float""'");
+  arg13 = static_cast< bool >(val13);
+  ecode14 = SWIG_AsVal_bool(obj13, &val14);
+  if (!SWIG_IsOK(ecode14)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode14), "in method '" "iPcWheeled_AddWheel" "', argument " "14"" of type '" "bool""'");
   } 
-  arg4 = static_cast< float >(val4);
-  ecode5 = SWIG_AsVal_float(obj4, &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_AddWheel" "', argument " "5"" of type '" "float""'");
-  } 
-  arg5 = static_cast< float >(val5);
-  ecode6 = SWIG_AsVal_float(obj5, &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_AddWheel" "', argument " "6"" of type '" "float""'");
-  } 
-  arg6 = static_cast< float >(val6);
-  ecode7 = SWIG_AsVal_float(obj6, &val7);
-  if (!SWIG_IsOK(ecode7)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_AddWheel" "', argument " "7"" of type '" "float""'");
-  } 
-  arg7 = static_cast< float >(val7);
-  ecode8 = SWIG_AsVal_float(obj7, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "iPcWheeled_AddWheel" "', argument " "8"" of type '" "float""'");
-  } 
-  arg8 = static_cast< float >(val8);
-  ecode9 = SWIG_AsVal_float(obj8, &val9);
-  if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "iPcWheeled_AddWheel" "', argument " "9"" of type '" "float""'");
-  } 
-  arg9 = static_cast< float >(val9);
-  ecode10 = SWIG_AsVal_float(obj9, &val10);
-  if (!SWIG_IsOK(ecode10)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
-  } 
-  arg10 = static_cast< float >(val10);
-  ecode11 = SWIG_AsVal_bool(obj10, &val11);
-  if (!SWIG_IsOK(ecode11)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "bool""'");
-  } 
-  arg11 = static_cast< bool >(val11);
-  ecode12 = SWIG_AsVal_bool(obj11, &val12);
-  if (!SWIG_IsOK(ecode12)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "bool""'");
-  } 
-  arg12 = static_cast< bool >(val12);
-  res13 = SWIG_AsCharPtrAndSize(obj12, &buf13, NULL, &alloc13);
-  if (!SWIG_IsOK(res13)) {
-    SWIG_exception_fail(SWIG_ArgError(res13), "in method '" "iPcWheeled_AddWheel" "', argument " "13"" of type '" "char const *""'");
-  }
-  arg13 = buf13;
-  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,(char const *)arg13);
-  resultobj = SWIG_From_int(static_cast< int >(result));
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  return resultobj;
-fail:
-  if (alloc13 == SWIG_NEWOBJ) delete[] buf13;
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel__SWIG_3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
-  csVector3 arg2 ;
-  float arg3 ;
-  float arg4 ;
-  float arg5 ;
-  float arg6 ;
-  float arg7 ;
-  float arg8 ;
-  float arg9 ;
-  float arg10 ;
-  bool arg11 ;
-  bool arg12 ;
-  int result;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  float val3 ;
-  int ecode3 = 0 ;
-  float val4 ;
-  int ecode4 = 0 ;
-  float val5 ;
-  int ecode5 = 0 ;
-  float val6 ;
-  int ecode6 = 0 ;
-  float val7 ;
-  int ecode7 = 0 ;
-  float val8 ;
-  int ecode8 = 0 ;
-  float val9 ;
-  int ecode9 = 0 ;
-  float val10 ;
-  int ecode10 = 0 ;
-  bool val11 ;
-  int ecode11 = 0 ;
-  bool val12 ;
-  int ecode12 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  PyObject * obj3 = 0 ;
-  PyObject * obj4 = 0 ;
-  PyObject * obj5 = 0 ;
-  PyObject * obj6 = 0 ;
-  PyObject * obj7 = 0 ;
-  PyObject * obj8 = 0 ;
-  PyObject * obj9 = 0 ;
-  PyObject * obj10 = 0 ;
-  PyObject * obj11 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOOOOOOOOOOO:iPcWheeled_AddWheel",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6,&obj7,&obj8,&obj9,&obj10,&obj11)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_AddWheel" "', argument " "1"" of type '" "iPcWheeled *""'"); 
-  }
-  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_csVector3,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcWheeled_AddWheel" "', argument " "2"" of type '" "csVector3""'");
-    } else {
-      csVector3 * temp = reinterpret_cast< csVector3 * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  ecode3 = SWIG_AsVal_float(obj2, &val3);
-  if (!SWIG_IsOK(ecode3)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_AddWheel" "', argument " "3"" of type '" "float""'");
-  } 
-  arg3 = static_cast< float >(val3);
-  ecode4 = SWIG_AsVal_float(obj3, &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcWheeled_AddWheel" "', argument " "4"" of type '" "float""'");
-  } 
-  arg4 = static_cast< float >(val4);
-  ecode5 = SWIG_AsVal_float(obj4, &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_AddWheel" "', argument " "5"" of type '" "float""'");
-  } 
-  arg5 = static_cast< float >(val5);
-  ecode6 = SWIG_AsVal_float(obj5, &val6);
-  if (!SWIG_IsOK(ecode6)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_AddWheel" "', argument " "6"" of type '" "float""'");
-  } 
-  arg6 = static_cast< float >(val6);
-  ecode7 = SWIG_AsVal_float(obj6, &val7);
-  if (!SWIG_IsOK(ecode7)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_AddWheel" "', argument " "7"" of type '" "float""'");
-  } 
-  arg7 = static_cast< float >(val7);
-  ecode8 = SWIG_AsVal_float(obj7, &val8);
-  if (!SWIG_IsOK(ecode8)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode8), "in method '" "iPcWheeled_AddWheel" "', argument " "8"" of type '" "float""'");
-  } 
-  arg8 = static_cast< float >(val8);
-  ecode9 = SWIG_AsVal_float(obj8, &val9);
-  if (!SWIG_IsOK(ecode9)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode9), "in method '" "iPcWheeled_AddWheel" "', argument " "9"" of type '" "float""'");
-  } 
-  arg9 = static_cast< float >(val9);
-  ecode10 = SWIG_AsVal_float(obj9, &val10);
-  if (!SWIG_IsOK(ecode10)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode10), "in method '" "iPcWheeled_AddWheel" "', argument " "10"" of type '" "float""'");
-  } 
-  arg10 = static_cast< float >(val10);
-  ecode11 = SWIG_AsVal_bool(obj10, &val11);
-  if (!SWIG_IsOK(ecode11)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode11), "in method '" "iPcWheeled_AddWheel" "', argument " "11"" of type '" "bool""'");
-  } 
-  arg11 = static_cast< bool >(val11);
-  ecode12 = SWIG_AsVal_bool(obj11, &val12);
-  if (!SWIG_IsOK(ecode12)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode12), "in method '" "iPcWheeled_AddWheel" "', argument " "12"" of type '" "bool""'");
-  } 
-  arg12 = static_cast< bool >(val12);
-  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12);
+  arg14 = static_cast< bool >(val14);
+  result = (int)(arg1)->AddWheel(arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9,arg10,arg11,arg12,arg13,arg14);
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
@@ -59598,163 +59670,13 @@ fail:
 
 SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel(PyObject *self, PyObject *args) {
   int argc;
-  PyObject *argv[16];
+  PyObject *argv[18];
   int ii;
   
   if (!PyTuple_Check(args)) SWIG_fail;
   argc = PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 15); ii++) {
+  for (ii = 0; (ii < argc) && (ii < 17); ii++) {
     argv[ii] = PyTuple_GET_ITEM(args,ii);
-  }
-  if (argc == 12) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcWheeled, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csVector3, 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        {
-          int res = SWIG_AsVal_float(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_float(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            {
-              int res = SWIG_AsVal_float(argv[4], NULL);
-              _v = SWIG_CheckState(res);
-            }
-            if (_v) {
-              {
-                int res = SWIG_AsVal_float(argv[5], NULL);
-                _v = SWIG_CheckState(res);
-              }
-              if (_v) {
-                {
-                  int res = SWIG_AsVal_float(argv[6], NULL);
-                  _v = SWIG_CheckState(res);
-                }
-                if (_v) {
-                  {
-                    int res = SWIG_AsVal_float(argv[7], NULL);
-                    _v = SWIG_CheckState(res);
-                  }
-                  if (_v) {
-                    {
-                      int res = SWIG_AsVal_float(argv[8], NULL);
-                      _v = SWIG_CheckState(res);
-                    }
-                    if (_v) {
-                      {
-                        int res = SWIG_AsVal_float(argv[9], NULL);
-                        _v = SWIG_CheckState(res);
-                      }
-                      if (_v) {
-                        {
-                          int res = SWIG_AsVal_bool(argv[10], NULL);
-                          _v = SWIG_CheckState(res);
-                        }
-                        if (_v) {
-                          {
-                            int res = SWIG_AsVal_bool(argv[11], NULL);
-                            _v = SWIG_CheckState(res);
-                          }
-                          if (_v) {
-                            return _wrap_iPcWheeled_AddWheel__SWIG_3(self, args);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  if (argc == 13) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcWheeled, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csVector3, 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        {
-          int res = SWIG_AsVal_float(argv[2], NULL);
-          _v = SWIG_CheckState(res);
-        }
-        if (_v) {
-          {
-            int res = SWIG_AsVal_float(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            {
-              int res = SWIG_AsVal_float(argv[4], NULL);
-              _v = SWIG_CheckState(res);
-            }
-            if (_v) {
-              {
-                int res = SWIG_AsVal_float(argv[5], NULL);
-                _v = SWIG_CheckState(res);
-              }
-              if (_v) {
-                {
-                  int res = SWIG_AsVal_float(argv[6], NULL);
-                  _v = SWIG_CheckState(res);
-                }
-                if (_v) {
-                  {
-                    int res = SWIG_AsVal_float(argv[7], NULL);
-                    _v = SWIG_CheckState(res);
-                  }
-                  if (_v) {
-                    {
-                      int res = SWIG_AsVal_float(argv[8], NULL);
-                      _v = SWIG_CheckState(res);
-                    }
-                    if (_v) {
-                      {
-                        int res = SWIG_AsVal_float(argv[9], NULL);
-                        _v = SWIG_CheckState(res);
-                      }
-                      if (_v) {
-                        {
-                          int res = SWIG_AsVal_bool(argv[10], NULL);
-                          _v = SWIG_CheckState(res);
-                        }
-                        if (_v) {
-                          {
-                            int res = SWIG_AsVal_bool(argv[11], NULL);
-                            _v = SWIG_CheckState(res);
-                          }
-                          if (_v) {
-                            int res = SWIG_AsCharPtrAndSize(argv[12], 0, NULL, 0);
-                            _v = SWIG_CheckState(res);
-                            if (_v) {
-                              return _wrap_iPcWheeled_AddWheel__SWIG_2(self, args);
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
   if (argc == 14) {
     int _v;
@@ -59806,22 +59728,26 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel(PyObject *self, PyObject *args) {
                       }
                       if (_v) {
                         {
-                          int res = SWIG_AsVal_bool(argv[10], NULL);
+                          int res = SWIG_AsVal_float(argv[10], NULL);
                           _v = SWIG_CheckState(res);
                         }
                         if (_v) {
                           {
-                            int res = SWIG_AsVal_bool(argv[11], NULL);
+                            int res = SWIG_AsVal_float(argv[11], NULL);
                             _v = SWIG_CheckState(res);
                           }
                           if (_v) {
-                            int res = SWIG_AsCharPtrAndSize(argv[12], 0, NULL, 0);
-                            _v = SWIG_CheckState(res);
-                            if (_v) {
-                              int res = SWIG_AsCharPtrAndSize(argv[13], 0, NULL, 0);
+                            {
+                              int res = SWIG_AsVal_bool(argv[12], NULL);
                               _v = SWIG_CheckState(res);
+                            }
+                            if (_v) {
+                              {
+                                int res = SWIG_AsVal_bool(argv[13], NULL);
+                                _v = SWIG_CheckState(res);
+                              }
                               if (_v) {
-                                return _wrap_iPcWheeled_AddWheel__SWIG_1(self, args);
+                                return _wrap_iPcWheeled_AddWheel__SWIG_3(self, args);
                               }
                             }
                           }
@@ -59887,25 +59813,219 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheel(PyObject *self, PyObject *args) {
                       }
                       if (_v) {
                         {
-                          int res = SWIG_AsVal_bool(argv[10], NULL);
+                          int res = SWIG_AsVal_float(argv[10], NULL);
                           _v = SWIG_CheckState(res);
                         }
                         if (_v) {
                           {
-                            int res = SWIG_AsVal_bool(argv[11], NULL);
+                            int res = SWIG_AsVal_float(argv[11], NULL);
                             _v = SWIG_CheckState(res);
                           }
                           if (_v) {
-                            int res = SWIG_AsCharPtrAndSize(argv[12], 0, NULL, 0);
-                            _v = SWIG_CheckState(res);
-                            if (_v) {
-                              int res = SWIG_AsCharPtrAndSize(argv[13], 0, NULL, 0);
+                            {
+                              int res = SWIG_AsVal_bool(argv[12], NULL);
                               _v = SWIG_CheckState(res);
+                            }
+                            if (_v) {
+                              {
+                                int res = SWIG_AsVal_bool(argv[13], NULL);
+                                _v = SWIG_CheckState(res);
+                              }
                               if (_v) {
-                                int res = SWIG_ConvertPtr(argv[14], 0, SWIGTYPE_p_csMatrix3, 0);
+                                int res = SWIG_AsCharPtrAndSize(argv[14], 0, NULL, 0);
                                 _v = SWIG_CheckState(res);
                                 if (_v) {
-                                  return _wrap_iPcWheeled_AddWheel__SWIG_0(self, args);
+                                  return _wrap_iPcWheeled_AddWheel__SWIG_2(self, args);
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 16) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcWheeled, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csVector3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        {
+          int res = SWIG_AsVal_float(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_float(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_float(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_float(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_float(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_float(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    {
+                      int res = SWIG_AsVal_float(argv[8], NULL);
+                      _v = SWIG_CheckState(res);
+                    }
+                    if (_v) {
+                      {
+                        int res = SWIG_AsVal_float(argv[9], NULL);
+                        _v = SWIG_CheckState(res);
+                      }
+                      if (_v) {
+                        {
+                          int res = SWIG_AsVal_float(argv[10], NULL);
+                          _v = SWIG_CheckState(res);
+                        }
+                        if (_v) {
+                          {
+                            int res = SWIG_AsVal_float(argv[11], NULL);
+                            _v = SWIG_CheckState(res);
+                          }
+                          if (_v) {
+                            {
+                              int res = SWIG_AsVal_bool(argv[12], NULL);
+                              _v = SWIG_CheckState(res);
+                            }
+                            if (_v) {
+                              {
+                                int res = SWIG_AsVal_bool(argv[13], NULL);
+                                _v = SWIG_CheckState(res);
+                              }
+                              if (_v) {
+                                int res = SWIG_AsCharPtrAndSize(argv[14], 0, NULL, 0);
+                                _v = SWIG_CheckState(res);
+                                if (_v) {
+                                  int res = SWIG_AsCharPtrAndSize(argv[15], 0, NULL, 0);
+                                  _v = SWIG_CheckState(res);
+                                  if (_v) {
+                                    return _wrap_iPcWheeled_AddWheel__SWIG_1(self, args);
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if (argc == 17) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcWheeled, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_csVector3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        {
+          int res = SWIG_AsVal_float(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_float(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_float(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              {
+                int res = SWIG_AsVal_float(argv[5], NULL);
+                _v = SWIG_CheckState(res);
+              }
+              if (_v) {
+                {
+                  int res = SWIG_AsVal_float(argv[6], NULL);
+                  _v = SWIG_CheckState(res);
+                }
+                if (_v) {
+                  {
+                    int res = SWIG_AsVal_float(argv[7], NULL);
+                    _v = SWIG_CheckState(res);
+                  }
+                  if (_v) {
+                    {
+                      int res = SWIG_AsVal_float(argv[8], NULL);
+                      _v = SWIG_CheckState(res);
+                    }
+                    if (_v) {
+                      {
+                        int res = SWIG_AsVal_float(argv[9], NULL);
+                        _v = SWIG_CheckState(res);
+                      }
+                      if (_v) {
+                        {
+                          int res = SWIG_AsVal_float(argv[10], NULL);
+                          _v = SWIG_CheckState(res);
+                        }
+                        if (_v) {
+                          {
+                            int res = SWIG_AsVal_float(argv[11], NULL);
+                            _v = SWIG_CheckState(res);
+                          }
+                          if (_v) {
+                            {
+                              int res = SWIG_AsVal_bool(argv[12], NULL);
+                              _v = SWIG_CheckState(res);
+                            }
+                            if (_v) {
+                              {
+                                int res = SWIG_AsVal_bool(argv[13], NULL);
+                                _v = SWIG_CheckState(res);
+                              }
+                              if (_v) {
+                                int res = SWIG_AsCharPtrAndSize(argv[14], 0, NULL, 0);
+                                _v = SWIG_CheckState(res);
+                                if (_v) {
+                                  int res = SWIG_AsCharPtrAndSize(argv[15], 0, NULL, 0);
+                                  _v = SWIG_CheckState(res);
+                                  if (_v) {
+                                    int res = SWIG_ConvertPtr(argv[16], 0, SWIGTYPE_p_csMatrix3, 0);
+                                    _v = SWIG_CheckState(res);
+                                    if (_v) {
+                                      return _wrap_iPcWheeled_AddWheel__SWIG_0(self, args);
+                                    }
+                                  }
                                 }
                               }
                             }
@@ -60119,6 +60239,8 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetFrontWheelPreset(PyObject *SWIGUNUSEDPA
   float arg3 ;
   float arg4 ;
   float arg5 ;
+  float arg6 ;
+  float arg7 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   float val2 ;
@@ -60129,13 +60251,19 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetFrontWheelPreset(PyObject *SWIGUNUSEDPA
   int ecode4 = 0 ;
   float val5 ;
   int ecode5 = 0 ;
+  float val6 ;
+  int ecode6 = 0 ;
+  float val7 ;
+  int ecode7 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOO:iPcWheeled_SetFrontWheelPreset",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOO:iPcWheeled_SetFrontWheelPreset",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetFrontWheelPreset" "', argument " "1"" of type '" "iPcWheeled *""'"); 
@@ -60161,7 +60289,17 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetFrontWheelPreset(PyObject *SWIGUNUSEDPA
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_SetFrontWheelPreset" "', argument " "5"" of type '" "float""'");
   } 
   arg5 = static_cast< float >(val5);
-  (arg1)->SetFrontWheelPreset(arg2,arg3,arg4,arg5);
+  ecode6 = SWIG_AsVal_float(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_SetFrontWheelPreset" "', argument " "6"" of type '" "float""'");
+  } 
+  arg6 = static_cast< float >(val6);
+  ecode7 = SWIG_AsVal_float(obj6, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_SetFrontWheelPreset" "', argument " "7"" of type '" "float""'");
+  } 
+  arg7 = static_cast< float >(val7);
+  (arg1)->SetFrontWheelPreset(arg2,arg3,arg4,arg5,arg6,arg7);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -60176,6 +60314,8 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetRearWheelPreset(PyObject *SWIGUNUSEDPAR
   float arg3 ;
   float arg4 ;
   float arg5 ;
+  float arg6 ;
+  float arg7 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   float val2 ;
@@ -60186,13 +60326,19 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetRearWheelPreset(PyObject *SWIGUNUSEDPAR
   int ecode4 = 0 ;
   float val5 ;
   int ecode5 = 0 ;
+  float val6 ;
+  int ecode6 = 0 ;
+  float val7 ;
+  int ecode7 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   PyObject * obj3 = 0 ;
   PyObject * obj4 = 0 ;
+  PyObject * obj5 = 0 ;
+  PyObject * obj6 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOOOO:iPcWheeled_SetRearWheelPreset",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOOOOOO:iPcWheeled_SetRearWheelPreset",&obj0,&obj1,&obj2,&obj3,&obj4,&obj5,&obj6)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetRearWheelPreset" "', argument " "1"" of type '" "iPcWheeled *""'"); 
@@ -60218,7 +60364,17 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SetRearWheelPreset(PyObject *SWIGUNUSEDPAR
     SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcWheeled_SetRearWheelPreset" "', argument " "5"" of type '" "float""'");
   } 
   arg5 = static_cast< float >(val5);
-  (arg1)->SetRearWheelPreset(arg2,arg3,arg4,arg5);
+  ecode6 = SWIG_AsVal_float(obj5, &val6);
+  if (!SWIG_IsOK(ecode6)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode6), "in method '" "iPcWheeled_SetRearWheelPreset" "', argument " "6"" of type '" "float""'");
+  } 
+  arg6 = static_cast< float >(val6);
+  ecode7 = SWIG_AsVal_float(obj6, &val7);
+  if (!SWIG_IsOK(ecode7)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "iPcWheeled_SetRearWheelPreset" "', argument " "7"" of type '" "float""'");
+  } 
+  arg7 = static_cast< float >(val7);
+  (arg1)->SetRearWheelPreset(arg2,arg3,arg4,arg5,arg6,arg7);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -61023,6 +61179,84 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_SetWheelFriction(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  int arg2 ;
+  float arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:iPcWheeled_SetWheelFriction",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetWheelFriction" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SetWheelFriction" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_SetWheelFriction" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  (arg1)->SetWheelFriction(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_SetWheelMass(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  int arg2 ;
+  float arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:iPcWheeled_SetWheelMass",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetWheelMass" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SetWheelMass" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcWheeled_SetWheelMass" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  (arg1)->SetWheelMass(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_SetWheelTurnSpeed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -61443,6 +61677,68 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelFriction(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  int arg2 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_GetWheelFriction",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetWheelFriction" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_GetWheelFriction" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (float)(arg1)->GetWheelFriction(arg2);
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelMass(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  int arg2 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_GetWheelMass",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetWheelMass" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_GetWheelMass" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (float)(arg1)->GetWheelMass(arg2);
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelTurnSpeed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -61707,6 +62003,58 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelJoint(PyObject *SWIGUNUSEDPARM(sel
   arg2 = static_cast< int >(val2);
   result = (iODEHinge2Joint *)(arg1)->GetWheelJoint(arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iODEHinge2Joint, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_SetCollisionCallbackEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_SetCollisionCallbackEnabled",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetCollisionCallbackEnabled" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SetCollisionCallbackEnabled" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetCollisionCallbackEnabled(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_IsCollisionCallbackEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcWheeled_IsCollisionCallbackEnabled",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_IsCollisionCallbackEnabled" "', argument " "1"" of type '" "iPcWheeled const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  result = (bool)((iPcWheeled const *)arg1)->IsCollisionCallbackEnabled();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -64985,6 +65333,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_SetWheelSuspensionDamping", _wrap_iPcWheeled_SetWheelSuspensionDamping, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetWheelLeftSteerSensitivity", _wrap_iPcWheeled_SetWheelLeftSteerSensitivity, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetWheelRightSteerSensitivity", _wrap_iPcWheeled_SetWheelRightSteerSensitivity, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_SetWheelFriction", _wrap_iPcWheeled_SetWheelFriction, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_SetWheelMass", _wrap_iPcWheeled_SetWheelMass, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetWheelTurnSpeed", _wrap_iPcWheeled_SetWheelTurnSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetWheelReturnSpeed", _wrap_iPcWheeled_SetWheelReturnSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetWheelEnginePower", _wrap_iPcWheeled_SetWheelEnginePower, METH_VARARGS, NULL},
@@ -64997,6 +65347,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_GetWheelSuspensionDamping", _wrap_iPcWheeled_GetWheelSuspensionDamping, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelLeftSteerSensitivity", _wrap_iPcWheeled_GetWheelLeftSteerSensitivity, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelRightSteerSensitivity", _wrap_iPcWheeled_GetWheelRightSteerSensitivity, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetWheelFriction", _wrap_iPcWheeled_GetWheelFriction, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetWheelMass", _wrap_iPcWheeled_GetWheelMass, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelTurnSpeed", _wrap_iPcWheeled_GetWheelTurnSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelReturnSpeed", _wrap_iPcWheeled_GetWheelReturnSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelEnginePower", _wrap_iPcWheeled_GetWheelEnginePower, METH_VARARGS, NULL},
@@ -65006,6 +65358,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_GetWheelCount", _wrap_iPcWheeled_GetWheelCount, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelBody", _wrap_iPcWheeled_GetWheelBody, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelJoint", _wrap_iPcWheeled_GetWheelJoint, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_SetCollisionCallbackEnabled", _wrap_iPcWheeled_SetCollisionCallbackEnabled, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_IsCollisionCallbackEnabled", _wrap_iPcWheeled_IsCollisionCallbackEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_TankMode_set", _wrap_iPcWheeled_TankMode_set, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_TankMode_get", _wrap_iPcWheeled_TankMode_get, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_OuterWheelSteerPreset_set", _wrap_iPcWheeled_OuterWheelSteerPreset_set, METH_VARARGS, NULL},
