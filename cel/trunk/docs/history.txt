@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Nov-2006
+	- Darek fixed celPcMechanicsSystem::SetDynamicSystem by creating 
+	  dynsystem if not found. This helps with connecting CS and CEL
+	  dynamic systems.
 29-Nov-2006
 	- cfraz89 added a message to pcwheeled that is sent when a wheel
 	  collides with another body. Also added parameters for wheel friction
