@@ -3717,8 +3717,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iCelEntity> ent = pl->CreateEntity ();
 	  const char* entname = ArgToString (aent);
 	  if (entname) ent->SetName (entname);
-	  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (
-	  	cbl->GetObjectRegistry (), iCelBlLayer);
+	  csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (
+	  	cbl->GetObjectRegistry ());
 	  if (!bl)
 	    return ReportError (cbl,
 	    	"Couldn't find default behaviour layer!");
@@ -4926,8 +4926,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s mode3d=%s\n",
 		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play),
 		A2S (a_mode3d)));
-	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
-	  	cbl->GetObjectRegistry (), iSndSysManager);
+	  csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
+	  	cbl->GetObjectRegistry ());
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
@@ -5096,8 +5096,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
 		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
 		A2S (a_mode3d)));
-	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
-	  	cbl->GetObjectRegistry (), iSndSysManager);
+	  csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
+	  	cbl->GetObjectRegistry ());
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (

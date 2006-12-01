@@ -200,7 +200,7 @@ CEL_APPLY_FOR_EACH_INTERFACE
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   return pl;
 }
 %}
@@ -265,8 +265,7 @@ CELLIST_METHODS(iCelEntityList,iCelEntity)
 %inline %{
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
-  	iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bool rc = pl->LoadPropertyClassFactory (pcfactname);
   return rc;
 }
@@ -297,7 +296,7 @@ iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 	iSector *sector, csVector3 pos, float radius, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, radius, do_invisible);
   entlist->IncRef();
@@ -309,7 +308,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csVector3 pos, csVector3 dest, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, dest, do_invisible);
   entlist->IncRef();
@@ -321,7 +320,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csBox3 box, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, box, do_invisible);
   entlist->IncRef();
@@ -338,7 +337,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 %inline %{
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+  csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
   return bl;
 }
 %}
@@ -609,7 +608,7 @@ CEL_PC(iPcDamage, Damage, pcdamage)
 %inline %{
 iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 {
-  csRef<iCelConsole> bl = CS_QUERY_REGISTRY (object_reg, iCelConsole);
+  csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
 }
 %}
