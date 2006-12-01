@@ -342,9 +342,21 @@ void celRegion::AssociateEntity (iCelEntity* entity)
 {
   entities.Push (entity);
 }
+
 void celRegion::DissociateEntity (iCelEntity* entity)
 {
   entities.Delete (entity);
+}
+
+iRegion* celRegion::GetCsRegion ()
+{
+  iEngine* engine = mgr->GetEngine ();
+  return engine->GetRegions()->FindByName(csregionname);
+}
+
+bool celRegion::ContainsEntity (iCelEntity* entity)
+{
+  return (entities.Contains (entity) != csArrayItemNotFound);
 }
 
 //---------------------------------------------------------------------------
@@ -998,9 +1010,10 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
         loadable_regions.Add ((celRegion*)zones[i]->GetRegion (j));
     }
 
+  celRegion* r;
   for (i = 0 ; i < regions.Length () ; i++)
   {
-    celRegion* r = regions[i];
+    r = regions[i];
     if (loadable_regions.In (r))
     {
       if (!r->IsLoaded ())
@@ -1031,6 +1044,20 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
     SendZoneMessage (0, "pczonemanager_stoploading");
 
   return true;
+}
+
+iCelRegion* celPcZoneManager::FindRegionContaining (iCelEntity* ent)
+{
+  celRegion* r;
+  for (size_t i = 0 ; i < regions.Length () ; i++)
+  {
+    r = regions[i];
+    if (r->ContainsEntity (ent))
+    {
+      return r;
+    }
+  }
+  return 0;
 }
 
 bool celPcZoneManager::ActivateSector (iSector* sector)

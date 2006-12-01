@@ -7,6 +7,9 @@ The history order is reversed so that new features are at the top.
 	- Darek fixed celPcMechanicsSystem::SetDynamicSystem by creating 
 	  dynsystem if not found. This helps with connecting CS and CEL
 	  dynamic systems.
+	- David Bronke added iCelRegion::ContainsEntity(),
+	  iCelRegion::GetCsRegion, and iPcZoneManager::FindRegionContaining()
+	  to assist working with regions.
 29-Nov-2006
 	- cfraz89 added a message to pcwheeled that is sent when a wheel
 	  collides with another body. Also added parameters for wheel friction
