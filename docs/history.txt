@@ -5,6 +5,10 @@ The history order is reversed so that new features are at the top.
 
 1-Dec-2006
 	- Jorrit removed the remaining CS_QUERY_REGISTRY calls.
+	- Jorrit added an optional 'sector' parameter to pclight->MoveLight.
+	- Jorrit temporarily removed the support for pclight from
+	  pcspawn. It is better to attach the light as a child of the
+	  mesh entity that you spawn.
 30-Nov-2006
 	- Darek fixed celPcMechanicsSystem::SetDynamicSystem by creating 
 	  dynsystem if not found. This helps with connecting CS and CEL

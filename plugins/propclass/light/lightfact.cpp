@@ -184,12 +184,38 @@ bool celPcLight::PerformActionIndexed (int idx,
       }
     case action_movelight:
       {
+	if (!light) return true;
+        CEL_FETCH_STRING_PAR (sector,params,id_sector);
+	if (sector)
+	{
+	  // Sector is specified. If empty then we clear the sector.
+	  if (*sector)
+	  {
+	    iSector* sectorptr = engine->FindSector (sector);
+            if (!sectorptr)
+              return Report (object_reg,
+		  "Could not find sector '%s''!", sector);
+	    if (light->GetSector ())
+	      light->GetSector ()->GetLights ()->Remove (light);
+	    sectorptr->GetLights ()->Add (light);
+	    light->GetMovable ()->SetSector (sectorptr);
+	    light->GetMovable ()->UpdateMove ();
+	    light->Setup ();
+	    light->Setup ();
+	  }
+	  else
+	  {
+	    if (light->GetSector ())
+	      light->GetSector ()->GetLights ()->Remove (light);
+	    light->GetMovable ()->ClearSectors ();
+	    light->GetMovable ()->UpdateMove ();
+	  }
+	}
         CEL_FETCH_VECTOR3_PAR (pos,params,id_pos);
         if (!p_pos)
           return Report (object_reg,
 	      "'pos' parameter missing for moving the light!");
-        if (light)
-          light->SetCenter (pos);
+        light->SetCenter (pos);
         return true;
       }
     case action_parentmesh:
