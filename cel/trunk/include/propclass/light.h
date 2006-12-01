@@ -40,7 +40,8 @@ class csColor;
  *     'pos' (vector3), 'radius' (float), and 'color' (color). Creates
  *     a light for this pclight.
  * - ChangeColor: parameters 'color' (color). Change color of the light.
- * - MoveLight: parameters 'pos' (vector3). Move a light.
+ * - MoveLight: parameters 'pos' (vector3), 'sector' (string: optional).
+ *   Move a light.
  * - ParentMesh: parameters 'entity' (string) and 'tag' (string).
  *   Parent this light to some parent. The parent should be given
  *   as an entity with the optional tag specifying which pcmesh to use.
