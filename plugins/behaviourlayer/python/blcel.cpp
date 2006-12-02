@@ -3485,7 +3485,7 @@ SWIGINTERN csPtr<iCelEntityIterator > iCelEntityTracker_Iterator_get(iCelEntityT
 
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   return pl;
 }
 
@@ -3536,8 +3536,7 @@ SWIGINTERN bool iCelEntityIterator_Next_get(iCelEntityIterator *self){ return (b
 
 bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg,
-  	iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bool rc = pl->LoadPropertyClassFactory (pcfactname);
   return rc;
 }
@@ -3563,7 +3562,7 @@ iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 	iSector *sector, csVector3 pos, float radius, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, radius, do_invisible);
   entlist->IncRef();
@@ -3574,7 +3573,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csVector3 pos, csVector3 dest, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, pos, dest, do_invisible);
   entlist->IncRef();
@@ -3585,7 +3584,7 @@ iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
 iCelEntityList *celFindNearbyEntities (iObjectRegistry *object_reg,
        iSector *sector, csBox3 box, bool do_invisible=false)
 {
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl.IsValid()) return 0;
   csRef<iCelEntityList> entlist = pl->FindNearbyEntities (sector, box, do_invisible);
   entlist->IncRef();
@@ -3605,7 +3604,7 @@ SWIGINTERN char const *iCelBlLayer_Name_get(iCelBlLayer *self){ return (const ch
 
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
-  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+  csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
   return bl;
 }
 
@@ -5413,7 +5412,7 @@ SWIGINTERN iConsoleOutput *iCelConsole_OutputConsole_get(iCelConsole *self){ ret
 
 iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 {
-  csRef<iCelConsole> bl = CS_QUERY_REGISTRY (object_reg, iCelConsole);
+  csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
 }
 
@@ -33544,6 +33543,59 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iCelRegion_ContainsEntity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelRegion *arg1 = (iCelRegion *) 0 ;
+  iCelEntity *arg2 = (iCelEntity *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelRegion_ContainsEntity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelRegion, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelRegion_ContainsEntity" "', argument " "1"" of type '" "iCelRegion *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelRegion * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelRegion_ContainsEntity" "', argument " "2"" of type '" "iCelEntity *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntity * >(argp2);
+  result = (bool)(arg1)->ContainsEntity(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelRegion_GetCsRegion(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelRegion *arg1 = (iCelRegion *) 0 ;
+  iRegion *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iCelRegion_GetCsRegion",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelRegion, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelRegion_GetCsRegion" "', argument " "1"" of type '" "iCelRegion *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelRegion * >(argp1);
+  result = (iRegion *)(arg1)->GetCsRegion();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iRegion, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iCelRegion_Name_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelRegion *arg1 = (iCelRegion *) 0 ;
@@ -35091,6 +35143,37 @@ SWIGINTERN PyObject *_wrap_iPcZoneManager_ActivateRegion(PyObject *self, PyObjec
   
 fail:
   SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iPcZoneManager_ActivateRegion'");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcZoneManager_FindRegionContaining(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcZoneManager *arg1 = (iPcZoneManager *) 0 ;
+  iCelEntity *arg2 = (iCelEntity *) 0 ;
+  iCelRegion *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcZoneManager_FindRegionContaining",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcZoneManager, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcZoneManager_FindRegionContaining" "', argument " "1"" of type '" "iPcZoneManager *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcZoneManager * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcZoneManager_FindRegionContaining" "', argument " "2"" of type '" "iCelEntity *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntity * >(argp2);
+  result = (iCelRegion *)(arg1)->FindRegionContaining(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelRegion, 0 |  0 );
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -64582,6 +64665,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelRegion_RemoveAllMapFiles", _wrap_iCelRegion_RemoveAllMapFiles, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_AssociateEntity", _wrap_iCelRegion_AssociateEntity, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_DissociateEntity", _wrap_iCelRegion_DissociateEntity, METH_VARARGS, NULL},
+	 { (char *)"iCelRegion_ContainsEntity", _wrap_iCelRegion_ContainsEntity, METH_VARARGS, NULL},
+	 { (char *)"iCelRegion_GetCsRegion", _wrap_iCelRegion_GetCsRegion, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_Name_get", _wrap_iCelRegion_Name_get, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_CsRegionName_get", _wrap_iCelRegion_CsRegionName_get, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_CachePath_set", _wrap_iCelRegion_CachePath_set, METH_VARARGS, NULL},
@@ -64624,6 +64709,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcZoneManager_PointCamera", _wrap_iPcZoneManager_PointCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_PointMesh", _wrap_iPcZoneManager_PointMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_ActivateRegion", _wrap_iPcZoneManager_ActivateRegion, METH_VARARGS, NULL},
+	 { (char *)"iPcZoneManager_FindRegionContaining", _wrap_iPcZoneManager_FindRegionContaining, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_ColliderWrappers_get", _wrap_iPcZoneManager_ColliderWrappers_get, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_LoadingMode_set", _wrap_iPcZoneManager_LoadingMode_set, METH_VARARGS, NULL},
 	 { (char *)"iPcZoneManager_LoadingMode_get", _wrap_iPcZoneManager_LoadingMode_get, METH_VARARGS, NULL},
