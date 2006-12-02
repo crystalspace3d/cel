@@ -1826,6 +1826,8 @@ class iCelRegion(cspace.iBase):
     def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
     def DissociateEntity(*args): return _blcelc.iCelRegion_DissociateEntity(*args)
+    def ContainsEntity(*args): return _blcelc.iCelRegion_ContainsEntity(*args)
+    def GetCsRegion(*args): return _blcelc.iCelRegion_GetCsRegion(*args)
     Name = property(_blcelc.iCelRegion_Name_get, None, None,
                     "iCelRegion.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelRegion::GetName()")
 
@@ -1912,6 +1914,7 @@ class iPcZoneManager(cspace.iBase):
     def PointCamera(*args): return _blcelc.iPcZoneManager_PointCamera(*args)
     def PointMesh(*args): return _blcelc.iPcZoneManager_PointMesh(*args)
     def ActivateRegion(*args): return _blcelc.iPcZoneManager_ActivateRegion(*args)
+    def FindRegionContaining(*args): return _blcelc.iPcZoneManager_FindRegionContaining(*args)
     ColliderWrappers = property(_blcelc.iPcZoneManager_ColliderWrappers_get, None, None,
                     "iPcZoneManager.ColliderWrappers -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcZoneManager::IsColliderWrappers()")
 
