@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Dec-2006
+	- Marten changed all csStrKey into csStringBase and thereby
+	  eliminated a couple of hundred warnings.
+	- Marten added a few f prefixes, changed some ints to size_t etc
+	  to silence warnings.
 1-Dec-2006
 	- Jorrit removed the remaining CS_QUERY_REGISTRY calls.
 	- Jorrit added an optional 'sector' parameter to pclight->MoveLight.

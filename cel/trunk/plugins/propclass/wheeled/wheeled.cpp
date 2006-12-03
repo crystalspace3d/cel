@@ -110,10 +110,10 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   outersteer=1.0f;
   frontpower=1.0f;
   rearpower=1.0f;
-  frontss=0.000125;
-  frontsd=0.125;
-  rearss=0.000125;
-  rearsd=0.125;
+  frontss=0.000125f;
+  frontsd=0.125f;
+  rearss=0.000125f;
+  rearsd=0.125f;
   frontmass = 10.0f;
   rearmass = 10.0f;
   frontfriction = 0.7f;
@@ -128,7 +128,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   cd_enabled = true;
   wheelradius=0;
 
-  steeramount=0.7;
+  steeramount=0.7f;
 
   gears.SetSize(3);
 
@@ -630,7 +630,7 @@ void celPcWheeled::SetWheelMesh(const char* factname,const char* file)
   wheelfact = factname;
 }
 
-void celPcWheeled::SetWheelMesh(int wheelnum, const char* factname,const char* file)
+void celPcWheeled::SetWheelMesh(size_t wheelnum, const char* factname,const char* file)
 {
   if(file!=0)
   {
@@ -647,7 +647,7 @@ void celPcWheeled::SetWheelMesh(int wheelnum, const char* factname,const char* f
 }
 
 //This method uses the vehicle's presets and wheel's position for settings
-int celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
+size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
      const char* wheelfile, csMatrix3 rotation)
 {
   celWheel wheel;
@@ -657,14 +657,14 @@ int celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
   wheel.BrakePower=1;
   wheel.Rotation = rotation;
   wheels.Push(wheel);
-  int index=wheels.Length()-1;
+  size_t index=wheels.Length()-1;
   ApplyWheelPresets(index);
   SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
   return index;
 }
 
-int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
+size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
       returnspeed, float ss, float sd,float brakepower,float enginepower,
       float lss, float rss, float friction, float mass, bool hbaffect,
       bool sinvert, const char* wheelfact, const char* wheelfile,
@@ -686,13 +686,13 @@ int celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.SteerInverted=sinvert;
   wheel.Rotation = rotation;
   wheels.Push(wheel);
-  int index=wheels.Length()-1;
+  size_t index=wheels.Length()-1;
   SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
   return index;
 }
 
-void celPcWheeled::DestroyWheel(int wheelnum)
+void celPcWheeled::DestroyWheel(size_t wheelnum)
 {
   GetMech();
   if(!bodyGroup || !bodyMech) return;
@@ -722,7 +722,7 @@ void celPcWheeled::DestroyAllWheels()
   }
 }
 
-void celPcWheeled::DeleteWheel(int wheelnum)
+void celPcWheeled::DeleteWheel(size_t wheelnum)
 {
   DestroyWheel(wheelnum);
   wheels.DeleteIndex(wheelnum);
@@ -734,7 +734,7 @@ void celPcWheeled::DeleteAllWheels()
   wheels.DeleteAll();
 }
 
-void celPcWheeled::RestoreWheel(int wheelnum)
+void celPcWheeled::RestoreWheel(size_t wheelnum)
 {
   GetMech();
   //Create the mesh
@@ -1094,7 +1094,7 @@ void celPcWheeled::UpdateGear()
   }
 }
 
-void celPcWheeled::SetWheelPosition(int wheelnum, csVector3 position)
+void celPcWheeled::SetWheelPosition(size_t wheelnum, csVector3 position)
 {
   wheels[wheelnum].Position=position;
     //If the wheel is already created, have to move it's body aswell.
@@ -1113,7 +1113,7 @@ void celPcWheeled::Collision (iRigidBody *thisbody,
   if (cd_enabled)
   {
     //This is a slow way to find index!
-    int wheelindex = 0;
+    size_t wheelindex = 0;
     for(size_t i = 0; i < wheels.Length(); i++)
     {
         if (wheels[i].RigidBody == thisbody)
@@ -1145,21 +1145,21 @@ void celPcWheeled::Collision (iRigidBody *thisbody,
   }
 }
 
-void celPcWheeled::SetWheelFriction(int wheelnum, float friction)
+void celPcWheeled::SetWheelFriction(size_t wheelnum, float friction)
 {
   wheels[wheelnum].WheelFriction = friction;
   DestroyWheel(wheelnum);
   RestoreWheel(wheelnum);
 }
 
-void celPcWheeled::SetWheelMass(int wheelnum, float mass)
+void celPcWheeled::SetWheelMass(size_t wheelnum, float mass)
 {
   wheels[wheelnum].WheelMass = mass;
   DestroyWheel(wheelnum);
   RestoreWheel(wheelnum);
 }
 
-void celPcWheeled::SetWheelRotation(int wheelnum, csMatrix3 rotation)
+void celPcWheeled::SetWheelRotation(size_t wheelnum, csMatrix3 rotation)
 {
   wheels[wheelnum].Rotation = rotation;
 /*
@@ -1181,7 +1181,7 @@ void celPcWheeled::SetWheelRotation(int wheelnum, csMatrix3 rotation)
   }*/
 }
 
-void celPcWheeled::SetWheelSuspensionSoftness(int wheelnum, float
+void celPcWheeled::SetWheelSuspensionSoftness(size_t wheelnum, float
         softness)
 {
   wheels[wheelnum].SuspensionSoftness=softness;
@@ -1192,7 +1192,7 @@ void celPcWheeled::SetWheelSuspensionSoftness(int wheelnum, float
   }
 }
 
-void celPcWheeled::SetWheelSuspensionDamping(int wheelnum, float
+void celPcWheeled::SetWheelSuspensionDamping(size_t wheelnum, float
         damping)
 {
   wheels[wheelnum].SuspensionDamping=damping;
@@ -1252,7 +1252,7 @@ void celPcWheeled::SetOuterWheelSteerPreset(float sensitivity)
   }
 }
 
-void celPcWheeled::ApplyWheelPresets(int wheelnum)
+void celPcWheeled::ApplyWheelPresets(size_t wheelnum)
 {
   //Apply front and rear steer and power settings
   if(wheels[wheelnum].Position.z<0)

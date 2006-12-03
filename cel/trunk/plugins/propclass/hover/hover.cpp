@@ -72,14 +72,14 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   height_beam_cutoff = 200;
 
   // set default PID values
-  pid.p_factor = 8.98;
-  pid.i_factor = 0.0;
-  pid.d_factor = 0.0;
-  pid.hover_height = 4.0;
-  pid.sum_errors = 0.0;
-  pid.last_height = 0.0;
-  pid.dampening = 1.0;
-  pid.clamp = 100.0;
+  pid.p_factor = 8.98f;
+  pid.i_factor = 0.0f;
+  pid.d_factor = 0.0f;
+  pid.hover_height = 4.0f;
+  pid.sum_errors = 0.0f;
+  pid.last_height = 0.0f;
+  pid.dampening = 1.0f;
+  pid.clamp = 100.0f;
 
   if (param_hover == csInvalidStringID)
   {

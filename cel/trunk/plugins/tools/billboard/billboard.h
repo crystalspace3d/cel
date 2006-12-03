@@ -267,7 +267,7 @@ private:
   // Note: the billboard at the end of the following array is the top of
   // the stack.
   csPDelArray<celBillboard> billboards;
-  csHash<celBillboard*,csStrKey> billboards_hash;
+  csHash<celBillboard*,csStringBase> billboards_hash;
 
   csPDelArray<celBillboardLayer> layers;
   celBillboardLayer* default_layer;

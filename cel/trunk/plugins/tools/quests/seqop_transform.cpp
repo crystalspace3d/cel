@@ -65,7 +65,7 @@ celTransformSeqOpFactory::~celTransformSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celTransformSeqOpFactory::CreateSeqOp (
-    const csHash<csStrKey,csStrKey>& params)
+    const celQuestParams& params)
 {
   celTransformSeqOp* seqop = new celTransformSeqOp (type,
   	params, entity_par, tag_par, vectorx_par, vectory_par, vectorz_par,
@@ -177,7 +177,7 @@ static float ToFloat (const char* s)
 
 celTransformSeqOp::celTransformSeqOp (
 	celTransformSeqOpType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* vectorx, const char* vectory, const char* vectorz,
 	int axis, const char* angle) : scfImplementationType (this)

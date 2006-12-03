@@ -77,7 +77,7 @@ celMessageRewardFactory::~celMessageRewardFactory ()
 }
 
 csPtr<iQuestReward> celMessageRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celMessageReward* trig = new celMessageReward (type,
   	params, entity_par, id_par, parameters);
@@ -192,7 +192,7 @@ void celMessageRewardFactory::AddParameter (celDataType type,
 
 celMessageReward::celMessageReward (
 	celMessageRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const csArray<parSpec>& parameters) : scfImplementationType (this)

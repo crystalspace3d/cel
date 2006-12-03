@@ -70,7 +70,7 @@ struct iQuest;
 </quest>
 */
 
-typedef csHash<csStrKey,csStrKey> celQuestParams;
+typedef csHash<csStringBase,csStringBase> celQuestParams;
 
 //-------------------------------------------------------------------------
 // Triggers

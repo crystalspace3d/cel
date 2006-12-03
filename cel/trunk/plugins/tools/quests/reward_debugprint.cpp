@@ -52,7 +52,7 @@ celDebugPrintRewardFactory::~celDebugPrintRewardFactory ()
 }
 
 csPtr<iQuestReward> celDebugPrintRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celDebugPrintReward* trig = new celDebugPrintReward (type,
   	params, msg_par);
@@ -87,7 +87,7 @@ void celDebugPrintRewardFactory::SetMessageParameter (const char* msg)
 
 celDebugPrintReward::celDebugPrintReward (
 	celDebugPrintRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintReward::type = type;
