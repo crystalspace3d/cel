@@ -79,7 +79,7 @@ celActionRewardFactory::~celActionRewardFactory ()
 }
 
 csPtr<iQuestReward> celActionRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celActionReward* trig = new celActionReward (type,
   	params, entity_par, id_par, pcclass_par, tag_par, parameters);
@@ -221,7 +221,7 @@ void celActionRewardFactory::AddParameter (celDataType type,
 
 celActionReward::celActionReward (
 	celActionRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,

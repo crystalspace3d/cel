@@ -530,7 +530,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_cycle) par_cycle = false;
         CEL_FETCH_BOOL_PAR (par_reset,params,id_reset);
         if (!p_par_reset) par_reset = false;
-        SetAnimation (par_animation, par_cycle, 1.0, 0.1, 0.1, par_reset);
+        SetAnimation (par_animation, par_cycle, 1.0f, 0.1f, 0.1f, par_reset);
         return true;
       }
     case action_createemptything:

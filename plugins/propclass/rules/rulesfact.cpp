@@ -343,7 +343,7 @@ void celPcRules::DeleteAllRules ()
   	active_rules_for_variable.GetIterator ();
   while (it.HasNext ())
   {
-    csStrKey var;
+    csStringBase var;
     it.Next (var);
     vars.Push (var);
   }

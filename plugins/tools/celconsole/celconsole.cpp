@@ -1240,7 +1240,7 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
 
 void celConsole::ListCommands ()
 {
-  csHash<csRef<iCelConsoleCommand>, csStrKey>::GlobalIterator it =
+  csHash<csRef<iCelConsoleCommand>, csStringBase>::GlobalIterator it =
     commands.GetIterator ();
   while (it.HasNext ())
   {

@@ -144,8 +144,8 @@ csPtr<iCelDataBuffer> celPcQuest::Save ()
   celQuestParams::GlobalIterator it = quest_params.GetIterator ();
   while (it.HasNext ())
   {
-    csStrKey key;
-    csStrKey value = it.Next (key);
+    csStringBase key;
+    csStringBase value = it.Next (key);
     databuf->Add (key);
     databuf->Add (value);
   }

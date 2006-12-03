@@ -68,14 +68,14 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
-  csHash<iCelPropertyClassFactory*,csStrKey> pf_hash;
+  csHash<iCelPropertyClassFactory*,csStringBase> pf_hash;
   csRefArray<iCelBlLayer> bl_list;
 
   csRefArray<iCelEntity> entities;
-  csHash<iCelEntity*,csStrKey> entities_hash;
+  csHash<iCelEntity*,csStringBase> entities_hash;
   bool entities_hash_dirty;
 
-  csHash<csRef<celEntityTemplate>, csStrKey> entity_templates;
+  csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;
   csRefArray<iCelNewEntityCallback> newcallbacks;

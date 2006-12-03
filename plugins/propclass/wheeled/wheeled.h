@@ -229,22 +229,22 @@ public:
   virtual void SetSteerAmount(float steeramount)
   {celPcWheeled::steeramount=steeramount;};
   //This one uses presets
-  virtual int AddWheelAuto(csVector3 position, const char* wheelfact = 0,
+  virtual size_t AddWheelAuto(csVector3 position, const char* wheelfact = 0,
        const char* wheelfile = 0,
        csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f));
   //Full specification by the user, overrides presets
-  virtual int AddWheel(csVector3 position,float turnspeed,
+  virtual size_t AddWheel(csVector3 position,float turnspeed,
       float returnspeed, float ss, float sd,float brakepower,float enginepower,
       float lss, float rss, float friction, float mass,
       bool hbaffect, bool sinvert, const char* wheelfact = 0,
       const char* wheelfile = 0,
       csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f));
 
-  virtual void DeleteWheel(int wheelnum);
+  virtual void DeleteWheel(size_t wheelnum);
   virtual void DeleteAllWheels();
-  virtual void DestroyWheel(int wheelnum);
+  virtual void DestroyWheel(size_t wheelnum);
   virtual void DestroyAllWheels();
-  virtual void RestoreWheel(int wheelnum);
+  virtual void RestoreWheel(size_t wheelnum);
   virtual void RestoreAllWheels();
 
   virtual void Accelerate(bool on) {accelerating = on;}
@@ -278,52 +278,52 @@ public:
    float suspensionsoftness, float suspensiondamping, float friction, float mass);
   virtual void SetRearWheelPreset(float sensitivity,float enginepower,
    float suspensionsoftness, float suspensiondamping, float friction, float mass);
-  virtual void ApplyWheelPresets(int wheelnum);
+  virtual void ApplyWheelPresets(size_t wheelnum);
 
   // Stuff independent for each wheel
   //Settings related to the joints which need extra setup--------------
-  virtual void SetWheelPosition(int wheelnum, csVector3 position);
-  virtual void SetWheelRotation(int wheelnum, csMatrix3 position);
-  virtual void SetWheelSuspensionSoftness(int wheelnum, float softness);
-  virtual void SetWheelSuspensionDamping(int wheelnum, float damping);
-  virtual void SetWheelFriction(int wheelnum, float friction);
-  virtual void SetWheelMass(int wheelnum, float mass);
+  virtual void SetWheelPosition(size_t wheelnum, csVector3 position);
+  virtual void SetWheelRotation(size_t wheelnum, csMatrix3 position);
+  virtual void SetWheelSuspensionSoftness(size_t wheelnum, float softness);
+  virtual void SetWheelSuspensionDamping(size_t wheelnum, float damping);
+  virtual void SetWheelFriction(size_t wheelnum, float friction);
+  virtual void SetWheelMass(size_t wheelnum, float mass);
   //--------------
 
-  virtual void SetWheelLeftSteerSensitivity(int wheelnum, float
+  virtual void SetWheelLeftSteerSensitivity(size_t wheelnum, float
    sensitivity)
   {
     if(sensitivity>=0 && sensitivity <=1)
       wheels[wheelnum].LeftSteerSensitivity=sensitivity;
   }
 
-  virtual void SetWheelRightSteerSensitivity(int wheelnum, float
+  virtual void SetWheelRightSteerSensitivity(size_t wheelnum, float
     sensitivity)
   {
     if(sensitivity>=0 && sensitivity <=1)
       wheels[wheelnum].RightSteerSensitivity=sensitivity;
   }
 
-  virtual void SetWheelTurnSpeed(int wheelnum, float speed)
+  virtual void SetWheelTurnSpeed(size_t wheelnum, float speed)
   {if(speed>=0) wheels[wheelnum].TurnSpeed=speed;}
 
-  virtual void SetWheelReturnSpeed(int wheelnum, float speed)
+  virtual void SetWheelReturnSpeed(size_t wheelnum, float speed)
   {if(speed>=0) wheels[wheelnum].ReturnSpeed=speed;}
 
-  virtual void SetWheelEnginePower(int wheelnum, float power)
+  virtual void SetWheelEnginePower(size_t wheelnum, float power)
   {if(power>=0 && power <=1) wheels[wheelnum].EnginePower=power;}
 
-  virtual void SetWheelBrakePower(int wheelnum, float power)
+  virtual void SetWheelBrakePower(size_t wheelnum, float power)
   {if(power>=0 && power <=1) wheels[wheelnum].BrakePower=power;}
 
-  virtual void SetWheelSteerInverted(int wheelnum, bool inverted)
+  virtual void SetWheelSteerInverted(size_t wheelnum, bool inverted)
   {wheels[wheelnum].SteerInverted=inverted;}
 
-  virtual void SetWheelHandbrakeAffected(int wheelnum,
+  virtual void SetWheelHandbrakeAffected(size_t wheelnum,
       bool handbrakeaffected)
   {wheels[wheelnum].HandbrakeAffected=handbrakeaffected;}
 
-  virtual void SetWheelMesh(int wheelnum, const char* file,
+  virtual void SetWheelMesh(size_t wheelnum, const char* file,
      const char* factname);
 
   //The getter functions
@@ -336,55 +336,55 @@ public:
   virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
 
   // Per-wheel settings
-  virtual csVector3 GetWheelPosition(int wheelnum)
+  virtual csVector3 GetWheelPosition(size_t wheelnum)
   {return wheels[wheelnum].Position;}
 
-  virtual csMatrix3 GetWheelRotation(int wheelnum)
+  virtual csMatrix3 GetWheelRotation(size_t wheelnum)
   {return wheels[wheelnum].Rotation;}
 
-  virtual float GetWheelSuspensionSoftness(int wheelnum)
+  virtual float GetWheelSuspensionSoftness(size_t wheelnum)
   {return wheels[wheelnum].SuspensionSoftness;}
 
-  virtual float GetWheelSuspensionDamping(int wheelnum)
+  virtual float GetWheelSuspensionDamping(size_t wheelnum)
   {return wheels[wheelnum].SuspensionDamping;}
 
-  virtual float GetWheelLeftSteerSensitivity(int wheelnum)
+  virtual float GetWheelLeftSteerSensitivity(size_t wheelnum)
   {return wheels[wheelnum].LeftSteerSensitivity;}
 
-  virtual float GetWheelRightSteerSensitivity(int wheelnum)
+  virtual float GetWheelRightSteerSensitivity(size_t wheelnum)
   {return wheels[wheelnum].RightSteerSensitivity;}
 
-  virtual float GetWheelTurnSpeed(int wheelnum)
+  virtual float GetWheelTurnSpeed(size_t wheelnum)
   {return wheels[wheelnum].TurnSpeed;}
 
-  virtual float GetWheelReturnSpeed(int wheelnum)
+  virtual float GetWheelReturnSpeed(size_t wheelnum)
   {return wheels[wheelnum].ReturnSpeed;}
 
-  virtual float GetWheelEnginePower(int wheelnum)
+  virtual float GetWheelEnginePower(size_t wheelnum)
   {return wheels[wheelnum].EnginePower;}
 
-  virtual float GetWheelBrakePower(int wheelnum)
+  virtual float GetWheelBrakePower(size_t wheelnum)
   {return wheels[wheelnum].BrakePower;}
 
-  virtual float GetWheelFriction(int wheelnum)
+  virtual float GetWheelFriction(size_t wheelnum)
   {return wheels[wheelnum].WheelMass;}
 
-  virtual float GetWheelMass(int wheelnum)
+  virtual float GetWheelMass(size_t wheelnum)
   {return wheels[wheelnum].WheelMass;}
 
-  virtual bool GetWheelSteerInverted(int wheelnum)
+  virtual bool GetWheelSteerInverted(size_t wheelnum)
   {return wheels[wheelnum].SteerInverted;}
 
-  virtual bool GetWheelHandbrakeAffected(int wheelnum)
+  virtual bool GetWheelHandbrakeAffected(size_t wheelnum)
   {return wheels[wheelnum].HandbrakeAffected;}
 
-  virtual iRigidBody* GetWheelBody(int wheelnum)
+  virtual iRigidBody* GetWheelBody(size_t wheelnum)
   {return wheels[wheelnum].RigidBody;}
 
-  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum)
+  virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum)
   {return wheels[wheelnum].WheelJoint;}
 
-  virtual int GetWheelCount() { return wheels.Length(); }
+  virtual size_t GetWheelCount() { return wheels.Length(); }
 
   struct WheeledCollisionCallback : public iDynamicsCollisionCallback
   {

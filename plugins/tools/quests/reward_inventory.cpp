@@ -80,7 +80,7 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
   	params, entity_par, tag_par, child_entity_par, child_tag_par);
@@ -142,7 +142,7 @@ void celInventoryRewardFactory::SetChildEntityParameter (
 
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par, const char* child_tag_par) :
 	scfImplementationType (this)
