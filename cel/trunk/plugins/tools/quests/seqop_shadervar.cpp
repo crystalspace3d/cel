@@ -52,7 +52,7 @@ celShaderVarSeqOpFactory::~celShaderVarSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celShaderVarSeqOpFactory::CreateSeqOp (
-    const csHash<csStrKey,csStrKey>& params)
+    const celQuestParams& params)
 {
   celShaderVarSeqOp* seqop = new celShaderVarSeqOp (type,
   	params, varname_par, mesh_entity_par, mesh_tag_par,
@@ -197,7 +197,7 @@ static float ToFloat (const char* s, bool& v)
 
 celShaderVarSeqOp::celShaderVarSeqOp (
 	celShaderVarSeqOpType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* varname_par,
 	const char* mesh_entity_par, const char* mesh_tag_par,
 	const char* x_par, const char* y_par, const char* z_par,

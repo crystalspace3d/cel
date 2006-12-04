@@ -1140,7 +1140,7 @@ void celPcWheeled::Collision (iRigidBody *thisbody,
     params->GetParameter (1).Set (pos);
     params->GetParameter (2).Set (normal);
     params->GetParameter (3).Set (depth);
-    params->GetParameter (4).Set (wheelindex);
+    params->GetParameter (4).Set ((int)wheelindex);
     behaviour->SendMessage ("pcwheeled_collision", this, ret, params);
   }
 }
