@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+4-Dec-2006
+	- Jorrit added a new 'shadervar' sequence operation that can
+	  be used to animated shader variables. Not finished yet.
 3-Dec-2006
 	- Marten changed all csStrKey into csStringBase and thereby
 	  eliminated a couple of hundred warnings.

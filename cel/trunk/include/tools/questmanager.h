@@ -712,6 +712,8 @@ struct iQuestManager : public virtual iBase
    *   See iMovePathQuestSeqOpFactory.
    * - cel.questseqop.light: animate a light color.
    *   See iLightQuestSeqOpFactory.
+   * - cel.questseqop.shadervar: animate a shader variable.
+   *   See iShaderVarQuestSeqOpFactory.
    */
   virtual bool RegisterSeqOpType (iQuestSeqOpType* seqop) = 0;
 
@@ -1818,6 +1820,70 @@ struct iLightQuestSeqOpFactory : public virtual iBase
    */
   virtual void SetAbsColorParameter (const char* red, const char* green,
   	const char* blue) = 0;
+};
+
+/**
+ * This interface is implemented by the seqop that animates shader
+ * variables. You can query this interface from the seqop factory if
+ * you want to manually control this factory as opposed to loading
+ * its definition from an XML document.
+ *
+ * The predefined name of this seqop type is 'cel.questseqop.shadervar'.
+ *
+ * In XML, factories recognize the following attributes on the 'op' node:
+ * - <em>varname</em>: this is the name of the shader variable.
+ * - <em>mesh</em>: this is a node representing the entity where the
+ *   mesh can be found for which we'll set the shadervar. This node contains
+ *   the attributes 'entity' and the optional 'tag' attribute.
+ * - <em>vector2</em>: this is a node representing the vector2 that we
+ *   want to animate. This node contains attributes 'x' and 'y'.
+ * - <em>vector3</em>: this is a node representing the vector3 that we
+ *   want to animate. This node contains attributes 'x', 'y', and 'z'.
+ * - <em>vector4</em>: this is a node representing the vector4 (often
+ *   a color) that we want to animate. This node contains attributes 'x', 'y',
+ *   'z', and 'w'.
+ * - <em>float</em>: this is a node representing the float that we want
+ *   to animate. This node contains attribute 'value'.
+ */
+struct iShaderVarQuestSeqOpFactory : public virtual iBase
+{
+  SCF_INTERFACE (iShaderVarQuestSeqOpFactory, 0, 0, 1);
+
+  /**
+   * Set the name of the shader variable.
+   */
+  virtual void SetVarNameParameter (const char* name) = 0;
+
+  /**
+   * Set the entity containing the pcmesh (either entity name
+   * or a parameter if it starts with '$').
+   * \param tag is the optional tag of the entity or a parameter (starts
+   * with '$').
+   */
+  virtual void SetMeshEntityParameter (const char* entity,
+    const char* tag = 0) = 0;
+
+  /**
+   * Set the float to animate.
+   */
+  virtual void SetFloatParameter (const char* f) = 0;
+
+  /**
+   * Set the vector2 to animate.
+   */
+  virtual void SetVector2Parameter (const char* x, const char* y) = 0;
+
+  /**
+   * Set the vector3 to animate.
+   */
+  virtual void SetVector3Parameter (const char* x, const char* y,
+  	const char* z) = 0;
+
+  /**
+   * Set the vector4 to animate.
+   */
+  virtual void SetVector4Parameter (const char* x, const char* y,
+  	const char* z, const char* w) = 0;
 };
 
 //-------------------------------------------------------------------------
