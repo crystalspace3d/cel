@@ -36,8 +36,7 @@ struct iObjectRegistry;
 struct iEvent;
 
 /**
- * A standard seqop type that just prints a message on standard
- * output. This can be useful for debugging purposes.
+ * A standard seqop type to animate a light.
  * This seqop type listens to the name 'cel.questseqop.light'.
  */
 CEL_DECLARE_SEQOPTYPE(Light,"cel.questseqop.light")

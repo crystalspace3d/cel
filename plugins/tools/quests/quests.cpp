@@ -53,6 +53,7 @@
 #include "plugins/tools/quests/seqop_transform.h"
 #include "plugins/tools/quests/seqop_movepath.h"
 #include "plugins/tools/quests/seqop_light.h"
+#include "plugins/tools/quests/seqop_shadervar.h"
 
 //---------------------------------------------------------------------------
 
@@ -1091,6 +1092,13 @@ bool celQuestManager::Initialize (iObjectRegistry* object_reg)
 
   {
     celLightSeqOpType* type = new celLightSeqOpType (
+    	object_reg);
+    RegisterSeqOpType (type);
+    type->DecRef ();
+  }
+
+  {
+    celShaderVarSeqOpType* type = new celShaderVarSeqOpType (
     	object_reg);
     RegisterSeqOpType (type);
     type->DecRef ();
