@@ -1898,6 +1898,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_shadervar.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_tools_quests_seqop_shadervar.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_tools_quests_seqop_shadervar.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_transform.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2299,6 +2314,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_movepath.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\tools\quests\seqop_shadervar.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\tools\quests\seqop_transform.h">
