@@ -60,8 +60,9 @@ class csBox3;
  * - SetMaterial: parameters 'material' (string).
  * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
  *   default false), and 'reset' (bool: default false).
- * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
- *     (type depending on type parameter).
+ * - SetShaderVar: parameters 'name' (string), 'type' (string) and 'value'
+ *     (type depending on type parameter). Supported types are:
+ *     'float', 'long', 'vector3', a'dn 'libexpr'.
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),

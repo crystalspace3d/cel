@@ -117,7 +117,8 @@ private:
     action_createemptygenmesh,
     action_createnullmesh,
     action_parentmesh,
-    action_clearparent
+    action_clearparent,
+    action_setshaderexpression
   };
 
   // Remove the mesh from this pcmesh.
@@ -198,10 +199,11 @@ public:
   virtual bool SetPropertyIndexed (int, bool);
 
   // Functions to set ShaderVars in the mesh
-  virtual void SetShaderVar(csStringID name, float value);
-  virtual void SetShaderVar(csStringID name, int value);
-  virtual void SetShaderVar(csStringID name, csVector3 value);
-  virtual void SetShaderVar(csStringID name, csVector2 value);
+  virtual bool SetShaderVarExpr (csStringID name, const char* exprname);
+  virtual void SetShaderVar (csStringID name, float value);
+  virtual void SetShaderVar (csStringID name, int value);
+  virtual void SetShaderVar (csStringID name, csVector3 value);
+  virtual void SetShaderVar (csStringID name, csVector2 value);
 };
 
 class celPcMeshSelect;
