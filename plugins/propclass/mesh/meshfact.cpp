@@ -511,6 +511,12 @@ bool celPcMesh::PerformActionIndexed (int idx,
           if (!p_par_value) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
+        else if (!strcmp(par_type,"libexpr"))
+	{
+          CEL_FETCH_STRING_PAR (par_value,params,id_name);
+          if (!p_par_value) return false;
+          return SetShaderVarExpr (strset->Request (par_name), par_value);
+	}
         /*else if (!strcmp(par_type,"vector2"))
         {
           CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
@@ -1728,6 +1734,24 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
   }
 }
 
+bool celPcMesh::SetShaderVarExpr (csStringID name, const char* exprname)
+{
+  if (mesh)
+  {
+    csRef<iShaderManager> shmgr = csQueryRegistry<iShaderManager> (
+      object_reg);
+    iShaderVariableAccessor* acc = shmgr->GetShaderVariableAccessor (
+      exprname);
+    if (!acc) return Report (object_reg,
+    	"Can't find shader expression '%s'!", exprname);
+
+    iShaderVariableContext* svc = mesh->GetSVContext ();
+    csShaderVariable *var = svc->GetVariableAdd (name);
+    var->SetAccessor (acc);
+  }
+  return true;
+}
+
 void celPcMesh::SetShaderVar (csStringID name, float value)
 {
   if (mesh)
@@ -1735,7 +1759,6 @@ void celPcMesh::SetShaderVar (csStringID name, float value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
-    svc->AddVariable (var);
   }
 }
 
@@ -1746,7 +1769,6 @@ void celPcMesh::SetShaderVar (csStringID name, int value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
-    svc->AddVariable (var);
   }
 }
 
@@ -1757,7 +1779,6 @@ void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
-    svc->AddVariable (var);
   }
 }
 
@@ -1768,7 +1789,6 @@ void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
-    svc->AddVariable (var);
   }
 }
 
