@@ -513,7 +513,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else if (!strcmp(par_type,"libexpr"))
 	{
-          CEL_FETCH_STRING_PAR (par_value,params,id_name);
+          CEL_FETCH_STRING_PAR (par_value,params,id_value);
           if (!p_par_value) return false;
           return SetShaderVarExpr (strset->Request (par_name), par_value);
 	}

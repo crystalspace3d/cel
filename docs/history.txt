@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  it is much better and easier to just use shader expressions.
 	- Jorrit added support for using 'libexpr' type in the pcmesh
 	  SetShaderVar action. That way one can now set shader expressions.
+	- Jorrit fixed support for 'libexpr' type in SetShaderVar.
 4-Dec-2006
 	- Jorrit added a new 'shadervar' sequence operation that can
 	  be used to animated shader variables. Not finished yet.
