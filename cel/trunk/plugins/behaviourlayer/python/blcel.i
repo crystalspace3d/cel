@@ -73,7 +73,7 @@ CS_PROPERTY_HELPERS
 pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
-  csRef<pcType> pclm = SCF_QUERY_INTERFACE(pc, pcType);
+  csRef<pcType> pclm = scfQueryInterface<pcType>(pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -89,7 +89,7 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
-  pclm = SCF_QUERY_INTERFACE(pc, pcType);
+  pclm = scfQueryInterface<pcType>(pc);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -112,7 +112,7 @@ pcType * funcName (iCelEntity *entity)
 %inline %{
 pcType *scfQuery_ ## pcType (iCelPropertyClass *pc)
 {
-  csRef<pcType> iface = SCF_QUERY_INTERFACE(pc, pcType);
+  csRef<pcType> iface = scfQueryInterface<pcType>(pc);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -123,7 +123,7 @@ pcType *scfQuery_ ## pcType (iCelPropertyClass *pc)
 %inline %{
 pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 {
-  csRef<pcType> iface = SCF_QUERY_INTERFACE(pclist, pcType);
+  csRef<pcType> iface = scfQueryInterface<pcType>(pclist);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -287,7 +287,7 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 %inline %{
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
-  csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
+  csRef<iCelEntity> ent = scfQueryInterface<iCelEntity>(base);
   return ent;
 }
 %}
@@ -443,7 +443,7 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
   if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
+  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
   if (!pcregion.IsValid()) return 0;
   pcregion->SetRegionName (name);
   return pcregion;
