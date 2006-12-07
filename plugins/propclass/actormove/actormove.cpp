@@ -137,6 +137,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   mousemove_hor_factor = 1.0f;
   mousemove_vert_factor = 1.0f;
   mousemove_inverted = false;
+  mousemove_accelerated = false;
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
   g2d = g3d->GetDriver2D ();
 
@@ -163,11 +164,14 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (4);
+  propinfo.SetCount (5);
   AddProperty (propid_mousemove, "cel.property.mousemove",
   	CEL_DATA_BOOL, false, "Mouse movement.", 0);
   AddProperty (propid_mousemove_inverted, "cel.property.mousemove_inverted",
   	CEL_DATA_BOOL, false, "Mouse movement inverted.", &mousemove_inverted);
+  AddProperty (propid_mousemove_accelerated,
+        "cel.property.mousemove_accelerated", CEL_DATA_BOOL,
+	false, "Mouse movement accelerated.", &mousemove_accelerated);
   AddProperty (propid_mousemove_xfactor, "cel.property.mousemove_xfactor",
   	CEL_DATA_FLOAT, false, "Mouse movement x speed factor.",
   	&mousemove_hor_factor);
@@ -257,9 +261,24 @@ void celPcActorMove::TickEveryFrame ()
     // Only rotate if mouse moved noticably.
     if (abs_x > 0.0001 || abs_y > 0.0001)
     {
+      if (mousemove_accelerated)
+      {
+        if (abs_x > .25) abs_x += .25;
+        if (abs_x > .20) abs_x += .20;
+        if (abs_x > .15) abs_x += .15;
+        if (abs_x > .10) abs_x += .10;
+        if (abs_x > .05) abs_x += .05;
+
+        if (abs_y > .25) abs_y += .25;
+        if (abs_y > .20) abs_y += .20;
+        if (abs_y > .15) abs_y += .15;
+        if (abs_y > .10) abs_y += .10;
+        if (abs_y > .05) abs_y += .05;
+      }
+  
       // Limit the maximum amount of mouse movement.
-      if (abs_x > 0.4) abs_x = 0.4f;
-      if (abs_y > 0.4) abs_y = 0.4f;
+      if (abs_x > 0.5) abs_x = 0.5f;
+      if (abs_y > 0.5) abs_y = 0.5f;
 
       pcdefcamera->MovePitch ((-mousemove_lasty)
       	* mousemove_vert_factor * MOUSEMOVE_VERT_FACTOR);
