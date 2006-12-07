@@ -59,6 +59,7 @@
  * - mousemove_inverted (bool, read/write): enable/disable inverted mousemove.
  * - mousemove_xfactor (float, read/write): horizontal mousemove speed.
  * - mousemove_yfactor (float, read/write): vertical mousemove speed.
+ * - mousemove_accelerate (bool, read/write): enable/disable acceleration.
  */
 struct iPcActorMove : public virtual iBase
 {
@@ -117,6 +118,16 @@ struct iPcActorMove : public virtual iBase
   virtual void EnableMouseMove (bool en) = 0;
   /// Test if mouse move is enabled.
   virtual bool IsMouseMoveEnabled () const = 0;
+
+  /**
+   * Enable mouse move accelerated mode. In this mode the
+   * movement will be accelerated in case the mouse moves a lot.
+   * This allows for more accurate aiming because small movement
+   * don't cause a lot of movement. By default this is disabled.
+   */
+  virtual void SetMouseMoveAccelerated (bool en) = 0;
+  /// Test if mouse move is accelerated.
+  virtual bool IsMouseMoveAccelerated () const = 0;
 
   /**
    * Enable mouse move inverted mode. In this mode the

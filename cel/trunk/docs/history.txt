@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+7-Dec-2006
+	- Jorrit implemented mousemove acceleration in pcactormove.
+	  If this feature is enabled (by default it is off) then big
+	  mouse movements will get accelerated. This allows for good
+	  aiming for small movements and fast turning around.
 5-Dec-2006
 	- Jorrit removed the 'shadervar' sequence operation again since
 	  it is much better and easier to just use shader expressions.
