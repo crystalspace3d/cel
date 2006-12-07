@@ -253,7 +253,8 @@ void celPcActorMove::TickEveryFrame ()
   mousemove_lastticks = cur_ticks;
   mousemove_totdelta += delta;
 
-  if (mousemove_totdelta >= 100.0f)
+#define FRAME_DELAY 20.0f
+  if (mousemove_totdelta >= FRAME_DELAY)
   {
     if (mousemove_inverted) mousemove_lasty = -mousemove_lasty;
     float abs_x = fabs (mousemove_lastx);
@@ -308,8 +309,8 @@ void celPcActorMove::TickEveryFrame ()
       RotateLeft(false);
     }
 
-    mousemove_totdelta -= 100.0f;
-    if (mousemove_totdelta >= 100.0f) mousemove_totdelta = 0.0f;
+    mousemove_totdelta -= FRAME_DELAY;
+    if (mousemove_totdelta >= FRAME_DELAY) mousemove_totdelta = 0.0f;
     g2d->SetMousePosition (frame_width / 2, frame_height / 2);
     mousemove_lastx = mousemove_lasty = 0.0f;
   }
