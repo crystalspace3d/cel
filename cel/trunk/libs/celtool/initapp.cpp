@@ -144,8 +144,14 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
     cel_config_done = true;
   }
   else
-    csReport(r,CS_REPORTER_SEVERITY_ERROR,"cel.initializer",
+  {
+    csRef<iVFS> vfs = csQueryRegistry<iVFS> (r);
+    if (vfs->Exists("/this/vfs.cfg"))
+      ok = true;
+    else
+      csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",
 	     "Couldn't find vfs.cfg!");
+  }
   return ok;
 }
 

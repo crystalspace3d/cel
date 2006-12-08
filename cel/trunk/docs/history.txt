@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	  rate = 1.0 it's normal speed.
 	- caedes fixed actormove going back to previous animation after a
 	  jump, and also reordered code a bit.
+	- caedes fixed celInitializer emitting an error when vfs.cfg would
+	  not be found at install path or $CEL path. Now checks also in
+	  application dir, and if not found emits a warning instead.
 7-Dec-2006
 	- Jorrit implemented mousemove acceleration in pcactormove.
 	  If this feature is enabled (by default it is off) then big
