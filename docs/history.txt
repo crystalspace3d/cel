@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed celInitializer emitting an error when vfs.cfg would
 	  not be found at install path or $CEL path. Now checks also in
 	  application dir, and if not found emits a warning instead.
+	- caedes fixed his previous celInitializer fix to actually look in
+	  application dir instead of working directory.
 7-Dec-2006
 	- Jorrit implemented mousemove acceleration in pcactormove.
 	  If this feature is enabled (by default it is off) then big
