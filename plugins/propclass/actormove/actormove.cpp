@@ -125,6 +125,7 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   rotatetoreached = true;
   running = false;
   autorun = false;
+  jumping = false;
   checked_spritestate = false;
 
   // For mouse movement.
@@ -219,12 +220,14 @@ void celPcActorMove::EnableMouseMove (bool en)
   mousemove = en;
   if (!mousemove)
   {
-    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    if (!jumping)
+      pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
     g2d->SetMouseCursor (csmcArrow);
   }
   else
   {
-    pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    if (!jumping)
+      pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
     g2d->SetMouseCursor (csmcNone);
     mousemove_lastticks = (csTicks)~0;
     mousemove_totdelta = 0.0f;
@@ -235,6 +238,23 @@ void celPcActorMove::EnableMouseMove (bool en)
 
 void celPcActorMove::TickEveryFrame ()
 {
+  // handle animation changes
+  if (pcmesh)
+  {
+    if (jumping && pclinmove->IsOnGround())
+    {
+      jumping = false;
+      if (sprcal3d) sprcal3d->SetVelocity (-FindVelocity().z);
+      else {
+        if (IsMovingForward ())
+	  SetAnimation ("walk",true);
+        else
+	  SetAnimation ("stand",true);
+      }
+      if (!mousemove)
+        pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    }
+  }
   if (!mousemove) return;
   if (!pcdefcamera) return;
 
@@ -545,22 +565,8 @@ void celPcActorMove::RotateTo (float yrot)
   HandleMovement (false);
 }
 
-void celPcActorMove::HandleMovement (bool jump)
+csVector3 celPcActorMove::FindVelocity()
 {
-  FindSiblingPropertyClasses ();
-  if (!pclinmove)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove", "pclinmove is missing!");
-    return;
-  }
-  GetSpriteStates ();
-  if (!pcmesh)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove", "pcmesh is missing!");
-    return;
-  }
 
   float speed;
   if (running)
@@ -615,9 +621,28 @@ void celPcActorMove::HandleMovement (bool jump)
     velocity.x = 0.0f;
     velocity.z = 0.0f;
   }
+  return velocity;
+}
+
+void celPcActorMove::HandleMovement (bool jump)
+{
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcactormove", "pclinmove is missing!");
+    return;
+  }
+  GetSpriteStates ();
+  if (!pcmesh)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcactormove", "pcmesh is missing!");
+    return;
+  }
+  csVector3 velocity = FindVelocity();
   pclinmove->SetVelocity (velocity);
   if (sprcal3d) sprcal3d->SetVelocity (-velocity.z);
-  // @@@ do spr3d!
 
   float actual_rotating_speed = 0.0f;
   if (rotateright)
@@ -653,6 +678,105 @@ void celPcActorMove::ToggleCameraMode ()
       pcdefcamera->SetMode (pcdefcamera->GetNextMode ());
   if (pcnewcamera)
       pcnewcamera->NextCameraMode ();
+}
+
+void celPcActorMove::Forward (bool start)
+{
+  if (pcmesh && !sprcal3d && pclinmove->IsOnGround())
+  {
+    if (start && !IsMovingForward ())
+      SetAnimation ("walk",true);
+    else if (!start && IsMovingForward())
+      SetAnimation ("stand",true);
+  }
+  forward = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsMovingForward ()
+{
+  HandleMovement (false);
+  return forward;
+}
+void celPcActorMove::Backward (bool start)
+{
+  backward = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsMovingBackward ()
+{
+  HandleMovement (false);
+  return backward;
+}
+void celPcActorMove::StrafeLeft (bool start)
+{
+  strafeleft = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsStrafingLeft ()
+{
+  HandleMovement (false);
+  return strafeleft;
+}
+void celPcActorMove::StrafeRight (bool start)
+{
+  straferight = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsStrafingRight ()
+{
+  HandleMovement (false);
+  return straferight;
+}
+void celPcActorMove::RotateLeft (bool start)
+{
+  rotateleft = start;
+  rotatetoreached = true;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsRotatingLeft ()
+{
+  HandleMovement (false);
+  return rotateleft;
+}
+void celPcActorMove::RotateRight (bool start)
+{
+  rotateright = start;
+  rotatetoreached = true;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsRotatingRight ()
+{
+  HandleMovement (false);
+  return rotateright;
+}
+void celPcActorMove::Run (bool start)
+{
+  if (!autorun) running = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsRunning ()
+{
+  HandleMovement (false);
+  return running;
+}
+void celPcActorMove::AutoRun (bool start)
+{
+  autorun = start;
+  HandleMovement (false);
+}
+bool celPcActorMove::IsAutoRunning ()
+{
+  HandleMovement (false);
+  return autorun;
+}
+void celPcActorMove::Jump ()
+{
+  if (pcmesh)
+    SetAnimation ("jump", false);
+  if (!jumping && !mousemove)
+      pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  jumping = true;
+  HandleMovement (true);
 }
 
 csPtr<iCelDataBuffer> celPcActorMove::GetPersistentData (
