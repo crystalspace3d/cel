@@ -39910,6 +39910,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcActorMove_SetMouseMoveAccelerated(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcActorMove *arg1 = (iPcActorMove *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcActorMove_SetMouseMoveAccelerated",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcActorMove, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcActorMove_SetMouseMoveAccelerated" "', argument " "1"" of type '" "iPcActorMove *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcActorMove * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcActorMove_SetMouseMoveAccelerated" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetMouseMoveAccelerated(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcActorMove_IsMouseMoveAccelerated(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcActorMove *arg1 = (iPcActorMove *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcActorMove_IsMouseMoveAccelerated",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcActorMove, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcActorMove_IsMouseMoveAccelerated" "', argument " "1"" of type '" "iPcActorMove const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcActorMove * >(argp1);
+  result = (bool)((iPcActorMove const *)arg1)->IsMouseMoveAccelerated();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcActorMove_SetMouseMoveInverted(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcActorMove *arg1 = (iPcActorMove *) 0 ;
@@ -64833,6 +64885,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcActorMove_ToggleCameraMode", _wrap_iPcActorMove_ToggleCameraMode, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_EnableMouseMove", _wrap_iPcActorMove_EnableMouseMove, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_IsMouseMoveEnabled", _wrap_iPcActorMove_IsMouseMoveEnabled, METH_VARARGS, NULL},
+	 { (char *)"iPcActorMove_SetMouseMoveAccelerated", _wrap_iPcActorMove_SetMouseMoveAccelerated, METH_VARARGS, NULL},
+	 { (char *)"iPcActorMove_IsMouseMoveAccelerated", _wrap_iPcActorMove_IsMouseMoveAccelerated, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_SetMouseMoveInverted", _wrap_iPcActorMove_SetMouseMoveInverted, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_IsMouseMoveInverted", _wrap_iPcActorMove_IsMouseMoveInverted, METH_VARARGS, NULL},
 	 { (char *)"iPcActorMove_SetMouseMoveSpeed", _wrap_iPcActorMove_SetMouseMoveSpeed, METH_VARARGS, NULL},
