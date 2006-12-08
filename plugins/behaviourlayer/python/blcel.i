@@ -60,6 +60,8 @@ CS_PROPERTY_HELPERS
 //=============================================================================
 
 %define CEL_APPLY_FOR_EACH_INTERFACE
+  INTERFACE_APPLY(iCelPlLayer)
+  INTERFACE_APPLY(iCelBlLayer)
   INTERFACE_APPLY(iCelEntity)
   INTERFACE_APPLY(iCelEntityList)
 %enddef

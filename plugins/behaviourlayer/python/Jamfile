@@ -53,13 +53,35 @@ if $(PYTHON.AVAILABLE) = yes
 
 
   #--------
-  # blpython plugin.
+  # Compiler flags for Swig-generated code.
   #--------
-  Plugin blpython : $(blcelcpp) blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
-  LinkWith blpython : celtool ;
-  ExternalLibs blpython : PYTHON CRYSTAL ;
-  CFlags blpython :
-    $(COMPILER.C++FLAGS.WARNING.NO_UNUSED) 
+  CELPYTHON.CFLAGS =
+    $(COMPILER.C++FLAGS.WARNING.NO_UNUSED)
     $(COMPILER.C++FLAGS.WARNING.NO_UNINITIALIZED)
     $(COMPILER.C++FLAGS.STRICTALIASING.DISABLE) ;
+
+  #--------
+  # cel_python common library
+  #--------
+  Description cel_python : "Python-specific cel support" ;
+  Library cel_python : $(blcelcpp) : shared independent optional ;
+  ExternalLibs cel_python : PYTHON CRYSTAL ;
+  LinkWith cel_python : celtool ;
+  CFlags cel_python : $(CELPYTHON.CFLAGS) ;
+  MsvcDefine cel_python : _CRT_SECURE_NO_DEPRECATE _CRT_NONSTDC_NO_DEPRECATE ;
+
+  #--------
+  # blpython plugin.
+  #--------
+  Plugin blpython : blpython.cpp blpython.h pytocel.cpp PYCEL_py.cpp ;
+  LinkWith blpython : cel_python ;
+  ExternalLibs blpython : PYTHON CRYSTAL ; 
+  CFlags blpython : $(CELPYTHON.CFLAGS) ;
+  
+  #--------
+  # blcelmod -- Pure Python module
+  #--------
+  PythMod blcelmod : _blcelc : celmod.cpp : cel_python : CRYSTAL
+                : "pure Python module" ;
+  CFlags blcelmod : $(CELPYTHON.CFLAGS) ;
 }
