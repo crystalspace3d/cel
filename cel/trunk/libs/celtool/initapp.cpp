@@ -145,8 +145,10 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   }
   else
   {
-    csRef<iVFS> vfs = csQueryRegistry<iVFS> (r);
-    if (vfs->Exists("/this/vfs.cfg"))
+    csRef<iCommandLineParser> cmdline = csQueryRegistry<iCommandLineParser> (r);
+    cel_env_path = csPathsList(cmdline->GetAppDir ());
+    vfs_file_path = csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
+    if (vfs_file_path.Length())
       ok = true;
     else
       csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",
