@@ -77,6 +77,7 @@ enum
   XMLTOKEN_SOUND_UNPAUSE,
   XMLTOKEN_SOUND_RESTART,
   XMLTOKEN_SOUND_VOLUME,
+  XMLTOKEN_SOUND_SPEED,
   XMLTOKEN_CONFIG_ADD,
   XMLTOKEN_CONFIG_REM,
   XMLTOKEN_CONFIG_SET,
@@ -240,6 +241,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
   xmltokens.Register ("sound_restart", XMLTOKEN_SOUND_RESTART);
   xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
+  xmltokens.Register ("sound_speed", XMLTOKEN_SOUND_SPEED);
   xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
   xmltokens.Register ("config_rem", XMLTOKEN_CONFIG_REM);
   xmltokens.Register ("config_set", XMLTOKEN_CONFIG_SET);
@@ -2024,30 +2026,37 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_SOUND_STOP:
         if (!ParseExpression (local_vars, child, h, "source", "sound_stop"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_SOUND_STOP);
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_STOP);
         break;
       case XMLTOKEN_SOUND_PAUSE:
         if (!ParseExpression (local_vars, child, h, "source", "sound_pause"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_SOUND_PAUSE);
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_PAUSE);
         break;
       case XMLTOKEN_SOUND_UNPAUSE:
         if (!ParseExpression (local_vars, child, h, "source", "sound_unpause"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
         break;
       case XMLTOKEN_SOUND_RESTART:
         if (!ParseExpression (local_vars, child, h, "source", "sound_restart"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_SOUND_RESTART);
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_RESTART);
         break;
       case XMLTOKEN_SOUND_VOLUME:
         if (!ParseExpression (local_vars, child, h, "source", "sound_volume"))
-	  return false;
+          return false;
         if (!ParseExpression (local_vars, child, h, "volume", "sound_volume"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
+        break;
+      case XMLTOKEN_SOUND_SPEED:
+        if (!ParseExpression (local_vars, child, h, "source", "sound_speed"))
+          return false;
+        if (!ParseExpression (local_vars, child, h, "rate", "sound_speed"))
+          return false;
+        h->AddOperation (CEL_OPERATION_SOUND_SPEED);
         break;
       case XMLTOKEN_CONFIG_SET:
         if (!ParseExpression (local_vars, child, h, "key", "config_set"))

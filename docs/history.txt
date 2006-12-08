@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Dec-2006
+	- Darek added to blxml <sound_speed source=".." rate=".."/>,
+	  rate = 1.0 it's normal speed.
 7-Dec-2006
 	- Jorrit implemented mousemove acceleration in pcactormove.
 	  If this feature is enabled (by default it is off) then big
