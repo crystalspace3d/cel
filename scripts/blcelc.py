@@ -2162,6 +2162,8 @@ class iPcActorMove(cspace.iBase):
     def ToggleCameraMode(*args): return _blcelc.iPcActorMove_ToggleCameraMode(*args)
     def EnableMouseMove(*args): return _blcelc.iPcActorMove_EnableMouseMove(*args)
     def IsMouseMoveEnabled(*args): return _blcelc.iPcActorMove_IsMouseMoveEnabled(*args)
+    def SetMouseMoveAccelerated(*args): return _blcelc.iPcActorMove_SetMouseMoveAccelerated(*args)
+    def IsMouseMoveAccelerated(*args): return _blcelc.iPcActorMove_IsMouseMoveAccelerated(*args)
     def SetMouseMoveInverted(*args): return _blcelc.iPcActorMove_SetMouseMoveInverted(*args)
     def IsMouseMoveInverted(*args): return _blcelc.iPcActorMove_IsMouseMoveInverted(*args)
     def SetMouseMoveSpeed(*args): return _blcelc.iPcActorMove_SetMouseMoveSpeed(*args)
