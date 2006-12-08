@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	  application dir, and if not found emits a warning instead.
 	- caedes fixed his previous celInitializer fix to actually look in
 	  application dir instead of working directory.
+	- caedes updated the pythmod jam rule to the version in cs.
 7-Dec-2006
 	- Jorrit implemented mousemove acceleration in pcactormove.
 	  If this feature is enabled (by default it is off) then big
