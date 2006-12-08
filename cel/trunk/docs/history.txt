@@ -14,6 +14,8 @@ The history order is reversed so that new features are at the top.
 	- caedes fixed his previous celInitializer fix to actually look in
 	  application dir instead of working directory.
 	- caedes updated the pythmod jam rule to the version in cs.
+	- caedes changed the blpython Jamfile so it also generates a pure
+	  python module for blcelc (ie, generates _blcelc dll).
 7-Dec-2006
 	- Jorrit implemented mousemove acceleration in pcactormove.
 	  If this feature is enabled (by default it is off) then big
