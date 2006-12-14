@@ -3480,6 +3480,8 @@ SWIGINTERN void iCelPlLayer_EntityAddonAllowed_set(iCelPlLayer *self,bool _val){
 SWIGINTERN bool iCelPlLayer_EntityAddonAllowed_get(iCelPlLayer *self){ return (bool)(self->IsEntityAddonAllowed()); }
 SWIGINTERN size_t iCelPlLayer_PropertyClassFactoryCount_get(iCelPlLayer *self){ return (size_t)(self->GetPropertyClassFactoryCount()); }
 SWIGINTERN size_t iCelPlLayer_BehaviourLayerCount_get(iCelPlLayer *self){ return (size_t)(self->GetBehaviourLayerCount()); }
+SWIGINTERN void delete_iCelPlLayer(iCelPlLayer *self){ if (self) self->DecRef(); }
+SWIGINTERN int iCelPlLayer_scfGetVersion(){ return scfInterfaceTraits<iCelPlLayer>::GetVersion(); }
 SWIGINTERN char const *iCelEntityTracker_Name_get(iCelEntityTracker *self){ return (const char*)(self->GetName()); }
 SWIGINTERN csPtr<iCelEntityIterator > iCelEntityTracker_Iterator_get(iCelEntityTracker *self){ return (csPtr<iCelEntityIterator>)(self->GetIterator()); }
 
@@ -3601,6 +3603,8 @@ SWIGINTERN char const *iCelPropertyClassTemplate_Name_get(iCelPropertyClassTempl
 SWIGINTERN void iCelPropertyClassTemplate_Tag_set(iCelPropertyClassTemplate *self,char const *_val){ self->SetTag(_val); }
 SWIGINTERN char const *iCelPropertyClassTemplate_Tag_get(iCelPropertyClassTemplate *self){ return (const char*)(self->GetTag()); }
 SWIGINTERN char const *iCelBlLayer_Name_get(iCelBlLayer *self){ return (const char*)(self->GetName()); }
+SWIGINTERN void delete_iCelBlLayer(iCelBlLayer *self){ if (self) self->DecRef(); }
+SWIGINTERN int iCelBlLayer_scfGetVersion(){ return scfInterfaceTraits<iCelBlLayer>::GetVersion(); }
 
 iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 {
@@ -10975,9 +10979,22 @@ SWIGINTERN PyObject *_wrap_delete_iCelPlLayer(PyObject *SWIGUNUSEDPARM(self), Py
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_iCelPlLayer" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
-  delete arg1;
+  delete_iCelPlLayer(arg1);
   
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_scfGetVersion(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":iCelPlLayer_scfGetVersion")) SWIG_fail;
+  result = (int)iCelPlLayer_scfGetVersion();
+  resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
   return NULL;
@@ -14902,9 +14919,22 @@ SWIGINTERN PyObject *_wrap_delete_iCelBlLayer(PyObject *SWIGUNUSEDPARM(self), Py
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_iCelBlLayer" "', argument " "1"" of type '" "iCelBlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelBlLayer * >(argp1);
-  delete arg1;
+  delete_iCelBlLayer(arg1);
   
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelBlLayer_scfGetVersion(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)":iCelBlLayer_scfGetVersion")) SWIG_fail;
+  result = (int)iCelBlLayer_scfGetVersion();
+  resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
   return NULL;
@@ -64077,6 +64107,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPlLayer_PropertyClassFactoryCount_get", _wrap_iCelPlLayer_PropertyClassFactoryCount_get, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_BehaviourLayerCount_get", _wrap_iCelPlLayer_BehaviourLayerCount_get, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelPlLayer", _wrap_delete_iCelPlLayer, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_scfGetVersion", _wrap_iCelPlLayer_scfGetVersion, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_swigregister", iCelPlLayer_swigregister, METH_VARARGS, NULL},
 	 { (char *)"iCelEntityTracker_GetName", _wrap_iCelEntityTracker_GetName, METH_VARARGS, NULL},
 	 { (char *)"iCelEntityTracker_AddEntity", _wrap_iCelEntityTracker_AddEntity, METH_VARARGS, NULL},
@@ -64178,6 +64209,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelBlLayer_CreateBehaviour", _wrap_iCelBlLayer_CreateBehaviour, METH_VARARGS, NULL},
 	 { (char *)"iCelBlLayer_Name_get", _wrap_iCelBlLayer_Name_get, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelBlLayer", _wrap_delete_iCelBlLayer, METH_VARARGS, NULL},
+	 { (char *)"iCelBlLayer_scfGetVersion", _wrap_iCelBlLayer_scfGetVersion, METH_VARARGS, NULL},
 	 { (char *)"iCelBlLayer_swigregister", iCelBlLayer_swigregister, METH_VARARGS, NULL},
 	 { (char *)"csQueryRegistry_iCelBlLayer", _wrap_csQueryRegistry_iCelBlLayer, METH_VARARGS, NULL},
 	 { (char *)"iCelParameterBlock_GetParameterCount", _wrap_iCelParameterBlock_GetParameterCount, METH_VARARGS, NULL},
@@ -68895,6 +68927,10 @@ SWIGEXPORT void SWIG_init(void) {
   SWIG_Python_SetConstant(d, "CEL_ZONE_NORMAL",SWIG_From_int(static_cast< int >(0)));
   SWIG_Python_SetConstant(d, "CEL_ZONE_KEEP",SWIG_From_int(static_cast< int >(1)));
   SWIG_Python_SetConstant(d, "CEL_ZONE_LOADALL",SWIG_From_int(static_cast< int >(2)));
+  SWIG_Python_SetConstant(d, "CEL_KEY_STATE_UNUSED",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_UNUSED)));
+  SWIG_Python_SetConstant(d, "CEL_KEY_STATE_UP",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_UP)));
+  SWIG_Python_SetConstant(d, "CEL_KEY_STATE_DOWN",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_DOWN)));
+  SWIG_Python_SetConstant(d, "CEL_KEY_STATE_REPEAT",SWIG_From_int(static_cast< int >(CEL_KEY_STATE_REPEAT)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_freelook",SWIG_From_int(static_cast< int >(iPcDefaultCamera::freelook)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_firstperson",SWIG_From_int(static_cast< int >(iPcDefaultCamera::firstperson)));
   SWIG_Python_SetConstant(d, "iPcDefaultCamera_thirdperson",SWIG_From_int(static_cast< int >(iPcDefaultCamera::thirdperson)));
