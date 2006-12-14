@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Dec-2006
+	- caedes added a feature to commandinput so .args can be specified
+	  after desired command name in a bind. In that case button/key
+	  state will be put in message arguments ("state" parameter) instead 
+	  of message name. 
+	  Example: Bind.up = forward.args will call pccommandinput_forward 
+	  message with state parameter.
 8-Dec-2006
 	- Darek added to blxml <sound_speed source=".." rate=".."/>,
 	  rate = 1.0 it's normal speed.

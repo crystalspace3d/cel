@@ -24,6 +24,17 @@
 #include "csutil/scf.h"
 
 /**
+ * Key state for button/key messages.
+ */
+enum celKeyState
+{
+  CEL_KEY_STATE_UNUSED = -1,
+  CEL_KEY_STATE_UP,
+  CEL_KEY_STATE_DOWN,
+  CEL_KEY_STATE_REPEAT
+};
+
+/**
  * Input propery class.
  *
  * This property class supports the following actions (add prefix
@@ -32,6 +43,8 @@
  * - Activate: parameter 'activate' (bool default=true).
  * - Bind: parameters 'trigger' (string) and 'command' (string). The 'trigger'
  *   can be equal to 'key' in which cases all keys will be bound.
+ *   Also .args can be appended to the command name, to receive key/button
+ *   state in message arguments, instead of in message name.
  * - RemoveBind: paramaters 'trigger' (string) and 'command' (string).
  * - RemoveAllBinds.
  * - LoadConfig: parameters 'prefix' (string).
@@ -39,6 +52,11 @@
  *
  * This property class can send out the following messages
  * to the behaviour:
+ * - pccommandinput_<key>: key event. Message receives 'state' parameter 
+ *   filled with values from celKeyState enum. Also has optional 'trigger' 
+ *   parameter.
+ *   This is received instead of the other key messages below depending on 
+ *   '.args' suffix on command specification (see above).
  * - pccommandinput_<key>0: key is unpressed. Message has optional
  *   'trigger' parameter.
  * - pccommandinput_<key>1: key is pressed. Message has optional

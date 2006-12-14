@@ -50,9 +50,10 @@ struct celKeyMap
   celKeyMap *next, *prev;
   utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
+  bool packedargs;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celKeyMap () : command (0) { }
+  celKeyMap () : packedargs (false), command (0) { }
 };
 
 struct celButtonMap
@@ -62,9 +63,10 @@ struct celButtonMap
   uint device;
   int numeric;
   uint32 modifiers;
+  bool packedargs;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celButtonMap () : command (0) { }
+  celButtonMap () : packedargs (false), command (0) { }
 };
 
 struct celAxisMap
@@ -90,6 +92,7 @@ private:
   celButtonMap* buttonlist;
   celAxisMap* axislist;
   static csStringID id_trigger;
+  static csStringID id_state;
   static csStringID id_command;
   static csStringID id_x;
   static csStringID id_y;
@@ -102,7 +105,8 @@ private:
   bool do_sendtrigger;	// If true then send trigger name with messages.
 
   celGenericParameterBlock* mouse_params;
-  celOneParameterBlock* key_params;
+  celGenericParameterBlock* key_params;
+  celOneParameterBlock* but_params;
 
   // For actions.
   enum actionids
@@ -189,7 +193,7 @@ protected:
   celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
   	uint32 modifiers) const;
   void SendKeyMessage (celKeyMap* p, utf32_char key,
-    csKeyModifiers key_modifiers, char end);
+    csKeyModifiers key_modifiers, celKeyState keystate);
 };
 
 }
