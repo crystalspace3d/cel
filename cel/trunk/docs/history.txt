@@ -25,6 +25,8 @@ The history order is reversed so that new features are at the top.
 	- caedes made some modifications to blpython usage section in the
 	  cel manual to account for latest changes. Also did some minor
 	  formatting changes.
+	- caedes updated the quest manager section in cel manual in account
+	  for new rewards and triggers from the time it was written.
 8-Dec-2006
 	- Darek added to blxml <sound_speed source=".." rate=".."/>,
 	  rate = 1.0 it's normal speed.

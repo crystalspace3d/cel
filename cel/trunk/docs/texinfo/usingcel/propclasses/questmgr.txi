@@ -69,6 +69,9 @@ This triggers when an object enters inventory. See
 @item @samp{cel.questtrigger.meshselect}:
 This triggers when a mesh is selected. See
 @code{iMeshSelectQuestTriggerFactory}.
+@item @samp{cel.questtrigger.watch}:
+This triggers when a mesh becomes visible. See
+@code{iWatchQuestTriggerFactory}.
 @end itemize
 
 It is of course possible to define your own triggers and register them to
@@ -98,6 +101,17 @@ This manipulates the inventory. See
 This fires a sequence. See @code{iSequenceQuestRewardFactory}.
 @item @samp{cel.questreward.sequencefinish}:
 Finishes a sequence. See @code{iSequenceFinishQuestRewardFactory}.
+@item @samp{cel.questreward.destroyentity}:
+This destroys an entity. See @code{iDestroyEntityQuestRewardFactory}.
+@item @samp{cel.questreward.cssequence}:
+This will run a crystalspace sequence.
+See @code{iCsSequenceQuestRewardFactory}.
+@item @samp{cel.questreward.message}:
+This sends a message to an entity. 
+See @code{iMessageQuestRewardFactory}.
+@item @samp{cel.questreward.action}:
+This run an action from a property class in an entity.
+See @code{iActionQuestRewardFactory}.
 @end itemize
 
 It is also possible to define your own rewards.
