@@ -10,6 +10,18 @@ The history order is reversed so that new features are at the top.
 	  of message name. 
 	  Example: Bind.up = forward.args will call pccommandinput_forward 
 	  message with state parameter.
+	- caedes made the following changes to pycel embedded python module:
+	  - Added parid, propid and actid aliases to get ids for cel
+	    parameters, properties and actions respectively (adds the common
+	    prefix automatically).
+	  - Added a buffering mechanism for cel ids so python strings can be
+	    used with almost no overhead (when planned for).
+	  - Added mangling of iCelParameterBlock so now strings can be used
+	    directly to access the block parameters, as well as ids as before.
+	  - Changed the pcclass accessor/creator functions from hardcoded to 
+	    dynamically generated.
+	  - Added FontServer, KeyboardDriver, MouseDriver, JoystickDriver and
+	    PluginManager ready to use accessor variables.
 8-Dec-2006
 	- Darek added to blxml <sound_speed source=".." rate=".."/>,
 	  rate = 1.0 it's normal speed.
