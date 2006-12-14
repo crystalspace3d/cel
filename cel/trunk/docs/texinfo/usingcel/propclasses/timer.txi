@@ -22,4 +22,58 @@ The timer property class implements a simple timer.
 
 @subsubheading General Information
 
-TODO
+PcTimer can be used if you want an entity to wake up every frame,
+after a while or at certain time lapses.
+
+Currently it has two different timing modes called @code{WakeUp} and @code{WakeUpFrame}. This can be set either through pcclass actions (from map or blxml), or 
+by using the iPcTimer interface (for c++ or python).
+
+@subsubheading WakeUp
+
+With WakeUp mode a specific lapse of time can be defined, and the entity holding
+this property class will receive the @samp{pctimer_wakeup} message once it is
+elapsed. Also @code{repeat} can be defined, and then the timer will keep sending
+the message each time the time lapse expires, otherwise the timer will be
+cleared afterwards.
+
+@subsubheading WakeUpFrame
+
+@code{WakeUpFrame} wakes the entity either after or before each frame is drawn, this
+is best for continuously updating parameters from the entity with this property
+class when used before the frame, or drawing/post processing when used after
+the frame is drawn.
+
+It allows for one parameter for specifying at what moment entity will be woken
+up, possible values are:
+
+@itemize @bullet
+@item @emph{CEL_EVENT_PRE}: Wake up in the pre process stage before frame is drawn.
+@item @emph{CEL_EVENT_VIEW}: Wake up on every frame also before frame is drawn, but after CEL_EVENT_PRE timers.
+@item @emph{CEL_EVENT_POST}: Wake up after frame is drawn.
+@end itemize
+
+This mode sends the @samp{pctimer_wakeupframe} message to the entity at the
+requested moment with two parameters: @samp{elapsedticks} and @samp{currentticks}.
+
+@subsubheading Defining a trigger for an entity in map xml.
+
+To define an entity that uses this property class we add a <propclass> stance
+to the entity or entity template <addon> section.
+
+@example
+<addon entityname="FinalMonster" plugin="cel.addons.celentity">
+  <propclass name="pctimer">
+    <action name="WakeUp">
+      <par name="time" long="14.0"/>
+      <par name="repeat" bool="true"/>
+    </action>
+  </propclass>
+  <propclass name="pcmesh">
+    <action name="SetMesh">
+      <par string="EvilMonster" name="name"/>
+    </action>
+  </propclass>
+  <behaviour layer="blpython" name="lookat"/>
+</addon>
+@end example
+
