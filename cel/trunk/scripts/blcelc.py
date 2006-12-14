@@ -402,8 +402,11 @@ class iCelPlLayer(cspace.iBase):
     __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iCelPlLayer
     __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPlLayer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
 iCelPlLayer_swigregister = _blcelc.iCelPlLayer_swigregister
 iCelPlLayer_swigregister(iCelPlLayer)
+iCelPlLayer_scfGetVersion = _blcelc.iCelPlLayer_scfGetVersion
 
 class iCelEntityTracker(cspace.iBase):
     __swig_setmethods__ = {}
@@ -745,8 +748,11 @@ class iCelBlLayer(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelBlLayer
     __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelBlLayer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
 iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
 iCelBlLayer_swigregister(iCelBlLayer)
+iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
 class iCelParameterBlock(cspace.iBase):
@@ -1944,6 +1950,10 @@ celCreateZoneManager = _blcelc.celCreateZoneManager
 celGetSetZoneManager = _blcelc.celGetSetZoneManager
 celGetZoneManager = _blcelc.celGetZoneManager
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
+CEL_KEY_STATE_UNUSED = _blcelc.CEL_KEY_STATE_UNUSED
+CEL_KEY_STATE_UP = _blcelc.CEL_KEY_STATE_UP
+CEL_KEY_STATE_DOWN = _blcelc.CEL_KEY_STATE_DOWN
+CEL_KEY_STATE_REPEAT = _blcelc.CEL_KEY_STATE_REPEAT
 class iPcCommandInput(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
