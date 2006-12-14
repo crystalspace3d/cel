@@ -164,7 +164,7 @@ Used to get or register behaviour layers with @sc{cel}.
 @subsubheading Crystal Space plugins
 Some often used plugins in @sc{cs} are ready to use (if present). 
 These are: 
-@itemize
+@itemize @bullet
 @item @code{pycel.Engine}
 The engine plugin where you can get access to most Crystal Space objects in
 your map (@code{iEngine} interface) 
@@ -186,15 +186,39 @@ files (@code{iConfigManager} interface).
 @item @code{pycel.Loader}
 The loader plugin from Crystal Space, used to load world or library files
 (@code{iLoader} interface).
+@item @code{pycel.KeyboardDriver}
+The keyboard driver plugin, used to query keyboard state.
+(@code{iKeyboardDriver} interface).
+@item @code{pycel.JoystickDriver}
+The keyboard driver plugin, used to query joystick state.
+(@code{iJoystickDriver} interface).
+@item @code{pycel.MouseDriver}
+The mouse driver plugin, used to query mouse state.
+(@code{iMouseDriver} interface).
+@item @code{pycel.PluginManager}
+The plugin manager from Crystal Space, used to load additional plugins.
+(@code{iPluginManager} interface).
+@item @code{pycel.FontServer}
+The loader plugin from Crystal Space, used to load and access font objects.
+(@code{iFontServer} interface).
 @item @code{pycel.Stringset}
 The string set plugin, used to transform from @sc{cs} string @sc{id}s to
 regular strings (@code{iStringSet} interface). 
 @end itemize
-@subsubheading @code{getid} / @code{fromid}
-Functions to transform from string to stringid.
-@itemize
+@subsubheading @code{getid} / @code{fromid} and other StringID related functions.
+Functions to transform from string to stringid and back.
+@itemize @bullet
 @item @code{pycel.getid(string)}
 returns a string @sc{id} from the given string.
+@item @code{pycel.parid(string)}
+returns a string @sc{id} from the given parameter identifier string.
+This adds @samp{cel.parameter.} prefix to the given string automatically.
+@item @code{pycel.propid(string)}
+returns a string @sc{id} from the given property identifier string.
+This adds @samp{cel.property.} prefix to the given string automatically.
+@item @code{pycel.actid(string)}
+returns a string @sc{id} from the given action identifier string.
+This adds @samp{cel.action.} prefix to the given string automatically.
 @item @code{pycel.fromid(stringid)} 
 returns a string from the given stringid.
 @end itemize
@@ -280,14 +304,15 @@ instance, the second the entity receiving the message, and the last a
 @code{celParameterBlock} that holds all message specific values.
 
 You can access the values from the parameter block as a python dict with
-@sc{cel} StringIDs for index instead of normal strings.
+@sc{cel} StringIDs or python strings for index. Using StringIDs directly is
+slightly more efficient.
 
 @example
 # a pcbillboard select message
 def pcbillboard_select(self,celEntity,args):
-       bx = args[getid("cel.parameter.x")]
-       by = args[getid("cel.parameter.y")]
-       button= args[getid("cel.parameter.button")]
+       bx = args["x"]
+       by = args["y"]
+       button = args["button"]
 @end example
 
 It is possible to test for existence of a certain parameter, or iterate over
@@ -297,8 +322,8 @@ use instead of querying them each time.
 A final snippet for printing all parameters to a message:
 @example
 def pcbillboard_select(self,celEntity,Args):
-       for strid in args.keys():
-		print fromid(strid),args[strid]
+       for strid in Args.keys():
+		print fromid(strid),Args[strid]
 @end example
 
 @subheading Sending Messages
@@ -317,9 +342,9 @@ require filling the values later:
 @example
 #Creating a parameter block from a list. This is more similar to the c++ method
 pars = parblock(["control","x","y"])
-pars[getid ("cel.parameter.control")] = "specular"
-pars[getid ("cel.parameter.x")] = 15
-pars[getid ("cel.parameter.y")] = 200
+pars["control"] = "specular"
+pars["x"] = 15
+pars["y"] = 200
 
 #Creating a parameter block from a dictionary.
 pars2 = parblock(@{"control":"shininess","x":30,"y":200@})

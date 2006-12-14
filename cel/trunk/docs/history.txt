@@ -22,6 +22,9 @@ The history order is reversed so that new features are at the top.
 	    dynamically generated.
 	  - Added FontServer, KeyboardDriver, MouseDriver, JoystickDriver and
 	    PluginManager ready to use accessor variables.
+	- caedes made some modifications to blpython usage section in the
+	  cel manual to account for latest changes. Also did some minor
+	  formatting changes.
 8-Dec-2006
 	- Darek added to blxml <sound_speed source=".." rate=".."/>,
 	  rate = 1.0 it's normal speed.
