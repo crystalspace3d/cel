@@ -125,7 +125,7 @@ to the entity or entity template <addon> section.
 <addon entityname="SpaceShip" plugin="cel.addons.celentity">
   <propclass name="pccommandinput">
     <action name="LoadConfig">
-      <par name="prefix" long="Ecksdee"/>
+      <par name="prefix" string="Ecksdee"/>
     </action>
   </propclass>
   <propclass name="pcmesh">
