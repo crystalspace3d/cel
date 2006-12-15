@@ -66,7 +66,7 @@ simple scripting language. This allows one to create game logic using
 <small>PYTHON</small>, and thus creating full scripting games without need of
 recompilation.
 </p>
-<a name="SEC91"></a>
+<a name="SEC102"></a>
 <h3 class="subheading"> <small>CS</small> and <small>CEL</small> python bindings </h3>
 
 <p>There are several python modules for Crystal Space and <small>CEL</small>:
@@ -88,7 +88,7 @@ scripts. Note pycel includes all functionality from both of the above.
 <p>Also it has to be noted pycel is automatically imported into each behaviour
 namespace, so you need not import it unless to <code>import *</code> from it.
 </p>
-<a name="SEC92"></a>
+<a name="SEC103"></a>
 <h3 class="subheading"> Behaviours </h3>
 
 <p>When using the <small>BLPYTHON</small> behaviour layer you basically create <em>scripts</em>.
@@ -155,7 +155,7 @@ For example <code>pctimer_wakeup</code> is got when the entity receives a wakeup
 event from a timer, <code>pctrigger_entertrigger</code> is got when the entity
 enters some trigger's area.
 </p>
-<a name="SEC93"></a>
+<a name="SEC104"></a>
 <h4 class="subsubheading"> Python behaviours at <small>XML</small> worldfiles </h4>
 
 <p>Python behaviours can be set directly in <small>CEL</small> <small>XML</small> format as seen
@@ -194,18 +194,18 @@ of your <small>ZIP</small> file to the PYTHONPATH if you're using it).
 <p>Usually the celentity addon is placed in a Crystal Space sector inside the
 world files.
 </p>
-<a name="SEC94"></a>
+<a name="SEC105"></a>
 <h3 class="subheading"> pycel </h3>
 <p>pycel is a high level layer which defines some aliases for some of the most
 accessed things:
 </p>
-<a name="SEC95"></a>
+<a name="SEC106"></a>
 <h4 class="subsubheading"> The PhysicalLayer </h4>
 <p>The physical layer is your main pointer to <small>CEL</small> functionality, and you'll
 require this to create entities, destroy them, get string <small>ID</small>s<small class="enddots">....</small>
 It can be accessed from python at <samp>`pycel.PhysicalLayer'</samp>. 
 </p>
-<a name="SEC96"></a>
+<a name="SEC107"></a>
 <h4 class="subsubheading"> PhysicalLayer dictionaries </h4>
 <p>All the physical layer dictionaries can be accessed directly from pycel:
 </p><ul class="toc">
@@ -219,11 +219,11 @@ Used to get or register property class factories by <small>ID</small>
 </li><li> <samp>`pycel.BehaviourLayers'</samp>
 Used to get or register behaviour layers with <small>CEL</small>.
 </li></ul>
-<a name="SEC97"></a>
+<a name="SEC108"></a>
 <h4 class="subsubheading"> Crystal Space plugins </h4>
 <p>Some often used plugins in <small>CS</small> are ready to use (if present). 
 These are: 
-</p><ul class="toc">
+</p><ul>
 <li> <code>pycel.Engine</code>
 The engine plugin where you can get access to most Crystal Space objects in
 your map (<code>iEngine</code> interface) 
@@ -245,34 +245,58 @@ files (<code>iConfigManager</code> interface).
 </li><li> <code>pycel.Loader</code>
 The loader plugin from Crystal Space, used to load world or library files
 (<code>iLoader</code> interface).
+</li><li> <code>pycel.KeyboardDriver</code>
+The keyboard driver plugin, used to query keyboard state.
+(<code>iKeyboardDriver</code> interface).
+</li><li> <code>pycel.JoystickDriver</code>
+The keyboard driver plugin, used to query joystick state.
+(<code>iJoystickDriver</code> interface).
+</li><li> <code>pycel.MouseDriver</code>
+The mouse driver plugin, used to query mouse state.
+(<code>iMouseDriver</code> interface).
+</li><li> <code>pycel.PluginManager</code>
+The plugin manager from Crystal Space, used to load additional plugins.
+(<code>iPluginManager</code> interface).
+</li><li> <code>pycel.FontServer</code>
+The loader plugin from Crystal Space, used to load and access font objects.
+(<code>iFontServer</code> interface).
 </li><li> <code>pycel.Stringset</code>
 The string set plugin, used to transform from <small>CS</small> string <small>ID</small>s to
 regular strings (<code>iStringSet</code> interface). 
 </li></ul>
-<a name="SEC98"></a>
-<h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> </h4>
-<p>Functions to transform from string to stringid.
-</p><ul class="toc">
+<a name="SEC109"></a>
+<h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> and other StringID related functions. </h4>
+<p>Functions to transform from string to stringid and back.
+</p><ul>
 <li> <code>pycel.getid(string)</code>
 returns a string <small>ID</small> from the given string.
+</li><li> <code>pycel.parid(string)</code>
+returns a string <small>ID</small> from the given parameter identifier string.
+This adds <samp>`cel.parameter.'</samp> prefix to the given string automatically.
+</li><li> <code>pycel.propid(string)</code>
+returns a string <small>ID</small> from the given property identifier string.
+This adds <samp>`cel.property.'</samp> prefix to the given string automatically.
+</li><li> <code>pycel.actid(string)</code>
+returns a string <small>ID</small> from the given action identifier string.
+This adds <samp>`cel.action.'</samp> prefix to the given string automatically.
 </li><li> <code>pycel.fromid(stringid)</code> 
 returns a string from the given stringid.
 </li></ul>
-<a name="SEC99"></a>
+<a name="SEC110"></a>
 <h4 class="subsubheading"> <code>parblock</code> </h4>
 <p>Function to create a <code>celParameterBlock</code> from a python dict or list.
 This is described in detail later.
-</p><a name="SEC100"></a>
+</p><a name="SEC111"></a>
 <h4 class="subsubheading"> <code>CreateEntity</code> / <code>RemoveEntity</code> </h4>
 <p>These can be accessed directly from pycel to create and destroy entities.
 Use them in the same way as the physical layer functions of the same name.
-</p><a name="SEC101"></a>
+</p><a name="SEC112"></a>
 <h4 class="subsubheading"> Property Class accessors </h4>
 <p>Some functions are defined to easily create <small>CEL</small> property classes for
 entities, or access the pre existent ones. This will be described in the next
 section of this manual.
 </p>
-<a name="SEC102"></a>
+<a name="SEC113"></a>
 <h3 class="subheading"> Accessing entity property classes </h3>
 
 <p>Property classes are objects we can create attached to an entity, and which
@@ -314,7 +338,7 @@ in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
           self.timer.WakeUpFrame (CEL_EVENT_POST)
           self.select = celMeshSelect(celEntity)
 </pre></td></tr></table>
-<a name="SEC103"></a>
+<a name="SEC114"></a>
 <h3 class="subheading"> Messages </h3>
 
 <p>Each property class in <small>CEL</small> can generate a number of messages. A python
@@ -341,13 +365,14 @@ instance, the second the entity receiving the message, and the last a
 <code>celParameterBlock</code> that holds all message specific values.
 </p>
 <p>You can access the values from the parameter block as a python dict with
-<small>CEL</small> StringIDs for index instead of normal strings.
+<small>CEL</small> StringIDs or python strings for index. Using StringIDs directly is
+slightly more efficient.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example"># a pcbillboard select message
 def pcbillboard_select(self,celEntity,args):
-       bx = args[getid(&quot;cel.parameter.x&quot;)]
-       by = args[getid(&quot;cel.parameter.y&quot;)]
-       button= args[getid(&quot;cel.parameter.button&quot;)]
+       bx = args[&quot;x&quot;]
+       by = args[&quot;y&quot;]
+       button = args[&quot;button&quot;]
 </pre></td></tr></table>
 <p>It is possible to test for existence of a certain parameter, or iterate over
 the values. Also note for efficiency you would save the StringIDs for later
@@ -355,10 +380,10 @@ use instead of querying them each time.
 </p>
 <p>A final snippet for printing all parameters to a message:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,Args):
-       for strid in args.keys():
-		print fromid(strid),args[strid]
+       for strid in Args.keys():
+		print fromid(strid),Args[strid]
 </pre></td></tr></table>
-<a name="SEC104"></a>
+<a name="SEC115"></a>
 <h3 class="subheading"> Sending Messages </h3>
 
 <p>Some messages (like <code>__init__</code> and messages from property classes) are
@@ -374,9 +399,9 @@ block; if we provide a list or tuple, it will only fill the <small>ID</small>s a
 require filling the values later:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">#Creating a parameter block from a list. This is more similar to the c++ method
 pars = parblock([&quot;control&quot;,&quot;x&quot;,&quot;y&quot;])
-pars[getid (&quot;cel.parameter.control&quot;)] = &quot;specular&quot;
-pars[getid (&quot;cel.parameter.x&quot;)] = 15
-pars[getid (&quot;cel.parameter.y&quot;)] = 200
+pars[&quot;control&quot;] = &quot;specular&quot;
+pars[&quot;x&quot;] = 15
+pars[&quot;y&quot;] = 200
 
 #Creating a parameter block from a dictionary.
 pars2 = parblock({&quot;control&quot;:&quot;shininess&quot;,&quot;x&quot;:30,&quot;y&quot;:200})
@@ -390,7 +415,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
-<a name="SEC105"></a>
+<a name="SEC116"></a>
 <h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
 
 <p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to

@@ -79,8 +79,63 @@ ul.toc {list-style: none}
 <a name="SEC65"></a>
 <h4 class="subsubheading"> General Information </h4>
 
-<p>TODO
+<p>PcTimer can be used if you want an entity to wake up every frame,
+after a while or at certain time lapses.
 </p>
+<p>Currently it has two different timing modes called <code>WakeUp</code> and <code>WakeUpFrame</code>. This can be set either through pcclass actions (from map or blxml), or 
+by using the iPcTimer interface (for c++ or python).
+</p>
+<a name="SEC66"></a>
+<h4 class="subsubheading"> WakeUp </h4>
+
+<p>With WakeUp mode a specific lapse of time can be defined, and the entity holding
+this property class will receive the <samp>`pctimer_wakeup'</samp> message once it is
+elapsed. Also <code>repeat</code> can be defined, and then the timer will keep sending
+the message each time the time lapse expires, otherwise the timer will be
+cleared afterwards.
+</p>
+<a name="SEC67"></a>
+<h4 class="subsubheading"> WakeUpFrame </h4>
+
+<p><code>WakeUpFrame</code> wakes the entity either after or before each frame is drawn, this
+is best for continuously updating parameters from the entity with this property
+class when used before the frame, or drawing/post processing when used after
+the frame is drawn.
+</p>
+<p>It allows for one parameter for specifying at what moment entity will be woken
+up, possible values are:
+</p>
+<ul>
+<li> <em>CEL_EVENT_PRE</em>: Wake up in the pre process stage before frame is drawn.
+</li><li> <em>CEL_EVENT_VIEW</em>: Wake up on every frame also before frame is drawn, but after CEL_EVENT_PRE timers.
+</li><li> <em>CEL_EVENT_POST</em>: Wake up after frame is drawn.
+</li></ul>
+
+<p>This mode sends the <samp>`pctimer_wakeupframe'</samp> message to the entity at the
+requested moment with two parameters: <samp>`elapsedticks'</samp> and <samp>`currentticks'</samp>.
+</p>
+<a name="SEC68"></a>
+<h4 class="subsubheading"> Defining a trigger for an entity in map xml. </h4>
+
+<p>To define an entity that uses this property class we add a &lt;propclass&gt; stance
+to the entity or entity template &lt;addon&gt; section.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;FinalMonster&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pctimer&quot;&gt;
+    &lt;action name=&quot;WakeUp&quot;&gt;
+      &lt;par name=&quot;time&quot; long=&quot;14.0&quot;/&gt;
+      &lt;par name=&quot;repeat&quot; bool=&quot;true&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcmesh&quot;&gt;
+    &lt;action name=&quot;SetMesh&quot;&gt;
+      &lt;par string=&quot;EvilMonster&quot; name=&quot;name&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer=&quot;blpython&quot; name=&quot;lookat&quot;/&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.3.3.html#4.3.3" title="Previous section in reading order"> &lt; </a>]</td>
