@@ -16,20 +16,23 @@ examples of how to use Crystal Entity Layer or sometimes as both.
 @section Overview
 The applications currently bundled with Crystal Entity Layer are:
 
-@table @code
-@item celtest
-    This is a test application designed to test the various Crystal Entity 
-    Layer modules and give a basic demonstration of what some of the property 
-    classes do.
-        
-@item bootstrap
-    TODO: Document bootstrap overview
+@subheading celstart
+Celstart is a simple application that can be used to fire up a CEL game.
+As a parameter it expects a simple config file or zip file containing an appropiate config file which fully describes how
+the game should start and what parameters it expects.
 
-@item celstart
-    Celstart is a simple application that can be used to fire up a CEL game.
-    As a parameter it expects a simple config file which fully describes how
-    the game should start and what parameters it expects.
-@end table
+It can be used as @samp{runtime} for working fully from scripting without
+need of any c++ coding.
+
+@subheading celtest
+This is a test application designed to test the various Crystal Entity 
+Layer modules and give a basic demonstration of what some of the property 
+classes do.
+        
+@subheading bootstrap
+Bootstrap is an older application that is also able to run maps fully
+consisting of xml and scripting, but is less versatile than celstart and
+now partially deprecated.
 
 @node AppCeltest, AppBootstrap, AppOverview, Applications
 @section celtest
