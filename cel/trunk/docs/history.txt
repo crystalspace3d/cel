@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Dec-2006
+	- caedes added pctrigger section to cel manual.
 14-Dec-2006
 	- caedes added a feature to commandinput so .args can be specified
 	  after desired command name in a bind. In that case button/key
