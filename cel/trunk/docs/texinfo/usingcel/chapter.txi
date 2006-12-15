@@ -7,12 +7,12 @@ applications.
 
 @menu
 * The Basics::
-* Tutorials::
 * Property Classes::
 * Addons::
 * XML Behaviour Layer:: The XML Behaviour Layer
 * Python Behaviour Layer:: The Python Behaviour Layer
 * Cpp specifics:: Using CEL from c++
+* Tutorials::
 @end menu
 
 @imports{usingcel,basics.txi}
