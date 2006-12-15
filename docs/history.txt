@@ -14,6 +14,9 @@ The history order is reversed so that new features are at the top.
 	  the c++ usage section, and replaced it with more generic content.
 	- caedes made some minor formatting changes and additions to the 
 	  manual.
+	- caedes did a little reorganization of the manual: moved applications 
+	  to the end of main index, and tutorials to the end of using cel 
+	  section.
 14-Dec-2006
 	- caedes added a feature to commandinput so .args can be specified
 	  after desired command name in a bind. In that case button/key
