@@ -42,9 +42,9 @@ properties), so you can say these are @emph{very} important to understand well
 how property classes can be used, no matter what your programming environment
 might be.
 
-As an example, @code{PcTrigger} has @samp{delay}, @samp{jitter}, @samp{monitor}, @samp{invisible} and @samp{follow} properties to control how upten the trigger
-is checked, what entity it monitors, wether to check for invisible entities and
-wether to follow own entity around.
+As an example, @code{PcTrigger} has @samp{delay}, @samp{jitter}, @samp{monitor}, @samp{invisible} and @samp{follow} properties to control how often the trigger
+is checked, what entity it monitors, whether to check for invisible entities and
+whether to follow own entity around.
 
 @subheading Property classes from map xml
 

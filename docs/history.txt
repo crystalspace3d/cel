@@ -17,6 +17,8 @@ The history order is reversed so that new features are at the top.
 	- caedes did a little reorganization of the manual: moved applications 
 	  to the end of main index, and tutorials to the end of using cel 
 	  section.
+	- caedes made a couple of spelling fixes in new property class intro
+	  at the manual.
 14-Dec-2006
 	- caedes added a feature to commandinput so .args can be specified
 	  after desired command name in a bind. In that case button/key
