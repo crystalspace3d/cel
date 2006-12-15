@@ -12,6 +12,7 @@ applications.
 * Addons::
 * XML Behaviour Layer:: The XML Behaviour Layer
 * Python Behaviour Layer:: The Python Behaviour Layer
+* Cpp specifics:: Using cel from c++
 @end menu
 
 @imports{usingcel,basics.txi}
@@ -20,4 +21,5 @@ applications.
 @imports{usingcel,addons.txi}
 @imports{usingcel,behavexml.txi}
 @imports{usingcel,behavepython.txi}
+@imports{usingcel,celcpp.txi}
 

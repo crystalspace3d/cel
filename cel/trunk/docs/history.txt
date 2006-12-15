@@ -5,6 +5,13 @@ The history order is reversed so that new features are at the top.
 
 15-Dec-2006
 	- caedes added pctrigger section to cel manual.
+	- caedes added a using "cel from c++" section to the cel manual,
+	  the idea is to put all c++ specific info here, and so have most
+	  of the manual describing generic information about cel workings,
+	  while having specific sections for each of the programming
+	  languages supported (ie, xml, python and c++ at the moment).
+	- caedes moved the c++ specific part from the property class intro to
+	  the c++ usage section, and replaced it with more generic content.
 14-Dec-2006
 	- caedes added a feature to commandinput so .args can be specified
 	  after desired command name in a bind. In that case button/key
