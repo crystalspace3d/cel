@@ -1,0 +1,86 @@
+@c -*-texinfo-*-
+@node PropClass Trigger, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@subsection Trigger
+@cindex pctrigger property class
+@cindex pctrigger
+@cindex @code{iPcTrigger}
+
+The trigger property class is capable of detecting when another entity (that has a pcmesh) enters or leaves an area defined by this trigger. In that case it can send messages to the entity that contains this property class and/or the entities that enter/leave the trigger area.
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{pctrigger}
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.trigger}
+@item @emph{Interface}:
+@code{iPcTrigger}
+@item @emph{Header}:
+@file{include/propclass/trigger.h}
+@end itemize
+
+@subsubheading General Information
+
+PcTrigger can be used when you want an entity to receive messages when some other entity enters or leaves a certain area of influence. Also the entity entering the trigger will receive a message on entering or leaving the area.
+
+Currently it has support for different area types, including Sphere, Box, Beam and AboveMesh.
+
+@itemize @bullet
+@item @emph{Sphere}: This is defined by a sphere with a certain radius and a certain position and sector.
+@item @emph{Box}: Similar to the sphere trigger but with a box area of influence defined by minimum and maximum corners and a sector.
+@item @emph{Beam}: A beam trigger defined by a sector and start and end vectors. Will be triggered when something enters this vector.
+@item @emph{AboveMesh}: AboveMesh trigger works by finding out when another entity is over the entity targeted by this property class. It is defined by an entity to detect from, and a maximum distance to check over it.
+@end itemize
+
+@code{SetupTrigger<TriggerType>} method is available as api function and action to setup the trigger either at runtime code or in map/quest xml.
+
+Also further functionality is available from iPcTrigger api to set callbacks or some additional customization (check api docs).
+
+@subsubheading Trigger Message Callbacks
+
+The following messages are sent by this property class:
+@itemize @bullet
+@item @emph{pctrigger_entityenters}: an entity enters this trigger.
+@item @emph{pctrigger_entityleaves}: an entity leaves this trigger.
+@item @emph{pctrigger_entertrigger}: this entity enters a trigger.
+@item @emph{pctrigger_leavetrigger}: this entity leaves a trigger.
+@end itemize
+
+All messages receive an @samp{entity} parameter with the entity with the trigger (for @code{_leavetrigger} and @code{_entertrigger} messages), or the entity entering the trigger (for @code{_entityenters} or @code{_entityleaves messages}).
+
+@subsubheading Trigger Properties
+
+This property class has some properties to further customize trigger behaviour.
+
+@itemize @bullet
+@item @emph{delay (long, read/write)}: Update delay for checking the trigger, in milliseconds (default 200). 
+@item @emph{jitter (long, read/write)}: Random jitter to update delay so all triggers dont get checked at the same time, in milliseconds (default 10).
+@item @emph{monitor (string, read/write)}: Name of the entity to monitor (no default, must be set for the trigger to work at all).
+@item @emph{follow (bool, read/write)}: Whether the trigger should follow own entity pcmesh (default off).
+@item @emph{invisible (bool, read/write)}: Whether to also check for invisible entities (default off).
+@end itemize
+
+@subsubheading Defining a trigger for an entity in map xml.
+
+To define an entity that uses this property class we add a @code{<propclass>} stance
+to the entity or entity template @code{<addon>} section.
+
+@example
+<addon entityname="area1floor" plugin="cel.addons.celentity">
+  <class>icefloor</class>
+  <propclass name="pcmesh">
+    <action name="SetMesh">
+      <par string="afloormesh" name="name"/>
+    </action>
+  </propclass>
+  <propclass name="pctrigger">
+    <property string="player" name="monitor"/>
+    <action name="SetupTriggerAboveMesh">
+      <par name="entity" string="afloormesh"/>
+      <par name="maxdistance" float="1.0"/>
+    </action>
+  </propclass>
+</addon>
+@end example
+
