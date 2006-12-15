@@ -1,0 +1,139 @@
+@c -*-texinfo-*-
+@node PropClass CommandInput, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@subsection Command Input
+@cindex pccommandinput property class
+@cindex pccommandinput
+@cindex @code{iPcCommandInput}
+
+The commandinput property class implements a simple way to register input
+binds and get appropriate callbacks in response to them.
+
+@subsubheading Property Class Details
+
+@itemize @bullet
+@item @emph{Name}:
+@samp{pccommandinput}
+@item @emph{Factory ID}:
+@samp{cel.pcfactory.commandinput}
+@item @emph{Interface}:
+@code{iPcCommandInput}
+@item @emph{Header}:
+@file{include/propclass/input.h}
+@end itemize
+
+@subsubheading General Information
+
+PcCommandInput serves for receiving mouse, keyboard and joystick input messages
+inside entities. Also handles loading/saving of config files for easy
+specification of commands attached to each kind of input events.
+
+This property class works by defining a series of @code{Binds} that link input events codes to the desired messages to receive at the entity behaviour.
+
+This @code{Binds} can be specified either by using xml actions (for blxml and
+map format) or @code{iPcCommandInput} api (for c++ or blpython).
+
+@subsubheading Bind codes
+
+Bind codes can correspond to key codes or to special codes to handle different
+situations, here is a list of currently supported codes:
+
+@itemize @bullet
+@item @emph{<keycode>}: Used to bind a certain key. Also some special codes can be used for invisible characters (most important being left, right, up and down for the cursor keys, and ctrl, shift, space, alt and tab).
+Optionally sends @samp{trigger} and @samp{state} parameters in messages.
+@item @emph{key}: This binds all keys to a certain message.
+Optionally sends @samp{trigger} and @samp{state} parameters in messages.
+@item @emph{MouseButton<num>}: This binds mouse button <num>.
+Sends no parameters.
+@item @emph{MouseX/Y}: This binds mouse movement in specified axis.
+Sends @samp{x} and @samp{y} parameters inside messages.
+@item @emph{JoystickButton<num>}: This binds joystick button <num>.
+Optionally sends @samp{state} parameter in messages.
+@item @emph{JoystickAxis<num>}: This binds joystick axis <num>.
+Sends @samp{value} parameter in messages.
+@end itemize
+
+Also for joystick/mouse move events @samp{_centered} can be appended to the bind code to get coordinates relative to the center of the screen.
+
+@subsubheading Message callbacks at behaviours
+
+Message callbacks received when a bind is fullfilled always start with @samp{pccommandinput_}, with the specified command code appended afterwards. 
+
+For example, for a bind defined as @code{MouseY = pitch}, the message would be @samp{pccommandinput_pitch}.
+
+Also for key/button messages the key state can be included in the message name, so for example a bind defined as @code{up = forward}, the received messages would be @samp{pccommandinput_forward1} (key down), @samp{pccommandinput_forward0} (key press) and @samp{pccommandinput_forward_} (key autorepeat).
+
+Note this the default behaviour but can be turned off to get only one message for all states. 
+For this @samp{.args} must be appended to the command name, so for example a bind defined as @code{up = forward.args} would receive only @samp{pccommandinput_forward} message, with @samp{state} parameter holding the state.
+
+@subsubheading Config file.
+
+Config files can hold binds, by using the following notation:
+
+@code{<section>.CommandInput.Bind.<bindcode> = <commandcode>}
+
+This would be an example config file:
+@example
+; this is a command definition for a spaceship.
+Ecksdee.CommandInput.Bind.JoystickButton0 = fire
+Ecksdee.CommandInput.Bind.JoystickButton1 = forward
+Ecksdee.CommandInput.Bind.JoystickButton2 = turbo
+Ecksdee.CommandInput.Bind.JoystickButton3 = brake
+Ecksdee.CommandInput.Bind.JoystickButton4 = slide
+Ecksdee.CommandInput.Bind.JoystickButton5 = afterburner
+Ecksdee.CommandInput.Bind.JoystickAxis0 = yaw
+Ecksdee.CommandInput.Bind.JoystickAxis1 = pitch
+Ecksdee.CommandInput.Bind.JoystickAxis2 = yaw
+Ecksdee.CommandInput.Bind.JoystickAxis3 = pitch
+
+Ecksdee.CommandInput.Bind.up    = rotateup
+Ecksdee.CommandInput.Bind.down  = rotatedown
+
+Ecksdee.CommandInput.Bind.left  = rotateleft
+Ecksdee.CommandInput.Bind.right = rotateright
+
+Ecksdee.CommandInput.Bind.c     = fire
+Ecksdee.CommandInput.Bind.x     = forward
+Ecksdee.CommandInput.Bind.space = turbo
+Ecksdee.CommandInput.Bind.shift = brake
+Ecksdee.CommandInput.Bind.alt   = slide
+Ecksdee.CommandInput.Bind.ctrl  = afterburner
+
+Ecksdee.CommandInput.Bind.i   = dumpinventory
+Ecksdee.CommandInput.Bind.tab = cammode
+Ecksdee.CommandInput.Bind.r   = resetpos
+Ecksdee.CommandInput.Bind.t   = nextreg
+@end example
+
+The binds can then be loaded from the property class by doing LoadConfig(<section>), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
+
+@subsubheading PcCommandInput properties
+
+PcCommandInput also has several properties that can be set to further customize
+behaviour from this property class, these are:
+@itemize @bullet
+@item @emph{cooked (bool, read/write)}: use cooked mode instead of raw (default is raw).  
+@item @emph{screenspace (bool, read/write)}: use screenspace instead of -1/1 normalized coordinates. Default is false. 
+@item @emph{trigger (bool, read/write)}: send out trigger name in the message to the behaviour. Default is false.
+@end itemize
+
+@subsubheading Defining command input for an entity in map xml.
+
+To define an entity that uses this property class we add a <propclass> stance
+to the entity or entity template <addon> section.
+
+@example
+<addon entityname="SpaceShip" plugin="cel.addons.celentity">
+  <propclass name="pccommandinput">
+    <action name="LoadConfig">
+      <par name="prefix" long="Ecksdee"/>
+    </action>
+  </propclass>
+  <propclass name="pcmesh">
+    <action name="SetMesh">
+      <par string="orogor" name="name"/>
+    </action>
+  </propclass>
+  <behaviour layer="blpython" name="spaceship"/>
+</addon>
+@end example
+
