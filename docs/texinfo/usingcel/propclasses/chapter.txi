@@ -78,6 +78,7 @@ classes have a tag then it will return a random one.
 * PropClass Timer:: Timer
 * PropClass ZoneMgr:: Zone Manager
 * PropClass Hover:: Hover
+* PropClass CommandInput:: Command Input
 @end menu
 
 @importss{usingcel,propclasses,questmgr.txi}
@@ -86,4 +87,5 @@ classes have a tag then it will return a random one.
 @importss{usingcel,propclasses,timer.txi}
 @importss{usingcel,propclasses,zonemgr.txi}
 @importss{usingcel,propclasses,hover.txi}
+@importss{usingcel,propclasses,input.txi}
 
