@@ -1,11 +1,11 @@
 @c -*-texinfo-*-
 @node Cpp specifics, , Addons, Using CEL
-@section Using cel from c++
+@section Using CEL from c++
 @cindex @sc{cpp usage}
 
 CEL can (also) be used directly from @code{c++}, either for making pure cpp apps or mixing it with the scripting languages supported.
 
-This section has some important notes on specific @code{c++} usage of cel, also refer to API to see all the functionality implemented.
+This section has some important notes on specific @code{c++} usage of cel, also refer to API to see all available functionality.
 
 @subheading Property Classes
 
