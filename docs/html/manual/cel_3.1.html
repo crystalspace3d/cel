@@ -61,24 +61,27 @@ ul.toc {list-style: none}
 <h2 class="section"> 3.1 Overview </h2>
 <p>The applications currently bundled with Crystal Entity Layer are:
 </p>
-<dl compact="compact">
-<dt> <code>celtest</code></dt>
-<dd><p>    This is a test application designed to test the various Crystal Entity 
-    Layer modules and give a basic demonstration of what some of the property 
-    classes do.
-</p>        
-</dd>
-<dt> <code>bootstrap</code></dt>
-<dd><p>    TODO: Document bootstrap overview
+<a name="SEC25"></a>
+<h3 class="subheading"> celstart </h3>
+<p>Celstart is a simple application that can be used to fire up a CEL game.
+As a parameter it expects a simple config file or zip file containing an appropiate config file which fully describes how
+the game should start and what parameters it expects.
 </p>
-</dd>
-<dt> <code>celstart</code></dt>
-<dd><p>    Celstart is a simple application that can be used to fire up a CEL game.
-    As a parameter it expects a simple config file which fully describes how
-    the game should start and what parameters it expects.
-</p></dd>
-</dl>
-
+<p>It can be used as <samp>`runtime'</samp> for working fully from scripting without
+need of any c++ coding.
+</p>
+<a name="SEC26"></a>
+<h3 class="subheading"> celtest </h3>
+<p>This is a test application designed to test the various Crystal Entity 
+Layer modules and give a basic demonstration of what some of the property 
+classes do.
+</p>        
+<a name="SEC27"></a>
+<h3 class="subheading"> bootstrap </h3>
+<p>Bootstrap is an older application that is also able to run maps fully
+consisting of xml and scripting, but is less versatile than celstart and
+now partially deprecated.
+</p>
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_3.html#3." title="Previous section in reading order"> &lt; </a>]</td>
