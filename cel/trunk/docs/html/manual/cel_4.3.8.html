@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.3.8 Trigger</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.3.8 Trigger">
+<meta name="keywords" content="Crystal Entity Layer: 4.3.8 Trigger">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Trigger"></a>
+<a name="4.3.8"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.7.html#4.3.7" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.3.8 Trigger </h3>
+
+<p>The trigger property class is capable of detecting when another entity (that has a pcmesh) enters or leaves an area defined by this trigger. In that case it can send messages to the entity that contains this property class and/or the entities that enter/leave the trigger area.
+</p>
+<a name="SEC96"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>`pctrigger'</samp>
+</li><li> <em>Factory ID</em>:
+<samp>`cel.pcfactory.trigger'</samp>
+</li><li> <em>Interface</em>:
+<code>iPcTrigger</code>
+</li><li> <em>Header</em>:
+<tt>`include/propclass/trigger.h'</tt>
+</li></ul>
+
+<a name="SEC97"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>PcTrigger can be used when you want an entity to receive messages when some other entity enters or leaves a certain area of influence. Also the entity entering the trigger will receive a message on entering or leaving the area.
+</p>
+<p>Currently it has support for different area types, including Sphere, Box, Beam and AboveMesh.
+</p>
+<ul>
+<li> <em>Sphere</em>: This is defined by a sphere with a certain radius and a certain position and sector.
+</li><li> <em>Box</em>: Similar to the sphere trigger but with a box area of influence defined by minimum and maximum corners and a sector.
+</li><li> <em>Beam</em>: A beam trigger defined by a sector and start and end vectors. Will be triggered when something enters this vector.
+</li><li> <em>AboveMesh</em>: AboveMesh trigger works by finding out when another entity is over the entity targeted by this property class. It is defined by an entity to detect from, and a maximum distance to check over it.
+</li></ul>
+
+<p><code>SetupTrigger&lt;TriggerType&gt;</code> method is available as api function and action to setup the trigger either at runtime code or in map/quest xml.
+</p>
+<p>Also further functionality is available from iPcTrigger api to set callbacks or some additional customization (check api docs).
+</p>
+<a name="SEC98"></a>
+<h4 class="subsubheading"> Trigger Message Callbacks </h4>
+
+<p>The following messages are sent by this property class:
+</p><ul>
+<li> <em>pctrigger_entityenters</em>: an entity enters this trigger.
+</li><li> <em>pctrigger_entityleaves</em>: an entity leaves this trigger.
+</li><li> <em>pctrigger_entertrigger</em>: this entity enters a trigger.
+</li><li> <em>pctrigger_leavetrigger</em>: this entity leaves a trigger.
+</li></ul>
+
+<p>All messages receive an <samp>`entity'</samp> parameter with the entity with the trigger (for <code>_leavetrigger</code> and <code>_entertrigger</code> messages), or the entity entering the trigger (for <code>_entityenters</code> or <code>_entityleaves messages</code>).
+</p>
+<a name="SEC99"></a>
+<h4 class="subsubheading"> Trigger Properties </h4>
+
+<p>This property class has some properties to further customize trigger behaviour.
+</p>
+<ul>
+<li> <em>delay (long, read/write)</em>: Update delay for checking the trigger, in milliseconds (default 200). 
+</li><li> <em>jitter (long, read/write)</em>: Random jitter to update delay so all triggers dont get checked at the same time, in milliseconds (default 10).
+</li><li> <em>monitor (string, read/write)</em>: Name of the entity to monitor (no default, must be set for the trigger to work at all).
+</li><li> <em>follow (bool, read/write)</em>: Whether the trigger should follow own entity pcmesh (default off).
+</li><li> <em>invisible (bool, read/write)</em>: Whether to also check for invisible entities (default off).
+</li></ul>
+
+<a name="SEC100"></a>
+<h4 class="subsubheading"> Defining a trigger for an entity in map xml. </h4>
+
+<p>To define an entity that uses this property class we add a <code>&lt;propclass&gt;</code> stance
+to the entity or entity template <code>&lt;addon&gt;</code> section.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;area1floor&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;class&gt;icefloor&lt;/class&gt;
+  &lt;propclass name=&quot;pcmesh&quot;&gt;
+    &lt;action name=&quot;SetMesh&quot;&gt;
+      &lt;par string=&quot;afloormesh&quot; name=&quot;name&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pctrigger&quot;&gt;
+    &lt;property string=&quot;player&quot; name=&quot;monitor&quot;/&gt;
+    &lt;action name=&quot;SetupTriggerAboveMesh&quot;&gt;
+      &lt;par name=&quot;entity&quot; string=&quot;afloormesh&quot;/&gt;
+      &lt;par name=&quot;maxdistance&quot; float=&quot;1.0&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.7.html#4.3.7" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

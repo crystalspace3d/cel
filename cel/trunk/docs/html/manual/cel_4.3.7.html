@@ -44,7 +44,7 @@ ul.toc {list-style: none}
 <a name="4.3.7"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.3.6.html#4.3.6" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.8.html#4.3.8" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
@@ -63,7 +63,7 @@ ul.toc {list-style: none}
 <p>The commandinput property class implements a simple way to register input
 binds and get appropriate callbacks in response to them.
 </p>
-<a name="SEC82"></a>
+<a name="SEC88"></a>
 <h4 class="subsubheading"> Property Class Details </h4>
 
 <ul>
@@ -77,7 +77,7 @@ binds and get appropriate callbacks in response to them.
 <tt>`include/propclass/input.h'</tt>
 </li></ul>
 
-<a name="SEC83"></a>
+<a name="SEC89"></a>
 <h4 class="subsubheading"> General Information </h4>
 
 <p>PcCommandInput serves for receiving mouse, keyboard and joystick input messages
@@ -89,7 +89,7 @@ specification of commands attached to each kind of input events.
 <p>This <code>Binds</code> can be specified either by using xml actions (for blxml and
 map format) or <code>iPcCommandInput</code> api (for c++ or blpython).
 </p>
-<a name="SEC84"></a>
+<a name="SEC90"></a>
 <h4 class="subsubheading"> Bind codes </h4>
 
 <p>Bind codes can correspond to key codes or to special codes to handle different
@@ -112,7 +112,7 @@ Sends <samp>`value'</samp> parameter in messages.
 
 <p>Also for joystick/mouse move events <samp>`_centered'</samp> can be appended to the bind code to get coordinates relative to the center of the screen.
 </p>
-<a name="SEC85"></a>
+<a name="SEC91"></a>
 <h4 class="subsubheading"> Message callbacks at behaviours </h4>
 
 <p>Message callbacks received when a bind is fullfilled always start with <samp>`pccommandinput_'</samp>, with the specified command code appended afterwards. 
@@ -124,7 +124,7 @@ Sends <samp>`value'</samp> parameter in messages.
 <p>Note this the default behaviour but can be turned off to get only one message for all states. 
 For this <samp>`.args'</samp> must be appended to the command name, so for example a bind defined as <code>up = forward.args</code> would receive only <samp>`pccommandinput_forward'</samp> message, with <samp>`state'</samp> parameter holding the state.
 </p>
-<a name="SEC86"></a>
+<a name="SEC92"></a>
 <h4 class="subsubheading"> Config file. </h4>
 
 <p>Config files can hold binds, by using the following notation:
@@ -164,7 +164,7 @@ Ecksdee.CommandInput.Bind.t   = nextreg
 </pre></td></tr></table>
 <p>The binds can then be loaded from the property class by doing LoadConfig(&lt;section&gt;), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
 </p>
-<a name="SEC87"></a>
+<a name="SEC93"></a>
 <h4 class="subsubheading"> PcCommandInput properties </h4>
 
 <p>PcCommandInput also has several properties that can be set to further customize
@@ -175,7 +175,7 @@ behaviour from this property class, these are:
 </li><li> <em>trigger (bool, read/write)</em>: send out trigger name in the message to the behaviour. Default is false.
 </li></ul>
 
-<a name="SEC88"></a>
+<a name="SEC94"></a>
 <h4 class="subsubheading"> Defining command input for an entity in map xml. </h4>
 
 <p>To define an entity that uses this property class we add a &lt;propclass&gt; stance
@@ -196,12 +196,10 @@ to the entity or entity template &lt;addon&gt; section.
 &lt;/addon&gt;
 </pre></td></tr></table>
 
-
-
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.3.6.html#4.3.6" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.8.html#4.3.8" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>

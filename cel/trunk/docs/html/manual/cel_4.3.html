@@ -60,64 +60,91 @@ ul.toc {list-style: none}
 </tr></table>
 <h2 class="section"> 4.3 Property Classes </h2>
 
-<p>Here in this chapter the various property classes are documented.
+<p>A property class is a piece of functionality that you can attach to some 
+entity. By attaching the right property classes
+to an entity you define the characteristics of that entity.
 </p>
-<a name="SEC44"></a>
-<h3 class="subheading"> Using a Property Class in General </h3>
+<p>Here in this chapter the various property classes are documented, as well
+as generics on property class usage.
+</p>
+<p>For specific documentation on handling
+them from some programming/scripting language refer to the appropiate section 
+in the manual.
+</p>
+<a name="SEC47"></a>
+<h3 class="subheading"> General Information </h3>
 
-<p>Here are a few generic guidelines on using property classes. Before you can
-use any property class you must first ensure that the property class factory
-for that property class is loaded and registered with the physical layer.
-To do that you need the <em>Factory ID</em> for the property class which is
-documented in every property class documentation. Then you add the following
-line to the initialization of your application (example for <samp>`pcmesh'</samp>
-property class):
+<p>Property classes can be attached to entities by using the <code>API</code> for a specific language, or by using xml in map definition.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
-  return false;
-</pre></td></tr></table>
-<p>To use the <small>API</small> from that property class you must load the header
-(also given with every property class documentation). There are two ways
-to create a property class for an entity. The first way creates them together
-with the entity itself:
+<p>Each of the property classes has some <em>actions</em> to control the entity, <em>properties</em> to customize property class behaviour, and an specific <em>API</em> for direct access to functionality.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iCelEntity&gt; entity = pl-&gt;CreateEntity (entname, behaviourlayer,
-	behavename,
-	&quot;pcmesh&quot;,
-	... (other property classes)
-	CEL_PROPCLASS_END);
-</pre></td></tr></table>
-<p>The second way creates a property class on an entity that is already created:
+<p>In general <code>actions</code> and <code>properties</code> can be accessed either from any of the supported languages or map/quest/behaviour xml. On the other hand cel <code>API</code> is only accessible from the <samp>`real'</samp> languages supported, at the moment <code>c++</code> or <code>python</code>, in the future more might be implemented.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
-</pre></td></tr></table>
-<p>To request a property class from an entity you can use:
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-</pre></td></tr></table>
-<a name="SEC45"></a>
-<h3 class="subheading"> Tagged Property Classes </h3>
+<a name="SEC48"></a>
+<h3 class="subheading"> Actions </h3>
 
-<p>Normally an entity only has one instance of a given property class
-type (i.e. only one <samp>`pcmesh'</samp> maximum). Sometimes it is useful to be
-able to add multiple property class instances of the same type. To distinguish
-between the different instances you can use <em>tags</em>. Here is how you can
-create a tagged property class for an entity:
+<p><code>Actions</code> are specific commands available to control a property class from xml or code. Most property classes have some actions, which mean that specific functionality can be used from quests, xml behaviours or map definition.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcmesh&quot;,
-	&quot;main_mesh&quot;);
+<p>As an example the PcTimer property class supports <code>WakeUp</code> and 
+<code>WakeUpFrame</code> actions and <code>Clear</code> actions, so timer can be set or
+cleared.
+</p>
+<p>Note usually functionality accessible through the API will be a bit more 
+extensive than that implemented in actions, but these should be enough to
+handle more usual (or sometimes simpler) situations.
+</p>
+<a name="SEC49"></a>
+<h3 class="subheading"> Properties </h3>
+
+<p><code>Properties</code> can be used to customize property class behaviour. Most property classes have at least some of these, and unlike actions many times the same
+funtionality can't be directly accessed using API (other than by setting the
+properties), so you can say these are <em>very</em> important to understand well
+how property classes can be used, no matter what your programming environment
+might be.
+</p>
+<p>As an example, <code>PcTrigger</code> has <samp>`delay'</samp>, <samp>`jitter'</samp>, <samp>`monitor'</samp>, <samp>`invisible'</samp> and <samp>`follow'</samp> properties to control how often the trigger
+is checked, what entity it monitors, whether to check for invisible entities and
+whether to follow own entity around.
+</p>
+<a name="SEC50"></a>
+<h3 class="subheading"> Property classes from map xml </h3>
+
+<p>Property classes can be specified in map xml by using the entity or entitytpl
+addons.
+</p>
+<p>An example follows with the typical xml for a player entity.
+</p><table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;player&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pcmesh&quot;&gt;
+     &lt;action name=&quot;SetMesh&quot;&gt;
+        &lt;par string=&quot;PlayerMesh&quot; name=&quot;name&quot;/&gt;
+     &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pclinearmovement&quot;&gt;
+     &lt;action name=&quot;InitCDMesh&quot;&gt;
+        &lt;par float=&quot;10.0&quot; name=&quot;percentage&quot;/&gt;
+     &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcdefaultcamera&quot;&gt;
+    &lt;action name=&quot;SetCamera&quot;&gt;
+      &lt;par name=&quot;distance&quot; vector=&quot;2,6,10&quot;/&gt;
+      &lt;par name=&quot;modename&quot; string=&quot;thirdperson&quot;/&gt;
+      &lt;par name=&quot;pitch&quot; float=&quot;-0.5&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pccommandinput&quot;&gt;
+    &lt;action name=&quot;LoadConfig&quot;&gt;
+      &lt;par name=&quot;prefix&quot; string=&quot;Player&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer=&quot;blpython&quot; name=&quot;actor&quot;/&gt;
+&lt;/addon&gt;
 </pre></td></tr></table>
-<p>And to fetch a tagged property class you can use:
+<p>Specific examples for each of the property classes can be found on their own
+sections.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
-	&quot;main_mesh&quot;);
-</pre></td></tr></table>
-<p>Note that there is the concept of a default property class for a given
-type. Usually the default property class is the one that has no tag (tag
-equal to 0). So when you call <code>CEL_QUERY_PROPCLASS_ENT</code> it will first
-try to look for the property class with tag equal to 0. If all property
-classes have a tag then it will return a random one.
-</p>
+<a name="SEC51"></a>
+<h3 class="subheading"> The Property Classes </h3>
+
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top"><a href="cel_4.3.1.html#4.3.1">4.3.1 Quest Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 <tr><td align="left" valign="top"><a href="cel_4.3.2.html#4.3.2">4.3.2 Mesh</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
@@ -126,6 +153,7 @@ classes have a tag then it will return a random one.
 <tr><td align="left" valign="top"><a href="cel_4.3.5.html#4.3.5">4.3.5 Zone Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 <tr><td align="left" valign="top"><a href="cel_4.3.6.html#4.3.6">4.3.6 Hover</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 <tr><td align="left" valign="top"><a href="cel_4.3.7.html#4.3.7">4.3.7 Command Input</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.8.html#4.3.8">4.3.8 Trigger</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
 </table>
 
 <hr size="1">
