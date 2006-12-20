@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Dec-2006
+	- Genjix fixed compiler warnings in network code about virtual d'ctors.
 15-Dec-2006
 	- caedes added pctrigger section to cel manual.
 	- caedes added a using "cel from c++" section to the cel manual,

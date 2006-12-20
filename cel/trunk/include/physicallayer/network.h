@@ -240,6 +240,8 @@ struct iCelGameFactory : public iBase
 class celGameFactoryManager
 {
  public:
+  virtual ~celGameFactoryManager () {}
+
   /**
    * The game factory is searching for available games (it has been started
    * with iCelGameFactory::StartSearchForGameList), and a game has been found.
@@ -602,6 +604,8 @@ struct iCelGameClient : public iBase
 class celGameServerManager
 {
  public:
+  virtual ~celGameServerManager () {};
+
   /**
    * A player is asking to join the game. Return true if the new player is 
    * accepted, false otherwise (for example, because the player has been 
@@ -664,6 +668,8 @@ class celGameServerManager
 class celGameClientManager
 {
  public:
+  virtual ~celGameClientManager () {};
+
   /**
    * The data of the player has been validated by the server.
    */

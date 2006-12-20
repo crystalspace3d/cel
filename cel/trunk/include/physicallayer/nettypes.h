@@ -212,6 +212,7 @@ class celGameInfo
 class celGameInfoList
 {
  public:
+  virtual ~celGameInfoList () = 0;
   virtual size_t GetCount () const = 0;
   virtual celGameInfo* Get (size_t index) const = 0;
   virtual size_t Add (celGameInfo* player) = 0;
@@ -239,6 +240,8 @@ class celGameInfoList
 class celPlayer
 {
  public:
+  virtual ~celPlayer () {}
+
   /// The ID of the player.
   uint32 player_id;
 
@@ -289,6 +292,7 @@ SCF_VERSION (iCelPlayerList, 0, 0, 1);
 struct iCelPlayerList
 {
  public:
+  virtual ~iCelPlayerList () = 0;
   virtual size_t GetCount () const = 0;
   virtual celPlayer* Get (size_t index) const = 0;
   virtual size_t Add (celPlayer* player) = 0;
