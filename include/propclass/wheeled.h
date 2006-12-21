@@ -262,12 +262,39 @@ struct iPcWheeled : public virtual iBase
   virtual float GetSteerAmount() = 0;
 
   /**
+   * Get whether brake is applied
+   */
+  virtual bool GetBrakeApplied() = 0;
+
+  /**
+   * Get whether handbrake is applied
+   */
+  virtual bool GetHandbrakeApplied() = 0;
+
+  /**
+   * Get the forward velocity of the vehicle.
+   */
+  virtual float GetSpeed() = 0;
+
+  /**
    * Steer the vehicle left.
+   * \param amount Tightness of the steering
+   */
+  virtual void SteerLeft(float amount) = 0;
+
+  /**
+   * Steer the vehicle right.
+   * \param amount Tightness of the steering
+   */
+  virtual void SteerRight(float amount) = 0;
+
+  /**
+   * Steer the vehicle left. Uses the amount of steer set in SetSteerAmount.
    */
   virtual void SteerLeft() = 0;
 
   /**
-   * Steer the vehicle right.
+   * Steer the vehicle right. Uses the amount of steer set in SetSteerAmount.
    */
   virtual void SteerRight() = 0;
 
