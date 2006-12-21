@@ -63,6 +63,12 @@ struct iPcGravityCallback : public virtual iBase
  * This property class supports dead reckoning which is useful for
  * networking.
  *
+ * This property class can send out the following messages
+ * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
+ * - pclinearmovement_stuck: sent when couldn't move at all.
+ * - pclinearmovement_collision: sent when we could move but not all the way.
+ * - pclinearmovement_arrived: when we arrived without problems.
+ *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
