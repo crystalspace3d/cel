@@ -258,7 +258,10 @@ public:
   virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
 
   virtual void SteerLeft();
+  virtual void SteerLeft(float amount);
   virtual void SteerRight();
+  virtual void SteerRight(float amount);
+
   virtual void UpdateTankSteer();
   virtual void SteerStraight();
   virtual void Reverse() {gear=-1; accelerating=true;}
@@ -334,6 +337,7 @@ public:
   virtual bool GetTankMode(){return tankmode;}
   virtual bool GetBrakeApplied(){return brakeapplied;}
   virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
+  virtual float GetSpeed();
 
   // Per-wheel settings
   virtual csVector3 GetWheelPosition(size_t wheelnum)

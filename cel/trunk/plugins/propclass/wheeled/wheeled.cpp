@@ -438,11 +438,21 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         return true;
       }
     case action_steerleft:
-      SteerLeft();
-      return true;
+      {
+        CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
+        if(!p_amount)
+          amount = celPcWheeled::steeramount;
+        SteerLeft(amount);
+        return true;
+      }
     case action_steerright:
-      SteerRight();
-      return true;
+      {
+        CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
+        if(!p_amount)
+          amount = celPcWheeled::steeramount;
+        SteerRight(amount);
+        return true;
+      }
     case action_steerstraight:
       SteerStraight();
       return true;
@@ -819,9 +829,17 @@ void celPcWheeled::RestoreAllWheels()
   }
 }
 
-
-
 void celPcWheeled::SteerLeft()
+{
+  SteerLeft(celPcWheeled::steeramount);
+}
+
+void celPcWheeled::SteerRight()
+{
+  SteerRight(celPcWheeled::steeramount);
+}
+
+void celPcWheeled::SteerLeft(float amount)
 {
   steerdir=-1;
   if(!tankmode)
@@ -833,7 +851,7 @@ void celPcWheeled::SteerLeft()
          //Not inverted, so turn the wheel left
         if(!wheels[i].SteerInverted)
         {
-          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          float histop=amount*wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
@@ -843,7 +861,7 @@ void celPcWheeled::SteerLeft()
         so leftsteersensitivity is still used.*/
         else
         {
-          float lostop=-steeramount*wheels[i].RightSteerSensitivity;
+          float lostop=-amount*wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
@@ -853,7 +871,7 @@ void celPcWheeled::SteerLeft()
   }
 }
 
-void celPcWheeled::SteerRight()
+void celPcWheeled::SteerRight(float amount)
 {
   steerdir=1;
   if(!tankmode)
@@ -865,7 +883,7 @@ void celPcWheeled::SteerRight()
          //Not inverted, so Steer it right.
         if(!wheels[i].SteerInverted)
         {
-          float lostop=-steeramount*wheels[i].RightSteerSensitivity;
+          float lostop=-amount*wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
@@ -876,7 +894,7 @@ void celPcWheeled::SteerRight()
         so rightsteersensitivity is still used.*/
         else
         {
-          float histop=steeramount*wheels[i].RightSteerSensitivity;
+          float histop=amount*wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
@@ -978,19 +996,23 @@ void celPcWheeled::GetMech()
     bodyGroup->AddBody(bodyMech->GetBody());
   }
 }
+
+//Work out the straight velocity of the car, which will be useful
+//further on.
+float celPcWheeled::GetSpeed()
+{
+  //First ensure everything is set and ready to go.
+  GetMech();
+  csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
+  csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
+  return trans.Other2ThisRelative(linvel).z;
+}
 //
 //Update the vehicle. Order is important here! first comes acceleration,
 //then braking, then handbrake. tank steering comes last.
 void celPcWheeled::TickOnce()
 {
-  //First ensure everything is set and ready to go.
-  GetMech();
-
-  //Work out the straight velocity of the car, which will be useful
-  //further on.
-  csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
-  csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
-  float straightvel = trans.Other2ThisRelative(linvel).z;
+  float speed = GetSpeed();
 
   //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
@@ -1006,7 +1028,7 @@ void celPcWheeled::TickOnce()
     fmax=gears[gear + 1].y;
   }
 
-  float steerfactor = 1000.0f + fabs(straightvel) * 100.0f;
+  float steerfactor = 1000.0f + fabs(speed) * 100.0f;
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint!=0)
@@ -1037,7 +1059,7 @@ void celPcWheeled::TickOnce()
     }
       //if autoreverse is on, check if the vehicle is slow enough to start
       // reversing.
-    if (autoreverse && straightvel > -2.0)
+    if (autoreverse && speed > -2.0)
       Reverse();
   }
     //Apply the handbrake
