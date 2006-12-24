@@ -169,13 +169,6 @@ private:
       bool accurate = false);
 
   /**
-   * In case of object not being in range in Height(),
-   * extend another beam upwards to calculate reverse distance,
-   * else return infinity
-   */
-  float ReverseHeight(csVector3 &start, iSector *sector);
-
-  /**
    * This function computes the angle the ship has to roll through to
    * to be aligned with the terrain
    *
