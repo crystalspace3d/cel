@@ -317,8 +317,6 @@ void celPcHover::PerformStabilising ()
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
         csVector3 (0,0,0), 0.1f);
-    //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
-    //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
   }
   else
   {
@@ -363,32 +361,15 @@ float celPcHover::Height (csVector3 offset, bool accurate)
 
   iSector *sector = pccamera->GetCamera ()->GetSector ();
   csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
-  //if(bres.hit)
-    // beam height * proportion of beam hit
-    float height = (bres.isect - start).Norm ();
-    if (!csFinite (height))
-    {
-      // reset flags to original state
-      pcmesh->GetMesh()->GetFlags().SetAll (flags);
-      return 999999999.9f;
-    }
+  // beam height * proportion of beam hit
+  float height = (bres.isect - start).Norm ();
+  if (!csFinite (height))
+  {
     // reset flags to original state
     pcmesh->GetMesh()->GetFlags().SetAll (flags);
-    return height;
-  //else
-    /* beam didn't hit so we try going upwards
-        from object */
-    //return ReverseHeight(start);
-}
-
-float celPcHover::ReverseHeight (csVector3 &start, iSector *sector)
-{
-  // instead of downwards the beam goes upwards
-  csVector3 end = start + csVector3 (0,height_beam_cutoff,0);
-
-  csSectorHitBeamResult bres = sector->HitBeam(start, end, false);
-  if(false)
-    return (start - bres.isect).Norm ();
-  else
-    return 999999999.0f;
+    return 999999999.9f;
+  }
+  // reset flags to original state
+  pcmesh->GetMesh()->GetFlags().SetAll (flags);
+  return height;
 }

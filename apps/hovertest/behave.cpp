@@ -51,6 +51,58 @@ bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, c
 }
 bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params, va_list arg)
 {
+  // OpenSoundControl message was sent.
+  if (strncmp (msg_id, "pcosc_", 6) == 0)
+  {
+    printf ("\n%s\n", msg_id);
+    const celData* d = params->GetParameterByIndex (0);
+    if (d->type != CEL_DATA_STRING)
+      return false;   // Shouldn't happen!
+    printf ("path: <%s>\n", d->value.s->GetData ());
+    for (size_t i = 1 ; i < params->GetParameterCount () ; i++)
+    {
+      d = params->GetParameterByIndex (i);
+      printf ("type (%d) ", d->type);
+      switch (d->type)
+      {
+        case (CEL_DATA_LONG):
+          printf ("value (%d) (long)", d->value.l);
+          break;
+        case (CEL_DATA_BOOL):
+          printf ("value (%c) (bool)", d->value.bo);
+          break;
+        case (CEL_DATA_BYTE):
+          printf ("value (%c) (byte)", d->value.b);
+          break;
+        case (CEL_DATA_STRING):
+          printf ("value (%s) (string)", d->value.s->GetData ());
+          break;
+        case (CEL_DATA_FLOAT):
+          printf ("value (%f) (float)", d->value.f);
+          break;
+        case (CEL_DATA_NONE):
+        case (CEL_DATA_WORD):
+        //case (CEL_DATA_LONG):
+        case (CEL_DATA_UBYTE):
+        case (CEL_DATA_UWORD):
+        case (CEL_DATA_ULONG):
+        case (CEL_DATA_VECTOR2):
+        case (CEL_DATA_VECTOR3):
+        case (CEL_DATA_PCLASS):
+        case (CEL_DATA_ENTITY):
+        case (CEL_DATA_ACTION):
+        case (CEL_DATA_COLOR):
+        case (CEL_DATA_IBASE):
+        case (CEL_DATA_PARAMETER):
+        case (CEL_DATA_LAST):
+        default:
+          puts ("(unhandled)");
+          break;
+      }
+      puts ("");
+    }
+  }
+
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
 
   if (pcinput_msg)

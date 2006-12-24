@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Dec-2006
+	- Genjix made height calculation use new implementation and removed old
+	  height testing code for reverse directions.
 21-Dec-2006
 	- cfraz89 added overloaded Steer*(float) and GetSpeed() to 
 	  pcwheeled.

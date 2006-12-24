@@ -162,6 +162,7 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcmechobject",
         "pchover",
         "pccraft",
+        "pcosc",
         (void*)0);
   if (!player) return false;
 
@@ -345,11 +346,12 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
       CS_REQUEST_PLUGIN ("cel.manager.quests", iQuestManager),
       CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
           iCollideSystem),
+      CS_REQUEST_PLUGIN ("crystalspace.device.joystick", iEventPlug),
       CS_REQUEST_END))
     return ReportError("Failed to initialize plugins!");
 
   // Attempt to load a joystick plugin.
-  csRef<iStringArray> joystickClasses =
+  /*csRef<iStringArray> joystickClasses =
     iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
   if (joystickClasses.IsValid())
   {
@@ -365,7 +367,7 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
 	className, (b != 0) ? "successful" : "failed");
       if (b != 0) b->DecRef ();
     }
-  }
+  }*/
 
   // "Warm up" the event handler so it can interact with the world
   csBaseEventHandler::Initialize (r);
