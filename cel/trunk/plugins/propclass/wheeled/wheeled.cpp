@@ -828,7 +828,7 @@ void celPcWheeled::SteerLeft(float amount)
          //Not inverted, so turn the wheel left
         if(!wheels[i].SteerInverted)
         {
-          float histop=wheelsteer * wheels[i].RightSteerSensitivity;
+          float histop=wheelsteer * wheels[i].LeftSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
@@ -838,7 +838,7 @@ void celPcWheeled::SteerLeft(float amount)
         so leftsteersensitivity is still used.*/
         else
         {
-          float lostop=-wheelsteer * wheels[i].RightSteerSensitivity;
+          float lostop=-wheelsteer * wheels[i].LeftSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
