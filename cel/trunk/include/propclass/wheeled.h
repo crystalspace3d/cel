@@ -39,12 +39,11 @@
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - Print: parameters 'message' (string).
+ * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * - counter (long, read/write): how many times something has been printed.
- * - max (long, read/write): maximum length of what was printed.
+ * - speed (float, read): the current speed of the vehicle.
  */
 
 struct iCelEntity;

@@ -362,7 +362,7 @@ bool celPythonBehaviour::SendMessage (const char* msg_id,
 }
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id,
-	iCelPropertyClass* /*pc*/,
+	iCelPropertyClass* pc,
 	celData& data, iCelParameterBlock* params, va_list arg)
 { 
 /*  
@@ -392,11 +392,12 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
     return true;
   }
 */
+  //PyObject *pymessage_pc = csWrapTypedObject (pc, "_p_iCelPropertyClass", 0);
   PyObject *pymessage_info = csWrapTypedObject (params, "_p_iCelParameterBlock", 0);
 
   PyObject *method = PyString_FromString (msg_id);
   PyObject *result = PyObject_CallMethodObjArgs (py_object, method, 
-       py_entity, pymessage_info, 0);
+       py_entity, /*pymessage_pc,*/ pymessage_info, 0);
   if (!result)
     PyRun_SimpleString ("pdb.pm()");
   else

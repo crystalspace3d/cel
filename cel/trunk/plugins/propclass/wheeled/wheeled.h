@@ -125,6 +125,12 @@ private:
     action_setwheelhandbrakeaffected
   };
 
+  // For properties.
+  enum propids
+  {
+    propid_speed = 0
+  };
+
   // Parameters.
   static csStringID param_meshfile;
   static csStringID param_meshfact;
@@ -419,6 +425,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
+  virtual bool GetPropertyIndexed (int, float&);
 };
 
 #endif // __CEL_PF_VEHICLEFACT__

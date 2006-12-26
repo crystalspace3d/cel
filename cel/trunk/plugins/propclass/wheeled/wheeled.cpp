@@ -241,6 +241,10 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
+  propinfo.SetCount (1);
+  AddProperty (propid_speed, "cel.property.speed",
+        CEL_DATA_FLOAT, true, "Vehicle Speed.", 0);
+
   params = new celGenericParameterBlock (5);
   params->SetParameterDef (0, param_otherbody, "otherbody");
   params->SetParameterDef (1, param_position, "position");
@@ -279,6 +283,16 @@ csPtr<iCelDataBuffer> celPcWheeled::Save ()
 bool celPcWheeled::Load (iCelDataBuffer* databuf)
 {
   return true;
+}
+
+bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
+{
+  if (idx == propid_speed)
+  {
+    f = GetSpeed();
+    return true;
+  }
+  return false;
 }
 
 bool celPcWheeled::PerformActionIndexed (int idx,
