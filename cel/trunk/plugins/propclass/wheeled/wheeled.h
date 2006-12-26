@@ -78,7 +78,6 @@ private:
   enum actionids
   {
     action_setwheelmesh = 0,
-    action_settankmode,
 
     action_addwheelauto,
     action_addwheel,
@@ -88,25 +87,16 @@ private:
     action_destroyallwheels,
     action_restorewheel,
     action_restoreallwheels,
-    action_accelerate,
-    action_brake,
-    action_handbrake,
-    action_setsteeramount,
     action_steerleft,
     action_steerright,
     action_steerstraight,
     action_reverse,
     action_neutral,
-    action_setautotransmission,
-    action_setgear,
     action_setgearsettings,
-    action_setbrakeforce,
-    action_setautoreverse,
 
     //Presets.
     action_setfrontwheelpreset,
     action_setrearwheelpreset,
-    action_setouterwheelsteerpreset,
 
     //Per-wheel actions
     action_setwheelposition,
@@ -128,7 +118,17 @@ private:
   // For properties.
   enum propids
   {
-    propid_speed = 0
+    propid_speed = 0,
+    propid_tankmode,
+    propid_accelerating,
+    propid_brakeapplied,
+    propid_handbrakeapplied,
+    propid_steeramount,
+    propid_autotransmission,
+    propid_gear,
+    propid_brakeforce,
+    propid_autoreverse,
+    propid_outerwheelsteerpreset
   };
 
   // Parameters.
@@ -169,11 +169,13 @@ private:
 
   static PropertyHolder propinfo;
 
+  float speed;
   float brakeforce;
   int gear;
   bool autotransmission;
   bool autoreverse;
   bool tankmode;
+  bool accelerating;
   bool handbrakeapplied;
   bool brakeapplied;
   int steerdir;
@@ -215,7 +217,6 @@ private:
   csRef<iPcMechanicsObject> bodyMech;
   celGenericParameterBlock* params;
   int topgear;
-  bool accelerating;
   bool cd_enabled;
   // Other fields.
   int counter;
@@ -425,7 +426,8 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
-  virtual bool GetPropertyIndexed (int, float&);
+  virtual bool GetPropertyIndexed (int, long&);
+  virtual bool SetPropertyIndexed (int, long);
 };
 
 #endif // __CEL_PF_VEHICLEFACT__
