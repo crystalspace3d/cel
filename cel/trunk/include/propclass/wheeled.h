@@ -40,6 +40,67 @@
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
+ * - SetTankMode: parameter 'tankmode' (bool).
+ * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
+ *                 'meshfact' (string), 'meshfile' (string).
+ * - AddWheel: parameters 'position' (vector3), 'turnspeed' (float),
+ *                 'returnspeed' (float), 'suspensionsoftness' (float),
+ *                 'suspensiondamping' (float), 'brakepower' (float),
+ *                 'enginepower' (float), 'leftsteersensitivity' (float),
+ *                 'rightsteersensitivity' (float), 'friction' (float),
+ *                 'mass' (float), 'handbrakeaffected' (bool),
+ *                 'steerinverted' (bool), 'rotation' (vector3),
+ *                 'meshfact' (string), 'meshfile' (string).
+ * - DeleteWheel: parameter 'wheelnum' (long).
+ * - DeleteAllWheels : no parameters.
+ * - DestroyWheel: parameter 'wheelnum' (long).
+ * - DestroyAllWheels : no parameters.
+ * - RestoreWheel: parameter 'wheelnum' (long).
+ * - RestoreAllWheels : no parameters.
+ * - Accelerate : parameter 'applied' (bool).
+ * - Brake : parameter 'applied' (bool).
+ * - Handbrake : parameter 'applied' (bool).
+ * - SetSteerAmount : parameter 'steeramount' (float).
+ * - SteerLeft : parameter 'steeramount' (float).
+ * - SteerRight : parameter 'steeramount' (float).
+ * - SteerStraight : no parameters.
+ * - Reverse : no parameters.
+ * - Neutral : no parameters.
+ * - SetAutoTransmission : parameter 'autotransmission' (bool)
+ * - SetGear : parameter 'gear' (bool)
+ * - SetGearSettings : parameters 'force' (float) 'velocity' : float
+ *                   'gear' (long).
+ * - SetBrakeForce : parameter 'brakeforce' (float).
+ * - SetAutoReverse : parameter 'autoreverse' (bool).
+ * - SetFrontWheelPreset : parameter 'steersensitivity' (float),
+ *                   'enginepower' (float), 'suspensionsoftness' (float),
+ *                   'suspensiondamping' (float), 'friction' (float),
+ *                   'mass' (float).
+ * - SetRearWheelPreset : parameter 'steersensitivity' (float),
+ *                   'enginepower' (float), 'suspensionsoftness' (float),
+ *                   'suspensiondamping' (float), 'friction' (float),
+ *                   'mass' (float).
+ * - SetOuterWheelSteerPreset : parameter 'steersensitivity' (float).
+ * - SetWheelPosition : parameters 'wheelnum' (long), 'position' (vector3).
+ * - SetWheelRotation : parameters 'wheelnum' (long), 'rotation' (vector3).
+ * - SetWheelSuspensionSoftness : parameters 'wheelnum' (long),
+ *                   'suspensionsoftness' (float).
+ * - SetWheelSuspensionDamping : parameters 'wheelnum' (long),
+ *                   'suspensiondamping' (float).
+ * - SetWheelLeftSteerSensitivity : parameters 'wheelnum' (long),
+ *                   'steersensitivity' (float).
+ * - SetWheelRightSteerSensitivity : parameters 'wheelnum' (long),
+ *                   'suspensionsoftness' (float).
+ * - SetWheelFriction : parameters 'wheelnum' (long), 'friction' (float).
+ * - SetWheelMass : parameters 'wheelnum' (long), 'mass' (float).
+ * - SetWheelTurnSpeed : parameters 'wheelnum' (long), 'turnspeed' (float).
+ * - SetWheelReturnSpeed : parameters 'wheelnum' (long), 'returnspeed' (float).
+ * - SetWheelEnginePower : parameters 'wheelnum' (long), 'enginepower' (float).
+ * - SetWheelBrakePower : parameters 'wheelnum' (long), 'brakepower' (float).
+ * - SetWheelSteerInverted : parameters 'wheelnum' (long),
+ *                   'steerinverted' (bool).
+ * - SetWheelHandbrakeAffected : parameters 'wheelnum' (long),
+ *                   'handbrakeaffected' (bool).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
