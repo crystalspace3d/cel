@@ -1019,7 +1019,7 @@ float celPcWheeled::GetSpeed()
   GetMech();
   csOrthoTransform trans = bodyMech->GetBody()->GetTransform();
   csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
-  return trans.Other2ThisRelative(linvel).z;
+  return -trans.Other2ThisRelative(linvel).z;
 }
 //
 //Update the vehicle. Order is important here! first comes acceleration,
