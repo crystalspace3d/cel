@@ -40,7 +40,6 @@
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
- * - SetTankMode: parameter 'tankmode' (bool).
  * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
  *                 'meshfact' (string), 'meshfile' (string).
  * - AddWheel: parameters 'position' (vector3), 'turnspeed' (float),
@@ -57,21 +56,13 @@
  * - DestroyAllWheels : no parameters.
  * - RestoreWheel: parameter 'wheelnum' (long).
  * - RestoreAllWheels : no parameters.
- * - Accelerate : parameter 'applied' (bool).
- * - Brake : parameter 'applied' (bool).
- * - Handbrake : parameter 'applied' (bool).
- * - SetSteerAmount : parameter 'steeramount' (float).
  * - SteerLeft : parameter 'steeramount' (float).
  * - SteerRight : parameter 'steeramount' (float).
  * - SteerStraight : no parameters.
  * - Reverse : no parameters.
  * - Neutral : no parameters.
- * - SetAutoTransmission : parameter 'autotransmission' (bool)
- * - SetGear : parameter 'gear' (bool)
  * - SetGearSettings : parameters 'force' (float) 'velocity' : float
  *                   'gear' (long).
- * - SetBrakeForce : parameter 'brakeforce' (float).
- * - SetAutoReverse : parameter 'autoreverse' (bool).
  * - SetFrontWheelPreset : parameter 'steersensitivity' (float),
  *                   'enginepower' (float), 'suspensionsoftness' (float),
  *                   'suspensiondamping' (float), 'friction' (float),
@@ -80,7 +71,6 @@
  *                   'enginepower' (float), 'suspensionsoftness' (float),
  *                   'suspensiondamping' (float), 'friction' (float),
  *                   'mass' (float).
- * - SetOuterWheelSteerPreset : parameter 'steersensitivity' (float).
  * - SetWheelPosition : parameters 'wheelnum' (long), 'position' (vector3).
  * - SetWheelRotation : parameters 'wheelnum' (long), 'rotation' (vector3).
  * - SetWheelSuspensionSoftness : parameters 'wheelnum' (long),
@@ -105,6 +95,18 @@
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - speed (float, read): the current speed of the vehicle.
+ * - tankmode (bool, read/write): Whether tank mode is enabled.
+ * - accelerating (bool, read/write): Whether the vehicle is accelerating.
+ * - brakeapplied (bool, read/write): Whether the vehicle is braking.
+ * - handbrakeapplied (bool, read/write): Whether the vehicle is handraking.
+ * - steeramount (float, read/write): Steer amount of wheels.
+ * - autotransmission (float, read/write): Whether the vehicle automatically
+ *                                   shifts gears.
+ * - gear (long, read/write): Current gear of the vehicle.
+ * - brakeforce (float, read/write): Force of the vehicle's brakes.
+ * - autoreverse (bool, read/write): Whether the vehicle automatically
+ *                                   reverses at low speeds while braking.
+ * - outerwheelsteerpreset (float, read/write): Outer wheel steer preset.
  */
 
 struct iCelEntity;
@@ -338,23 +340,23 @@ struct iPcWheeled : public virtual iBase
 
   /**
    * Steer the vehicle left.
-   * \param amount Tightness of the steering
+   * \param amount Ratio of steeramount to steer (0 - 1)
    */
   virtual void SteerLeft(float amount) = 0;
 
   /**
    * Steer the vehicle right.
-   * \param amount Tightness of the steering
+   * \param amount Ratio of steeramount to steer(0 - 1)
    */
   virtual void SteerRight(float amount) = 0;
 
   /**
-   * Steer the vehicle left. Uses the amount of steer set in SetSteerAmount.
+   * Steer the vehicle left. Uses a ratio of 1.0
    */
   virtual void SteerLeft() = 0;
 
   /**
-   * Steer the vehicle right. Uses the amount of steer set in SetSteerAmount.
+   * Steer the vehicle right. Uses a ratio of 1.0
    */
   virtual void SteerRight() = 0;
 

@@ -118,6 +118,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   rearmass = 10.0f;
   frontfriction = 0.7f;
   rearfriction = 0.7f;
+  speed = 0.0f;
 
   autotransmission=true;
   brakeapplied=false;
@@ -194,7 +195,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   if (!propinfo.actions_done)
   {
     AddAction (action_setwheelmesh, "cel.action.SetWheelMesh");
-    AddAction (action_settankmode, "cel.action.SetTankMode");
     AddAction (action_addwheelauto, "cel.action.AddWheelAuto");
     AddAction (action_addwheel, "cel.action.AddWheel");
     AddAction (action_deletewheel, "cel.action.DeleteWheel");
@@ -204,25 +204,16 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_restorewheel, "cel.action.RestoreWheel");
     AddAction (action_restoreallwheels, "cel.action.RestoreAllWheels");
 
-    AddAction (action_accelerate, "cel.action.Accelerate");
-    AddAction (action_brake, "cel.action.Brake");
-    AddAction (action_handbrake, "cel.action.Handbrake");
-    AddAction (action_setsteeramount, "cel.action.SetSteerAmount");
     AddAction (action_steerleft, "cel.action.SteerLeft");
     AddAction (action_steerright, "cel.action.SteerRight");
     AddAction (action_steerstraight, "cel.action.SteerStraight");
     AddAction (action_reverse, "cel.action.Reverse");
     AddAction (action_neutral, "cel.action.Neutral");
-    AddAction (action_setautotransmission, "cel.action.SetAutoTransmission");
-    AddAction (action_setgear, "cel.action.SetGear");
     AddAction (action_setgearsettings, "cel.action.SetGearSettings");
-    AddAction (action_setbrakeforce, "cel.action.SetBrakeForce");
-    AddAction (action_setautoreverse, "cel.action.SetAutoReverse");
 
     //Presets
     AddAction (action_setfrontwheelpreset, "cel.action.SetFrontWheelPreset");
     AddAction (action_setrearwheelpreset, "cel.action.SetRearWheelPreset");
-    AddAction (action_setouterwheelsteerpreset, "cel.action.SetOuterWheelSteerPreset");
 
     //Per-wheel actions
     AddAction (action_setwheelposition, "cel.action.SetWheelPosition");
@@ -241,9 +232,30 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (1);
+  propinfo.SetCount (10);
   AddProperty (propid_speed, "cel.property.speed",
-        CEL_DATA_FLOAT, true, "Vehicle Speed.", 0);
+        CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
+  AddProperty (propid_tankmode, "cel.property.tankmode",
+        CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
+  AddProperty (propid_accelerating, "cel.property.accelerating",
+        CEL_DATA_BOOL, false, "Vehicle is accelerating.", &accelerating);
+  AddProperty (propid_brakeapplied, "cel.property.brakeapplied",
+        CEL_DATA_BOOL, false, "Brake is applied.", &brakeapplied);
+  AddProperty (propid_handbrakeapplied, "cel.property.handbrakeapplied",
+        CEL_DATA_BOOL, false, "Handbrake is applied.", &handbrakeapplied);
+  AddProperty (propid_steeramount, "cel.property.steeramount",
+        CEL_DATA_FLOAT, false, "Vehicle Steer Amount.", &steeramount);
+  AddProperty (propid_autotransmission, "cel.property.autotransmission",
+        CEL_DATA_BOOL, false, "Automatic Gear Shifts.", &autotransmission);
+  AddProperty (propid_gear, "cel.property.gear",
+        CEL_DATA_LONG, false, "Current gear", 0);
+  AddProperty (propid_brakeforce, "cel.property.brakeforce",
+        CEL_DATA_FLOAT, false, "Force applied to brakes.", &brakeforce);
+  AddProperty (propid_autoreverse, "cel.property.autoreverse",
+        CEL_DATA_BOOL, false, "Vehicle automatically reverses.", &autoreverse);
+  AddProperty (propid_outerwheelsteerpreset, "cel.property.outerwheelsteerpreset",
+        CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", &outersteer);
+
 
   params = new celGenericParameterBlock (5);
   params->SetParameterDef (0, param_otherbody, "otherbody");
@@ -285,11 +297,21 @@ bool celPcWheeled::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
+bool celPcWheeled::GetPropertyIndexed (int idx, long& l)
 {
-  if (idx == propid_speed)
+  if (idx == propid_gear)
   {
-    f = GetSpeed();
+    l = GetGear();
+    return true;
+  }
+  return false;
+}
+
+bool celPcWheeled::SetPropertyIndexed (int idx, long l)
+{
+  if (idx == propid_gear)
+  {
+    SetGear(l);
     return true;
   }
   return false;
@@ -306,12 +328,6 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (factname, params, param_meshfact);
         CEL_FETCH_STRING_PAR (filename, params, param_meshfile);
         SetWheelMesh(factname,filename);
-        return true;
-      }
-    case action_settankmode:
-      {
-        CEL_FETCH_BOOL_PAR (mode, params, param_tankmode);
-        SetTankMode(mode);
         return true;
       }
     case action_addwheelauto:
@@ -427,30 +443,6 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     case action_restoreallwheels:
       RestoreAllWheels();
       return true;
-    case action_accelerate:
-      {
-        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-        Accelerate(applied);
-        return true;
-      }
-    case action_brake:
-      {
-        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-        Brake(applied);
-        return true;
-      }
-    case action_handbrake:
-      {
-        CEL_FETCH_BOOL_PAR (applied, params, param_applied);
-        Handbrake(applied);
-        return true;
-      }
-    case action_setsteeramount:
-      {
-        CEL_FETCH_FLOAT_PAR (amount, params, param_steeramount);
-        SetSteerAmount(amount);
-        return true;
-      }
     case action_steerleft:
       {
         CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
@@ -476,36 +468,12 @@ bool celPcWheeled::PerformActionIndexed (int idx,
     case action_neutral:
       Neutral();
       return true;
-    case action_setautotransmission:
-      {
-        CEL_FETCH_BOOL_PAR(trans,params,param_autotransmission);
-        SetAutoTransmission(trans);
-        return true;
-      }
-    case action_setgear:
-      {
-        CEL_FETCH_LONG_PAR(g,params,param_gear);
-        SetGear(g);
-        return true;
-      }
     case action_setgearsettings:
       {
         CEL_FETCH_FLOAT_PAR(force,params,param_force);
         CEL_FETCH_FLOAT_PAR(velocity,params,param_velocity);
         CEL_FETCH_LONG_PAR(g,params,param_gear);
         SetGearSettings(g,velocity,force);
-        return true;
-      }
-    case action_setbrakeforce:
-      {
-        CEL_FETCH_FLOAT_PAR(force,params,param_brakeforce);
-        SetBrakeForce(force);
-        return true;
-      }
-    case action_setautoreverse:
-      {
-        CEL_FETCH_BOOL_PAR(reverse,params,param_autoreverse);
-        SetAutoReverse(reverse);
         return true;
       }
     case action_setfrontwheelpreset:
@@ -528,12 +496,6 @@ bool celPcWheeled::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR(fr,params,param_friction);
         CEL_FETCH_FLOAT_PAR(ma,params,param_mass);
         SetRearWheelPreset(sens,power,ss,sd,fr,ma);
-        return true;
-      }
-    case action_setouterwheelsteerpreset:
-      {
-        CEL_FETCH_FLOAT_PAR(sens,params,param_steersensitivity);
-        SetOuterWheelSteerPreset(sens);
         return true;
       }
     case action_setwheelposition:
@@ -845,16 +807,17 @@ void celPcWheeled::RestoreAllWheels()
 
 void celPcWheeled::SteerLeft()
 {
-  SteerLeft(celPcWheeled::steeramount);
+  SteerLeft(1.0);
 }
 
 void celPcWheeled::SteerRight()
 {
-  SteerRight(celPcWheeled::steeramount);
+  SteerRight(1.0);
 }
 
 void celPcWheeled::SteerLeft(float amount)
 {
+  float wheelsteer = amount * steeramount;
   steerdir=-1;
   if(!tankmode)
   {
@@ -865,7 +828,7 @@ void celPcWheeled::SteerLeft(float amount)
          //Not inverted, so turn the wheel left
         if(!wheels[i].SteerInverted)
         {
-          float histop=amount*wheels[i].RightSteerSensitivity;
+          float histop=wheelsteer * wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
@@ -875,7 +838,7 @@ void celPcWheeled::SteerLeft(float amount)
         so leftsteersensitivity is still used.*/
         else
         {
-          float lostop=-amount*wheels[i].RightSteerSensitivity;
+          float lostop=-wheelsteer * wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
@@ -887,6 +850,7 @@ void celPcWheeled::SteerLeft(float amount)
 
 void celPcWheeled::SteerRight(float amount)
 {
+  float wheelsteer = amount * steeramount;
   steerdir=1;
   if(!tankmode)
   {
@@ -897,7 +861,7 @@ void celPcWheeled::SteerRight(float amount)
          //Not inverted, so Steer it right.
         if(!wheels[i].SteerInverted)
         {
-          float lostop=-amount*wheels[i].RightSteerSensitivity;
+          float lostop=-wheelsteer * wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(lostop,0);
           wheels[i].WheelJoint->SetHiStop(0,0);
           wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
@@ -908,7 +872,7 @@ void celPcWheeled::SteerRight(float amount)
         so rightsteersensitivity is still used.*/
         else
         {
-          float histop=amount*wheels[i].RightSteerSensitivity;
+          float histop=wheelsteer * wheels[i].RightSteerSensitivity;
           wheels[i].WheelJoint->SetLoStop(0,0);
           wheels[i].WheelJoint->SetHiStop(histop,0);
           wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
@@ -1026,7 +990,7 @@ float celPcWheeled::GetSpeed()
 //then braking, then handbrake. tank steering comes last.
 void celPcWheeled::TickOnce()
 {
-  float speed = GetSpeed();
+  speed = GetSpeed();
 
   //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
