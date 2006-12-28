@@ -97,8 +97,8 @@
  * - speed (float, read): the current speed of the vehicle.
  * - tankmode (bool, read/write): Whether tank mode is enabled.
  * - accelerating (bool, read/write): Whether the vehicle is accelerating.
- * - brakeapplied (bool, read/write): Whether the vehicle is braking.
- * - handbrakeapplied (bool, read/write): Whether the vehicle is handraking.
+ * - brakeing (bool, read/write): Whether the vehicle is braking.
+ * - handbrakeing (bool, read/write): Whether the vehicle is handraking.
  * - steeramount (float, read/write): Steer amount of wheels.
  * - autotransmission (float, read/write): Whether the vehicle automatically
  *                                   shifts gears.
@@ -196,25 +196,25 @@ struct iPcWheeled : public virtual iBase
                        csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
   /**
-   * Destroy a wheel on the car, and delete it from the layout. It
+   * Destroy a wheel on the car, and delete it from the memory.
    *  \param wheelnum Index of the wheel to delete.
    */
   virtual void DeleteWheel(size_t wheelnum) = 0;
 
   /**
-   * Destroy and delete all wheels in the layout
+   * Destroy and delete all wheels from memory.
    */
   virtual void DeleteAllWheels() = 0;
 
   /**
-   * Destroy a wheel on the car. It will remain in the layout, so it can be
-   * restored along with all its settings with RestoreWheel(wheelnum).
+   * Physically remove a wheel on the car. It will remain in the memory,
+   * so all settings remain, and it can be restoredwith RestoreWheel(wheelnum).
    */
   virtual void DestroyWheel(size_t wheelnum) = 0;
 
   /**
-   * Destroy all wheels on the car. The layout is still retained,
-   * so the wheels can be restored with RestoreWheelLayout().
+   * Destroy all wheels on the car. The memor is still retained,
+   * so the wheels can be restored with RestoreAllWheels().
    */
   virtual void DestroyAllWheels() = 0;
 

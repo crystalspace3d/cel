@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+28-Dec-2006
+	- cfraz89 fixed a bug in pcwheeled properties.
 26-Dec-2006
 	- cfraz89 added a speed property to pcwheeled.
         - cfraz89 documented the xml of pcwheeled.
