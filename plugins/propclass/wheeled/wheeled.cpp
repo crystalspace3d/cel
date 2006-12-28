@@ -232,12 +232,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (11);
+  propinfo.SetCount (12);
   AddProperty (propid_speed, "cel.property.speed",
         CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
         CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
-   AddProperty (propid_steer, "cel.property.steer",
+  AddProperty (propid_steer, "cel.property.steer",
          CEL_DATA_FLOAT, false, "Absolute steer.", 0);
   AddProperty (propid_accelamount, "cel.property.accelamount",
         CEL_DATA_FLOAT, false, "Amount of accelerator.", 0);
