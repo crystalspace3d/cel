@@ -273,26 +273,26 @@ struct iPcWheeled : public virtual iBase
      float mass) = 0;
 
   /**
-   * Set wether the vehicle will accelerate.
-   * \param applied Whether the accelerator is applied.
+   * Set the vehicle's accelerator.
+   * \param amount Amount to apply the accelerator (0.0 - 1.0)
    */
-  virtual void Accelerate(bool applied) = 0;
+  virtual void Accelerate(float amount =  1.0f) = 0;
 
   /**
-   * Get whether the vehicle is accelerating.
+   * Get the Amount that the vehicle accelerator has been applied.
    */
-  virtual bool IsAccelerating() = 0;
+  virtual float GetAcceleratorAmount() = 0;
 
   /**
-   * Set wether the vehicle will brake.
-   * \param applied Wether the brake is applied
+   * Set the vehicle's brakes.
+   * \param amount Amount to apply the brakes (0.0 - 1.0)
    */
-  virtual void Brake(bool applied) = 0;
+  virtual void Brake(float amount =  1.0f) = 0;
 
   /**
-   * Get whether the vehicle is brakeing
+   * Get the amount that the vehicle brakes have been applied.
    */
-  virtual bool IsBraking() = 0;
+  virtual float GetBrakeAmount() = 0;
 
   /**
    * Set wether the vehicle will handbrake. (rear wheel lock)
@@ -305,9 +305,8 @@ struct iPcWheeled : public virtual iBase
    */
   virtual bool IsHandbraking() = 0;
 
-
   /**
-   * Set the tightness of the vehicle's turning.
+   * Set the tightness of the vehicle's turning (Wheel turning angle).
    * \param amount How tight the car will steer.
    */
   virtual void SetSteerAmount(float amount) = 0;
@@ -324,28 +323,18 @@ struct iPcWheeled : public virtual iBase
   virtual float GetSteerAmount() = 0;
 
   /**
-   * Get whether brake is applied
-   */
-  virtual bool GetBrakeApplied() = 0;
-
-  /**
-   * Get whether handbrake is applied
-   */
-  virtual bool GetHandbrakeApplied() = 0;
-
-  /**
    * Get the forward velocity of the vehicle.
    */
   virtual float GetSpeed() = 0;
 
   /**
-   * Steer the vehicle left.
+   * Steer the vehicle left, but only a portion of full steering.
    * \param amount Ratio of steeramount to steer (0 - 1)
    */
   virtual void SteerLeft(float amount) = 0;
 
   /**
-   * Steer the vehicle right.
+   * Steer the vehicle right, but only a portion of full steering.
    * \param amount Ratio of steeramount to steer(0 - 1)
    */
   virtual void SteerRight(float amount) = 0;
@@ -359,6 +348,14 @@ struct iPcWheeled : public virtual iBase
    * Steer the vehicle right. Uses a ratio of 1.0
    */
   virtual void SteerRight() = 0;
+
+  /**
+   * Combined steer. Steer the vehicle by a certain amount (-1 to 1).
+   * If amount is less then 0, it will steer left. If more than 0, steer right.
+   * Using Steer(0) is the same as calling SteerStraight().
+   * \param amount How tight / direction the car will steer.
+   */
+  virtual void Steer(float amount) = 0;
 
   /**
    * Straighten the steering wheels

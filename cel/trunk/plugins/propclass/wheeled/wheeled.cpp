@@ -100,36 +100,36 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   scfiWheeledCollisionCallback = new WheeledCollisionCallback (this);
 
-  dyn=0;
-  bodyGroup=0;
-  steerdir=0;
-  gear=1;
-  topgear=0;
-  frontsteer=1.0f;
-  rearsteer=0.0f;
-  outersteer=1.0f;
-  frontpower=1.0f;
-  rearpower=1.0f;
-  frontss=0.000125f;
-  frontsd=0.125f;
-  rearss=0.000125f;
-  rearsd=0.125f;
+  dyn = 0;
+  bodyGroup = 0;
+  abssteer = 0.0f;
+  gear = 1;
+  topgear = 0;
+  frontsteer = 1.0f;
+  rearsteer = 0.0f;
+  outersteer = 1.0f;
+  frontpower = 1.0f;
+  rearpower = 1.0f;
+  frontss = 0.000125f;
+  frontsd = 0.125f;
+  rearss = 0.000125f;
+  rearsd = 0.125f;
   frontmass = 10.0f;
   rearmass = 10.0f;
   frontfriction = 0.7f;
   rearfriction = 0.7f;
   speed = 0.0f;
 
-  autotransmission=true;
-  brakeapplied=false;
-  handbrakeapplied=false;
-  autotransmission=true;
-  autoreverse=true;
-  accelerating=false;
+  accelamount = 0.0f;
+  brakeamount = 0.0f;
+  autotransmission = true;
+  handbrakeapplied = false;
+  autotransmission = true;
+  autoreverse = true;
   cd_enabled = true;
-  wheelradius=0;
+  wheelradius = 0;
 
-  steeramount=0.7f;
+  steeramount = 0.7f;
 
   gears.SetSize(3);
 
@@ -232,15 +232,17 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (10);
+  propinfo.SetCount (11);
   AddProperty (propid_speed, "cel.property.speed",
         CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
         CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
-  AddProperty (propid_accelerating, "cel.property.accelerating",
-        CEL_DATA_BOOL, false, "Vehicle is accelerating.", &accelerating);
-  AddProperty (propid_braking, "cel.property.braking",
-        CEL_DATA_BOOL, false, "Brake is applied.", 0);
+   AddProperty (propid_steer, "cel.property.steer",
+         CEL_DATA_FLOAT, false, "Absolute steer.", 0);
+  AddProperty (propid_accelamount, "cel.property.accelamount",
+        CEL_DATA_FLOAT, false, "Amount of accelerator.", 0);
+  AddProperty (propid_brakeamount, "cel.property.brakeamount",
+        CEL_DATA_FLOAT, false, "Amount of brakes applied", 0);
   AddProperty (propid_handbraking, "cel.property.handbraking",
         CEL_DATA_BOOL, false, "Handbrake is applied.", &handbrakeapplied);
   AddProperty (propid_steeramount, "cel.property.steeramount",
@@ -317,21 +319,41 @@ bool celPcWheeled::SetPropertyIndexed (int idx, long l)
   return false;
 }
 
-bool celPcWheeled::GetPropertyIndexed (int idx, bool& b)
+bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
 {
-  if (idx == propid_braking)
+  if (idx == propid_accelamount)
   {
-    b = brakeapplied;
+    f = accelamount;
+    return true;
+  }
+  if (idx == propid_brakeamount)
+  {
+    f = brakeamount;
+    return true;
+  }
+  if (idx == propid_steer)
+  {
+    f = abssteer;
     return true;
   }
   return false;
 }
 
-bool celPcWheeled::SetPropertyIndexed (int idx, bool b)
+bool celPcWheeled::SetPropertyIndexed (int idx, float f)
 {
-  if (idx == propid_braking)
+  if (idx == propid_accelamount)
   {
-    Brake(b);
+    Accelerate(f);
+    return true;
+  }
+  if (idx == propid_brakeamount)
+  {
+    Brake(f);
+    return true;
+  }
+  if (idx == propid_steer)
+  {
+    Steer(f);
     return true;
   }
   return false;
@@ -704,13 +726,19 @@ void celPcWheeled::DestroyWheel(size_t wheelnum)
 {
   GetMech();
   if(!bodyGroup || !bodyMech) return;
-
-  if (wheels[wheelnum].WheelJoint!=0)
+  //Remove the joint
+  if (wheels[wheelnum].WheelJoint != 0)
   {
     osys->RemoveJoint(wheels[wheelnum].WheelJoint);
-    wheels[wheelnum].WheelJoint=0;
+    wheels[wheelnum].WheelJoint = 0;
   }
-  if (wheels[wheelnum].RigidBody!=0)
+  //Remove the brake motor
+  if (wheels[wheelnum].BrakeMotor != 0)
+  {
+    osys->RemoveJoint(wheels[wheelnum].BrakeMotor);
+    wheels[wheelnum].BrakeMotor = 0;
+  }
+  if (wheels[wheelnum].RigidBody != 0)
   {
     csRef<iMeshWrapper> mesh =
         wheels[wheelnum].RigidBody->GetAttachedMesh();
@@ -718,7 +746,7 @@ void celPcWheeled::DestroyWheel(size_t wheelnum)
     bodyGroup->RemoveBody(wheels[wheelnum].RigidBody);
     wheels[wheelnum].RigidBody->SetCollisionCallback (0);
     dyn->RemoveBody(wheels[wheelnum].RigidBody);
-    wheels[wheelnum].RigidBody=0;
+    wheels[wheelnum].RigidBody = 0;
   }
 }
 
@@ -798,8 +826,8 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
      wheelbody->SetTransform(t);
    }
     //Create the joint
-  csRef<iODEHinge2Joint> joint=osys->CreateHinge2Joint();
-  joint->Attach(bodyMech->GetBody(),wheelbody);
+  csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
+  joint->Attach(bodyMech->GetBody(), wheelbody);
 
   joint->SetHingeAnchor(bodytransform.This2Other
       (wheels[wheelnum].Position));
@@ -811,12 +839,21 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   joint->SetHiStop(0,0);
   joint->SetVel(0,0);
   joint->SetVel(0,1);
-  joint->SetStopERP(1.0,0);
+  joint->SetStopERP(1.0f,0);
   joint->SetFMax(1000,0);
   joint->SetFMax(100,1);
 
-  wheels[wheelnum].RigidBody=wheelbody;
-  wheels[wheelnum].WheelJoint=joint;
+  //Create the brakes motor
+  csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
+  bmotor->Attach(bodyMech->GetBody(), wheelbody);
+  bmotor->SetAMotorNumAxes(1);
+  bmotor->SetAMotorAxis(0, 1, csVector3(1, 0, 0));
+  bmotor->SetFMax(brakeforce * brakeamount, 0);
+  bmotor->SetVel(0.0f, 0);
+
+  wheels[wheelnum].RigidBody = wheelbody;
+  wheels[wheelnum].WheelJoint = joint;
+  wheels[wheelnum].BrakeMotor = bmotor;
 }
 
 void celPcWheeled::RestoreAllWheels()
@@ -828,43 +865,36 @@ void celPcWheeled::RestoreAllWheels()
   }
 }
 
-void celPcWheeled::SteerLeft()
-{
-  SteerLeft(1.0);
-}
-
-void celPcWheeled::SteerRight()
-{
-  SteerRight(1.0);
-}
-
 void celPcWheeled::SteerLeft(float amount)
 {
-  float wheelsteer = amount * steeramount;
-  steerdir=-1;
-  if(!tankmode)
+  if (amount >= 0.0f && amount <= 1.0f)
   {
-    for(size_t i=0;i < wheels.Length();i++)
+    abssteer = -amount;
+    float wheelsteer = amount * steeramount;
+    if(!tankmode)
     {
-      if(wheels[i].WheelJoint!=0)
+      for(size_t i=0;i < wheels.Length();i++)
       {
-         //Not inverted, so turn the wheel left
-        if(!wheels[i].SteerInverted)
+        if(wheels[i].WheelJoint!=0)
         {
-          float histop=wheelsteer * wheels[i].LeftSteerSensitivity;
-          wheels[i].WheelJoint->SetLoStop(0,0);
-          wheels[i].WheelJoint->SetHiStop(histop,0);
-          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
-        }
-        /*Inverted, so turn the wheel right. The car is still steering
-        left though,
-        so leftsteersensitivity is still used.*/
-        else
-        {
-          float lostop=-wheelsteer * wheels[i].LeftSteerSensitivity;
-          wheels[i].WheelJoint->SetLoStop(lostop,0);
-          wheels[i].WheelJoint->SetHiStop(0,0);
-          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+          //Not inverted, so turn the wheel left
+          if(!wheels[i].SteerInverted)
+          {
+            float histop=wheelsteer * wheels[i].LeftSteerSensitivity;
+            wheels[i].WheelJoint->SetLoStop(0,0);
+            wheels[i].WheelJoint->SetHiStop(histop,0);
+            wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+          }
+          /*Inverted, so turn the wheel right. The car is still steering
+          left though,
+          so leftsteersensitivity is still used.*/
+          else
+          {
+            float lostop=-wheelsteer * wheels[i].LeftSteerSensitivity;
+            wheels[i].WheelJoint->SetLoStop(lostop,0);
+            wheels[i].WheelJoint->SetHiStop(0,0);
+            wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+          }
         }
       }
     }
@@ -873,42 +903,59 @@ void celPcWheeled::SteerLeft(float amount)
 
 void celPcWheeled::SteerRight(float amount)
 {
-  float wheelsteer = amount * steeramount;
-  steerdir=1;
-  if(!tankmode)
+  if (amount >= 0.0f && amount <= 1.0f)
   {
-    for(size_t i=0;i < wheels.Length();i++)
+    abssteer = amount;
+    float wheelsteer = amount * steeramount;
+    if(!tankmode)
     {
-      if(wheels[i].WheelJoint!=0)
+      for(size_t i=0;i < wheels.Length();i++)
       {
-         //Not inverted, so Steer it right.
-        if(!wheels[i].SteerInverted)
+        if(wheels[i].WheelJoint!=0)
         {
-          float lostop=-wheelsteer * wheels[i].RightSteerSensitivity;
-          wheels[i].WheelJoint->SetLoStop(lostop,0);
-          wheels[i].WheelJoint->SetHiStop(0,0);
-          wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
-        }
-
-        /*Inverted, so turn the wheel left. The car is still steering
-        right though,
-        so rightsteersensitivity is still used.*/
-        else
-        {
-          float histop=wheelsteer * wheels[i].RightSteerSensitivity;
-          wheels[i].WheelJoint->SetLoStop(0,0);
-          wheels[i].WheelJoint->SetHiStop(histop,0);
-          wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+          //Not inverted, so Steer it right.
+          if(!wheels[i].SteerInverted)
+          {
+            float lostop=-wheelsteer * wheels[i].RightSteerSensitivity;
+            wheels[i].WheelJoint->SetLoStop(lostop,0);
+            wheels[i].WheelJoint->SetHiStop(0,0);
+            wheels[i].WheelJoint->SetVel(-wheels[i].TurnSpeed,0);
+          }
+  
+          /*Inverted, so turn the wheel left. The car is still steering
+          right though,
+          so rightsteersensitivity is still used.*/
+          else
+          {
+            float histop=wheelsteer * wheels[i].RightSteerSensitivity;
+            wheels[i].WheelJoint->SetLoStop(0,0);
+            wheels[i].WheelJoint->SetHiStop(histop,0);
+            wheels[i].WheelJoint->SetVel(wheels[i].TurnSpeed,0);
+          }
         }
       }
     }
   }
 }
 
+//Steer the vehicle by amount.
+void celPcWheeled::Steer(float amount)
+{
+  if (amount >= -1.0f && amount <= 1.0f)
+  {
+    if (amount < 0.0f)
+      SteerLeft(-amount);
+    else if(amount > 0.0f)
+      SteerRight(amount);
+    else
+      SteerStraight();
+  }
+}
+
 void celPcWheeled::SteerStraight()
 {
   //It was steering right, bring it left.
-  if (steerdir==1)
+  if (abssteer > 0.0f)
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
@@ -928,7 +975,7 @@ void celPcWheeled::SteerStraight()
     }
   }
   //It was steering left, bring it right.
-  if (steerdir==-1)
+  if (abssteer < 0.0f)
   {
     for(size_t i=0;i < wheels.Length();i++)
     {
@@ -947,7 +994,7 @@ void celPcWheeled::SteerStraight()
       }
     }
   }
-  steerdir=0;
+  abssteer = 0.0f;
 }
 
 void celPcWheeled::UpdateTankSteer()
@@ -959,28 +1006,18 @@ void celPcWheeled::UpdateTankSteer()
     if(wheels[i].WheelJoint!=0)
     {
           //It's a right wheel, steering right. slow it down
-      if (wheels[i].Position.x < 0 && steerdir > 0)
+      if (wheels[i].Position.x < 0 && abssteer > 0)
       {
         wheels[i].WheelJoint->SetVel(0,1);
         wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
       }
           //It's a left wheel, steering left. slow it down
-      if (wheels[i].Position.x > 0  && steerdir < 0)
+      if (wheels[i].Position.x > 0  && abssteer < 0)
       {
         wheels[i].WheelJoint->SetVel(0,1);
         wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
       }
     }
-  }
-}
-
-void celPcWheeled::Brake (bool on)
-{
-  brakeapplied=on;
-  if (gear == -1)
-  {
-    accelerating = false;
-    gear = 1;
   }
 }
 
@@ -1023,19 +1060,28 @@ void celPcWheeled::TickOnce()
   //use the neutral gear settings.
   float vel=gears[1].x;
   float fmax=gears[1].y;
-  if(accelerating)
+  if(accelamount > 0.0f)
   {
-    vel=gears[gear + 1].x;
-    fmax=gears[gear + 1].y;
+    vel = gears[gear + 1].x;
+    fmax = gears[gear + 1].y;
   }
 
   float steerfactor = 1000.0f + fabs(speed) * 100.0f;
   for(size_t i=0; i < wheels.Length();i++)
   {
-    if(wheels[i].WheelJoint!=0)
+    if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
     {
+      //Apply the throttle
       wheels[i].WheelJoint->SetVel(vel,1);
       wheels[i].WheelJoint->SetFMax(fmax*wheels[i].EnginePower,1);
+
+      //Now apply the brakes / handbrake
+      float wheelbrake = 0.0f;
+      if (handbrakeapplied && wheels[i].HandbrakeAffected)
+        wheelbrake = brakeforce * 1000.0f;
+      else
+        wheelbrake = brakeforce * wheels[i].BrakePower * brakeamount;
+      wheels[i].BrakeMotor->SetFMax(wheelbrake, 0);
 
       // Set the power of steering proportional to the speed of the car.
       // This gives smooth steer and return at low speeds, while
@@ -1043,42 +1089,20 @@ void celPcWheeled::TickOnce()
       wheels[i].WheelJoint->SetFMax(steerfactor, 0);
     }
   }
-    //Apply the brakes
-  if(brakeapplied)
-  {
-      //Don't brake if in reverse
-    if(gear!=-1)
-    {
-      for(size_t i=0; i < wheels.Length();i++)
-      {
-        if(wheels[i].WheelJoint!=0)
-        {
-          wheels[i].WheelJoint->SetVel(0,1);
-          wheels[i].WheelJoint->SetFMax(brakeforce*wheels[i].BrakePower,1);
-        }
-      }
-    }
       //if autoreverse is on, check if the vehicle is slow enough to start
       // reversing.
-    if (autoreverse && speed > -2.0)
-      Reverse();
-  }
-    //Apply the handbrake
-  if(handbrakeapplied)
-  {
-    for(size_t i=0; i < wheels.Length();i++)
+    if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
     {
-      if(wheels[i].WheelJoint!=0 && wheels[i].HandbrakeAffected)
-      {
-        wheels[i].WheelJoint->SetVel(0,1);
-        wheels[i].WheelJoint->SetFMax
-            (brakeforce*wheels[i].BrakePower*1000,1);
-      }
+      Reverse();
+      accelamount = brakeamount;
     }
-  }
 
-  if(tankmode && steerdir!=0)
-    UpdateTankSteer();
+    if (autoreverse && accelamount >= 0.1 && gear == -1
+         && accelamount != brakeamount)
+      gear = 1;
+
+    if(tankmode && abssteer != 0.0f)
+      UpdateTankSteer();
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
 }
 

@@ -45,6 +45,7 @@ struct celWheel
 {
   csRef<iODEHinge2Joint> WheelJoint;
   csRef<iRigidBody> RigidBody;
+  csRef<iODEAMotorJoint> BrakeMotor;
   csVector3 Position;
   csMatrix3 Rotation;
   csString Meshfact;
@@ -120,8 +121,9 @@ private:
   {
     propid_speed = 0,
     propid_tankmode,
-    propid_accelerating,
-    propid_braking,
+    propid_steer,
+    propid_accelamount,
+    propid_brakeamount,
     propid_handbraking,
     propid_steeramount,
     propid_autotransmission,
@@ -175,10 +177,9 @@ private:
   bool autotransmission;
   bool autoreverse;
   bool tankmode;
-  bool accelerating;
   bool handbrakeapplied;
-  bool brakeapplied;
-  int steerdir;
+  //Absolute steering amount
+  float abssteer;
   float wheelradius;
   //The angle the user wants the wheels to reach
   float steeramount;
@@ -201,10 +202,16 @@ private:
   //Preset rear wheel friction
   float rearfriction;
 
+  //Preset suspension settings
   float frontss;
   float frontsd;
   float rearss;
   float rearsd;
+
+  //Accelerator amount of application
+  float accelamount;
+  //Brake amount of application
+  float brakeamount;
 
   csString wheelpath;
   csString wheelfact;
@@ -254,24 +261,32 @@ public:
   virtual void RestoreWheel(size_t wheelnum);
   virtual void RestoreAllWheels();
 
-  virtual void Accelerate(bool on) {accelerating = on;}
-  virtual bool IsAccelerating() {return accelerating;}
-  virtual void Brake(bool on);
-  virtual bool IsBraking() {return brakeapplied;}
+  virtual void Accelerate(float amount = 1.0f)
+    {
+      if (accelamount >= 0.0f && accelamount <= 1.0f)
+        accelamount = amount;
+    }
+  virtual float GetAcceleratorAmount() {return accelamount;}
+  virtual void Brake(float amount = 1.0f)
+    {
+      if (brakeamount >= 0.0f && brakeamount <= 1.0f)
+        brakeamount = amount;
+    }
+  virtual float GetBrakeAmount() {return brakeamount;}
   virtual void Handbrake(bool on) {handbrakeapplied=on;}
   virtual bool IsHandbraking() {return handbrakeapplied;}
 
   virtual void SetCollisionCallbackEnabled (bool en) { cd_enabled = en; }
   virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
 
-  virtual void SteerLeft();
+  virtual void SteerLeft() {SteerLeft(1.0f);}
   virtual void SteerLeft(float amount);
-  virtual void SteerRight();
+  virtual void SteerRight() {SteerRight(1.0f);}
   virtual void SteerRight(float amount);
-
+  virtual void Steer(float amount);
   virtual void UpdateTankSteer();
   virtual void SteerStraight();
-  virtual void Reverse() {gear=-1; accelerating=true;}
+  virtual void Reverse() {gear=-1;}
   virtual void Neutral() {gear=0;}
   virtual void SetAutoTransmission(bool autotransmission)
   {celPcWheeled::autotransmission=autotransmission;}
@@ -341,9 +356,8 @@ public:
   virtual int GetTopGear() {return topgear;}
   virtual int GetGear(){return gear;}
   virtual float GetSteerAmount(){return steeramount;}
+  virtual float GetSteer() {return abssteer;}
   virtual bool GetTankMode(){return tankmode;}
-  virtual bool GetBrakeApplied(){return brakeapplied;}
-  virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
   virtual float GetSpeed();
 
   // Per-wheel settings
@@ -428,8 +442,8 @@ public:
       iCelParameterBlock* params, celData& ret);
   virtual bool GetPropertyIndexed (int, long&);
   virtual bool SetPropertyIndexed (int, long);
-  virtual bool GetPropertyIndexed (int, bool&);
-  virtual bool SetPropertyIndexed (int, bool);
+  virtual bool GetPropertyIndexed (int, float&);
+  virtual bool SetPropertyIndexed (int, float);
 };
 
 #endif // __CEL_PF_VEHICLEFACT__
