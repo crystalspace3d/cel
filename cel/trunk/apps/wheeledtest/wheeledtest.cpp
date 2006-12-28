@@ -239,7 +239,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   //The mass of the vehicle
   pcmech->SetMass(1000.0);
   pcmech->SetDensity(1.0);
-  pcmech->SetFriction(0.4f);
+  pcmech->SetFriction(0.04f);
   pcmech->AttachColliderBoundingBox();
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
@@ -250,8 +250,9 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   /*This part demos how to use presets to modify the steer and drive settings
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
-    to modify car handling. The first setting is steering sensitivity, second
-    setting is drive power.*/
+    to modify car handling.
+    Settings are: steersensitivity, enginepower, suspensionsoftness,
+                  suspensiondamping, friction, mass */
   pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125, 0.07f, 10.0f);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
