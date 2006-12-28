@@ -23,6 +23,7 @@ The history order is reversed so that new features are at the top.
 	    python attributes from the pcclass interface.
 	    like for example: trigger.jitter = 23 .
 	- cfraz89 fixed a memory bug in pcwheeled.
+	- cfraz89 added analogue accel he forgot to add
 
 26-Dec-2006
 	- cfraz89 added a speed property to pcwheeled.
