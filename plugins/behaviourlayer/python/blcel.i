@@ -63,6 +63,7 @@ CS_PROPERTY_HELPERS
   INTERFACE_APPLY(iCelPlLayer)
   INTERFACE_APPLY(iCelBlLayer)
   INTERFACE_APPLY(iCelEntity)
+  INTERFACE_APPLY(iCelPropertyClass)
   INTERFACE_APPLY(iCelEntityList)
 %enddef
 
@@ -132,11 +133,53 @@ pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 %}
 %enddef
 
+%extend iCelPropertyClass {
+   %pythoncode %{
+   def GetterFallback(self,attr):
+        raise AttributeError
+   def SetterFallback(self,attr,value):
+        raise AttributeError
+%}
+}
+
+#undef SCF_QUERY_INTERFACE
+%define CEL_PC_FIX_INHERITANCE(pcType)
+%extend pcType {
+   %pythoncode %{
+   _PC = None
+   def _getBasePc(self):
+        pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+        _object.__setattr__(self,"_PC",pc)
+   def __getattr__(self,attr):
+        if not self._PC: self._getBasePc()
+        try:
+            return _swig_getattr(self, pcType, attr)
+        except:
+            pass
+        if hasattr(self._PC,attr):
+            return getattr(self._PC,attr)
+        else:
+            return self.GetterFallback(attr)
+   def __setattr__(self,attr,value):
+        if not self._PC: self._getBasePc()
+        if attr in pcType.__swig_setmethods__.keys():
+            return _swig_setattr(self,pcType,attr,value)
+        elif hasattr(self._PC,attr):
+            setattr(self._PC,attr,value)
+        elif hasattr(self,attr):
+            _object.__setattr__(self,attr,value)
+        else:
+            return self.SetterFallback(attr,value)
+%}
+}
+%enddef
+
 %define CEL_PC(pcType, funcBaseName, pcname)
 CEL_PC_CREATE(pcType, celCreate ## funcBaseName, pcname)
 CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
+CEL_PC_FIX_INHERITANCE(pcType)
 %enddef
 
 //-----------------------------------------------------------------------------
@@ -206,7 +249,6 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
-
 // extension to create a parameter block from a dict, list or tuple
 %extend iCelPlLayer {
 	%pythoncode %{
@@ -381,8 +423,30 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
+/* shadow Remove method so pcclass specific interfaces can be used */
+%feature("shadow") iCelPropertyClassList::Remove
+%{
+  def Remove(self,propclass):
+    if not (isinstance(propclass,int) or isinstance(propclass,
+            iCelPropertyClass)):
+      propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
+    return _blcelc.iCelPropertyClassList_Remove(self,propclass)
+%}
 %ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
+
+/* Some typemaps so values are appropiately returned */
+TYPEMAP_ARGOUT_PTR(csVector3)
+TYPEMAP_ARGOUT_PTR(csVector2)
+TYPEMAP_ARGOUT_PTR(csColor)
+APPLY_TYPEMAP_ARGOUT_PTR(csVector3, csVector3& v)
+APPLY_TYPEMAP_ARGOUT_PTR(csVector2, csVector2& v)
+APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
+
+/* Rename vector getter functions so they dont shadow each other */
+%rename(GetPropertyVector3) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector3& v);
+%rename(GetPropertyVector2) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector2& v);
+
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
@@ -393,9 +457,20 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
   { return self->SetProperty (id, b); }
   bool SetPropertyString (csStringID id, const char* s)
   { return self->SetProperty (id, s); }
-  bool SetPropertyVector3 (csStringID id, const csVector3& v)
-  { return self->SetProperty (id, v); }
+  bool SetPropertyVector2 (csStringID id, const csVector2& vec)
+  { return self->SetProperty (id, vec); }
+  bool SetPropertyVector3 (csStringID id, const csVector3& vec)
+  { return self->SetProperty (id, vec); }
+  bool SetPropertyColor (csStringID id, const csColor& col)
+  { return self->SetProperty (id, col); }
+  bool SetPropertyEntity (csStringID id, const iCelEntity* ent)
+  { return self->SetProperty (id, ent); }
 }
+/* Clear Typemaps */
+%clear csVector3& v;
+%clear csVector2& v;
+%clear csColor& v;
+
 CELLIST_METHODS(iCelPropertyClassList,iCelPropertyClass)
 
 //-----------------------------------------------------------------------------
