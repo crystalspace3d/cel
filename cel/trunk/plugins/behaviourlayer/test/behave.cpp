@@ -475,16 +475,16 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	pcwheeled->Brake();
 
     else if (!strcmp (msg_id+15, "steerleft1"))
-	pcwheeled->Steer(-1.0f);
+	pcwheeled->SteerLeft();
 
     else if (!strcmp (msg_id+15, "steerright1"))
-	pcwheeled->Steer(1.0f);
+	pcwheeled->SteerRight();
 
     else if (!strcmp (msg_id+15, "steerleft0"))
-	pcwheeled->Steer(0.0f);
+	pcwheeled->SteerStraight();
 
     else if (!strcmp (msg_id+15, "steerright0"))
-	pcwheeled->Steer(0.0f);
+	pcwheeled->SteerStraight();
 
     else if (!strcmp (msg_id+15, "handbrake1"))
 	pcwheeled->Handbrake(true);
