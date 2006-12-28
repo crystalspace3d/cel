@@ -5,6 +5,20 @@ The history order is reversed so that new features are at the top.
 
 28-Dec-2006
 	- cfraz89 fixed a bug in pcwheeled properties.
+	- caedes made the following changes to python blcel.i:
+	  - Added iCelPropertyClass to list of interfaces that can be queried.
+	  - Added delegation to the pcclass interfaces so they also expose
+	    the functions from iCelPropertyClass.
+	  - Added a shadow function for iCelPropertyClassList::Remove so
+	    pcclass interfaces can be used there in addition to 
+	    iCelPropertyClass.
+	  - Made all iCelPropertyClass property getters and setters functional
+	    from python (some where missing or had output arguments).
+	- caedes made the following changes to pycel.py:
+	  - Fixed actid and propid methods.
+	  - Added a system so pcclass properties can be used directly as
+	    python attributes from the pcclass interface.
+	    like for example: trigger.jitter = 23 .
 26-Dec-2006
 	- cfraz89 added a speed property to pcwheeled.
         - cfraz89 documented the xml of pcwheeled.

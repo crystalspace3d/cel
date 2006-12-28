@@ -23,8 +23,8 @@ pl = physicallayer_ptr
 # Fast functions from the pl
 getid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,s)
 parid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,"cel.parameter."+s) 
-actid = lambda s: _blcelc.iCelPlLayer_FetchStringID("cel.action."+s) 
-propid = lambda s: _blcelc.iCelPlLayer_FetchStringID("cel.property."+s) 
+actid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,"cel.action."+s) 
+propid = lambda s: _blcelc.iCelPlLayer_FetchStringID(pl,"cel.property."+s) 
 fromid = pl.FetchString
 parblock = pl.CreateParameterBlock
 CreateEntity = pl.CreateEntity
@@ -93,6 +93,52 @@ def setParItem(self,item,value):
 
 iCelParameterBlock.__getitem__ = getParItem
 iCelParameterBlock.__setitem__ = setParItem
+
+# Helpers to manage pcclass properties as python attributes
+celpar_outmapping = {
+ CEL_DATA_LONG : _blcelc.iCelPropertyClass_GetPropertyLong,
+ CEL_DATA_FLOAT : _blcelc.iCelPropertyClass_GetPropertyFloat,
+ CEL_DATA_BOOL : _blcelc.iCelPropertyClass_GetPropertyBool,
+ CEL_DATA_STRING : _blcelc.iCelPropertyClass_GetPropertyString,
+ CEL_DATA_VECTOR2 : _blcelc.iCelPropertyClass_GetPropertyVector2,
+ CEL_DATA_VECTOR3 : _blcelc.iCelPropertyClass_GetPropertyVector3,
+ CEL_DATA_COLOR : _blcelc.iCelPropertyClass_GetPropertyColor,
+ CEL_DATA_ENTITY : _blcelc.iCelPropertyClass_GetPropertyEntity
+}
+celpar_inmapping = {
+ CEL_DATA_LONG : _blcelc.iCelPropertyClass_SetPropertyLong,
+ CEL_DATA_FLOAT : _blcelc.iCelPropertyClass_SetPropertyFloat,
+ CEL_DATA_BOOL : _blcelc.iCelPropertyClass_SetPropertyBool,
+ CEL_DATA_STRING : _blcelc.iCelPropertyClass_SetPropertyString,
+ CEL_DATA_VECTOR2 : _blcelc.iCelPropertyClass_SetPropertyVector2,
+ CEL_DATA_VECTOR3 : _blcelc.iCelPropertyClass_SetPropertyVector3,
+ CEL_DATA_COLOR : _blcelc.iCelPropertyClass_SetPropertyColor,
+ CEL_DATA_ENTITY : _blcelc.iCelPropertyClass_SetPropertyEntity
+}
+def PcSetterFallback(self,attr,value):
+        parid = getattr(PropIds,attr)
+        partype = self.GetPropertyOrActionType(parid)
+	try:
+	    return celpar_inmapping[partype](self,parid,value)
+        except:
+            if partype is CEL_DATA_NONE:
+                raise AttributeError,"no property with name "+attr
+            elif partype is CEL_DATA_ACTION:
+                raise AttributeError,attr+" is an action"
+
+def PcGetterFallback(self,attr):
+        parid = getattr(PropIds,attr)
+        partype = self.GetPropertyOrActionType(parid)
+	try:
+	    return celpar_outmapping[partype](self,parid)
+        except:
+            if partype is CEL_DATA_NONE:
+                raise AttributeError,"no property with name "+attr
+            elif partype is CEL_DATA_ACTION:
+                raise AttributeError,attr+" is an action"
+
+iCelPropertyClass.SetterFallback = PcSetterFallback
+iCelPropertyClass.GetterFallback = PcGetterFallback
 
 # Prettier handlers for pc creators
 # (these dont need the pl parameter)
