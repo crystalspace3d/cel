@@ -468,23 +468,23 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       return false;
 
     if (!strcmp (msg_id+15, "accelerate1"))
-	pcwheeled->Accelerate(true);
+	pcwheeled->Accelerate();
 
 //Autoreverse handles putting the car in reverse once it is slow enough.
     else if (!strcmp (msg_id+15, "reverse1"))
-	pcwheeled->Brake(true);
+	pcwheeled->Brake();
 
     else if (!strcmp (msg_id+15, "steerleft1"))
-	pcwheeled->SteerLeft();
+	pcwheeled->Steer(-1.0f);
 
     else if (!strcmp (msg_id+15, "steerright1"))
-	pcwheeled->SteerRight();
+	pcwheeled->Steer(1.0f);
 
     else if (!strcmp (msg_id+15, "steerleft0"))
-	pcwheeled->SteerStraight();
+	pcwheeled->Steer(0.0f);
 
     else if (!strcmp (msg_id+15, "steerright0"))
-	pcwheeled->SteerStraight();
+	pcwheeled->Steer(0.0f);
 
     else if (!strcmp (msg_id+15, "handbrake1"))
 	pcwheeled->Handbrake(true);
@@ -493,12 +493,11 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	pcwheeled->Handbrake(false);
 
     if (!strcmp (msg_id+15, "accelerate0"))
-	pcwheeled->Accelerate(false);
+	pcwheeled->Accelerate(0.0f);
 
     if (!strcmp (msg_id+15, "reverse0"))
     {
-	pcwheeled->Brake(false);
-        pcwheeled->SetGear(1);
+	pcwheeled->Brake(0.0f);
     }
     else if (!strcmp (msg_id+15, "lookup1"))
     {
