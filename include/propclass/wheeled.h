@@ -96,9 +96,10 @@
  * 'cel.property.' to get the ID of the property:
  * - speed (float, read): the current speed of the vehicle.
  * - tankmode (bool, read/write): Whether tank mode is enabled.
- * - accelerating (bool, read/write): Whether the vehicle is accelerating.
- * - brakeing (bool, read/write): Whether the vehicle is braking.
- * - handbrakeing (bool, read/write): Whether the vehicle is handraking.
+ * - steer(float, read/write): Absolute steer(-1 to 1) of the vehicle.
+ * - accelamount(float, read/write): Amount of accelerator application. 0 - 1
+ * - brakeamount(float, read/write): Amount of brake application. 0 - 1
+ * - handbraking (bool, read/write): Whether the vehicle is handraking.
  * - steeramount (float, read/write): Steer amount of wheels.
  * - autotransmission (float, read/write): Whether the vehicle automatically
  *                                   shifts gears.
