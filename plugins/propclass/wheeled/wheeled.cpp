@@ -239,9 +239,9 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
         CEL_DATA_BOOL, false, "Tank Steering.", &tankmode);
   AddProperty (propid_accelerating, "cel.property.accelerating",
         CEL_DATA_BOOL, false, "Vehicle is accelerating.", &accelerating);
-  AddProperty (propid_brakeapplied, "cel.property.brakeapplied",
-        CEL_DATA_BOOL, false, "Brake is applied.", &brakeapplied);
-  AddProperty (propid_handbrakeapplied, "cel.property.handbrakeapplied",
+  AddProperty (propid_braking, "cel.property.braking",
+        CEL_DATA_BOOL, false, "Brake is applied.", 0);
+  AddProperty (propid_handbraking, "cel.property.handbraking",
         CEL_DATA_BOOL, false, "Handbrake is applied.", &handbrakeapplied);
   AddProperty (propid_steeramount, "cel.property.steeramount",
         CEL_DATA_FLOAT, false, "Vehicle Steer Amount.", &steeramount);
@@ -301,7 +301,7 @@ bool celPcWheeled::GetPropertyIndexed (int idx, long& l)
 {
   if (idx == propid_gear)
   {
-    l = GetGear();
+    l = gear;
     return true;
   }
   return false;
@@ -312,6 +312,26 @@ bool celPcWheeled::SetPropertyIndexed (int idx, long l)
   if (idx == propid_gear)
   {
     SetGear(l);
+    return true;
+  }
+  return false;
+}
+
+bool celPcWheeled::GetPropertyIndexed (int idx, bool& b)
+{
+  if (idx == propid_braking)
+  {
+    b = brakeapplied;
+    return true;
+  }
+  return false;
+}
+
+bool celPcWheeled::SetPropertyIndexed (int idx, bool b)
+{
+  if (idx == propid_braking)
+  {
+    Brake(b);
     return true;
   }
   return false;
@@ -650,6 +670,7 @@ size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
   return index;
 }
 
+//Add a wheel. Every configurable setting is passed in here.
 size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
       returnspeed, float ss, float sd,float brakepower,float enginepower,
       float lss, float rss, float friction, float mass, bool hbaffect,
@@ -678,6 +699,7 @@ size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   return index;
 }
 
+//Physically destroy a wheel, but don't forget it.
 void celPcWheeled::DestroyWheel(size_t wheelnum)
 {
   GetMech();
@@ -708,6 +730,7 @@ void celPcWheeled::DestroyAllWheels()
   }
 }
 
+//Totally remove a wheel
 void celPcWheeled::DeleteWheel(size_t wheelnum)
 {
   DestroyWheel(wheelnum);

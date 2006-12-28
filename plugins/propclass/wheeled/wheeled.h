@@ -121,8 +121,8 @@ private:
     propid_speed = 0,
     propid_tankmode,
     propid_accelerating,
-    propid_brakeapplied,
-    propid_handbrakeapplied,
+    propid_braking,
+    propid_handbraking,
     propid_steeramount,
     propid_autotransmission,
     propid_gear,
@@ -428,6 +428,8 @@ public:
       iCelParameterBlock* params, celData& ret);
   virtual bool GetPropertyIndexed (int, long&);
   virtual bool SetPropertyIndexed (int, long);
+  virtual bool GetPropertyIndexed (int, bool&);
+  virtual bool SetPropertyIndexed (int, bool);
 };
 
 #endif // __CEL_PF_VEHICLEFACT__
