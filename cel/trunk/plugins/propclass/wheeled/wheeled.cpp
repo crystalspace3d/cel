@@ -1063,7 +1063,7 @@ void celPcWheeled::TickOnce()
   if(accelamount > 0.0f)
   {
     vel = gears[gear + 1].x;
-    fmax = gears[gear + 1].y;
+    fmax = gears[gear + 1].y * accelamount;
   }
 
   float steerfactor = 1000.0f + fabs(speed) * 100.0f;
@@ -1072,8 +1072,8 @@ void celPcWheeled::TickOnce()
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
     {
       //Apply the throttle
-      wheels[i].WheelJoint->SetVel(vel,1);
-      wheels[i].WheelJoint->SetFMax(fmax*wheels[i].EnginePower,1);
+      wheels[i].WheelJoint->SetVel(vel, 1);
+      wheels[i].WheelJoint->SetFMax(fmax * wheels[i].EnginePower, 1);
 
       //Now apply the brakes / handbrake
       float wheelbrake = 0.0f;
