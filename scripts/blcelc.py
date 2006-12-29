@@ -1013,7 +1013,8 @@ class iCelPropertyClass(cspace.iBase):
     def GetPropertyFloat(*args): return _blcelc.iCelPropertyClass_GetPropertyFloat(*args)
     def GetPropertyBool(*args): return _blcelc.iCelPropertyClass_GetPropertyBool(*args)
     def GetPropertyString(*args): return _blcelc.iCelPropertyClass_GetPropertyString(*args)
-    def GetPropertyVector(*args): return _blcelc.iCelPropertyClass_GetPropertyVector(*args)
+    def GetPropertyVector2(*args): return _blcelc.iCelPropertyClass_GetPropertyVector2(*args)
+    def GetPropertyVector3(*args): return _blcelc.iCelPropertyClass_GetPropertyVector3(*args)
     def GetPropertyColor(*args): return _blcelc.iCelPropertyClass_GetPropertyColor(*args)
     def GetPropertyPClass(*args): return _blcelc.iCelPropertyClass_GetPropertyPClass(*args)
     def GetPropertyEntity(*args): return _blcelc.iCelPropertyClass_GetPropertyEntity(*args)
@@ -1041,15 +1042,26 @@ class iCelPropertyClass(cspace.iBase):
     PropertyAndActionCount = property(_blcelc.iCelPropertyClass_PropertyAndActionCount_get, None, None,
                     "iCelPropertyClass.PropertyAndActionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClass::GetPropertyAndActionCount()")
 
+    def GetterFallback(self,attr):
+         raise AttributeError
+    def SetterFallback(self,attr,value):
+         raise AttributeError
+
     def SetPropertyLong(*args): return _blcelc.iCelPropertyClass_SetPropertyLong(*args)
     def SetPropertyFloat(*args): return _blcelc.iCelPropertyClass_SetPropertyFloat(*args)
     def SetPropertyBool(*args): return _blcelc.iCelPropertyClass_SetPropertyBool(*args)
     def SetPropertyString(*args): return _blcelc.iCelPropertyClass_SetPropertyString(*args)
+    def SetPropertyVector2(*args): return _blcelc.iCelPropertyClass_SetPropertyVector2(*args)
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
+    def SetPropertyColor(*args): return _blcelc.iCelPropertyClass_SetPropertyColor(*args)
+    def SetPropertyEntity(*args): return _blcelc.iCelPropertyClass_SetPropertyEntity(*args)
     __swig_destroy__ = _blcelc.delete_iCelPropertyClass
     __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPropertyClass_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
 iCelPropertyClass_swigregister = _blcelc.iCelPropertyClass_swigregister
 iCelPropertyClass_swigregister(iCelPropertyClass)
+iCelPropertyClass_scfGetVersion = _blcelc.iCelPropertyClass_scfGetVersion
 
 class iCelPropertyClassList(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1063,7 +1075,13 @@ class iCelPropertyClassList(cspace.iBase):
     def GetCount(*args): return _blcelc.iCelPropertyClassList_GetCount(*args)
     def Get(*args): return _blcelc.iCelPropertyClassList_Get(*args)
     def Add(*args): return _blcelc.iCelPropertyClassList_Add(*args)
-    def Remove(*args): return _blcelc.iCelPropertyClassList_Remove(*args)
+    def Remove(self,propclass):
+      if not (isinstance(propclass,int) or isinstance(propclass,
+              iCelPropertyClass)):
+        propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
+      return _blcelc.iCelPropertyClassList_Remove(self,propclass)
+
+
     def RemoveByInterface(*args): return _blcelc.iCelPropertyClassList_RemoveByInterface(*args)
     def RemoveByInterfaceAndTag(*args): return _blcelc.iCelPropertyClassList_RemoveByInterfaceAndTag(*args)
     def RemoveAll(*args): return _blcelc.iCelPropertyClassList_RemoveAll(*args)
@@ -1139,6 +1157,31 @@ class iPcMechanicsSystem(cspace.iBase):
     Gravity = property(_blcelc.iPcMechanicsSystem_Gravity_get, _blcelc.iPcMechanicsSystem_Gravity_set, None,
                     "iPcMechanicsSystem.Gravity -> const csVector3\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const csVector3 iPcMechanicsSystem::GetGravity()\n\tset: void iPcMechanicsSystem::SetGravity(const csVector3)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsSystem, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsSystem.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsSystem,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsSystem
     __del__ = lambda self : None;
@@ -1279,6 +1322,31 @@ class iPcMechanicsObject(cspace.iBase):
                     "iPcMechanicsObject.CollisionCallbackEnabled -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcMechanicsObject::IsCollisionCallbackEnabled()\n\tset: void iPcMechanicsObject::SetCollisionCallbackEnabled(bool)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsObject, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsObject.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsObject,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsObject
     __del__ = lambda self : None;
 iPcMechanicsObject_swigregister = _blcelc.iPcMechanicsObject_swigregister
@@ -1296,6 +1364,31 @@ class iPcMechanicsJoint(cspace.iBase):
     def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
     Joint = property(_blcelc.iPcMechanicsJoint_Joint_get, None, None,
                     "iPcMechanicsJoint.Joint -> iJoint*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iJoint* iPcMechanicsJoint::GetJoint()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsJoint, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsJoint.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsJoint,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsJoint
     __del__ = lambda self : None;
@@ -1357,6 +1450,31 @@ class iPcMechanicsThruster(cspace.iBase):
                     "iPcMechanicsThruster.MaxThrust -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMechanicsThruster::GetMaxThrust()\n\tset: void iPcMechanicsThruster::SetMaxThrust(float)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsThruster, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsThruster.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThruster,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThruster
     __del__ = lambda self : None;
 iPcMechanicsThruster_swigregister = _blcelc.iPcMechanicsThruster_swigregister
@@ -1386,6 +1504,31 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
     Type = property(_blcelc.iPcMechanicsBalancedGroup_Type_get, _blcelc.iPcMechanicsBalancedGroup_Type_set, None,
                     "iPcMechanicsBalancedGroup.Type -> celAxisType\n\nThis is equivalent to calling the C++ cs methods:\n\tget: celAxisType iPcMechanicsBalancedGroup::GetType()\n\tset: void iPcMechanicsBalancedGroup::SetType(celAxisType)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsBalancedGroup, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsBalancedGroup.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsBalancedGroup,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsBalancedGroup
     __del__ = lambda self : None;
@@ -1417,6 +1560,31 @@ class iPcMechanicsThrusterController(cspace.iBase):
     MechanicsObject = property(_blcelc.iPcMechanicsThrusterController_MechanicsObject_get, _blcelc.iPcMechanicsThrusterController_MechanicsObject_set, None,
                     "iPcMechanicsThrusterController.MechanicsObject -> iPcMechanicsObject*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMechanicsObject* iPcMechanicsThrusterController::GetMechanicsObject()\n\tset: void iPcMechanicsThrusterController::SetMechanicsObject(iPcMechanicsObject*)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMechanicsThrusterController, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMechanicsThrusterController.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMechanicsThrusterController,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsThrusterController
     __del__ = lambda self : None;
@@ -1720,6 +1888,31 @@ class iPcBillboard(cspace.iBase):
     Billboard = property(_blcelc.iPcBillboard_Billboard_get, None, None,
                     "iPcBillboard.Billboard -> iBillboard*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iBillboard* iPcBillboard::GetBillboard()")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcBillboard, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcBillboard.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcBillboard,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcBillboard
     __del__ = lambda self : None;
 iPcBillboard_swigregister = _blcelc.iPcBillboard_swigregister
@@ -1941,6 +2134,31 @@ class iPcZoneManager(cspace.iBase):
     LastStartName = property(_blcelc.iPcZoneManager_LastStartName_get, None, None,
                     "iPcZoneManager.LastStartName -> const char *  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char * iPcZoneManager::GetLastStartName()")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcZoneManager, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcZoneManager.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcZoneManager,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcZoneManager
     __del__ = lambda self : None;
 iPcZoneManager_swigregister = _blcelc.iPcZoneManager_swigregister
@@ -1988,6 +2206,31 @@ class iPcCommandInput(cspace.iBase):
     CookedMode = property(_blcelc.iPcCommandInput_CookedMode_get, _blcelc.iPcCommandInput_CookedMode_set, None,
                     "iPcCommandInput.CookedMode -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcCommandInput::GetCookedMode()\n\tset: void iPcCommandInput::SetCookedMode(bool)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcCommandInput, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcCommandInput.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCommandInput,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcCommandInput
     __del__ = lambda self : None;
@@ -2132,6 +2375,31 @@ class iPcLinearMovement(cspace.iBase):
     PortalDisplacement = property(_blcelc.iPcLinearMovement_PortalDisplacement_get, None, None,
                     "iPcLinearMovement.PortalDisplacement -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csVector3 iPcLinearMovement::GetPortalDisplacement()")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcLinearMovement, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcLinearMovement.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcLinearMovement,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcLinearMovement
     __del__ = lambda self : None;
 iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
@@ -2270,6 +2538,31 @@ class iPcActorMove(cspace.iBase):
     Animation = property(None, fix_args(_blcelc.iPcActorMove_SetAnimation), None,
                     "iPcActorMove.Animation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimation(...)")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcActorMove, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcActorMove.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcActorMove,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcActorMove
     __del__ = lambda self : None;
 iPcActorMove_swigregister = _blcelc.iPcActorMove_swigregister
@@ -2356,6 +2649,31 @@ class iPcCamera(cspace.iBase):
 
     DrawFlags = property(_blcelc.iPcCamera_DrawFlags_get, None, None,
                     "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcCamera::GetDrawFlags()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcCamera, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCamera,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
@@ -2474,6 +2792,31 @@ class iPcDefaultCamera(iPcCamera):
                     "iPcDefaultCamera.DistanceVelocity -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcDefaultCamera::GetDistanceVelocity()\n\tset: void iPcDefaultCamera::SetDistanceVelocity(float)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcDefaultCamera, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcDefaultCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcDefaultCamera,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcDefaultCamera
     __del__ = lambda self : None;
 iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
@@ -2512,6 +2855,31 @@ class iPcSimpleCamera(iPcCamera):
     __swig_setmethods__["Mesh"] = _blcelc.iPcSimpleCamera_Mesh_set
     Mesh = property(None, _blcelc.iPcSimpleCamera_Mesh_set, None,
                     "iPcSimpleCamera.Mesh (write only) -> iPcMesh*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSimpleCamera::SetMesh(iPcMesh*)")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcSimpleCamera, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcSimpleCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSimpleCamera,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcSimpleCamera
     __del__ = lambda self : None;
@@ -2622,6 +2990,31 @@ class iPcMeshSelect(cspace.iBase):
                     "iPcMeshSelect.MaxSelectionDistance -> float\n\nThis is equivalent to calling the C++ cs methods:\n\tget: float iPcMeshSelect::GetMaxSelectionDistance()\n\tset: void iPcMeshSelect::SetMaxSelectionDistance(float)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMeshSelect, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMeshSelect.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMeshSelect,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcMeshSelect
     __del__ = lambda self : None;
 iPcMeshSelect_swigregister = _blcelc.iPcMeshSelect_swigregister
@@ -2680,6 +3073,31 @@ class iPcMesh(cspace.iBase):
     Visible = property(_blcelc.iPcMesh_Visible_get, None, None,
                     "iPcMesh.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMesh::IsVisible()")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMesh, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMesh.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMesh,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcMesh
     __del__ = lambda self : None;
 iPcMesh_swigregister = _blcelc.iPcMesh_swigregister
@@ -2701,6 +3119,31 @@ class iPcTimer(cspace.iBase):
     def WakeUp(*args): return _blcelc.iPcTimer_WakeUp(*args)
     def WakeUpFrame(*args): return _blcelc.iPcTimer_WakeUpFrame(*args)
     def Clear(*args): return _blcelc.iPcTimer_Clear(*args)
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcTimer, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcTimer.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTimer,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcTimer
     __del__ = lambda self : None;
 iPcTimer_swigregister = _blcelc.iPcTimer_swigregister
@@ -2724,6 +3167,31 @@ class iPcProjectile(cspace.iBase):
     def IsMoving(*args): return _blcelc.iPcProjectile_IsMoving(*args)
     Moving = property(_blcelc.iPcProjectile_Moving_get, None, None,
                     "iPcProjectile.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcProjectile::IsMoving()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcProjectile, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcProjectile.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcProjectile,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcProjectile
     __del__ = lambda self : None;
@@ -2755,6 +3223,31 @@ class iPcSolid(cspace.iBase):
 
     Collider = property(_blcelc.iPcSolid_Collider_get, None, None,
                     "iPcSolid.Collider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCollider* iPcSolid::GetCollider()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcSolid, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcSolid.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSolid,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcSolid
     __del__ = lambda self : None;
@@ -2816,6 +3309,31 @@ class iPcGravity(cspace.iBase):
                     "iPcGravity.Active -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcGravity::IsActive()\n\tset: void iPcGravity::SetActive(bool)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcGravity, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcGravity.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcGravity,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcGravity
     __del__ = lambda self : None;
 iPcGravity_swigregister = _blcelc.iPcGravity_swigregister
@@ -2848,6 +3366,31 @@ class iPcMovable(cspace.iBase):
     Mesh = property(_blcelc.iPcMovable_Mesh_get, _blcelc.iPcMovable_Mesh_set, None,
                     "iPcMovable.Mesh -> iPcMesh*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMesh* iPcMovable::GetMesh()\n\tset: void iPcMovable::SetMesh(iPcMesh*)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMovable, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMovable.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMovable,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMovable
     __del__ = lambda self : None;
@@ -2985,6 +3528,31 @@ class iPcInventory(cspace.iBase):
                     "iPcInventory.Space -> iCelInventorySpace*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iCelInventorySpace* iPcInventory::GetSpace()\n\tset: void iPcInventory::SetSpace(iCelInventorySpace*)")
 
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcInventory, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcInventory.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcInventory,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     def GetEntities(self): return iCelEntityInvFakeArray(self)
     __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iPcInventory
@@ -3042,6 +3610,31 @@ class iPcCharacteristics(cspace.iBase):
     def MarkDirty(*args): return _blcelc.iPcCharacteristics_MarkDirty(*args)
     def TestConstraints(*args): return _blcelc.iPcCharacteristics_TestConstraints(*args)
     def Dump(*args): return _blcelc.iPcCharacteristics_Dump(*args)
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcCharacteristics, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcCharacteristics.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCharacteristics,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcCharacteristics
     __del__ = lambda self : None;
 iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
@@ -3094,6 +3687,31 @@ class iPcTooltip(cspace.iBase):
     Justify = property(None, _blcelc.iPcTooltip_Justify_set, None,
                     "iPcTooltip.Justify (write only) -> celTooltipJustify\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcTooltip::SetJustify(celTooltipJustify)")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcTooltip, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcTooltip.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTooltip,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
 iPcTooltip_swigregister = _blcelc.iPcTooltip_swigregister
@@ -3115,6 +3733,31 @@ class iPcSoundListener(cspace.iBase):
     def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
     SoundListener = property(_blcelc.iPcSoundListener_SoundListener_get, None, None,
                     "iPcSoundListener.SoundListener -> iSndSysListener*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysListener* iPcSoundListener::GetSoundListener()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcSoundListener, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcSoundListener.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSoundListener,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
@@ -3142,6 +3785,31 @@ class iPcSoundSource(cspace.iBase):
     SoundName = property(_blcelc.iPcSoundSource_SoundName_get, _blcelc.iPcSoundSource_SoundName_set, None,
                     "iPcSoundSource.SoundName -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcSoundSource::GetSoundName()\n\tset: void iPcSoundSource::SetSoundName(const char*)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcSoundSource, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcSoundSource.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcSoundSource,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
@@ -3211,6 +3879,31 @@ class iPcProperties(cspace.iBase):
     PropertyCount = property(_blcelc.iPcProperties_PropertyCount_get, None, None,
                     "iPcProperties.PropertyCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcProperties::GetPropertyCount()")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcProperties, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcProperties.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcProperties,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
 iPcProperties_swigregister = _blcelc.iPcProperties_swigregister
@@ -3250,6 +3943,31 @@ class iPcMover(cspace.iBase):
 
     Moving = property(_blcelc.iPcMover_Moving_get, None, None,
                     "iPcMover.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMover::IsMoving()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcMover, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcMover.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcMover,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
@@ -3304,6 +4022,31 @@ class iPcHover(cspace.iBase):
 
     Height = property(_blcelc.iPcHover_Height_get, None, None,
                     "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcHover::GetHeight()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcHover, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcHover.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcHover,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
@@ -3394,6 +4137,31 @@ class iPcCraftController(cspace.iBase):
     AfterBurnerTopSpeed = property(None, _blcelc.iPcCraftController_AfterBurnerTopSpeed_set, None,
                     "iPcCraftController.AfterBurnerTopSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetAfterBurnerTopSpeed(float)")
 
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcCraftController, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcCraftController.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcCraftController,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
 iPcCraftController_swigregister = _blcelc.iPcCraftController_swigregister
@@ -3427,19 +4195,18 @@ class iPcWheeled(cspace.iBase):
     def SetFrontWheelPreset(*args): return _blcelc.iPcWheeled_SetFrontWheelPreset(*args)
     def SetRearWheelPreset(*args): return _blcelc.iPcWheeled_SetRearWheelPreset(*args)
     def Accelerate(*args): return _blcelc.iPcWheeled_Accelerate(*args)
-    def IsAccelerating(*args): return _blcelc.iPcWheeled_IsAccelerating(*args)
+    def GetAcceleratorAmount(*args): return _blcelc.iPcWheeled_GetAcceleratorAmount(*args)
     def Brake(*args): return _blcelc.iPcWheeled_Brake(*args)
-    def IsBraking(*args): return _blcelc.iPcWheeled_IsBraking(*args)
+    def GetBrakeAmount(*args): return _blcelc.iPcWheeled_GetBrakeAmount(*args)
     def Handbrake(*args): return _blcelc.iPcWheeled_Handbrake(*args)
     def IsHandbraking(*args): return _blcelc.iPcWheeled_IsHandbraking(*args)
     def SetSteerAmount(*args): return _blcelc.iPcWheeled_SetSteerAmount(*args)
     def SetBrakeForce(*args): return _blcelc.iPcWheeled_SetBrakeForce(*args)
     def GetSteerAmount(*args): return _blcelc.iPcWheeled_GetSteerAmount(*args)
-    def GetBrakeApplied(*args): return _blcelc.iPcWheeled_GetBrakeApplied(*args)
-    def GetHandbrakeApplied(*args): return _blcelc.iPcWheeled_GetHandbrakeApplied(*args)
     def GetSpeed(*args): return _blcelc.iPcWheeled_GetSpeed(*args)
     def SteerLeft(*args): return _blcelc.iPcWheeled_SteerLeft(*args)
     def SteerRight(*args): return _blcelc.iPcWheeled_SteerRight(*args)
+    def Steer(*args): return _blcelc.iPcWheeled_Steer(*args)
     def SteerStraight(*args): return _blcelc.iPcWheeled_SteerStraight(*args)
     def Reverse(*args): return _blcelc.iPcWheeled_Reverse(*args)
     def Neutral(*args): return _blcelc.iPcWheeled_Neutral(*args)
@@ -3504,16 +4271,6 @@ class iPcWheeled(cspace.iBase):
     RearWheelPreset = property(None, fix_args(_blcelc.iPcWheeled_SetRearWheelPreset), None,
                     "iPcWheeled.RearWheelPreset -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcWheeled::getmethod()\n\tset: void iPcWheeled::SetRearWheelPreset(...)")
 
-    __swig_setmethods__["Accelerating"] = _blcelc.iPcWheeled_Accelerating_set
-    Accelerating = property(_blcelc.iPcWheeled_Accelerating_get, _blcelc.iPcWheeled_Accelerating_set, None,
-                    "iPcWheeled.Accelerating -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsAccelerating()\n\tset: void iPcWheeled::Accelerate(bool)")
-
-
-    __swig_setmethods__["Braking"] = _blcelc.iPcWheeled_Braking_set
-    Braking = property(_blcelc.iPcWheeled_Braking_get, _blcelc.iPcWheeled_Braking_set, None,
-                    "iPcWheeled.Braking -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsBraking()\n\tset: void iPcWheeled::Brake(bool)")
-
-
     __swig_setmethods__["Handbraking"] = _blcelc.iPcWheeled_Handbraking_set
     Handbraking = property(_blcelc.iPcWheeled_Handbraking_get, _blcelc.iPcWheeled_Handbraking_set, None,
                     "iPcWheeled.Handbraking -> bool\n\nThis is equivalent to calling the C++ cs methods:\n\tget: bool iPcWheeled::IsHandbraking()\n\tset: void iPcWheeled::Handbrake(bool)")
@@ -3548,6 +4305,31 @@ class iPcWheeled(cspace.iBase):
 
     WheelCount = property(_blcelc.iPcWheeled_WheelCount_get, None, None,
                     "iPcWheeled.WheelCount -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcWheeled::GetWheelCount()")
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcWheeled, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcWheeled.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcWheeled,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
@@ -3610,6 +4392,31 @@ class iPcDamage(cspace.iBase):
     DamageSource = property(_blcelc.iPcDamage_DamageSource_get, _blcelc.iPcDamage_DamageSource_set, None,
                     "iPcDamage.DamageSource -> const char*\n\nThis is equivalent to calling the C++ cs methods:\n\tget: const char* iPcDamage::GetDamageSource()\n\tset: void iPcDamage::SetDamageSource(const char*)")
 
+
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcDamage, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcDamage.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcDamage,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         elif hasattr(self,attr):
+             _object.__setattr__(self,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
 
     __swig_destroy__ = _blcelc.delete_iPcDamage
     __del__ = lambda self : None;
