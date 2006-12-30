@@ -489,7 +489,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       {
         CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
         if(!p_amount)
-          amount = celPcWheeled::steeramount;
+          amount = 1.0f;
         SteerLeft(amount);
         return true;
       }
@@ -497,7 +497,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
       {
         CEL_FETCH_FLOAT_PAR(amount, params, param_steeramount);
         if(!p_amount)
-          amount = celPcWheeled::steeramount;
+          amount = 1.0f;
         SteerRight(amount);
         return true;
       }
@@ -1099,7 +1099,10 @@ void celPcWheeled::TickOnce()
 
     if (autoreverse && accelamount >= 0.1 && gear == -1
          && accelamount != brakeamount)
-      gear = 1;
+      {
+        gear = 1;
+        accelamount = 0;
+      }
 
     if(tankmode && abssteer != 0.0f)
       UpdateTankSteer();

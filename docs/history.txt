@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Dec-2006
+	- cfraz89 fixed a reversing bug in pcwheeled.
 28-Dec-2006
 	- cfraz89 fixed a bug in pcwheeled properties.
 	- cfraz89 added analogue acceleration and braking to wheeled.
