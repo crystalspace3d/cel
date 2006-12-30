@@ -279,10 +279,8 @@ public:
   virtual void SetCollisionCallbackEnabled (bool en) { cd_enabled = en; }
   virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
 
-  virtual void SteerLeft() {SteerLeft(1.0f);}
-  virtual void SteerLeft(float amount);
-  virtual void SteerRight() {SteerRight(1.0f);}
-  virtual void SteerRight(float amount);
+  virtual void SteerLeft(float amount = 1.0f);
+  virtual void SteerRight(float amount = 1.0f);
   virtual void Steer(float amount);
   virtual void UpdateTankSteer();
   virtual void SteerStraight();

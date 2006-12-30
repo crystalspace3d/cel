@@ -329,26 +329,16 @@ struct iPcWheeled : public virtual iBase
   virtual float GetSpeed() = 0;
 
   /**
-   * Steer the vehicle left, but only a portion of full steering.
+   * Steer the vehicle left, by a fraction of full steer.
    * \param amount Ratio of steeramount to steer (0 - 1)
    */
-  virtual void SteerLeft(float amount) = 0;
+  virtual void SteerLeft(float amount = 1.0f) = 0;
 
   /**
-   * Steer the vehicle right, but only a portion of full steering.
+   * Steer the vehicle right, by a fraction of full steer.
    * \param amount Ratio of steeramount to steer(0 - 1)
    */
-  virtual void SteerRight(float amount) = 0;
-
-  /**
-   * Steer the vehicle left. Uses a ratio of 1.0
-   */
-  virtual void SteerLeft() = 0;
-
-  /**
-   * Steer the vehicle right. Uses a ratio of 1.0
-   */
-  virtual void SteerRight() = 0;
+  virtual void SteerRight(float amount = 1.0f) = 0;
 
   /**
    * Combined steer. Steer the vehicle by a certain amount (-1 to 1).
