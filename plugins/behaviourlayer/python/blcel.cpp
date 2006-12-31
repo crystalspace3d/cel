@@ -61034,36 +61034,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iPcWheeled_SteerRight__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
-  float arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  float val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_SteerRight",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SteerRight" "', argument " "1"" of type '" "iPcWheeled *""'"); 
-  }
-  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
-  ecode2 = SWIG_AsVal_float(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SteerRight" "', argument " "2"" of type '" "float""'");
-  } 
-  arg2 = static_cast< float >(val2);
-  (arg1)->SteerRight(arg2);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *_wrap_iPcWheeled_SteerLeft__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -61122,6 +61092,36 @@ SWIGINTERN PyObject *_wrap_iPcWheeled_SteerLeft(PyObject *self, PyObject *args) 
   
 fail:
   SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iPcWheeled_SteerLeft'");
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_SteerRight__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  float arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  float val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_SteerRight",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SteerRight" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_float(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SteerRight" "', argument " "2"" of type '" "float""'");
+  } 
+  arg2 = static_cast< float >(val2);
+  (arg1)->SteerRight(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
   return NULL;
 }
 
