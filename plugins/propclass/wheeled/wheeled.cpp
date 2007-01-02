@@ -1056,14 +1056,33 @@ void celPcWheeled::TickOnce()
   if(gear > 0 && autotransmission)
     UpdateGear();
 
+  //Change accelamount to the brake amount if we are reversing.
+  float modulatedaccel = accelamount;
+  //if autoreverse is on, check if the vehicle is slow enough to start
+  // reversing.
+  if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
+  {
+    if (gear != -1)
+    {
+      Reverse();
+      accelamount = 0.0f;
+    }
+    modulatedaccel = brakeamount;
+  }
+  //Hit accelerate, time to kick out of reverse
+  if (autoreverse && accelamount >= 0.1 && gear == -1)
+    gear = 1;
+
+
   //Update the wheel's speeds to the current gear if accelerating. else
   //use the neutral gear settings.
   float vel=gears[1].x;
   float fmax=gears[1].y;
-  if(accelamount > 0.0f)
+
+  if(modulatedaccel > 0.0f)
   {
     vel = gears[gear + 1].x;
-    fmax = gears[gear + 1].y * accelamount;
+    fmax = gears[gear + 1].y * modulatedaccel;
   }
 
   float steerfactor = 1000.0f + fabs(speed) * 100.0f;
@@ -1089,20 +1108,6 @@ void celPcWheeled::TickOnce()
       wheels[i].WheelJoint->SetFMax(steerfactor, 0);
     }
   }
-      //if autoreverse is on, check if the vehicle is slow enough to start
-      // reversing.
-    if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
-    {
-      Reverse();
-      accelamount = brakeamount;
-    }
-
-    if (autoreverse && accelamount >= 0.1 && gear == -1
-         && accelamount != brakeamount)
-      {
-        gear = 1;
-        accelamount = 0;
-      }
 
     if(tankmode && abssteer != 0.0f)
       UpdateTankSteer();
