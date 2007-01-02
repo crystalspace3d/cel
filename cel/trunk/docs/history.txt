@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+02-Dec-2006
+	- cfraz89 attempted to fix a bug with pcwheeled stopping.
 30-Dec-2006
 	- cfraz89 fixed a reversing bug in pcwheeled.
 28-Dec-2006
