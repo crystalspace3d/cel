@@ -114,7 +114,6 @@ struct iCelEntity;
 struct iBodyGroup;
 struct iMeshFactoryWrapper;
 struct iODEHinge2Joint;
-struct iODEAMotorJoint;
 struct iRigidBody;
 
 struct iPcWheeled : public virtual iBase
@@ -607,22 +606,16 @@ struct iPcWheeled : public virtual iBase
   virtual size_t GetWheelCount() = 0;
 
   /**
-   * Get the rigid body of this wheel
+   * Get whether the rigid body of this wheel
    * \param wheelnum Index of the wheel to get.
    */
   virtual iRigidBody* GetWheelBody(size_t wheelnum) = 0;
 
   /**
-   * Get the joint connecting this wheel to the vehicle body
+   * Get whether the joint connecting this wheel
    * \param wheelnum Index of the wheel to get.
    */
   virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum) = 0;
-
-  /**
-   * Get the motor which powers the vehicle brakes
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual iODEAMotorJoint* GetWheelBrakeMotor(size_t wheelnum) = 0;
 
   /**
    * Set whether to send messages back to the entity when wheels collide with
