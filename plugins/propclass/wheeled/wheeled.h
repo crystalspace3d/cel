@@ -407,9 +407,6 @@ public:
   virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum)
   {return wheels[wheelnum].WheelJoint;}
 
-  virtual iODEAMotorJoint* GetWheelBrakeMotor(size_t wheelnum)
-  {return wheels[wheelnum].BrakeMotor;}
-
   virtual size_t GetWheelCount() { return wheels.Length(); }
 
   struct WheeledCollisionCallback : public iDynamicsCollisionCallback
