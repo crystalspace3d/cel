@@ -108,6 +108,7 @@
  * - autoreverse (bool, read/write): Whether the vehicle automatically
  *                                   reverses at low speeds while braking.
  * - outerwheelsteerpreset (float, read/write): Outer wheel steer preset.
+ * - absenabled (bool, read/write): ABS Braking enabled.
  */
 
 struct iCelEntity;
@@ -150,6 +151,17 @@ struct iPcWheeled : public virtual iBase
    * Get if tank mode is enabled
    */
   virtual bool GetTankMode() = 0;
+
+  /**
+   * Set if the vehicle uses anti-lock braking.
+   *  \param enabled Whether abs is enabled.
+   */
+  virtual void SetABSEnabled(bool enabled) = 0;
+
+  /**
+   * Get if the vehicle uses anti-lock braking.
+   */
+  virtual bool GetABSEnabled() = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout. This method uses the

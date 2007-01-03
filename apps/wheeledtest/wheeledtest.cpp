@@ -262,7 +262,8 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   //Making the outer wheels steer a wider arc also improves traction while turning.
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
 
-  pcwheeled->SetBrakeForce(200.0f);
+  pcwheeled->SetBrakeForce(1000.0f);
+  pcwheeled->SetABSEnabled(true);
   pcwheeled->SetSteerAmount(0.7f);
 
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));
