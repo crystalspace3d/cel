@@ -41,7 +41,6 @@
 #include "propclass/mechsys.h"
 
 #include <cmath>
-#include <iostream>
 
 //--------------------------------------------------------------------------
 
@@ -123,6 +122,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   accelamount = 0.0f;
   brakeamount = 0.0f;
+  absenabled = true;
   autotransmission = true;
   handbrakeapplied = false;
   autotransmission = true;
@@ -232,7 +232,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (12);
+  propinfo.SetCount (13);
   AddProperty (propid_speed, "cel.property.speed",
         CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
@@ -256,7 +256,9 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   AddProperty (propid_autoreverse, "cel.property.autoreverse",
         CEL_DATA_BOOL, false, "Vehicle automatically reverses.", &autoreverse);
   AddProperty (propid_outerwheelsteerpreset, "cel.property.outerwheelsteerpreset",
-        CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", &outersteer);
+        CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", 0);
+  AddProperty (propid_absenabled, "cel.property.absenabled",
+        CEL_DATA_BOOL, false, "Vehicle antil-lock brakes enabled.", &absenabled);
 
 
   params = new celGenericParameterBlock (5);
@@ -266,7 +268,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   params->SetParameterDef (3, param_depth, "depth");
   params->SetParameterDef (4, param_index, "index");
 
-  pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
+  pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
 }
 
 celPcWheeled::~celPcWheeled ()
@@ -326,15 +328,19 @@ bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
     f = accelamount;
     return true;
   }
-  if (idx == propid_brakeamount)
+  else if (idx == propid_brakeamount)
   {
     f = brakeamount;
     return true;
   }
-  if (idx == propid_steer)
+  else if (idx == propid_steer)
   {
     f = abssteer;
     return true;
+  }
+  else if (idx == propid_outerwheelsteerpreset)
+  {
+    f = outersteer;
   }
   return false;
 }
@@ -346,14 +352,19 @@ bool celPcWheeled::SetPropertyIndexed (int idx, float f)
     Accelerate(f);
     return true;
   }
-  if (idx == propid_brakeamount)
+  else if (idx == propid_brakeamount)
   {
     Brake(f);
     return true;
   }
-  if (idx == propid_steer)
+  else if (idx == propid_steer)
   {
     Steer(f);
+    return true;
+  }
+  else if (idx == propid_outerwheelsteerpreset)
+  {
+    SetOuterWheelSteerPreset(f);
     return true;
   }
   return false;
@@ -714,6 +725,7 @@ size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.HandbrakeAffected=hbaffect;
   wheel.SteerInverted=sinvert;
   wheel.Rotation = rotation;
+  wheel.ABSBrake = 1.0f;
   wheels.Push(wheel);
   size_t index=wheels.Length()-1;
   SetWheelMesh(index, wheelfact, wheelfile);
@@ -1065,7 +1077,8 @@ void celPcWheeled::TickOnce()
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
     {
       UpdateAccel(i);
-      UpdateBrakes(i);
+      float avgspin = GetAverageWheelSpin();
+      UpdateBrakes(avgspin, i);
       if(tankmode && abssteer != 0.0f)
         UpdateTankSteer(i);
       // Set the power of steering proportional to the speed of the car.
@@ -1075,7 +1088,7 @@ void celPcWheeled::TickOnce()
     }
   }
 
-  pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
+  pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
 }
 
 //Update acceleration of each of a wheel
@@ -1112,15 +1125,40 @@ void celPcWheeled::UpdateAccel(size_t wheelnum)
 }
 
 //Update the braking of a given wheel
-void celPcWheeled::UpdateBrakes(size_t wheelnum)
+void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
 {
-  //Now apply the brakes / handbrake
+  //Final force of the brakes
   float wheelbrake = 0.0f;
+
+  //Maybe hanbrake is applied. Apply an insane amount of braking then.
   if (handbrakeapplied && wheels[wheelnum].HandbrakeAffected)
-  wheelbrake = brakeforce * 1000.0f;
+    wheelbrake = brakeforce * 1000.0f;
+
   //Don't use brakeamount to brake if we are in autoreverse
-  else if(!(autoreverse && gear == -1))
+  else if(!(autoreverse && gear == -1) && brakeamount > 0.05f)
+  {
     wheelbrake = brakeforce * wheels[wheelnum].BrakePower * brakeamount;
+    //If using abs, test if wheel is locked
+    if (absenabled)
+    {
+      float wheelspin = GetWheelSpin(wheelnum);
+      float spindiff = avgspin - wheelspin;
+      //Wheel is locked - ease off the brake.
+      if (spindiff >= 0.05f | wheelspin < 2.0f)
+      {
+        if (wheels[wheelnum].ABSBrake > 0.0f)
+          wheels[wheelnum].ABSBrake -= 0.05f;
+      }
+      //Otherwise increase brake force
+      else if (spindiff <= -0.05f)
+      {
+        if (wheels[wheelnum].ABSBrake < 1.0f)
+          wheels[wheelnum].ABSBrake += 0.05f;
+      }
+      wheelbrake = wheelbrake * wheels[wheelnum].ABSBrake;
+    }
+  }
+  //std::cout << wheelbrake << "\n";
   wheels[wheelnum].BrakeMotor->SetFMax(wheelbrake, 0);
 }
 

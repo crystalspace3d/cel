@@ -61,6 +61,8 @@ struct celWheel
   float WheelMass;
   bool SteerInverted;
   bool HandbrakeAffected;
+  //Used for abs braking. Ratio of brake application
+  float ABSBrake;
 };
 /**
  * Factory for test.
@@ -130,7 +132,8 @@ private:
     propid_gear,
     propid_brakeforce,
     propid_autoreverse,
-    propid_outerwheelsteerpreset
+    propid_outerwheelsteerpreset,
+    propid_absenabled
   };
 
   // Parameters.
@@ -178,6 +181,8 @@ private:
   bool autoreverse;
   bool tankmode;
   bool handbrakeapplied;
+  //ABS braking
+  bool absenabled;
   //Absolute steering amount
   float abssteer;
   //The angle the user wants the wheels to reach
@@ -234,16 +239,18 @@ public:
   virtual void GetMech();
   void TickOnce();
   void UpdateAccel(size_t wheelnum);
-  void UpdateBrakes(size_t wheelnum);
+  void UpdateBrakes(float avgspin, size_t wheelnum);
   void UpdateTankSteer(size_t wheelnum);
   void UpdateGear();
 
   //Setters
   virtual void SetWheelMesh(const char* file, const char* factname);
   virtual void SetTankMode(bool tankmode)
-  {celPcWheeled::tankmode=tankmode;};
+  {celPcWheeled::tankmode = tankmode;};
+  virtual void SetABSEnabled(bool enabled)
+  {celPcWheeled::absenabled = enabled;};
   virtual void SetSteerAmount(float steeramount)
-  {celPcWheeled::steeramount=steeramount;};
+  {celPcWheeled::steeramount = steeramount;};
   //This one uses presets
   virtual size_t AddWheelAuto(csVector3 position, const char* wheelfact = 0,
        const char* wheelfile = 0,
@@ -357,6 +364,7 @@ public:
   virtual float GetSteerAmount(){return steeramount;}
   virtual float GetSteer() {return abssteer;}
   virtual bool GetTankMode(){return tankmode;}
+  virtual bool GetABSEnabled(){return absenabled;}
   virtual float GetSpeed();
 
   // Per-wheel settings

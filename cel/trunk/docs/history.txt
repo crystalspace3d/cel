@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 03-Dec-2006
 	- cfraz89 added wheelspin detection in pcwheeled, updating
 	  gearing to use this.
+	- cfraz89 added ABS braking to pcwheeled.
 02-Dec-2006
 	- cfraz89 attempted to fix a bug with pcwheeled stopping.
 	- darek reverted this fix - that was error in my behaviour
