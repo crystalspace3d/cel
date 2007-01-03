@@ -41,6 +41,7 @@
 #include "propclass/mechsys.h"
 
 #include <cmath>
+#include <iostream>
 
 //--------------------------------------------------------------------------
 
@@ -127,7 +128,6 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
   autotransmission = true;
   autoreverse = true;
   cd_enabled = true;
-  wheelradius = 0;
 
   steeramount = 0.7f;
 
@@ -783,6 +783,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
       bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
   csRef<iMeshFactoryWrapper> wmeshfact;
   wmeshfact = engine->FindMeshFactory(wheels[wheelnum].Meshfact);
+  //Create the mesh of the wheel
   if(bodySectors->GetCount() > 0)
   {
     csRef<iSector> bodySector=bodySectors->Get(0);
@@ -802,7 +803,8 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   bodyGroup->AddBody(wheelbody);
   wheelbody->SetCollisionCallback (scfiWheeledCollisionCallback);
 
-  csVector3 wheelcenter;
+  csVector3 wheelcenter(0);
+  float wheelradius = 0.0f;
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
   wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0),csMatrix3 ());
@@ -997,30 +999,6 @@ void celPcWheeled::SteerStraight()
   abssteer = 0.0f;
 }
 
-void celPcWheeled::UpdateTankSteer()
-{
-  //The tank steers by braking one side of the wheels
-  //  if(gear!=0)
-  for(size_t i =0; i < wheels.Length() ; i++)
-  {
-    if(wheels[i].WheelJoint!=0)
-    {
-          //It's a right wheel, steering right. slow it down
-      if (wheels[i].Position.x < 0 && abssteer > 0)
-      {
-        wheels[i].WheelJoint->SetVel(0,1);
-        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
-      }
-          //It's a left wheel, steering left. slow it down
-      if (wheels[i].Position.x > 0  && abssteer < 0)
-      {
-        wheels[i].WheelJoint->SetVel(0,1);
-        wheels[i].WheelJoint->SetFMax(wheels[i].BrakePower*brakeforce,1);
-      }
-    }
-  }
-}
-
 void celPcWheeled::GetMech()
 {
   if(!bodyMech)
@@ -1045,68 +1023,130 @@ float celPcWheeled::GetSpeed()
   csVector3 linvel = bodyMech->GetBody()->GetLinearVelocity();
   return -trans.Other2ThisRelative(linvel).z;
 }
-//
-//Update the vehicle. Order is important here! first comes acceleration,
-//then braking, then handbrake. tank steering comes last.
+
+//Get the forward spin velocity of a wheel
+float celPcWheeled::GetWheelSpin(size_t wheelnum)
+{
+  //First ensure everything is set and ready to go.
+  GetMech();
+  iRigidBody* wb = wheels[wheelnum].RigidBody;
+  csVector3 avel = wb->GetAngularVelocity();
+  csOrthoTransform trans =  wb->GetTransform();
+  float vel = -trans.Other2ThisRelative(avel).x;
+  //Left wheels must be * -1 to return a positive velocity.
+  if (wheels[wheelnum].Position.x < 0.0f)
+    vel *= -1;
+  return vel;
+}
+
+//Get average wheel velocity
+float celPcWheeled::GetAverageWheelSpin()
+{
+  size_t numwheels = wheels.Length();
+  float velsum = 0.0f;
+  for(size_t i = 0 ; i < numwheels; i++)
+    velsum += GetWheelSpin(i);
+  return (velsum /numwheels);
+}
+
+
+//Update the vehicle. Update gear, then loop through all wheels, updating
+//acceleration, braking, steering
 void celPcWheeled::TickOnce()
 {
-  speed = GetSpeed();
-
   //Dont try to work out the gear in neutral or reverse.
   if(gear > 0 && autotransmission)
     UpdateGear();
 
-  //Update the wheel's speeds to the current gear if accelerating. else
-  //use the neutral gear settings.
-  float vel=gears[1].x;
-  float fmax=gears[1].y;
-  if(accelamount > 0.0f)
-  {
-    vel = gears[gear + 1].x;
-    fmax = gears[gear + 1].y * accelamount;
-  }
-
   float steerfactor = 1000.0f + fabs(speed) * 100.0f;
+
   for(size_t i=0; i < wheels.Length();i++)
   {
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
     {
-      //Apply the throttle
-      wheels[i].WheelJoint->SetVel(vel, 1);
-      wheels[i].WheelJoint->SetFMax(fmax * wheels[i].EnginePower, 1);
-
-      //Now apply the brakes / handbrake
-      float wheelbrake = 0.0f;
-      if (handbrakeapplied && wheels[i].HandbrakeAffected)
-        wheelbrake = brakeforce * 1000.0f;
-      else
-        wheelbrake = brakeforce * wheels[i].BrakePower * brakeamount;
-      wheels[i].BrakeMotor->SetFMax(wheelbrake, 0);
-
+      UpdateAccel(i);
+      UpdateBrakes(i);
+      if(tankmode && abssteer != 0.0f)
+        UpdateTankSteer(i);
       // Set the power of steering proportional to the speed of the car.
       // This gives smooth steer and return at low speeds, while
       // preventing wheels from bending at high speeds.
       wheels[i].WheelJoint->SetFMax(steerfactor, 0);
     }
   }
-      //if autoreverse is on, check if the vehicle is slow enough to start
-      // reversing.
-    if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
-    {
-      Reverse();
-      accelamount = brakeamount;
-    }
 
-    if (autoreverse && accelamount >= 0.1 && gear == -1
-         && accelamount != brakeamount)
-      {
-        gear = 1;
-        accelamount = 0;
-      }
-
-    if(tankmode && abssteer != 0.0f)
-      UpdateTankSteer();
   pl->CallbackOnce ((iCelTimerListener*)this, 100, CEL_EVENT_PRE);
+}
+
+//Update acceleration of each of a wheel
+void celPcWheeled::UpdateAccel(size_t wheelnum)
+{
+  speed = GetSpeed();
+  float appliedaccel = accelamount;
+
+  //if autoreverse is on, check if the vehicle is slow enough to start
+  // reversing.
+  if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
+  {
+    Reverse();
+    appliedaccel = brakeamount;
+  }
+
+  //Accelerator pressed with autoreverse, time to switch off reverse.
+  if (autoreverse && accelamount >= 0.1 && gear == -1)
+    gear = 1;
+
+  //Update the wheel's speeds to the current gear if accelerating. else
+  //use the neutral gear settings.
+  float vel=gears[1].x;
+  float fmax=gears[1].y;
+
+  if(appliedaccel > 0.0f)
+  {
+    vel = gears[gear + 1].x;
+    fmax = gears[gear + 1].y * appliedaccel;
+  }
+  //Apply the throttle
+  wheels[wheelnum].WheelJoint->SetVel(vel, 1);
+  wheels[wheelnum].WheelJoint->SetFMax(fmax * wheels[wheelnum].EnginePower, 1);
+}
+
+//Update the braking of a given wheel
+void celPcWheeled::UpdateBrakes(size_t wheelnum)
+{
+  //Now apply the brakes / handbrake
+  float wheelbrake = 0.0f;
+  if (handbrakeapplied && wheels[wheelnum].HandbrakeAffected)
+  wheelbrake = brakeforce * 1000.0f;
+  //Don't use brakeamount to brake if we are in autoreverse
+  else if(!(autoreverse && gear == -1))
+    wheelbrake = brakeforce * wheels[wheelnum].BrakePower * brakeamount;
+  wheels[wheelnum].BrakeMotor->SetFMax(wheelbrake, 0);
+}
+
+//When using tank steering, brake a given wheel
+void celPcWheeled::UpdateTankSteer(size_t wheelnum)
+{
+  float brakeapply = wheels[wheelnum].BrakePower * brakeforce * brakeamount;
+  brakeapply *= fabs(abssteer);
+  //The tank steers by braking one side of the wheels
+      //It's a right wheel, steering right. slow it down
+  if (wheels[wheelnum].Position.x < 0.0f && abssteer > 0.0f)
+    wheels[wheelnum].BrakeMotor->SetFMax(brakeapply, 0);
+      //It's a left wheel, steering left. slow it down
+  if (wheels[wheelnum].Position.x > 0.0f  && abssteer < 0.0f)
+    wheels[wheelnum].BrakeMotor->SetFMax(brakeapply, 0);
+}
+
+void celPcWheeled::UpdateGear()
+{
+   for(int i = 1; i <= topgear; i++)
+   {
+     if (GetAverageWheelSpin() >= gears[i].x)
+     {
+       gear = i;
+     }
+   }
 }
 
 void celPcWheeled::SetGear(int gear)
@@ -1129,18 +1169,6 @@ void celPcWheeled::SetGearSettings(int gear, float velocity, float
   {
     gears[gear+1].x=velocity;
     gears[gear+1].y=force;
-  }
-}
-
-void celPcWheeled::UpdateGear()
-{
-  for(int i=0; i < topgear; i++)
-  {
-    if (bodyMech->GetBody()->GetLinearVelocity().Norm()
-        >= (gears[i+1].x)*wheelradius*wheelradius*3.14-2 )
-    {
-      gear=i+1;
-    }
   }
 }
 

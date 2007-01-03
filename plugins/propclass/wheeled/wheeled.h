@@ -180,7 +180,6 @@ private:
   bool handbrakeapplied;
   //Absolute steering amount
   float abssteer;
-  float wheelradius;
   //The angle the user wants the wheels to reach
   float steeramount;
   //The amount of preset sensitivity to be applied to front wheels.
@@ -234,6 +233,9 @@ public:
   virtual ~celPcWheeled ();
   virtual void GetMech();
   void TickOnce();
+  void UpdateAccel(size_t wheelnum);
+  void UpdateBrakes(size_t wheelnum);
+  void UpdateTankSteer(size_t wheelnum);
   void UpdateGear();
 
   //Setters
@@ -282,7 +284,6 @@ public:
   virtual void SteerLeft(float amount = 1.0f);
   virtual void SteerRight(float amount = 1.0f);
   virtual void Steer(float amount);
-  virtual void UpdateTankSteer();
   virtual void SteerStraight();
   virtual void Reverse() {gear=-1;}
   virtual void Neutral() {gear=0;}
@@ -406,6 +407,12 @@ public:
 
   virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum)
   {return wheels[wheelnum].WheelJoint;}
+
+  virtual iODEAMotorJoint* GetBrakeMotor(size_t wheelnum)
+  {return wheels[wheelnum].BrakeMotor;}
+
+  virtual float GetWheelSpin(size_t wheelnum);
+  virtual float GetAverageWheelSpin();
 
   virtual size_t GetWheelCount() { return wheels.Length(); }
 
