@@ -58915,6 +58915,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_SetABSEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_SetABSEnabled",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetABSEnabled" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SetABSEnabled" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetABSEnabled(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetABSEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcWheeled_GetABSEnabled",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetABSEnabled" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  result = (bool)(arg1)->GetABSEnabled();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_AddWheelAuto__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -62565,6 +62617,37 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetBrakeMotor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  size_t arg2 ;
+  iODEAMotorJoint *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_GetBrakeMotor",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetBrakeMotor" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_GetBrakeMotor" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  result = (iODEAMotorJoint *)(arg1)->GetBrakeMotor(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iODEAMotorJoint, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_SetCollisionCallbackEnabled(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -65759,6 +65842,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_SetWheelMesh", _wrap_iPcWheeled_SetWheelMesh, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetTankMode", _wrap_iPcWheeled_SetTankMode, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetTankMode", _wrap_iPcWheeled_GetTankMode, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_SetABSEnabled", _wrap_iPcWheeled_SetABSEnabled, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetABSEnabled", _wrap_iPcWheeled_GetABSEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_AddWheelAuto", _wrap_iPcWheeled_AddWheelAuto, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_AddWheel", _wrap_iPcWheeled_AddWheel, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_DeleteWheel", _wrap_iPcWheeled_DeleteWheel, METH_VARARGS, NULL},
@@ -65824,6 +65909,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_GetWheelCount", _wrap_iPcWheeled_GetWheelCount, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelBody", _wrap_iPcWheeled_GetWheelBody, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelJoint", _wrap_iPcWheeled_GetWheelJoint, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetBrakeMotor", _wrap_iPcWheeled_GetBrakeMotor, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetCollisionCallbackEnabled", _wrap_iPcWheeled_SetCollisionCallbackEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_IsCollisionCallbackEnabled", _wrap_iPcWheeled_IsCollisionCallbackEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_TankMode_set", _wrap_iPcWheeled_TankMode_set, METH_VARARGS, NULL},
@@ -67193,7 +67279,6 @@ static swig_type_info _swigt__p_iGraphics2D = {"_p_iGraphics2D", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iCameraPosition = {"_p_iCameraPosition", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iPolygonMesh = {"_p_iPolygonMesh", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iTextureList = {"_p_iTextureList", 0, 0, 0, 0, 0};
-static swig_type_info _swigt__p_iODEAMotorJoint = {"_p_iODEAMotorJoint", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iODESliderJoint = {"_p_iODESliderJoint", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iParticleBuiltinEmitterCone = {"_p_iParticleBuiltinEmitterCone", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iSectorList = {"_p_iSectorList", 0, 0, 0, 0, 0};
@@ -67324,6 +67409,7 @@ static swig_type_info _swigt__p_iDynamicSystem = {"_p_iDynamicSystem", "iDynamic
 static swig_type_info _swigt__p_iFont = {"_p_iFont", "iFont *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iJoint = {"_p_iJoint", "iJoint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iMeshWrapper = {"_p_iMeshWrapper", "iMeshWrapper *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_iODEAMotorJoint = {"_p_iODEAMotorJoint", "iODEAMotorJoint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iODEHinge2Joint = {"_p_iODEHinge2Joint", "iODEHinge2Joint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iObject = {"_p_iObject", "iObject *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iObjectRegistry = {"_p_iObjectRegistry", "iObjectRegistry *", 0, 0, (void*)0, 0};
@@ -68044,7 +68130,6 @@ static swig_cast_info _swigc__p_iGraphics2D[] = {{&_swigt__p_iGraphics2D, 0, 0, 
 static swig_cast_info _swigc__p_iCameraPosition[] = {{&_swigt__p_iCameraPosition, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iPolygonMesh[] = {{&_swigt__p_iPolygonMesh, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iTextureList[] = {{&_swigt__p_iTextureList, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_iODEAMotorJoint[] = {{&_swigt__p_iODEAMotorJoint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iODESliderJoint[] = {{&_swigt__p_iODESliderJoint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iParticleBuiltinEmitterCone[] = {{&_swigt__p_iParticleBuiltinEmitterCone, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSectorList[] = {{&_swigt__p_iSectorList, 0, 0, 0},{0, 0, 0, 0}};
@@ -68176,6 +68261,7 @@ static swig_cast_info _swigc__p_iDynamicSystem[] = {  {&_swigt__p_iDynamicSystem
 static swig_cast_info _swigc__p_iFont[] = {  {&_swigt__p_iFont, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iJoint[] = {  {&_swigt__p_iJoint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iMeshWrapper[] = {  {&_swigt__p_iMeshWrapper, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_iODEAMotorJoint[] = {  {&_swigt__p_iODEAMotorJoint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iODEHinge2Joint[] = {  {&_swigt__p_iODEHinge2Joint, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iObject[] = {  {&_swigt__p_iObject, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iObjectRegistry[] = {  {&_swigt__p_iObjectRegistry, 0, 0, 0},{0, 0, 0, 0}};
