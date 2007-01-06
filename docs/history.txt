@@ -2,7 +2,10 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-
+07-Dec-2006
+	- cfraz89 tweaked pcwheeled a bit
+05-Dec-2006
+	- cfraz89 made tankmode in wheeled work again.
 03-Dec-2006
 	- cfraz89 added wheelspin detection in pcwheeled, updating
 	  gearing to use this.

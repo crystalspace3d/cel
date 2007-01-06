@@ -275,6 +275,9 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
 
+  //Setup gear speeds. settings are gear, speed, force. note that gear -1
+  //is reverse, and the speed is negative.
+  pcwheeled->SetGearSettings(-1,-50,700);
   pcwheeled->SetGearSettings(1,10,3000);
   pcwheeled->SetGearSettings(2,20,2000);
   pcwheeled->SetGearSettings(3,50,700);

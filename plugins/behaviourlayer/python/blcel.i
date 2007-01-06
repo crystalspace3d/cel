@@ -166,8 +166,6 @@ pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
             return _swig_setattr(self,pcType,attr,value)
         elif hasattr(self._PC,attr):
             setattr(self._PC,attr,value)
-        elif hasattr(self,attr):
-            _object.__setattr__(self,attr,value)
         else:
             return self.SetterFallback(attr,value)
 %}
