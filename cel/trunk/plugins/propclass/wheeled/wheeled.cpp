@@ -1144,7 +1144,7 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
       float wheelspin = GetWheelSpin(wheelnum);
       float spindiff = avgspin - wheelspin;
       //Wheel is locked - ease off the brake.
-      if (spindiff >= 0.05f | wheelspin < 0.05f)
+      if (spindiff >= 0.05f | fabs(wheelspin) < 0.001f)
       {
         if (wheels[wheelnum].ABSBrake > 0.0f)
           wheels[wheelnum].ABSBrake -= 0.05f;

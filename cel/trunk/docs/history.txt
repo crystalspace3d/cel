@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 tweaked pcwheeled a bit
 	- Last commit, cfraz89 attempted to fix a bug in blpython
 	- property setting.
+	- cfraz89  fixed a bug with pcwheeled not braking 
+	- when using ABS, in reverse.
 05-Dec-2006
 	- cfraz89 made tankmode in wheeled work again.
 03-Dec-2006
