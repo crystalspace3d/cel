@@ -93,6 +93,9 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   screenspace = false;
   do_cooked = false;
   do_sendtrigger = false;
+  handleMouse = true;
+  handleKeyboard = true;
+  handleJoystick = true;
 
   g2d = csQueryRegistry<iGraphics2D> (object_reg);
   if (!g2d)
@@ -721,6 +724,36 @@ void celPcCommandInput::RemoveAllBinds ()
   buttonlist = 0;
 }
 
+void celPcCommandInput::EnableMouseEvents ()
+{
+  handleMouse = true;
+}
+
+void celPcCommandInput::DisableMouseEvents ()
+{
+  handleMouse = false;
+}
+
+void celPcCommandInput::EnableKeyboardEvents ()
+{
+  handleKeyboard = true;
+}
+
+void celPcCommandInput::DisableKeyboardEvents ()
+{
+  handleKeyboard = false;
+}
+
+void celPcCommandInput::EnableJoystickEvents ()
+{
+  handleJoystick = true;
+}
+
+void celPcCommandInput::DisableJoystickEvents ()
+{
+  handleJoystick = false;
+}
+
 celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
 {
   celKeyMap *p = keylist;
@@ -837,7 +870,7 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
-  if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
+  if (CS_IS_KEYBOARD_EVENT(name_reg,ev) && handleKeyboard)
   {
     utf32_char key = csKeyEventHelper::GetRawCode (&ev);
     csKeyModifiers key_modifiers;
@@ -882,7 +915,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
     }
   }
-  else if (CS_IS_MOUSE_EVENT(name_reg, ev))
+  else if (CS_IS_MOUSE_EVENT(name_reg, ev) && handleMouse)
   {
     uint device = csMouseEventHelper::GetNumber (&ev);
     if (ev.Name == csevMouseMove (name_reg, device))
@@ -982,7 +1015,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
     }
   }
-  else if (CS_IS_JOYSTICK_EVENT(name_reg,ev))
+  else if (CS_IS_JOYSTICK_EVENT(name_reg,ev) && handleJoystick)
   {
     uint device = csJoystickEventHelper::GetNumber(&ev);
     if (ev.Name == csevJoystickMove (name_reg, device))

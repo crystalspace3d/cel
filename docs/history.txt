@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	- property setting.
 	- cfraz89  fixed a bug with pcwheeled not braking 
 	- when using ABS, in reverse.
+	- David Bronke rewrote some comments in iPcCommandInput and added
+	  functions to enable and disable handling of joystick, mouse, and
+	  keyboard events.
 05-Dec-2006
 	- cfraz89 made tankmode in wheeled work again.
 03-Dec-2006
