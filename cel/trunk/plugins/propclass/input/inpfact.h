@@ -103,6 +103,9 @@ private:
   csRef<iEventNameRegistry> name_reg;
   bool do_cooked;
   bool do_sendtrigger;	// If true then send trigger name with messages.
+  bool handleKeyboard;
+  bool handleMouse;
+  bool handleJoystick;
 
   celGenericParameterBlock* mouse_params;
   celGenericParameterBlock* key_params;
@@ -154,6 +157,12 @@ public:
   virtual const char* GetBind (const char *triggername) const;
   virtual bool RemoveBind (const char* triggername, const char* command);
   virtual void RemoveAllBinds ();
+  virtual void EnableMouseEvents ();
+  virtual void DisableMouseEvents ();
+  virtual void EnableKeyboardEvents ();
+  virtual void DisableKeyboardEvents ();
+  virtual void EnableJoystickEvents ();
+  virtual void DisableJoystickEvents ();
 
   class EventHandler : public iEventHandler
   {

@@ -68,18 +68,19 @@ enum celKeyState
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - screenspace (bool, read/write): use screenspace instead of -1/1
- *   normalized coordinates (-1/1 is default).
+ *   normalized coordinates (default is -1/1).
  * - cooked (bool, read/write): use cooked mode instead of raw (default
- *   is raw.
+ *   is raw).
  * - sendtrigger (bool, read/write): send out trigger name in the
- *   message to the behaviour. Default is false.
+ *   message to the behaviour. (default is false).
  */
 struct iPcCommandInput : public virtual iBase
 {
   SCF_INTERFACE (iPcCommandInput, 0, 1, 0);
 
   /**
-   * Activates the input to get Commands
+   * Activates this input property class. When activated, it will catch input
+   * events and send command messages.
    */
   virtual void Activate (bool activate=true) = 0;
 
@@ -108,7 +109,8 @@ struct iPcCommandInput : public virtual iBase
   virtual void SetCookedMode (bool cooked) = 0;
 
   /**
-   * Get cooked or raw.
+   * Get whether or not this property class is in cooked mode. See
+   * SetCookedMode for more information.
    */
   virtual bool GetCookedMode () const = 0;
 
@@ -150,14 +152,51 @@ struct iPcCommandInput : public virtual iBase
    */
   virtual bool Bind (const char* triggername, const char* command) = 0;
 
-  /** returns the command bind to a key */
+  /**
+   * Returns the command bound to the given key.
+   */
   virtual const char* GetBind (const char* triggername) const = 0;
 
-  /** deletes a bind, if triggername is 0 deletes all binds to the command */
+  /**
+   * Deletes a bind. If triggername is 0, all binds to the given command are
+   * deleted.
+   */
   virtual bool RemoveBind (const char* triggername, const char* command) = 0;
 
-  /** deletes all binds */
+  /**
+   * Deletes all binds.
+   */
   virtual void RemoveAllBinds () = 0;
+
+  /**
+   * Enable capturing of mouse events.
+   */
+  virtual void EnableMouseEvents () = 0;
+
+  /**
+   * Disable capturing of mouse events.
+   */
+  virtual void DisableMouseEvents () = 0;
+
+  /**
+   * Enable capturing of keyboard events.
+   */
+  virtual void EnableKeyboardEvents () = 0;
+
+  /**
+   * Disable capturing of keyboard events.
+   */
+  virtual void DisableKeyboardEvents () = 0;
+
+  /**
+   * Enable capturing of joystick events.
+   */
+  virtual void EnableJoystickEvents () = 0;
+
+  /**
+   * Disable capturing of joystick events.
+   */
+  virtual void DisableJoystickEvents () = 0;
 };
 
 #endif // __CEL_PF_INPUT__
