@@ -76,7 +76,7 @@ enum celKeyState
  */
 struct iPcCommandInput : public virtual iBase
 {
-  SCF_INTERFACE (iPcCommandInput, 0, 1, 0);
+  SCF_INTERFACE (iPcCommandInput, 0, 2, 0);
 
   /**
    * Activates this input property class. When activated, it will catch input
