@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 07-Dec-2006
 	- cfraz89 tweaked pcwheeled a bit
+	- Last commit, cfraz89 attempted to fix a bug in blpython
+	- property setting.
 05-Dec-2006
 	- cfraz89 made tankmode in wheeled work again.
 03-Dec-2006
