@@ -1099,7 +1099,7 @@ void celPcWheeled::UpdateAccel(size_t wheelnum)
 
   //if autoreverse is on, check if the vehicle is slow enough to start
   // reversing.
-  if (autoreverse && speed < 2.0 && brakeamount >= 0.1f)
+  if (autoreverse && speed < 0.5f && brakeamount >= 0.1f)
   {
     Reverse();
     appliedaccel = brakeamount;
@@ -1144,7 +1144,7 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
       float wheelspin = GetWheelSpin(wheelnum);
       float spindiff = avgspin - wheelspin;
       //Wheel is locked - ease off the brake.
-      if (spindiff >= 0.05f | wheelspin < 2.0f)
+      if (spindiff >= 0.05f | wheelspin < 0.05f)
       {
         if (wheels[wheelnum].ABSBrake > 0.0f)
           wheels[wheelnum].ABSBrake -= 0.05f;
@@ -1165,15 +1165,21 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
 //When using tank steering, brake a given wheel
 void celPcWheeled::UpdateTankSteer(size_t wheelnum)
 {
-  float brakeapply = wheels[wheelnum].BrakePower * brakeforce * brakeamount;
+  float brakeapply = wheels[wheelnum].BrakePower * brakeforce;
   brakeapply *= fabs(abssteer);
   //The tank steers by braking one side of the wheels
       //It's a right wheel, steering right. slow it down
   if (wheels[wheelnum].Position.x < 0.0f && abssteer > 0.0f)
+  {
     wheels[wheelnum].BrakeMotor->SetFMax(brakeapply, 0);
+    wheels[wheelnum].WheelJoint->SetFMax(0.0f, 1);
+  }
       //It's a left wheel, steering left. slow it down
   if (wheels[wheelnum].Position.x > 0.0f  && abssteer < 0.0f)
+  {
     wheels[wheelnum].BrakeMotor->SetFMax(brakeapply, 0);
+    wheels[wheelnum].WheelJoint->SetFMax(0.0f, 1);
+  }
 }
 
 void celPcWheeled::UpdateGear()
