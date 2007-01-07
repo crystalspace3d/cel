@@ -1178,8 +1178,6 @@ class iPcMechanicsSystem(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsSystem,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1342,8 +1340,6 @@ class iPcMechanicsObject(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsObject,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1385,8 +1381,6 @@ class iPcMechanicsJoint(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsJoint,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1470,8 +1464,6 @@ class iPcMechanicsThruster(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsThruster,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1525,8 +1517,6 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsBalancedGroup,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1581,8 +1571,6 @@ class iPcMechanicsThrusterController(cspace.iBase):
              return _swig_setattr(self,iPcMechanicsThrusterController,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1908,8 +1896,6 @@ class iPcBillboard(cspace.iBase):
              return _swig_setattr(self,iPcBillboard,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2154,8 +2140,6 @@ class iPcZoneManager(cspace.iBase):
              return _swig_setattr(self,iPcZoneManager,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2195,6 +2179,12 @@ class iPcCommandInput(cspace.iBase):
     def GetBind(*args): return _blcelc.iPcCommandInput_GetBind(*args)
     def RemoveBind(*args): return _blcelc.iPcCommandInput_RemoveBind(*args)
     def RemoveAllBinds(*args): return _blcelc.iPcCommandInput_RemoveAllBinds(*args)
+    def EnableMouseEvents(*args): return _blcelc.iPcCommandInput_EnableMouseEvents(*args)
+    def DisableMouseEvents(*args): return _blcelc.iPcCommandInput_DisableMouseEvents(*args)
+    def EnableKeyboardEvents(*args): return _blcelc.iPcCommandInput_EnableKeyboardEvents(*args)
+    def DisableKeyboardEvents(*args): return _blcelc.iPcCommandInput_DisableKeyboardEvents(*args)
+    def EnableJoystickEvents(*args): return _blcelc.iPcCommandInput_EnableJoystickEvents(*args)
+    def DisableJoystickEvents(*args): return _blcelc.iPcCommandInput_DisableJoystickEvents(*args)
     __swig_setmethods__["SendTrigger"] = _blcelc.iPcCommandInput_SendTrigger_set
     SendTrigger = property(None, _blcelc.iPcCommandInput_SendTrigger_set, None,
                     "iPcCommandInput.SendTrigger (write only) -> bool\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCommandInput::SetSendTrigger(bool)")
@@ -2227,8 +2217,6 @@ class iPcCommandInput(cspace.iBase):
              return _swig_setattr(self,iPcCommandInput,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2395,8 +2383,6 @@ class iPcLinearMovement(cspace.iBase):
              return _swig_setattr(self,iPcLinearMovement,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2558,8 +2544,6 @@ class iPcActorMove(cspace.iBase):
              return _swig_setattr(self,iPcActorMove,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2670,8 +2654,6 @@ class iPcCamera(cspace.iBase):
              return _swig_setattr(self,iPcCamera,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2812,8 +2794,6 @@ class iPcDefaultCamera(iPcCamera):
              return _swig_setattr(self,iPcDefaultCamera,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2876,8 +2856,6 @@ class iPcSimpleCamera(iPcCamera):
              return _swig_setattr(self,iPcSimpleCamera,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3010,8 +2988,6 @@ class iPcMeshSelect(cspace.iBase):
              return _swig_setattr(self,iPcMeshSelect,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3093,8 +3069,6 @@ class iPcMesh(cspace.iBase):
              return _swig_setattr(self,iPcMesh,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3139,8 +3113,6 @@ class iPcTimer(cspace.iBase):
              return _swig_setattr(self,iPcTimer,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3188,8 +3160,6 @@ class iPcProjectile(cspace.iBase):
              return _swig_setattr(self,iPcProjectile,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3244,8 +3214,6 @@ class iPcSolid(cspace.iBase):
              return _swig_setattr(self,iPcSolid,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3329,8 +3297,6 @@ class iPcGravity(cspace.iBase):
              return _swig_setattr(self,iPcGravity,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3387,8 +3353,6 @@ class iPcMovable(cspace.iBase):
              return _swig_setattr(self,iPcMovable,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3548,8 +3512,6 @@ class iPcInventory(cspace.iBase):
              return _swig_setattr(self,iPcInventory,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3630,8 +3592,6 @@ class iPcCharacteristics(cspace.iBase):
              return _swig_setattr(self,iPcCharacteristics,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3707,8 +3667,6 @@ class iPcTooltip(cspace.iBase):
              return _swig_setattr(self,iPcTooltip,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3754,8 +3712,6 @@ class iPcSoundListener(cspace.iBase):
              return _swig_setattr(self,iPcSoundListener,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3806,8 +3762,6 @@ class iPcSoundSource(cspace.iBase):
              return _swig_setattr(self,iPcSoundSource,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3899,8 +3853,6 @@ class iPcProperties(cspace.iBase):
              return _swig_setattr(self,iPcProperties,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3964,8 +3916,6 @@ class iPcMover(cspace.iBase):
              return _swig_setattr(self,iPcMover,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4043,8 +3993,6 @@ class iPcHover(cspace.iBase):
              return _swig_setattr(self,iPcHover,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4157,8 +4105,6 @@ class iPcCraftController(cspace.iBase):
              return _swig_setattr(self,iPcCraftController,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4329,8 +4275,6 @@ class iPcWheeled(cspace.iBase):
              return _swig_setattr(self,iPcWheeled,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4416,8 +4360,6 @@ class iPcDamage(cspace.iBase):
              return _swig_setattr(self,iPcDamage,attr,value)
          elif hasattr(self._PC,attr):
              setattr(self._PC,attr,value)
-         elif hasattr(self,attr):
-             _object.__setattr__(self,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
