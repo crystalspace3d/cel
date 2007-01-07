@@ -36328,6 +36328,132 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcCommandInput_EnableMouseEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_EnableMouseEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_EnableMouseEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->EnableMouseEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcCommandInput_DisableMouseEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_DisableMouseEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_DisableMouseEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->DisableMouseEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcCommandInput_EnableKeyboardEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_EnableKeyboardEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_EnableKeyboardEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->EnableKeyboardEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcCommandInput_DisableKeyboardEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_DisableKeyboardEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_DisableKeyboardEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->DisableKeyboardEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcCommandInput_EnableJoystickEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_EnableJoystickEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_EnableJoystickEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->EnableJoystickEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcCommandInput_DisableJoystickEvents(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcCommandInput_DisableJoystickEvents",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcCommandInput, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcCommandInput_DisableJoystickEvents" "', argument " "1"" of type '" "iPcCommandInput *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcCommandInput * >(argp1);
+  (arg1)->DisableJoystickEvents();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcCommandInput_SendTrigger_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcCommandInput *arg1 = (iPcCommandInput *) 0 ;
@@ -65196,6 +65322,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcCommandInput_GetBind", _wrap_iPcCommandInput_GetBind, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_RemoveBind", _wrap_iPcCommandInput_RemoveBind, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_RemoveAllBinds", _wrap_iPcCommandInput_RemoveAllBinds, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_EnableMouseEvents", _wrap_iPcCommandInput_EnableMouseEvents, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_DisableMouseEvents", _wrap_iPcCommandInput_DisableMouseEvents, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_EnableKeyboardEvents", _wrap_iPcCommandInput_EnableKeyboardEvents, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_DisableKeyboardEvents", _wrap_iPcCommandInput_DisableKeyboardEvents, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_EnableJoystickEvents", _wrap_iPcCommandInput_EnableJoystickEvents, METH_VARARGS, NULL},
+	 { (char *)"iPcCommandInput_DisableJoystickEvents", _wrap_iPcCommandInput_DisableJoystickEvents, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_SendTrigger_set", _wrap_iPcCommandInput_SendTrigger_set, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_SendTriggerEnabled_get", _wrap_iPcCommandInput_SendTriggerEnabled_get, METH_VARARGS, NULL},
 	 { (char *)"iPcCommandInput_CookedMode_set", _wrap_iPcCommandInput_CookedMode_set, METH_VARARGS, NULL},
