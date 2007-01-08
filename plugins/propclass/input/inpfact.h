@@ -98,6 +98,7 @@ private:
   static csStringID id_y;
   static csStringID id_prefix;
   static csStringID id_activate;
+  static csStringID id_value;
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
@@ -109,6 +110,7 @@ private:
 
   celGenericParameterBlock* mouse_params;
   celGenericParameterBlock* key_params;
+  celOneParameterBlock* joy_params;
   celOneParameterBlock* but_params;
 
   // For actions.

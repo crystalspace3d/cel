@@ -2,6 +2,11 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
+08-Dec-2006
+	- David Bronke added an additional 'value' parameter to mouse movement
+	  commands in pccommandinput so that individually-bound mouse axes can be
+	  handled separately, and modified the code for handling joystick events
+	  so that it reuses the same parameter block.
 07-Dec-2006
 	- cfraz89 tweaked pcwheeled a bit
 	- Last commit, cfraz89 attempted to fix a bug in blpython
