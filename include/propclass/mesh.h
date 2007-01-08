@@ -48,7 +48,8 @@ class csBox3;
  *   be in memory.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
  *   and 'factoryname' (string).
- * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3),
+ * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3)
+ *   or 'position' (string: represents name of the node),
  *   'rotation' (vector3: optional. Represents an absolute rotation).
  *   If 'sector' is empty string then we will remove the mesh
  *   from all sectors. If 'sector' is not given then we simply move
@@ -87,7 +88,7 @@ class csBox3;
  */
 struct iPcMesh : public virtual iBase
 {
-  SCF_INTERFACE (iPcMesh, 0, 0, 3);
+  SCF_INTERFACE (iPcMesh, 0, 0, 4);
 
   /**
    * Set the path to use. If this is not done then the filename
@@ -143,7 +144,7 @@ struct iPcMesh : public virtual iBase
    * A nullmesh can be used in mesh hierarchies.
    */
   virtual void CreateNullMesh (const char* factname,
-      const csBox3& box) = 0;
+  	const csBox3& box) = 0;
 
   /**
    * Get the mesh.
@@ -158,12 +159,19 @@ struct iPcMesh : public virtual iBase
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
 
   /**
+   * Convenience function to move the mesh to some sector and node
+   * and also update lighting.  If sector specified is 0, sector
+   * is not updated.
+   */
+  virtual void MoveMesh (iSector* sector, const char* node) = 0;
+
+  /**
    * Convenience function to set an 'action' for the mesh.
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
   CS_DEPRECATED_METHOD virtual void SetAction (const char* actionName,
-      bool reset = false) = 0;
+  	bool reset = false) = 0;
   /**
    * Return the current action name.
    */
@@ -182,8 +190,8 @@ struct iPcMesh : public virtual iBase
    * support the same feature set.
    */
   virtual void SetAnimation (const char* actionName, bool cycle,
-      float weight=1.0, float fadein=0.1, float fadeout=0.1,
-      bool reset = false) = 0;
+  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
+  	bool reset = false) = 0;
 
   /**
    * Hide this mesh.

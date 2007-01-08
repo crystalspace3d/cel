@@ -159,13 +159,17 @@ public:
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos);
   /**
+   * Move this mesh to the according sector and node.
+   */
+  virtual void MoveMesh (iSector* sector, const char* node);
+  /**
    * Sets an action for this mesh if different from the current action,
    * or resetaction is set.
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
   	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
-	bool reset = false);
+  	bool reset = false);
 
   /**
    * Returns the name for the current action.

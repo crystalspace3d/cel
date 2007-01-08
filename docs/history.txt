@@ -7,12 +7,13 @@ The history order is reversed so that new features are at the top.
 	  commands in pccommandinput so that individually-bound mouse axes can be
 	  handled separately, and modified the code for handling joystick events
 	  so that it reuses the same parameter block.
+	- Darek made iPcMesh-> MoveMesh (sector, node).
 07-Dec-2006
 	- cfraz89 tweaked pcwheeled a bit
 	- Last commit, cfraz89 attempted to fix a bug in blpython
-	- property setting.
+	  property setting.
 	- cfraz89  fixed a bug with pcwheeled not braking 
-	- when using ABS, in reverse.
+	  when using ABS, in reverse.
 	- David Bronke rewrote some comments in iPcCommandInput and added
 	  functions to enable and disable handling of joystick, mouse, and
 	  keyboard events.
