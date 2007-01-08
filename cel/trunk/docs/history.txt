@@ -2,13 +2,14 @@ Crystal Entity Layer (CEL) detailed change log.
 http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
-08-Dec-2006
+
+8-Jan-2007
 	- David Bronke added an additional 'value' parameter to mouse movement
-	  commands in pccommandinput so that individually-bound mouse axes can be
-	  handled separately, and modified the code for handling joystick events
-	  so that it reuses the same parameter block.
+	  commands in pccommandinput so that individually-bound mouse axes can
+	  be handled separately, and modified the code for handling joystick
+	  events so that it reuses the same parameter block.
 	- Darek made iPcMesh-> MoveMesh (sector, node).
-07-Dec-2006
+7-Jan-2007
 	- cfraz89 tweaked pcwheeled a bit
 	- Last commit, cfraz89 attempted to fix a bug in blpython
 	  property setting.
@@ -17,13 +18,13 @@ The history order is reversed so that new features are at the top.
 	- David Bronke rewrote some comments in iPcCommandInput and added
 	  functions to enable and disable handling of joystick, mouse, and
 	  keyboard events.
-05-Dec-2006
+5-Jan-2007
 	- cfraz89 made tankmode in wheeled work again.
-03-Dec-2006
+3-Jan-2007
 	- cfraz89 added wheelspin detection in pcwheeled, updating
 	  gearing to use this.
 	- cfraz89 added ABS braking to pcwheeled.
-02-Dec-2006
+2-Jan-2007
 	- cfraz89 attempted to fix a bug with pcwheeled stopping.
 	- darek reverted this fix - that was error in my behaviour
 	  not pcwheeled fault.
