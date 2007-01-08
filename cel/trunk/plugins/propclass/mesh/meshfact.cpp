@@ -980,8 +980,7 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
     }
     else
     {
-      Report (object_reg, "Can't find current sector for MoveMesh!",
-      	(const char*)node);
+      Report (object_reg, "Can't find current sector for MoveMesh!");
     }
   }
   if (mapnode)
