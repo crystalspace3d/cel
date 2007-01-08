@@ -74,6 +74,7 @@ csStringID celPcCommandInput::id_x = csInvalidStringID;
 csStringID celPcCommandInput::id_y = csInvalidStringID;
 csStringID celPcCommandInput::id_prefix = csInvalidStringID;
 csStringID celPcCommandInput::id_activate = csInvalidStringID;
+csStringID celPcCommandInput::id_value = csInvalidStringID;
 
 PropertyHolder celPcCommandInput::propinfo;
 
@@ -116,6 +117,7 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_prefix = pl->FetchStringID ("cel.parameter.prefix");
     id_activate = pl->FetchStringID ("cel.parameter.activate");
+    id_value = pl->FetchStringID ("cel.parameter.value");
   }
 
   // For properties.
@@ -139,13 +141,17 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   AddProperty (propid_sendtrigger, "cel.property.sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
-  mouse_params = new celGenericParameterBlock (2);
+  mouse_params = new celGenericParameterBlock (3);
   mouse_params->SetParameterDef (0, id_x, "x");
   mouse_params->SetParameterDef (1, id_y, "y");
+  mouse_params->SetParameterDef (2, id_value, "value");
 
   key_params = new celGenericParameterBlock (2);
   key_params->SetParameterDef (0,id_trigger, "trigger");
   key_params->SetParameterDef (1,id_state, "state");
+
+  joy_params = new celOneParameterBlock ();
+  joy_params->SetParameterDef (id_value, "value");
 
   but_params = new celOneParameterBlock ();
   but_params->SetParameterDef (id_state, "state");
@@ -840,23 +846,23 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
     {
       case CEL_KEY_STATE_UP:
         *(p->command_end) = '0';
-	break;
+        break;
       case CEL_KEY_STATE_DOWN:
         *(p->command_end) = '1';
-	break;
+        break;
       case CEL_KEY_STATE_REPEAT:
         *(p->command_end) = '_';
-	break;
+        break;
       default:
-	// cant happen really..
+        // cant happen really..
         *(p->command_end) = '0';
-	break;
+        break;
     }
   }
   if (do_sendtrigger)
   {
     const char* trigger = csInputDefinition::GetKeyString (
-		  name_reg, key, &key_modifiers).GetData ();
+        name_reg, key, &key_modifiers).GetData ();
     key_params->GetParameter (0).Set (trigger);
   }
   else
@@ -884,7 +890,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     while (p)
     {
       if (p->key == CS_UC_INVALID)
-	break;
+        break;
       if (KeyEqual (p->key, key)
         && (!do_cooked || ((modifiers & p->modifiers) == p->modifiers)))
       {
@@ -946,11 +952,27 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             {
               mouse_params->GetParameter (0).Set (x);
               mouse_params->GetParameter (1).Set (y);
+              if (p->numeric == 0)
+              {
+                mouse_params->GetParameter (2).Set (x);
+              }
+              else if (p->numeric == 1)
+              {
+                mouse_params->GetParameter (2).Set (y);
+              }
             }
             else
             {
               mouse_params->GetParameter (0).Set (ScreenToCentered (x, 0));
               mouse_params->GetParameter (1).Set (ScreenToCentered (y, 1));
+              if (p->numeric == 0)
+              {
+                mouse_params->GetParameter (2).Set (ScreenToCentered (x, 0));
+              }
+              else if (p->numeric == 1)
+              {
+                mouse_params->GetParameter (2).Set (ScreenToCentered (y, 1));
+              }
             }
             bh->SendMessage (p->command, this, ret, mouse_params);
           }
@@ -1047,17 +1069,12 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             	&ev, p->numeric) / 32767;
 
             celData ret;
-            csStringID id_joyval = pl->FetchStringID ("cel.parameter.value");
-            celGenericParameterBlock *params =
-            	new celGenericParameterBlock (1);
-            params->SetParameterDef (0, id_joyval, "value");
             if (screenspace)
-              params->GetParameter (0).Set (
+              joy_params->GetParameter (0).Set (
               	CenteredToScreen (val, p->numeric));
             else
-              params->GetParameter (0).Set (val);
-            bh->SendMessage (p->command, this, ret, params);
-            params->DecRef ();
+              joy_params->GetParameter (0).Set (val);
+            bh->SendMessage (p->command, this, ret, joy_params);
           }
         }
         p = p->next;
@@ -1098,16 +1115,16 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
-	  if (p->packedargs)
-	  {
-	    but_params->GetParameter(0).Set(CEL_KEY_STATE_UP);
-	    celparms = but_params;
-	  }
-	  else
+          if (p->packedargs)
+          {
+            but_params->GetParameter(0).Set(CEL_KEY_STATE_UP);
+            celparms = but_params;
+          }
+          else
             *(p->command_end) = '0';
           celData ret;
           bh->SendMessage (p->command, this, ret, celparms);
-	  if (!p->packedargs)
+          if (!p->packedargs)
             *(p->command_end) = 0;
         }
       }
@@ -1116,16 +1133,16 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
-	  if (p->packedargs)
-	  {
+          if (p->packedargs)
+          {
             but_params->GetParameter(0).Set(CEL_KEY_STATE_DOWN);
-	    celparms = but_params;
-	  }
-	  else
+            celparms = but_params;
+          }
+          else
             *(p->command_end) = '1';
           celData ret;
           bh->SendMessage (p->command, this, ret, celparms);
-	  if (!p->packedargs)
+          if (!p->packedargs)
             *(p->command_end) = 0;
         }
       }
