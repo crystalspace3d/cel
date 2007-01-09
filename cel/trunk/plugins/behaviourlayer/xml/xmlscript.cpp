@@ -35,13 +35,13 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
-
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
 #include "isndsys/ss_manager.h"
 #include "isndsys/ss_renderer.h"
 #include "iengine/engine.h"
 #include "iutil/plugin.h"
+#include "ivaria/translator.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -5287,6 +5287,16 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!g2d)
             return ReportError (cbl, "No iGraphics2D!");
           g2d->SetMouseCursor (csmcArrow);
+        }
+      break;
+      case CEL_OPERATION_GETMSG:
+        {
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: getmsg (%s)\n", i-1, A2S (top)));
+          csRef<iTranslator> translator = csQueryRegistry<iTranslator> (
+          	cbl->GetObjectRegistry ());
+          top.SetString (translator->GetMsg (ArgToString (top)), true);
         }
       break;
     }

@@ -166,6 +166,7 @@ enum
   XMLFUNCTION_COLRED,
   XMLFUNCTION_COLGREEN,
   XMLFUNCTION_COLBLUE,
+  XMLFUNCTION_GETMSG,
 
   XMLFUNCTION_LAST
 };
@@ -325,6 +326,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("colred", XMLFUNCTION_COLRED);
   functions.Register ("colgreen", XMLFUNCTION_COLGREEN);
   functions.Register ("colblue", XMLFUNCTION_COLBLUE);
+  functions.Register ("getmsg", XMLFUNCTION_GETMSG);
 
   return true;
 }
@@ -1145,7 +1147,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
     case XMLFUNCTION_PARID:
       {
         if (!ParseID (input, local_vars, child, h, name, str, fun_id))
-	  return false;
+          return false;
       }
       break;
     case XMLFUNCTION_PARAM:
@@ -1154,73 +1156,80 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         return false;
       h->AddOperation (CEL_OPERATION_PARAM);
       break;
+    case XMLFUNCTION_GETMSG:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        h->AddOperation (CEL_OPERATION_GETMSG);
+      }
+      break;
     default:
       {
         // We have an unknown function. Try to parse it as an event handler
-	// that we can call.
-	pinput = input;
-	input = celXmlParseToken (input, token);
-	uint32 cnt = 0;
+        // that we can call.
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        uint32 cnt = 0;
 
-	if (token == CEL_TOKEN_DOTDOTDOT)
-	{
-	  h->AddOperation (CEL_OPERATION_INHERITPARAMS);
-	  pinput = input;	// Point after ...
-	}
-	else
-	{
-	  input = pinput;	// Restore.
-	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-	  while (token != CEL_TOKEN_CLOSE)
-	  {
-	    // Get parameter name.
+        if (token == CEL_TOKEN_DOTDOTDOT)
+        {
+          h->AddOperation (CEL_OPERATION_INHERITPARAMS);
+          pinput = input;	// Point after ...
+        }
+        else
+        {
+          input = pinput;	// Restore.
+          h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+          while (token != CEL_TOKEN_CLOSE)
+          {
+            // Get parameter name.
             if (!ParseID (input, local_vars, child, h, name, str,
-				    XMLFUNCTION_PARID))
-	      return false;
-	    input = celXmlParseToken (input, token);
-	    if (token != CEL_TOKEN_ASSIGN)
-	    {
-	      synldr->ReportError ("cel.behaviour.xml", child,
-		  "Expected '=' after parameter for '%s'!", name);
-	      return false;
-	    }
-	    // Get parameter value.
-	    if (!ParseExpression (input, local_vars, child, h,
-		  name, CEL_PRIORITY_NORMAL))
-	      return false;
+            	XMLFUNCTION_PARID))
+              return false;
+            input = celXmlParseToken (input, token);
+            if (token != CEL_TOKEN_ASSIGN)
+            {
+              synldr->ReportError ("cel.behaviour.xml", child,
+              	"Expected '=' after parameter for '%s'!", name);
+              return false;
+            }
+            // Get parameter value.
+            if (!ParseExpression (input, local_vars, child, h,
+            	name, CEL_PRIORITY_NORMAL))
+              return false;
 
-	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
-	    h->GetArgument ().SetUInt32 (cnt);
-	    cnt++;
+            h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+            h->GetArgument ().SetUInt32 (cnt);
+            cnt++;
 
-	    pinput = input;
-	    input = celXmlParseToken (input, token);
-	    if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
-	    {
-	      synldr->ReportError ("cel.behaviour.xml", child,
-		  "Expected ')' or '=' after parameter value for '%s'!", name);
-	      return false;
-	    }
-	  }
-	}
-	// Restore.
-	input = pinput;
+            pinput = input;
+            input = celXmlParseToken (input, token);
+            if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
+            {
+              synldr->ReportError ("cel.behaviour.xml", child,
+              	"Expected ')' or '=' after parameter value for '%s'!", name);
+              return false;
+            }
+          }
+        }
+        // Restore.
+        input = pinput;
 
-	//  First check if we have a scoped function (::).
-	char* scope = strstr (str, "::");
-	if (scope)
-	{
-	  *scope = 0;
-	  h->AddOperation (CEL_OPERATION_PUSHSTR);
-	  h->GetArgument ().SetString (str, true);
-	  h->AddOperation (CEL_OPERATION_CALL_ERS);
-	  h->GetArgument ().SetString (scope+2, true);
-	  *scope = ':';
-	}
-	else
-	{
-	  h->AddOperation (CEL_OPERATION_CALL_RS);
-	  h->GetArgument ().SetString (str, true);
+        // First check if we have a scoped function (::).
+        char* scope = strstr (str, "::");
+        if (scope)
+        {
+          *scope = 0;
+          h->AddOperation (CEL_OPERATION_PUSHSTR);
+          h->GetArgument ().SetString (str, true);
+          h->AddOperation (CEL_OPERATION_CALL_ERS);
+          h->GetArgument ().SetString (scope+2, true);
+          *scope = ':';
+        }
+        else
+        {
+          h->AddOperation (CEL_OPERATION_CALL_RS);
+          h->GetArgument ().SetString (str, true);
         }
       }
       break;
@@ -1229,7 +1238,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   if (token != CEL_TOKEN_CLOSE)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-	"Expected ')' after '%s' for '%s'!", str, name);
+    	"Expected ')' after '%s' for '%s'!", str, name);
     return false;
   }
   return true;
