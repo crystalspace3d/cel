@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+9-Jan-2007
+	- Darek added to blxml function getmsg('..') it's 
+	  iTranslator->GetMsg ("..") (see new plugin in CS).
 8-Jan-2007
 	- David Bronke added an additional 'value' parameter to mouse movement
 	  commands in pccommandinput so that individually-bound mouse axes can
