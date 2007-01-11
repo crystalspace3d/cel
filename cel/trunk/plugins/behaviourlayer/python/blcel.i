@@ -182,8 +182,8 @@ CEL_PC_FIX_INHERITANCE(pcType)
 
 //-----------------------------------------------------------------------------
 %define CELLIST_METHODS(classname,typename)
-	PYLIST_BASE_FUNCTIONS(classname,typename,size_t,GetCount,Get,Add,Remove,Find)
-	PYLIST_BYNAME_FUNCTIONS(classname,typename,FindByName)
+	PYLIST_BASE_FUNCTIONS(classname,typename*,size_t,GetCount,Get,Add,Remove,Find)
+	PYLIST_BYNAME_FUNCTIONS(classname,typename*,FindByName)
 %enddef
 
 //-----------------------------------------------------------------------------
