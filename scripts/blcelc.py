@@ -614,7 +614,7 @@ class iCelEntityList(cspace.iBase):
     def append(*args): return _blcelc.iCelEntityList_append(*args)
     def content_iterator(self):
             for idx in xrange(len(self)):
-                    yield self.Get(idx)
+                    yield self.__getitem__(idx)
     def __iter__(self): return self.content_iterator()  
     def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
     def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
@@ -1098,7 +1098,7 @@ class iCelPropertyClassList(cspace.iBase):
     def append(*args): return _blcelc.iCelPropertyClassList_append(*args)
     def content_iterator(self):
             for idx in xrange(len(self)):
-                    yield self.Get(idx)
+                    yield self.__getitem__(idx)
     def __iter__(self): return self.content_iterator()  
     def __getitem__(*args): return _blcelc.iCelPropertyClassList___getitem__(*args)
     def __contains__(*args): return _blcelc.iCelPropertyClassList___contains__(*args)
