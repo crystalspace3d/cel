@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfmeshdeform.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.meshdeform</name>
+        <implementation>celPfMeshDeform</implementation>
+	<description>CEL FFD Mesh Deform Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

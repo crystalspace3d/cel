@@ -192,7 +192,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
       "pcdefaultcamera",
       "pcmechobject",
       "pcwheeled",
-     // "pcmeshdeform",
+      "pcmeshdeform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
