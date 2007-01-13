@@ -147,6 +147,8 @@ public:
  */
 class celBehaviourWheeled : public celBehaviourGeneral
 {
+private:
+  int colcounter;
 public:
   celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourWheeled();

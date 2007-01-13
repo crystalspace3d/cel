@@ -78,6 +78,7 @@ class csDeformControl : public scfImplementation2
     int total_verts;
     iMeshWrapper* mesh;
     csRandomGen r_gen;
+    csRandomGen v_gen;
 
   public:
     csDeformControl (iBase* parent);

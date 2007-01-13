@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  darek's idea. It is nowhere near complete yet, namely the 
 	  continuity issue with vertices. Added pcmeshdeform to the
 	  wheeled test bl so it shows in wheeledtest.
+	- cfraz89 added continuity to meshdeform.
 11-Jan-2007
 	- caedes made a change in blcel.i due to a change in cs swig
 	  PYLIST_* macros.
