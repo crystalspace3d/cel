@@ -91,6 +91,7 @@
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
+#include "propclass/meshdeform.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -284,8 +285,10 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetGearSettings(4,75,450);
   pcwheeled->SetGearSettings(5,100,200);
 
- // csRef<iPcMeshDeform> pcmeshdeform
-  //  = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
+  csRef<iPcMeshDeform> pcmeshdeform
+    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
+  pcmeshdeform->SetDeformFactor(5.0f);
+
   return csPtr<iCelEntity> (entity_cam);
 }
 

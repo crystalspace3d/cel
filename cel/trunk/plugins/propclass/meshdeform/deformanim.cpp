@@ -35,7 +35,6 @@
 #include "imesh/genmesh.h"
 #include "plugins/propclass/meshdeform/deformanim.h"
 #include "csutil/randomgen.h"
-#include <iostream>
 //---------------------------------------------------------------------------
 
 csDeformControlType::csDeformControlType(iBase* parent)
@@ -70,12 +69,12 @@ csPtr<iGenMeshAnimationControl>
 csDeformControl::csDeformControl(iBase* parent)
   : scfImplementationType(this, parent)
 {
-  std::cout  << "init";
   original_verts = 0;
   deformed_verts = 0;
   total_verts = 0;
   mesh = 0;
   r_gen = csRandomGen();
+  v_gen = csRandomGen();
 }
 
 void csDeformControl::Update(csTicks current)
@@ -88,7 +87,6 @@ const csVector3* csDeformControl::UpdateVertices
   //The mesh has changed, need to (re) initialise
   if(num_verts != total_verts || !original_verts || !deformed_verts)
   {
-    std::cout << num_verts << " " << total_verts << " " << original_verts << " " << deformed_verts << "\n";
     total_verts = num_verts;
     delete[] original_verts;
     delete[] deformed_verts;
@@ -115,7 +113,14 @@ void csDeformControl::DeformMesh
     float distance = (position - cvert).Norm();
     if (distance < radius)
     {
-       float r_amount = r_gen.Get();
+       v_gen.Initialize(uint32(position.x * 1000.0f));
+       float a = v_gen.Get();
+       v_gen.Initialize(uint32(position.y * 1000.0f));
+       float b = v_gen.Get();
+       v_gen.Initialize(uint32(position.z * 1000.0f));
+       float c = v_gen.Get();
+       float r_amount = (a + b + c) / 3.0f;
+       //float r_amount = r_gen.Get();
        deformed_verts[i] = cvert + (direction * r_amount) ;
     }
   }
