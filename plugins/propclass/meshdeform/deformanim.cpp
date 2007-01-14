@@ -76,6 +76,7 @@ csDeformControl::csDeformControl(iBase* parent)
   r_gen = csRandomGen();
   v_gen = csRandomGen();
   noise = 0.2f;
+  maxdeform = 0.5f;
 }
 
 void csDeformControl::Update(csTicks current)
@@ -128,7 +129,10 @@ void csDeformControl::DeformMesh
        //Shift the vertice inverse proportional to its distance from point
        //And add the random noise
        float displacement = (1.0f - distance) + (r_amount * noise);
-       //float r_amount = r_gen.Get();
+       //Now proportion in the amount that the vertice has already moved.
+       float displaced = (cvert - original_verts[i]).SquaredNorm();
+       displacement *= (maxdeform - displaced) / maxdeform;
+       //Move the vertice
        deformed_verts[i] = cvert + (direction * displacement) ;
     }
   }

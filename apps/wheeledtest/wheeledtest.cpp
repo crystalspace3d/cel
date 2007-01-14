@@ -288,7 +288,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 
   csRef<iPcMeshDeform> pcmeshdeform
     = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
-  pcmeshdeform->SetDeformFactor(7.5f);
+  pcmeshdeform->SetDeformFactor(7.0f);
 
   return csPtr<iCelEntity> (entity_cam);
 }

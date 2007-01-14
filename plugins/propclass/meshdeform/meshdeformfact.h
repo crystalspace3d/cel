@@ -90,10 +90,27 @@ public:
   {if (deformcontrol) deformcontrol->SetNoise(noise);}
   virtual void SetMaxFrequency(float frequency)
   {celPcMeshDeform::frequency = frequency;}
+  virtual void SetMaxDeform(float maxdeform)
+  {if (deformcontrol) deformcontrol->SetMaxDeform(maxdeform);}
 
   virtual void SetMesh (iMeshWrapper* mesh);
+
   virtual iMeshWrapper* GetMesh ()
    {return mesh;}
+  virtual float GetDeformFactor()
+  {return deformfactor;}
+  virtual float GetNoise()
+  {
+    if (deformcontrol) return deformcontrol->GetNoise();
+    else return 0.2f;
+  }
+  virtual float GetMaxFrequency()
+  {return frequency;}
+  virtual float GetMaxDeform()
+  {
+    if (deformcontrol) return deformcontrol->GetMaxDeform();
+    else return 0.5f;
+  }
   virtual void DeformMesh
   (const csVector3& position, const csVector3& direction, float radius,
     bool worldspace = false);
