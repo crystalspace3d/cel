@@ -37,12 +37,12 @@ struct iPcMeshDeform : public virtual iBase
   /**
    * Set the mesh to deform
    */
-  virtual void SetDeformMesh (iMeshWrapper* mesh) = 0;
+  virtual void SetMesh (iMeshWrapper* mesh) = 0;
 
   /**
    * Get the mesh to deform
    */
-  virtual iMeshWrapper* GetDeformMesh () = 0;
+  virtual iMeshWrapper* GetMesh () = 0;
 
   /**
    * Deform the mesh
@@ -55,6 +55,16 @@ struct iPcMeshDeform : public virtual iBase
    * Change the deformation factor.
    */
   virtual void SetDeformFactor(float deformfactor) = 0;
+
+  /**
+   * Change the deformation noise factor.
+   */
+  virtual void SetNoise(float deformnoise) = 0;
+
+  /**
+   * Change the deformation factor.
+   */
+  virtual void SetMaxFrequency(float frequency) = 0;
 };
 
 #endif // __CEL_PF_MESHDEFORM__

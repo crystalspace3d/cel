@@ -37,7 +37,7 @@ struct iCelEntity;
 struct iObjectRegistry;
 struct iMeshWrapper;
 struct iEngine;
-
+struct iVirtualClock;
 //-----------------------------------------------------------
 
 
@@ -55,8 +55,12 @@ class celPcMeshDeform : public scfImplementationExt1<
 private:
   csRef<iMeshWrapper> mesh;
   csWeakRef<iEngine> engine;
+  csWeakRef<iVirtualClock> clock;
 
   float deformfactor;
+  float frequency;
+  csTicks lastdeform;
+
   csRef<iGenMeshAnimationControlType> controltype;
   csRef<iGenMeshAnimationControlFactory> controlfact;
   csRef<iDeformControl> deformcontrol;
@@ -78,12 +82,17 @@ public:
       iCelParameterBlock* params, celData& ret);
 
 
-  virtual void GetMesh();
+  virtual void TryGetMesh();
 
   virtual void SetDeformFactor(float deformfactor)
   {celPcMeshDeform::deformfactor = deformfactor;}
-  virtual void SetDeformMesh (iMeshWrapper* mesh);
-  virtual iMeshWrapper* GetDeformMesh ()
+  virtual void SetNoise(float noise)
+  {if (deformcontrol) deformcontrol->SetNoise(noise);}
+  virtual void SetMaxFrequency(float frequency)
+  {celPcMeshDeform::frequency = frequency;}
+
+  virtual void SetMesh (iMeshWrapper* mesh);
+  virtual iMeshWrapper* GetMesh ()
    {return mesh;}
   virtual void DeformMesh
   (const csVector3& position, const csVector3& direction, float radius,
