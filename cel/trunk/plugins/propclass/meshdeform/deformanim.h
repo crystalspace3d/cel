@@ -42,6 +42,9 @@ struct iDeformControl : public virtual iBase
   virtual void DeformMesh
     (const csVector3& position, const csVector3& direction, float amount) = 0;
   virtual void SetNoise(float noise) = 0;
+  virtual void SetMaxDeform(float maxdeform) = 0;
+  virtual float GetNoise() = 0;
+  virtual float GetMaxDeform() = 0;
 };
 
 class csDeformControlType : public scfImplementation1
@@ -81,6 +84,7 @@ class csDeformControl : public scfImplementation2
     csRandomGen r_gen;
     csRandomGen v_gen;
     float noise;
+    float maxdeform;
 
   public:
     csDeformControl (iBase* parent);
@@ -109,7 +113,13 @@ class csDeformControl : public scfImplementation2
     (const csVector3& position, const csVector3& direction, float radius);
     virtual void SetNoise(float noise)
     {csDeformControl::noise = noise;}
+    virtual void SetMaxDeform(float maxdeform)
+    {csDeformControl::maxdeform = maxdeform;}
 
+    virtual float GetNoise()
+    {return noise;}
+    virtual float GetMaxDeform()
+    {return maxdeform;}
 }; 
 
 #endif // __CEL_PF_DEFORMANIM__

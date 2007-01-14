@@ -52,19 +52,46 @@ struct iPcMeshDeform : public virtual iBase
     bool worldspace = false) = 0;
 
   /**
-   * Change the deformation factor.
+   * Change the deformation factor. Higher gives a larger deformation.
    */
   virtual void SetDeformFactor(float deformfactor) = 0;
 
   /**
-   * Change the deformation noise factor.
+   * Change the deformation noise factor, ie the amount of randomness of each
+   * deform operation. Default is 0.2
    */
   virtual void SetNoise(float deformnoise) = 0;
 
   /**
-   * Change the deformation factor.
+   * Set the maximum number of deforms allowed per second. Defaults to 10.
+   * Lower settings may improve performance.
    */
   virtual void SetMaxFrequency(float frequency) = 0;
+
+  /**
+   * Set the deformation allowed per vertice. Default is 0.5
+   */
+  virtual void SetMaxDeform(float maxdeform) = 0;
+
+  /**
+   * Get the deformation factor.
+   */
+  virtual float GetDeformFactor() = 0;
+
+  /**
+   * Get the random noise on deformation
+   */
+  virtual float GetNoise() = 0;
+
+  /**
+   * Get the maximum frequency of deformations
+   */
+  virtual float GetMaxFrequency() = 0;
+
+  /**
+   * Get the random noise on deformation
+   */
+  virtual float GetMaxDeform() = 0;
 };
 
 #endif // __CEL_PF_MESHDEFORM__

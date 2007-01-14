@@ -68,7 +68,7 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   propholder = &propinfo;
 
   deformfactor = 1.0f;
-  frequency = 100;
+  frequency = 10.0f;
   lastdeform = 0;
   mesh = 0;
 
@@ -138,9 +138,11 @@ void celPcMeshDeform::DeformMesh
   bool worldspace)
 {
   TryGetMesh();
+  //Chck that the time since last deform is allowed within the set frequency.
   csTicks currenttime = clock->GetCurrentTicks();
   csTicks timediff = currenttime - lastdeform;
-  if(timediff >= frequency && mesh && deformcontrol)
+  float mostallowed = 1000.0f / frequency;
+  if(timediff >= mostallowed && mesh && deformcontrol)
   {
     lastdeform = currenttime;
     //If we are given worldspace co-ordinates, we need to convert them into
