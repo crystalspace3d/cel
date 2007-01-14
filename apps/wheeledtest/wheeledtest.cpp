@@ -56,6 +56,7 @@
 #include "ivideo/fontserv.h"
 #include "igraphic/imageio.h"
 #include "imap/loader.h"
+#include "ivaria/dynamics.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
@@ -287,7 +288,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 
   csRef<iPcMeshDeform> pcmeshdeform
     = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
-  pcmeshdeform->SetDeformFactor(5.0f);
+  pcmeshdeform->SetDeformFactor(7.5f);
 
   return csPtr<iCelEntity> (entity_cam);
 }

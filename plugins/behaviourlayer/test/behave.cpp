@@ -451,7 +451,8 @@ bool celBehaviourDynActor::SendMessageV (const char* msg_id,
 celBehaviourWheeled::celBehaviourWheeled (iCelEntity* entity,
     iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
 {
-  colcounter = 0;
+  pl= csQueryRegistry<iCelPlLayer> (object_reg);
+  pcmeshdeform = 0;
 }
 
 celBehaviourWheeled::~celBehaviourWheeled()
@@ -534,21 +535,18 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
     }
     return true;
   }
-  else if (strcmp (msg_id, "pcmechobject_collision"))
+  else if (!strcmp (msg_id, "pcdynamicbody_collision"))
   {
-    colcounter++;
-    if (colcounter == 10)
+    CEL_FETCH_VECTOR3_PAR(pos, params, pl->FetchStringID("cel.parameter.position"));
+    CEL_FETCH_VECTOR3_PAR(norm, params, pl->FetchStringID("cel.parameter.normal"));
+    CEL_FETCH_FLOAT_PAR(depth, params, pl->FetchStringID("cel.parameter.depth"));
+    if (depth > 0.005f)
     {
-      colcounter = 0;
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
-      csRef<iPcMeshDeform> pcmeshdeform = CEL_QUERY_PROPCLASS_ENT (entity,
-      iPcMeshDeform);
-      CEL_FETCH_VECTOR3_PAR(pos, params, pl->FetchStringID("cel.parameter.position"));
-      CEL_FETCH_VECTOR3_PAR(norm, params, pl->FetchStringID("cel.parameter.normal"));
-      CEL_FETCH_FLOAT_PAR(depth, params, pl->FetchStringID("cel.parameter.depth"));
-      if (depth > 0.02f)
-        pcmeshdeform->DeformMesh(pos, norm * depth, 0.75f, true);
-    }
+      if(!pcmeshdeform)
+        pcmeshdeform = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshDeform);
+      if (pcmeshdeform)
+        pcmeshdeform->DeformMesh(pos, norm * depth, 1.0f, true);}
+    return true;
   }
 
   return false;

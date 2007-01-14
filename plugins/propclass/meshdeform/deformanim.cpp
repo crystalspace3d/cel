@@ -75,6 +75,7 @@ csDeformControl::csDeformControl(iBase* parent)
   mesh = 0;
   r_gen = csRandomGen();
   v_gen = csRandomGen();
+  noise = 0.2f;
 }
 
 void csDeformControl::Update(csTicks current)
@@ -110,18 +111,25 @@ void csDeformControl::DeformMesh
   for (int i = 0; i < total_verts; i++)
   {
     csVector3 cvert = deformed_verts[i];
-    float distance = (position - cvert).Norm();
+    float distance = (position - cvert).SquaredNorm();
+    //Only perform the deform if the vertice is within the radius of effect.
     if (distance < radius)
     {
+       //Seed the random function based on the vertice position.
+       //This way two vertices at the same point won't tear.
        v_gen.Initialize(uint32(position.x * 1000.0f));
        float a = v_gen.Get();
        v_gen.Initialize(uint32(position.y * 1000.0f));
        float b = v_gen.Get();
        v_gen.Initialize(uint32(position.z * 1000.0f));
        float c = v_gen.Get();
+       //Get a random float unique to the vertice position
        float r_amount = (a + b + c) / 3.0f;
+       //Shift the vertice inverse proportional to its distance from point
+       //And add the random noise
+       float displacement = (1.0f - distance) + (r_amount * noise);
        //float r_amount = r_gen.Get();
-       deformed_verts[i] = cvert + (direction * r_amount) ;
+       deformed_verts[i] = cvert + (direction * displacement) ;
     }
   }
 }

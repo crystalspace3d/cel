@@ -39,8 +39,9 @@ struct iDeformControl : public virtual iBase
 {
   SCF_INTERFACE (iDeformControl, 0, 0, 1);
   virtual void SetMesh(iMeshWrapper* mesh) = 0;
-virtual void DeformMesh
-  (const csVector3& position, const csVector3& direction, float amount) = 0;
+  virtual void DeformMesh
+    (const csVector3& position, const csVector3& direction, float amount) = 0;
+  virtual void SetNoise(float noise) = 0;
 };
 
 class csDeformControlType : public scfImplementation1
@@ -79,6 +80,7 @@ class csDeformControl : public scfImplementation2
     iMeshWrapper* mesh;
     csRandomGen r_gen;
     csRandomGen v_gen;
+    float noise;
 
   public:
     csDeformControl (iBase* parent);
@@ -105,6 +107,8 @@ class csDeformControl : public scfImplementation2
     {csDeformControl::mesh = mesh;}
     virtual void DeformMesh
     (const csVector3& position, const csVector3& direction, float radius);
+    virtual void SetNoise(float noise)
+    {csDeformControl::noise = noise;}
 
 }; 
 

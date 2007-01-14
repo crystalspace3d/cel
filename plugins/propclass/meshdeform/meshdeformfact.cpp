@@ -35,6 +35,7 @@
 #include "imesh/genmesh.h"
 #include "iengine/movable.h"
 #include "csgeom/transfrm.h"
+#include "iutil/virtclk.h"
 #include <iostream>
 
 //---------------------------------------------------------------------------
@@ -67,7 +68,11 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   propholder = &propinfo;
 
   deformfactor = 1.0f;
+  frequency = 100;
+  lastdeform = 0;
   mesh = 0;
+
+  clock = csQueryRegistry<iVirtualClock> (object_reg);
 
   controltype = new csDeformControlType(this);
   controlfact = controltype->CreateAnimationControlFactory();
@@ -106,7 +111,7 @@ bool celPcMeshDeform::PerformActionIndexed (int idx,
 }
 
 //Change the mesh to deform
-void celPcMeshDeform::SetDeformMesh(iMeshWrapper* mesh)
+void celPcMeshDeform::SetMesh(iMeshWrapper* mesh)
 {
   celPcMeshDeform::mesh = mesh;
   csRef<iGenMeshAnimationControl>
@@ -117,13 +122,13 @@ void celPcMeshDeform::SetDeformMesh(iMeshWrapper* mesh)
 }
 
 //This function tries to pull out the mesh from the iPcMesh
-void celPcMeshDeform::GetMesh()
+void celPcMeshDeform::TryGetMesh()
 {
   if (!mesh)
   {
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(GetEntity(), iPcMesh);
     if (pcmesh)
-      SetDeformMesh(pcmesh->GetMesh());
+      SetMesh(pcmesh->GetMesh());
   }
 }
 
@@ -132,9 +137,12 @@ void celPcMeshDeform::DeformMesh
 (const csVector3& position, const csVector3& direction, float radius,
   bool worldspace)
 {
-  GetMesh();
-  if(mesh && deformcontrol)
+  TryGetMesh();
+  csTicks currenttime = clock->GetCurrentTicks();
+  csTicks timediff = currenttime - lastdeform;
+  if(timediff >= frequency && mesh && deformcontrol)
   {
+    lastdeform = currenttime;
     csVector3 deform_vector = direction * deformfactor;
     //If we are given worldspace co-ordinates, we need to convert them into
     // local space
