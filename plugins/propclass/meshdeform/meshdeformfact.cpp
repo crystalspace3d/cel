@@ -143,16 +143,21 @@ void celPcMeshDeform::DeformMesh
   if(timediff >= frequency && mesh && deformcontrol)
   {
     lastdeform = currenttime;
-    csVector3 deform_vector = direction * deformfactor;
     //If we are given worldspace co-ordinates, we need to convert them into
     // local space
     if (worldspace)
     {
       csVector3 localpos =
         mesh->GetMovable()->GetTransform().Other2This(position);
+      csVector3 localdir =
+        mesh->GetMovable()->GetTransform().Other2ThisRelative(direction);
+      csVector3 deform_vector = localdir * deformfactor;
       deformcontrol->DeformMesh(localpos, deform_vector, radius);
     }
     else
+    {
+      csVector3 deform_vector = direction * deformfactor;
       deformcontrol->DeformMesh(position, deform_vector, radius);
+    }
   }
 }
