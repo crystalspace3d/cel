@@ -503,6 +503,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfmeshdeform_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmeshdeform_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmeshdeform_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfmove_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1190,6 +1205,36 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_mesh_meshfact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\meshdeform\deformanim.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_meshdeform_deformanim.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_meshdeform_deformanim.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_meshdeform_meshdeformfact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_meshdeform_meshdeformfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2161,6 +2206,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\meshdeform\deformanim.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.h">
