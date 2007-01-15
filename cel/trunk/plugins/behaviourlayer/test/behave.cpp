@@ -545,7 +545,7 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       if(!pcmeshdeform)
         pcmeshdeform = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshDeform);
       if (pcmeshdeform)
-        pcmeshdeform->DeformMesh(pos, norm * depth, 1.0f, true);}
+        pcmeshdeform->DeformMesh(pos, norm * depth, true);}
     return true;
   }
 
