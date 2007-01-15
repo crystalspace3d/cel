@@ -265,7 +265,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
 
   pcwheeled->SetBrakeForce(1000.0f);
-  pcwheeled->SetABSEnabled(true);
+  pcwheeled->SetABS(true);
   pcwheeled->SetSteerAmount(0.7f);
 
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));

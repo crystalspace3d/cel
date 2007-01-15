@@ -122,7 +122,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
 
   accelamount = 0.0f;
   brakeamount = 0.0f;
-  absenabled = true;
+  abs = true;
   autotransmission = true;
   handbrakeapplied = false;
   autotransmission = true;
@@ -232,7 +232,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (13);
+  propinfo.SetCount (15);
   AddProperty (propid_speed, "cel.property.speed",
         CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
@@ -257,8 +257,12 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
         CEL_DATA_BOOL, false, "Vehicle automatically reverses.", &autoreverse);
   AddProperty (propid_outerwheelsteerpreset, "cel.property.outerwheelsteerpreset",
         CEL_DATA_FLOAT, false, "Vehicle outer wheel steer.", 0);
-  AddProperty (propid_absenabled, "cel.property.absenabled",
-        CEL_DATA_BOOL, false, "Vehicle antil-lock brakes enabled.", &absenabled);
+  AddProperty (propid_abs, "cel.property.abs",
+        CEL_DATA_BOOL, false, "Vehicle anti-lock brakes enabled.", &abs);
+  AddProperty (propid_currentgearvelocity, "cel.property.currentgearvelocity",
+        CEL_DATA_FLOAT, true, "Current gear velocity.", 0);
+  AddProperty (propid_currentgearforce, "cel.property.currentgearforce",
+        CEL_DATA_FLOAT, true, "Current gear force.", 0);
 
 
   params = new celGenericParameterBlock (5);
@@ -341,6 +345,14 @@ bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
   else if (idx == propid_outerwheelsteerpreset)
   {
     f = outersteer;
+  }
+  else if (idx == propid_currentgearvelocity)
+  {
+    f = GetGearVelocity(GetGear());
+  }
+  else if (idx == propid_currentgearforce)
+  {
+    f = GetGearForce(GetGear());
   }
   return false;
 }
@@ -1139,7 +1151,7 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
   {
     wheelbrake = brakeforce * wheels[wheelnum].BrakePower * brakeamount;
     //If using abs, test if wheel is locked
-    if (absenabled)
+    if (abs)
     {
       float wheelspin = GetWheelSpin(wheelnum);
       float spindiff = avgspin - wheelspin;
