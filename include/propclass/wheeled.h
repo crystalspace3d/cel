@@ -108,7 +108,9 @@
  * - autoreverse (bool, read/write): Whether the vehicle automatically
  *                                   reverses at low speeds while braking.
  * - outerwheelsteerpreset (float, read/write): Outer wheel steer preset.
- * - absenabled (bool, read/write): ABS Braking enabled.
+ * - abs (bool, read/write): ABS Braking enabled.
+ * - currentgearvelocity (float, read): Velocity of current gear.
+ * - currentgearforce (float, read): Force of current gear.
  */
 
 struct iCelEntity;
@@ -156,12 +158,12 @@ struct iPcWheeled : public virtual iBase
    * Set if the vehicle uses anti-lock braking.
    *  \param enabled Whether abs is enabled.
    */
-  virtual void SetABSEnabled(bool enabled) = 0;
+  virtual void SetABS(bool enabled) = 0;
 
   /**
    * Get if the vehicle uses anti-lock braking.
    */
-  virtual bool GetABSEnabled() = 0;
+  virtual bool GetABS() = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout. This method uses the
@@ -400,6 +402,18 @@ struct iPcWheeled : public virtual iBase
    * Set up a gear with a given velocity and force.
    */
   virtual void SetGearSettings(int gear,float velocity, float force) = 0;
+
+  /**
+   * Get the target velocity of a given velocity.
+   * \param gear The gear to get.
+   */
+  virtual float GetGearVelocity(int gear) = 0;
+
+  /**
+   * Get the target force of a given velocity.
+   * \param gear The gear to get.
+   */
+  virtual float GetGearForce(int gear) = 0;
 
   /**
    * Get the highest gear the vehicle has.

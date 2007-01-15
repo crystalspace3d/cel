@@ -133,7 +133,9 @@ private:
     propid_brakeforce,
     propid_autoreverse,
     propid_outerwheelsteerpreset,
-    propid_absenabled
+    propid_abs,
+    propid_currentgearvelocity,
+    propid_currentgearforce
   };
 
   // Parameters.
@@ -182,7 +184,7 @@ private:
   bool tankmode;
   bool handbrakeapplied;
   //ABS braking
-  bool absenabled;
+  bool abs;
   //Absolute steering amount
   float abssteer;
   //The angle the user wants the wheels to reach
@@ -247,8 +249,8 @@ public:
   virtual void SetWheelMesh(const char* file, const char* factname);
   virtual void SetTankMode(bool tankmode)
   {celPcWheeled::tankmode = tankmode;};
-  virtual void SetABSEnabled(bool enabled)
-  {celPcWheeled::absenabled = enabled;};
+  virtual void SetABS(bool enabled)
+  {celPcWheeled::abs = enabled;};
   virtual void SetSteerAmount(float steeramount)
   {celPcWheeled::steeramount = steeramount;};
   //This one uses presets
@@ -364,7 +366,9 @@ public:
   virtual float GetSteerAmount(){return steeramount;}
   virtual float GetSteer() {return abssteer;}
   virtual bool GetTankMode(){return tankmode;}
-  virtual bool GetABSEnabled(){return absenabled;}
+  virtual bool GetABS(){return abs;}
+  virtual float GetGearVelocity(int gear){return gears[gear+1].x;}
+  virtual float GetGearForce(int gear){return gears[gear+1].y;}
   virtual float GetSpeed();
 
   // Per-wheel settings
