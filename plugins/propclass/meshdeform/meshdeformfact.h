@@ -53,6 +53,29 @@ class celPcMeshDeform : public scfImplementationExt1<
 	celPcMeshDeform, celPcCommon, iPcMeshDeform>
 {
 private:
+  // Actions
+  enum actionids
+  {
+    action_deformmesh,
+    action_resetdeform,
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_deformfactor = 0,
+    propid_noise,
+    propid_maxfrequency,
+    propid_maxdeform,
+    propid_radius
+  };
+
+  static csStringID param_position;
+  static csStringID param_direction;
+  static csStringID param_worldspace;
+
+  static PropertyHolder propinfo;
+
   csRef<iMeshWrapper> mesh;
   csWeakRef<iEngine> engine;
   csWeakRef<iVirtualClock> clock;
@@ -68,24 +91,20 @@ public:
   celPcMeshDeform (iObjectRegistry* object_reg);
   virtual ~celPcMeshDeform ();
 
-  static csStringID id_deformfactor;
-  static csStringID id_direction;
-  static csStringID id_position;
-  static csStringID id_amount;
-
-  static PropertyHolder propinfo;
-
   virtual const char* GetName () const { return "pcmeshdeform"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
-
+  virtual bool GetPropertyIndexed (int, float&);
+  virtual bool SetPropertyIndexed (int, float);
 
   virtual void TryGetMesh();
 
   virtual void SetDeformFactor(float deformfactor)
   {celPcMeshDeform::deformfactor = deformfactor;}
+  virtual void SetRadius(float radius)
+  {if (deformcontrol) deformcontrol->SetRadius(radius);}
   virtual void SetNoise(float noise)
   {if (deformcontrol) deformcontrol->SetNoise(noise);}
   virtual void SetMaxFrequency(float frequency)
@@ -111,9 +130,16 @@ public:
     if (deformcontrol) return deformcontrol->GetMaxDeform();
     else return 0.5f;
   }
+  virtual float GetRadius()
+  {
+    if (deformcontrol) return deformcontrol->GetRadius();
+    else return 1.0f;
+  }
+
   virtual void DeformMesh
-  (const csVector3& position, const csVector3& direction, float radius,
+  (const csVector3& position, const csVector3& direction,
     bool worldspace = false);
+  virtual void ResetDeform(){if (deformcontrol) deformcontrol->ResetDeform();}
 };
 
 #endif // __CEL_PF_MESHDEFORMFACT__

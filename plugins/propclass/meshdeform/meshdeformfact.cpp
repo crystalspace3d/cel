@@ -46,10 +46,9 @@ CEL_IMPLEMENT_FACTORY (MeshDeform, "pcmeshdeform")
 
 //---------------------------------------------------------------------------
 
-csStringID celPcMeshDeform::id_deformfactor = csInvalidStringID;
-csStringID celPcMeshDeform::id_direction = csInvalidStringID;
-csStringID celPcMeshDeform::id_position = csInvalidStringID;
-csStringID celPcMeshDeform::id_amount = csInvalidStringID;
+csStringID celPcMeshDeform::param_position = csInvalidStringID;
+csStringID celPcMeshDeform::param_direction = csInvalidStringID;
+csStringID celPcMeshDeform::param_worldspace = csInvalidStringID;
 
 PropertyHolder celPcMeshDeform::propinfo;
 
@@ -57,15 +56,29 @@ PropertyHolder celPcMeshDeform::propinfo;
 celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
-  if (id_deformfactor == csInvalidStringID)
+  if (param_position == csInvalidStringID)
   {
-    id_deformfactor = pl->FetchStringID ("cel.parameter.deformfactor");
-    id_direction = pl->FetchStringID ("cel.parameter.direction");
-    id_position = pl->FetchStringID ("cel.parameter.position");
-    id_amount = pl->FetchStringID ("cel.parameter.amount");
+    param_position = pl->FetchStringID ("cel.parameter.position");
+    param_direction = pl->FetchStringID ("cel.parameter.direction");
+    param_worldspace = pl->FetchStringID ("cel.parameter.worldspace");
   }
-
   propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_deformmesh, "cel.action.DeformMesh");
+    AddAction (action_resetdeform, "cel.action.ResetDeform");
+  }
+  propinfo.SetCount (5);
+  AddProperty (propid_deformfactor, "cel.property.deformfactor",
+        CEL_DATA_FLOAT, false, "Deform Factor.", &deformfactor);
+  AddProperty (propid_noise, "cel.property.noise",
+        CEL_DATA_FLOAT, false, "Noise.", 0);
+  AddProperty (propid_maxfrequency, "cel.property.maxfrequency",
+        CEL_DATA_FLOAT, false, "Max frequency.", &frequency);
+  AddProperty (propid_maxdeform, "cel.property.maxdeform",
+        CEL_DATA_FLOAT, false, "Max deform.", 0);
+  AddProperty (propid_radius, "cel.property.radius",
+        CEL_DATA_FLOAT, false, "Radius.", 0);
 
   deformfactor = 1.0f;
   frequency = 10.0f;
@@ -98,14 +111,65 @@ bool celPcMeshDeform::Load (iCelDataBuffer* databuf)
  return false;
 }
 
+bool celPcMeshDeform::GetPropertyIndexed (int idx, float& f)
+{
+  if (idx == propid_noise)
+  {
+    f = GetNoise();
+    return true;
+  }
+  else if (idx == propid_maxdeform)
+  {
+    f = GetMaxDeform();
+    return true;
+  }
+  else if (idx == propid_radius)
+  {
+    f = GetRadius();
+    return true;
+  }
+  return false;
+}
+
+bool celPcMeshDeform::SetPropertyIndexed (int idx, float f)
+{
+  if (idx == propid_noise)
+  {
+    SetNoise(f);
+    return true;
+  }
+  if (idx == propid_maxdeform)
+  {
+    SetMaxDeform(f);
+    return true;
+  }
+  if (idx == propid_radius)
+  {
+    SetRadius(f);
+    return true;
+  }
+  return false;
+}
+
 bool celPcMeshDeform::PerformActionIndexed (int idx,
-	iCelParameterBlock* params,
-	celData& ret)
+                                    iCelParameterBlock* params,
+                                    celData& ret)
 {
   switch (idx)
   {
-    default:
-      return false;
+    case action_deformmesh:
+      {
+        CEL_FETCH_VECTOR3_PAR (pos, params, param_position);
+        CEL_FETCH_VECTOR3_PAR (dir, params, param_direction);
+        CEL_FETCH_BOOL_PAR (world, params, param_worldspace);
+        DeformMesh(pos, dir, world);
+        return true;
+      }
+    case action_resetdeform:
+      {
+        ResetDeform();
+        return true;
+      }
   }
   return false;
 }
@@ -134,8 +198,7 @@ void celPcMeshDeform::TryGetMesh()
 
 //Tell the deform control to deform the mesh
 void celPcMeshDeform::DeformMesh
-(const csVector3& position, const csVector3& direction, float radius,
-  bool worldspace)
+(const csVector3& position, const csVector3& direction, bool worldspace)
 {
   TryGetMesh();
   //Chck that the time since last deform is allowed within the set frequency.
@@ -147,19 +210,20 @@ void celPcMeshDeform::DeformMesh
     lastdeform = currenttime;
     //If we are given worldspace co-ordinates, we need to convert them into
     // local space
+    csVector3 realpos;
+    csVector3 realdir;
     if (worldspace)
     {
-      csVector3 localpos =
-        mesh->GetMovable()->GetTransform().Other2This(position);
-      csVector3 localdir =
-        mesh->GetMovable()->GetTransform().Other2ThisRelative(direction);
-      csVector3 deform_vector = localdir * deformfactor;
-      deformcontrol->DeformMesh(localpos, deform_vector, radius);
+      realpos = mesh->GetMovable()->GetTransform().Other2This(position);
+      realdir = mesh->GetMovable()->GetTransform().
+                 Other2ThisRelative(direction);
     }
     else
     {
-      csVector3 deform_vector = direction * deformfactor;
-      deformcontrol->DeformMesh(position, deform_vector, radius);
+      realpos = position;
+      realdir = direction;
     }
+    csVector3 deform_vector = realdir * deformfactor;
+    deformcontrol->DeformMesh(realpos, deform_vector);
   }
 }

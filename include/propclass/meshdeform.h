@@ -48,8 +48,13 @@ struct iPcMeshDeform : public virtual iBase
    * Deform the mesh
    */
   virtual void DeformMesh
-  (const csVector3& position, const csVector3& direction, float radius,
+  (const csVector3& position, const csVector3& direction,
     bool worldspace = false) = 0;
+
+  /**
+   * Reset the mesh to undeformed state
+   */
+  virtual void ResetDeform () = 0;
 
   /**
    * Change the deformation factor. Higher gives a larger deformation.
@@ -74,24 +79,34 @@ struct iPcMeshDeform : public virtual iBase
   virtual void SetMaxDeform(float maxdeform) = 0;
 
   /**
+   * Set the radius of influence of a deform. Default is 1.0
+   */
+  virtual void SetRadius(float radius) = 0;
+
+  /**
    * Get the deformation factor.
    */
   virtual float GetDeformFactor() = 0;
 
   /**
-   * Get the random noise on deformation
+   * Get the random noise on deformation.
    */
   virtual float GetNoise() = 0;
 
   /**
-   * Get the maximum frequency of deformations
+   * Get the maximum frequency of deformations.
    */
   virtual float GetMaxFrequency() = 0;
 
   /**
-   * Get the random noise on deformation
+   * Get the random noise on deformation.
    */
   virtual float GetMaxDeform() = 0;
+
+  /**
+   * Get the radius of influence of a deform. Default is 1.0
+   */
+  virtual float GetRadius() = 0;
 };
 
 #endif // __CEL_PF_MESHDEFORM__

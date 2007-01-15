@@ -40,11 +40,14 @@ struct iDeformControl : public virtual iBase
   SCF_INTERFACE (iDeformControl, 0, 0, 1);
   virtual void SetMesh(iMeshWrapper* mesh) = 0;
   virtual void DeformMesh
-    (const csVector3& position, const csVector3& direction, float amount) = 0;
+    (const csVector3& position, const csVector3& direction) = 0;
+  virtual void ResetDeform() = 0;
   virtual void SetNoise(float noise) = 0;
   virtual void SetMaxDeform(float maxdeform) = 0;
+  virtual void SetRadius(float radius) = 0;
   virtual float GetNoise() = 0;
   virtual float GetMaxDeform() = 0;
+  virtual float GetRadius() = 0;
 };
 
 class csDeformControlType : public scfImplementation1
@@ -85,6 +88,7 @@ class csDeformControl : public scfImplementation2
     csRandomGen v_gen;
     float noise;
     float maxdeform;
+    float radius;
 
   public:
     csDeformControl (iBase* parent);
@@ -110,16 +114,21 @@ class csDeformControl : public scfImplementation2
     virtual void SetMesh(iMeshWrapper* mesh)
     {csDeformControl::mesh = mesh;}
     virtual void DeformMesh
-    (const csVector3& position, const csVector3& direction, float radius);
+    (const csVector3& position, const csVector3& direction);
+    virtual void ResetDeform() {total_verts = 0;}
     virtual void SetNoise(float noise)
     {csDeformControl::noise = noise;}
     virtual void SetMaxDeform(float maxdeform)
     {csDeformControl::maxdeform = maxdeform;}
+    virtual void SetRadius(float radius)
+    {csDeformControl::radius = radius;}
 
     virtual float GetNoise()
     {return noise;}
     virtual float GetMaxDeform()
     {return maxdeform;}
+    virtual float GetRadius()
+    {return radius;}
 }; 
 
 #endif // __CEL_PF_DEFORMANIM__
