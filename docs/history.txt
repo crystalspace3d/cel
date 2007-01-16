@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Jan-2007
+	- cfraz89 added more polys to the celcar
 15-Jan-2007
 	- cfraz89 added an xml interface to meshdeform, and squashed a
 	  few bugs.
