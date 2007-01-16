@@ -29,7 +29,6 @@
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
 #include "imesh/genmesh.h"
-#include "csutil/randomgen.h"
 #include "csutil/scf_implementation.h"
 
 struct iMeshWrapper;
@@ -84,8 +83,6 @@ class csDeformControl : public scfImplementation2
     csVector3* deformed_verts;
     int total_verts;
     iMeshWrapper* mesh;
-    csRandomGen r_gen;
-    csRandomGen v_gen;
     float noise;
     float maxdeform;
     float radius;
