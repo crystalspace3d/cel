@@ -34,7 +34,7 @@
 #include "imesh/objmodel.h"
 #include "imesh/genmesh.h"
 #include "plugins/propclass/meshdeform/deformanim.h"
-#include "csutil/randomgen.h"
+#include "iostream"
 //---------------------------------------------------------------------------
 
 csDeformControlType::csDeformControlType(iBase* parent)
@@ -73,10 +73,8 @@ csDeformControl::csDeformControl(iBase* parent)
   deformed_verts = 0;
   total_verts = 0;
   mesh = 0;
-  r_gen = csRandomGen();
-  v_gen = csRandomGen();
-  noise = 0.2f;
-  maxdeform = 0.5f;
+  noise = 0.4f;
+  maxdeform = 0.175f;
   radius = 1.0f;
 }
 
@@ -117,16 +115,13 @@ void csDeformControl::DeformMesh
     //Only perform the deform if the vertice is within the radius of effect.
     if (distance < radius)
     {
-       //Seed the random function based on the vertice position.
-       //This way two vertices at the same point won't tear.
-       v_gen.Initialize(uint32(position.x * 1000.0f));
-       float a = v_gen.Get();
-       v_gen.Initialize(uint32(position.y * 1000.0f));
-       float b = v_gen.Get();
-       v_gen.Initialize(uint32(position.z * 1000.0f));
-       float c = v_gen.Get();
-       //Get a random float unique to the vertice position
-       float r_amount = (a + b + c) / 3.0f;
+       //Get a pseudo-random number from 0 - 1 based on the position of
+       //the vertice and the position and force.
+       //this will make it fairly unique.
+       float r_amount = (cvert.x + cvert.y + cvert.z +
+                         position.x + position.y + position.z +
+                         direction.x + direction.y + direction.z) * 3.141592;
+       r_amount -= int(r_amount);
        //Shift the vertice inverse proportional to its distance from point
        //And add the random noise
        float displacement = (radius - distance) / radius + (r_amount * noise);

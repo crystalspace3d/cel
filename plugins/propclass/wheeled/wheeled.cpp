@@ -345,14 +345,17 @@ bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
   else if (idx == propid_outerwheelsteerpreset)
   {
     f = outersteer;
+    return true;
   }
   else if (idx == propid_currentgearvelocity)
   {
     f = GetGearVelocity(GetGear());
+    return true;
   }
   else if (idx == propid_currentgearforce)
   {
     f = GetGearForce(GetGear());
+    return true;
   }
   return false;
 }
