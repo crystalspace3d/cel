@@ -39,7 +39,7 @@
 
 #include "propclass/mesh.h"
 #include "propclass/mechsys.h"
-
+#include <iostream>
 #include <cmath>
 
 //--------------------------------------------------------------------------
@@ -1069,6 +1069,8 @@ float celPcWheeled::GetWheelSpin(size_t wheelnum)
   //Left wheels must be * -1 to return a positive velocity.
   if (wheels[wheelnum].Position.x < 0.0f)
     vel *= -1;
+
+  std::cout << "wheel " << wheelnum << " speed " << vel << "\n";
   return vel;
 }
 
@@ -1108,7 +1110,6 @@ void celPcWheeled::TickOnce()
       wheels[i].WheelJoint->SetFMax(steerfactor, 0);
     }
   }
-
   pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
 }
 
