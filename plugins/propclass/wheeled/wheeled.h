@@ -135,7 +135,8 @@ private:
     propid_outerwheelsteerpreset,
     propid_abs,
     propid_currentgearvelocity,
-    propid_currentgearforce
+    propid_currentgearforce,
+    propid_averagewheelspin
   };
 
   // Parameters.

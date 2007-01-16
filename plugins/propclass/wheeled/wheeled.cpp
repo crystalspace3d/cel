@@ -232,7 +232,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
   }
 
-  propinfo.SetCount (15);
+  propinfo.SetCount (16);
   AddProperty (propid_speed, "cel.property.speed",
         CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
   AddProperty (propid_tankmode, "cel.property.tankmode",
@@ -263,7 +263,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
         CEL_DATA_FLOAT, true, "Current gear velocity.", 0);
   AddProperty (propid_currentgearforce, "cel.property.currentgearforce",
         CEL_DATA_FLOAT, true, "Current gear force.", 0);
-
+  AddProperty (propid_averagewheelspin, "cel.property.averagewheelspin",
+        CEL_DATA_FLOAT, true, "Average wheel spin.", 0);
 
   params = new celGenericParameterBlock (5);
   params->SetParameterDef (0, param_otherbody, "otherbody");
@@ -355,6 +356,11 @@ bool celPcWheeled::GetPropertyIndexed (int idx, float& f)
   else if (idx == propid_currentgearforce)
   {
     f = GetGearForce(GetGear());
+    return true;
+  }
+  else if (idx == propid_averagewheelspin)
+  {
+    f = GetAverageWheelSpin();
     return true;
   }
   return false;
