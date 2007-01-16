@@ -111,6 +111,7 @@
  * - abs (bool, read/write): ABS Braking enabled.
  * - currentgearvelocity (float, read): Velocity of current gear.
  * - currentgearforce (float, read): Force of current gear.
+ * - averagewheelspin (float, read): Average spin of wheels.
  */
 
 struct iCelEntity;
@@ -631,6 +632,17 @@ struct iPcWheeled : public virtual iBase
    * Get the number of wheels on this vehicle.
    */
   virtual size_t GetWheelCount() = 0;
+
+  /**
+   * Get the spin of a given wheel.
+   * \param wheelnum Index of the wheel to get.
+   */
+  virtual float GetWheelSpin(size_t wheelnum) = 0;
+
+  /**
+   * Get the average spin of all wheels.
+   */
+  virtual float GetAverageWheelSpin() = 0;
 
   /**
    * Get the rigid body of this wheel.
