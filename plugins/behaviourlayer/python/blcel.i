@@ -43,9 +43,11 @@ CS_PROPERTY_HELPERS
 #include "propclass/craft.h"
 #include "propclass/wheeled.h"
 #include "propclass/damage.h"
+#include "propclass/quest.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
+#include "tools/questmanager.h"
 #include "propclass/zone.h"
 %}
 %inline %{
@@ -64,6 +66,7 @@ CS_PROPERTY_HELPERS
   INTERFACE_APPLY(iCelBlLayer)
   INTERFACE_APPLY(iCelEntity)
   INTERFACE_APPLY(iCelPropertyClass)
+  INTERFACE_APPLY(iQuestManager)
   INTERFACE_APPLY(iCelEntityList)
 %enddef
 
@@ -238,6 +241,10 @@ class contenttype ## pref ## FakeArray:
 CEL_APPLY_FOR_EACH_INTERFACE
 
 //-----------------------------------------------------------------------------
+
+%apply csStringFast * { const csStringFast<12>& };
+%template (csStringFast12) csStringFast<12>;
+%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12> >; 
 
 %include "physicallayer/pl.h"
 %inline %{
@@ -676,6 +683,12 @@ CEL_PC(iPcWheeled, Wheeled, pcwheeled)
 
 %include "propclass/damage.h"
 CEL_PC(iPcDamage, Damage, pcdamage)
+
+//-----------------------------------------------------------------------------
+
+%include "tools/questmanager.h"
+%include "propclass/quest.h"
+CEL_PC(iPcQuest, Quest, pcquest)
 
 //-----------------------------------------------------------------------------
 
