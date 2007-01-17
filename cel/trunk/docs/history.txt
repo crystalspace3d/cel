@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Jan-2007
+	- caedes added quest manager and pcquest to blcel.i.
+	- caedes added template declarations necessary to use
+	  celEntityTemplateParams to blcel.i.
 16-Jan-2007
 	- cfraz89 added more polys to the celcar
 	- cfraz89 tweaked meshdeform and fixed up properties in wheeled.
