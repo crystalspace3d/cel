@@ -62846,6 +62846,59 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelSpin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  size_t arg2 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_GetWheelSpin",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetWheelSpin" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_GetWheelSpin" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  result = (float)(arg1)->GetWheelSpin(arg2);
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetAverageWheelSpin(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcWheeled_GetAverageWheelSpin",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetAverageWheelSpin" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  result = (float)(arg1)->GetAverageWheelSpin();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_GetWheelBody(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -66206,6 +66259,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_GetWheelSteerInverted", _wrap_iPcWheeled_GetWheelSteerInverted, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelHandbrakeAffected", _wrap_iPcWheeled_GetWheelHandbrakeAffected, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelCount", _wrap_iPcWheeled_GetWheelCount, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetWheelSpin", _wrap_iPcWheeled_GetWheelSpin, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetAverageWheelSpin", _wrap_iPcWheeled_GetAverageWheelSpin, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelBody", _wrap_iPcWheeled_GetWheelBody, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetWheelJoint", _wrap_iPcWheeled_GetWheelJoint, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetBrakeMotor", _wrap_iPcWheeled_GetBrakeMotor, METH_VARARGS, NULL},
