@@ -4196,6 +4196,8 @@ class iPcWheeled(cspace.iBase):
     def GetWheelSteerInverted(*args): return _blcelc.iPcWheeled_GetWheelSteerInverted(*args)
     def GetWheelHandbrakeAffected(*args): return _blcelc.iPcWheeled_GetWheelHandbrakeAffected(*args)
     def GetWheelCount(*args): return _blcelc.iPcWheeled_GetWheelCount(*args)
+    def GetWheelSpin(*args): return _blcelc.iPcWheeled_GetWheelSpin(*args)
+    def GetAverageWheelSpin(*args): return _blcelc.iPcWheeled_GetAverageWheelSpin(*args)
     def GetWheelBody(*args): return _blcelc.iPcWheeled_GetWheelBody(*args)
     def GetWheelJoint(*args): return _blcelc.iPcWheeled_GetWheelJoint(*args)
     def GetBrakeMotor(*args): return _blcelc.iPcWheeled_GetBrakeMotor(*args)
