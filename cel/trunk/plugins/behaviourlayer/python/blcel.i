@@ -76,8 +76,13 @@ CS_PROPERTY_HELPERS
 
 %define CEL_PC_CREATE(pcType, funcName, pcname)
 %inline %{
-pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
+pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
+{
+  csRef<iCelPropertyClass> pc;
+  if (tagname)
+    pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname);
+  else
+    pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
   csRef<pcType> pclm = scfQueryInterface<pcType>(pc);
   if (!pclm.IsValid()) return 0;
@@ -88,12 +93,21 @@ pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
 
 %define CEL_PC_GETSET(pcType, funcName,pcname)
 %inline %{
-pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
+pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 {
-  csRef<pcType> pclm = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), pcType);
+  csRef<pcType> pclm;
+  if (tagname)
+    pclm = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
+  else
+    pclm = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (pclm.IsValid()) return pclm;
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
+  csRef<iCelPropertyClass> pc;
+  if (tagname)
+    pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname );
+  else
+    pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
   pclm = scfQueryInterface<pcType>(pc);
   if (!pclm.IsValid()) return 0;
@@ -104,10 +118,15 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
 
 %define CEL_PC_GET(pcType, funcName)
 %inline %{
-pcType * funcName (iCelEntity *entity)
+pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
 {
-  csRef<pcType> pc = CEL_QUERY_PROPCLASS (
-    entity->GetPropertyClassList (), pcType);
+  csRef<pcType> pc;
+  if (tagname)
+    pc = CEL_QUERY_PROPCLASS_TAG (
+      entity->GetPropertyClassList (), pcType, tagname);
+  else
+    pc = CEL_QUERY_PROPCLASS (
+      entity->GetPropertyClassList (), pcType);
   if (!pc.IsValid()) return 0;
   return pc;
 }
