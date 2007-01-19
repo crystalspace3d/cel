@@ -852,9 +852,8 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   wheelbody->AttachColliderSphere (
       wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1,0.5f,0.05f);
   
-   //If it a right wheel, and using the default mesh, flip it.
-   if (wheels[wheelnum].Position.x < 0 &&
-        wheels[wheelnum].Meshfact == wheelfact)
+   //If it a right wheel, flip it.
+   if (wheels[wheelnum].Position.x < 0 )
    {
      csOrthoTransform t = wheelbody->GetTransform();
      t.RotateThis(csVector3(0,1,0),3.14f);

@@ -169,8 +169,9 @@ struct iPcWheeled : public virtual iBase
   /**
    * Add a wheel to the vehicle's wheel layout. This method uses the
    * vehicle's wheel presets for steering, power and suspension, and
-   * automatically applies handbrake and invert steering
-   *  to rear wheels.
+   * automatically applies handbrake and invert steering to rear wheels.
+   * to rear wheels. All right wheels automatically have their meshes flipped.
+   * \param position Where the wheel will be placed.
    *  \param wheelfact The name of the factory to use for wheel meshes.
    *  \param wheelfile VFS path to the file which contains the wheel's factory.
    *    If 0, it is assumed the factory has already been loaded.
@@ -184,6 +185,7 @@ struct iPcWheeled : public virtual iBase
    * Add a wheel to the vehicle's wheel layout.
    * This method allows for total control over the wheel, overriding the
    * vehicle's presets.
+   * All right wheels automatically have their meshes flipped.
    * \param position Where the wheel will be placed.
    * \param turnspeed How fast the wheel should steer away from centre.
    * \param returnspeed How fast the wheel should return to the centre.
