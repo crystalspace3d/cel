@@ -320,12 +320,21 @@ for pcclass in pcclasses:
 easily fetching or creating of the appropiate property class from an entity
 object:
 </p><ul>
-<li> <samp>`celPropertyClass(celEntity)'</samp>
-Get the property class if it exists or create a new one.
-</li><li> <samp>`celAddPropertyClass(celEntity)'</samp>
-Add the property class to the entity.
-</li><li> <samp>`celGetPropertyClass(celEntity)'</samp>
-Get the property class if it exists.
+<li> <samp>`celPropertyClass(celEntity,tag=None)'</samp>
+Get the property class if it exists or create a new one. If tag isnt defined
+then it will only create the property class if there is no property class of
+this type. If it is set it will only search for pcclass with such tag set, or
+else create a new one with the tag.
+To ensure creation/querying for untagged property class even if tagged
+pcclasses exist set the tag to an empty string (&quot;&quot;).
+</li><li> <samp>`celAddPropertyClass(celEntity,tag=None)'</samp>
+Add the property class to the entity. If tag is set then the pcclass will be
+created with such tag, otherwise an untagged class is created.
+</li><li> <samp>`celGetPropertyClass(celEntity,tag=None)'</samp>
+Get the property class if it exists. If tag is used then it will only get
+the pcclass with the appropriate tag (or with no tag if &quot;&quot; is used). Else
+it will return a not tagged pcclass, or if it doesnt exist the first tagged
+pccclass found.
 </li></ul>
 <p>Where <samp>`PropertyClass'</samp> would be substituted for the appropiate name, like
 in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
@@ -339,6 +348,15 @@ in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
           self.select = celMeshSelect(celEntity)
 </pre></td></tr></table>
 <a name="SEC126"></a>
+<h3 class="subheading"> Accessing property class properties. </h3>
+
+<p>To access property class properties from python you can use standard python
+syntax. For example to query/set jitter for a pctrigger:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">    oldjitter = trigger.jitter
+    trigger.jitter = 100
+</pre></td></tr></table>
+<a name="SEC127"></a>
 <h3 class="subheading"> Messages </h3>
 
 <p>Each property class in <small>CEL</small> can generate a number of messages. A python
@@ -383,7 +401,7 @@ use instead of querying them each time.
        for strid in Args.keys():
 		print fromid(strid),Args[strid]
 </pre></td></tr></table>
-<a name="SEC127"></a>
+<a name="SEC128"></a>
 <h3 class="subheading"> Sending Messages </h3>
 
 <p>Some messages (like <code>__init__</code> and messages from property classes) are
@@ -415,7 +433,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
-<a name="SEC128"></a>
+<a name="SEC129"></a>
 <h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
 
 <p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to
