@@ -34,6 +34,7 @@
 #include "imesh/objmodel.h"
 #include "imesh/genmesh.h"
 #include "plugins/propclass/meshdeform/deformanim.h"
+#include <math.h>
 #include "iostream"
 //---------------------------------------------------------------------------
 
@@ -73,9 +74,9 @@ csDeformControl::csDeformControl(iBase* parent)
   deformed_verts = 0;
   total_verts = 0;
   mesh = 0;
-  noise = 0.4f;
-  maxdeform = 0.175f;
-  radius = 1.0f;
+  noise = 0.0f;
+  maxdeform = 0.0f;
+  radius = 0.0f;
 }
 
 void csDeformControl::Update(csTicks current)
@@ -118,18 +119,26 @@ void csDeformControl::DeformMesh
        //Get a pseudo-random number from 0 - 1 based on the position of
        //the vertice and the position and force.
        //this will make it fairly unique.
-       float r_amount = (cvert.x + cvert.y + cvert.z +
+       float r_amount = fabs(cvert.x + cvert.y + cvert.z +
                          position.x + position.y + position.z +
                          direction.x + direction.y + direction.z) * 3.141592;
        r_amount -= int(r_amount);
        //Shift the vertice inverse proportional to its distance from point
        //And add the random noise
        float displacement = (radius - distance) / radius + (r_amount * noise);
-       //Now proportion in the amount that the vertice has already moved.
-       float displaced = (cvert - original_verts[i]).SquaredNorm();
-       displacement *= (maxdeform - displaced) / maxdeform;
-       //Move the vertice
-       deformed_verts[i] = cvert + (direction * displacement) ;
+        //Now proportion in the amount that the vertice has already moved.
+        float displaced = (cvert - original_verts[i]).Norm();
+        bool a = maxdeform >= displaced;
+        if (maxdeform >= displaced)
+          displacement *= (maxdeform - displaced) / maxdeform;
+        else displacement = 0.0f;
+        a = maxdeform >= displacement;
+        //Now factor in the size of this deform
+        if (maxdeform >= displacement)
+          displacement *= (maxdeform - displacement) / maxdeform;
+        else displacement = 0.0f;
+        //Move the vertice
+        deformed_verts[i] = cvert + (direction * displacement) ;
     }
   }
 }

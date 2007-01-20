@@ -3,7 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-19-Jam-2007
+20-Jan-2007
+	- cfraz89 fixed up bugs in meshdeform, tweaked maxdeform,
+	  added meshdeform to the python bl, and added some python widgets.
+19-Jan-2007
 	- cfraz89 fixed a bug in wheeled related to wheel flipping.
 18-Jan-2007
 	- caedes added an optional tag argument to all the property class

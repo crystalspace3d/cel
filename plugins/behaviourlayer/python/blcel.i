@@ -42,6 +42,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/hover.h"
 #include "propclass/craft.h"
 #include "propclass/wheeled.h"
+#include "propclass/meshdeform.h"
 #include "propclass/damage.h"
 #include "propclass/quest.h"
 #include "plugins/behaviourlayer/python/blpython.h"
@@ -697,6 +698,11 @@ CEL_PC(iPcCraftController, CraftController, pccraft)
 // TODO this deserves some pseudo-dict for wheels
 %include "propclass/wheeled.h"
 CEL_PC(iPcWheeled, Wheeled, pcwheeled)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/meshdeform.h"
+CEL_PC(iPcMeshDeform, MeshDeform, pcmeshdeform)
 
 //-----------------------------------------------------------------------------
 

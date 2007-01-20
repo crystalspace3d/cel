@@ -363,6 +363,14 @@
 %cs_attribute(blcelc,iPcWheeled,iBodyGroup*,BodyGroup,GetBodyGroup)
 %cs_attribute(blcelc,iPcWheeled,int,WheelCount,GetWheelCount)
 
+/* iPcMeshDeform (include/propclass/meshdeform.h) */
+%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMesh,SetMesh)
+%cs_multi_attr(blcelc,iPcMeshDeform,Noise,GetNoise,SetNoise)
+%cs_multi_attr(blcelc,iPcMeshDeform,Radius,GetRadius,SetRadius)
+%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMaxFrequency,SetMaxFrequency)
+%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMaxDeform,SetMaxDeform)
+%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetDeformFactor,SetDeformFactor)
+
 /* iPcDamage (include/propclass/damage.h) */
 %cs_attribute(blcelc,iPcDamage,float,Damage)
 %cs_attribute(blcelc,iPcDamage,const char*,DamageType)
