@@ -853,10 +853,10 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
       wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1,0.5f,0.05f);
   
    //If it a right wheel, flip it.
-   if (wheels[wheelnum].Position.x < 0 )
+   if (wheels[wheelnum].Position.x < 0.0f)
    {
      csOrthoTransform t = wheelbody->GetTransform();
-     t.RotateThis(csVector3(0,1,0),3.14f);
+     t.RotateThis(csVector3(0,1,0),3.14159f);
      wheelbody->SetTransform(t);
    }
     //Create the joint
@@ -1068,8 +1068,6 @@ float celPcWheeled::GetWheelSpin(size_t wheelnum)
   //Left wheels must be * -1 to return a positive velocity.
   if (wheels[wheelnum].Position.x < 0.0f)
     vel *= -1;
-
-  std::cout << "wheel " << wheelnum << " speed " << vel << "\n";
   return vel;
 }
 

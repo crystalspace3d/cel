@@ -82,6 +82,12 @@ private:
 
   float deformfactor;
   float frequency;
+  //These are cached so they can be passed to new 
+  //Deform controls when they are created.
+  float noise;
+  float radius;
+  float maxdeform;
+
   csTicks lastdeform;
 
   csRef<iGenMeshAnimationControlType> controltype;
@@ -104,13 +110,25 @@ public:
   virtual void SetDeformFactor(float deformfactor)
   {celPcMeshDeform::deformfactor = deformfactor;}
   virtual void SetRadius(float radius)
-  {if (deformcontrol) deformcontrol->SetRadius(radius);}
+  {
+    celPcMeshDeform::radius = radius;
+    if (deformcontrol)
+      deformcontrol->SetRadius(radius);
+  }
   virtual void SetNoise(float noise)
-  {if (deformcontrol) deformcontrol->SetNoise(noise);}
+  {
+    celPcMeshDeform::noise = noise;
+    if (deformcontrol)
+      deformcontrol->SetNoise(noise);
+  }
   virtual void SetMaxFrequency(float frequency)
   {celPcMeshDeform::frequency = frequency;}
   virtual void SetMaxDeform(float maxdeform)
-  {if (deformcontrol) deformcontrol->SetMaxDeform(maxdeform);}
+  {
+    celPcMeshDeform::maxdeform = maxdeform;
+    if (deformcontrol)
+      deformcontrol->SetMaxDeform(maxdeform);
+  }
 
   virtual void SetMesh (iMeshWrapper* mesh);
 

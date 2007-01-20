@@ -80,8 +80,11 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   AddProperty (propid_radius, "cel.property.radius",
         CEL_DATA_FLOAT, false, "Radius.", 0);
 
+  noise = 0.2f;
+  maxdeform = 0.4f;
+  radius = 1.0f;
   deformfactor = 1.0f;
-  frequency = 10.0f;
+  frequency = -1.0f;
   lastdeform = 0;
   mesh = 0;
 
@@ -183,6 +186,9 @@ void celPcMeshDeform::SetMesh(iMeshWrapper* mesh)
   deformcontrol =
     scfQueryInterface<iDeformControl> (animcontrol);
   deformcontrol->SetMesh(mesh);
+  deformcontrol->SetNoise(noise);
+  deformcontrol->SetMaxDeform(maxdeform);
+  deformcontrol->SetRadius(radius);
 }
 
 //This function tries to pull out the mesh from the iPcMesh
@@ -201,11 +207,16 @@ void celPcMeshDeform::DeformMesh
 (const csVector3& position, const csVector3& direction, bool worldspace)
 {
   TryGetMesh();
-  //Chck that the time since last deform is allowed within the set frequency.
+  bool ready = true;
   csTicks currenttime = clock->GetCurrentTicks();
-  csTicks timediff = currenttime - lastdeform;
-  float mostallowed = 1000.0f / frequency;
-  if(timediff >= mostallowed && mesh && deformcontrol)
+  if (frequency > 0.0f)
+  {
+    //Check that the time since last deform is allowed within the set frequency.
+    csTicks timediff = currenttime - lastdeform;
+    float mostallowed = 1000.0f / frequency;
+    if (timediff <= mostallowed) ready = false;
+  }
+  if( ready && mesh && deformcontrol)
   {
     lastdeform = currenttime;
     //If we are given worldspace co-ordinates, we need to convert them into
@@ -214,8 +225,8 @@ void celPcMeshDeform::DeformMesh
     csVector3 realdir;
     if (worldspace)
     {
-      realpos = mesh->GetMovable()->GetTransform().Other2This(position);
-      realdir = mesh->GetMovable()->GetTransform().
+      realpos = mesh->GetMovable()->GetFullTransform().Other2This(position);
+      realdir = mesh->GetMovable()->GetFullTransform().
                  Other2ThisRelative(direction);
     }
     else
