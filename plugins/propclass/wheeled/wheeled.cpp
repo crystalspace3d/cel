@@ -1,6 +1,6 @@
   /*
-      Crystal Space Entity Layer
-      Copyright (C) 2006 by Jorrit Tyberghein
+      Crystal Space Entity Layer - Wheeled Vehicle plugin
+      Copyright (C) 2006 by Christopher Fraser
 
       This library is free software; you can redistribute it and/or
       modify it under the terms of the GNU Library General Public
@@ -840,7 +840,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   float wheelradius = 0.0f;
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
-  wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0),csMatrix3 ());
+  wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3 ());
  
   csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
   //csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
@@ -850,13 +850,13 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   wheelbody->AttachMesh(wheelmesh);
 
   wheelbody->AttachColliderSphere (
-      wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1,0.5f,0.05f);
+      wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
   
    //If it a right wheel, flip it.
    if (wheels[wheelnum].Position.x < 0.0f)
    {
      csOrthoTransform t = wheelbody->GetTransform();
-     t.RotateThis(csVector3(0,1,0),3.14159f);
+     t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
      wheelbody->SetTransform(t);
    }
     //Create the joint
