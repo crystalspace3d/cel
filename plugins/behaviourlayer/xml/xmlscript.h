@@ -253,7 +253,6 @@ enum
   CEL_OPERATION_SOUND_UNPAUSE,	// A:-		S:IB		OS:-
   CEL_OPERATION_SOUND_RESTART,	// A:-		S:IB		OS:-
   CEL_OPERATION_SOUND_VOLUME,	// A:-		S:IB,F		OS:-
-  CEL_OPERATION_SOUND_SPEED,	// A:-		S:IB,F		OS:-
   CEL_OPERATION_SOUNDFUN,	// A:-		S:S,B,F,B	OS:IB
   CEL_OPERATION_SOUNDPAUSED,	// A:-		S:S,B,F		OS:IB
   CEL_OPERATION_READFILE,	// A:-		S:S,S		OS:I
@@ -273,8 +272,6 @@ enum
 
   CEL_OPERATION_HIDEMOUSE,	// A:-		S:-		OS:-
   CEL_OPERATION_SHOWMOUSE,	// A:-		S:-		OS:-
-
-  CEL_OPERATION_GETMSG,		// A:-		S:S		OS:S
 
   CEL_OPERATION_FINALOP
 };
@@ -512,7 +509,7 @@ class celXmlScript
 private:
   char* name;
   csPDelArray<celXmlScriptEventHandler> event_handlers;
-  csHash<celXmlScriptEventHandler*,csStringBase> event_handlers_hash;
+  csHash<celXmlScriptEventHandler*,csStrKey> event_handlers_hash;
   iCelPlLayer* pl;
   celXmlScript* superscript;
   csConfigAccess config;

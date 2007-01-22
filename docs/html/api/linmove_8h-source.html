@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -49,141 +49,139 @@
 <a name="l00026"></a>00026 <span class="preprocessor">#ifndef __CEL_PF_LINEAR_MOVE__</span>
 <a name="l00027"></a>00027 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_LINEAR_MOVE__</span>
 <a name="l00028"></a>00028 <span class="preprocessor"></span>
-<a name="l00029"></a>00029 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00029"></a>00029 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00030"></a>00030 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include "csutil/strhash.h"</span>
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 
-<a name="l00034"></a>00034 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDataBuffer.html">iDataBuffer</a>;
-<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>;
-<a name="l00036"></a>00036 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a>;
+<a name="l00034"></a>00034 <span class="keyword">struct </span>iDataBuffer;
+<a name="l00035"></a>00035 <span class="keyword">struct </span>iSector;
+<a name="l00036"></a>00036 <span class="keyword">struct </span>iPath;
 <a name="l00037"></a>00037 <span class="keyword">struct </span><a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>;
 <a name="l00038"></a>00038 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
-<a name="l00039"></a>00039 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a>;
+<a name="l00039"></a>00039 <span class="keyword">struct </span>iMeshWrapper;
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 
-<a name="l00050"></a><a class="code" href="structiPcGravityCallback.html">00050</a> <span class="keyword">struct </span><a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00050"></a><a class="code" href="structiPcGravityCallback.html">00050</a> <span class="keyword">struct </span><a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
 <a name="l00051"></a>00051 {
 <a name="l00052"></a>00052   SCF_INTERFACE (<a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a>, 0, 0, 1);
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054   <span class="keyword">virtual</span> <span class="keywordtype">void</span> Callback () = 0;
 <a name="l00055"></a>00055 };
 <a name="l00056"></a>00056 
-<a name="l00087"></a><a class="code" href="structiPcLinearMovement.html">00087</a> <span class="keyword">struct </span><a class="code" href="structiPcLinearMovement.html">iPcLinearMovement</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
-<a name="l00088"></a>00088 {
-<a name="l00089"></a>00089   SCF_INTERFACE (<a class="code" href="structiPcLinearMovement.html">iPcLinearMovement</a>, 0, 0, 2);
-<a name="l00090"></a>00090 
-<a name="l00097"></a>00097   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#19692e09c4bb839549a8fadc1d671366">SetAnchor</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* pcmesh) = 0;
-<a name="l00098"></a>00098 
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <a class="code" href="structiPcMesh.html">iPcMesh</a>* <a class="code" href="structiPcLinearMovement.html#3127ba33866324151c029f986a21d905">GetAnchor</a> () <span class="keyword">const </span>= 0;
-<a name="l00103"></a>00103 
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; angle) = 0;
-<a name="l00108"></a>00108 
-<a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; angle,
-<a name="l00115"></a>00115         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; angle_to_reach) = 0;
-<a name="l00116"></a>00116 
-<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5d2b89b2f25fffa741900bc5b34e5a2c">SetSpeed</a> (<span class="keywordtype">float</span> speedZ) = 0;
-<a name="l00121"></a>00121 
-<a name="l00125"></a>00125   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5ee8d69c5959001a620761dcaddd6ec0">SetVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel) = 0;
-<a name="l00126"></a>00126 
-<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#7f4455ea9bec08259033db47c0e4ac48">AddVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel) = 0;
-<a name="l00132"></a>00132 
-<a name="l00134"></a>00134   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#91037fa284476c7f09dc56fd8c7f83e7">ClearWorldVelocity</a> () = 0;
-<a name="l00135"></a>00135 
+<a name="l00088"></a><a class="code" href="structiPcLinearMovement.html">00088</a> <span class="keyword">struct </span><a class="code" href="structiPcLinearMovement.html">iPcLinearMovement</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00089"></a>00089 {
+<a name="l00090"></a>00090   SCF_INTERFACE (<a class="code" href="structiPcLinearMovement.html">iPcLinearMovement</a>, 0, 0, 2);
+<a name="l00091"></a>00091 
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#19692e09c4bb839549a8fadc1d671366">SetAnchor</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* pcmesh) = 0;
+<a name="l00099"></a>00099 
+<a name="l00103"></a>00103   <span class="keyword">virtual</span> <a class="code" href="structiPcMesh.html">iPcMesh</a>* <a class="code" href="structiPcLinearMovement.html#3127ba33866324151c029f986a21d905">GetAnchor</a> () <span class="keyword">const </span>= 0;
+<a name="l00104"></a>00104 
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (<span class="keyword">const</span> csVector3&amp; angle) = 0;
+<a name="l00109"></a>00109 
+<a name="l00115"></a>00115   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc0d6aa757b0bbeb122792bad05f4254">SetAngularVelocity</a> (<span class="keyword">const</span> csVector3&amp; angle,
+<a name="l00116"></a>00116         <span class="keyword">const</span> csVector3&amp; angle_to_reach) = 0;
+<a name="l00117"></a>00117 
+<a name="l00121"></a>00121   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5d2b89b2f25fffa741900bc5b34e5a2c">SetSpeed</a> (<span class="keywordtype">float</span> speedZ) = 0;
+<a name="l00122"></a>00122 
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5ee8d69c5959001a620761dcaddd6ec0">SetVelocity</a> (<span class="keyword">const</span> csVector3&amp; vel) = 0;
+<a name="l00127"></a>00127 
+<a name="l00132"></a>00132   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#7f4455ea9bec08259033db47c0e4ac48">AddVelocity</a> (<span class="keyword">const</span> csVector3&amp; vel) = 0;
+<a name="l00133"></a>00133 
+<a name="l00135"></a>00135   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#91037fa284476c7f09dc56fd8c7f83e7">ClearWorldVelocity</a> () = 0;
 <a name="l00136"></a>00136 
-<a name="l00140"></a>00140   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#0d7d79f582ef3a6868fdd7a99278afb6">GetVelocity</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; v) <span class="keyword">const </span>= 0;
-<a name="l00141"></a>00141 
-<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#ac57682caae7fb4eb602f408a8db654c">GetAngularVelocity</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; v) <span class="keyword">const </span>= 0;
-<a name="l00146"></a>00146 
-<a name="l00155"></a>00155   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a>* mesh, <span class="keywordtype">float</span> percentage,
-<a name="l00156"></a>00156         <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>* pc_cd = 0) = 0;
-<a name="l00157"></a>00157 
-<a name="l00166"></a>00166   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; body, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; legs,
-<a name="l00167"></a>00167         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; shift, <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd = 0) = 0;
-<a name="l00168"></a>00168 
-<a name="l00172"></a>00172   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#2a0510c3c6b80e6ff9bdc5ecfaf6ddad">GetCDDimensions</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; body, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; legs,
-<a name="l00173"></a>00173         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; shift, <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>*&amp; pc_cd) = 0;
-<a name="l00174"></a>00174 
-<a name="l00178"></a>00178   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0) = 0;
-<a name="l00179"></a>00179 
-<a name="l00184"></a>00184   <span class="keyword">virtual</span> <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> <a class="code" href="structiPcLinearMovement.html#8a055fc1e2c0d083c05c9d21e11aae26">TimeDiff</a> (<span class="keywordtype">void</span>) = 0;
-<a name="l00185"></a>00185 
-<a name="l00187"></a>00187   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#7fd0424179e33852fa873b6e3a4ae3eb">GetDRData</a> (<span class="keywordtype">bool</span>&amp; on_ground, <span class="keywordtype">float</span>&amp; speed, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos,
-<a name="l00188"></a>00188         <span class="keywordtype">float</span>&amp; yrot, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>*&amp; sector, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; worldVel,
-<a name="l00189"></a>00189         <span class="keywordtype">float</span>&amp; ang_vel) = 0;
-<a name="l00190"></a>00190 
+<a name="l00137"></a>00137 
+<a name="l00141"></a>00141   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#0d7d79f582ef3a6868fdd7a99278afb6">GetVelocity</a> (csVector3&amp; v) <span class="keyword">const </span>= 0;
+<a name="l00142"></a>00142 
+<a name="l00146"></a>00146   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#ac57682caae7fb4eb602f408a8db654c">GetAngularVelocity</a> (csVector3&amp; v) <span class="keyword">const </span>= 0;
+<a name="l00147"></a>00147 
+<a name="l00156"></a>00156   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (iMeshWrapper* mesh, <span class="keywordtype">float</span> percentage,
+<a name="l00157"></a>00157         <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>* pc_cd = 0) = 0;
+<a name="l00158"></a>00158 
+<a name="l00167"></a>00167   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<span class="keyword">const</span> csVector3&amp; body, <span class="keyword">const</span> csVector3&amp; legs,
+<a name="l00168"></a>00168         <span class="keyword">const</span> csVector3&amp; shift, <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd = 0) = 0;
+<a name="l00169"></a>00169 
+<a name="l00173"></a>00173   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#2a0510c3c6b80e6ff9bdc5ecfaf6ddad">GetCDDimensions</a> (csVector3&amp; body, csVector3&amp; legs,
+<a name="l00174"></a>00174         csVector3&amp; shift, <a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a>*&amp; pc_cd) = 0;
+<a name="l00175"></a>00175 
+<a name="l00179"></a>00179   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#385ad0f1d45d02e2f4497c3a901dd868">InitCD</a> (<a class="code" href="structiPcCollisionDetection.html">iPcCollisionDetection</a> *pc_cd=0) = 0;
+<a name="l00180"></a>00180 
+<a name="l00185"></a>00185   <span class="keyword">virtual</span> csTicks <a class="code" href="structiPcLinearMovement.html#8a055fc1e2c0d083c05c9d21e11aae26">TimeDiff</a> (<span class="keywordtype">void</span>) = 0;
+<a name="l00186"></a>00186 
+<a name="l00188"></a>00188   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#7fd0424179e33852fa873b6e3a4ae3eb">GetDRData</a> (<span class="keywordtype">bool</span>&amp; on_ground, <span class="keywordtype">float</span>&amp; speed, csVector3&amp; pos,
+<a name="l00189"></a>00189         <span class="keywordtype">float</span>&amp; yrot, iSector*&amp; sector, csVector3&amp; vel, csVector3&amp; worldVel,
+<a name="l00190"></a>00190         <span class="keywordtype">float</span>&amp; ang_vel) = 0;
 <a name="l00191"></a>00191 
-<a name="l00193"></a>00193   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d144753dbf091089abfd47a2dc46109c">SetDRData</a> (<span class="keywordtype">bool</span> on_ground,<span class="keywordtype">float</span> speed, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos,
-<a name="l00194"></a>00194         <span class="keywordtype">float</span> yrot, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; worldVel,
-<a name="l00195"></a>00195         <span class="keywordtype">float</span> ang_vel) = 0;
-<a name="l00196"></a>00196 
-<a name="l00203"></a>00203   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#8e9b86a3512378b504b94269934edb1c">SetSoftDRData</a> (<span class="keywordtype">bool</span> on_ground,<span class="keywordtype">float</span> speed, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos,
-<a name="l00204"></a>00204         <span class="keywordtype">float</span> yrot,<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; worldVel,
-<a name="l00205"></a>00205         <span class="keywordtype">float</span> ang_vel) = 0;
-<a name="l00206"></a>00206 
-<a name="l00211"></a>00211   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos, <span class="keywordtype">float</span> yrot,
-<a name="l00212"></a>00212         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector) = 0;
-<a name="l00217"></a>00217   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos, <span class="keywordtype">float</span> yrot,
-<a name="l00218"></a>00218         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector) = 0;
-<a name="l00224"></a>00224   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#88318839a7bb34215ae62e8512827972">GetLastPosition</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
-<a name="l00225"></a>00225         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>*&amp; sector) = 0;
-<a name="l00230"></a>00230   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#2e269bc67e867d43a07afe03c0bebcd9">GetLastFullPosition</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
-<a name="l00231"></a>00231         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>*&amp; sector) = 0;
-<a name="l00232"></a>00232 
-<a name="l00234"></a>00234   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#73ec77995294b032f1238173f082689c">IsPath</a> () <span class="keyword">const </span>= 0;
-<a name="l00235"></a>00235 
-<a name="l00239"></a>00239   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* <a class="code" href="structiPcLinearMovement.html#43e7ab4c68db0f545ef3dd40a968b444">GetSector</a> () = 0;
-<a name="l00240"></a>00240 
-<a name="l00245"></a>00245   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#08ad2def333cd5425ff7f4123ada25f1">ExtrapolatePosition</a> (<span class="keywordtype">float</span> delta) = 0;
-<a name="l00246"></a>00246 
-<a name="l00253"></a>00253   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5b2cc551ac4e34d99be35274d9fffefb">UpdateDRDelta</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> ticksdelta) = 0;
-<a name="l00254"></a>00254 
-<a name="l00262"></a>00262   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#eb8b4e42a7eddca820afa7c73a8806f2">UpdateDR</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> ticks) = 0;
-<a name="l00263"></a>00263 
-<a name="l00271"></a>00271   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#eb8b4e42a7eddca820afa7c73a8806f2">UpdateDR</a> () = 0;
-<a name="l00272"></a>00272 
-<a name="l00278"></a>00278   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#6f568b2fd4d19f261af885a076bf0995">SetPath</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiPath.html">iPath</a> *newpath) = 0;
-<a name="l00279"></a>00279 
-<a name="l00284"></a>00284   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#05c5ee10d53720176bb591f1a910c6bb">SetPathTime</a> (<span class="keywordtype">float</span> timeval) = 0;
-<a name="l00285"></a>00285 
-<a name="l00293"></a>00293   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#503edf85cf3f8e020da21cd5bcff9abd">SetPathSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
-<a name="l00294"></a>00294 
-<a name="l00303"></a>00303   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d253b78fb9cc3041ff73faa1aa80115e">SetPathAction</a> (<span class="keywordtype">int</span> which, <span class="keyword">const</span> <span class="keywordtype">char</span> *action) = 0;
+<a name="l00192"></a>00192 
+<a name="l00194"></a>00194   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d144753dbf091089abfd47a2dc46109c">SetDRData</a> (<span class="keywordtype">bool</span> on_ground,<span class="keywordtype">float</span> speed, csVector3&amp; pos,
+<a name="l00195"></a>00195         <span class="keywordtype">float</span> yrot, iSector *sector, csVector3&amp; vel, csVector3&amp; worldVel,
+<a name="l00196"></a>00196         <span class="keywordtype">float</span> ang_vel) = 0;
+<a name="l00197"></a>00197 
+<a name="l00204"></a>00204   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#8e9b86a3512378b504b94269934edb1c">SetSoftDRData</a> (<span class="keywordtype">bool</span> on_ground,<span class="keywordtype">float</span> speed, csVector3&amp; pos,
+<a name="l00205"></a>00205         <span class="keywordtype">float</span> yrot,iSector *sector, csVector3&amp; vel, csVector3&amp; worldVel,
+<a name="l00206"></a>00206         <span class="keywordtype">float</span> ang_vel) = 0;
+<a name="l00207"></a>00207 
+<a name="l00212"></a>00212   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (<span class="keyword">const</span> csVector3&amp; pos, <span class="keywordtype">float</span> yrot,
+<a name="l00213"></a>00213         <span class="keyword">const</span> iSector* sector) = 0;
+<a name="l00218"></a>00218   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (<span class="keyword">const</span> csVector3&amp; pos, <span class="keywordtype">float</span> yrot,
+<a name="l00219"></a>00219         <span class="keyword">const</span> iSector* sector) = 0;
+<a name="l00225"></a>00225   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#88318839a7bb34215ae62e8512827972">GetLastPosition</a> (csVector3&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
+<a name="l00226"></a>00226         iSector*&amp; sector) = 0;
+<a name="l00231"></a>00231   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#2e269bc67e867d43a07afe03c0bebcd9">GetLastFullPosition</a> (csVector3&amp; pos, <span class="keywordtype">float</span>&amp; yrot,
+<a name="l00232"></a>00232         iSector*&amp; sector) = 0;
+<a name="l00233"></a>00233 
+<a name="l00235"></a>00235   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcLinearMovement.html#73ec77995294b032f1238173f082689c">IsPath</a> () <span class="keyword">const </span>= 0;
+<a name="l00236"></a>00236 
+<a name="l00240"></a>00240   <span class="keyword">virtual</span> iSector* <a class="code" href="structiPcLinearMovement.html#43e7ab4c68db0f545ef3dd40a968b444">GetSector</a> () = 0;
+<a name="l00241"></a>00241 
+<a name="l00246"></a>00246   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#08ad2def333cd5425ff7f4123ada25f1">ExtrapolatePosition</a> (<span class="keywordtype">float</span> delta) = 0;
+<a name="l00247"></a>00247 
+<a name="l00254"></a>00254   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#5b2cc551ac4e34d99be35274d9fffefb">UpdateDRDelta</a> (csTicks ticksdelta) = 0;
+<a name="l00255"></a>00255 
+<a name="l00263"></a>00263   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#0de76aed9dbf4ab79c4b2245aaf59d78">UpdateDR</a> (csTicks ticks) = 0;
+<a name="l00264"></a>00264 
+<a name="l00270"></a>00270   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#6f568b2fd4d19f261af885a076bf0995">SetPath</a> (iPath *newpath) = 0;
+<a name="l00271"></a>00271 
+<a name="l00276"></a>00276   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#05c5ee10d53720176bb591f1a910c6bb">SetPathTime</a> (<span class="keywordtype">float</span> timeval) = 0;
+<a name="l00277"></a>00277 
+<a name="l00285"></a>00285   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#503edf85cf3f8e020da21cd5bcff9abd">SetPathSpeed</a> (<span class="keywordtype">float</span> speed) = 0;
+<a name="l00286"></a>00286 
+<a name="l00295"></a>00295   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d253b78fb9cc3041ff73faa1aa80115e">SetPathAction</a> (<span class="keywordtype">int</span> which, <span class="keyword">const</span> <span class="keywordtype">char</span> *action) = 0;
+<a name="l00296"></a>00296 
+<a name="l00301"></a>00301   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d9857e6ae7fd065734b93eedf7982ca1">SetPathSector</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *sectorname) = 0;
+<a name="l00302"></a>00302 
+<a name="l00303"></a>00303   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsOnGround () <span class="keyword">const </span>= 0;
 <a name="l00304"></a>00304 
-<a name="l00309"></a>00309   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d9857e6ae7fd065734b93eedf7982ca1">SetPathSector</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *sectorname) = 0;
-<a name="l00310"></a>00310 
-<a name="l00311"></a>00311   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsOnGround () <span class="keyword">const </span>= 0;
-<a name="l00312"></a>00312 
-<a name="l00313"></a>00313   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetOnGround (<span class="keywordtype">bool</span> onground) = 0;
-<a name="l00314"></a>00314 
-<a name="l00316"></a>00316   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a0273003a0eb9f30a034fa7a6811ab4f">SetHugGround</a> (<span class="keywordtype">bool</span> hugGround) = 0;
+<a name="l00305"></a>00305   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetOnGround (<span class="keywordtype">bool</span> onground) = 0;
+<a name="l00306"></a>00306 
+<a name="l00308"></a>00308   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a0273003a0eb9f30a034fa7a6811ab4f">SetHugGround</a> (<span class="keywordtype">bool</span> hugGround) = 0;
+<a name="l00309"></a>00309 
+<a name="l00310"></a>00310   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetDeltaLimit(<span class="keywordtype">float</span> deltaLimit) = 0;
+<a name="l00311"></a>00311 
+<a name="l00312"></a>00312   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RotateV (<span class="keywordtype">float</span> delta) = 0;
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetGravity (<span class="keywordtype">float</span> grav) = 0;
+<a name="l00315"></a>00315 
+<a name="l00316"></a>00316   <span class="keyword">virtual</span> <span class="keywordtype">float</span> GetGravity () = 0;
 <a name="l00317"></a>00317 
-<a name="l00318"></a>00318   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetDeltaLimit (<span class="keywordtype">float</span> deltaLimit) = 0;
+<a name="l00318"></a>00318   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ResetGravity () = 0;
 <a name="l00319"></a>00319 
-<a name="l00320"></a>00320   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> RotateV (<span class="keywordtype">float</span> delta) = 0;
-<a name="l00321"></a>00321 
-<a name="l00322"></a>00322   <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetGravity (<span class="keywordtype">float</span> grav) = 0;
-<a name="l00323"></a>00323 
-<a name="l00324"></a>00324   <span class="keyword">virtual</span> <span class="keywordtype">float</span> GetGravity () = 0;
-<a name="l00325"></a>00325 
-<a name="l00326"></a>00326   <span class="keyword">virtual</span> <span class="keywordtype">void</span> ResetGravity () = 0;
+<a name="l00326"></a>00326   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d3277adf4f3f41f2b0723b05ca7be340">AddGravityCallback</a> (<a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a>* callback) = 0;
 <a name="l00327"></a>00327 
-<a name="l00334"></a>00334   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#d3277adf4f3f41f2b0723b05ca7be340">AddGravityCallback</a> (<a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a>* callback) = 0;
+<a name="l00331"></a>00331   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc5860587b113c8cb3dabf50e25f20f8">RemoveGravityCallback</a> (<a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a>* callback) = 0;
+<a name="l00332"></a>00332 
+<a name="l00334"></a>00334   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcLinearMovement.html#437c8c531eab184fd8c62f61dc705d30">GetPortalDisplacement</a> () = 0;
 <a name="l00335"></a>00335 
-<a name="l00339"></a>00339   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#bc5860587b113c8cb3dabf50e25f20f8">RemoveGravityCallback</a> (<a class="code" href="structiPcGravityCallback.html">iPcGravityCallback</a>* callback) = 0;
-<a name="l00340"></a>00340 
-<a name="l00342"></a>00342   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcLinearMovement.html#437c8c531eab184fd8c62f61dc705d30">GetPortalDisplacement</a> () = 0;
-<a name="l00343"></a>00343 
-<a name="l00345"></a>00345   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#cd5fa1510e1363a67baaaff4dd4c8013">ClearPortalDisplacement</a> () = 0;
-<a name="l00346"></a>00346 
-<a name="l00352"></a>00352   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> yrot,
-<a name="l00353"></a>00353         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector) = 0;
-<a name="l00358"></a>00358   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> yrot,
-<a name="l00359"></a>00359         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>* sector) = 0;
-<a name="l00360"></a>00360 };
-<a name="l00361"></a>00361 
-<a name="l00362"></a>00362 <span class="preprocessor">#endif</span>
-<a name="l00363"></a>00363 <span class="preprocessor"></span>
+<a name="l00337"></a>00337   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#cd5fa1510e1363a67baaaff4dd4c8013">ClearPortalDisplacement</a> () = 0;
+<a name="l00338"></a>00338 
+<a name="l00344"></a>00344   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#c2e794bf145fbd5230bc731d0a3bc8e1">SetFullPosition</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> yrot,
+<a name="l00345"></a>00345         iSector* sector) = 0;
+<a name="l00350"></a>00350   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcLinearMovement.html#a665242aafa97f3204e4118595c93442">SetPosition</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* center_name, <span class="keywordtype">float</span> yrot,
+<a name="l00351"></a>00351         iSector* sector) = 0;
+<a name="l00352"></a>00352 };
+<a name="l00353"></a>00353 
+<a name="l00354"></a>00354 <span class="preprocessor">#endif</span>
+<a name="l00355"></a>00355 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

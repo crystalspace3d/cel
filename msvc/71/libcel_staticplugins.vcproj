@@ -338,21 +338,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfawswin_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfawswin_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\msvc\libpfbillboard_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -500,21 +485,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfmesh_staticreg.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\msvc\libpfmeshdeform_staticreg.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release71\build\libcel_staticplugins\msvc_libpfmeshdeform_staticreg.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\msvc_libpfmeshdeform_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -998,21 +968,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\awswin\awswin.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_awswin_awswin.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_awswin_awswin.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1100,6 +1055,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_hover_hover.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hover\stabiliser_dist.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_hover_stabiliser_dist.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1205,36 +1175,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_mesh_meshfact.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\meshdeform\deformanim.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_meshdeform_deformanim.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_meshdeform_deformanim.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_meshdeform_meshdeformfact.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_meshdeform_meshdeformfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2157,9 +2097,6 @@
 				RelativePath="..\..\plugins\propclass\actormove\npcmove.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\awswin\awswin.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\billboard\billboard.h">
 			</File>
 			<File
@@ -2206,12 +2143,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\meshdeform\deformanim.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\meshdeform\meshdeformfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\colldet.h">

@@ -174,8 +174,8 @@ void celBillboard::SetupMaterial ()
     // calculate the clickmap.
     if (!image)
     {
-      csRef<iMaterialEngine> mateng = 
-    	  scfQueryInterface<iMaterialEngine> (material->GetMaterial ());
+      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
+    	  material->GetMaterial (), iMaterialEngine);
       if (mateng)
       {
         iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
@@ -211,8 +211,8 @@ void celBillboard::SetupMaterial ()
     memset (clickmap, 0, image_h * (1 + image_w / 8));
     if ((image->GetFormat () & CS_IMGFMT_MASK) == CS_IMGFMT_TRUECOLOR)
     {
-      csRef<iMaterialEngine> mateng = 
-    	  scfQueryInterface<iMaterialEngine> (material->GetMaterial ());
+      csRef<iMaterialEngine> mateng = SCF_QUERY_INTERFACE (
+    	  material->GetMaterial (), iMaterialEngine);
       iTextureWrapper* texwrap = mateng->GetTextureWrapper ();
       int r, g, b;
       texwrap->GetKeyColor (r, g, b);
@@ -887,7 +887,7 @@ celBillboardManager::~celBillboardManager ()
 
   if (scfiEventHandler)
   {
-    csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+    csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
     if (q != 0)
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
@@ -901,7 +901,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   celBillboardManager::object_reg = object_reg;
 
   scfiEventHandler = new EventHandler (this);
-  csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
+  csRef<iEventQueue> q = CS_QUERY_REGISTRY (object_reg, iEventQueue);
   CS_ASSERT (q != 0);
   q->RemoveListener (scfiEventHandler);
   csEventID esub[] = { 
@@ -914,9 +914,9 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
   };
   q->RegisterListener (scfiEventHandler, esub);
 
-  engine = csQueryRegistry<iEngine> (object_reg);
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   screen_w_fact = BSX / g3d->GetWidth ();

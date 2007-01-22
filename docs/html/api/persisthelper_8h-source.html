@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -44,7 +44,7 @@
 <a name="l00021"></a>00021 <span class="preprocessor">#ifndef __CEL_CELTOOL_PERSISTHELPER__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_CELTOOL_PERSISTHELPER__</span>
 <a name="l00023"></a>00023 <span class="preprocessor"></span>
-<a name="l00024"></a>00024 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00026"></a>00026 <span class="preprocessor">#include "csutil/util.h"</span>
 <a name="l00027"></a>00027 <span class="preprocessor">#include "csutil/array.h"</span>
@@ -60,8 +60,8 @@
 <a name="l00043"></a>00043 <span class="keyword">private</span>:
 <a name="l00044"></a>00044   <a class="code" href="structiCelPlLayer.html">iCelPlLayer</a>* pl;
 <a name="l00045"></a>00045 
-<a name="l00046"></a>00046   <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html">csArray&lt;iCelEntity*&gt;</a> local_entities;
-<a name="l00047"></a>00047   <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsSet.html">csSet&lt;csPtrKey&lt;iCelEntity&gt;</a> &gt; local_entities_set;
+<a name="l00046"></a>00046   csArray&lt;iCelEntity*&gt; local_entities;
+<a name="l00047"></a>00047   csSet&lt;csPtrKey&lt;iCelEntity&gt; &gt; local_entities_set;
 <a name="l00048"></a>00048 
 <a name="l00049"></a>00049 <span class="keyword">public</span>:
 <a name="l00050"></a>00050   <a class="code" href="classcelStandardLocalEntitySet.html">celStandardLocalEntitySet</a> (<a class="code" href="structiCelPlLayer.html">iCelPlLayer</a>* pl);
@@ -71,7 +71,7 @@
 <a name="l00054"></a>00054 
 <a name="l00055"></a><a class="code" href="classcelStandardLocalEntitySet.html#09d8bdfed66bd7623b4035b5cb6a2323">00055</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelStandardLocalEntitySet.html#09d8bdfed66bd7623b4035b5cb6a2323">GetEntityCount</a> ()<span class="keyword"> const</span>
 <a name="l00056"></a>00056 <span class="keyword">  </span>{
-<a name="l00057"></a>00057     <span class="keywordflow">return</span> local_entities.<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html#8cc02d22dba31e4065f09fc16ef107a4">Length</a> ();
+<a name="l00057"></a>00057     <span class="keywordflow">return</span> local_entities.Length ();
 <a name="l00058"></a>00058   }
 <a name="l00059"></a><a class="code" href="classcelStandardLocalEntitySet.html#0617e5e6a341c13e5bc2bcbaa9bbd372">00059</a>   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#0617e5e6a341c13e5bc2bcbaa9bbd372">GetEntity</a> (size_t idx)<span class="keyword"> const</span>
 <a name="l00060"></a>00060 <span class="keyword">  </span>{
@@ -79,7 +79,7 @@
 <a name="l00062"></a>00062   }
 <a name="l00063"></a><a class="code" href="classcelStandardLocalEntitySet.html#76d6c284d8d30e3531fe7f899064f22b">00063</a>   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardLocalEntitySet.html#76d6c284d8d30e3531fe7f899064f22b">AddEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
 <a name="l00064"></a>00064   {
-<a name="l00065"></a>00065     local_entities.<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html#6c1acc9a8bdc9d19272f5236089c6b5b">Push</a> (entity);
+<a name="l00065"></a>00065     local_entities.Push (entity);
 <a name="l00066"></a>00066     local_entities_set.Add (entity);
 <a name="l00067"></a>00067   }
 <a name="l00068"></a><a class="code" href="classcelStandardLocalEntitySet.html#a814a7cb54e6497d12fa2cc1e2a0631a">00068</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardLocalEntitySet.html#a814a7cb54e6497d12fa2cc1e2a0631a">IsLocal</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity)
@@ -90,9 +90,9 @@
 <a name="l00073"></a>00073   {
 <a name="l00074"></a>00074     <span class="keywordflow">return</span> local_entities_set.In (pc-&gt;<a class="code" href="structiCelPropertyClass.html#edd94ad88ef06ce28c8265dbf786c29a">GetEntity</a> ());
 <a name="l00075"></a>00075   }
-<a name="l00076"></a>00076   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelDataBuffer&gt;</a> <a class="code" href="classcelStandardLocalEntitySet.html#06dc414ff4ba0009de2db7e16cb13962">SaveExternalEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity);
+<a name="l00076"></a>00076   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelStandardLocalEntitySet.html#06dc414ff4ba0009de2db7e16cb13962">SaveExternalEntity</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity);
 <a name="l00077"></a>00077   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelStandardLocalEntitySet.html#0a9f3af2882327a76b0ee5d42641cc58">FindExternalEntity</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
-<a name="l00078"></a>00078   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelDataBuffer&gt;</a> <a class="code" href="classcelStandardLocalEntitySet.html#6d728d8d3c579ffda724d9705c89df9e">SaveExternalPC</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc);
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelStandardLocalEntitySet.html#6d728d8d3c579ffda724d9705c89df9e">SaveExternalPC</a> (<a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pc);
 <a name="l00079"></a>00079   <span class="keyword">virtual</span> <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* <a class="code" href="classcelStandardLocalEntitySet.html#40e1edd66c5b2b42a7ac2c7fcaf51738">FindExternalPC</a> (<a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* databuf);
 <a name="l00080"></a>00080 };
 <a name="l00081"></a>00081 
@@ -102,11 +102,11 @@
 <a name="l00088"></a>00088   <span class="keyword">class </span>celPersistentDataEntry
 <a name="l00089"></a>00089   {
 <a name="l00090"></a>00090   <span class="keyword">public</span>:
-<a name="l00091"></a>00091     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsRef.html">csRef&lt;iCelDataBuffer&gt;</a> databuf;
-<a name="l00092"></a>00092     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> pc_name;
-<a name="l00093"></a>00093     <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> pc_tag;
+<a name="l00091"></a>00091     csRef&lt;iCelDataBuffer&gt; databuf;
+<a name="l00092"></a>00092     csString pc_name;
+<a name="l00093"></a>00093     csString pc_tag;
 <a name="l00094"></a>00094   };
-<a name="l00095"></a>00095   <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html">csArray&lt;celPersistentDataEntry*&gt;</a> data_list;
+<a name="l00095"></a>00095   csArray&lt;celPersistentDataEntry*&gt; data_list;
 <a name="l00096"></a>00096   
 <a name="l00097"></a>00097  <span class="keyword">public</span>:
 <a name="l00098"></a>00098   <a class="code" href="classcelStandardPersistentDataList.html">celStandardPersistentDataList</a> ();
@@ -117,11 +117,11 @@
 <a name="l00103"></a><a class="code" href="classcelStandardPersistentDataList.html#b8add1e9aecef3bac61103518a6c8080">00103</a>   <span class="keyword">virtual</span> size_t <a class="code" href="classcelStandardPersistentDataList.html#b8add1e9aecef3bac61103518a6c8080">GetCount</a> ()<span class="keyword"> const</span>
 <a name="l00104"></a>00104 <span class="keyword">    </span>{ <span class="keywordflow">return</span> data_list.Length (); }
 <a name="l00105"></a>00105 
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardPersistentDataList.html#0c11250509461d9c2cd57bf52de815c5">GetPersistentData</a> (size_t idx, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsRef.html">csRef&lt;iCelDataBuffer&gt;</a>&amp; databuf, 
-<a name="l00107"></a>00107         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&amp; pc_name, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&amp; pc_tag) <span class="keyword">const</span>;
+<a name="l00106"></a>00106   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelStandardPersistentDataList.html#0c11250509461d9c2cd57bf52de815c5">GetPersistentData</a> (size_t idx, csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
+<a name="l00107"></a>00107         csString&amp; pc_name, csString&amp; pc_tag) <span class="keyword">const</span>;
 <a name="l00108"></a>00108 
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardPersistentDataList.html#8fa730b37bd4dcb59aa6f11433cf8cc2">AddPersistentData</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsRef.html">csRef&lt;iCelDataBuffer&gt;</a>&amp; databuf, 
-<a name="l00110"></a>00110         <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&amp; pc_name, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a>&amp; pc_tag);
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelStandardPersistentDataList.html#8fa730b37bd4dcb59aa6f11433cf8cc2">AddPersistentData</a> (csRef&lt;iCelDataBuffer&gt;&amp; databuf, 
+<a name="l00110"></a>00110         csString&amp; pc_name, csString&amp; pc_tag);
 <a name="l00111"></a>00111 };
 <a name="l00112"></a>00112 
 <a name="l00113"></a>00113 <span class="preprocessor">#endif // __CEL_CELTOOL_PERSISTHELPER__</span>

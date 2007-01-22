@@ -153,7 +153,7 @@ celWatchTrigger::celWatchTrigger (
 	: scfImplementationType (this)
 {
   celWatchTrigger::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
   target_entity = qm->ResolveParameter (params, target_entity_par);

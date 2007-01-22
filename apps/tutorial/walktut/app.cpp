@@ -135,7 +135,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
       csRef<iEventQueue> q =
-        csQueryRegistry<iEventQueue> (GetObjectRegistry());
+        CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
     }
@@ -173,14 +173,14 @@ bool MainApp::Application ()
   if (!OpenApplication (object_reg))
     return ReportError ("Error opening system!");
 
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
 
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   bl.AttachNew (new BehaviourLayer(pl));
 
   // We also need to register it to the object registry.
@@ -188,6 +188,30 @@ bool MainApp::Application ()
     return ReportError ("Can't register our behaviour layer!");
 
   pl->RegisterBehaviourLayer (bl);
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return ReportError ("Error loading pczonemanager factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return ReportError ("Error loading pcsolid factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return ReportError ("Error loading pccolldet factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return ReportError ("Error loading pcdefaultcamera factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return ReportError ("Error loading pcmesh factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return ReportError ("Error loading pcmeshselect factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return ReportError ("Error loading pclinmove factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return ReportError ("Error loading pccommandinput factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return ReportError ("Error loading pcactormove factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return ReportError ("Error loading pcinventory factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return ReportError ("Error loading pcproperties factory!");
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return ReportError ("Error loading pctimer factory!");
 
   if (!LoadLevel ())
     return ReportError ("Error loading level!");

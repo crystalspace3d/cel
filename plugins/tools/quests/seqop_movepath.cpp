@@ -45,7 +45,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
     	"cel.quests.seqop.movepath", msg, arg);
@@ -73,7 +73,7 @@ celMovePathSeqOpFactory::~celMovePathSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celMovePathSeqOpFactory::CreateSeqOp (
-    const celQuestParams& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celMovePathSeqOp* seqop = new celMovePathSeqOp (type,
   	params, entity_par, tag_par, sectors, nodes, times);
@@ -133,13 +133,13 @@ static float ToFloat (const char* s)
 
 celMovePathSeqOp::celMovePathSeqOp (
 	celMovePathSeqOpType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times) : scfImplementationType (this)
 {
   celMovePathSeqOp::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
 
@@ -157,7 +157,7 @@ celMovePathSeqOp::celMovePathSeqOp (
 
     if (!sector)
     {
-      csRef<iEngine> engine = csQueryRegistry<iEngine> (type->object_reg);
+      csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
       sectorname = qm->ResolveParameter (params, sectors[i]);
       sector = engine->FindSector (sectorname);
       if (!sector)

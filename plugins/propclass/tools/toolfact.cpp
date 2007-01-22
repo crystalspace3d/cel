@@ -68,8 +68,8 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
   y = 0;
   width = 0;
   height = 0;
-  G3D = csQueryRegistry<iGraphics3D> (object_reg);
-  G2D = csQueryRegistry<iGraphics2D> (object_reg);
+  G3D = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  G2D = CS_QUERY_REGISTRY (object_reg, iGraphics2D);
 }
 
 celPcTooltip::~celPcTooltip ()

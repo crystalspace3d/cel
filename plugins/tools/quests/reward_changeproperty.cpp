@@ -51,7 +51,7 @@ celChangePropertyRewardFactory::~celChangePropertyRewardFactory ()
 }
 
 csPtr<iQuestReward> celChangePropertyRewardFactory::CreateReward (
-    iQuest*, const celQuestParams& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celChangePropertyReward* trig = new celChangePropertyReward (type,
   	params, prop_par, entity_par, pc_par, tag_par, string_par, long_par,
@@ -149,7 +149,7 @@ void celChangePropertyRewardFactory::SetToggle ()
 
 celChangePropertyReward::celChangePropertyReward (
 	celChangePropertyRewardType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* prop_par,
 	const char* entity_par,
 	const char* pc_par,
@@ -162,7 +162,7 @@ celChangePropertyReward::celChangePropertyReward (
 	bool do_toggle) : scfImplementationType (this)
 {
   celChangePropertyReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   prop = qm->ResolveParameter (params, prop_par);
   entity = qm->ResolveParameter (params, entity_par);
   pc = qm->ResolveParameter (params, pc_par);

@@ -45,7 +45,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.action",
     	msg, arg);
@@ -79,7 +79,7 @@ celActionRewardFactory::~celActionRewardFactory ()
 }
 
 csPtr<iQuestReward> celActionRewardFactory::CreateReward (
-    iQuest*, const celQuestParams& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celActionReward* trig = new celActionReward (type,
   	params, entity_par, id_par, pcclass_par, tag_par, parameters);
@@ -221,7 +221,7 @@ void celActionRewardFactory::AddParameter (celDataType type,
 
 celActionReward::celActionReward (
 	celActionRewardType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par,
 	const char* id_par,
 	const char* pcclass_par,
@@ -229,7 +229,7 @@ celActionReward::celActionReward (
 	const csArray<parSpec>& parameters) : scfImplementationType (this)
 {
   celActionReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   pcclass = csStrNew (qm->ResolveParameter (params, pcclass_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));

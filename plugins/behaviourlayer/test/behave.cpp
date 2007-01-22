@@ -36,10 +36,7 @@
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 #include "plugins/behaviourlayer/test/behave.h"
-#include "celtool/stdparams.h"
-#include <iostream>
 
 //---------------------------------------------------------------------------
 
@@ -103,7 +100,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
 #if 0
   (void)arg;
   // @@@ Should store the id's for the parameters below.
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl) return false;
   const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
   	"cel.parameter.button")) : 0;
@@ -124,7 +121,7 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
       	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh));
       csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS (
       	entity->GetPropertyClassList (), iPcCamera));
-      csRef<iCelPlLayer> pl (csQueryRegistry<iCelPlLayer> (object_reg));
+      csRef<iCelPlLayer> pl (CS_QUERY_REGISTRY (object_reg, iCelPlLayer));
       pcmesh->Hide ();
       iCelEntity* drop_ent = pl->GetHitEntity (pccamera->GetCamera (), x, y);
       pcmesh->Show ();
@@ -192,7 +189,7 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 {
 #if 1
   (void)arg;
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   iCelEntity* ent = 0;
   if (params)
   {
@@ -451,8 +448,6 @@ bool celBehaviourDynActor::SendMessageV (const char* msg_id,
 celBehaviourWheeled::celBehaviourWheeled (iCelEntity* entity,
     iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
 {
-  pl= csQueryRegistry<iCelPlLayer> (object_reg);
-  pcmeshdeform = 0;
 }
 
 celBehaviourWheeled::~celBehaviourWheeled()
@@ -464,6 +459,7 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
+
   if (pcinput_msg)
   {
     csRef<iPcWheeled> pcwheeled = CEL_QUERY_PROPCLASS_ENT (entity,
@@ -472,11 +468,11 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       return false;
 
     if (!strcmp (msg_id+15, "accelerate1"))
-	pcwheeled->Accelerate();
+	pcwheeled->Accelerate(true);
 
 //Autoreverse handles putting the car in reverse once it is slow enough.
     else if (!strcmp (msg_id+15, "reverse1"))
-	pcwheeled->Brake();
+	pcwheeled->Brake(true);
 
     else if (!strcmp (msg_id+15, "steerleft1"))
 	pcwheeled->SteerLeft();
@@ -497,11 +493,12 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	pcwheeled->Handbrake(false);
 
     if (!strcmp (msg_id+15, "accelerate0"))
-	pcwheeled->Accelerate(0.0f);
+	pcwheeled->Accelerate(false);
 
     if (!strcmp (msg_id+15, "reverse0"))
     {
-	pcwheeled->Brake(0.0f);
+	pcwheeled->Brake(false);
+        pcwheeled->SetGear(1);
     }
     else if (!strcmp (msg_id+15, "lookup1"))
     {
@@ -533,19 +530,6 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       	iPcDefaultCamera);
       pcdefcamera->CenterCamera ();
     }
-    return true;
-  }
-  else if (!strcmp (msg_id, "pcdynamicbody_collision"))
-  {
-    CEL_FETCH_VECTOR3_PAR(pos, params, pl->FetchStringID("cel.parameter.position"));
-    CEL_FETCH_VECTOR3_PAR(norm, params, pl->FetchStringID("cel.parameter.normal"));
-    CEL_FETCH_FLOAT_PAR(depth, params, pl->FetchStringID("cel.parameter.depth"));
-    if (depth > 0.005f)
-    {
-      if(!pcmeshdeform)
-        pcmeshdeform = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshDeform);
-      if (pcmeshdeform)
-        pcmeshdeform->DeformMesh(pos, norm * depth, true);}
     return true;
   }
 

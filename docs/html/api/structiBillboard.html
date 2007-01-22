@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iBillboard Struct Reference</h1><!-- doxytag: class="iBillboard" --><!-- doxytag: inherits="iBase" -->A billboard (2D image on screen).  
+<h1>iBillboard Struct Reference</h1><!-- doxytag: class="iBillboard" -->A billboard (2D image on screen).  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="tools_2billboard_8h-source.html">tools/billboard.h</a>&gt;</code>
 <p>
-Inheritance diagram for iBillboard:<p><center><img src="structiBillboard__inherit__graph.png" border="0" usemap="#iBillboard__inherit__map" alt="Inheritance graph"></center>
-<map name="iBillboard__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="19,5,77,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiBillboard-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#588b9d837abfa027fc0e6b7e5cf8889e">AddEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
@@ -49,16 +45,16 @@ Inheritance diagram for iBillboard:<p><center><img src="structiBillboard__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#6a32acbf89fa9b42e13ccf543356dba0">ClearTextFgColor</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the foreground color for the text so that the default color will be used instead.  <a href="#6a32acbf89fa9b42e13ccf543356dba0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#ac5e455e02303fc4b74dc78fb9068a17">DrawMesh</a> (const char *material_name, const char *factory, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;rotate=<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>(0, 0, 0), <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> angle=0.0f, float distance=-1.0f)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#ac5e455e02303fc4b74dc78fb9068a17">DrawMesh</a> (const char *material_name, const char *factory, const csVector3 &amp;rotate=csVector3(0, 0, 0), float angle=0.0f, float distance=-1.0f)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draw a mesh on this billboard.  <a href="#ac5e455e02303fc4b74dc78fb9068a17"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#4e6ca2e73a2611badcb3c3149b4ada01">GetColor</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#4e6ca2e73a2611badcb3c3149b4ada01">GetColor</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the color for this billboard (default white).  <a href="#4e6ca2e73a2611badcb3c3149b4ada01"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsFlags.html">csFlags</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#263388086ba67271255eb3e34a1e3bb4">GetFlags</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csFlags &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#263388086ba67271255eb3e34a1e3bb4">GetFlags</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get flags for this billboard.  <a href="#263388086ba67271255eb3e34a1e3bb4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#607dafec45dc9ef541bc2ce572066341">GetImageSize</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;w, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;h)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#607dafec45dc9ef541bc2ce572066341">GetImageSize</a> (int &amp;w, int &amp;h)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of the image on this billboard in billboard space.  <a href="#607dafec45dc9ef541bc2ce572066341"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e329adeafe2fb58fb728db66d648ad97">GetLayer</a> () const =0</td></tr>
@@ -70,58 +66,52 @@ Inheritance diagram for iBillboard:<p><center><img src="structiBillboard__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#dfb6714082e5125c11d4dfb2889c35da">GetName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this billboard.  <a href="#dfb6714082e5125c11d4dfb2889c35da"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#deb1d34d7717c38349ea0b39aa705e91">GetPosition</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;x, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;y) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#deb1d34d7717c38349ea0b39aa705e91">GetPosition</a> (int &amp;x, int &amp;y) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the position of the top-left corner of this billboard.  <a href="#deb1d34d7717c38349ea0b39aa705e91"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#70df7cb1dd400f5c114ed5a94b08eaaa">GetRotation</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get rotation of the billboard.  <a href="#70df7cb1dd400f5c114ed5a94b08eaaa"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#30392a04300a08c85a6b93ff2368aa97">GetSize</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;w, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;h)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#30392a04300a08c85a6b93ff2368aa97">GetSize</a> (int &amp;w, int &amp;h)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the size of this billboard in billboard space.  <a href="#30392a04300a08c85a6b93ff2368aa97"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#c1ee04a3b92a3c53a5af4c6dafb27335">GetText</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text.  <a href="#c1ee04a3b92a3c53a5af4c6dafb27335"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#cb58b4daf978eb32d8926dc5d731d27d">GetTextBgColor</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#cb58b4daf978eb32d8926dc5d731d27d">GetTextBgColor</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the background color for the text.  <a href="#cb58b4daf978eb32d8926dc5d731d27d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#8ff81a9ca94d2420ae0816a16e298c86">GetTextDimensions</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;w, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;h)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the dimensions of the current text in billboard coordinates.  <a href="#8ff81a9ca94d2420ae0816a16e298c86"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#f104f091488c3c459b059dd4e165b8ca">GetTextFgColor</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csColor &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#f104f091488c3c459b059dd4e165b8ca">GetTextFgColor</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the foreground color for the text.  <a href="#f104f091488c3c459b059dd4e165b8ca"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e66da7559f3f304c0598316596d2c141">GetTextFont</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the font to use for text.  <a href="#e66da7559f3f304c0598316596d2c141"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#c6449fb3e1e8b4fd7574c502b8914492">GetTextFontSize</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#c6449fb3e1e8b4fd7574c502b8914492">GetTextFontSize</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the font size to use for text.  <a href="#c6449fb3e1e8b4fd7574c502b8914492"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e6050a64a931987c3816321e40ee5fdf">GetTextOffsetDX</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#e6050a64a931987c3816321e40ee5fdf">GetTextOffsetDX</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text offset in billboard space.  <a href="#e6050a64a931987c3816321e40ee5fdf"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a00c86d18fa65fbd4eb988b85b82b119">GetTextOffsetDY</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a00c86d18fa65fbd4eb988b85b82b119">GetTextOffsetDY</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the text offset in billboard space.  <a href="#a00c86d18fa65fbd4eb988b85b82b119"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#9d7dd5b1cd0f0d2eda54963aa355d91c">GetUVBottomRight</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#9d7dd5b1cd0f0d2eda54963aa355d91c">GetUVBottomRight</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bottom-right coordinate of the texture (default 1,1).  <a href="#9d7dd5b1cd0f0d2eda54963aa355d91c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#980d0360b7b8d69ca636347e3e68f6db">GetUVTopLeft</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const csVector2 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#980d0360b7b8d69ca636347e3e68f6db">GetUVTopLeft</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the top-left coordinate of the texture (default 0,0).  <a href="#980d0360b7b8d69ca636347e3e68f6db"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#67208fe89e88d5e9bc1f19b23afda5f8">IsTextBgTransparent</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get true if the background color for the text is transparent.  <a href="#67208fe89e88d5e9bc1f19b23afda5f8"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#bdbe158aa8ac1e5d2bb9c28457742439">Move</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> dx, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> dy)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#bdbe158aa8ac1e5d2bb9c28457742439">Move</a> (int dx, int dy)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Relative move.  <a href="#bdbe158aa8ac1e5d2bb9c28457742439"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#18a164ac1b4c62cfcf2e12cdeea4f256">MoveToPosition</a> (csTicks delta, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> x, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> y)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#18a164ac1b4c62cfcf2e12cdeea4f256">MoveToPosition</a> (csTicks delta, int x, int y)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">During the given time, slowly move the billboard to the given position.  <a href="#18a164ac1b4c62cfcf2e12cdeea4f256"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#474315b2ba38f2124ac6a9942577a7c3">RemoveEventHandler</a> (<a class="el" href="structiBillboardEventHandler.html">iBillboardEventHandler</a> *evh)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove an event handler from this billboard.  <a href="#474315b2ba38f2124ac6a9942577a7c3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#909846bec5ec86f22a4f6995885c4b30">SetColor</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;c)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#909846bec5ec86f22a4f6995885c4b30">SetColor</a> (const csColor &amp;c)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the color for this billboard (default white).  <a href="#909846bec5ec86f22a4f6995885c4b30"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#ef878f5ce034da0d477859c61717cad5">SetLayer</a> (<a class="el" href="structiBillboardLayer.html">iBillboardLayer</a> *layer)=0</td></tr>
@@ -133,37 +123,34 @@ Inheritance diagram for iBillboard:<p><center><img src="structiBillboard__inheri
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#75a5904513dab10390da3f1ccd70e376">SetMaterialNameFast</a> (const char *matname)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set material for this billboard.  <a href="#75a5904513dab10390da3f1ccd70e376"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#5086c24a8711efee7ebb51eeac82f84d">SetPosition</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> x, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> y)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#5086c24a8711efee7ebb51eeac82f84d">SetPosition</a> (int x, int y)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the position of the top-left corner of this billboard.  <a href="#5086c24a8711efee7ebb51eeac82f84d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#8b6bd96945a5d7eebb93797f0a8922ba">SetRotation</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> angle)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Rotate the billboard.  <a href="#8b6bd96945a5d7eebb93797f0a8922ba"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#5df7377bf74e94527afca6abf1ad1625">SetSize</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> w, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> h)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#5df7377bf74e94527afca6abf1ad1625">SetSize</a> (int w, int h)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the size of this billboard in pixels.  <a href="#5df7377bf74e94527afca6abf1ad1625"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#0f73e77217fced40c4a08aab7712b369">SetText</a> (const char *txt)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the text to use for this billboard.  <a href="#0f73e77217fced40c4a08aab7712b369"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#9b9ed1c50d6560d5168fc99cf5cdb2dc">SetTextBgColor</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;color)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#9b9ed1c50d6560d5168fc99cf5cdb2dc">SetTextBgColor</a> (const csColor &amp;color)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the background color for the text.  <a href="#9b9ed1c50d6560d5168fc99cf5cdb2dc"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#79e942863dca0162533bfb5fad8e24b7">SetTextBgTransparent</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the background color for the text to transparent.  <a href="#79e942863dca0162533bfb5fad8e24b7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a28f68dde2838d1cd5a30eb4fe92ebed">SetTextFgColor</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;color)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a28f68dde2838d1cd5a30eb4fe92ebed">SetTextFgColor</a> (const csColor &amp;color)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the foreground color for the text.  <a href="#a28f68dde2838d1cd5a30eb4fe92ebed"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#63df3e3e572878b193410d30aafd2158">SetTextFont</a> (const char *fontname, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> fontsize)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#63df3e3e572878b193410d30aafd2158">SetTextFont</a> (const char *fontname, float fontsize)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Setup the font to use for text.  <a href="#63df3e3e572878b193410d30aafd2158"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a44417c5bba4a4a60357afabceecd67e">SetTextOffset</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> dx, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> dy)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#a44417c5bba4a4a60357afabceecd67e">SetTextOffset</a> (int dx, int dy)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the text offset in billboard space.  <a href="#a44417c5bba4a4a60357afabceecd67e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#7f7304f03220f0a750b0bf0b13283727">SetUVBottomRight</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;uv)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#7f7304f03220f0a750b0bf0b13283727">SetUVBottomRight</a> (const csVector2 &amp;uv)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the bottom-right coordinate of the texture (default 1,1).  <a href="#7f7304f03220f0a750b0bf0b13283727"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#dc7df3542b63cf2ec317fb36395e708f">SetUVTopLeft</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;uv)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#dc7df3542b63cf2ec317fb36395e708f">SetUVTopLeft</a> (const csVector2 &amp;uv)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the top-left coordinate of the texture (default 0,0).  <a href="#dc7df3542b63cf2ec317fb36395e708f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiBillboard.html#cb307dbb70eb5e40f124f31ced2d3feb">StackBottom</a> ()=0</td></tr>
@@ -270,19 +257,19 @@ Clear the foreground color for the text so that the default color will be used i
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>rotate</em> = <code><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>(0,&nbsp;0,&nbsp;0)</code>, </td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
+          <td class="paramname"> <em>rotate</em> = <code>csVector3(0,&nbsp;0,&nbsp;0)</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>angle</em> = <code>0.0f</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>distance</em> = <code>-1.0f</code></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -315,7 +302,7 @@ This mesh will be rendered in the 'showroom' (see the billboard manager). <dl co
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a>&amp; iBillboard::GetColor           </td>
+          <td class="memname">virtual const csColor&amp; iBillboard::GetColor           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -336,7 +323,7 @@ Get the color for this billboard (default white).
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsFlags.html">csFlags</a>&amp; iBillboard::GetFlags           </td>
+          <td class="memname">virtual csFlags&amp; iBillboard::GetFlags           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -359,13 +346,13 @@ Get flags for this billboard.
         <tr>
           <td class="memname">virtual void iBillboard::GetImageSize           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>w</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>h</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -453,13 +440,13 @@ Get the name of this billboard.
         <tr>
           <td class="memname">virtual void iBillboard::GetPosition           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>y</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -477,27 +464,6 @@ Get the position of the top-left corner of this billboard.
 Uses billboard space. 
 </div>
 </div><p>
-<a class="anchor" name="70df7cb1dd400f5c114ed5a94b08eaaa"></a><!-- doxytag: member="iBillboard::GetRotation" ref="70df7cb1dd400f5c114ed5a94b08eaaa" args="() const =0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iBillboard::GetRotation           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Get rotation of the billboard. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="30392a04300a08c85a6b93ff2368aa97"></a><!-- doxytag: member="iBillboard::GetSize" ref="30392a04300a08c85a6b93ff2368aa97" args="(int &amp;w, int &amp;h)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -505,13 +471,13 @@ Get rotation of the billboard.
         <tr>
           <td class="memname">virtual void iBillboard::GetSize           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>w</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
+          <td class="paramtype">int &amp;&nbsp;</td>
           <td class="paramname"> <em>h</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -555,7 +521,7 @@ Get the text.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a>&amp; iBillboard::GetTextBgColor           </td>
+          <td class="memname">virtual const csColor&amp; iBillboard::GetTextBgColor           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -571,43 +537,12 @@ Get the background color for the text.
 
 </div>
 </div><p>
-<a class="anchor" name="8ff81a9ca94d2420ae0816a16e298c86"></a><!-- doxytag: member="iBillboard::GetTextDimensions" ref="8ff81a9ca94d2420ae0816a16e298c86" args="(int &amp;w, int &amp;h)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iBillboard::GetTextDimensions           </td>
-          <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>w</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>h</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Get the dimensions of the current text in billboard coordinates. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="f104f091488c3c459b059dd4e165b8ca"></a><!-- doxytag: member="iBillboard::GetTextFgColor" ref="f104f091488c3c459b059dd4e165b8ca" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a>&amp; iBillboard::GetTextFgColor           </td>
+          <td class="memname">virtual const csColor&amp; iBillboard::GetTextFgColor           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -649,7 +584,7 @@ Get the font to use for text.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iBillboard::GetTextFontSize           </td>
+          <td class="memname">virtual float iBillboard::GetTextFontSize           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -670,7 +605,7 @@ Get the font size to use for text.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iBillboard::GetTextOffsetDX           </td>
+          <td class="memname">virtual int iBillboard::GetTextOffsetDX           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -691,7 +626,7 @@ Get the text offset in billboard space.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iBillboard::GetTextOffsetDY           </td>
+          <td class="memname">virtual int iBillboard::GetTextOffsetDY           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -712,7 +647,7 @@ Get the text offset in billboard space.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a>&amp; iBillboard::GetUVBottomRight           </td>
+          <td class="memname">virtual const csVector2&amp; iBillboard::GetUVBottomRight           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -733,7 +668,7 @@ Range from 0,0 - 1,1.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a>&amp; iBillboard::GetUVTopLeft           </td>
+          <td class="memname">virtual const csVector2&amp; iBillboard::GetUVTopLeft           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -777,13 +712,13 @@ Get true if the background color for the text is transparent.
         <tr>
           <td class="memname">virtual void iBillboard::Move           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>dx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>dy</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -814,13 +749,13 @@ Uses billboard space.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>y</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -867,7 +802,7 @@ Remove an event handler from this billboard.
         <tr>
           <td class="memname">virtual void iBillboard::SetColor           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csColor &amp;&nbsp;</td>
           <td class="paramname"> <em>c</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -955,13 +890,13 @@ Returns false on failure. This is a faster version which does not recompute the 
         <tr>
           <td class="memname">virtual void iBillboard::SetPosition           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>y</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -979,28 +914,6 @@ Set the position of the top-left corner of this billboard.
 Uses billboard space. 
 </div>
 </div><p>
-<a class="anchor" name="8b6bd96945a5d7eebb93797f0a8922ba"></a><!-- doxytag: member="iBillboard::SetRotation" ref="8b6bd96945a5d7eebb93797f0a8922ba" args="(float angle)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iBillboard::SetRotation           </td>
-          <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>angle</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Rotate the billboard. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="5df7377bf74e94527afca6abf1ad1625"></a><!-- doxytag: member="iBillboard::SetSize" ref="5df7377bf74e94527afca6abf1ad1625" args="(int w, int h)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -1008,13 +921,13 @@ Rotate the billboard.
         <tr>
           <td class="memname">virtual void iBillboard::SetSize           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>w</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>h</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1061,7 +974,7 @@ Use 'txt' is 0 to clear the text.
         <tr>
           <td class="memname">virtual void iBillboard::SetTextBgColor           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csColor &amp;&nbsp;</td>
           <td class="paramname"> <em>color</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1104,7 +1017,7 @@ If not set then the default background transparency will be used
         <tr>
           <td class="memname">virtual void iBillboard::SetTextFgColor           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsColor.html">csColor</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csColor &amp;&nbsp;</td>
           <td class="paramname"> <em>color</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1132,7 +1045,7 @@ If not set then the default foreground color will be used
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>fontsize</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1157,13 +1070,13 @@ Setup the font to use for text.
         <tr>
           <td class="memname">virtual void iBillboard::SetTextOffset           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>dx</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>dy</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1188,7 +1101,7 @@ Set the text offset in billboard space.
         <tr>
           <td class="memname">virtual void iBillboard::SetUVBottomRight           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector2 &amp;&nbsp;</td>
           <td class="paramname"> <em>uv</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -1210,7 +1123,7 @@ Range from 0,0 - 1,1.
         <tr>
           <td class="memname">virtual void iBillboard::SetUVTopLeft           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector2.html">csVector2</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector2 &amp;&nbsp;</td>
           <td class="paramname"> <em>uv</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

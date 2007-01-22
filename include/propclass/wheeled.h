@@ -30,95 +30,23 @@
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcwheeled_collision: an entity has collided with this entity.
- *   Parameters are 'otherbody' (string: entity name), 'position' (vector3:
- *   point of collision, 'normal' (vector3: normal of collision),
- *   'depth' (float: penetration depth), and 'index' (int: index of colliding
- *   wheel).
+ * - pcvehicle_print: a message has been printed (message)
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - SetWheelMesh: parameters 'meshfact' (string), 'meshfile' (string).
- * - AddWheelAuto: parameters 'position' (vector3), 'rotation' (vector3),
- *                 'meshfact' (string), 'meshfile' (string).
- * - AddWheel: parameters 'position' (vector3), 'turnspeed' (float),
- *                 'returnspeed' (float), 'suspensionsoftness' (float),
- *                 'suspensiondamping' (float), 'brakepower' (float),
- *                 'enginepower' (float), 'leftsteersensitivity' (float),
- *                 'rightsteersensitivity' (float), 'friction' (float),
- *                 'mass' (float), 'handbrakeaffected' (bool),
- *                 'steerinverted' (bool), 'rotation' (vector3),
- *                 'meshfact' (string), 'meshfile' (string).
- * - DeleteWheel: parameter 'wheelnum' (long).
- * - DeleteAllWheels : no parameters.
- * - DestroyWheel: parameter 'wheelnum' (long).
- * - DestroyAllWheels : no parameters.
- * - RestoreWheel: parameter 'wheelnum' (long).
- * - RestoreAllWheels : no parameters.
- * - SteerLeft : parameter 'steeramount' (float).
- * - SteerRight : parameter 'steeramount' (float).
- * - SteerStraight : no parameters.
- * - Reverse : no parameters.
- * - Neutral : no parameters.
- * - SetGearSettings : parameters 'force' (float) 'velocity' : float
- *                   'gear' (long).
- * - SetFrontWheelPreset : parameter 'steersensitivity' (float),
- *                   'enginepower' (float), 'suspensionsoftness' (float),
- *                   'suspensiondamping' (float), 'friction' (float),
- *                   'mass' (float).
- * - SetRearWheelPreset : parameter 'steersensitivity' (float),
- *                   'enginepower' (float), 'suspensionsoftness' (float),
- *                   'suspensiondamping' (float), 'friction' (float),
- *                   'mass' (float).
- * - SetWheelPosition : parameters 'wheelnum' (long), 'position' (vector3).
- * - SetWheelRotation : parameters 'wheelnum' (long), 'rotation' (vector3).
- * - SetWheelSuspensionSoftness : parameters 'wheelnum' (long),
- *                   'suspensionsoftness' (float).
- * - SetWheelSuspensionDamping : parameters 'wheelnum' (long),
- *                   'suspensiondamping' (float).
- * - SetWheelLeftSteerSensitivity : parameters 'wheelnum' (long),
- *                   'steersensitivity' (float).
- * - SetWheelRightSteerSensitivity : parameters 'wheelnum' (long),
- *                   'suspensionsoftness' (float).
- * - SetWheelFriction : parameters 'wheelnum' (long), 'friction' (float).
- * - SetWheelMass : parameters 'wheelnum' (long), 'mass' (float).
- * - SetWheelTurnSpeed : parameters 'wheelnum' (long), 'turnspeed' (float).
- * - SetWheelReturnSpeed : parameters 'wheelnum' (long), 'returnspeed' (float).
- * - SetWheelEnginePower : parameters 'wheelnum' (long), 'enginepower' (float).
- * - SetWheelBrakePower : parameters 'wheelnum' (long), 'brakepower' (float).
- * - SetWheelSteerInverted : parameters 'wheelnum' (long),
- *                   'steerinverted' (bool).
- * - SetWheelHandbrakeAffected : parameters 'wheelnum' (long),
- *                   'handbrakeaffected' (bool).
+ * - Print: parameters 'message' (string).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
- * - speed (float, read): the current speed of the vehicle.
- * - tankmode (bool, read/write): Whether tank mode is enabled.
- * - steer(float, read/write): Absolute steer(-1 to 1) of the vehicle.
- * - accelamount(float, read/write): Amount of accelerator application. 0 - 1
- * - brakeamount(float, read/write): Amount of brake application. 0 - 1
- * - handbraking (bool, read/write): Whether the vehicle is handraking.
- * - steeramount (float, read/write): Steer amount of wheels.
- * - autotransmission (float, read/write): Whether the vehicle automatically
- *                                   shifts gears.
- * - gear (long, read/write): Current gear of the vehicle.
- * - brakeforce (float, read/write): Force of the vehicle's brakes.
- * - autoreverse (bool, read/write): Whether the vehicle automatically
- *                                   reverses at low speeds while braking.
- * - outerwheelsteerpreset (float, read/write): Outer wheel steer preset.
- * - abs (bool, read/write): ABS Braking enabled.
- * - currentgearvelocity (float, read): Velocity of current gear.
- * - currentgearforce (float, read): Force of current gear.
- * - averagewheelspin (float, read): Average spin of wheels.
+ * - counter (long, read/write): how many times something has been printed.
+ * - max (long, read/write): maximum length of what was printed.
  */
 
 struct iCelEntity;
 struct iBodyGroup;
 struct iMeshFactoryWrapper;
 struct iODEHinge2Joint;
-struct iODEAMotorJoint;
 struct iRigidBody;
 
 struct iPcWheeled : public virtual iBase
@@ -141,7 +69,7 @@ struct iPcWheeled : public virtual iBase
    *  \param wheelfile VFS path to the file which contains the wheel's factory.
    *    If 0, it is assumed the factory has already been loaded.
    */
-  virtual void SetWheelMesh(size_t wheelnum, const char* wheelfact,
+  virtual void SetWheelMesh(int wheelnum, const char* wheelfact,
       const char* wheelfile) = 0;
 
   /**
@@ -156,28 +84,16 @@ struct iPcWheeled : public virtual iBase
   virtual bool GetTankMode() = 0;
 
   /**
-   * Set if the vehicle uses anti-lock braking.
-   *  \param enabled Whether abs is enabled.
-   */
-  virtual void SetABS(bool enabled) = 0;
-
-  /**
-   * Get if the vehicle uses anti-lock braking.
-   */
-  virtual bool GetABS() = 0;
-
-  /**
    * Add a wheel to the vehicle's wheel layout. This method uses the
    * vehicle's wheel presets for steering, power and suspension, and
-   * automatically applies handbrake and invert steering to rear wheels.
-   * to rear wheels. All right wheels automatically have their meshes flipped.
-   * \param position Where the wheel will be placed.
+   * automatically applies handbrake and invert steering
+   *  to rear wheels.
    *  \param wheelfact The name of the factory to use for wheel meshes.
    *  \param wheelfile VFS path to the file which contains the wheel's factory.
    *    If 0, it is assumed the factory has already been loaded.
    *  \param rotation A rotation matrix to set on the wheel's mesh.
    */
-  virtual size_t AddWheelAuto(csVector3 position, const char* wheelfact = 0,
+  virtual int AddWheelAuto(csVector3 position, const char* wheelfact = 0,
      const char* wheelfile = 0,
      csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
@@ -185,7 +101,6 @@ struct iPcWheeled : public virtual iBase
    * Add a wheel to the vehicle's wheel layout.
    * This method allows for total control over the wheel, overriding the
    * vehicle's presets.
-   * All right wheels automatically have their meshes flipped.
    * \param position Where the wheel will be placed.
    * \param turnspeed How fast the wheel should steer away from centre.
    * \param returnspeed How fast the wheel should return to the centre.
@@ -195,8 +110,6 @@ struct iPcWheeled : public virtual iBase
    * \param brakepower Fraction of vehicle's brake force this wheel recieves.
    * \param leftsteersensitivity How sensitive wheel is when steering left.
    * \param rightsteersensitivity How sensitive wheel is when steering right.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    * \param handbrakeaffect Wether the handbrake applies to this wheel.
    * \param steerinvert Wether this wheel steers back-to-front.
    *  \param wheelfact The name of the factory to use for wheel meshes.
@@ -204,43 +117,43 @@ struct iPcWheeled : public virtual iBase
    *    If 0, it is assumed the factory has already been loaded.
    *  \param rotation A rotation matrix to set on the wheel's mesh.
    */
-  virtual size_t AddWheel(csVector3 position,
+  virtual int AddWheel(csVector3 position,
                        float turnspeed, float returnspeed,
                        float suspensionsoftness, float suspensiondamping,
                        float brakepower, float enginepower,
-		       float leftsteersensitivity, float friction, float mass,
+		       float leftsteersensitivity,
                        float rightsteersensitivity, bool handbrakeaffect,
                        bool steerinvert, const char* wheelfact = 0, 
                        const char* wheelfile = 0,
                        csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
   /**
-   * Destroy a wheel on the car, and delete it from the memory.
+   * Destroy a wheel on the car, and delete it from the layout. It
    *  \param wheelnum Index of the wheel to delete.
    */
-  virtual void DeleteWheel(size_t wheelnum) = 0;
+  virtual void DeleteWheel(int wheelnum) = 0;
 
   /**
-   * Destroy and delete all wheels from memory.
+   * Destroy and delete all wheels in the layout
    */
   virtual void DeleteAllWheels() = 0;
 
   /**
-   * Physically remove a wheel on the car. It will remain in the memory,
-   * so all settings remain, and it can be restoredwith RestoreWheel(wheelnum).
+   * Destroy a wheel on the car. It will remain in the layout, so it can be
+   * restored along with all its settings with RestoreWheel(wheelnum).
    */
-  virtual void DestroyWheel(size_t wheelnum) = 0;
+  virtual void DestroyWheel(int wheelnum) = 0;
 
   /**
-   * Destroy all wheels on the car. The memor is still retained,
-   * so the wheels can be restored with RestoreAllWheels().
+   * Destroy all wheels on the car. The layout is still retained,
+   * so the wheels can be restored with RestoreWheelLayout().
    */
   virtual void DestroyAllWheels() = 0;
 
   /**
    * Restore a wheel, along with its settings, from the layout.
    */
-  virtual void RestoreWheel(size_t wheelnum) = 0;
+  virtual void RestoreWheel(int wheelnum) = 0;
 
   /**
    * Restore all of the vehicle's wheels from the layout.
@@ -267,12 +180,9 @@ struct iPcWheeled : public virtual iBase
    * \param suspensionsoftness How soft the suspension on the wheel should be.
    * \param suspensiondamping How dampened the suspension on the wheel should
    * be.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    */
   virtual void SetFrontWheelPreset(float sensitivity,float power,
-     float suspensionsoftness, float suspensiondamping, float friction,
-     float mass) = 0;
+     float suspensionsoftness, float suspensiondamping) = 0;
 
   /**
    * A wheel grouping preset which sets steering amount and drive power to
@@ -284,34 +194,31 @@ struct iPcWheeled : public virtual iBase
    * \param suspensionsoftness How soft the suspension on the wheel should be.
    * \param suspensiondamping How dampened the suspension on the wheel
    * should be.
-   * \param friction The traction of the wheel.
-   * \param mass Mass of the wheel, in kilograms.
    */
   virtual void SetRearWheelPreset(float sensitivity,float power,
-     float suspensionsoftness, float suspensiondamping, float friction,
-     float mass) = 0;
+     float suspensionsoftness, float suspensiondamping) = 0;
 
   /**
-   * Set the vehicle's accelerator.
-   * \param amount Amount to apply the accelerator (0.0 - 1.0)
+   * Set wether the vehicle will accelerate.
+   * \param applied Whether the accelerator is applied.
    */
-  virtual void Accelerate(float amount =  1.0f) = 0;
+  virtual void Accelerate(bool applied) = 0;
 
   /**
-   * Get the Amount that the vehicle accelerator has been applied.
+   * Get whether the vehicle is accelerating.
    */
-  virtual float GetAcceleratorAmount() = 0;
+  virtual bool IsAccelerating() = 0;
 
   /**
-   * Set the vehicle's brakes.
-   * \param amount Amount to apply the brakes (0.0 - 1.0)
+   * Set wether the vehicle will brake.
+   * \param applied Wether the brake is applied
    */
-  virtual void Brake(float amount =  1.0f) = 0;
+  virtual void Brake(bool applied) = 0;
 
   /**
-   * Get the amount that the vehicle brakes have been applied.
+   * Get whether the vehicle is brakeing
    */
-  virtual float GetBrakeAmount() = 0;
+  virtual bool IsBraking() = 0;
 
   /**
    * Set wether the vehicle will handbrake. (rear wheel lock)
@@ -324,8 +231,9 @@ struct iPcWheeled : public virtual iBase
    */
   virtual bool IsHandbraking() = 0;
 
+
   /**
-   * Set the tightness of the vehicle's turning (Wheel turning angle).
+   * Set the tightness of the vehicle's turning.
    * \param amount How tight the car will steer.
    */
   virtual void SetSteerAmount(float amount) = 0;
@@ -342,29 +250,14 @@ struct iPcWheeled : public virtual iBase
   virtual float GetSteerAmount() = 0;
 
   /**
-   * Get the forward velocity of the vehicle.
+   * Steer the vehicle left.
    */
-  virtual float GetSpeed() = 0;
+  virtual void SteerLeft() = 0;
 
   /**
-   * Steer the vehicle left, by a fraction of full steer.
-   * \param amount Ratio of steeramount to steer (0 - 1)
+   * Steer the vehicle right.
    */
-  virtual void SteerLeft(float amount = 1.0f) = 0;
-
-  /**
-   * Steer the vehicle right, by a fraction of full steer.
-   * \param amount Ratio of steeramount to steer(0 - 1)
-   */
-  virtual void SteerRight(float amount = 1.0f) = 0;
-
-  /**
-   * Combined steer. Steer the vehicle by a certain amount (-1 to 1).
-   * If amount is less then 0, it will steer left. If more than 0, steer right.
-   * Using Steer(0) is the same as calling SteerStraight().
-   * \param amount How tight / direction the car will steer.
-   */
-  virtual void Steer(float amount) = 0;
+  virtual void SteerRight() = 0;
 
   /**
    * Straighten the steering wheels
@@ -407,18 +300,6 @@ struct iPcWheeled : public virtual iBase
   virtual void SetGearSettings(int gear,float velocity, float force) = 0;
 
   /**
-   * Get the target velocity of a given velocity.
-   * \param gear The gear to get.
-   */
-  virtual float GetGearVelocity(int gear) = 0;
-
-  /**
-   * Get the target force of a given velocity.
-   * \param gear The gear to get.
-   */
-  virtual float GetGearForce(int gear) = 0;
-
-  /**
    * Get the highest gear the vehicle has.
    */
   virtual int GetTopGear() = 0;
@@ -440,60 +321,50 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param position The new position of the wheel.
    */
-  virtual void SetWheelPosition(size_t wheelnum, csVector3 position) = 0;
+  virtual void SetWheelPosition(int wheelnum, csVector3 position) = 0;
 
   /**
    * Set the rotation of a wheel.
    * \param wheelnum Index of the wheel to set.
    * \param rotation The new rotation of the wheel.
    */
-  virtual void SetWheelRotation(size_t wheelnum, csMatrix3 rotation) = 0;
+  virtual void SetWheelRotation(int wheelnum, csMatrix3 rotation) = 0;
 
   /**
    * Set the softness of a wheel's suspension. It is initially 0.000125.
    * \param wheelnum Index of the wheel to set.
    * \param softness Softness of the suspension, from 0 to 1.
    */
-  virtual void SetWheelSuspensionSoftness(size_t wheelnum, float softness) = 0;
+  virtual void SetWheelSuspensionSoftness(int wheelnum, float softness) = 0;
 
   /**
    * Set the damping of a wheel's suspension. It is initially 0.125.
    * \param wheelnum Index of the wheel to set.
    * \param damping Damping of the suspension, from 0 to 1.
    */
-  virtual void SetWheelSuspensionDamping(size_t wheelnum, float damping) = 0;
+  virtual void SetWheelSuspensionDamping(int wheelnum, float damping) = 0;
 
   /**
-   * Set the sensitivity of a wheel when steering left.
+   * Set the sensitivity of a wheel when steering left.This is initially
+   * automatically determined from the wheels position. If it is an outer
+   * wheel when steering left, it is decreased. If it is a back wheel it
+   * is decreased further.
    * \param wheelnum Index of the wheel to set.
    * \param sensitivity Sensitivity of the steering, from 0 to 1.
    */
-  virtual void SetWheelLeftSteerSensitivity(size_t wheelnum,
+  virtual void SetWheelLeftSteerSensitivity(int wheelnum,
       float sensitivity) = 0;
 
   /**
-   * Set the sensitivity of a wheel when steering right.
+   * Set the sensitivity of a wheel when steering right. This is initially
+   * automatically determined from the wheels position. If it is an outer
+   * wheel when steering right, it is decreased. If it is a back wheel it
+   * is decreased further.
    * \param wheelnum Index of the wheel to set.
    * \param sensitivity Sensitivity of the steering, from 0 to 1.
    */
-  virtual void SetWheelRightSteerSensitivity(size_t wheelnum,
+  virtual void SetWheelRightSteerSensitivity(int wheelnum,
       float sensitivity) = 0;
-
-  /**
-   * Set the friction of a wheel. The default is 0.7.
-   * \param wheelnum Index of the wheel to set.
-   * \param friction Friction of the wheel.
-   */
-  virtual void SetWheelFriction(size_t wheelnum,
-      float friction) = 0;
-
-  /**
-   * Set the mass of a wheel. The default is 10.0.
-   * \param wheelnum Index of the wheel to set.
-   * \param mass Mass of the wheel.
-   */
-  virtual void SetWheelMass(size_t wheelnum,
-      float mass) = 0;
 
   /**
    * Set the speed at which a wheel turns away from the middle. This is
@@ -501,14 +372,14 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param speed Speed at which the wheel turns.
    */
-  virtual void SetWheelTurnSpeed(size_t wheelnum, float speed) = 0;
+  virtual void SetWheelTurnSpeed(int wheelnum, float speed) = 0;
 
   /**
    * Set the speed at which a wheel returns to the middle. This is initially 2.
    * \param wheelnum Index of the wheel to set.
    * \param speed Speed at which the wheel returns.
    */
-  virtual void SetWheelReturnSpeed(size_t wheelnum, float speed) = 0;
+  virtual void SetWheelReturnSpeed(int wheelnum, float speed) = 0;
 
   /**
    * Set amount of power from the engine which goes to a wheel when
@@ -516,7 +387,7 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param power Amount of power going to the wheel, from 0 to 1.
    */
-  virtual void SetWheelEnginePower(size_t wheelnum, float power) = 0;
+  virtual void SetWheelEnginePower(int wheelnum, float power) = 0;
 
   /**
    * Set amount of power from the brakes which goes to a wheel. This is
@@ -524,7 +395,7 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param power Amount of brake power going to the wheel, from 0 to 1.
    */
-  virtual void SetWheelBrakePower(size_t wheelnum, float power) = 0;
+  virtual void SetWheelBrakePower(int wheelnum, float power) = 0;
 
   /**
    * Set whether a wheel steers in the opposite direction. This is initially
@@ -533,7 +404,7 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param inverted Wether the wheel is inverted.
    */
-  virtual void SetWheelSteerInverted(size_t wheelnum, bool inverted) = 0;
+  virtual void SetWheelSteerInverted(int wheelnum, bool inverted) = 0;
 
   /**
    * Set whether the handbrake applies to a wheel. This is initially
@@ -542,140 +413,98 @@ struct iPcWheeled : public virtual iBase
    * \param wheelnum Index of the wheel to set.
    * \param handbrakeaffected Whether the handbrake affects the wheel.
    */
-  virtual void SetWheelHandbrakeAffected(size_t wheelnum,
+  virtual void SetWheelHandbrakeAffected(int wheelnum,
       bool handbrakeaffected) = 0;
 
   /**
    * Get the position of a wheel.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual csVector3 GetWheelPosition(size_t wheelnum) = 0;
+  virtual csVector3 GetWheelPosition(int wheelnum) = 0;
 
   /**
    * Get the rotation of a wheel.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual csMatrix3 GetWheelRotation(size_t wheelnum) = 0;
+  virtual csMatrix3 GetWheelRotation(int wheelnum) = 0;
 
   /**
    * Get the softness of a wheel's suspension.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelSuspensionSoftness(size_t wheelnum) = 0;
+  virtual float GetWheelSuspensionSoftness(int wheelnum) = 0;
 
   /**
    * Get the damping of a wheel's suspension.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelSuspensionDamping(size_t wheelnum) = 0;
+  virtual float GetWheelSuspensionDamping(int wheelnum) = 0;
 
   /**
    * Get the sensitivity of a wheel when steering left.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelLeftSteerSensitivity(size_t wheelnum) = 0;
+  virtual float GetWheelLeftSteerSensitivity(int wheelnum) = 0;
 
   /**
    * Get the sensitivity of a wheel when steering right.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelRightSteerSensitivity(size_t wheelnum) = 0;
-
-  /**
-   * Get the friction of the wheel.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual float GetWheelFriction(size_t wheelnum) = 0;
-
-  /**
-   * Get the mass of the wheel.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual float GetWheelMass(size_t wheelnum) = 0;
+  virtual float GetWheelRightSteerSensitivity(int wheelnum) = 0;
 
   /**
    * Get the speed at which a wheel turns away from the middle.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelTurnSpeed(size_t wheelnum) = 0;
+  virtual float GetWheelTurnSpeed(int wheelnum) = 0;
 
   /**
    * Get the speed at which a wheel returns to the middle.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelReturnSpeed(size_t wheelnum) = 0;
+  virtual float GetWheelReturnSpeed(int wheelnum) = 0;
 
   /**
    * Get the amount of power from the engine which goes to a wheel when
    * accelerating.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelEnginePower(size_t wheelnum) = 0;
+  virtual float GetWheelEnginePower(int wheelnum) = 0;
 
   /**
    * Get the amount of power from the brakes which goes to a wheel.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelBrakePower(size_t wheelnum) = 0;
+  virtual float GetWheelBrakePower(int wheelnum) = 0;
 
   /**
    * Get whether a wheel steers in the opposite direction.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual bool GetWheelSteerInverted(size_t wheelnum) = 0;
+  virtual bool GetWheelSteerInverted(int wheelnum) = 0;
 
   /**
    * Get whether the handbrake applies to a wheel.
    * \param wheelnum Index of the wheel to get.
    */
-  virtual bool GetWheelHandbrakeAffected(size_t wheelnum) = 0;
+  virtual bool GetWheelHandbrakeAffected(int wheelnum) = 0;
 
   /**
-   * Get the number of wheels on this vehicle.
+   * Get the number of wheels on this vehicle
    */
-  virtual size_t GetWheelCount() = 0;
+  virtual int GetWheelCount() = 0;
 
   /**
-   * Get the spin of a given wheel.
+   * Get whether the rigid body of this wheel
    * \param wheelnum Index of the wheel to get.
    */
-  virtual float GetWheelSpin(size_t wheelnum) = 0;
+  virtual iRigidBody* GetWheelBody(int wheelnum) = 0;
 
   /**
-   * Get the average spin of all wheels.
-   */
-  virtual float GetAverageWheelSpin() = 0;
-
-  /**
-   * Get the rigid body of this wheel.
+   * Get whether the joint connecting this wheel
    * \param wheelnum Index of the wheel to get.
    */
-  virtual iRigidBody* GetWheelBody(size_t wheelnum) = 0;
-
-  /**
-   * Get the joint connecting this wheel to the body.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum) = 0;
-
-  /**
-   * Get the motor which brakes this wheel.
-   * \param wheelnum Index of the wheel to get.
-   */
-  virtual iODEAMotorJoint* GetBrakeMotor(size_t wheelnum) = 0;
-
-  /**
-   * Set whether to send messages back to the entity when wheels collide with
-   * other bodies.
-   * \param en Wether callback is enabled
-   */
-  virtual void SetCollisionCallbackEnabled (bool en) = 0;
-
-  /**
-   * Get whether to send messages back to the entity when wheels collide with
-   * other bodies. Is true by default.
-   */
-  virtual bool IsCollisionCallbackEnabled () const = 0;
+  virtual iODEHinge2Joint* GetWheelJoint(int wheelnum) = 0;
 };
 
 #endif // __CEL_PF_WHEELED__

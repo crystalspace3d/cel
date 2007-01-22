@@ -24,7 +24,6 @@
 #include "csutil/scf.h"
 #include "csutil/ref.h"
 #include "csutil/hash.h"
-#include "csutil/csstring.h"
 
 struct iCelExpression;
 
@@ -83,7 +82,7 @@ struct iCelRule : public virtual iBase
 };
 
 /// Hash of rules.
-typedef csHash<csRef<iCelRule>,csStringBase> celRuleHash;
+typedef csHash<csRef<iCelRule>,csStrKey> celRuleHash;
 
 /**
  * Interface for the Rule System.

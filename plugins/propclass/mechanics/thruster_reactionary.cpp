@@ -95,7 +95,8 @@ celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
 csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
-  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (mechanicsobject);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechanicsobject,
+  	iCelPropertyClass);
   databuf->Add (pc);
   databuf->Add (position);
   databuf->Add (orientation);
@@ -114,7 +115,7 @@ bool celPcMechanicsThrusterReactionary::Load (iCelDataBuffer* databuf)
     return false;
   }
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
-  mechanicsobject = scfQueryInterface<iPcMechanicsObject> (pc);
+  mechanicsobject = SCF_QUERY_INTERFACE (pc, iPcMechanicsObject);
   databuf->GetVector3 (position);
   databuf->GetVector3 (orientation);
   lastforceid = databuf->GetUInt32 ();

@@ -35,7 +35,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.destroyentity",
     	msg, arg);
@@ -65,7 +65,7 @@ celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 }
 
 csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
-    iQuest*, const celQuestParams& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celDestroyEntityReward* newquest = new celDestroyEntityReward (type,
   	params, entity_par);
@@ -96,11 +96,11 @@ void celDestroyEntityRewardFactory::SetEntityParameter (
 
 celDestroyEntityReward::celDestroyEntityReward (
 	celDestroyEntityRewardType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par) : scfImplementationType (this)
 {
   celDestroyEntityReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
 }
 

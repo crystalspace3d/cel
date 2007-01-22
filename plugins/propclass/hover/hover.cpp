@@ -72,14 +72,14 @@ celPcHover::celPcHover (iObjectRegistry* object_reg)
   height_beam_cutoff = 200;
 
   // set default PID values
-  pid.p_factor = 8.98f;
-  pid.i_factor = 0.0f;
-  pid.d_factor = 0.0f;
-  pid.hover_height = 4.0f;
-  pid.sum_errors = 0.0f;
-  pid.last_height = 0.0f;
-  pid.dampening = 1.0f;
-  pid.clamp = 100.0f;
+  pid.p_factor = 8.98;
+  pid.i_factor = 0.0;
+  pid.d_factor = 0.0;
+  pid.hover_height = 4.0;
+  pid.sum_errors = 0.0;
+  pid.last_height = 0.0;
+  pid.dampening = 1.0;
+  pid.clamp = 100.0;
 
   if (param_hover == csInvalidStringID)
   {
@@ -276,23 +276,26 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 float celPcHover::PIDStatus::Force (float curr_height)
 {
-  float pval, dval, ival;
-  float error = hover_height - curr_height;
-  //printf ("E: %f\n", error);
+    float pval, dval, ival;
+    float error = hover_height - curr_height;
+    //printf ("E: %f\n", error);
 
-  // calculate the proportional term
-  pval = p_factor * error;
+    // calculate the proportional term
+    pval = p_factor * error;
+    csClamp (pval, -clamp, clamp);
 
-  // calculate the integral term
-  sum_errors += error;
-  ival = i_factor * sum_errors;
+    // calculate the integral term
+    sum_errors += error;
+    ival = i_factor * sum_errors;
+    csClamp (ival, -clamp, clamp);
 
-  // calculate the differential term
-  dval = d_factor * (curr_height - last_height);
-  last_height = curr_height;
+    // calculate the differential term
+    dval = d_factor * (curr_height - last_height);
+    last_height = curr_height;
+    csClamp (dval, -clamp, clamp);
 
-  //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
-  return csClamp (pval + ival + dval, clamp, -clamp);
+    //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+    return pval + ival + dval;
 }
 
 void celPcHover::PerformStabilising ()
@@ -312,11 +315,13 @@ void celPcHover::PerformStabilising ()
   {
     // do PID calculation here.
     float force = pid.Force (height);
-    //printf ("%f %f\n",height,force);
+    //printf ("%f %f\n",obj_info.height,force);
 
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
         csVector3 (0,0,0), 0.1f);
+    //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
+    //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
   }
   else
   {
@@ -330,10 +335,6 @@ void celPcHover::PerformStabilising ()
   {
     float rx = AngularAlignment (csVector3 (0,0,-1), height);
     float rz = AngularAlignment (csVector3 (1,0,0), height);
-
-    // offset hack for tendency of nose to dip into ground when going uphill
-    if (rx > 0.0)
-      rx *= 3.0;
 
     // align the ship by getting it to rotate in whatever direction
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +
@@ -361,15 +362,32 @@ float celPcHover::Height (csVector3 offset, bool accurate)
 
   iSector *sector = pccamera->GetCamera ()->GetSector ();
   csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
-  // beam height * proportion of beam hit
-  float height = (bres.isect - start).Norm ();
-  if (!csFinite (height))
-  {
+  //if(bres.hit)
+    // beam height * proportion of beam hit
+    float height = (bres.isect - start).Norm ();
+    if (!csFinite (height))
+    {
+      // reset flags to original state
+      pcmesh->GetMesh()->GetFlags().SetAll (flags);
+      return 999999999.9f;
+    }
     // reset flags to original state
     pcmesh->GetMesh()->GetFlags().SetAll (flags);
-    return 999999999.9f;
-  }
-  // reset flags to original state
-  pcmesh->GetMesh()->GetFlags().SetAll (flags);
-  return height;
+    return height;
+  //else
+    /* beam didn't hit so we try going upwards
+        from object */
+    //return ReverseHeight(start);
+}
+
+float celPcHover::ReverseHeight (csVector3 &start, iSector *sector)
+{
+  // instead of downwards the beam goes upwards
+  csVector3 end = start + csVector3 (0,height_beam_cutoff,0);
+
+  csSectorHitBeamResult bres = sector->HitBeam(start, end, false);
+  if(false)
+    return (start - bres.isect).Norm ();
+  else
+    return 999999999.0f;
 }

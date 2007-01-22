@@ -140,7 +140,6 @@ private:
   csString csregionname;
   csString cache_path;
   bool loaded;
-  csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
   csSet<csPtrKey<iSector> > sectors;
 
@@ -189,8 +188,6 @@ public:
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
   virtual void DissociateEntity (iCelEntity* entity);
-  virtual bool ContainsEntity (iCelEntity* entity);
-  virtual iRegion* GetCsRegion ();
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
@@ -366,7 +363,6 @@ public:
   iCelRegion* FindRegion (const char* name) const;
   bool RemoveRegion (iCelRegion* region);
   void RemoveAllRegions ();
-  iCelRegion* FindRegionContaining (iCelEntity* ent);
 
   void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
   void GetLastStartLocation (iString* regionname, iString* startname);
@@ -485,10 +481,6 @@ public:
     virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon)
     {
       return scfParent->ActivateRegion (region, allow_entity_addon);
-    }
-    virtual iCelRegion* FindRegionContaining (iCelEntity* ent)
-    {
-      return scfParent->FindRegionContaining (ent);
     }
   } scfiPcZoneManager;
 };

@@ -28,7 +28,6 @@
 #include "csutil/parray.h"
 #include "csutil/weakref.h"
 #include "csutil/hash.h"
-#include "csutil/csstring.h"
 #include "physicallayer/propclas.h"
 #include "physicallayer/propfact.h"
 #include "physicallayer/facttmpl.h"
@@ -75,7 +74,7 @@ private:
     csWeakRef<iCelPropertyClass> pclass;
   };
   csPDelArray<property> properties;
-  csHash<size_t, csStringBase> properties_hash;
+  csHash<size_t, csStrKey> properties_hash;
   bool properties_hash_dirty;
   csRefArray<iPcPropertyListener> listeners;
 

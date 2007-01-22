@@ -113,8 +113,8 @@ bool celInitializer::RequestPlugins(iObjectRegistry* r,
 
 bool celInitializer::LoadMountsFromFile(iObjectRegistry* r, char const* configPath)
 {
-  csRef<iConfigManager> cfg_mgr = csQueryRegistry<iConfigManager> (r);
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (r);
+  csRef<iConfigManager> cfg_mgr = CS_QUERY_REGISTRY(r, iConfigManager);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY(r, iVFS);
   csRef<iConfigFile> vfs_file = cfg_mgr->AddDomain(configPath, NULL, 0);
   return vfs->LoadMountsFromFile(vfs_file);
 }
@@ -144,16 +144,8 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
     cel_config_done = true;
   }
   else
-  {
-    csRef<iCommandLineParser> cmdline = csQueryRegistry<iCommandLineParser> (r);
-    cel_env_path = csPathsList(cmdline->GetAppDir ());
-    vfs_file_path = csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
-    if (vfs_file_path.Length())
-      ok = true;
-    else
-      csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",
+    csReport(r,CS_REPORTER_SEVERITY_ERROR,"cel.initializer",
 	     "Couldn't find vfs.cfg!");
-  }
   return ok;
 }
 

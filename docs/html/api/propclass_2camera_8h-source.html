@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,17 +43,17 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_CAMERA__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_CAMERA__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a>;
-<a name="l00027"></a>00027 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiView.html">iView</a>;
+<a name="l00026"></a>00026 <span class="keyword">struct </span>iCamera;
+<a name="l00027"></a>00027 <span class="keyword">struct </span>iView;
 <a name="l00028"></a>00028 <span class="keyword">struct </span><a class="code" href="structiPcRegion.html">iPcRegion</a>;
 <a name="l00029"></a>00029 <span class="keyword">struct </span><a class="code" href="structiPcZoneManager.html">iPcZoneManager</a>;
 <a name="l00030"></a>00030 
-<a name="l00031"></a>00031 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiPcCamera.html">iPcCamera</a>, 0, 0, 3);
+<a name="l00031"></a>00031 SCF_VERSION (<a class="code" href="structiPcCamera.html">iPcCamera</a>, 0, 0, 3);
 <a name="l00032"></a>00032 
-<a name="l00036"></a><a class="code" href="structiPcCamera.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiPcCamera.html">iPcCamera</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00036"></a><a class="code" href="structiPcCamera.html">00036</a> <span class="keyword">struct </span><a class="code" href="structiPcCamera.html">iPcCamera</a> : <span class="keyword">public</span> iBase
 <a name="l00037"></a>00037 {
 <a name="l00044"></a>00044   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcCamera.html#4c06211ea06eace5391548d269bb3e21">SetRegion</a> (<a class="code" href="structiPcRegion.html">iPcRegion</a>* region, <span class="keywordtype">bool</span> point = <span class="keyword">true</span>,
 <a name="l00045"></a>00045       <span class="keyword">const</span> <span class="keywordtype">char</span>* name = 0) = 0;
@@ -66,9 +66,9 @@
 <a name="l00066"></a>00066 
 <a name="l00076"></a>00076   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCamera.html#3bbe75cada613b1275dcdd82969c7363">SetRectangle</a> (<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> w, <span class="keywordtype">int</span> h) = 0;
 <a name="l00077"></a>00077 
-<a name="l00081"></a>00081   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a>* <a class="code" href="structiPcCamera.html#b78ef09e09cc2c03e0c8560921ecc2e2">GetCamera</a> () <span class="keyword">const </span>= 0;
+<a name="l00081"></a>00081   <span class="keyword">virtual</span> iCamera* <a class="code" href="structiPcCamera.html#b78ef09e09cc2c03e0c8560921ecc2e2">GetCamera</a> () <span class="keyword">const </span>= 0;
 <a name="l00082"></a>00082 
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiView.html">iView</a>* <a class="code" href="structiPcCamera.html#366442a0a6d366f7a6e69d7da85fc9a3">GetView</a> () <span class="keyword">const </span>= 0;
+<a name="l00086"></a>00086   <span class="keyword">virtual</span> iView* <a class="code" href="structiPcCamera.html#366442a0a6d366f7a6e69d7da85fc9a3">GetView</a> () <span class="keyword">const </span>= 0;
 <a name="l00087"></a>00087 
 <a name="l00094"></a>00094   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcCamera.html#e4eb456aa5a4e4130ac5b623229eda2f">SetClearZBuffer</a> (<span class="keywordtype">bool</span> flag) = 0;
 <a name="l00095"></a>00095 

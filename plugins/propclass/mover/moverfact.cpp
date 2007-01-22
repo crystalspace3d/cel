@@ -51,7 +51,7 @@ PropertyHolder celPcMover::propinfo;
 celPcMover::celPcMover (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   // For actions.
   if (id_sectorname == csInvalidStringID)

@@ -51,7 +51,7 @@ celLightSeqOpFactory::~celLightSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celLightSeqOpFactory::CreateSeqOp (
-    const celQuestParams& params)
+    const csHash<csStrKey,csStrKey>& params)
 {
   celLightSeqOp* seqop = new celLightSeqOp (type,
   	params, entity_par, tag_par,
@@ -132,7 +132,7 @@ static float ToFloat (const char* s)
 
 celLightSeqOp::celLightSeqOp (
 	celLightSeqOpType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 		const char* rel_blue_par,
@@ -140,7 +140,7 @@ celLightSeqOp::celLightSeqOp (
 		const char* abs_blue_par) : scfImplementationType (this)
 {
   celLightSeqOp::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
   rel.red = ToFloat (qm->ResolveParameter (params, rel_red_par));

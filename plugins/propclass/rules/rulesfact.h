@@ -65,7 +65,7 @@ public:
   celActiveRulesForVariable () { }
 };
 
-typedef csHash<csRef<celActiveRulesForVariable>, csStringBase>
+typedef csHash<csRef<celActiveRulesForVariable>, csStrKey>
 	celActiveRulesForVariableHash;
 
 class rulePropertyListener : public scfImplementation1<rulePropertyListener,

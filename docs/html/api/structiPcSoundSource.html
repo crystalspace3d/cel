@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,25 +28,15 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcSoundSource Struct Reference</h1><!-- doxytag: class="iPcSoundSource" --><!-- doxytag: inherits="iBase" -->Inheritance diagram for iPcSoundSource:<p><center><img src="structiPcSoundSource__inherit__graph.png" border="0" usemap="#iPcSoundSource__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcSoundSource__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="41,5,100,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcSoundSource-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<h1>iPcSoundSource Struct Reference</h1><!-- doxytag: class="iPcSoundSource" --><a href="structiPcSoundSource-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#c99df42cba038be46009efd83773ba88">GetMode</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the mode for this sound.  <a href="#c99df42cba038be46009efd83773ba88"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#aa1921652676033793dcacf04bf8748a">GetSoundName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of the sound wrapper that is used.  <a href="#aa1921652676033793dcacf04bf8748a"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysSource.html">iSndSysSource</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#6e62d546b862b600bb2f46a57daeca07">GetSoundSource</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iSndSysSource *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#6e62d546b862b600bb2f46a57daeca07">GetSoundSource</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the sound source.  <a href="#6e62d546b862b600bb2f46a57daeca07"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#787ed1e060839b58b0de2edc13d7b382">SetMode</a> (const char *modename)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mode for this sound.  <a href="#787ed1e060839b58b0de2edc13d7b382"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSoundSource.html#31445fd0443fd9303210854baa8d2989">SetSoundName</a> (const char *name)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the name of the sound wrapper to use.  <a href="#31445fd0443fd9303210854baa8d2989"></a><br></td></tr>
@@ -56,28 +46,7 @@
 <p>
 
 <p>
-Definition at line <a class="el" href="sound_8h-source.html#l00078">78</a> of file <a class="el" href="sound_8h-source.html">sound.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="c99df42cba038be46009efd83773ba88"></a><!-- doxytag: member="iPcSoundSource::GetMode" ref="c99df42cba038be46009efd83773ba88" args="() const =0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual const char* iPcSoundSource::GetMode           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Return the mode for this sound. 
-<p>
-One of 'disable', 'absolute', or 'relative'. 
-</div>
-</div><p>
+Definition at line <a class="el" href="sound_8h-source.html#l00084">84</a> of file <a class="el" href="sound_8h-source.html">sound.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="aa1921652676033793dcacf04bf8748a"></a><!-- doxytag: member="iPcSoundSource::GetSoundName" ref="aa1921652676033793dcacf04bf8748a" args="() const =0" -->
 <div class="memitem">
 <div class="memproto">
@@ -104,7 +73,7 @@ Get the name of the sound wrapper that is used.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSndSysSource.html">iSndSysSource</a>* iPcSoundSource::GetSoundSource           </td>
+          <td class="memname">virtual iSndSysSource* iPcSoundSource::GetSoundSource           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -118,28 +87,6 @@ Get the name of the sound wrapper that is used.
 Get the sound source. 
 <p>
 
-</div>
-</div><p>
-<a class="anchor" name="787ed1e060839b58b0de2edc13d7b382"></a><!-- doxytag: member="iPcSoundSource::SetMode" ref="787ed1e060839b58b0de2edc13d7b382" args="(const char *modename)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcSoundSource::SetMode           </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>modename</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Set the mode for this sound. 
-<p>
-Should be one of 'disable' (default), 'absolute', or 'relative'. 
 </div>
 </div><p>
 <a class="anchor" name="31445fd0443fd9303210854baa8d2989"></a><!-- doxytag: member="iPcSoundSource::SetSoundName" ref="31445fd0443fd9303210854baa8d2989" args="(const char *name)=0" -->

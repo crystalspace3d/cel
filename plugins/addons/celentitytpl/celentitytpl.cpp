@@ -90,7 +90,7 @@ celAddOnCelEntityTemplate::~celAddOnCelEntityTemplate ()
 bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnCelEntityTemplate::object_reg = object_reg;
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -98,7 +98,7 @@ bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -234,20 +234,6 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
 	{
 	  csVector3 v;
 	  csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	  params->GetParameter (par_idx-1).Set (v);
-	}
-        continue;
-      }
-      const char* col_value = par_child->GetAttributeValue ("color");
-      if (col_value)
-      {
-	if (*col_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (col_value+1,
-	  	CEL_DATA_COLOR);
-	else
-	{
-	  csColor v;
-	  csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
 	  params->GetParameter (par_idx-1).Set (v);
 	}
         continue;

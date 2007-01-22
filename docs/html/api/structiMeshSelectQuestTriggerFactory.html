@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iMeshSelectQuestTriggerFactory Struct Reference</h1><!-- doxytag: class="iMeshSelectQuestTriggerFactory" --><!-- doxytag: inherits="iBase" -->This interface is implemented by the trigger that fires when a certain mesh is selected.  
+<h1>iMeshSelectQuestTriggerFactory Struct Reference</h1><!-- doxytag: class="iMeshSelectQuestTriggerFactory" -->This interface is implemented by the trigger that fires when a certain mesh is selected.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-Inheritance diagram for iMeshSelectQuestTriggerFactory:<p><center><img src="structiMeshSelectQuestTriggerFactory__inherit__graph.png" border="0" usemap="#iMeshSelectQuestTriggerFactory__inherit__map" alt="Inheritance graph"></center>
-<map name="iMeshSelectQuestTriggerFactory__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="96,5,155,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiMeshSelectQuestTriggerFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiMeshSelectQuestTriggerFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiMeshSelectQuestTriggerFactory.html#571f9bf57a14e7de09e2865820684bf3">SetEntityParameter</a> (const char *entity, const char *tag=0)=0</td></tr>
@@ -47,15 +43,19 @@ Inheritance diagram for iMeshSelectQuestTriggerFactory:<p><center><img src="stru
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface is implemented by the trigger that fires when a certain mesh is selected. 
 <p>
-You can query this interface from the trigger factory if you want to manually control this factory as opposed to loading its definition from an XML document.<p>
-The predefined name of this trigger type is 'cel.questtrigger.meshselect'.<p>
-In XML, factories recognize the following attributes on the 'fireon' node:<ul>
-<li><em>entity</em>: the name of the entity that contains the pcmeshselect property class.</li><li><em>entity_tag</em>: optional tag used to find the right property class from the entity. </li></ul>
+You can query this interface from the trigger factory if you want to manually control this factory as opposed to loading its definition from an XML document. <p>
+The predefined name of this trigger type is 'cel.questtrigger.meshselect'. <p>
+In XML, factories recognize the following attributes on the 'fireon' node: <ul>
+<li>
+<em>entity</em>: the name of the entity that contains the pcmeshselect property class. </li>
+<li>
+<em>entity_tag</em>: optional tag used to find the right property class from the entity. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00966">966</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00969">969</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="571f9bf57a14e7de09e2865820684bf3"></a><!-- doxytag: member="iMeshSelectQuestTriggerFactory::SetEntityParameter" ref="571f9bf57a14e7de09e2865820684bf3" args="(const char *entity, const char *tag=0)=0" -->
 <div class="memitem">
 <div class="memproto">

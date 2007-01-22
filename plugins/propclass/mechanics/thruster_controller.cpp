@@ -104,7 +104,7 @@ csPtr<iCelDataBuffer> celPcMechanicsBalancedGroup::Save ()
   while (thrustit.HasNext ())
   {
     td = thrustit.Next ();
-    pc = scfQueryInterface<iCelPropertyClass> (td->thruster);
+    pc = SCF_QUERY_INTERFACE (td->thruster, iCelPropertyClass);
     databuf->Add (pc);
     databuf->Add (td->thrustcoefficient);
   }
@@ -122,7 +122,7 @@ bool celPcMechanicsBalancedGroup::Load (iCelDataBuffer* databuf)
   for (int i = 1; i <= size; i++)
   {
     pc = databuf->GetPC ();
-    thruster = scfQueryInterface<iPcMechanicsThruster> (pc);
+    thruster = SCF_QUERY_INTERFACE (pc, iPcMechanicsThruster);
     AddThruster (thruster, databuf->GetFloat ());
   }
   return true;
@@ -190,7 +190,8 @@ bool celPcMechanicsBalancedGroup::PerformActionIndexed (int idx,
 void celPcMechanicsBalancedGroup::AddThruster (iPcMechanicsThruster* thruster,
 	float multiplier)
 {
-  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (thruster);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (thruster,
+  	iCelPropertyClass);
   celThrusterData* th = new celThrusterData (pc->GetTag (), thruster,
 	multiplier);
   thrusters.Push (th);
@@ -346,7 +347,8 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (
   	THRUSTERCONTROLLER_SERIAL);
-  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (mechobject);
+  csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (mechobject,
+  	iCelPropertyClass);
   databuf->Add (pc);
   databuf->Add ((int32) axes.GetSize ());
   csArray<celAxisData*>::Iterator axisit = axes.GetIterator ();
@@ -364,7 +366,7 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
     while (tgit.HasNext ())
     {
       tg = tgit.Next ();
-      pc = scfQueryInterface<iCelPropertyClass> (tg);
+      pc = SCF_QUERY_INTERFACE (tg, iCelPropertyClass);
       databuf->Add (pc);
     }
   }
@@ -374,7 +376,7 @@ csPtr<iCelDataBuffer> celPcMechanicsThrusterController::Save ()
   while (trit.HasNext ())
   {
     trd = trit.Next ();
-    pc = scfQueryInterface<iCelPropertyClass> (trd->group);
+    pc = SCF_QUERY_INTERFACE (trd->group, iCelPropertyClass);
     databuf->Add (pc);
     databuf->Add (trd->id);
     databuf->Add (trd->thrust);
@@ -387,7 +389,8 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != THRUSTERCONTROLLER_SERIAL) return false;
   csRef<iCelPropertyClass> pc = databuf->GetPC ();
-  csRef<iPcMechanicsObject> mechobj = scfQueryInterface<iPcMechanicsObject> (pc);
+  csRef<iPcMechanicsObject> mechobj = SCF_QUERY_INTERFACE (pc,
+  	iPcMechanicsObject);
   int32 axessize = databuf->GetInt32 ();
   int32 tgsize, i, j;
   csRef<iPcMechanicsBalancedGroup> tg;
@@ -402,7 +405,7 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
     for (j = 1; j <= tgsize; j++)
     {
       pc = databuf->GetPC ();
-      tg = scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+      tg = SCF_QUERY_INTERFACE (pc, iPcMechanicsBalancedGroup);
       AddBalancedGroup (tg, name->GetData ());
     }
   }
@@ -413,7 +416,7 @@ bool celPcMechanicsThrusterController::Load (iCelDataBuffer* databuf)
   for (i = 1; j <= requestsize; i++)
   {
     pc = databuf->GetPC ();
-    group = scfQueryInterface<iPcMechanicsBalancedGroup> (pc);
+    group = SCF_QUERY_INTERFACE (pc, iPcMechanicsBalancedGroup);
     id = databuf->GetUInt32 ();
     thrust = databuf->GetFloat ();
     ApplyThrustHelper (thrust, group, id);
@@ -695,7 +698,7 @@ void celPcMechanicsThrusterController::RemoveBalancedGroup (const char*
       while (groupit.HasNext ())
       {
         group = groupit.Next ();
-	pc = scfQueryInterface<iCelPropertyClass> (group);
+	pc = SCF_QUERY_INTERFACE (group, iCelPropertyClass);
         if (!strcmp (pc->GetTag (), balancedgrouptag))
           ad->balancedgroups.Delete (group);
       }

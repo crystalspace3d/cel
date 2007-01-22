@@ -98,13 +98,11 @@ private:
   bool rotatetoreached;
   bool running;
   bool autorun;
-  bool jumping;
 
   // For mouse move.
   csRef<iVirtualClock> vc;
   bool mousemove;
   bool mousemove_inverted;
-  bool mousemove_accelerated;
   csTicks mousemove_lastticks;
   float mousemove_totdelta;
   float mousemove_lastx;
@@ -124,7 +122,6 @@ private:
   static csStringID id_animation;
   static csStringID id_anicycle;
 
-  csVector3 FindVelocity();
   void HandleMovement (bool jump);
   void FindSiblingPropertyClasses ();
   void GetSpriteStates ();
@@ -154,7 +151,6 @@ private:
   {
     propid_mousemove = 0,
     propid_mousemove_inverted,
-    propid_mousemove_accelerated,
     propid_mousemove_xfactor,
     propid_mousemove_yfactor
   };
@@ -164,31 +160,107 @@ public:
   celPcActorMove (iObjectRegistry* object_reg);
   virtual ~celPcActorMove ();
 
-  virtual void Forward (bool start);
-  virtual bool IsMovingForward ();
-  virtual void Backward (bool start);
-  virtual bool IsMovingBackward ();
-  virtual void StrafeLeft (bool start);
-  virtual bool IsStrafingLeft ();
-  virtual void StrafeRight (bool start);
-  virtual bool IsStrafingRight ();
-  virtual void RotateLeft (bool start);
-  virtual bool IsRotatingLeft ();
-  virtual void RotateRight (bool start);
-  virtual bool IsRotatingRight ();
+  virtual void Forward (bool start)
+  {
+    if (pcmesh && !sprcal3d)
+    {
+      if (start && !IsMovingForward ())
+      	SetAnimation ("walk");
+      else if (!start && IsMovingForward())
+      	SetAnimation ("stand");
+    }
+    forward = start;
+    HandleMovement (false);
+  }
+  virtual bool IsMovingForward ()
+  {
+    HandleMovement (false);
+    return forward;
+  }
+  virtual void Backward (bool start)
+  {
+    backward = start;
+    HandleMovement (false);
+  }
+  virtual bool IsMovingBackward ()
+  {
+    HandleMovement (false);
+    return backward;
+  }
+  virtual void StrafeLeft (bool start)
+  {
+    strafeleft = start;
+    HandleMovement (false);
+  }
+  virtual bool IsStrafingLeft ()
+  {
+    HandleMovement (false);
+    return strafeleft;
+  }
+  virtual void StrafeRight (bool start)
+  {
+    straferight = start;
+    HandleMovement (false);
+  }
+  virtual bool IsStrafingRight ()
+  {
+    HandleMovement (false);
+    return straferight;
+  }
+  virtual void RotateLeft (bool start)
+  {
+    rotateleft = start;
+    rotatetoreached = true;
+    HandleMovement (false);
+  }
+  virtual bool IsRotatingLeft ()
+  {
+    HandleMovement (false);
+    return rotateleft;
+  }
+  virtual void RotateRight (bool start)
+  {
+    rotateright = start;
+    rotatetoreached = true;
+    HandleMovement (false);
+  }
+  virtual bool IsRotatingRight ()
+  {
+    HandleMovement (false);
+    return rotateright;
+  }
   virtual void RotateTo (float yrot);
-  virtual void Run (bool start);
-  virtual bool IsRunning ();
-  virtual void AutoRun (bool start);
-  virtual bool IsAutoRunning ();
-  virtual void Jump ();
+  virtual void Run (bool start)
+  {
+    if (!autorun) running = start;
+    HandleMovement (false);
+  }
+  virtual bool IsRunning ()
+  {
+    HandleMovement (false);
+    return running;
+  }
+  virtual void AutoRun (bool start)
+  {
+    autorun = start;
+    HandleMovement (false);
+  }
+  virtual bool IsAutoRunning ()
+  {
+    HandleMovement (false);
+    return autorun;
+  }
+  virtual void Jump ()
+  {
+    if (pcmesh)
+      SetAnimation ("jump", false);
+    HandleMovement (true);
+  }
   virtual void ToggleCameraMode ();
 
   virtual void MouseMove (float x, float y);
   virtual void EnableMouseMove (bool en);
   virtual bool IsMouseMoveEnabled () const { return mousemove; }
-  virtual void SetMouseMoveAccelerated (bool en) { mousemove_accelerated = en; }
-  virtual bool IsMouseMoveAccelerated () const { return mousemove_accelerated; }
   virtual void SetMouseMoveInverted (bool en) { mousemove_inverted = en; }
   virtual bool IsMouseMoveInverted () const { return mousemove_inverted; }
   virtual void SetMouseMoveSpeed (float xs, float ys)

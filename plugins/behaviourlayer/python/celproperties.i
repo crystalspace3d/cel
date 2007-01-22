@@ -353,6 +353,8 @@
 %cs_attribute_writeonly(blcelc,iPcWheeled, float, OuterWheelSteerPreset, SetOuterWheelSteerPreset)
 %cs_multi_attr_writeonly(blcelc,iPcWheeled,FrontWheelPreset,SetFrontWheelPreset)
 %cs_multi_attr_writeonly(blcelc,iPcWheeled,RearWheelPreset,SetRearWheelPreset)
+%cs_attribute(blcelc,iPcWheeled,bool,Accelerating,IsAccelerating,Accelerate)
+%cs_attribute(blcelc,iPcWheeled,bool,Braking,IsBraking,Brake)
 %cs_attribute(blcelc,iPcWheeled,bool,Handbraking,IsHandbraking,Handbrake)
 %cs_attribute(blcelc,iPcWheeled,float,SteerAmount)
 %cs_attribute_writeonly(blcelc,iPcWheeled, float, BrakeForce, SetBrakeForce)
@@ -362,14 +364,6 @@
 %cs_attribute_writeonly(blcelc,iPcWheeled, bool, AutoReverse, SetAutoReverse)
 %cs_attribute(blcelc,iPcWheeled,iBodyGroup*,BodyGroup,GetBodyGroup)
 %cs_attribute(blcelc,iPcWheeled,int,WheelCount,GetWheelCount)
-
-/* iPcMeshDeform (include/propclass/meshdeform.h) */
-%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMesh,SetMesh)
-%cs_multi_attr(blcelc,iPcMeshDeform,Noise,GetNoise,SetNoise)
-%cs_multi_attr(blcelc,iPcMeshDeform,Radius,GetRadius,SetRadius)
-%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMaxFrequency,SetMaxFrequency)
-%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetMaxDeform,SetMaxDeform)
-%cs_multi_attr(blcelc,iPcMeshDeform,WheelMesh,GetDeformFactor,SetDeformFactor)
 
 /* iPcDamage (include/propclass/damage.h) */
 %cs_attribute(blcelc,iPcDamage,float,Damage)

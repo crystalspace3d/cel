@@ -77,7 +77,6 @@ enum
   XMLTOKEN_SOUND_UNPAUSE,
   XMLTOKEN_SOUND_RESTART,
   XMLTOKEN_SOUND_VOLUME,
-  XMLTOKEN_SOUND_SPEED,
   XMLTOKEN_CONFIG_ADD,
   XMLTOKEN_CONFIG_REM,
   XMLTOKEN_CONFIG_SET,
@@ -166,7 +165,6 @@ enum
   XMLFUNCTION_COLRED,
   XMLFUNCTION_COLGREEN,
   XMLFUNCTION_COLBLUE,
-  XMLFUNCTION_GETMSG,
 
   XMLFUNCTION_LAST
 };
@@ -193,7 +191,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
 {
   celBlXml::object_reg = object_reg;
 
-  synldr = csQueryRegistry<iSyntaxService> (object_reg);
+  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -201,12 +199,12 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
     	"Can't find syntax services!");
     return false;
   }
-  csRef<iCelPlLayer> player = csQueryRegistry<iCelPlLayer> (object_reg);
+  csRef<iCelPlLayer> player = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   pl = (iCelPlLayer*)player;
-  mouse = csQueryRegistry<iMouseDriver> (object_reg);
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  billboard_mgr = csQueryRegistry<iBillboardManager> (object_reg);
+  mouse = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
 
   xmltokens.Register ("property", XMLTOKEN_PROPERTY);
   xmltokens.Register ("action", XMLTOKEN_ACTION);
@@ -242,7 +240,6 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("sound_unpause", XMLTOKEN_SOUND_UNPAUSE);
   xmltokens.Register ("sound_restart", XMLTOKEN_SOUND_RESTART);
   xmltokens.Register ("sound_volume", XMLTOKEN_SOUND_VOLUME);
-  xmltokens.Register ("sound_speed", XMLTOKEN_SOUND_SPEED);
   xmltokens.Register ("config_add", XMLTOKEN_CONFIG_ADD);
   xmltokens.Register ("config_rem", XMLTOKEN_CONFIG_REM);
   xmltokens.Register ("config_set", XMLTOKEN_CONFIG_SET);
@@ -326,7 +323,6 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("colred", XMLFUNCTION_COLRED);
   functions.Register ("colgreen", XMLFUNCTION_COLGREEN);
   functions.Register ("colblue", XMLFUNCTION_COLBLUE);
-  functions.Register ("getmsg", XMLFUNCTION_GETMSG);
 
   return true;
 }
@@ -1147,7 +1143,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
     case XMLFUNCTION_PARID:
       {
         if (!ParseID (input, local_vars, child, h, name, str, fun_id))
-          return false;
+	  return false;
       }
       break;
     case XMLFUNCTION_PARAM:
@@ -1156,80 +1152,73 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
         return false;
       h->AddOperation (CEL_OPERATION_PARAM);
       break;
-    case XMLFUNCTION_GETMSG:
-      {
-        if (!ParseExpression (input, local_vars, child, h, name, 0))
-          return false;
-        h->AddOperation (CEL_OPERATION_GETMSG);
-      }
-      break;
     default:
       {
         // We have an unknown function. Try to parse it as an event handler
-        // that we can call.
-        pinput = input;
-        input = celXmlParseToken (input, token);
-        uint32 cnt = 0;
+	// that we can call.
+	pinput = input;
+	input = celXmlParseToken (input, token);
+	uint32 cnt = 0;
 
-        if (token == CEL_TOKEN_DOTDOTDOT)
-        {
-          h->AddOperation (CEL_OPERATION_INHERITPARAMS);
-          pinput = input;	// Point after ...
-        }
-        else
-        {
-          input = pinput;	// Restore.
-          h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
-          while (token != CEL_TOKEN_CLOSE)
-          {
-            // Get parameter name.
+	if (token == CEL_TOKEN_DOTDOTDOT)
+	{
+	  h->AddOperation (CEL_OPERATION_INHERITPARAMS);
+	  pinput = input;	// Point after ...
+	}
+	else
+	{
+	  input = pinput;	// Restore.
+	  h->AddOperation (CEL_OPERATION_ACTIONPARAMS);
+	  while (token != CEL_TOKEN_CLOSE)
+	  {
+	    // Get parameter name.
             if (!ParseID (input, local_vars, child, h, name, str,
-            	XMLFUNCTION_PARID))
-              return false;
-            input = celXmlParseToken (input, token);
-            if (token != CEL_TOKEN_ASSIGN)
-            {
-              synldr->ReportError ("cel.behaviour.xml", child,
-              	"Expected '=' after parameter for '%s'!", name);
-              return false;
-            }
-            // Get parameter value.
-            if (!ParseExpression (input, local_vars, child, h,
-            	name, CEL_PRIORITY_NORMAL))
-              return false;
+				    XMLFUNCTION_PARID))
+	      return false;
+	    input = celXmlParseToken (input, token);
+	    if (token != CEL_TOKEN_ASSIGN)
+	    {
+	      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected '=' after parameter for '%s'!", name);
+	      return false;
+	    }
+	    // Get parameter value.
+	    if (!ParseExpression (input, local_vars, child, h,
+		  name, CEL_PRIORITY_NORMAL))
+	      return false;
 
-            h->AddOperation (CEL_OPERATION_ACTIONPARAM);
-            h->GetArgument ().SetUInt32 (cnt);
-            cnt++;
+	    h->AddOperation (CEL_OPERATION_ACTIONPARAM);
+	    h->GetArgument ().SetUInt32 (cnt);
+	    cnt++;
 
-            pinput = input;
-            input = celXmlParseToken (input, token);
-            if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
-            {
-              synldr->ReportError ("cel.behaviour.xml", child,
-              	"Expected ')' or '=' after parameter value for '%s'!", name);
-              return false;
-            }
-          }
-        }
-        // Restore.
-        input = pinput;
+	    pinput = input;
+	    input = celXmlParseToken (input, token);
+	    if (token != CEL_TOKEN_CLOSE && token != CEL_TOKEN_COMMA)
+	    {
+	      synldr->ReportError ("cel.behaviour.xml", child,
+		  "Expected ')' or '=' after parameter value for '%s'!", name);
+	      return false;
+	    }
+	  }
+	}
+	// Restore.
+	input = pinput;
 
-        // First check if we have a scoped function (::).
-        char* scope = strstr (str, "::");
-        if (scope)
-        {
-          *scope = 0;
-          h->AddOperation (CEL_OPERATION_PUSHSTR);
-          h->GetArgument ().SetString (str, true);
-          h->AddOperation (CEL_OPERATION_CALL_ERS);
-          h->GetArgument ().SetString (scope+2, true);
-          *scope = ':';
-        }
-        else
-        {
-          h->AddOperation (CEL_OPERATION_CALL_RS);
-          h->GetArgument ().SetString (str, true);
+	//  First check if we have a scoped function (::).
+	char* scope = strstr (str, "::");
+	if (scope)
+	{
+	  *scope = 0;
+	  h->AddOperation (CEL_OPERATION_PUSHSTR);
+	  h->GetArgument ().SetString (str, true);
+	  h->AddOperation (CEL_OPERATION_CALL_ERS);
+	  h->GetArgument ().SetString (scope+2, true);
+	  *scope = ':';
+	}
+	else
+	{
+	  h->AddOperation (CEL_OPERATION_CALL_RS);
+	  h->GetArgument ().SetString (str, true);
         }
       }
       break;
@@ -1238,7 +1227,7 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
   if (token != CEL_TOKEN_CLOSE)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-    	"Expected ')' after '%s' for '%s'!", str, name);
+	"Expected ')' after '%s' for '%s'!", str, name);
     return false;
   }
   return true;
@@ -2035,37 +2024,30 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_SOUND_STOP:
         if (!ParseExpression (local_vars, child, h, "source", "sound_stop"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_STOP);
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_STOP);
         break;
       case XMLTOKEN_SOUND_PAUSE:
         if (!ParseExpression (local_vars, child, h, "source", "sound_pause"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_PAUSE);
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_PAUSE);
         break;
       case XMLTOKEN_SOUND_UNPAUSE:
         if (!ParseExpression (local_vars, child, h, "source", "sound_unpause"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_UNPAUSE);
         break;
       case XMLTOKEN_SOUND_RESTART:
         if (!ParseExpression (local_vars, child, h, "source", "sound_restart"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_RESTART);
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_RESTART);
         break;
       case XMLTOKEN_SOUND_VOLUME:
         if (!ParseExpression (local_vars, child, h, "source", "sound_volume"))
-          return false;
+	  return false;
         if (!ParseExpression (local_vars, child, h, "volume", "sound_volume"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
-        break;
-      case XMLTOKEN_SOUND_SPEED:
-        if (!ParseExpression (local_vars, child, h, "source", "sound_speed"))
-          return false;
-        if (!ParseExpression (local_vars, child, h, "rate", "sound_speed"))
-          return false;
-        h->AddOperation (CEL_OPERATION_SOUND_SPEED);
+	  return false;
+	h->AddOperation (CEL_OPERATION_SOUND_VOLUME);
         break;
       case XMLTOKEN_CONFIG_SET:
         if (!ParseExpression (local_vars, child, h, "key", "config_set"))

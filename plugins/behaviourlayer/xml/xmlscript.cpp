@@ -35,13 +35,13 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
+
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
 #include "isndsys/ss_manager.h"
 #include "isndsys/ss_renderer.h"
 #include "iengine/engine.h"
 #include "iutil/plugin.h"
-#include "ivaria/translator.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -3717,8 +3717,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  csRef<iCelEntity> ent = pl->CreateEntity ();
 	  const char* entname = ArgToString (aent);
 	  if (entname) ent->SetName (entname);
-	  csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (
-	  	cbl->GetObjectRegistry ());
+	  csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (
+	  	cbl->GetObjectRegistry (), iCelBlLayer);
 	  if (!bl)
 	    return ReportError (cbl,
 	    	"Couldn't find default behaviour layer!");
@@ -4070,7 +4070,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4124,7 +4124,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4139,7 +4139,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4154,7 +4154,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4169,7 +4169,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4199,7 +4199,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (top);
 	  if (!pc)
 	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4216,7 +4216,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	    return ReportError (cbl, "Bad property class!\n");
 
 	  // @@@ Efficiency?
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+	  csRef<iPcBillboard> other_bb = SCF_QUERY_INTERFACE (pc, iPcBillboard);
 	  if (!other_bb)
 	    return ReportError (cbl,
 	    	"Property class is not a billboard!\n");
@@ -4728,7 +4728,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  iCelPropertyClass* pc = ArgToPClass (a_pc);
 	  if (!pc)
 	    return ReportError (cbl, "Property class is 0 for default inventory!");
-	  csRef<iPcInventory> inv = scfQueryInterface<iPcInventory> (pc);
+	  csRef<iPcInventory> inv = SCF_QUERY_INTERFACE (pc, iPcInventory);
 	  if (!inv)
 	    return ReportError (cbl, "Property class is not an inventory!");
 	  default_inv = inv;
@@ -4815,8 +4815,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: chdirauto dir=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs =
-	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
+	  	iVFS);
 	  top.Set (vfs->ChDirAuto (ArgToString (top), 0, 0,
 		ArgToString (a_file)));
 	}
@@ -4828,8 +4828,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: readfile vararray=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs =
-	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
+	  	iVFS);
 	  csRef<iDataBuffer> buf = vfs->ReadFile (ArgToString (a_file));
 	  if (!buf)
 	  {
@@ -4879,8 +4879,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: writefile vararray=%s file=%s start=%s stop=%s\n",
 	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
-	  csRef<iVFS> vfs =
-	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
+	  csRef<iVFS> vfs = CS_QUERY_REGISTRY (cbl->GetObjectRegistry (),
+	  	iVFS);
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
 	  const char* vararray = ArgToString (top);
@@ -4926,8 +4926,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s play=%s mode3d=%s\n",
 		i-1, A2S (top), A2S (a_loop), A2S (a_volume), A2S (a_play),
 		A2S (a_mode3d)));
-	  csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
-	  	cbl->GetObjectRegistry ());
+	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
+	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
@@ -5086,24 +5086,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  sound_source->SetVolume (ArgToFloat (a_volume));
 	}
 	break;
-      case CEL_OPERATION_SOUND_SPEED:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_rate = stack.Pop ();
-          celXmlArg a_source = stack.Pop ();
-          DUMP_EXEC ((":%04d: sound_speed source=%s rate=%s\n",
-          	i-1, A2S (a_source), A2S (a_rate)));
-          iBase* src_ibase = ArgToIBase (a_source);
-          if (!src_ibase)
-            return ReportError (cbl, "Error! Sound source is null!");
-          csRef<iSndSysSource> sound_source = scfQueryInterface<
-          	iSndSysSource> (src_ibase);
-          if (!sound_source)
-            return ReportError (cbl, "Error! This is not a sound source!");
-          sound_source->GetStream ()->SetPlayRatePercent (
-          	int (100.0f * ArgToFloat (a_rate)));
-        }
-        break;
       case CEL_OPERATION_SOUND:
         {
 	  CHECK_STACK(4)
@@ -5114,8 +5096,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
 		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
 		A2S (a_mode3d)));
-	  csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
-	  	cbl->GetObjectRegistry ());
+	  csRef<iSndSysManager> sndmngr = CS_QUERY_REGISTRY (
+	  	cbl->GetObjectRegistry (), iSndSysManager);
 	  if (!sndmngr)
 	    return ReportError (cbl, "Error! No sound manager!");
 	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
@@ -5287,16 +5269,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!g2d)
             return ReportError (cbl, "No iGraphics2D!");
           g2d->SetMouseCursor (csmcArrow);
-        }
-      break;
-      case CEL_OPERATION_GETMSG:
-        {
-          CHECK_STACK(1)
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: getmsg (%s)\n", i-1, A2S (top)));
-          csRef<iTranslator> translator = csQueryRegistry<iTranslator> (
-          	cbl->GetObjectRegistry ());
-          top.SetString (translator->GetMsg (ArgToString (top)), true);
         }
       break;
     }

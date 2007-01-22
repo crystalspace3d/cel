@@ -56,7 +56,7 @@ celNewStateRewardFactory::~celNewStateRewardFactory ()
 }
 
 csPtr<iQuestReward> celNewStateRewardFactory::CreateReward (
-    iQuest* q, const celQuestParams& params)
+    iQuest* q, const csHash<csStrKey,csStrKey>& params)
 {
   celNewStateReward* trig = new celNewStateReward (type,
   	q, params, state_par, entity_par, tag_par);
@@ -109,13 +109,13 @@ void celNewStateRewardFactory::SetEntityParameter (const char* entity,
 
 celNewStateReward::celNewStateReward (
 	celNewStateRewardType* type, iQuest* q,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* state_par,
 	const char* entity_par, const char* tag_par)
 	: scfImplementationType (this)
 {
   celNewStateReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   state = csStrNew (qm->ResolveParameter (params, state_par));
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));

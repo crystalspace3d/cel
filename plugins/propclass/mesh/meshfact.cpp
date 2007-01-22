@@ -50,7 +50,6 @@
 #include "iengine/scenenode.h"
 #include "imap/loader.h"
 #include "ivaria/reporter.h"
-#include "ivaria/mapnode.h"
 #include "imesh/object.h"
 #include "imesh/sprite3d.h"
 #include "imesh/gmeshskel2.h"
@@ -73,7 +72,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mesh",
     	msg, arg);
@@ -119,7 +118,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
 
   if (id_name == csInvalidStringID)
   {
@@ -200,7 +199,7 @@ bool celPcMesh::GetPropertyIndexed (int idx, bool& val)
   {
     case propid_hitbeam:
       if (mesh)
-        val = !(mesh->GetFlags ().Check (CS_ENTITY_NOHITBEAM));
+	val = !(mesh->GetFlags ().Check (CS_ENTITY_NOHITBEAM));
       else
         val = false;
       return true;
@@ -215,8 +214,8 @@ bool celPcMesh::SetPropertyIndexed (int idx, bool val)
   {
     case propid_hitbeam:
       if (mesh)
-        mesh->SetFlagsRecursive (CS_ENTITY_NOHITBEAM,
-        	val ? 0: CS_ENTITY_NOHITBEAM);
+	mesh->SetFlagsRecursive (CS_ENTITY_NOHITBEAM,
+	    val ? 0: CS_ENTITY_NOHITBEAM);
       return true;
     default:
       return false;
@@ -349,9 +348,9 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (mesh)
         {
           if (visible)
-            mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
+	    mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, 0);
           else
-            mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, CS_ENTITY_INVISIBLE);
+	    mesh->SetFlagsRecursive (CS_ENTITY_INVISIBLE, CS_ENTITY_INVISIBLE);
         }
         return true;
       }
@@ -408,6 +407,10 @@ bool celPcMesh::PerformActionIndexed (int idx,
     case action_movemesh:
       {
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
+        CEL_FETCH_VECTOR3_PAR (position,params,id_position);
+        if (!p_position)
+          return Report (object_reg,
+          	"Missing parameter 'position' for action MoveMesh!");
         if (sector && *sector == 0)
         {
           // Special case. We simply remove the mesh from all sectors.
@@ -419,31 +422,21 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         else
         {
-          iSector* sect = 0;
-          if (sector)
-          {
-            sect = engine->FindSector (sector);
+	  iSector* sect = 0;
+	  if (sector)
+	  {
+	    sect = engine->FindSector (sector);
             if (!sect)
               return Report (object_reg,
-              	"Can't find sector '%s' for action MoveMesh!",
-              	sector);
-          }
-          else
-          {
-            if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
-              sect = mesh->GetMovable ()->GetSectors ()->Get (0);
-          }
-          CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-          if (p_position)
-            MoveMesh (sect, position);
-          else
-          {
-            CEL_FETCH_STRING_PAR (node,params,id_position);
-            if (!p_node)
-              return Report (object_reg,
-              	"Missing parameter 'position' for action MoveMesh!");
-            MoveMesh (sect, node);
-          }
+		"Can't find sector '%s' for action MoveMesh!",
+            	sector);
+	  }
+	  else
+	  {
+	    if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
+	      sect = mesh->GetMovable ()->GetSectors ()->Get (0);
+	  }
+          MoveMesh (sect, position);
         }
         CEL_FETCH_VECTOR3_PAR (rotation,params,id_rotation);
         if (p_rotation && mesh)
@@ -498,8 +491,8 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_name) return false;
         CEL_FETCH_STRING_PAR (par_type,params,id_type);
         if (!p_par_type) return false;
-        csRef<iStringSet> strset = csQueryRegistryTagInterface<iStringSet> (
-        	object_reg, "crystalspace.shared.stringset");
+        csRef<iStringSet> strset = CS_QUERY_REGISTRY_TAG_INTERFACE(object_reg,
+        	"crystalspace.shared.stringset", iStringSet);
         if (!strcmp(par_type,"float"))
         {
           CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
@@ -517,12 +510,6 @@ bool celPcMesh::PerformActionIndexed (int idx,
           CEL_FETCH_VECTOR3_PAR (par_value,params,id_value);
           if (!p_par_value) return false;
           SetShaderVar (strset->Request (par_name), par_value);
-        }
-        else if (!strcmp(par_type,"libexpr"))
-        {
-          CEL_FETCH_STRING_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
-          return SetShaderVarExpr (strset->Request (par_name), par_value);
         }
         /*else if (!strcmp(par_type,"vector2"))
         {
@@ -543,7 +530,7 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_cycle) par_cycle = false;
         CEL_FETCH_BOOL_PAR (par_reset,params,id_reset);
         if (!p_par_reset) par_reset = false;
-        SetAnimation (par_animation, par_cycle, 1.0f, 0.1f, 0.1f, par_reset);
+        SetAnimation (par_animation, par_cycle, 1.0, 0.1, 0.1, par_reset);
         return true;
       }
     case action_createemptything:
@@ -573,39 +560,40 @@ bool celPcMesh::PerformActionIndexed (int idx,
       }
     case action_parentmesh:
       {
-        if (!mesh) return true;
+	if (!mesh) return true;
         CEL_FETCH_STRING_PAR (par_entity,params,id_entity);
-        iCelEntity* ent;
+	iCelEntity* ent;
         if (!p_par_entity) ent = entity;
-        else
-        {
-          ent = pl->FindEntity (par_entity);
-          if (!ent)
-            return Report (object_reg, "Can't find entity '%s'!",
-            	par_entity);
-        }
+	else
+	{
+	  ent = pl->FindEntity (par_entity);
+	  if (!ent)
+	    return Report (object_reg, "Can't find entity '%s'!",
+		par_entity);
+	}
         CEL_FETCH_STRING_PAR (par_tag,params,id_tag);
-        csRef<iPcMesh> parent_mesh;
-        if (!p_par_tag)
-          parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
-        else
-          parent_mesh = celQueryPropertyClassTag<iPcMesh> (
-          	ent->GetPropertyClassList (), par_tag);
-        if (!parent_mesh)
-          return Report (object_reg, "Can't find a mesh!");
-        mesh->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
-        	->QuerySceneNode ());
-        mesh->GetMovable ()->UpdateMove ();
-        return true;
+	csRef<iPcMesh> parent_mesh;
+	if (!p_par_tag)
+	  parent_mesh = celQueryPropertyClassEntity<iPcMesh> (ent);
+	else
+	  parent_mesh = celQueryPropertyClassTag<iPcMesh> (
+	      ent->GetPropertyClassList (), par_tag);
+	if (!parent_mesh)
+	  return Report (object_reg, "Can't find a mesh!");
+	mesh->QuerySceneNode ()->SetParent (parent_mesh->GetMesh ()
+	    ->QuerySceneNode ());
+	mesh->GetMovable ()->UpdateMove ();
+
+	return true;
       }
     case action_clearparent:
       {
-        if (mesh)
-        {
-          mesh->QuerySceneNode ()->SetParent (0);
-          mesh->GetMovable ()->UpdateMove ();
-        }
-        return true;
+	if (mesh)
+	{
+	  mesh->QuerySceneNode ()->SetParent (0);
+	  mesh->GetMovable ()->UpdateMove ();
+	}
+	return true;
       }
     default:
       return false;
@@ -773,7 +761,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   if (!path.IsEmpty ())
   {
     // If we have a path then we first ChDir to that.
@@ -781,7 +769,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     vfs->ChDir (path);
   }
 
-  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
+  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
   CS_ASSERT (loader != 0);
   iBase* result;
   bool success = loader->Load (fileName, result, 0, false, true);
@@ -806,11 +794,11 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   }
   else
   {
-    imeshfact = scfQueryInterface<iMeshFactoryWrapper> (result);
+    imeshfact = SCF_QUERY_INTERFACE (result, iMeshFactoryWrapper);
     if (!imeshfact)
     {
       // Perhaps it is a world file?
-      csRef<iEngine> eng = scfQueryInterface<iEngine> (result);
+      csRef<iEngine> eng = SCF_QUERY_INTERFACE (result, iEngine);
       if (eng)
       {
         imeshfact = engine->FindMeshFactory (factName);
@@ -942,7 +930,7 @@ void celPcMesh::CreateNullMesh (const char* factname,
   meshfact = engine->CreateMeshFactory ("crystalspace.mesh.object.null",
   	factname);
   csRef<iNullFactoryState> nullmesh = scfQueryInterface<iNullFactoryState> (
-  	meshfact->GetMeshObjectFactory ());
+      meshfact->GetMeshObjectFactory ());
   nullmesh->SetBoundingBox (box);
   mesh = engine->CreateMeshWrapper (meshfact, factname, 0, csVector3 (0));
   pl->AttachEntity (mesh->QueryObject (), entity);
@@ -959,56 +947,22 @@ void celPcMesh::MoveMesh (iSector* sector, const csVector3& pos)
   mesh->GetMovable ()->UpdateMove ();
 }
 
-void celPcMesh::MoveMesh (iSector* sector, const char* node)
-{
-  if (!mesh) return;
-  csRef<iMapNode> mapnode;
-  if (sector)
-  {
-    mesh->GetMovable ()->SetSector (sector);
-    mapnode = CS_GET_NAMED_CHILD_OBJECT (
-    	sector->QueryObject (), iMapNode, node);
-  }
-  else
-  {
-    iSector* sect = 0;
-    if (mesh && mesh->GetMovable ()->GetSectors ()->GetCount () > 0)
-    {
-      sect = mesh->GetMovable ()->GetSectors ()->Get (0);
-      mapnode = CS_GET_NAMED_CHILD_OBJECT (
-      	sect->QueryObject (), iMapNode, node);
-    }
-    else
-    {
-      Report (object_reg, "Can't find current sector for MoveMesh!");
-    }
-  }
-  if (mapnode)
-  {
-    mesh->GetMovable ()->SetPosition (mapnode->GetPosition ());
-    mesh->GetMovable ()->UpdateMove ();
-  }
-  else
-    Report (object_reg, "Can't find node '%s' for MoveMesh!",
-    	(const char*)node);
-}
-
 void celPcMesh::SetAnimation (const char* actionName, bool cycle,
 	float weight, float fadein, float fadeout, bool reset)
 {
 //   printf("set anim %s\n", actionName);
   if (!actionName) return;
   if (!mesh) return;
-  csRef<iSprite3DState> spr3dstate (
-  	scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
+  csRef<iSprite3DState> spr3dstate (SCF_QUERY_INTERFACE (
+  	mesh->GetMeshObject (), iSprite3DState));
   if (spr3dstate)
   {
     spr3dstate->SetAction (actionName, cycle);
   }
   else
   {
-    csRef<iSpriteCal3DState> sprcal3dstate (
-    	scfQueryInterface<iSpriteCal3DState> (mesh->GetMeshObject ()));
+    csRef<iSpriteCal3DState> sprcal3dstate (SCF_QUERY_INTERFACE (
+    	mesh->GetMeshObject (), iSpriteCal3DState));
     if (sprcal3dstate)
     {
       if (cycle)
@@ -1018,35 +972,35 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
     }
     else
     {
-      csRef<iGeneralMeshState> genstate =
-      	scfQueryInterface<iGeneralMeshState> (mesh->GetMeshObject ());
+      csRef<iGeneralMeshState> genstate = SCF_QUERY_INTERFACE (
+      	mesh->GetMeshObject (), iGeneralMeshState);
       if (genstate)
       {
         csRef<iGenMeshAnimationControl> skelstate = genstate
         	->GetAnimationControl ();
         if (skelstate)
         {
-          csRef<iGenMeshSkeletonControlState> ctlstate =
-          	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
+          csRef<iGenMeshSkeletonControlState> ctlstate = SCF_QUERY_INTERFACE (
+          	skelstate, iGenMeshSkeletonControlState);
           if (ctlstate)
           {
             csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
             if (skel)
             {
-              iSkeletonScript* script;
-              if (reset) script = 0;
-              else script  = skel->FindScript (actionName);
-              if (script)
-              {
-                if (script->GetLoop () != cycle)
-                  script->SetLoop (cycle);
-              }
-              else
-              {
-                skel->StopAll ();
+	      iSkeletonScript* script;
+	      if (reset) script = 0;
+	      else script  = skel->FindScript (actionName);
+	      if (script)
+	      {
+		if (script->GetLoop () != cycle)
+		  script->SetLoop (cycle);
+	      }
+	      else
+	      {
+                skel->StopAll();
                 script = skel->Execute (actionName);
-                if (script) script->SetLoop (cycle);
-              }
+	        if (script) script->SetLoop (cycle);
+	      }
             }
           }
         }
@@ -1059,8 +1013,8 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
   if (!mesh) return;
-  csRef<iSprite3DState> state (
-  	scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
   if (state)
   {
     if (resetaction || strcmp (actionName, state->GetCurAction ()
@@ -1071,8 +1025,8 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 void celPcMesh::SetReverseAction (bool reverse)
 {
   if (!mesh) return;
-  csRef<iSprite3DState> state (scfQueryInterface<iSprite3DState> (
-  	mesh->GetMeshObject ()));
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
   if (state)
   {
     state->SetReverseAction (reverse);
@@ -1082,8 +1036,8 @@ void celPcMesh::SetReverseAction (bool reverse)
 const char* celPcMesh::GetAction ()
 {
   if (!mesh) return 0;
-  csRef<iSprite3DState> state (scfQueryInterface<iSprite3DState> (
-  	mesh->GetMeshObject ()));
+  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
+  	iSprite3DState));
   if (state)
   {
     const char* act = state->GetCurAction ()->GetName ();
@@ -1138,7 +1092,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_senddown = true;
   do_sendmove = false;
 
-  mousedrv = csQueryRegistry<iMouseDriver> (object_reg);
+  mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   // Initialize the maximum selection distance to a very large number
@@ -1317,7 +1271,7 @@ csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   csRef<iCelPropertyClass> pc;
-  if (pccamera) pc = scfQueryInterface<iCelPropertyClass> (pccamera);
+  if (pccamera) pc = SCF_QUERY_INTERFACE (pccamera, iCelPropertyClass);
   databuf->Add (pc);
   databuf->Add (sel_entity);
   databuf->Add (cur_on_top);
@@ -1344,7 +1298,7 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   iCelPropertyClass* pc = databuf->GetPC ();
   if (pc)
   {
-    pcm = scfQueryInterface<iPcCamera> (pc);
+    pcm = SCF_QUERY_INTERFACE (pc, iPcCamera);
     SetCamera (pcm);
   }
 
@@ -1630,7 +1584,8 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   if (celPcMeshSelect::pccamera)
   {
     csRef<iCelPropertyClass> pc (
-    	scfQueryInterface<iCelPropertyClass> (celPcMeshSelect::pccamera));
+    	SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
+    	iCelPropertyClass));
     DG_UNLINK (this, pc);
   }
 #endif
@@ -1638,7 +1593,8 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
   if (pccamera)
   {
-    csRef<iCelPropertyClass> pc2 (scfQueryInterface<iCelPropertyClass> (pccamera));
+    csRef<iCelPropertyClass> pc2 (SCF_QUERY_INTERFACE (pccamera,
+    	iCelPropertyClass));
     DG_LINK (this, pc2);
   }
 #endif
@@ -1777,24 +1733,6 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
   }
 }
 
-bool celPcMesh::SetShaderVarExpr (csStringID name, const char* exprname)
-{
-  if (mesh)
-  {
-    csRef<iShaderManager> shmgr = csQueryRegistry<iShaderManager> (
-    	object_reg);
-    iShaderVariableAccessor* acc = shmgr->GetShaderVariableAccessor (
-    	exprname);
-    if (!acc) return Report (object_reg,
-    	"Can't find shader expression '%s'!", exprname);
-
-    iShaderVariableContext* svc = mesh->GetSVContext ();
-    csShaderVariable *var = svc->GetVariableAdd (name);
-    var->SetAccessor (acc);
-  }
-  return true;
-}
-
 void celPcMesh::SetShaderVar (csStringID name, float value)
 {
   if (mesh)
@@ -1802,6 +1740,7 @@ void celPcMesh::SetShaderVar (csStringID name, float value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
+    svc->AddVariable (var);
   }
 }
 
@@ -1812,6 +1751,7 @@ void celPcMesh::SetShaderVar (csStringID name, int value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
+    svc->AddVariable (var);
   }
 }
 
@@ -1822,6 +1762,7 @@ void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
+    svc->AddVariable (var);
   }
 }
 
@@ -1832,6 +1773,7 @@ void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
     iShaderVariableContext* svc = mesh->GetSVContext ();
     csShaderVariable *var = svc->GetVariableAdd (name);
     var->SetValue (value);
+    svc->AddVariable (var);
   }
 }
 

@@ -70,7 +70,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -342,21 +342,9 @@ void celRegion::AssociateEntity (iCelEntity* entity)
 {
   entities.Push (entity);
 }
-
 void celRegion::DissociateEntity (iCelEntity* entity)
 {
   entities.Delete (entity);
-}
-
-iRegion* celRegion::GetCsRegion ()
-{
-  iEngine* engine = mgr->GetEngine ();
-  return engine->GetRegions()->FindByName(csregionname);
-}
-
-bool celRegion::ContainsEntity (iCelEntity* entity)
-{
-  return (entities.Contains (entity) != csArrayItemNotFound);
 }
 
 //---------------------------------------------------------------------------
@@ -424,10 +412,10 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
   : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
-  engine = csQueryRegistry<iEngine> (object_reg);
-  loader = csQueryRegistry<iLoader> (object_reg);
-  vfs = csQueryRegistry<iVFS> (object_reg);
-  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   do_colliderwrappers = true;
   loading_mode = CEL_ZONE_NORMAL;
@@ -815,12 +803,12 @@ bool celPcZoneManager::Load (const char* path, const char* file)
   celPcZoneManager::path = path;
   celPcZoneManager::file = file;
 
-  csRef<iDocumentSystem> docsys = 
-  	csQueryRegistry<iDocumentSystem> (object_reg);
+  csRef<iDocumentSystem> docsys = CS_QUERY_REGISTRY (object_reg,
+  	iDocumentSystem);
   if (!docsys)
     docsys.AttachNew (new csTinyDocumentSystem ());
   csRef<iDocument> doc = docsys->CreateDocument ();
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   if (path)
   {
     vfs->PushDir ();
@@ -1010,10 +998,9 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
         loadable_regions.Add ((celRegion*)zones[i]->GetRegion (j));
     }
 
-  celRegion* r;
   for (i = 0 ; i < regions.Length () ; i++)
   {
-    r = regions[i];
+    celRegion* r = regions[i];
     if (loadable_regions.In (r))
     {
       if (!r->IsLoaded ())
@@ -1044,20 +1031,6 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
     SendZoneMessage (0, "pczonemanager_stoploading");
 
   return true;
-}
-
-iCelRegion* celPcZoneManager::FindRegionContaining (iCelEntity* ent)
-{
-  celRegion* r;
-  for (size_t i = 0 ; i < regions.Length () ; i++)
-  {
-    r = regions[i];
-    if (r->ContainsEntity (ent))
-    {
-      return r;
-    }
-  }
-  return 0;
 }
 
 bool celPcZoneManager::ActivateSector (iSector* sector)

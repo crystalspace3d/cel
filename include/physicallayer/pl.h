@@ -24,7 +24,6 @@
 #include "csutil/scf.h"
 #include "csutil/strset.h"
 #include "csutil/ref.h"
-#include "csutil/csstring.h"
 
 struct iObject;
 struct iCelEntity;
@@ -51,7 +50,7 @@ class csString;
 #define CEL_PARAM_END (void*)0
 
 /// Parameters used to create an entity from a template.
-typedef csHash<csStringFast<12>, csStringFast<12> > celEntityTemplateParams;
+typedef csHash<csStrKey, csStrKey> celEntityTemplateParams;
 
 struct iCelEntityTracker;
 

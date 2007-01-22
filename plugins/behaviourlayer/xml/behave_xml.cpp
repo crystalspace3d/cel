@@ -72,10 +72,10 @@ iPcBillboard* celBehaviourXml::GetBillboard ()
     csRef<iPcBillboard> b = CEL_QUERY_PROPCLASS_ENT (entity, iPcBillboard);
     if (!b)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcbillboard");
       if (pc)
-	b = scfQueryInterface<iPcBillboard> (pc);
+	b = SCF_QUERY_INTERFACE (pc, iPcBillboard);
     }
     billboard = b;
   }
@@ -89,10 +89,10 @@ iPcRules* celBehaviourXml::GetRules ()
     csRef<iPcRules> p = CEL_QUERY_PROPCLASS_ENT (entity, iPcRules);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcrules");
       if (pc)
-	p = scfQueryInterface<iPcRules> (pc);
+	p = SCF_QUERY_INTERFACE (pc, iPcRules);
     }
     rules = p;
   }
@@ -108,10 +108,10 @@ iPcProperties* celBehaviourXml::GetProperties ()
     	iPcProperties);
     if (!p)
     {
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+      csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
       iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
       if (pc)
-	p = scfQueryInterface<iPcProperties> (pc);
+	p = SCF_QUERY_INTERFACE (pc, iPcProperties);
     }
     props = p;
   }
@@ -267,7 +267,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	iCelPropertyClass* /*pc*/,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
-    csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
+    csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
     if (!strcmp (msg_id, "load"))
     {
      csString path,worldname;
@@ -299,7 +299,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
 	  "Couldn't create 'pccamera' property class!");
       return false;
     }
-    pccamera = scfQueryInterface<iPcCamera> (pc);
+    pccamera = SCF_QUERY_INTERFACE (pc, iPcCamera);
     //pccamera->SetMode (iPcCamera::firstperson);
 
     csRef<iPcRegion> pcregion;
@@ -314,7 +314,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     // find path
     csStringArray paths;
     paths.Push ("/lev/");
-    csRef<iVFS> VFS = csQueryRegistry<iVFS> (object_reg);
+    csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
     VFS->PushDir ();
     if (!VFS->ChDirAuto (path.GetData(),&paths,0,worldname.GetData()))
     {
@@ -329,7 +329,7 @@ bool celBehaviourBootstrap::SendMessageV (const char* msg_id,
     VFS->PopDir ();
 		
     // load with pcregion
-    pcregion = scfQueryInterface<iPcRegion> (pc);
+    pcregion = SCF_QUERY_INTERFACE (pc, iPcRegion);
     pcregion->SetWorldFile (path, worldname);
     pcregion->SetRegionName (worldname);
     if (!pcregion->Load ())

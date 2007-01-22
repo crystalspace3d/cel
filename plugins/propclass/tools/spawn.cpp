@@ -26,7 +26,6 @@
 #include "behaviourlayer/behave.h"
 #include "behaviourlayer/bl.h"
 #include "propclass/mesh.h"
-#include "propclass/light.h"
 #include "propclass/linmove.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
@@ -47,7 +46,6 @@
 #include "csgeom/math3d.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
-#include "iengine/light.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
 
@@ -60,7 +58,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.spawn",
     	msg, arg);
@@ -123,9 +121,9 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
   do_name_counter = true;
   do_spawn_unique = false;
 
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   CS_ASSERT (vc != 0);
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   CS_ASSERT (engine != 0);
 
   if (id_repeat_param == csInvalidStringID)
@@ -212,7 +210,7 @@ bool celPcSpawn::PerformActionIndexed (int idx,
         }
         else
         {
-          csRef<iCelBlLayer> bl = csQueryRegistry<iCelBlLayer> (object_reg);
+          csRef<iCelBlLayer> bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
           if (!bl)
             return Report (object_reg,
         	    "Couldn't find behaviour layer in action AddEntityType!");
@@ -453,42 +451,6 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
       }
       else
       {
-        csVector3 pos;
-        if (!spawnposition[number].node.IsEmpty ())
-        {
-          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-              sect->QueryObject (), iMapNode,
-              spawnposition[number].node);
-          if (mapnode)
-            pos = mapnode->GetPosition ();
-          else
-            Report (object_reg, "Can't find node '%s' for trigger!",
-                (const char*)spawnposition[number].node);
-        }
-        else
-        {
-          pos = spawnposition[number].pos;
-        }
-#if 0
-        csRef<iPcLight> pclight = CEL_QUERY_PROPCLASS_ENT (
-            spawninfo[idx].newent, iPcLight);
-        if (pclight)
-        {
-          iMovable* movable = pclight->GetLight ()->GetMovable ();
-          spawnposition[number].reserved = true;
-	  sect->GetLights ()->Add (pclight->GetLight ());
-          movable->SetPosition (sect, pos);
-          movable->GetTransform ().SetO2T (
-                (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-          movable->UpdateMove ();
-	  pclight->GetLight ()->Setup ();
-	  pclight->GetLight ()->Setup ();
-	  printf ("Moved light!\n"); fflush (stdout);
-        }
-#else
-	iPcLight* pclight = 0;
-#endif
-
         csRef<iPcLinearMovement> linmove = CEL_QUERY_PROPCLASS_ENT (
           spawninfo[idx].newent, iPcLinearMovement);
         if (linmove)
@@ -503,20 +465,44 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
         }
         else
         {
+          csVector3 pos;
+          if (!spawnposition[number].node.IsEmpty ())
+          {
+            csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+              sect->QueryObject (), iMapNode,
+              spawnposition[number].node);
+            if (mapnode)
+              pos = mapnode->GetPosition ();
+            else
+              Report (object_reg, "Can't find node '%s' for trigger!",
+                (const char*)spawnposition[number].node);
+          }
+          else
+          {
+            pos = spawnposition[number].pos;
+          }
           csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (
             spawninfo[idx].newent, iPcMesh);
           if (pcmesh)
           {
             iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-            spawnposition[number].reserved = true;
-            movable->SetPosition (sect, pos);
-            movable->GetTransform ().SetO2T (
+            if (movable)
+            {
+              spawnposition[number].reserved = true;
+              movable->SetPosition (sect, pos);
+              movable->GetTransform ().SetO2T (
                 (csMatrix3) csYRotMatrix3 (spawnposition[number].yrot));
-            movable->UpdateMove ();
+              movable->UpdateMove ();
+            }
+            else
+            {
+              Report (object_reg, "Error: entity '%s' is not movable!",
+                spawninfo[idx].newent->GetName ());
+            }
           }
-          if (!pcmesh && !pclight)
+          else
           {
-            Report (object_reg, "Error: entity '%s' is not a mesh or light!",
+            Report (object_reg, "Error: entity '%s' is not a mesh!",
               spawninfo[idx].newent->GetName ());
           }
         }

@@ -139,14 +139,14 @@ PropertyHolder celPcLinearMovement::propinfo;
 celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
   if (!vc)
   {
     MoveReport (object_reg, "iVirtualClock Missing!");
     return;
   }
 
-  engine = csQueryRegistry<iEngine> (object_reg);
+  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
   if (!engine)
   {
     MoveReport (object_reg, "Engine missing!");
@@ -240,19 +240,19 @@ csPtr<iCelDataBuffer> celPcLinearMovement::Save ()
 
   csRef<iCelPropertyClass> pc;
   if (pccolldet)
-    pc = scfQueryInterface<iCelPropertyClass> (pccolldet);
+    pc = SCF_QUERY_INTERFACE (pccolldet, iCelPropertyClass);
   else
     pc = 0;
   databuf->Add (pc);
 
   if (pcmesh)
-    pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
+    pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
   else
     pc = 0;
   databuf->Add (pc);
 
   if (anchor)
-    pc = scfQueryInterface<iCelPropertyClass> (anchor);
+    pc = SCF_QUERY_INTERFACE (anchor, iCelPropertyClass);
   else
     pc = 0;
   databuf->Add (pc);
@@ -276,15 +276,15 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
   iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcCollisionDetection> pccd;
   if (pc)
-    pccd = scfQueryInterface<iPcCollisionDetection> (pc);
+    pccd = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
   pc = databuf->GetPC ();
   pcmesh = 0;
-  if (pc) pcmesh = scfQueryInterface<iPcMesh> (pc);
+  if (pc) pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
 
   pc = databuf->GetPC ();
   if (pc)
   {
-    csRef<iPcMesh> new_anchor = scfQueryInterface<iPcMesh> (pc);
+    csRef<iPcMesh> new_anchor = SCF_QUERY_INTERFACE (pc, iPcMesh);
     LoadAnchor (new_anchor);
   }
 
@@ -385,7 +385,8 @@ bool celPcLinearMovement::GetPropertyIndexed (int idx, const char*& b)
   {
     if (anchor)
     {
-      csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (anchor);
+      csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (anchor,
+      	iCelPropertyClass);
       b = pc->GetEntity ()->GetName ();
     }
     else
@@ -1049,7 +1050,8 @@ void celPcLinearMovement::ExtrapolatePosition (float delta)
     pcmesh->GetMesh ()->GetMovable ()->UpdateMove ();
 
     csRef<iSprite3DState> spstate =
-    	scfQueryInterface<iSprite3DState> (pcmesh->GetMesh ()->GetMeshObject ());
+    	SCF_QUERY_INTERFACE (pcmesh->GetMesh ()->GetMeshObject (),
+    	iSprite3DState);
 
     if (spstate && strcmp (path_actions[path->GetCurrentIndex ()],
     	spstate->GetCurAction ()->GetName ()))
@@ -1184,7 +1186,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
 
   celPcLinearMovement::shift = shift;
 
-  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
 
   if (!pc_cd)
   {
@@ -1194,7 +1196,7 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
       return MoveReport (object_reg,
       	"Could not create property class pccollisiondetection.");
     csRef<iPcCollisionDetection> pctemp;
-    pctemp = scfQueryInterface<iPcCollisionDetection> (pc);
+    pctemp = SCF_QUERY_INTERFACE (pc, iPcCollisionDetection);
 
     pccolldet = pctemp;
   }

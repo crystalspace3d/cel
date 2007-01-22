@@ -44,7 +44,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.inventory",
     	msg, arg);
@@ -80,7 +80,7 @@ celInventoryRewardFactory::~celInventoryRewardFactory ()
 }
 
 csPtr<iQuestReward> celInventoryRewardFactory::CreateReward (
-    iQuest*, const celQuestParams& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celInventoryReward* trig = new celInventoryReward (type,
   	params, entity_par, tag_par, child_entity_par, child_tag_par);
@@ -142,13 +142,13 @@ void celInventoryRewardFactory::SetChildEntityParameter (
 
 celInventoryReward::celInventoryReward (
 	celInventoryRewardType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* entity_par, const char* tag_par,
 	const char* child_entity_par, const char* child_tag_par) :
 	scfImplementationType (this)
 {
   celInventoryReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   child_entity = csStrNew (qm->ResolveParameter (params, child_entity_par));

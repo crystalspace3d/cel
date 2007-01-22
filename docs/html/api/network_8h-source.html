@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,7 +43,7 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PL_NETWORK__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PL_NETWORK__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 <span class="preprocessor">#include "csutil/strset.h"</span>
 <a name="l00026"></a>00026 
@@ -66,9 +66,9 @@
 <a name="l00043"></a>00043 <span class="keyword">struct </span><a class="code" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a>;
 <a name="l00044"></a>00044 <span class="keyword">struct </span>celNetworkServerTotalStats;
 <a name="l00045"></a>00045 
-<a name="l00046"></a>00046 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiCelGame.html">iCelGame</a>, 0, 0, 1);
+<a name="l00046"></a>00046 SCF_VERSION (<a class="code" href="structiCelGame.html">iCelGame</a>, 0, 0, 1);
 <a name="l00047"></a>00047 
-<a name="l00052"></a><a class="code" href="structiCelGame.html">00052</a> <span class="keyword">struct </span><a class="code" href="structiCelGame.html">iCelGame</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00052"></a><a class="code" href="structiCelGame.html">00052</a> <span class="keyword">struct </span><a class="code" href="structiCelGame.html">iCelGame</a> : <span class="keyword">public</span> iBase
 <a name="l00053"></a>00053 {
 <a name="l00057"></a>00057   <span class="keyword">virtual</span> celNetworkGameType <a class="code" href="structiCelGame.html#f5f0c41b23620076dd4603619f814041">GetGameType</a> () <span class="keyword">const </span>= 0;
 <a name="l00058"></a>00058 
@@ -83,17 +83,17 @@
 <a name="l00084"></a>00084   <span class="keyword">virtual</span> <a class="code" href="structiCelGameClient.html">iCelGameClient</a>* <a class="code" href="structiCelGame.html#6e9f791b54a7f2bfff6babbf004ff3a3">GetGameClient</a> () <span class="keyword">const </span>= 0;
 <a name="l00085"></a>00085 };
 <a name="l00086"></a>00086 
-<a name="l00087"></a>00087 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiCelGameFactory.html">iCelGameFactory</a>, 0, 0, 1);
+<a name="l00087"></a>00087 SCF_VERSION (<a class="code" href="structiCelGameFactory.html">iCelGameFactory</a>, 0, 0, 1);
 <a name="l00088"></a>00088 
-<a name="l00101"></a><a class="code" href="structiCelGameFactory.html">00101</a> <span class="keyword">struct </span><a class="code" href="structiCelGameFactory.html">iCelGameFactory</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00101"></a><a class="code" href="structiCelGameFactory.html">00101</a> <span class="keyword">struct </span><a class="code" href="structiCelGameFactory.html">iCelGameFactory</a> : <span class="keyword">public</span> iBase
 <a name="l00102"></a>00102 {
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#c156f42efb474ce51bdd815d24ac4741">SetGameName</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> game_name) = 0;
+<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#c156f42efb474ce51bdd815d24ac4741">SetGameName</a> (csString game_name) = 0;
 <a name="l00110"></a>00110 
-<a name="l00115"></a>00115   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> <a class="code" href="structiCelGameFactory.html#d3bf2046bcd775028cb67c092f64b602">GetGameName</a> () <span class="keyword">const </span>= 0;
+<a name="l00115"></a>00115   <span class="keyword">virtual</span> csString <a class="code" href="structiCelGameFactory.html#d3bf2046bcd775028cb67c092f64b602">GetGameName</a> () <span class="keyword">const </span>= 0;
 <a name="l00116"></a>00116 
-<a name="l00129"></a>00129   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#8b31c94bad5c82c3232ebe1ffd1d67aa">SetProtocolVersion</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> protocol_version) = 0;
+<a name="l00129"></a>00129   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#8b31c94bad5c82c3232ebe1ffd1d67aa">SetProtocolVersion</a> (<span class="keyword">const</span> csString protocol_version) = 0;
 <a name="l00130"></a>00130 
-<a name="l00136"></a>00136   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> <a class="code" href="structiCelGameFactory.html#b66a9d7c3f61bf8ad193bced28ed51d4">GetProtocolVersion</a> () <span class="keyword">const </span>= 0;
+<a name="l00136"></a>00136   <span class="keyword">virtual</span> csString <a class="code" href="structiCelGameFactory.html#b66a9d7c3f61bf8ad193bced28ed51d4">GetProtocolVersion</a> () <span class="keyword">const </span>= 0;
 <a name="l00137"></a>00137 
 <a name="l00144"></a>00144   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#caf75baa0e49d7db41856abb3f3929db">RegisterGameFactoryManager</a> (
 <a name="l00145"></a>00145         <a class="code" href="classcelGameFactoryManager.html">celGameFactoryManager</a>* manager) = 0;
@@ -113,12 +113,12 @@
 <a name="l00200"></a>00200 
 <a name="l00206"></a>00206   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiCelGameFactory.html#2c05f2035c8b36890cc1b054ffaddf79">CloseGame</a> () = 0;
 <a name="l00207"></a>00207 
-<a name="l00211"></a>00211   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#7a6a97f56136bc504c278f2a12e54566">StartRecordingGame</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> filename) = 0;
+<a name="l00211"></a>00211   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#7a6a97f56136bc504c278f2a12e54566">StartRecordingGame</a> (csString filename) = 0;
 <a name="l00212"></a>00212 
 <a name="l00216"></a>00216   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#c9e2167e6cf65890342941d91a0c5481">StopRecordingGame</a> () = 0;
 <a name="l00217"></a>00217 
-<a name="l00224"></a>00224   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#08be756776918350eb68e68092757456">StartPlayBackGame</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> filename, 
-<a name="l00225"></a>00225         <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> start_time, <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> stop_time) = 0;
+<a name="l00224"></a>00224   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameFactory.html#08be756776918350eb68e68092757456">StartPlayBackGame</a> (csString filename, 
+<a name="l00225"></a>00225         csTicks start_time, csTicks stop_time) = 0;
 <a name="l00226"></a>00226 };
 <a name="l00227"></a>00227 
 <a name="l00240"></a><a class="code" href="classcelGameFactoryManager.html">00240</a> <span class="keyword">class </span><a class="code" href="classcelGameFactoryManager.html">celGameFactoryManager</a>
@@ -128,26 +128,26 @@
 <a name="l00252"></a>00252         csTicks server_latency) {}
 <a name="l00253"></a>00253 
 <a name="l00271"></a>00271   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameFactoryManager.html#5033231d4a327aefc3c33b31d060168f">ServerNetworkStateChanged</a> (celServerNetworkState new_state, 
-<a name="l00272"></a>00272         celServerNetworkState previous_state, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> reason = <span class="stringliteral">""</span>) = 0;
+<a name="l00272"></a>00272         celServerNetworkState previous_state, csString reason = <span class="stringliteral">""</span>) = 0;
 <a name="l00273"></a>00273 
 <a name="l00285"></a><a class="code" href="classcelGameFactoryManager.html#b2b906cb592b493f0563221e4238333f">00285</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelGameFactoryManager.html#b2b906cb592b493f0563221e4238333f">InitClient</a> (<a class="code" href="structiCelGame.html">iCelGame</a>* game) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }
 <a name="l00286"></a>00286 
 <a name="l00294"></a><a class="code" href="classcelGameFactoryManager.html#bef391e780d2a9874f70a674cf8b741a">00294</a>   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelGameFactoryManager.html#bef391e780d2a9874f70a674cf8b741a">InitServer</a> (<a class="code" href="structiCelGame.html">iCelGame</a>* game) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }
 <a name="l00295"></a>00295 
-<a name="l00304"></a><a class="code" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">00304</a>   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelDataBuffer&gt;</a> <a class="code" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">GetClientEventBaseline</a> (
+<a name="l00304"></a><a class="code" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">00304</a>   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelGameFactoryManager.html#988219ab5ffebdadbc1b91ea4f29eda5">GetClientEventBaseline</a> (
 <a name="l00305"></a>00305         celClientEventType event_type) { <span class="keywordflow">return</span> 0; }
 <a name="l00306"></a>00306 
-<a name="l00312"></a><a class="code" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">00312</a>   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelDataBuffer&gt;</a> <a class="code" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">GetServerEventBaseline</a> (
+<a name="l00312"></a><a class="code" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">00312</a>   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelGameFactoryManager.html#e05afe2920598098eeccb26327aea192">GetServerEventBaseline</a> (
 <a name="l00313"></a>00313         celServerEventType event_type) { <span class="keywordflow">return</span> 0; }
 <a name="l00314"></a>00314 
-<a name="l00320"></a><a class="code" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">00320</a>   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iCelDataBuffer&gt;</a> <a class="code" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">GetNetworkLinkBaseline</a> (
+<a name="l00320"></a><a class="code" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">00320</a>   <span class="keyword">virtual</span> csPtr&lt;iCelDataBuffer&gt; <a class="code" href="classcelGameFactoryManager.html#1b0660f3f2c949f4c8df6af2053707dd">GetNetworkLinkBaseline</a> (
 <a name="l00321"></a>00321         celNetworkLinkType link_type) { <span class="keywordflow">return</span> 0; }
 <a name="l00322"></a>00322 
 <a name="l00323"></a>00323 };
 <a name="l00324"></a>00324 
-<a name="l00325"></a>00325 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiCelGameServer.html">iCelGameServer</a>, 0, 0, 1);
+<a name="l00325"></a>00325 SCF_VERSION (<a class="code" href="structiCelGameServer.html">iCelGameServer</a>, 0, 0, 1);
 <a name="l00326"></a>00326 
-<a name="l00341"></a><a class="code" href="structiCelGameServer.html">00341</a> <span class="keyword">struct </span><a class="code" href="structiCelGameServer.html">iCelGameServer</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00341"></a><a class="code" href="structiCelGameServer.html">00341</a> <span class="keyword">struct </span><a class="code" href="structiCelGameServer.html">iCelGameServer</a> : <span class="keyword">public</span> iBase
 <a name="l00342"></a>00342 {
 <a name="l00347"></a>00347   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#6cb6d3fd0f3820db6a4c84008f1684f5">RegisterServerManager</a> (<a class="code" href="classcelGameServerManager.html">celGameServerManager</a>* manager) = 0;
 <a name="l00348"></a>00348 
@@ -159,16 +159,16 @@
 <a name="l00365"></a>00365 
 <a name="l00369"></a>00369   <span class="keyword">virtual</span> celPlayerNetworkState <a class="code" href="structiCelGameServer.html#1fdd2b3ad82217d20ff4ab1e32e9ae00">GetPlayerState</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player) = 0;
 <a name="l00370"></a>00370 
-<a name="l00376"></a>00376   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#bd922c17680290d9ff56ae952a02fb17">KickPlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> reason) = 0;
+<a name="l00376"></a>00376   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#bd922c17680290d9ff56ae952a02fb17">KickPlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, csString reason) = 0;
 <a name="l00377"></a>00377 
-<a name="l00385"></a>00385   <span class="keyword">virtual</span> <a class="code" href="structiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> channel_id) = 0;
+<a name="l00385"></a>00385   <span class="keyword">virtual</span> <a class="code" href="structiCelPlayerList.html">iCelPlayerList</a>* <a class="code" href="structiCelGameServer.html#d9f84d3748644041a79a77ffc52b0101">CreateChannel</a> (csStringID channel_id) = 0;
 <a name="l00386"></a>00386 
-<a name="l00391"></a>00391   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#45b7b85b7722f300a32a8e4c7f356bf6">RemoveChannel</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> channel_id) = 0;
+<a name="l00391"></a>00391   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#45b7b85b7722f300a32a8e4c7f356bf6">RemoveChannel</a> (csStringID channel_id) = 0;
 <a name="l00392"></a>00392 
 <a name="l00396"></a>00396   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#b365defd0d72ed26bc9feca9c2eb2d24">LaunchServerEvent</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, 
 <a name="l00397"></a>00397         <a class="code" href="classcelServerEventData.html">celServerEventData</a> &amp;event_data) = 0;
 <a name="l00398"></a>00398 
-<a name="l00402"></a>00402   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#b365defd0d72ed26bc9feca9c2eb2d24">LaunchServerEvent</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> channel_id, 
+<a name="l00402"></a>00402   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#b365defd0d72ed26bc9feca9c2eb2d24">LaunchServerEvent</a> (csStringID channel_id, 
 <a name="l00403"></a>00403         <a class="code" href="classcelServerEventData.html">celServerEventData</a> &amp;event_data) = 0;
 <a name="l00404"></a>00404 
 <a name="l00421"></a>00421   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#edb3d272861232091c72158d8caeeed7">SetNetworkLink</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, 
@@ -177,21 +177,21 @@
 <a name="l00433"></a>00433   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#2226fe2e45a5ed5218fe1902cdf0952c">ChangeLinkControl</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity, <a class="code" href="classcelPlayer.html">celPlayer</a>* player, 
 <a name="l00434"></a>00434         <span class="keywordtype">bool</span> player_controlled) = 0;
 <a name="l00435"></a>00435 
-<a name="l00446"></a>00446   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#edb3d272861232091c72158d8caeeed7">SetNetworkLink</a> (<a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> channel_id, 
+<a name="l00446"></a>00446   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#edb3d272861232091c72158d8caeeed7">SetNetworkLink</a> (csStringID channel_id, 
 <a name="l00447"></a>00447         <a class="code" href="classcelNetworkLinkData.html">celNetworkLinkData</a> &amp;link_data) = 0;
 <a name="l00448"></a>00448 
 <a name="l00453"></a>00453   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#e44a50920a02a43fc35ebaa31d9dfed7">RemoveNetworkLink</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity, <a class="code" href="classcelPlayer.html">celPlayer</a>* player) = 0;
 <a name="l00454"></a>00454 
 <a name="l00459"></a>00459   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#e44a50920a02a43fc35ebaa31d9dfed7">RemoveNetworkLink</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity,
-<a name="l00460"></a>00460         <a class="code" href="dummy.html#gbe4f44c93bfeee85c507a999dccf21dd">csStringID</a> channel_id) = 0;
+<a name="l00460"></a>00460         csStringID channel_id) = 0;
 <a name="l00461"></a>00461 
 <a name="l00469"></a>00469   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#85aee2cd64948525a312287aca56cc7e">ChangeLevel</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* new_game) = 0;
 <a name="l00470"></a>00470 
-<a name="l00476"></a>00476   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#4340ef99e77de2b0339700d4405c50dc">SetNetworkPeriod</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> period) = 0;
+<a name="l00476"></a>00476   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#4340ef99e77de2b0339700d4405c50dc">SetNetworkPeriod</a> (csTicks period) = 0;
 <a name="l00477"></a>00477 
 <a name="l00482"></a>00482   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#c7ca31a371cadb9d58aa1f4cd0881c30">SetMaximumBandwidth</a> (size_t width) = 0;
 <a name="l00483"></a>00483 
-<a name="l00489"></a>00489   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#6c28d9004097fe7023cd4af82a10e213">SetClientTimeOut</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> timeout) = 0;
+<a name="l00489"></a>00489   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#6c28d9004097fe7023cd4af82a10e213">SetClientTimeOut</a> (csTicks timeout) = 0;
 <a name="l00490"></a>00490 
 <a name="l00494"></a>00494   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameServer.html#48175bcad72165ff0d472a12bdad91e0">GetNetworkPlayerStats</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, 
 <a name="l00495"></a>00495         <a class="code" href="structcelNetworkPlayerStats.html">celNetworkPlayerStats</a>&amp; stats) <span class="keyword">const </span>= 0;
@@ -200,9 +200,9 @@
 <a name="l00501"></a>00501         <a class="code" href="structcelNetworkPlayerTotalStats.html">celNetworkPlayerTotalStats</a>&amp; stats) <span class="keyword">const </span>= 0;
 <a name="l00502"></a>00502 };
 <a name="l00503"></a>00503 
-<a name="l00504"></a>00504 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiCelGameClient.html">iCelGameClient</a>, 0, 0, 1);
+<a name="l00504"></a>00504 SCF_VERSION (<a class="code" href="structiCelGameClient.html">iCelGameClient</a>, 0, 0, 1);
 <a name="l00505"></a>00505 
-<a name="l00519"></a><a class="code" href="structiCelGameClient.html">00519</a> <span class="keyword">struct </span><a class="code" href="structiCelGameClient.html">iCelGameClient</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00519"></a><a class="code" href="structiCelGameClient.html">00519</a> <span class="keyword">struct </span><a class="code" href="structiCelGameClient.html">iCelGameClient</a> : <span class="keyword">public</span> iBase
 <a name="l00520"></a>00520 {
 <a name="l00525"></a>00525   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#c711d59e3017062fe6524664eb608290">RegisterClientManager</a> (<a class="code" href="classcelGameClientManager.html">celGameClientManager</a>* manager) = 0;
 <a name="l00526"></a>00526 
@@ -210,21 +210,21 @@
 <a name="l00531"></a>00531 
 <a name="l00537"></a>00537   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#89bc1a1269e364572b58d434b90a2ecd">UpdatePlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player) = 0;
 <a name="l00538"></a>00538 
-<a name="l00542"></a>00542   <span class="keyword">virtual</span> <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> <a class="code" href="structiCelGameClient.html#ca67c50f3709d839171e405a31aa8918">ConvertServerClock</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> server_time) <span class="keyword">const </span>= 0;
+<a name="l00542"></a>00542   <span class="keyword">virtual</span> csTicks <a class="code" href="structiCelGameClient.html#ca67c50f3709d839171e405a31aa8918">ConvertServerClock</a> (csTicks server_time) <span class="keyword">const </span>= 0;
 <a name="l00543"></a>00543 
-<a name="l00548"></a>00548   <span class="keyword">virtual</span> <a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> <a class="code" href="structiCelGameClient.html#b1174ab40fc358ddcf9f2ae6099df749">GetMappedID</a> (<a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> entity_id) <span class="keyword">const </span>= 0;
+<a name="l00548"></a>00548   <span class="keyword">virtual</span> uint <a class="code" href="structiCelGameClient.html#b1174ab40fc358ddcf9f2ae6099df749">GetMappedID</a> (uint entity_id) <span class="keyword">const </span>= 0;
 <a name="l00549"></a>00549 
-<a name="l00554"></a>00554   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelGameClient.html#34d610d547dfa9cea731f808d017145e">GetMappedEntity</a> (<a class="code" href="dummy.html#g91ad9478d81a7aaf2593e8d9c3d06a14">uint</a> entity_id) <span class="keyword">const </span>= 0;
+<a name="l00554"></a>00554   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="structiCelGameClient.html#34d610d547dfa9cea731f808d017145e">GetMappedEntity</a> (uint entity_id) <span class="keyword">const </span>= 0;
 <a name="l00555"></a>00555 
 <a name="l00559"></a>00559   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#bbd38fbb4892af3680c5a78ed67204c3">SetReady</a> () = 0;
 <a name="l00560"></a>00560 
 <a name="l00564"></a>00564   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#5b931754075fb1eae48e6cbc4ef5cbd0">LaunchClientEvent</a> (<a class="code" href="classcelClientEventData.html">celClientEventData</a> &amp;event_data) = 0;
 <a name="l00565"></a>00565 
-<a name="l00569"></a>00569   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#cbca219321e1c5d3293917dd4f1c50e1">SetNetworkPeriod</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> period) = 0;
+<a name="l00569"></a>00569   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#cbca219321e1c5d3293917dd4f1c50e1">SetNetworkPeriod</a> (csTicks period) = 0;
 <a name="l00570"></a>00570 
 <a name="l00575"></a>00575   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#1dabc15bda68c4ce7b34466abfa8a327">SetMaximumBandwidth</a> (size_t width) = 0;
 <a name="l00576"></a>00576 
-<a name="l00581"></a>00581   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#edceff04188a52a3cc1290a985f4bc88">SetServerTimeOut</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> timeout) = 0;
+<a name="l00581"></a>00581   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#edceff04188a52a3cc1290a985f4bc88">SetServerTimeOut</a> (csTicks timeout) = 0;
 <a name="l00582"></a>00582 
 <a name="l00586"></a>00586   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelGameClient.html#9f7e81fb02d8477658d040988c913770">GetNetworkStats</a> (<a class="code" href="structcelNetworkServerStats.html">celNetworkServerStats</a>&amp; stats) <span class="keyword">const </span>= 0;
 <a name="l00587"></a>00587 };
@@ -232,7 +232,7 @@
 <a name="l00602"></a><a class="code" href="classcelGameServerManager.html">00602</a> <span class="keyword">class </span><a class="code" href="classcelGameServerManager.html">celGameServerManager</a>
 <a name="l00603"></a>00603 {
 <a name="l00604"></a>00604  <span class="keyword">public</span>:
-<a name="l00611"></a>00611   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelGameServerManager.html#7099380d2f41b043f3ae2c513cc1a0b2">AuthorizePlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsString.html">csString</a> &amp;reason) = 0;
+<a name="l00611"></a>00611   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classcelGameServerManager.html#7099380d2f41b043f3ae2c513cc1a0b2">AuthorizePlayer</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, csString &amp;reason) = 0;
 <a name="l00612"></a>00612 
 <a name="l00618"></a>00618   <span class="keyword">virtual</span> <a class="code" href="classcelPlayer.html">celPlayer</a>* <a class="code" href="classcelGameServerManager.html#67efb888c26193128c48a1887b5e45ee">ValidatePlayerUpdate</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* previous_player_data) = 0;
 <a name="l00619"></a>00619 
@@ -241,7 +241,7 @@
 <a name="l00625"></a>00625         celPlayerNetworkState previous_state) = 0;
 <a name="l00626"></a>00626 
 <a name="l00630"></a>00630   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameServerManager.html#5bbf3b77ea631e94e5f8c1fccb97e4db">HandleClientEvent</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, 
-<a name="l00631"></a>00631         celClientEventType event_type, <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> event_time, 
+<a name="l00631"></a>00631         celClientEventType event_type, csTicks event_time, 
 <a name="l00632"></a>00632         <a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* event_data) = 0;
 <a name="l00633"></a>00633 
 <a name="l00642"></a>00642   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameServerManager.html#1bd1f5db329bf4f59b10ee3ef6835491">PersistenceProblem</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player, <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity,
@@ -256,16 +256,16 @@
 <a name="l00670"></a>00670   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#8527af0860e7ecdef1053f7db9d4dd32">PlayerValidated</a> (<a class="code" href="classcelPlayer.html">celPlayer</a>* player) = 0;
 <a name="l00671"></a>00671 
 <a name="l00675"></a>00675   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#968634071bd19f2e641947140b4ce3c8">HandleServerEvent</a> (celServerEventType event_type, 
-<a name="l00676"></a>00676         <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> event_time, <a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* event_data) = 0;
+<a name="l00676"></a>00676         csTicks event_time, <a class="code" href="structiCelDataBuffer.html">iCelDataBuffer</a>* event_data) = 0;
 <a name="l00677"></a>00677 
 <a name="l00693"></a>00693   <span class="keyword">virtual</span> <a class="code" href="structiCelEntity.html">iCelEntity</a>* <a class="code" href="classcelGameClientManager.html#5ebea8bf343b566d6817aabf566bf621">CreateNetworkLinkTarget</a> (celNetworkLinkType link_type, 
-<a name="l00694"></a>00694         <a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> creation_time, <a class="code" href="structiCelPersistentDataList.html">iCelPersistentDataList</a>* creation_data, 
+<a name="l00694"></a>00694         csTicks creation_time, <a class="code" href="structiCelPersistentDataList.html">iCelPersistentDataList</a>* creation_data, 
 <a name="l00695"></a>00695         <span class="keywordtype">bool</span> player_controlled) = 0;
 <a name="l00696"></a>00696 
 <a name="l00710"></a>00710   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#1a42f602531b4a95ff887f11058ea677">NetworkLinkControlChanged</a> (<a class="code" href="structiCelEntity.html">iCelEntity</a>* entity, 
 <a name="l00711"></a>00711         <span class="keywordtype">bool</span> player_controlled) = 0;
 <a name="l00712"></a>00712 
-<a name="l00717"></a>00717   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#a5b2a07488d63ffc26c7c401381a3ea6">NetworkLinkRemoved</a> (<a class="code" href="dummy.html#g28e82998c4c2d1197a1d412bba7da793">csTicks</a> deletion_time,
+<a name="l00717"></a>00717   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#a5b2a07488d63ffc26c7c401381a3ea6">NetworkLinkRemoved</a> (csTicks deletion_time,
 <a name="l00718"></a>00718         <a class="code" href="structiCelEntity.html">iCelEntity</a>* entity) = 0;
 <a name="l00719"></a>00719 
 <a name="l00724"></a>00724   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classcelGameClientManager.html#237ee6c3a3904eafd3d021f06558ee4b">LevelChanged</a> (<a class="code" href="classcelGameInfo.html">celGameInfo</a>* new_game) = 0;

@@ -29,7 +29,6 @@ struct iPcNavLink;
 struct iPcNavNode;
 struct iPcNavGraphRules;
 struct iSector;
-struct iPcRegion;
 
 SCF_VERSION (iPcNavGraphRules, 0, 0, 1);
 
@@ -38,27 +37,27 @@ SCF_VERSION (iPcNavGraphRules, 0, 0, 1);
  */
 struct iPcNavGraphRules : public iBase
 {
-  /**
+  /** 
    * Various virtual methods that can be used to change the graph behaviour.
    * Checks visibility and assigns navigation flags.
    */
   virtual int TraverseLink (iPcNavGraph* graph, iSector* sector,
   	iPcNavLink* plink, iCelEntity* ent ) = 0;
 
-  /**
+  /** 
    * Various virtual methods that can be used to change the graph behaviour.
    * Sorts the final graph.
    */
   virtual void OptimiseGraph (iPcNavGraph* graph) = 0;
 
-  /**
+  /** 
    * Various virtual methods that can be used to change the graph behaviour.
    * Calculate the shortest path between two nodes
    */
   virtual size_t FindShortestPath (iPcNavGraph* graph, size_t iNodeStart,
   	size_t iNodeEnd, size_t* &ipath) = 0;
 
-  /**
+  /** 
    * Various virtual methods that can be used to change the graph behaviour.
    * Find the nearest node to this point.
    */
@@ -123,8 +122,7 @@ struct iPcNavGraph : public iBase
 
   virtual size_t FindNearestNode (csVector3* point, iSector* sector,
   	iCelEntity* ent) = 0;
-  virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd,
-  	size_t*& ipath) = 0;
+  virtual size_t FindShortestPath (size_t iNodeStart, size_t iNodeEnd, size_t*& ipath) = 0;
 };
 
 #endif

@@ -69,9 +69,9 @@ bool celPersistXML::Initialize (iObjectRegistry* object_reg)
 {
   celPersistXML::object_reg = object_reg;
 
-  vfs = csQueryRegistry<iVFS> (object_reg);
+  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
   if (!vfs) return false;
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
+  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
   if (!pl) return false;
   
   return true;
@@ -82,7 +82,7 @@ bool celPersistXML::Report (const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persist.xml",
     	msg, arg);
@@ -581,7 +581,7 @@ bool celPersistXML::ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity)
 
 bool celPersistXML::Load (iCelLocalEntitySet* set, iFile* file)
 {
-  csRef<iDocumentSystem> xml = csQueryRegistry<iDocumentSystem> (object_reg);
+  csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
   if (!xml)
     xml.AttachNew (new csTinyDocumentSystem ());
   csRef<iDocument> doc = xml->CreateDocument ();
@@ -643,7 +643,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, iFile* file)
 
 bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
 {
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.persist.xml", "Loading file '%s'.", name);
   else
@@ -661,7 +661,7 @@ bool celPersistXML::Load (iCelLocalEntitySet* set, const char* name)
 bool celPersistXML::Save (iCelLocalEntitySet* set, iFile* file)
 {
   celPersistXML::set = set;
-  csRef<iDocumentSystem> xml = csQueryRegistry<iDocumentSystem> (object_reg);
+  csRef<iDocumentSystem> xml = CS_QUERY_REGISTRY (object_reg, iDocumentSystem);
   if (!xml)
     xml.AttachNew (new csTinyDocumentSystem ());
   csRef<iDocument> doc = xml->CreateDocument ();
@@ -710,7 +710,7 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, iFile* file)
 
 bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
 {
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->Report (CS_REPORTER_SEVERITY_NOTIFY, "cel.persist.xml", "Saving to file '%s'.", name);
   else
@@ -719,7 +719,7 @@ bool celPersistXML::Save (iCelLocalEntitySet* set, const char* name)
     fflush (stdout);
   }
   csMemFile m;
-  csRef<iFile> mf = scfQueryInterface<iFile> (&m);
+  csRef<iFile> mf = SCF_QUERY_INTERFACE (&m, iFile);
 
   if (Save (set, mf))
   {

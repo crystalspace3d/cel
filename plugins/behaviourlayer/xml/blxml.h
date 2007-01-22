@@ -113,7 +113,7 @@ private:
   csRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
-  csHash<celXmlScript*,csStringBase> scripts_hash;
+  csHash<celXmlScript*,csStrKey> scripts_hash;
   csStringHash xmltokens;
   csStringHash functions;
 
@@ -171,7 +171,7 @@ public:
   iBillboardManager* GetBillboardManager ()
   {
     if (!billboard_mgr)
-      billboard_mgr = csQueryRegistry<iBillboardManager> (object_reg);
+      billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
     return billboard_mgr;
   }
 

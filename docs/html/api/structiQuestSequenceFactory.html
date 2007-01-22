@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iQuestSequenceFactory Struct Reference</h1><!-- doxytag: class="iQuestSequenceFactory" --><!-- doxytag: inherits="iBase" -->A representation of a sequence factory.  
+<h1>iQuestSequenceFactory Struct Reference</h1><!-- doxytag: class="iQuestSequenceFactory" -->A representation of a sequence factory.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-Inheritance diagram for iQuestSequenceFactory:<p><center><img src="structiQuestSequenceFactory__inherit__graph.png" border="0" usemap="#iQuestSequenceFactory__inherit__map" alt="Inheritance graph"></center>
-<map name="iQuestSequenceFactory__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="67,5,125,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiQuestSequenceFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiQuestSequenceFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#42fd9c416d7c446d6f3e18c5f57c5f87">AddDelay</a> (const char *delay)=0</td></tr>
@@ -49,7 +45,7 @@ Inheritance diagram for iQuestSequenceFactory:<p><center><img src="structiQuestS
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#fc11b7da2f7854900a1a25fa6b6ceda0">GetName</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the name of this factory.  <a href="#fc11b7da2f7854900a1a25fa6b6ceda0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#036104c6c798819e9ef01e89d5a1234d">Load</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *node)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestSequenceFactory.html#036104c6c798819e9ef01e89d5a1234d">Load</a> (iDocumentNode *node)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this sequence factory from a document node.  <a href="#036104c6c798819e9ef01e89d5a1234d"></a><br></td></tr>
 </table>
@@ -60,7 +56,7 @@ A sequence factory is basically a sequence of sequence operation factories.
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00501">501</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00500">500</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="42fd9c416d7c446d6f3e18c5f57c5f87"></a><!-- doxytag: member="iQuestSequenceFactory::AddDelay" ref="42fd9c416d7c446d6f3e18c5f57c5f87" args="(const char *delay)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +149,7 @@ Get the name of this factory.
         <tr>
           <td class="memname">virtual bool iQuestSequenceFactory::Load           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *&nbsp;</td>
+          <td class="paramtype">iDocumentNode *&nbsp;</td>
           <td class="paramname"> <em>node</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

@@ -40,7 +40,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.quest",
     	msg, arg);
@@ -144,8 +144,8 @@ csPtr<iCelDataBuffer> celPcQuest::Save ()
   celQuestParams::GlobalIterator it = quest_params.GetIterator ();
   while (it.HasNext ())
   {
-    csStringBase key;
-    csStringBase value = it.Next (key);
+    csStrKey key;
+    csStrKey value = it.Next (key);
     databuf->Add (key);
     databuf->Add (value);
   }

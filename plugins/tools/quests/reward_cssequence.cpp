@@ -41,7 +41,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
+  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.quests.reward.sequence",
     	msg, arg);
@@ -69,7 +69,7 @@ celCsSequenceRewardFactory::~celCsSequenceRewardFactory ()
 }
 
 csPtr<iQuestReward> celCsSequenceRewardFactory::CreateReward (
-    iQuest*, const celQuestParams& params)
+    iQuest*, const csHash<csStrKey,csStrKey>& params)
 {
   celCsSequenceReward* trig = new celCsSequenceReward (type,
   	params, sequence_par, delay_par);
@@ -102,12 +102,12 @@ void celCsSequenceRewardFactory::SetDelayParameter (
 
 celCsSequenceReward::celCsSequenceReward (
 	celCsSequenceRewardType* type,
-  	const celQuestParams& params,
+  	const csHash<csStrKey,csStrKey>& params,
 	const char* sequence_par,
 	const char* delay_par) : scfImplementationType (this)
 {
   celCsSequenceReward::type = type;
-  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
+  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
   eseqmgr = csQueryRegistry<iEngineSequenceManager> (type->object_reg);
   sequence = qm->ResolveParameter (params, sequence_par);
   delay = 0;

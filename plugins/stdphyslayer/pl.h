@@ -68,14 +68,14 @@ class celPlLayer : public iCelPlLayer
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
-  csHash<iCelPropertyClassFactory*,csStringBase> pf_hash;
+  csHash<iCelPropertyClassFactory*,csStrKey> pf_hash;
   csRefArray<iCelBlLayer> bl_list;
 
   csRefArray<iCelEntity> entities;
-  csHash<iCelEntity*,csStringBase> entities_hash;
+  csHash<iCelEntity*,csStrKey> entities_hash;
   bool entities_hash_dirty;
 
-  csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
+  csHash<csRef<celEntityTemplate>, csStrKey> entity_templates;
 
   csRefArray<iCelEntityRemoveCallback> removecallbacks;
   csRefArray<iCelNewEntityCallback> newcallbacks;
@@ -114,9 +114,6 @@ private:
   bool PerformActionTemplate (const ccfPropAct& act, iCelPropertyClass* pc,
   	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
-
-  // Used by CreatePropertyClass*() - makes a guess at propfact id
-  iCelPropertyClassFactory* FindOrLoadPropfact (const char *propname);
 
 public:
   celPlLayer (iBase* parent);

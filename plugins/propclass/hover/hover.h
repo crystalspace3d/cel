@@ -31,6 +31,7 @@
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
 
+#include "propclass/stabiliser_dist.h"
 #include "../mechanics/ticktimer.h"
 
 struct iSector;
@@ -167,6 +168,13 @@ private:
    */
   float Height(csVector3 offset = csVector3(0,0,0),
       bool accurate = false);
+
+  /**
+   * In case of object not being in range in Height(),
+   * extend another beam upwards to calculate reverse distance,
+   * else return infinity
+   */
+  float ReverseHeight(csVector3 &start, iSector *sector);
 
   /**
    * This function computes the angle the ship has to roll through to
