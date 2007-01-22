@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfmover.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.mover</name>
+        <implementation>celPfMover</implementation>
+	<description>CEL Mover Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
