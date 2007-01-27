@@ -3106,7 +3106,7 @@ namespace swig {
 #include "propclass/zone.h"
 
 
-  extern PyObject *    // from crystalspace_python
+  extern CS_IMPORT_SYM PyObject *    // from crystalspace_python
   _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
 
 
