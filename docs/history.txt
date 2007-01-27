@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 27-Jan-2007
 	- res updated mk/jam and mk/autoconf with the latest copy from the
 	  CS repository.
+	- res changed blpython to work more nicely with a shared
+	  crystalspace_python library.
 25-Jan-2007
 	- Darek fixed pcmesh:cel.property.rotation, and small bug in
 	  pclinmove docs.
