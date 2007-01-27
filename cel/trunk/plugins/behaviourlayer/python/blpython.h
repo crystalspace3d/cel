@@ -30,7 +30,7 @@
 
 extern "C" {
   extern void init_cspace ();
-  extern PyObject* csWrapTypedObject (void *, const char *, int own);
+  extern CS_IMPORT_SYM PyObject* csWrapTypedObject (void *, const char *, int own);
 }
 
 class celBlPython : public iCelBlLayer
