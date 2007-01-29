@@ -42,6 +42,9 @@ struct iCamera;
 struct iEngine;
 class csVector3;
 
+CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
+{
+
 /**
  * Factory for mesh.
  */
@@ -425,5 +428,7 @@ public:
   virtual bool GetPropertyIndexed (int, bool&);
 };
 
-#endif // __CEL_PF_MESHFACT__
+}
+CS_PLUGIN_NAMESPACE_END(pfMesh)
 
+#endif // __CEL_PF_MESHFACT__

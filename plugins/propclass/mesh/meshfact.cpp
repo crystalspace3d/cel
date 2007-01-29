@@ -65,6 +65,9 @@
 
 CS_IMPLEMENT_PLUGIN
 
+CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
+{
+
 CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
 CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
 
@@ -86,6 +89,15 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   va_end (arg);
   return false;
+}
+
+static float FixAngle (float angle)
+{
+  if (angle >= PI)
+    angle -= 2.0f * PI;
+  if (angle < -PI)
+    angle += 2.0f * PI;
+  return angle;
 }
 
 //---------------------------------------------------------------------------
@@ -248,11 +260,11 @@ bool celPcMesh::GetPropertyIndexed (int idx, csVector3& v)
         quat.SetMatrix (mesh->GetMovable ()->GetTransform ().GetT2O ());
         quat.GetAxisAngle (vec, ang);
         vec.x *= ang;
-        if (vec.x > PI) vec.x -= 2.0f * PI;
+        vec.x = FixAngle (vec.x);
         vec.y *= ang;
-        if (vec.y > PI) vec.y -= 2.0f * PI;
+        vec.y = FixAngle (vec.y);
         vec.z *= ang;
-        if (vec.z > PI) vec.z -= 2.0f * PI;
+        vec.z = FixAngle (vec.z);
         v.Set (-vec.x, -vec.y, -vec.z);
       }
       else
@@ -1843,3 +1855,5 @@ void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
 
 //---------------------------------------------------------------------------
 
+}
+CS_PLUGIN_NAMESPACE_END(pfMesh)
