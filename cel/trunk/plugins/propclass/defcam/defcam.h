@@ -94,7 +94,7 @@ public:
    */
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot) = 0;
+  	const float actor_yrot) = 0;
 
   /**
    * Setup this mode.
@@ -114,7 +114,7 @@ public:
 
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot);
+  	const float actor_yrot);
   virtual void SetupMode ();
   virtual const char* GetName () { return "firstperson"; }
 };
@@ -126,7 +126,7 @@ public:
 
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot);
+  	const float actor_yrot);
   virtual void SetupMode ();
   virtual const char* GetName () { return "thirdperson"; }
 };
@@ -138,7 +138,7 @@ public:
 
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot);
+  	const float actor_yrot);
   virtual void SetupMode ();
   virtual const char* GetName () { return "m64_thirdperson"; }
 };
@@ -150,7 +150,7 @@ public:
 
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot);
+  	const float actor_yrot);
   virtual void SetupMode ();
   virtual const char* GetName () { return "lara_thirdperson"; }
 };
@@ -162,7 +162,7 @@ public:
 
   virtual void DoCameraCalculations (const csTicks elapsed_ticks,
   	const csVector3& actor_pos, const csVector3& actor_eye,
-	const float actor_yrot);
+  	const float actor_yrot);
   virtual void SetupMode ();
   virtual const char* GetName () { return "freelook"; }
 };
@@ -279,13 +279,13 @@ public://@@@
    * @param sector sector in question
    */
   void DoElasticPhysics (bool isElastic,
-	const csTicks elapsedTicks,
-	const CameraData& deltaIdeal,
-	iSector* sector);
+  	const csTicks elapsedTicks,
+  	const CameraData& deltaIdeal,
+  	iSector* sector);
 
   // Get the last full position from either linmove or mesh.
   void GetLastFullPosition (csVector3& actor_pos,
-	float& actor_yrot, iSector*& actor_sector);
+  	float& actor_yrot, iSector*& actor_sector);
 
   /**
    * SetMode() will delay the setting of the mode until later because
@@ -301,7 +301,8 @@ public://@@@
     action_pointcamera = 0,
     action_setcamera,
     action_setzonemanager,
-    action_centercamera
+    action_centercamera,
+    action_setfollowentity
   };
 
   // For properties.
@@ -927,4 +928,3 @@ public:
 };
 
 #endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__
-

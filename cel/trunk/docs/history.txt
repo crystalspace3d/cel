@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit removed some collectn.h includes from CEL apps.
 	- Darek made separate function for anglefixing and 
 	  plugin namespace for pcmesh.
+	- Darek added xml action pcdefaultcamera:SetFollowEntity. 
 27-Jan-2007
 	- res updated mk/jam and mk/autoconf with the latest copy from the
 	  CS repository.
