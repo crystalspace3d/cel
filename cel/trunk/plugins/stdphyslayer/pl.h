@@ -73,6 +73,7 @@ private:
 
   csRefArray<iCelEntity> entities;
   csHash<iCelEntity*,csStringBase> entities_hash;
+  csHash<csRef<iCelEntityList>,csStringID> entityclasses_hash;
   bool entities_hash_dirty;
 
   csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
@@ -230,7 +231,10 @@ public:
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
 
   virtual int AddScope (csString impl, int size);
-  
+
+  void EntityClassAdded(iCelEntity*,csStringID entclass);
+  void EntityClassRemoved(iCelEntity*,csStringID entclass);
+
   struct Component : public iComponent
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);
