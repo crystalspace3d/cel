@@ -30,7 +30,6 @@
 #include "propclass/linmove.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
-#include "csutil/debug.h"
 #include "csutil/randomgen.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"

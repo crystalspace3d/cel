@@ -61,7 +61,6 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
-#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -112,7 +111,6 @@ HoverTest::~HoverTest ()
 void HoverTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-  csDebuggingGraph::Dump (0);
 }
 
 void HoverTest::ProcessFrame ()

@@ -26,7 +26,6 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
-#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -61,7 +60,6 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
-  DG_TYPE (this, "celPcProperties()");
   if (id_index == csInvalidStringID)
   {
     id_index = pl->FetchStringID ("cel.parameter.index");

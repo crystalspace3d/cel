@@ -19,7 +19,6 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "iutil/objreg.h"
 #include "plugins/propclass/inv/invfact.h"
 #include "physicallayer/pl.h"
@@ -64,8 +63,6 @@ csStringID celPcInventory::id_entity = csInvalidStringID;
 celPcInventory::celPcInventory (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  DG_TYPE (this, "celPcInventory()");
-
   if (id_entity == csInvalidStringID)
     id_entity = pl->FetchStringID ("cel.parameter.entity");
   params = new celOneParameterBlock ();
@@ -166,7 +163,6 @@ bool celPcInventory::AddEntity (iCelEntity* child)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   size_t idx = contents.Push (child);
-  DG_LINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
@@ -179,7 +175,6 @@ bool celPcInventory::AddEntity (iCelEntity* child)
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
     contents.DeleteIndex (idx);
-    DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->RemoveFromInventory ((iPcInventory*)this);
 
@@ -227,7 +222,6 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
   // Add our child. We will later test if this is valid and if
   // not undo this change.
   size_t idx = contents.Push (child);
-  DG_LINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
     child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
@@ -240,7 +234,6 @@ bool celPcInventory::AddEntity (iCelEntity* child, iCelParameterBlock* pparams)
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
     contents.DeleteIndex (idx);
-    DG_UNLINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->RemoveFromInventory ((iPcInventory*)this);
 
@@ -290,7 +283,6 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
   // make sure the entity isn't deleted too early
   csRef<iCelEntity> childref = child;
   contents.DeleteIndex (idx);
-  DG_UNLINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
   	child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
@@ -303,7 +295,6 @@ bool celPcInventory::RemoveEntity (iCelEntity* child)
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
     contents.Push (child);
-    DG_LINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->AddToInventory ((iPcInventory*)this);
     if (space)
@@ -358,7 +349,6 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
   // make sure the entity isn't deleted too early
   csRef<iCelEntity> childref = child;
   contents.DeleteIndex (idx);
-  DG_UNLINK (this, child->QueryObject ());
   csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
     child->GetPropertyClassList (), iPcCharacteristics));
   if (pcchar)
@@ -371,7 +361,6 @@ bool celPcInventory::RemoveEntity (iCelParameterBlock* pparams)
     // Constraints are not ok. Undo our change.
     MarkDirty (0);
     contents.Push (child);
-    DG_LINK (this, child->QueryObject ());
     if (pcchar)
       pcchar->AddToInventory ((iPcInventory*)this);
 

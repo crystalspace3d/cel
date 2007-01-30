@@ -29,7 +29,6 @@
 #include "behaviourlayer/behave.h"
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "csutil/hash.h"
 #include "csutil/set.h"

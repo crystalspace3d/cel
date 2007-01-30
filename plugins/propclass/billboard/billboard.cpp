@@ -27,7 +27,6 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"

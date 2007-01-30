@@ -26,7 +26,6 @@
 #include "iutil/event.h"
 #include "iutil/object.h"
 #include "cstool/initapp.h"
-#include "csutil/debug.h"
 #include "csutil/objreg.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
@@ -584,8 +583,6 @@ SCF_IMPLEMENT_IBASE_END
 celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  DG_TYPE (this, "celPcMechanicsObject()");
-
   scfiDynamicsCollisionCallback = new DynamicsCollisionCallback (this);
 
   btype = CEL_BODY_INVALID;

@@ -19,7 +19,6 @@
 
 #include <cssysdef.h>
 #include <cstool/initapp.h>
-#include <csutil/debug.h>
 #include <csutil/event.h>
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>

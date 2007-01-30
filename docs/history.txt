@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- res updated cel-config to properly handle the new versioned
 	  library file names. (Side note: borrows a lot more code from
 	  cs-config now.)
+	- res removed a bunch of debugging graph uses.
 29-Jan-2007
 	- Jorrit removed some collectn.h includes from CEL apps.
 	- Darek made separate function for anglefixing and 

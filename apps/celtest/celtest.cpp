@@ -62,7 +62,6 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
-#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -112,7 +111,6 @@ CelTest::~CelTest ()
 void CelTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-  csDebuggingGraph::Dump (0);
 }
 
 void CelTest::ProcessFrame ()
@@ -355,8 +353,6 @@ bool CelTest::CreateRoom ()
 
 bool CelTest::OnInitialize (int argc, char* argv[])
 {
-  csDebuggingGraph::SetupGraph (object_reg);
-
   if (!celInitializer::SetupConfigManager (object_reg,
   	"/celconfig/celtest.cfg"))
   {

@@ -25,7 +25,6 @@
 #include "iutil/cfgmgr.h"
 #include "ivideo/graph2d.h"
 #include "csutil/event.h"
-#include "csutil/debug.h"
 #include "csutil/inputdef.h"
 #include "csutil/csevent.h"
 #include "plugins/propclass/input/inpfact.h"

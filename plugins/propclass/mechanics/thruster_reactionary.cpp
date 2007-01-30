@@ -24,7 +24,6 @@
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
-#include "csutil/debug.h"
 #include "csutil/objreg.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
