@@ -20,7 +20,6 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "csutil/debug.h"
 #include "plugins/propclass/wheeled/wheeled.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"

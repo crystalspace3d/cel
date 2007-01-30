@@ -19,7 +19,6 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "plugins/stdphyslayer/propclas.h"
 #include "plugins/stdphyslayer/entity.h"
 
@@ -33,13 +32,11 @@ celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
 {
   SCF_CONSTRUCT_IBASE (0);
   celPropertyClassList::parent_entity = parent_entity;
-  DG_ADDI (this, "celPCList()");
 }
 
 celPropertyClassList::~celPropertyClassList ()
 {
   RemoveAll ();
-  DG_REM (this);
   SCF_DESTRUCT_IBASE ();
 }
 
@@ -61,7 +58,6 @@ size_t celPropertyClassList::Add (iCelPropertyClass* obj)
   obj->SetEntity (parent_entity);
   ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();
-  DG_LINK (this, obj);
   return idx;
 }
 
@@ -70,7 +66,6 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   size_t idx = prop_classes.Find (obj);
   if (idx != csArrayItemNotFound)
   {
-    DG_UNLINK (this, obj);
     obj->SetEntity (0);
     prop_classes.DeleteIndex (idx);
     ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
@@ -128,7 +123,6 @@ bool celPropertyClassList::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
 bool celPropertyClassList::Remove (size_t n)
 {
   CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
-  DG_UNLINK (this, prop_classes[n]);
   prop_classes.DeleteIndex (n);
   ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();

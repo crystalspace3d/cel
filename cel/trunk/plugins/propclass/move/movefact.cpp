@@ -30,7 +30,6 @@
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/scanstr.h"
 #include "iutil/object.h"
@@ -105,7 +104,6 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
@@ -247,7 +245,6 @@ PropertyHolder celPcSolid::propinfo;
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  DG_TYPE (this, "celPcSolid()");
   no_collider = false;
 
   if (id_min == csInvalidStringID)
@@ -431,7 +428,6 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
-  DG_TYPE (this, "celPcMovableConstraintCD()");
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()

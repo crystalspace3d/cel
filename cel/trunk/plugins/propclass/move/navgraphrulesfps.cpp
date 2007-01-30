@@ -32,7 +32,6 @@
 #include "iengine/region.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
-#include "csutil/debug.h"
 #include "ivaria/reporter.h"
 #include "iutil/virtclk.h"
 
@@ -201,7 +200,6 @@ celPcNavGraphRulesFPS::celPcNavGraphRulesFPS (iObjectRegistry* object_reg)
 
   previousent = 0;
 
-  DG_TYPE (this, "celPcNavGraphRulesFPS()");
   MoveNotify (object_reg, "Created a Nav Graph Rules FPS object");
 }
 

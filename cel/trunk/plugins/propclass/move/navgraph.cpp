@@ -63,7 +63,6 @@
 #include "iengine/region.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
-#include "csutil/debug.h"
 #include "ivaria/reporter.h"
 
 #include "plugins/propclass/move/navgraph.h"
@@ -92,7 +91,6 @@ celPcNavLink::celPcNavLink (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavLink);
-  DG_TYPE (this, "celPcNavLink()");
 
   iLinkData = 0;
 }
@@ -146,7 +144,6 @@ celPcNavNode::celPcNavNode (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavNode);
-  DG_TYPE (this, "celPcNavNode()");
 
   pos = csVector3(0,0,0);
 }
@@ -185,7 +182,6 @@ celPcNavGraphRules::celPcNavGraphRules (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraphRules);
-  DG_TYPE (this, "celPcNavGraphRules()");
   MoveNotify (object_reg, "Created a Nav Graph Rules object");
 }
 
@@ -225,7 +221,6 @@ celPcNavGraph::celPcNavGraph (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraph);
-  DG_TYPE (this, "celPcNavGraph()");
 
   navgraphrules = 0;
   region = 0;

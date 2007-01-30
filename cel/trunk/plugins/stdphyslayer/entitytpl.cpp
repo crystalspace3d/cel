@@ -19,7 +19,6 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "plugins/stdphyslayer/entitytpl.h"
 
 #include "behaviourlayer/behave.h"

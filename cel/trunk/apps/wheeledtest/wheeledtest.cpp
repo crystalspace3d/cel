@@ -60,7 +60,6 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
-#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -109,7 +108,6 @@ WheeledTest::~WheeledTest ()
 void WheeledTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
-  csDebuggingGraph::Dump (0);
 }
 
 void WheeledTest::ProcessFrame ()
@@ -382,8 +380,6 @@ bool WheeledTest::CreateMap ()
 
 bool WheeledTest::OnInitialize (int argc, char* argv[])
 {
-  csDebuggingGraph::SetupGraph (object_reg);
-
   if (!celInitializer::RequestPlugins (object_reg,
        CS_REQUEST_VFS,
        CS_REQUEST_OPENGL3D,

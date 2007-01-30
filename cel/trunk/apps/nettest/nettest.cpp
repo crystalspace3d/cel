@@ -60,7 +60,6 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
-#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -494,8 +493,6 @@ bool NetTest::CreateRoom (const csString path, const csString file)
 
 bool NetTest::OnInitialize (int argc, char* argv[])
 {
-  csDebuggingGraph::SetupGraph (object_reg);
-
   // analyse command line arguments
   csRef<iCommandLineParser> cmdline = 
   	csQueryRegistry<iCommandLineParser> (object_reg);

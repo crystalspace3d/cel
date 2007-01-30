@@ -21,7 +21,6 @@
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
 #include "csutil/weakref.h"
-#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"

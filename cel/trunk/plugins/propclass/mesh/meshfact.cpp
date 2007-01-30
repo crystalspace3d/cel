@@ -30,7 +30,6 @@
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "csutil/util.h"
-#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/flags.h"
 #include "csutil/event.h"
@@ -1206,7 +1205,6 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   	CEL_DATA_FLOAT, false, "Maximum Selection Distance.", &max_distance);
 
   SetupEventHandler ();
-  DG_TYPE (this, "celPcMeshSelect()");
 }
 
 celPcMeshSelect::~celPcMeshSelect ()
@@ -1644,22 +1642,7 @@ bool celPcMeshSelect::HandleEvent (iEvent& ev)
 
 void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 {
-#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-  if (celPcMeshSelect::pccamera)
-  {
-    csRef<iCelPropertyClass> pc (
-    	scfQueryInterface<iCelPropertyClass> (celPcMeshSelect::pccamera));
-    DG_UNLINK (this, pc);
-  }
-#endif
   celPcMeshSelect::pccamera = pccamera;
-#if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
-  if (pccamera)
-  {
-    csRef<iCelPropertyClass> pc2 (scfQueryInterface<iCelPropertyClass> (pccamera));
-    DG_LINK (this, pc2);
-  }
-#endif
 }
 
 bool celPcMeshSelect::SetPropertyIndexed (int idx, bool b)
