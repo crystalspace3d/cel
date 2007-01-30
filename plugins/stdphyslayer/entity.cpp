@@ -80,12 +80,19 @@ void celEntity::NotifySiblingPropertyClasses ()
 
 void celEntity::AddClass (csStringID cls)
 {
-  classes.Add (cls);
+  if (!classes.Contains(cls))
+  {
+    classes.AddNoTest (cls);
+    pl->EntityClassAdded(&scfiCelEntity,cls);
+  }
 }
 
 void celEntity::RemoveClass (csStringID cls)
 {
-  classes.Delete (cls);
+  if (classes.Delete (cls))
+  {
+    pl->EntityClassRemoved(&scfiCelEntity,cls);
+  }
 }
 
 bool celEntity::HasClass (csStringID cls)

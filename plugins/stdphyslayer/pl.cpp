@@ -83,6 +83,7 @@ celPlLayer::~celPlLayer ()
 
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
+  entityclasses_hash.DeleteAll ();
 
   if (scfiEventHandler)
   {
@@ -703,14 +704,12 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
   // extra reference to the entity to prevent the entity from being
   // deleted in the call to entities.Delete().
   csRef<iCelEntity> entity = entities[idx];
-
   // First notify the behaviour of the destruction.
   if (entity->GetBehaviour ())
   {
     celData ret;
     entity->GetBehaviour ()->SendMessage ("destruct", 0, ret, 0);
   }
-
   // First register this entity from all trackers.
   size_t i;
   for (i = 0 ; i < trackers.Length () ; i++)
@@ -730,6 +729,11 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
   }
+
+  // remove entity from class trackers
+  csSet<csStringID>::GlobalIterator it = entity->GetClasses().GetIterator();
+  while (it.HasNext())
+    EntityClassRemoved(entity,it.Next());
 
   if (!entities_hash_dirty && entity->GetName ())
     entities_hash.Delete (entity->GetName (), entity);
@@ -1392,5 +1396,22 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
       cbinfo->timed_callbacks.DeleteIndex (i);
     else
       i++;
+}
+
+void celPlLayer::EntityClassAdded(iCelEntity *ent,csStringID entclass)
+{
+  csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
+  if (!list)
+  {
+    list.AttachNew(new celEntityList ());
+    entityclasses_hash.Put(entclass,list);
+  }
+  list->Add(ent);
+}
+
+void celPlLayer::EntityClassRemoved(iCelEntity *ent,csStringID entclass)
+{
+  csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
+  list->Remove(ent);
 }
 
