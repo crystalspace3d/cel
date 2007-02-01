@@ -1398,6 +1398,7 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
       i++;
 }
 
+// Handling of class-entities lists
 void celPlLayer::EntityClassAdded(iCelEntity *ent,csStringID entclass)
 {
   csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
@@ -1414,4 +1415,46 @@ void celPlLayer::EntityClassRemoved(iCelEntity *ent,csStringID entclass)
   csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
   list->Remove(ent);
 }
+
+const csRef<iCelEntityList> celPlLayer::GetClassEntitiesList (
+	csStringID classid)
+{
+  csRef<iCelEntityList> list = entityclasses_hash.Get(classid,0);
+  if (!list)
+  {
+    list.AttachNew(new celEntityList ());
+    entityclasses_hash.Put(classid,list);
+  }
+  return list;
+}
+
+// Send messages to entity lists.
+int celPlLayer::SendMessage (iCelEntityList *entlist, const char* msgname,
+		iCelParameterBlock* params, ...)
+{
+  va_list arg;
+  va_start (arg, params);
+  int responses = SendMessageV (entlist, msgname, params, arg);
+  va_end (arg);
+  return responses;
+}
+
+int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname, 
+		iCelParameterBlock* params, va_list arg)
+{
+  csRef<iCelEntityIterator> it = entlist->GetIterator();
+  celData ret;
+  int responses = 0;
+  while (it->HasNext())
+  {
+    iCelEntity *ent = it->Next();
+    iCelBehaviour *beh = ent->GetBehaviour();
+    if (beh)
+    {
+      responses+=beh->SendMessageV(msgname, 0, ret, params, arg);
+    }
+  }
+  return responses;
+}
+
 

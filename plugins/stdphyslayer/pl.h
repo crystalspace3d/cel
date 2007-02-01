@@ -234,6 +234,12 @@ public:
 
   void EntityClassAdded(iCelEntity*,csStringID entclass);
   void EntityClassRemoved(iCelEntity*,csStringID entclass);
+  virtual const csRef<iCelEntityList> GetClassEntitiesList (csStringID classid);
+
+  virtual int SendMessage (iCelEntityList *entlist, const char* msgname, 
+        iCelParameterBlock* params, ...);
+  virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
+        iCelParameterBlock* params, va_list arg);
 
   struct Component : public iComponent
   {
