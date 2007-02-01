@@ -35,6 +35,7 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
+#include "iengine/movable.h"
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
 #include "isndsys/ss_manager.h"
@@ -42,6 +43,7 @@
 #include "iengine/engine.h"
 #include "iutil/plugin.h"
 #include "ivaria/translator.h"
+#include "ivaria/mapnode.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -57,6 +59,7 @@
 #include "propclass/camera.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
+#include "celtool/navigation.h"
 
 #define DO_DUMP 0
 
@@ -5297,6 +5300,155 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           csRef<iTranslator> translator = csQueryRegistry<iTranslator> (
           	cbl->GetObjectRegistry ());
           top.SetString (translator->GetMsg (ArgToString (top)), true);
+        }
+      break;
+      case CEL_OPERATION_NAVI_ENT_VEC3:
+        {
+          CHECK_STACK(6)
+          celXmlArg a_vector = stack.Pop ();
+          celXmlArg a_visiblevar = stack.Pop ();
+          celXmlArg a_distancevar = stack.Pop ();
+          celXmlArg a_anglevar = stack.Pop ();
+          celXmlArg a_successvar = stack.Pop ();
+          celXmlArg a_navigator = stack.Pop ();
+          iCelEntity* ent = ArgToEntity (a_navigator, pl);
+          if (!ent)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_navigator));
+          csVector3 vector = ArgToVector3 (a_vector);
+          const char* successvar = ArgToString (a_successvar);
+          if (!successvar)
+            return ReportError (cbl,
+            	"Illegal 'successvar' variable for 'navigationinfo'!");
+          const char* anglevar = ArgToString (a_anglevar);
+          if (!anglevar)
+            return ReportError (cbl,
+            	"Illegal 'anglevar' variable for 'navigationinfo'!");
+          const char* distancevar = ArgToString (a_distancevar);
+          if (!distancevar)
+            return ReportError (cbl,
+            	"Illegal 'distancevar' variable for 'navigationinfo'!");
+          const char* visiblevar = ArgToString (a_visiblevar);
+          if (!visiblevar)
+            return ReportError (cbl,
+            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
+          iPcProperties* props = GetProperties (entity, behave);
+          if (!props)
+            return ReportError (cbl, "Can't find properties!");
+          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent, 0, vector);
+          props->SetProperty (successvar, info.success);
+          props->SetProperty (anglevar, info.angle);
+          props->SetProperty (distancevar, info.distance);
+          props->SetProperty (visiblevar, info.visible);
+        }
+      break;
+      case CEL_OPERATION_NAVI_ENT_ENT:
+        {
+          CHECK_STACK(6)
+          celXmlArg a_target = stack.Pop ();
+          celXmlArg a_visiblevar = stack.Pop ();
+          celXmlArg a_distancevar = stack.Pop ();
+          celXmlArg a_anglevar = stack.Pop ();
+          celXmlArg a_successvar = stack.Pop ();
+          celXmlArg a_navigator = stack.Pop ();
+          iCelEntity* ent1 = ArgToEntity (a_navigator, pl);
+          if (!ent1)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_navigator));
+          iCelEntity* ent2 = ArgToEntity (a_target, pl);
+          if (!ent2)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_target));
+          const char* successvar = ArgToString (a_successvar);
+          if (!successvar)
+            return ReportError (cbl,
+            	"Illegal 'successvar' variable for 'navigationinfo'!");
+          const char* anglevar = ArgToString (a_anglevar);
+          if (!anglevar)
+            return ReportError (cbl,
+            	"Illegal 'anglevar' variable for 'navigationinfo'!");
+          const char* distancevar = ArgToString (a_distancevar);
+          if (!distancevar)
+            return ReportError (cbl,
+            	"Illegal 'distancevar' variable for 'navigationinfo'!");
+          const char* visiblevar = ArgToString (a_visiblevar);
+          if (!visiblevar)
+            return ReportError (cbl,
+            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
+          iPcProperties* props = GetProperties (entity, behave);
+          if (!props)
+            return ReportError (cbl, "Can't find properties!");
+          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent1, 0, ent2, 0);
+          props->SetProperty (successvar, info.success);
+          props->SetProperty (anglevar, info.angle);
+          props->SetProperty (distancevar, info.distance);
+          props->SetProperty (visiblevar, info.visible);
+        }
+      break;
+      case CEL_OPERATION_NAVI_ENT_NODE:
+        {
+          CHECK_STACK(6)
+          celXmlArg a_node = stack.Pop ();
+          celXmlArg a_visiblevar = stack.Pop ();
+          celXmlArg a_distancevar = stack.Pop ();
+          celXmlArg a_anglevar = stack.Pop ();
+          celXmlArg a_successvar = stack.Pop ();
+          celXmlArg a_navigator = stack.Pop ();
+          iCelEntity* ent = ArgToEntity (a_navigator, pl);
+          if (!ent)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_navigator));
+          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
+          iMeshWrapper* mesh = pcmesh->GetMesh ();
+          if (!mesh)
+            return ReportError (cbl,
+            	"Can't find mesh in entity '%s'!", A2S (a_navigator));
+          iMovable* movable = mesh->GetMovable ();
+          if (!movable)
+            return ReportError (cbl,
+            	"Can't find movable in entity '%s'!", A2S (a_navigator));
+          iSectorList* sectorlist = movable->GetSectors ();
+          if (!sectorlist)
+            return ReportError (cbl,
+            	"Can't find sector list for entity '%s'!", A2S (a_navigator));
+          iSector* sector = sectorlist->Get (0);
+          if (!sector)
+            return ReportError (cbl,
+            	"Can't find sector for entity '%s'!", A2S (a_navigator));
+          const char* nodename = ArgToString (a_node);
+          if (!nodename)
+            return ReportError (cbl,
+            	"Illegal 'node' variable for 'navigationinfo'!");
+          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
+          	sector->QueryObject (), iMapNode, nodename);
+          if (!mapnode)
+            return ReportError (cbl,
+            	"Can't find node '%s' for 'navigationinfo'!",
+            	(const char*)nodename);
+          const char* successvar = ArgToString (a_successvar);
+          if (!successvar)
+            return ReportError (cbl,
+            	"Illegal 'successvar' variable for 'navigationinfo'!");
+          const char* anglevar = ArgToString (a_anglevar);
+          if (!anglevar)
+            return ReportError (cbl,
+            	"Illegal 'anglevar' variable for 'navigationinfo'!");
+          const char* distancevar = ArgToString (a_distancevar);
+          if (!distancevar)
+            return ReportError (cbl,
+            	"Illegal 'distancevar' variable for 'navigationinfo'!");
+          const char* visiblevar = ArgToString (a_visiblevar);
+          if (!visiblevar)
+            return ReportError (cbl,
+            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
+          iPcProperties* props = GetProperties (entity, behave);
+          if (!props)
+            return ReportError (cbl, "Can't find properties!");
+          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent, 0, mapnode->GetPosition ());
+          props->SetProperty (successvar, info.success);
+          props->SetProperty (anglevar, info.angle);
+          props->SetProperty (distancevar, info.distance);
+          props->SetProperty (visiblevar, info.visible);
         }
       break;
     }
