@@ -12,6 +12,7 @@ The history order is reversed so that new features are at the top.
 	    of entities.
 	  also incremented the pl interface minor version.
 	- Darek added navigation tools to celtool.
+	- Darek added navigation tools to blxml.
 30-Jan-2007
 	- res updated cel-config to properly handle the new versioned
 	  library file names. (Side note: borrows a lot more code from

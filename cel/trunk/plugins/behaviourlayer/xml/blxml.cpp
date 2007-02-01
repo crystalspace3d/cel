@@ -99,6 +99,7 @@ enum
   XMLTOKEN_QUIT,
   XMLTOKEN_HIDEMOUSE,
   XMLTOKEN_SHOWMOUSE,
+  XMLTOKEN_NAVIGATIONINFO,
 
   XMLTOKEN_LAST
 };
@@ -264,6 +265,7 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   xmltokens.Register ("quit", XMLTOKEN_QUIT);
   xmltokens.Register ("hidemouse", XMLTOKEN_HIDEMOUSE);
   xmltokens.Register ("showmouse", XMLTOKEN_SHOWMOUSE);
+  xmltokens.Register ("navigationinfo", XMLTOKEN_NAVIGATIONINFO);
 
   functions.Register ("pc", XMLFUNCTION_PC);
   functions.Register ("pctag", XMLFUNCTION_PCTAG);
@@ -399,7 +401,7 @@ bool celBlXml::ParseExpression (csStringArray& local_vars,
   if (!input && optional_type == CEL_DATA_NONE)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-		"Can't find attribute '%s' for '%s'!", attrname, name);
+    	"Can't find attribute '%s' for '%s'!", attrname, name);
     return false;
   }
   if (!input && optional_type != CEL_DATA_NONE)
@@ -407,21 +409,21 @@ bool celBlXml::ParseExpression (csStringArray& local_vars,
     switch (optional_type)
     {
       case CEL_DATA_STRING:
-	h->AddOperation (CEL_OPERATION_PUSHSTR);
-	h->GetArgument ().SetString (0, false);
-	break;
+        h->AddOperation (CEL_OPERATION_PUSHSTR);
+        h->GetArgument ().SetString (0, false);
+        break;
       case CEL_DATA_LONG:
-	h->AddOperation (CEL_OPERATION_PUSH);
-	h->GetArgument ().SetInt32 (0);
-	break;
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetInt32 (0);
+        break;
       case CEL_DATA_FLOAT:
-	h->AddOperation (CEL_OPERATION_PUSH);
-	h->GetArgument ().SetFloat (0.0f);
-	break;
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetFloat (0.0f);
+        break;
       case CEL_DATA_PCLASS:
-	h->AddOperation (CEL_OPERATION_PUSH);
-      	h->GetArgument ().SetPC (0);
-	break;
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetPC (0);
+        break;
       default: CS_ASSERT (false);
     }
     return true;
@@ -437,7 +439,7 @@ bool celBlXml::ParseExpression (csStringArray& local_vars,
   if (*input != 0)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-		"Unexpected tokens found for '%s'!", buf);
+    	"Unexpected tokens found for '%s'!", buf);
     return false;
   }
 
@@ -492,13 +494,13 @@ bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
     if (!ParseExpression (input, local_vars, child, h, name, 0))
       return false;
     h->AddOperation (
-	fun_id == XMLFUNCTION_PARID
-	  ? CEL_OPERATION_CALCPARID
-	  : fun_id == XMLFUNCTION_PROPID
-	  ? CEL_OPERATION_CALCPROPID
-	  : fun_id == XMLFUNCTION_ACTID
-	  ? CEL_OPERATION_CALCACTID
-	  : CEL_OPERATION_CALCID);
+    	fun_id == XMLFUNCTION_PARID
+    	  ? CEL_OPERATION_CALCPARID
+    	  : fun_id == XMLFUNCTION_PROPID
+    	  ? CEL_OPERATION_CALCPROPID
+    	  : fun_id == XMLFUNCTION_ACTID
+    	  ? CEL_OPERATION_CALCACTID
+    	  : CEL_OPERATION_CALCID);
   }
   return true;
 }
@@ -511,7 +513,7 @@ bool celBlXml::SkipComma (const char*& input, iDocumentNode* child,
   if (token != CEL_TOKEN_COMMA)
   {
     synldr->ReportError ("cel.behaviour.xml", child,
-		    "Expected ',' for '%s'!", name);
+    	    "Expected ',' for '%s'!", name);
     return false;
   }
   return true;
@@ -536,18 +538,18 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
   {
     // Get parameter name.
     if (!ParseID (input, local_vars, child, h, name, str,
-				    XMLFUNCTION_PARID))
+    	XMLFUNCTION_PARID))
       return false;
     input = celXmlParseToken (input, token);
     if (token != CEL_TOKEN_ASSIGN)
     {
       synldr->ReportError ("cel.behaviour.xml", child,
-		  "Expected '=' after parameter for '%s'!", name);
+      	  "Expected '=' after parameter for '%s'!", name);
       return false;
     }
     // Get parameter value.
     if (!ParseExpression (input, local_vars, child, h,
-		  name, CEL_PRIORITY_NORMAL))
+    	name, CEL_PRIORITY_NORMAL))
       return false;
 
     h->AddOperation (CEL_OPERATION_ACTIONPARAM);
@@ -559,7 +561,7 @@ bool celBlXml::ParseAction (const char*& input, const char* pinput,
     if (token != CEL_TOKEN_CLOSECURLY && token != CEL_TOKEN_COMMA)
     {
       synldr->ReportError ("cel.behaviour.xml", child,
-		  "Expected '}' or '=' after parameter value for '%s'!", name);
+      	"Expected '}' or '=' after parameter value for '%s'!", name);
       return false;
     }
   }
@@ -2689,6 +2691,51 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         break;
       case XMLTOKEN_SHOWMOUSE:
         h->AddOperation (CEL_OPERATION_SHOWMOUSE);
+        break;
+      case XMLTOKEN_NAVIGATIONINFO:
+        {
+          if (!ParseExpression (local_vars, child, h, "navigator",
+          	"navigationinfo"))
+            return false;
+          if (!ParseExpression (local_vars, child, h, "successvar",
+          	"navigationinfo"))
+            return false;
+          if (!ParseExpression (local_vars, child, h, "anglevar",
+          	"navigationinfo"))
+            return false;
+          if (!ParseExpression (local_vars, child, h, "distancevar",
+          	"navigationinfo"))
+            return false;
+          if (!ParseExpression (local_vars, child, h, "visiblevar",
+          	"navigationinfo"))
+            return false;
+          if (child->GetAttributeValue ("targetvector"))
+          {
+            if (!ParseExpression (local_vars, child, h, "targetvector",
+            	"navigationinfo"))
+              return false;
+            h->AddOperation (CEL_OPERATION_NAVI_ENT_VEC3);
+            break;
+          }
+          else if (child->GetAttributeValue ("targetentity"))
+          {
+            if (!ParseExpression (local_vars, child, h, "targetentity",
+            	"navigationinfo"))
+              return false;
+            h->AddOperation (CEL_OPERATION_NAVI_ENT_ENT);
+            break;
+          }
+          else if (child->GetAttributeValue ("targetnode"))
+          {
+            if (!ParseExpression (local_vars, child, h, "targetnode",
+            	"navigationinfo"))
+              return false;
+            h->AddOperation (CEL_OPERATION_NAVI_ENT_NODE);
+            break;
+          }
+          else
+            return false;
+        }
         break;
       default:
         synldr->ReportBadToken (child);
