@@ -11,6 +11,7 @@ The history order is reversed so that new features are at the top.
 	  - SendMessage and SendMessageV to send a message to a list
 	    of entities.
 	  also incremented the pl interface minor version.
+	- Darek added navigation tools to celtool.
 30-Jan-2007
 	- res updated cel-config to properly handle the new versioned
 	  library file names. (Side note: borrows a lot more code from
