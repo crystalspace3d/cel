@@ -57,6 +57,7 @@
 #include "propclass/billboard.h"
 #include "propclass/inv.h"
 #include "propclass/camera.h"
+#include "propclass/mesh.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
 #include "celtool/navigation.h"
