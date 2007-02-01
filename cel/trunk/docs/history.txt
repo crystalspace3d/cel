@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Feb-2007
+	- caedes added the following methods to the physical layer:
+	  - GetClassEntitiesList to get a list of all entities with a
+	    certain class, this list is always maintained up to date
+	    by the physical layer.
+	  - SendMessage and SendMessageV to send a message to a list
+	    of entities.
+	  also incremented the pl interface minor version.
 30-Jan-2007
 	- res updated cel-config to properly handle the new versioned
 	  library file names. (Side note: borrows a lot more code from
