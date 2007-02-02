@@ -45,6 +45,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/meshdeform.h"
 #include "propclass/damage.h"
 #include "propclass/quest.h"
+#include "propclass/trigger.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
@@ -612,12 +613,15 @@ CEL_PC(iPcMesh, Mesh, pcmesh)
 
 //-----------------------------------------------------------------------------
 
-// no getters/setters
 %include "propclass/timer.h"
 CEL_PC(iPcTimer, Timer, pctimer)
 
 //-----------------------------------------------------------------------------
 
+%include "propclass/trigger.h"
+CEL_PC(iPcTrigger, Trigger, pctrigger)
+
+//-----------------------------------------------------------------------------
 %include "propclass/projectile.h"
 CEL_PC(iPcProjectile, Projectile, pcprojectile)
 
