@@ -164,6 +164,9 @@
 				RelativePath="..\..\libs\celtool\initapp.cpp">
 			</File>
 			<File
+				RelativePath="..\..\libs\celtool\navigation.cpp">
+			</File>
+			<File
 				RelativePath="..\..\libs\celtool\persisthelper.cpp">
 			</File>
 			<File
@@ -181,6 +184,9 @@
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\initapp.h">
+			</File>
+			<File
+				RelativePath="..\..\libs\celtool\..\..\include\celtool\navigation.h">
 			</File>
 			<File
 				RelativePath="..\..\libs\celtool\..\..\include\celtool\persisthelper.h">

@@ -419,6 +419,9 @@ class iCelPlLayer(cspace.iBase):
     def RemoveCallbackEveryFrame(*args): return _blcelc.iCelPlLayer_RemoveCallbackEveryFrame(*args)
     def RemoveCallbackOnce(*args): return _blcelc.iCelPlLayer_RemoveCallbackOnce(*args)
     def AddScope(*args): return _blcelc.iCelPlLayer_AddScope(*args)
+    def GetClassEntitiesList(*args): return _blcelc.iCelPlLayer_GetClassEntitiesList(*args)
+    def SendMessage(*args): return _blcelc.iCelPlLayer_SendMessage(*args)
+    def SendMessageV(*args): return _blcelc.iCelPlLayer_SendMessageV(*args)
     EntityTemplateCount = property(_blcelc.iCelPlLayer_EntityTemplateCount_get, None, None,
                     "iCelPlLayer.EntityTemplateCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetEntityTemplateCount()")
 
