@@ -2966,10 +2966,11 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_uint_least64_t swig_types[484]
 #define SWIGTYPE_p_unsigned_int swig_types[485]
 #define SWIGTYPE_p_unsigned_long swig_types[486]
-#define SWIGTYPE_p_void swig_types[487]
-#define SWIGTYPE_p_wchar_t swig_types[488]
-static swig_type_info *swig_types[490];
-static swig_module_info swig_module = {swig_types, 489, 0, 0, 0, 0};
+#define SWIGTYPE_p_va_list swig_types[487]
+#define SWIGTYPE_p_void swig_types[488]
+#define SWIGTYPE_p_wchar_t swig_types[489]
+static swig_type_info *swig_types[491];
+static swig_module_info swig_module = {swig_types, 490, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -13038,6 +13039,179 @@ SWIGINTERN PyObject *_wrap_iCelPlLayer_AddScope(PyObject *SWIGUNUSEDPARM(self), 
   resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_GetClassEntitiesList(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  csStringID arg2 ;
+  SwigValueWrapper<csRef<iCelEntityList > > result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned long val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_GetClassEntitiesList",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_GetClassEntitiesList" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_long(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPlLayer_GetClassEntitiesList" "', argument " "2"" of type '" "csStringID""'");
+  } 
+  arg2 = static_cast< csStringID >(val2);
+  result = (arg1)->GetClassEntitiesList(arg2);
+  {
+    /*@SWIG:TYPEMAP_OUT_csRef_BODY@*/
+    csRef<iCelEntityList> ref((csRef<iCelEntityList>&)result); /* explicit cast */
+    resultobj = _csRef_to_Python(csRef<iBase>(
+        (iCelEntityList *)ref), (void *)(iCelEntityList *)ref, "iCelEntityList" " *");
+    /*@SWIG@*/
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_SendMessage__varargs__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *varargs) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelEntityList *arg2 = (iCelEntityList *) 0 ;
+  char *arg3 = (char *) 0 ;
+  iCelParameterBlock *arg4 = (iCelParameterBlock *) 0 ;
+  void *arg5 = 0 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:iCelPlLayer_SendMessage",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_SendMessage" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntityList, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPlLayer_SendMessage" "', argument " "2"" of type '" "iCelEntityList *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntityList * >(argp2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iCelPlLayer_SendMessage" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = buf3;
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_iCelParameterBlock, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "iCelPlLayer_SendMessage" "', argument " "4"" of type '" "iCelParameterBlock *""'"); 
+  }
+  arg4 = reinterpret_cast< iCelParameterBlock * >(argp4);
+  result = (int)(arg1)->SendMessage(arg2,(char const *)arg3,arg4,arg5);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_SendMessage(PyObject *self, PyObject *args) {
+  PyObject *resultobj;
+  PyObject *varargs;
+  PyObject *newargs;
+  
+  newargs = PyTuple_GetSlice(args,0,4);
+  varargs = PyTuple_GetSlice(args,4,PyTuple_Size(args)+1);
+  resultobj = _wrap_iCelPlLayer_SendMessage__varargs__(self,newargs,varargs);
+  Py_XDECREF(newargs);
+  Py_XDECREF(varargs);
+  return resultobj;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_SendMessageV(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelEntityList *arg2 = (iCelEntityList *) 0 ;
+  char *arg3 = (char *) 0 ;
+  iCelParameterBlock *arg4 = (iCelParameterBlock *) 0 ;
+  va_list arg5 ;
+  int result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  void *argp5 ;
+  int res5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:iCelPlLayer_SendMessageV",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_SendMessageV" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntityList, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPlLayer_SendMessageV" "', argument " "2"" of type '" "iCelEntityList *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelEntityList * >(argp2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iCelPlLayer_SendMessageV" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = buf3;
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_iCelParameterBlock, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "iCelPlLayer_SendMessageV" "', argument " "4"" of type '" "iCelParameterBlock *""'"); 
+  }
+  arg4 = reinterpret_cast< iCelParameterBlock * >(argp4);
+  {
+    res5 = SWIG_ConvertPtr(obj4, &argp5, SWIGTYPE_p_va_list,  0  | 0);
+    if (!SWIG_IsOK(res5)) {
+      SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "iCelPlLayer_SendMessageV" "', argument " "5"" of type '" "va_list""'"); 
+    }  
+    if (!argp5) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iCelPlLayer_SendMessageV" "', argument " "5"" of type '" "va_list""'");
+    } else {
+      va_list * temp = reinterpret_cast< va_list * >(argp5);
+      arg5 = *temp;
+      if (SWIG_IsNewObj(res5)) delete temp;
+    }
+  }
+  result = (int)(arg1)->SendMessageV(arg2,(char const *)arg3,arg4,arg5);
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return NULL;
 }
 
@@ -84278,6 +84452,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPlLayer_RemoveCallbackEveryFrame", _wrap_iCelPlLayer_RemoveCallbackEveryFrame, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_RemoveCallbackOnce", _wrap_iCelPlLayer_RemoveCallbackOnce, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_AddScope", _wrap_iCelPlLayer_AddScope, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_GetClassEntitiesList", _wrap_iCelPlLayer_GetClassEntitiesList, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_SendMessage", _wrap_iCelPlLayer_SendMessage, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_SendMessageV", _wrap_iCelPlLayer_SendMessageV, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_EntityTemplateCount_get", _wrap_iCelPlLayer_EntityTemplateCount_get, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_EntityCount_get", _wrap_iCelPlLayer_EntityCount_get, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_EntityAddonAllowed_set", _wrap_iCelPlLayer_EntityAddonAllowed_set, METH_VARARGS, NULL},
@@ -87787,6 +87964,7 @@ static swig_type_info _swigt__p_uint8_t = {"_p_uint8_t", "uint8_t *|uint8 *", 0,
 static swig_type_info _swigt__p_uint_least64_t = {"_p_uint_least64_t", "uint_least64_t *|ulonglong *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_int = {"_p_unsigned_int", "unsigned int *|uint *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_unsigned_long = {"_p_unsigned_long", "unsigned long *|csStringID *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_va_list = {"_p_va_list", "va_list *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_wchar_t = {"_p_wchar_t", "wchar_t *|wint_t *", 0, 0, (void*)0, 0};
 
@@ -88278,6 +88456,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_uint_least64_t,
   &_swigt__p_unsigned_int,
   &_swigt__p_unsigned_long,
+  &_swigt__p_va_list,
   &_swigt__p_void,
   &_swigt__p_wchar_t,
 };
@@ -88769,6 +88948,7 @@ static swig_cast_info _swigc__p_uint8_t[] = {  {&_swigt__p_uint8_t, 0, 0, 0},{0,
 static swig_cast_info _swigc__p_uint_least64_t[] = {  {&_swigt__p_uint_least64_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_int[] = {  {&_swigt__p_unsigned_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_unsigned_long[] = {  {&_swigt__p_unsigned_long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_va_list[] = {  {&_swigt__p_va_list, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_wchar_t[] = {  {&_swigt__p_wchar_t, 0, 0, 0},{0, 0, 0, 0}};
 
@@ -89260,6 +89440,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_uint_least64_t,
   _swigc__p_unsigned_int,
   _swigc__p_unsigned_long,
+  _swigc__p_va_list,
   _swigc__p_void,
   _swigc__p_wchar_t,
 };
