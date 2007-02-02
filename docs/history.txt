@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Feb-2007
+	- caedes added pctrigger to python bindings.
 1-Feb-2007
 	- caedes added the following methods to the physical layer:
 	  - GetClassEntitiesList to get a list of all entities with a
