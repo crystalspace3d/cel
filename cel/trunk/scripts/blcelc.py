@@ -3179,6 +3179,81 @@ celGetSetMesh = _blcelc.celGetSetMesh
 celGetMesh = _blcelc.celGetMesh
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
+class iPcTriggerListener(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTriggerListener, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTriggerListener, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def EntityEnters(*args): return _blcelc.iPcTriggerListener_EntityEnters(*args)
+    def EntityLeaves(*args): return _blcelc.iPcTriggerListener_EntityLeaves(*args)
+    def EnterTrigger(*args): return _blcelc.iPcTriggerListener_EnterTrigger(*args)
+    def LeaveTrigger(*args): return _blcelc.iPcTriggerListener_LeaveTrigger(*args)
+    __swig_destroy__ = _blcelc.delete_iPcTriggerListener
+    __del__ = lambda self : None;
+iPcTriggerListener_swigregister = _blcelc.iPcTriggerListener_swigregister
+iPcTriggerListener_swigregister(iPcTriggerListener)
+celCreateTimer = _blcelc.celCreateTimer
+celGetSetTimer = _blcelc.celGetSetTimer
+celGetTimer = _blcelc.celGetTimer
+
+class iPcTrigger(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcTrigger, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcTrigger, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def AddTriggerListener(*args): return _blcelc.iPcTrigger_AddTriggerListener(*args)
+    def RemoveTriggerListener(*args): return _blcelc.iPcTrigger_RemoveTriggerListener(*args)
+    def SetupTriggerSphere(*args): return _blcelc.iPcTrigger_SetupTriggerSphere(*args)
+    def SetupTriggerBox(*args): return _blcelc.iPcTrigger_SetupTriggerBox(*args)
+    def SetupTriggerBeam(*args): return _blcelc.iPcTrigger_SetupTriggerBeam(*args)
+    def SetupTriggerAboveMesh(*args): return _blcelc.iPcTrigger_SetupTriggerAboveMesh(*args)
+    def MonitorEntity(*args): return _blcelc.iPcTrigger_MonitorEntity(*args)
+    def GetMonitorEntity(*args): return _blcelc.iPcTrigger_GetMonitorEntity(*args)
+    def SetMonitorDelay(*args): return _blcelc.iPcTrigger_SetMonitorDelay(*args)
+    def EnableMonitorInvisible(*args): return _blcelc.iPcTrigger_EnableMonitorInvisible(*args)
+    def EnableMessagesToSelf(*args): return _blcelc.iPcTrigger_EnableMessagesToSelf(*args)
+    def EnableMessagesToOthers(*args): return _blcelc.iPcTrigger_EnableMessagesToOthers(*args)
+    def EnableTrigger(*args): return _blcelc.iPcTrigger_EnableTrigger(*args)
+    def IsEnabled(*args): return _blcelc.iPcTrigger_IsEnabled(*args)
+    def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
+    def Check(*args): return _blcelc.iPcTrigger_Check(*args)
+    _PC = None
+    def _getBasePc(self):
+         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+         _object.__setattr__(self,"_PC",pc)
+    def __getattr__(self,attr):
+         if not self._PC: self._getBasePc()
+         try:
+             return _swig_getattr(self, iPcTrigger, attr)
+         except:
+             pass
+         if hasattr(self._PC,attr):
+             return getattr(self._PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if not self._PC: self._getBasePc()
+         if attr in iPcTrigger.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcTrigger,attr,value)
+         elif hasattr(self._PC,attr):
+             setattr(self._PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    __swig_destroy__ = _blcelc.delete_iPcTrigger
+    __del__ = lambda self : None;
+iPcTrigger_swigregister = _blcelc.iPcTrigger_swigregister
+iPcTrigger_swigregister(iPcTrigger)
+
+scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
 class iPcProjectile(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -3221,9 +3296,9 @@ class iPcProjectile(cspace.iBase):
     __del__ = lambda self : None;
 iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
 iPcProjectile_swigregister(iPcProjectile)
-celCreateTimer = _blcelc.celCreateTimer
-celGetSetTimer = _blcelc.celGetSetTimer
-celGetTimer = _blcelc.celGetTimer
+celCreateTrigger = _blcelc.celCreateTrigger
+celGetSetTrigger = _blcelc.celGetSetTrigger
+celGetTrigger = _blcelc.celGetTrigger
 
 scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
