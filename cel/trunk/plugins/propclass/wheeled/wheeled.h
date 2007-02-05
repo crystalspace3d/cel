@@ -462,7 +462,30 @@ public:
   virtual bool SetPropertyIndexed (int, long);
   virtual bool GetPropertyIndexed (int, float&);
   virtual bool SetPropertyIndexed (int, float);
+
+  //---------- Deprecated methods-------------------//
+  virtual void SetABSEnabled(bool enabled)
+  {celPcWheeled::abs = enabled;}
+  virtual bool GetABSEnabled()
+  {return celPcWheeled::abs;}
+
+  virtual size_t AddWheel(csVector3 position,float turnspeed,
+      float returnspeed, float ss, float sd,float brakepower,float enginepower,
+      float lss, float rss, bool hbaffect, bool sinvert,
+      const char* wheelfact = 0, const char* wheelfile = 0,
+      csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f))
+  {return AddWheel(position, turnspeed, returnspeed, ss, sd, brakepower,
+     enginepower, lss, rss, 0.7f, 10.0f, hbaffect, sinvert, wheelfact,
+     wheelfile, rotation);}
+  virtual void SetFrontWheelPreset(float sensitivity,float enginepower,
+   float suspensionsoftness, float suspensiondamping)
+  {SetFrontWheelPreset(sensitivity, enginepower, suspensionsoftness,
+   suspensiondamping, 0.7f, 10.0f);}
+  virtual void SetRearWheelPreset(float sensitivity,float enginepower,
+   float suspensionsoftness, float suspensiondamping)
+  {SetRearWheelPreset(sensitivity, enginepower, suspensionsoftness,
+   suspensiondamping, 0.7f, 10.0f);}
 };
 
-#endif // __CEL_PF_VEHICLEFACT__
+#endif // __CEL_PF_WHEELEDFACT__
 
