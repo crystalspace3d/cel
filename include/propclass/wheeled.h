@@ -123,7 +123,7 @@ struct iRigidBody;
 
 struct iPcWheeled : public virtual iBase
 {
-  SCF_INTERFACE (iPcWheeled, 0, 0, 1);
+  SCF_INTERFACE (iPcWheeled, 1, 0, 0);
 
   /**
    *  Set the mesh to use for the wheels when not specified. It is expected
@@ -156,6 +156,17 @@ struct iPcWheeled : public virtual iBase
   virtual bool GetTankMode() = 0;
 
   /**
+   * Set if the vehicle uses anti-lock braking. This is renamed to SetABS.
+   *  \param enabled Whether abs is enabled.
+   */
+  CS_DEPRECATED_METHOD virtual void SetABSEnabled(bool enabled) = 0;
+
+  /**
+   * Get if the vehicle uses anti-lock braking. This is renamed to GetABS.
+   */
+  CS_DEPRECATED_METHOD virtual bool GetABSEnabled() = 0;
+
+  /**
    * Set if the vehicle uses anti-lock braking.
    *  \param enabled Whether abs is enabled.
    */
@@ -180,6 +191,19 @@ struct iPcWheeled : public virtual iBase
   virtual size_t AddWheelAuto(csVector3 position, const char* wheelfact = 0,
      const char* wheelfile = 0,
      csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
+
+  /**
+   * Old version of AddWheel, missing parameters for friction and mass.
+   */
+  CS_DEPRECATED_METHOD virtual size_t AddWheel(csVector3 position,
+                       float turnspeed, float returnspeed,
+                       float suspensionsoftness, float suspensiondamping,
+                       float brakepower, float enginepower,
+		       float leftsteersensitivity,
+                       float rightsteersensitivity, bool handbrakeaffect,
+                       bool steerinvert, const char* wheelfact = 0, 
+                       const char* wheelfile = 0,
+                       csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f)) = 0;
 
   /**
    * Add a wheel to the vehicle's wheel layout.
@@ -258,6 +282,12 @@ struct iPcWheeled : public virtual iBase
   virtual void SetOuterWheelSteerPreset(float sensitivity) = 0;
 
   /**
+   * Old deprectated version, missing parameters for friciton and mass.
+   */
+  CS_DEPRECATED_METHOD virtual void SetFrontWheelPreset(float sensitivity,
+     float power, float suspensionsoftness, float suspensiondamping) = 0;
+
+  /**
    * A wheel grouping preset which sets steering amount and drive power to
    * front wheels. Note that changing this will overwrite per-wheel steer
    * and power settings! You will have to set per-wheel settings after you
@@ -273,6 +303,12 @@ struct iPcWheeled : public virtual iBase
   virtual void SetFrontWheelPreset(float sensitivity,float power,
      float suspensionsoftness, float suspensiondamping, float friction,
      float mass) = 0;
+
+  /**
+   * Old deprectated version, missing parameters for friciton and mass.
+   */
+  CS_DEPRECATED_METHOD virtual void SetRearWheelPreset(float sensitivity,
+     float power, float suspensionsoftness, float suspensiondamping) = 0;
 
   /**
    * A wheel grouping preset which sets steering amount and drive power to
