@@ -159,7 +159,6 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
         "pcmechobject",
         "pchover",
         "pccraft",
-        "pcosc",
         (void*)0);
   if (!player) return false;
 
