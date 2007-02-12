@@ -37,7 +37,6 @@ struct iSector;
 
 struct iPcMechanicsObject;
 struct iPcMesh;
-struct iPcDefaultCamera;
 struct iVirtualClock;
 
 /**
@@ -207,8 +206,6 @@ private:
   csWeakRef<iPcMechanicsObject> pcmechobj;
   /// stored mesh interface
   csWeakRef<iPcMesh> pcmesh;
-  /// stored camera interface
-  csWeakRef<iPcDefaultCamera> pccamera;
 };
 
 #endif

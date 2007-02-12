@@ -24,7 +24,6 @@
 
 #include "propclass/mechsys.h"
 #include "propclass/mesh.h"
-#include "propclass/defcam.h"
 
 #include "csgeom/box.h"
 #include "csgeom/math3d.h"
@@ -299,9 +298,7 @@ void celPcHover::PerformStabilising ()
 {
   if (!pcmechobj)
     pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  if (!pccamera)
-    pccamera = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcDefaultCamera);
-  if (!pcmechobj || !pccamera)
+  if (!pcmechobj)
     return;
 
   /* here we get ship info which can be used to calculate
@@ -359,7 +356,7 @@ float celPcHover::Height (csVector3 offset, bool accurate)
   csVector3 start = pcmechobj->GetBody ()->GetPosition () + offset;
   csVector3 end = start + csVector3 (0,-height_beam_cutoff,0);
 
-  iSector *sector = pccamera->GetCamera ()->GetSector ();
+  iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
   csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
   // beam height * proportion of beam hit
   float height = (bres.isect - start).Norm ();
