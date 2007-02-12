@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+11-Feb-2007
+	- David Bronke committed a fix by Christopher Case to the SWIG
+	  bindings that ignores SendMessageV in the physical layer, since it
+	  breaks the bindings.
 06-Feb-2007
 	- Genjix fixed broken hovertest.
 05-Feb-2007
