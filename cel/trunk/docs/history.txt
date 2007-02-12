@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Vincent Knecht removed pchover's dependency on pcdefaultcamera. This
 	  allows correct stabilising even if the entity holding pchover doesn't
 	  have a pcdefaultcamera.
+	- Genjix added imovable.h header.
 11-Feb-2007
 	- David Bronke committed a fix by Christopher Case to the SWIG
 	  bindings that ignores SendMessageV in the physical layer, since it

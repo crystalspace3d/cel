@@ -29,6 +29,7 @@
 #include "csgeom/math3d.h"
 #include "iengine/camera.h"
 #include "iengine/mesh.h"
+#include "iengine/movable.h"
 #include "iengine/sector.h"
 #include "imesh/object.h"
 #include "imesh/objmodel.h"
