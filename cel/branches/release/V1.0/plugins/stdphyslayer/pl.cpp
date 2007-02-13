@@ -329,7 +329,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
 {
   // @@@ This is not an efficient routine. Use only for debugging purposes!
   size_t i;
-  csHash<csRef<celEntityTemplate>, csStrKey>::ConstGlobalIterator it =
+  csHash<csRef<celEntityTemplate>, csStringBase>::ConstGlobalIterator it =
     entity_templates.GetIterator ();
   iCelEntityTemplate* temp = 0;
   for (i = 0 ; i <= idx ; i++)
@@ -367,7 +367,7 @@ csRef<celVariableParameterBlock> celPlLayer::ConvertTemplateParams (
 	  converted_par.Set (entname);
 	  continue;
 	}
-	const char* value = params.Get (parvalue, 0);
+	const char* value = params.Get (parvalue, (const char*)0);
 	switch (par->value.par.partype)
 	{
 	  case CEL_DATA_LONG:
@@ -582,7 +582,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 	case CEL_DATA_PARAMETER:
 	  {
 	    const char* parname = d.value.par.parname->GetData ();
-	    const char* value = params.Get (parname, 0);
+	    const char* value = params.Get (parname, (const char*)0);
 	    if (value)
 	    {
 	      switch (d.value.par.partype)

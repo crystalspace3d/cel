@@ -401,7 +401,7 @@ celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 
 const char* celQuestFactory::GetDefaultParameter (const char* name) const
 {
-  return defaults.Get(name,0);
+  return defaults.Get(name, (const char*)0);
 }
 
 void celQuestFactory::SetDefaultParameter (const char* name,const char* value)
@@ -425,7 +425,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
   {
      result_params=params;
      celQuestParams::GlobalIterator def_it = defaults.GetIterator ();
-     csStrKey it_key;
+     csStringBase it_key;
      const char* name;
      while (def_it.HasNext ())
      {
@@ -1164,7 +1164,7 @@ const char* celQuestManager::ResolveParameter (
 {
   if (param == 0) return param;
   if (*param != '$') return param;
-  const char* val = params.Get (param+1, 0);
+  const char* val = params.Get (param+1, (const char*)0);
   if (!val)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,

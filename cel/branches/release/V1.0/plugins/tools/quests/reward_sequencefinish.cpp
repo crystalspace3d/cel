@@ -76,7 +76,7 @@ celSequenceFinishRewardFactory::~celSequenceFinishRewardFactory ()
 }
 
 csPtr<iQuestReward> celSequenceFinishRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celSequenceFinishReward* trig = new celSequenceFinishReward (type,
   	params, entity_par, tag_par, sequence_par);
@@ -127,7 +127,7 @@ void celSequenceFinishRewardFactory::SetSequenceParameter (
 
 celSequenceFinishReward::celSequenceFinishReward (
 	celSequenceFinishRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* sequence_par) : scfImplementationType (this)
 {

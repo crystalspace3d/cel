@@ -51,7 +51,7 @@ celLightSeqOpFactory::~celLightSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celLightSeqOpFactory::CreateSeqOp (
-    const csHash<csStrKey,csStrKey>& params)
+    const celQuestParams& params)
 {
   celLightSeqOp* seqop = new celLightSeqOp (type,
   	params, entity_par, tag_par,
@@ -132,7 +132,7 @@ static float ToFloat (const char* s)
 
 celLightSeqOp::celLightSeqOp (
 	celLightSeqOpType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const char* rel_red_par, const char* rel_green_par,
 		const char* rel_blue_par,

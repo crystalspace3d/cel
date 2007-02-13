@@ -24,6 +24,7 @@
 #include "csutil/refarr.h"
 #include "csutil/strhash.h"
 #include "csutil/weakref.h"
+#include "csutil/csstring.h"
 #include "csutil/parray.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
@@ -211,8 +212,8 @@ public:
   virtual iQuestTriggerResponseFactory* CreateTriggerResponseFactory ();
 };
 
-typedef csHash<csRef<celQuestStateFactory>,csStrKey> celQuestFactoryStates;
-typedef csHash<csRef<celQuestSequenceFactory>,csStrKey>
+typedef csHash<csRef<celQuestStateFactory>,csStringBase> celQuestFactoryStates;
+typedef csHash<csRef<celQuestSequenceFactory>,csStringBase>
 	celQuestFactorySequences;
 
 /**
@@ -376,10 +377,10 @@ public:
   csWeakRef<iVirtualClock> vc;
 
 private:
-  csHash<csRef<iQuestTriggerType>,csStrKey> trigger_types;
-  csHash<csRef<iQuestRewardType>,csStrKey> reward_types;
-  csHash<csRef<iQuestSeqOpType>,csStrKey> seqop_types;
-  csHash<csRef<celQuestFactory>,csStrKey> quest_factories;
+  csHash<csRef<iQuestTriggerType>,csStringBase> trigger_types;
+  csHash<csRef<iQuestRewardType>,csStringBase> reward_types;
+  csHash<csRef<iQuestSeqOpType>,csStringBase> seqop_types;
+  csHash<csRef<celQuestFactory>,csStringBase> quest_factories;
 
 public:
   celQuestManager (iBase* parent);

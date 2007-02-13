@@ -113,7 +113,7 @@ private:
   csRef<iSyntaxService> synldr;
   csWeakRef<iCelPlLayer> pl;
   csPDelArray<celXmlScript> scripts;
-  csHash<celXmlScript*,csStrKey> scripts_hash;
+  csHash<celXmlScript*,csStringBase> scripts_hash;
   csStringHash xmltokens;
   csStringHash functions;
 

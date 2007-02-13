@@ -73,7 +73,7 @@ celMovePathSeqOpFactory::~celMovePathSeqOpFactory ()
 }
 
 csPtr<iQuestSeqOp> celMovePathSeqOpFactory::CreateSeqOp (
-    const csHash<csStrKey,csStrKey>& params)
+    const celQuestParams& params)
 {
   celMovePathSeqOp* seqop = new celMovePathSeqOp (type,
   	params, entity_par, tag_par, sectors, nodes, times);
@@ -133,7 +133,7 @@ static float ToFloat (const char* s)
 
 celMovePathSeqOp::celMovePathSeqOp (
 	celMovePathSeqOpType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par, const char* tag_par,
 	const csStringArray& sectors, const csStringArray& nodes,
 	const csStringArray& times) : scfImplementationType (this)
