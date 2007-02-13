@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Feb-2007
+	- Vincent Knecht fixed wrong behaviour name in celScrolller widget.
 12-Feb-2007
 	- Vincent Knecht removed pchover's dependency on pcdefaultcamera. This
 	  allows correct stabilising even if the entity holding pchover doesn't
