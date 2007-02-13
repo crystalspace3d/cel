@@ -6,6 +6,11 @@ The history order is reversed so that new features are at the top.
 8-Dec-2006
 	- caedes fixed actormove going back to previous animation after a
 	  jump, and also reordered code a bit.
+	- caedes fixed celInitializer emitting an error when vfs.cfg would
+	  not be found at install path or $CEL path. Now checks also in
+	  application dir, and if not found emits a warning instead.
+	- caedes fixed his previous celInitializer fix to actually look in
+	  application dir instead of working directory.
 3-Dec-2006
 	- Marten changed all csStrKey into csStringBase and thereby
 	  eliminated a couple of hundred warnings.

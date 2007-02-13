@@ -12,6 +12,7 @@ chronological order.
 	- Jorrit merged r2463 into 1.0 (csQueryRegistry).
 	- Jorrit merged r2466 into 1.0 (csStrKey -> csStringBase).
 	- Jorrit merged r2481 into 1.0 (actormove/jump fix).
+	- Jorrit merged r2482:2483 into 1.0 (vfs.cfg finding fixes).
 2-Jan-2007
 	- res bumped the version number back to 1.0rc2.
 29-Nov-2006
