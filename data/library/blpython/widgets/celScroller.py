@@ -20,7 +20,7 @@ class celScroller:
     def additem(self, name, message):
         #Check that its not a dupe
         if name not in self.names:
-            button = pl.CreateEntity(name, self.blpython, 'ioButton')
+            button = pl.CreateEntity(name, self.blpython, 'celButton')
             pars = parblock({'owner' : self.owner, 'message' : message})
             button.Behaviour.SendMessage('setparameters', None, pars)
             pcbb = celBillboard(button)
