@@ -171,7 +171,7 @@ public:
   iBillboardManager* GetBillboardManager ()
   {
     if (!billboard_mgr)
-      billboard_mgr = CS_QUERY_REGISTRY (object_reg, iBillboardManager);
+      billboard_mgr = csQueryRegistry<iBillboardManager> (object_reg);
     return billboard_mgr;
   }
 

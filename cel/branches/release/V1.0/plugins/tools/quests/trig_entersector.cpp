@@ -123,7 +123,7 @@ celEnterSectorTrigger::celEnterSectorTrigger (
 	const char* sector_par) : scfImplementationType (this)
 {
   celEnterSectorTrigger::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = csStrNew (qm->ResolveParameter (params, entity_par));
   tag = csStrNew (qm->ResolveParameter (params, tag_par));
   sector = csStrNew (qm->ResolveParameter (params, sector_par));
@@ -161,7 +161,7 @@ void celEnterSectorTrigger::FindSectorAndCamera ()
   if (camera && sect) return;
   sect = 0;
   camera = 0;
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (type->object_reg);
   if (!engine) return;
   sect = engine->FindSector (sector);
   if (!sect) return;

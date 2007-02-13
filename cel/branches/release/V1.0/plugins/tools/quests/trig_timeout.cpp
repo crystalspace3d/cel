@@ -94,7 +94,7 @@ celTimeoutTrigger::celTimeoutTrigger (
 {
   celTimeoutTrigger::type = type;
   timer = new csEventTimer (type->object_reg);
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   const char* to = qm->ResolveParameter (params, timeout_par);
   if (!to)
     timeout = 1;

@@ -7,6 +7,10 @@ The history order is reversed so that new features are at the top.
 	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 	- res fixed the celstart wrapper script used in the autopackage to
 	  also set the CEL environment variable.
+	- res replaced SCF_QUERY_INTERFACEs with scfQueryInterface<>s.
+	- res replaced some CS_QUERY_REGISTRYs with csQueryRegistry<>s.
+	- res replaced some CS_QUERY_REGISTRY_TAG_INTERFACEs with
+	  csQueryRegistryTagInterface<>s.
 24-Nov-2006
 	- caedes added Jamfile to data/library so it also gets installed.
 	- caedes made the following changes to the cel python behaviour

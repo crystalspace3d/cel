@@ -66,7 +66,7 @@ bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -86,7 +86,7 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.persistence",
     	msg, arg);
@@ -120,13 +120,13 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MOVABLE_SERIAL);
   size_t i;
   csRef<iCelPropertyClass> pc;
-  if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+  if (pcmesh) pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   databuf->Add (pc);
   databuf->Add ((uint16)constraints.Length ());
   for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
-    csRef<iCelPropertyClass> pc = SCF_QUERY_INTERFACE (pcm, iCelPropertyClass);
+    csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (pcm);
     databuf->Add (pc);
   }
   return csPtr<iCelDataBuffer> (databuf);
@@ -144,7 +144,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   csRef<iPcMesh> pcm;
   if (pc)
   {
-    pcm = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    pcm = scfQueryInterface<iPcMesh> (pc);
     CS_ASSERT (pcm != 0);
   }
   SetMesh (pcm);
@@ -152,8 +152,7 @@ bool celPcMovable::Load (iCelDataBuffer* databuf)
   int cnt_constraints = databuf->GetUInt16 ();
   for (i = 0 ; i < cnt_constraints ; i++)
   {
-    csRef<iPcMovableConstraint> pcm = SCF_QUERY_INTERFACE (databuf->GetPC (),
-    	iPcMovableConstraint);
+    csRef<iPcMovableConstraint> pcm = scfQueryInterface<iPcMovableConstraint> (databuf->GetPC ());
     CS_ASSERT (pcm != 0);
     AddConstraint (pcm);
   }
@@ -280,7 +279,7 @@ csPtr<iCelDataBuffer> celPcSolid::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (SOLID_SERIAL);
   csRef<iCelPropertyClass> pc;
-  if (pcmesh) pc = SCF_QUERY_INTERFACE (pcmesh, iCelPropertyClass);
+  if (pcmesh) pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   databuf->Add (pc);
   return csPtr<iCelDataBuffer> (databuf);
 }
@@ -296,7 +295,7 @@ bool celPcSolid::Load (iCelDataBuffer* databuf)
   csRef<iPcMesh> pcm;
   iCelPropertyClass* pc = databuf->GetPC ();
   if (pc)
-    pcm = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    pcm = scfQueryInterface<iPcMesh> (pc);
   SetMesh (pcm);
   return true;
 }
@@ -323,8 +322,8 @@ void celPcSolid::SetupBox (const csBox3& box)
   }
   CS_ASSERT (pcmesh != 0);
   csPolygonMeshBox pmbox (box);
-  csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
-    	iCollideSystem);
+  csRef<iCollideSystem> cdsys = 
+    	csQueryRegistry<iCollideSystem> (object_reg);
   collider_wrap.AttachNew (new csColliderWrapper (
 	pcmesh->GetMesh ()->QueryObject (),
 	cdsys, &pmbox));
@@ -341,8 +340,8 @@ iCollider* celPcSolid::GetCollider ()
   CS_ASSERT (pcmesh != 0);
   if (pcmesh->GetMesh ())
   {
-    csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg,
-    	iCollideSystem);
+    csRef<iCollideSystem> cdsys = 
+    	csQueryRegistry<iCollideSystem> (object_reg);
     CS_ASSERT (cdsys != 0);
     collider_wrap = csColliderHelper::InitializeCollisionWrapper (
     	cdsys, pcmesh->GetMesh ());
@@ -430,7 +429,7 @@ public:
 celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
   DG_TYPE (this, "celPcMovableConstraintCD()");
 }
@@ -536,9 +535,9 @@ PropertyHolder celPcGravity::propinfo;
 celPcGravity::celPcGravity (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
-  cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
   weight = 1;
   is_resting = false;
@@ -582,10 +581,10 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (GRAVITY2_SERIAL);
 
   csRef<iCelPropertyClass> pc;
-  if (pcmovable) pc = SCF_QUERY_INTERFACE (pcmovable, iCelPropertyClass);
+  if (pcmovable) pc = scfQueryInterface<iCelPropertyClass> (pcmovable);
   else pc = 0;
   databuf->Add (pc);
-  if (pcsolid) pc = SCF_QUERY_INTERFACE (pcsolid, iCelPropertyClass);
+  if (pcsolid) pc = scfQueryInterface<iCelPropertyClass> (pcsolid);
   else pc = 0;
   databuf->Add (pc);
 
@@ -617,12 +616,12 @@ bool celPcGravity::Load (iCelDataBuffer* databuf)
 
   pc = databuf->GetPC ();
   csRef<iPcMovable> pcm;
-  if (pc) pcm = SCF_QUERY_INTERFACE (pc, iPcMovable);
+  if (pc) pcm = scfQueryInterface<iPcMovable> (pc);
   SetMovable (pcm);
 
   pc = databuf->GetPC ();
   csRef<iPcSolid> pcs;
-  if (pc) pcs = SCF_QUERY_INTERFACE (pc, iPcSolid);
+  if (pc) pcs = scfQueryInterface<iPcSolid> (pc);
   SetSolid (pcs);
 
   weight = databuf->GetFloat ();

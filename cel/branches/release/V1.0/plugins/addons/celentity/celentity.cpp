@@ -88,7 +88,7 @@ celAddOnCelEntity::~celAddOnCelEntity ()
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 {
   celAddOnCelEntity::object_reg = object_reg;
-  synldr = CS_QUERY_REGISTRY (object_reg, iSyntaxService);
+  synldr = csQueryRegistry<iSyntaxService> (object_reg);
   if (!synldr)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -96,7 +96,7 @@ bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
 	"Can't find syntax services!");
     return false;
   }
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -326,7 +326,7 @@ csPtr<iBase> celAddOnCelEntity::Parse (iDocumentNode* node,
   if (pl->IsEntityAddonAllowed ())
   {
     // If the context is not a mesh we will create a standalone entity.
-    csRef<iMeshWrapper> mesh = SCF_QUERY_INTERFACE (context, iMeshWrapper);
+    csRef<iMeshWrapper> mesh = scfQueryInterface<iMeshWrapper> (context);
     iCelEntity* ent = Load (node, mesh);
     csRef<iBase> ent_return = (iBase*)ent;
     return csPtr<iBase> (ent_return);
@@ -444,7 +444,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
     pc = pl->CreatePropertyClass (ent, "pcmesh");
-    csRef<iPcMesh> pcmesh = SCF_QUERY_INTERFACE (pc, iPcMesh);
+    csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
     pcmesh->SetMesh (mesh);
   }
 
@@ -463,13 +463,12 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
 	  const char* blname = child->GetAttributeValue ("layer");
 	  if (blname)
 	  {
-	    bl = CS_QUERY_REGISTRY_TAG_INTERFACE (object_reg, blname,
-	    	iCelBlLayer);
+	    bl = csQueryRegistryTagInterface<iCelBlLayer> ( object_reg, blname);
 	    if (!bl) bl = pl->FindBehaviourLayer (blname);
 	  }
 	  else
 	  {
-	    bl = CS_QUERY_REGISTRY (object_reg, iCelBlLayer);
+	    bl = csQueryRegistry<iCelBlLayer> (object_reg);
 	  }
 	  if (!bl)
 	  {

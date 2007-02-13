@@ -72,7 +72,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mesh",
     	msg, arg);
@@ -118,7 +118,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   visible = true;
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  engine = csQueryRegistry<iEngine> (object_reg);
 
   if (id_name == csInvalidStringID)
   {
@@ -491,8 +491,8 @@ bool celPcMesh::PerformActionIndexed (int idx,
         if (!p_par_name) return false;
         CEL_FETCH_STRING_PAR (par_type,params,id_type);
         if (!p_par_type) return false;
-        csRef<iStringSet> strset = CS_QUERY_REGISTRY_TAG_INTERFACE(object_reg,
-        	"crystalspace.shared.stringset", iStringSet);
+        csRef<iStringSet> strset = csQueryRegistryTagInterface<iStringSet> (
+        	object_reg, "crystalspace.shared.stringset");
         if (!strcmp(par_type,"float"))
         {
           CEL_FETCH_FLOAT_PAR (par_value,params,id_value);
@@ -761,7 +761,7 @@ bool celPcMesh::Load (iCelDataBuffer* databuf)
 
 iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
 {
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!path.IsEmpty ())
   {
     // If we have a path then we first ChDir to that.
@@ -769,7 +769,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
     vfs->ChDir (path);
   }
 
-  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   CS_ASSERT (loader != 0);
   iBase* result;
   bool success = loader->Load (fileName, result, 0, false, true);
@@ -794,11 +794,11 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   }
   else
   {
-    imeshfact = SCF_QUERY_INTERFACE (result, iMeshFactoryWrapper);
+    imeshfact = scfQueryInterface<iMeshFactoryWrapper> (result);
     if (!imeshfact)
     {
       // Perhaps it is a world file?
-      csRef<iEngine> eng = SCF_QUERY_INTERFACE (result, iEngine);
+      csRef<iEngine> eng = scfQueryInterface<iEngine> (result);
       if (eng)
       {
         imeshfact = engine->FindMeshFactory (factName);
@@ -953,16 +953,16 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
 //   printf("set anim %s\n", actionName);
   if (!actionName) return;
   if (!mesh) return;
-  csRef<iSprite3DState> spr3dstate (SCF_QUERY_INTERFACE (
-  	mesh->GetMeshObject (), iSprite3DState));
+  csRef<iSprite3DState> spr3dstate (
+  	scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
   if (spr3dstate)
   {
     spr3dstate->SetAction (actionName, cycle);
   }
   else
   {
-    csRef<iSpriteCal3DState> sprcal3dstate (SCF_QUERY_INTERFACE (
-    	mesh->GetMeshObject (), iSpriteCal3DState));
+    csRef<iSpriteCal3DState> sprcal3dstate (
+    	scfQueryInterface<iSpriteCal3DState> (mesh->GetMeshObject ()));
     if (sprcal3dstate)
     {
       if (cycle)
@@ -972,16 +972,16 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
     }
     else
     {
-      csRef<iGeneralMeshState> genstate = SCF_QUERY_INTERFACE (
-      	mesh->GetMeshObject (), iGeneralMeshState);
+      csRef<iGeneralMeshState> genstate = 
+      	scfQueryInterface<iGeneralMeshState> (mesh->GetMeshObject ());
       if (genstate)
       {
         csRef<iGenMeshAnimationControl> skelstate = genstate
         	->GetAnimationControl ();
         if (skelstate)
         {
-          csRef<iGenMeshSkeletonControlState> ctlstate = SCF_QUERY_INTERFACE (
-          	skelstate, iGenMeshSkeletonControlState);
+          csRef<iGenMeshSkeletonControlState> ctlstate = 
+          	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
           if (ctlstate)
           {
             csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
@@ -1013,8 +1013,7 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 {
   if (!actionName) return;
   if (!mesh) return;
-  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
-  	iSprite3DState));
+  csRef<iSprite3DState> state (scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
   if (state)
   {
     if (resetaction || strcmp (actionName, state->GetCurAction ()
@@ -1025,8 +1024,7 @@ void celPcMesh::SetAction (const char* actionName, bool resetaction)
 void celPcMesh::SetReverseAction (bool reverse)
 {
   if (!mesh) return;
-  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
-  	iSprite3DState));
+  csRef<iSprite3DState> state (scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
   if (state)
   {
     state->SetReverseAction (reverse);
@@ -1036,8 +1034,7 @@ void celPcMesh::SetReverseAction (bool reverse)
 const char* celPcMesh::GetAction ()
 {
   if (!mesh) return 0;
-  csRef<iSprite3DState> state (SCF_QUERY_INTERFACE (mesh->GetMeshObject (),
-  	iSprite3DState));
+  csRef<iSprite3DState> state (scfQueryInterface<iSprite3DState> (mesh->GetMeshObject ()));
   if (state)
   {
     const char* act = state->GetCurAction ()->GetName ();
@@ -1092,7 +1089,7 @@ celPcMeshSelect::celPcMeshSelect (iObjectRegistry* object_reg)
   do_senddown = true;
   do_sendmove = false;
 
-  mousedrv = CS_QUERY_REGISTRY (object_reg, iMouseDriver);
+  mousedrv = csQueryRegistry<iMouseDriver> (object_reg);
   name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   // Initialize the maximum selection distance to a very large number
@@ -1271,7 +1268,7 @@ csPtr<iCelDataBuffer> celPcMeshSelect::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MESHSEL_SERIAL);
   csRef<iCelPropertyClass> pc;
-  if (pccamera) pc = SCF_QUERY_INTERFACE (pccamera, iCelPropertyClass);
+  if (pccamera) pc = scfQueryInterface<iCelPropertyClass> (pccamera);
   databuf->Add (pc);
   databuf->Add (sel_entity);
   databuf->Add (cur_on_top);
@@ -1298,7 +1295,7 @@ bool celPcMeshSelect::Load (iCelDataBuffer* databuf)
   iCelPropertyClass* pc = databuf->GetPC ();
   if (pc)
   {
-    pcm = SCF_QUERY_INTERFACE (pc, iPcCamera);
+    pcm = scfQueryInterface<iPcCamera> (pc);
     SetCamera (pcm);
   }
 
@@ -1584,8 +1581,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
   if (celPcMeshSelect::pccamera)
   {
     csRef<iCelPropertyClass> pc (
-    	SCF_QUERY_INTERFACE (celPcMeshSelect::pccamera,
-    	iCelPropertyClass));
+    	scfQueryInterface<iCelPropertyClass> (celPcMeshSelect::pccamera));
     DG_UNLINK (this, pc);
   }
 #endif
@@ -1593,8 +1589,7 @@ void celPcMeshSelect::SetCamera (iPcCamera* pccamera)
 #if defined (CS_DEBUG) && defined (CS_USE_GRAPHDEBUG)
   if (pccamera)
   {
-    csRef<iCelPropertyClass> pc2 (SCF_QUERY_INTERFACE (pccamera,
-    	iCelPropertyClass));
+    csRef<iCelPropertyClass> pc2 (scfQueryInterface<iCelPropertyClass> (pccamera));
     DG_LINK (this, pc2);
   }
 #endif

@@ -135,7 +135,7 @@ bool MainApp::OnKeyboard(iEvent& ev)
       // main runloop to stop. To do that we get the event queue from
       // the object registry and then post the event.
       csRef<iEventQueue> q =
-        CS_QUERY_REGISTRY(GetObjectRegistry(), iEventQueue);
+        csQueryRegistry<iEventQueue> (GetObjectRegistry());
       if (q.IsValid()) q->GetEventOutlet()->Broadcast(
 	  csevQuit (GetObjectRegistry ()));
     }
@@ -173,14 +173,14 @@ bool MainApp::Application ()
   if (!OpenApplication (object_reg))
     return ReportError ("Error opening system!");
 
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
-  engine = CS_QUERY_REGISTRY (object_reg, iEngine);
-  loader = CS_QUERY_REGISTRY (object_reg, iLoader);
-  vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
-  kbd = CS_QUERY_REGISTRY (object_reg, iKeyboardDriver);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  engine = csQueryRegistry<iEngine> (object_reg);
+  loader = csQueryRegistry<iLoader> (object_reg);
+  vfs = csQueryRegistry<iVFS> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   bl.AttachNew (new BehaviourLayer(pl));
 
   // We also need to register it to the object registry.

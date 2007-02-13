@@ -65,7 +65,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
-  vc = CS_QUERY_REGISTRY (object_reg, iVirtualClock);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
   DG_TYPE (this, "celPcTimer()");
   if (id_elapsedticks == csInvalidStringID)

@@ -45,7 +45,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR,
     	"cel.quests.seqop.movepath", msg, arg);
@@ -139,7 +139,7 @@ celMovePathSeqOp::celMovePathSeqOp (
 	const csStringArray& times) : scfImplementationType (this)
 {
   celMovePathSeqOp::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   entity = qm->ResolveParameter (params, entity_par);
   tag = qm->ResolveParameter (params, tag_par);
 
@@ -157,7 +157,7 @@ celMovePathSeqOp::celMovePathSeqOp (
 
     if (!sector)
     {
-      csRef<iEngine> engine = CS_QUERY_REGISTRY (type->object_reg, iEngine);
+      csRef<iEngine> engine = csQueryRegistry<iEngine> (type->object_reg);
       sectorname = qm->ResolveParameter (params, sectors[i]);
       sector = engine->FindSector (sectorname);
       if (!sector)
