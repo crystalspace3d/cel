@@ -70,7 +70,7 @@ private:
   csRef<iCelPlLayer> pl;
   csRef<iCelEntity> console_entity;
 
-  csHash<csRef<iCelConsoleCommand>, csStrKey> commands;
+  csHash<csRef<iCelConsoleCommand>, csStringBase> commands;
   csRef<iCelConsoleCommand> override;
   celSnapshot* snapshot;
 

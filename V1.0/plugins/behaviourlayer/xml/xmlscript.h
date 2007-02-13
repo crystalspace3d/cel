@@ -509,7 +509,7 @@ class celXmlScript
 private:
   char* name;
   csPDelArray<celXmlScriptEventHandler> event_handlers;
-  csHash<celXmlScriptEventHandler*,csStrKey> event_handlers_hash;
+  csHash<celXmlScriptEventHandler*,csStringBase> event_handlers_hash;
   iCelPlLayer* pl;
   celXmlScript* superscript;
   csConfigAccess config;

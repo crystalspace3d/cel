@@ -65,7 +65,7 @@ celDestroyEntityRewardFactory::~celDestroyEntityRewardFactory ()
 }
 
 csPtr<iQuestReward> celDestroyEntityRewardFactory::CreateReward (
-    iQuest*, const csHash<csStrKey,csStrKey>& params)
+    iQuest*, const celQuestParams& params)
 {
   celDestroyEntityReward* newquest = new celDestroyEntityReward (type,
   	params, entity_par);
@@ -96,7 +96,7 @@ void celDestroyEntityRewardFactory::SetEntityParameter (
 
 celDestroyEntityReward::celDestroyEntityReward (
 	celDestroyEntityRewardType* type,
-  	const csHash<csStrKey,csStrKey>& params,
+  	const celQuestParams& params,
 	const char* entity_par) : scfImplementationType (this)
 {
   celDestroyEntityReward::type = type;
