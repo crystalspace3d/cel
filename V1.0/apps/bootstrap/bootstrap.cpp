@@ -89,7 +89,7 @@ bool Bootstrap::HandleEvent (iEvent& ev)
     utf32_char code = csKeyEventHelper::GetCookedCode (&ev);
     if (code == CSKEY_ESC)
     {
-      csRef<iEventQueue> q (CS_QUERY_REGISTRY (object_reg, iEventQueue));
+      csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
       if (q)
         q->GetEventOutlet()->Broadcast (csevQuit (object_reg));
       return true;
@@ -145,7 +145,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  g3d = CS_QUERY_REGISTRY (object_reg, iGraphics3D);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
   if (!g3d)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -154,7 +154,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -163,8 +163,8 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
     return false;
   }
 
-  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
-  	iCommandLineParser);
+  csRef<iCommandLineParser> cmdline = 
+  	csQueryRegistry<iCommandLineParser> (object_reg);
   const char* plugin = cmdline->GetName (0);
   const char* behaviour = cmdline->GetName (1);
   if (plugin == 0 || behaviour == 0)
@@ -183,8 +183,8 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
   	plugin, behaviour);
   fflush (stdout);
 
-  csRef<iPluginManager> plugin_mgr = CS_QUERY_REGISTRY (object_reg,
-  	iPluginManager);
+  csRef<iPluginManager> plugin_mgr = 
+  	csQueryRegistry<iPluginManager> (object_reg);
   bl = CS_LOAD_PLUGIN (plugin_mgr, plugin, iCelBlLayer);
   if (!bl)
   {

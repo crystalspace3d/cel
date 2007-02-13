@@ -43,7 +43,7 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -1041,7 +1041,7 @@ void celPcCharacteristics::Dump ()
   {
     iPcInventory* inv = inventories[i];
     csRef<iCelPropertyClass> pc (
-    	SCF_QUERY_INTERFACE (inv, iCelPropertyClass));
+    	scfQueryInterface<iCelPropertyClass> (inv));
     if (pc)
       printf ("  '%s'\n", pc->GetEntity ()->GetName ());
   }

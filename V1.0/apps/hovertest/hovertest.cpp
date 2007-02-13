@@ -244,8 +244,8 @@ bool HoverTest::CreateRoom ()
         "pcmechsys",
 	(void*)0);
 
-  csRef<iCommandLineParser> cmdline = CS_QUERY_REGISTRY (object_reg,
-  	iCommandLineParser);
+  csRef<iCommandLineParser> cmdline = 
+  	csQueryRegistry<iCommandLineParser> (object_reg);
   csString path, file, terrain, terrainfile;
   path = cmdline->GetName (0);
   if (!path.IsEmpty ())
@@ -265,7 +265,7 @@ bool HoverTest::CreateRoom ()
     terrainfile = "world";
   }
 
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs->ChDirAuto (path, 0, 0, file))
     return ReportError ("Bad file path '%s' at '%s'!", file.GetData (),
     	path.GetData ());
@@ -385,11 +385,11 @@ bool HoverTest::Application()
   LOAD_PLUGIN(kbd, iKeyboardDriver);
   LOAD_PLUGIN(pl,  iCelPlLayer);
 
-  pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl)
     return ReportError ("Can't find the CEL physical layer!");
 
-  vfs = CS_QUERY_REGISTRY(r, iVFS);
+  vfs = csQueryRegistry<iVFS> (r);
 
   #define LOAD_PROPERTY_CLASS(class)  if(!pl->LoadPropertyClassFactory(class))\
                                         return ReportError("error loading property class "\

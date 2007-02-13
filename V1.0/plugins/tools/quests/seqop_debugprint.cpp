@@ -91,7 +91,7 @@ celDebugPrintSeqOp::celDebugPrintSeqOp (
 	const char* msg_par) : scfImplementationType (this)
 {
   celDebugPrintSeqOp::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   msg = csStrNew (qm->ResolveParameter (params, msg_par));
 }
 

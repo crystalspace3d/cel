@@ -75,7 +75,7 @@ celBlPython::celBlPython (iBase *iParent) :
 
 celBlPython::~celBlPython ()
 {
-  csRef<iEventQueue> queue = CS_QUERY_REGISTRY(object_reg, iEventQueue);
+  csRef<iEventQueue> queue = csQueryRegistry<iEventQueue> (object_reg);
   if (queue.IsValid())
     queue->RemoveListener(&scfiEventHandler);
   Py_Finalize ();
@@ -91,7 +91,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   celBlPython::object_reg = object_reg;
 
   csRef<iCommandLineParser> cmdline(
-    CS_QUERY_REGISTRY(object_reg, iCommandLineParser));
+    csQueryRegistry<iCommandLineParser> (object_reg));
   use_debugger = cmdline->GetOption("python-enable-debugger") != 0;
 
   Py_SetProgramName ("Crystal Entity Layer -- Python");
@@ -130,7 +130,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   // Store the object registry pointer in 'blcel.object_reg'.
   //RunText ("blcelc.object_reg=blcelc.iObjectRegistryPtr(blcelc.object_reg_ptr)");
 
-  csRef<iCelPlLayer> pl = CS_QUERY_REGISTRY (object_reg, iCelPlLayer);
+  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   // Store the physical layer pointer in 'blcel.physicallayer'.
   Store ("blcelc.physicallayer_ptr", pl, (void *) "iCelPlLayer *");
   //RunText ("blcelc.physicallayer=blcelc.iCelPlLayerPtr(blcelc.physicallayer_ptr)");
@@ -166,7 +166,7 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   }
   
   // Register event queue
-  csRef<iEventQueue> queue = CS_QUERY_REGISTRY(object_reg, iEventQueue);
+  csRef<iEventQueue> queue = csQueryRegistry<iEventQueue> (object_reg);
   if (queue.IsValid())
     queue->RegisterListener(&scfiEventHandler, csevCommandLineHelp(object_reg));
 
@@ -292,7 +292,7 @@ bool celBlPython::LoadModule (const char *path, const char *name)
 
 void celBlPython::Print (bool Error, const char *msg)
 {
-  csRef<iReporter> rep = CS_QUERY_REGISTRY (object_reg, iReporter);
+  csRef<iReporter> rep = csQueryRegistry<iReporter> (object_reg);
   if (!rep)
   {
     csPrintf ("%s\n", msg);

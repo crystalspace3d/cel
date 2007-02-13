@@ -162,7 +162,7 @@ celChangePropertyReward::celChangePropertyReward (
 	bool do_toggle) : scfImplementationType (this)
 {
   celChangePropertyReward::type = type;
-  csRef<iQuestManager> qm = CS_QUERY_REGISTRY (type->object_reg, iQuestManager);
+  csRef<iQuestManager> qm = csQueryRegistry<iQuestManager> (type->object_reg);
   prop = qm->ResolveParameter (params, prop_par);
   entity = qm->ResolveParameter (params, entity_par);
   pc = qm->ResolveParameter (params, pc_par);

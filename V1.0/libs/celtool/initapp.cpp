@@ -113,8 +113,8 @@ bool celInitializer::RequestPlugins(iObjectRegistry* r,
 
 bool celInitializer::LoadMountsFromFile(iObjectRegistry* r, char const* configPath)
 {
-  csRef<iConfigManager> cfg_mgr = CS_QUERY_REGISTRY(r, iConfigManager);
-  csRef<iVFS> vfs = CS_QUERY_REGISTRY(r, iVFS);
+  csRef<iConfigManager> cfg_mgr = csQueryRegistry<iConfigManager> (r);
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (r);
   csRef<iConfigFile> vfs_file = cfg_mgr->AddDomain(configPath, NULL, 0);
   return vfs->LoadMountsFromFile(vfs_file);
 }

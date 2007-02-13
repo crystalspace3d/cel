@@ -67,7 +67,7 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
   va_list arg;
   va_start (arg, msg);
 
-  csRef<iReporter> rep (CS_QUERY_REGISTRY (object_reg, iReporter));
+  csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
     rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
@@ -260,7 +260,7 @@ bool celPcRegion::Load (bool allow_entity_addon)
     return false;
   }
 
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
   iRegion* cur_region = engine->CreateRegion (regionname);
   cur_region->DeleteAll ();
@@ -273,9 +273,9 @@ bool celPcRegion::Load (bool allow_entity_addon)
     return true;
   }
 
-  csRef<iLoader> loader = CS_QUERY_REGISTRY (object_reg, iLoader);
+  csRef<iLoader> loader = csQueryRegistry<iLoader> (object_reg);
   CS_ASSERT (loader != 0);
-  csRef<iVFS> VFS = CS_QUERY_REGISTRY (object_reg, iVFS);
+  csRef<iVFS> VFS = csQueryRegistry<iVFS> (object_reg);
   CS_ASSERT (VFS != 0);
   VFS->PushDir ();
   VFS->ChDir (worlddir);
@@ -317,7 +317,7 @@ bool celPcRegion::Load (bool allow_entity_addon)
   printf ("LoadOK!\n");
 
   // Create colliders for all meshes in this region.
-  csRef<iCollideSystem> cdsys = CS_QUERY_REGISTRY (object_reg, iCollideSystem);
+  csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   csColliderHelper::InitializeCollisionWrappers (cdsys, engine, cur_region);
 
   return true;
@@ -327,7 +327,7 @@ void celPcRegion::Unload ()
 {
   if (!loaded) return;
   loaded = false;
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
 
   iRegion* cur_region = engine->CreateRegion (regionname);
@@ -349,14 +349,14 @@ void celPcRegion::Unload ()
 
 iSector* celPcRegion::FindSector (const char* name)
 {
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   iSector* temp = engine->FindSector (name, GetRegionInternal(engine));
   return temp;
 }
 
 iSector* celPcRegion::GetStartSector (const char* name)
 {
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
   if (empty_sector)
   {
@@ -382,7 +382,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
 csVector3 celPcRegion::GetStartPosition (const char* name)
 {
   if (empty_sector) return csVector3 (0, 0, 0);
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   CS_ASSERT (engine != 0);
   csVector3 pos (0);
   if (engine->GetCameraPositions ()->GetCount () > 0)
@@ -399,7 +399,7 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
 {
   CS_ASSERT(pccamera != 0);
 
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   if (engine->GetCameraPositions()->GetCount() > 0)
   {
     iCameraPosition* campos =
@@ -427,7 +427,7 @@ iRegion* celPcRegion::GetRegion()
   if (!loaded)
     return 0;
 
-  csRef<iEngine> engine = CS_QUERY_REGISTRY (object_reg, iEngine);
+  csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
   iRegion* region = GetRegionInternal(engine);
   CS_ASSERT(region);
   return region;
