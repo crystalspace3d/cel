@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Nov-2006
+	- Darek fixed celPcMechanicsSystem::SetDynamicSystem by creating 
+	  dynsystem if not found. This helps with connecting CS and CEL
+	  dynamic systems.
 29-Nov-2006
 	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 	- res fixed the celstart wrapper script used in the autopackage to
