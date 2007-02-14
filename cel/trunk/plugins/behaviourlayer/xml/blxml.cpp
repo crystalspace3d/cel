@@ -181,7 +181,7 @@ celBlXml::~celBlXml ()
 {
 #if DO_PROFILE
   int i;
-  for (i = 0 ; i < profile_info.Length () ; i++)
+  for (i = 0 ; i < profile_info.GetSize () ; i++)
   {
     celProfileInfo& pi = profile_info[i];
     printf ("%d %d %s\n", pi.time, pi.count, pi.msg);
@@ -1297,7 +1297,7 @@ bool celBlXml::ParseExpressionInt (
 	}
 	size_t i;
 	size_t varidx = (size_t)-1;
-	for (i = 0 ; i < local_vars.Length () ; i++)
+	for (i = 0 ; i < local_vars.GetSize () ; i++)
 	  if (!strcmp (str, local_vars[i]))
 	  {
 	    varidx = i;
@@ -2394,7 +2394,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  }
 	  size_t varidx = (size_t)-1;
 	  size_t i;
-	  for (i = 0 ; i < local_vars.Length () ; i++)
+	  for (i = 0 ; i < local_vars.GetSize () ; i++)
 	    if (!strcmp (varname, local_vars[i]))
 	    {
 	      varidx = i;
@@ -2580,7 +2580,7 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	  }
 	  size_t end_idx = h->GetLastArgumentIndex ()+1;
 	  size_t i;
-	  for (i = 0 ; i < goto_end_idx.Length () ; i++)
+	  for (i = 0 ; i < goto_end_idx.GetSize () ; i++)
 	  {
 	    h->GetArgument (goto_end_idx[i]).SetCodeLocation ((uint32)end_idx);
 	  }

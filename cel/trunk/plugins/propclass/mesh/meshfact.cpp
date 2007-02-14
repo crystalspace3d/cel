@@ -1395,7 +1395,7 @@ void celPcMeshSelect::RemoveMeshSelectListener (iPcMeshSelectListener* listener)
 void celPcMeshSelect::FireListenersDown (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i = listeners.Length ();
+  size_t i = listeners.GetSize ();
   while (i > 0)
   {
     i--;
@@ -1406,7 +1406,7 @@ void celPcMeshSelect::FireListenersDown (int x, int y, int button,
 void celPcMeshSelect::FireListenersUp (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i = listeners.Length ();
+  size_t i = listeners.GetSize ();
   while (i > 0)
   {
     i--;
@@ -1417,7 +1417,7 @@ void celPcMeshSelect::FireListenersUp (int x, int y, int button,
 void celPcMeshSelect::FireListenersMove (int x, int y, int button,
 	iCelEntity* entity)
 {
-  size_t i = listeners.Length ();
+  size_t i = listeners.GetSize ();
   while (i > 0)
   {
     i--;

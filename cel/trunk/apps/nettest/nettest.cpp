@@ -144,7 +144,7 @@ void NetTest::PostProcessFrame ()
     {
       int pos_y = 34;
       size_t i = 0;
-      for ( ; i < gfm->client_manager->comments.Length(); i++)
+      for ( ; i < gfm->client_manager->comments.GetSize(); i++)
       {
 	WriteShadow( 0, 10, pos_y, g2d->FindRGB(119, 130, 122), "%s",
 		gfm->client_manager->comments[i].GetData());

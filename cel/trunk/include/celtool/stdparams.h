@@ -191,19 +191,19 @@ public:
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids.GetExtend (idx) = id;
-    if (idx >= names.Length ())
-      names.SetLength (idx+1);
+    if (idx >= names.GetSize ())
+      names.SetSize (idx+1);
     names.Put (idx, parname);
   }
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   SCF_DECLARE_IBASE;
 
-  virtual size_t GetParameterCount () const { return data.Length (); }
+  virtual size_t GetParameterCount () const { return data.GetSize (); }
   virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const
   {
-    if (/*idx < 0 || */idx >= data.Length ())
+    if (/*idx < 0 || */idx >= data.GetSize ())
     {
       id = csInvalidStringID;
       t = CEL_DATA_NONE;
@@ -216,14 +216,14 @@ public:
   virtual const celData* GetParameter (csStringID id) const
   {
     size_t i;
-    for (i = 0 ; i < data.Length () ; i++)
+    for (i = 0 ; i < data.GetSize () ; i++)
       if (id == ids[i])
         return &data[i];
     return 0;
   }
   virtual const celData* GetParameterByIndex (size_t idx) const
   {
-    return (idx >= data.Length ()) ? 0 : &data[idx];
+    return (idx >= data.GetSize ()) ? 0 : &data[idx];
   }
 };
 

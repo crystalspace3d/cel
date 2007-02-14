@@ -199,7 +199,7 @@ celEntityTracker::~celEntityTracker ()
 {
   if (pl->GetEngine ())
     pl->GetEngine ()->RemoveEngineSectorCallback (sector_cb);
-  while (mesh_cbs.Length () > 0)
+  while (mesh_cbs.GetSize () > 0)
   {
     mesh_cbs[0]->GetSector ()->RemoveSectorMeshCallback (mesh_cbs[0]);
     mesh_cbs.DeleteIndex (0);
@@ -279,7 +279,7 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
 	  {
 	    bool already_visited = false;
 	    size_t l;
-            for (l = 0 ; l < visited_sectors.Length () ; l++)
+            for (l = 0 ; l < visited_sectors.GetSize () ; l++)
             {
               if (visited_sectors[l] == portal->GetSector ())
               {
@@ -354,7 +354,7 @@ void celEntityTracker::RegisterSector (celMeshcb* cb)
 
 void celEntityTracker::UnregisterSector (iSector* sector)
 {
-  size_t i = mesh_cbs.Length ();
+  size_t i = mesh_cbs.GetSize ();
   while (i > 0)
   {
     i--;

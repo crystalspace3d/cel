@@ -146,7 +146,7 @@ static csPDelArray<csString> unused_strings;
 static csString* GetUnusedString ()
 {
   csString* str;
-  if (unused_strings.Length () > 0)
+  if (unused_strings.GetSize () > 0)
     str = unused_strings.Pop ();
   else
     str = 0;
@@ -156,7 +156,7 @@ static csString* GetUnusedString ()
 
 static void CleanupTemporaryStrings ()
 {
-  while (used_strings.Length () > 0)
+  while (used_strings.GetSize () > 0)
   {
     csString* str = used_strings.Pop ();
     unused_strings.Push (str);
@@ -1290,7 +1290,7 @@ void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
 {
   size_t i;
   printf ("### Callstack ###\n");
-  for (i = 0 ; i < cbl->call_stack.Length () ; i++)
+  for (i = 0 ; i < cbl->call_stack.GetSize () ; i++)
   {
     printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i],
 	cbl->call_stack_entity[i]->GetName ());
@@ -1411,7 +1411,7 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
 
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
-  if (stack.Length () < i) \
+  if (stack.GetSize () < i) \
     return ReportError (cbl, "Stack underflow!");
 #else
 #define CHECK_STACK(i)
@@ -1427,7 +1427,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   csRef<iCelEntity> e = entity;
   bool varprop_trace = cbl->varprop_trace;
 
-  size_t stack_size = stack.Length () + expected_stack_size;
+  size_t stack_size = stack.GetSize () + expected_stack_size;
   size_t i = startop;
   if (startop == 0)
   {
@@ -1443,7 +1443,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     switch (op.op)
     {
       case CEL_OPERATION_END:
-        if (stack_size != stack.Length ())
+        if (stack_size != stack.GetSize ())
 	{
 	  return ReportError (cbl, "Stack size mismatch!");
 	}
@@ -3469,7 +3469,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DEREFRVARENT:
         {
 	  CHECK_STACK(2)
-	  celXmlArg& s_ent = stack[stack.Length ()-2];
+	  celXmlArg& s_ent = stack[stack.GetSize ()-2];
 	  iCelEntity* other_ent = ArgToEntity (s_ent, pl);
 	  iPcRules* rules = GetRules (other_ent, 0);
 	  if (rules)
@@ -4323,7 +4323,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DROP:
         {
 	  CHECK_STACK(1)
-	  DUMP_EXEC ((":%04d: drop %s\n", i-1, A2S (stack[stack.Length ()-1])));
+	  DUMP_EXEC ((":%04d: drop %s\n", i-1, A2S (stack[stack.GetSize ()-1])));
 	  stack.Pop ();
 	}
 	break;
@@ -4336,7 +4336,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DUP:
         {
 	  CHECK_STACK(1)
-	  size_t si = stack.Length ()-1;
+	  size_t si = stack.GetSize ()-1;
 	  DUMP_EXEC ((":%04d: dup %s\n", i-1, A2S (stack[si])));
 	  stack.Push (stack[si]);
 	}
@@ -5493,13 +5493,13 @@ void celXmlScriptEventHandler::HitBeam (iSector* sector,
 void celXmlScriptEventHandler::AddOperation (int op)
 {
   operations.Push (celXmlOperation ());
-  celXmlOperation& top_op = operations[operations.Length ()-1];
+  celXmlOperation& top_op = operations[operations.GetSize ()-1];
   top_op.op = op;
 }
 
 celXmlArg& celXmlScriptEventHandler::GetArgument ()
 {
-  celXmlOperation& op = operations[operations.Length ()-1];
+  celXmlOperation& op = operations[operations.GetSize ()-1];
   return op.arg;
 }
 

@@ -104,7 +104,7 @@ celStandardPersistentDataList::celStandardPersistentDataList ()
 
 celStandardPersistentDataList::~celStandardPersistentDataList ()
 {
-  size_t i, count = data_list.Length ();
+  size_t i, count = data_list.GetSize ();
   for (i = 0; i < count; i++)
     delete data_list[i];
   data_list.DeleteAll ();
@@ -115,7 +115,7 @@ celStandardPersistentDataList::~celStandardPersistentDataList ()
 bool celStandardPersistentDataList::GetPersistentData (size_t idx, 
      csRef<iCelDataBuffer>& databuf, csString& pc_name, csString& pc_tag) const
 {
-  if (idx >= data_list.Length ())
+  if (idx >= data_list.GetSize ())
     return false;
   
   celPersistentDataEntry* data_entry = data_list.Get (idx);

@@ -180,7 +180,7 @@ public:
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
-  virtual size_t GetMapFileCount () const { return mapfiles.Length (); }
+  virtual size_t GetMapFileCount () const { return mapfiles.GetSize (); }
   virtual iCelMapFile* GetMapFile (int idx) const
   {
     return (iCelMapFile*)mapfiles[idx];
@@ -226,7 +226,7 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual void LinkRegion (iCelRegion* region);
-  virtual size_t GetRegionCount () const { return regions.Length (); }
+  virtual size_t GetRegionCount () const { return regions.GetSize (); }
   virtual iCelRegion* GetRegion (size_t idx) const
   {
     return (iCelRegion*)regions[idx];
@@ -354,14 +354,14 @@ public:
   bool Load (const char* path, const char* file);
 
   iCelZone* CreateZone (const char* name);
-  size_t GetZoneCount () const { return zones.Length (); }
+  size_t GetZoneCount () const { return zones.GetSize (); }
   iCelZone* GetZone (int idx) const { return (iCelZone*)zones[idx]; }
   iCelZone* FindZone (const char* name) const;
   bool RemoveZone (iCelZone* zone);
   void RemoveAllZones ();
 
   iCelRegion* CreateRegion (const char* name);
-  size_t GetRegionCount () const { return regions.Length (); }
+  size_t GetRegionCount () const { return regions.GetSize (); }
   iCelRegion* GetRegion (int idx) const { return (iCelRegion*)regions[idx]; }
   iCelRegion* FindRegion (const char* name) const;
   bool RemoveRegion (iCelRegion* region);

@@ -125,9 +125,9 @@ bool celPlLayer::HandleEvent (iEvent& ev)
       compress = true;
   }
   cbinfo->handling_every_frame = false;
-  while (cbinfo->todo_del_every_frame.Length () > 0)
+  while (cbinfo->todo_del_every_frame.GetSize () > 0)
     cbinfo->every_frame.Delete (cbinfo->todo_del_every_frame.Pop ());
-  while (cbinfo->todo_add_every_frame.Length () > 0)
+  while (cbinfo->todo_add_every_frame.GetSize () > 0)
     cbinfo->every_frame.Add (cbinfo->todo_add_every_frame.Pop ());
 
   // Then fire all property classes that are interested in receiving
@@ -136,7 +136,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   // one that will fire first.
   csTicks current_time = vc->GetCurrentTicks ();
   csArray<CallbackTiming>& cbs = cbinfo->timed_callbacks;
-  while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
+  while (cbs.GetSize () > 0 && cbs.Top ().time_to_fire <= current_time)
   {
     CallbackTiming pcfire = cbs.Pop ();
     iCelTimerListener* listener = weak_listeners[pcfire.pc_idx];
@@ -287,7 +287,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
     entities_hash_dirty = false;
     size_t i;
     entities_hash.DeleteAll ();
-    for (i = 0 ; i < entities.Length () ; i++)
+    for (i = 0 ; i < entities.GetSize () ; i++)
     {
       if (entities[i]->GetName ())
         entities_hash.Put (entities[i]->GetName (), entities[i]);
@@ -512,7 +512,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 
   const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
   size_t i;
-  for (i = 0 ; i < pcs.Length () ; i++)
+  for (i = 0 ; i < pcs.GetSize () ; i++)
   {
     celPropertyClassTemplate* pcc = pcs[i];
     const char* pcname = pcc->GetName ();
@@ -531,7 +531,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
     const csArray<ccfPropAct>& props = pcc->GetProperties ();
     size_t j;
-    for (j = 0 ; j < props.Length () ; j++)
+    for (j = 0 ; j < props.GetSize () ; j++)
     {
       const celData& d = props[j].data;
       csStringID id = props[j].id;
@@ -681,7 +681,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   if (ent->GetBehaviour ())
   {
     const csArray<ccfMessage>& messages = cfact->GetMessages ();
-    for (i = 0 ; i < messages.Length () ; i++)
+    for (i = 0 ; i < messages.GetSize () ; i++)
     {
       const ccfMessage& msg = messages[i];
       celData ret;
@@ -712,7 +712,7 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
   }
   // First register this entity from all trackers.
   size_t i;
-  for (i = 0 ; i < trackers.Length () ; i++)
+  for (i = 0 ; i < trackers.GetSize () ; i++)
     trackers[i]->RemoveEntity (entity);
 
   if (!idlist.Remove (entity->GetID ()))
@@ -724,7 +724,7 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
     return;
   }
 
-  for (i = 0; i < removecallbacks.Length(); i++)
+  for (i = 0; i < removecallbacks.GetSize(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
@@ -753,15 +753,15 @@ void celPlLayer::RemoveEntities ()
   // on his own so this is only a warning.
   size_t i;
   csWeakRefArray<iCelEntity> weakrefs;
-  for (i = 0 ; i < entities.Length () ; i++)
+  for (i = 0 ; i < entities.GetSize () ; i++)
     weakrefs.Push (entities[i]);
 #endif
-  while (entities.Length () > 0)
+  while (entities.GetSize () > 0)
   {
-    RemoveEntityIndex (entities.Length ()-1);
+    RemoveEntityIndex (entities.GetSize ()-1);
   }
 #ifdef CS_DEBUG
-  for (i = 0 ; i < weakrefs.Length () ; i++)
+  for (i = 0 ; i < weakrefs.GetSize () ; i++)
     if (weakrefs[i] != 0)
     {
       printf ("Entity '%s' not removed (ref count %d)\n",
@@ -871,17 +871,17 @@ public:
   }
   virtual size_t GetDataCount () const
   {
-    return data.Length ();
+    return data.GetSize ();
   }
   virtual celData* GetData ()
   {
-    if (posidx >= data.Length ()) return 0;
+    if (posidx >= data.GetSize ()) return 0;
     posidx++;
     return &data[posidx-1];
   }
   virtual celData* GetData (size_t idx)
   {
-    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.Length ());
+    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.GetSize ());
     return &data[idx];
   }
   virtual void Reset ()
@@ -1045,7 +1045,7 @@ iCelEntityTracker* celPlLayer::CreateEntityTracker (const char* name)
 iCelEntityTracker* celPlLayer::FindEntityTracker (const char* name)
 {
   size_t i;
-  for (i = 0 ; i < trackers.Length () ; i++)
+  for (i = 0 ; i < trackers.GetSize () ; i++)
     if (strcmp (name, trackers[i]->GetName ()) == 0)
       return trackers[i];
   return 0;
@@ -1110,12 +1110,12 @@ void celPlLayer::UnregisterPropertyClassFactory (
 
 size_t celPlLayer::GetPropertyClassFactoryCount () const
 {
-  return pf_list.Length ();
+  return pf_list.GetSize ();
 }
 
 iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.GetSize ());
   iCelPropertyClassFactory* pf = pf_list[idx];
   return pf;
 }
@@ -1145,7 +1145,7 @@ void celPlLayer::Uncache (iBase* object)
 
 void celPlLayer::CleanCache ()
 {
-  while (cache.Length () > 0)
+  while (cache.GetSize () > 0)
     Uncache ((iBase*)cache[0]);
 }
 
@@ -1162,12 +1162,12 @@ void celPlLayer::UnregisterBehaviourLayer (iCelBlLayer* bl)
 
 size_t celPlLayer::GetBehaviourLayerCount () const
 {
-  return bl_list.Length ();
+  return bl_list.GetSize ();
 }
 
 iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.Length ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.GetSize ());
   iCelBlLayer* bl = bl_list[idx];
   return bl;
 }
@@ -1175,7 +1175,7 @@ iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < bl_list.Length () ; i++)
+  for (i = 0 ; i < bl_list.GetSize () ; i++)
   {
     iCelBlLayer* bl = bl_list[i];
     if (!strcmp (bl->GetName (), name))
@@ -1212,7 +1212,7 @@ void celPlLayer::RemoveNewEntityCallback (iCelNewEntityCallback* callback)
 
 void celPlLayer::FireNewEntityCallbacks (iCelEntity* entity)
 {
-  size_t i = newcallbacks.Length ();
+  size_t i = newcallbacks.GetSize ();
   while (i > 0)
   {
     i--;
@@ -1248,7 +1248,7 @@ void celPlLayer::CompressCallbackInfo ()
 
   // First copy all weak ref PC's that are still relevant to 'store' and
   // remember original index.
-  size_t orig_pcs_length = weak_listeners.Length ();
+  size_t orig_pcs_length = weak_listeners.GetSize ();
   csArray<pc_idx> store;
   size_t i;
   for (i = 0 ; i < orig_pcs_length ; i++)
@@ -1258,7 +1258,7 @@ void celPlLayer::CompressCallbackInfo ()
   // Delete the weak array and build it again.
   weak_listeners.DeleteAll ();
   weak_listeners_hash.DeleteAll ();
-  for (i = 0 ; i < store.Length () ; i++)
+  for (i = 0 ; i < store.GetSize () ; i++)
   {
     weak_listeners.Push (store[i].listener);
     weak_listeners_hash.Put (store[i].listener, i);
@@ -1267,7 +1267,7 @@ void celPlLayer::CompressCallbackInfo ()
   // Now create a reverse table to map from original index to new index.
   size_t* map = new size_t[orig_pcs_length];
   memset (map, 0xffffffff, sizeof (size_t) * orig_pcs_length);
-  for (i = 0 ; i < store.Length () ; i++)
+  for (i = 0 ; i < store.GetSize () ; i++)
     map[store[i].idx] = i;
 
   // Now change the indices in all lists.
@@ -1288,7 +1288,7 @@ void celPlLayer::CompressCallbackInfo ()
     cbinfo->every_frame = newset;
 
     size_t i;
-    for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+    for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
     {
       size_t newidx = map[cbinfo->timed_callbacks[i].pc_idx];
       if (newidx == (size_t)~0)
@@ -1391,7 +1391,7 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
 
   CallbackInfo* cbinfo = GetCBInfo (where);
   size_t i;
-  for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
+  for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
     if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
       cbinfo->timed_callbacks.DeleteIndex (i);
     else

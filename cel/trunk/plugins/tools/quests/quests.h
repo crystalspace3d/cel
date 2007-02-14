@@ -306,7 +306,7 @@ public:
   ~celQuestState () { delete[] name; }
   const char* GetName () const { return name; }
   size_t AddResponse (celQuest* quest);
-  size_t GetResponseCount () const { return responses.Length (); }
+  size_t GetResponseCount () const { return responses.GetSize (); }
   celQuestStateResponse* GetResponse (size_t idx) const
   {
     return responses[idx];

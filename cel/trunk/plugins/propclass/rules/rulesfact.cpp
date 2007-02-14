@@ -240,7 +240,7 @@ void celPcRules::AddRule (iCelRule* rule)
 
 void celPcRules::TickEveryFrame ()
 {
-  if (timed_rules.Length () == 0) return;
+  if (timed_rules.GetSize () == 0) return;
   csTicks current = vc->GetCurrentTicks ();
   do
   {
@@ -248,7 +248,7 @@ void celPcRules::TickEveryFrame ()
     DeleteRule (timed_rules[0].rule);
     timed_rules.DeleteIndex (0);
   }
-  while (timed_rules.Length () > 0);
+  while (timed_rules.GetSize () > 0);
 }
 
 void celPcRules::AddRule (iCelRule* rule, csTicks time)
@@ -288,7 +288,7 @@ void celPcRules::DeleteRule (celActiveRule* rule)
   	rule->rule->GetVariable (), 0);
   if (av)
   {
-    size_t i = av->active_rules.Length ();
+    size_t i = av->active_rules.GetSize ();
     while (i > 0)
     {
       i--;
@@ -315,7 +315,7 @@ void celPcRules::DeleteRule (iCelRule* rule)
   	rule->GetVariable (), 0);
   if (av)
   {
-    size_t i = av->active_rules.Length ();
+    size_t i = av->active_rules.GetSize ();
     while (i > 0)
     {
       i--;
@@ -353,7 +353,7 @@ void celPcRules::DeleteAllRules ()
   if (ble)
   {
     celData ret;
-    for (size_t i = 0 ; i < vars.Length () ; i++)
+    for (size_t i = 0 ; i < vars.GetSize () ; i++)
     {
       params->GetParameter (0).Set (vars[i]);
       ble->SendMessage ("pcrules_modifypar", this, ret, params);
@@ -452,7 +452,7 @@ bool celPcRules::GetProperty (const char* name, celData& ret)
   {
     size_t i;
     // @@@ Need to sort rules on priority!
-    for (i = 0 ; i < av->active_rules.Length () ; i++)
+    for (i = 0 ; i < av->active_rules.GetSize () ; i++)
     {
       celActiveRule* ar = av->active_rules[i];
       iCelExpression* expr = ar->rule->GetExpression ();

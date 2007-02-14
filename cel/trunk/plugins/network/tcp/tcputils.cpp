@@ -796,9 +796,9 @@ celTCPCachedSocket::~celTCPCachedSocket ()
 
   // delete all packets
   size_t i;
-  for (i = 0; i < packets_received.Length (); i++)
+  for (i = 0; i < packets_received.GetSize (); i++)
     delete packets_received[i];
-  for (i = 0; i < packets_to_be_sent.Length (); i++)
+  for (i = 0; i < packets_to_be_sent.GetSize (); i++)
     delete packets_to_be_sent[i];
   packets_received.DeleteAll ();
   packets_to_be_sent.DeleteAll ();

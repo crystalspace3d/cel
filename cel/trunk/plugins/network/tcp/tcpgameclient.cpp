@@ -71,7 +71,7 @@ celTCPGameClient::~celTCPGameClient ()
   nlDisable (NL_BLOCKING_IO);
 
   size_t i;
-  for (i = 0; i < client_events.Length (); i++)
+  for (i = 0; i < client_events.GetSize (); i++)
     delete client_events[i];
   client_events.DeleteAll ();
 
@@ -593,7 +593,7 @@ void celTCPGameClient::WriteServerSocket (csTicks snapshot_time)
   celNetworkBuffer* packet = new celNetworkBuffer ();
 
   // write client events
-  uint8 list_size = client_events.Length ();
+  uint8 list_size = client_events.GetSize ();
   if (list_size > 0)
   {
     uint8 data_type = CLIENT_DATA_EVENT;
