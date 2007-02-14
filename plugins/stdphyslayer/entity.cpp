@@ -119,12 +119,12 @@ celEntityList::~celEntityList ()
 
 size_t celEntityList::GetCount () const
 {
-  return entities.Length ();
+  return entities.GetSize ();
 }
 
 iCelEntity* celEntityList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.Length ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.GetSize ());
   return entities[n];
 }
 
@@ -154,7 +154,7 @@ bool celEntityList::Remove (size_t n)
 
 void celEntityList::RemoveAll ()
 {
-  while (entities.Length () > 0)
+  while (entities.GetSize () > 0)
     Remove ((size_t) 0);
 }
 
@@ -166,7 +166,7 @@ size_t celEntityList::Find (iCelEntity* obj) const
 iCelEntity* celEntityList::FindByName (const char *Name) const
 {
   size_t i;
-  for (i = 0 ; i < entities.Length () ; i++)
+  for (i = 0 ; i < entities.GetSize () ; i++)
   {
     iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;

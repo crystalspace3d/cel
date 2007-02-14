@@ -84,7 +84,7 @@ public:
   virtual bool RemoveEntity (iCelEntity* entity);
   virtual bool RemoveEntity (iCelParameterBlock* params);
   virtual bool RemoveAll ();
-  virtual size_t GetEntityCount () const { return contents.Length () ; }
+  virtual size_t GetEntityCount () const { return contents.GetSize () ; }
   virtual iCelEntity* GetEntity (size_t idx) const;
   virtual bool In (iCelEntity* entity) const;
   virtual size_t FindEntity (iCelEntity* entity) const;

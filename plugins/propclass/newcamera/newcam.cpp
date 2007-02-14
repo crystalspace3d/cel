@@ -80,7 +80,7 @@ void celPcNewCamera::UpdateMeshVisibility()
   if (!pcmesh)
     return;
 
-  if (currMode >= cameraModes.Length())
+  if (currMode >= cameraModes.GetSize())
     return;
 
   if (!pcmesh->GetMesh())
@@ -283,7 +283,7 @@ size_t celPcNewCamera::AttachCameraMode(iCelCameraMode * mode)
   cameraModes.Push(mode);
   mode->SetParentCamera((iPcNewCamera *)&scfiPcNewCamera);
 
-  return (cameraModes.Length()-1);
+  return (cameraModes.GetSize()-1);
 }
 
 size_t celPcNewCamera::AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode)
@@ -311,7 +311,7 @@ iCelCameraMode * celPcNewCamera::GetCurrentCameraMode()
 
 bool celPcNewCamera::SetCurrentCameraMode(size_t modeIndex)
 {
-  if (modeIndex >= cameraModes.Length())
+  if (modeIndex >= cameraModes.GetSize())
     return false;
 
   inTransition = true;
@@ -327,23 +327,23 @@ bool celPcNewCamera::SetCurrentCameraMode(size_t modeIndex)
 
 void celPcNewCamera::NextCameraMode()
 {
-  if (cameraModes.Length() == 0)
+  if (cameraModes.GetSize() == 0)
     return;
 
   size_t newMode = currMode+1;
-  if (newMode >= cameraModes.Length())
+  if (newMode >= cameraModes.GetSize())
     newMode = 0;
   SetCurrentCameraMode(newMode);
 }
 
 void celPcNewCamera::PrevCameraMode()
 {
-  if (cameraModes.Length() == 0)
+  if (cameraModes.GetSize() == 0)
     return;
 
   size_t newMode = currMode-1;
   if (newMode == (size_t)-1)
-    newMode = cameraModes.Length()-1;
+    newMode = cameraModes.GetSize()-1;
   SetCurrentCameraMode(newMode);
 }
 void celPcNewCamera::UpdateCamera ()
@@ -351,10 +351,10 @@ void celPcNewCamera::UpdateCamera ()
   csTicks elapsedTime = vc->GetElapsedTicks();
   float elapsedSecs = elapsedTime / 1000.0f;
 
-  if (currMode >= cameraModes.Length())
+  if (currMode >= cameraModes.GetSize())
   {
-    SetCurrentCameraMode(cameraModes.Length()-1);
-    if (currMode >= cameraModes.Length())
+    SetCurrentCameraMode(cameraModes.GetSize()-1);
+    if (currMode >= cameraModes.GetSize())
       return;
   }
   iCelCameraMode * mode = cameraModes[currMode];

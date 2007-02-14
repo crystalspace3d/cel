@@ -716,7 +716,7 @@ size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
   wheel.BrakePower=1;
   wheel.Rotation = rotation;
   wheels.Push(wheel);
-  size_t index=wheels.Length()-1;
+  size_t index=wheels.GetSize()-1;
   ApplyWheelPresets(index);
   SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
@@ -747,7 +747,7 @@ size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
   wheel.Rotation = rotation;
   wheel.ABSBrake = 1.0f;
   wheels.Push(wheel);
-  size_t index=wheels.Length()-1;
+  size_t index=wheels.GetSize()-1;
   SetWheelMesh(index, wheelfact, wheelfile);
   RestoreWheel(index);
   return index;
@@ -784,7 +784,7 @@ void celPcWheeled::DestroyWheel(size_t wheelnum)
 
 void celPcWheeled::DestroyAllWheels()
 {
-  for(size_t i=0;i < wheels.Length();i++)
+  for(size_t i=0;i < wheels.GetSize();i++)
   {
     DestroyWheel(i);
   }
@@ -891,7 +891,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 
 void celPcWheeled::RestoreAllWheels()
 {
-  for(size_t i=0; i < wheels.Length();i++)
+  for(size_t i=0; i < wheels.GetSize();i++)
   {
     if(wheels[i].RigidBody==0)
       RestoreWheel(i);
@@ -906,7 +906,7 @@ void celPcWheeled::SteerLeft(float amount)
     float wheelsteer = amount * steeramount;
     if(!tankmode)
     {
-      for(size_t i=0;i < wheels.Length();i++)
+      for(size_t i=0;i < wheels.GetSize();i++)
       {
         if(wheels[i].WheelJoint!=0)
         {
@@ -942,7 +942,7 @@ void celPcWheeled::SteerRight(float amount)
     float wheelsteer = amount * steeramount;
     if(!tankmode)
     {
-      for(size_t i=0;i < wheels.Length();i++)
+      for(size_t i=0;i < wheels.GetSize();i++)
       {
         if(wheels[i].WheelJoint!=0)
         {
@@ -990,7 +990,7 @@ void celPcWheeled::SteerStraight()
   //It was steering right, bring it left.
   if (abssteer > 0.0f)
   {
-    for(size_t i=0;i < wheels.Length();i++)
+    for(size_t i=0;i < wheels.GetSize();i++)
     {
       if(wheels[i].WheelJoint!=0)
       {
@@ -1010,7 +1010,7 @@ void celPcWheeled::SteerStraight()
   //It was steering left, bring it right.
   if (abssteer < 0.0f)
   {
-    for(size_t i=0;i < wheels.Length();i++)
+    for(size_t i=0;i < wheels.GetSize();i++)
     {
       if(wheels[i].WheelJoint!=0)
       {
@@ -1073,7 +1073,7 @@ float celPcWheeled::GetWheelSpin(size_t wheelnum)
 //Get average wheel velocity
 float celPcWheeled::GetAverageWheelSpin()
 {
-  size_t numwheels = wheels.Length();
+  size_t numwheels = wheels.GetSize();
   float velsum = 0.0f;
   for(size_t i = 0 ; i < numwheels; i++)
     velsum += GetWheelSpin(i);
@@ -1091,7 +1091,7 @@ void celPcWheeled::TickOnce()
 
   float steerfactor = 1000.0f + fabs(speed) * 100.0f;
 
-  for(size_t i=0; i < wheels.Length();i++)
+  for(size_t i=0; i < wheels.GetSize();i++)
   {
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
     {
@@ -1254,7 +1254,7 @@ void celPcWheeled::Collision (iRigidBody *thisbody,
   {
     //This is a slow way to find index!
     size_t wheelindex = 0;
-    for(size_t i = 0; i < wheels.Length(); i++)
+    for(size_t i = 0; i < wheels.GetSize(); i++)
     {
         if (wheels[i].RigidBody == thisbody)
         {
@@ -1356,7 +1356,7 @@ void celPcWheeled::SetFrontWheelPreset(float sensitivity,float enginepower,
   celPcWheeled::frontsd=suspensiondamping;
   celPcWheeled::frontfriction=friction;
   celPcWheeled::frontmass=mass;
-  for(size_t i=0; i < wheels.Length(); i++)
+  for(size_t i=0; i < wheels.GetSize(); i++)
   {
     ApplyWheelPresets(i);
   }
@@ -1375,7 +1375,7 @@ void celPcWheeled::SetRearWheelPreset(float sensitivity,float enginepower,
   celPcWheeled::rearsd=suspensiondamping;
   celPcWheeled::rearfriction=friction;
   celPcWheeled::rearmass=mass;
-  for(size_t i=0 ; i<wheels.Length(); i++)
+  for(size_t i=0 ; i<wheels.GetSize(); i++)
   {
     ApplyWheelPresets(i);
   }
@@ -1386,7 +1386,7 @@ void celPcWheeled::SetOuterWheelSteerPreset(float sensitivity)
   if(outersteer>=0 && outersteer<=1)
     celPcWheeled::outersteer=sensitivity;
 
-  for(size_t i=0; i<wheels.Length(); i++)
+  for(size_t i=0; i<wheels.GetSize(); i++)
   {
     ApplyWheelPresets(i);
   }

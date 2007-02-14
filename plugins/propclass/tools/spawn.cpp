@@ -359,7 +359,7 @@ void celPcSpawn::Reset ()
 void celPcSpawn::Spawn ()
 {
   csRandomGen rng;
-  SpawnEntityNr (rng.Get((uint32)spawninfo.Length ()));
+  SpawnEntityNr (rng.Get((uint32)spawninfo.GetSize ()));
 }
 
 void celPcSpawn::SpawnEntityNr (size_t idx)
@@ -404,7 +404,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
 
   size_t i;
   csStringArray& pcs = spawninfo[idx].pcs;
-  for (i = 0 ; i < pcs.Length () ; i++)
+  for (i = 0 ; i < pcs.GetSize () ; i++)
   {
     iCelPropertyClass* pc = pl->CreatePropertyClass (spawninfo[idx].newent,
     	pcs[i]);
@@ -417,7 +417,7 @@ void celPcSpawn::SpawnEntityNr (size_t idx)
   }
 
   // Set position
-  size_t len = spawnposition.Length ();
+  size_t len = spawnposition.GetSize ();
   if (len > 0)
   {
     size_t number = 0;
@@ -563,7 +563,7 @@ void celPcSpawn::TickOnce ()
     while (c > 0)
     {
       idx++;
-      if (idx >= spawninfo.Length ()-1) break;
+      if (idx >= spawninfo.GetSize ()-1) break;
       c -= spawninfo[idx].chance;
     }
   }
@@ -571,7 +571,7 @@ void celPcSpawn::TickOnce ()
   {
     idx = sequence_cur;
     sequence_cur++;
-    if (sequence_cur >= spawninfo.Length ()) sequence_cur = 0;
+    if (sequence_cur >= spawninfo.GetSize ()) sequence_cur = 0;
   }
   SpawnEntityNr (idx);
 }

@@ -234,7 +234,7 @@ bool celRegion::Load (bool allow_entity_addon)
 
   size_t i;
   bool rc = true;
-  for (i = 0 ; i < mapfiles.Length () ; i++)
+  for (i = 0 ; i < mapfiles.GetSize () ; i++)
   {
     celMapFile* mf = mapfiles[i];
     if (mf->GetSectorName ())
@@ -302,7 +302,7 @@ void celRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.Length () ; i++)
+    for (i = 0 ; i < entities.GetSize () ; i++)
       if (entities[i])
         pl->RemoveEntity (entities[i]);
 
@@ -387,7 +387,7 @@ void celZone::UnlinkAllRegions ()
 iCelRegion* celZone::FindRegion (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < regions.GetSize () ; i++)
     if (!strcmp (name, regions[i]->GetName ()))
       return (iCelRegion*)regions[i];
   return 0;
@@ -512,7 +512,7 @@ csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
   databuf->Add (path);
   databuf->Add (file);
   size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < regions.GetSize () ; i++)
   {
     celRegion* r = regions[i];
     if (r->IsLoaded ())
@@ -952,7 +952,7 @@ void celPcZoneManager::RemoveAllZones ()
 iCelZone* celPcZoneManager::FindZone (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < zones.Length () ; i++)
+  for (i = 0 ; i < zones.GetSize () ; i++)
     if (!strcmp (name, zones[i]->GetName ()))
       return (iCelZone*)zones[i];
   return 0;
@@ -970,7 +970,7 @@ iCelRegion* celPcZoneManager::CreateRegion (const char* name)
 iCelRegion* celPcZoneManager::FindRegion (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < regions.GetSize () ; i++)
     if (!strcmp (name, regions[i]->GetName ()))
       return (iCelRegion*)regions[i];
   return 0;
@@ -1000,7 +1000,7 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
 
   // First we make a set of all regions that we need to load.
   csSet<csPtrKey<celRegion> > loadable_regions;
-  for (i = 0 ; i < zones.Length () ; i++)
+  for (i = 0 ; i < zones.GetSize () ; i++)
     if (loading_mode == CEL_ZONE_LOADALL
 	|| zones[i]->ContainsRegion ((celRegion*) region))
     {
@@ -1010,7 +1010,7 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
     }
 
   celRegion* r;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < regions.GetSize () ; i++)
   {
     r = regions[i];
     if (loadable_regions.In (r))
@@ -1048,7 +1048,7 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
 iCelRegion* celPcZoneManager::FindRegionContaining (iCelEntity* ent)
 {
   celRegion* r;
-  for (size_t i = 0 ; i < regions.Length () ; i++)
+  for (size_t i = 0 ; i < regions.GetSize () ; i++)
   {
     r = regions[i];
     if (r->ContainsEntity (ent))
@@ -1064,7 +1064,7 @@ bool celPcZoneManager::ActivateSector (iSector* sector)
   if (active_sector == sector) return true;	// Nothing to do.
   active_sector = sector;
   size_t i;
-  for (i = 0 ; i < regions.Length () ; i++)
+  for (i = 0 ; i < regions.GetSize () ; i++)
   {
     if (regions[i]->ContainsSector (sector))
       return ActivateRegion (regions[i]);

@@ -353,7 +353,7 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
   {
     csRef<iPluginManager> plugmgr = 
       csQueryRegistry<iPluginManager> (object_reg);
-    for (size_t i = 0; i < joystickClasses->Length (); i++)
+    for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
       iBase* b = plugmgr->LoadPlugin (className);

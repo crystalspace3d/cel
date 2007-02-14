@@ -492,7 +492,7 @@ public:
   // Get argument for last operation.
   celXmlArg& GetArgument ();
   // Get argument index for last operation.
-  size_t GetLastArgumentIndex () { return operations.Length ()-1; }
+  size_t GetLastArgumentIndex () { return operations.GetSize ()-1; }
   // Get argument with index.
   celXmlArg& GetArgument (size_t idx);
 

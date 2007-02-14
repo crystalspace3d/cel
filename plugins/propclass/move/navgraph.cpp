@@ -281,7 +281,7 @@ int celPcNavGraph::Dump()  // Debug info
   size_t i;
 
   MoveNotify (object_reg, "Graph Dump ============================",
-    aLinks.Length());
+    aLinks.GetSize());
 
   if (navgraphrules)
     MoveNotify (object_reg, "NavGraphRules set");
@@ -293,10 +293,10 @@ int celPcNavGraph::Dump()  // Debug info
   else
     MoveNotify (object_reg, "Region not set");
 
-  MoveNotify (object_reg, "Link Information: %d Links----------", aLinks.Length());
+  MoveNotify (object_reg, "Link Information: %d Links----------", aLinks.GetSize());
 
     
-  for (i=0; i < aLinks.Length() ; i++)
+  for (i=0; i < aLinks.GetSize() ; i++)
   {
     iPcNavLink* link = aLinks[i];
 
@@ -305,9 +305,9 @@ int celPcNavGraph::Dump()  // Debug info
   }
     
     
-  MoveNotify (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
+  MoveNotify (object_reg, "Node Information: %d Nodes---------", aNodes.GetSize());
 
-  for (i=0; i < aNodes.Length() ; i++)
+  for (i=0; i < aNodes.GetSize() ; i++)
   {
     iPcNavNode* node = aNodes[i];
 
@@ -317,7 +317,7 @@ int celPcNavGraph::Dump()  // Debug info
   }
 
   MoveNotify (object_reg, "END Graph Dump ========================",
-    aLinks.Length());
+    aLinks.GetSize());
 
   return 0;
 }
@@ -374,7 +374,7 @@ int celPcNavGraph::LinkNodes ()
   // Iterate through each pair of Nodes
   iCelPropertyClass* pc;
 
-  numnodes = aNodes.Length();
+  numnodes = aNodes.GetSize();
   MoveNotify (object_reg, "Iterating across %d Nodes", numnodes );
 
   for (i=0; i < numnodes; i++)
@@ -473,10 +473,10 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
 
   LinkNodes();        // Create the default set of links
 
-  MoveNotify (object_reg, "Traversing %d links", aLinks.Length());
+  MoveNotify (object_reg, "Traversing %d links", aLinks.GetSize());
 
   // for all links
-  for (i=0; i < aLinks.Length(); i++)
+  for (i=0; i < aLinks.GetSize(); i++)
   {
     // TODO: Add ability to traverse links with multiple entities and save data
     iPcNavLink* link = aLinks[i]; // Get each link

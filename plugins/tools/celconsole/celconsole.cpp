@@ -77,7 +77,7 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    if (args.Length () <= 1)
+    if (args.GetSize () <= 1)
       parent->ListCommands ();
     else
       parent->HelpCommand (args[1]);
@@ -119,7 +119,7 @@ public:
   {
     unsigned int i;
     csString cmd = args[0];
-    for (i=1;i<args.Length();i++)
+    for (i=1;i<args.GetSize();i++)
     {
       cmd+=" ";
       cmd+=args[i];
@@ -595,7 +595,7 @@ bool celConsole::HandleEvent (iEvent& ev)
 	{
 	  printf ("List all entities still in memory:\n");
 	  size_t i = 0;
-	  while (i < monitor_entities.Length ())
+	  while (i < monitor_entities.GetSize ())
 	  {
 	    iCelEntity* ent = monitor_entities[i];
 	    if (ent)
@@ -784,7 +784,7 @@ void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
 
 void celConsole::AssignVarEntity (const csStringArray& args)
 {
-  if (args.Length () < 3)
+  if (args.GetSize () < 3)
   {
     conout->PutText ("Too few parameters for 'varent'!\n");
     return;
@@ -820,7 +820,7 @@ void celConsole::AssignVarEntity (const csStringArray& args)
 
 void celConsole::AssignVar (const csStringArray& args)
 {
-  if (args.Length () < 2)
+  if (args.GetSize () < 2)
   {
     conout->PutText ("Too few parameters for 'var'!\n");
     return;
@@ -835,7 +835,7 @@ void celConsole::AssignVar (const csStringArray& args)
 
 void celConsole::EvalulateExpression (const csStringArray& args)
 {
-  if (args.Length () < 1)
+  if (args.GetSize () < 1)
   {
     conout->PutText ("Too few parameters for 'expr'!\n");
     return;
@@ -931,7 +931,7 @@ void celConsole::SnapshotDiffPC (iCelEntity* ent)
   {
     iCelPropertyClass* pc = plist->Get (i);
     size_t foundidx = csArrayItemNotFound;
-    for (j = 0 ; j < snapshot->pcs.Length () ; j++)
+    for (j = 0 ; j < snapshot->pcs.GetSize () ; j++)
     {
       if (snapshot->pcs[j] == pc) { foundidx = j; break; }
     }
@@ -949,7 +949,7 @@ void celConsole::SnapshotDiffPC (iCelEntity* ent)
   }
 #if 0
   // @@@ TODO
-  for (i = 0 ; i < snapshot->pcs.Length () ; i++)
+  for (i = 0 ; i < snapshot->pcs.GetSize () ; i++)
   {
     iCelPropertyClass* pc = snapshot->pcs[i];
     if (pc == 0)
@@ -989,7 +989,7 @@ void celConsole::SnapshotDiff ()
   {
     iCelEntity* ent = pl->GetEntityByIndex (i);
     size_t foundidx = csArrayItemNotFound;
-    for (j = 0 ; j < snapshot->entities.Length () ; j++)
+    for (j = 0 ; j < snapshot->entities.GetSize () ; j++)
     {
       if (snapshot->entities[j] == ent) { foundidx = j; break; }
     }
@@ -1006,7 +1006,7 @@ void celConsole::SnapshotDiff ()
     }
     SnapshotDiffPC (ent);
   }
-  for (i = 0 ; i < snapshot->entities.Length () ; i++)
+  for (i = 0 ; i < snapshot->entities.GetSize () ; i++)
   {
     iCelEntity* ent = snapshot->entities[i];
     if (ent == 0)
@@ -1033,7 +1033,7 @@ void celConsole::SnapshotDiff ()
 
 void celConsole::ListInfoEntity (const csStringArray& args)
 {
-  if (args.Length () < 2)
+  if (args.GetSize () < 2)
   {
     conout->PutText ("Too few parameters for 'infoent'!\n");
     return;
@@ -1210,7 +1210,7 @@ void celConsole::ListTemplates ()
 
 void celConsole::CreateEntityFromTemplate (const csStringArray& args)
 {
-  if (args.Length () < 3)
+  if (args.GetSize () < 3)
   {
     conout->PutText ("Too few parameters for 'createenttpl'!\n");
     return;
@@ -1226,7 +1226,7 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
   const char* entname = args[2];
   celEntityTemplateParams params;
   size_t i;
-  for (i = 3 ; i < args.Length ()-1 ; i += 2)
+  for (i = 3 ; i < args.GetSize ()-1 ; i += 2)
   {
     params.Put (args[i], args[i+1]);
   }
@@ -1276,7 +1276,7 @@ void celConsole::Execute (const char* cmd)
 {
   csStringArray args;
   args.SplitString (cmd, " \t", csStringArray::delimIgnore);
-  if (args.Length () <= 0) return;
+  if (args.GetSize () <= 0) return;
   if (!args[0] || !*args[0]) return;
   if (override)
   {

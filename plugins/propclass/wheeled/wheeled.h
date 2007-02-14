@@ -427,7 +427,7 @@ public:
   virtual float GetWheelSpin(size_t wheelnum);
   virtual float GetAverageWheelSpin();
 
-  virtual size_t GetWheelCount() { return wheels.Length(); }
+  virtual size_t GetWheelCount() { return wheels.GetSize(); }
 
   struct WheeledCollisionCallback : public iDynamicsCollisionCallback
   {

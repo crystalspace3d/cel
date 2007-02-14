@@ -91,12 +91,12 @@ void CelStart::DrawSelectorBox (iGraphics2D* g2d, int x, int y, int w, int h,
 void CelStart::SetupFrame ()
 {
   iGraphics2D* g2d = g3d->GetDriver2D ();
-  if (files.Length () > 0)
+  if (files.GetSize () > 0)
   {
     const int fontH = font->GetTextHeight();
     g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
     size_t i;
-    for (i = top_file ; i < files.Length () ; i++)
+    for (i = top_file ; i < files.GetSize () ; i++)
     {
       int y = boxTopY + (i-top_file)*boxH;
       if (y+boxH > g2d->GetHeight ()) break;
@@ -177,7 +177,7 @@ bool CelStart::HandleEvent (iEvent& ev)
     return true;
   }
 
-  if (files.Length () > 0 || !do_real_demo)
+  if (files.GetSize () > 0 || !do_real_demo)
   {
     if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
     {
@@ -208,7 +208,7 @@ bool CelStart::HandleEvent (iEvent& ev)
 	}
 	else if (code == CSKEY_DOWN)
 	{
-	  if (top_file < (int)files.Length ()-1) top_file++;
+	  if (top_file < (int)files.GetSize ()-1) top_file++;
 	}
       }
     }
@@ -218,7 +218,7 @@ bool CelStart::HandleEvent (iEvent& ev)
       {
         int i = GetHitBox (csMouseEventHelper::GetX (&ev), 
 	  csMouseEventHelper::GetY (&ev));
-        if (i >= (int)0 && i < (int)files.Length ())
+        if (i >= (int)0 && i < (int)files.GetSize ())
         {
 	  startme = files[i];
           csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
@@ -258,7 +258,7 @@ void CelStart::FindCelStartArchives ()
   size_t i;
   // To work around VFS bug
   csSet<csString> testedFiles;
-  for (i = 0 ; i < filelist->Length () ; i++)
+  for (i = 0 ; i < filelist->GetSize () ; i++)
   {
     const char* file = filelist->Get (i);
     if (testedFiles.Contains (file)) continue;
@@ -488,7 +488,7 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   {
     csRef<iPluginManager> plugmgr = 
       csQueryRegistry<iPluginManager> (object_reg);
-    for (size_t i = 0; i < joystickClasses->Length (); i++)
+    for (size_t i = 0; i < joystickClasses->GetSize (); i++)
     {
       const char* className = joystickClasses->Get (i);
       iBase* b = plugmgr->LoadPlugin (className);

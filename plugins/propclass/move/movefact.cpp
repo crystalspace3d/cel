@@ -120,8 +120,8 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   databuf->Add (pc);
-  databuf->Add ((uint16)constraints.Length ());
-  for (i = 0 ; i < constraints.Length () ; i++)
+  databuf->Add ((uint16)constraints.GetSize ());
+  for (i = 0 ; i < constraints.GetSize () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
     csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (pcm);
@@ -181,7 +181,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < constraints.GetSize () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, pos, pos, realpos);
@@ -207,7 +207,7 @@ int celPcMovable::Move (const csVector3& relpos)
   csVector3 realpos = end;
   bool partial = false;
   size_t i;
-  for (i = 0 ; i < constraints.Length () ; i++)
+  for (i = 0 ; i < constraints.GetSize () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, start, end, realpos);
@@ -590,9 +590,9 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   databuf->Add (is_resting);
   databuf->Add (active);
 
-  databuf->Add ((uint16)forces.Length ());
+  databuf->Add ((uint16)forces.GetSize ());
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < forces.GetSize () ; i++)
   {
     celForce* f = forces[i];
     databuf->Add (f->force);
@@ -892,7 +892,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     csVector3 force (infinite_forces);
     float smallest_time = 1000000000;
     size_t i;
-    for (i = 0 ; i < forces.Length () ; i++)
+    for (i = 0 ; i < forces.GetSize () ; i++)
     {
       celForce* f = forces[i];
       if (f->time_remaining < smallest_time)
@@ -911,7 +911,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Remove all forces that are done and update the remaining
     // time of the others.
     i = 0;
-    while (i < forces.Length ())
+    while (i < forces.GetSize ())
     {
       celForce* f = forces[i];
       f->time_remaining -= smallest_time;

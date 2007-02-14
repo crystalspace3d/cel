@@ -110,7 +110,7 @@ void celPcMechanicsSystem::ProcessForces (float dt)
 // remaining time for a force may be smaller than the 'dt' value
 // given here.
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < forces.GetSize () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid != 0 || f.frame)
@@ -193,7 +193,7 @@ void celPcMechanicsSystem::TickEveryFrame ()
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < forces.GetSize () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid == 0 && (f.frame || f.seconds <= 0))
@@ -431,7 +431,7 @@ void celPcMechanicsSystem::AddForceTagged (iPcMechanicsObject* pcobject,
 void celPcMechanicsSystem::RemoveForceTagged (iPcMechanicsObject* pcobject,
 	uint32 forceid)
 {
-  for (size_t i = 0 ; i < forces.Length () ; i++)
+  for (size_t i = 0 ; i < forces.GetSize () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid == forceid)
@@ -474,7 +474,7 @@ void celPcMechanicsSystem::AddForceFrame (iPcMechanicsObject* body,
 void celPcMechanicsSystem::ClearForces (iPcMechanicsObject* body)
 {
   size_t i;
-  for (i = 0 ; i < forces.Length () ; i++)
+  for (i = 0 ; i < forces.GetSize () ; i++)
   {
     if (forces[i].body == body)
     {

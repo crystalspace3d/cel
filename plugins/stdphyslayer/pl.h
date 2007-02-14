@@ -147,7 +147,7 @@ public:
   void RemoveEntityIndex (size_t idx);
   virtual void RemoveEntities ();
   virtual iCelEntity* GetEntity (uint id);
-  virtual size_t GetEntityCount () const { return entities.Length (); }
+  virtual size_t GetEntityCount () const { return entities.GetSize (); }
   virtual iCelEntity* GetEntityByIndex (size_t idx) const
   { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);

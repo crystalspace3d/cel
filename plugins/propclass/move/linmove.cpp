@@ -831,7 +831,7 @@ int celPcLinearMovement::MoveV (float delta)
       // Call callbacks
       if (!called)
       {
-        size_t i = gravityCallbacks.Length ();
+        size_t i = gravityCallbacks.GetSize ();
         while (i > 0)
         {
           i--;
@@ -855,7 +855,7 @@ int celPcLinearMovement::MoveV (float delta)
     if(velWorld.y < 0)
     {
       // Call callbacks
-      size_t i = gravityCallbacks.Length ();
+      size_t i = gravityCallbacks.GetSize ();
       while (i > 0)
       {
         i--;

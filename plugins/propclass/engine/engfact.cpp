@@ -334,7 +334,7 @@ void celPcRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.Length () ; i++)
+    for (i = 0 ; i < entities.GetSize () ; i++)
       if (entities[i])
       {
         pl->RemoveEntity (entities[i]);
