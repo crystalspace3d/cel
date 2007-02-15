@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Feb-2007
+	- Darek added missing DUMP_EXEC to blxml navigation .
 14-Feb-2007
 	- Jorrit replaced deprecated csArray::Length() with GetSize().
 13-Feb-2007
