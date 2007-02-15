@@ -5312,6 +5312,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           celXmlArg a_anglevar = stack.Pop ();
           celXmlArg a_successvar = stack.Pop ();
           celXmlArg a_navigator = stack.Pop ();
+          DUMP_EXEC ((":%04d: navigation_ent_vec3 %s %s %s %s %s %s\n",
+          	i-1, A2S (a_navigator),  A2S(a_vector),  A2S(a_successvar),
+          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
           iCelEntity* ent = ArgToEntity (a_navigator, pl);
           if (!ent)
             return ReportError (cbl,
@@ -5336,7 +5339,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           iPcProperties* props = GetProperties (entity, behave);
           if (!props)
             return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent, 0, vector);
+          celNavigationInfo info =
+          	celNavigationTools::GetNavigationInfo (ent, 0, vector);
           props->SetProperty (successvar, info.success);
           props->SetProperty (anglevar, info.angle);
           props->SetProperty (distancevar, info.distance);
@@ -5352,6 +5356,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           celXmlArg a_anglevar = stack.Pop ();
           celXmlArg a_successvar = stack.Pop ();
           celXmlArg a_navigator = stack.Pop ();
+          DUMP_EXEC ((":%04d: navigation_ent_ent %s %s %s %s %s %s\n",
+          	i-1, A2S (a_navigator),  A2S(a_target),  A2S(a_successvar),
+          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
           iCelEntity* ent1 = ArgToEntity (a_navigator, pl);
           if (!ent1)
             return ReportError (cbl,
@@ -5379,7 +5386,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           iPcProperties* props = GetProperties (entity, behave);
           if (!props)
             return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent1, 0, ent2, 0);
+          celNavigationInfo info =
+          	celNavigationTools::GetNavigationInfo (ent1, 0, ent2, 0);
           props->SetProperty (successvar, info.success);
           props->SetProperty (anglevar, info.angle);
           props->SetProperty (distancevar, info.distance);
@@ -5395,6 +5403,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           celXmlArg a_anglevar = stack.Pop ();
           celXmlArg a_successvar = stack.Pop ();
           celXmlArg a_navigator = stack.Pop ();
+          DUMP_EXEC ((":%04d: navigation_ent_node %s %s %s %s %s %s\n",
+          	i-1, A2S (a_navigator),  A2S(a_node),  A2S(a_successvar),
+          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
           iCelEntity* ent = ArgToEntity (a_navigator, pl);
           if (!ent)
             return ReportError (cbl,
@@ -5445,7 +5456,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           iPcProperties* props = GetProperties (entity, behave);
           if (!props)
             return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info = celNavigationTools::GetNavigationInfo (ent, 0, mapnode->GetPosition ());
+          celNavigationInfo info =
+          	celNavigationTools::GetNavigationInfo (ent, 0,
+          	mapnode->GetPosition ());
           props->SetProperty (successvar, info.success);
           props->SetProperty (anglevar, info.angle);
           props->SetProperty (distancevar, info.distance);
