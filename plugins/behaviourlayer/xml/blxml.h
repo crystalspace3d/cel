@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2003 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -47,7 +47,7 @@ class csStringArray;
 #define DO_PROFILE 0
 
 class celExpression : public scfImplementation1<celExpression,
-			   iCelExpression>
+	iCelExpression>
 {
 public:
   celBlXml* cbl;
@@ -81,8 +81,8 @@ public:
  * This is the Behaviour Layer itself.
  */
 class celBlXml : public scfImplementation4<celBlXml, iCelBlLayer,
-		 	iCelBlLayerGenerate, iCelExpressionParser,
-			iComponent>
+	iCelBlLayerGenerate, iCelExpressionParser,
+	iComponent>
 {
 public:
   // This is the call stack: useful for debugging.
@@ -118,44 +118,44 @@ private:
   csStringHash functions;
 
   const char* GetAttributeValue (iDocumentNode* child,
-	const char* propname);
+  	const char* propname);
   const char* GetAttributeString (iDocumentNode* child,
-	const char* attrname, const char* parentname);
+  	const char* attrname, const char* parentname);
   bool ParseEventHandler (celXmlScriptEventHandler* h,
   	csStringArray& local_vars, iDocumentNode* node,
   	celXmlScript* script);
 
   bool SkipComma (const char*& input, iDocumentNode* child,
-	const char* name);
+  	const char* name);
   bool ParseID (const char*& input, csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* name, char* str, csStringID fun_id);
+  	const char* name, char* str, csStringID fun_id);
   bool ParseFunction (const char*& input, const char* pinput,
   	csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* name);
+  	const char* name);
   bool ParseAction (const char*& input, const char* pinput,
   	csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* name);
+  	const char* name);
   bool ParseExpression (csStringArray& local_vars,
-        iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* attrname, const char* name,
-	int optional_type = CEL_DATA_NONE);
+  	iDocumentNode* child,
+  	celXmlScriptEventHandler* h, const char* attrname, const char* name,
+  	int optional_type = CEL_DATA_NONE);
   bool ParseExpressionOrConstantString (csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* attrname, const char* name, char*& str);
+  	const char* attrname, const char* name, char*& str);
   bool ParseExpressionInt (const char*& input, const char* pinput,
-	int token, csStringArray& local_vars, iDocumentNode* child,
-	celXmlScriptEventHandler* h, const char* name,
-	int stoppri);
+  	int token, csStringArray& local_vars, iDocumentNode* child,
+  	celXmlScriptEventHandler* h, const char* name,
+  	int stoppri);
   bool ParseExpression (const char*& input, csStringArray& local_vars,
   	iDocumentNode* child, celXmlScriptEventHandler* h,
-	const char* name, int stoppri);
+  	const char* name, int stoppri);
   bool ParseExpressionOrConstantString (const char*& input,
-	csStringArray& local_vars, iDocumentNode* child,
-	celXmlScriptEventHandler* h,
-	const char* name, int stoppri, char*& str);
+  	csStringArray& local_vars, iDocumentNode* child,
+  	celXmlScriptEventHandler* h,
+  	const char* name, int stoppri, char*& str);
   celXmlScriptEventHandler* FindEventHandler (celXmlScript* script,
   	const char* eventname);
 
