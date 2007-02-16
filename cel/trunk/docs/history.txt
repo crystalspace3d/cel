@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Feb-2007
+	- Genjix fixed gcc 4.1 compile errors.
 15-Feb-2007
 	- Darek added missing DUMP_EXEC to blxml navigation .
 14-Feb-2007

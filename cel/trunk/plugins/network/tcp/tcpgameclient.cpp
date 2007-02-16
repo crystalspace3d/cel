@@ -341,7 +341,9 @@ void celTCPGameClient::UpdateConnecting ()
       packet->Read (temp_game_info.game_name);
       packet->Read (temp_game_info.hostname);
       packet->Read (temp_game_info.port_nb);
-      packet->Read (temp_game_info.max_players);
+      uint32 max_players;
+      packet->Read (max_players);
+      temp_game_info.max_players = max_players;
       packet->Read (temp_game_info.custom_data);
       if (!game->IsServerAvailable ())
 	game->game_info = temp_game_info;
