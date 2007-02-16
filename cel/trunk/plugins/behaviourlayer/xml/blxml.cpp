@@ -168,6 +168,13 @@ enum
   XMLFUNCTION_COLGREEN,
   XMLFUNCTION_COLBLUE,
   XMLFUNCTION_GETMSG,
+  XMLFUNCTION_KEYNODE,
+  XMLFUNCTION_KEYMESHOBJ,
+  XMLFUNCTION_KEYSECTOR,
+  XMLFUNCTION_KEYMESHFACT,
+  XMLFUNCTION_KEYTEXTURE,
+  XMLFUNCTION_KEYMATERIAL,
+  XMLFUNCTION_KEYLIGHT,
 
   XMLFUNCTION_LAST
 };
@@ -329,6 +336,13 @@ bool celBlXml::Initialize (iObjectRegistry* object_reg)
   functions.Register ("colgreen", XMLFUNCTION_COLGREEN);
   functions.Register ("colblue", XMLFUNCTION_COLBLUE);
   functions.Register ("getmsg", XMLFUNCTION_GETMSG);
+  functions.Register ("key_node", XMLFUNCTION_KEYNODE);
+  functions.Register ("key_meshobj", XMLFUNCTION_KEYMESHOBJ);
+  functions.Register ("key_sector", XMLFUNCTION_KEYSECTOR);
+  functions.Register ("key_meshfact", XMLFUNCTION_KEYMESHFACT);
+  functions.Register ("key_texture", XMLFUNCTION_KEYTEXTURE);
+  functions.Register ("key_material", XMLFUNCTION_KEYMATERIAL);
+  functions.Register ("key_light", XMLFUNCTION_KEYLIGHT);
 
   return true;
 }
@@ -1167,7 +1181,164 @@ bool celBlXml::ParseFunction (const char*& input, const char* pinput,
           return false;
         h->AddOperation (CEL_OPERATION_GETMSG);
       }
-      break;
+    break;
+    case XMLFUNCTION_KEYNODE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYNODE4);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYNODE3);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYMESHOBJ:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYMESHOBJ3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYMESHOBJ2);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYSECTOR:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYSECTOR3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYSECTOR2);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYMESHFACT:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYMESHFACT3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYMESHFACT2);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYTEXTURE:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYTEXTURE3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYTEXTURE2);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYMATERIAL:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYMATERIAL3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYMATERIAL2);
+        }
+      }
+    break;
+    case XMLFUNCTION_KEYLIGHT:
+      {
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        if (!SkipComma (input, child, name)) return false;
+        if (!ParseExpression (input, local_vars, child, h, name, 0))
+          return false;
+        pinput = input;
+        input = celXmlParseToken (input, token);
+        if (token == CEL_TOKEN_COMMA)
+        {
+          if (!ParseExpression (input, local_vars, child, h, name, 0))
+            return false;
+          h->AddOperation (CEL_OPERATION_KEYLIGHT3);
+        }
+        else
+        {
+          input = pinput;
+          h->AddOperation (CEL_OPERATION_KEYLIGHT2);
+        }
+      }
+    break;
     default:
       {
         // We have an unknown function. Try to parse it as an event handler
