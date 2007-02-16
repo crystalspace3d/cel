@@ -5987,7 +5987,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           const char* value_name = ArgToString (a_value_name);
           if (!value_name)
             return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_texture'!");
+            	"'value' is missing or invalid for 'key_material'!");
           iEngine* engine = cbl->GetEngine ();
           iMaterialWrapper* map_material = engine->FindMaterial (
           	material_name);
@@ -6075,7 +6075,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           const char* value_name = ArgToString (a_value_name);
           if (!value_name)
             return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_texture'!");
+            	"'value' is missing or invalid for 'key_light'!");
           iEngine* engine = cbl->GetEngine ();
           iLight* map_light = engine->FindLight (light_name);
           if (!map_light)
