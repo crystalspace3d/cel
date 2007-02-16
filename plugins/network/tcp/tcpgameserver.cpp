@@ -450,7 +450,9 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
       answer_packet->Write (game->game_info.game_name);
       answer_packet->Write (game->game_info.hostname);
       answer_packet->Write (game->game_info.port_nb);
-      answer_packet->Write (game->game_info.max_players);
+      uint32 max_players;
+      answer_packet->Write (max_players);
+      game->game_info.max_players = max_players;
       answer_packet->Write (game->game_info.custom_data);
  
       // send packet
