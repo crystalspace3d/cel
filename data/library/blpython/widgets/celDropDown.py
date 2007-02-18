@@ -1,6 +1,7 @@
 from pycel import *
 import celMenu
 class celDropDown:
+    api_version = 2 # use new version of message callbacks.
     def __init__(self,celEntity):
         self.message = ''
         self.owner = None
@@ -13,26 +14,26 @@ class celDropDown:
         self.menu = celMenu.celMenu(self.entity)
         self.locked = False
             
-    def pcbillboard_select(self,celEntity,args):
+    def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
         if self.owner:
             self.owner.Behaviour.SendMessage(self.message, None, params)
             
-    def pcbillboard_unselect(self,celEntity,args):
+    def pcbillboard_unselect(self,pc,args):
         pass
     
-    def pcbillboard_doubleclick(self, celEntity, args):
+    def pcbillboard_doubleclick(self, pc, args):
         pass
     
-    def setparameters(self,celEntity,args):
+    def setparameters(self,pc,args):
         self.message = args[getid('cel.parameter.message')]
         self.owner = args[getid('cel.parameter.owner')]
         
-    def additem(self, celEntity, args):
+    def additem(self, pc, args):
         name = args[getid('cel.parameter.Name')]
         self.items.append(name)
         
-    def setactive(self, celEntity, args):
+    def setactive(self, pc, args):
         if not self.locked:
             if not self.active:
                 for item in self.items:
@@ -41,11 +42,11 @@ class celDropDown:
                 self.menu.align([x, y], [0, 7000])
                 self.active = True
         
-    def setinactive(self, celEntity, args):
+    def setinactive(self, pc, args):
         self.active = False
         self.menu.clear()
         
-    def item_clicked(self, celEntity, args):
+    def item_clicked(self, pc, args):
         name = args[getid('cel.parameter.sender')]
         self.active = False
         self.menu.clear()
@@ -54,19 +55,19 @@ class celDropDown:
         if self.owner:
             self.owner.Behaviour.SendMessage(self.message + '_item', None, params)
         
-    def selectindex(self, celEntity, args):
+    def selectindex(self, pc, args):
         if not self.locked:
             index = int(args[getid('cel.parameter.index')])
             self.active = False
             self.menu.clear()
             self.bb.SetText(self.items[index])
         
-    def destruct(self, celEntity, args):
+    def destruct(self, pc, args):
         self.menu.clear()
         self.entity.PropertyClassList.RemoveAll()
 
-    def setlocked(self, celEntity, args):
+    def setlocked(self, pc, args):
         self.locked = True
 
-    def setunlocked(self, celEntity, args):
+    def setunlocked(self, pc, args):
         self.locked = False

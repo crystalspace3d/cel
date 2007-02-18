@@ -11,6 +11,7 @@ def GetFontColor():
     return csColor(0.9, 0.9, 0.9)
 
 class celMenu:
+    api_version = 2 # use new version of message callbacks.
     def __init__(self, owner):
         self.elements = []
         self.blpython = BehaviourLayers['blpython']

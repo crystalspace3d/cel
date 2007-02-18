@@ -6,6 +6,7 @@ from pycel import *
 import random
 import math
 class followpath:
+	api_version = 2 # use new version of message callbacks.
 	# INITIALIZATION
 	def __init__(self,celEntity):
 		print "Initializing followpath...",celEntity.Name
@@ -39,7 +40,7 @@ class followpath:
 		c = random.random()*100.0
 		self.mypath.SetPositionVector(number,csVector3(a,b,c))
 
-	def pclinearmovement_arrived(self,celEntity,args):
+	def pclinearmovement_arrived(self,pc,args):
 		self.mypath.SetPositionVector(0,self.mesh.GetMesh().GetMovable().GetPosition())
 		if random.random()>0.8 and self.dest:
 			self.mypath.SetPositionVector(1,self.dest.GetPosition())

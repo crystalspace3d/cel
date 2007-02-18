@@ -10,8 +10,10 @@ from pycel import *
 import random
 
 class npc:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing npc...",celEntity.Name
+		self.name = celEntity.Name
 		# get or create linmove
 		self.linmove = celLinearMovement(celEntity)
 		# get or create actormove
@@ -49,17 +51,15 @@ class npc:
 			if self.spr3dstate:
 				self.spr3dstate.SetAction("walk")
 
-	def real_init(self,celEntity,room):
+	def real_init(self,pc,room):
 		pass
-	def pcmeshsel_up(self,celEntity,args):
+	def pcmeshsel_up(self,pc,args):
 		pl = physicallayer_ptr
 		actor = Entities["camera"]
 		toolt = celGetToolTip(actor)
 		if toolt:
-			toolt.Text = celEntity.Name
-		
-
-	def pctimer_wakeup(self,celEntity,args):
+			toolt.Text = self.name
+	def pctimer_wakeup(self,pc,args):
 		# ADVANCE
 		advance = random.random()
 		is_advancing = advance<0.5

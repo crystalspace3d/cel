@@ -1,6 +1,7 @@
 from pycel import *
 import celMenu
 class celTextInput:
+    api_version = 2 # use new version of message callbacks.
     def __init__(self,celEntity):
         self.message = ''
         self.owner = None
@@ -16,18 +17,18 @@ class celTextInput:
         self.pcinput.SetCookedMode(True)
         self.pcinput.SetSendTrigger(True)
             
-    def pcbillboard_select(self,celEntity,args):
+    def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
         if self.owner:
             self.owner.Behaviour.SendMessage(self.message, None, params)
             
-    def pcbillboard_unselect(self,celEntity,args):
+    def pcbillboard_unselect(self,pc,args):
         pass
     
-    def pcbillboard_doubleclick(self, celEntity, args):
+    def pcbillboard_doubleclick(self, pc, args):
         pass
     
-    def setactive(self, celEntity, args):
+    def setactive(self, pc, args):
         if not self.active:
             self.active = True
             text = self.bb.GetText()
@@ -49,7 +50,7 @@ class celTextInput:
                 newtext += '|'
             self.bb.SetText(newtext)
         
-    def setinactive(self, celEntity, args):
+    def setinactive(self, pc, args):
         if self.active:
             self.active = False
             #Remove the cursor
@@ -58,11 +59,11 @@ class celTextInput:
                 newtext += letter
             self.bb.SetText(newtext)
     
-    def setparameters(self,celEntity,args):
+    def setparameters(self,pc,args):
         self.message = args[getid('cel.parameter.message')]
         self.owner = args[getid('cel.parameter.owner')]
         
-    def pccommandinput_keypress1(self, celEntity, args):
+    def pccommandinput_keypress1(self, pc, args):
         trigger = args[getid('cel.parameter.trigger')]
         if self.active:
             self.handlekey(trigger)
@@ -105,13 +106,13 @@ class celTextInput:
             newtext += '|'
         self.bb.SetText(newtext)
         
-    def pccommandinput_keypress0(self, celEntity, args):
+    def pccommandinput_keypress0(self, pc, args):
         pass
     
-    def pccommandinput_keypress_(self, celEntity, args):
+    def pccommandinput_keypress_(self, pc, args):
         trigger = args[getid('cel.parameter.trigger')]
         if self.active:
             self.handlekey(trigger)
     
-    def destruct(self, celEntity, args):
+    def destruct(self, pc, args):
         self.entity.PropertyClassList.RemoveAll()
