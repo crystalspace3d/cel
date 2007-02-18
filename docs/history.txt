@@ -3,6 +3,20 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+18-Feb-2007
+	- caedes did the following changes to blpython:
+	  - Added a system to specify message callback api version by specifying
+	     api_version inside behaviour classes.
+	  - Added a new style for behaviour message callbacks, this is used when
+	    api_version is set to 2 in behaviours. The new message callback style
+	    addresses pc not being passed to behaviour (and thus making behaviour
+	    unable to discriminate among same messages from different pcclasses),
+	    also removed entity parameter in those as it provides no useful
+	    information. New callback style is:
+	      def beh_callback(self,pc,args):
+	  - Added a verbose option (blpython) to control messages for unimplemented 
+	    behaviour message callbacks, and silenced them if this option is not set.
+	  - Sanitized information printing a bit.
 16-Feb-2007
 	- Genjix fixed gcc 4.1 compile errors.
 	- Darek added to blxml support for map keys: key_node, key_meshobj, 
