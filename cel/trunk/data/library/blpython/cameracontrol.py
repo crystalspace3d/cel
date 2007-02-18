@@ -5,6 +5,7 @@
 from pycel import *
 
 class cameracontrol:
+	api_version = 2 # use new version of message callbacks.
 	# INITIALIZATION
 	def __init__(self,celEntity):
 		print "Initializing cameracontrol...",celEntity.Name
@@ -23,7 +24,7 @@ class cameracontrol:
 	# to certain events. 
 	
 	# pctimer wakeup callback
-	def pctimer_wakeup (self,celentity,args):
+	def pctimer_wakeup (self,pc,args):
 		pass
 		
 	# walk callbacks. note that for each bind defined in
@@ -32,33 +33,33 @@ class cameracontrol:
 	# pccommandinput_(bindcode)0     -> Key release event
 	# pccommandinput_(bindcode)_     -> Key hold events
 	# ROTATE
-	def pccommandinput_rotateleft1(self,celEntity,args):
+	def pccommandinput_rotateleft1(self,pc,args):
 		self.actormove.RotatingLeft = 1
-	def pccommandinput_rotateleft0(self,celEntity,args):
+	def pccommandinput_rotateleft0(self,pc,args):
 		self.actormove.RotatingLeft = 0
-	def pccommandinput_rotateleft_(self,celentity,args):
+	def pccommandinput_rotateleft_(self,pc,args):
 		pass
-	def pccommandinput_rotateright1(self,celEntity,args):
+	def pccommandinput_rotateright1(self,pc,args):
 		self.actormove.RotatingRight = 1
-	def pccommandinput_rotateright0(self,celEntity,args):
+	def pccommandinput_rotateright0(self,pc,args):
 		self.actormove.RotatingRight = 0
-	def pccommandinput_rotateright_(self,celentity,args):
+	def pccommandinput_rotateright_(self,pc,args):
 		pass
 
 	# LOOK UP AND DOWN
-	def pccommandinput_lookup1(self,celEntity,args):
+	def pccommandinput_lookup1(self,pc,args):
 		self.camera.PitchVelocity = 1.0
 
-	def pccommandinput_lookup0(self,celEntity,args):
+	def pccommandinput_lookup0(self,pc,args):
 		self.camera.PitchVelocity = 0.0
 
-	def pccommandinput_lookdown1(self,celEntity,args):
+	def pccommandinput_lookdown1(self,pc,args):
 		self.camera.PitchVelocity = -1.0
 
-	def pccommandinput_lookdown0(self,celEntity,args):
+	def pccommandinput_lookdown0(self,pc,args):
 		self.camera.PitchVelocity = 0.0
 
 	# CAMERA MODES
-	def pccommandinput_cammode1(self,celEntity,args):
+	def pccommandinput_cammode1(self,pc,args):
 		self.camera.Mode = self.camera.GetNextMode ()
 

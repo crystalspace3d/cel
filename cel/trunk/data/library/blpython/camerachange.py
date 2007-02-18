@@ -6,12 +6,13 @@ from pycel import *
 actorname = "camera"
 
 class camerachange:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		actor = Entites(actorname)
 		self.camera = celGetDefaultCamera(actor)
 		self.prevcamera = self.camera.ModeName
 	
-	def pctrigger_entityenters(self,celEntity,args):
+	def pctrigger_entityenters(self,pc,args):
 		self.camera.ModeName = "firstperson"
-	def pctrigger_entityleaves(self,celEntity,args):
-		selfcamera.ModeName = self.prevcamera
+	def pctrigger_entityleaves(self,pc,args):
+		self.camera.ModeName = self.prevcamera

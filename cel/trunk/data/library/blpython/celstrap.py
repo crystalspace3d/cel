@@ -31,6 +31,7 @@ pcclasses = ["region","tooltip","mesh","solid","meshselect","test","zonemanager"
 # called "camera" :(. Have to find a better way to manage the player.
 
 class celstrap:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing game..."
 		self.entity=celEntity
@@ -115,15 +116,15 @@ class celstrap:
 		RemoveEntity(dummy)
 
 	# video record commands
-	def pccommandinput_startrecord1(self,celEntity,args):
+	def pccommandinput_startrecord1(self,pc,args):
 		self.log_event("start recording")
 		if self.mr:
 			self.mr.Start()
-	def pccommandinput_stoprecord1(self,celEntity,args):
+	def pccommandinput_stoprecord1(self,pc,args):
 		self.log_event("stop recording")
 		if self.mr:
 			self.mr.Stop()
-	def pccommandinput_pauserecord1(self,celEntity,args):
+	def pccommandinput_pauserecord1(self,pc,args):
 		if self.mr:
 			if self.mr.IsPaused():
 				self.log_event("unpause recording")
@@ -141,17 +142,17 @@ class celstrap:
 
 	# this are callbacks for pczonemanager (not used at the moment
 	# as the zonemanager is a separate entity)
-	#def pczonemanager_startloading(self,celEntity,args):
+	#def pczonemanager_startloading(self,pc,args):
 	#	self.log_event("start loading")
-	#def pczonemanager_stoploading(self,celEntity,args):
+	#def pczonemanager_stoploading(self,pc,args):
 	#	self.log_event("stop loading")
-	#def pczonemanager_addregion(self,celEntity,args):
+	#def pczonemanager_addregion(self,pc,args):
 	#	self.log_event("add region")
-	#def pczonemanager_remregion(self,celEntity,args):
+	#def pczonemanager_remregion(self,pc,args):
 	#	self.log_event("remove region")
 
 	# starting command, here we can pass map name, player name...
-	def load(self,celEntity,args):
+	def load(self,pc,args):
 		# mount the file at some path in vfs
 		self.map = args[getid("cel.parameter.parameter1")]
 		#vfs.ChDirAuto("/celstrap/");

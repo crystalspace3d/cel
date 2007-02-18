@@ -1,6 +1,7 @@
 from pycel import *
 import celMenu
 class celNumberInput:
+    api_version = 2 # use new version of message callbacks.
     def __init__(self,celEntity):
         self.message = ''
         self.owner = None
@@ -26,18 +27,18 @@ class celNumberInput:
         self.arrows.addElement('<', 'left_click', pos, [6000, 6000], fconst * 0.8, 'unselection')
         self.arrows.addElement('>', 'right_click', [pos[0] + size[0] - 3000, pos[1]], [6000, 6000], fconst * 0.8, 'unselection')
             
-    def pcbillboard_select(self,celEntity,args):
+    def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
         if self.owner:
             self.owner.Behaviour.SendMessage(self.message, None, params)
             
-    def pcbillboard_unselect(self,celEntity,args):
+    def pcbillboard_unselect(self,pc,args):
         pass
     
-    def pcbillboard_doubleclick(self, celEntity, args):
+    def pcbillboard_doubleclick(self, pc, args):
         pass
     
-    def setactive(self, celEntity, args):
+    def setactive(self, pc, args):
         if not self.active:
             self.active = True
             text = self.bb.GetText()
@@ -60,7 +61,7 @@ class celNumberInput:
                 newtext += '|'
             self.bb.SetText(newtext)
         
-    def setinactive(self, celEntity, args):
+    def setinactive(self, pc, args):
         if self.active:
             self.active = False
             #Remove the cursor
@@ -69,11 +70,11 @@ class celNumberInput:
                 newtext += letter
             self.bb.SetText(newtext)
     
-    def setparameters(self,celEntity,args):
+    def setparameters(self,pc,args):
         self.message = args[getid('cel.parameter.message')]
         self.owner = args[getid('cel.parameter.owner')]
         
-    def pccommandinput_keypress1(self, celEntity, args):
+    def pccommandinput_keypress1(self, pc, args):
         trigger = args[getid('cel.parameter.trigger')]
         if self.active:
             self.handlekey(trigger)
@@ -106,19 +107,19 @@ class celNumberInput:
             newtext += '|'
         self.bb.SetText(newtext)
         
-    def pccommandinput_keypress0(self, celEntity, args):
+    def pccommandinput_keypress0(self, pc, args):
         pass
     
-    def pccommandinput_keypress_(self, celEntity, args):
+    def pccommandinput_keypress_(self, pc, args):
         trigger = args[getid('cel.parameter.trigger')]
         if self.active:
             self.handlekey(trigger)
     
-    def destruct(self, celEntity, args):
+    def destruct(self, pc, args):
         self.arrows.clear()
         self.entity.PropertyClassList.RemoveAll()
     
-    def left_click(self, celEntity, args):
+    def left_click(self, pc, args):
         newtext = ''
         for i, letter in enumerate(self.text):
             newtext += letter
@@ -126,7 +127,7 @@ class celNumberInput:
         self.text = list(str(newint))
         self.bb.SetText(str(newint))
         
-    def right_click(self, celEntity, args):
+    def right_click(self, pc, args):
         newtext = ''
         for i, letter in enumerate(self.text):
             newtext += letter

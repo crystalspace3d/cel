@@ -4,6 +4,7 @@ import celMenu
 #The scroller is not meant to be used as part of a menu. It sort of is a menu
 #already.
 class celScroller:
+    api_version = 2 # use new version of message callbacks.
     def __init__(self, owner, pos, dims):
         self.items = []
         self.names = []

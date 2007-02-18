@@ -6,6 +6,7 @@ from pycel import *
 import random
 
 class lookat:
+	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "initializing lookat",celEntity.Name
 		# some variables for the counter
@@ -33,7 +34,7 @@ class lookat:
 			self.timer.WakeUpFrame (CEL_EVENT_PRE)
 
 
-	def pctimer_wakeupframe(self,celEntity,args):
+	def pctimer_wakeupframe(self,pc,args):
 		monitored_pos = self.monitor_mov.GetPosition()
 		self_pos = self.movable.GetPosition()
 		self.movable.GetTransform().LookAt(monitored_pos-self_pos,csVector3(0,1,0))
