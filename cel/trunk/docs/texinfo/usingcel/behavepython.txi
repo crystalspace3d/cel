@@ -46,6 +46,7 @@ A python behaviour has the following structure:
 from pycel import *
 
 class fovcontrol:
+        api_version = 2
         def __init__(self,celEntity):
                 print "Initializing fovcontrol...",celEntity.Name
 		# get camera from main actor (called camera in this case)
@@ -66,21 +67,21 @@ class fovcontrol:
                 self.time = Clock.GetCurrentTicks()
 
 	# property class message callbacks
-        def pctimer_wakeupframe(self,celEntity,args):
+        def pctimer_wakeupframe(self,pc,args):
                 self.time = Clock.GetCurrentTicks() - self.time
                 if self.zoomin:
                         self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
                 if self.zoomout:
                         self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
-        def pccommandinput_zoomin1(self,celEntity,args):
+        def pccommandinput_zoomin1(self,pc,args):
                 self.zoomin = True
-        def pccommandinput_zoomout1(self,celEntity,args):
+        def pccommandinput_zoomout1(self,pc,args):
                 self.zoomout = True
-        def pccommandinput_zoomin0(self,celEntity,args):
+        def pccommandinput_zoomin0(self,pc,args):
                 self.zoomin = False
-        def pccommandinput_zoomout0(self,celEntity,args):
+        def pccommandinput_zoomout0(self,pc,args):
                 self.zoomout = False
-        def pccommandinput_zoom01(self,celEntity,args):
+        def pccommandinput_zoom01(self,pc,args):
                 self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
 
 @end example
@@ -98,6 +99,10 @@ call certain functions in our python behaviours so we may react to events.
 For example @code{pctimer_wakeup} is got when the entity receives a wakeup
 event from a timer, @code{pctrigger_entertrigger} is got when the entity
 enters some trigger's area.
+
+Note also de @code{api_version = 2} variable, it specifies the message
+callback version to use. Version 2 is new in 1.2 and is recommended although
+version 1 is still default for backward compatibility reasons.
 
 @subsubheading Python behaviours at @sc{xml} worldfiles
 
@@ -319,7 +324,7 @@ Other property classes like @code{pcmechanicsobject}, @code{pcmeshselect},
 special messages.
 
 Message function calls get three parameters. The first is the behaviour class
-instance, the second the entity receiving the message, and the last a
+instance, the second the property class sending the message, and the last a
 @code{celParameterBlock} that holds all message specific values.
 
 You can access the values from the parameter block as a python dict with
@@ -328,7 +333,8 @@ slightly more efficient.
 
 @example
 # a pcbillboard select message
-def pcbillboard_select(self,celEntity,args):
+def pcbillboard_select(self,pc,args):
+       print pc.Tag
        bx = args["x"]
        by = args["y"]
        button = args["button"]
@@ -340,10 +346,43 @@ use instead of querying them each time.
 
 A final snippet for printing all parameters to a message:
 @example
-def pcbillboard_select(self,celEntity,Args):
-       for strid in Args.keys():
-		print fromid(strid),Args[strid]
+def pcbillboard_select(self,pc,args):
+       for strid in args.keys():
+		print fromid(strid),args[strid]
 @end example
+
+@subsubheading New PcClass Messages Callback Style
+
+There is a new style for receiving message callbacks from pcclasses in cel 1.2
+to address some design errors in previous version. This new style is the one
+present in this documentation and also in all behaviour examples in cel.
+
+By specifying @code{api_version = 2} at the body of a behaviour class you
+can use the new message callback style (see initial example in this chapter).
+
+Old message callback style was:
+@example
+def pcbillboard_select(self,celEntity,args):
+        ...
+@end example
+
+And the new one in cel 1.2 is:
+@example
+def pcbillboard_select(self,pc,args):
+        ...
+@end example
+
+Although the old style is still default due to backwards compatibility reasons,
+you are recommended to start using the new one, as it gives access to the pc
+sending the message, required in case you want to discriminate among similar 
+pc classes present in the entity.
+
+Note specifying api_version is required in cel 1.2 so as to be able to maintain
+backwards compatibility in future releases when default callback style is
+changed.
+
+If you need access to the entity parameter, you should
+now save it in the behaviour constructor.
 
 @subheading Sending Messages
 

@@ -17,6 +17,7 @@ The history order is reversed so that new features are at the top.
 	  - Added a verbose option (blpython) to control messages for unimplemented 
 	    behaviour message callbacks, and silenced them if this option is not set.
 	  - Sanitized information printing a bit.
+	- caedes documented new callback style in blpython manual section.
 16-Feb-2007
 	- Genjix fixed gcc 4.1 compile errors.
 	- Darek added to blxml support for map keys: key_node, key_meshobj, 
