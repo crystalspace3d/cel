@@ -103,6 +103,9 @@ public:
   virtual void SlideOn () { slide_on = true; }
   virtual void SlideOff () { slide_on = false; }
 
+  virtual bool GetPropertyIndexed (int, float& val);
+  virtual bool SetPropertyIndexed (int, float val);
+
   struct PcCraftController : public iPcCraftController
   {
     SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
@@ -228,6 +231,36 @@ public:
   } scfiPcCraftController;
 
 private:
+  static PropertyHolder propinfo;
+
+  // Actions
+  enum actionids
+  {
+    action_sliding = 0,
+    action_braking,
+    action_thruster,
+    action_aburner
+  };
+
+  // For properties.
+  enum propids
+  {
+    propid_turnmax = 0,
+    propid_turnacc,
+    propid_pitchmax,
+    propid_pitchacc,
+    propid_roll,
+    propid_thrust,
+    propid_topspeed,
+    propid_atopspeed,
+    propid_brakingspeed,
+    propid_decelrate,
+    propid_rvelratio
+  };
+
+  // Parameters.
+  static csStringID id_enabled;
+
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
 
   // turning variables

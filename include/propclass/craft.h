@@ -25,116 +25,161 @@
 #include "csutil/scf.h"
 
 /**
- * Craft controller property class. "pccraft"
- * Allows a Craft with turning left and right,
+ * This is a property class used to control movement of an hovercraft.
+ * Allows changing yaw and pitch, as well as thruster and afterburner,
  * and supresses angular velocity of object.
- * Thruster and functions to control supression
- * to be added.
+ *
+ * This property class supports the following actions (add prefix
+ * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
+ * to get the ID of the parameter):
+ * - SetSliding: parameters 'enabled' (bool: optional). If 'enabled' is not
+ *   given then default is true.
+ * - SetBraking: parameters 'enabled' (bool: optional). If 'enabled' is not
+ *   given then default is true.
+ * - SetThruster: parameters 'enabled' (bool: optional). If 'enabled' is not
+ *   given then default is true.
+ * - SetAfterBurner: parameters 'enabled' (bool: optional). If 'enabled' is not
+ *   given then default is true.
+ *
+ * This property class supports the following properties (add prefix
+ * 'cel.property.' to get the ID of the property:
+ * - turnmax (float, read/write): maximum turning.
+ * - turnacc (float, read/write): turning rate.
+ * - pitchmax (float, read/write): maximum pitch.
+ * - pitchacc (float, read/write): pitch rate.
+ * - roll (float, read/write): rolling ratio.
+ * - thrust (float, read/write): thruster force.
+ * - topspeed (float, read/write): thruster top speed.
+ * - atopspeed (float, read/write): afterburner top speed.
+ * - brakingspeed (float, read/write): braking speed.
+ * - decelrate (float, read/write): deceleration rate.
+ * - rvelratio (float, read/write): redirected velocity ratio.
  */
 struct iPcCraftController : public virtual iBase
 {
   SCF_INTERFACE (iPcCraftController, 0, 0, 1);
 
   /**
-   * Start the object turning left
+   * Start the object turning left.
    */
   virtual void StartTurnLeft() = 0;
   /**
-   * Stop the object turning left
+   * Stop the object turning left.
    */
   virtual void StopTurnLeft() = 0;
   /**
-   * Start the object turning right
+   * Start the object turning right.
    */
   virtual void StartTurnRight() = 0;
   /**
-   * Stop the object turning right
+   * Stop the object turning right.
    */
   virtual void StopTurnRight() = 0;
 
   /**
-   * Start the object turning up
+   * Start the object turning up.
    */
   virtual void StartTurnUp() = 0;
   /**
-   * Stop the object turning up
+   * Stop the object turning up.
    */
   virtual void StopTurnUp() = 0;
   /**
-   * Start the object turning down
+   * Start the object turning down.
    */
   virtual void StartTurnDown() = 0;
   /**
-   * Stop the object turning down
+   * Stop the object turning down.
    */
   virtual void StopTurnDown() = 0;
 
   /**
-   * Set the objects left and right
-   * turning acceleration;
+   * Set the objects left and right turning acceleration.
    */
   virtual void SetAccTurn(float tacc) = 0;
   /**
-   * Set the objects up and down
-   * turning acceleration;
+   * Set the objects up and down turning acceleration.
    */
   virtual void SetAccPitch(float uacc) = 0;
 
   /**
-   * Set the objects maximum
-   * left and right turning velocity;
+   * Set the objects maximum left and right turning velocity.
    */
   virtual void SetMaxTurn(float turn) = 0;
   /**
-   * Set the objects maximum
-   * up and down turning velocity;
+   * Set the objects maximum up and down turning velocity.
    */
   virtual void SetMaxPitch(float mud) = 0;
   /**
    * Set the roll factor.
-   * Roll is how much a craft rolls when turning
-   * left and right.
+   * Roll is how much a craft rolls when turning left and right.
    */
   virtual void SetRoll (float roll) = 0;
   /**
-   * Set the thrust force of the craft
+   * Set the thrust force of the craft.
    */
   virtual void SetThrustForce(float tf) = 0;
   /**
    * Set the Top Speed of the thruster.
-   * Above this speed the thruster will not work.
+   * Above this speed the thruster will be disabled.
    */
   virtual void SetTopSpeed(float tspeed) = 0;
   /**
-   * Do Not forget to document!
+   * @@@FIXME@@@ Document me !
    */
   virtual void SetRedirectVelocityRatio (float rdvr) = 0;
-
+  /**
+   * Set the deceleration rate.
+   * It is used to slow down the craft when thruster is off.
+   */
   virtual void SetDecelerationRate (float decr) = 0;
+  /**
+   * Set the braking force.
+   * It is used to slow down the craft when brakes are on.
+   */
   virtual void SetBrakingSpeed (float bspd) = 0;
 
   /**
-   * Turn on thruster
+   * Turn on thruster.
    */
   virtual void ThrustOn() = 0;
   /**
-   * Turn off thruster
+   * Turn off thruster.
    */
   virtual void ThrustOff() = 0;
   /**
-   * Report whether thrust is on (true)
-   * or turned off (false).
+   * Report whether thruster is on (true) or turned off (false).
    */
   virtual bool IsThrusterOn () = 0;
-
+  /**
+   * Set the top speed when afterburner is on.
+   * Above this speed the afterburner will be disabled.
+   */ 
   virtual void SetAfterBurnerTopSpeed (float tspeed) = 0;
+  /**
+   * Turn on afterburner.
+   */
   virtual void AfterBurnerOn () = 0;
+  /**
+   * Turn off afterburner.
+   */
   virtual void AfterBurnerOff () = 0;
-
+  /**
+   * Turn on brakes.
+   */
   virtual void BrakesOn () = 0;
+  /**
+   * Turn off brakes.
+   */
   virtual void BrakesOff () = 0;
-
+  /**
+   * Turn on sliding.
+   * When sliding, the craft velocity is independent of its orientation.
+   */
   virtual void SlideOn () = 0;
+  /**
+   * Turn off sliding.
+   */
   virtual void SlideOff () = 0;
 };
 
