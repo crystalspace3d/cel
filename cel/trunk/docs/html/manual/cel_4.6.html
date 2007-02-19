@@ -103,6 +103,7 @@ can use it of course).
 from pycel import *
 
 class fovcontrol:
+        api_version = 2
         def __init__(self,celEntity):
                 print &quot;Initializing fovcontrol...&quot;,celEntity.Name
 		# get camera from main actor (called camera in this case)
@@ -123,21 +124,21 @@ class fovcontrol:
                 self.time = Clock.GetCurrentTicks()
 
 	# property class message callbacks
-        def pctimer_wakeupframe(self,celEntity,args):
+        def pctimer_wakeupframe(self,pc,args):
                 self.time = Clock.GetCurrentTicks() - self.time
                 if self.zoomin:
                         self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
                 if self.zoomout:
                         self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
-        def pccommandinput_zoomin1(self,celEntity,args):
+        def pccommandinput_zoomin1(self,pc,args):
                 self.zoomin = True
-        def pccommandinput_zoomout1(self,celEntity,args):
+        def pccommandinput_zoomout1(self,pc,args):
                 self.zoomout = True
-        def pccommandinput_zoomin0(self,celEntity,args):
+        def pccommandinput_zoomin0(self,pc,args):
                 self.zoomin = False
-        def pccommandinput_zoomout0(self,celEntity,args):
+        def pccommandinput_zoomout0(self,pc,args):
                 self.zoomout = False
-        def pccommandinput_zoom01(self,celEntity,args):
+        def pccommandinput_zoom01(self,pc,args):
                 self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
 
 </pre></td></tr></table>
@@ -154,6 +155,10 @@ call certain functions in our python behaviours so we may react to events.
 For example <code>pctimer_wakeup</code> is got when the entity receives a wakeup
 event from a timer, <code>pctrigger_entertrigger</code> is got when the entity
 enters some trigger's area.
+</p>
+<p>Note also de <code>api_version = 2</code> variable, it specifies the message
+callback version to use. Version 2 is new in 1.2 and is recommended although
+version 1 is still default for backward compatibility reasons.
 </p>
 <a name="SEC116"></a>
 <h4 class="subsubheading"> Python behaviours at <small>XML</small> worldfiles </h4>
@@ -379,7 +384,7 @@ the key press, release and maintain events.
 special messages.
 </p>
 <p>Message function calls get three parameters. The first is the behaviour class
-instance, the second the entity receiving the message, and the last a
+instance, the second the property class sending the message, and the last a
 <code>celParameterBlock</code> that holds all message specific values.
 </p>
 <p>You can access the values from the parameter block as a python dict with
@@ -387,7 +392,8 @@ instance, the second the entity receiving the message, and the last a
 slightly more efficient.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example"># a pcbillboard select message
-def pcbillboard_select(self,celEntity,args):
+def pcbillboard_select(self,pc,args):
+       print pc.Tag
        bx = args[&quot;x&quot;]
        by = args[&quot;y&quot;]
        button = args[&quot;button&quot;]
@@ -397,11 +403,41 @@ the values. Also note for efficiency you would save the StringIDs for later
 use instead of querying them each time.
 </p>
 <p>A final snippet for printing all parameters to a message:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,Args):
-       for strid in Args.keys():
-		print fromid(strid),Args[strid]
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,pc,args):
+       for strid in args.keys():
+		print fromid(strid),args[strid]
 </pre></td></tr></table>
 <a name="SEC128"></a>
+<h4 class="subsubheading"> New PcClass Messages Callback Style </h4>
+
+<p>There is a new style for receiving message callbacks from pcclasses in cel 1.2
+to address some design errors in previous version. This new style is the one
+present in this documentation and also in all behaviour examples in cel.
+</p>
+<p>By specifying <code>api_version = 2</code> at the body of a behaviour class you
+can use the new message callback style (see initial example in this chapter).
+</p>
+<p>Old message callback style was:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,args):
+        ...
+</pre></td></tr></table>
+<p>And the new one in cel 1.2 is:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,pc,args):
+        ...
+</pre></td></tr></table>
+<p>Although the old style is still default due to backwards compatibility reasons,
+you are recommended to start using the new one, as it gives access to the pc
+sending the message, required in case you want to discriminate among similar 
+pc classes present in the entity.
+</p>
+<p>Note specifying api_version is required in cel 1.2 so as to be able to maintain
+backwards compatibility in future releases when default callback style is
+changed.
+</p>
+<p>If you need access to the entity parameter, you should
+now save it in the behaviour constructor.
+</p>
+<a name="SEC129"></a>
 <h3 class="subheading"> Sending Messages </h3>
 
 <p>Some messages (like <code>__init__</code> and messages from property classes) are
@@ -433,7 +469,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
-<a name="SEC129"></a>
+<a name="SEC130"></a>
 <h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
 
 <p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to
