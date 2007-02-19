@@ -44,10 +44,19 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCraftController::PcCraftController)
   SCF_IMPLEMENTS_INTERFACE (iPcCraftController)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+csStringID celPcCraftController::id_enabled = csInvalidStringID;
+
+PropertyHolder celPcCraftController::propinfo;
+
 celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCraftController);
+
+  if (id_enabled == csInvalidStringID)
+  {
+    id_enabled = pl->FetchStringID ("cel.parameter.enabled");
+  }
 
   turn_left = false;
   turn_right = false;
@@ -78,10 +87,154 @@ celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
 
   brakes_on = false;
   braking_speed = 1.0f - 0.1f;
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_sliding, "cel.action.SetSliding");
+    AddAction (action_braking, "cel.action.SetBraking");
+    AddAction (action_thruster, "cel.action.SetThruster");
+    AddAction (action_aburner, "cel.action.SetAfterBurner");
+  }
+
+  // For properties.
+  propinfo.SetCount (11);
+  AddProperty (propid_turnmax, "cel.property.turnmax",
+        CEL_DATA_FLOAT, false, "Maximum turning.", 0);
+  AddProperty (propid_turnacc, "cel.property.turnacc",
+        CEL_DATA_FLOAT, false, "Maximum turning rate.", 0);
+  AddProperty (propid_pitchmax, "cel.property.pitchmax",
+        CEL_DATA_FLOAT, false, "Maximum pitch.", 0);
+  AddProperty (propid_pitchacc, "cel.property.pitchacc",
+        CEL_DATA_FLOAT, false, "Maximum pitch rate.", 0);
+  AddProperty (propid_roll, "cel.property.roll",
+        CEL_DATA_FLOAT, false, "Rolling ratio.", 0);
+  AddProperty (propid_thrust, "cel.property.thrust",
+        CEL_DATA_FLOAT, false, "Thruster force.", 0);
+  AddProperty (propid_topspeed, "cel.property.topspeed",
+        CEL_DATA_FLOAT, false, "Maximum thruster speed.", 0);
+  AddProperty (propid_atopspeed, "cel.property.atopspeed",
+        CEL_DATA_FLOAT, false, "Maximum afterbruner speed.", 0);
+  AddProperty (propid_brakingspeed, "cel.property.brakingspeed",
+        CEL_DATA_FLOAT, false, "Braking speed.", 0);
+  AddProperty (propid_decelrate, "cel.property.decelrate",
+        CEL_DATA_FLOAT, false, "Deceleration rate.", 0);
+  AddProperty (propid_rvelratio, "cel.property.rvelratio",
+        CEL_DATA_FLOAT, false, "Redirect velocity ratio.", 0);
 }
 
 celPcCraftController::~celPcCraftController ()
 {
+}
+
+
+bool celPcCraftController::GetPropertyIndexed (int idx, float& val)
+{
+  switch(idx)
+  {
+    case propid_turnmax:
+      val = turn_max;
+      return true;
+    case propid_turnacc:
+      val = turn_acc;
+      return true;
+    case propid_pitchmax:
+      val = pitch_max;
+      return true;
+    case propid_pitchacc:
+      val = pitch_acc;
+      return true;
+    case propid_roll:
+      val = roll;
+      return true;
+    case propid_thrust:
+      val = thrust;
+      return true;
+    case propid_topspeed:
+      val = topspeed;
+      return true;
+    case propid_atopspeed:
+      val = topburnerspeed;
+      return true;
+    case propid_brakingspeed:
+      val = braking_speed;
+      return true;
+    case propid_decelrate:
+      val = deceleration_rate;
+      return true;
+    case propid_rvelratio:
+      val = redirect_vel_ratio;
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool celPcCraftController::SetPropertyIndexed (int idx, float val)
+{
+  switch(idx)
+  {
+    case propid_turnmax:
+      SetMaxTurn (val);
+      return true;
+    case propid_turnacc:
+      SetAccTurn (val);
+      return true;
+    case propid_pitchmax:
+      SetMaxPitch (val);
+      return true;
+    case propid_pitchacc:
+      SetAccPitch (val);
+      return true;
+    case propid_roll:
+      SetRoll (val);
+      return true;
+    case propid_thrust:
+      SetThrustForce (val);
+      return true;
+    case propid_topspeed:
+      SetTopSpeed (val);
+      return true;
+    case propid_atopspeed:
+      SetAfterBurnerTopSpeed (val);
+      return true;
+    case propid_brakingspeed:
+      SetBrakingSpeed (val);
+      return true;
+    case propid_decelrate:
+      SetDecelerationRate (val);
+      return true;
+    case propid_rvelratio:
+      SetRedirectVelocityRatio (val);
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool celPcCraftController::PerformActionIndexed (int idx,
+        iCelParameterBlock* params,
+        celData& ret)
+{
+  CEL_FETCH_BOOL_PAR(enabled, params, id_enabled);
+  if (!p_enabled) enabled = true;
+  switch (idx)
+  {
+    case action_sliding:
+      slide_on = enabled;
+      return true;
+    case action_braking:
+      brakes_on = enabled;
+      return true;
+    case action_thruster:
+      thrust_on = enabled;
+      return true;
+    case action_aburner:
+      after_burner = enabled;
+      return true;
+    default:
+      return false;
+  }
 }
 
 csPtr<iCelDataBuffer> celPcCraftController::Save ()
@@ -93,12 +246,6 @@ csPtr<iCelDataBuffer> celPcCraftController::Save ()
 bool celPcCraftController::Load (iCelDataBuffer* databuf)
 {
   return true;
-}
-
-bool celPcCraftController::PerformActionIndexed (int idx,
-    iCelParameterBlock* params, celData& ret)
-{
-  return false;
 }
 
 void celPcCraftController::Tick ()
