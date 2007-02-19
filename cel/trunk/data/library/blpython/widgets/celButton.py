@@ -28,7 +28,7 @@ class celButton:
         if not self.active:
             self.active = True
             bb = celBillboard(self.entity).Billboard
-            bb.SetTextFgColor(Menu.GetFontColor())
+            bb.SetTextFgColor(celMenu.GetFontColor())
     
     def setinactive(self, pc, args):
         if self.active:
