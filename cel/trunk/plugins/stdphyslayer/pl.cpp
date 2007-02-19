@@ -453,8 +453,9 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",
-	  "Error performing action in '%s' for entity '%s' from factory '%s'!",
-		pc->GetName (), ent->GetName (), factory->GetName ());
+	  "Error performing '%s' in '%s' for entity '%s' from factory '%s'!",
+          FetchString(act.id), pc->GetName (), ent->GetName (),
+          factory->GetName ());
     RemoveEntity (ent);
     return false;
   }

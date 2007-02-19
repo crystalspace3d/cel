@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 19-Feb-2007
 	- Vincent fixed wrong class name for celMenu in celButton python widget.
 	- Vincent added actions, properties and doxygen doc to pccraft.
+	- Vincent commented csSleep() in CELStart, and changed physical layer
+	  to mention the action in case of error in PerformActionTemplate().
 18-Feb-2007
 	- caedes did the following changes to blpython:
 	  - Added a system to specify message callback api version by specifying
