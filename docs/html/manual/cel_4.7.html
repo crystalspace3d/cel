@@ -64,10 +64,10 @@ ul.toc {list-style: none}
 </p>
 <p>This section has some important notes on specific <code>c++</code> usage of cel, also refer to API to see all available functionality.
 </p>
-<a name="SEC131"></a>
+<a name="SEC132"></a>
 <h3 class="subheading"> Property Classes </h3>
 
-<a name="SEC132"></a>
+<a name="SEC133"></a>
 <h4 class="subsubheading"> Property Class Factory Initialization </h4>
 
 <p>Before you can
@@ -81,7 +81,7 @@ property class):
 <table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
   return false;
 </pre></td></tr></table>
-<a name="SEC133"></a>
+<a name="SEC134"></a>
 <h4 class="subsubheading"> Creating Property Classes </h4>
 
 <p>To use the <small>API</small> from that property class you must load the header
@@ -99,14 +99,14 @@ with the entity itself:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
 </pre></td></tr></table>
-<a name="SEC134"></a>
+<a name="SEC135"></a>
 <h4 class="subsubheading"> Getting Property Classes from an entity </h4>
 
 <p>To request a property class from an entity you can use:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 </pre></td></tr></table>
-<a name="SEC135"></a>
+<a name="SEC136"></a>
 <h4 class="subsubheading"> Tagged Property Classes </h4>
 
 <p>Normally an entity only has one instance of a given property class 
