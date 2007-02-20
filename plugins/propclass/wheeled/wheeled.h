@@ -45,7 +45,6 @@ struct celWheel
 {
   csRef<iODEHinge2Joint> WheelJoint;
   csRef<iRigidBody> RigidBody;
-  csRef<iODEAMotorJoint> BrakeMotor;
   csVector3 Position;
   csMatrix3 Rotation;
   csString Meshfact;
@@ -57,12 +56,8 @@ struct celWheel
   float BrakePower;
   float SuspensionSoftness;
   float SuspensionDamping;
-  float WheelFriction;
-  float WheelMass;
   bool SteerInverted;
   bool HandbrakeAffected;
-  //Used for abs braking. Ratio of brake application
-  float ABSBrake;
 };
 /**
  * Factory for test.
@@ -81,6 +76,7 @@ private:
   enum actionids
   {
     action_setwheelmesh = 0,
+    action_settankmode,
 
     action_addwheelauto,
     action_addwheel,
@@ -90,16 +86,25 @@ private:
     action_destroyallwheels,
     action_restorewheel,
     action_restoreallwheels,
+    action_accelerate,
+    action_brake,
+    action_handbrake,
+    action_setsteeramount,
     action_steerleft,
     action_steerright,
     action_steerstraight,
     action_reverse,
     action_neutral,
+    action_setautotransmission,
+    action_setgear,
     action_setgearsettings,
+    action_setbrakeforce,
+    action_setautoreverse,
 
     //Presets.
     action_setfrontwheelpreset,
     action_setrearwheelpreset,
+    action_setouterwheelsteerpreset,
 
     //Per-wheel actions
     action_setwheelposition,
@@ -108,35 +113,12 @@ private:
     action_setwheelsuspensiondamping,
     action_setwheelleftsteersensitivity,
     action_setwheelrightsteersensitivity,
-    action_setwheelfriction,
-    action_setwheelmass,
     action_setwheelturnspeed,
     action_setwheelreturnspeed,
     action_setwheelenginepower,
     action_setwheelbrakepower,
     action_setwheelsteerinverted,
     action_setwheelhandbrakeaffected
-  };
-
-  // For properties.
-  enum propids
-  {
-    propid_speed = 0,
-    propid_tankmode,
-    propid_steer,
-    propid_accelamount,
-    propid_brakeamount,
-    propid_handbraking,
-    propid_steeramount,
-    propid_autotransmission,
-    propid_gear,
-    propid_brakeforce,
-    propid_autoreverse,
-    propid_outerwheelsteerpreset,
-    propid_abs,
-    propid_currentgearvelocity,
-    propid_currentgearforce,
-    propid_averagewheelspin
   };
 
   // Parameters.
@@ -156,11 +138,6 @@ private:
   static csStringID param_autotransmission;
   static csStringID param_autoreverse;
 
-  static csStringID param_otherbody;
-  static csStringID param_depth;
-  static csStringID param_normal;
-  static csStringID param_index;
-
   static csStringID param_suspensionsoftness;
   static csStringID param_suspensiondamping;
   static csStringID param_leftsteersensitivity;
@@ -170,24 +147,20 @@ private:
   static csStringID param_returnspeed;
   static csStringID param_enginepower;
   static csStringID param_brakepower;
-  static csStringID param_friction;
-  static csStringID param_mass;
   static csStringID param_steerinverted;
   static csStringID param_handbrakeaffected;
 
   static PropertyHolder propinfo;
 
-  float speed;
   float brakeforce;
   int gear;
   bool autotransmission;
   bool autoreverse;
   bool tankmode;
   bool handbrakeapplied;
-  //ABS braking
-  bool abs;
-  //Absolute steering amount
-  float abssteer;
+  bool brakeapplied;
+  int steerdir;
+  float wheelradius;
   //The angle the user wants the wheels to reach
   float steeramount;
   //The amount of preset sensitivity to be applied to front wheels.
@@ -200,25 +173,11 @@ private:
   float frontpower;
   //The amount of preset power to go to the rear wheels.
   float rearpower;
-  //Preset front wheel mass
-  float frontmass;
-  //Preset rear wheel mass
-  float rearmass;
-  //Preset front wheel friction
-  float frontfriction;
-  //Preset rear wheel friction
-  float rearfriction;
 
-  //Preset suspension settings
   float frontss;
   float frontsd;
   float rearss;
   float rearsd;
-
-  //Accelerator amount of application
-  float accelamount;
-  //Brake amount of application
-  float brakeamount;
 
   csString wheelpath;
   csString wheelfact;
@@ -229,31 +188,25 @@ private:
   csArray<csVector2> gears;
   csArray<celWheel> wheels;
   csRef<iPcMechanicsObject> bodyMech;
-  celGenericParameterBlock* params;
   int topgear;
-  bool cd_enabled;
+  bool accelerating;
   // Other fields.
   int counter;
   size_t max;
+  void TickOnce();
+  void UpdateGear();
 
 public:
   celPcWheeled (iObjectRegistry* object_reg);
   virtual ~celPcWheeled ();
   virtual void GetMech();
-  void TickOnce();
-  void UpdateAccel(size_t wheelnum);
-  void UpdateBrakes(float avgspin, size_t wheelnum);
-  void UpdateTankSteer(size_t wheelnum);
-  void UpdateGear();
 
   //Setters
   virtual void SetWheelMesh(const char* file, const char* factname);
   virtual void SetTankMode(bool tankmode)
-  {celPcWheeled::tankmode = tankmode;};
-  virtual void SetABS(bool enabled)
-  {celPcWheeled::abs = enabled;};
+  {celPcWheeled::tankmode=tankmode;};
   virtual void SetSteerAmount(float steeramount)
-  {celPcWheeled::steeramount = steeramount;};
+  {celPcWheeled::steeramount=steeramount;};
   //This one uses presets
   virtual size_t AddWheelAuto(csVector3 position, const char* wheelfact = 0,
        const char* wheelfile = 0,
@@ -261,8 +214,7 @@ public:
   //Full specification by the user, overrides presets
   virtual size_t AddWheel(csVector3 position,float turnspeed,
       float returnspeed, float ss, float sd,float brakepower,float enginepower,
-      float lss, float rss, float friction, float mass,
-      bool hbaffect, bool sinvert, const char* wheelfact = 0,
+      float lss, float rss ,bool hbaffect, bool sinvert, const char* wheelfact = 0,
       const char* wheelfile = 0,
       csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f));
 
@@ -273,29 +225,18 @@ public:
   virtual void RestoreWheel(size_t wheelnum);
   virtual void RestoreAllWheels();
 
-  virtual void Accelerate(float amount = 1.0f)
-    {
-      if (accelamount >= 0.0f && accelamount <= 1.0f)
-        accelamount = amount;
-    }
-  virtual float GetAcceleratorAmount() {return accelamount;}
-  virtual void Brake(float amount = 1.0f)
-    {
-      if (brakeamount >= 0.0f && brakeamount <= 1.0f)
-        brakeamount = amount;
-    }
-  virtual float GetBrakeAmount() {return brakeamount;}
+  virtual void Accelerate(bool on) {accelerating = on;}
+  virtual bool IsAccelerating() {return accelerating;}
+  virtual void Brake(bool on);
+  virtual bool IsBraking() {return brakeapplied;}
   virtual void Handbrake(bool on) {handbrakeapplied=on;}
   virtual bool IsHandbraking() {return handbrakeapplied;}
 
-  virtual void SetCollisionCallbackEnabled (bool en) { cd_enabled = en; }
-  virtual bool IsCollisionCallbackEnabled () const { return cd_enabled; }
-
-  virtual void SteerLeft(float amount = 1.0f);
-  virtual void SteerRight(float amount = 1.0f);
-  virtual void Steer(float amount);
+  virtual void SteerLeft();
+  virtual void SteerRight();
+  virtual void UpdateTankSteer();
   virtual void SteerStraight();
-  virtual void Reverse() {gear=-1;}
+  virtual void Reverse() {gear=-1; accelerating=true;}
   virtual void Neutral() {gear=0;}
   virtual void SetAutoTransmission(bool autotransmission)
   {celPcWheeled::autotransmission=autotransmission;}
@@ -309,9 +250,9 @@ public:
   //Some wheel steering presets.
   virtual void SetOuterWheelSteerPreset(float sensitivity);
   virtual void SetFrontWheelPreset(float sensitivity,float enginepower,
-   float suspensionsoftness, float suspensiondamping, float friction, float mass);
+   float suspensionsoftness, float suspensiondamping);
   virtual void SetRearWheelPreset(float sensitivity,float enginepower,
-   float suspensionsoftness, float suspensiondamping, float friction, float mass);
+   float suspensionsoftness, float suspensiondamping);
   virtual void ApplyWheelPresets(size_t wheelnum);
 
   // Stuff independent for each wheel
@@ -320,8 +261,6 @@ public:
   virtual void SetWheelRotation(size_t wheelnum, csMatrix3 position);
   virtual void SetWheelSuspensionSoftness(size_t wheelnum, float softness);
   virtual void SetWheelSuspensionDamping(size_t wheelnum, float damping);
-  virtual void SetWheelFriction(size_t wheelnum, float friction);
-  virtual void SetWheelMass(size_t wheelnum, float mass);
   //--------------
 
   virtual void SetWheelLeftSteerSensitivity(size_t wheelnum, float
@@ -365,12 +304,9 @@ public:
   virtual int GetTopGear() {return topgear;}
   virtual int GetGear(){return gear;}
   virtual float GetSteerAmount(){return steeramount;}
-  virtual float GetSteer() {return abssteer;}
   virtual bool GetTankMode(){return tankmode;}
-  virtual bool GetABS(){return abs;}
-  virtual float GetGearVelocity(int gear){return gears[gear+1].x;}
-  virtual float GetGearForce(int gear){return gears[gear+1].y;}
-  virtual float GetSpeed();
+  virtual bool GetBrakeApplied(){return brakeapplied;}
+  virtual bool GetHandbrakeApplied(){return handbrakeapplied;}
 
   // Per-wheel settings
   virtual csVector3 GetWheelPosition(size_t wheelnum)
@@ -403,12 +339,6 @@ public:
   virtual float GetWheelBrakePower(size_t wheelnum)
   {return wheels[wheelnum].BrakePower;}
 
-  virtual float GetWheelFriction(size_t wheelnum)
-  {return wheels[wheelnum].WheelMass;}
-
-  virtual float GetWheelMass(size_t wheelnum)
-  {return wheels[wheelnum].WheelMass;}
-
   virtual bool GetWheelSteerInverted(size_t wheelnum)
   {return wheels[wheelnum].SteerInverted;}
 
@@ -421,71 +351,14 @@ public:
   virtual iODEHinge2Joint* GetWheelJoint(size_t wheelnum)
   {return wheels[wheelnum].WheelJoint;}
 
-  virtual iODEAMotorJoint* GetBrakeMotor(size_t wheelnum)
-  {return wheels[wheelnum].BrakeMotor;}
-
-  virtual float GetWheelSpin(size_t wheelnum);
-  virtual float GetAverageWheelSpin();
-
-  virtual size_t GetWheelCount() { return wheels.GetSize(); }
-
-  struct WheeledCollisionCallback : public iDynamicsCollisionCallback
-  {
-    celPcWheeled* parent;
-    WheeledCollisionCallback (celPcWheeled* parent)
-    {
-      SCF_CONSTRUCT_IBASE (0);
-      WheeledCollisionCallback::parent = parent;
-    }
-    virtual ~WheeledCollisionCallback ()
-    {
-      SCF_DESTRUCT_IBASE ();
-    }
-    SCF_DECLARE_IBASE;
-
-    virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
-	const csVector3& pos, const csVector3& normal, float depth)
-    {
-      parent->Collision (thisbody, otherbody, pos, normal, depth);
-    }
-  } *scfiWheeledCollisionCallback;
-
-  void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
-	const csVector3& pos, const csVector3& normal, float depth);
+  virtual size_t GetWheelCount() { return wheels.Length(); }
 
   virtual const char* GetName () const { return "pcwheeled"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,
       iCelParameterBlock* params, celData& ret);
-  virtual bool GetPropertyIndexed (int, long&);
-  virtual bool SetPropertyIndexed (int, long);
-  virtual bool GetPropertyIndexed (int, float&);
-  virtual bool SetPropertyIndexed (int, float);
-
-  //---------- Deprecated methods-------------------//
-  virtual void SetABSEnabled(bool enabled)
-  {celPcWheeled::abs = enabled;}
-  virtual bool GetABSEnabled()
-  {return celPcWheeled::abs;}
-
-  virtual size_t AddWheel(csVector3 position,float turnspeed,
-      float returnspeed, float ss, float sd,float brakepower,float enginepower,
-      float lss, float rss, bool hbaffect, bool sinvert,
-      const char* wheelfact = 0, const char* wheelfile = 0,
-      csMatrix3 rotation = csMatrix3(0.0f,0.0f,0.0f,0.0f))
-  {return AddWheel(position, turnspeed, returnspeed, ss, sd, brakepower,
-     enginepower, lss, rss, 0.7f, 10.0f, hbaffect, sinvert, wheelfact,
-     wheelfile, rotation);}
-  virtual void SetFrontWheelPreset(float sensitivity,float enginepower,
-   float suspensionsoftness, float suspensiondamping)
-  {SetFrontWheelPreset(sensitivity, enginepower, suspensionsoftness,
-   suspensiondamping, 0.7f, 10.0f);}
-  virtual void SetRearWheelPreset(float sensitivity,float enginepower,
-   float suspensionsoftness, float suspensiondamping)
-  {SetRearWheelPreset(sensitivity, enginepower, suspensionsoftness,
-   suspensiondamping, 0.7f, 10.0f);}
 };
 
-#endif // __CEL_PF_WHEELEDFACT__
+#endif // __CEL_PF_VEHICLEFACT__
 

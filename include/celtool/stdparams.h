@@ -42,12 +42,6 @@
   if (p_##var && p_##var->type == CEL_DATA_VECTOR3) { \
     var.Set (p_##var->value.v.x, p_##var->value.v.y, p_##var->value.v.z); \
   } else { p_##var = 0; }
-#define CEL_FETCH_COLOR_PAR(var,params,id) \
-  const celData* p_##var = params ? params->GetParameter (id) : 0; \
-  csColor var; \
-  if (p_##var && p_##var->type == CEL_DATA_COLOR) { \
-    var.Set (p_##var->value.col.red, p_##var->value.col.green, p_##var->value.col.blue); \
-  } else { p_##var = 0; }
 #define CEL_FETCH_FLOAT_PAR(var,params,id) \
   const celData* p_##var = params ? params->GetParameter (id) : 0; \
   float var = 0.0f; \
@@ -191,19 +185,19 @@ public:
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
   {
     ids.GetExtend (idx) = id;
-    if (idx >= names.GetSize ())
-      names.SetSize (idx+1);
+    if (idx >= names.Length ())
+      names.SetLength (idx+1);
     names.Put (idx, parname);
   }
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
 
   SCF_DECLARE_IBASE;
 
-  virtual size_t GetParameterCount () const { return data.GetSize (); }
+  virtual size_t GetParameterCount () const { return data.Length (); }
   virtual const char* GetParameter (size_t idx, csStringID& id,
   	celDataType& t) const
   {
-    if (/*idx < 0 || */idx >= data.GetSize ())
+    if (/*idx < 0 || */idx >= data.Length ())
     {
       id = csInvalidStringID;
       t = CEL_DATA_NONE;
@@ -216,14 +210,14 @@ public:
   virtual const celData* GetParameter (csStringID id) const
   {
     size_t i;
-    for (i = 0 ; i < data.GetSize () ; i++)
+    for (i = 0 ; i < data.Length () ; i++)
       if (id == ids[i])
         return &data[i];
     return 0;
   }
   virtual const celData* GetParameterByIndex (size_t idx) const
   {
-    return (idx >= data.GetSize ()) ? 0 : &data[idx];
+    return (idx >= data.Length ()) ? 0 : &data[idx];
   }
 };
 

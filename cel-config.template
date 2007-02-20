@@ -1,51 +1,62 @@
-# Detect type of the installation and the directories where the library files
-# reside in.
-libdir=""
-lflags=""
+lflags="-L${libdir}"
 
-for libname in lib${libceltool}.so \
-	       lib${libceltool}.dylib \
-	       lib${libceltool}.a \
-	       ; do
-    if test -r "$prefix/Jamfile" && \
-	test -r "$prefix/$makeout/libs/$libname"; then
-	libdir="$prefix/$makeout/libs"
-	lflags="-L$libdir"
-    elif test -z "$libdir" && test -r "${exec_prefix}/lib/$libname"; then
-	libdir="${exec_prefix}/lib"
-	lflags="-L${exec_prefix}/lib"
-    else
-	my_IFS=$IFS; IFS=$PATH_SEPARATOR
-	for p in $CEL
-	  do
-	  if test -r "$p/Jamfile" && \
-	      test -r "$p/$makeout/libs/$libname"; then
-	      libdir="$p/$makeout/libs"
-	      lflags="-L$libdir"
-	      break
-	  elif test -z "$libdir" && test -r "${p}/lib/$libname"; then
-	      libdir="${p}/lib"
-	      lflags="-L$libdir"
-	      break
-	  fi
-	done
-	IFS=$my_IFS
-    fi
-    if test -n "$lflags" ; then
-        break
-    fi
-done
-
-# Check for optional libs, add to list if present.
-
-for l in $libs_opt
-do
-  give_libbase $l
-  if test -r "$libdir/lib$libbase.so" \
-    || test -r "$libdir/lib$libbase.dylib" \
-    || test -r "$libdir/lib$libbase.a" ; then
-    libs="$libs $l"
+# From autoconf:
+# The user is always right.
+if test "${PATH_SEPARATOR+set}" != set; then
+  echo "#! /bin/sh" >conf$$.sh
+  echo  "exit 0"   >>conf$$.sh
+  chmod +x conf$$.sh
+  if (PATH="/nonexistent;."; conf$$.sh) >/dev/null 2>&1; then
+    PATH_SEPARATOR=';'
+  else
+    PATH_SEPARATOR=:
   fi
+  rm -f conf$$.sh
+fi
+
+# If CEL set, prefer it over configure-time installation directory.
+CEL="${CEL-${prefix}$PATH_SEPARATOR.}"
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CEL
+do
+  prefix="${p}"
+  exec_prefix="${prefix}"
+  # try to determine if we're in a source or installed CS version
+  if test "x$includedir" = "x"
+  then
+    if [ -r ${prefix}/include/${packagename}/physicallayer/pl.h ] ; then
+      includedir="${prefix}/include/${packagename}"
+    elif [ -r ${prefix}/include/physicallayer/pl.h ] ; then
+      includedir="${prefix}/include"
+    fi
+  fi
+done
+IFS=$my_IFS
+if test "x$includedir" = "x"
+then
+  includedir="${appincdir}"
+fi
+cflags="-I${includedir}"
+
+# scan for optional libs
+optsearch=""
+my_IFS=$IFS; IFS=$PATH_SEPARATOR
+for p in $CEL
+do
+  optsearch="$optsearch $p/$makeout/libs"
+done
+IFS=$my_IFS
+optsearch="$optsearch $libdir"
+for l in ${optlibs}
+do
+  for p in $optsearch
+  do
+    if test -r "$p/lib${l}.a"; then
+      libs="$libs $l"
+      exportsummary="$exportsummary $l $p"
+      break
+    fi
+  done
 done
 
 showlibs ()
@@ -83,64 +94,40 @@ CEL-using projects.
 __EOF__
 }
 
-includedeps()
+linkflags()
 {
-#we have to remember vars here because on older shells $1,$2... are global
-    id_first=$1
-    id_all=$@
-    shift
-    id_second=$1
-    id_rest=$@
+  # Detect type of the installation and the directories where the library files
+  # reside in.
+  entry_found="no"
+  result=""
 
-# already had all dependencies of this lib? then exit
-    case " $ALREADY_TESTED " in
-    	*\ ${id_first}\ *) return 0;;
-    	*) ;;
-    esac
-
-# if not add 1 dependency
-    depends ${id_first}
-    ALREADY_TESTED="$ALREADY_TESTED ${id_first}"
-    for a in $DEPS; do
-	case " ${id_all} " in
-	    *\ $a\ *) ;;
-    	    *)  
-		the_libs="${the_libs} $a"
-	    	return 1
-	    ;;
-	esac
-    done
-    if test -n "${id_second}"; then
-	if includedeps ${id_rest}; then
-	    return 0
-	else
-	    return 1
-	fi
-    else
-	return 0
+  for entry in ${exportsummary}; do
+    if test "${entry_found}" = "yes" ; then 
+      result=$entry
+      break
+    elif test "$1" = "$entry" ; then 
+      entry_found="yes"
     fi
-}
+  done
 
-addlib()
-{
-    # Lib already in list?
-    case " $the_libs " in
-	*\ $1\ *) return;;
-	*) ;;
-    esac
-
-    the_libs="$1 $the_libs"
-
-    # loop till all dependencies are resolved
-    loop=true
-    while $loop; do
-	includedeps $the_libs
-	if test $? -eq 0; then
-	    loop=false
-	else
-	    ALREADY_TESTED=""
+  local newflag=""
+  if test "${entry_found}" = "yes"; then
+    if test -n "${result}"; then
+      my_IFS=$IFS; IFS=$PATH_SEPARATOR
+      for p in $CEL
+      do
+	if test -n "${p}" && test -d "${p}/${result}"; then
+	  newflag="-L${p}/${result} "
+	  break
 	fi
-    done
+      done
+      IFS=$my_IFS
+      if test -z "${newflag}" && test -d "${result}"; then
+	newflag="-L${result} "
+      fi
+    fi
+    echo "${newflag}-l$1"
+  fi
 }
 
 staticdeps()
@@ -273,14 +260,19 @@ if test -n "$show_libs"; then
     echo "$libs"
 fi
 if test -n "$show_lflags"; then
-    # If user specified no libraries, then emit commonly needed ones.
+    # If user specified no libraries, then emit all.
     if test -z "$raw_names"; then
-	raw_names="$libs"
+	raw_names=$libs
     fi
-    for do_lib in $raw_names; do
-	checklibname $do_lib
+    for lib in $raw_names; do
+	# We purposely prepend the new flags to ensure that older flags appear
+	# toward this end.  This allows the linker to correctly prefer -L
+	# options for the build directory over -L${libdir} for the installation
+	# directory (i.e. prefer the current development version over an
+	# installed version).
+        lflags=`linkflags $lib`" $lflags"
     done
-    echo "$lflags $the_libs $syslibs"
+    echo "$lflags"
 fi
 
 if test -n "$show_availlibs"; then

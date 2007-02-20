@@ -30,6 +30,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -334,7 +335,7 @@ void celPcRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.GetSize () ; i++)
+    for (i = 0 ; i < entities.Length () ; i++)
       if (entities[i])
       {
         pl->RemoveEntity (entities[i]);

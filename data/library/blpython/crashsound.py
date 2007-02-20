@@ -2,7 +2,6 @@
 from pycel import *
 
 class crashsound:
-	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "Initializing playsound...",celEntity.Name
 		# init sound
@@ -15,7 +14,7 @@ class crashsound:
 		self.stream = self.snd.GetStream()
 		self.stream.SetLoopState(False)
 		self.stream.Pause()
-	def pccommandinput_soundup1(self,pc,args):
+	def pccommandinput_soundup1(self,celEntity,args):
 		if self.stream.GetPauseState() == CS_SNDSYS_STREAM_PAUSED:
 			self.timer.Clear()
 			self.stream.ResetPosition()
@@ -24,17 +23,17 @@ class crashsound:
 		if self.counter >= 2.0:
 			self.counter = 2.0
 		self.snd.SetVolume(self.counter)
-	def pccommandinput_soundup0(self,pc,args):
+	def pccommandinput_soundup0(self,celEntity,args):
 		self.timer.WakeUpFrame (CEL_EVENT_PRE)
-	def pccommandinput_soundup_(self,pc,args):
-		self.pccommandinput_soundup1(pc,args)
-	def pctimer_wakeupframe(self,pc,args):
+	def pccommandinput_soundup_(self,celEntity,args):
+		self.pccommandinput_soundup1(celEntity,args)
+	def pctimer_wakeupframe(self,celEntity,args):
 		self.counter-=0.001
 		self.snd.SetVolume(self.counter)
 		if self.counter < 0.0:
 			self.stream.Pause()
 			self.timer.Clear()
-	def pcdynamicbody_collision(self,pc,args):
+	def pcdynamicbody_collision(self,celEntity,args):
 		print "COLLISION SOUND"
 		if self.stream.GetPauseState() == CS_SNDSYS_STREAM_PAUSED:
 			self.stream.ResetPosition()

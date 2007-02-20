@@ -31,6 +31,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -80,7 +81,7 @@ void celPcNewCamera::UpdateMeshVisibility()
   if (!pcmesh)
     return;
 
-  if (currMode >= cameraModes.GetSize())
+  if (currMode >= cameraModes.Length())
     return;
 
   if (!pcmesh->GetMesh())
@@ -283,7 +284,7 @@ size_t celPcNewCamera::AttachCameraMode(iCelCameraMode * mode)
   cameraModes.Push(mode);
   mode->SetParentCamera((iPcNewCamera *)&scfiPcNewCamera);
 
-  return (cameraModes.GetSize()-1);
+  return (cameraModes.Length()-1);
 }
 
 size_t celPcNewCamera::AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode)
@@ -311,7 +312,7 @@ iCelCameraMode * celPcNewCamera::GetCurrentCameraMode()
 
 bool celPcNewCamera::SetCurrentCameraMode(size_t modeIndex)
 {
-  if (modeIndex >= cameraModes.GetSize())
+  if (modeIndex >= cameraModes.Length())
     return false;
 
   inTransition = true;
@@ -327,23 +328,23 @@ bool celPcNewCamera::SetCurrentCameraMode(size_t modeIndex)
 
 void celPcNewCamera::NextCameraMode()
 {
-  if (cameraModes.GetSize() == 0)
+  if (cameraModes.Length() == 0)
     return;
 
   size_t newMode = currMode+1;
-  if (newMode >= cameraModes.GetSize())
+  if (newMode >= cameraModes.Length())
     newMode = 0;
   SetCurrentCameraMode(newMode);
 }
 
 void celPcNewCamera::PrevCameraMode()
 {
-  if (cameraModes.GetSize() == 0)
+  if (cameraModes.Length() == 0)
     return;
 
   size_t newMode = currMode-1;
   if (newMode == (size_t)-1)
-    newMode = cameraModes.GetSize()-1;
+    newMode = cameraModes.Length()-1;
   SetCurrentCameraMode(newMode);
 }
 void celPcNewCamera::UpdateCamera ()
@@ -351,10 +352,10 @@ void celPcNewCamera::UpdateCamera ()
   csTicks elapsedTime = vc->GetElapsedTicks();
   float elapsedSecs = elapsedTime / 1000.0f;
 
-  if (currMode >= cameraModes.GetSize())
+  if (currMode >= cameraModes.Length())
   {
-    SetCurrentCameraMode(cameraModes.GetSize()-1);
-    if (currMode >= cameraModes.GetSize())
+    SetCurrentCameraMode(cameraModes.Length()-1);
+    if (currMode >= cameraModes.Length())
       return;
   }
   iCelCameraMode * mode = cameraModes[currMode];

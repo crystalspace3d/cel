@@ -344,14 +344,14 @@ public:
   virtual iBillboard* CreateBillboard (const char* name);
   virtual iBillboard* FindBillboard (const char* name) const;
   virtual void RemoveBillboard (iBillboard* billboard);
-  virtual size_t GetBillboardCount () const { return billboards.GetSize (); }
+  virtual size_t GetBillboardCount () const { return billboards.Length (); }
   virtual iBillboard* GetBillboard (size_t idx) const
   { return billboards[idx]; }
 
   virtual iBillboardLayer* CreateBillboardLayer (const char* name);
   virtual iBillboardLayer* FindBillboardLayer (const char* name) const;
   virtual void RemoveBillboardLayer (iBillboardLayer* layer);
-  virtual size_t GetBillboardLayerCount () const { return layers.GetSize (); }
+  virtual size_t GetBillboardLayerCount () const { return layers.Length (); }
   virtual iBillboardLayer* GetBillboardLayer (size_t idx) const
   { return layers[idx]; }
 

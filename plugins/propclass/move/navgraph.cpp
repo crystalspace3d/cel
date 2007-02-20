@@ -63,6 +63,7 @@
 #include "iengine/region.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
+#include "csutil/debug.h"
 #include "ivaria/reporter.h"
 
 #include "plugins/propclass/move/navgraph.h"
@@ -91,6 +92,7 @@ celPcNavLink::celPcNavLink (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavLink);
+  DG_TYPE (this, "celPcNavLink()");
 
   iLinkData = 0;
 }
@@ -144,6 +146,7 @@ celPcNavNode::celPcNavNode (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavNode);
+  DG_TYPE (this, "celPcNavNode()");
 
   pos = csVector3(0,0,0);
 }
@@ -182,6 +185,7 @@ celPcNavGraphRules::celPcNavGraphRules (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraphRules);
+  DG_TYPE (this, "celPcNavGraphRules()");
   MoveNotify (object_reg, "Created a Nav Graph Rules object");
 }
 
@@ -221,6 +225,7 @@ celPcNavGraph::celPcNavGraph (iObjectRegistry* object_reg)
     : celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNavGraph);
+  DG_TYPE (this, "celPcNavGraph()");
 
   navgraphrules = 0;
   region = 0;
@@ -281,7 +286,7 @@ int celPcNavGraph::Dump()  // Debug info
   size_t i;
 
   MoveNotify (object_reg, "Graph Dump ============================",
-    aLinks.GetSize());
+    aLinks.Length());
 
   if (navgraphrules)
     MoveNotify (object_reg, "NavGraphRules set");
@@ -293,10 +298,10 @@ int celPcNavGraph::Dump()  // Debug info
   else
     MoveNotify (object_reg, "Region not set");
 
-  MoveNotify (object_reg, "Link Information: %d Links----------", aLinks.GetSize());
+  MoveNotify (object_reg, "Link Information: %d Links----------", aLinks.Length());
 
     
-  for (i=0; i < aLinks.GetSize() ; i++)
+  for (i=0; i < aLinks.Length() ; i++)
   {
     iPcNavLink* link = aLinks[i];
 
@@ -305,9 +310,9 @@ int celPcNavGraph::Dump()  // Debug info
   }
     
     
-  MoveNotify (object_reg, "Node Information: %d Nodes---------", aNodes.GetSize());
+  MoveNotify (object_reg, "Node Information: %d Nodes---------", aNodes.Length());
 
-  for (i=0; i < aNodes.GetSize() ; i++)
+  for (i=0; i < aNodes.Length() ; i++)
   {
     iPcNavNode* node = aNodes[i];
 
@@ -317,7 +322,7 @@ int celPcNavGraph::Dump()  // Debug info
   }
 
   MoveNotify (object_reg, "END Graph Dump ========================",
-    aLinks.GetSize());
+    aLinks.Length());
 
   return 0;
 }
@@ -374,7 +379,7 @@ int celPcNavGraph::LinkNodes ()
   // Iterate through each pair of Nodes
   iCelPropertyClass* pc;
 
-  numnodes = aNodes.GetSize();
+  numnodes = aNodes.Length();
   MoveNotify (object_reg, "Iterating across %d Nodes", numnodes );
 
   for (i=0; i < numnodes; i++)
@@ -473,10 +478,10 @@ int celPcNavGraph::BuildNodeGraph( iSector* sector, iCelEntity* defaultent )
 
   LinkNodes();        // Create the default set of links
 
-  MoveNotify (object_reg, "Traversing %d links", aLinks.GetSize());
+  MoveNotify (object_reg, "Traversing %d links", aLinks.Length());
 
   // for all links
-  for (i=0; i < aLinks.GetSize(); i++)
+  for (i=0; i < aLinks.Length(); i++)
   {
     // TODO: Add ability to traverse links with multiple entities and save data
     iPcNavLink* link = aLinks[i]; // Get each link

@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,215 +43,216 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PF_MECHANICS_SYSTEM__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PF_MECHANICS_SYSTEM__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
 <a name="l00026"></a>00026 <span class="preprocessor">#include "propclass/mechcommon.h"</span>
-<a name="l00027"></a>00027 <span class="preprocessor">#include "csgeom/vector3.h"</span>
-<a name="l00028"></a>00028 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a>;
-<a name="l00029"></a>00029 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsOrthoTransform.html">csOrthoTransform</a>;
-<a name="l00030"></a>00030 <span class="keyword">class </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPlane3.html">csPlane3</a>;
-<a name="l00031"></a>00031 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a>;
-<a name="l00032"></a>00032 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>;
-<a name="l00033"></a>00033 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a>;
-<a name="l00034"></a>00034 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
-<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="structiPcLight.html">iPcLight</a>;
-<a name="l00036"></a>00036 <span class="keyword">struct </span><a class="code" href="structiPcCamera.html">iPcCamera</a>;
-<a name="l00037"></a>00037 <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>;
-<a name="l00038"></a>00038 <span class="keyword">struct </span><a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>;
-<a name="l00039"></a>00039 
-<a name="l00053"></a><a class="code" href="structiPcMechanicsSystem.html">00053</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
-<a name="l00054"></a>00054 {
-<a name="l00055"></a>00055   SCF_INTERFACE (<a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>, 0, 0, 1);
-<a name="l00056"></a>00056 
-<a name="l00062"></a>00062   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a>* dynsys) = 0;
-<a name="l00063"></a>00063 
-<a name="l00069"></a>00069   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *dynsysname) = 0;
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 
-<a name="l00075"></a>00075   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDynamicSystem.html">iDynamicSystem</a>* <a class="code" href="structiPcMechanicsSystem.html#a39c48c25494ae1944d0e13cf478a12d">GetDynamicSystem</a> () = 0;
-<a name="l00076"></a>00076 
-<a name="l00081"></a>00081   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#9d565faebb30ab13361bcc7550e3ca54">SetStepTime</a> (<span class="keywordtype">float</span> delta) = 0;
-<a name="l00082"></a>00082 
-<a name="l00086"></a>00086   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSystem.html#866e3a73d01886da9b542d6f952fa4a7">GetStepTime</a> () <span class="keyword">const </span>= 0;
-<a name="l00087"></a>00087   
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#52253434ae32186614f40c7bbd34c7b9">SetSimulationSpeed</a> (<span class="keywordtype">float</span> simulationspeed) = 0;
-<a name="l00094"></a>00094   
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSystem.html#83fe7bf00d4863deadf2ca2c1619e21c">GetSimulationSpeed</a> () = 0;
-<a name="l00099"></a>00099   
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#3f57b714c19eadb805dbf997bfb26adf">SetGravity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; grav) = 0;
-<a name="l00105"></a>00105 
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsSystem.html#382b478e07493d8213b8c1ed20686c59">GetGravity</a> () = 0;
-<a name="l00110"></a>00110 
-<a name="l00123"></a>00123   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a0a4c67c06729a0e2c7efdbe0f5b6624">AddForceDuration</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
-<a name="l00124"></a>00124         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position,
-<a name="l00125"></a>00125         <span class="keywordtype">float</span> seconds) = 0;
-<a name="l00126"></a>00126 
-<a name="l00137"></a>00137   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#6cd6eb8ef8fa95c17a08d307640e6197">AddForceFrame</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
-<a name="l00138"></a>00138         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position) = 0;
-<a name="l00139"></a>00139 
-<a name="l00152"></a>00152   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#b8146239599f913a887f1a91ceb9c69c">AddForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
-<a name="l00153"></a>00153         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position,
-<a name="l00154"></a>00154         <a class="code" href="dummy.html#g1134b580f8da4de94ca6b1de4d37975e">uint32</a> forceid) = 0;
-<a name="l00155"></a>00155 
-<a name="l00163"></a>00163   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#02269b5ef7612e4696b2670f87cec808">RemoveForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
-<a name="l00164"></a>00164         <a class="code" href="dummy.html#g1134b580f8da4de94ca6b1de4d37975e">uint32</a> forceid) = 0;
-<a name="l00165"></a>00165 
-<a name="l00172"></a>00172   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#66e846da993f6f45ca5822da3f22b8cd">ClearForces</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject) = 0;
-<a name="l00173"></a>00173 
-<a name="l00177"></a>00177   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#ea34586e2f75402735d8762609dedf34">ClearAllForces</a> () = 0;
-<a name="l00178"></a>00178 
-<a name="l00182"></a>00182   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr&lt;iRigidBody&gt;</a> <a class="code" href="structiPcMechanicsSystem.html#26331bf3719aec973d12542e68228a28">CreateBody</a> () = 0;
-<a name="l00183"></a>00183 
-<a name="l00188"></a>00188   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#227506631a4037a021da79c954317544">RemoveBody</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* body) = 0;
-<a name="l00189"></a>00189 
-<a name="l00196"></a>00196   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a6605fe85b17a3967f2c7ffd188d156c">AddBodyToGroup</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* body, <span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
-<a name="l00197"></a>00197 
-<a name="l00203"></a>00203   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#dc134ad0279deaeee795cba8e4c0a9ed">RemoveBodyFromGroup</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* body, <span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
-<a name="l00204"></a>00204 
-<a name="l00208"></a>00208   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* <a class="code" href="structiPcMechanicsSystem.html#681e216fcd4ea94756079db991fb08b2">CreateJoint</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* body1, <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* body2) = 0;
-<a name="l00209"></a>00209 
-<a name="l00213"></a>00213   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#7d89886a80aecd759309b39fb57f5d0b">RemoveJoint</a> (<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* joint) = 0;
-<a name="l00214"></a>00214 
-<a name="l00219"></a>00219   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#183bef0750f4ec65218e4565dff5170e">DisableStepFast</a> () = 0;
-<a name="l00224"></a>00224   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#9592bca8e4a970bfa751c4c2268f8bbb">EnableStepFast</a> () = 0;
-<a name="l00228"></a>00228   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#703f048c76bcaa5b96b1a1c90e498977">EnableQuickStep</a> () = 0;
-<a name="l00229"></a>00229 };
-<a name="l00230"></a>00230 
-<a name="l00283"></a><a class="code" href="structiPcMechanicsObject.html">00283</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
-<a name="l00284"></a>00284 {
-<a name="l00285"></a>00285   SCF_INTERFACE (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>, 0, 0, 1);
-<a name="l00286"></a>00286 
-<a name="l00293"></a>00293   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#56e0fdf02a77cc86946a3fa72fe01582">SetMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
-<a name="l00294"></a>00294 
-<a name="l00298"></a>00298   <span class="keyword">virtual</span> <a class="code" href="structiPcMesh.html">iPcMesh</a>* <a class="code" href="structiPcMechanicsObject.html#dde993e5fedda249abf97721d8ddd8db">GetMesh</a> () = 0;
-<a name="l00299"></a>00299 
-<a name="l00306"></a>00306   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#f7d2cc8c870d3954441dcfb2794e724e">SetLight</a> (<a class="code" href="structiPcLight.html">iPcLight</a>* light) = 0;
-<a name="l00307"></a>00307 
-<a name="l00311"></a>00311   <span class="keyword">virtual</span> <a class="code" href="structiPcLight.html">iPcLight</a>* <a class="code" href="structiPcMechanicsObject.html#5be069a38ef822ff54544a84a8b10d89">GetLight</a> () = 0;
-<a name="l00312"></a>00312 
-<a name="l00319"></a>00319   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#2d5d93d7de2a4ef73ecd18fe8f1271c1">SetCamera</a> (<a class="code" href="structiPcCamera.html">iPcCamera</a>* camera) = 0;
-<a name="l00320"></a>00320 
-<a name="l00324"></a>00324   <span class="keyword">virtual</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>* <a class="code" href="structiPcMechanicsObject.html#2ea10a56d7e022df496fb295f1a162b5">GetCamera</a> () = 0;
-<a name="l00325"></a>00325 
-<a name="l00332"></a>00332   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#c0a7f531ba3779a2669aec8cdfd11de7">SetMechanicsSystem</a> (<a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>* mechsys) = 0;
-<a name="l00333"></a>00333 
-<a name="l00337"></a>00337   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>* <a class="code" href="structiPcMechanicsObject.html#e90c3a046958a0d26055d5623f8ffd3f">GetMechanicsSystem</a> () = 0;
-<a name="l00338"></a>00338 
-<a name="l00342"></a>00342   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiRigidBody.html">iRigidBody</a>* <a class="code" href="structiPcMechanicsObject.html#c2bc708f19c17fc57d96e438f5980290">GetBody</a> () = 0;
-<a name="l00343"></a>00343 
+<a name="l00027"></a>00027 
+<a name="l00028"></a>00028 <span class="keyword">class </span>csVector3;
+<a name="l00029"></a>00029 <span class="keyword">class </span>csBox3;
+<a name="l00030"></a>00030 <span class="keyword">class </span>csOrthoTransform;
+<a name="l00031"></a>00031 <span class="keyword">class </span>csPlane3;
+<a name="l00032"></a>00032 <span class="keyword">struct </span>iDynamicSystem;
+<a name="l00033"></a>00033 <span class="keyword">struct </span>iRigidBody;
+<a name="l00034"></a>00034 <span class="keyword">struct </span>iSector;
+<a name="l00035"></a>00035 <span class="keyword">struct </span><a class="code" href="structiPcMesh.html">iPcMesh</a>;
+<a name="l00036"></a>00036 <span class="keyword">struct </span><a class="code" href="structiPcLight.html">iPcLight</a>;
+<a name="l00037"></a>00037 <span class="keyword">struct </span><a class="code" href="structiPcCamera.html">iPcCamera</a>;
+<a name="l00038"></a>00038 <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>;
+<a name="l00039"></a>00039 <span class="keyword">struct </span>iJoint;
+<a name="l00040"></a>00040 
+<a name="l00056"></a><a class="code" href="structiPcMechanicsSystem.html">00056</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00057"></a>00057 {
+<a name="l00058"></a>00058   SCF_INTERFACE (<a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>, 0, 0, 1);
+<a name="l00059"></a>00059 
+<a name="l00065"></a>00065   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (iDynamicSystem* dynsys) = 0;
+<a name="l00066"></a>00066 
+<a name="l00072"></a>00072   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#0800838f9f24bc76e228c0ea7ae3d8e2">SetDynamicSystem</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> *dynsysname) = 0;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074 
+<a name="l00078"></a>00078   <span class="keyword">virtual</span> iDynamicSystem* <a class="code" href="structiPcMechanicsSystem.html#a39c48c25494ae1944d0e13cf478a12d">GetDynamicSystem</a> () = 0;
+<a name="l00079"></a>00079 
+<a name="l00084"></a>00084   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#9d565faebb30ab13361bcc7550e3ca54">SetStepTime</a> (<span class="keywordtype">float</span> delta) = 0;
+<a name="l00085"></a>00085 
+<a name="l00089"></a>00089   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSystem.html#866e3a73d01886da9b542d6f952fa4a7">GetStepTime</a> () <span class="keyword">const </span>= 0;
+<a name="l00090"></a>00090   
+<a name="l00096"></a>00096   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#52253434ae32186614f40c7bbd34c7b9">SetSimulationSpeed</a> (<span class="keywordtype">float</span> simulationspeed) = 0;
+<a name="l00097"></a>00097   
+<a name="l00101"></a>00101   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsSystem.html#83fe7bf00d4863deadf2ca2c1619e21c">GetSimulationSpeed</a> () = 0;
+<a name="l00102"></a>00102   
+<a name="l00107"></a>00107   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#3f57b714c19eadb805dbf997bfb26adf">SetGravity</a> (<span class="keyword">const</span> csVector3&amp; grav) = 0;
+<a name="l00108"></a>00108 
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsSystem.html#382b478e07493d8213b8c1ed20686c59">GetGravity</a> () = 0;
+<a name="l00113"></a>00113 
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a0a4c67c06729a0e2c7efdbe0f5b6624">AddForceDuration</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
+<a name="l00127"></a>00127         <span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> csVector3&amp; position,
+<a name="l00128"></a>00128         <span class="keywordtype">float</span> seconds) = 0;
+<a name="l00129"></a>00129 
+<a name="l00140"></a>00140   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#6cd6eb8ef8fa95c17a08d307640e6197">AddForceFrame</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
+<a name="l00141"></a>00141         <span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> csVector3&amp; position) = 0;
+<a name="l00142"></a>00142 
+<a name="l00155"></a>00155   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#b8146239599f913a887f1a91ceb9c69c">AddForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
+<a name="l00156"></a>00156         <span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, <span class="keyword">const</span> csVector3&amp; position,
+<a name="l00157"></a>00157         uint32 forceid) = 0;
+<a name="l00158"></a>00158 
+<a name="l00166"></a>00166   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#02269b5ef7612e4696b2670f87cec808">RemoveForceTagged</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject,
+<a name="l00167"></a>00167         uint32 forceid) = 0;
+<a name="l00168"></a>00168 
+<a name="l00175"></a>00175   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#66e846da993f6f45ca5822da3f22b8cd">ClearForces</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* pcobject) = 0;
+<a name="l00176"></a>00176 
+<a name="l00180"></a>00180   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#ea34586e2f75402735d8762609dedf34">ClearAllForces</a> () = 0;
+<a name="l00181"></a>00181 
+<a name="l00185"></a>00185   <span class="keyword">virtual</span> csPtr&lt;iRigidBody&gt; <a class="code" href="structiPcMechanicsSystem.html#26331bf3719aec973d12542e68228a28">CreateBody</a> () = 0;
+<a name="l00186"></a>00186 
+<a name="l00191"></a>00191   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#227506631a4037a021da79c954317544">RemoveBody</a> (iRigidBody* body) = 0;
+<a name="l00192"></a>00192 
+<a name="l00199"></a>00199   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#a6605fe85b17a3967f2c7ffd188d156c">AddBodyToGroup</a> (iRigidBody* body, <span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00200"></a>00200 
+<a name="l00206"></a>00206   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#dc134ad0279deaeee795cba8e4c0a9ed">RemoveBodyFromGroup</a> (iRigidBody* body, <span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00207"></a>00207 
+<a name="l00211"></a>00211   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsSystem.html#681e216fcd4ea94756079db991fb08b2">CreateJoint</a> (iRigidBody* body1, iRigidBody* body2) = 0;
+<a name="l00212"></a>00212 
+<a name="l00216"></a>00216   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#7d89886a80aecd759309b39fb57f5d0b">RemoveJoint</a> (iJoint* joint) = 0;
+<a name="l00217"></a>00217 
+<a name="l00222"></a>00222   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#183bef0750f4ec65218e4565dff5170e">DisableStepFast</a> () = 0;
+<a name="l00227"></a>00227   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#9592bca8e4a970bfa751c4c2268f8bbb">EnableStepFast</a> () = 0;
+<a name="l00231"></a>00231   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsSystem.html#703f048c76bcaa5b96b1a1c90e498977">EnableQuickStep</a> () = 0;
+<a name="l00232"></a>00232 };
+<a name="l00233"></a>00233 
+<a name="l00284"></a><a class="code" href="structiPcMechanicsObject.html">00284</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00285"></a>00285 {
+<a name="l00286"></a>00286   SCF_INTERFACE (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>, 0, 0, 1);
+<a name="l00287"></a>00287 
+<a name="l00294"></a>00294   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#56e0fdf02a77cc86946a3fa72fe01582">SetMesh</a> (<a class="code" href="structiPcMesh.html">iPcMesh</a>* mesh) = 0;
+<a name="l00295"></a>00295 
+<a name="l00299"></a>00299   <span class="keyword">virtual</span> <a class="code" href="structiPcMesh.html">iPcMesh</a>* <a class="code" href="structiPcMechanicsObject.html#dde993e5fedda249abf97721d8ddd8db">GetMesh</a> () = 0;
+<a name="l00300"></a>00300 
+<a name="l00307"></a>00307   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#f7d2cc8c870d3954441dcfb2794e724e">SetLight</a> (<a class="code" href="structiPcLight.html">iPcLight</a>* light) = 0;
+<a name="l00308"></a>00308 
+<a name="l00312"></a>00312   <span class="keyword">virtual</span> <a class="code" href="structiPcLight.html">iPcLight</a>* <a class="code" href="structiPcMechanicsObject.html#5be069a38ef822ff54544a84a8b10d89">GetLight</a> () = 0;
+<a name="l00313"></a>00313 
+<a name="l00320"></a>00320   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#2d5d93d7de2a4ef73ecd18fe8f1271c1">SetCamera</a> (<a class="code" href="structiPcCamera.html">iPcCamera</a>* camera) = 0;
+<a name="l00321"></a>00321 
+<a name="l00325"></a>00325   <span class="keyword">virtual</span> <a class="code" href="structiPcCamera.html">iPcCamera</a>* <a class="code" href="structiPcMechanicsObject.html#2ea10a56d7e022df496fb295f1a162b5">GetCamera</a> () = 0;
+<a name="l00326"></a>00326 
+<a name="l00333"></a>00333   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#c0a7f531ba3779a2669aec8cdfd11de7">SetMechanicsSystem</a> (<a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>* mechsys) = 0;
+<a name="l00334"></a>00334 
+<a name="l00338"></a>00338   <span class="keyword">virtual</span> <a class="code" href="structiPcMechanicsSystem.html">iPcMechanicsSystem</a>* <a class="code" href="structiPcMechanicsObject.html#e90c3a046958a0d26055d5623f8ffd3f">GetMechanicsSystem</a> () = 0;
+<a name="l00339"></a>00339 
+<a name="l00343"></a>00343   <span class="keyword">virtual</span> iRigidBody* <a class="code" href="structiPcMechanicsObject.html#c2bc708f19c17fc57d96e438f5980290">GetBody</a> () = 0;
 <a name="l00344"></a>00344 
-<a name="l00346"></a>00346   <span class="comment">//Object properties.</span>
-<a name="l00347"></a>00347 
-<a name="l00353"></a>00353   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#e7782d384f8b89ae0d0ae075f238acad">SetFriction</a> (<span class="keywordtype">float</span> friction) = 0;
-<a name="l00354"></a>00354 
-<a name="l00360"></a>00360   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#ebf2279d75ed72fba423d549ac8ee6a6">SetMass</a> (<span class="keywordtype">float</span> mass) = 0;
-<a name="l00361"></a>00361 
-<a name="l00367"></a>00367   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#626142213e77fcc7977e60d9480e2afa">SetElasticity</a> (<span class="keywordtype">float</span> elasticity) = 0;
-<a name="l00368"></a>00368 
-<a name="l00374"></a>00374   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#0077a80739cddb50dece115547623cca">SetDensity</a> (<span class="keywordtype">float</span> density) = 0;
-<a name="l00375"></a>00375 
-<a name="l00381"></a>00381   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#61d2c45b20737be6f5041d6f92bdd9de">SetSoftness</a> (<span class="keywordtype">float</span> softness) = 0;
-<a name="l00382"></a>00382 
-<a name="l00388"></a>00388   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#b19500987ffc1a881d420a4b1f4e1175">SetLift</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; lift) = 0;
-<a name="l00389"></a>00389 
-<a name="l00395"></a>00395   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#957c04a0e83abc26b84c7f6020dcfb1e">SetDrag</a> (<span class="keywordtype">float</span> drag) = 0;
-<a name="l00396"></a>00396 
-<a name="l00401"></a>00401   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#71e7bcacc7dc609b25add73f73867ff6">GetFriction</a> () = 0;
-<a name="l00402"></a>00402 
-<a name="l00407"></a>00407   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#2a7ab9561c54c2a41dd21cd48767fe80">GetMass</a> () = 0;
-<a name="l00408"></a>00408 
-<a name="l00413"></a>00413   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#816452282253941f5082b18839135d67">GetElasticity</a> () = 0;
-<a name="l00414"></a>00414 
-<a name="l00419"></a>00419   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#38c3f08611b56a0e61e267ac09eae682">GetDensity</a> () = 0;
-<a name="l00420"></a>00420 
-<a name="l00425"></a>00425   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#e039f85cb5be9ad570bb98863bda333e">GetSoftness</a> () = 0;
-<a name="l00426"></a>00426 
-<a name="l00431"></a>00431   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; <a class="code" href="structiPcMechanicsObject.html#6af72c2d9714c20caf5282f1654ec7e3">GetLift</a> () = 0;
-<a name="l00432"></a>00432 
-<a name="l00437"></a>00437   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#450da3ae5eff1c5c2dea86a027b3b1e8">GetDrag</a> () = 0;
-<a name="l00438"></a>00438 
+<a name="l00345"></a>00345 
+<a name="l00347"></a>00347   <span class="comment">//Object properties.</span>
+<a name="l00348"></a>00348 
+<a name="l00354"></a>00354   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#e7782d384f8b89ae0d0ae075f238acad">SetFriction</a> (<span class="keywordtype">float</span> friction) = 0;
+<a name="l00355"></a>00355 
+<a name="l00361"></a>00361   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#ebf2279d75ed72fba423d549ac8ee6a6">SetMass</a> (<span class="keywordtype">float</span> mass) = 0;
+<a name="l00362"></a>00362 
+<a name="l00368"></a>00368   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#626142213e77fcc7977e60d9480e2afa">SetElasticity</a> (<span class="keywordtype">float</span> elasticity) = 0;
+<a name="l00369"></a>00369 
+<a name="l00375"></a>00375   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#0077a80739cddb50dece115547623cca">SetDensity</a> (<span class="keywordtype">float</span> density) = 0;
+<a name="l00376"></a>00376 
+<a name="l00382"></a>00382   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#61d2c45b20737be6f5041d6f92bdd9de">SetSoftness</a> (<span class="keywordtype">float</span> softness) = 0;
+<a name="l00383"></a>00383 
+<a name="l00389"></a>00389   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#b19500987ffc1a881d420a4b1f4e1175">SetLift</a> (<span class="keyword">const</span> csVector3&amp; lift) = 0;
+<a name="l00390"></a>00390 
+<a name="l00396"></a>00396   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#957c04a0e83abc26b84c7f6020dcfb1e">SetDrag</a> (<span class="keywordtype">float</span> drag) = 0;
+<a name="l00397"></a>00397 
+<a name="l00402"></a>00402   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#71e7bcacc7dc609b25add73f73867ff6">GetFriction</a> () = 0;
+<a name="l00403"></a>00403 
+<a name="l00408"></a>00408   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#2a7ab9561c54c2a41dd21cd48767fe80">GetMass</a> () = 0;
+<a name="l00409"></a>00409 
+<a name="l00414"></a>00414   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#816452282253941f5082b18839135d67">GetElasticity</a> () = 0;
+<a name="l00415"></a>00415 
+<a name="l00420"></a>00420   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#38c3f08611b56a0e61e267ac09eae682">GetDensity</a> () = 0;
+<a name="l00421"></a>00421 
+<a name="l00426"></a>00426   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#e039f85cb5be9ad570bb98863bda333e">GetSoftness</a> () = 0;
+<a name="l00427"></a>00427 
+<a name="l00432"></a>00432   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3&amp; <a class="code" href="structiPcMechanicsObject.html#6af72c2d9714c20caf5282f1654ec7e3">GetLift</a> () = 0;
+<a name="l00433"></a>00433 
+<a name="l00438"></a>00438   <span class="keyword">virtual</span> <span class="keywordtype">float</span> <a class="code" href="structiPcMechanicsObject.html#450da3ae5eff1c5c2dea86a027b3b1e8">GetDrag</a> () = 0;
 <a name="l00439"></a>00439 
-<a name="l00441"></a>00441   <span class="comment">//Initial velocities</span>
-<a name="l00442"></a>00442 
-<a name="l00447"></a>00447   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#efe25505307c1cf828b747da6a47caa1">SetLinearVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel) = 0;
-<a name="l00448"></a>00448 
-<a name="l00453"></a>00453   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#28ae6960a8b0a19c7d1fcb950c978a96">SetAngularVelocity</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; vel) = 0;
-<a name="l00454"></a>00454 
+<a name="l00440"></a>00440 
+<a name="l00442"></a>00442   <span class="comment">//Initial velocities</span>
+<a name="l00443"></a>00443 
+<a name="l00448"></a>00448   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#efe25505307c1cf828b747da6a47caa1">SetLinearVelocity</a> (<span class="keyword">const</span> csVector3&amp; vel) = 0;
+<a name="l00449"></a>00449 
+<a name="l00454"></a>00454   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#28ae6960a8b0a19c7d1fcb950c978a96">SetAngularVelocity</a> (<span class="keyword">const</span> csVector3&amp; vel) = 0;
 <a name="l00455"></a>00455 
-<a name="l00457"></a>00457   <span class="comment">//Reading velocities</span>
-<a name="l00458"></a>00458 
-<a name="l00462"></a>00462   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsObject.html#c01c0658a79bc6b30bce62cd99c59be7">GetLinearVelocity</a> () = 0;
-<a name="l00463"></a>00463 
-<a name="l00467"></a>00467   <span class="keyword">virtual</span> <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsObject.html#96e308b35499fc9478cf43e458a31928">GetAngularVelocity</a> () = 0;
-<a name="l00468"></a>00468 
-<a name="l00474"></a>00474   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#3b3ef562b296bda150af14742088f1aa">MakeStatic</a> (<span class="keywordtype">bool</span> stat) = 0;
-<a name="l00475"></a>00475   
-<a name="l00479"></a>00479   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMechanicsObject.html#ca764cfe8f9c31eb3fce75b177fbf10c">IsStatic</a> () <span class="keyword">const </span>= 0;
-<a name="l00480"></a>00480 
-<a name="l00485"></a>00485   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#874d14f8557251e60ec927cf52152ef8">SetCollisionCallbackEnabled</a> (<span class="keywordtype">bool</span> en) = 0;
+<a name="l00456"></a>00456 
+<a name="l00458"></a>00458   <span class="comment">//Reading velocities</span>
+<a name="l00459"></a>00459 
+<a name="l00463"></a>00463   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#c01c0658a79bc6b30bce62cd99c59be7">GetLinearVelocity</a> () = 0;
+<a name="l00464"></a>00464 
+<a name="l00468"></a>00468   <span class="keyword">virtual</span> <span class="keyword">const</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#96e308b35499fc9478cf43e458a31928">GetAngularVelocity</a> () = 0;
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470 
+<a name="l00472"></a>00472   <span class="comment">//Static objects</span>
+<a name="l00473"></a>00473 
+<a name="l00479"></a>00479   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#3b3ef562b296bda150af14742088f1aa">MakeStatic</a> (<span class="keywordtype">bool</span> stat) = 0;
+<a name="l00480"></a>00480   
+<a name="l00484"></a>00484   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMechanicsObject.html#ca764cfe8f9c31eb3fce75b177fbf10c">IsStatic</a> () <span class="keyword">const </span>= 0;
+<a name="l00485"></a>00485 
 <a name="l00486"></a>00486 
-<a name="l00488"></a>00488   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="structiPcMechanicsObject.html#3e0c77692d149d76f801c72e3c77f55a">IsCollisionCallbackEnabled</a> () <span class="keyword">const </span>= 0;
+<a name="l00488"></a>00488   <span class="comment">//Colliders</span>
 <a name="l00489"></a>00489 
-<a name="l00491"></a>00491   <span class="comment">//Colliders</span>
-<a name="l00492"></a>00492 
-<a name="l00498"></a>00498   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#2cf882df76f7709ff8003ccd74fd0c82">AttachColliderBoundingSphere</a> (<span class="keywordtype">float</span> radiusadjustment = 0.0f) = 0;
-<a name="l00499"></a>00499 
-<a name="l00506"></a>00506   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#30faf24bb4efb8a4913e185d49aeb12a">AttachColliderSphere</a> (<span class="keywordtype">float</span> radius, <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; offset) = 0;
-<a name="l00507"></a>00507 
-<a name="l00514"></a>00514   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#fe375adbbdfdf70b46af13fa3a12aef7">AttachColliderCylinder</a> (<span class="keywordtype">float</span> length, <span class="keywordtype">float</span> radius,
-<a name="l00515"></a>00515         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsOrthoTransform.html">csOrthoTransform</a>&amp; trans) = 0;
+<a name="l00493"></a>00493   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#28604a21eece4ddc9333a130f1b143e7">AttachColliderBoundingSphere</a> () = 0;
+<a name="l00494"></a>00494 
+<a name="l00501"></a>00501   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#30faf24bb4efb8a4913e185d49aeb12a">AttachColliderSphere</a> (<span class="keywordtype">float</span> radius, <span class="keyword">const</span> csVector3&amp; offset) = 0;
+<a name="l00502"></a>00502 
+<a name="l00509"></a>00509   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#fe375adbbdfdf70b46af13fa3a12aef7">AttachColliderCylinder</a> (<span class="keywordtype">float</span> length, <span class="keywordtype">float</span> radius,
+<a name="l00510"></a>00510         <span class="keyword">const</span> csOrthoTransform&amp; trans) = 0;
+<a name="l00511"></a>00511 
+<a name="l00515"></a>00515   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#20bddaa5902562d2660f1052971e2ee4">AttachColliderBoundingBox</a> () = 0;
 <a name="l00516"></a>00516 
-<a name="l00521"></a>00521   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#553bc6a82160cf93b307fac76e006af6">AttachColliderBoundingBox</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; sizeadjustment = <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>(0)) = 0;
-<a name="l00522"></a>00522 
-<a name="l00528"></a>00528   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a5e229261a484fe9bec03bd79ccbb455">AttachColliderBox</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; size,
-<a name="l00529"></a>00529         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsOrthoTransform.html">csOrthoTransform</a>&amp; trans) = 0;
+<a name="l00522"></a>00522   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#a5e229261a484fe9bec03bd79ccbb455">AttachColliderBox</a> (<span class="keyword">const</span> csVector3&amp; size,
+<a name="l00523"></a>00523         <span class="keyword">const</span> csOrthoTransform&amp; trans) = 0;
+<a name="l00524"></a>00524 
+<a name="l00529"></a>00529   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#680eb66d8c3cc332f47441e9a6c9c4ca">AttachColliderPlane</a> (<span class="keyword">const</span> csPlane3&amp; plane) = 0;
 <a name="l00530"></a>00530 
-<a name="l00535"></a>00535   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#680eb66d8c3cc332f47441e9a6c9c4ca">AttachColliderPlane</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPlane3.html">csPlane3</a>&amp; plane) = 0;
+<a name="l00534"></a>00534   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#e3014506ffc9cb08e0e60a0e40dcf948">AttachColliderMesh</a> () = 0;
+<a name="l00535"></a>00535 
 <a name="l00536"></a>00536 
-<a name="l00540"></a>00540   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#e3014506ffc9cb08e0e60a0e40dcf948">AttachColliderMesh</a> () = 0;
-<a name="l00541"></a>00541 
-<a name="l00542"></a>00542 
-<a name="l00544"></a>00544   <span class="comment">//Forces</span>
-<a name="l00545"></a>00545 
-<a name="l00553"></a>00553   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#535a4d764194b9dd7ab1a6383330a009">AddForceOnce</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative,
-<a name="l00554"></a>00554         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position) = 0;
-<a name="l00555"></a>00555 
-<a name="l00564"></a>00564   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#987034c0080e19c27efcf2e79711a13f">AddForceDuration</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative,
-<a name="l00565"></a>00565         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position, <span class="keywordtype">float</span> seconds) = 0;
-<a name="l00566"></a>00566 
-<a name="l00574"></a>00574   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#505a7b3411ce412437519a67f9aa9039">AddForceFrame</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative,
-<a name="l00575"></a>00575         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position) = 0;
-<a name="l00576"></a>00576 
-<a name="l00586"></a>00586   <span class="keyword">virtual</span> <a class="code" href="dummy.html#g1134b580f8da4de94ca6b1de4d37975e">uint32</a> <a class="code" href="structiPcMechanicsObject.html#ac6a269629cf3e9b2991bea5b2e44e7f">AddForceTagged</a> (<span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; force, <span class="keywordtype">bool</span> relative, 
-<a name="l00587"></a>00587         <span class="keyword">const</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a>&amp; position) = 0;
+<a name="l00538"></a>00538   <span class="comment">//Forces</span>
+<a name="l00539"></a>00539 
+<a name="l00547"></a>00547   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#535a4d764194b9dd7ab1a6383330a009">AddForceOnce</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
+<a name="l00548"></a>00548         <span class="keyword">const</span> csVector3&amp; position) = 0;
+<a name="l00549"></a>00549 
+<a name="l00558"></a>00558   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#987034c0080e19c27efcf2e79711a13f">AddForceDuration</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
+<a name="l00559"></a>00559         <span class="keyword">const</span> csVector3&amp; position, <span class="keywordtype">float</span> seconds) = 0;
+<a name="l00560"></a>00560 
+<a name="l00568"></a>00568   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#505a7b3411ce412437519a67f9aa9039">AddForceFrame</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative,
+<a name="l00569"></a>00569         <span class="keyword">const</span> csVector3&amp; position) = 0;
+<a name="l00570"></a>00570 
+<a name="l00580"></a>00580   <span class="keyword">virtual</span> uint32 <a class="code" href="structiPcMechanicsObject.html#ac6a269629cf3e9b2991bea5b2e44e7f">AddForceTagged</a> (<span class="keyword">const</span> csVector3&amp; force, <span class="keywordtype">bool</span> relative, 
+<a name="l00581"></a>00581         <span class="keyword">const</span> csVector3&amp; position) = 0;
+<a name="l00582"></a>00582 
+<a name="l00587"></a>00587   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#3664c1104a818b889eea2c343c868a8c">RemoveForceTagged</a> (uint32 forceid) = 0;
 <a name="l00588"></a>00588 
-<a name="l00593"></a>00593   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#3664c1104a818b889eea2c343c868a8c">RemoveForceTagged</a> (<a class="code" href="dummy.html#g1134b580f8da4de94ca6b1de4d37975e">uint32</a> forceid) = 0;
+<a name="l00592"></a>00592   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#99dc6a9c9d483f308a46bda3dd5b0dcd">ClearForces</a> () = 0;
+<a name="l00593"></a>00593 
 <a name="l00594"></a>00594 
-<a name="l00598"></a>00598   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#99dc6a9c9d483f308a46bda3dd5b0dcd">ClearForces</a> () = 0;
-<a name="l00599"></a>00599 
-<a name="l00600"></a>00600 
-<a name="l00602"></a>00602   <span class="comment">//Groups and Joints</span>
-<a name="l00603"></a>00603 
-<a name="l00609"></a>00609   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#1e4283b747fd811958c798de389c6ab8">AddToGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00596"></a>00596   <span class="comment">//Groups and Joints</span>
+<a name="l00597"></a>00597 
+<a name="l00603"></a>00603   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#1e4283b747fd811958c798de389c6ab8">AddToGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
+<a name="l00604"></a>00604 
+<a name="l00609"></a>00609   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#731d9dd3a3e1c64104583444feed417e">RemoveFromGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
 <a name="l00610"></a>00610 
-<a name="l00615"></a>00615   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiPcMechanicsObject.html#731d9dd3a3e1c64104583444feed417e">RemoveFromGroup</a> (<span class="keyword">const</span> <span class="keywordtype">char</span>* group) = 0;
-<a name="l00616"></a>00616 
-<a name="l00620"></a>00620   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* <a class="code" href="structiPcMechanicsObject.html#e295f74a80e9fc47f28ac51b73d170a9">CreateJoint</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* other) = 0;
-<a name="l00621"></a>00621 
-<a name="l00625"></a>00625   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsObject.html#7378de779bcec920f07db72e1346d54d">LocalToWorld</a>(<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> local) = 0;
-<a name="l00629"></a>00629   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> <a class="code" href="structiPcMechanicsObject.html#25d8e05d726463657108700d5ff72d45">WorldToLocal</a>(<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> world) = 0;
-<a name="l00630"></a>00630 };
-<a name="l00631"></a>00631 
-<a name="l00645"></a><a class="code" href="structiPcMechanicsJoint.html">00645</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
-<a name="l00646"></a>00646 {
-<a name="l00647"></a>00647   SCF_INTERFACE (<a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a>, 0, 0, 1);
-<a name="l00648"></a>00648 
-<a name="l00652"></a>00652   <span class="keyword">virtual</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiJoint.html">iJoint</a>* <a class="code" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> () = 0;
-<a name="l00653"></a>00653 };
-<a name="l00654"></a>00654 
-<a name="l00655"></a>00655 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
-<a name="l00656"></a>00656 <span class="preprocessor"></span>
+<a name="l00614"></a>00614   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsObject.html#e295f74a80e9fc47f28ac51b73d170a9">CreateJoint</a> (<a class="code" href="structiPcMechanicsObject.html">iPcMechanicsObject</a>* other) = 0;
+<a name="l00615"></a>00615 
+<a name="l00619"></a>00619   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#7378de779bcec920f07db72e1346d54d">LocalToWorld</a>(csVector3 local) = 0;
+<a name="l00623"></a>00623   <span class="keyword">virtual</span> csVector3 <a class="code" href="structiPcMechanicsObject.html#25d8e05d726463657108700d5ff72d45">WorldToLocal</a>(csVector3 world) = 0;
+<a name="l00624"></a>00624 };
+<a name="l00625"></a>00625 
+<a name="l00641"></a><a class="code" href="structiPcMechanicsJoint.html">00641</a> <span class="keyword">struct </span><a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a> : <span class="keyword">public</span> <span class="keyword">virtual</span> iBase
+<a name="l00642"></a>00642 {
+<a name="l00643"></a>00643   SCF_INTERFACE (<a class="code" href="structiPcMechanicsJoint.html">iPcMechanicsJoint</a>, 0, 0, 1);
+<a name="l00644"></a>00644 
+<a name="l00648"></a>00648   <span class="keyword">virtual</span> iJoint* <a class="code" href="structiPcMechanicsJoint.html#c79f260efb5b6fc9e4c2d4f533e78cb3">GetJoint</a> () = 0;
+<a name="l00649"></a>00649 };
+<a name="l00650"></a>00650 
+<a name="l00651"></a>00651 <span class="preprocessor">#endif // __CEL_PF_MECHANICS_SYSTEM__</span>
+<a name="l00652"></a>00652 <span class="preprocessor"></span>
 </pre></div><hr size="1"><address><small>Generated for CEL: Crystal Entity Layer by 
 <a href="http://www.doxygen.org/index.html">doxygen</a> 1.4.7 
 </small></address> </div></body> </html>

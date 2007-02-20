@@ -144,12 +144,12 @@ celMovePathSeqOp::celMovePathSeqOp (
   tag = qm->ResolveParameter (params, tag_par);
 
   csString sectorname;
-  path = new csPath ((int)nodes.GetSize ());
+  path = new csPath ((int)nodes.Length ());
 
   sector = 0;
   maxtime = 0.0f;
   size_t i;
-  for (i = 0 ; i < nodes.GetSize () ; i++)
+  for (i = 0 ; i < nodes.Length () ; i++)
   {
     float t = ToFloat (qm->ResolveParameter (params, times[i]));
     path->SetTime ((int)i, t);

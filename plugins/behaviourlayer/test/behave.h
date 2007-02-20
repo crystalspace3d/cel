@@ -27,8 +27,6 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
-struct iCelPlLayer;
-struct iPcMeshDeform;
 
 /**
  * General behaviour class.
@@ -149,9 +147,6 @@ public:
  */
 class celBehaviourWheeled : public celBehaviourGeneral
 {
-private:
-  csRef<iCelPlLayer> pl;
-  csRef<iPcMeshDeform> pcmeshdeform;
 public:
   celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourWheeled();

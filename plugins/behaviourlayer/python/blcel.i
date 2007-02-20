@@ -42,18 +42,14 @@ CS_PROPERTY_HELPERS
 #include "propclass/hover.h"
 #include "propclass/craft.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 #include "propclass/damage.h"
-#include "propclass/quest.h"
-#include "propclass/trigger.h"
 #include "plugins/behaviourlayer/python/blpython.h"
 #include "tools/billboard.h"
 #include "tools/celconsole.h"
-#include "tools/questmanager.h"
 #include "propclass/zone.h"
 %}
 %inline %{
-  extern CS_IMPORT_SYM PyObject *    // from crystalspace_python
+  extern PyObject *    // from crystalspace_python
   _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
 
 %}
@@ -64,11 +60,7 @@ CS_PROPERTY_HELPERS
 //=============================================================================
 
 %define CEL_APPLY_FOR_EACH_INTERFACE
-  INTERFACE_APPLY(iCelPlLayer)
-  INTERFACE_APPLY(iCelBlLayer)
   INTERFACE_APPLY(iCelEntity)
-  INTERFACE_APPLY(iCelPropertyClass)
-  INTERFACE_APPLY(iQuestManager)
   INTERFACE_APPLY(iCelEntityList)
 %enddef
 
@@ -78,15 +70,10 @@ CS_PROPERTY_HELPERS
 
 %define CEL_PC_CREATE(pcType, funcName, pcname)
 %inline %{
-pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
-{
-  csRef<iCelPropertyClass> pc;
-  if (tagname)
-    pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname);
-  else
-    pc = pl->CreatePropertyClass(entity, #pcname );
+pcType *funcName(iCelPlLayer *pl, iCelEntity *entity) {
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
-  csRef<pcType> pclm = scfQueryInterface<pcType>(pc);
+  csRef<pcType> pclm = SCF_QUERY_INTERFACE(pc, pcType);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -95,23 +82,14 @@ pcType *funcName(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 )
 
 %define CEL_PC_GETSET(pcType, funcName,pcname)
 %inline %{
-pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
+pcType * funcName (iCelPlLayer *pl, iCelEntity *entity)
 {
-  csRef<pcType> pclm;
-  if (tagname)
-    pclm = CEL_QUERY_PROPCLASS_TAG (
-      entity->GetPropertyClassList (), pcType, tagname);
-  else
-    pclm = CEL_QUERY_PROPCLASS (
-      entity->GetPropertyClassList (), pcType);
+  csRef<pcType> pclm = CEL_QUERY_PROPCLASS (
+    entity->GetPropertyClassList (), pcType);
   if (pclm.IsValid()) return pclm;
-  csRef<iCelPropertyClass> pc;
-  if (tagname)
-    pc = pl->CreateTaggedPropertyClass(entity, #pcname, tagname );
-  else
-    pc = pl->CreatePropertyClass(entity, #pcname );
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, #pcname );
   if (!pc.IsValid()) return 0;
-  pclm = scfQueryInterface<pcType>(pc);
+  pclm = SCF_QUERY_INTERFACE(pc, pcType);
   if (!pclm.IsValid()) return 0;
   return pclm;
 }
@@ -120,15 +98,10 @@ pcType * funcName (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 
 %define CEL_PC_GET(pcType, funcName)
 %inline %{
-pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
+pcType * funcName (iCelEntity *entity)
 {
-  csRef<pcType> pc;
-  if (tagname)
-    pc = CEL_QUERY_PROPCLASS_TAG (
-      entity->GetPropertyClassList (), pcType, tagname);
-  else
-    pc = CEL_QUERY_PROPCLASS (
-      entity->GetPropertyClassList (), pcType);
+  csRef<pcType> pc = CEL_QUERY_PROPCLASS (
+    entity->GetPropertyClassList (), pcType);
   if (!pc.IsValid()) return 0;
   return pc;
 }
@@ -139,7 +112,7 @@ pcType * funcName (iCelEntity *entity, const char* tagname = 0 )
 %inline %{
 pcType *scfQuery_ ## pcType (iCelPropertyClass *pc)
 {
-  csRef<pcType> iface = scfQueryInterface<pcType>(pc);
+  csRef<pcType> iface = SCF_QUERY_INTERFACE(pc, pcType);
   if (iface) iface->IncRef ();
   return iface;
 }
@@ -150,50 +123,11 @@ pcType *scfQuery_ ## pcType (iCelPropertyClass *pc)
 %inline %{
 pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 {
-  csRef<pcType> iface = scfQueryInterface<pcType>(pclist);
+  csRef<pcType> iface = SCF_QUERY_INTERFACE(pclist, pcType);
   if (iface) iface->IncRef ();
   return iface;
 }
 %}
-%enddef
-
-%extend iCelPropertyClass {
-   %pythoncode %{
-   def GetterFallback(self,attr):
-        raise AttributeError
-   def SetterFallback(self,attr,value):
-        raise AttributeError
-%}
-}
-
-#undef SCF_QUERY_INTERFACE
-%define CEL_PC_FIX_INHERITANCE(pcType)
-%extend pcType {
-   %pythoncode %{
-   _PC = None
-   def _getBasePc(self):
-        pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-        _object.__setattr__(self,"_PC",pc)
-   def __getattr__(self,attr):
-        if not self._PC: self._getBasePc()
-        try:
-            return _swig_getattr(self, pcType, attr)
-        except:
-            pass
-        if hasattr(self._PC,attr):
-            return getattr(self._PC,attr)
-        else:
-            return self.GetterFallback(attr)
-   def __setattr__(self,attr,value):
-        if not self._PC: self._getBasePc()
-        if attr in pcType.__swig_setmethods__.keys():
-            return _swig_setattr(self,pcType,attr,value)
-        elif hasattr(self._PC,attr):
-            setattr(self._PC,attr,value)
-        else:
-            return self.SetterFallback(attr,value)
-%}
-}
 %enddef
 
 %define CEL_PC(pcType, funcBaseName, pcname)
@@ -201,13 +135,12 @@ CEL_PC_CREATE(pcType, celCreate ## funcBaseName, pcname)
 CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
-CEL_PC_FIX_INHERITANCE(pcType)
 %enddef
 
 //-----------------------------------------------------------------------------
 %define CELLIST_METHODS(classname,typename)
-	PYLIST_BASE_FUNCTIONS(classname,typename*,size_t,GetCount,Get,Add,Remove,Find)
-	PYLIST_BYNAME_FUNCTIONS(classname,typename*,FindByName)
+	PYLIST_BASE_FUNCTIONS(classname,typename,size_t,GetCount,Get,Add,Remove,Find)
+	PYLIST_BYNAME_FUNCTIONS(classname,typename,FindByName)
 %enddef
 
 //-----------------------------------------------------------------------------
@@ -263,11 +196,6 @@ CEL_APPLY_FOR_EACH_INTERFACE
 
 //-----------------------------------------------------------------------------
 
-%apply csStringFast * { const csStringFast<12>& };
-%template (csStringFast12) csStringFast<12>;
-%template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12> >; 
-
-%ignore iCelPlLayer::SendMessageV;
 %include "physicallayer/pl.h"
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
@@ -276,6 +204,7 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
+
 // extension to create a parameter block from a dict, list or tuple
 %extend iCelPlLayer {
 	%pythoncode %{
@@ -358,7 +287,7 @@ iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
 %inline %{
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
 {
-  csRef<iCelEntity> ent = scfQueryInterface<iCelEntity>(base);
+  csRef<iCelEntity> ent = SCF_QUERY_INTERFACE (base, iCelEntity);
   return ent;
 }
 %}
@@ -450,30 +379,8 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
-/* shadow Remove method so pcclass specific interfaces can be used */
-%feature("shadow") iCelPropertyClassList::Remove
-%{
-  def Remove(self,propclass):
-    if not (isinstance(propclass,int) or isinstance(propclass,
-            iCelPropertyClass)):
-      propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
-    return _blcelc.iCelPropertyClassList_Remove(self,propclass)
-%}
 %ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
-
-/* Some typemaps so values are appropiately returned */
-TYPEMAP_ARGOUT_PTR(csVector3)
-TYPEMAP_ARGOUT_PTR(csVector2)
-TYPEMAP_ARGOUT_PTR(csColor)
-APPLY_TYPEMAP_ARGOUT_PTR(csVector3, csVector3& v)
-APPLY_TYPEMAP_ARGOUT_PTR(csVector2, csVector2& v)
-APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
-
-/* Rename vector getter functions so they dont shadow each other */
-%rename(GetPropertyVector3) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector3& v);
-%rename(GetPropertyVector2) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector2& v);
-
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
   bool SetPropertyLong (csStringID id, long l )
@@ -484,20 +391,9 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
   { return self->SetProperty (id, b); }
   bool SetPropertyString (csStringID id, const char* s)
   { return self->SetProperty (id, s); }
-  bool SetPropertyVector2 (csStringID id, const csVector2& vec)
-  { return self->SetProperty (id, vec); }
-  bool SetPropertyVector3 (csStringID id, const csVector3& vec)
-  { return self->SetProperty (id, vec); }
-  bool SetPropertyColor (csStringID id, const csColor& col)
-  { return self->SetProperty (id, col); }
-  bool SetPropertyEntity (csStringID id, const iCelEntity* ent)
-  { return self->SetProperty (id, ent); }
+  bool SetPropertyVector3 (csStringID id, const csVector3& v)
+  { return self->SetProperty (id, v); }
 }
-/* Clear Typemaps */
-%clear csVector3& v;
-%clear csVector2& v;
-%clear csColor& v;
-
 CELLIST_METHODS(iCelPropertyClassList,iCelPropertyClass)
 
 //-----------------------------------------------------------------------------
@@ -547,7 +443,7 @@ iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 {
   csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
   if (!pc.IsValid()) return 0;
-  csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
+  csRef<iPcRegion> pcregion = SCF_QUERY_INTERFACE(pc, iPcRegion);
   if (!pcregion.IsValid()) return 0;
   pcregion->SetRegionName (name);
   return pcregion;
@@ -614,15 +510,12 @@ CEL_PC(iPcMesh, Mesh, pcmesh)
 
 //-----------------------------------------------------------------------------
 
+// no getters/setters
 %include "propclass/timer.h"
 CEL_PC(iPcTimer, Timer, pctimer)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/trigger.h"
-CEL_PC(iPcTrigger, Trigger, pctrigger)
-
-//-----------------------------------------------------------------------------
 %include "propclass/projectile.h"
 CEL_PC(iPcProjectile, Projectile, pcprojectile)
 
@@ -706,19 +599,8 @@ CEL_PC(iPcWheeled, Wheeled, pcwheeled)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/meshdeform.h"
-CEL_PC(iPcMeshDeform, MeshDeform, pcmeshdeform)
-
-//-----------------------------------------------------------------------------
-
 %include "propclass/damage.h"
 CEL_PC(iPcDamage, Damage, pcdamage)
-
-//-----------------------------------------------------------------------------
-
-%include "tools/questmanager.h"
-%include "propclass/quest.h"
-CEL_PC(iPcQuest, Quest, pcquest)
 
 //-----------------------------------------------------------------------------
 

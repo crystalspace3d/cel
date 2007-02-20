@@ -28,7 +28,6 @@
 #include "iutil/objreg.h"
 #include "iutil/cmdline.h"
 #include "iutil/eventq.h"
-#include "iutil/verbositymanager.h"
 #include "csutil/event.h"
 #include "csutil/eventnames.h"
 #include "ivaria/reporter.h"
@@ -95,12 +94,6 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
     csQueryRegistry<iCommandLineParser> (object_reg));
   use_debugger = cmdline->GetOption("python-enable-debugger") != 0;
 
-  csRef<iVerbosityManager> verbosity_mgr = 
-	  csQueryRegistry<iVerbosityManager> (object_reg);
-  do_verbose = verbosity_mgr->Enabled("blpython");
-  
-  deprecation_warning = true;
-
   Py_SetProgramName ("Crystal Entity Layer -- Python");
   Py_Initialize ();
   InitPytocel ();
@@ -147,29 +140,31 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   s_mainModule = PyImport_AddModule("__main__");
   if (!s_mainModule)
   {
-    Print(true,"Couldn't get __main__ module");
+    printf("Couldn't get __main__ module");
     return false;
   }
   Py_INCREF(s_mainModule);
+  printf("Unmarshall pycel.py\n");
   PyObject* pycelModuleCode = PyMarshal_ReadObjectFromString((char*)pycel_py_wrapper, (int)pycel_py_wrapper_size);
   if (!pycelModuleCode)
   {
-    Print(true,"Error in embedded pycel.py code");
+    printf("Error in embedded pycel.py code\n");
     return false;
   }
   PyObject* pycelModule = PyImport_ExecCodeModule("pycel", pycelModuleCode);
   Py_DECREF(pycelModuleCode); // don't need this at this point
   if (!pycelModule)
   {
-    Print(true,"Error compiling embedded pycel.py code");
+    printf("Error compiling embedded pycel.py code\n");
     PyRun_SimpleString ("pdb.pm()");
     return false;
   }
   if (PyModule_AddObject(s_mainModule, "pycel", pycelModule))
   {
-    Print(true,"Error adding pycel module to __main__");
+    printf("Error adding pycel module to __main__\n");
     return false;
   }
+  
   // Register event queue
   csRef<iEventQueue> queue = csQueryRegistry<iEventQueue> (object_reg);
   if (queue.IsValid())
@@ -222,13 +217,13 @@ iCelBehaviour* celBlPython::CreateBehaviour (iCelEntity* entity,
     }
     else    
     {
-      csPrintf("Error: object \"%s\" is not callable'\n", realname.GetData ());
+      printf ("Error: object \"%s\" is not callable'\n", realname.GetData ());
       return 0;
     }
   }
   else
   {
-    csPrintf("Error: failed to load module \"%s\"\n", realname.GetData ());
+    printf ("Error: failed to load module \"%s\"\n", realname.GetData ());
     PyRun_SimpleString ("pdb.pm()");
     return 0;
   }
@@ -255,7 +250,7 @@ bool celBlPython::RunText (const char* Text)
   bool ok = !PyRun_SimpleString (str.GetData ());
   if (!ok) 
   {    
-    csPrintf("Error running text '%s'\n", Text);    
+    printf ("Error running text '%s'\n", Text);    
     fflush (stdout);
     if (use_debugger)
       PyRun_SimpleString ("pdb.pm()");
@@ -321,7 +316,7 @@ bool celBlPython::HandleEvent(iEvent& e)
   {
 #undef indent
 #define indent "                     "
-    csPrintf("Options for celBlPython plugin:\n"
+    printf("Options for celBlPython plugin:\n"
            "  -python-enable-debugger\n"
            indent "When Python exception is thrown, launch Python debugger\n");
 #undef indent
@@ -344,26 +339,6 @@ celPythonBehaviour::celPythonBehaviour (celBlPython *scripter,
   celPythonBehaviour::py_entity = py_entity;
   celPythonBehaviour::py_object = py_object;
   celPythonBehaviour::name = csStrNew (name);
-
-  // check callback interface version
-  api_version = 1; // XXX to be changed to 2 in cel 1.4
-  if (!PyObject_HasAttrString(py_object, "api_version"))
-  {
-    if (!scripter->deprecation_warning)
-      return;
-    csPrintf("DEPRECATION WARNING:\n");
-    csPrintf("%s: You should specify behaviour callback version\n",name);
-    csPrintf(" Add 'api_version = <number>' to the behaviour class body.\n");
-    csPrintf(" Also it is recommended to start using version 2 of the api.\n");
-    csPrintf(" Check python section of the cel manual for more information.\n\n");
-    scripter->deprecation_warning = false;
-    return;
-  }
-  PyObject *pyapi_version = PyObject_GetAttrString(py_object,"api_version");
-  if (PyInt_Check(pyapi_version))
-    api_version = PyInt_AsLong(pyapi_version);
-
-  Py_DECREF (pyapi_version);
 }
 
 celPythonBehaviour::~celPythonBehaviour ()
@@ -387,7 +362,7 @@ bool celPythonBehaviour::SendMessage (const char* msg_id,
 }
 
 bool celPythonBehaviour::SendMessageV (const char* msg_id,
-	iCelPropertyClass* pc,
+	iCelPropertyClass* /*pc*/,
 	celData& data, iCelParameterBlock* params, va_list arg)
 { 
 /*  
@@ -417,36 +392,11 @@ bool celPythonBehaviour::SendMessageV (const char* msg_id,
     return true;
   }
 */
-  PyObject *method = PyString_FromString (msg_id);
-
-  // Check if attribute exists
-  if (!PyObject_HasAttr(py_object, method))
-  {
-    if (scripter->do_verbose)
-    {
-      csPrintf("%s: behaviour has no method called '%s'\n",name,msg_id);
-    }
-    Py_DECREF (method);
-    return false;
-  }
-
-  // Run the method
-  PyObject *result;
   PyObject *pymessage_info = csWrapTypedObject (params, "_p_iCelParameterBlock", 0);
-  if (api_version == 1)
-  {
-    result = PyObject_CallMethodObjArgs (py_object, method, 
-       py_entity, pymessage_info, 0);
-  }
-  else
-  {
-    PyObject *pymessage_pc = csWrapTypedObject (pc, "_p_iCelPropertyClass", 0);
-    result = PyObject_CallMethodObjArgs (py_object, method, 
-       pymessage_pc, pymessage_info, 0);
-    Py_DECREF (pymessage_pc);
-  }
 
-  // Check result
+  PyObject *method = PyString_FromString (msg_id);
+  PyObject *result = PyObject_CallMethodObjArgs (py_object, method, 
+       py_entity, pymessage_info, 0);
   if (!result)
     PyRun_SimpleString ("pdb.pm()");
   else

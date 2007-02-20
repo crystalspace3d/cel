@@ -136,7 +136,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   // check vfs.cfg file is actually there.
   csPathsList vfs_file_path = 
 	    csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
-  if (vfs_file_path.GetSize())
+  if (vfs_file_path.Length())
   {
     csString cel_vfs_file = 
       vfs_file_path[0].path+csString(CS_PATH_SEPARATOR)+csString("vfs.cfg");
@@ -148,7 +148,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
     csRef<iCommandLineParser> cmdline = csQueryRegistry<iCommandLineParser> (r);
     cel_env_path = csPathsList(cmdline->GetAppDir ());
     vfs_file_path = csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
-    if (vfs_file_path.GetSize())
+    if (vfs_file_path.Length())
       ok = true;
     else
       csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",

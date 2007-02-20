@@ -94,13 +94,13 @@ public:
   size_t AddNode( iPcNavNode* node ) { return aNodes.Push( node );}
   bool RemoveNode( size_t i) {return aNodes.DeleteIndex( i ); }
   iPcNavNode* GetNode( size_t i ) { return aNodes[i];}
-  size_t GetNodeCount() const { return aNodes.GetSize();}
+  size_t GetNodeCount() const { return aNodes.Length();}
   size_t FindNode( iPcNavNode* Node ) { return aNodes.Find( Node ); }
 
   size_t AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
   bool RemoveLink( size_t i) {return aLinks.DeleteIndex( i ); }
   iPcNavLink* GetLink( size_t i ) { return aLinks[i];}
-  size_t GetLinkCount() const {return aLinks.GetSize();}
+  size_t GetLinkCount() const {return aLinks.Length();}
   size_t FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
 
   struct PcNavGraph : public iPcNavGraph
@@ -315,7 +315,7 @@ public:
   size_t AddLink( iPcNavLink* link ) { return aLinks.Push( link );}
   bool RemoveLink( size_t i) {return aLinks.DeleteIndex( i ); }
   iPcNavLink* GetLink( size_t i ) { return aLinks[i];}
-  size_t GetLinkCount() const {return aLinks.GetSize();}
+  size_t GetLinkCount() const {return aLinks.Length();}
   size_t FindLink( iPcNavLink* Link ) { return aLinks.Find( Link ); }
 
   char cAIHints;

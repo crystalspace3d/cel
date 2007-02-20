@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,28 +28,24 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMechanicsBalancedGroup Struct Reference</h1><!-- doxytag: class="iPcMechanicsBalancedGroup" --><!-- doxytag: inherits="iBase" --><a class="el" href="structProperty.html">Property</a> class representing a balanced group of thrusters that can translate or rotate the object in a certain axis.  
+<h1>iPcMechanicsBalancedGroup Struct Reference</h1><!-- doxytag: class="iPcMechanicsBalancedGroup" --><a class="el" href="structProperty.html">Property</a> class representing a balanced group of thrusters that can translate or rotate the object in a certain axis.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="mechthruster_8h-source.html">propclass/mechthruster.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcMechanicsBalancedGroup:<p><center><img src="structiPcMechanicsBalancedGroup__inherit__graph.png" border="0" usemap="#iPcMechanicsBalancedGroup__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcMechanicsBalancedGroup__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="84,5,143,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMechanicsBalancedGroup-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcMechanicsBalancedGroup-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a1b34dc23fa88dd1cee99e81c683e51d">AddThruster</a> (<a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *thruster, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> multiplier)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#a1b34dc23fa88dd1cee99e81c683e51d">AddThruster</a> (<a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *thruster, float multiplier)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a thruster to this thruster group.  <a href="#a1b34dc23fa88dd1cee99e81c683e51d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#1d1c77a7d14d1cc098e9e179260ef0a5">AvailableThrust</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#1d1c77a7d14d1cc098e9e179260ef0a5">AvailableThrust</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">What is the maximum amount of thrust that can be applied to the thrusters in this group?  <a href="#1d1c77a7d14d1cc098e9e179260ef0a5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#b5f4359cd1d1622825b5ccac5f276f65">AvailableThrustForce</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#b5f4359cd1d1622825b5ccac5f276f65">AvailableThrustForce</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the amount of force that the maximum thrust for this group would produce.  <a href="#b5f4359cd1d1622825b5ccac5f276f65"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#12508b3b8709b53f08311eebb5f1259c">ChangeThrust</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> deltathrust)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#12508b3b8709b53f08311eebb5f1259c">ChangeThrust</a> (float deltathrust)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Apply the given thrust to all thrusters in this balanced group.  <a href="#12508b3b8709b53f08311eebb5f1259c"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="el" href="structiPcMechanicsThruster.html">iPcMechanicsThruster</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMechanicsBalancedGroup.html#41038b37a0bac4e3da9cd9122b759311">GetThruster</a> (const char *tag)=0</td></tr>
@@ -68,13 +64,17 @@ Inheritance diagram for iPcMechanicsBalancedGroup:<p><center><img src="structiPc
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 <a class="el" href="structProperty.html">Property</a> class representing a balanced group of thrusters that can translate or rotate the object in a certain axis. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>SetType: parameters 'type' (string, "rotation" or "translation").</li><li>AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float). </li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+SetType: parameters 'type' (string, "rotation" or "translation"). </li>
+<li>
+AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float). </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mechthruster_8h-source.html#l00137">137</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="mechthruster_8h-source.html#l00140">140</a> of file <a class="el" href="mechthruster_8h-source.html">mechthruster.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="a1b34dc23fa88dd1cee99e81c683e51d"></a><!-- doxytag: member="iPcMechanicsBalancedGroup::AddThruster" ref="a1b34dc23fa88dd1cee99e81c683e51d" args="(iPcMechanicsThruster *thruster, float multiplier)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -88,7 +88,7 @@ Definition at line <a class="el" href="mechthruster_8h-source.html#l00137">137</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>multiplier</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -117,7 +117,7 @@ At least one is required. <dl compact><dt><b>Parameters:</b></dt><dd>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcMechanicsBalancedGroup::AvailableThrust           </td>
+          <td class="memname">virtual float iPcMechanicsBalancedGroup::AvailableThrust           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -138,7 +138,7 @@ What is the maximum amount of thrust that can be applied to the thrusters in thi
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcMechanicsBalancedGroup::AvailableThrustForce           </td>
+          <td class="memname">virtual float iPcMechanicsBalancedGroup::AvailableThrustForce           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -161,7 +161,7 @@ Get the amount of force that the maximum thrust for this group would produce.
         <tr>
           <td class="memname">virtual void iPcMechanicsBalancedGroup::ChangeThrust           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>deltathrust</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

@@ -44,7 +44,7 @@ ul.toc {list-style: none}
 <a name="4.6"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.5.html#4.5" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.7.html#4.7" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
@@ -66,7 +66,7 @@ simple scripting language. This allows one to create game logic using
 <small>PYTHON</small>, and thus creating full scripting games without need of
 recompilation.
 </p>
-<a name="SEC114"></a>
+<a name="SEC91"></a>
 <h3 class="subheading"> <small>CS</small> and <small>CEL</small> python bindings </h3>
 
 <p>There are several python modules for Crystal Space and <small>CEL</small>:
@@ -88,7 +88,7 @@ scripts. Note pycel includes all functionality from both of the above.
 <p>Also it has to be noted pycel is automatically imported into each behaviour
 namespace, so you need not import it unless to <code>import *</code> from it.
 </p>
-<a name="SEC115"></a>
+<a name="SEC92"></a>
 <h3 class="subheading"> Behaviours </h3>
 
 <p>When using the <small>BLPYTHON</small> behaviour layer you basically create <em>scripts</em>.
@@ -103,7 +103,6 @@ can use it of course).
 from pycel import *
 
 class fovcontrol:
-        api_version = 2
         def __init__(self,celEntity):
                 print &quot;Initializing fovcontrol...&quot;,celEntity.Name
 		# get camera from main actor (called camera in this case)
@@ -124,21 +123,21 @@ class fovcontrol:
                 self.time = Clock.GetCurrentTicks()
 
 	# property class message callbacks
-        def pctimer_wakeupframe(self,pc,args):
+        def pctimer_wakeupframe(self,celEntity,args):
                 self.time = Clock.GetCurrentTicks() - self.time
                 if self.zoomin:
                         self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
                 if self.zoomout:
                         self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
-        def pccommandinput_zoomin1(self,pc,args):
+        def pccommandinput_zoomin1(self,celEntity,args):
                 self.zoomin = True
-        def pccommandinput_zoomout1(self,pc,args):
+        def pccommandinput_zoomout1(self,celEntity,args):
                 self.zoomout = True
-        def pccommandinput_zoomin0(self,pc,args):
+        def pccommandinput_zoomin0(self,celEntity,args):
                 self.zoomin = False
-        def pccommandinput_zoomout0(self,pc,args):
+        def pccommandinput_zoomout0(self,celEntity,args):
                 self.zoomout = False
-        def pccommandinput_zoom01(self,pc,args):
+        def pccommandinput_zoom01(self,celEntity,args):
                 self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
 
 </pre></td></tr></table>
@@ -156,11 +155,7 @@ For example <code>pctimer_wakeup</code> is got when the entity receives a wakeup
 event from a timer, <code>pctrigger_entertrigger</code> is got when the entity
 enters some trigger's area.
 </p>
-<p>Note also de <code>api_version = 2</code> variable, it specifies the message
-callback version to use. Version 2 is new in 1.2 and is recommended although
-version 1 is still default for backward compatibility reasons.
-</p>
-<a name="SEC116"></a>
+<a name="SEC93"></a>
 <h4 class="subsubheading"> Python behaviours at <small>XML</small> worldfiles </h4>
 
 <p>Python behaviours can be set directly in <small>CEL</small> <small>XML</small> format as seen
@@ -199,18 +194,18 @@ of your <small>ZIP</small> file to the PYTHONPATH if you're using it).
 <p>Usually the celentity addon is placed in a Crystal Space sector inside the
 world files.
 </p>
-<a name="SEC117"></a>
+<a name="SEC94"></a>
 <h3 class="subheading"> pycel </h3>
 <p>pycel is a high level layer which defines some aliases for some of the most
 accessed things:
 </p>
-<a name="SEC118"></a>
+<a name="SEC95"></a>
 <h4 class="subsubheading"> The PhysicalLayer </h4>
 <p>The physical layer is your main pointer to <small>CEL</small> functionality, and you'll
 require this to create entities, destroy them, get string <small>ID</small>s<small class="enddots">....</small>
 It can be accessed from python at <samp>`pycel.PhysicalLayer'</samp>. 
 </p>
-<a name="SEC119"></a>
+<a name="SEC96"></a>
 <h4 class="subsubheading"> PhysicalLayer dictionaries </h4>
 <p>All the physical layer dictionaries can be accessed directly from pycel:
 </p><ul class="toc">
@@ -224,11 +219,11 @@ Used to get or register property class factories by <small>ID</small>
 </li><li> <samp>`pycel.BehaviourLayers'</samp>
 Used to get or register behaviour layers with <small>CEL</small>.
 </li></ul>
-<a name="SEC120"></a>
+<a name="SEC97"></a>
 <h4 class="subsubheading"> Crystal Space plugins </h4>
 <p>Some often used plugins in <small>CS</small> are ready to use (if present). 
 These are: 
-</p><ul>
+</p><ul class="toc">
 <li> <code>pycel.Engine</code>
 The engine plugin where you can get access to most Crystal Space objects in
 your map (<code>iEngine</code> interface) 
@@ -250,58 +245,34 @@ files (<code>iConfigManager</code> interface).
 </li><li> <code>pycel.Loader</code>
 The loader plugin from Crystal Space, used to load world or library files
 (<code>iLoader</code> interface).
-</li><li> <code>pycel.KeyboardDriver</code>
-The keyboard driver plugin, used to query keyboard state.
-(<code>iKeyboardDriver</code> interface).
-</li><li> <code>pycel.JoystickDriver</code>
-The keyboard driver plugin, used to query joystick state.
-(<code>iJoystickDriver</code> interface).
-</li><li> <code>pycel.MouseDriver</code>
-The mouse driver plugin, used to query mouse state.
-(<code>iMouseDriver</code> interface).
-</li><li> <code>pycel.PluginManager</code>
-The plugin manager from Crystal Space, used to load additional plugins.
-(<code>iPluginManager</code> interface).
-</li><li> <code>pycel.FontServer</code>
-The loader plugin from Crystal Space, used to load and access font objects.
-(<code>iFontServer</code> interface).
 </li><li> <code>pycel.Stringset</code>
 The string set plugin, used to transform from <small>CS</small> string <small>ID</small>s to
 regular strings (<code>iStringSet</code> interface). 
 </li></ul>
-<a name="SEC121"></a>
-<h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> and other StringID related functions. </h4>
-<p>Functions to transform from string to stringid and back.
-</p><ul>
+<a name="SEC98"></a>
+<h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> </h4>
+<p>Functions to transform from string to stringid.
+</p><ul class="toc">
 <li> <code>pycel.getid(string)</code>
 returns a string <small>ID</small> from the given string.
-</li><li> <code>pycel.parid(string)</code>
-returns a string <small>ID</small> from the given parameter identifier string.
-This adds <samp>`cel.parameter.'</samp> prefix to the given string automatically.
-</li><li> <code>pycel.propid(string)</code>
-returns a string <small>ID</small> from the given property identifier string.
-This adds <samp>`cel.property.'</samp> prefix to the given string automatically.
-</li><li> <code>pycel.actid(string)</code>
-returns a string <small>ID</small> from the given action identifier string.
-This adds <samp>`cel.action.'</samp> prefix to the given string automatically.
 </li><li> <code>pycel.fromid(stringid)</code> 
 returns a string from the given stringid.
 </li></ul>
-<a name="SEC122"></a>
+<a name="SEC99"></a>
 <h4 class="subsubheading"> <code>parblock</code> </h4>
 <p>Function to create a <code>celParameterBlock</code> from a python dict or list.
 This is described in detail later.
-</p><a name="SEC123"></a>
+</p><a name="SEC100"></a>
 <h4 class="subsubheading"> <code>CreateEntity</code> / <code>RemoveEntity</code> </h4>
 <p>These can be accessed directly from pycel to create and destroy entities.
 Use them in the same way as the physical layer functions of the same name.
-</p><a name="SEC124"></a>
+</p><a name="SEC101"></a>
 <h4 class="subsubheading"> Property Class accessors </h4>
 <p>Some functions are defined to easily create <small>CEL</small> property classes for
 entities, or access the pre existent ones. This will be described in the next
 section of this manual.
 </p>
-<a name="SEC125"></a>
+<a name="SEC102"></a>
 <h3 class="subheading"> Accessing entity property classes </h3>
 
 <p>Property classes are objects we can create attached to an entity, and which
@@ -325,21 +296,12 @@ for pcclass in pcclasses:
 easily fetching or creating of the appropiate property class from an entity
 object:
 </p><ul>
-<li> <samp>`celPropertyClass(celEntity,tag=None)'</samp>
-Get the property class if it exists or create a new one. If tag isnt defined
-then it will only create the property class if there is no property class of
-this type. If it is set it will only search for pcclass with such tag set, or
-else create a new one with the tag.
-To ensure creation/querying for untagged property class even if tagged
-pcclasses exist set the tag to an empty string (&quot;&quot;).
-</li><li> <samp>`celAddPropertyClass(celEntity,tag=None)'</samp>
-Add the property class to the entity. If tag is set then the pcclass will be
-created with such tag, otherwise an untagged class is created.
-</li><li> <samp>`celGetPropertyClass(celEntity,tag=None)'</samp>
-Get the property class if it exists. If tag is used then it will only get
-the pcclass with the appropriate tag (or with no tag if &quot;&quot; is used). Else
-it will return a not tagged pcclass, or if it doesnt exist the first tagged
-pccclass found.
+<li> <samp>`celPropertyClass(celEntity)'</samp>
+Get the property class if it exists or create a new one.
+</li><li> <samp>`celAddPropertyClass(celEntity)'</samp>
+Add the property class to the entity.
+</li><li> <samp>`celGetPropertyClass(celEntity)'</samp>
+Get the property class if it exists.
 </li></ul>
 <p>Where <samp>`PropertyClass'</samp> would be substituted for the appropiate name, like
 in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
@@ -352,16 +314,7 @@ in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
           self.timer.WakeUpFrame (CEL_EVENT_POST)
           self.select = celMeshSelect(celEntity)
 </pre></td></tr></table>
-<a name="SEC126"></a>
-<h3 class="subheading"> Accessing property class properties. </h3>
-
-<p>To access property class properties from python you can use standard python
-syntax. For example to query/set jitter for a pctrigger:
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">    oldjitter = trigger.jitter
-    trigger.jitter = 100
-</pre></td></tr></table>
-<a name="SEC127"></a>
+<a name="SEC103"></a>
 <h3 class="subheading"> Messages </h3>
 
 <p>Each property class in <small>CEL</small> can generate a number of messages. A python
@@ -384,60 +337,28 @@ the key press, release and maintain events.
 special messages.
 </p>
 <p>Message function calls get three parameters. The first is the behaviour class
-instance, the second the property class sending the message, and the last a
+instance, the second the entity receiving the message, and the last a
 <code>celParameterBlock</code> that holds all message specific values.
 </p>
 <p>You can access the values from the parameter block as a python dict with
-<small>CEL</small> StringIDs or python strings for index. Using StringIDs directly is
-slightly more efficient.
+<small>CEL</small> StringIDs for index instead of normal strings.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example"># a pcbillboard select message
-def pcbillboard_select(self,pc,args):
-       print pc.Tag
-       bx = args[&quot;x&quot;]
-       by = args[&quot;y&quot;]
-       button = args[&quot;button&quot;]
+def pcbillboard_select(self,celEntity,args):
+       bx = args[getid(&quot;cel.parameter.x&quot;)]
+       by = args[getid(&quot;cel.parameter.y&quot;)]
+       button= args[getid(&quot;cel.parameter.button&quot;)]
 </pre></td></tr></table>
 <p>It is possible to test for existence of a certain parameter, or iterate over
 the values. Also note for efficiency you would save the StringIDs for later
 use instead of querying them each time.
 </p>
 <p>A final snippet for printing all parameters to a message:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,pc,args):
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,Args):
        for strid in args.keys():
 		print fromid(strid),args[strid]
 </pre></td></tr></table>
-<a name="SEC128"></a>
-<h4 class="subsubheading"> New PcClass Messages Callback Style </h4>
-
-<p>There is a new style for receiving message callbacks from pcclasses in cel 1.2
-to address some design errors in previous version. This new style is the one
-present in this documentation and also in all behaviour examples in cel.
-</p>
-<p>By specifying <code>api_version = 2</code> at the body of a behaviour class you
-can use the new message callback style (see initial example in this chapter).
-</p>
-<p>Old message callback style was:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,args):
-        ...
-</pre></td></tr></table>
-<p>And the new one in cel 1.2 is:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,pc,args):
-        ...
-</pre></td></tr></table>
-<p>Although the old style is still default due to backwards compatibility reasons,
-you are recommended to start using the new one, as it gives access to the pc
-sending the message, required in case you want to discriminate among similar 
-pc classes present in the entity.
-</p>
-<p>Note specifying api_version is required in cel 1.2 so as to be able to maintain
-backwards compatibility in future releases when default callback style is
-changed.
-</p>
-<p>If you need access to the entity parameter, you should
-now save it in the behaviour constructor.
-</p>
-<a name="SEC129"></a>
+<a name="SEC104"></a>
 <h3 class="subheading"> Sending Messages </h3>
 
 <p>Some messages (like <code>__init__</code> and messages from property classes) are
@@ -453,9 +374,9 @@ block; if we provide a list or tuple, it will only fill the <small>ID</small>s a
 require filling the values later:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">#Creating a parameter block from a list. This is more similar to the c++ method
 pars = parblock([&quot;control&quot;,&quot;x&quot;,&quot;y&quot;])
-pars[&quot;control&quot;] = &quot;specular&quot;
-pars[&quot;x&quot;] = 15
-pars[&quot;y&quot;] = 200
+pars[getid (&quot;cel.parameter.control&quot;)] = &quot;specular&quot;
+pars[getid (&quot;cel.parameter.x&quot;)] = 15
+pars[getid (&quot;cel.parameter.y&quot;)] = 200
 
 #Creating a parameter block from a dictionary.
 pars2 = parblock({&quot;control&quot;:&quot;shininess&quot;,&quot;x&quot;:30,&quot;y&quot;:200})
@@ -469,7 +390,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
-<a name="SEC130"></a>
+<a name="SEC105"></a>
 <h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
 
 <p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to
@@ -503,10 +424,13 @@ property class (see section <a href="cel_4.3.5.html#4.3.5">Zone Manager</a>) at 
 or real file location.
 </p>
 
+
+
+
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.5.html#4.5" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.7.html#4.7" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>

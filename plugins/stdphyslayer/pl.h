@@ -73,7 +73,6 @@ private:
 
   csRefArray<iCelEntity> entities;
   csHash<iCelEntity*,csStringBase> entities_hash;
-  csHash<csRef<iCelEntityList>,csStringID> entityclasses_hash;
   bool entities_hash_dirty;
 
   csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
@@ -116,9 +115,6 @@ private:
   	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
 
-  // Used by CreatePropertyClass*() - makes a guess at propfact id
-  iCelPropertyClassFactory* FindOrLoadPropfact (const char *propname);
-
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
@@ -147,7 +143,7 @@ public:
   void RemoveEntityIndex (size_t idx);
   virtual void RemoveEntities ();
   virtual iCelEntity* GetEntity (uint id);
-  virtual size_t GetEntityCount () const { return entities.GetSize (); }
+  virtual size_t GetEntityCount () const { return entities.Length (); }
   virtual iCelEntity* GetEntityByIndex (size_t idx) const
   { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);
@@ -231,16 +227,7 @@ public:
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
 
   virtual int AddScope (csString impl, int size);
-
-  void EntityClassAdded(iCelEntity*,csStringID entclass);
-  void EntityClassRemoved(iCelEntity*,csStringID entclass);
-  virtual const csRef<iCelEntityList> GetClassEntitiesList (csStringID classid);
-
-  virtual int SendMessage (iCelEntityList *entlist, const char* msgname, 
-        iCelParameterBlock* params, ...);
-  virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
-        iCelParameterBlock* params, va_list arg);
-
+  
   struct Component : public iComponent
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);

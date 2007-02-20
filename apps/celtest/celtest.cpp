@@ -39,6 +39,7 @@
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
@@ -62,6 +63,7 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -111,6 +113,7 @@ CelTest::~CelTest ()
 void CelTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+  csDebuggingGraph::Dump (0);
 }
 
 void CelTest::ProcessFrame ()
@@ -353,6 +356,8 @@ bool CelTest::CreateRoom ()
 
 bool CelTest::OnInitialize (int argc, char* argv[])
 {
+  csDebuggingGraph::SetupGraph (object_reg);
+
   if (!celInitializer::SetupConfigManager (object_reg,
   	"/celconfig/celtest.cfg"))
   {
@@ -423,6 +428,71 @@ bool CelTest::Application ()
   	object_reg, "iCelBlLayer.Test");
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
+
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+#ifdef CEL_USE_NEW_CAMERA
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
+    return false;
+#endif
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.rules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundlistener"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundsource"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
 
   if (!CreateRoom ()) return false;
 

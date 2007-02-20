@@ -91,12 +91,12 @@ void CelStart::DrawSelectorBox (iGraphics2D* g2d, int x, int y, int w, int h,
 void CelStart::SetupFrame ()
 {
   iGraphics2D* g2d = g3d->GetDriver2D ();
-  if (files.GetSize () > 0)
+  if (files.Length () > 0)
   {
     const int fontH = font->GetTextHeight();
     g3d->BeginDraw (CSDRAW_2DGRAPHICS | CSDRAW_CLEARZBUFFER | CSDRAW_CLEARSCREEN);
     size_t i;
-    for (i = top_file ; i < files.GetSize () ; i++)
+    for (i = top_file ; i < files.Length () ; i++)
     {
       int y = boxTopY + (i-top_file)*boxH;
       if (y+boxH > g2d->GetHeight ()) break;
@@ -161,7 +161,7 @@ void CelStart::FinishFrame ()
   g3d->FinishDraw ();
   g3d->Print (0);
   // @@@
-  ///csSleep (5);
+  //csSleep (5);
 }
 
 bool CelStart::HandleEvent (iEvent& ev)
@@ -177,7 +177,7 @@ bool CelStart::HandleEvent (iEvent& ev)
     return true;
   }
 
-  if (files.GetSize () > 0 || !do_real_demo)
+  if (files.Length () > 0 || !do_real_demo)
   {
     if (CS_IS_KEYBOARD_EVENT (object_reg, ev))
     {
@@ -208,7 +208,7 @@ bool CelStart::HandleEvent (iEvent& ev)
 	}
 	else if (code == CSKEY_DOWN)
 	{
-	  if (top_file < (int)files.GetSize ()-1) top_file++;
+	  if (top_file < (int)files.Length ()-1) top_file++;
 	}
       }
     }
@@ -218,7 +218,7 @@ bool CelStart::HandleEvent (iEvent& ev)
       {
         int i = GetHitBox (csMouseEventHelper::GetX (&ev), 
 	  csMouseEventHelper::GetY (&ev));
-        if (i >= (int)0 && i < (int)files.GetSize ())
+        if (i >= (int)0 && i < (int)files.Length ())
         {
 	  startme = files[i];
           csRef<iEventQueue> q (csQueryRegistry<iEventQueue> (object_reg));
@@ -258,7 +258,7 @@ void CelStart::FindCelStartArchives ()
   size_t i;
   // To work around VFS bug
   csSet<csString> testedFiles;
-  for (i = 0 ; i < filelist->GetSize () ; i++)
+  for (i = 0 ; i < filelist->Length () ; i++)
   {
     const char* file = filelist->Get (i);
     if (testedFiles.Contains (file)) continue;
@@ -479,25 +479,6 @@ bool CelStart::StartDemo (int argc, const char* const argv[],
   {
     csCommandLineHelper::Help (object_reg);
     return false;
-  }
-
-  // Attempt to load a joystick plugin.
-  csRef<iStringArray> joystickClasses =
-    iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
-  if (joystickClasses.IsValid())
-  {
-    csRef<iPluginManager> plugmgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
-    for (size_t i = 0; i < joystickClasses->GetSize (); i++)
-    {
-      const char* className = joystickClasses->Get (i);
-      iBase* b = plugmgr->LoadPlugin (className);
-
-      csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
-	className, (b != 0) ? "successful" : "failed");
-      if (b != 0) b->DecRef ();
-    }
   }
 
   g3d = csQueryRegistry<iGraphics3D> (object_reg);

@@ -42,9 +42,6 @@ struct iCamera;
 struct iEngine;
 class csVector3;
 
-CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
-{
-
 /**
  * Factory for mesh.
  */
@@ -120,8 +117,7 @@ private:
     action_createemptygenmesh,
     action_createnullmesh,
     action_parentmesh,
-    action_clearparent,
-    action_setshaderexpression
+    action_clearparent
   };
 
   // Remove the mesh from this pcmesh.
@@ -162,17 +158,13 @@ public:
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos);
   /**
-   * Move this mesh to the according sector and node.
-   */
-  virtual void MoveMesh (iSector* sector, const char* node);
-  /**
    * Sets an action for this mesh if different from the current action,
    * or resetaction is set.
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
   	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
-  	bool reset = false);
+	bool reset = false);
 
   /**
    * Returns the name for the current action.
@@ -206,11 +198,10 @@ public:
   virtual bool SetPropertyIndexed (int, bool);
 
   // Functions to set ShaderVars in the mesh
-  virtual bool SetShaderVarExpr (csStringID name, const char* exprname);
-  virtual void SetShaderVar (csStringID name, float value);
-  virtual void SetShaderVar (csStringID name, int value);
-  virtual void SetShaderVar (csStringID name, csVector3 value);
-  virtual void SetShaderVar (csStringID name, csVector2 value);
+  virtual void SetShaderVar(csStringID name, float value);
+  virtual void SetShaderVar(csStringID name, int value);
+  virtual void SetShaderVar(csStringID name, csVector3 value);
+  virtual void SetShaderVar(csStringID name, csVector2 value);
 };
 
 class celPcMeshSelect;
@@ -428,7 +419,5 @@ public:
   virtual bool GetPropertyIndexed (int, bool&);
 };
 
-}
-CS_PLUGIN_NAMESPACE_END(pfMesh)
-
 #endif // __CEL_PF_MESHFACT__
+

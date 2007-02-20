@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "csutil/debug.h"
 #include "plugins/propclass/test/testfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"

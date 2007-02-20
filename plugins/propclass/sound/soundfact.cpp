@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "iutil/object.h"
+#include "csutil/debug.h"
 #include "cstool/initapp.h"
 #include "iengine/engine.h"
 #include "plugins/propclass/sound/soundfact.h"

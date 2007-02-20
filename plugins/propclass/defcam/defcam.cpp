@@ -30,6 +30,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -74,9 +75,9 @@ static csVector3 CalculateEyePos (const csVector3& actor_pos,
 {
   // Calculate the eye position of the actor according to his eye offset.
   csVector3 eye_pos = actor_pos + csVector3 (
-  	sin (actor_yrot) * offset.z,
-  	offset.y,
-  	cos (actor_yrot) * offset.z);
+    	sin (actor_yrot) * offset.z,
+	offset.y,
+	cos (actor_yrot) * offset.z);
   return eye_pos;
 }
 
@@ -147,7 +148,7 @@ void CAThirdPerson::SetupMode ()
   iSector* actor_sector;
   parent->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   parent->SetPosition (CalculateEyePos (actor_pos, actor_yrot,
-  	parent->thirdPersonPositionOffset));
+    parent->thirdPersonPositionOffset));
   parent->SetYaw (actor_yrot);
 }
 
@@ -198,12 +199,12 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
 
     // Calculate where the camera would be if there weren't a swing effect.
     csVector3 newIdealPos = CalculateEyePos (actor_pos, actor_yrot,
-    	parent->thirdPersonPositionOffset);
+		parent->thirdPersonPositionOffset);
 
     // Interpolate to the new calculated position.
     parent->SetPosition (CalcElasticPos (parent->GetPosition (), newIdealPos,
-    	0, (float)elapsedTicks/1000.0f, parent->GetSwingCoef (),
-    	0.0f, parent->GetSpringLength ()));
+		0, (float)elapsedTicks/1000.0f, parent->GetSwingCoef (),
+		0.0f, parent->GetSpringLength ()));
     parent->SetYaw (CalculateNewYaw (parent->GetTarget ()
     	-parent->GetPosition ()));
   }
@@ -274,7 +275,7 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcDefaultCamera::PcDefaultCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
-	: celPcCameraCommon (object_reg)
+  : celPcCameraCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
@@ -380,23 +381,22 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     AddAction (action_pointcamera, "cel.action.PointCamera");
     AddAction (action_setzonemanager, "cel.action.SetZoneManager");
     AddAction (action_centercamera, "cel.action.CenterCamera");
-    AddAction (action_setfollowentity, "cel.action.SetFollowEntity");
   }
 
   // For properties.
   propinfo.SetCount (6);
   AddProperty (propid_pitchvelocity, "cel.property.pitchvelocity",
-  	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
+	CEL_DATA_FLOAT, false, "Pitch velocity.", &pitchVelocity);
   AddProperty (propid_yawvelocity, "cel.property.yawvelocity",
-  	CEL_DATA_FLOAT, false, "Yaw velocity.", &yawVelocity);
+	CEL_DATA_FLOAT, false, "Yaw velocity.", &yawVelocity);
   AddProperty (propid_distancevelocity, "cel.property.distancevelocity",
-  	CEL_DATA_FLOAT, false, "Distance (zoom) velocity.", &distanceVelocity);
+	CEL_DATA_FLOAT, false, "Distance (zoom) velocity.", &distanceVelocity);
   AddProperty (propid_pitch, "cel.property.pitch",
-  	CEL_DATA_FLOAT, false, "Pitch.", 0);
+	CEL_DATA_FLOAT, false, "Pitch.", 0);
   AddProperty (propid_yaw, "cel.property.yaw",
-  	CEL_DATA_FLOAT, false, "Yaw.", 0);
+	CEL_DATA_FLOAT, false, "Yaw.", 0);
   AddProperty (propid_distance, "cel.property.distance",
-  	CEL_DATA_FLOAT, false, "Distance (zoom).", 0);
+	CEL_DATA_FLOAT, false, "Distance (zoom).", 0);
 }
 
 celPcDefaultCamera::~celPcDefaultCamera ()
@@ -535,15 +535,6 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         SetZoneManager (entityname, true, regionname, startname);
         return true;
       }
-    case action_setfollowentity:
-      {
-        CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
-        iCelEntity* ent = pl->FindEntity (entityname);
-        if (!ent) return false;
-        SetFollowEntity (ent);
-        return true;
-      }
     default:
       return false;
   }
@@ -668,20 +659,17 @@ void celPcDefaultCamera::CalculatePositionFromYawPitchRoll (int mode)
   float cosPit, sinPit;
   float cosRol, sinRol;
 
-  cosYaw = (float)cos(GetYaw(mode));
-  sinYaw = (float)sin(GetYaw(mode));
-  cosPit = (float)cos(GetPitch(mode));
-  sinPit = (float)sin(GetPitch(mode));
+  cosYaw = (float)cos(GetYaw(mode));    sinYaw = (float)sin(GetYaw(mode));
+  cosPit = (float)cos(GetPitch(mode));  sinPit = (float)sin(GetPitch(mode));
   // At this point, our camera doesn't support Roll
-  cosRol = 1.0f;
-  sinRol = 0.0f;
+  cosRol = 1.0f;                        sinRol = 0.0f;
 
   if (cosPit == 0.0f) cosPit = 0.001f;
 
   SetPosition (GetTarget (mode) - (GetDistance (mode)
   	* csVector3 (-sinYaw * cosPit, sinPit,
-  	// we have to reverse the vertical thing
-  	cosPit * -cosYaw)));
+	// we have to reverse the vertical thing
+		cosPit * -cosYaw)));
 }
 
 void celPcDefaultCamera::EnsureCameraDistance (int mode)
@@ -795,20 +783,20 @@ void celPcDefaultCamera::DoElasticPhysics (bool isElastic,
 
     newPos = CalcElasticPos (GetPosition (iPcDefaultCamera::actual_data),
     	CalcCollisionPos (GetTarget(), GetPosition(), sector),
-    	deltaIdeal.worldPos,
-    	(float)elapsedTicks/1000.0f, cameraSpringCoef,
-    	cameraInertialDampeningCoef, cameraSpringLength);
+	deltaIdeal.worldPos,
+	(float)elapsedTicks/1000.0f, cameraSpringCoef,
+	cameraInertialDampeningCoef, cameraSpringLength);
     SetPosition (newPos, iPcDefaultCamera::actual_data);
 
     newTar = CalcElasticPos (GetTarget (iPcDefaultCamera::actual_data),
     	GetTarget (),
     	deltaIdeal.worldTar, (float)elapsedTicks/1000.0f, cameraSpringCoef,
-    	cameraInertialDampeningCoef, cameraSpringLength);
+	cameraInertialDampeningCoef, cameraSpringLength);
     SetTarget(newTar, iPcDefaultCamera::actual_data);
 
     newUp = CalcElasticPos (GetUp (iPcDefaultCamera::actual_data), GetUp (),
     	deltaIdeal.worldUp, (float)elapsedTicks/1000.0f, cameraSpringCoef,
-    	cameraInertialDampeningCoef, cameraSpringLength);
+	cameraInertialDampeningCoef, cameraSpringLength);
     SetUp (newUp, iPcDefaultCamera::actual_data);
   }
   else
@@ -832,7 +820,7 @@ void celPcDefaultCamera::CenterCamera ()
   	csVector3 (
   	  sin (actor_yrot) * GetMaxDistance (),
   	  0.0,
-  	  cos (actor_yrot) * GetMaxDistance ()));
+	  cos (actor_yrot) * GetMaxDistance ()));
   SetYaw (actor_yrot);
   if (cammode == iPcDefaultCamera::freelook)
     SetPitch (0);
@@ -874,11 +862,11 @@ void celPcDefaultCamera::UpdateCamera ()
 
   // Calculate the eye position of the actor according to his eye offset.
   csVector3 actor_eye = CalculateEyePos (actor_pos, actor_yrot,
-  	firstPersonPositionOffset);
+    	firstPersonPositionOffset);
 
   // Calculate the camera data without updating it for real.
   camalgo->DoCameraCalculations (
-  	elapsed_time, actor_pos, actor_eye, actor_yrot);
+    	elapsed_time, actor_pos, actor_eye, actor_yrot);
 
   if (!cameraHasBeenPositioned)
   {
@@ -904,13 +892,13 @@ void celPcDefaultCamera::UpdateCamera ()
     if (cammode != iPcDefaultCamera::firstperson || inTransitionPhase)
     {
       if ((GetPosition (iPcDefaultCamera::actual_data)
-      	  - GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
+	  - GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
         pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLEMESH, 0);
     }
     else
     {
       pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLEMESH,
-      	      CS_ENTITY_INVISIBLEMESH);
+		      CS_ENTITY_INVISIBLEMESH);
     }
   }
   iCamera* c = view->GetCamera ();
@@ -920,8 +908,8 @@ void celPcDefaultCamera::UpdateCamera ()
   if (c->GetSector () != actor_sector)
     c->SetSector (actor_sector);
   //c->GetTransform ().SetOrigin (actor_pos+c->GetTransform ().
-  //This2OtherRelative (csVector3 (0, 0, .1)));
-  c->GetTransform ().SetOrigin (actor_pos+csVector3 (0.0f, 0.1f, 0.0f));
+		    //This2OtherRelative (csVector3 (0, 0, .1)));
+  c->GetTransform ().SetOrigin (actor_pos+csVector3 (0, 0.1f, 0));
   c->OnlyPortals (true);
 
   // Now move it to the new position.
@@ -940,8 +928,8 @@ void celPcDefaultCamera::UpdateCamera ()
   }
 
   c->GetTransform ().LookAt (GetTarget (iPcDefaultCamera::actual_data) -
-  	GetPosition (iPcDefaultCamera::actual_data),
-  	GetUp (iPcDefaultCamera::actual_data));
+    	GetPosition (iPcDefaultCamera::actual_data),
+	GetUp (iPcDefaultCamera::actual_data));
 
   // Now calculate the error of the camera.
   SetPosition (GetPosition (iPcDefaultCamera::actual_data) - GetPosition (),
@@ -1358,3 +1346,4 @@ bool celPcDefaultCamera::Load (iCelDataBuffer* databuf)
 }
 
 //---------------------------------------------------------------------------
+

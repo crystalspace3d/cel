@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,31 +28,21 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMesh Struct Reference</h1><!-- doxytag: class="iPcMesh" --><!-- doxytag: inherits="iBase" -->This is a property class holding the representation of a mesh.  
+<h1>iPcMesh Struct Reference</h1><!-- doxytag: class="iPcMesh" -->This is a property class holding the representation of a mesh.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="mesh_8h-source.html">propclass/mesh.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcMesh:<p><center><img src="structiPcMesh__inherit__graph.png" border="0" usemap="#iPcMesh__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcMesh__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="15,5,73,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMesh-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcMesh-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#000b6c012847f278c3cfe83ba0403265">CreateEmptyGenmesh</a> (const char *factname)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#dbb5a95f78546cf908502e4ba32b07ea">CreateEmptyThing</a> ()=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty genmesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>).  <a href="#000b6c012847f278c3cfe83ba0403265"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#80337a27e39f25c7975d74d2f2f08189">CreateEmptyThing</a> (const char *factname)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>).  <a href="#80337a27e39f25c7975d74d2f2f08189"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#94fb201424dcdb38989b3019875601c2">CreateNullMesh</a> (const char *factname, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a> &amp;box)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a nullmesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>).  <a href="#94fb201424dcdb38989b3019875601c2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>).  <a href="#dbb5a95f78546cf908502e4ba32b07ea"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual const char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#6ce41a2869d0c29b735c2fad34ab251e">GetAction</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the current action name.  <a href="#6ce41a2869d0c29b735c2fad34ab251e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iMeshWrapper *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the mesh.  <a href="#af7a92f71dcc5c54f1fd0e294c17a7bd"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#27433c8c059562f24f77b7f2dbba902b">Hide</a> ()=0</td></tr>
@@ -61,16 +51,16 @@ Inheritance diagram for iPcMesh:<p><center><img src="structiPcMesh__inherit__gra
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#9a5048289df31d088e40f0a1c4d40771">IsVisible</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if mesh is visible.  <a href="#9a5048289df31d088e40f0a1c4d40771"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#6e829a0c7fc5f2fa2c3f960793e31d7f">MoveMesh</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *sector, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#6e829a0c7fc5f2fa2c3f960793e31d7f">MoveMesh</a> (iSector *sector, const csVector3 &amp;pos)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to move the mesh to some sector and position and also update lighting.  <a href="#6e829a0c7fc5f2fa2c3f960793e31d7f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#1e85edbbe5f2d9b1918a2153afc54990">SetAction</a> (const char *actionName, bool reset=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' for the mesh.  <a href="#1e85edbbe5f2d9b1918a2153afc54990"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#2ebf79681aa9fafa6e9fafdc1e8b42b2">SetAnimation</a> (const char *actionName, bool cycle, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> weight=1.0, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> fadein=0.1, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> fadeout=0.1, bool reset=false)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#f746bd3655fb3084d21931657d44250e">SetAnimation</a> (const char *actionName, bool cycle, float weight=1.0, float fadein=0.1, float fadeout=0.1)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to set an 'action' for the mesh.  <a href="#2ebf79681aa9fafa6e9fafdc1e8b42b2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#eb16f4efc93224b58d8cbc5b52c981b4">SetMesh</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *mesh, bool do_remove=false)=0</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function to set an 'action' for the mesh.  <a href="#f746bd3655fb3084d21931657d44250e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#eb16f4efc93224b58d8cbc5b52c981b4">SetMesh</a> (iMeshWrapper *mesh, bool do_remove=false)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to use directly.  <a href="#eb16f4efc93224b58d8cbc5b52c981b4"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh</a> (const char *factname, const char *filename)=0</td></tr>
@@ -79,7 +69,7 @@ Inheritance diagram for iPcMesh:<p><center><img src="structiPcMesh__inherit__gra
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#91fc60c23d84087bfccfe0f76f649189">SetPath</a> (const char *path)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the path to use.  <a href="#91fc60c23d84087bfccfe0f76f649189"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#1dd7280f6eb19bfcfafb47e098b86182">SetReverseAction</a> (bool reverse=<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a>)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#1dd7280f6eb19bfcfafb47e098b86182">SetReverseAction</a> (bool reverse=true)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Convenience function to set an 'action' to be reversed for the mesh.  <a href="#1dd7280f6eb19bfcfafb47e098b86182"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMesh.html#63106a14cd825a75e85ff00e2cd8e3a9">Show</a> ()=0</td></tr>
@@ -89,47 +79,54 @@ Inheritance diagram for iPcMesh:<p><center><img src="structiPcMesh__inherit__gra
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class holding the representation of a mesh. 
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>SetMesh: parameters 'name' (string). This sets an already existing mesh for this pcmesh.</li><li>LoadMesh: parameters 'filename' (string) and 'factoryname' (string). 'filename' is optional. If not given then the factory should already be in memory.</li><li>LoadMeshPath: parameters 'path' (string), 'filename' (string) and 'factoryname' (string).</li><li>MoveMesh: parameters 'sector' (string: optional), 'position' (vector3), 'rotation' (vector3: optional. Represents an absolute rotation). If 'sector' is empty string then we will remove the mesh from all sectors. If 'sector' is not given then we simply move the mesh inside current sector.</li><li>RotateMesh: 'rotation' (vector3). This is a relative transform.</li><li>ClearRotation: no parameters.</li><li>LookAt: parameters 'forward' (vector3) and 'up' (vector3).</li><li>SetVisible: parameters 'visible' (bool).</li><li>SetMaterial: parameters 'material' (string).</li><li>SetAnimation: parameters 'animation' (string), 'cycle' (bool: default false), and 'reset' (bool: default false).</li><li>SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value' (type depending on type parameter).</li><li>CreateEmptyThing: parameters 'factoryname' (string)</li><li>CreateEmptyGenmesh: parameters 'factoryname' (string)</li><li>CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3), 'max' (vector3).</li><li>ParentMesh: parameters 'entity' (string) and 'tag' (string). Parent this mesh to some parent. The parent should be given as an entity with the optional tag specifying which pcmesh to use. If entity is not given then the current entity will be used.</li><li>ClearParent: no parameters. Remove this mesh from its parent.</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+SetMesh: parameters 'name' (string). This sets an already existing mesh for this pcmesh. </li>
+<li>
+LoadMesh: parameters 'filename' (string) and 'factoryname' (string). 'filename' is optional. If not given then the factory should already be in memory. </li>
+<li>
+LoadMeshPath: parameters 'path' (string), 'filename' (string) and 'factoryname' (string). </li>
+<li>
+MoveMesh: parameters 'sector' (string) and 'position' (vector3). </li>
+<li>
+ClearRotation: no parameters. </li>
+<li>
+LookAt: parameters 'forward' (vector3) and 'up' (vector3). </li>
+<li>
+SetVisible: parameters 'visible' (bool). </li>
+<li>
+SetMaterial: parameters 'material' (string). </li>
+<li>
+SetAnimation: parameters 'animation' (string) and 'cycle' (bool). </li>
+<li>
+SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value' (type depending on type parameter). </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>position (vector3, read): current position.</li><li>fullposition (vector3, read): current full position.</li><li>rotation (vector3, read): current rotation.</li><li>eulerrotation (vector3, read): current euler rotation.</li><li>sector (string, read): current sector.</li><li>path (string, read): path for model.</li><li>factory (string, read): factory for model.</li><li>filename (string, read): filename for model.</li><li>hitbeam (bool, read/write): allow hitbeam for this mesh. </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+position (vector3, read): current position. </li>
+<li>
+sector (string, read): current sector. </li>
+<li>
+path (string, read): path for model. </li>
+<li>
+factory (string, read): factory for model. </li>
+<li>
+filename (string, read): filename for model. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="mesh_8h-source.html#l00087">87</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
-<a class="anchor" name="000b6c012847f278c3cfe83ba0403265"></a><!-- doxytag: member="iPcMesh::CreateEmptyGenmesh" ref="000b6c012847f278c3cfe83ba0403265" args="(const char *factname)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcMesh::CreateEmptyGenmesh           </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>factname</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Create an empty genmesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>). 
-<p>
-Note that if the factory name already exists then the mesh will be created from that factory and this call becomes equivalent to SetMesh(factname,0). 
-</div>
-</div><p>
-<a class="anchor" name="80337a27e39f25c7975d74d2f2f08189"></a><!-- doxytag: member="iPcMesh::CreateEmptyThing" ref="80337a27e39f25c7975d74d2f2f08189" args="(const char *factname)=0" -->
+Definition at line <a class="el" href="mesh_8h-source.html#l00071">71</a> of file <a class="el" href="mesh_8h-source.html">mesh.h</a>.<hr><h2>Member Function Documentation</h2>
+<a class="anchor" name="dbb5a95f78546cf908502e4ba32b07ea"></a><!-- doxytag: member="iPcMesh::CreateEmptyThing" ref="dbb5a95f78546cf908502e4ba32b07ea" args="()=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">virtual void iPcMesh::CreateEmptyThing           </td>
           <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>factname</em>          </td>
+          <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
         </tr>
@@ -140,38 +137,7 @@ Note that if the factory name already exists then the mesh will be created from 
 <p>
 Create an empty thing mesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>). 
 <p>
-After this use <a class="el" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh()</a> to add polygons to the mesh. Note that if the factory name already exists then the mesh will be created from that factory and this call becomes equivalent to SetMesh(factname,0). 
-</div>
-</div><p>
-<a class="anchor" name="94fb201424dcdb38989b3019875601c2"></a><!-- doxytag: member="iPcMesh::CreateNullMesh" ref="94fb201424dcdb38989b3019875601c2" args="(const char *factname, const csBox3 &amp;box)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcMesh::CreateNullMesh           </td>
-          <td>(</td>
-          <td class="paramtype">const char *&nbsp;</td>
-          <td class="paramname"> <em>factname</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsBox3.html">csBox3</a> &amp;&nbsp;</td>
-          <td class="paramname"> <em>box</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Create a nullmesh (use instead of <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a>). 
-<p>
-Note that if the factory name already exists then the mesh will be created from that factory and this call becomes equivalent to SetMesh(factname,0). A nullmesh can be used in mesh hierarchies. 
+After this use <a class="el" href="structiPcMesh.html#af7a92f71dcc5c54f1fd0e294c17a7bd">GetMesh()</a> to add polygons to the mesh. 
 </div>
 </div><p>
 <a class="anchor" name="6ce41a2869d0c29b735c2fad34ab251e"></a><!-- doxytag: member="iPcMesh::GetAction" ref="6ce41a2869d0c29b735c2fad34ab251e" args="()=0" -->
@@ -200,7 +166,7 @@ Return the current action name.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a>* iPcMesh::GetMesh           </td>
+          <td class="memname">virtual iMeshWrapper* iPcMesh::GetMesh           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -265,13 +231,13 @@ Return true if mesh is visible.
         <tr>
           <td class="memname">virtual void iPcMesh::MoveMesh           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiSector.html">iSector</a> *&nbsp;</td>
+          <td class="paramtype">iSector *&nbsp;</td>
           <td class="paramname"> <em>sector</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -320,7 +286,7 @@ Convenience function to set an 'action' for the mesh.
 This only works for 3D sprites. For other mesh objects nothing will happen. 
 </div>
 </div><p>
-<a class="anchor" name="2ebf79681aa9fafa6e9fafdc1e8b42b2"></a><!-- doxytag: member="iPcMesh::SetAnimation" ref="2ebf79681aa9fafa6e9fafdc1e8b42b2" args="(const char *actionName, bool cycle, float weight=1.0, float fadein=0.1, float fadeout=0.1, bool reset=false)=0" -->
+<a class="anchor" name="f746bd3655fb3084d21931657d44250e"></a><!-- doxytag: member="iPcMesh::SetAnimation" ref="f746bd3655fb3084d21931657d44250e" args="(const char *actionName, bool cycle, float weight=1.0, float fadein=0.1, float fadeout=0.1)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -339,26 +305,20 @@ This only works for 3D sprites. For other mesh objects nothing will happen.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>weight</em> = <code>1.0</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>fadein</em> = <code>0.1</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>fadeout</em> = <code>0.1</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>reset</em> = <code>false</code></td><td>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>fadeout</em> = <code>0.1</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -382,7 +342,7 @@ Works for cal3d, spr3d and genmeshskelanim, but note not all mesh objects suppor
         <tr>
           <td class="memname">virtual void iPcMesh::SetMesh           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> *&nbsp;</td>
+          <td class="paramtype">iMeshWrapper *&nbsp;</td>
           <td class="paramname"> <em>mesh</em>, </td>
         </tr>
         <tr>
@@ -405,7 +365,7 @@ Set the mesh to use directly.
 <p>
 It is normally not recommended to use this function directly. <a class="el" href="structiPcRegion.html">iPcRegion</a> will use it for its dummy entities. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>mesh</em>&nbsp;</td><td>a pointer to an <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiMeshWrapper.html">iMeshWrapper</a> that will be attached to the pcmesh. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>mesh</em>&nbsp;</td><td>a pointer to an iMeshWrapper that will be attached to the pcmesh. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>do_remove</em>&nbsp;</td><td>if true then this pcmesh will remove the mesh on destruction. By default this will not happen if you use <a class="el" href="structiPcMesh.html#2ab3432fdc392c0efc5b15a92a24c084">SetMesh()</a> on an already existing mesh. </td></tr>
   </table>
 </dl>
@@ -473,7 +433,7 @@ If this is not done then the filename in <a class="el" href="structiPcMesh.html#
           <td class="memname">virtual void iPcMesh::SetReverseAction           </td>
           <td>(</td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>reverse</em> = <code><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a></code>          </td>
+          <td class="paramname"> <em>reverse</em> = <code>true</code>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
         </tr>

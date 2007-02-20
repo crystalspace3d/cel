@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -43,14 +43,14 @@
 <a name="l00020"></a>00020 <span class="preprocessor">#ifndef __CEL_PL_PROPCHANGE__</span>
 <a name="l00021"></a>00021 <span class="preprocessor"></span><span class="preprocessor">#define __CEL_PL_PROPCHANGE__</span>
 <a name="l00022"></a>00022 <span class="preprocessor"></span>
-<a name="l00023"></a>00023 <span class="preprocessor">#include "<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/cstypes_8h.html.html">cstypes.h</a>"</span>
+<a name="l00023"></a>00023 <span class="preprocessor">#include "cstypes.h"</span>
 <a name="l00024"></a>00024 <span class="preprocessor">#include "csutil/scf.h"</span>
 <a name="l00025"></a>00025 
 <a name="l00026"></a>00026 <span class="keyword">struct </span><a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>;
 <a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <a class="code" href="dummy.html#g654bebfc58b1e4e2c9ef9c6334139c73">SCF_VERSION</a> (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>, 0, 0, 1);
+<a name="l00028"></a>00028 SCF_VERSION (<a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a>, 0, 0, 1);
 <a name="l00029"></a>00029 
-<a name="l00034"></a><a class="code" href="structiCelPropertyChangeCallback.html">00034</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> : <span class="keyword">public</span> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html">iBase</a>
+<a name="l00034"></a><a class="code" href="structiCelPropertyChangeCallback.html">00034</a> <span class="keyword">struct </span><a class="code" href="structiCelPropertyChangeCallback.html">iCelPropertyChangeCallback</a> : <span class="keyword">public</span> iBase
 <a name="l00035"></a>00035 {
 <a name="l00041"></a>00041   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="structiCelPropertyChangeCallback.html#7298a02e00001bf9f398c7f431310fe0">PropertyChanged</a> (<span class="keywordtype">int</span> propertyId,
 <a name="l00042"></a>00042         <a class="code" href="structiCelPropertyClass.html">iCelPropertyClass</a>* pclass) = 0;

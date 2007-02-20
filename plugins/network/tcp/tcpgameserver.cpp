@@ -77,7 +77,7 @@ celTCPGameServer::~celTCPGameServer ()
   nlDisable (NL_BLOCKING_IO);
 
   size_t i;
-  for (i = 0; i < incoming_players.GetSize (); i++)
+  for (i = 0; i < incoming_players.Length (); i++)
     delete incoming_players[i];
   incoming_players.DeleteAll ();
 
@@ -191,7 +191,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
     incoming_players.Put (0, new_player);
   }
 
-  size_t incoming_index = incoming_players.GetSize ();
+  size_t incoming_index = incoming_players.Length ();
   while (incoming_index > 0)
   {
     celIncomingPlayer* incoming_player = incoming_players[incoming_index - 1];
@@ -450,8 +450,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
       answer_packet->Write (game->game_info.game_name);
       answer_packet->Write (game->game_info.hostname);
       answer_packet->Write (game->game_info.port_nb);
-      uint32 max_players = game->game_info.max_players;
-      answer_packet->Write (max_players);
+      answer_packet->Write (game->game_info.max_players);
       answer_packet->Write (game->game_info.custom_data);
  
       // send packet
@@ -486,7 +485,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
 	player_data->unreachable_start = 0;
 
 	size_t i;
-	for (i = 0; i < player_data->server_events.GetSize (); i++)
+	for (i = 0; i < player_data->server_events.Length (); i++)
 	  delete player_data->server_events[i];
 	player_data->server_events.DeleteAll ();
 
@@ -1072,7 +1071,7 @@ celPlayerData::~celPlayerData ()
   delete socket_cache;
     
   size_t i;
-  for (i = 0; i < server_events.GetSize (); i++)
+  for (i = 0; i < server_events.Length (); i++)
     delete server_events[i];
   server_events.DeleteAll ();
 
@@ -1143,12 +1142,12 @@ celPlayerList::~celPlayerList ()
 
 size_t celPlayerList::GetCount () const
 {
-  return players.GetSize ();
+  return players.Length ();
 }
 
 celPlayer* celPlayerList::Get (size_t index) const
 {
-  CS_ASSERT ((index != csArrayItemNotFound) && index < players.GetSize ());
+  CS_ASSERT ((index != csArrayItemNotFound) && index < players.Length ());
   return players[index];
 }
 
@@ -1176,7 +1175,7 @@ bool celPlayerList::Remove (size_t n)
 
 void celPlayerList::RemoveAll ()
 {
-  while (players.GetSize () > 0)
+  while (players.Length () > 0)
     Remove ((size_t) 0);
 }
 

@@ -21,6 +21,7 @@
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
 #include "csutil/weakref.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -199,7 +200,7 @@ celEntityTracker::~celEntityTracker ()
 {
   if (pl->GetEngine ())
     pl->GetEngine ()->RemoveEngineSectorCallback (sector_cb);
-  while (mesh_cbs.GetSize () > 0)
+  while (mesh_cbs.Length () > 0)
   {
     mesh_cbs[0]->GetSector ()->RemoveSectorMeshCallback (mesh_cbs[0]);
     mesh_cbs.DeleteIndex (0);
@@ -279,7 +280,7 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
 	  {
 	    bool already_visited = false;
 	    size_t l;
-            for (l = 0 ; l < visited_sectors.GetSize () ; l++)
+            for (l = 0 ; l < visited_sectors.Length () ; l++)
             {
               if (visited_sectors[l] == portal->GetSector ())
               {
@@ -354,7 +355,7 @@ void celEntityTracker::RegisterSector (celMeshcb* cb)
 
 void celEntityTracker::UnregisterSector (iSector* sector)
 {
-  size_t i = mesh_cbs.GetSize ();
+  size_t i = mesh_cbs.Length ();
   while (i > 0)
   {
     i--;

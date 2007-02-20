@@ -34,6 +34,7 @@
 
 #include <imesh/sprite3d.h>
 
+#include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
 #include <iengine/movable.h>

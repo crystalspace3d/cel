@@ -35,6 +35,7 @@
 #include <imesh/sprite3d.h>
 #include <imesh/spritecal3d.h>
 
+#include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
 #include <iengine/movable.h>
@@ -831,7 +832,7 @@ int celPcLinearMovement::MoveV (float delta)
       // Call callbacks
       if (!called)
       {
-        size_t i = gravityCallbacks.GetSize ();
+        size_t i = gravityCallbacks.Length ();
         while (i > 0)
         {
           i--;
@@ -855,7 +856,7 @@ int celPcLinearMovement::MoveV (float delta)
     if(velWorld.y < 0)
     {
       // Call callbacks
-      size_t i = gravityCallbacks.GetSize ();
+      size_t i = gravityCallbacks.Length ();
       while (i > 0)
       {
         i--;

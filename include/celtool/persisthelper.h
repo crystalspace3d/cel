@@ -54,7 +54,7 @@ public:
 
   virtual size_t GetEntityCount () const
   {
-    return local_entities.GetSize ();
+    return local_entities.Length ();
   }
   virtual iCelEntity* GetEntity (size_t idx) const
   {
@@ -101,7 +101,7 @@ class celStandardPersistentDataList : public iCelPersistentDataList
   SCF_DECLARE_IBASE;
 
   virtual size_t GetCount () const
-    { return data_list.GetSize (); }
+    { return data_list.Length (); }
 
   virtual bool GetPersistentData (size_t idx, csRef<iCelDataBuffer>& databuf, 
 	csString& pc_name, csString& pc_tag) const;

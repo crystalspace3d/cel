@@ -3,241 +3,7 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-19-Feb-2007
-	- Vincent fixed wrong class name for celMenu in celButton python widget.
-	- Vincent added actions, properties and doxygen doc to pccraft.
-	- Vincent commented csSleep() in CELStart, and changed physical layer
-	  to mention the action in case of error in PerformActionTemplate().
-18-Feb-2007
-	- caedes did the following changes to blpython:
-	  - Added a system to specify message callback api version by specifying
-	     api_version inside behaviour classes.
-	  - Added a new style for behaviour message callbacks, this is used when
-	    api_version is set to 2 in behaviours. The new message callback style
-	    addresses pc not being passed to behaviour (and thus making behaviour
-	    unable to discriminate among same messages from different pcclasses),
-	    also removed entity parameter in those as it provides no useful
-	    information. New callback style is:
-	      def beh_callback(self,pc,args):
-	  - Added a verbose option (blpython) to control messages for unimplemented 
-	    behaviour message callbacks, and silenced them if this option is not set.
-	  - Sanitized information printing a bit.
-	- caedes documented new callback style in blpython manual section.
-	- caedes adapted all sample behaviours in cel library to use new message
-	  callback style.
-16-Feb-2007
-	- Genjix fixed gcc 4.1 compile errors.
-	- Darek added to blxml support for map keys: key_node, key_meshobj, 
-	  key_meshfact, key_sector, key_texture, key_material, key_light.
-15-Feb-2007
-	- Darek added missing DUMP_EXEC to blxml navigation .
-14-Feb-2007
-	- Jorrit replaced deprecated csArray::Length() with GetSize().
-13-Feb-2007
-	- Vincent Knecht fixed wrong behaviour name in celScrolller widget.
-12-Feb-2007
-	- Vincent Knecht removed pchover's dependency on pcdefaultcamera. This
-	  allows correct stabilising even if the entity holding pchover doesn't
-	  have a pcdefaultcamera.
-	- Genjix added imovable.h header.
-11-Feb-2007
-	- David Bronke committed a fix by Christopher Case to the SWIG
-	  bindings that ignores SendMessageV in the physical layer, since it
-	  breaks the bindings.
-06-Feb-2007
-	- Genjix fixed broken hovertest.
-05-Feb-2007
-	- cfraz89 restored backwards compatability in pcwheeled.
-2-Feb-2007
-	- caedes added pctrigger to python bindings.
-1-Feb-2007
-	- caedes added the following methods to the physical layer:
-	  - GetClassEntitiesList to get a list of all entities with a
-	    certain class, this list is always maintained up to date
-	    by the physical layer.
-	  - SendMessage and SendMessageV to send a message to a list
-	    of entities.
-	  also incremented the pl interface minor version.
-	- Darek added navigation tools to celtool.
-	- Darek added navigation tools to blxml.
-30-Jan-2007
-	- res updated cel-config to properly handle the new versioned
-	  library file names. (Side note: borrows a lot more code from
-	  cs-config now.)
-	- res removed a bunch of debugging graph uses.
-	- res fixed configure to only emit the Python build flags if both
-	  Python itself and crystalspace_python were detected.
-	- caedes added tracking of entities with different classes to the
-	  stdphyslayer plugin (still have to add methods to make use of this).
-29-Jan-2007
-	- Jorrit removed some collectn.h includes from CEL apps.
-	- Darek made separate function for anglefixing and 
-	  plugin namespace for pcmesh.
-	- Darek added xml action pcdefaultcamera:SetFollowEntity. 
-27-Jan-2007
-	- res updated mk/jam and mk/autoconf with the latest copy from the
-	  CS repository.
-	- res changed blpython to work more nicely with a shared
-	  crystalspace_python library.
-25-Jan-2007
-	- Darek fixed pcmesh:cel.property.rotation, and small bug in
-	  pclinmove docs.
-21-Jan-2007
-	- cfraz89 tagged his name on wheeled and meshdeform.
-20-Jan-2007
-	- cfraz89 fixed up bugs in meshdeform, tweaked maxdeform,
-	  added meshdeform to the python bl, and added some python widgets.
-19-Jan-2007
-	- cfraz89 fixed a bug in wheeled related to wheel flipping.
-18-Jan-2007
-	- caedes added an optional tag argument to all the property class
-	  helper methods (celGet, celCreate...) in the python bindings.
-	- caedes documented latest python bindings changes in the manual.
-17-Jan-2007
-	- caedes added quest manager and pcquest to blcel.i.
-	- caedes added template declarations necessary to use
-	  celEntityTemplateParams to blcel.i.
-16-Jan-2007
-	- cfraz89 added more polys to the celcar
-	- cfraz89 tweaked meshdeform and fixed up properties in wheeled.
-	- cfraz89 added GetWheelSpin and GetAverageWheelSpin and the
-          property averagewheelspin to wheeled.
-15-Jan-2007
-	- cfraz89 added an xml interface to meshdeform, and squashed a
-	  few bugs.
-	- cfraz89 added some gear getters to wheeled.
-14-Jan-2007
-	- cfraz89 added a few config options to meshdeform, tweaked its
-	  deform code, and fixed a bug in the bl.
-	- cfraz89 made meshdeform translate the direction when not in
-	  world mode, making the deform more realistic.
-	- cfraz89 added a SetMaxDeform to meshdeform, limiting the
-	  deform before it goes overboard.
-13-Jan-2007
-	- cfraz89 added a preliminary version of pcmeshdeform based on 
-	  darek's idea. It is nowhere near complete yet, namely the 
-	  continuity issue with vertices. Added pcmeshdeform to the
-	  wheeled test bl so it shows in wheeledtest.
-	- cfraz89 added continuity to meshdeform.
-11-Jan-2007
-	- caedes made a change in blcel.i due to a change in cs swig
-	  PYLIST_* macros.
-9-Jan-2007
-	- Darek added to blxml function getmsg('..') it's 
-	  iTranslator->GetMsg ("..") (see new plugin in CS).
-8-Jan-2007
-	- David Bronke added an additional 'value' parameter to mouse movement
-	  commands in pccommandinput so that individually-bound mouse axes can
-	  be handled separately, and modified the code for handling joystick
-	  events so that it reuses the same parameter block.
-	- Darek made iPcMesh-> MoveMesh (sector, node).
-7-Jan-2007
-	- cfraz89 tweaked pcwheeled a bit
-	- Last commit, cfraz89 attempted to fix a bug in blpython
-	  property setting.
-	- cfraz89  fixed a bug with pcwheeled not braking 
-	  when using ABS, in reverse.
-	- David Bronke rewrote some comments in iPcCommandInput and added
-	  functions to enable and disable handling of joystick, mouse, and
-	  keyboard events.
-5-Jan-2007
-	- cfraz89 made tankmode in wheeled work again.
-3-Jan-2007
-	- cfraz89 added wheelspin detection in pcwheeled, updating
-	  gearing to use this.
-	- cfraz89 added ABS braking to pcwheeled.
-2-Jan-2007
-	- cfraz89 attempted to fix a bug with pcwheeled stopping.
-	- darek reverted this fix - that was error in my behaviour
-	  not pcwheeled fault.
-30-Dec-2006
-	- cfraz89 fixed a reversing bug in pcwheeled.
-28-Dec-2006
-	- cfraz89 fixed a bug in pcwheeled properties.
-	- cfraz89 added analogue acceleration and braking to wheeled.
-	  it should be fully usable with a steering wheel now. It should
-	  also be possible to perform burnouts now. :D
-	- caedes made the following changes to python blcel.i:
-	  - Added iCelPropertyClass to list of interfaces that can be queried.
-	  - Added delegation to the pcclass interfaces so they also expose
-	    the functions from iCelPropertyClass.
-	  - Added a shadow function for iCelPropertyClassList::Remove so
-	    pcclass interfaces can be used there in addition to 
-	    iCelPropertyClass.
-	  - Made all iCelPropertyClass property getters and setters functional
-	    from python (some where missing or had output arguments).
-	- caedes made the following changes to pycel.py:
-	  - Fixed actid and propid methods.
-	  - Added a system so pcclass properties can be used directly as
-	    python attributes from the pcclass interface.
-	    like for example: trigger.jitter = 23 .
-	- cfraz89 fixed a memory bug in pcwheeled.
-	- cfraz89 added analogue accel he forgot to add
-
-26-Dec-2006
-	- cfraz89 added a speed property to pcwheeled.
-        - cfraz89 documented the xml of pcwheeled.
-	- cfraz89 propified pcwheeled and fixed the Steer*(float)
-	  to use ratios.
-        - cfraz89 corrected a small steering bug in pcwheeled.
-25-Dec-2006
-	- Genjix made height calculation use new implementation and removed old
-	  height testing code for reverse directions.
-21-Dec-2006
-	- cfraz89 added overloaded Steer*(float) and GetSpeed() to 
-	  pcwheeled.
-20-Dec-2006
-	- Genjix fixed compiler warnings in network code about virtual d'ctors.
-15-Dec-2006
-	- caedes added pctrigger section to cel manual.
-	- caedes added a using "cel from c++" section to the cel manual,
-	  the idea is to put all c++ specific info here, and so have most
-	  of the manual describing generic information about cel workings,
-	  while having specific sections for each of the programming
-	  languages supported (ie, xml, python and c++ at the moment).
-	- caedes moved the c++ specific part from the property class intro to
-	  the c++ usage section, and replaced it with more generic content.
-	- caedes made some minor formatting changes and additions to the 
-	  manual.
-	- caedes did a little reorganization of the manual: moved applications 
-	  to the end of main index, and tutorials to the end of using cel 
-	  section.
-	- caedes made a couple of spelling fixes in new property class intro
-	  at the manual.
-14-Dec-2006
-	- caedes added a feature to commandinput so .args can be specified
-	  after desired command name in a bind. In that case button/key
-	  state will be put in message arguments ("state" parameter) instead 
-	  of message name. 
-	  Example: Bind.up = forward.args will call pccommandinput_forward 
-	  message with state parameter.
-	- caedes made the following changes to pycel embedded python module:
-	  - Added parid, propid and actid aliases to get ids for cel
-	    parameters, properties and actions respectively (adds the common
-	    prefix automatically).
-	  - Added a buffering mechanism for cel ids so python strings can be
-	    used with almost no overhead (when planned for).
-	  - Added mangling of iCelParameterBlock so now strings can be used
-	    directly to access the block parameters, as well as ids as before.
-	  - Changed the pcclass accessor/creator functions from hardcoded to 
-	    dynamically generated.
-	  - Added FontServer, KeyboardDriver, MouseDriver, JoystickDriver and
-	    PluginManager ready to use accessor variables.
-	- caedes made some modifications to blpython usage section in the
-	  cel manual to account for latest changes. Also did some minor
-	  formatting changes.
-	- caedes updated the quest manager section in cel manual in account
-	  for new rewards and triggers from the time it was written.
-	- caedes filled the pctimer section in cel manual.
-	- caedes added commandinput section to cel manual.
-11-Dec-2006
-	- Jorrit added missing documentation for messages in pclinearmovement
-	  (pclinearmovement_collision, pclinearmovement_stuck, and
-	  pclinearmovement_arrived). Please document new messages, properties,
-	  and actions whenever you add them!
 8-Dec-2006
-	- Darek added to blxml <sound_speed source=".." rate=".."/>,
-	  rate = 1.0 it's normal speed.
 	- caedes fixed actormove going back to previous animation after a
 	  jump, and also reordered code a bit.
 	- caedes fixed celInitializer emitting an error when vfs.cfg would
@@ -245,30 +11,6 @@ The history order is reversed so that new features are at the top.
 	  application dir, and if not found emits a warning instead.
 	- caedes fixed his previous celInitializer fix to actually look in
 	  application dir instead of working directory.
-	- caedes updated the pythmod jam rule to the version in cs.
-	- caedes changed the blpython Jamfile so it also generates a pure
-	  python module for blcelc (ie, generates _blcelc dll).
-7-Dec-2006
-	- Jorrit implemented mousemove acceleration in pcactormove.
-	  If this feature is enabled (by default it is off) then big
-	  mouse movements will get accelerated. This allows for good
-	  aiming for small movements and fast turning around.
-	- Jorrit increased the resolution for mousemove in pcactormove
-	  so that it updates every 20 ms instead of every 100 ms. That
-	  makes it easier to aim and more accurate but it also increases
-	  the chance of overshooting (i.e. rotating too fast) if the
-	  framerate is low.
-5-Dec-2006
-	- Jorrit removed the 'shadervar' sequence operation again since
-	  it is much better and easier to just use shader expressions.
-	- Jorrit added support for using 'libexpr' type in the pcmesh
-	  SetShaderVar action. That way one can now set shader expressions.
-	- Jorrit fixed support for 'libexpr' type in SetShaderVar.
-	- caedes replaced SCF_QUERY_INTERFACEs with scfQueryInterface<>s at
-	  the python behaviour layer swig interface files.
-4-Dec-2006
-	- Jorrit added a new 'shadervar' sequence operation that can
-	  be used to animated shader variables. Not finished yet.
 3-Dec-2006
 	- Marten changed all csStrKey into csStringBase and thereby
 	  eliminated a couple of hundred warnings.
@@ -276,38 +18,19 @@ The history order is reversed so that new features are at the top.
 	  to silence warnings.
 1-Dec-2006
 	- Jorrit removed the remaining CS_QUERY_REGISTRY calls.
-	- Jorrit added an optional 'sector' parameter to pclight->MoveLight.
-	- Jorrit temporarily removed the support for pclight from
-	  pcspawn. It is better to attach the light as a child of the
-	  mesh entity that you spawn.
 30-Nov-2006
 	- Darek fixed celPcMechanicsSystem::SetDynamicSystem by creating 
 	  dynsystem if not found. This helps with connecting CS and CEL
 	  dynamic systems.
-	- David Bronke added iCelRegion::ContainsEntity(),
-	  iCelRegion::GetCsRegion, and iPcZoneManager::FindRegionContaining()
-	  to assist working with regions.
 29-Nov-2006
-	- cfraz89 added a message to pcwheeled that is sent when a wheel
-	  collides with another body. Also added parameters for wheel friction
-	  and mass.
 	- res updated the mk/autoconf/*.m4 file from the CS master copies.
 	- res fixed the celstart wrapper script used in the autopackage to
 	  also set the CEL environment variable.
-	- res bumped the CEL version in configure to 1.1.
-28-Nov-2006
-	- Jorrit enhanced pclight so that it can now also create lights.
-	  Added CreateLight and ChangeColor actions.
-	- Jorrit enhanced pclight with ParentMesh and ClearParent actions.
-	- Jorrit added support for 'color' parameters in celentity and
-	  celentitytpl actions.
-	- Jorrit added support to place lights (pclight) to pcspawn.
 	- res replaced SCF_QUERY_INTERFACEs with scfQueryInterface<>s.
 	- res replaced some CS_QUERY_REGISTRYs with csQueryRegistry<>s.
 	- res replaced some CS_QUERY_REGISTRY_TAG_INTERFACEs with
 	  csQueryRegistryTagInterface<>s.
 24-Nov-2006
-	- Genjix fixed celstart not loading joystick plugin.
 	- caedes added Jamfile to data/library so it also gets installed.
 	- caedes made the following changes to the cel python behaviour
 	  library:
@@ -318,8 +41,6 @@ The history order is reversed so that new features are at the top.
 	    behaviours.
 	  - made all behaviours define input in helper cfg files.
 23-Nov-2006
-	- Genjix added automatic loading of most commonly used property classes
-	  via a second factory name (non conforming names should be deprecated).
 	- caedes did the following changes to fix cel installation:
 	  - added SetupConfigManager and SetupVFS to celInitializer, this
 	    methods extend the ones in csInitializer with cel vfs.cfg loading.
@@ -343,43 +64,18 @@ The history order is reversed so that new features are at the top.
 	- caedes modified celstart to use CS_PATH_DELIMITER instead of
 	  CS_PATH_SEPARATOR, which was wrong.
 21-Nov-2006
-	- Genjix removed redundant stabiliser_dist.
 	- Genjix added workaround to CEL mangling path when appending to
 	  PYTHONPATH in celstart.
 	- Genjix changed workaround to more cross platform solution using
 	  existing realpath and stripping problematic $'s.
-	- Genjix added doxygen tagfile and to allow linking to cs api docs, and
-	  installdox script to set the link.
-	  Pointed the links to $CRYSTAL.
-	  To set the link do:
-	    ./docs/doxygen/installdox -l crystalspace.tag@$CS/out/docs/html/api docs/html/api/*
 	- caedes added particles and particlesldr to celtest_static.
-17-Nov-2006
-	- Genjix made iCelPlLayer->CreatePropclass*() try to load the propclass
-	  if propfact can't be queried.
-	- Genjix updated CreatePropclass*() to primarily load non 'pc' prefixed
-	  propfactories.
 15-Nov-2006
 	- Jorrit fixed iCelPlLayer->GetHitEntity(). It had an arbitrary
 	  limit of 60 distance units and couldn't handle portals.
 	- Jorrit bumped celstart to 7.
-14-Nov-2006
-	- Genjix corrected upthrust force clamping in pchover.
 13-Nov-2006
-	- Genjix added SetRoll (float) to pccraft.
 	- Jorrit reverted the compiler warning fix from Arianna as it
 	  causes compile error.
-	- Jorrit added a new celconsole.cfg file. There you can configure
-	  the key used to open the console (default tab).
-	- Jorrit added a new feature to the cel console that tracks entities.
-	  With this tool you can discover (by pressing ctrl-shift-e) that
-	  there are entities which are deleted (pl->RemoveEntity()) but
-	  are still in memory. Usually that means a leak. By default
-	  monitoring is disabled. Enable it in celconsole.cfg.
-	- Jorrit attempted to fix the problem with celtest no longer
-	  working due to celconsole changes by adding a plugin requirement
-	  from pl to the CS engine. This works more or less but celtest
-	  now crashes unless it is run in the debugger???
 11-Nov-2006
 	- Arianna fixed a compiler warning (hopefully) in pl.h
 10-Nov-2006

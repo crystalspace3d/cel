@@ -71,7 +71,7 @@ celTCPGameClient::~celTCPGameClient ()
   nlDisable (NL_BLOCKING_IO);
 
   size_t i;
-  for (i = 0; i < client_events.GetSize (); i++)
+  for (i = 0; i < client_events.Length (); i++)
     delete client_events[i];
   client_events.DeleteAll ();
 
@@ -341,9 +341,7 @@ void celTCPGameClient::UpdateConnecting ()
       packet->Read (temp_game_info.game_name);
       packet->Read (temp_game_info.hostname);
       packet->Read (temp_game_info.port_nb);
-      uint32 max_players;
-      packet->Read (max_players);
-      temp_game_info.max_players = max_players;
+      packet->Read (temp_game_info.max_players);
       packet->Read (temp_game_info.custom_data);
       if (!game->IsServerAvailable ())
 	game->game_info = temp_game_info;
@@ -595,7 +593,7 @@ void celTCPGameClient::WriteServerSocket (csTicks snapshot_time)
   celNetworkBuffer* packet = new celNetworkBuffer ();
 
   // write client events
-  uint8 list_size = client_events.GetSize ();
+  uint8 list_size = client_events.Length ();
   if (list_size > 0)
   {
     uint8 data_type = CLIENT_DATA_EVENT;

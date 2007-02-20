@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/string.h"
+#include "csutil/debug.h"
 #include "csgeom/math3d.h"
 #include "csgeom/transfrm.h"
 #include "ivaria/dynamics.h"

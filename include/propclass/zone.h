@@ -25,7 +25,6 @@
 #include "csutil/scf.h"
 
 struct iSector;
-struct iRegion;
 struct iPcCamera;
 struct iPcMesh;
 struct iCelEntity;
@@ -80,7 +79,7 @@ struct iCelMapFile : public iBase
   virtual const char* GetSectorName () const = 0;
 };
 
-SCF_VERSION (iCelRegion, 0, 2, 2);
+SCF_VERSION (iCelRegion, 0, 2, 1);
 
 /**
  * A region. A region is a collection of map files
@@ -151,16 +150,6 @@ struct iCelRegion : public iBase
    * Unregister an entity from this region.
    */
   virtual void DissociateEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Determine whether the given entity is in this region.
-   */
-  virtual bool ContainsEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Get the CS region that is used for this region.
-   */
-  virtual iRegion* GetCsRegion () = 0;
 };
 
 SCF_VERSION (iCelZone, 0, 1, 0);
@@ -236,7 +225,7 @@ struct iCelZone : public iBase
 
 /** @} */
 
-SCF_VERSION (iPcZoneManager, 0, 1, 3);
+SCF_VERSION (iPcZoneManager, 0, 1, 2);
 
 /**
  * This is the zone manager. In this property class you can define
@@ -460,11 +449,6 @@ struct iPcZoneManager : public iBase
    */
   virtual bool ActivateRegion (iCelRegion* region,
       bool allow_entity_addon = true) = 0;
-
-  /**
-   * Get the region containing the specified entity.
-   */
-  virtual iCelRegion* FindRegionContaining (iCelEntity* ent) = 0;
 };
 
 #endif // __CEL_PF_ZONE__

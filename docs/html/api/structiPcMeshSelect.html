@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,28 +28,24 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcMeshSelect Struct Reference</h1><!-- doxytag: class="iPcMeshSelect" --><!-- doxytag: inherits="iBase" -->This is a property class for selecting meshes.  
+<h1>iPcMeshSelect Struct Reference</h1><!-- doxytag: class="iPcMeshSelect" -->This is a property class for selecting meshes.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="meshsel_8h-source.html">propclass/meshsel.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcMeshSelect:<p><center><img src="structiPcMeshSelect__inherit__graph.png" border="0" usemap="#iPcMeshSelect__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcMeshSelect__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="35,5,93,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcMeshSelect-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcMeshSelect-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#003a8c1980e045a03c11dcc51a3201e2">AddMeshSelectListener</a> (<a class="el" href="structiPcMeshSelectListener.html">iPcMeshSelectListener</a> *listener)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add a listener to listen to mouse selection.  <a href="#003a8c1980e045a03c11dcc51a3201e2"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#fe57fc169f00bd7b637040caee8029e3">GetDragPlaneNormal</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;drag_normal, bool &amp;camera_space) const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#fe57fc169f00bd7b637040caee8029e3">GetDragPlaneNormal</a> (csVector3 &amp;drag_normal, bool &amp;camera_space) const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the drag normal and camera space flag.  <a href="#fe57fc169f00bd7b637040caee8029e3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#68cce0df3e96c93f7d1cdd13b3aaf7f3">GetMaxSelectionDistance</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#68cce0df3e96c93f7d1cdd13b3aaf7f3">GetMaxSelectionDistance</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum distance to use for mesh selection.  <a href="#68cce0df3e96c93f7d1cdd13b3aaf7f3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a8f6be714ce22d723e7718deab7d1a9f">GetMouseButtons</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a8f6be714ce22d723e7718deab7d1a9f">GetMouseButtons</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the bit-mask for the supported buttons.  <a href="#a8f6be714ce22d723e7718deab7d1a9f"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#ec066bb5a01a2ba88c8e52a7fef3561a">HasDragMode</a> () const =0</td></tr>
@@ -82,7 +78,7 @@ Inheritance diagram for iPcMeshSelect:<p><center><img src="structiPcMeshSelect__
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#38b1b6bafad0d62d0123dafb1020e3cc">SetDragMode</a> (bool drag)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">If true then it is possible to drag the selected object.  <a href="#38b1b6bafad0d62d0123dafb1020e3cc"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#8641509a8eb0ec284432408da301201e">SetDragPlaneNormal</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;drag_normal, bool camera_space)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#8641509a8eb0ec284432408da301201e">SetDragPlaneNormal</a> (const csVector3 &amp;drag_normal, bool camera_space)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the normal of the plane on which the dragged object will move.  <a href="#8641509a8eb0ec284432408da301201e"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#a5cc6a32f28004b105c667ade955a609">SetFollowAlwaysMode</a> (bool followalways)=0</td></tr>
@@ -94,13 +90,13 @@ Inheritance diagram for iPcMeshSelect:<p><center><img src="structiPcMeshSelect__
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#5839931c030d52b65922f0927afbe24d">SetGlobalSelection</a> (bool glob)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set global/local selection.  <a href="#5839931c030d52b65922f0927afbe24d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#c3da18605c5c9281c7db370182579242">SetMaxSelectionDistance</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> distance)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#c3da18605c5c9281c7db370182579242">SetMaxSelectionDistance</a> (float distance)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the maximum distance to use for mesh selection.  <a href="#c3da18605c5c9281c7db370182579242"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#92a6f866a393bdd221c91c2016c9d2f5">SetMouseButtons</a> (const char *buttons)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate (with a string) for which buttons this mesh selector will work.  <a href="#92a6f866a393bdd221c91c2016c9d2f5"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#06a14ad288a68cc4b87519540e0514ac">SetMouseButtons</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> buttons)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#06a14ad288a68cc4b87519540e0514ac">SetMouseButtons</a> (int buttons)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Indicate (with a bit-mask) for which buttons this mesh selector will work.  <a href="#06a14ad288a68cc4b87519540e0514ac"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcMeshSelect.html#5f20d1fcdc70c5db28549bbfa48a838c">SetSenddownEvent</a> (bool sd)=0</td></tr>
@@ -116,19 +112,47 @@ Inheritance diagram for iPcMeshSelect:<p><center><img src="structiPcMeshSelect__
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This is a property class for selecting meshes. 
 <p>
-This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
-<li>pcmeshsel_down: mesh is selected (x,y,button,entity)</li><li>pcmeshsel_up: mesh is unselected (x,y,button,entity)</li><li>pcmeshsel_move: mesh is moved (x,y,button,entity)</li></ul>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
+<li>
+pcmeshsel_down: mesh is selected (x,y,button,entity) </li>
+<li>
+pcmeshsel_up: mesh is unselected (x,y,button,entity) </li>
+<li>
+pcmeshsel_move: mesh is moved (x,y,button,entity) </li>
+</ul>
 <p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>SetCamera: parameters 'entity' (string).</li><li>SetMouseButtons: parameters 'buttons' (string or long). In case of string it should be a string with 'l', 'm', or 'r' (or a combination).</li><li>SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool).</li></ul>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+SetCamera: parameters 'entity' (string). </li>
+<li>
+SetMouseButtons: parameters 'buttons' (string or long). In case of string it should be a string with 'l', 'm', or 'r' (or a combination). </li>
+<li>
+SetDragPlaneNormal: parameters 'normal' (vector3), 'camera' (bool). </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>global (bool, read/write): global selection, default false.</li><li>follow (bool, read/write): follow mode, default false.</li><li>followalways (bool, read/write): follow always mode, default false.</li><li>drag (bool, read/write): drag mode, default false.</li><li>sendmove (bool, read/write): send move events, default false.</li><li>sendup (bool, read/write): send up events, default true.</li><li>senddown (bool, read/write): send down events, default true.</li><li>maxdistance (float, read/write): maximum selection distance, default 100000. </li></ul>
+This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property: <ul>
+<li>
+global (bool, read/write): global selection, default false. </li>
+<li>
+follow (bool, read/write): follow mode, default false. </li>
+<li>
+followalways (bool, read/write): follow always mode, default false. </li>
+<li>
+drag (bool, read/write): drag mode, default false. </li>
+<li>
+sendmove (bool, read/write): send move events, default false. </li>
+<li>
+sendup (bool, read/write): send up events, default true. </li>
+<li>
+senddown (bool, read/write): send down events, default true. </li>
+<li>
+maxdistance (float, read/write): maximum selection distance, default 100000. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="meshsel_8h-source.html#l00091">91</a> of file <a class="el" href="meshsel_8h-source.html">meshsel.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="meshsel_8h-source.html#l00097">97</a> of file <a class="el" href="meshsel_8h-source.html">meshsel.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="003a8c1980e045a03c11dcc51a3201e2"></a><!-- doxytag: member="iPcMeshSelect::AddMeshSelectListener" ref="003a8c1980e045a03c11dcc51a3201e2" args="(iPcMeshSelectListener *listener)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -158,7 +182,7 @@ These listeners are called right before the behaviour is called.
         <tr>
           <td class="memname">virtual void iPcMeshSelect::GetDragPlaneNormal           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>drag_normal</em>, </td>
         </tr>
         <tr>
@@ -187,7 +211,7 @@ Get the drag normal and camera space flag.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcMeshSelect::GetMaxSelectionDistance           </td>
+          <td class="memname">virtual float iPcMeshSelect::GetMaxSelectionDistance           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -208,7 +232,7 @@ Get the maximum distance to use for mesh selection.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iPcMeshSelect::GetMouseButtons           </td>
+          <td class="memname">virtual int iPcMeshSelect::GetMouseButtons           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -444,7 +468,7 @@ Note that drag mode is usually used in combination with follow mode. (default fa
         <tr>
           <td class="memname">virtual void iPcMeshSelect::SetDragPlaneNormal           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>drag_normal</em>, </td>
         </tr>
         <tr>
@@ -541,7 +565,7 @@ With local selection the Behaviour will only get messages when it's own mesh ent
         <tr>
           <td class="memname">virtual void iPcMeshSelect::SetMaxSelectionDistance           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>distance</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -585,7 +609,7 @@ By default this is the left button. Use a combination of the 'l', 'r', or 'm' ch
         <tr>
           <td class="memname">virtual void iPcMeshSelect::SetMouseButtons           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>buttons</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

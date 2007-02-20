@@ -29,6 +29,7 @@
 #include "behaviourlayer/behave.h"
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "csutil/hash.h"
 #include "csutil/set.h"
@@ -327,7 +328,7 @@ void celPcTrigger::SetMonitorDelay (csTicks delay, csTicks jitter)
 void celPcTrigger::LeaveAllEntities ()
 {
   size_t i;
-  for (i = 0 ; i < entities_in_trigger.GetSize () ; i++)
+  for (i = 0 ; i < entities_in_trigger.Length () ; i++)
     if (entities_in_trigger[i])
     {
       if (send_to_self)
@@ -349,7 +350,7 @@ void celPcTrigger::LeaveAllEntities ()
 size_t celPcTrigger::EntityInTrigger (iCelEntity* entity)
 {
   size_t i;
-  for (i = 0 ; i < entities_in_trigger.GetSize () ; i++)
+  for (i = 0 ; i < entities_in_trigger.Length () ; i++)
     if (entities_in_trigger[i] == entity) return i;
   return csArrayItemNotFound;
 }
@@ -681,7 +682,7 @@ void celPcTrigger::TickOnce ()
 
     // Fill a set with all entities that are currently in trigger.
     csSet<csPtrKey<iCelEntity> > previous_entities;
-    for (i = 0 ; i < entities_in_trigger.GetSize () ; i++)
+    for (i = 0 ; i < entities_in_trigger.Length () ; i++)
       if (entities_in_trigger[i])
         previous_entities.Add ((iCelEntity*)entities_in_trigger[i]);
 
@@ -794,9 +795,9 @@ csPtr<iCelDataBuffer> celPcTrigger::Save ()
     databuf->Add ((uint8)0);
   }
 
-  databuf->Add ((uint32)entities_in_trigger.GetSize ());
+  databuf->Add ((uint32)entities_in_trigger.Length ());
   size_t i;
-  for (i = 0 ; i < entities_in_trigger.GetSize () ; i++)
+  for (i = 0 ; i < entities_in_trigger.Length () ; i++)
   {
     databuf->Add (entities_in_trigger[i]);
   }
@@ -1030,7 +1031,7 @@ void celPcTrigger::RemoveTriggerListener (iPcTriggerListener* listener)
 
 void celPcTrigger::FireTriggersEntityEnters (iCelEntity* entity)
 {
-  size_t i = listeners.GetSize ();
+  size_t i = listeners.Length ();
   while (i > 0)
   {
     i--;
@@ -1040,7 +1041,7 @@ void celPcTrigger::FireTriggersEntityEnters (iCelEntity* entity)
 
 void celPcTrigger::FireTriggersEntityLeaves (iCelEntity* entity)
 {
-  size_t i = listeners.GetSize ();
+  size_t i = listeners.Length ();
   while (i > 0)
   {
     i--;
@@ -1050,7 +1051,7 @@ void celPcTrigger::FireTriggersEntityLeaves (iCelEntity* entity)
 
 void celPcTrigger::FireTriggersEnterTrigger (iCelEntity* entity)
 {
-  size_t i = listeners.GetSize ();
+  size_t i = listeners.Length ();
   while (i > 0)
   {
     i--;
@@ -1060,7 +1061,7 @@ void celPcTrigger::FireTriggersEnterTrigger (iCelEntity* entity)
 
 void celPcTrigger::FireTriggersLeaveTrigger (iCelEntity* entity)
 {
-  size_t i = listeners.GetSize ();
+  size_t i = listeners.Length ();
   while (i > 0)
   {
     i--;

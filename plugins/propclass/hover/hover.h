@@ -31,12 +31,14 @@
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
 
+#include "propclass/stabiliser_dist.h"
 #include "../mechanics/ticktimer.h"
 
 struct iSector;
 
 struct iPcMechanicsObject;
 struct iPcMesh;
+struct iPcDefaultCamera;
 struct iVirtualClock;
 
 /**
@@ -168,6 +170,13 @@ private:
       bool accurate = false);
 
   /**
+   * In case of object not being in range in Height(),
+   * extend another beam upwards to calculate reverse distance,
+   * else return infinity
+   */
+  float ReverseHeight(csVector3 &start, iSector *sector);
+
+  /**
    * This function computes the angle the ship has to roll through to
    * to be aligned with the terrain
    *
@@ -206,6 +215,8 @@ private:
   csWeakRef<iPcMechanicsObject> pcmechobj;
   /// stored mesh interface
   csWeakRef<iPcMesh> pcmesh;
+  /// stored camera interface
+  csWeakRef<iPcDefaultCamera> pccamera;
 };
 
 #endif

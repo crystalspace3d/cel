@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
+#include "csutil/debug.h"
 #include "plugins/propclass/projectile/projectilefact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"

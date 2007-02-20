@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,28 +28,24 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>celInitializer Class Reference</h1><!-- doxytag: class="celInitializer" --><!-- doxytag: inherits="csInitializer" -->This class contains static member functions which can help set up an application to use the Crystal Entity Layer.  
+<h1>celInitializer Class Reference</h1><!-- doxytag: class="celInitializer" -->This class contains static member functions which can help set up an application to use the Crystal Entity Layer.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="initapp_8h-source.html">celtool/initapp.h</a>&gt;</code>
 <p>
-Inheritance diagram for celInitializer:<p><center><img src="classcelInitializer__inherit__graph.png" border="0" usemap="#celInitializer__inherit__map" alt="Inheritance graph"></center>
-<map name="celInitializer__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html" shape="rect" coords="8,5,107,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="classcelInitializer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="classcelInitializer-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Static Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#1c86e5dc368e6f355fee04dd0425bd5e">RequestPlugins</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html">csArray</a>&lt; <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a> &gt; const &amp;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#1c86e5dc368e6f355fee04dd0425bd5e">RequestPlugins</a> (iObjectRegistry *, csArray&lt; csPluginRequest &gt; const &amp;)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer::RequestPlugins()</a> which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>.  <a href="#1c86e5dc368e6f355fee04dd0425bd5e"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">RequestPlugins</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *,...)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>.  <a href="#1c86e5dc368e6f355fee04dd0425bd5e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">RequestPlugins</a> (iObjectRegistry *,...)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer::RequestPlugins()</a> which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>.  <a href="#19815a8a2cf3c725f25216e30f9f57ef"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#d8174b83a167f0743f254dd4870d5765">RequestPluginsV</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *, va_list)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>.  <a href="#19815a8a2cf3c725f25216e30f9f57ef"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#d8174b83a167f0743f254dd4870d5765">RequestPluginsV</a> (iObjectRegistry *, va_list)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is just like RequestPlugins(.  <a href="#d8174b83a167f0743f254dd4870d5765"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">SetupCelPluginDirs</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *r)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">SetupCelPluginDirs</a> (iObjectRegistry *r)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Instructs SCF to also scan the CEL plugin directory or directories.  <a href="#fac6b242b5155031da6b342b09c93b7f"></a><br></td></tr>
 </table>
@@ -68,13 +64,13 @@ Definition at line <a class="el" href="initapp_8h-source.html#l00039">39</a> of 
         <tr>
           <td class="memname">static bool celInitializer::RequestPlugins           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *&nbsp;</td>
+          <td class="paramtype">iObjectRegistry *&nbsp;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html">csArray</a>&lt; <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a> &gt; const &amp;&nbsp;</td>
+          <td class="paramtype">csArray&lt; csPluginRequest &gt; const &amp;&nbsp;</td>
           <td class="paramname"></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -87,16 +83,14 @@ Definition at line <a class="el" href="initapp_8h-source.html#l00039">39</a> of 
 <div class="memdoc">
 
 <p>
-A convenience wrapper for <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer::RequestPlugins()</a> which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>. 
+A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>. 
 <p>
-Unlike the variable-argument RequestPlugins(...) method which expects you to know the list of requested plugins at compile-time, this overload allows you to construct an array of plugins at run-time. You do this by constructing a csArray&lt;&gt; of <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a> records (see &lt;cstool/initapp.h&gt;). For example: <div class="fragment"><pre class="fragment"> <a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html">csArray&lt;csPluginRequest&gt;</a> a;
- a.<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html#6c1acc9a8bdc9d19272f5236089c6b5b">Push</a>(<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a>(CS_REQUEST_VFS));
- a.<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html#6c1acc9a8bdc9d19272f5236089c6b5b">Push</a>(<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a>(CS_REQUEST_ENGINE));
- a.<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsArray.html#6c1acc9a8bdc9d19272f5236089c6b5b">Push</a>(<a class="codeRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPluginRequest.html">csPluginRequest</a>(<a class="code" href="dummy.html#ga93e57905eb2720951569ace7a2f1c3b">CS_REQUEST_PLUGIN</a>(<span class="stringliteral">"myproj.foobar"</span>,iFoobar)));
+Unlike the variable-argument RequestPlugins(...) method which expects you to know the list of requested plugins at compile-time, this overload allows you to construct an array of plugins at run-time. You do this by constructing a csArray&lt;&gt; of csPluginRequest records (see &lt;cstool/initapp.h&gt;). For example: <div class="fragment"><pre class="fragment"> csArray&lt;csPluginRequest&gt; a;
+ a.Push(csPluginRequest(CS_REQUEST_VFS));
+ a.Push(csPluginRequest(CS_REQUEST_ENGINE));
+ a.Push(csPluginRequest(CS_REQUEST_PLUGIN(<span class="stringliteral">"myproj.foobar"</span>,iFoobar)));
  <a class="code" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">celInitializer::RequestPlugins</a>(registry,a);
 </pre></div> <b>WARNING</b> csArray&lt;&gt; already knows its own size, so do <b>not</b> terminate the list with CS_REQUEST_END. 
-<p>
-Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer</a>.
 </div>
 </div><p>
 <a class="anchor" name="19815a8a2cf3c725f25216e30f9f57ef"></a><!-- doxytag: member="celInitializer::RequestPlugins" ref="19815a8a2cf3c725f25216e30f9f57ef" args="(iObjectRegistry *,...)" -->
@@ -106,7 +100,7 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
         <tr>
           <td class="memname">static bool celInitializer::RequestPlugins           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *&nbsp;</td>
+          <td class="paramtype">iObjectRegistry *&nbsp;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -125,11 +119,9 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
 <div class="memdoc">
 
 <p>
-A convenience wrapper for <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer::RequestPlugins()</a> which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>. 
+A convenience wrapper for csInitializer::RequestPlugins() which first invokes <a class="el" href="classcelInitializer.html#fac6b242b5155031da6b342b09c93b7f">celInitializer::SetupCelPluginDirs()</a>. 
 <p>
 The variable arguments should contain four entries for every plugin you wish to load: SCF class name, SCF interface name, inteface ID, and interface version. To make this easier it is recommended that you use one of the CS_REQUEST_xxx macros (see &lt;cstool/initapp.h&gt;). <b>WARNING</b> Be sure to terminate the list with CS_REQUEST_END! 
-<p>
-Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#c10c1d14d78a7bbbd4f6c12caa1d4320">csInitializer</a>.
 </div>
 </div><p>
 <a class="anchor" name="d8174b83a167f0743f254dd4870d5765"></a><!-- doxytag: member="celInitializer::RequestPluginsV" ref="d8174b83a167f0743f254dd4870d5765" args="(iObjectRegistry *, va_list)" -->
@@ -139,7 +131,7 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
         <tr>
           <td class="memname">static bool celInitializer::RequestPluginsV           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *&nbsp;</td>
+          <td class="paramtype">iObjectRegistry *&nbsp;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -161,8 +153,6 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
 This is just like RequestPlugins(. 
 <p>
 ..), which accepts a variable list of arguments at compile-time, except that arguments are passed as a `va_list'. 
-<p>
-Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#e64ac4d29aaa8d244439161798ebfc25">csInitializer</a>.
 </div>
 </div><p>
 <a class="anchor" name="fac6b242b5155031da6b342b09c93b7f"></a><!-- doxytag: member="celInitializer::SetupCelPluginDirs" ref="fac6b242b5155031da6b342b09c93b7f" args="(iObjectRegistry *r)" -->
@@ -172,7 +162,7 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
         <tr>
           <td class="memname">static void celInitializer::SetupCelPluginDirs           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiObjectRegistry.html">iObjectRegistry</a> *&nbsp;</td>
+          <td class="paramtype">iObjectRegistry *&nbsp;</td>
           <td class="paramname"> <em>r</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [inline, static]</code></td>
@@ -184,15 +174,19 @@ Reimplemented from <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/
 <p>
 Instructs SCF to also scan the CEL plugin directory or directories. 
 <p>
-This method is invoked automatically by <a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">celInitializer::RequestPlugins()</a>, so you do not normally need to call it. You may, however, want to call it if you do not utilize <a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">celInitializer::RequestPlugins()</a>. If you do call it manually, it usually is wise to do so before invoking the underlying <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsInitializer.html#ac312400175a74917984bc78038a234b">csInitializer::RequestPlugins()</a> or CS_REQUEST_PLUGIN().<p>
-The following are queried in an attempt to locate the CEL plugin directory:<ul>
-<li>The CEL environment variable (as well as several likely subdirectories of the mentioned path).</li><li>The CEL_PLUGIN_DIR compile-time constant, if available. The typical way to define this property is to have the configure.ac script invoke AC_PATH_CEL or CS_PATH_CEL (defined in cel.m4) and to then "substitute" the discovered value of the plugin directory into the generated config.h file as follows: <div class="fragment"><pre class="fragment">       CS_PATH_CEL([someversion], [], [AC_MSG_ERROR([Failed to find CEL])])
+This method is invoked automatically by <a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">celInitializer::RequestPlugins()</a>, so you do not normally need to call it. You may, however, want to call it if you do not utilize <a class="el" href="classcelInitializer.html#19815a8a2cf3c725f25216e30f9f57ef">celInitializer::RequestPlugins()</a>. If you do call it manually, it usually is wise to do so before invoking the underlying csInitializer::RequestPlugins() or CS_REQUEST_PLUGIN(). <p>
+The following are queried in an attempt to locate the CEL plugin directory: <ul>
+<li>
+The CEL environment variable (as well as several likely subdirectories of the mentioned path). </li>
+<li>
+The CEL_PLUGIN_DIR compile-time constant, if available. The typical way to define this property is to have the configure.ac script invoke AC_PATH_CEL or CS_PATH_CEL (defined in cel.m4) and to then "substitute" the discovered value of the plugin directory into the generated config.h file as follows: <div class="fragment"><pre class="fragment">       CS_PATH_CEL([someversion], [], [AC_MSG_ERROR([Failed to find CEL])])
        AC_DEFINE_UNQUOTED([CEL_PLUGIN_DIR], [<span class="stringliteral">"$CEL_PLUGIN_DIR"</span>],
          [Define with path to CEL plugins.])
-</pre></div> </li></ul>
+</pre></div>  </li>
+</ul>
 
 <p>
-Definition at line <a class="el" href="initapp_8h-source.html#l00071">71</a> of file <a class="el" href="initapp_8h-source.html">initapp.h</a>.
+Definition at line <a class="el" href="initapp_8h-source.html#l00074">74</a> of file <a class="el" href="initapp_8h-source.html">initapp.h</a>.
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following file:<ul>

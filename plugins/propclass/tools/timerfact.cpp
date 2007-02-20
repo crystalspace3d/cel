@@ -26,6 +26,7 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -66,6 +67,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
   wakeuponce = false;
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
+  DG_TYPE (this, "celPcTimer()");
   if (id_elapsedticks == csInvalidStringID)
   {
     id_elapsedticks = pl->FetchStringID ("cel.parameter.elapsedticks");

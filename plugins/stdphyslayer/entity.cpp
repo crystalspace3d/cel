@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "plugins/stdphyslayer/entity.h"
 #include "plugins/stdphyslayer/propclas.h"
 #include "behaviourlayer/behave.h"
@@ -80,19 +81,12 @@ void celEntity::NotifySiblingPropertyClasses ()
 
 void celEntity::AddClass (csStringID cls)
 {
-  if (!classes.Contains(cls))
-  {
-    classes.AddNoTest (cls);
-    pl->EntityClassAdded(&scfiCelEntity,cls);
-  }
+  classes.Add (cls);
 }
 
 void celEntity::RemoveClass (csStringID cls)
 {
-  if (classes.Delete (cls))
-  {
-    pl->EntityClassRemoved(&scfiCelEntity,cls);
-  }
+  classes.Delete (cls);
 }
 
 bool celEntity::HasClass (csStringID cls)
@@ -119,12 +113,12 @@ celEntityList::~celEntityList ()
 
 size_t celEntityList::GetCount () const
 {
-  return entities.GetSize ();
+  return entities.Length ();
 }
 
 iCelEntity* celEntityList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.GetSize ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.Length ());
   return entities[n];
 }
 
@@ -154,7 +148,7 @@ bool celEntityList::Remove (size_t n)
 
 void celEntityList::RemoveAll ()
 {
-  while (entities.GetSize () > 0)
+  while (entities.Length () > 0)
     Remove ((size_t) 0);
 }
 
@@ -166,7 +160,7 @@ size_t celEntityList::Find (iCelEntity* obj) const
 iCelEntity* celEntityList::FindByName (const char *Name) const
 {
   size_t i;
-  for (i = 0 ; i < entities.GetSize () ; i++)
+  for (i = 0 ; i < entities.Length () ; i++)
   {
     iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;

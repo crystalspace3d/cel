@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
+#include "csutil/debug.h"
 #include "cstool/initapp.h"
 #include "ivaria/reporter.h"
 #include "plugins/propclass/quest/questfact.h"

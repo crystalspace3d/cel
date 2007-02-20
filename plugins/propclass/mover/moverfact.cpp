@@ -22,6 +22,7 @@
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/evdefs.h"
+#include "csutil/debug.h"
 #include "plugins/propclass/mover/moverfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"

@@ -20,7 +20,6 @@
 #include "cssysdef.h"
 #include "cstool/initapp.h"
 #include "cstool/enginetools.h"
-#include "cstool/keyval.h"
 #include "csgeom/math3d.h"
 #include "csutil/objreg.h"
 #include "csutil/csstring.h"
@@ -36,17 +35,13 @@
 #include "iengine/camera.h"
 #include "iengine/sector.h"
 #include "iengine/mesh.h"
-#include "iengine/movable.h"
-#include "iengine/texture.h"
-#include "iengine/material.h"
+
 #include "csgeom/vector3.h"
 #include "isndsys/ss_source.h"
 #include "isndsys/ss_manager.h"
 #include "isndsys/ss_renderer.h"
 #include "iengine/engine.h"
 #include "iutil/plugin.h"
-#include "ivaria/translator.h"
-#include "ivaria/mapnode.h"
 
 #include "plugins/behaviourlayer/xml/xmlscript.h"
 #include "plugins/behaviourlayer/xml/behave_xml.h"
@@ -60,10 +55,8 @@
 #include "propclass/billboard.h"
 #include "propclass/inv.h"
 #include "propclass/camera.h"
-#include "propclass/mesh.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
-#include "celtool/navigation.h"
 
 #define DO_DUMP 0
 
@@ -149,7 +142,7 @@ static csPDelArray<csString> unused_strings;
 static csString* GetUnusedString ()
 {
   csString* str;
-  if (unused_strings.GetSize () > 0)
+  if (unused_strings.Length () > 0)
     str = unused_strings.Pop ();
   else
     str = 0;
@@ -159,7 +152,7 @@ static csString* GetUnusedString ()
 
 static void CleanupTemporaryStrings ()
 {
-  while (used_strings.GetSize () > 0)
+  while (used_strings.Length () > 0)
   {
     csString* str = used_strings.Pop ();
     unused_strings.Push (str);
@@ -1000,71 +993,71 @@ static bool prop2celXmlArg (iPcProperties* props, size_t idx, celXmlArg& out)
   {
     case CEL_DATA_ULONG:
       {
-        long l = props->GetPropertyLong (idx);
-        out.SetUInt32 ((uint32)l);
+	long l = props->GetPropertyLong (idx);
+	out.SetUInt32 ((uint32)l);
       }
       break;
     case CEL_DATA_LONG:
       {
-        long l = props->GetPropertyLong (idx);
-        out.SetInt32 (l);
+	long l = props->GetPropertyLong (idx);
+	out.SetInt32 (l);
       }
       break;
     case CEL_DATA_FLOAT:
       {
-        float l = props->GetPropertyFloat (idx);
-        out.SetFloat (l);
+	float l = props->GetPropertyFloat (idx);
+	out.SetFloat (l);
       }
       break;
     case CEL_DATA_BOOL:
       {
-        bool l = props->GetPropertyBool (idx);
-        out.Set (l);
+	bool l = props->GetPropertyBool (idx);
+	out.Set (l);
       }
       break;
     case CEL_DATA_STRING:
       {
-        const char* l = props->GetPropertyString (idx);
-        out.SetString (l, true);
+	const char* l = props->GetPropertyString (idx);
+	out.SetString (l, true);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 v;
-        props->GetPropertyVector (idx, v);
-        out.SetVector (v);
+	csVector2 v;
+	props->GetPropertyVector (idx, v);
+	out.SetVector (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        csVector3 v;
-        props->GetPropertyVector (idx, v);
-        out.SetVector (v);
+	csVector3 v;
+	props->GetPropertyVector (idx, v);
+	out.SetVector (v);
       }
       break;
     case CEL_DATA_COLOR:
       {
-        csColor v;
-        props->GetPropertyColor (idx, v);
-        out.SetColor (v);
+	csColor v;
+	props->GetPropertyColor (idx, v);
+	out.SetColor (v);
       }
       break;
     case CEL_DATA_PCLASS:
       {
-        iCelPropertyClass* l = props->GetPropertyPClass (idx);
-        out.SetPC (l);
+	iCelPropertyClass* l = props->GetPropertyPClass (idx);
+	out.SetPC (l);
       }
       break;
     case CEL_DATA_ENTITY:
       {
-        iCelEntity* l = props->GetPropertyEntity (idx);
-        out.SetEntity (l);
+	iCelEntity* l = props->GetPropertyEntity (idx);
+	out.SetEntity (l);
       }
       break;
     case CEL_DATA_IBASE:
       {
-        iBase* l = props->GetPropertyIBase (idx);
-        out.SetIBase (l);
+	iBase* l = props->GetPropertyIBase (idx);
+	out.SetIBase (l);
       }
       break;
     default:
@@ -1088,20 +1081,20 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
     case CEL_DATA_COLOR:
       {
         csColor col (in.value.col.red, in.value.col.green,
-        	in.value.col.blue);
+	  in.value.col.blue);
         out.SetColor (col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 v (in.value.v.x, in.value.v.y);
-        out.SetVector (v);
+	csVector2 v (in.value.v.x, in.value.v.y);
+	out.SetVector (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        csVector3 v (in.value.v.x, in.value.v.y, in.value.v.z);
-        out.SetVector (v);
+	csVector3 v (in.value.v.x, in.value.v.y, in.value.v.z);
+	out.SetVector (v);
       }
       break;
     default:
@@ -1111,7 +1104,7 @@ static bool celData2celXmlArg (const celData& in, celXmlArg& out)
 }
 
 static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
-	celXmlArg& out)
+    celXmlArg& out)
 {
   celDataType t = pc->GetPropertyOrActionType (id);
   switch (t)
@@ -1142,23 +1135,23 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
       break;
     case CEL_DATA_COLOR:
       {
-        csColor col;
-        pc->GetPropertyColor (id, col);
-        out.SetColor (col);
+	csColor col;
+	pc->GetPropertyColor (id, col);
+	out.SetColor (col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 v;
-        pc->GetPropertyVector (id, v);
-        out.SetVector (v);
+	csVector2 v;
+	pc->GetPropertyVector (id, v);
+	out.SetVector (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        csVector3 v;
-        pc->GetPropertyVector (id, v);
-        out.SetVector (v);
+	csVector3 v;
+	pc->GetPropertyVector (id, v);
+	out.SetVector (v);
       }
       break;
     default:
@@ -1168,7 +1161,7 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
 }
 
 static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props,
-	const char* varname)
+    const char* varname)
 {
   switch (val.type)
   {
@@ -1189,28 +1182,28 @@ static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props,
       break;
     case CEL_DATA_COLOR:
       {
-        csColor col;
-        col.red = val.arg.col.red;
-        col.green = val.arg.col.green;
-        col.blue = val.arg.col.blue;
-        props->SetProperty (varname, col);
+	csColor col;
+	col.red = val.arg.col.red;
+	col.green = val.arg.col.green;
+	col.blue = val.arg.col.blue;
+	props->SetProperty (varname, col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 vec;
-        vec.x = val.arg.vec.x;
-        vec.y = val.arg.vec.y;
-        props->SetProperty (varname, vec);
+	csVector2 vec;
+	vec.x = val.arg.vec.x;
+	vec.y = val.arg.vec.y;
+	props->SetProperty (varname, vec);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        csVector3 vec;
-        vec.x = val.arg.vec.x;
-        vec.y = val.arg.vec.y;
-        vec.z = val.arg.vec.z;
-        props->SetProperty (varname, vec);
+	csVector3 vec;
+	vec.x = val.arg.vec.x;
+	vec.y = val.arg.vec.y;
+	vec.z = val.arg.vec.z;
+	props->SetProperty (varname, vec);
       }
       break;
     case CEL_DATA_ENTITY:
@@ -1229,7 +1222,7 @@ static bool celXmlArg2prop (const celXmlArg& val, iPcProperties* props,
 }
 
 static bool celData2prop (const celData& val, iPcProperties* props,
-	const char* varname)
+    const char* varname)
 {
   switch (val.type)
   {
@@ -1250,28 +1243,28 @@ static bool celData2prop (const celData& val, iPcProperties* props,
       break;
     case CEL_DATA_COLOR:
       {
-        csColor col;
-        col.red = val.value.col.red;
-        col.green = val.value.col.green;
-        col.blue = val.value.col.blue;
-        props->SetProperty (varname, col);
+	csColor col;
+	col.red = val.value.col.red;
+	col.green = val.value.col.green;
+	col.blue = val.value.col.blue;
+	props->SetProperty (varname, col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-        csVector2 vec;
-        vec.x = val.value.v.x;
-        vec.y = val.value.v.y;
-        props->SetProperty (varname, vec);
+	csVector2 vec;
+	vec.x = val.value.v.x;
+	vec.y = val.value.v.y;
+	props->SetProperty (varname, vec);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-        csVector3 vec;
-        vec.x = val.value.v.x;
-        vec.y = val.value.v.y;
-        vec.z = val.value.v.z;
-        props->SetProperty (varname, vec);
+	csVector3 vec;
+	vec.x = val.value.v.x;
+	vec.y = val.value.v.y;
+	vec.z = val.value.v.z;
+	props->SetProperty (varname, vec);
       }
       break;
     case CEL_DATA_ENTITY:
@@ -1293,10 +1286,10 @@ void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
 {
   size_t i;
   printf ("### Callstack ###\n");
-  for (i = 0 ; i < cbl->call_stack.GetSize () ; i++)
+  for (i = 0 ; i < cbl->call_stack.Length () ; i++)
   {
     printf ("%lu %s (entity=%s)\n", (unsigned long)i, cbl->call_stack[i],
-    	cbl->call_stack_entity[i]->GetName ());
+	cbl->call_stack_entity[i]->GetName ());
     if (cbl->call_stack_params[i])
     {
       size_t j;
@@ -1305,12 +1298,12 @@ void celXmlScriptEventHandler::DumpCallStack (celBlXml* cbl)
       {
         csStringID id;
         celDataType t;
-        const char* parm;
-        parm = p->GetParameter (j, id, t);
-        const char* idstr = pl->FetchString (id);
-        const celData* param = p->GetParameter (id);
+	const char* parm;
+	parm = p->GetParameter (j, id, t);
+	const char* idstr = pl->FetchString (id);
+	const celData* param = p->GetParameter (id);
         printf ("  par:%lu name=%s id=%s val=%s\n", (unsigned long)j,
-        	parm, idstr, D2S (*param));
+	    parm, idstr, D2S (*param));
       }
     }
   }
@@ -1393,7 +1386,7 @@ iPcRules* celXmlScriptEventHandler::GetRules (iCelEntity* entity,
 }
 
 iPcProperties* celXmlScriptEventHandler::GetProperties (iCelEntity* entity,
-	celBehaviourXml* behave)
+      celBehaviourXml* behave)
 {
   if (behave) return behave->GetProperties ();
   if (!entity) return 0;
@@ -1414,14 +1407,14 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
 
 #ifdef CS_DEBUG
 #define CHECK_STACK(i) \
-  if (stack.GetSize () < i) \
+  if (stack.Length () < i) \
     return ReportError (cbl, "Stack underflow!");
 #else
 #define CHECK_STACK(i)
 #endif
 
 bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
-	celBlXml* cbl,
+    	celBlXml* cbl,
 	celBehaviourXml* behave, celData& ret, iCelParameterBlock* params,
 	size_t startop, bool newscope, int expected_stack_size)
 {
@@ -1430,7 +1423,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
   csRef<iCelEntity> e = entity;
   bool varprop_trace = cbl->varprop_trace;
 
-  size_t stack_size = stack.GetSize () + expected_stack_size;
+  size_t stack_size = stack.Length () + expected_stack_size;
   size_t i = startop;
   if (startop == 0)
   {
@@ -1446,7 +1439,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     switch (op.op)
     {
       case CEL_OPERATION_END:
-        if (stack_size != stack.GetSize ())
+        if (stack_size != stack.Length ())
 	{
 	  return ReportError (cbl, "Stack size mismatch!");
 	}
@@ -3472,7 +3465,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DEREFRVARENT:
         {
 	  CHECK_STACK(2)
-	  celXmlArg& s_ent = stack[stack.GetSize ()-2];
+	  celXmlArg& s_ent = stack[stack.Length ()-2];
 	  iCelEntity* other_ent = ArgToEntity (s_ent, pl);
 	  iPcRules* rules = GetRules (other_ent, 0);
 	  if (rules)
@@ -4326,7 +4319,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DROP:
         {
 	  CHECK_STACK(1)
-	  DUMP_EXEC ((":%04d: drop %s\n", i-1, A2S (stack[stack.GetSize ()-1])));
+	  DUMP_EXEC ((":%04d: drop %s\n", i-1, A2S (stack[stack.Length ()-1])));
 	  stack.Pop ();
 	}
 	break;
@@ -4339,7 +4332,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       case CEL_OPERATION_DUP:
         {
 	  CHECK_STACK(1)
-	  size_t si = stack.GetSize ()-1;
+	  size_t si = stack.Length ()-1;
 	  DUMP_EXEC ((":%04d: dup %s\n", i-1, A2S (stack[si])));
 	  stack.Push (stack[si]);
 	}
@@ -4822,7 +4815,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: chdirauto dir=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs =
+	  csRef<iVFS> vfs = 
 	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  top.Set (vfs->ChDirAuto (ArgToString (top), 0, 0,
 		ArgToString (a_file)));
@@ -4835,7 +4828,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: readfile vararray=%s file=%s\n", i-1, A2S (top),
 	  	A2S (a_file)));
-	  csRef<iVFS> vfs =
+	  csRef<iVFS> vfs = 
 	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  csRef<iDataBuffer> buf = vfs->ReadFile (ArgToString (a_file));
 	  if (!buf)
@@ -4886,7 +4879,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  celXmlArg& top = stack.Top ();
 	  DUMP_EXEC ((":%04d: writefile vararray=%s file=%s start=%s stop=%s\n",
 	  	i-1, A2S (top), A2S (a_file), A2S (a_start), A2S (a_end)));
-	  csRef<iVFS> vfs =
+	  csRef<iVFS> vfs = 
 	  	csQueryRegistry<iVFS> (cbl->GetObjectRegistry ());
 	  iPcProperties* props = GetProperties (entity, behave);
 	  if (!props) return ReportError (cbl, "Can't find properties!");
@@ -5093,24 +5086,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  sound_source->SetVolume (ArgToFloat (a_volume));
 	}
 	break;
-      case CEL_OPERATION_SOUND_SPEED:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_rate = stack.Pop ();
-          celXmlArg a_source = stack.Pop ();
-          DUMP_EXEC ((":%04d: sound_speed source=%s rate=%s\n",
-          	i-1, A2S (a_source), A2S (a_rate)));
-          iBase* src_ibase = ArgToIBase (a_source);
-          if (!src_ibase)
-            return ReportError (cbl, "Error! Sound source is null!");
-          csRef<iSndSysSource> sound_source = scfQueryInterface<
-          	iSndSysSource> (src_ibase);
-          if (!sound_source)
-            return ReportError (cbl, "Error! This is not a sound source!");
-          sound_source->GetStream ()->SetPlayRatePercent (
-          	int (100.0f * ArgToFloat (a_rate)));
-        }
-        break;
       case CEL_OPERATION_SOUND:
         {
 	  CHECK_STACK(4)
@@ -5296,875 +5271,9 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           g2d->SetMouseCursor (csmcArrow);
         }
       break;
-      case CEL_OPERATION_GETMSG:
-        {
-          CHECK_STACK(1)
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: getmsg (%s)\n", i-1, A2S (top)));
-          csRef<iTranslator> translator = csQueryRegistry<iTranslator> (
-          	cbl->GetObjectRegistry ());
-          top.SetString (translator->GetMsg (ArgToString (top)), true);
-        }
-      break;
-      case CEL_OPERATION_NAVI_ENT_VEC3:
-        {
-          CHECK_STACK(6)
-          celXmlArg a_vector = stack.Pop ();
-          celXmlArg a_visiblevar = stack.Pop ();
-          celXmlArg a_distancevar = stack.Pop ();
-          celXmlArg a_anglevar = stack.Pop ();
-          celXmlArg a_successvar = stack.Pop ();
-          celXmlArg a_navigator = stack.Pop ();
-          DUMP_EXEC ((":%04d: navigation_ent_vec3 %s %s %s %s %s %s\n",
-          	i-1, A2S (a_navigator),  A2S(a_vector),  A2S(a_successvar),
-          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
-          iCelEntity* ent = ArgToEntity (a_navigator, pl);
-          if (!ent)
-            return ReportError (cbl,
-            	"Can't find entity '%s'!", A2S (a_navigator));
-          csVector3 vector = ArgToVector3 (a_vector);
-          const char* successvar = ArgToString (a_successvar);
-          if (!successvar)
-            return ReportError (cbl,
-            	"Illegal 'successvar' variable for 'navigationinfo'!");
-          const char* anglevar = ArgToString (a_anglevar);
-          if (!anglevar)
-            return ReportError (cbl,
-            	"Illegal 'anglevar' variable for 'navigationinfo'!");
-          const char* distancevar = ArgToString (a_distancevar);
-          if (!distancevar)
-            return ReportError (cbl,
-            	"Illegal 'distancevar' variable for 'navigationinfo'!");
-          const char* visiblevar = ArgToString (a_visiblevar);
-          if (!visiblevar)
-            return ReportError (cbl,
-            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
-          iPcProperties* props = GetProperties (entity, behave);
-          if (!props)
-            return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info =
-          	celNavigationTools::GetNavigationInfo (ent, 0, vector);
-          props->SetProperty (successvar, info.success);
-          props->SetProperty (anglevar, info.angle);
-          props->SetProperty (distancevar, info.distance);
-          props->SetProperty (visiblevar, info.visible);
-        }
-      break;
-      case CEL_OPERATION_NAVI_ENT_ENT:
-        {
-          CHECK_STACK(6)
-          celXmlArg a_target = stack.Pop ();
-          celXmlArg a_visiblevar = stack.Pop ();
-          celXmlArg a_distancevar = stack.Pop ();
-          celXmlArg a_anglevar = stack.Pop ();
-          celXmlArg a_successvar = stack.Pop ();
-          celXmlArg a_navigator = stack.Pop ();
-          DUMP_EXEC ((":%04d: navigation_ent_ent %s %s %s %s %s %s\n",
-          	i-1, A2S (a_navigator),  A2S(a_target),  A2S(a_successvar),
-          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
-          iCelEntity* ent1 = ArgToEntity (a_navigator, pl);
-          if (!ent1)
-            return ReportError (cbl,
-            	"Can't find entity '%s'!", A2S (a_navigator));
-          iCelEntity* ent2 = ArgToEntity (a_target, pl);
-          if (!ent2)
-            return ReportError (cbl,
-            	"Can't find entity '%s'!", A2S (a_target));
-          const char* successvar = ArgToString (a_successvar);
-          if (!successvar)
-            return ReportError (cbl,
-            	"Illegal 'successvar' variable for 'navigationinfo'!");
-          const char* anglevar = ArgToString (a_anglevar);
-          if (!anglevar)
-            return ReportError (cbl,
-            	"Illegal 'anglevar' variable for 'navigationinfo'!");
-          const char* distancevar = ArgToString (a_distancevar);
-          if (!distancevar)
-            return ReportError (cbl,
-            	"Illegal 'distancevar' variable for 'navigationinfo'!");
-          const char* visiblevar = ArgToString (a_visiblevar);
-          if (!visiblevar)
-            return ReportError (cbl,
-            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
-          iPcProperties* props = GetProperties (entity, behave);
-          if (!props)
-            return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info =
-          	celNavigationTools::GetNavigationInfo (ent1, 0, ent2, 0);
-          props->SetProperty (successvar, info.success);
-          props->SetProperty (anglevar, info.angle);
-          props->SetProperty (distancevar, info.distance);
-          props->SetProperty (visiblevar, info.visible);
-        }
-      break;
-      case CEL_OPERATION_NAVI_ENT_NODE:
-        {
-          CHECK_STACK(6)
-          celXmlArg a_node = stack.Pop ();
-          celXmlArg a_visiblevar = stack.Pop ();
-          celXmlArg a_distancevar = stack.Pop ();
-          celXmlArg a_anglevar = stack.Pop ();
-          celXmlArg a_successvar = stack.Pop ();
-          celXmlArg a_navigator = stack.Pop ();
-          DUMP_EXEC ((":%04d: navigation_ent_node %s %s %s %s %s %s\n",
-          	i-1, A2S (a_navigator),  A2S(a_node),  A2S(a_successvar),
-          	A2S(a_anglevar),  A2S(a_distancevar),  A2S(a_visiblevar)));
-          iCelEntity* ent = ArgToEntity (a_navigator, pl);
-          if (!ent)
-            return ReportError (cbl,
-            	"Can't find entity '%s'!", A2S (a_navigator));
-          csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
-          iMeshWrapper* mesh = pcmesh->GetMesh ();
-          if (!mesh)
-            return ReportError (cbl,
-            	"Can't find mesh in entity '%s'!", A2S (a_navigator));
-          iMovable* movable = mesh->GetMovable ();
-          if (!movable)
-            return ReportError (cbl,
-            	"Can't find movable in entity '%s'!", A2S (a_navigator));
-          iSectorList* sectorlist = movable->GetSectors ();
-          if (!sectorlist)
-            return ReportError (cbl,
-            	"Can't find sector list for entity '%s'!", A2S (a_navigator));
-          iSector* sector = sectorlist->Get (0);
-          if (!sector)
-            return ReportError (cbl,
-            	"Can't find sector for entity '%s'!", A2S (a_navigator));
-          const char* nodename = ArgToString (a_node);
-          if (!nodename)
-            return ReportError (cbl,
-            	"Illegal 'node' variable for 'navigationinfo'!");
-          csRef<iMapNode> mapnode = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, nodename);
-          if (!mapnode)
-            return ReportError (cbl,
-            	"Can't find node '%s' for 'navigationinfo'!",
-            	(const char*)nodename);
-          const char* successvar = ArgToString (a_successvar);
-          if (!successvar)
-            return ReportError (cbl,
-            	"Illegal 'successvar' variable for 'navigationinfo'!");
-          const char* anglevar = ArgToString (a_anglevar);
-          if (!anglevar)
-            return ReportError (cbl,
-            	"Illegal 'anglevar' variable for 'navigationinfo'!");
-          const char* distancevar = ArgToString (a_distancevar);
-          if (!distancevar)
-            return ReportError (cbl,
-            	"Illegal 'distancevar' variable for 'navigationinfo'!");
-          const char* visiblevar = ArgToString (a_visiblevar);
-          if (!visiblevar)
-            return ReportError (cbl,
-            	"Illegal 'visiblevar' variable for 'navigationinfo'!");
-          iPcProperties* props = GetProperties (entity, behave);
-          if (!props)
-            return ReportError (cbl, "Can't find properties!");
-          celNavigationInfo info =
-          	celNavigationTools::GetNavigationInfo (ent, 0,
-          	mapnode->GetPosition ());
-          props->SetProperty (successvar, info.success);
-          props->SetProperty (anglevar, info.angle);
-          props->SetProperty (distancevar, info.distance);
-          props->SetProperty (visiblevar, info.visible);
-        }
-      break;
-      case CEL_OPERATION_KEYNODE3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg a_node_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_node sector=%s, node=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_node_name), A2S (a_key_name)));
-          const char* sector_name = ArgToString (top);
-          if (!sector_name)
-            return ReportError (cbl,
-            	"'sector' is missing or invalid for 'key_node'!");
-          const char* node_name = ArgToString (a_node_name);
-          if (!node_name)
-            return ReportError (cbl,
-            	"'node' is missing or invalid for 'key_node'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_node'!");
-          iEngine* engine = cbl->GetEngine ();
-          iSector* sector = engine->FindSector (sector_name);
-          if (!sector)
-            return ReportError (cbl,
-            	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, node_name);
-          if (!map_node)
-             return ReportError (cbl,
-             	"Can't find node '%s' for 'key_node'!",
-             	(const char*)node_name);
-          csRef<iObjectIterator> it =
-          	map_node->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYNODE4:
-        {
-          CHECK_STACK(4)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg a_node_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_node sector=%s, node=%s, key=%s value=%s\n",
-          	i-1, A2S (top), A2S (a_node_name), A2S (a_key_name),
-          	A2S (a_value_name)));
-          const char* sector_name = ArgToString (top);
-          if (!sector_name)
-            return ReportError (cbl,
-            	"'sector' is missing or invalid for 'key_node'!");
-          const char* node_name = ArgToString (a_node_name);
-          if (!node_name)
-            return ReportError (cbl,
-            	"'node' is missing or invalid for 'key_node'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_node'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_node'!");
-          iEngine* engine = cbl->GetEngine ();
-          iSector* sector = engine->FindSector (sector_name);
-          if (!sector)
-            return ReportError (cbl,
-            	"Can't find sector '%s' for 'key_node'!", sector_name);
-          csRef<iMapNode> map_node = CS_GET_NAMED_CHILD_OBJECT (
-          	sector->QueryObject (), iMapNode, node_name);
-          if (!map_node)
-             return ReportError (cbl,
-             	"Can't find node '%s' for 'key_node'!",
-             	(const char*)node_name);
-          csRef<iObjectIterator> it =
-          	map_node->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMESHOBJ2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_meshobj meshobj=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* meshobj_name = ArgToString (top);
-          if (!meshobj_name)
-            return ReportError (cbl,
-            	"'meshobj' is missing or invalid for 'key_meshobj'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_meshobj'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMeshWrapper* map_meshobj = engine->FindMeshObject (meshobj_name);
-          if (!map_meshobj)
-             return ReportError (cbl,
-             	"Can't find meshobj '%s' for 'key_meshobj'!",
-             	(const char*)meshobj_name);
-          csRef<iObjectIterator> it =
-          	map_meshobj->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMESHOBJ3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_meshobj meshobj=%s, key=%s value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* meshobj_name = ArgToString (top);
-          if (!meshobj_name)
-            return ReportError (cbl,
-            	"'meshobj' is missing or invalid for 'key_meshobj'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_meshobj'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_meshobj'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMeshWrapper* map_meshobj = engine->FindMeshObject (meshobj_name);
-          if (!map_meshobj)
-             return ReportError (cbl,
-             	"Can't find meshobj '%s' for 'key_meshobj'!",
-             	(const char*)meshobj_name);
-          csRef<iObjectIterator> it =
-          	map_meshobj->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYSECTOR2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_sector sector=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* sector_name = ArgToString (top);
-          if (!sector_name)
-            return ReportError (cbl,
-            	"'sector' is missing or invalid for 'key_sector'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_sector'!");
-          iEngine* engine = cbl->GetEngine ();
-          iSector* map_sector = engine->FindSector (sector_name);
-          if (!map_sector)
-             return ReportError (cbl,
-             	"Can't find sector '%s' for 'key_sector'!",
-             	(const char*)sector_name);
-          csRef<iObjectIterator> it =
-          	map_sector->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYSECTOR3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_sector sector=%s, key=%s, value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* sector_name = ArgToString (top);
-          if (!sector_name)
-            return ReportError (cbl,
-            	"'sector' is missing or invalid for 'key_sector'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_sector'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_sector'!");
-          iEngine* engine = cbl->GetEngine ();
-          iSector* map_sector = engine->FindSector (sector_name);
-          if (!map_sector)
-             return ReportError (cbl,
-             	"Can't find sector '%s' for 'key_sector'!",
-             	(const char*)sector_name);
-          csRef<iObjectIterator> it =
-          	map_sector->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMESHFACT2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_meshfact meshfact=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* meshfact_name = ArgToString (top);
-          if (!meshfact_name)
-            return ReportError (cbl,
-            	"'meshfact' is missing or invalid for 'key_meshfact'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_meshfact'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMeshFactoryWrapper* map_meshfact = engine->FindMeshFactory (
-          	meshfact_name);
-          if (!map_meshfact)
-             return ReportError (cbl,
-             	"Can't find meshfact '%s' for 'key_meshfact'!",
-             	(const char*)meshfact_name);
-          csRef<iObjectIterator> it =
-          	map_meshfact->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMESHFACT3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_meshfact meshfact=%s, key=%s, value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* meshfact_name = ArgToString (top);
-          if (!meshfact_name)
-            return ReportError (cbl,
-            	"'meshfact' is missing or invalid for 'key_meshfact'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_meshfact'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_meshfact'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMeshFactoryWrapper* map_meshfact = engine->FindMeshFactory (
-          	meshfact_name);
-          if (!map_meshfact)
-             return ReportError (cbl,
-             	"Can't find meshfact '%s' for 'key_meshfact'!",
-             	(const char*)meshfact_name);
-          csRef<iObjectIterator> it =
-          	map_meshfact->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYTEXTURE2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_texture texture=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* texture_name = ArgToString (top);
-          if (!texture_name)
-            return ReportError (cbl,
-            	"'texture' is missing or invalid for 'key_texture'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_texture'!");
-          iEngine* engine = cbl->GetEngine ();
-          iTextureWrapper* map_texture = engine->FindTexture (texture_name);
-          if (!map_texture)
-             return ReportError (cbl,
-             	"Can't find texture '%s' for 'key_texture'!",
-             	(const char*)texture_name);
-          csRef<iObjectIterator> it =
-          	map_texture->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYTEXTURE3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_texture texture=%s, key=%s, value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* texture_name = ArgToString (top);
-          if (!texture_name)
-            return ReportError (cbl,
-            	"'texture' is missing or invalid for 'key_texture'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_texture'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_texture'!");
-          iEngine* engine = cbl->GetEngine ();
-          iTextureWrapper* map_texture = engine->FindTexture (texture_name);
-          if (!map_texture)
-             return ReportError (cbl,
-             	"Can't find texture '%s' for 'key_texture'!",
-             	(const char*)texture_name);
-          csRef<iObjectIterator> it =
-          	map_texture->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMATERIAL2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_material material=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* material_name = ArgToString (top);
-          if (!material_name)
-            return ReportError (cbl,
-            	"'material' is missing or invalid for 'key_material'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_material'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMaterialWrapper* map_material = engine->FindMaterial (
-          	material_name);
-          if (!map_material)
-             return ReportError (cbl,
-             	"Can't find material '%s' for 'key_material'!",
-             	(const char*)material_name);
-          csRef<iObjectIterator> it =
-          	map_material->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYMATERIAL3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_material material=%s, key=%s, value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* material_name = ArgToString (top);
-          if (!material_name)
-            return ReportError (cbl,
-            	"'material' is missing or invalid for 'key_material'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_material'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_material'!");
-          iEngine* engine = cbl->GetEngine ();
-          iMaterialWrapper* map_material = engine->FindMaterial (
-          	material_name);
-          if (!map_material)
-             return ReportError (cbl,
-             	"Can't find material '%s' for 'key_material'!",
-             	(const char*)material_name);
-          csRef<iObjectIterator> it =
-          	map_material->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYLIGHT2:
-        {
-          CHECK_STACK(2)
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_light light=%s, key=%s\n",
-          	i-1, A2S (top), A2S (a_key_name)));
-          const char* light_name = ArgToString (top);
-          if (!light_name)
-            return ReportError (cbl,
-            	"'light' is missing or invalid for 'key_light'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_light'!");
-          iEngine* engine = cbl->GetEngine ();
-          iLight* map_light = engine->FindLight (light_name);
-          if (!map_light)
-             return ReportError (cbl,
-             	"Can't find light '%s' for 'key_light'!",
-             	(const char*)light_name);
-          csRef<iObjectIterator> it =
-          	map_light->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
-      case CEL_OPERATION_KEYLIGHT3:
-        {
-          CHECK_STACK(3)
-          celXmlArg a_value_name = stack.Pop ();
-          celXmlArg a_key_name = stack.Pop ();
-          celXmlArg& top = stack.Top ();
-          DUMP_EXEC ((":%04d: key_light light=%s, key=%s, value=%s\n",
-          	i-1, A2S (top), A2S (a_key_name), A2S (a_value_name)));
-          const char* light_name = ArgToString (top);
-          if (!light_name)
-            return ReportError (cbl,
-            	"'light' is missing or invalid for 'key_light'!");
-          const char* key_name = ArgToString (a_key_name);
-          if (!key_name)
-            return ReportError (cbl,
-            	"'key' is missing or invalid for 'key_light'!");
-          const char* value_name = ArgToString (a_value_name);
-          if (!value_name)
-            return ReportError (cbl,
-            	"'value' is missing or invalid for 'key_light'!");
-          iEngine* engine = cbl->GetEngine ();
-          iLight* map_light = engine->FindLight (light_name);
-          if (!map_light)
-             return ReportError (cbl,
-             	"Can't find light '%s' for 'key_light'!",
-             	(const char*)light_name);
-          csRef<iObjectIterator> it =
-          	map_light->QueryObject ()->GetIterator ();
-          bool found = false;
-          while (it->HasNext ())
-          {
-            csRef<iKeyValuePair> kp =
-            	scfQueryInterface<iKeyValuePair> (it->Next ());
-            if (!kp)
-              continue;
-            if (!strcmp (key_name, kp->GetKey ()))
-            {
-              found = true;
-              top.SetString (kp->GetValue (value_name), true);
-              break;
-            }
-          }
-          if (!found)
-            top.SetString ("", true);
-        }
-      break;
     }
   }
 }
-
-/*
-(11:07:11)  [darek]:  Jorrit: I'm making map key support for blxml, but I'm thinking and have no good idea from which place can I fetch it csRef<iKeyValuePair> kp = scfQueryInterface<iKeyValuePair> ( ???? ); 
-(11:07:29)  [darek]:  global iterator of all objects ? 
-(11:07:36)  [darek]:  this is ugly 
-(11:07:52)  Jorrit:  What is your question exactly? 
-(11:08:01)  Jorrit:  You mean you want iterator support in blxml or so? 
-(11:08:05)  [darek]:  what do use instead of that '????' 
-(11:08:27)  [darek]:  I need get keyvaluepair 
-(11:08:35)  Jorrit:  hold on 
-(11:09:26)  Jorrit:  First you get the iObject that contains the key value pairs. 
-(11:09:33)  Jorrit:  i.e. mapnode->QueryObject() 
-(11:09:37)  Jorrit:  Then you call GetIterator() on that. 
-(11:09:55)  Jorrit:  Then you do while (it->HasNext()) { iObject* obj = it->Next(); 
-(11:10:05)  Jorrit:  And there is the 'obj' that you can use for ???? 
-(11:10:11)  Jorrit:  Note that there may be other stuff in there. 
-(11:10:13)  Jorrit:  So always test. 
-(11:10:15)  [darek]:  but it should support all objects or at least mapnode and meshobj 
-(11:10:21)  Jorrit:  so? 
-(11:10:26)  Jorrit:  This works for everything. 
-(11:10:32)  Jorrit:  As long as you have the iObject for the parent. 
-(11:10:39)  [darek]:  yes exactly 
-(11:10:44)  [darek]:  i'm asking about that parent 
-(11:10:54)  Jorrit:  What is the exact question? 
-(11:11:07)  [darek]:  what is the parent for searching ? 
-(11:11:09)  [darek]:  sector ? 
-(11:11:12)  [darek]:  all objects ? 
-(11:11:17)  Jorrit:  sector, mapnode, mesh, light, ... 
-(11:11:20)  Jorrit:  i.e. nearly everything. 
-(11:11:28)  [darek]:  ok but i musty find it by name 
-(11:11:34)  groton:  hi again all :) 
-(11:11:38)  Jorrit:  [darek]: name and type 
-(11:11:43)  Jorrit:  [darek]: i.e. a light and mesh can have same name. 
-(11:12:01)  [darek]:  aha then parent should be iEngine ? 
-(11:12:06)  Jorrit:  no no 
-(11:12:13)  Jorrit:  The parent MUST be the object that contains the key value pairs. 
-(11:12:17)  Jorrit:  So you first need to find that. 
-(11:12:23)  Jorrit:  But finding that depends on type. 
-(11:12:31)  Jorrit:  i.e. a mesh you find with engine->FindMeshByName() or something. 
-(11:12:42)  Jorrit:  FindMeshObject() 
-(11:12:54)  Jorrit:  A material you find with engine->FindMaterial() 
-(11:12:55)  Jorrit:  And so on. 
-(11:13:05)  [darek]:  ok 
-(11:13:25)  [darek]:  and this shoudl be splitted to several fuctions key_mesh key_light ? 
-(11:13:35)  [darek]:  or one function ? 
-(11:13:39)  Jorrit:  depends 
-(11:13:42)  Jorrit:  Not sure. 
-(11:13:52)  Jorrit:  Several functions is probably better I think. 
-(11:13:59)  [darek]:  ok 
-(11:14:37)  Jorrit:  Note that some objects require an additional sector to find. 
-(11:14:38)  Jorrit:  Like a light. 
-(11:14:40)  Jorrit:  And a map node. 
-(11:14:47)  Jorrit:  So you need both name of sector and name of object there. 
-(11:14:52)  Jorrit:  But that's not the case for mesh factories for example. 
-(11:14:57)  Jorrit:  For meshes there are two ways. 
-(11:15:01)  Jorrit:  The engine keeps track of all meshes globally. 
-(11:15:08)  Jorrit:  But it is sometimes more efficient to only look in some sector. 
-(11:15:11)  Jorrit:  So there you can choose. 
-(11:15:18)  [darek]:  ok
-*/
 
 void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
 	int screenx, int screeny,
@@ -6203,13 +5312,13 @@ void celXmlScriptEventHandler::HitBeam (iSector* sector,
 void celXmlScriptEventHandler::AddOperation (int op)
 {
   operations.Push (celXmlOperation ());
-  celXmlOperation& top_op = operations[operations.GetSize ()-1];
+  celXmlOperation& top_op = operations[operations.Length ()-1];
   top_op.op = op;
 }
 
 celXmlArg& celXmlScriptEventHandler::GetArgument ()
 {
-  celXmlOperation& op = operations[operations.GetSize ()-1];
+  celXmlOperation& op = operations[operations.Length ()-1];
   return op.arg;
 }
 

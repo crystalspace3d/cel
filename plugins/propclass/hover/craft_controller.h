@@ -78,7 +78,6 @@ public:
   virtual void SetMaxTurn (float turn) { turn_max = turn; }
   virtual void SetAccPitch (float uacc) { pitch_acc = uacc; }
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
-  virtual void SetRoll (float rol) { roll = rol; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
   virtual void SetAfterBurnerTopSpeed (float tspeed)
@@ -102,9 +101,6 @@ public:
 
   virtual void SlideOn () { slide_on = true; }
   virtual void SlideOff () { slide_on = false; }
-
-  virtual bool GetPropertyIndexed (int, float& val);
-  virtual bool SetPropertyIndexed (int, float val);
 
   struct PcCraftController : public iPcCraftController
   {
@@ -159,10 +155,6 @@ public:
     virtual void SetMaxPitch (float mud)
     {
       scfParent->SetMaxPitch (mud);
-    }
-    virtual void SetRoll (float roll)
-    {
-      scfParent->SetRoll (roll);
     }
     virtual void SetThrustForce (float tf)
     {
@@ -231,36 +223,6 @@ public:
   } scfiPcCraftController;
 
 private:
-  static PropertyHolder propinfo;
-
-  // Actions
-  enum actionids
-  {
-    action_sliding = 0,
-    action_braking,
-    action_thruster,
-    action_aburner
-  };
-
-  // For properties.
-  enum propids
-  {
-    propid_turnmax = 0,
-    propid_turnacc,
-    propid_pitchmax,
-    propid_pitchacc,
-    propid_roll,
-    propid_thrust,
-    propid_topspeed,
-    propid_atopspeed,
-    propid_brakingspeed,
-    propid_decelrate,
-    propid_rvelratio
-  };
-
-  // Parameters.
-  static csStringID id_enabled;
-
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
 
   // turning variables
@@ -272,9 +234,6 @@ private:
 
   float turn_acc, pitch_acc;
   float turn_max, pitch_max;
-
-  // how much roll when turning left and right
-  float roll;
 
   // thruster variables
   bool thrust_on;

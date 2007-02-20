@@ -30,6 +30,7 @@
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/scanstr.h"
 #include "iutil/object.h"
@@ -104,6 +105,7 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
@@ -120,8 +122,8 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   databuf->Add (pc);
-  databuf->Add ((uint16)constraints.GetSize ());
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  databuf->Add ((uint16)constraints.Length ());
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
     csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (pcm);
@@ -181,7 +183,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
   size_t i;
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, pos, pos, realpos);
@@ -207,7 +209,7 @@ int celPcMovable::Move (const csVector3& relpos)
   csVector3 realpos = end;
   bool partial = false;
   size_t i;
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, start, end, realpos);
@@ -245,6 +247,7 @@ PropertyHolder celPcSolid::propinfo;
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  DG_TYPE (this, "celPcSolid()");
   no_collider = false;
 
   if (id_min == csInvalidStringID)
@@ -428,6 +431,7 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
+  DG_TYPE (this, "celPcMovableConstraintCD()");
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
@@ -590,9 +594,9 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   databuf->Add (is_resting);
   databuf->Add (active);
 
-  databuf->Add ((uint16)forces.GetSize ());
+  databuf->Add ((uint16)forces.Length ());
   size_t i;
-  for (i = 0 ; i < forces.GetSize () ; i++)
+  for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce* f = forces[i];
     databuf->Add (f->force);
@@ -892,7 +896,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     csVector3 force (infinite_forces);
     float smallest_time = 1000000000;
     size_t i;
-    for (i = 0 ; i < forces.GetSize () ; i++)
+    for (i = 0 ; i < forces.Length () ; i++)
     {
       celForce* f = forces[i];
       if (f->time_remaining < smallest_time)
@@ -911,7 +915,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Remove all forces that are done and update the remaining
     // time of the others.
     i = 0;
-    while (i < forces.GetSize ())
+    while (i < forces.Length ())
     {
       celForce* f = forces[i];
       f->time_remaining -= smallest_time;

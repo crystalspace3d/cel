@@ -60,7 +60,7 @@ public:
 
   // Returns the size of the buffer (This is NOT the count of objects in the
   // registry)
-  virtual size_t GetSize()
+  virtual size_t Length()
   {
     return listsize;
   }
@@ -97,7 +97,7 @@ public:
   virtual void Clear();
 
   virtual void* Get(uint id);
-  virtual size_t GetSize();
+  virtual size_t Length();
 
 private:
   csHash<void*,uint> reg;

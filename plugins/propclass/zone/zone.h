@@ -140,7 +140,6 @@ private:
   csString csregionname;
   csString cache_path;
   bool loaded;
-  csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
   csSet<csPtrKey<iSector> > sectors;
 
@@ -180,7 +179,7 @@ public:
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
-  virtual size_t GetMapFileCount () const { return mapfiles.GetSize (); }
+  virtual size_t GetMapFileCount () const { return mapfiles.Length (); }
   virtual iCelMapFile* GetMapFile (int idx) const
   {
     return (iCelMapFile*)mapfiles[idx];
@@ -189,8 +188,6 @@ public:
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
   virtual void DissociateEntity (iCelEntity* entity);
-  virtual bool ContainsEntity (iCelEntity* entity);
-  virtual iRegion* GetCsRegion ();
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
@@ -226,7 +223,7 @@ public:
 
   virtual const char* GetName () const { return name; }
   virtual void LinkRegion (iCelRegion* region);
-  virtual size_t GetRegionCount () const { return regions.GetSize (); }
+  virtual size_t GetRegionCount () const { return regions.Length (); }
   virtual iCelRegion* GetRegion (size_t idx) const
   {
     return (iCelRegion*)regions[idx];
@@ -354,19 +351,18 @@ public:
   bool Load (const char* path, const char* file);
 
   iCelZone* CreateZone (const char* name);
-  size_t GetZoneCount () const { return zones.GetSize (); }
+  size_t GetZoneCount () const { return zones.Length (); }
   iCelZone* GetZone (int idx) const { return (iCelZone*)zones[idx]; }
   iCelZone* FindZone (const char* name) const;
   bool RemoveZone (iCelZone* zone);
   void RemoveAllZones ();
 
   iCelRegion* CreateRegion (const char* name);
-  size_t GetRegionCount () const { return regions.GetSize (); }
+  size_t GetRegionCount () const { return regions.Length (); }
   iCelRegion* GetRegion (int idx) const { return (iCelRegion*)regions[idx]; }
   iCelRegion* FindRegion (const char* name) const;
   bool RemoveRegion (iCelRegion* region);
   void RemoveAllRegions ();
-  iCelRegion* FindRegionContaining (iCelEntity* ent);
 
   void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
   void GetLastStartLocation (iString* regionname, iString* startname);
@@ -485,10 +481,6 @@ public:
     virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon)
     {
       return scfParent->ActivateRegion (region, allow_entity_addon);
-    }
-    virtual iCelRegion* FindRegionContaining (iCelEntity* ent)
-    {
-      return scfParent->FindRegionContaining (ent);
     }
   } scfiPcZoneManager;
 };

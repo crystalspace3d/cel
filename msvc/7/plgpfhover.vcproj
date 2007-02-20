@@ -168,6 +168,9 @@
 			<File
 				RelativePath="..\..\plugins\propclass\hover\hover.cpp">
 			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\hover\stabiliser_dist.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

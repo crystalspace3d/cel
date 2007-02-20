@@ -30,7 +30,7 @@
 
 extern "C" {
   extern void init_cspace ();
-  extern CS_IMPORT_SYM PyObject* csWrapTypedObject (void *, const char *, int own);
+  extern PyObject* csWrapTypedObject (void *, const char *, int own);
 }
 
 class celBlPython : public iCelBlLayer
@@ -42,8 +42,7 @@ public:
   static celBlPython* shared_instance;
   iObjectRegistry* object_reg;
   bool use_debugger;
-  bool do_verbose;
-  bool deprecation_warning;
+
   virtual bool Initialize (iObjectRegistry* object_reg);
   virtual const char* GetName () const { return "blpython"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
@@ -154,7 +153,6 @@ private:
   PyObject* py_entity;
   PyObject* py_object;
   char* name;
-  int api_version;
 
 
 public:

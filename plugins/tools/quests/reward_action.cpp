@@ -236,7 +236,7 @@ celActionReward::celActionReward (
   id = csStrNew (qm->ResolveParameter (params, id_par));
   act_params = new celVariableParameterBlock ();
   size_t i;
-  for (i = 0 ; i < parameters.GetSize () ; i++)
+  for (i = 0 ; i < parameters.Length () ; i++)
   {
     csString v = qm->ResolveParameter (params, parameters[i].value);
     act_params->SetParameterDef (i, parameters[i].id, parameters[i].name);

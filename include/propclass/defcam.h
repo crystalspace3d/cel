@@ -37,13 +37,11 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  * - SetCamera: parameters 'modename' (string), 'spring' (vector3),
  *   'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
  *   'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),
- *   'yaw' (float), 'yawvelocity' (float) and 'distance'
- *   (vector3=minimal, default, maximal).
+ *   'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max).
  * - SetZoneManager: parameters 'entity' (string), 'region' (string)
  *   and 'start' (string).
- * - SetFollowEntity: parameters 'entity' (string).
  * - CenterCamera: no parameters.
- * - PointCamera: parameters 'start' (map start name).
+ * - PointCamera: parameters 'start'.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
