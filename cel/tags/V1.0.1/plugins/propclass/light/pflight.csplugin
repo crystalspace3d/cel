@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pflight.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.light</name>
+        <implementation>celPfLight</implementation>
+	<description>CEL Light Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfsimpcam.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.simplecamera</name>
+        <implementation>celPfSimpleCamera</implementation>
+	<description>CEL Simple Camera Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.3 Property Classes</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.3 Property Classes">
+<meta name="keywords" content="Crystal Entity Layer: 4.3 Property Classes">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Property-Classes"></a>
+<a name="4.3"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.2.1.5.html#4.2.1.5" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.3 Property Classes </h2>
+
+<p>Here in this chapter the various property classes are documented.
+</p>
+<a name="SEC44"></a>
+<h3 class="subheading"> Using a Property Class in General </h3>
+
+<p>Here are a few generic guidelines on using property classes. Before you can
+use any property class you must first ensure that the property class factory
+for that property class is loaded and registered with the physical layer.
+To do that you need the <em>Factory ID</em> for the property class which is
+documented in every property class documentation. Then you add the following
+line to the initialization of your application (example for <samp>`pcmesh'</samp>
+property class):
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
+  return false;
+</pre></td></tr></table>
+<p>To use the <small>API</small> from that property class you must load the header
+(also given with every property class documentation). There are two ways
+to create a property class for an entity. The first way creates them together
+with the entity itself:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iCelEntity&gt; entity = pl-&gt;CreateEntity (entname, behaviourlayer,
+	behavename,
+	&quot;pcmesh&quot;,
+	... (other property classes)
+	CEL_PROPCLASS_END);
+</pre></td></tr></table>
+<p>The second way creates a property class on an entity that is already created:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
+</pre></td></tr></table>
+<p>To request a property class from an entity you can use:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+</pre></td></tr></table>
+<a name="SEC45"></a>
+<h3 class="subheading"> Tagged Property Classes </h3>
+
+<p>Normally an entity only has one instance of a given property class
+type (i.e. only one <samp>`pcmesh'</samp> maximum). Sometimes it is useful to be
+able to add multiple property class instances of the same type. To distinguish
+between the different instances you can use <em>tags</em>. Here is how you can
+create a tagged property class for an entity:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcmesh&quot;,
+	&quot;main_mesh&quot;);
+</pre></td></tr></table>
+<p>And to fetch a tagged property class you can use:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
+	&quot;main_mesh&quot;);
+</pre></td></tr></table>
+<p>Note that there is the concept of a default property class for a given
+type. Usually the default property class is the one that has no tag (tag
+equal to 0). So when you call <code>CEL_QUERY_PROPCLASS_ENT</code> it will first
+try to look for the property class with tag equal to 0. If all property
+classes have a tag then it will return a random one.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="cel_4.3.1.html#4.3.1">4.3.1 Quest Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.2.html#4.3.2">4.3.2 Mesh</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.3.html#4.3.3">4.3.3 Linear Movement</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.4.html#4.3.4">4.3.4 Timer</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.5.html#4.3.5">4.3.5 Zone Manager</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="cel_4.3.6.html#4.3.6">4.3.6 Hover</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.2.1.5.html#4.2.1.5" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
