@@ -10,6 +10,20 @@ The history order is reversed so that new features are at the top.
 	  - Fixed a problem with the pcclass to iCelPropertyClass delegation
 	    code, the buffered reference kept by the python object would
 	    prevent pcclass destruction.
+	- caedes made the following changes to pcmover:
+	  - Deprecated Start and GetUp methods (also up property).
+	  - Deprecated Start action.
+	  - Added MoveTo method and action to substitute Start, more 
+	    appropriate name should allow to add more methods to pcmover.
+	    Also this function has line of sight off by default, and doesnt 
+	    get the up parameter as it was not used and its not clear how to
+	    handle this in cel in a generic way.
+	  - Made both Start and MoveTo check arrival based only on x and z
+	    axis (more robust in general).
+	  - Changed return value of Start and MoveTo when there is no line
+	    of sight problems to comply with documentation.
+	  - Corrected some spelling mistakes in doxygen api.
+	  - Removed some dead code.
 19-Feb-2007
 	- Vincent fixed wrong class name for celMenu in celButton python widget.
 	- Vincent added actions, properties and doxygen doc to pccraft.

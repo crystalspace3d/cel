@@ -59,11 +59,13 @@ private:
   static csStringID id_position;
   static csStringID id_up;
   static csStringID id_sqradius;
+  static csStringID id_checklos;
 
   enum actionids
   {
     action_start = 0,
-    action_interrupt
+    action_interrupt,
+    action_moveto
   };
 
   // For properties.
@@ -96,6 +98,8 @@ public:
 
   virtual bool Start (iSector* sector, const csVector3& position,
       const csVector3& up, float sqradius);
+  virtual bool MoveTo (iSector* sector, const csVector3& position,
+      float sqradius, bool checklos=false);
   virtual void Interrupt ();
   virtual iSector* GetSector () const { return sector; }
   virtual const csVector3& GetPosition () const { return position; }

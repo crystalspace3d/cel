@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "csgeom/math3d.h"
+#include "csutil/sysfunc.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
 #include "iutil/evdefs.h"
@@ -44,6 +45,7 @@ csStringID celPcMover::id_position = csInvalidStringID;
 csStringID celPcMover::id_up = csInvalidStringID;
 csStringID celPcMover::id_sqradius = csInvalidStringID;
 csStringID celPcMover::id_meshname = csInvalidStringID;
+csStringID celPcMover::id_checklos = csInvalidStringID;
 
 PropertyHolder celPcMover::propinfo;
 
@@ -60,6 +62,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
     id_up = pl->FetchStringID ("cel.parameter.up");
     id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
     id_meshname = pl->FetchStringID ("cel.parameter.meshname");
+    id_checklos = pl->FetchStringID ("cel.parameter.checklos");
   }
 
   params = new celOneParameterBlock ();
@@ -70,6 +73,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
   {
     AddAction (action_start, "cel.action.Start");
     AddAction (action_interrupt, "cel.action.Interrupt");
+    AddAction (action_moveto, "cel.action.MoveTo");
   }
 
   // For properties.
@@ -84,6 +88,7 @@ celPcMover::celPcMover (iObjectRegistry* object_reg)
 	CEL_DATA_BOOL, true, "Is moving?", &is_moving);
 
   is_moving = false;
+  up = csVector3(0,1,0);
 }
 
 celPcMover::~celPcMover ()
@@ -136,6 +141,12 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
 bool celPcMover::Start (iSector* sector, const csVector3& position,
 	const csVector3& up, float sqradius)
 {
+  return MoveTo(sector,position,sqradius,true);
+}
+
+bool celPcMover::MoveTo (iSector* sector, const csVector3& position,
+	float sqradius, bool checklos)
+{
   FindSiblingPropertyClasses ();
   if (!pclinmove)
     return false;
@@ -146,7 +157,6 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
 
   celPcMover::sector = sector;
   celPcMover::position = position;
-  celPcMover::up = up;
   celPcMover::sqradius = sqradius;
 
   // First we do a beam between our current position and the desired
@@ -157,11 +167,11 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
   iSector* cur_sector;
   pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
 
-  // Use center of linmove CD box to trace beam.
-  csVector3 body, legs, shift;
-  iPcCollisionDetection* pc_cd;
-  pclinmove->GetCDDimensions (body, legs, shift, pc_cd);
+  // set destination y value to the same as current y value so as to
+  // check only on x and z axis.
+  cur_position.y = position.y;
 
+  // check arrival
   float sqlen = csSquaredDist::PointPoint (cur_position, position);
   if (sqlen < sqradius)
   {
@@ -170,15 +180,19 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
     return true;
   }
 
-  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
-      position);
-  if (rc.mesh)
-    rc = cur_sector->HitBeamPortals (cur_position+csVector3 (0,1,0),
-	position+csVector3 (0,1,0));
-  if (rc.mesh)
+  // line of sight test
+  if (checklos)
   {
-    SendMessage ("pcmover_impossible", rc.mesh->QueryObject ()->GetName ());
-    return false;
+    csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
+      position);
+    if (rc.mesh)
+      rc = cur_sector->HitBeamPortals (cur_position+csVector3 (0,1,0),
+	position+csVector3 (0,1,0));
+    if (rc.mesh)
+    {
+      SendMessage ("pcmover_impossible", rc.mesh->QueryObject ()->GetName ());
+      return false;
+    }
   }
 
   csVector3 vec (0,0,1);
@@ -190,7 +204,7 @@ bool celPcMover::Start (iSector* sector, const csVector3& position,
 
   is_moving = true;
 
-  return false;
+  return true;
 }
 
 void celPcMover::StopMovement ()
@@ -217,19 +231,24 @@ bool celPcMover::PerformActionIndexed (int idx,
   switch (idx)
   {
     case action_start:
+      csPrintf("Start action in pcmover is deprecated. Use MoveTo instead.\n");
+    case action_moveto:
       {
         CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
         if (!p_sectorname) return false;
         CEL_FETCH_VECTOR3_PAR (position,params,id_position);
         if (!p_position) return false;
-        CEL_FETCH_VECTOR3_PAR (up,params,id_up);
-        if (!p_up) return false;
         CEL_FETCH_FLOAT_PAR (sqradius,params,id_sqradius);
         if (!p_sqradius) return false;
+        CEL_FETCH_BOOL_PAR (checklos,params,id_checklos);
+	// if action is start we have to change checklos value to
+	// true, false is default already if not specified.
+        if (!p_checklos && idx == action_start)
+	  checklos = true;
         iSector* s = engine->FindSector (sectorname);
         if (!s)
           return false;
-        Start (sector, position, up, sqradius);
+        MoveTo (sector, position, sqradius, checklos);
         // @@@ Return value?
         return true;
       }
@@ -249,7 +268,11 @@ void celPcMover::TickOnce ()
   csVector3 cur_position;
   iSector* cur_sector;
   pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+  // set destination y value to the same as current y value so as to
+  // check only on x and z axis.
+  cur_position.y = position.y;
 
+  // check arrival
   float sqlen = csSquaredDist::PointPoint (cur_position, position);
   if (sqlen < sqradius)
   {
