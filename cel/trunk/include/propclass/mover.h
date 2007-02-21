@@ -42,22 +42,25 @@ struct iPcLinearMovement;
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
+ * - MoveTo: parameters 'sectorname' (string), 'position' (vector3),
+ *     ,'sqradius' (float) and optional 'checklos' (bool, default false).
  * - Start: parameters 'sectorname' (string), 'position' (vector3),
- *     'up' (vector3), and 'sqradius' (float).
+ *     'up' (vector3), and 'sqradius' (float). This action is deprecated,
+ *     you should use MoveTo instead.
  * - Interrupt: interrupt the current movement.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
- * - up (vector3, read only): current up vector.
  * - sqradius (float, read/write): current squared radius.
  * - moving (bool, read only): returns true if currently moving.
  */
 struct iPcMover : public virtual iBase
 {
-  SCF_INTERFACE (iPcMover, 0, 0, 1);
+  SCF_INTERFACE (iPcMover, 1, 0, 0);
 
   /**
+   * Deprecated method. Use MoveTo instead.
    * Start moving. When you call this function this property class will
    * attempt to move the linmove to the correct position. If it fails the
    * behaviour will get a 'pcmover_stuck' message. Otherwise it will get
@@ -67,15 +70,38 @@ struct iPcMover : public virtual iBase
    * false then. If this property class was already controlling a movement
    * then that movement will be interrupted (possibly giving a
    * pcmover_interrupted message).
-   * \param sector is the desired sector to move too.
-   * \param position is the desired position to move too.
+   * \param sector is the desired sector to move to.
+   * \param position is the desired position to move to.
    * \param up is the up vector (used for rotation).
    * \param sqradius if the linmove ends up within the given squared
    * radius of the desired position the movement will stop and be considered
    * sucessful.
    */
-  virtual bool Start (iSector* sector, const csVector3& position,
-	const csVector3& up, float sqradius) = 0;
+  CS_DEPRECATED_METHOD virtual bool Start (iSector* sector, 
+	const csVector3& position, const csVector3& up, float sqradius) = 0;
+
+  /**
+   * Move to the specified position. When you call this function this property
+   * class will attempt to move the linmove to the correct position.
+   * If it fails the behaviour will get a 'pcmover_stuck' message. Otherwise
+   * it will get a 'pcmover_arrived' message.
+   * If checklos parameter is true a line of sight test will be made in
+   * advance, and if this function detects that line of sight is blocked
+   * then the behaviour will get a 'pcmover_impossible' message and this 
+   * function will return false then. 
+   * If this property class was already controlling a movement
+   * then that movement will be interrupted (possibly giving a
+   * pcmover_interrupted message).
+   * \param sector is the desired sector to move to.
+   * \param position is the desired position to move to.
+   * \param sqradius if the linmove ends up within the given squared
+   * radius of the desired position the movement will stop and be considered
+   * sucessful.
+   * \param checklos whether to check line of sight to destination on movement
+   * start.
+   */
+  virtual bool MoveTo (iSector* sector, const csVector3& position,
+	float sqradius, bool checklos = false) = 0;
 
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
@@ -84,19 +110,19 @@ struct iPcMover : public virtual iBase
   virtual void Interrupt () = 0;
 
   /**
-   * Get the end sector that we want to move too.
+   * Get the end sector that we want to move to.
    */
   virtual iSector* GetSector () const = 0;
 
   /**
-   * Get the end position that we want to move too.
+   * Get the end position that we want to move to.
    */
   virtual const csVector3& GetPosition () const = 0;
 
   /**
-   * Get the current up vector.
+   * Deprecated: Get the current up vector.
    */
-  virtual const csVector3& GetUp () const = 0;
+  CS_DEPRECATED_METHOD virtual const csVector3& GetUp () const = 0;
 
   /**
    * Get the current squared radius.
