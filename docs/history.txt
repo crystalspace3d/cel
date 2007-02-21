@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-Feb-2007
+	- caedes made the following changes to blcel.i:
+	  - Deprecated (and fixed) celCreateEntity function. For coherence
+	    clients should use the physical layer CreateEntity functions.
+	  - Fixed a problem with the pcclass to iCelPropertyClass delegation
+	    code, the buffered reference kept by the python object would
+	    prevent pcclass destruction.
 19-Feb-2007
 	- Vincent fixed wrong class name for celMenu in celButton python widget.
 	- Vincent added actions, properties and doxygen doc to pccraft.
