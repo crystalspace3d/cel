@@ -171,25 +171,22 @@ pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 %extend pcType {
    %pythoncode %{
    _PC = None
-   def _getBasePc(self):
-        pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-        _object.__setattr__(self,"_PC",pc)
    def __getattr__(self,attr):
-        if not self._PC: self._getBasePc()
         try:
             return _swig_getattr(self, pcType, attr)
         except:
             pass
-        if hasattr(self._PC,attr):
-            return getattr(self._PC,attr)
+        if hasattr(iCelPropertyClass,attr):
+            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+            return getattr(_PC,attr)
         else:
             return self.GetterFallback(attr)
    def __setattr__(self,attr,value):
-        if not self._PC: self._getBasePc()
         if attr in pcType.__swig_setmethods__.keys():
             return _swig_setattr(self,pcType,attr,value)
-        elif hasattr(self._PC,attr):
-            setattr(self._PC,attr,value)
+        elif hasattr(iCelPropertyClass,attr):
+            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+            setattr(_PC,attr,value)
         else:
             return self.SetterFallback(attr,value)
 %}
@@ -343,17 +340,12 @@ bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 %}
 
 %inline %{
-iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
+csPtr<iCelEntity> celCreateEntity(iCelPlLayer *pl, const char *name)
 {
-  csRef<iCelEntity> en = pl->CreateEntity();
-  if (!en.IsValid()) return 0;
-  en->SetName (name);
-  en->IncRef ();
-  return en;
+  csPrintf("celCreateEntity is deprecated, please use CreateEntity\n");
+  return pl->CreateEntity(name,0,0);
 }
 %}
-
-
 
 %inline %{
 iCelEntity *scfQueryInterface_iCelEntity (iBase *base)
