@@ -1215,25 +1215,22 @@ class iPcMechanicsSystem(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsSystem, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsSystem.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsSystem,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1377,25 +1374,22 @@ class iPcMechanicsObject(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsObject, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsObject.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsObject,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1418,25 +1412,22 @@ class iPcMechanicsJoint(cspace.iBase):
                     "iPcMechanicsJoint.Joint -> iJoint*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iJoint* iPcMechanicsJoint::GetJoint()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsJoint, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsJoint.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsJoint,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1492,25 +1483,22 @@ class iPcMechanicsThruster(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsThruster, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsThruster.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsThruster,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1554,25 +1542,22 @@ class iPcMechanicsBalancedGroup(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsBalancedGroup, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsBalancedGroup.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsBalancedGroup,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1608,25 +1593,22 @@ class iPcMechanicsThrusterController(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMechanicsThrusterController, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMechanicsThrusterController.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMechanicsThrusterController,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -1933,25 +1915,22 @@ class iPcBillboard(cspace.iBase):
                     "iPcBillboard.Billboard -> iBillboard*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iBillboard* iPcBillboard::GetBillboard()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcBillboard, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcBillboard.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcBillboard,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2177,25 +2156,22 @@ class iPcZoneManager(cspace.iBase):
                     "iPcZoneManager.LastStartName -> const char *  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char * iPcZoneManager::GetLastStartName()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcZoneManager, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcZoneManager.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcZoneManager,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2251,25 +2227,22 @@ class iPcCommandInput(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcCommandInput, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcCommandInput.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcCommandInput,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2420,25 +2393,22 @@ class iPcLinearMovement(cspace.iBase):
                     "iPcLinearMovement.PortalDisplacement -> csVector3  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: csVector3 iPcLinearMovement::GetPortalDisplacement()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcLinearMovement, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcLinearMovement.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcLinearMovement,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2578,25 +2548,22 @@ class iPcActorMove(cspace.iBase):
                     "iPcActorMove.Animation -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcActorMove::getmethod()\n\tset: void iPcActorMove::SetAnimation(...)")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcActorMove, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcActorMove.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcActorMove,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2688,25 +2655,22 @@ class iPcCamera(cspace.iBase):
                     "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcCamera::GetDrawFlags()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcCamera, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcCamera.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcCamera,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2828,25 +2792,22 @@ class iPcDefaultCamera(iPcCamera):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcDefaultCamera, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcDefaultCamera.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcDefaultCamera,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -2890,25 +2851,22 @@ class iPcSimpleCamera(iPcCamera):
                     "iPcSimpleCamera.Mesh (write only) -> iPcMesh*\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcSimpleCamera::SetMesh(iPcMesh*)")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcSimpleCamera, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcSimpleCamera.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcSimpleCamera,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3025,25 +2983,22 @@ class iPcMeshSelect(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMeshSelect, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMeshSelect.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMeshSelect,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3103,25 +3058,22 @@ class iPcMesh(cspace.iBase):
                     "iPcMesh.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMesh::IsVisible()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMesh, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMesh.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMesh,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3147,25 +3099,22 @@ class iPcTimer(cspace.iBase):
     def WakeUpFrame(*args): return _blcelc.iPcTimer_WakeUpFrame(*args)
     def Clear(*args): return _blcelc.iPcTimer_Clear(*args)
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcTimer, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcTimer.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcTimer,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3225,25 +3174,22 @@ class iPcTrigger(cspace.iBase):
     def GetEntitiesInTrigger(*args): return _blcelc.iPcTrigger_GetEntitiesInTrigger(*args)
     def Check(*args): return _blcelc.iPcTrigger_Check(*args)
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcTrigger, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcTrigger.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcTrigger,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3269,25 +3215,22 @@ class iPcProjectile(cspace.iBase):
                     "iPcProjectile.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcProjectile::IsMoving()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcProjectile, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcProjectile.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcProjectile,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3323,25 +3266,22 @@ class iPcSolid(cspace.iBase):
                     "iPcSolid.Collider -> iCollider*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iCollider* iPcSolid::GetCollider()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcSolid, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcSolid.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcSolid,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3406,25 +3346,22 @@ class iPcGravity(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcGravity, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcGravity.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcGravity,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3462,25 +3399,22 @@ class iPcMovable(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMovable, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMovable.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMovable,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3624,25 +3558,22 @@ class iPcInventory(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcInventory, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcInventory.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcInventory,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3701,25 +3632,22 @@ class iPcCharacteristics(cspace.iBase):
     def TestConstraints(*args): return _blcelc.iPcCharacteristics_TestConstraints(*args)
     def Dump(*args): return _blcelc.iPcCharacteristics_Dump(*args)
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcCharacteristics, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcCharacteristics.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcCharacteristics,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3776,25 +3704,22 @@ class iPcTooltip(cspace.iBase):
                     "iPcTooltip.Justify (write only) -> celTooltipJustify\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcTooltip::SetJustify(celTooltipJustify)")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcTooltip, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcTooltip.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcTooltip,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3821,25 +3746,22 @@ class iPcSoundListener(cspace.iBase):
                     "iPcSoundListener.SoundListener -> iSndSysListener*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysListener* iPcSoundListener::GetSoundListener()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcSoundListener, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcSoundListener.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcSoundListener,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3874,25 +3796,22 @@ class iPcSoundSource(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcSoundSource, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcSoundSource.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcSoundSource,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -3965,25 +3884,22 @@ class iPcProperties(cspace.iBase):
                     "iPcProperties.PropertyCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iPcProperties::GetPropertyCount()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcProperties, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcProperties.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcProperties,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4003,6 +3919,7 @@ class iPcMover(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def Start(*args): return _blcelc.iPcMover_Start(*args)
+    def MoveTo(*args): return _blcelc.iPcMover_MoveTo(*args)
     def Interrupt(*args): return _blcelc.iPcMover_Interrupt(*args)
     def GetSector(*args): return _blcelc.iPcMover_GetSector(*args)
     def GetPosition(*args): return _blcelc.iPcMover_GetPosition(*args)
@@ -4025,25 +3942,22 @@ class iPcMover(cspace.iBase):
                     "iPcMover.Moving -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMover::IsMoving()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMover, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMover.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMover,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4102,25 +4016,22 @@ class iPcHover(cspace.iBase):
                     "iPcHover.Height -> float  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: float iPcHover::GetHeight()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcHover, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcHover.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcHover,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4214,25 +4125,22 @@ class iPcCraftController(cspace.iBase):
                     "iPcCraftController.AfterBurnerTopSpeed (write only) -> float\n\nWriting to this is equivalent to calling the C++ cel method:\n\tvoid iPcCraftController::SetAfterBurnerTopSpeed(float)")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcCraftController, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcCraftController.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcCraftController,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4390,25 +4298,22 @@ class iPcWheeled(cspace.iBase):
                     "iPcWheeled.WheelCount -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcWheeled::GetWheelCount()")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcWheeled, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcWheeled.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcWheeled,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4469,25 +4374,22 @@ class iPcMeshDeform(cspace.iBase):
                     "iPcMeshDeform.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(...)")
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcMeshDeform, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcMeshDeform.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcMeshDeform,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -4554,25 +4456,22 @@ class iPcDamage(cspace.iBase):
 
 
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcDamage, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcDamage.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcDamage,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
@@ -5302,25 +5201,22 @@ class iPcQuest(cspace.iBase):
     def GetQuest(*args): return _blcelc.iPcQuest_GetQuest(*args)
     def GetQuestName(*args): return _blcelc.iPcQuest_GetQuestName(*args)
     _PC = None
-    def _getBasePc(self):
-         pc = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-         _object.__setattr__(self,"_PC",pc)
     def __getattr__(self,attr):
-         if not self._PC: self._getBasePc()
          try:
              return _swig_getattr(self, iPcQuest, attr)
          except:
              pass
-         if hasattr(self._PC,attr):
-             return getattr(self._PC,attr)
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if not self._PC: self._getBasePc()
          if attr in iPcQuest.__swig_setmethods__.keys():
              return _swig_setattr(self,iPcQuest,attr,value)
-         elif hasattr(self._PC,attr):
-             setattr(self._PC,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 

@@ -3680,13 +3680,10 @@ bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 }
 
 
-iCelEntity *celCreateEntity(iCelPlLayer *pl, const char *name)
+csPtr<iCelEntity> celCreateEntity(iCelPlLayer *pl, const char *name)
 {
-  csRef<iCelEntity> en = pl->CreateEntity();
-  if (!en.IsValid()) return 0;
-  en->SetName (name);
-  en->IncRef ();
-  return en;
+  csPrintf("celCreateEntity is deprecated, please use CreateEntity\n");
+  return pl->CreateEntity(name,0,0);
 }
 
 
@@ -15218,7 +15215,7 @@ SWIGINTERN PyObject *_wrap_celCreateEntity(PyObject *SWIGUNUSEDPARM(self), PyObj
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   char *arg2 = (char *) 0 ;
-  iCelEntity *result = 0 ;
+  SwigValueWrapper<csPtr<iCelEntity > > result;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int res2 ;
@@ -15238,8 +15235,14 @@ SWIGINTERN PyObject *_wrap_celCreateEntity(PyObject *SWIGUNUSEDPARM(self), PyObj
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateEntity" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = buf2;
-  result = (iCelEntity *)celCreateEntity(arg1,(char const *)arg2);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelEntity, 0 |  0 );
+  result = celCreateEntity(arg1,(char const *)arg2);
+  {
+    /*@SWIG:TYPEMAP_OUT_csRef_BODY@*/
+    csRef<iCelEntity> ref((csPtr<iCelEntity>&)result); /* explicit cast */
+    resultobj = _csRef_to_Python(csRef<iBase>(
+        (iCelEntity *)ref), (void *)(iCelEntity *)ref, "iCelEntity" " *");
+    /*@SWIG@*/
+  }
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
 fail:
@@ -67438,6 +67441,190 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcMover_MoveTo__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcMover *arg1 = (iPcMover *) 0 ;
+  iSector *arg2 = (iSector *) 0 ;
+  csVector3 *arg3 = 0 ;
+  float arg4 ;
+  bool arg5 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  bool val5 ;
+  int ecode5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:iPcMover_MoveTo",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcMover, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcMover_MoveTo" "', argument " "1"" of type '" "iPcMover *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcMover * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iSector, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcMover_MoveTo" "', argument " "2"" of type '" "iSector *""'"); 
+  }
+  arg2 = reinterpret_cast< iSector * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_csVector3,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iPcMover_MoveTo" "', argument " "3"" of type '" "csVector3 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcMover_MoveTo" "', argument " "3"" of type '" "csVector3 const &""'"); 
+  }
+  arg3 = reinterpret_cast< csVector3 * >(argp3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcMover_MoveTo" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  ecode5 = SWIG_AsVal_bool(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "iPcMover_MoveTo" "', argument " "5"" of type '" "bool""'");
+  } 
+  arg5 = static_cast< bool >(val5);
+  result = (bool)(arg1)->MoveTo(arg2,(csVector3 const &)*arg3,arg4,arg5);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcMover_MoveTo__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcMover *arg1 = (iPcMover *) 0 ;
+  iSector *arg2 = (iSector *) 0 ;
+  csVector3 *arg3 = 0 ;
+  float arg4 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  float val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:iPcMover_MoveTo",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcMover, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcMover_MoveTo" "', argument " "1"" of type '" "iPcMover *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcMover * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iSector, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcMover_MoveTo" "', argument " "2"" of type '" "iSector *""'"); 
+  }
+  arg2 = reinterpret_cast< iSector * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3, SWIGTYPE_p_csVector3,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iPcMover_MoveTo" "', argument " "3"" of type '" "csVector3 const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "iPcMover_MoveTo" "', argument " "3"" of type '" "csVector3 const &""'"); 
+  }
+  arg3 = reinterpret_cast< csVector3 * >(argp3);
+  ecode4 = SWIG_AsVal_float(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "iPcMover_MoveTo" "', argument " "4"" of type '" "float""'");
+  } 
+  arg4 = static_cast< float >(val4);
+  result = (bool)(arg1)->MoveTo(arg2,(csVector3 const &)*arg3,arg4);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcMover_MoveTo(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[6];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 5); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcMover, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iSector, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_csVector3, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            int res = SWIG_AsVal_float(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_iPcMover_MoveTo__SWIG_1(self, args);
+          }
+        }
+      }
+    }
+  }
+  if (argc == 5) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcMover, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iSector, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_csVector3, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          {
+            int res = SWIG_AsVal_float(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            {
+              int res = SWIG_AsVal_bool(argv[4], NULL);
+              _v = SWIG_CheckState(res);
+            }
+            if (_v) {
+              return _wrap_iPcMover_MoveTo__SWIG_0(self, args);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iPcMover_MoveTo'");
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcMover_Interrupt(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcMover *arg1 = (iPcMover *) 0 ;
@@ -88249,6 +88436,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celGetProperties", _wrap_celGetProperties, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcProperties", _wrap_scfQuery_iPcProperties, METH_VARARGS, NULL},
 	 { (char *)"iPcMover_Start", _wrap_iPcMover_Start, METH_VARARGS, NULL},
+	 { (char *)"iPcMover_MoveTo", _wrap_iPcMover_MoveTo, METH_VARARGS, NULL},
 	 { (char *)"iPcMover_Interrupt", _wrap_iPcMover_Interrupt, METH_VARARGS, NULL},
 	 { (char *)"iPcMover_GetSector", _wrap_iPcMover_GetSector, METH_VARARGS, NULL},
 	 { (char *)"iPcMover_GetPosition", _wrap_iPcMover_GetPosition, METH_VARARGS, NULL},
