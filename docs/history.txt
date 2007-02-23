@@ -13,6 +13,7 @@ The history order is reversed so that new features are at the top.
 	  the deprecation notice.
 	- caedes changed some uses of deprecated csarray::SetLength by
 	  csarray::SetSize in zonemanager and trigger pcclasses.
+	- caedes added pcprojectile section to the manual.
 21-Feb-2007
 	- caedes made the following changes to blcel.i:
 	  - Deprecated (and fixed) celCreateEntity function. For coherence

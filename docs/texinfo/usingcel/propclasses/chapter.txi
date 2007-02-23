@@ -91,6 +91,7 @@ sections.
 * PropClass LinMove:: Linear Movement
 * PropClass Mesh:: Mesh
 * PropClass Mover:: Mover
+* PropClass Projectile:: Projectile
 * PropClass Quest Manager:: Quest Manager
 * PropClass Timer:: Timer
 * PropClass Trigger:: Trigger
@@ -102,6 +103,7 @@ sections.
 @importss{usingcel,propclasses,linmove.txi}
 @importss{usingcel,propclasses,mesh.txi}
 @importss{usingcel,propclasses,mover.txi}
+@importss{usingcel,propclasses,projectile.txi}
 @importss{usingcel,propclasses,questmgr.txi}
 @importss{usingcel,propclasses,timer.txi}
 @importss{usingcel,propclasses,trigger.txi}
