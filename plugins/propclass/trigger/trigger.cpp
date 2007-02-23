@@ -343,7 +343,7 @@ void celPcTrigger::LeaveAllEntities ()
         	"pctrigger_leavetrigger");
       }
     }
-  entities_in_trigger.SetLength (0);
+  entities_in_trigger.SetSize (0);
 }
 
 size_t celPcTrigger::EntityInTrigger (iCelEntity* entity)
@@ -686,7 +686,7 @@ void celPcTrigger::TickOnce ()
         previous_entities.Add ((iCelEntity*)entities_in_trigger[i]);
 
     // Now clear our entities_in_trigger table. We will fill it again.
-    entities_in_trigger.SetLength (0);
+    entities_in_trigger.SetSize (0);
 
     // Traverse the entities that are near us.
     for (i = 0 ; i < list->GetCount () ; i++)
