@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Feb-2007
+	- caedes added pcmover section to the manual and fixed a little
+	  typo in usingcel basics.
 21-Feb-2007
 	- caedes made the following changes to blcel.i:
 	  - Deprecated (and fixed) celCreateEntity function. For coherence

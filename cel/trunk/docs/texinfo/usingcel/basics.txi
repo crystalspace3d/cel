@@ -26,7 +26,7 @@ An entity is represented by the @code{iCelEntity} interface. An entity is
 created by an @code{iCelPlLayer} instance.
 
 On its own an entity in Crystal Entity Layer is pretty useless. It is just
-an empty stub with a name. That's all. To make an enity useful two important
+an empty stub with a name. That's all. To make an entity useful two important
 concepts are introduced: @dfn{property classes} and a @dfn{behaviour}.
 
 @subheading Property Classes

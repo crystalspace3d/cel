@@ -86,22 +86,24 @@ sections.
 @subheading The Property Classes
 
 @menu
-* PropClass Quest Manager:: Quest Manager
-* PropClass Mesh:: Mesh
-* PropClass LinMove:: Linear Movement
-* PropClass Timer:: Timer
-* PropClass ZoneMgr:: Zone Manager
-* PropClass Hover:: Hover
 * PropClass CommandInput:: Command Input
+* PropClass Hover:: Hover
+* PropClass LinMove:: Linear Movement
+* PropClass Mesh:: Mesh
+* PropClass Mover:: Mover
+* PropClass Quest Manager:: Quest Manager
+* PropClass Timer:: Timer
 * PropClass Trigger:: Trigger
+* PropClass ZoneMgr:: Zone Manager
 @end menu
 
-@importss{usingcel,propclasses,questmgr.txi}
-@importss{usingcel,propclasses,mesh.txi}
-@importss{usingcel,propclasses,linmove.txi}
-@importss{usingcel,propclasses,timer.txi}
-@importss{usingcel,propclasses,zonemgr.txi}
-@importss{usingcel,propclasses,hover.txi}
 @importss{usingcel,propclasses,input.txi}
+@importss{usingcel,propclasses,hover.txi}
+@importss{usingcel,propclasses,linmove.txi}
+@importss{usingcel,propclasses,mesh.txi}
+@importss{usingcel,propclasses,mover.txi}
+@importss{usingcel,propclasses,questmgr.txi}
+@importss{usingcel,propclasses,timer.txi}
 @importss{usingcel,propclasses,trigger.txi}
+@importss{usingcel,propclasses,zonemgr.txi}
 
