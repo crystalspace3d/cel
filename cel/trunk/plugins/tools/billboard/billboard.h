@@ -304,6 +304,8 @@ private:
   int default_fg_color;
   int default_bg_color;
 
+  csEventID CanvasResize;
+
 public:
   csRef<iEngine> engine;
 
