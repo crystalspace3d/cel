@@ -60,7 +60,7 @@ struct iPcMover : public virtual iBase
   SCF_INTERFACE (iPcMover, 1, 0, 0);
 
   /**
-   * Deprecated method. Use MoveTo instead.
+   * \deprecated Use MoveTo instead.
    * Start moving. When you call this function this property class will
    * attempt to move the linmove to the correct position. If it fails the
    * behaviour will get a 'pcmover_stuck' message. Otherwise it will get
@@ -120,7 +120,7 @@ struct iPcMover : public virtual iBase
   virtual const csVector3& GetPosition () const = 0;
 
   /**
-   * Deprecated: Get the current up vector.
+   * \deprecated Handling of up vector by pcmover is deprecated.
    */
   CS_DEPRECATED_METHOD virtual const csVector3& GetUp () const = 0;
 
