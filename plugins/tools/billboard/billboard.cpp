@@ -900,6 +900,12 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 {
   celBillboardManager::object_reg = object_reg;
 
+  engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  name_reg = csEventNameRegistry::GetRegistry (object_reg);
+  CanvasResize = csevCanvasResize (name_reg, g3d->GetDriver2D ());
+
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
   CS_ASSERT (q != 0);
@@ -910,14 +916,10 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
     csevPreProcess (object_reg),
     csevPostProcess (object_reg),
     csevProcess (object_reg),
+    CanvasResize,
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);
-
-  engine = csQueryRegistry<iEngine> (object_reg);
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
@@ -1068,7 +1070,12 @@ void celBillboardManager::SetDefaultTextBgTransparent ()
 
 bool celBillboardManager::HandleEvent (iEvent& ev)
 {
-  if (ev.Name == csevPreProcess (object_reg))
+  if (ev.Name == CanvasResize)
+  {
+    screen_w_fact = BSX / g3d->GetWidth ();
+    screen_h_fact = BSY / g3d->GetHeight ();
+  }
+  else if (ev.Name == csevPreProcess (object_reg))
   {
     HandleMovingBillboards (vc->GetElapsedTicks ());
   }

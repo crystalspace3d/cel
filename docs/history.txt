@@ -15,6 +15,9 @@ The history order is reversed so that new features are at the top.
 	  csarray::SetSize in zonemanager and trigger pcclasses.
 	- caedes added pcprojectile section to the manual.
 	- caedes added pcbillboard section to the manual.
+	- Jorrit fixed a bug in the billboard manager. It would ignore
+	  resizes of canvas so that the billboard space recalculation wouldn't
+	  be correct after a resize.
 21-Feb-2007
 	- caedes made the following changes to blcel.i:
 	  - Deprecated (and fixed) celCreateEntity function. For coherence
