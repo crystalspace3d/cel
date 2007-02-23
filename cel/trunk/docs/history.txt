@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	  typo in usingcel basics.
 	- caedes changed the deprecation notice inside pcmover api to be
 	  doxygen friendly by using the \deprecated directive.
+	- caedes moved /deprecated line to the end of Mover::Start method
+	  description as otherwise the whole description gets put into
+	  the deprecation notice.
 21-Feb-2007
 	- caedes made the following changes to blcel.i:
 	  - Deprecated (and fixed) celCreateEntity function. For coherence

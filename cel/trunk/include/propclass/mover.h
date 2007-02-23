@@ -60,7 +60,6 @@ struct iPcMover : public virtual iBase
   SCF_INTERFACE (iPcMover, 1, 0, 0);
 
   /**
-   * \deprecated Use MoveTo instead.
    * Start moving. When you call this function this property class will
    * attempt to move the linmove to the correct position. If it fails the
    * behaviour will get a 'pcmover_stuck' message. Otherwise it will get
@@ -76,6 +75,7 @@ struct iPcMover : public virtual iBase
    * \param sqradius if the linmove ends up within the given squared
    * radius of the desired position the movement will stop and be considered
    * sucessful.
+   * \deprecated Use MoveTo instead.
    */
   CS_DEPRECATED_METHOD virtual bool Start (iSector* sector, 
 	const csVector3& position, const csVector3& up, float sqradius) = 0;
