@@ -170,7 +170,7 @@ bool celRegion::RemoveMapFile (iCelMapFile* mapfile)
 
 void celRegion::RemoveAllMapFiles ()
 {
-  mapfiles.SetLength (0);
+  mapfiles.SetSize (0);
 }
 
 void celRegion::NewEntity (iCelEntity* entity)
@@ -381,7 +381,7 @@ bool celZone::UnlinkRegion (iCelRegion* region)
 
 void celZone::UnlinkAllRegions ()
 {
-  regions.SetLength (0);
+  regions.SetSize (0);
 }
 
 iCelRegion* celZone::FindRegion (const char* name) const
@@ -946,7 +946,7 @@ bool celPcZoneManager::RemoveZone (iCelZone* zone)
 
 void celPcZoneManager::RemoveAllZones ()
 {
-  zones.SetLength (0);
+  zones.SetSize (0);
 }
 
 iCelZone* celPcZoneManager::FindZone (const char* name) const
@@ -986,7 +986,7 @@ bool celPcZoneManager::RemoveRegion (iCelRegion* region)
 
 void celPcZoneManager::RemoveAllRegions ()
 {
-  regions.SetLength (0);
+  regions.SetSize (0);
 }
 
 bool celPcZoneManager::ActivateRegion (iCelRegion* region,
