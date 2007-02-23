@@ -86,6 +86,7 @@ sections.
 @subheading The Property Classes
 
 @menu
+* PropClass Billboard:: Billboard
 * PropClass CommandInput:: Command Input
 * PropClass Hover:: Hover
 * PropClass LinMove:: Linear Movement
@@ -98,6 +99,7 @@ sections.
 * PropClass ZoneMgr:: Zone Manager
 @end menu
 
+@importss{usingcel,propclasses,billboard.txi}
 @importss{usingcel,propclasses,input.txi}
 @importss{usingcel,propclasses,hover.txi}
 @importss{usingcel,propclasses,linmove.txi}
