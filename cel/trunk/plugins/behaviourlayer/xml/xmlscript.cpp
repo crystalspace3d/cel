@@ -1331,59 +1331,59 @@ void celXmlScriptEventHandler::DumpVariables (celBehaviourXml* behave)
     {
       case CEL_DATA_LONG:
         printf ("val={int32:%ld}\n", props->GetPropertyLong (i));
-	break;
+        break;
       case CEL_DATA_FLOAT:
         printf ("val={float:%g}\n", props->GetPropertyFloat (i));
-	break;
+        break;
       case CEL_DATA_BOOL:
         printf ("val={bool:%s}\n", props->GetPropertyBool (i) ? "true" : "false");
-	break;
+        break;
       case CEL_DATA_STRING:
         printf ("val={str:%s}\n", props->GetPropertyString (i));
-	break;
+        break;
       case CEL_DATA_VECTOR2:
         {
-	  csVector2 v;
-	  props->GetPropertyVector (i, v);
+          csVector2 v;
+          props->GetPropertyVector (i, v);
           printf ("val={vec:[%g,%g]}\n", v.x, v.y);
-	}
-	break;
+        }
+        break;
       case CEL_DATA_VECTOR3:
         {
-	  csVector3 v;
-	  props->GetPropertyVector (i, v);
+          csVector3 v;
+          props->GetPropertyVector (i, v);
           printf ("val={vec:[%g,%g,%g]}\n", v.x, v.y, v.z);
-	}
-	break;
+        }
+        break;
       case CEL_DATA_COLOR:
         {
-	  csColor v;
-	  props->GetPropertyColor (i, v);
+          csColor v;
+          props->GetPropertyColor (i, v);
           printf ("val={rgb:[%g,%g,%g]}\n", v.red, v.green, v.blue);
-	}
-	break;
+        }
+        break;
       case CEL_DATA_PCLASS:
         printf ("val={pc:%p}\n", props->GetPropertyPClass (i));
-	break;
+        break;
       case CEL_DATA_ENTITY:
         printf ("val={ent:%s}\n",
-		props->GetPropertyEntity (i)
-			? props->GetPropertyEntity (i)->GetName ()
-			: "<null>");
-	break;
+        	props->GetPropertyEntity (i)
+        	? props->GetPropertyEntity (i)->GetName ()
+        	: "<null>");
+        break;
       case CEL_DATA_IBASE:
         printf ("val={ibase:%p}\n", props->GetPropertyIBase (i));
-	break;
+        break;
       default:
         printf ("val={unknown}\n");
-	break;
+        break;
     }
   }
   fflush (stdout);
 }
 
 iPcRules* celXmlScriptEventHandler::GetRules (iCelEntity* entity,
-      celBehaviourXml* behave)
+	celBehaviourXml* behave)
 {
   if (behave) return behave->GetRules ();
   if (!entity) return 0;
@@ -1447,380 +1447,380 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     {
       case CEL_OPERATION_END:
         if (stack_size != stack.GetSize ())
-	{
-	  return ReportError (cbl, "Stack size mismatch!");
-	}
+        {
+          return ReportError (cbl, "Stack size mismatch!");
+        }
         return true;
       case CEL_OPERATION_CALLSTACK:
-	DumpCallStack (cbl);
+        DumpCallStack (cbl);
         break;
       case CEL_OPERATION_VARIABLES:
-	DumpVariables (behave);
+        DumpVariables (behave);
         break;
       case CEL_OPERATION_TRACEON:
         {
-	  cbl->varprop_trace = true;
-	  varprop_trace = true;
-	}
+          cbl->varprop_trace = true;
+          varprop_trace = true;
+        }
         break;
       case CEL_OPERATION_TRACEOFF:
         {
-	  cbl->varprop_trace = false;
-	  varprop_trace = false;
-	}
+          cbl->varprop_trace = false;
+          varprop_trace = false;
+        }
         break;
       case CEL_OPERATION_PARAM:
         {
-	  CHECK_STACK(1)
-	  celXmlArg a_arg = stack.Pop ();
+          CHECK_STACK(1)
+          celXmlArg a_arg = stack.Pop ();
           DUMP_EXEC ((":%04d: param %s\n", i-1, A2S (a_arg)));
-	  csStringID id = ArgToID (a_arg);
-	  size_t si = stack.Push (celXmlArg ());
-	  if (!params)
-	    return ReportError (cbl,
-		"No parameters were supplied while calling this event!");
-	  const celData* data = params->GetParameter (id);
-	  if (!data)
-	    return ReportError (cbl, "Can't find parameter!");
-	  if (!celData2celXmlArg (*data, stack[si]))
-	    return ReportError (cbl, "Type not supported for 'param'!");
-	}
-	break;
+          csStringID id = ArgToID (a_arg);
+          size_t si = stack.Push (celXmlArg ());
+          if (!params)
+            return ReportError (cbl,
+            	"No parameters were supplied while calling this event!");
+          const celData* data = params->GetParameter (id);
+          if (!data)
+            return ReportError (cbl, "Can't find parameter!");
+          if (!celData2celXmlArg (*data, stack[si]))
+            return ReportError (cbl, "Type not supported for 'param'!");
+        }
+        break;
       case CEL_OPERATION_PUSH:
         {
           DUMP_EXEC ((":%04d: push %s\n", i-1, A2S (op.arg)));
-	  stack.Push (op.arg);
-	}
+          stack.Push (op.arg);
+        }
         break;
       case CEL_OPERATION_PUSHSTR:
         {
           DUMP_EXEC ((":%04d: pushstr %s\n", i-1, A2S (op.arg)));
-	  // Optimization for strings. Don't copy the string.
-	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetString (op.arg.arg.str.s, false);
-	}
+          // Optimization for strings. Don't copy the string.
+          size_t si = stack.Push (celXmlArg ());
+          stack[si].SetString (op.arg.arg.str.s, false);
+        }
         break;
       case CEL_OPERATION_PCTHIS:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: pcthis pc=%s\n", i-1, A2S (top)));
 
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
-	  	FindByName (ArgToString (top));
-	  top.SetPC (other_pc);	// Can be 0.
-	}
-	break;
+          	FindByName (ArgToString (top));
+          top.SetPC (other_pc);	// Can be 0.
+        }
+        break;
       case CEL_OPERATION_PCTAGTHIS:
         {
-	  CHECK_STACK(2)
-	  celXmlArg a_tag = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(2)
+          celXmlArg a_tag = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: pctagthis pc=%s tag=%s\n",
-	  	i-1, A2S (top), A2S (a_tag)));
+          	i-1, A2S (top), A2S (a_tag)));
 
           iCelPropertyClass* other_pc = entity->GetPropertyClassList ()->
-	  	FindByNameAndTag (ArgToString (top), ArgToString (a_tag));
-	  top.SetPC (other_pc);	// Can be 0.
-	}
-	break;
+          	FindByNameAndTag (ArgToString (top), ArgToString (a_tag));
+          top.SetPC (other_pc);	// Can be 0.
+        }
+        break;
       case CEL_OPERATION_CALCPARID:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcparid %s\n", i-1, A2S (top)));
-	  csString str = "cel.parameter.";
-	  str += ArgToString (top);
-	  csStringID id = pl->FetchStringID ((const char*)str);
-	  top.SetID (id);
-	}
-	break;
+          csString str = "cel.parameter.";
+          str += ArgToString (top);
+          csStringID id = pl->FetchStringID ((const char*)str);
+          top.SetID (id);
+        }
+        break;
       case CEL_OPERATION_CALCACTID:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcactid %s\n", i-1, A2S (top)));
-	  csString str = "cel.action.";
-	  str += ArgToString (top);
-	  csStringID id = pl->FetchStringID ((const char*)str);
-	  top.SetID (id);
-	}
-	break;
+          csString str = "cel.action.";
+          str += ArgToString (top);
+          csStringID id = pl->FetchStringID ((const char*)str);
+          top.SetID (id);
+        }
+        break;
       case CEL_OPERATION_CALCPROPID:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcpropid %s\n", i-1, A2S (top)));
-	  csString str = "cel.property.";
-	  str += ArgToString (top);
-	  csStringID id = pl->FetchStringID ((const char*)str);
-	  top.SetID (id);
-	}
-	break;
+          csString str = "cel.property.";
+          str += ArgToString (top);
+          csStringID id = pl->FetchStringID ((const char*)str);
+          top.SetID (id);
+        }
+        break;
       case CEL_OPERATION_CALCID:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: calcid %s\n", i-1, A2S (top)));
-	  csStringID id = pl->FetchStringID (ArgToString (top));
-	  top.SetID (id);
-	}
-	break;
+          csStringID id = pl->FetchStringID (ArgToString (top));
+          top.SetID (id);
+        }
+        break;
       case CEL_OPERATION_CLASS_ADD:
-	{
-	  CHECK_STACK(2)
-	  celXmlArg a_class = stack.Pop ();
-	  celXmlArg a_ent = stack.Pop ();
+        {
+          CHECK_STACK(2)
+          celXmlArg a_class = stack.Pop ();
+          celXmlArg a_ent = stack.Pop ();
           DUMP_EXEC ((":%04d: class_add ent=%s id=%s\n", i-1, A2S (a_ent),
-	  	A2S (a_class)));
+          	A2S (a_class)));
 
-	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
-	  if (!other_ent)
-	    return ReportError (cbl,
-	      	"Can't find entity '%s'!", A2S (a_ent));
-	  other_ent->AddClass (ArgToID (a_class));
-	}
+          iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+          if (!other_ent)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_ent));
+          other_ent->AddClass (ArgToID (a_class));
+        }
         break;
       case CEL_OPERATION_CLASS_REM:
-	{
-	  CHECK_STACK(2)
-	  celXmlArg a_class = stack.Pop ();
-	  celXmlArg a_ent = stack.Pop ();
+        {
+          CHECK_STACK(2)
+          celXmlArg a_class = stack.Pop ();
+          celXmlArg a_ent = stack.Pop ();
           DUMP_EXEC ((":%04d: class_rem ent=%s id=%s\n", i-1, A2S (a_ent),
-	  	A2S (a_class)));
+          	A2S (a_class)));
 
-	  iCelEntity* other_ent = ArgToEntity (a_ent, pl);
-	  if (!other_ent)
-	    return ReportError (cbl,
-	      	"Can't find entity '%s'!", A2S (a_ent));
-	  other_ent->RemoveClass (ArgToID (a_class));
-	}
+          iCelEntity* other_ent = ArgToEntity (a_ent, pl);
+          if (!other_ent)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (a_ent));
+          other_ent->RemoveClass (ArgToID (a_class));
+        }
         break;
       case CEL_OPERATION_HASCLASS:
-	{
-	  CHECK_STACK(2)
-	  celXmlArg a_class = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+        {
+          CHECK_STACK(2)
+          celXmlArg a_class = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: hasclass ent=%s id=%s\n", i-1, A2S (top),
-	  	A2S (a_class)));
+          	A2S (a_class)));
 
-	  iCelEntity* other_ent = ArgToEntity (top, pl);
-	  if (!other_ent)
-	    return ReportError (cbl,
-	      	"Can't find entity '%s'!", A2S (top));
-	  top.Set (other_ent->HasClass (ArgToID (a_class)));
-	}
+          iCelEntity* other_ent = ArgToEntity (top, pl);
+          if (!other_ent)
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (top));
+          top.Set (other_ent->HasClass (ArgToID (a_class)));
+        }
         break;
       case CEL_OPERATION_PC:
         {
-	  CHECK_STACK(2)
-	  celXmlArg a_pc = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(2)
+          celXmlArg a_pc = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: pc ent=%s pc=%s\n", i-1, A2S (top), A2S (a_pc)));
 
-	  iCelEntity* other_ent = ArgToEntity (top, pl);
-	  if (!other_ent)
-	  {
-	    top.SetPC ((iCelPropertyClass*)0);
-	    break;
-	  }
+          iCelEntity* other_ent = ArgToEntity (top, pl);
+          if (!other_ent)
+          {
+            top.SetPC ((iCelPropertyClass*)0);
+            break;
+          }
           iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
-	  	FindByName (ArgToString (a_pc));
-	  top.SetPC (other_pc);	// Can be 0.
-	}
+          	FindByName (ArgToString (a_pc));
+          top.SetPC (other_pc);	// Can be 0.
+        }
         break;
       case CEL_OPERATION_PCTAG:
         {
-	  CHECK_STACK(3)
-	  celXmlArg a_tag = stack.Pop ();
-	  celXmlArg a_pc = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(3)
+          celXmlArg a_tag = stack.Pop ();
+          celXmlArg a_pc = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: pctag ent=%s pc=%s tag=%s\n",
-	  	i-1, A2S (top), A2S (a_pc), A2S (a_tag)));
+          	i-1, A2S (top), A2S (a_pc), A2S (a_tag)));
 
-	  iCelEntity* other_ent = ArgToEntity (top, pl);
-	  if (!other_ent)
-	  {
-	    top.SetPC ((iCelPropertyClass*)0);
-	    break;
-	  }
+          iCelEntity* other_ent = ArgToEntity (top, pl);
+          if (!other_ent)
+          {
+            top.SetPC ((iCelPropertyClass*)0);
+            break;
+          }
           iCelPropertyClass* other_pc = other_ent->GetPropertyClassList ()->
-	  	FindByNameAndTag (ArgToString (a_pc), ArgToString (a_tag));
-	  top.SetPC (other_pc);	// Can be 0.
-	}
+          	FindByNameAndTag (ArgToString (a_pc), ArgToString (a_tag));
+          top.SetPC (other_pc);	// Can be 0.
+        }
         break;
       case CEL_OPERATION_VECX:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: vecx vec=%s\n", i-1, A2S (top)));
-	  if (top.type == CEL_DATA_VECTOR2)
-	  {
-	    csVector2 v = ArgToVector2 (top);
-	    top.SetFloat (v.x);
-	  }
-	  else
-	  {
-	    csVector3 v = ArgToVector3 (top);
-	    top.SetFloat (v.x);
-	  }
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: vecx vec=%s\n", i-1, A2S (top)));
+          if (top.type == CEL_DATA_VECTOR2)
+          {
+            csVector2 v = ArgToVector2 (top);
+            top.SetFloat (v.x);
+          }
+          else
+          {
+            csVector3 v = ArgToVector3 (top);
+            top.SetFloat (v.x);
+          }
+        }
+        break;
       case CEL_OPERATION_VECY:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: vecy vec=%s\n", i-1, A2S (top)));
-	  if (top.type == CEL_DATA_VECTOR2)
-	  {
-	    csVector2 v = ArgToVector2 (top);
-	    top.SetFloat (v.y);
-	  }
-	  else
-	  {
-	    csVector3 v = ArgToVector3 (top);
-	    top.SetFloat (v.y);
-	  }
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: vecy vec=%s\n", i-1, A2S (top)));
+          if (top.type == CEL_DATA_VECTOR2)
+          {
+            csVector2 v = ArgToVector2 (top);
+            top.SetFloat (v.y);
+          }
+          else
+          {
+            csVector3 v = ArgToVector3 (top);
+            top.SetFloat (v.y);
+          }
+        }
+        break;
       case CEL_OPERATION_VECZ:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: vecz vec=%s\n", i-1, A2S (top)));
-	  csVector3 v = ArgToVector3 (top);
-	  top.SetFloat (v.z);
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: vecz vec=%s\n", i-1, A2S (top)));
+          csVector3 v = ArgToVector3 (top);
+          top.SetFloat (v.z);
+        }
+        break;
       case CEL_OPERATION_COLRED:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: colred vec=%s\n", i-1, A2S (top)));
-	  csColor v = ArgToColor (top);
-	  top.SetFloat (v.red);
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: colred vec=%s\n", i-1, A2S (top)));
+          csColor v = ArgToColor (top);
+          top.SetFloat (v.red);
+        }
+        break;
       case CEL_OPERATION_COLGREEN:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: colgreen vec=%s\n", i-1, A2S (top)));
-	  csColor v = ArgToColor (top);
-	  top.SetFloat (v.green);
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: colgreen vec=%s\n", i-1, A2S (top)));
+          csColor v = ArgToColor (top);
+          top.SetFloat (v.green);
+        }
+        break;
       case CEL_OPERATION_COLBLUE:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: colblue vec=%s\n", i-1, A2S (top)));
-	  csColor v = ArgToColor (top);
-	  top.SetFloat (v.blue);
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: colblue vec=%s\n", i-1, A2S (top)));
+          csColor v = ArgToColor (top);
+          top.SetFloat (v.blue);
+        }
+        break;
       case CEL_OPERATION_VECTOR2:
         {
-	  CHECK_STACK(2)
-	  celXmlArg ely = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(2)
+          celXmlArg ely = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: vector2 %s, %s\n", i-1, A2S (top), A2S (ely)));
-	  top.SetVector (csVector2 (ArgToFloat (top), ArgToFloat (ely)));
-	}
-	break;
+          top.SetVector (csVector2 (ArgToFloat (top), ArgToFloat (ely)));
+        }
+        break;
       case CEL_OPERATION_VECTOR3:
         {
-	  CHECK_STACK(3)
-	  celXmlArg elz = stack.Pop ();
-	  celXmlArg ely = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(3)
+          celXmlArg elz = stack.Pop ();
+          celXmlArg ely = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: vector3 %s, %s, %s\n", i-1, A2S (top),
-	  	A2S (ely), A2S (elz)));
-	  top.SetVector (csVector3 (ArgToFloat (top),
-	  	ArgToFloat (ely), ArgToFloat (elz)));
-	}
-	break;
+          	A2S (ely), A2S (elz)));
+          top.SetVector (csVector3 (ArgToFloat (top),
+          	ArgToFloat (ely), ArgToFloat (elz)));
+        }
+        break;
       case CEL_OPERATION_COLOR:
         {
-	  CHECK_STACK(3)
-	  celXmlArg elb = stack.Pop ();
-	  celXmlArg elg = stack.Pop ();
-	  celXmlArg& top = stack.Top ();
+          CHECK_STACK(3)
+          celXmlArg elb = stack.Pop ();
+          celXmlArg elg = stack.Pop ();
+          celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: color %s, %s, %s\n", i-1, A2S (top),
-	  	A2S (elg), A2S (elb)));
-	  top.SetColor (csColor (ArgToFloat (top),
-	  	ArgToFloat (elg), ArgToFloat (elb)));
-	}
-	break;
+          	A2S (elg), A2S (elb)));
+          top.SetColor (csColor (ArgToFloat (top),
+          	ArgToFloat (elg), ArgToFloat (elb)));
+        }
+        break;
       case CEL_OPERATION_MOUSEX:
         {
           DUMP_EXEC ((":%04d: mousex ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  int mousex = cbl->GetMouseDriver ()->GetLastX ();
-	  stack[si].SetInt32 (mousex);
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          int mousex = cbl->GetMouseDriver ()->GetLastX ();
+          stack[si].SetInt32 (mousex);
+        }
+        break;
       case CEL_OPERATION_MOUSEY:
         {
           DUMP_EXEC ((":%04d: mousey ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  int mousey = cbl->GetMouseDriver ()->GetLastY ();
-	  stack[si].SetInt32 (mousey);
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          int mousey = cbl->GetMouseDriver ()->GetLastY ();
+          stack[si].SetInt32 (mousey);
+        }
+        break;
       case CEL_OPERATION_BB_MOUSEX:
         {
           DUMP_EXEC ((":%04d: bb_mousex ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  int mousex = cbl->GetMouseDriver ()->GetLastX ();
-	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
-	  stack[si].SetInt32 (bbmgr->ScreenToBillboardX (mousex));
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          int mousex = cbl->GetMouseDriver ()->GetLastX ();
+          iBillboardManager* bbmgr = cbl->GetBillboardManager ();
+          stack[si].SetInt32 (bbmgr->ScreenToBillboardX (mousex));
+        }
+        break;
       case CEL_OPERATION_BB_MOUSEY:
         {
           DUMP_EXEC ((":%04d: bb_mousey ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  int mousey = cbl->GetMouseDriver ()->GetLastY ();
-	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
-	  stack[si].SetInt32 (bbmgr->ScreenToBillboardY (mousey));
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          int mousey = cbl->GetMouseDriver ()->GetLastY ();
+          iBillboardManager* bbmgr = cbl->GetBillboardManager ();
+          stack[si].SetInt32 (bbmgr->ScreenToBillboardY (mousey));
+        }
+        break;
       case CEL_OPERATION_SCR_WIDTH:
         {
           DUMP_EXEC ((":%04d: scr_width ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetInt32 (cbl->GetG3D ()->GetWidth ());
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          stack[si].SetInt32 (cbl->GetG3D ()->GetWidth ());
+        }
+        break;
       case CEL_OPERATION_SCR_HEIGHT:
         {
           DUMP_EXEC ((":%04d: scr_height ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetInt32 (cbl->GetG3D ()->GetHeight ());
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          stack[si].SetInt32 (cbl->GetG3D ()->GetHeight ());
+        }
+        break;
       case CEL_OPERATION_ENTNAMETHIS:
         {
           DUMP_EXEC ((":%04d: entnamethis ()\n", i-1));
-	  size_t si = stack.Push (celXmlArg ());
-	  stack[si].SetString (entity->GetName (), true);
-	}
-	break;
+          size_t si = stack.Push (celXmlArg ());
+          stack[si].SetString (entity->GetName (), true);
+        }
+        break;
       case CEL_OPERATION_ENTNAME:
         {
           CHECK_STACK(1)
           celXmlArg& top = stack.Top ();
           DUMP_EXEC ((":%04d: entname (%s)\n", i-1, A2S (top)));
-	  iCelEntity* other_ent = ArgToEntity (top, pl);
-	  if (!other_ent)
-	  {
-	    return ReportError (cbl,
-	      	"Can't find entity '%s'!", A2S (top));
-	  }
-	  top.SetString (other_ent->GetName (), true);
-	}
-	break;
+          iCelEntity* other_ent = ArgToEntity (top, pl);
+          if (!other_ent)
+          {
+            return ReportError (cbl,
+            	"Can't find entity '%s'!", A2S (top));
+          }
+          top.SetString (other_ent->GetName (), true);
+        }
+        break;
       case CEL_OPERATION_RANDOMIZE:
         {
           DUMP_EXEC ((":%04d: randomize\n", i-1));
@@ -3987,130 +3987,162 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
       break;
       case CEL_OPERATION_ACTION:
         {
-	  CHECK_STACK(2)
-	  celXmlArg a_id = stack.Pop ();
-	  celXmlArg a_pc = stack.Pop ();
+          CHECK_STACK(2)
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg a_pc = stack.Pop ();
           DUMP_EXEC ((":%04d: action pc=%s id=%d\n", i-1, A2S (a_pc),
-	  	A2S (a_id)));
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc) pc = default_pc;
-	  if (!pc)
-	    return ReportError (cbl,
-	    	  "No valid property class for 'action'!");
-	  csStringID id = ArgToID (a_id);
-	  csRef<iCelParameterBlock> ref = action_params;
-	  celData ret;
-	  pc->PerformAction (id, action_params, ret);
-	}
+          	A2S (a_id)));
+          iCelPropertyClass* pc = ArgToPClass (a_pc);
+          if (!pc) pc = default_pc;
+          if (!pc)
+            return ReportError (cbl,
+            	"No valid property class for 'action'!");
+          csStringID id = ArgToID (a_id);
+          csRef<iCelParameterBlock> ref = action_params;
+          celData ret;
+          pc->PerformAction (id, action_params, ret);
+        }
         break;
       case CEL_OPERATION_ACTIONFUN:
         {
-	  CHECK_STACK(2)
-	  celXmlArg a_id = stack.Pop ();
-	  celXmlArg& a_pc = stack.Top ();
+          CHECK_STACK(2)
+          celXmlArg a_id = stack.Pop ();
+          celXmlArg& a_pc = stack.Top ();
           DUMP_EXEC ((":%04d: actionfun pc=%s id=%d\n", i-1, A2S (a_pc),
-	  	A2S (a_id)));
-	  iCelPropertyClass* pc = ArgToPClass (a_pc);
-	  if (!pc) pc = default_pc;
-	  if (!pc)
-	    return ReportError (cbl,
-	    	  "No valid property class for 'action'!");
-	  csStringID id = ArgToID (a_id);
-	  csRef<iCelParameterBlock> ref = action_params;
-	  celData ret;
-	  bool rc = pc->PerformAction (id, action_params, ret);
-	  if (ret.type == CEL_DATA_NONE)
-	    a_pc.Set (rc);
-	  else
-	    celData2celXmlArg (ret, a_pc);
-	}
+          	A2S (a_id)));
+          iCelPropertyClass* pc = ArgToPClass (a_pc);
+          if (!pc) pc = default_pc;
+          if (!pc)
+            return ReportError (cbl,
+            	"No valid property class for 'action'!");
+          csStringID id = ArgToID (a_id);
+          csRef<iCelParameterBlock> ref = action_params;
+          celData ret;
+          bool rc = pc->PerformAction (id, action_params, ret);
+          if (ret.type == CEL_DATA_NONE)
+            a_pc.Set (rc);
+          else
+            celData2celXmlArg (ret, a_pc);
+        }
         break;
       case CEL_OPERATION_DESTROYENTITY:
         {
-	  CHECK_STACK(1)
-	  celXmlArg aent = stack.Pop ();
-	  DUMP_EXEC ((":%04d: destroyentity %s\n", i-1, A2S (aent)));
-	  if (varprop_trace)
-	  {
-	    printf (":%s/%04lu: destroyentity %s\n",
-	    	cbl->call_stack.Top (),
-		(unsigned long)i-1, A2S (aent));
-	    fflush (stdout);
-	  }
-	  iCelEntity* ent = ArgToEntity (aent, pl);
-	  if (!ent)
-	    return ReportError (cbl,
-	    	  "Couldn't find entity with name '%s' for 'destroyentity'!",
-		  EntityNameForError (aent));
-	  pl->RemoveEntity (ent);
-	}
+          CHECK_STACK(1)
+          celXmlArg aent = stack.Pop ();
+          DUMP_EXEC ((":%04d: destroyentity %s\n", i-1, A2S (aent)));
+          if (varprop_trace)
+          {
+            printf (":%s/%04lu: destroyentity %s\n",
+            	cbl->call_stack.Top (),
+            	(unsigned long)i-1, A2S (aent));
+            fflush (stdout);
+          }
+          iCelEntity* ent = ArgToEntity (aent, pl);
+          if (!ent)
+            return ReportError (cbl,
+            	"Couldn't find entity with name '%s' for 'destroyentity'!",
+            	EntityNameForError (aent));
+          pl->RemoveEntity (ent);
+        }
+        break;
+      case CEL_OPERATION_DESTROYENTITY_CLASS:
+        {
+          CHECK_STACK(1)
+          celXmlArg entclass = stack.Pop ();
+          DUMP_EXEC ((":%04d: destroyentity class=%s\n", i-1,
+          	A2S (entclass)));
+          if (varprop_trace)
+          {
+            printf (":%s/%04lu: destroyentity class=%s\n",
+            	cbl->call_stack.Top (),
+            	(unsigned long)i-1, A2S (entclass));
+            fflush (stdout);
+          }
+          iCelEntityList* entlist = pl->GetClassEntitiesList (
+          	pl->FetchStringID (ArgToString (entclass)));
+          if (!entlist)
+            return ReportError (cbl,
+            	"Couldn't find entities with class name '%s' for 'destroyentity'!",
+            	(const char*)ArgToString (entclass));
+          size_t e;
+          size_t entcount = entlist->GetCount ();
+          for (e = 0; e < entcount; e ++)
+          {
+            iCelEntity* ent = entlist->Get (e);
+            if (!ent)
+              return ReportError (cbl,
+              	"Couldn't find entity nr %d on the list for 'destroyentity'!",
+              	e);
+            pl->RemoveEntity (ent);
+          }
+        }
         break;
       case CEL_OPERATION_BB_MOVELAYER:
         {
-	  CHECK_STACK(3)
-	  celXmlArg a_y = stack.Pop ();
-	  celXmlArg a_x = stack.Pop ();
-	  celXmlArg a_layer = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1,
-	  	A2S (a_layer),
-	  	A2S (a_x), A2S (a_y)));
-	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
-	  const char* layername = ArgToString (a_layer);
-	  iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
-	  if (!layer)
-	    layer = bbmgr->CreateBillboardLayer (layername);
-	  layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
-	}
-	break;
+          CHECK_STACK(3)
+          celXmlArg a_y = stack.Pop ();
+          celXmlArg a_x = stack.Pop ();
+          celXmlArg a_layer = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_movelayer layer=%s x=%s y=%s\n", i-1,
+          	A2S (a_layer),
+          	A2S (a_x), A2S (a_y)));
+          iBillboardManager* bbmgr = cbl->GetBillboardManager ();
+          const char* layername = ArgToString (a_layer);
+          iBillboardLayer* layer = bbmgr->FindBillboardLayer (layername);
+          if (!layer)
+            layer = bbmgr->CreateBillboardLayer (layername);
+          layer->SetOffset (ArgToInt32 (a_x), ArgToInt32 (a_y));
+        }
+        break;
       case CEL_OPERATION_BB_MOVEDELTA_E:
         {
-	  CHECK_STACK(4)
-	  celXmlArg adelta = stack.Pop ();
-	  celXmlArg ay = stack.Pop ();
-	  celXmlArg ax = stack.Pop ();
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_movedelta_e pc=%s x=%s y=%s delta=%s\n",
-	  	i-1, A2S (top), A2S (ax), A2S (ay), A2S (adelta)));
-	  int32 x = ArgToInt32 (ax);
-	  int32 y = ArgToInt32 (ay);
-	  int32 delta = ArgToInt32 (adelta);
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->MoveToPosition (delta, x, y);
+          CHECK_STACK(4)
+          celXmlArg adelta = stack.Pop ();
+          celXmlArg ay = stack.Pop ();
+          celXmlArg ax = stack.Pop ();
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_movedelta_e pc=%s x=%s y=%s delta=%s\n",
+          	i-1, A2S (top), A2S (ax), A2S (ay), A2S (adelta)));
+          int32 x = ArgToInt32 (ax);
+          int32 y = ArgToInt32 (ay);
+          int32 delta = ArgToInt32 (adelta);
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+            	"Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->MoveToPosition (delta, x, y);
         }
-	break;
+        break;
       case CEL_OPERATION_BB_MOVEDELTA:
         {
-	  CHECK_STACK(3)
-	  celXmlArg adelta = stack.Pop ();
-	  celXmlArg ay = stack.Pop ();
-	  celXmlArg ax = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_movedelta x=%s y=%s delta=%s\n", i-1, A2S (ax),
-	  	A2S (ay), A2S (adelta)));
-	  int32 x = ArgToInt32 (ax);
-	  int32 y = ArgToInt32 (ay);
-	  int32 delta = ArgToInt32 (adelta);
-	  behave->GetBillboard ()->GetBillboard ()->MoveToPosition (
-	  	delta, x, y);
-	}
-	break;
+          CHECK_STACK(3)
+          celXmlArg adelta = stack.Pop ();
+          celXmlArg ay = stack.Pop ();
+          celXmlArg ax = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_movedelta x=%s y=%s delta=%s\n", i-1, A2S (ax),
+          	A2S (ay), A2S (adelta)));
+          int32 x = ArgToInt32 (ax);
+          int32 y = ArgToInt32 (ay);
+          int32 delta = ArgToInt32 (adelta);
+          behave->GetBillboard ()->GetBillboard ()->MoveToPosition (
+          	delta, x, y);
+        }
+        break;
       case CEL_OPERATION_BB_TOFRONT:
         {
-	  DUMP_EXEC ((":%04d: bb_tofront\n", i-1));
-	  behave->GetBillboard ()->GetBillboard ()->StackTop ();
-	}
-	break;
+          DUMP_EXEC ((":%04d: bb_tofront\n", i-1));
+          behave->GetBillboard ()->GetBillboard ()->StackTop ();
+        }
+        break;
       case CEL_OPERATION_BB_TOBACK:
         {
-	  DUMP_EXEC ((":%04d: bb_toback\n", i-1));
-	  behave->GetBillboard ()->GetBillboard ()->StackBottom ();
-	}
-	break;
+          DUMP_EXEC ((":%04d: bb_toback\n", i-1));
+          behave->GetBillboard ()->GetBillboard ()->StackBottom ();
+        }
+        break;
       case CEL_OPERATION_BB_UP:
         {
 	  DUMP_EXEC ((":%04d: bb_up\n", i-1));
@@ -5113,64 +5145,64 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_SOUND:
         {
-	  CHECK_STACK(4)
-	  celXmlArg a_mode3d = stack.Pop ();
-	  celXmlArg a_volume = stack.Pop ();
-	  celXmlArg a_loop = stack.Pop ();
-	  celXmlArg a_name = stack.Pop ();
-	  DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
-		i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
-		A2S (a_mode3d)));
-	  csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
-	  	cbl->GetObjectRegistry ());
-	  if (!sndmngr)
-	    return ReportError (cbl, "Error! No sound manager!");
-	  csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
-		a_name));
-	  if (w)
-	  {
-	    csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
-	    	iSndSysRenderer> (cbl->GetObjectRegistry (),
-		"crystalspace.sndsys.renderer.software");
-	    if (!renderer)
-	      return ReportError (cbl, "Error! No sound renderer!");
-	    csRef<iSndSysSource> sound_source;
-	    csRef<iSndSysStream> sound_stream;
-	    // If the stream is present in the sound wrapper then that
-	    // means we have a deprecated old-style sound wrapper that
-	    // still has a stream associated with it (uses 'mode3d'
-	    // attribute in <sound> section on map file).
-	    if (w->GetStream ())
-	      sound_stream = w->GetStream ();
-	    else
-	    {
-	      int mode3d;
-	      if (IsNumericType (a_mode3d))
-		mode3d = ArgToInt32 (a_mode3d);
-	      else
-	      {
-		const char* modestring = ArgToString (a_mode3d);
-		if (!strcasecmp ("absolute", modestring))
-		  mode3d = CS_SND3D_ABSOLUTE;
-		else if (!strcasecmp ("relative", modestring))
-		  mode3d = CS_SND3D_RELATIVE;
-		else
-		  mode3d = CS_SND3D_DISABLE;
-	      }
-	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
-	    }
-	    sound_source = renderer->CreateSource (sound_stream);
-	    sound_source->SetVolume (ArgToFloat (a_volume));
-	    sound_stream->ResetPosition ();
-	    sound_stream->SetLoopState(ArgToInt32 (a_loop));
-	    sound_stream->Unpause ();
-	    if (!w->GetStream ())
-	      sound_stream->SetAutoUnregister (true);
-	  }
-	  else
-	    return ReportError (cbl, "Error! Can't find sound '%s'!",
-		A2S (a_name));
-	}
+          CHECK_STACK(4)
+          celXmlArg a_mode3d = stack.Pop ();
+          celXmlArg a_volume = stack.Pop ();
+          celXmlArg a_loop = stack.Pop ();
+          celXmlArg a_name = stack.Pop ();
+          DUMP_EXEC ((":%04d: sound name=%s loop=%s vol=%s mode3d=%d\n",
+          	i-1, A2S (a_name), A2S (a_loop), A2S (a_volume),
+          	A2S (a_mode3d)));
+          csRef<iSndSysManager> sndmngr = csQueryRegistry<iSndSysManager> (
+          	cbl->GetObjectRegistry ());
+          if (!sndmngr)
+            return ReportError (cbl, "Error! No sound manager!");
+          csRef<iSndSysWrapper> w = sndmngr->FindSoundByName(ArgToString (
+          	a_name));
+          if (w)
+          {
+            csRef<iSndSysRenderer> renderer = csQueryRegistryOrLoad<
+            	iSndSysRenderer> (cbl->GetObjectRegistry (),
+            	"crystalspace.sndsys.renderer.software");
+            if (!renderer)
+              return ReportError (cbl, "Error! No sound renderer!");
+            csRef<iSndSysSource> sound_source;
+            csRef<iSndSysStream> sound_stream;
+            // If the stream is present in the sound wrapper then that
+            // means we have a deprecated old-style sound wrapper that
+            // still has a stream associated with it (uses 'mode3d'
+            // attribute in <sound> section on map file).
+            if (w->GetStream ())
+              sound_stream = w->GetStream ();
+            else
+            {
+              int mode3d;
+              if (IsNumericType (a_mode3d))
+                mode3d = ArgToInt32 (a_mode3d);
+              else
+              {
+                const char* modestring = ArgToString (a_mode3d);
+                if (!strcasecmp ("absolute", modestring))
+                  mode3d = CS_SND3D_ABSOLUTE;
+                else if (!strcasecmp ("relative", modestring))
+                  mode3d = CS_SND3D_RELATIVE;
+                else
+                  mode3d = CS_SND3D_DISABLE;
+              }
+              sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+            }
+            sound_source = renderer->CreateSource (sound_stream);
+            sound_source->SetVolume (ArgToFloat (a_volume));
+            sound_stream->ResetPosition ();
+            sound_stream->SetLoopState(ArgToInt32 (a_loop));
+            sound_stream->Unpause ();
+            if (!w->GetStream ())
+              sound_stream->SetAutoUnregister (true);
+          }
+          else
+            return ReportError (cbl, "Error! Can't find sound '%s'!",
+            	A2S (a_name));
+        }
         break;
       case CEL_OPERATION_HITBEAM:
         {
@@ -6105,66 +6137,6 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
     }
   }
 }
-
-/*
-(11:07:11)  [darek]:  Jorrit: I'm making map key support for blxml, but I'm thinking and have no good idea from which place can I fetch it csRef<iKeyValuePair> kp = scfQueryInterface<iKeyValuePair> ( ???? ); 
-(11:07:29)  [darek]:  global iterator of all objects ? 
-(11:07:36)  [darek]:  this is ugly 
-(11:07:52)  Jorrit:  What is your question exactly? 
-(11:08:01)  Jorrit:  You mean you want iterator support in blxml or so? 
-(11:08:05)  [darek]:  what do use instead of that '????' 
-(11:08:27)  [darek]:  I need get keyvaluepair 
-(11:08:35)  Jorrit:  hold on 
-(11:09:26)  Jorrit:  First you get the iObject that contains the key value pairs. 
-(11:09:33)  Jorrit:  i.e. mapnode->QueryObject() 
-(11:09:37)  Jorrit:  Then you call GetIterator() on that. 
-(11:09:55)  Jorrit:  Then you do while (it->HasNext()) { iObject* obj = it->Next(); 
-(11:10:05)  Jorrit:  And there is the 'obj' that you can use for ???? 
-(11:10:11)  Jorrit:  Note that there may be other stuff in there. 
-(11:10:13)  Jorrit:  So always test. 
-(11:10:15)  [darek]:  but it should support all objects or at least mapnode and meshobj 
-(11:10:21)  Jorrit:  so? 
-(11:10:26)  Jorrit:  This works for everything. 
-(11:10:32)  Jorrit:  As long as you have the iObject for the parent. 
-(11:10:39)  [darek]:  yes exactly 
-(11:10:44)  [darek]:  i'm asking about that parent 
-(11:10:54)  Jorrit:  What is the exact question? 
-(11:11:07)  [darek]:  what is the parent for searching ? 
-(11:11:09)  [darek]:  sector ? 
-(11:11:12)  [darek]:  all objects ? 
-(11:11:17)  Jorrit:  sector, mapnode, mesh, light, ... 
-(11:11:20)  Jorrit:  i.e. nearly everything. 
-(11:11:28)  [darek]:  ok but i musty find it by name 
-(11:11:34)  groton:  hi again all :) 
-(11:11:38)  Jorrit:  [darek]: name and type 
-(11:11:43)  Jorrit:  [darek]: i.e. a light and mesh can have same name. 
-(11:12:01)  [darek]:  aha then parent should be iEngine ? 
-(11:12:06)  Jorrit:  no no 
-(11:12:13)  Jorrit:  The parent MUST be the object that contains the key value pairs. 
-(11:12:17)  Jorrit:  So you first need to find that. 
-(11:12:23)  Jorrit:  But finding that depends on type. 
-(11:12:31)  Jorrit:  i.e. a mesh you find with engine->FindMeshByName() or something. 
-(11:12:42)  Jorrit:  FindMeshObject() 
-(11:12:54)  Jorrit:  A material you find with engine->FindMaterial() 
-(11:12:55)  Jorrit:  And so on. 
-(11:13:05)  [darek]:  ok 
-(11:13:25)  [darek]:  and this shoudl be splitted to several fuctions key_mesh key_light ? 
-(11:13:35)  [darek]:  or one function ? 
-(11:13:39)  Jorrit:  depends 
-(11:13:42)  Jorrit:  Not sure. 
-(11:13:52)  Jorrit:  Several functions is probably better I think. 
-(11:13:59)  [darek]:  ok 
-(11:14:37)  Jorrit:  Note that some objects require an additional sector to find. 
-(11:14:38)  Jorrit:  Like a light. 
-(11:14:40)  Jorrit:  And a map node. 
-(11:14:47)  Jorrit:  So you need both name of sector and name of object there. 
-(11:14:52)  Jorrit:  But that's not the case for mesh factories for example. 
-(11:14:57)  Jorrit:  For meshes there are two ways. 
-(11:15:01)  Jorrit:  The engine keeps track of all meshes globally. 
-(11:15:08)  Jorrit:  But it is sometimes more efficient to only look in some sector. 
-(11:15:11)  Jorrit:  So there you can choose. 
-(11:15:18)  [darek]:  ok
-*/
 
 void celXmlScriptEventHandler::FindMouseTarget (iPcCamera* pccam,
 	int screenx, int screeny,

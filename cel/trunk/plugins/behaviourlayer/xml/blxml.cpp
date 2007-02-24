@@ -1431,112 +1431,112 @@ bool celBlXml::ParseExpressionInt (
   {
     case CEL_TOKEN_ERROR:
       synldr->ReportError ("cel.behaviour.xml", child,
-		"Error parsing expression for '%s'!", name);
+      	"Error parsing expression for '%s'!", name);
       return false;
     case CEL_TOKEN_DEREFPAR:
       {
         input = celXmlSkipWhiteSpace (input);
-	const char* i = input;
-	while (*i && (isalnum (*i) || *i == '_')) i++;
-	if (i == input)
-	{
-	  synldr->ReportError ("cel.behaviour.xml", child,
-		"Missing parameter name after '@' for '%s'!", name);
-	  return false;
-	}
-	const char* prefix = "cel.parameter.";
-	char* str = new char [strlen (prefix) + i-input+1];
-	strcpy (str, prefix);
-	strncpy (str+strlen (prefix), input, i-input);
-	str[strlen (prefix) + i-input] = 0;
-	input = i;
-	csStringID id = pl->FetchStringID (str);
-	delete[] str;
-	h->AddOperation (CEL_OPERATION_PUSH);
-	h->GetArgument ().SetID (id);
-	h->AddOperation (CEL_OPERATION_PARAM);
+        const char* i = input;
+        while (*i && (isalnum (*i) || *i == '_')) i++;
+        if (i == input)
+        {
+          synldr->ReportError ("cel.behaviour.xml", child,
+          	"Missing parameter name after '@' for '%s'!", name);
+          return false;
+        }
+        const char* prefix = "cel.parameter.";
+        char* str = new char [strlen (prefix) + i-input+1];
+        strcpy (str, prefix);
+        strncpy (str+strlen (prefix), input, i-input);
+        str[strlen (prefix) + i-input] = 0;
+        input = i;
+        csStringID id = pl->FetchStringID (str);
+        delete[] str;
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetID (id);
+        h->AddOperation (CEL_OPERATION_PARAM);
       }
       break;
     case CEL_TOKEN_DEREFLVAR:
       {
         char* str;
         if (!ParseExpressionOrConstantString (input, local_vars, child,
-		h, name, CEL_PRIORITY_ONETERM, str))
+        	h, name, CEL_PRIORITY_ONETERM, str))
           return false;
-	if (!str)
-	{
+        if (!str)
+        {
           synldr->ReportError ("cel.behaviour.xml", child,
-		    "Local variables cannot use expressions for the name!");
+          	"Local variables cannot use expressions for the name!");
           return false;
-	}
-	size_t i;
-	size_t varidx = (size_t)-1;
-	for (i = 0 ; i < local_vars.GetSize () ; i++)
-	  if (!strcmp (str, local_vars[i]))
-	  {
-	    varidx = i;
-	    break;
-	  }
-	if (varidx == (size_t)-1)
-	{
-	  varidx = local_vars.Push (str);
+        }
+        size_t i;
+        size_t varidx = (size_t)-1;
+        for (i = 0 ; i < local_vars.GetSize () ; i++)
+          if (!strcmp (str, local_vars[i]))
+          {
+            varidx = i;
+            break;
+          }
+        if (varidx == (size_t)-1)
+        {
+          varidx = local_vars.Push (str);
           //synldr->ReportError ("cel.behaviour.xml", child,
-		    //"Local variable '%s' is not defined!", str);
+          	//"Local variable '%s' is not defined!", str);
           //return false;
-	}
+        }
         h->AddOperation (CEL_OPERATION_DEREFLVAR);
-	h->GetArgument ().SetUInt32 ((uint32)varidx);
+        h->GetArgument ().SetUInt32 ((uint32)varidx);
       }
       break;
     case CEL_TOKEN_DEREFRVAR:
       {
         char* str;
         if (!ParseExpressionOrConstantString (input, local_vars,
-		child, h, name, CEL_PRIORITY_ONETERM, str))
+        	child, h, name, CEL_PRIORITY_ONETERM, str))
           return false;
         pinput = input;
         input = celXmlParseToken (input, token);
         if (token == CEL_TOKEN_DOT)
         {
-	  // If we had a constant entity name we convert that to push anyway
-	  // and use check if 'name' is constant instead.
-	  if (str)
-	  {
-	    h->AddOperation (CEL_OPERATION_PUSHSTR);
-	    h->GetArgument ().SetStringPrealloc (str);
+          // If we had a constant entity name we convert that to push anyway
+          // and use check if 'name' is constant instead.
+          if (str)
+          {
+            h->AddOperation (CEL_OPERATION_PUSHSTR);
+            h->GetArgument ().SetStringPrealloc (str);
             if (!ParseExpressionOrConstantString (input, local_vars,
-	    	child, h, name, CEL_PRIORITY_ONETERM, str))
+            	child, h, name, CEL_PRIORITY_ONETERM, str))
               return false;
-	  }
-	  else
-	  {
+          }
+          else
+          {
             if (!ParseExpression (input, local_vars,
-	    	child, h, name, CEL_PRIORITY_ONETERM))
+            	child, h, name, CEL_PRIORITY_ONETERM))
               return false;
-	  }
+          }
 
-	  if (str)
-	  {
+          if (str)
+          {
             h->AddOperation (CEL_OPERATION_DEREFRVARENT_STR);
-	    h->GetArgument ().SetStringPrealloc (str);
-	  }
-	  else
-	  {
+            h->GetArgument ().SetStringPrealloc (str);
+          }
+          else
+          {
             h->AddOperation (CEL_OPERATION_DEREFRVARENT);
-	  }
+          }
         }
         else
         {
           input = pinput;	// Restore!
-	  if (str)
-	  {
+          if (str)
+          {
             h->AddOperation (CEL_OPERATION_DEREFRVAR_STR);
-	    h->GetArgument ().SetStringPrealloc (str);
-	  }
-	  else
-	  {
+            h->GetArgument ().SetStringPrealloc (str);
+          }
+          else
+          {
             h->AddOperation (CEL_OPERATION_DEREFRVAR);
-	  }
+          }
         }
       }
       break;
@@ -1544,128 +1544,127 @@ bool celBlXml::ParseExpressionInt (
       {
         char* str;
         if (!ParseExpressionOrConstantString (input, local_vars,
-		child, h, name, CEL_PRIORITY_ONETERM, str))
+        	child, h, name, CEL_PRIORITY_ONETERM, str))
           return false;
         pinput = input;
         input = celXmlParseToken (input, token);
         if (token == CEL_TOKEN_DOT)
         {
-	  // If we had a constant entity name we convert that to push anyway
-	  // and use check if 'name' is constant instead.
-	  if (str)
-	  {
-	    h->AddOperation (CEL_OPERATION_PUSHSTR);
-	    h->GetArgument ().SetStringPrealloc (str);
+          // If we had a constant entity name we convert that to push anyway
+          // and use check if 'name' is constant instead.
+          if (str)
+          {
+            h->AddOperation (CEL_OPERATION_PUSHSTR);
+            h->GetArgument ().SetStringPrealloc (str);
             if (!ParseExpressionOrConstantString (input, local_vars,
-	    	child, h, name, CEL_PRIORITY_ONETERM, str))
+            	child, h, name, CEL_PRIORITY_ONETERM, str))
               return false;
-	  }
-	  else
-	  {
+          }
+          else
+          {
             if (!ParseExpression (input, local_vars,
-	    	child, h, name, CEL_PRIORITY_ONETERM))
+            	child, h, name, CEL_PRIORITY_ONETERM))
               return false;
-	  }
+          }
 
           pinput = input;
           input = celXmlParseToken (input, token);
-	  if (token == CEL_TOKEN_VECTOR)
-	  {
-	    // Special case of dereferencing an array
-	    // (?entity.array[index] notation).
+          if (token == CEL_TOKEN_VECTOR)
+          {
+            // Special case of dereferencing an array
+            // (?entity.array[index] notation).
             if (!ParseExpression (input, local_vars, child, h, name, 0))
-	      return false;
+            	return false;
             input = celXmlParseToken (input, token);
-	    bool twoargs = false;
-	    if (token == CEL_TOKEN_COMMA)
-	    {
+            bool twoargs = false;
+            if (token == CEL_TOKEN_COMMA)
+            {
               if (!ParseExpression (input, local_vars, child, h, name, 0))
-	        return false;
+              	return false;
               input = celXmlParseToken (input, token);
-	      twoargs = true;
-	    }
+              twoargs = true;
+            }
             if (token != CEL_TOKEN_VECTORCLOSE)
-	    {
+            {
               synldr->ReportError ("cel.behaviour.xml", child,
-		      "Missing ']' or ',' for array in '%s'!", name);
+              	"Missing ']' or ',' for array in '%s'!", name);
               return false;
-	    }
-	    if (str)
-	    {
+            }
+            if (str)
+            {
               h->AddOperation (twoargs
-	      	? CEL_OPERATION_DEREFARRENT2_STR
-	      	: CEL_OPERATION_DEREFARRENT_STR);
-	      h->GetArgument ().SetStringPrealloc (str);
-	    }
-	    else
-	    {
+              	? CEL_OPERATION_DEREFARRENT2_STR
+              	: CEL_OPERATION_DEREFARRENT_STR);
+              h->GetArgument ().SetStringPrealloc (str);
+            }
+            else
+            {
               h->AddOperation (twoargs
-	      	? CEL_OPERATION_DEREFARRENT2
-	      	: CEL_OPERATION_DEREFARRENT);
-	    }
-	  }
-	  else
-	  {
-	    input = pinput; // Restore
-
-	    if (str)
-	    {
+              	? CEL_OPERATION_DEREFARRENT2
+              	: CEL_OPERATION_DEREFARRENT);
+            }
+          }
+          else
+          {
+            input = pinput; // Restore
+            if (str)
+            {
               h->AddOperation (CEL_OPERATION_DEREFVARENT_STR);
-	      h->GetArgument ().SetStringPrealloc (str);
-	    }
-	    else
-	    {
+              h->GetArgument ().SetStringPrealloc (str);
+            }
+            else
+            {
               h->AddOperation (CEL_OPERATION_DEREFVARENT);
-	    }
-	  }
+            }
+          }
         }
-	else if (token == CEL_TOKEN_VECTOR)
-	{
-	  // Special case of dereferencing an array (?array[index] notation).
+        else if (token == CEL_TOKEN_VECTOR)
+        {
+          // Special case of dereferencing an array (?array[index] notation).
           if (!ParseExpression (input, local_vars, child, h, name, 0))
-	    return false;
+            return false;
           input = celXmlParseToken (input, token);
-	  bool twoargs = false;
-	  if (token == CEL_TOKEN_COMMA)
-	  {
+          bool twoargs = false;
+          if (token == CEL_TOKEN_COMMA)
+          {
             if (!ParseExpression (input, local_vars, child, h, name, 0))
-	      return false;
+              return false;
             input = celXmlParseToken (input, token);
-	    twoargs = true;
-	  }
+            twoargs = true;
+          }
 
           if (token != CEL_TOKEN_VECTORCLOSE)
-	  {
+          {
             synldr->ReportError ("cel.behaviour.xml", child,
-		    "Missing ']' or ',' for array in '%s'!", name);
+            	"Missing ']' or ',' for array in '%s'!", name);
             return false;
-	  }
-	  if (str)
-	  {
+          }
+          if (str)
+          {
             h->AddOperation (twoargs
-	    	? CEL_OPERATION_DEREFARR2_STR
-		: CEL_OPERATION_DEREFARR_STR);
-	    h->GetArgument ().SetStringPrealloc (str);
-	  }
-	  else
-	  {
+            	? CEL_OPERATION_DEREFARR2_STR
+            	: CEL_OPERATION_DEREFARR_STR);
+            h->GetArgument ().SetStringPrealloc (str);
+          }
+          else
+          {
             h->AddOperation (twoargs
-	    	? CEL_OPERATION_DEREFARR2
-	    	: CEL_OPERATION_DEREFARR);
-	  }
-	}
+            	? CEL_OPERATION_DEREFARR2
+            	: CEL_OPERATION_DEREFARR);
+          }
+        }
         else
         {
           input = pinput;	// Restore!
-	  if (str)
-	  {
+          if (str)
+          {
             h->AddOperation (CEL_OPERATION_DEREFVAR_STR);
-	    h->GetArgument ().SetStringPrealloc (str);
-	  }
-	  else
-	  {
+            h->GetArgument ().SetStringPrealloc (str);
+          }
+          else
+          {
             h->AddOperation (CEL_OPERATION_DEREFVAR);
-	  }
+          }
         }
       }
       break;
@@ -1684,9 +1683,9 @@ bool celBlXml::ParseExpressionInt (
     case CEL_TOKEN_IDENTIFIER:
       {
         char* str;
-	str = new char[input-pinput+1];
-	strncpy (str, pinput, input-pinput);
-	str[input-pinput] = 0;
+        str = new char[input-pinput+1];
+        strncpy (str, pinput, input-pinput);
+        str[input-pinput] = 0;
         h->AddOperation (CEL_OPERATION_PUSHSTR);
         h->GetArgument ().SetStringPrealloc (str);
       }
@@ -1698,7 +1697,7 @@ bool celBlXml::ParseExpressionInt (
         if (!str)
         {
           synldr->ReportError ("cel.behaviour.xml", child,
-		    "Error parsing string for '%s'!", name);
+          	"Error parsing string for '%s'!", name);
           return false;
         }
         h->AddOperation (CEL_OPERATION_PUSHSTR);
@@ -2495,10 +2494,27 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 	}
 	break;
       case XMLTOKEN_DESTROYENTITY:
-        if (!ParseExpression (local_vars, child, h, "name", "destroyentity"))
-	  return false;
-	h->AddOperation (CEL_OPERATION_DESTROYENTITY);
-	break;
+        {
+          if (child->GetAttributeValue ("name"))
+          {
+            if (!ParseExpression (local_vars, child, h, "name",
+            	"destroyentity"))
+              return false;
+            h->AddOperation (CEL_OPERATION_DESTROYENTITY);
+            break;
+          }
+          else if (child->GetAttributeValue ("class"))
+          {
+            if (!ParseExpression (local_vars, child, h, "class",
+            	"destroyentity"))
+              return false;
+            h->AddOperation (CEL_OPERATION_DESTROYENTITY_CLASS);
+            break;
+          }
+          else
+            return false;
+        }
+        break;
       case XMLTOKEN_CREATEENTITY:
 	if (child->GetAttributeValue ("template"))
 	{
@@ -2938,9 +2954,9 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
       {
         delete script;
         synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"'name' attribute is missing for the event in script '%s'!",
-		name);
+        	"cel.behaviour.xml", child,
+        	"'name' attribute is missing for the event in script '%s'!",
+        	name);
         return false;
       }
       celXmlScriptEventHandler* h = script->FindOrCreateEventHandler (
@@ -2949,7 +2965,7 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
       if (!ParseEventHandler (h, local_vars, child, script))
       {
         delete script;
-	return false;
+        return false;
       }
       h->AddOperation (CEL_OPERATION_END);
     }
@@ -2957,22 +2973,22 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
     {
       const char* supername = child->GetAttributeValue ("name");
       celXmlScript* superscript = supername
-	      ? scripts_hash.Get (supername, 0)
-	      : 0;
+      	? scripts_hash.Get (supername, 0)
+      	: 0;
       if (!superscript)
       {
         delete script;
         synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"Can't find superscript with name '%s'!", supername);
+        	"cel.behaviour.xml", child,
+        	"Can't find superscript with name '%s'!", supername);
         return false;
       }
       if (script->GetSuperScript ())
       {
         delete script;
         synldr->ReportError (
-	        "cel.behaviour.xml", child,
-		"This script already has a superscript!");
+        	"cel.behaviour.xml", child,
+        	"This script already has a superscript!");
         return false;
       }
       script->SetSuperScript (superscript);
@@ -2991,13 +3007,13 @@ bool celBlXml::CreateBehaviourScriptFromDoc (const char* name,
 }
 
 bool celBlXml::CreateBehaviourScriptFromString (const char* name,
-  	const char* string)
+	const char* string)
 {
   return false;
 }
 
 bool celBlXml::CreateBehaviourScriptFromFile (const char* name,
-  	const char* filename)
+	const char* filename)
 {
   return false;
 }
@@ -3011,7 +3027,7 @@ iCelBehaviour* celBlXml::CreateBehaviour (iCelEntity* entity, const char* name)
     if (!strcmp (name, "bootstrap"))
     {
       celBehaviourBootstrap* bootstrap = new celBehaviourBootstrap (entity,
-    	  object_reg);
+      	object_reg);
       bootstrap->SetName (name);
       bootstrap->SetBehaviourLayer (this);
       entity->SetBehaviour (bootstrap);
@@ -3045,20 +3061,20 @@ static bool celXmlArg2celData (const celXmlArg& in, celData& out)
     case CEL_DATA_COLOR:
       {
         csColor col (in.arg.col.red, in.arg.col.green,
-	  in.arg.col.blue);
+        	in.arg.col.blue);
         out.Set (col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
-	csVector2 v (in.arg.vec.x, in.arg.vec.y);
-	out.Set (v);
+        csVector2 v (in.arg.vec.x, in.arg.vec.y);
+        out.Set (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
-	csVector3 v (in.arg.vec.x, in.arg.vec.y, in.arg.vec.z);
-	out.Set (v);
+        csVector3 v (in.arg.vec.x, in.arg.vec.y, in.arg.vec.z);
+        out.Set (v);
       }
       break;
     default:
@@ -3108,26 +3124,26 @@ void celExpression::SetLocalVariable (size_t idx, const celData& value)
     case CEL_DATA_VECTOR2:
       {
         csVector2 v;
-	v.x = value.value.v.x;
-	v.y = value.value.v.y;
+        v.x = value.value.v.x;
+        v.y = value.value.v.y;
         handler->GetLocalVariable (idx).SetVector (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
         csVector3 v;
-	v.x = value.value.v.x;
-	v.y = value.value.v.y;
-	v.z = value.value.v.z;
+        v.x = value.value.v.x;
+        v.y = value.value.v.y;
+        v.z = value.value.v.z;
         handler->GetLocalVariable (idx).SetVector (v);
       }
       break;
     case CEL_DATA_COLOR:
       {
         csColor v;
-	v.red = value.value.col.red;
-	v.green = value.value.col.green;
-	v.blue = value.value.col.blue;
+        v.red = value.value.col.red;
+        v.green = value.value.col.green;
+        v.blue = value.value.col.blue;
         handler->GetLocalVariable (idx).SetColor (v);
       }
       break;
@@ -3182,7 +3198,7 @@ csPtr<iCelExpression> celBlXml::Parse (const char* string)
   celXmlScriptEventHandler* handler = new celXmlScriptEventHandler (pl, 0);
   exp->handler = handler;
   if (!ParseExpression (string, exp->local_vars, 0, handler, "expression",
-	CEL_PRIORITY_NORMAL))
+  	CEL_PRIORITY_NORMAL))
   {
     delete exp;
     return 0;
