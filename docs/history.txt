@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-Feb-2007
+	- Darek added <destroyentity class="name"/> to blxml.
 23-Feb-2007
 	- caedes added pcmover section to the manual and fixed a little
 	  typo in usingcel basics.
