@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.3.8 Trigger</title>
+<title>Crystal Entity Layer: 4.3.8 Quest Manager</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.3.8 Trigger">
-<meta name="keywords" content="Crystal Entity Layer: 4.3.8 Trigger">
+<meta name="description" content="Crystal Entity Layer: 4.3.8 Quest Manager">
+<meta name="keywords" content="Crystal Entity Layer: 4.3.8 Quest Manager">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -40,11 +40,11 @@ ul.toc {list-style: none}
 
 <body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<a name="PropClass-Trigger"></a>
+<a name="PropClass-Quest-Manager"></a>
 <a name="4.3.8"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.3.7.html#4.3.7" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.9.html#4.3.9" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
@@ -58,97 +58,260 @@ ul.toc {list-style: none}
 <td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="subsection"> 4.3.8 Trigger </h3>
+<h3 class="subsection"> 4.3.8 Quest Manager </h3>
 
-<p>The trigger property class is capable of detecting when another entity (that has a pcmesh) enters or leaves an area defined by this trigger. In that case it can send messages to the entity that contains this property class and/or the entities that enter/leave the trigger area.
+<p>The quest property classes uses the quest manager in the background so
+this section will also explain the quest manager.
 </p>
-<a name="SEC96"></a>
+<a name="SEC94"></a>
 <h4 class="subsubheading"> Property Class Details </h4>
 
 <ul>
 <li> <em>Name</em>:
-<samp>`pctrigger'</samp>
+<samp>`pcquest'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.trigger'</samp>
+<samp>`cel.pcfactory.quest'</samp>
 </li><li> <em>Interface</em>:
-<code>iPcTrigger</code>
+<code>iPcQuest</code>
 </li><li> <em>Header</em>:
-<tt>`include/propclass/trigger.h'</tt>
+<tt>`include/propclass/quest.h'</tt>
 </li></ul>
 
-<a name="SEC97"></a>
+<a name="SEC95"></a>
 <h4 class="subsubheading"> General Information </h4>
 
-<p>PcTrigger can be used when you want an entity to receive messages when some other entity enters or leaves a certain area of influence. Also the entity entering the trigger will receive a message on entering or leaving the area.
+<p>The quest manager is one of the most important modules in Crystal Entity
+Layer. A quest is basically a <em>story</em> in a game. With story defined
+in the very broad sense of the word. A quest can be as simple as a quest
+to turn on a light in a room if the player clicks on a button to complex
+quests that keep track of <small>NPC</small> conversation and complex interaction with
+items. A quest is a state machine. At every given time it is at some specific
+state and can change state in response to some event. There are quest
+factories (<code>iQuestFactory</code>) and quests (<code>iQuest</code>). A factory acts
+like a template from wich to create quests. In every quest there are basically
+five different concepts: <em>states</em>, <em>triggers</em>, <em>rewards</em>,
+<em>responses</em>, and <em>sequences</em>.
 </p>
-<p>Currently it has support for different area types, including Sphere, Box, Beam and AboveMesh.
+<a name="SEC96"></a>
+<h4 class="subsubheading"> Triggers </h4>
+
+<p>Triggers cause progression in a quest. Whenever a trigger fires the quest
+will act and execute some rewards (see below). Currently the following
+triggers are defined in Crystal Entity Layer:
 </p>
 <ul>
-<li> <em>Sphere</em>: This is defined by a sphere with a certain radius and a certain position and sector.
-</li><li> <em>Box</em>: Similar to the sphere trigger but with a box area of influence defined by minimum and maximum corners and a sector.
-</li><li> <em>Beam</em>: A beam trigger defined by a sector and start and end vectors. Will be triggered when something enters this vector.
-</li><li> <em>AboveMesh</em>: AboveMesh trigger works by finding out when another entity is over the entity targeted by this property class. It is defined by an entity to detect from, and a maximum distance to check over it.
+<li> <samp>`cel.questtrigger.entersector'</samp>:
+This triggers when a camera enters a sector. See
+<code>iEnterSectorQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.meshentersector'</samp>:
+This triggers when a mesh enters a sector. See
+<code>iEnterSectorQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.timeout'</samp>:
+This triggers after a specified time. See
+<code>iTimeoutQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.propertychange'</samp>:
+This triggers when a property changes. See
+<code>iPropertyChangeQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.sequencefinish'</samp>:
+This triggers when a sequence finishes. See
+<code>iSequenceFinishQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.trigger'</samp>:
+This triggers when a pctrigger fires. See
+<code>iTriggerQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.inventory'</samp>:
+This triggers when an object enters inventory. See
+<code>iInventoryQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.meshselect'</samp>:
+This triggers when a mesh is selected. See
+<code>iMeshSelectQuestTriggerFactory</code>.
+</li><li> <samp>`cel.questtrigger.watch'</samp>:
+This triggers when a mesh becomes visible. See
+<code>iWatchQuestTriggerFactory</code>.
 </li></ul>
 
-<p><code>SetupTrigger&lt;TriggerType&gt;</code> method is available as api function and action to setup the trigger either at runtime code or in map/quest xml.
+<p>It is of course possible to define your own triggers and register them to
+the quest manager.
 </p>
-<p>Also further functionality is available from iPcTrigger api to set callbacks or some additional customization (check api docs).
+<a name="SEC97"></a>
+<h4 class="subsubheading"> Rewards </h4>
+
+<p>Whenever a trigger fires one or more rewards are executed. A reward is
+basically some specific operation that needs to be done in response to
+a trigger. Currently the following rewards are defined in Crystal Entity
+Layer:
+</p>
+<ul>
+<li> <samp>`cel.questreward.debugprint'</samp>:
+This will print a debug message on stdout. See
+<code>iDebugPrintQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.newstate'</samp>:
+This will switch to quest a new state. See
+<code>iNewStateQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.changeproperty'</samp>:
+This will change a property. See
+<code>iChangePropertyQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.inventory'</samp>:
+This manipulates the inventory. See
+<code>iInventoryQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.sequence'</samp>:
+This fires a sequence. See <code>iSequenceQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.sequencefinish'</samp>:
+Finishes a sequence. See <code>iSequenceFinishQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.destroyentity'</samp>:
+This destroys an entity. See <code>iDestroyEntityQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.cssequence'</samp>:
+This will run a crystalspace sequence.
+See <code>iCsSequenceQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.message'</samp>:
+This sends a message to an entity. 
+See <code>iMessageQuestRewardFactory</code>.
+</li><li> <samp>`cel.questreward.action'</samp>:
+This run an action from a property class in an entity.
+See <code>iActionQuestRewardFactory</code>.
+</li></ul>
+
+<p>It is also possible to define your own rewards.
 </p>
 <a name="SEC98"></a>
-<h4 class="subsubheading"> Trigger Message Callbacks </h4>
+<h4 class="subsubheading"> Responses </h4>
 
-<p>The following messages are sent by this property class:
-</p><ul>
-<li> <em>pctrigger_entityenters</em>: an entity enters this trigger.
-</li><li> <em>pctrigger_entityleaves</em>: an entity leaves this trigger.
-</li><li> <em>pctrigger_entertrigger</em>: this entity enters a trigger.
-</li><li> <em>pctrigger_leavetrigger</em>: this entity leaves a trigger.
-</li></ul>
-
-<p>All messages receive an <samp>`entity'</samp> parameter with the entity with the trigger (for <code>_leavetrigger</code> and <code>_entertrigger</code> messages), or the entity entering the trigger (for <code>_entityenters</code> or <code>_entityleaves messages</code>).
+<p>A response is simply one trigger and one or more rewards together. In
+one state you can define multiple responses. Every response will define
+a different set of rewards.
 </p>
 <a name="SEC99"></a>
-<h4 class="subsubheading"> Trigger Properties </h4>
+<h4 class="subsubheading"> States </h4>
 
-<p>This property class has some properties to further customize trigger behaviour.
+<p>A quest is made out of different states. Every state has zero or more
+responses.
+</p>
+<a name="SEC100"></a>
+<h4 class="subsubheading"> Sequences </h4>
+
+<p>A reward is always a one-shot operation. It occurs and besides the effect
+that it has it immediatelly stops. Sequences, on the other hand, have a
+duration and represent operations that typically take a few frames to execute.
+For example, to open a door in response to a trigger one would use a sequence
+to transform the door for a few frames. Sequences can be fired by a reward.
+The following operations are currently defined in a sequence:
 </p>
 <ul>
-<li> <em>delay (long, read/write)</em>: Update delay for checking the trigger, in milliseconds (default 200). 
-</li><li> <em>jitter (long, read/write)</em>: Random jitter to update delay so all triggers dont get checked at the same time, in milliseconds (default 10).
-</li><li> <em>monitor (string, read/write)</em>: Name of the entity to monitor (no default, must be set for the trigger to work at all).
-</li><li> <em>follow (bool, read/write)</em>: Whether the trigger should follow own entity pcmesh (default off).
-</li><li> <em>invisible (bool, read/write)</em>: Whether to also check for invisible entities (default off).
+<li> <samp>`cel.questseqop.debugprint'</samp>:
+Prints a debug message on stdout. See
+<code>iDebugPrintQuestSeqOpFactory</code>.
+</li><li> <samp>`cel.questseqop.transform'</samp>:
+Transforms a mesh. See <code>iTransformQuestSeqOpFactory</code>.
+</li><li> <samp>`cel.questseqop.movepath'</samp>:
+Moves a mesh along a path. See <code>iMovePathQuestSeqOpFactory</code>.
+</li><li> <samp>`cel.questseqop.light'</samp>:
+Animates a light color. See <code>iLightQuestSeqOpFactory</code>.
 </li></ul>
 
-<a name="SEC100"></a>
-<h4 class="subsubheading"> Defining a trigger for an entity in map xml. </h4>
-
-<p>To define an entity that uses this property class we add a <code>&lt;propclass&gt;</code> stance
-to the entity or entity template <code>&lt;addon&gt;</code> section.
+<p>You can define your own sequence operations for the quest manager.
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;area1floor&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
-  &lt;class&gt;icefloor&lt;/class&gt;
+<a name="SEC101"></a>
+<h4 class="subsubheading"> Defining a quest in XML </h4>
+
+<p>Here we show how you could define a quest in XML. We use the
+<samp>`cel.addons.questdef'</samp> addon (see section <a href="cel_4.4.4.html#4.4.4">Quest Definition Addon</a>) so that we can
+embed the quest definition in a regular world file:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon plugin=&quot;cel.addons.questdef&quot;&gt;
+  &lt;quest name=&quot;SlideDoor&quot;&gt;
+    &lt;state name=&quot;locked&quot;&gt;
+      &lt;trigger type=&quot;trigger&quot;&gt;
+        &lt;fireon entity=&quot;$this&quot; /&gt;
+        &lt;reward type=&quot;debugprint&quot; message=&quot;Door is closed!&quot; /&gt;
+      &lt;/trigger&gt;
+      &lt;trigger type=&quot;inventory&quot;&gt;
+        &lt;fireon entity=&quot;camera&quot; child_entity=&quot;$key_ent&quot; /&gt;
+        &lt;reward type=&quot;debugprint&quot; message=&quot;The door is unlocked!&quot; /&gt;
+        &lt;reward type=&quot;changeproperty&quot; entity=&quot;$key_ent&quot; pc=&quot;pcbillboard&quot;
+          property=&quot;cel.property.visible&quot; bool=&quot;true&quot; /&gt;
+        &lt;reward type=&quot;newstate&quot; state=&quot;closed&quot; /&gt;
+      &lt;/trigger&gt;
+    &lt;/state&gt;
+    &lt;state name=&quot;closed&quot;&gt;
+      &lt;trigger type=&quot;trigger&quot;&gt;
+        &lt;fireon entity=&quot;$this&quot; /&gt;
+        &lt;reward type=&quot;debugprint&quot; message=&quot;Door Opens!&quot; /&gt;
+        &lt;reward type=&quot;sequencefinish&quot; entity=&quot;$this&quot; sequence=&quot;closedoor&quot; /&gt;
+        &lt;reward type=&quot;sequence&quot; entity=&quot;$this&quot; sequence=&quot;opendoor&quot; /&gt;
+        &lt;reward type=&quot;newstate&quot; state=&quot;opened&quot; /&gt;
+      &lt;/trigger&gt;
+    &lt;/state&gt;
+    &lt;state name=&quot;opened&quot;&gt;
+      &lt;trigger type=&quot;trigger&quot;&gt;
+        &lt;fireon entity=&quot;$this&quot; leave=&quot;true&quot; /&gt;
+        &lt;reward type=&quot;debugprint&quot; message=&quot;Door Closes!&quot; /&gt;
+        &lt;reward type=&quot;sequencefinish&quot; entity=&quot;$this&quot; sequence=&quot;opendoor&quot; /&gt;
+        &lt;reward type=&quot;sequence&quot; entity=&quot;$this&quot; sequence=&quot;closedoor&quot; /&gt;
+        &lt;reward type=&quot;newstate&quot; state=&quot;closed&quot; /&gt;
+      &lt;/trigger&gt;
+    &lt;/state&gt;
+    &lt;sequence name=&quot;opendoor&quot;&gt;
+      &lt;op type=&quot;transform&quot; duration=&quot;500&quot; entity=&quot;$this&quot;&gt;
+        &lt;v x=&quot;$openx&quot; y=&quot;$openy&quot; z=&quot;$openz&quot; /&gt;
+      &lt;/op&gt;
+    &lt;/sequence&gt;
+    &lt;sequence name=&quot;closedoor&quot;&gt;
+      &lt;op type=&quot;transform&quot; duration=&quot;500&quot; entity=&quot;$this&quot;&gt;
+        &lt;v x=&quot;$closex&quot; y=&quot;$closey&quot; z=&quot;$closez&quot; /&gt;
+    &lt;/op&gt;
+    &lt;/sequence&gt;
+  &lt;/quest&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+<p>This quest has three states: <samp>`locked'</samp>, <samp>`closed'</samp>, and <samp>`opened'</samp>.
+When using this quest you can start it in any of those three states depending
+on how you want the door to be when the game starts. To go from <samp>`locked'</samp>
+to <samp>`closed'</samp> you need an object. The name of that object is given to
+the <samp>`key_ent'</samp> quest parameter (which is given on quest instantiation).
+In the <samp>`closed'</samp> state we also look at the trigger to see if we're
+approaching the door. In that case we print out a message to the user to
+indicate that the door is still closed.
+</p>
+<p>If the door is in <samp>`closed'</samp> state then we simply wait until the player
+approaches and then we fire the <samp>`opendoor'</samp> sequence to open the door
+and go to the <samp>`opened'</samp> state. Similarly for the <samp>`opened'</samp> state
+where we wait until the player moves away from the trigger.
+</p>
+<p>To define an entity that uses this quest we use the <samp>`cel.addons.celentity'</samp>
+addon (see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>) like this:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;SlidingDoor&quot;&gt;
   &lt;propclass name=&quot;pcmesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
-      &lt;par string=&quot;afloormesh&quot; name=&quot;name&quot;/&gt;
+      &lt;par name=&quot;name&quot; string=&quot;SlidingDoor&quot; /&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
   &lt;propclass name=&quot;pctrigger&quot;&gt;
-    &lt;property string=&quot;player&quot; name=&quot;monitor&quot;/&gt;
-    &lt;action name=&quot;SetupTriggerAboveMesh&quot;&gt;
-      &lt;par name=&quot;entity&quot; string=&quot;afloormesh&quot;/&gt;
-      &lt;par name=&quot;maxdistance&quot; float=&quot;1.0&quot;/&gt;
+    &lt;property name=&quot;monitor&quot; string=&quot;camera&quot; /&gt;
+    &lt;action name=&quot;SetupTriggerSphere&quot;&gt;
+      &lt;par name=&quot;sector&quot; string=&quot;Corridors&quot; /&gt;
+      &lt;par name=&quot;position&quot; vector=&quot;-118,-8,78.7&quot; /&gt;
+      &lt;par name=&quot;radius&quot; float=&quot;4&quot; /&gt;
     &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcquest&quot;&gt;
+    &lt;action name=&quot;NewQuest&quot;&gt;
+      &lt;par name=&quot;name&quot; string=&quot;SlideDoor&quot; /&gt;
+      &lt;par name=&quot;openx&quot; string=&quot;-3.5&quot; /&gt;
+      &lt;par name=&quot;openy&quot; string=&quot;0&quot; /&gt;
+      &lt;par name=&quot;openz&quot; string=&quot;0&quot; /&gt;
+      &lt;par name=&quot;closex&quot; string=&quot;3.5&quot; /&gt;
+      &lt;par name=&quot;closey&quot; string=&quot;0&quot; /&gt;
+      &lt;par name=&quot;closez&quot; string=&quot;0&quot; /&gt;
+    &lt;/action&gt;
+    &lt;property name=&quot;state&quot; string=&quot;closed&quot; /&gt;
   &lt;/propclass&gt;
 &lt;/addon&gt;
 </pre></td></tr></table>
 
-
-
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="cel_4.3.7.html#4.3.7" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="cel_4.4.html#4.4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.9.html#4.3.9" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
