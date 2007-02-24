@@ -66,7 +66,7 @@ simple scripting language. This allows one to create game logic using
 <small>PYTHON</small>, and thus creating full scripting games without need of
 recompilation.
 </p>
-<a name="SEC114"></a>
+<a name="SEC133"></a>
 <h3 class="subheading"> <small>CS</small> and <small>CEL</small> python bindings </h3>
 
 <p>There are several python modules for Crystal Space and <small>CEL</small>:
@@ -88,7 +88,7 @@ scripts. Note pycel includes all functionality from both of the above.
 <p>Also it has to be noted pycel is automatically imported into each behaviour
 namespace, so you need not import it unless to <code>import *</code> from it.
 </p>
-<a name="SEC115"></a>
+<a name="SEC134"></a>
 <h3 class="subheading"> Behaviours </h3>
 
 <p>When using the <small>BLPYTHON</small> behaviour layer you basically create <em>scripts</em>.
@@ -160,7 +160,7 @@ enters some trigger's area.
 callback version to use. Version 2 is new in 1.2 and is recommended although
 version 1 is still default for backward compatibility reasons.
 </p>
-<a name="SEC116"></a>
+<a name="SEC135"></a>
 <h4 class="subsubheading"> Python behaviours at <small>XML</small> worldfiles </h4>
 
 <p>Python behaviours can be set directly in <small>CEL</small> <small>XML</small> format as seen
@@ -199,18 +199,18 @@ of your <small>ZIP</small> file to the PYTHONPATH if you're using it).
 <p>Usually the celentity addon is placed in a Crystal Space sector inside the
 world files.
 </p>
-<a name="SEC117"></a>
+<a name="SEC136"></a>
 <h3 class="subheading"> pycel </h3>
 <p>pycel is a high level layer which defines some aliases for some of the most
 accessed things:
 </p>
-<a name="SEC118"></a>
+<a name="SEC137"></a>
 <h4 class="subsubheading"> The PhysicalLayer </h4>
 <p>The physical layer is your main pointer to <small>CEL</small> functionality, and you'll
 require this to create entities, destroy them, get string <small>ID</small>s<small class="enddots">....</small>
 It can be accessed from python at <samp>`pycel.PhysicalLayer'</samp>. 
 </p>
-<a name="SEC119"></a>
+<a name="SEC138"></a>
 <h4 class="subsubheading"> PhysicalLayer dictionaries </h4>
 <p>All the physical layer dictionaries can be accessed directly from pycel:
 </p><ul class="toc">
@@ -224,7 +224,7 @@ Used to get or register property class factories by <small>ID</small>
 </li><li> <samp>`pycel.BehaviourLayers'</samp>
 Used to get or register behaviour layers with <small>CEL</small>.
 </li></ul>
-<a name="SEC120"></a>
+<a name="SEC139"></a>
 <h4 class="subsubheading"> Crystal Space plugins </h4>
 <p>Some often used plugins in <small>CS</small> are ready to use (if present). 
 These are: 
@@ -269,7 +269,7 @@ The loader plugin from Crystal Space, used to load and access font objects.
 The string set plugin, used to transform from <small>CS</small> string <small>ID</small>s to
 regular strings (<code>iStringSet</code> interface). 
 </li></ul>
-<a name="SEC121"></a>
+<a name="SEC140"></a>
 <h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> and other StringID related functions. </h4>
 <p>Functions to transform from string to stringid and back.
 </p><ul>
@@ -287,21 +287,21 @@ This adds <samp>`cel.action.'</samp> prefix to the given string automatically.
 </li><li> <code>pycel.fromid(stringid)</code> 
 returns a string from the given stringid.
 </li></ul>
-<a name="SEC122"></a>
+<a name="SEC141"></a>
 <h4 class="subsubheading"> <code>parblock</code> </h4>
 <p>Function to create a <code>celParameterBlock</code> from a python dict or list.
 This is described in detail later.
-</p><a name="SEC123"></a>
+</p><a name="SEC142"></a>
 <h4 class="subsubheading"> <code>CreateEntity</code> / <code>RemoveEntity</code> </h4>
 <p>These can be accessed directly from pycel to create and destroy entities.
 Use them in the same way as the physical layer functions of the same name.
-</p><a name="SEC124"></a>
+</p><a name="SEC143"></a>
 <h4 class="subsubheading"> Property Class accessors </h4>
 <p>Some functions are defined to easily create <small>CEL</small> property classes for
 entities, or access the pre existent ones. This will be described in the next
 section of this manual.
 </p>
-<a name="SEC125"></a>
+<a name="SEC144"></a>
 <h3 class="subheading"> Accessing entity property classes </h3>
 
 <p>Property classes are objects we can create attached to an entity, and which
@@ -352,7 +352,7 @@ in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
           self.timer.WakeUpFrame (CEL_EVENT_POST)
           self.select = celMeshSelect(celEntity)
 </pre></td></tr></table>
-<a name="SEC126"></a>
+<a name="SEC145"></a>
 <h3 class="subheading"> Accessing property class properties. </h3>
 
 <p>To access property class properties from python you can use standard python
@@ -361,7 +361,7 @@ syntax. For example to query/set jitter for a pctrigger:
 <table><tr><td>&nbsp;</td><td><pre class="example">    oldjitter = trigger.jitter
     trigger.jitter = 100
 </pre></td></tr></table>
-<a name="SEC127"></a>
+<a name="SEC146"></a>
 <h3 class="subheading"> Messages </h3>
 
 <p>Each property class in <small>CEL</small> can generate a number of messages. A python
@@ -407,7 +407,7 @@ use instead of querying them each time.
        for strid in args.keys():
 		print fromid(strid),args[strid]
 </pre></td></tr></table>
-<a name="SEC128"></a>
+<a name="SEC147"></a>
 <h4 class="subsubheading"> New PcClass Messages Callback Style </h4>
 
 <p>There is a new style for receiving message callbacks from pcclasses in cel 1.2
@@ -437,7 +437,7 @@ changed.
 <p>If you need access to the entity parameter, you should
 now save it in the behaviour constructor.
 </p>
-<a name="SEC129"></a>
+<a name="SEC148"></a>
 <h3 class="subheading"> Sending Messages </h3>
 
 <p>Some messages (like <code>__init__</code> and messages from property classes) are
@@ -469,7 +469,7 @@ appropriate to create the entire parameter block from a dict when needed.
 behaviour:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
 </pre></td></tr></table>
-<a name="SEC130"></a>
+<a name="SEC149"></a>
 <h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
 
 <p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to
@@ -492,7 +492,7 @@ CelStart.EntityBehaviourLayer.bootstrap = blpython
 </p>
 <p>From this behaviour you can load a map using either <small>CS</small> or <small>CEL</small>
 <small>API</small>, an usual way of doing this is through a <code>celZoneManager</code>
-property class (see section <a href="cel_4.3.5.html#4.3.5">Zone Manager</a>) at the initial entity:
+property class (see section <a href="cel_4.3.11.html#4.3.11">Zone Manager</a>) at the initial entity:
 </p><table><tr><td>&nbsp;</td><td><pre class="example">def __init__(self,celEntity):
 	zoneMgr = celZoneManager(celEntity)
 	Vfs.ChDirAuto(&quot;/tmp/celstart/&quot;)
