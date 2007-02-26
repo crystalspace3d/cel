@@ -789,6 +789,8 @@ iCelBehaviour* celPlLayer::GetBehaviour (uint id)
 
 iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
 {
+  if (propname == 0 || !*propname) return 0;
+
   // if already loaded return existing propfact
   iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
   if (pf)
@@ -798,7 +800,7 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
   // and propclass is queried successfully
   csString pfid ("cel.pcfactory."), pc (propname);
   // strip 'pc'
-  if (pc.GetAt (0) == 'p' && pc.GetAt (1) == 'c')
+  if (pc.Length () >= 2 && pc.GetAt (0) == 'p' && pc.GetAt (1) == 'c')
     pc.DeleteAt (0, 2);
   pfid += pc;
   if (!LoadPropertyClassFactory (pfid))
