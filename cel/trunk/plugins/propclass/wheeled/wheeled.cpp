@@ -810,6 +810,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   csRef<iPcMesh> bodyMesh=CEL_QUERY_PROPCLASS_ENT(GetEntity(),iPcMesh);
   csOrthoTransform
       bodytransform=bodyMesh->GetMesh()->GetMovable()->GetTransform();
+  csVector3 realpos = bodytransform.This2Other(wheels[wheelnum].Position);
   csRef<iMeshWrapper> wheelmesh=0;
   csRef<iSectorList>
       bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
@@ -821,12 +822,12 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
     csRef<iSector> bodySector=bodySectors->Get(0);
     wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel",
                                         bodySector,
-                                        wheels[wheelnum].Position);
+                                        realpos);
   }
   else
   {
     wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel");
-    wheelmesh->GetMovable()->SetPosition(wheels[wheelnum].Position);
+    wheelmesh->GetMovable()->SetPosition(realpos);
     wheelmesh->GetMovable()->UpdateMove();
   }
 
@@ -840,30 +841,26 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
   wheelmesh->GetMeshObject ()->GetObjectModel
       ()->GetRadius(wheelradius,wheelcenter);
   wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3 ());
- 
-  csVector3 fullpos = bodytransform.This2Other(wheels[wheelnum].Position);
-  //csMatrix3 bodyrot = bodyMesh->GetMesh()->GetMovable()->GetTransform().GetO2T();
-  csOrthoTransform t = csOrthoTransform(wheels[wheelnum].Rotation, fullpos);
+
+  //Set the wheel rotation and position in the mesh.
+  //AFAIK the rotation is overridden by the body anyway.
+  csMatrix3 bodyrot = bodytransform.GetT2O();
+  csMatrix3 wheelrotation = bodyrot + wheels[wheelnum].Rotation;
+  csOrthoTransform t = csOrthoTransform(wheelrotation, realpos);
+   //If it a right wheel, flip it.
+   if (wheels[wheelnum].Position.x < 0.0f)
+     t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
   wheelbody->SetTransform(t);
-  wheelbody->SetPosition(fullpos);
+  wheelbody->SetPosition(realpos);
   wheelbody->AttachMesh(wheelmesh);
 
   wheelbody->AttachColliderSphere (
       wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
-  
-   //If it a right wheel, flip it.
-   if (wheels[wheelnum].Position.x < 0.0f)
-   {
-     csOrthoTransform t = wheelbody->GetTransform();
-     t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
-     wheelbody->SetTransform(t);
-   }
     //Create the joint
   csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
+  joint->SetHingeAnchor(realpos);
   joint->Attach(bodyMech->GetBody(), wheelbody);
-
-  joint->SetHingeAnchor(bodytransform.This2Other
-      (wheels[wheelnum].Position));
+  joint->SetHingeAnchor(realpos);
   joint->SetHingeAxis1(csVector3(0,1,0));
   joint->SetHingeAxis2(csVector3(1,0,0));
   joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
