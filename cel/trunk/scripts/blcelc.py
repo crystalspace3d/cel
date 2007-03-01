@@ -4349,9 +4349,9 @@ class iPcMeshDeform(cspace.iBase):
     def GetMaxFrequency(*args): return _blcelc.iPcMeshDeform_GetMaxFrequency(*args)
     def GetMaxDeform(*args): return _blcelc.iPcMeshDeform_GetMaxDeform(*args)
     def GetRadius(*args): return _blcelc.iPcMeshDeform_GetRadius(*args)
-    __swig_setmethods__["WheelMesh"] = fix_args(_blcelc.iPcMeshDeform_SetMesh)
-    WheelMesh = property(_blcelc.iPcMeshDeform_GetMesh, fix_args(_blcelc.iPcMeshDeform_SetMesh), None,
-                    "iPcMeshDeform.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(...)")
+    __swig_setmethods__["Mesh"] = fix_args(_blcelc.iPcMeshDeform_SetMesh)
+    Mesh = property(_blcelc.iPcMeshDeform_GetMesh, fix_args(_blcelc.iPcMeshDeform_SetMesh), None,
+                    "iPcMeshDeform.Mesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMesh()\n\tset: void iPcMeshDeform::SetMesh(...)")
 
     __swig_setmethods__["Noise"] = fix_args(_blcelc.iPcMeshDeform_SetNoise)
     Noise = property(_blcelc.iPcMeshDeform_GetNoise, fix_args(_blcelc.iPcMeshDeform_SetNoise), None,
@@ -4361,17 +4361,17 @@ class iPcMeshDeform(cspace.iBase):
     Radius = property(_blcelc.iPcMeshDeform_GetRadius, fix_args(_blcelc.iPcMeshDeform_SetRadius), None,
                     "iPcMeshDeform.Radius -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetRadius()\n\tset: void iPcMeshDeform::SetRadius(...)")
 
-    __swig_setmethods__["WheelMesh"] = fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency)
-    WheelMesh = property(_blcelc.iPcMeshDeform_GetMaxFrequency, fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency), None,
-                    "iPcMeshDeform.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(...)")
+    __swig_setmethods__["MaxFrequency"] = fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency)
+    MaxFrequency = property(_blcelc.iPcMeshDeform_GetMaxFrequency, fix_args(_blcelc.iPcMeshDeform_SetMaxFrequency), None,
+                    "iPcMeshDeform.MaxFrequency -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxFrequency()\n\tset: void iPcMeshDeform::SetMaxFrequency(...)")
 
-    __swig_setmethods__["WheelMesh"] = fix_args(_blcelc.iPcMeshDeform_SetMaxDeform)
-    WheelMesh = property(_blcelc.iPcMeshDeform_GetMaxDeform, fix_args(_blcelc.iPcMeshDeform_SetMaxDeform), None,
-                    "iPcMeshDeform.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(...)")
+    __swig_setmethods__["MaxDeform"] = fix_args(_blcelc.iPcMeshDeform_SetMaxDeform)
+    MaxDeform = property(_blcelc.iPcMeshDeform_GetMaxDeform, fix_args(_blcelc.iPcMeshDeform_SetMaxDeform), None,
+                    "iPcMeshDeform.MaxDeform -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetMaxDeform()\n\tset: void iPcMeshDeform::SetMaxDeform(...)")
 
-    __swig_setmethods__["WheelMesh"] = fix_args(_blcelc.iPcMeshDeform_SetDeformFactor)
-    WheelMesh = property(_blcelc.iPcMeshDeform_GetDeformFactor, fix_args(_blcelc.iPcMeshDeform_SetDeformFactor), None,
-                    "iPcMeshDeform.WheelMesh -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(...)")
+    __swig_setmethods__["DeformFactor"] = fix_args(_blcelc.iPcMeshDeform_SetDeformFactor)
+    DeformFactor = property(_blcelc.iPcMeshDeform_GetDeformFactor, fix_args(_blcelc.iPcMeshDeform_SetDeformFactor), None,
+                    "iPcMeshDeform.DeformFactor -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcMeshDeform::GetDeformFactor()\n\tset: void iPcMeshDeform::SetDeformFactor(...)")
 
     _PC = None
     def __getattr__(self,attr):
