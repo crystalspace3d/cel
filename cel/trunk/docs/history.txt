@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+05-Mar-2007
+	- Genjix removed sound source in actor.xml
 28-Feb-2007
 	- cfraz89 fixed wheel rotation on spawn in pcwheeled.
 27-Feb-2007
