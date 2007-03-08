@@ -343,7 +343,7 @@ bool celRegisterPCFactory (iObjectRegistry* object_reg, const char* pcfactname)
 csPtr<iCelEntity> celCreateEntity(iCelPlLayer *pl, const char *name)
 {
   csPrintf("celCreateEntity is deprecated, please use CreateEntity\n");
-  return pl->CreateEntity(name,0,0);
+  return pl->CreateEntity(name,0,0,CEL_PROPCLASS_END);
 }
 %}
 
