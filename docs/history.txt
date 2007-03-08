@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+08-Mar-2007
+	- Vincent changed celMenu.py widget to use pycel.CreateEntity().
+	  This fixes empty propclass registration attempt.
 05-Mar-2007
 	- Genjix removed sound source in actor.xml
 28-Feb-2007

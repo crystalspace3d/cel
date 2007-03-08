@@ -20,7 +20,8 @@ class celMenu:
     
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
     def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton'):
-        elementEntity = celCreateEntity(pl, name)
+        elementEntity = CreateEntity()
+        elementEntity.Name = name
         pcbillboard = celBillboard(elementEntity)
         buttonbb = pcbillboard.Billboard
         buttonbb.SetMaterialName(material)
