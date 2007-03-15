@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2003 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -36,17 +36,35 @@
   if (p_##var && p_##var->type == CEL_DATA_STRING) { \
     var = p_##var->value.s->GetData (); \
   } else { p_##var = 0; }
+#define CEL_FETCH_VECTOR2_PAR(var,params,id) \
+  const celData* p_##var = params ? params->GetParameter (id) : 0; \
+  csVector2 var; \
+  if (p_##var && p_##var->type == CEL_DATA_VECTOR2) { \
+    var.Set (p_##var->value.v.x, p_##var->value.v.y); \
+  } else { p_##var = 0; }
 #define CEL_FETCH_VECTOR3_PAR(var,params,id) \
   const celData* p_##var = params ? params->GetParameter (id) : 0; \
   csVector3 var; \
   if (p_##var && p_##var->type == CEL_DATA_VECTOR3) { \
     var.Set (p_##var->value.v.x, p_##var->value.v.y, p_##var->value.v.z); \
   } else { p_##var = 0; }
+#define CEL_FETCH_VECTOR4_PAR(var,params,id) \
+  const celData* p_##var = params ? params->GetParameter (id) : 0; \
+  csVector4 var; \
+  if (p_##var && p_##var->type == CEL_DATA_VECTOR4) { \
+    var.Set (p_##var->value.v.x, p_##var->value.v.y, p_##var->value.v.z, p_##var->value.v.w); \
+  } else { p_##var = 0; }
 #define CEL_FETCH_COLOR_PAR(var,params,id) \
   const celData* p_##var = params ? params->GetParameter (id) : 0; \
   csColor var; \
   if (p_##var && p_##var->type == CEL_DATA_COLOR) { \
     var.Set (p_##var->value.col.red, p_##var->value.col.green, p_##var->value.col.blue); \
+  } else { p_##var = 0; }
+#define CEL_FETCH_COLOR4_PAR(var,params,id) \
+  const celData* p_##var = params ? params->GetParameter (id) : 0; \
+  csColor4 var; \
+  if (p_##var && p_##var->type == CEL_DATA_COLOR4) { \
+    var.Set (p_##var->value.col.red, p_##var->value.col.green, p_##var->value.col.blue, p_##var->value.col.alpha); \
   } else { p_##var = 0; }
 #define CEL_FETCH_FLOAT_PAR(var,params,id) \
   const celData* p_##var = params ? params->GetParameter (id) : 0; \
