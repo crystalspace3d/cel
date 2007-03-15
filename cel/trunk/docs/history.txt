@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	- Darek added to pl CEL_DATA_VECTOR4, CEL_DATA_COLOR4, 
 	  and to stdparams CEL_FETCH_VECTOR2_PAR, CEL_FETCH_VECTOR4_PAR and
 	  CEL_FETCH_COLOR4_PAR.
+	- caedes moved swig interface files to include/bindings and setup
+	  a similar structure to the one used in cs so more languages
+	  bindings can be added to cel.
 08-Mar-2007
 	- Vincent changed celMenu.py widget to use pycel.CreateEntity().
 	  This fixes empty propclass registration attempt.

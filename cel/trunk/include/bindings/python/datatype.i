@@ -103,11 +103,11 @@
 	CELDATA_RETURN($1)
 	$result = obj;
 }
-%define CEL_PAR_SET(par_type)
-	void __setitem__ (csStringID idx, par_type c) 
+%define CEL_PAR_SET(in_type,out_type)
+	void __setitem__ (csStringID idx, in_type c) 
 	{ 
 	  if (self->GetParameter(idx))
-	  ((celData*)self->GetParameter(idx))->Set(c); 
+	  ((celData*)self->GetParameter(idx))->Set((out_type)c); 
 	}
 %enddef
 

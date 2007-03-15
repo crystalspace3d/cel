@@ -51,10 +51,7 @@ CS_PROPERTY_HELPERS
 #include "tools/celconsole.h"
 #include "tools/questmanager.h"
 #include "propclass/zone.h"
-%}
-%inline %{
-  extern CS_IMPORT_SYM PyObject *    // from crystalspace_python
-  _csRef_to_Python (const csRef<iBase> & ref, void * ptr, const char * name);
+
 
 %}
 
@@ -71,6 +68,33 @@ CS_PROPERTY_HELPERS
   INTERFACE_APPLY(iQuestManager)
   INTERFACE_APPLY(iCelEntityList)
 %enddef
+
+//=============================================================================
+// Common macros (undef and redefine in language specific files)
+//=============================================================================
+
+#define CELLIST_METHODS(classname,typename)
+#define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
+#define CEL_PC_FIX_INHERITANCE(pcType)
+
+//=============================================================================
+// Language specific part
+//=============================================================================
+
+#if defined(SWIGPYTHON)
+  %include "bindings/python/pre.i"
+#elif defined(SWIGPERL5)
+  %include "bindings/perl/pre.i"
+#elif defined(SWIGRUBY)
+  %include "bindings/ruby/pre.i"
+#elif defined(SWIGTCL8)
+  %include "bindings/tcl/pre.i"
+#elif defined(SWIGJAVA)
+  %include "bindings/java/pre.i"
+#elif defined(SWIGLUA)
+  %include "bindings/lua/pre.i"
+#endif 
+
 
 //=============================================================================
 // Helper macros.
@@ -157,41 +181,7 @@ pcType *scfQueryPC_ ## pcType (iCelPropertyClassList *pclist)
 %}
 %enddef
 
-%extend iCelPropertyClass {
-   %pythoncode %{
-   def GetterFallback(self,attr):
-        raise AttributeError
-   def SetterFallback(self,attr,value):
-        raise AttributeError
-%}
-}
-
 #undef SCF_QUERY_INTERFACE
-%define CEL_PC_FIX_INHERITANCE(pcType)
-%extend pcType {
-   %pythoncode %{
-   _PC = None
-   def __getattr__(self,attr):
-        try:
-            return _swig_getattr(self, pcType, attr)
-        except:
-            pass
-        if hasattr(iCelPropertyClass,attr):
-            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-            return getattr(_PC,attr)
-        else:
-            return self.GetterFallback(attr)
-   def __setattr__(self,attr,value):
-        if attr in pcType.__swig_setmethods__.keys():
-            return _swig_setattr(self,pcType,attr,value)
-        elif hasattr(iCelPropertyClass,attr):
-            _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-            setattr(_PC,attr,value)
-        else:
-            return self.SetterFallback(attr,value)
-%}
-}
-%enddef
 
 %define CEL_PC(pcType, funcBaseName, pcname)
 CEL_PC_CREATE(pcType, celCreate ## funcBaseName, pcname)
@@ -199,43 +189,6 @@ CEL_PC_GETSET(pcType, celGetSet ## funcBaseName, pcname)
 CEL_PC_GET(pcType, celGet ## funcBaseName)
 CEL_PC_QUERY(pcType)
 CEL_PC_FIX_INHERITANCE(pcType)
-%enddef
-
-//-----------------------------------------------------------------------------
-%define CELLIST_METHODS(classname,typename)
-	PYLIST_BASE_FUNCTIONS(classname,typename*,size_t,GetCount,Get,Add,Remove,Find)
-	PYLIST_BYNAME_FUNCTIONS(classname,typename*,FindByName)
-%enddef
-
-//-----------------------------------------------------------------------------
-
-// this serves to wrap list methods in classes as a fake array.
-%define CEL_FAKE_ARRAY(pref,contenttype,countmethod,getmethod,findmethod,delmethod,addmethod)
-%pythoncode %{
-class contenttype ## pref ## FakeArray:
-	def __init__(self,parent): self.parent = parent
-	def __contains__(self,obj):
-		if self.parent.findmethod(obj): return True
-		else: return False
-	def __repr__(self): return "List of "+str(#contenttype)
-	def __len__(self): return self.parent.countmethod()
-	def __delitem__(self,val):
-		if type(val) == type(""):
-			obj = self.parent.findmethod(val)
-			if obj: return self.parent.delmethod(obj)
-			else: raise IndexError(val+" not in list")
-		else: return self.parent.delmethod(val)
-	def __noappend__(self,obj):
-		print "Append not supported by this list"
-	def content_iterator(self):
-		for idx in xrange(len(self)):
-			yield self.parent.getmethod(idx)
-	def __iter__(self): return self.content_iterator()
-	def __getitem__(self,val):
-		if type(val) == type(""): return self.parent.findmethod(val)
-		else: return self.parent.getmethod(val)
-	def append(self,obj): return self.parent. ## addmethod(obj)
-%}
 %enddef
 
 //=============================================================================
@@ -249,7 +202,6 @@ class contenttype ## pref ## FakeArray:
 //-----------------------------------------------------------------------------
 
 %ignore celData::GetDebugInfo;
-%include "datatype.i"
 %include "physicallayer/datatype.h"
 
 //-----------------------------------------------------------------------------
@@ -273,20 +225,6 @@ iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
   return pl;
 }
 %}
-// extension to create a parameter block from a dict, list or tuple
-%extend iCelPlLayer {
-	%pythoncode %{
-	def CreateParameterBlock(self,valdict):
-		"""Create a celGenericParameterBlock from a dict, list or
-		tuple"""
-		parblock = celGenericParameterBlock(len(valdict))
-		for idx,valkey in enumerate(valdict):
-			keyid = self.FetchStringID("cel.parameter."+valkey)
-			parblock.SetParameterDef (idx,keyid,valkey)
-			if type(valdict) == type({}):
-				parblock[keyid] = valdict[valkey]
-		return parblock	%}
-}
 // fake arrays to handle stuff managed by the physical layer.
 // iCelEntityTemplatePlFakeArray
 CEL_FAKE_ARRAY(Pl,iCelEntityTemplate,GetEntityTemplateCount,
@@ -304,18 +242,6 @@ CEL_FAKE_ARRAY(Pl,iCelBlLayer,GetBehaviourLayerCount,GetBehaviourLayer,
 CEL_FAKE_ARRAY(Pl,iCelPropertyClassFactory,GetPropertyClassFactoryCount,
 	       GetPropertyClassFactory,FindPropertyClassFactory,
 	       UnregisterPropertyClassFactory,LoadPropertyClassFactory)
-
-%extend iCelPlLayer {
-	%pythoncode %{
-	def GetEntities(self): return iCelEntityPlFakeArray(self)
-	def GetEntityTemplates(self): return iCelEntityTemplatePlFakeArray(self)
-	def GetPcFactories(self): return iCelPropertyClassFactoryPlFakeArray(self)
-	def GetBehaviourLayers(self): return iCelBlLayerPlFakeArray(self)
-	__swig_getmethods__["EntityTemplates"] = lambda self: self.GetEntityTemplates()
-	__swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
-	__swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
-	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
-}
 
 //-----------------------------------------------------------------------------
 
@@ -411,29 +337,6 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 %ignore iCelBehaviour::GetInternalObject;
 %include "behaviourlayer/behave.h"
 
-//iParameterBlock Extensions
-%include "parblock.i"
-%extend iCelBehaviour {
-  PyObject *GetPythonObject()
-  {
-    PyObject* obj = (PyObject*)(self->GetInternalObject());
-    Py_INCREF (obj);
-    return obj;
-  }
-  PyObject *SendMessage(const char* msg_id, iCelPropertyClass* prop, iCelParameterBlock* params)
-  {
-       celData ret;
-       if(self->SendMessage (msg_id,prop,ret,params))
-       {
-         CELDATA_RETURN((&ret));
-	 return obj;
-       }
-       else
-         Py_INCREF(Py_None);
-	 return Py_None;
-  }
-}
-
 //-----------------------------------------------------------------------------
 
 %ignore celVariableParameterBlock::GetParameter (size_t idx);
@@ -442,15 +345,6 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 //-----------------------------------------------------------------------------
 
-/* shadow Remove method so pcclass specific interfaces can be used */
-%feature("shadow") iCelPropertyClassList::Remove
-%{
-  def Remove(self,propclass):
-    if not (isinstance(propclass,int) or isinstance(propclass,
-            iCelPropertyClass)):
-      propclass = cspace.SCF_QUERY_INTERFACE(propclass,iCelPropertyClass)
-    return _blcelc.iCelPropertyClassList_Remove(self,propclass)
-%}
 %ignore iCelPropertyClass::SetProperty;
 %include "physicallayer/propfact.h"
 
@@ -643,14 +537,6 @@ CEL_PC(iPcInventory, Inventory, pcinventory)
 
 // iCelEntityInvFakeArray
 CEL_FAKE_ARRAY(Inv,iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity)
-
-%extend iPcInventory {
-	%pythoncode %{
-	def GetEntities(self): return iCelEntityInvFakeArray(self)
-	__swig_getmethods__["Entities"] = lambda self: self.GetEntities() %}
-}
-
-
 //-----------------------------------------------------------------------------
 
 // TODO add dict like interface for characteristics
@@ -672,7 +558,6 @@ CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
 
 %include "propclass/prop.h"
 CEL_PC(iPcProperties, Properties, pcproperties)
-%include "pcprop.i"
 
 //-----------------------------------------------------------------------------
 
@@ -729,28 +614,18 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
 #define INTERFACE_APPLY(x) INTERFACE_POST(x)
 CEL_APPLY_FOR_EACH_INTERFACE
 
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-// helpers to redirect output to cel console
+#if defined(SWIGPYTHON)
+  %include "bindings/python/post.i"
+#elif defined(SWIGPERL5)
+  %include "bindings/perl/post.i"
+#elif defined(SWIGRUBY)
+  %include "bindings/ruby/post.i"
+#elif defined(SWIGTCL8)
+  %include "bindings/tcl/post.i"
+#elif defined(SWIGJAVA)
+  %include "bindings/java/post.i"
+#elif defined(SWIGLUA)
+  %include "bindings/lua/post.i"
+#endif
 
-%pythoncode %{
-class CelConsoleOut:
-	"""Class that can be assigned to sys.stdout or sys.stderr"""
-	def __init__(self,oreg):
-		self.oreg = oreg
-	def write(self,s):
-		csQueryRegistry_iCelConsole(self.oreg).GetOutputConsole().PutText(str(s))
 
-class CelConsoleOutOverride:
-	"""Class that redirects stdout and stderr to celconsole"""
-	def __init__(self,oreg):
-		import sys
-		self.oldstdout = sys.stdout
-		self.oldstderr = sys.stderr
-		sys.stdout = CelConsoleOut(oreg)
-		sys.stderr = CelConsoleOut(oreg)
-	def __del__(self):
-		import sys
-		sys.stdout = self.oldstdout
-		sys.stderr = self.oldstderr
-%}

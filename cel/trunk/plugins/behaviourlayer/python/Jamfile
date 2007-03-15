@@ -26,7 +26,7 @@ if $(PYTHON.AVAILABLE) = yes
         python :
 	-c++ -shadow $(CRYSTAL.CFLAGS) :
 	[ ConcatDirs $(TOP) include ] :
-	:
+	[ ConcatDirs $(TOP) include bindings ] :
 	$(SEARCH_SOURCE) [ ConcatDirs $(TOP) scripts ] :
 	blcel :
 	[ on $(blcelpy) GetVar LOCATE ] ;

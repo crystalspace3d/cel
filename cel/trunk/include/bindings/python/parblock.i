@@ -70,20 +70,20 @@
 		def has_key(self,id):
 			return self.__contains__(id)
 		%}
-	CEL_PAR_SET(bool);
-	CEL_PAR_SET(int8);
-	CEL_PAR_SET(int16);
-	CEL_PAR_SET(int32);
-	CEL_PAR_SET(uint8);
-	CEL_PAR_SET(uint16);
-	CEL_PAR_SET(uint32);
-	CEL_PAR_SET(float);
-	CEL_PAR_SET(const char *);
-	CEL_PAR_SET(csVector3&);
-	CEL_PAR_SET(csVector2&);
-	CEL_PAR_SET(csColor&);
-	CEL_PAR_SET(iCelPropertyClass*);
-	CEL_PAR_SET(iCelEntity*);
+	CEL_PAR_SET(bool,bool);
+	CEL_PAR_SET(int8,int8);
+	CEL_PAR_SET(int16,int16);
+	CEL_PAR_SET(long,int32);
+	CEL_PAR_SET(uint8,uint8);
+	CEL_PAR_SET(uint16,uint16);
+	CEL_PAR_SET(unsigned long,uint32);
+	CEL_PAR_SET(float,float);
+	CEL_PAR_SET(const char *,const char *);
+	CEL_PAR_SET(csVector3&,csVector3&);
+	CEL_PAR_SET(csVector2&,csVector2&);
+	CEL_PAR_SET(csColor&,csColor&);
+	CEL_PAR_SET(iCelPropertyClass*,iCelPropertyClass*);
+	CEL_PAR_SET(iCelEntity*,iCelEntity*);
 
 	/*void __delitem__ (size_t i) { self->DeleteAt(i); }*/
 	int __len__ () { return self->GetParameterCount(); }
