@@ -670,9 +670,9 @@ CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
 
 //-----------------------------------------------------------------------------
 
-// TODO needs dict like interface
 %include "propclass/prop.h"
 CEL_PC(iPcProperties, Properties, pcproperties)
+%include "pcprop.i"
 
 //-----------------------------------------------------------------------------
 
