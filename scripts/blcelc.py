@@ -93,11 +93,13 @@ CEL_DATA_ULONG = _blcelc.CEL_DATA_ULONG
 CEL_DATA_FLOAT = _blcelc.CEL_DATA_FLOAT
 CEL_DATA_VECTOR2 = _blcelc.CEL_DATA_VECTOR2
 CEL_DATA_VECTOR3 = _blcelc.CEL_DATA_VECTOR3
+CEL_DATA_VECTOR4 = _blcelc.CEL_DATA_VECTOR4
 CEL_DATA_STRING = _blcelc.CEL_DATA_STRING
 CEL_DATA_PCLASS = _blcelc.CEL_DATA_PCLASS
 CEL_DATA_ENTITY = _blcelc.CEL_DATA_ENTITY
 CEL_DATA_ACTION = _blcelc.CEL_DATA_ACTION
 CEL_DATA_COLOR = _blcelc.CEL_DATA_COLOR
+CEL_DATA_COLOR4 = _blcelc.CEL_DATA_COLOR4
 CEL_DATA_IBASE = _blcelc.CEL_DATA_IBASE
 CEL_DATA_PARAMETER = _blcelc.CEL_DATA_PARAMETER
 CEL_DATA_LAST = _blcelc.CEL_DATA_LAST
@@ -220,6 +222,9 @@ class celData_value_col(_object):
     __swig_setmethods__["blue"] = _blcelc.celData_value_col_blue_set
     __swig_getmethods__["blue"] = _blcelc.celData_value_col_blue_get
     if _newclass:blue = property(_blcelc.celData_value_col_blue_get, _blcelc.celData_value_col_blue_set)
+    __swig_setmethods__["alpha"] = _blcelc.celData_value_col_alpha_set
+    __swig_getmethods__["alpha"] = _blcelc.celData_value_col_alpha_get
+    if _newclass:alpha = property(_blcelc.celData_value_col_alpha_get, _blcelc.celData_value_col_alpha_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value_col(*args)
         try: self.this.append(this)
@@ -244,6 +249,9 @@ class celData_value_v(_object):
     __swig_setmethods__["z"] = _blcelc.celData_value_v_z_set
     __swig_getmethods__["z"] = _blcelc.celData_value_v_z_get
     if _newclass:z = property(_blcelc.celData_value_v_z_get, _blcelc.celData_value_v_z_set)
+    __swig_setmethods__["w"] = _blcelc.celData_value_v_w_set
+    __swig_getmethods__["w"] = _blcelc.celData_value_v_w_get
+    if _newclass:w = property(_blcelc.celData_value_v_w_get, _blcelc.celData_value_v_w_set)
     def __init__(self, *args): 
         this = _blcelc.new_celData_value_v(*args)
         try: self.this.append(this)
@@ -438,6 +446,10 @@ class iCelPlLayer(cspace.iBase):
     BehaviourLayerCount = property(_blcelc.iCelPlLayer_BehaviourLayerCount_get, None, None,
                     "iCelPlLayer.BehaviourLayerCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetBehaviourLayerCount()")
 
+    __swig_destroy__ = _blcelc.delete_iCelPlLayer
+    __del__ = lambda self : None;
+    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPlLayer_scfGetVersion
+    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
     def CreateParameterBlock(self,valdict):
     	"""Create a celGenericParameterBlock from a dict, list or
     	tuple"""
@@ -456,10 +468,6 @@ class iCelPlLayer(cspace.iBase):
     __swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
     __swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
     __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
-    __swig_destroy__ = _blcelc.delete_iCelPlLayer
-    __del__ = lambda self : None;
-    __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPlLayer_scfGetVersion
-    if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
 iCelPlLayer_swigregister = _blcelc.iCelPlLayer_swigregister
 iCelPlLayer_swigregister(iCelPlLayer)
 iCelPlLayer_scfGetVersion = _blcelc.iCelPlLayer_scfGetVersion
@@ -1098,11 +1106,6 @@ class iCelPropertyClass(cspace.iBase):
     PropertyAndActionCount = property(_blcelc.iCelPropertyClass_PropertyAndActionCount_get, None, None,
                     "iCelPropertyClass.PropertyAndActionCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPropertyClass::GetPropertyAndActionCount()")
 
-    def GetterFallback(self,attr):
-         raise AttributeError
-    def SetterFallback(self,attr,value):
-         raise AttributeError
-
     def SetPropertyLong(*args): return _blcelc.iCelPropertyClass_SetPropertyLong(*args)
     def SetPropertyFloat(*args): return _blcelc.iCelPropertyClass_SetPropertyFloat(*args)
     def SetPropertyBool(*args): return _blcelc.iCelPropertyClass_SetPropertyBool(*args)
@@ -1115,6 +1118,11 @@ class iCelPropertyClass(cspace.iBase):
     __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPropertyClass_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
+    def GetterFallback(self,attr):
+         raise AttributeError
+    def SetterFallback(self,attr,value):
+         raise AttributeError
+
 iCelPropertyClass_swigregister = _blcelc.iCelPropertyClass_swigregister
 iCelPropertyClass_swigregister(iCelPropertyClass)
 iCelPropertyClass_scfGetVersion = _blcelc.iCelPropertyClass_scfGetVersion
@@ -3902,6 +3910,27 @@ class iPcProperties(cspace.iBase):
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
+
+    def GetPropertyValueIndex(*args): return _blcelc.iPcProperties_GetPropertyValueIndex(*args)
+    def __len__(*args): return _blcelc.iPcProperties___len__(*args)
+    def clear(*args): return _blcelc.iPcProperties_clear(*args)
+    def __contains__(*args): return _blcelc.iPcProperties___contains__(*args)
+    def __delitem__(self,item):
+        if isinstance(item,str):
+          item = self.GetPropertyIndex(item)
+          if item == -1:
+            return
+        self.ClearProperty(item)
+    def __setitem__(self,item,value): 
+        if isinstance(item,str):
+          return self.SetProperty(item,value) 
+        return self.SetPropertyIndex(item,value)
+    def __getitem__(self,item):
+        if isinstance(item,str):
+            item = self.GetPropertyIndex(item)
+            if item == -1:
+              return None
+        return self.GetPropertyValueIndex(item)
 
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
