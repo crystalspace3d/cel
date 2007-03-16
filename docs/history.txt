@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Mar-2007
+	- res updated mk/jam and mk/autoconf with the latest copies from the
+	  CS repository.
 15-Mar-2007
 	- caedes added dict like interface to pcproperties python bindings.
 	- Darek added to pl CEL_DATA_VECTOR4, CEL_DATA_COLOR4, 
