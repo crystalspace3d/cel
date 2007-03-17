@@ -41,6 +41,7 @@ struct iPcCamera;
 struct iCamera;
 struct iEngine;
 class csVector3;
+class csVector4;
 
 CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
 {
@@ -209,8 +210,9 @@ public:
   virtual bool SetShaderVarExpr (csStringID name, const char* exprname);
   virtual void SetShaderVar (csStringID name, float value);
   virtual void SetShaderVar (csStringID name, int value);
-  virtual void SetShaderVar (csStringID name, csVector3 value);
   virtual void SetShaderVar (csStringID name, csVector2 value);
+  virtual void SetShaderVar (csStringID name, csVector3 value);
+  virtual void SetShaderVar (csStringID name, csVector4 value);
 };
 
 class celPcMeshSelect;

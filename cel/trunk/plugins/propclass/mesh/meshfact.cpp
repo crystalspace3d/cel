@@ -18,6 +18,7 @@
 */
 #include "cssysdef.h"
 #include "csgeom/vector3.h"
+#include "csgeom/vector4.h"
 #include "csgeom/math3d.h"
 #include "csgeom/quaternion.h"
 #include "plugins/propclass/mesh/meshfact.h"
@@ -529,9 +530,21 @@ bool celPcMesh::PerformActionIndexed (int idx,
           if (!p_par_value) return false;
           SetShaderVar (strset->Request (par_name), (int)par_value);
         }
+        else if (!strcmp(par_type,"vector2"))
+        {
+          CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar (strset->Request (par_name), par_value);
+        }
         else if (!strcmp(par_type,"vector3"))
         {
           CEL_FETCH_VECTOR3_PAR (par_value,params,id_value);
+          if (!p_par_value) return false;
+          SetShaderVar (strset->Request (par_name), par_value);
+        }
+        else if (!strcmp(par_type,"vector4"))
+        {
+          CEL_FETCH_VECTOR4_PAR (par_value,params,id_value);
           if (!p_par_value) return false;
           SetShaderVar (strset->Request (par_name), par_value);
         }
@@ -541,12 +554,6 @@ bool celPcMesh::PerformActionIndexed (int idx,
           if (!p_par_value) return false;
           return SetShaderVarExpr (strset->Request (par_name), par_value);
         }
-        /*else if (!strcmp(par_type,"vector2"))
-        {
-          CEL_FETCH_VECTOR2_PAR (par_value,params,id_value);
-          if (!p_par_value) return false;
-          SetShaderVar (strset->Request (par_name), par_value);
-        }*/
         else
           return Report (object_reg,
           	"Unsupported type %s for action SetShaderVar!",par_type);
@@ -1816,6 +1823,16 @@ void celPcMesh::SetShaderVar (csStringID name, int value)
   }
 }
 
+void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
+{
+  if (mesh)
+  {
+    iShaderVariableContext* svc = mesh->GetSVContext ();
+    csShaderVariable *var = svc->GetVariableAdd (name);
+    var->SetValue (value);
+  }
+}
+
 void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
 {
   if (mesh)
@@ -1826,7 +1843,7 @@ void celPcMesh::SetShaderVar (csStringID name, csVector3 value)
   }
 }
 
-void celPcMesh::SetShaderVar (csStringID name, csVector2 value)
+void celPcMesh::SetShaderVar (csStringID name, csVector4 value)
 {
   if (mesh)
   {

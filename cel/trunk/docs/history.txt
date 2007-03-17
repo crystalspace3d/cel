@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Mar-2007
+	- Darek added support for csVector2 and csVector4 to 
+	  pcmesh:SetShaderVar.
 16-Mar-2007
 	- res updated mk/jam and mk/autoconf with the latest copies from the
 	  CS repository.
