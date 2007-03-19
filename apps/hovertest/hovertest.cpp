@@ -164,8 +164,8 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (player,
   	iPcCommandInput);
-  pcinp->Bind ("up", "up");
-  pcinp->Bind ("down", "down");
+  pcinp->Bind ("JoystickButton0", "up");
+  pcinp->Bind ("JoystickAxis0", "down");
   pcinp->Bind ("left", "left");
   pcinp->Bind ("right", "right");
   pcinp->Bind ("space", "jump");
