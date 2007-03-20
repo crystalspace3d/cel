@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Mar-2007
+	- Darek added SetPerspectiveCenter to all cameras, and to 
+	  pcdefaultcamera SetRectangle and SetPerspectiveCenter xml actions.
 19-Mar-2007
 	- Genjix removed some debugging code in hovertest that got accidentally
 	  committed somewhere and was missed.

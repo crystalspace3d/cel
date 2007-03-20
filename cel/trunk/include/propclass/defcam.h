@@ -44,6 +44,8 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  * - SetFollowEntity: parameters 'entity' (string).
  * - CenterCamera: no parameters.
  * - PointCamera: parameters 'start' (map start name).
+ * - SetRectangle: parameters 'x' (long), 'y' (long), 'w' (long), 'h' (long).
+ * - SetPerspectiveCenter: parameters 'x' (float), 'y' (float).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:

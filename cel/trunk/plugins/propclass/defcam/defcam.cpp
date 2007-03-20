@@ -260,6 +260,10 @@ csStringID celPcDefaultCamera::id_distancevelocity = csInvalidStringID;
 csStringID celPcDefaultCamera::id_entityname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_regionname = csInvalidStringID;
 csStringID celPcDefaultCamera::id_startname = csInvalidStringID;
+csStringID celPcDefaultCamera::id_x = csInvalidStringID;
+csStringID celPcDefaultCamera::id_y = csInvalidStringID;
+csStringID celPcDefaultCamera::id_w = csInvalidStringID;
+csStringID celPcDefaultCamera::id_h = csInvalidStringID;
 
 PropertyHolder celPcDefaultCamera::propinfo;
 
@@ -367,6 +371,10 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_w = pl->FetchStringID ("cel.parameter.w");
+    id_h = pl->FetchStringID ("cel.parameter.h");
   }
 
   SetMode (iPcDefaultCamera::firstperson);
@@ -381,6 +389,8 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     AddAction (action_setzonemanager, "cel.action.SetZoneManager");
     AddAction (action_centercamera, "cel.action.CenterCamera");
     AddAction (action_setfollowentity, "cel.action.SetFollowEntity");
+    AddAction (action_setrectangle, "cel.action.SetRectangle");
+    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
   }
 
   // For properties.
@@ -542,6 +552,28 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         iCelEntity* ent = pl->FindEntity (entityname);
         if (!ent) return false;
         SetFollowEntity (ent);
+        return true;
+      }
+    case action_setrectangle:
+      {
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
+        SetRectangle (x, y, w, h);
+        return true;
+      }
+    case action_setperspcenter:
+      {
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
+        SetPerspectiveCenter (x, y);
         return true;
       }
     default:
@@ -1230,7 +1262,6 @@ void celPcDefaultCamera::SetSwingCoef (float swingCoef, int mode)
 }
 
 void celPcDefaultCamera::CheckModeChange ()
-
 {
   if (!modeset_needed) return;
   modeset_needed = false;

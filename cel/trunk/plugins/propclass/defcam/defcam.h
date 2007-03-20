@@ -193,6 +193,10 @@ private:
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
+  static csStringID id_x;
+  static csStringID id_y;
+  static csStringID id_w;
+  static csStringID id_h;
 
 public://@@@
   bool modeset_needed;
@@ -302,7 +306,9 @@ public://@@@
     action_setcamera,
     action_setzonemanager,
     action_centercamera,
-    action_setfollowentity
+    action_setfollowentity,
+    action_setrectangle,
+    action_setperspcenter
   };
 
   // For properties.
@@ -735,6 +741,10 @@ public:
     {
       scfParent->SetRectangle (x, y, w, h);
     }
+    virtual void SetPerspectiveCenter (float x, float y)
+    {
+      scfParent->SetPerspectiveCenter (x, y);
+    }
     virtual iCamera* GetCamera () const
     {
       return scfParent->GetCamera ();
@@ -825,7 +835,7 @@ public:
       return scfParent->GetNextMode ();
     }
     virtual void SetSpringParameters (float springCoef, float
-        inertialDampeningCoef, float springLength)
+    	inertialDampeningCoef, float springLength)
     {
       scfParent->SetSpringCoef (springCoef);
       scfParent->SetDampeningCoef (inertialDampeningCoef);

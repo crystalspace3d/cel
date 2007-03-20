@@ -43,13 +43,14 @@
 #include "ivideo/graph3d.h"
 
 celPcCameraCommon::celPcCameraCommon (iObjectRegistry* object_reg)
-  : celPcCommon (object_reg)
+	: celPcCommon (object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
   g3d = csQueryRegistry<iGraphics3D> (object_reg);
   view = csPtr<iView> (new csView (engine, g3d));
 
   rect_set = false;
+  center_set = false;
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
 
@@ -121,7 +122,7 @@ bool celPcCameraCommon::SetZoneManager (iPcZoneManager* newzonemgr,
     else
     {
       // camera->GetCamera ()->SetSector (0);
-      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
+      camera->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
     }
   }
 
@@ -140,7 +141,7 @@ bool celPcCameraCommon::SetZoneManager (const char* entityname,
     if (zonemgr)
       zonemgr->PointCamera (entity->GetName (), regionname, name);
     else
-      GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
+      GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
   }
 
   return true;
@@ -154,6 +155,14 @@ void celPcCameraCommon::SetRectangle (int x, int y, int w, int h)
   rect_h = h;
   view->SetRectangle (x, y, w, h);
   rect_set = true;
+}
+
+void celPcCameraCommon::SetPerspectiveCenter (float x, float y)
+{
+  center_x = x;
+  center_y = y;
+  GetCamera ()->SetPerspectiveCenter (x, y);
+  center_set = true;
 }
 
 iCamera* celPcCameraCommon::GetCamera () const
@@ -251,7 +260,7 @@ void celPcCameraCommon::AdaptDistanceClipping (csTicks elapsed_time)
   }
 }
 
-void celPcCameraCommon::SetAutoDraw(bool auto_draw)
+void celPcCameraCommon::SetAutoDraw (bool auto_draw)
 {
   if (auto_draw)
     pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
@@ -268,8 +277,8 @@ void celPcCameraCommon::Draw ()
 
   // Tell 3D driver we're going to display 3D things.
   if (g3d->BeginDraw (engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-    	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
+  	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+  	| (clear_screen ? CSDRAW_CLEARSCREEN : 0)))
     view->Draw ();
 }
 
@@ -285,7 +294,7 @@ void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
   databuf->Add (pc);
   if (zonemgr) pc = scfQueryInterface<iCelPropertyClass> (zonemgr);
   databuf->Add (pc);
-  databuf->Add (view->GetCamera()->GetSector()->QueryObject()->GetName());
+  databuf->Add (view->GetCamera ()->GetSector ()->QueryObject ()->GetName ());
   const csTransform& tr = view->GetCamera ()->GetTransform ();
   databuf->Add (tr.GetO2TTranslation ());
 
@@ -307,6 +316,10 @@ void celPcCameraCommon::SaveCommon (iCelDataBuffer* databuf)
 
   databuf->Add (clear_zbuf);
   databuf->Add (clear_screen);
+
+  databuf->Add (center_set);
+  databuf->Add (rect_x);
+  databuf->Add (rect_y);
 }
 
 bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
@@ -365,8 +378,15 @@ bool celPcCameraCommon::LoadCommon (iCelDataBuffer* databuf)
   clear_zbuf = databuf->GetBool ();
   clear_screen = databuf->GetBool ();
 
+  center_set = databuf->GetBool ();
+  center_x = databuf->GetFloat ();
+  center_y = databuf->GetFloat ();
+
   if (rect_set)
     view->SetRectangle (rect_x, rect_y, rect_w, rect_h);
+
+  if (center_set)
+    GetCamera () -> SetPerspectiveCenter (center_x, center_y);
 
   return true;
 }
