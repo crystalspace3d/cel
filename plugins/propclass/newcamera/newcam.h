@@ -64,8 +64,8 @@ class celPcNewCamera : public celPcCameraCommon
 private:
   csRef<iCollideSystem> cdsys;
 
-  csArray<iCelCameraMode *> cameraModes;
-  
+  csArray<iCelCameraMode*> cameraModes;
+
   size_t currMode;
 
   csVector3 basePos;
@@ -73,7 +73,7 @@ private:
   csVector3 baseUp;
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
-  iSector * baseSector;
+  iSector* baseSector;
   csVector3 camPos, camTarget, camUp;
   csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
@@ -99,15 +99,15 @@ private:
    *  \param springCoef   The spring coefficient to use in our calculations.
    *  \param newVec       A container to hold the new value of the vector.
    */
-  static void CalcElasticVec(const csVector3 & curr, const csVector3 & ideal,
-      const csVector3 & deltaIdeal, float deltaTime, float springCoef,
-      csVector3 & newVec);
+  static void CalcElasticVec(const csVector3& curr, const csVector3& ideal,
+  	const csVector3& deltaIdeal, float deltaTime, float springCoef,
+  	csVector3& newVec);
 
 public:
-  celPcNewCamera(iObjectRegistry * object_reg);
+  celPcNewCamera(iObjectRegistry* object_reg);
   virtual ~celPcNewCamera();
 
-  virtual const char * GetName() const
+  virtual const char* GetName() const
   {
     return "New Camera";
   }
@@ -123,43 +123,43 @@ public:
 
   /**
    * Gets the base position of the camera in world coordinates.
-   * \return 	The base position of the camera in world coordinates.
+   * \return The base position of the camera in world coordinates.
    */
   virtual const csVector3 & GetBasePos() const;
 
   /**
    * Gets the base direction of the camera.
-   * \return 	The base direction of the camera.
+   * \return The base direction of the camera.
    */
   virtual const csVector3 & GetBaseDir() const;
 
   /**
    * Gets the base up vector of the camera.
-   * \return 	The base up vector of the camera.
+   * \return The base up vector of the camera.
    */
   virtual const csVector3 & GetBaseUp() const;
 
   /**
    * Gets the base transform of the camera.
-   * \return	The base transform of the camera.
+   * \return The base transform of the camera.
    */
   virtual const csReversibleTransform & GetBaseTrans() const;
 
   /**
    * Gets the current position of the camera.
-   * \return    The current position of the camera.
+   * \return The current position of the camera.
    */
   virtual const csVector3 & GetPos() const;
 
   /**
    * Gets the current target of the camera.
-   * \return    The current target of the camera.
+   * \return The current target of the camera.
    */
   virtual const csVector3 & GetTarget() const;
 
   /**
    * Gets the current up vector of the camera.
-   * \return    The current up vector of the camera.
+   * \return The current up vector of the camera.
    */
   virtual const csVector3 & GetUp() const;
 
@@ -228,7 +228,7 @@ public:
    * from target to target.
    */
   virtual void SetTransitionCutoffDistance(float cutOffPosDist,
-      float cutOffTargetDist);
+  	float cutOffTargetDist);
 
   /**
    * Grabs the camera transition cutoff distance from position to position
@@ -246,34 +246,34 @@ public:
 
   /**
    * Attaches a camera mode to this camera.
-   * \param mode 	The camera mode to attach.
-   * \return 		The index that the camera mode was stored.
+   * \param mode The camera mode to attach.
+   * \return The index that the camera mode was stored.
    */
   virtual size_t AttachCameraMode(iCelCameraMode * mode);
 
   /**
    * Attaches a built-in camera mode to this camera.
-   * \param mode 	The id of the built-in camera mode to attach.
-   * \return 		A unique id for the attached camera mode.
+   * \param mode The id of the built-in camera mode to attach.
+   * \return A unique id for the attached camera mode.
    */
   virtual size_t AttachCameraMode(iPcNewCamera::CEL_CAMERA_MODE mode);
 
   /**
    * Gets the index of the current camera mode.
-   * \return 	The index of the current camera mode.
+   * \return The index of the current camera mode.
    */
   virtual size_t GetCurrentCameraModeIndex() const;
 
   /**
    * Gets the current camera mode.
-   * \return 	The current camera mode.
+   * \return The current camera mode.
    */
-  virtual iCelCameraMode * GetCurrentCameraMode();
+  virtual iCelCameraMode* GetCurrentCameraMode();
 
   /**
    * Sets the current camera mode.
-   * \param modeIndex 	The index of the current camera mode.
-   * \return 		True on successful camera mode change.
+   * \param modeIndex The index of the current camera mode.
+   * \return True on successful camera mode change.
    */
   virtual bool SetCurrentCameraMode(size_t modeIndex);
 
@@ -302,23 +302,27 @@ public:
   {
     SCF_DECLARE_EMBEDDED_IBASE (celPcNewCamera);
     virtual bool SetRegion (iPcRegion* region, bool point = true,
-        const char* name = 0)
+    	const char* name = 0)
     {
       return scfParent->SetRegion (region, point, name);
     }
     virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-        const char* regionname, const char* name = 0)
+    	const char* regionname, const char* name = 0)
     {
       return scfParent->SetZoneManager (zonemgr, point, regionname, name);
     }
     virtual bool SetZoneManager (const char* entityname, bool point,
-        const char* regionname, const char* name = 0)
+    	const char* regionname, const char* name = 0)
     {
       return scfParent->SetZoneManager (entityname, point, regionname, name);
     }
     virtual void SetRectangle (int x, int y, int w, int h)
     {
       scfParent->SetRectangle (x, y, w, h);
+    }
+    virtual void SetPerspectiveCenter (float x, float y)
+    {
+      scfParent->SetPerspectiveCenter (x, y);
     }
     virtual iCamera* GetCamera () const
     {
@@ -353,7 +357,7 @@ public:
       scfParent->EnableFixedDistanceClipping (dist);
     }
     virtual void EnableAdaptiveDistanceClipping (float min_fps,
-        float max_fps, float min_dist)
+    	float max_fps, float min_dist)
     {
       scfParent->EnableAdaptiveDistanceClipping (min_fps, max_fps, min_dist);
     }
@@ -446,7 +450,7 @@ public:
       return scfParent->GetTransitionSpringCoefficient();
     }
     virtual void SetTransitionCutoffDistance(float cutOffPosDist,
-	float cutOffTargetDist)
+    	float cutOffTargetDist)
     {
       scfParent->SetTransitionCutoffDistance(cutOffPosDist, cutOffTargetDist);
     }

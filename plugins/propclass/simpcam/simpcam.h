@@ -170,6 +170,10 @@ public:
     {
       scfParent->SetRectangle (x, y, w, h);
     }
+    virtual void SetPerspectiveCenter (float x, float y)
+    {
+      scfParent->SetPerspectiveCenter (x, y);
+    }
     virtual iCamera* GetCamera () const
     {
       return scfParent->GetCamera ();
