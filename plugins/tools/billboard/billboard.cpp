@@ -1083,6 +1083,9 @@ bool celBillboardManager::HandleEvent (iEvent& ev)
   {
     if (billboards.GetSize () > 0)
     {
+      // reset perspective center in case user is drawing some other
+      // view. this assumes bb space is fullscreen.
+      g3d->SetPerspectiveCenter(g3d->GetWidth()/2,g3d->GetHeight()/2);
       g3d->BeginDraw (CSDRAW_3DGRAPHICS);
       mesh_reset ();
       size_t i;
