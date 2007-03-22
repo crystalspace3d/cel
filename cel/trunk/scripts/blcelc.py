@@ -2615,6 +2615,7 @@ class iPcCamera(cspace.iBase):
     def Draw(*args): return _blcelc.iPcCamera_Draw(*args)
     def UpdateCamera(*args): return _blcelc.iPcCamera_UpdateCamera(*args)
     def GetDrawFlags(*args): return _blcelc.iPcCamera_GetDrawFlags(*args)
+    def SetPerspectiveCenter(*args): return _blcelc.iPcCamera_SetPerspectiveCenter(*args)
     __swig_setmethods__["Region"] = fix_args(_blcelc.iPcCamera_SetRegion)
     Region = property(None, fix_args(_blcelc.iPcCamera_SetRegion), None,
                     "iPcCamera.Region -> type\n\nThis is equivalent to calling the C++ cs methods:\n\tget: iPcCamera::getmethod()\n\tset: void iPcCamera::SetRegion(...)")
