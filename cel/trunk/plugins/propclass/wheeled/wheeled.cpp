@@ -844,8 +844,8 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 
   //Set the wheel rotation and position in the mesh.
   //AFAIK the rotation is overridden by the body anyway.
-  csMatrix3 bodyrot = bodytransform.GetT2O();
-  csMatrix3 wheelrotation = bodyrot + wheels[wheelnum].Rotation;
+  csMatrix3 bodyrot = bodytransform.GetO2T();
+  csMatrix3 wheelrotation = bodyrot * wheels[wheelnum].Rotation;
   csOrthoTransform t = csOrthoTransform(wheelrotation, realpos);
    //If it a right wheel, flip it.
    if (wheels[wheelnum].Position.x < 0.0f)
@@ -856,13 +856,14 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
 
   wheelbody->AttachColliderSphere (
       wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
+  wheelbody->SetTransform(t);
     //Create the joint
   csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
   joint->SetHingeAnchor(realpos);
   joint->Attach(bodyMech->GetBody(), wheelbody);
   joint->SetHingeAnchor(realpos);
-  joint->SetHingeAxis1(csVector3(0,1,0));
-  joint->SetHingeAxis2(csVector3(1,0,0));
+  joint->SetHingeAxis1(bodytransform.This2OtherRelative(csVector3(0,1,0)));
+  joint->SetHingeAxis2(bodytransform.This2OtherRelative(csVector3(1,0,0)));
   joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
   joint->SetSuspensionERP(wheels[wheelnum].SuspensionDamping,0);
   joint->SetLoStop(0,0);

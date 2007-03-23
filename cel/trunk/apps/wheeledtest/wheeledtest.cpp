@@ -217,6 +217,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
+  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, -3.0f));
   pccamera->SetMode (iPcDefaultCamera::m64_thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
@@ -230,7 +231,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
-  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
+  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, -3.0f));
   pccamera->SetModeName ("thirdperson");
 
   csRef<iPcMechanicsObject> pcmech=CEL_QUERY_PROPCLASS_ENT(entity_cam,
