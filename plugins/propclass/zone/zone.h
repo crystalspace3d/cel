@@ -100,6 +100,7 @@ public:
 class celMapFile : public iCelMapFile
 {
 private:
+  char* name;
   char* path;
   char* file;
   char* sectorname;
@@ -108,12 +109,14 @@ public:
   celMapFile ()
   {
     SCF_CONSTRUCT_IBASE (0);
+    name = 0;
     path = 0;
     file = 0;
     sectorname = 0;
   }
   virtual ~celMapFile ()
   {
+    delete[] name;
     delete[] path;
     delete[] file;
     delete[] sectorname;
@@ -122,8 +125,10 @@ public:
 
   SCF_DECLARE_IBASE;
 
+  virtual void SetName (const char* name);
   virtual void SetPath (const char* path);
   virtual void SetFile (const char* file);
+  virtual const char* GetName () const { return name; }
   virtual const char* GetPath () const { return path; }
   virtual const char* GetFile () const { return file; }
   virtual void SetSectorName (const char* name);
@@ -185,6 +190,7 @@ public:
   {
     return (iCelMapFile*)mapfiles[idx];
   }
+  virtual iCelMapFile* FindMapFile (const char* name) const;
   virtual bool RemoveMapFile (iCelMapFile* mapfile);
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
@@ -270,7 +276,9 @@ private:
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
+  static csStringID id_zonename;
   static csStringID id_mode;
+  static csStringID id_name;
 
   enum actionids
   {
@@ -280,7 +288,16 @@ private:
     action_pointmesh,
     action_pointcamera,
     action_setloadingmode,
-    action_activateregion
+    action_activateregion,
+    action_createregion,
+    action_removeregion,
+    action_createzone,
+    action_removezone,
+    action_createmap,
+    action_removemap,
+    action_setcache,
+    action_linkregion,
+    action_unlinkregion
   };
 
   celOneParameterBlock* params;
@@ -455,12 +472,12 @@ public:
       scfParent->RemoveAllRegions ();
     }
     virtual void FindStartLocations (iStringArray* regionnames,
-  	iStringArray* startnames)
+    	iStringArray* startnames)
     {
       scfParent->FindStartLocations (regionnames, startnames);
     }
     virtual void GetLastStartLocation (iString* regionname,
-  	iString* startname)
+    	iString* startname)
     {
       scfParent->GetLastStartLocation (regionname, startname);
     }
@@ -473,12 +490,12 @@ public:
       return scfParent->GetLastStartName ();
     }
     virtual int PointCamera (const char* entity, const char* regionname,
-  	const char* startname = 0)
+    	const char* startname = 0)
     {
       return scfParent->PointCamera (entity, regionname, startname);
     }
     virtual int PointMesh (const char* entity, const char* regionname,
-  	const char* startname = 0)
+    	const char* startname = 0)
     {
       return scfParent->PointMesh (entity, regionname, startname);
     }

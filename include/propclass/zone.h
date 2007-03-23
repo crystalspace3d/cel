@@ -33,13 +33,18 @@ struct iStringArray;
 struct iString;
 struct iDocumentNode;
 
-SCF_VERSION (iCelMapFile, 0, 1, 0);
+SCF_VERSION (iCelMapFile, 0, 1, 1);
 
 /**
  * A representation of a map file for a region.
  */
 struct iCelMapFile : public iBase
 {
+  /**
+   * Set the name associated with this map.
+   */
+  virtual void SetName (const char* name) = 0;
+
   /**
    * Set the VFS path for the world file associated with this map.
    * If not 0 then the VFS current dir will be set to this path and
@@ -52,6 +57,12 @@ struct iCelMapFile : public iBase
    * This is relative to the path if given.
    */
   virtual void SetFile (const char* file) = 0;
+
+  /**
+   * Get name associated with this map.
+   * Returns 0 if name is not used.
+   */
+  virtual const char* GetName () const = 0;
 
   /**
    * Get the VFS path for the world file associated with this map.
@@ -80,7 +91,7 @@ struct iCelMapFile : public iBase
   virtual const char* GetSectorName () const = 0;
 };
 
-SCF_VERSION (iCelRegion, 0, 2, 2);
+SCF_VERSION (iCelRegion, 0, 2, 3);
 
 /**
  * A region. A region is a collection of map files
@@ -131,6 +142,11 @@ struct iCelRegion : public iBase
   virtual iCelMapFile* GetMapFile (int idx) const = 0;
 
   /**
+   * Find the specified map file.
+   */
+  virtual iCelMapFile* FindMapFile (const char* name) const = 0;
+
+  /**
    * Delete the given map file from this region. Returns
    * false if the map file could not be found in this region.
    */
@@ -146,7 +162,7 @@ struct iCelRegion : public iBase
    * region is unloaded.
    */
   virtual void AssociateEntity (iCelEntity* entity) = 0;
-  
+
   /**
    * Unregister an entity from this region.
    */
@@ -261,6 +277,15 @@ SCF_VERSION (iPcZoneManager, 0, 1, 3);
  * - SetLoadingMode: parameters 'mode' (string: one of 'loadall',
  *   'normal', or 'keep').
  * - ActivateRegion: parameters 'region' (string).
+ * - CreateRegion: parameters 'name' (string).
+ * - RemoveRegion: parameters 'name' (string).
+ * - CreateZone: parameters 'name' (string).
+ * - RemoveZone: parameters 'name' (string).
+ * - CreateMap: parameters 'region' (string) 'name' (string) 'path' (string) 'file' (string).
+ * - RemoveMap: parameters 'region' (string) 'name' (string).
+ * - SetCache: parameters 'region' (string) 'path' (string).
+ * - LinkRegion: parameters 'zone' (string) 'region' (string).
+ * - UnlinkRegion: parameters 'zone' (string) 'region' (string).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
