@@ -111,7 +111,7 @@ void csDeformControl::DeformMesh
   for (int i = 0; i < total_verts; i++)
   {
     csVector3 cvert = deformed_verts[i];
-    float distance = (position - cvert).SquaredNorm();
+    float distance = (position - cvert).Norm();
     //Only perform the deform if the vertice is within the radius of effect.
     if (distance < radius)
     {
@@ -122,22 +122,23 @@ void csDeformControl::DeformMesh
                          position.x + position.y + position.z +
                          direction.x + direction.y + direction.z) * 3.141592;
        r_amount -= int(r_amount);
-       //Shift the vertice inverse proportional to its distance from point
-       //And add the random noise
-       float displacement = (radius - distance) / radius + (r_amount * noise);
-        //Now proportion in the amount that the vertice has already moved.
-        float displaced = (cvert - original_verts[i]).Norm();
-        bool a = maxdeform >= displaced;
-        if (maxdeform >= displaced)
-          displacement *= (maxdeform - displaced) / maxdeform;
-        else displacement = 0.0f;
-        a = maxdeform >= displacement;
-        //Now factor in the size of this deform
-        if (maxdeform >= displacement)
-          displacement *= (maxdeform - displacement) / maxdeform;
-        else displacement = 0.0f;
-        //Move the vertice
-        deformed_verts[i] = cvert + (direction * displacement) ;
+       float noiselevel = r_amount * noise;
+       //Shift the vertice inverse squared proportional to its distance from point
+       float distanceratio = (radius - distance) / (radius);
+       float displacement =  distanceratio * distanceratio;
+       //Now proportion in the amount that the vertice has already moved.
+       float displaced = (cvert - original_verts[i]).Norm();
+       float moveallowed =  (maxdeform - displaced) / maxdeform;
+       if (moveallowed > 0.0f)
+       {
+          displacement *= moveallowed * moveallowed;
+          csVector3 displacementvector = direction * (displacement + noiselevel);
+          float dvlength = displacementvector.Norm();
+          if  (dvlength > maxdeform && dvlength != 0)
+              displacementvector = (displacementvector / dvlength) * (maxdeform + noiselevel);
+          //Move the vertice
+          deformed_verts[i] = cvert + displacementvector;
+       }
     }
   }
 }
