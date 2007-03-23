@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- cfraz89 fixed pcwheeled so that wheels line up with the
 	  car on creation, when the car does not have the default
           rotation.
+	- Jorrit removed the awswin property class.
 21-Mar-2007
 	- caedes made billboard manager reset g3d perspective center to
 	  screen center before drawing to avoid problems when user draws
