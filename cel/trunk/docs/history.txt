@@ -8,6 +8,9 @@ The history order is reversed so that new features are at the top.
 	  car on creation, when the car does not have the default
           rotation.
 	- Jorrit removed the awswin property class.
+	- cfraz89 improved pcmeshdeform's algorithm so it is more
+	  realistic, better looking, and fully constrains to the
+	  maxdeform parameter.
 21-Mar-2007
 	- caedes made billboard manager reset g3d perspective center to
 	  screen center before drawing to avoid problems when user draws
