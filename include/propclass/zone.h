@@ -33,7 +33,7 @@ struct iStringArray;
 struct iString;
 struct iDocumentNode;
 
-SCF_VERSION (iCelMapFile, 0, 1, 1);
+SCF_VERSION (iCelMapFile, 0, 2, 0);
 
 /**
  * A representation of a map file for a region.
@@ -91,7 +91,7 @@ struct iCelMapFile : public iBase
   virtual const char* GetSectorName () const = 0;
 };
 
-SCF_VERSION (iCelRegion, 0, 2, 3);
+SCF_VERSION (iCelRegion, 0, 3, 0);
 
 /**
  * A region. A region is a collection of map files
