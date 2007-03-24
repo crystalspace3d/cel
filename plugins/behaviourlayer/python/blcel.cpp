@@ -37483,6 +37483,39 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iCelMapFile_SetName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelMapFile *arg1 = (iCelMapFile *) 0 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelMapFile_SetName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelMapFile, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelMapFile_SetName" "', argument " "1"" of type '" "iCelMapFile *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelMapFile * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelMapFile_SetName" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  (arg1)->SetName((char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iCelMapFile_SetPath(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelMapFile *arg1 = (iCelMapFile *) 0 ;
@@ -37545,6 +37578,28 @@ SWIGINTERN PyObject *_wrap_iCelMapFile_SetFile(PyObject *SWIGUNUSEDPARM(self), P
   return resultobj;
 fail:
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelMapFile_GetName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelMapFile *arg1 = (iCelMapFile *) 0 ;
+  char *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iCelMapFile_GetName",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelMapFile, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelMapFile_GetName" "', argument " "1"" of type '" "iCelMapFile const *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelMapFile * >(argp1);
+  result = (char *)((iCelMapFile const *)arg1)->GetName();
+  resultobj = SWIG_FromCharPtr(result);
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -38012,6 +38067,40 @@ SWIGINTERN PyObject *_wrap_iCelRegion_GetMapFile(PyObject *SWIGUNUSEDPARM(self),
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelMapFile, 0 |  0 );
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelRegion_FindMapFile(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelRegion *arg1 = (iCelRegion *) 0 ;
+  char *arg2 = (char *) 0 ;
+  iCelMapFile *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelRegion_FindMapFile",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelRegion, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelRegion_FindMapFile" "', argument " "1"" of type '" "iCelRegion const *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelRegion * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelRegion_FindMapFile" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  result = (iCelMapFile *)((iCelRegion const *)arg1)->FindMapFile((char const *)arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelMapFile, 0 |  0 );
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return NULL;
 }
 
@@ -88125,8 +88214,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Region", _wrap_Region, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcRegion", _wrap_scfQuery_iPcRegion, METH_VARARGS, NULL},
 	 { (char *)"scfQueryPC_iPcRegion", _wrap_scfQueryPC_iPcRegion, METH_VARARGS, NULL},
+	 { (char *)"iCelMapFile_SetName", _wrap_iCelMapFile_SetName, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetPath", _wrap_iCelMapFile_SetPath, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetFile", _wrap_iCelMapFile_SetFile, METH_VARARGS, NULL},
+	 { (char *)"iCelMapFile_GetName", _wrap_iCelMapFile_GetName, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_GetPath", _wrap_iCelMapFile_GetPath, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_GetFile", _wrap_iCelMapFile_GetFile, METH_VARARGS, NULL},
 	 { (char *)"iCelMapFile_SetSectorName", _wrap_iCelMapFile_SetSectorName, METH_VARARGS, NULL},
@@ -88146,6 +88237,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelRegion_CreateMapFile", _wrap_iCelRegion_CreateMapFile, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_GetMapFileCount", _wrap_iCelRegion_GetMapFileCount, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_GetMapFile", _wrap_iCelRegion_GetMapFile, METH_VARARGS, NULL},
+	 { (char *)"iCelRegion_FindMapFile", _wrap_iCelRegion_FindMapFile, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_RemoveMapFile", _wrap_iCelRegion_RemoveMapFile, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_RemoveAllMapFiles", _wrap_iCelRegion_RemoveAllMapFiles, METH_VARARGS, NULL},
 	 { (char *)"iCelRegion_AssociateEntity", _wrap_iCelRegion_AssociateEntity, METH_VARARGS, NULL},

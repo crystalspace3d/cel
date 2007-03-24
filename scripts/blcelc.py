@@ -2007,8 +2007,10 @@ class iCelMapFile(cspace.iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iCelMapFile, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def SetName(*args): return _blcelc.iCelMapFile_SetName(*args)
     def SetPath(*args): return _blcelc.iCelMapFile_SetPath(*args)
     def SetFile(*args): return _blcelc.iCelMapFile_SetFile(*args)
+    def GetName(*args): return _blcelc.iCelMapFile_GetName(*args)
     def GetPath(*args): return _blcelc.iCelMapFile_GetPath(*args)
     def GetFile(*args): return _blcelc.iCelMapFile_GetFile(*args)
     def SetSectorName(*args): return _blcelc.iCelMapFile_SetSectorName(*args)
@@ -2050,6 +2052,7 @@ class iCelRegion(cspace.iBase):
     def CreateMapFile(*args): return _blcelc.iCelRegion_CreateMapFile(*args)
     def GetMapFileCount(*args): return _blcelc.iCelRegion_GetMapFileCount(*args)
     def GetMapFile(*args): return _blcelc.iCelRegion_GetMapFile(*args)
+    def FindMapFile(*args): return _blcelc.iCelRegion_FindMapFile(*args)
     def RemoveMapFile(*args): return _blcelc.iCelRegion_RemoveMapFile(*args)
     def RemoveAllMapFiles(*args): return _blcelc.iCelRegion_RemoveAllMapFiles(*args)
     def AssociateEntity(*args): return _blcelc.iCelRegion_AssociateEntity(*args)
