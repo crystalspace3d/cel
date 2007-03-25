@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-Mar-2007
+	- Darek added xml action to pcregion: Unload.
 23-Mar-2007
 	- cfraz89 fixed pcwheeled so that wheels line up with the
 	  car on creation, when the car does not have the default

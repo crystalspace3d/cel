@@ -72,7 +72,8 @@ private:
 
   enum actionids
   {
-    action_load = 0
+    action_load = 0,
+    action_unload
   };
 
   enum propids
@@ -150,7 +151,7 @@ public:
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
-      celData& ret);
+  	celData& ret);
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
