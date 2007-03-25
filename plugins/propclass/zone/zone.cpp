@@ -370,7 +370,6 @@ iCelMapFile* celRegion::FindMapFile (const char* name) const
   for (i = 0; i < GetMapFileCount (); i ++)
     if (!strcmp (name, mapfiles[i]->GetName ()))
       return (iCelMapFile*)mapfiles[i];
-
   return 0;
 }
 
@@ -403,7 +402,7 @@ void celZone::UnlinkAllRegions ()
 iCelRegion* celZone::FindRegion (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < regions.GetSize () ; i++)
+  for (i = 0; i < regions.GetSize (); i ++)
     if (!strcmp (name, regions[i]->GetName ()))
       return (iCelRegion*)regions[i];
   return 0;
