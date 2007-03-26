@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+26-Mar-2007
+	- Genjix removed deprecated cel.pcfactory.pccommandinput name.
 25-Mar-2007
 	- Darek added xml action to pcregion: Unload.
 23-Mar-2007
