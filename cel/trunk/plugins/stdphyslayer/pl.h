@@ -191,7 +191,8 @@ public:
   { return allow_entity_addon; }
 
   virtual bool LoadPropertyClassFactory (const char* plugin_id);
-  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
+  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
+      const char* altname);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);
   virtual size_t GetPropertyClassFactoryCount () const;

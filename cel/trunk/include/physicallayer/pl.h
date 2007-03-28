@@ -347,7 +347,8 @@ struct iCelPlLayer : public iBase
    * factory itself will do it when it is loaded. To load a property class
    * factory plugin you can use LoadPropertyClassFactory().
    */
-  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf) = 0;
+  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
+      const char* altname = 0) = 0;
 
   /**
    * Unregister a property class factory.

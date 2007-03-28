@@ -151,7 +151,7 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
     if (!strcmp (name, obj->GetName ()))
     {
       // We prefer to find a property class with no tag. So if we have
-      // no tag we can return immediatelly. Otherwise we have to wait
+      // no tag we can return immediately. Otherwise we have to wait
       // until we find one with no tag.
       if (obj->GetTag () == 0)
         return obj;

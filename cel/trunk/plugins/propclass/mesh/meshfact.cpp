@@ -68,8 +68,8 @@ CS_IMPLEMENT_PLUGIN
 CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
 {
 
-CEL_IMPLEMENT_FACTORY (Mesh, "pcmesh")
-CEL_IMPLEMENT_FACTORY (MeshSelect, "pcmeshselect")
+CEL_IMPLEMENT_FACTORY_ALT (Mesh, "pcobject.mesh", "pcmesh")
+CEL_IMPLEMENT_FACTORY_ALT (MeshSelect, "pcobject.mesh.select", "pcmeshselect")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -78,7 +78,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.mesh",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.propclass.object.object.mesh",
     	msg, arg);
   else
   {
@@ -816,7 +816,7 @@ iMeshFactoryWrapper* celPcMesh::LoadMeshFactory ()
   if (!success)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pfmesh.loadmeshfactory",
+    	"cel.pfobject.mesh.loadmeshfactory",
     	"Error loading mesh object factory or library '%s'!",
     	(const char*)fileName);
     return 0;
@@ -1312,11 +1312,11 @@ void celPcMeshSelect::SetupEventHandler ()
   if (!handler)
   {
     handler = csQueryRegistryTagInterface<celMeshSelectListener> (object_reg,
-    	"cel.pcmeshselect.globallistener");
+    	"cel.pcobject.mesh.select.globallistener");
     if (!handler)
     {
       handler.AttachNew (new celMeshSelectListener (name_reg));
-      object_reg->Register (handler, "cel.pcmeshselect.globallistener");
+      object_reg->Register (handler, "cel.pcobject.mesh.select.globallistener");
       csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
       CS_ASSERT (q != 0);
 

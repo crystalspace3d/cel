@@ -37,7 +37,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY(Hover, "pchover")
+CEL_IMPLEMENT_FACTORY_ALT (Hover, "pcvehicle.hover", "pchover")
 
 SCF_IMPLEMENT_IBASE_EXT (celPcHover)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcHover)

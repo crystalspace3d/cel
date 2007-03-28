@@ -62,7 +62,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (ZoneManager, "pczonemanager")
+CEL_IMPLEMENT_FACTORY_ALT (ZoneManager, "pcworld.zonemanager", "pczonemanager")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

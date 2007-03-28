@@ -196,7 +196,6 @@ public:
    */
   virtual bool IsVisible () const { return visible; }
 
-  virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -248,7 +247,7 @@ public:
   void RegisterMeshSelect (celPcMeshSelect* meshsel, bool withmove);
   void UnregisterMeshSelect (celPcMeshSelect* meshsel);
 
-  CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
+  CS_EVENTHANDLER_NAMES("cel.propclass.pcobject.mesh.select")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
@@ -418,7 +417,6 @@ public:
   void FireListenersUp (int x, int y, int button, iCelEntity* entity);
   void FireListenersMove (int x, int y, int button, iCelEntity* entity);
 
-  virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params,

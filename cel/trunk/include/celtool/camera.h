@@ -131,7 +131,6 @@ public:
 
   virtual void Draw ();
 
-  virtual const char* GetName () const { return "pccamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();

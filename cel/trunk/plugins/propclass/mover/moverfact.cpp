@@ -36,7 +36,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Mover, "pcmover")
+CEL_IMPLEMENT_FACTORY_ALT (Mover, "pcmove.mover", "pcmover")
 
 //---------------------------------------------------------------------------
 

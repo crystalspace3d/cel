@@ -104,7 +104,6 @@ public:
   virtual void Interrupt ();
   virtual bool IsMoving () const { return is_moving; }
 
-  virtual const char* GetName () const { return "pcprojectile"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

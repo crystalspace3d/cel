@@ -55,10 +55,10 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY(Movable, "pcmovable")
-CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
-CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
-CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
+CEL_IMPLEMENT_FACTORY_ALT (Movable, "pcmove.movable", "pcmovable")
+CEL_IMPLEMENT_FACTORY_ALT (Solid, "pcmove.solid", "pcsolid")
+CEL_IMPLEMENT_FACTORY_ALT (MovableConstraintCD, "pcmove.movableconst_cd", "pcmovableconst_cd")
+CEL_IMPLEMENT_FACTORY_ALT (Gravity, "pcmove.gravity", "pcgravity")
 
 bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
 {

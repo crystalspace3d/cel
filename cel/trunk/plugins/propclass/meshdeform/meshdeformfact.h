@@ -97,7 +97,6 @@ public:
   celPcMeshDeform (iObjectRegistry* object_reg);
   virtual ~celPcMeshDeform ();
 
-  virtual const char* GetName () const { return "pcmeshdeform"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,

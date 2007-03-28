@@ -107,10 +107,6 @@ public:
   celPcNewCamera(iObjectRegistry* object_reg);
   virtual ~celPcNewCamera();
 
-  virtual const char* GetName() const
-  {
-    return "New Camera";
-  }
   virtual csPtr<iCelDataBuffer> Save()
   {
     return 0;

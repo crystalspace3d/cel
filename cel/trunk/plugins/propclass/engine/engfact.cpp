@@ -59,7 +59,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Region, "pcregion")
+CEL_IMPLEMENT_FACTORY_ALT (Region, "pcworld.region", "pcregion")
 
 void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 {

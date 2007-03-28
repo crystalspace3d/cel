@@ -104,7 +104,12 @@ struct iCelParameterBlock;
  */
 struct iCelPropertyClass : public virtual iBase
 {
-  SCF_INTERFACE (iCelPropertyClass, 0, 0, 7);
+  SCF_INTERFACE (iCelPropertyClass, 0, 0, 8);
+
+  /**
+   * Set the name of this property class.
+   */
+  virtual void SetName (const char* name) = 0;
 
   /**
    * Get the name of this property class.

@@ -33,7 +33,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Rules, "pcrules")
+CEL_IMPLEMENT_FACTORY_ALT (Rules, "pclogic.rules", "pcrules")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

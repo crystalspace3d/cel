@@ -137,7 +137,6 @@ public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
 
-  virtual const char* GetName () const { return "pccommandinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -193,7 +192,7 @@ public:
       else
         return false;
     }
-    CS_EVENTHANDLER_NAMES("cel.propclass.pccommandinput")
+    CS_EVENTHANDLER_NAMES("cel.propclass.pcinput.standard")
     CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 

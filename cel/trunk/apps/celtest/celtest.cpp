@@ -186,19 +186,19 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 {
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-  	"pccommandinput",
+  	"pcinput.standard",
 #ifdef CEL_USE_NEW_CAMERA
-	"pcnewcamera",
+	"pccamera.standard",
 #else
-	"pcdefaultcamera",
+	"pccamera.old",
 #endif
-	"pcactormove",
-	"pcmesh",
-	"pcmeshselect",
-	"pclinearmovement",
-	"pctooltip",
-	"pcinventory",
-	"pcsoundlistener",
+	"pcmove.actor",
+	"pcobject.mesh",
+	"pcobject.mesh.select",
+	"pcmove.linear",
+	"pc2d.tooltip",
+	"pctools.inventory",
+	"pcsound.listener",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -293,8 +293,8 @@ bool CelTest::CreateRoom ()
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity ("room", bltest, "room",
-  	"pczonemanager",
-	"pcinventory",
+  	"pcworld.zonemanager",
+	"pctools.inventory",
   	CEL_PROPCLASS_END);
 
   //===============================

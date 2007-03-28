@@ -3,10 +3,17 @@
 <plugin>
   <scf>
     <classes>
+      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.region</name>
         <implementation>celPfRegion</implementation>
-	<description>CEL Region Property Class Factory</description>
+        <description>CEL Region Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.world.region</name>
+        <implementation>celPfRegion</implementation>
+        <description>CEL Region Property Class Factory</description>
       </class>
     </classes>
   </scf>

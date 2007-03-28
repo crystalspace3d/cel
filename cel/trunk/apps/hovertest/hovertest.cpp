@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 by Jorrit Tyberghein
+    Copyright (C) 2006 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -13,8 +13,7 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
-    MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "cssysdef.h"
@@ -153,12 +152,12 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   // The Real Camera
   player = pl->CreateEntity ("ent_player", behaviour_layer,
         "dynactor",
-        "pccommandinput",
-        "pcmesh",
-        "pcdefaultcamera",
-        "pcmechobject",
-        "pchover",
-        "pccraft",
+        "pcinput.standard",
+        "pcobject.mesh",
+        "pccamera.old",
+        "pcphysics.object",
+        "pcvehicle.hover",
+        "pcvehicle.craft",
         (void*)0);
   if (!player) return false;
 
@@ -235,9 +234,9 @@ bool HoverTest::CreateRoom ()
   // Create the room entity.
   //===============================
   level = pl->CreateEntity ("ent_level", 0, 0,
-        "pczonemanager",
-        "pcinventory",
-        "pcmechsys",
+        "pcworld.zonemanager",
+        "pctools.inventory",
+        "pcphysics.system",
 	(void*)0);
 
   csRef<iCommandLineParser> cmdline = 
@@ -299,19 +298,18 @@ bool HoverTest::CreateRoom ()
   if (!pcinv_room->AddEntity (player)) return false;
   //if (!pcinv_room->AddEntity (scene)) return false;
 
-    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
-          iPcMechanicsObject);
-    // Get the first start position available.
-    // \todo manage multiple start positions.
-    iCameraPosition* campos;
-    campos = engine->GetCameraPositions ()->Get (0);
-    csVector3 up (campos->GetUpwardVector ());
-    csVector3 fw (campos->GetForwardVector ());
-    csVector3 cr;
-    cr.Cross (up, fw);
-    csMatrix3 mat (cr.x, cr.y, cr.z, up.x, up.y, up.z, fw.x, fw.y, fw.z);
-    pcmechobj->GetBody ()->SetOrientation (mat);
-    pcmechobj->GetBody ()->SetPosition (campos->GetPosition ());
+   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+         iPcMechanicsObject);
+   // Get the first start position available.
+   iCameraPosition* campos;
+   campos = engine->GetCameraPositions ()->Get (0);
+   csVector3 up (campos->GetUpwardVector ());
+   csVector3 fw (campos->GetForwardVector ());
+   csVector3 cr;
+   cr.Cross (up, fw);
+   csMatrix3 mat (cr.x, cr.y, cr.z, up.x, up.y, up.z, fw.x, fw.y, fw.z);
+   pcmechobj->GetBody ()->SetOrientation (mat);
+   pcmechobj->GetBody ()->SetPosition (campos->GetPosition ());
 
   return true;
 }
