@@ -148,7 +148,6 @@ public:
 
   SCF_DECLARE_IBASE_EXT (celPcCommon);
 
-  virtual const char* GetName () const { return "pcrules"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

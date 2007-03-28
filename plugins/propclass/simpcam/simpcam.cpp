@@ -58,7 +58,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (SimpleCamera, "pcsimplecamera")
+CEL_IMPLEMENT_FACTORY_ALT (SimpleCamera, "pccamera.simple", "pcsimplecamera")
 
 //---------------------------------------------------------------------------
 

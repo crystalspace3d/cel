@@ -61,7 +61,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY(NewCamera, "pcnewcamera")
+CEL_IMPLEMENT_FACTORY_ALT (NewCamera, "pccamera.standard", "pcnewcamera")
 
 //---------------------------------------------------------------------------
 

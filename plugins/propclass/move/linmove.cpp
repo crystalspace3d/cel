@@ -70,7 +70,7 @@
 
 extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
-CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
+CEL_IMPLEMENT_FACTORY_ALT (LinearMovement, "pcmove.linear", "pclinearmovement")
 
 csStringID celPcLinearMovement::id_body = csInvalidStringID;
 csStringID celPcLinearMovement::id_legs = csInvalidStringID;
@@ -270,7 +270,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 {
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
-    return MoveReport (object_reg, "Can't load propertyclass pclinmove!");
+    return MoveReport (object_reg, "Can't load propertyclass pcmove.linear!");
 
   iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcCollisionDetection> pccd;
@@ -366,7 +366,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     iCelEntity* ent = pl->FindEntity (b);
     if (!ent)
       return MoveReport (object_reg,
-      	"Can't find entity '%s' for property 'anchor' in pclinmove!", b);
+      	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
     csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
     if (!m)
       return MoveReport (object_reg,
@@ -561,7 +561,12 @@ static float Matrix2YRot (const csMatrix3& mat)
 bool celPcLinearMovement::RotateV (float delta)
 {
   if (!pcmesh || !pcmesh->GetMesh ())
-    return MoveReport (object_reg, "Linmove: No Mesh found on entity!");
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+            "cel.pfmove.linear.rotatev",
+            "Linear movement: No Mesh found on entity!");
+    return false;
+  }
 
   // rotation
   if (angularVelocity < SMALL_EPSILON)

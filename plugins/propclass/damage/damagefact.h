@@ -124,7 +124,6 @@ public:
   virtual void BeamDamage (const csVector3& direction, float maxdist);
   virtual void SingleDamage (const char* target);
 
-  virtual const char* GetName () const { return "pcdamage"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

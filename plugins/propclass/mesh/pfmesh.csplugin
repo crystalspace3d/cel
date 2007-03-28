@@ -3,15 +3,28 @@
 <plugin>
   <scf>
     <classes>
+      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.mesh</name>
         <implementation>celPfMesh</implementation>
-	<description>CEL Mesh Property Class Factory</description>
+        <description>CEL Mesh Property Class Factory</description>
+      </class>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.meshselect</name>
+        <implementation>celPfMeshSelect</implementation>
+        <description>CEL Mesh Select Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.object.mesh</name>
+        <implementation>celPfMesh</implementation>
+        <description>CEL Mesh Property Class Factory</description>
       </class>
       <class>
-	<name>cel.pcfactory.meshselect</name>
-	<implementation>celPfMeshSelect</implementation>
-	<description>CEL Mesh Select Property Class Factory</description>
+        <name>cel.pcfactory.object.mesh.select</name>
+        <implementation>celPfMeshSelect</implementation>
+        <description>CEL Mesh Select Property Class Factory</description>
       </class>
     </classes>
   </scf>

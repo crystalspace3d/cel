@@ -798,11 +798,10 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
 
   // use cel.pcfactory.propname if it is able to load
   // and propclass is queried successfully
-  csString pfid ("cel.pcfactory."), pc (propname);
-  // strip 'pc'
-  if (pc.Length () >= 2 && pc.GetAt (0) == 'p' && pc.GetAt (1) == 'c')
-    pc.DeleteAt (0, 2);
-  pfid += pc;
+  csString pfid ("cel.pcfactory.");
+  // skip the first 2 characters since they have the 'pc' bit
+  pfid += &propname[2];
+  // try to load property class factory using constructed id
   if (!LoadPropertyClassFactory (pfid))
     return 0;
   return FindPropertyClassFactory (propname);
@@ -819,9 +818,10 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
         "No factory for type '%s' registered!", propname);
     return 0;
   }
-  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
   if (!pc)
     return 0;
+  pc->SetName (propname);
   entity->GetPropertyClassList()->Add (pc);
   return pc;
 }
@@ -837,7 +837,7 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
         "No factory for type '%s' registered!", propname);
     return 0;
   }
-  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
   if (!pc)
     return 0;
   if (tagname)
@@ -1097,11 +1097,14 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
   return true;
 }
 
-void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
+void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
+    const char* altname)
 {
   if (pf_list.Find (pf) != csArrayItemNotFound) return;
   pf_list.Push (pf);
   pf_hash.Put (pf->GetName (), pf);
+  if (altname)
+    pf_hash.Put (altname, pf);
 }
 
 void celPlLayer::UnregisterPropertyClassFactory (

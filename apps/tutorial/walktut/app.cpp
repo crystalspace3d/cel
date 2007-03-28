@@ -24,7 +24,7 @@ MainApp::~MainApp ()
 bool MainApp::LoadLevel ()
 {
   level_entity = pl->CreateEntity ("level", bl, "level_behave",
-    "pczonemanager",
+    "pcworld.zonemanager",
     CEL_PROPCLASS_END);
   if (!level_entity)
     return ReportError ("Error creating level entity!");
@@ -50,12 +50,12 @@ bool MainApp::LoadLevel ()
 bool MainApp::CreatePlayer ()
 {
   player_entity = pl->CreateEntity ("player", bl, "player_behave",
-    "pcdefaultcamera",
-    "pcmesh",
-    "pclinearmovement",
-    "pcactormove",
-    "pccommandinput",
-    "pcinventory",
+    "pccamera.old",
+    "pcobject.mesh",
+    "pcmove.linear",
+    "pcmove.actor",
+    "pcinput.standard",
+    "pctools.inventory",
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");

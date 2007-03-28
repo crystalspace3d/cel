@@ -186,12 +186,12 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 {
   // The vehicle
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "wheeled",
-      "pccommandinput",
-      "pcmesh",
-      "pcdefaultcamera",
-      "pcmechobject",
-      "pcwheeled",
-      "pcmeshdeform",
+      "pcinput.standard",
+      "pcobject.mesh",
+      "pccamera.old",
+      "pcphysics.object",
+      "pcvehicle.wheeled",
+      "pcobject.mesh.deform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -300,9 +300,9 @@ bool WheeledTest::CreateMap ()
   // Create the map entity.
   //===============================
   entity_map = pl->CreateEntity ("ent_level", 0, 0,
-                                 "pczonemanager",
-                                 "pcinventory",
-                                 "pcmechsys",
+                                 "pcworld.zonemanager",
+                                 "pctools.inventory",
+                                 "pcphysics.system",
                                  CEL_PROPCLASS_END);
 
   //===============================

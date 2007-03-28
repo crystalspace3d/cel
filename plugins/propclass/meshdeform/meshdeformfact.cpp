@@ -41,7 +41,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (MeshDeform, "pcmeshdeform")
+CEL_IMPLEMENT_FACTORY_ALT (MeshDeform, "pcobject.mesh.deform", "pcmeshdeform")
 
 //---------------------------------------------------------------------------
 

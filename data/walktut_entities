@@ -14,9 +14,9 @@
 	</action>
       </propclass>
 
-      <propclass name="pcmeshselect" />
+      <propclass name="pcobject.mesh.select" />
 
-      <propclass name="pclinearmovement">
+      <propclass name="pcmove.linear">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -42,9 +42,9 @@
 	</action>
       </propclass>
 
-      <propclass name="pcmeshselect" />
+      <propclass name="pcobject.mesh.select" />
 
-      <propclass name="pclinearmovement">
+      <propclass name="pcmove.linear">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -70,9 +70,9 @@
 	</action>
       </propclass>
 
-      <propclass name="pcmeshselect" />
+      <propclass name="pcobject.mesh.select" />
 
-      <propclass name="pclinearmovement">
+      <propclass name="pcmove.linear">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -98,7 +98,7 @@
 	</action>
       </propclass>
 
-      <propclass name="pcmeshselect" />
+      <propclass name="pcobject.mesh.select" />
 
       <propclass name="pcproperties">
         <property name="pos1" vector="9,2,8" />
@@ -134,7 +134,7 @@
 	</action>
       </propclass>
 
-      <propclass name="pclinearmovement">
+      <propclass name="pcmove.linear">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />

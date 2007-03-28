@@ -34,7 +34,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY(CraftController, "pccraft")
+CEL_IMPLEMENT_FACTORY_ALT (CraftController, "pcvehicle.craft", "pccraft")
 
 SCF_IMPLEMENT_IBASE_EXT (celPcCraftController)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCraftController)

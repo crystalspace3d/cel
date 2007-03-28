@@ -144,7 +144,6 @@ public:
   /// Get the CS region
   virtual iRegion* GetRegion ();
 
-  virtual const char* GetName () const { return "pcregion"; }
   virtual csPtr<iCelDataBuffer> SaveFirstPass ();
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();

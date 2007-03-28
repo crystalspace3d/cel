@@ -34,7 +34,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Damage, "pcdamage")
+CEL_IMPLEMENT_FACTORY_ALT (Damage, "pclogic.damage", "pcdamage")
 
 //---------------------------------------------------------------------------
 

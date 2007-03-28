@@ -52,7 +52,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (Spawn, "pcspawn")
+CEL_IMPLEMENT_FACTORY_ALT (Spawn, "pclogic.spawn", "pcspawn")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

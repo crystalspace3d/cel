@@ -39,7 +39,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Portal, "pcportal")
+CEL_IMPLEMENT_FACTORY_ALT (Portal, "pcobject.portal", "pcportal")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

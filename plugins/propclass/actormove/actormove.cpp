@@ -48,7 +48,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (ActorMove, "pcactormove")
+CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actor", "pcactormove")
 
 //---------------------------------------------------------------------------
 
@@ -528,7 +528,7 @@ void celPcActorMove::RotateTo (float yrot)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove", "pclinmove is missing!");
+    	"cel.pcmove.actor", "pcmove.linear is missing!");
     return;
   }
   csVector3 current_position;
@@ -629,14 +629,14 @@ void celPcActorMove::HandleMovement (bool jump)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove", "pclinmove is missing!");
+    	"cel.pcmove.linear", "pcmove.linear is missing!");
     return;
   }
   GetSpriteStates ();
   if (!pcmesh)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove", "pcmesh is missing!");
+    	"cel.pcmove.linear", "pcobject.mesh is missing!");
     return;
   }
   csVector3 velocity = FindVelocity();
@@ -669,8 +669,8 @@ void celPcActorMove::ToggleCameraMode ()
   if (!pcdefcamera && !pcnewcamera)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcactormove",
-    	"Must have either a pcdefaultcamera or pcnewcamera!");
+    	"cel.pcmove.linear",
+    	"Must have pccamera.standard or pccamera.old!");
     return;
   }
   if (pcdefcamera)

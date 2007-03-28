@@ -38,7 +38,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (Properties, "pcproperties")
+CEL_IMPLEMENT_FACTORY_ALT (Properties, "pctools.properties", "pcproperties")
 
 //---------------------------------------------------------------------------
 

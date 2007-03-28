@@ -33,7 +33,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Projectile, "pcprojectile")
+CEL_IMPLEMENT_FACTORY_ALT (Projectile, "pcmove.projectile", "pcprojectile")
 
 //---------------------------------------------------------------------------
 

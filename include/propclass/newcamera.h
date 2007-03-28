@@ -54,6 +54,8 @@ struct iPcNewCamera;
 
 struct iCelCameraMode
 {
+  virtual ~iCelCameraMode () {};
+
   /**
    * Tells the camera mode what camera has it attached.
    * \param camera The parent camera.

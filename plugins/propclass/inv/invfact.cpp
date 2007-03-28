@@ -34,8 +34,8 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Inventory, "pcinventory")
-CEL_IMPLEMENT_FACTORY (Characteristics, "pccharacteristics")
+CEL_IMPLEMENT_FACTORY_ALT (Inventory, "pctools.inventory", "pcinventory")
+CEL_IMPLEMENT_FACTORY_ALT (Characteristics, "pctools.inventory.characteristics", "pccharacteristics")
 
 void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

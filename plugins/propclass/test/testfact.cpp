@@ -29,7 +29,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Test, "pctest")
+CEL_IMPLEMENT_FACTORY (Test, "pcmisc.test")
 
 //---------------------------------------------------------------------------
 
@@ -141,7 +141,7 @@ void celPcTest::Print (const char* msg)
   {
     celData ret;
     params->GetParameter (0).Set (msg);
-    ble->SendMessage ("pctest_print", this, ret, params);
+    ble->SendMessage ("pcmisc.test_print", this, ret, params);
   }
 
   counter++;

@@ -330,7 +330,6 @@ public:
   	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
   	float ang_vel);
 
-  virtual const char* GetName () const { return "pclinearmovement"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,

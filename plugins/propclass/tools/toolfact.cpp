@@ -40,7 +40,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Tooltip, "pctooltip")
+CEL_IMPLEMENT_FACTORY_ALT (Tooltip, "pc2d.tooltip", "pctooltip")
 
 //---------------------------------------------------------------------------
 

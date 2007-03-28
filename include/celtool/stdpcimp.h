@@ -88,6 +88,8 @@ private:
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
   char* tag;
+  // the name of the property class
+  const char* name;
 
 protected:
   iCelEntity* entity;
@@ -162,6 +164,9 @@ public:
 
   virtual void SetTag (const char* tagname);
   virtual const char* GetTag () const { return tag; }
+
+  virtual void SetName (const char* pcname);
+  virtual const char* GetName () const { return name; }
 
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);

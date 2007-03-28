@@ -113,7 +113,6 @@ public:
   void FireInventoryListenersAdd (iCelEntity* entity);
   void FireInventoryListenersRemove (iCelEntity* entity);
 
-  virtual const char* GetName () const { return "pcinventory"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 };
@@ -169,7 +168,6 @@ public:
   virtual bool TestConstraints (const char* charName);
   virtual void Dump ();
 
-  virtual const char* GetName () const { return "pccharacteristics"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

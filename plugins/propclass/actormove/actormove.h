@@ -213,7 +213,6 @@ public:
 
   virtual void SetAnimation (const char *name, bool cycle=true);
 
-  virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();

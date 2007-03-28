@@ -78,7 +78,6 @@ public:
   celPcNpcMove (iObjectRegistry* object_reg);
   virtual ~celPcNpcMove ();
 
-  virtual const char* GetName () const { return "pcnpcmove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickOnce ();

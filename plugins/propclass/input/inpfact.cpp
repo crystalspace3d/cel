@@ -43,7 +43,7 @@ CS_IMPLEMENT_PLUGIN
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 {
 
-CEL_IMPLEMENT_FACTORY (CommandInput, "pccommandinput")
+CEL_IMPLEMENT_FACTORY_ALT (CommandInput, "pcinput.standard", "pccommandinput")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {

@@ -151,7 +151,6 @@ public:
   virtual void EnableStepFast ();
   virtual void EnableQuickStep ();
 
-  virtual const char* GetName () const { return "pcmechsys"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
@@ -447,7 +446,6 @@ public:
   void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth);
 
-  virtual const char* GetName () const { return "pcmechobject"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -523,7 +521,6 @@ public:
 
   virtual iJoint* GetJoint () { return joint; }
 
-  virtual const char* GetName () const { return "pcmechjoint"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

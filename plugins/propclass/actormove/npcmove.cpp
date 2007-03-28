@@ -47,7 +47,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
+CEL_IMPLEMENT_FACTORY_ALT (NpcMove, "pcmove.npc", "pcnpcmove")
 
 //---------------------------------------------------------------------------
 

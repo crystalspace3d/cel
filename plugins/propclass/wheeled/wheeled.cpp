@@ -43,10 +43,8 @@
 
 //--------------------------------------------------------------------------
 
-
 CS_IMPLEMENT_PLUGIN
-CEL_IMPLEMENT_FACTORY (Wheeled, "pcwheeled")
-
+CEL_IMPLEMENT_FACTORY_ALT (Wheeled, "pcvehicle.wheeled", "pcwheeled")
 
 //--------------------------------------------------------------------------
 
