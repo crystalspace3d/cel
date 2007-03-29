@@ -11,6 +11,8 @@ The history order is reversed so that new features are at the top.
 	  - Removed deprecated factory names colldet and linmove.
 	  - Added new name for "pccollisiondetection" that is
 	     "pcobject.mesh.collisiondetection"
+	- Vincent added a few missing mechsys actions to doxygen comments, and
+	  added information about optional parameters and default values.
 28-Mar-2007
 	- Genjix made the following changes:
 	  - Edited blcel.cpp with workaround to compile against new functions
