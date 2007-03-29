@@ -21,10 +21,17 @@ static char const metainfo_pfprojectile[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.projectile</name>"
 "        <implementation>celPfProjectile</implementation>"
-"	<description>CEL Projectile Property Class Factory</description>"
+"        <description>CEL Projectile Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.move.projectile</name>"
+"        <implementation>celPfProjectile</implementation>"
+"        <description>CEL Projectile Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfprojectile[] =
   #define celPfProjectile_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfProjectile) 
   #endif
+  #ifndef celPfProjectile_FACTORY_REGISTER_DEFINED 
+  #define celPfProjectile_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfProjectile) 
+  #endif
 
 class pfprojectile
 {
 SCF_REGISTER_STATIC_LIBRARY(pfprojectile,metainfo_pfprojectile)
+  #ifndef celPfProjectile_FACTORY_REGISTERED 
+  #define celPfProjectile_FACTORY_REGISTERED 
+    celPfProjectile_StaticInit celPfProjectile_static_init__; 
+  #endif
   #ifndef celPfProjectile_FACTORY_REGISTERED 
   #define celPfProjectile_FACTORY_REGISTERED 
     celPfProjectile_StaticInit celPfProjectile_static_init__; 

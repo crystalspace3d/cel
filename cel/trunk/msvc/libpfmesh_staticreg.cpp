@@ -21,15 +21,28 @@ static char const metainfo_pfmesh[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.mesh</name>"
 "        <implementation>celPfMesh</implementation>"
-"	<description>CEL Mesh Property Class Factory</description>"
+"        <description>CEL Mesh Property Class Factory</description>"
+"      </class>"
+"      <!-- @@@ to be deprecated -->"
+"      <class>"
+"        <name>cel.pcfactory.meshselect</name>"
+"        <implementation>celPfMeshSelect</implementation>"
+"        <description>CEL Mesh Select Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.object.mesh</name>"
+"        <implementation>celPfMesh</implementation>"
+"        <description>CEL Mesh Property Class Factory</description>"
 "      </class>"
 "      <class>"
-"	<name>cel.pcfactory.meshselect</name>"
-"	<implementation>celPfMeshSelect</implementation>"
-"	<description>CEL Mesh Select Property Class Factory</description>"
+"        <name>cel.pcfactory.object.mesh.select</name>"
+"        <implementation>celPfMeshSelect</implementation>"
+"        <description>CEL Mesh Select Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -43,10 +56,26 @@ static char const metainfo_pfmesh[] =
   #define celPfMeshSelect_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMeshSelect) 
   #endif
+  #ifndef celPfMesh_FACTORY_REGISTER_DEFINED 
+  #define celPfMesh_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMesh) 
+  #endif
+  #ifndef celPfMeshSelect_FACTORY_REGISTER_DEFINED 
+  #define celPfMeshSelect_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMeshSelect) 
+  #endif
 
 class pfmesh
 {
 SCF_REGISTER_STATIC_LIBRARY(pfmesh,metainfo_pfmesh)
+  #ifndef celPfMesh_FACTORY_REGISTERED 
+  #define celPfMesh_FACTORY_REGISTERED 
+    celPfMesh_StaticInit celPfMesh_static_init__; 
+  #endif
+  #ifndef celPfMeshSelect_FACTORY_REGISTERED 
+  #define celPfMeshSelect_FACTORY_REGISTERED 
+    celPfMeshSelect_StaticInit celPfMeshSelect_static_init__; 
+  #endif
   #ifndef celPfMesh_FACTORY_REGISTERED 
   #define celPfMesh_FACTORY_REGISTERED 
     celPfMesh_StaticInit celPfMesh_static_init__; 

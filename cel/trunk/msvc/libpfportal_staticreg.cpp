@@ -21,10 +21,17 @@ static char const metainfo_pfportal[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.portal</name>"
 "        <implementation>celPfPortal</implementation>"
-"	<description>CEL Portal Property Class Factory</description>"
+"        <description>CEL Portal Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.object.portal</name>"
+"        <implementation>celPfPortal</implementation>"
+"        <description>CEL Portal Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfportal[] =
   #define celPfPortal_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfPortal) 
   #endif
+  #ifndef celPfPortal_FACTORY_REGISTER_DEFINED 
+  #define celPfPortal_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfPortal) 
+  #endif
 
 class pfportal
 {
 SCF_REGISTER_STATIC_LIBRARY(pfportal,metainfo_pfportal)
+  #ifndef celPfPortal_FACTORY_REGISTERED 
+  #define celPfPortal_FACTORY_REGISTERED 
+    celPfPortal_StaticInit celPfPortal_static_init__; 
+  #endif
   #ifndef celPfPortal_FACTORY_REGISTERED 
   #define celPfPortal_FACTORY_REGISTERED 
     celPfPortal_StaticInit celPfPortal_static_init__; 

@@ -21,15 +21,28 @@ static char const metainfo_pfactormove[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.actormove</name>"
 "        <implementation>celPfActorMove</implementation>"
-"	<description>CEL Actor Movement Class Factory</description>"
+"        <description>CEL Actor Movement Class Factory</description>"
 "      </class>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.npcmove</name>"
 "        <implementation>celPfNpcMove</implementation>"
-"	<description>CEL NPC Movement Class Factory</description>"
+"        <description>CEL NPC Movement Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.move.actor</name>"
+"        <implementation>celPfActorMove</implementation>"
+"        <description>CEL Actor Movement Class Factory</description>"
+"      </class>"
+"      <class>"
+"        <name>cel.pcfactory.move.npc</name>"
+"        <implementation>celPfNpcMove</implementation>"
+"        <description>CEL NPC Movement Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -43,10 +56,26 @@ static char const metainfo_pfactormove[] =
   #define celPfNpcMove_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfNpcMove) 
   #endif
+  #ifndef celPfActorMove_FACTORY_REGISTER_DEFINED 
+  #define celPfActorMove_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfActorMove) 
+  #endif
+  #ifndef celPfNpcMove_FACTORY_REGISTER_DEFINED 
+  #define celPfNpcMove_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfNpcMove) 
+  #endif
 
 class pfactormove
 {
 SCF_REGISTER_STATIC_LIBRARY(pfactormove,metainfo_pfactormove)
+  #ifndef celPfActorMove_FACTORY_REGISTERED 
+  #define celPfActorMove_FACTORY_REGISTERED 
+    celPfActorMove_StaticInit celPfActorMove_static_init__; 
+  #endif
+  #ifndef celPfNpcMove_FACTORY_REGISTERED 
+  #define celPfNpcMove_FACTORY_REGISTERED 
+    celPfNpcMove_StaticInit celPfNpcMove_static_init__; 
+  #endif
   #ifndef celPfActorMove_FACTORY_REGISTERED 
   #define celPfActorMove_FACTORY_REGISTERED 
     celPfActorMove_StaticInit celPfActorMove_static_init__; 

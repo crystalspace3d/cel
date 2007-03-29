@@ -21,10 +21,17 @@ static char const metainfo_pflight[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.light</name>"
 "        <implementation>celPfLight</implementation>"
-"	<description>CEL Light Property Class Factory</description>"
+"        <description>CEL Light Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.object.light</name>"
+"        <implementation>celPfLight</implementation>"
+"        <description>CEL Light Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pflight[] =
   #define celPfLight_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfLight) 
   #endif
+  #ifndef celPfLight_FACTORY_REGISTER_DEFINED 
+  #define celPfLight_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfLight) 
+  #endif
 
 class pflight
 {
 SCF_REGISTER_STATIC_LIBRARY(pflight,metainfo_pflight)
+  #ifndef celPfLight_FACTORY_REGISTERED 
+  #define celPfLight_FACTORY_REGISTERED 
+    celPfLight_StaticInit celPfLight_static_init__; 
+  #endif
   #ifndef celPfLight_FACTORY_REGISTERED 
   #define celPfLight_FACTORY_REGISTERED 
     celPfLight_StaticInit celPfLight_static_init__; 

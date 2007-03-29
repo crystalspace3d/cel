@@ -21,8 +21,15 @@ static char const metainfo_pfinput[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.commandinput</name>"
+"        <implementation>celPfCommandInput</implementation>"
+"        <description>CEL Key Input Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.input.standard</name>"
 "        <implementation>celPfCommandInput</implementation>"
 "        <description>CEL Key Input Property Class Factory</description>"
 "      </class>"
@@ -34,10 +41,18 @@ static char const metainfo_pfinput[] =
   #define celPfCommandInput_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCommandInput) 
   #endif
+  #ifndef celPfCommandInput_FACTORY_REGISTER_DEFINED 
+  #define celPfCommandInput_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCommandInput) 
+  #endif
 
 class pfinput
 {
 SCF_REGISTER_STATIC_LIBRARY(pfinput,metainfo_pfinput)
+  #ifndef celPfCommandInput_FACTORY_REGISTERED 
+  #define celPfCommandInput_FACTORY_REGISTERED 
+    celPfCommandInput_StaticInit celPfCommandInput_static_init__; 
+  #endif
   #ifndef celPfCommandInput_FACTORY_REGISTERED 
   #define celPfCommandInput_FACTORY_REGISTERED 
     celPfCommandInput_StaticInit celPfCommandInput_static_init__; 

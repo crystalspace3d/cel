@@ -21,10 +21,17 @@ static char const metainfo_pfengine[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.region</name>"
 "        <implementation>celPfRegion</implementation>"
-"	<description>CEL Region Property Class Factory</description>"
+"        <description>CEL Region Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.world.region</name>"
+"        <implementation>celPfRegion</implementation>"
+"        <description>CEL Region Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfengine[] =
   #define celPfRegion_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRegion) 
   #endif
+  #ifndef celPfRegion_FACTORY_REGISTER_DEFINED 
+  #define celPfRegion_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRegion) 
+  #endif
 
 class pfengine
 {
 SCF_REGISTER_STATIC_LIBRARY(pfengine,metainfo_pfengine)
+  #ifndef celPfRegion_FACTORY_REGISTERED 
+  #define celPfRegion_FACTORY_REGISTERED 
+    celPfRegion_StaticInit celPfRegion_static_init__; 
+  #endif
   #ifndef celPfRegion_FACTORY_REGISTERED 
   #define celPfRegion_FACTORY_REGISTERED 
     celPfRegion_StaticInit celPfRegion_static_init__; 

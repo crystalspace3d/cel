@@ -21,10 +21,17 @@ static char const metainfo_pfnewcamera[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.newcamera</name>"
 "        <implementation>celPfNewCamera</implementation>"
-"	<description>CEL New Camera Property Class Factory</description>"
+"        <description>CEL New Camera Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.camera.standard</name>"
+"        <implementation>celPfNewCamera</implementation>"
+"        <description>CEL New Camera Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfnewcamera[] =
   #define celPfNewCamera_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfNewCamera) 
   #endif
+  #ifndef celPfNewCamera_FACTORY_REGISTER_DEFINED 
+  #define celPfNewCamera_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfNewCamera) 
+  #endif
 
 class pfnewcamera
 {
 SCF_REGISTER_STATIC_LIBRARY(pfnewcamera,metainfo_pfnewcamera)
+  #ifndef celPfNewCamera_FACTORY_REGISTERED 
+  #define celPfNewCamera_FACTORY_REGISTERED 
+    celPfNewCamera_StaticInit celPfNewCamera_static_init__; 
+  #endif
   #ifndef celPfNewCamera_FACTORY_REGISTERED 
   #define celPfNewCamera_FACTORY_REGISTERED 
     celPfNewCamera_StaticInit celPfNewCamera_static_init__; 

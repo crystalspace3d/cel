@@ -21,10 +21,17 @@ static char const metainfo_pftrigger[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.trigger</name>"
 "        <implementation>celPfTrigger</implementation>"
-"	<description>CEL Trigger Property Class Factory</description>"
+"        <description>CEL Trigger Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.logic.trigger</name>"
+"        <implementation>celPfTrigger</implementation>"
+"        <description>CEL Trigger Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pftrigger[] =
   #define celPfTrigger_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfTrigger) 
   #endif
+  #ifndef celPfTrigger_FACTORY_REGISTER_DEFINED 
+  #define celPfTrigger_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfTrigger) 
+  #endif
 
 class pftrigger
 {
 SCF_REGISTER_STATIC_LIBRARY(pftrigger,metainfo_pftrigger)
+  #ifndef celPfTrigger_FACTORY_REGISTERED 
+  #define celPfTrigger_FACTORY_REGISTERED 
+    celPfTrigger_StaticInit celPfTrigger_static_init__; 
+  #endif
   #ifndef celPfTrigger_FACTORY_REGISTERED 
   #define celPfTrigger_FACTORY_REGISTERED 
     celPfTrigger_StaticInit celPfTrigger_static_init__; 

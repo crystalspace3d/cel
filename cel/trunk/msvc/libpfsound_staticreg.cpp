@@ -21,15 +21,28 @@ static char const metainfo_pfsound[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.soundlistener</name>"
 "        <implementation>celPfSoundListener</implementation>"
-"	<description>CEL Sound Listener Property Class Factory</description>"
+"        <description>CEL Sound Listener Property Class Factory</description>"
 "      </class>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.soundsource</name>"
 "        <implementation>celPfSoundSource</implementation>"
-"	<description>CEL Sound Source Property Class Factory</description>"
+"        <description>CEL Sound Source Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.sound.listener</name>"
+"        <implementation>celPfSoundListener</implementation>"
+"        <description>CEL Sound Listener Property Class Factory</description>"
+"      </class>"
+"      <class>"
+"        <name>cel.pcfactory.sound.source</name>"
+"        <implementation>celPfSoundSource</implementation>"
+"        <description>CEL Sound Source Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -43,10 +56,26 @@ static char const metainfo_pfsound[] =
   #define celPfSoundSource_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSoundSource) 
   #endif
+  #ifndef celPfSoundListener_FACTORY_REGISTER_DEFINED 
+  #define celPfSoundListener_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSoundListener) 
+  #endif
+  #ifndef celPfSoundSource_FACTORY_REGISTER_DEFINED 
+  #define celPfSoundSource_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSoundSource) 
+  #endif
 
 class pfsound
 {
 SCF_REGISTER_STATIC_LIBRARY(pfsound,metainfo_pfsound)
+  #ifndef celPfSoundListener_FACTORY_REGISTERED 
+  #define celPfSoundListener_FACTORY_REGISTERED 
+    celPfSoundListener_StaticInit celPfSoundListener_static_init__; 
+  #endif
+  #ifndef celPfSoundSource_FACTORY_REGISTERED 
+  #define celPfSoundSource_FACTORY_REGISTERED 
+    celPfSoundSource_StaticInit celPfSoundSource_static_init__; 
+  #endif
   #ifndef celPfSoundListener_FACTORY_REGISTERED 
   #define celPfSoundListener_FACTORY_REGISTERED 
     celPfSoundListener_StaticInit celPfSoundListener_static_init__; 

@@ -12467,6 +12467,127 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iCelPlLayer_RegisterPropertyClassFactory__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelPropertyClassFactory *arg2 = (iCelPropertyClassFactory *) 0 ;
+  char *arg3 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int res3 ;
+  char *buf3 = 0 ;
+  int alloc3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:iCelPlLayer_RegisterPropertyClassFactory",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_RegisterPropertyClassFactory" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelPropertyClassFactory, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPlLayer_RegisterPropertyClassFactory" "', argument " "2"" of type '" "iCelPropertyClassFactory *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelPropertyClassFactory * >(argp2);
+  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iCelPlLayer_RegisterPropertyClassFactory" "', argument " "3"" of type '" "char const *""'");
+  }
+  arg3 = buf3;
+  (arg1)->RegisterPropertyClassFactory(arg2,(char const *)arg3);
+  resultobj = SWIG_Py_Void();
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return resultobj;
+fail:
+  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_RegisterPropertyClassFactory__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  iCelPropertyClassFactory *arg2 = (iCelPropertyClassFactory *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_RegisterPropertyClassFactory",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_RegisterPropertyClassFactory" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelPropertyClassFactory, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPlLayer_RegisterPropertyClassFactory" "', argument " "2"" of type '" "iCelPropertyClassFactory *""'"); 
+  }
+  arg2 = reinterpret_cast< iCelPropertyClassFactory * >(argp2);
+  (arg1)->RegisterPropertyClassFactory(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPlLayer_RegisterPropertyClassFactory(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 3); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelPropertyClassFactory, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_iCelPlLayer_RegisterPropertyClassFactory__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelPropertyClassFactory, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
+        _v = SWIG_CheckState(res);
+        if (_v) {
+          return _wrap_iCelPlLayer_RegisterPropertyClassFactory__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iCelPlLayer_RegisterPropertyClassFactory'");
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iCelPlLayer_UnregisterPropertyClassFactory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
@@ -12520,6 +12641,32 @@ fail:
 
 
 SWIGINTERN PyObject *_wrap_iCelPlLayer_GetPropertyClassFactory(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
+  size_t arg2 ;
+  iCelPropertyClassFactory *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPlLayer_GetPropertyClassFactory",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_GetPropertyClassFactory" "', argument " "1"" of type '" "iCelPlLayer const *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPlLayer_GetPropertyClassFactory" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  result = (iCelPropertyClassFactory *)((iCelPlLayer const *)arg1)->GetPropertyClassFactory(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelPropertyClassFactory, 0 |  0 );
+  return resultobj;
+fail:
   return NULL;
 }
 
@@ -22028,7 +22175,47 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iCelPropertyClassFactory_CreatePropertyClass(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iCelPropertyClassFactory_CreatePropertyClass__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPropertyClassFactory *arg1 = (iCelPropertyClassFactory *) 0 ;
+  char *arg2 = (char *) 0 ;
+  SwigValueWrapper<csPtr<iCelPropertyClass > > result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClassFactory_CreatePropertyClass",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPropertyClassFactory, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClassFactory_CreatePropertyClass" "', argument " "1"" of type '" "iCelPropertyClassFactory *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPropertyClassFactory * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPropertyClassFactory_CreatePropertyClass" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  result = (arg1)->CreatePropertyClass((char const *)arg2);
+  {
+    /*@SWIG:TYPEMAP_OUT_csRef_BODY@*/
+    csRef<iCelPropertyClass> ref((csPtr<iCelPropertyClass>&)result); /* explicit cast */
+    resultobj = _csRef_to_Python(csRef<iBase>(
+        (iCelPropertyClass *)ref), (void *)(iCelPropertyClass *)ref, "iCelPropertyClass" " *");
+    /*@SWIG@*/
+  }
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPropertyClassFactory_CreatePropertyClass__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPropertyClassFactory *arg1 = (iCelPropertyClassFactory *) 0 ;
   SwigValueWrapper<csPtr<iCelPropertyClass > > result;
@@ -22052,6 +22239,45 @@ SWIGINTERN PyObject *_wrap_iCelPropertyClassFactory_CreatePropertyClass(PyObject
   }
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iCelPropertyClassFactory_CreatePropertyClass(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPropertyClassFactory, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_iCelPropertyClassFactory_CreatePropertyClass__SWIG_1(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPropertyClassFactory, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_iCelPropertyClassFactory_CreatePropertyClass__SWIG_0(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iCelPropertyClassFactory_CreatePropertyClass'");
   return NULL;
 }
 
@@ -22106,6 +22332,39 @@ SWIGINTERN PyObject *iCelPropertyClassFactory_swigregister(PyObject *SWIGUNUSEDP
   SWIG_TypeNewClientData(SWIGTYPE_p_iCelPropertyClassFactory, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
+
+SWIGINTERN PyObject *_wrap_iCelPropertyClass_SetName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
+  char *arg2 = (char *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_SetName",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPropertyClass, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClass_SetName" "', argument " "1"" of type '" "iCelPropertyClass *""'"); 
+  }
+  arg1 = reinterpret_cast< iCelPropertyClass * >(argp1);
+  res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPropertyClass_SetName" "', argument " "2"" of type '" "char const *""'");
+  }
+  arg2 = buf2;
+  (arg1)->SetName((char const *)arg2);
+  resultobj = SWIG_Py_Void();
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return resultobj;
+fail:
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
+  return NULL;
+}
+
 
 SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetName(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
@@ -87501,6 +87760,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPlLayer_SetEntityAddonAllowed", _wrap_iCelPlLayer_SetEntityAddonAllowed, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_IsEntityAddonAllowed", _wrap_iCelPlLayer_IsEntityAddonAllowed, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_LoadPropertyClassFactory", _wrap_iCelPlLayer_LoadPropertyClassFactory, METH_VARARGS, NULL},
+	 { (char *)"iCelPlLayer_RegisterPropertyClassFactory", _wrap_iCelPlLayer_RegisterPropertyClassFactory, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_UnregisterPropertyClassFactory", _wrap_iCelPlLayer_UnregisterPropertyClassFactory, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_GetPropertyClassFactoryCount", _wrap_iCelPlLayer_GetPropertyClassFactoryCount, METH_VARARGS, NULL},
 	 { (char *)"iCelPlLayer_GetPropertyClassFactory", _wrap_iCelPlLayer_GetPropertyClassFactory, METH_VARARGS, NULL},
@@ -87727,6 +87987,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPropertyClassFactory_Name_get", _wrap_iCelPropertyClassFactory_Name_get, METH_VARARGS, NULL},
 	 { (char *)"delete_iCelPropertyClassFactory", _wrap_delete_iCelPropertyClassFactory, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClassFactory_swigregister", iCelPropertyClassFactory_swigregister, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_SetName", _wrap_iCelPropertyClass_SetName, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetName", _wrap_iCelPropertyClass_GetName, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_SetTag", _wrap_iCelPropertyClass_SetTag, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetTag", _wrap_iCelPropertyClass_GetTag, METH_VARARGS, NULL},
