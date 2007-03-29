@@ -21,10 +21,17 @@ static char const metainfo_pfrules[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.rules</name>"
 "        <implementation>celPfRules</implementation>"
-"	<description>CEL Rules Property Class Factory</description>"
+"        <description>CEL Rules Property Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.logic.rules</name>"
+"        <implementation>celPfRules</implementation>"
+"        <description>CEL Rules Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfrules[] =
   #define celPfRules_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRules) 
   #endif
+  #ifndef celPfRules_FACTORY_REGISTER_DEFINED 
+  #define celPfRules_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfRules) 
+  #endif
 
 class pfrules
 {
 SCF_REGISTER_STATIC_LIBRARY(pfrules,metainfo_pfrules)
+  #ifndef celPfRules_FACTORY_REGISTERED 
+  #define celPfRules_FACTORY_REGISTERED 
+    celPfRules_StaticInit celPfRules_static_init__; 
+  #endif
   #ifndef celPfRules_FACTORY_REGISTERED 
   #define celPfRules_FACTORY_REGISTERED 
     celPfRules_StaticInit celPfRules_static_init__; 

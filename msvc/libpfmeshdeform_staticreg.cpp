@@ -21,10 +21,17 @@ static char const metainfo_pfmeshdeform[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.meshdeform</name>"
 "        <implementation>celPfMeshDeform</implementation>"
-"	<description>CEL FFD Mesh Deform Class Factory</description>"
+"        <description>CEL FFD Mesh Deform Class Factory</description>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.object.mesh.deform</name>"
+"        <implementation>celPfMeshDeform</implementation>"
+"        <description>CEL FFD Mesh Deform Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -34,10 +41,18 @@ static char const metainfo_pfmeshdeform[] =
   #define celPfMeshDeform_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMeshDeform) 
   #endif
+  #ifndef celPfMeshDeform_FACTORY_REGISTER_DEFINED 
+  #define celPfMeshDeform_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMeshDeform) 
+  #endif
 
 class pfmeshdeform
 {
 SCF_REGISTER_STATIC_LIBRARY(pfmeshdeform,metainfo_pfmeshdeform)
+  #ifndef celPfMeshDeform_FACTORY_REGISTERED 
+  #define celPfMeshDeform_FACTORY_REGISTERED 
+    celPfMeshDeform_StaticInit celPfMeshDeform_static_init__; 
+  #endif
   #ifndef celPfMeshDeform_FACTORY_REGISTERED 
   #define celPfMeshDeform_FACTORY_REGISTERED 
     celPfMeshDeform_StaticInit celPfMeshDeform_static_init__; 

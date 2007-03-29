@@ -1060,6 +1060,7 @@ class iCelPropertyClass(cspace.iBase):
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClass, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def SetName(*args): return _blcelc.iCelPropertyClass_SetName(*args)
     def GetName(*args): return _blcelc.iCelPropertyClass_GetName(*args)
     def SetTag(*args): return _blcelc.iCelPropertyClass_SetTag(*args)
     def GetTag(*args): return _blcelc.iCelPropertyClass_GetTag(*args)

@@ -21,8 +21,19 @@ static char const metainfo_pfwheeled[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
+"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.wheeled</name>"
+"        <implementation>celPfWheeled</implementation>"
+"        <description>CEL Wheeled Vehicle Class Factory</description>"
+"        <requires>"
+"          <class>cel.physicallayer</class>"
+"          <class>cel.mechobject</class>"
+"        </requires>"
+"      </class>"
+""
+"      <class>"
+"        <name>cel.pcfactory.vehicle.wheeled</name>"
 "        <implementation>celPfWheeled</implementation>"
 "        <description>CEL Wheeled Vehicle Class Factory</description>"
 "        <requires>"
@@ -38,10 +49,18 @@ static char const metainfo_pfwheeled[] =
   #define celPfWheeled_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfWheeled) 
   #endif
+  #ifndef celPfWheeled_FACTORY_REGISTER_DEFINED 
+  #define celPfWheeled_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfWheeled) 
+  #endif
 
 class pfwheeled
 {
 SCF_REGISTER_STATIC_LIBRARY(pfwheeled,metainfo_pfwheeled)
+  #ifndef celPfWheeled_FACTORY_REGISTERED 
+  #define celPfWheeled_FACTORY_REGISTERED 
+    celPfWheeled_StaticInit celPfWheeled_static_init__; 
+  #endif
   #ifndef celPfWheeled_FACTORY_REGISTERED 
   #define celPfWheeled_FACTORY_REGISTERED 
     celPfWheeled_StaticInit celPfWheeled_static_init__; 
