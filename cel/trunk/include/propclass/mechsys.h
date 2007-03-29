@@ -241,36 +241,46 @@ struct iPcMechanicsSystem : public virtual iBase
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - InitPhys: parameters 'mass' (float), 'friction' (float),
- *      'elasticity' (float), 'density' (float), 'softness' (float),
- *      'lift' (vector3), and 'drag' (float).
+ * - InitPhys: parameters 'mass' (float: optional), 'friction' (float:
+ *      optional), 'elasticity' (float: optional), 'density' (float: optional),
+ *      'softness' (float: optional), 'lift' (vector3: optional), and 'drag'
+ *      (float: optional).
  * - MakeStatic: parameters 'static' (bool).
  * - SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
- * - SetMesh: parameters 'mechpctag' (string).
- * - SetColliderSphere: parameters 'radius' (float) and 'offset' (vector3).
- * - SetColliderCylinder: parameters 'length' (float), 'radius' (float)
- *     'axis' (vector3), 'offset' (vector3), and 'angle' (float).
- * - SetColliderBox: parameters 'size' (vector3), 'axis' (vector3),
- *     'angle' (float), and 'offset' (vector3).
- * - SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float).
+ * - SetMesh: parameters 'mechpctag' (string: optional). If tag is not given,
+ *      the primary (untagged) pcmesh is used.
+ * - SetColliderBoundingSphere: parameters 'radiusadjustment' (float: optional).
+ * - SetColliderSphere: parameters 'radius' (float: default 1.0) and 'offset'
+ *      (vector3: default 0,0,0).
+ * - SetColliderCylinder: parameters 'length' (float), 'radius' (float: default
+ *     1.0), 'axis' (vector3: default 0,0,0), 'offset' (vector3: default 0,0,0),
+ *     and 'angle' (float: default 0.0).
+ * - SetColliderBoundingBox: parameters 'sizeadjustment' (vector3: default
+ *     0,0,0).
+ * - SetColliderBox: parameters 'size' (vector3: default 1,1,1), 'axis'
+ *     (vector3: default 0,0,0), 'angle' (float: default 0.0), and 'offset'
+ *     (vector3: default 0,0,0).
+ * - SetColliderPlane: parameters 'normal' (vector3) and 'offset' (float:
+ *     default 0.0).
  * - SetColliderMesh: no parameters.
  * - SetLinearVelocity: parameters 'velocity' (vector3).
  * - SetAngularVelocity: parameters 'velocity' (vector3).
- * - AddForceOnce: parameters 'force' (vector3), 'relative' (bool),
- *     and 'position' (vector3).
- * - AddForceDuration: parameters 'force' (vector3), 'relative' (bool),
- *     'position' (vector3), and 'seconds' (float).
- * - AddForceFrame: parameters 'force' (vector3), 'relative' (bool),
- *     and 'position' (vector3).
- * - AddForceTagged: parameters 'force' (vector3), 'relative' (bool),
- *     and 'position' (vector3). The tag will be set in the property
- *     'cel.property.lasttag'.
+ * - AddForceOnce: parameters 'force' (vector3), 'relative' (bool: default
+ *     false), and 'position' (vector3: default 0,0,0).
+ * - AddForceDuration: parameters 'force' (vector3), 'relative' (bool: default
+ *     false), 'position' (vector3: default 0,0,0), and 'seconds' (float).
+ * - AddForceFrame: parameters 'force' (vector3), 'relative' (bool: default
+ *     false), and 'position' (vector3: default 0,0,0).
+ * - AddForceTagged: parameters 'force' (vector3), 'relative' (bool: default
+ *     false), and 'position' (vector3: default 0,0,0). The tag will be set in
+ *     the property 'cel.property.lasttag'.
  * - RemoveForceTagged: parameters 'tag' (long).
  * - ClearForces: no parameters.
  * - SetPosition: parameters 'position' (vector3).
  * - ClearRotation: no parameters.
  * - Rotate: parameters 'rotation' (vector3).
- * - LookAt: parameters 'forward' (vector3) and 'up' (vector3).
+ * - LookAt: parameters 'forward' (vector3: default 0,0,1) and 'up' (vector3:
+ *     default 0,1,0).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
