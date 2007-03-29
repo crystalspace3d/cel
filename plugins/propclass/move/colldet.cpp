@@ -61,7 +61,8 @@
 
 extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
-CEL_IMPLEMENT_FACTORY (CollisionDetection, "pccollisiondetection")
+CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection",
+    "pccollisiondetection")
 
 SCF_IMPLEMENT_IBASE_EXT (celPcCollisionDetection)
   SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCollisionDetection)
