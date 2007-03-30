@@ -67,9 +67,9 @@ ul.toc {list-style: none}
 
 <ul>
 <li> <em>Name</em>:
-<samp>`pctimer'</samp>
+<samp>`pctools.timer'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.timer'</samp>
+<samp>`cel.pcfactory.tools.timer'</samp>
 </li><li> <em>Interface</em>:
 <code>iPcTimer</code>
 </li><li> <em>Header</em>:
@@ -121,13 +121,13 @@ requested moment with two parameters: <samp>`elapsedticks'</samp> and <samp>`cur
 to the entity or entity template &lt;addon&gt; section.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;FinalMonster&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
-  &lt;propclass name=&quot;pctimer&quot;&gt;
+  &lt;propclass name=&quot;pctools.timer&quot;&gt;
     &lt;action name=&quot;WakeUp&quot;&gt;
       &lt;par name=&quot;time&quot; long=&quot;14.0&quot;/&gt;
       &lt;par name=&quot;repeat&quot; bool=&quot;true&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
       &lt;par string=&quot;EvilMonster&quot; name=&quot;name&quot;/&gt;
     &lt;/action&gt;

@@ -114,7 +114,7 @@ addons.
 </p>
 <p>An example follows with the typical xml for a player entity.
 </p><table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;player&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
      &lt;action name=&quot;SetMesh&quot;&gt;
         &lt;par string=&quot;PlayerMesh&quot; name=&quot;name&quot;/&gt;
      &lt;/action&gt;
@@ -124,14 +124,14 @@ addons.
         &lt;par float=&quot;10.0&quot; name=&quot;percentage&quot;/&gt;
      &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pcdefaultcamera&quot;&gt;
+  &lt;propclass name=&quot;pccamera.old&quot;&gt;
     &lt;action name=&quot;SetCamera&quot;&gt;
       &lt;par name=&quot;distance&quot; vector=&quot;2,6,10&quot;/&gt;
       &lt;par name=&quot;modename&quot; string=&quot;thirdperson&quot;/&gt;
       &lt;par name=&quot;pitch&quot; float=&quot;-0.5&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pccommandinput&quot;&gt;
+  &lt;propclass name=&quot;pcinput.standard&quot;&gt;
     &lt;action name=&quot;LoadConfig&quot;&gt;
       &lt;par name=&quot;prefix&quot; string=&quot;Player&quot;/&gt;
     &lt;/action&gt;

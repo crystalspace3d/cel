@@ -1,8 +1,8 @@
 @c -*-texinfo-*-
 @node PropClass Mover, PropClass ZoneMgr, PropClass LinMove, Property Classes
 @subsection Mover
-@cindex pcmover property class
-@cindex pcmover
+@cindex pcmove.mover property class
+@cindex pcmove.mover
 @cindex @code{iPcMover}
 
 This is a mover property class. It works closely with pclinmove and
@@ -13,9 +13,9 @@ while checking collision detection along the way.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcmover}
+@samp{pcmove.mover}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.mover}
+@samp{cel.pcfactory.move.mover}
 @item @emph{Interface}:
 @code{iPcMover}
 @item @emph{Header}:
@@ -73,18 +73,18 @@ preventing you from creating this already in the map.
 
 @example
 <addon entityname="FinalMonster" plugin="cel.addons.celentity">
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par string="EvilMonster" name="name"/>
     </action>
   </propclass>
-  <propclass name='pclinearmovement'>
+  <propclass name='pcmove.linear'>
     <action name='InitCDMesh'>
       <par float='10.0' name='percentage'/>
     </action>
   </propclass>
-  <propclass name="pcactormove" />
-  <propclass name="pcmover" />
+  <propclass name="pcmove.actor" />
+  <propclass name="pcmove.mover" />
   <behaviour layer="blpython" name="moverent"/>
 </addon>
 @end example

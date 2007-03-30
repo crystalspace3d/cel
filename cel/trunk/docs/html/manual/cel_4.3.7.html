@@ -68,9 +68,9 @@ movement in some direction and will report back when it hits something.
 
 <ul>
 <li> <em>Name</em>:
-<samp>`pcprojectile'</samp>
+<samp>`pcmove.projectile'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.projectile'</samp>
+<samp>`cel.pcfactory.move.projectile'</samp>
 </li><li> <em>Interface</em>:
 <code>iPcProjectile</code>
 </li><li> <em>Header</em>:
@@ -90,7 +90,7 @@ action must be used.
 both is reached a <code>pcprojectile_stopped</code> message will be sent to
 the behaviour. 
 </p>
-<p>PcProjectile depends on having pclinmove and pcmesh present on the entity
+<p>PcProjectile depends on having pcmove.linear and pcobject.mesh present on the entity
 to work.
 </p>
 

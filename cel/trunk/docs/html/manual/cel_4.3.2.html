@@ -70,7 +70,7 @@ binds and get appropriate callbacks in response to them.
 <li> <em>Name</em>:
 <samp>`pccommandinput'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.commandinput'</samp>
+<samp>`cel.pcfactory.input.standard'</samp>
 </li><li> <em>Interface</em>:
 <code>iPcCommandInput</code>
 </li><li> <em>Header</em>:
@@ -182,12 +182,12 @@ behaviour from this property class, these are:
 to the entity or entity template &lt;addon&gt; section.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;SpaceShip&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
-  &lt;propclass name=&quot;pccommandinput&quot;&gt;
+  &lt;propclass name=&quot;pcinput.standard&quot;&gt;
     &lt;action name=&quot;LoadConfig&quot;&gt;
       &lt;par name=&quot;prefix&quot; string=&quot;Ecksdee&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
       &lt;par string=&quot;orogor&quot; name=&quot;name&quot;/&gt;
     &lt;/action&gt;

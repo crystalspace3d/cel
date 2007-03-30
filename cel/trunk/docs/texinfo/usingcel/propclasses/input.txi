@@ -14,7 +14,7 @@ binds and get appropriate callbacks in response to them.
 @item @emph{Name}:
 @samp{pccommandinput}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.commandinput}
+@samp{cel.pcfactory.input.standard}
 @item @emph{Interface}:
 @code{iPcCommandInput}
 @item @emph{Header}:
@@ -123,12 +123,12 @@ to the entity or entity template <addon> section.
 
 @example
 <addon entityname="SpaceShip" plugin="cel.addons.celentity">
-  <propclass name="pccommandinput">
+  <propclass name="pcinput.standard">
     <action name="LoadConfig">
       <par name="prefix" string="Ecksdee"/>
     </action>
   </propclass>
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par string="orogor" name="name"/>
     </action>
