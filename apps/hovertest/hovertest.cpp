@@ -84,7 +84,6 @@
 #include "propclass/region.h"
 #include "propclass/hover.h"
 #include "propclass/input.h"
-#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"

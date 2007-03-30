@@ -82,7 +82,6 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
-#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
@@ -652,17 +651,6 @@ bool NetTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
-    return false;
-
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
-    return false;
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
     return false;
 
   // analyse command line arguments
