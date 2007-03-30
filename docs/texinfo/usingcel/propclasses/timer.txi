@@ -1,8 +1,8 @@
 @c -*-texinfo-*-
 @node PropClass Timer, PropClass ZoneMgr, PropClass LinMove, Property Classes
 @subsection Timer
-@cindex pctimer property class
-@cindex pctimer
+@cindex pctools.timer property class
+@cindex pctools.timer
 @cindex @code{iPcTimer}
 
 The timer property class implements a simple timer.
@@ -11,9 +11,9 @@ The timer property class implements a simple timer.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pctimer}
+@samp{pctools.timer}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.timer}
+@samp{cel.pcfactory.tools.timer}
 @item @emph{Interface}:
 @code{iPcTimer}
 @item @emph{Header}:
@@ -62,13 +62,13 @@ to the entity or entity template <addon> section.
 
 @example
 <addon entityname="FinalMonster" plugin="cel.addons.celentity">
-  <propclass name="pctimer">
+  <propclass name="pctools.timer">
     <action name="WakeUp">
       <par name="time" long="14.0"/>
       <par name="repeat" bool="true"/>
     </action>
   </propclass>
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par string="EvilMonster" name="name"/>
     </action>

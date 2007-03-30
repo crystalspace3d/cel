@@ -1,8 +1,8 @@
 @c -*-texinfo-*-
 @node PropClass Trigger, PropClass ZoneMgr, PropClass LinMove, Property Classes
 @subsection Trigger
-@cindex pctrigger property class
-@cindex pctrigger
+@cindex pclogic.trigger property class
+@cindex pclogic.trigger
 @cindex @code{iPcTrigger}
 
 The trigger property class is capable of detecting when another entity (that has a pcmesh) enters or leaves an area defined by this trigger. In that case it can send messages to the entity that contains this property class and/or the entities that enter/leave the trigger area.
@@ -11,9 +11,9 @@ The trigger property class is capable of detecting when another entity (that has
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pctrigger}
+@samp{pclogic.trigger}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.trigger}
+@samp{cel.pcfactory.logic.trigger}
 @item @emph{Interface}:
 @code{iPcTrigger}
 @item @emph{Header}:
@@ -69,12 +69,12 @@ to the entity or entity template @code{<addon>} section.
 @example
 <addon entityname="area1floor" plugin="cel.addons.celentity">
   <class>icefloor</class>
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par string="afloormesh" name="name"/>
     </action>
   </propclass>
-  <propclass name="pctrigger">
+  <propclass name="pclogic.trigger">
     <property string="player" name="monitor"/>
     <action name="SetupTriggerAboveMesh">
       <par name="entity" string="afloormesh"/>

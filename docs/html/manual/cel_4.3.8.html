@@ -68,9 +68,9 @@ this section will also explain the quest manager.
 
 <ul>
 <li> <em>Name</em>:
-<samp>`pcquest'</samp>
+<samp>`pclogic.quest'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.quest'</samp>
+<samp>`cel.pcfactory.logic.quest'</samp>
 </li><li> <em>Interface</em>:
 <code>iPcQuest</code>
 </li><li> <em>Header</em>:
@@ -280,12 +280,12 @@ where we wait until the player moves away from the trigger.
 addon (see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>) like this:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;SlidingDoor&quot;&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
       &lt;par name=&quot;name&quot; string=&quot;SlidingDoor&quot; /&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pctrigger&quot;&gt;
+  &lt;propclass name=&quot;pclogic.trigger&quot;&gt;
     &lt;property name=&quot;monitor&quot; string=&quot;camera&quot; /&gt;
     &lt;action name=&quot;SetupTriggerSphere&quot;&gt;
       &lt;par name=&quot;sector&quot; string=&quot;Corridors&quot; /&gt;
@@ -293,7 +293,7 @@ addon (see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>) like this
       &lt;par name=&quot;radius&quot; float=&quot;4&quot; /&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pcquest&quot;&gt;
+  &lt;propclass name=&quot;pclogic.quest&quot;&gt;
     &lt;action name=&quot;NewQuest&quot;&gt;
       &lt;par name=&quot;name&quot; string=&quot;SlideDoor&quot; /&gt;
       &lt;par name=&quot;openx&quot; string=&quot;-3.5&quot; /&gt;

@@ -14,7 +14,7 @@ handles gravity and collision detection but not accurate physics.
 @item @emph{Name}:
 @samp{pclinearmovement}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.linmove}
+@samp{cel.pcfactory.move.linear}
 @item @emph{Interface}:
 @code{iPcLinearMovement}
 @item @emph{Header}:

@@ -14,7 +14,7 @@ with @samp{pcmechobject}.
 @item @emph{Name}:
 @samp{pchover}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.hover}
+@samp{cel.pcfactory.vehicle.hover}
 @item @emph{Interface}:
 @code{iPcHover}
 @item @emph{Header}:

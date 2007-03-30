@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- Genjix made the following changes:
 	  - Fixed compile error in apps trying to include old navgraph.
 	  - Regenerated swig bindings without navgraph and pcthrust*.
+	  - Updated the documentation to match the new property class names.
 29-Mar-2007
 	- Genjix made the following changes:
 	  - Straight removed NavGraph since it doesn't provide any functionality

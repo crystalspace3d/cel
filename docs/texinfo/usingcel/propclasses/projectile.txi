@@ -1,8 +1,8 @@
 @c -*-texinfo-*-
 @node PropClass Projectile, PropClass ZoneMgr, PropClass LinMove, Property Classes
 @subsection Projectile
-@cindex pcprojectile property class
-@cindex pcprojectile
+@cindex pcmove.projectile property class
+@cindex pcmove.projectile
 @cindex @code{iPcProjectile}
 
 This is a property class to control projectiles. It allows to set
@@ -12,9 +12,9 @@ movement in some direction and will report back when it hits something.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcprojectile}
+@samp{pcmove.projectile}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.projectile}
+@samp{cel.pcfactory.move.projectile}
 @item @emph{Interface}:
 @code{iPcProjectile}
 @item @emph{Header}:
@@ -33,6 +33,6 @@ Maximum distance and maximum hits can be specified, and when either of
 both is reached a @code{pcprojectile_stopped} message will be sent to
 the behaviour. 
 
-PcProjectile depends on having pclinmove and pcmesh present on the entity
+PcProjectile depends on having pcmove.linear and pcobject.mesh present on the entity
 to work.
 

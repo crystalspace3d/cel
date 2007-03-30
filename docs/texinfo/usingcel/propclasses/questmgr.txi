@@ -15,9 +15,9 @@ this section will also explain the quest manager.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcquest}
+@samp{pclogic.quest}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.quest}
+@samp{cel.pcfactory.logic.quest}
 @item @emph{Interface}:
 @code{iPcQuest}
 @item @emph{Header}:
@@ -223,12 +223,12 @@ addon (@pxref{Addons CelEntity}) like this:
 
 @example
 <addon plugin="cel.addons.celentity" entityname="SlidingDoor">
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par name="name" string="SlidingDoor" />
     </action>
   </propclass>
-  <propclass name="pctrigger">
+  <propclass name="pclogic.trigger">
     <property name="monitor" string="camera" />
     <action name="SetupTriggerSphere">
       <par name="sector" string="Corridors" />
@@ -236,7 +236,7 @@ addon (@pxref{Addons CelEntity}) like this:
       <par name="radius" float="4" />
     </action>
   </propclass>
-  <propclass name="pcquest">
+  <propclass name="pclogic.quest">
     <action name="NewQuest">
       <par name="name" string="SlideDoor" />
       <par name="openx" string="-3.5" />

@@ -11,9 +11,9 @@ This is a property class to handle 2d on-screen billboards.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcbillboard}
+@samp{pc2d.billboard}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.billboard}
+@samp{cel.pcfactory.2d.billboard}
 @item @emph{Interface}:
 @code{iPcBillboard}
 @item @emph{Header}:
@@ -93,7 +93,7 @@ to the entity or entity template <addon> section.
 
 @example
 <addon entityname="config_button" plugin="cel.addons.celentity">
-  <propclass name="pcbillboard">
+  <propclass name="pc2d.billboard">
     <property name="clickable" bool="true"/>
     <property name="text" string="Quit"/>
     <property name="text_fg_color" vector="0.5,0,0"/>

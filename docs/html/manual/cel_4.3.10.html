@@ -67,9 +67,9 @@ ul.toc {list-style: none}
 
 <ul>
 <li> <em>Name</em>:
-<samp>`pctrigger'</samp>
+<samp>`pclogic.trigger'</samp>
 </li><li> <em>Factory ID</em>:
-<samp>`cel.pcfactory.trigger'</samp>
+<samp>`cel.pcfactory.logic.trigger'</samp>
 </li><li> <em>Interface</em>:
 <code>iPcTrigger</code>
 </li><li> <em>Header</em>:
@@ -128,12 +128,12 @@ to the entity or entity template <code>&lt;addon&gt;</code> section.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;area1floor&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
   &lt;class&gt;icefloor&lt;/class&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
       &lt;par string=&quot;afloormesh&quot; name=&quot;name&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pctrigger&quot;&gt;
+  &lt;propclass name=&quot;pclogic.trigger&quot;&gt;
     &lt;property string=&quot;player&quot; name=&quot;monitor&quot;/&gt;
     &lt;action name=&quot;SetupTriggerAboveMesh&quot;&gt;
       &lt;par name=&quot;entity&quot; string=&quot;afloormesh&quot;/&gt;

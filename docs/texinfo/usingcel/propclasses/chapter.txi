@@ -54,7 +54,7 @@ addons.
 An example follows with the typical xml for a player entity.
 @example
 <addon entityname="player" plugin="cel.addons.celentity">
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
      <action name="SetMesh">
         <par string="PlayerMesh" name="name"/>
      </action>
@@ -64,14 +64,14 @@ An example follows with the typical xml for a player entity.
         <par float="10.0" name="percentage"/>
      </action>
   </propclass>
-  <propclass name="pcdefaultcamera">
+  <propclass name="pccamera.old">
     <action name="SetCamera">
       <par name="distance" vector="2,6,10"/>
       <par name="modename" string="thirdperson"/>
       <par name="pitch" float="-0.5"/>
     </action>
   </propclass>
-  <propclass name="pccommandinput">
+  <propclass name="pcinput.standard">
     <action name="LoadConfig">
       <par name="prefix" string="Player"/>
     </action>

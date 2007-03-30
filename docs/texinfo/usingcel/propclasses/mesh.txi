@@ -15,7 +15,7 @@ This property class defines a visual representation for an entity.
 @item @emph{Name}:
 @samp{pcmesh}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.mesh}
+@samp{cel.pcfactory.object.mesh}
 @item @emph{Interface}:
 @code{iPcMesh}
 @item @emph{Header}:
