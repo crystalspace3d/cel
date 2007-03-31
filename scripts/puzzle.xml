@@ -21,10 +21,6 @@
     </plugins>
 
     <addon plugin="xmlscripts">
-        <pcfactory>cel.pcfactory.billboard</pcfactory>
-        <pcfactory>cel.pcfactory.properties</pcfactory>
-        <pcfactory>cel.pcfactory.timer</pcfactory>
-
 	<!-- *****************************************************
 	  -  *****************************************************
 	  - This is the puzzle game script.
