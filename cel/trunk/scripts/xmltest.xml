@@ -43,12 +43,6 @@
     </plugins>
 
     <addon plugin="xmlscripts">
-        <pcfactory>cel.pcfactory.mesh</pcfactory>
-        <pcfactory>cel.pcfactory.solid</pcfactory>
-        <pcfactory>cel.pcfactory.gravity</pcfactory>
-        <pcfactory>cel.pcfactory.movable</pcfactory>
-        <pcfactory>cel.pcfactory.billboard</pcfactory>
-        <pcfactory>cel.pcfactory.properties</pcfactory>
         <script name="box">
 	    <event name="init">
 	        <property propclass="pc(pcgravity)"

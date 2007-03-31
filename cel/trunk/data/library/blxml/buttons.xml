@@ -1,10 +1,5 @@
 <library>
   <addon plugin="cel.addons.xmlscripts">
-    <pcfactory>cel.pcfactory.billboard</pcfactory>
-    <pcfactory>cel.pcfactory.properties</pcfactory>
-    <pcfactory>cel.pcfactory.timer</pcfactory>
-    <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
-
     <!-- Superscript used by the tools below -->
     <script name="celButtonTools">
       <event name="init">

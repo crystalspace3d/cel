@@ -569,16 +569,6 @@
     <library file="/cellib/library/blxml/buttons.xml" />
 
     <addon plugin="xmlscripts">
-        <pcfactory>cel.pcfactory.mesh</pcfactory>
-        <pcfactory>cel.pcfactory.solid</pcfactory>
-        <pcfactory>cel.pcfactory.gravity</pcfactory>
-        <pcfactory>cel.pcfactory.movable</pcfactory>
-        <pcfactory>cel.pcfactory.billboard</pcfactory>
-        <pcfactory>cel.pcfactory.properties</pcfactory>
-        <pcfactory>cel.pcfactory.timer</pcfactory>
-        <pcfactory>cel.pcfactory.inventory</pcfactory>
-        <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
-
 	<!-- *****************************************************
 	  - General superclass for utility functions.
 	  -  ***************************************************** -->
