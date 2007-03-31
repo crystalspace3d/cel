@@ -1,4 +1,4 @@
-# This file was created automatically by SWIG 1.3.28.
+# This file was created automatically by SWIG 1.3.29.
 # Don't modify this file, modify the SWIG interface instead.
 # This file is compatible with both classic and new-style classes.
 
@@ -27,6 +27,11 @@ def _swig_getattr(self,class_type,name):
     if method: return method(self)
     raise AttributeError,name
 
+def _swig_repr(self):
+    try: strthis = "proxy of " + self.this.__repr__()
+    except: strthis = ""
+    return "<%s.%s; %s >" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+
 import types
 try:
     _object = types.ObjectType
@@ -47,7 +52,6 @@ def fix_args(funct):
         return funct(*args)
     return _inner
 
-
 _csRef_to_Python = _blcelc._csRef_to_Python
 class celInitializer(cspace.csInitializer):
     __swig_setmethods__ = {}
@@ -56,10 +60,7 @@ class celInitializer(cspace.csInitializer):
     __swig_getmethods__ = {}
     for _s in [cspace.csInitializer]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celInitializer, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celInitializer instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_getmethods__["SetupCelPluginDirs"] = lambda x: _blcelc.celInitializer_SetupCelPluginDirs
     if _newclass:SetupCelPluginDirs = staticmethod(_blcelc.celInitializer_SetupCelPluginDirs)
     __swig_getmethods__["_RequestPlugins"] = lambda x: _blcelc.celInitializer__RequestPlugins
@@ -68,20 +69,17 @@ class celInitializer(cspace.csInitializer):
     if _newclass:SetupVFS = staticmethod(_blcelc.celInitializer_SetupVFS)
     __swig_getmethods__["SetupConfigManager"] = lambda x: _blcelc.celInitializer_SetupConfigManager
     if _newclass:SetupConfigManager = staticmethod(_blcelc.celInitializer_SetupConfigManager)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celInitializer(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celInitializer
     __del__ = lambda self : None;
-_blcelc.celInitializer_swigregister(celInitializer)
-
+celInitializer_swigregister = _blcelc.celInitializer_swigregister
+celInitializer_swigregister(celInitializer)
 celInitializer_SetupCelPluginDirs = _blcelc.celInitializer_SetupCelPluginDirs
-
 celInitializer__RequestPlugins = _blcelc.celInitializer__RequestPlugins
-
 celInitializer_SetupVFS = _blcelc.celInitializer_SetupVFS
-
 celInitializer_SetupConfigManager = _blcelc.celInitializer_SetupConfigManager
 
 CEL_DATA_NONE = _blcelc.CEL_DATA_NONE
@@ -110,14 +108,11 @@ class celData(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, celData, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celData, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celData instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_setmethods__["type"] = _blcelc.celData_type_set
     __swig_getmethods__["type"] = _blcelc.celData_type_get
     if _newclass:type = property(_blcelc.celData_type_get, _blcelc.celData_type_set)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celData(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -131,17 +126,15 @@ class celData(_object):
     def SetParameter(*args): return _blcelc.celData_SetParameter(*args)
     __swig_getmethods__["value"] = _blcelc.celData_value_get
     if _newclass:value = property(_blcelc.celData_value_get)
-_blcelc.celData_swigregister(celData)
+celData_swigregister = _blcelc.celData_swigregister
+celData_swigregister(celData)
 
 class celData_value(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celData_value, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celData_value instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_setmethods__["bo"] = _blcelc.celData_value_bo_set
     __swig_getmethods__["bo"] = _blcelc.celData_value_bo_get
     if _newclass:bo = property(_blcelc.celData_value_bo_get, _blcelc.celData_value_bo_set)
@@ -184,46 +177,42 @@ class celData_value(_object):
     if _newclass:col = property(_blcelc.celData_value_col_get)
     __swig_getmethods__["v"] = _blcelc.celData_value_v_get
     if _newclass:v = property(_blcelc.celData_value_v_get)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celData_value(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celData_value
     __del__ = lambda self : None;
-_blcelc.celData_value_swigregister(celData_value)
+celData_value_swigregister = _blcelc.celData_value_swigregister
+celData_value_swigregister(celData_value)
 
 class celData_value_par(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_par, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celData_value_par, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celData_value_par instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_setmethods__["parname"] = _blcelc.celData_value_par_parname_set
     __swig_getmethods__["parname"] = _blcelc.celData_value_par_parname_get
     if _newclass:parname = property(_blcelc.celData_value_par_parname_get, _blcelc.celData_value_par_parname_set)
     __swig_setmethods__["partype"] = _blcelc.celData_value_par_partype_set
     __swig_getmethods__["partype"] = _blcelc.celData_value_par_partype_get
     if _newclass:partype = property(_blcelc.celData_value_par_partype_get, _blcelc.celData_value_par_partype_set)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celData_value_par(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celData_value_par
     __del__ = lambda self : None;
-_blcelc.celData_value_par_swigregister(celData_value_par)
+celData_value_par_swigregister = _blcelc.celData_value_par_swigregister
+celData_value_par_swigregister(celData_value_par)
 
 class celData_value_col(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_col, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celData_value_col, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celData_value_col instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_setmethods__["red"] = _blcelc.celData_value_col_red_set
     __swig_getmethods__["red"] = _blcelc.celData_value_col_red_get
     if _newclass:red = property(_blcelc.celData_value_col_red_get, _blcelc.celData_value_col_red_set)
@@ -236,23 +225,21 @@ class celData_value_col(_object):
     __swig_setmethods__["alpha"] = _blcelc.celData_value_col_alpha_set
     __swig_getmethods__["alpha"] = _blcelc.celData_value_col_alpha_get
     if _newclass:alpha = property(_blcelc.celData_value_col_alpha_get, _blcelc.celData_value_col_alpha_set)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celData_value_col(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celData_value_col
     __del__ = lambda self : None;
-_blcelc.celData_value_col_swigregister(celData_value_col)
+celData_value_col_swigregister = _blcelc.celData_value_col_swigregister
+celData_value_col_swigregister(celData_value_col)
 
 class celData_value_v(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, celData_value_v, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celData_value_v, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celData_value_v instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     __swig_setmethods__["x"] = _blcelc.celData_value_v_x_set
     __swig_getmethods__["x"] = _blcelc.celData_value_v_x_get
     if _newclass:x = property(_blcelc.celData_value_v_x_get, _blcelc.celData_value_v_x_set)
@@ -265,24 +252,22 @@ class celData_value_v(_object):
     __swig_setmethods__["w"] = _blcelc.celData_value_v_w_set
     __swig_getmethods__["w"] = _blcelc.celData_value_v_w_get
     if _newclass:w = property(_blcelc.celData_value_v_w_get, _blcelc.celData_value_v_w_set)
-    def __init__(self, *args):
+    def __init__(self, *args): 
         this = _blcelc.new_celData_value_v(*args)
         try: self.this.append(this)
         except: self.this = this
     __swig_destroy__ = _blcelc.delete_celData_value_v
     __del__ = lambda self : None;
-_blcelc.celData_value_v_swigregister(celData_value_v)
+celData_value_v_swigregister = _blcelc.celData_value_v_swigregister
+celData_value_v_swigregister(celData_value_v)
 
 class csStringFast12(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, csStringFast12, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, csStringFast12, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ csStringFast<12 > instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
-    def __init__(self, *args):
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
         this = _blcelc.new_csStringFast12(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -294,18 +279,16 @@ class csStringFast12(_object):
     def ShrinkBestFit(*args): return _blcelc.csStringFast12_ShrinkBestFit(*args)
     def Free(*args): return _blcelc.csStringFast12_Free(*args)
     def Detach(*args): return _blcelc.csStringFast12_Detach(*args)
-_blcelc.csStringFast12_swigregister(csStringFast12)
+csStringFast12_swigregister = _blcelc.csStringFast12_swigregister
+csStringFast12_swigregister(csStringFast12)
 
 class celEntityTemplateParams(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, celEntityTemplateParams, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, celEntityTemplateParams, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ csHash<csStringFast<12 >,csStringFast<12 > > instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
-    def __init__(self, *args):
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
         this = _blcelc.new_celEntityTemplateParams(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -329,7 +312,8 @@ class celEntityTemplateParams(_object):
     def __len__(*args): return _blcelc.celEntityTemplateParams___len__(*args)
     __swig_destroy__ = _blcelc.delete_celEntityTemplateParams
     __del__ = lambda self : None;
-_blcelc.celEntityTemplateParams_swigregister(celEntityTemplateParams)
+celEntityTemplateParams_swigregister = _blcelc.celEntityTemplateParams_swigregister
+celEntityTemplateParams_swigregister(celEntityTemplateParams)
 
 CEL_EVENT_PRE = _blcelc.CEL_EVENT_PRE
 CEL_EVENT_VIEW = _blcelc.CEL_EVENT_VIEW
@@ -342,14 +326,12 @@ class iCelNewEntityCallback(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelNewEntityCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelNewEntityCallback instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def NewEntity(*args): return _blcelc.iCelNewEntityCallback_NewEntity(*args)
     __swig_destroy__ = _blcelc.delete_iCelNewEntityCallback
     __del__ = lambda self : None;
-_blcelc.iCelNewEntityCallback_swigregister(iCelNewEntityCallback)
+iCelNewEntityCallback_swigregister = _blcelc.iCelNewEntityCallback_swigregister
+iCelNewEntityCallback_swigregister(iCelNewEntityCallback)
 
 class iCelEntityRemoveCallback(cspace.iBase):
     __swig_setmethods__ = {}
@@ -359,14 +341,12 @@ class iCelEntityRemoveCallback(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityRemoveCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntityRemoveCallback instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def RemoveEntity(*args): return _blcelc.iCelEntityRemoveCallback_RemoveEntity(*args)
     __swig_destroy__ = _blcelc.delete_iCelEntityRemoveCallback
     __del__ = lambda self : None;
-_blcelc.iCelEntityRemoveCallback_swigregister(iCelEntityRemoveCallback)
+iCelEntityRemoveCallback_swigregister = _blcelc.iCelEntityRemoveCallback_swigregister
+iCelEntityRemoveCallback_swigregister(iCelEntityRemoveCallback)
 
 class iCelTimerListener(cspace.iBase):
     __swig_setmethods__ = {}
@@ -376,15 +356,13 @@ class iCelTimerListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelTimerListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelTimerListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def TickEveryFrame(*args): return _blcelc.iCelTimerListener_TickEveryFrame(*args)
     def TickOnce(*args): return _blcelc.iCelTimerListener_TickOnce(*args)
     __swig_destroy__ = _blcelc.delete_iCelTimerListener
     __del__ = lambda self : None;
-_blcelc.iCelTimerListener_swigregister(iCelTimerListener)
+iCelTimerListener_swigregister = _blcelc.iCelTimerListener_swigregister
+iCelTimerListener_swigregister(iCelTimerListener)
 
 class iCelPlLayer(cspace.iBase):
     __swig_setmethods__ = {}
@@ -394,10 +372,7 @@ class iCelPlLayer(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPlLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelPlLayer instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CreateEntityInScope(*args): return _blcelc.iCelPlLayer_CreateEntityInScope(*args)
     def RemoveEntity(*args): return _blcelc.iCelPlLayer_RemoveEntity(*args)
     def RemoveEntities(*args): return _blcelc.iCelPlLayer_RemoveEntities(*args)
@@ -493,8 +468,8 @@ class iCelPlLayer(cspace.iBase):
     __swig_getmethods__["PcFactories"] = lambda self: self.GetPcFactories()
     __swig_getmethods__["BehaviourLayers"] = lambda self: self.GetBehaviourLayers()
     __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
-_blcelc.iCelPlLayer_swigregister(iCelPlLayer)
-
+iCelPlLayer_swigregister = _blcelc.iCelPlLayer_swigregister
+iCelPlLayer_swigregister(iCelPlLayer)
 iCelPlLayer_scfGetVersion = _blcelc.iCelPlLayer_scfGetVersion
 
 class iCelEntityTracker(cspace.iBase):
@@ -505,10 +480,7 @@ class iCelEntityTracker(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTracker, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntityTracker instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelEntityTracker_GetName(*args)
     def AddEntity(*args): return _blcelc.iCelEntityTracker_AddEntity(*args)
     def RemoveEntity(*args): return _blcelc.iCelEntityTracker_RemoveEntity(*args)
@@ -524,8 +496,8 @@ class iCelEntityTracker(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelEntityTracker
     __del__ = lambda self : None;
-_blcelc.iCelEntityTracker_swigregister(iCelEntityTracker)
-
+iCelEntityTracker_swigregister = _blcelc.iCelEntityTracker_swigregister
+iCelEntityTracker_swigregister(iCelEntityTracker)
 
 csQueryRegistry_iCelPlLayer = _blcelc.csQueryRegistry_iCelPlLayer
 class iCelEntityTemplatePlFakeArray:
@@ -632,10 +604,7 @@ class iCelEntity(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntity, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntity instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def QueryObject(*args): return _blcelc.iCelEntity_QueryObject(*args)
     def GetName(*args): return _blcelc.iCelEntity_GetName(*args)
     def SetName(*args): return _blcelc.iCelEntity_SetName(*args)
@@ -677,8 +646,8 @@ class iCelEntity(cspace.iBase):
     __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntity_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
-_blcelc.iCelEntity_swigregister(iCelEntity)
-
+iCelEntity_swigregister = _blcelc.iCelEntity_swigregister
+iCelEntity_swigregister(iCelEntity)
 iCelEntity_scfGetVersion = _blcelc.iCelEntity_scfGetVersion
 
 class iCelEntityList(cspace.iBase):
@@ -689,10 +658,7 @@ class iCelEntityList(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityList, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntityList instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetCount(*args): return _blcelc.iCelEntityList_GetCount(*args)
     def Get(*args): return _blcelc.iCelEntityList_Get(*args)
     def Add(*args): return _blcelc.iCelEntityList_Add(*args)
@@ -720,8 +686,8 @@ class iCelEntityList(cspace.iBase):
     __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntityList_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
-_blcelc.iCelEntityList_swigregister(iCelEntityList)
-
+iCelEntityList_swigregister = _blcelc.iCelEntityList_swigregister
+iCelEntityList_swigregister(iCelEntityList)
 iCelEntityList_scfGetVersion = _blcelc.iCelEntityList_scfGetVersion
 
 class iCelEntityIterator(cspace.iBase):
@@ -732,10 +698,7 @@ class iCelEntityIterator(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityIterator, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntityIterator instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Next(*args): return _blcelc.iCelEntityIterator_Next(*args)
     def HasNext(*args): return _blcelc.iCelEntityIterator_HasNext(*args)
     Next = property(_blcelc.iCelEntityIterator_Next_get, None, None,
@@ -743,13 +706,11 @@ class iCelEntityIterator(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelEntityIterator
     __del__ = lambda self : None;
-_blcelc.iCelEntityIterator_swigregister(iCelEntityIterator)
-
+iCelEntityIterator_swigregister = _blcelc.iCelEntityIterator_swigregister
+iCelEntityIterator_swigregister(iCelEntityIterator)
 
 celRegisterPCFactory = _blcelc.celRegisterPCFactory
-
 celCreateEntity = _blcelc.celCreateEntity
-
 scfQueryInterface_iCelEntity = _blcelc.scfQueryInterface_iCelEntity
 class iCelEntityTemplate(cspace.iBase):
     __swig_setmethods__ = {}
@@ -759,10 +720,7 @@ class iCelEntityTemplate(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelEntityTemplate, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelEntityTemplate instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def QueryObject(*args): return _blcelc.iCelEntityTemplate_QueryObject(*args)
     def GetName(*args): return _blcelc.iCelEntityTemplate_GetName(*args)
     def SetName(*args): return _blcelc.iCelEntityTemplate_SetName(*args)
@@ -795,8 +753,8 @@ class iCelEntityTemplate(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelEntityTemplate
     __del__ = lambda self : None;
-_blcelc.iCelEntityTemplate_swigregister(iCelEntityTemplate)
-
+iCelEntityTemplate_swigregister = _blcelc.iCelEntityTemplate_swigregister
+iCelEntityTemplate_swigregister(iCelEntityTemplate)
 celFindNearbyEntities = _blcelc.celFindNearbyEntities
 
 class iCelPropertyClassTemplate(cspace.iBase):
@@ -807,10 +765,7 @@ class iCelPropertyClassTemplate(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassTemplate, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelPropertyClassTemplate instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClassTemplate_SetName(*args)
     def GetName(*args): return _blcelc.iCelPropertyClassTemplate_GetName(*args)
     def SetTag(*args): return _blcelc.iCelPropertyClassTemplate_SetTag(*args)
@@ -838,7 +793,8 @@ class iCelPropertyClassTemplate(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassTemplate
     __del__ = lambda self : None;
-_blcelc.iCelPropertyClassTemplate_swigregister(iCelPropertyClassTemplate)
+iCelPropertyClassTemplate_swigregister = _blcelc.iCelPropertyClassTemplate_swigregister
+iCelPropertyClassTemplate_swigregister(iCelPropertyClassTemplate)
 
 class iCelBlLayer(cspace.iBase):
     __swig_setmethods__ = {}
@@ -848,10 +804,7 @@ class iCelBlLayer(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelBlLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelBlLayer instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelBlLayer_GetName(*args)
     def CreateBehaviour(*args): return _blcelc.iCelBlLayer_CreateBehaviour(*args)
     Name = property(_blcelc.iCelBlLayer_Name_get, None, None,
@@ -861,10 +814,9 @@ class iCelBlLayer(cspace.iBase):
     __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelBlLayer_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
-_blcelc.iCelBlLayer_swigregister(iCelBlLayer)
-
+iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
+iCelBlLayer_swigregister(iCelBlLayer)
 iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
-
 
 csQueryRegistry_iCelBlLayer = _blcelc.csQueryRegistry_iCelBlLayer
 class iCelParameterBlock(cspace.iBase):
@@ -875,10 +827,7 @@ class iCelParameterBlock(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelParameterBlock, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelParameterBlock instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetParameterCount(*args): return _blcelc.iCelParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.iCelParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.iCelParameterBlock_GetParameterByIndex(*args)
@@ -924,7 +873,8 @@ class iCelParameterBlock(cspace.iBase):
     def __len__(*args): return _blcelc.iCelParameterBlock___len__(*args)
     __swig_destroy__ = _blcelc.delete_iCelParameterBlock
     __del__ = lambda self : None;
-_blcelc.iCelParameterBlock_swigregister(iCelParameterBlock)
+iCelParameterBlock_swigregister = _blcelc.iCelParameterBlock_swigregister
+iCelParameterBlock_swigregister(iCelParameterBlock)
 
 class iCelBehaviour(cspace.iBase):
     __swig_setmethods__ = {}
@@ -934,10 +884,7 @@ class iCelBehaviour(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelBehaviour, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelBehaviour instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelBehaviour_GetName(*args)
     def GetBehaviourLayer(*args): return _blcelc.iCelBehaviour_GetBehaviourLayer(*args)
     Name = property(_blcelc.iCelBehaviour_Name_get, None, None,
@@ -950,7 +897,8 @@ class iCelBehaviour(cspace.iBase):
     def SendMessage(*args): return _blcelc.iCelBehaviour_SendMessage(*args)
     __swig_destroy__ = _blcelc.delete_iCelBehaviour
     __del__ = lambda self : None;
-_blcelc.iCelBehaviour_swigregister(iCelBehaviour)
+iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
+iCelBehaviour_swigregister(iCelBehaviour)
 
 class celGenericParameterBlock(iCelParameterBlock):
     __swig_setmethods__ = {}
@@ -959,11 +907,8 @@ class celGenericParameterBlock(iCelParameterBlock):
     __swig_getmethods__ = {}
     for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celGenericParameterBlock instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
-    def __init__(self, *args):
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
         this = _blcelc.new_celGenericParameterBlock(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -996,7 +941,8 @@ class celGenericParameterBlock(iCelParameterBlock):
     ParameterCount = property(_blcelc.celGenericParameterBlock_ParameterCount_get, None, None,
                     "celGenericParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celGenericParameterBlock::GetParameterCount()")
 
-_blcelc.celGenericParameterBlock_swigregister(celGenericParameterBlock)
+celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
+celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
 class celVariableParameterBlock(iCelParameterBlock):
     __swig_setmethods__ = {}
@@ -1005,11 +951,8 @@ class celVariableParameterBlock(iCelParameterBlock):
     __swig_getmethods__ = {}
     for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celVariableParameterBlock instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
-    def __init__(self, *args):
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
         this = _blcelc.new_celVariableParameterBlock(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -1042,7 +985,8 @@ class celVariableParameterBlock(iCelParameterBlock):
     ParameterCount = property(_blcelc.celVariableParameterBlock_ParameterCount_get, None, None,
                     "celVariableParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celVariableParameterBlock::GetParameterCount()")
 
-_blcelc.celVariableParameterBlock_swigregister(celVariableParameterBlock)
+celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
+celVariableParameterBlock_swigregister(celVariableParameterBlock)
 
 class celOneParameterBlock(iCelParameterBlock):
     __swig_setmethods__ = {}
@@ -1051,11 +995,8 @@ class celOneParameterBlock(iCelParameterBlock):
     __swig_getmethods__ = {}
     for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ celOneParameterBlock instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
-    def __init__(self, *args):
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
         this = _blcelc.new_celOneParameterBlock(*args)
         try: self.this.append(this)
         except: self.this = this
@@ -1088,7 +1029,8 @@ class celOneParameterBlock(iCelParameterBlock):
     ParameterCount = property(_blcelc.celOneParameterBlock_ParameterCount_get, None, None,
                     "celOneParameterBlock.ParameterCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t celOneParameterBlock::GetParameterCount()")
 
-_blcelc.celOneParameterBlock_swigregister(celOneParameterBlock)
+celOneParameterBlock_swigregister = _blcelc.celOneParameterBlock_swigregister
+celOneParameterBlock_swigregister(celOneParameterBlock)
 
 class iCelPropertyClassFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1098,10 +1040,7 @@ class iCelPropertyClassFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelPropertyClassFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelPropertyClassFactory_GetName(*args)
     def CreatePropertyClass(*args): return _blcelc.iCelPropertyClassFactory_CreatePropertyClass(*args)
     Name = property(_blcelc.iCelPropertyClassFactory_Name_get, None, None,
@@ -1109,7 +1048,8 @@ class iCelPropertyClassFactory(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassFactory
     __del__ = lambda self : None;
-_blcelc.iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
+iCelPropertyClassFactory_swigregister = _blcelc.iCelPropertyClassFactory_swigregister
+iCelPropertyClassFactory_swigregister(iCelPropertyClassFactory)
 
 class iCelPropertyClass(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1119,10 +1059,7 @@ class iCelPropertyClass(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClass, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelPropertyClass instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelPropertyClass_SetName(*args)
     def GetName(*args): return _blcelc.iCelPropertyClass_GetName(*args)
     def SetTag(*args): return _blcelc.iCelPropertyClass_SetTag(*args)
@@ -1187,8 +1124,8 @@ class iCelPropertyClass(cspace.iBase):
     def SetterFallback(self,attr,value):
          raise AttributeError
 
-_blcelc.iCelPropertyClass_swigregister(iCelPropertyClass)
-
+iCelPropertyClass_swigregister = _blcelc.iCelPropertyClass_swigregister
+iCelPropertyClass_swigregister(iCelPropertyClass)
 iCelPropertyClass_scfGetVersion = _blcelc.iCelPropertyClass_scfGetVersion
 
 class iCelPropertyClassList(cspace.iBase):
@@ -1199,10 +1136,7 @@ class iCelPropertyClassList(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelPropertyClassList, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelPropertyClassList instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetCount(*args): return _blcelc.iCelPropertyClassList_GetCount(*args)
     def Get(*args): return _blcelc.iCelPropertyClassList_Get(*args)
     def Add(*args): return _blcelc.iCelPropertyClassList_Add(*args)
@@ -1235,7 +1169,8 @@ class iCelPropertyClassList(cspace.iBase):
     def __contains__(*args): return _blcelc.iCelPropertyClassList___contains__(*args)
     __swig_destroy__ = _blcelc.delete_iCelPropertyClassList
     __del__ = lambda self : None;
-_blcelc.iCelPropertyClassList_swigregister(iCelPropertyClassList)
+iCelPropertyClassList_swigregister = _blcelc.iCelPropertyClassList_swigregister
+iCelPropertyClassList_swigregister(iCelPropertyClassList)
 
 class iPcMechanicsSystem(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1245,10 +1180,7 @@ class iPcMechanicsSystem(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsSystem, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMechanicsSystem instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetDynamicSystem(*args): return _blcelc.iPcMechanicsSystem_SetDynamicSystem(*args)
     def GetDynamicSystem(*args): return _blcelc.iPcMechanicsSystem_GetDynamicSystem(*args)
     def SetStepTime(*args): return _blcelc.iPcMechanicsSystem_SetStepTime(*args)
@@ -1313,7 +1245,8 @@ class iPcMechanicsSystem(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsSystem
     __del__ = lambda self : None;
-_blcelc.iPcMechanicsSystem_swigregister(iPcMechanicsSystem)
+iPcMechanicsSystem_swigregister = _blcelc.iPcMechanicsSystem_swigregister
+iPcMechanicsSystem_swigregister(iPcMechanicsSystem)
 
 class iPcMechanicsObject(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1323,10 +1256,7 @@ class iPcMechanicsObject(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsObject, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMechanicsObject instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMechanicsObject_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcMechanicsObject_GetMesh(*args)
     def SetLight(*args): return _blcelc.iPcMechanicsObject_SetLight(*args)
@@ -1474,7 +1404,8 @@ class iPcMechanicsObject(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsObject
     __del__ = lambda self : None;
-_blcelc.iPcMechanicsObject_swigregister(iPcMechanicsObject)
+iPcMechanicsObject_swigregister = _blcelc.iPcMechanicsObject_swigregister
+iPcMechanicsObject_swigregister(iPcMechanicsObject)
 
 class iPcMechanicsJoint(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1484,10 +1415,7 @@ class iPcMechanicsJoint(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMechanicsJoint, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMechanicsJoint instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetJoint(*args): return _blcelc.iPcMechanicsJoint_GetJoint(*args)
     Joint = property(_blcelc.iPcMechanicsJoint_Joint_get, None, None,
                     "iPcMechanicsJoint.Joint -> iJoint*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iJoint* iPcMechanicsJoint::GetJoint()")
@@ -1514,19 +1442,14 @@ class iPcMechanicsJoint(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMechanicsJoint
     __del__ = lambda self : None;
-_blcelc.iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
-
+iPcMechanicsJoint_swigregister = _blcelc.iPcMechanicsJoint_swigregister
+iPcMechanicsJoint_swigregister(iPcMechanicsJoint)
 
 scfQuery_iPcMechanicsSystem = _blcelc.scfQuery_iPcMechanicsSystem
-
 scfQueryPC_iPcMechanicsSystem = _blcelc.scfQueryPC_iPcMechanicsSystem
-
 scfQuery_iPcMechanicsObject = _blcelc.scfQuery_iPcMechanicsObject
-
 scfQueryPC_iPcMechanicsObject = _blcelc.scfQueryPC_iPcMechanicsObject
-
 scfQueryPC_iPcMechanicsJoint = _blcelc.scfQueryPC_iPcMechanicsJoint
-
 scfQuery_iPcMechanicsJoint = _blcelc.scfQuery_iPcMechanicsJoint
 class iBillboardLayer(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1536,10 +1459,7 @@ class iBillboardLayer(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardLayer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iBillboardLayer instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetOffset(*args): return _blcelc.iBillboardLayer_GetOffset(*args)
     def SetOffset(*args): return _blcelc.iBillboardLayer_SetOffset(*args)
     def Move(*args): return _blcelc.iBillboardLayer_Move(*args)
@@ -1549,24 +1469,16 @@ class iBillboardLayer(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iBillboardLayer
     __del__ = lambda self : None;
-_blcelc.iBillboardLayer_swigregister(iBillboardLayer)
-
+iBillboardLayer_swigregister = _blcelc.iBillboardLayer_swigregister
+iBillboardLayer_swigregister(iBillboardLayer)
 celCreateMechanicsSystem = _blcelc.celCreateMechanicsSystem
-
 celGetSetMechanicsSystem = _blcelc.celGetSetMechanicsSystem
-
 celGetMechanicsSystem = _blcelc.celGetMechanicsSystem
-
 celCreateMechanicsObject = _blcelc.celCreateMechanicsObject
-
 celGetSetMechanicsObject = _blcelc.celGetSetMechanicsObject
-
 celGetMechanicsObject = _blcelc.celGetMechanicsObject
-
 celCreateMechanicsJoint = _blcelc.celCreateMechanicsJoint
-
 celGetSetMechanicsJoint = _blcelc.celGetSetMechanicsJoint
-
 celGetMechanicsJoint = _blcelc.celGetMechanicsJoint
 
 class iBillboardEventHandler(cspace.iBase):
@@ -1577,10 +1489,7 @@ class iBillboardEventHandler(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardEventHandler, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iBillboardEventHandler instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Select(*args): return _blcelc.iBillboardEventHandler_Select(*args)
     def MouseMove(*args): return _blcelc.iBillboardEventHandler_MouseMove(*args)
     def MouseMoveAway(*args): return _blcelc.iBillboardEventHandler_MouseMoveAway(*args)
@@ -1588,7 +1497,8 @@ class iBillboardEventHandler(cspace.iBase):
     def DoubleClick(*args): return _blcelc.iBillboardEventHandler_DoubleClick(*args)
     __swig_destroy__ = _blcelc.delete_iBillboardEventHandler
     __del__ = lambda self : None;
-_blcelc.iBillboardEventHandler_swigregister(iBillboardEventHandler)
+iBillboardEventHandler_swigregister = _blcelc.iBillboardEventHandler_swigregister
+iBillboardEventHandler_swigregister(iBillboardEventHandler)
 
 CEL_BILLBOARD_VISIBLE = _blcelc.CEL_BILLBOARD_VISIBLE
 CEL_BILLBOARD_MOVABLE = _blcelc.CEL_BILLBOARD_MOVABLE
@@ -1603,10 +1513,7 @@ class iBillboard(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboard, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iBillboard instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iBillboard_GetName(*args)
     def GetFlags(*args): return _blcelc.iBillboard_GetFlags(*args)
     def SetMaterialName(*args): return _blcelc.iBillboard_SetMaterialName(*args)
@@ -1730,7 +1637,8 @@ class iBillboard(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iBillboard
     __del__ = lambda self : None;
-_blcelc.iBillboard_swigregister(iBillboard)
+iBillboard_swigregister = _blcelc.iBillboard_swigregister
+iBillboard_swigregister(iBillboard)
 
 class iBillboardManager(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1740,10 +1648,7 @@ class iBillboardManager(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iBillboardManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iBillboardManager instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def ScreenToBillboardX(*args): return _blcelc.iBillboardManager_ScreenToBillboardX(*args)
     def ScreenToBillboardY(*args): return _blcelc.iBillboardManager_ScreenToBillboardY(*args)
     def BillboardToScreenX(*args): return _blcelc.iBillboardManager_BillboardToScreenX(*args)
@@ -1812,7 +1717,8 @@ class iBillboardManager(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iBillboardManager
     __del__ = lambda self : None;
-_blcelc.iBillboardManager_swigregister(iBillboardManager)
+iBillboardManager_swigregister = _blcelc.iBillboardManager_swigregister
+iBillboardManager_swigregister(iBillboardManager)
 
 class iPcBillboard(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1822,10 +1728,7 @@ class iPcBillboard(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcBillboard, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcBillboard instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetBillboardName(*args): return _blcelc.iPcBillboard_SetBillboardName(*args)
     def GetBillboardName(*args): return _blcelc.iPcBillboard_GetBillboardName(*args)
     def GetBillboard(*args): return _blcelc.iPcBillboard_GetBillboard(*args)
@@ -1861,11 +1764,10 @@ class iPcBillboard(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcBillboard
     __del__ = lambda self : None;
-_blcelc.iPcBillboard_swigregister(iPcBillboard)
-
+iPcBillboard_swigregister = _blcelc.iPcBillboard_swigregister
+iPcBillboard_swigregister(iPcBillboard)
 
 scfQuery_iPcBillboard = _blcelc.scfQuery_iPcBillboard
-
 scfQueryPC_iPcBillboard = _blcelc.scfQueryPC_iPcBillboard
 class iPcRegion(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1875,10 +1777,7 @@ class iPcRegion(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcRegion, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcRegion instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetWorldFile(*args): return _blcelc.iPcRegion_SetWorldFile(*args)
     def GetWorldDir(*args): return _blcelc.iPcRegion_GetWorldDir(*args)
     def GetWorldFile(*args): return _blcelc.iPcRegion_GetWorldFile(*args)
@@ -1910,19 +1809,14 @@ class iPcRegion(cspace.iBase):
     def LoadWorld(*args): return _blcelc.iPcRegion_LoadWorld(*args)
     __swig_destroy__ = _blcelc.delete_iPcRegion
     __del__ = lambda self : None;
-_blcelc.iPcRegion_swigregister(iPcRegion)
-
+iPcRegion_swigregister = _blcelc.iPcRegion_swigregister
+iPcRegion_swigregister(iPcRegion)
 celCreateBillboard = _blcelc.celCreateBillboard
-
 celGetSetBillboard = _blcelc.celGetSetBillboard
-
 celGetBillboard = _blcelc.celGetBillboard
 
-
 celCreateRegion = _blcelc.celCreateRegion
-
 scfQuery_iPcRegion = _blcelc.scfQuery_iPcRegion
-
 scfQueryPC_iPcRegion = _blcelc.scfQueryPC_iPcRegion
 class iCelMapFile(cspace.iBase):
     __swig_setmethods__ = {}
@@ -1932,10 +1826,7 @@ class iCelMapFile(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelMapFile, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelMapFile instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetName(*args): return _blcelc.iCelMapFile_SetName(*args)
     def SetPath(*args): return _blcelc.iCelMapFile_SetPath(*args)
     def SetFile(*args): return _blcelc.iCelMapFile_SetFile(*args)
@@ -1961,8 +1852,8 @@ class iCelMapFile(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelMapFile
     __del__ = lambda self : None;
-_blcelc.iCelMapFile_swigregister(iCelMapFile)
-
+iCelMapFile_swigregister = _blcelc.iCelMapFile_swigregister
+iCelMapFile_swigregister(iCelMapFile)
 Region = _blcelc.Region
 
 class iCelRegion(cspace.iBase):
@@ -1973,10 +1864,7 @@ class iCelRegion(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelRegion, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelRegion instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelRegion_GetName(*args)
     def GetCsRegionName(*args): return _blcelc.iCelRegion_GetCsRegionName(*args)
     def SetCachePath(*args): return _blcelc.iCelRegion_SetCachePath(*args)
@@ -2007,7 +1895,8 @@ class iCelRegion(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelRegion
     __del__ = lambda self : None;
-_blcelc.iCelRegion_swigregister(iCelRegion)
+iCelRegion_swigregister = _blcelc.iCelRegion_swigregister
+iCelRegion_swigregister(iCelRegion)
 
 class iCelZone(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2017,10 +1906,7 @@ class iCelZone(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelZone, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelZone instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iCelZone_GetName(*args)
     def LinkRegion(*args): return _blcelc.iCelZone_LinkRegion(*args)
     def GetRegionCount(*args): return _blcelc.iCelZone_GetRegionCount(*args)
@@ -2036,7 +1922,8 @@ class iCelZone(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelZone
     __del__ = lambda self : None;
-_blcelc.iCelZone_swigregister(iCelZone)
+iCelZone_swigregister = _blcelc.iCelZone_swigregister
+iCelZone_swigregister(iCelZone)
 
 CEL_ZONEERROR_OK = _blcelc.CEL_ZONEERROR_OK
 CEL_ZONEERROR_BADREGION = _blcelc.CEL_ZONEERROR_BADREGION
@@ -2053,10 +1940,7 @@ class iPcZoneManager(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcZoneManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcZoneManager instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def EnableColliderWrappers(*args): return _blcelc.iPcZoneManager_EnableColliderWrappers(*args)
     def IsColliderWrappers(*args): return _blcelc.iPcZoneManager_IsColliderWrappers(*args)
     def SetLoadingMode(*args): return _blcelc.iPcZoneManager_SetLoadingMode(*args)
@@ -2124,8 +2008,8 @@ class iPcZoneManager(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcZoneManager
     __del__ = lambda self : None;
-_blcelc.iPcZoneManager_swigregister(iPcZoneManager)
-
+iPcZoneManager_swigregister = _blcelc.iPcZoneManager_swigregister
+iPcZoneManager_swigregister(iPcZoneManager)
 
 scfQuery_iPcZoneManager = _blcelc.scfQuery_iPcZoneManager
 CEL_KEY_STATE_UNUSED = _blcelc.CEL_KEY_STATE_UNUSED
@@ -2140,10 +2024,7 @@ class iPcCommandInput(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCommandInput, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcCommandInput instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Activate(*args): return _blcelc.iPcCommandInput_Activate(*args)
     def SetSendTrigger(*args): return _blcelc.iPcCommandInput_SetSendTrigger(*args)
     def IsSendTriggerEnabled(*args): return _blcelc.iPcCommandInput_IsSendTriggerEnabled(*args)
@@ -2198,14 +2079,11 @@ class iPcCommandInput(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcCommandInput
     __del__ = lambda self : None;
-_blcelc.iPcCommandInput_swigregister(iPcCommandInput)
-
+iPcCommandInput_swigregister = _blcelc.iPcCommandInput_swigregister
+iPcCommandInput_swigregister(iPcCommandInput)
 celCreateZoneManager = _blcelc.celCreateZoneManager
-
 celGetSetZoneManager = _blcelc.celGetSetZoneManager
-
 celGetZoneManager = _blcelc.celGetZoneManager
-
 
 scfQuery_iPcCommandInput = _blcelc.scfQuery_iPcCommandInput
 class iPcGravityCallback(cspace.iBase):
@@ -2216,19 +2094,14 @@ class iPcGravityCallback(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcGravityCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcGravityCallback instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Callback(*args): return _blcelc.iPcGravityCallback_Callback(*args)
     __swig_destroy__ = _blcelc.delete_iPcGravityCallback
     __del__ = lambda self : None;
-_blcelc.iPcGravityCallback_swigregister(iPcGravityCallback)
-
+iPcGravityCallback_swigregister = _blcelc.iPcGravityCallback_swigregister
+iPcGravityCallback_swigregister(iPcGravityCallback)
 celCreateCommandInput = _blcelc.celCreateCommandInput
-
 celGetSetCommandInput = _blcelc.celGetSetCommandInput
-
 celGetCommandInput = _blcelc.celGetCommandInput
 
 class iPcLinearMovement(cspace.iBase):
@@ -2239,10 +2112,7 @@ class iPcLinearMovement(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcLinearMovement, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcLinearMovement instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetAnchor(*args): return _blcelc.iPcLinearMovement_SetAnchor(*args)
     def GetAnchor(*args): return _blcelc.iPcLinearMovement_GetAnchor(*args)
     def SetAngularVelocity(*args): return _blcelc.iPcLinearMovement_SetAngularVelocity(*args)
@@ -2375,8 +2245,8 @@ class iPcLinearMovement(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcLinearMovement
     __del__ = lambda self : None;
-_blcelc.iPcLinearMovement_swigregister(iPcLinearMovement)
-
+iPcLinearMovement_swigregister = _blcelc.iPcLinearMovement_swigregister
+iPcLinearMovement_swigregister(iPcLinearMovement)
 
 scfQuery_iPcLinearMovement = _blcelc.scfQuery_iPcLinearMovement
 class iPcActorMove(cspace.iBase):
@@ -2387,10 +2257,7 @@ class iPcActorMove(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcActorMove, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcActorMove instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Forward(*args): return _blcelc.iPcActorMove_Forward(*args)
     def IsMovingForward(*args): return _blcelc.iPcActorMove_IsMovingForward(*args)
     def Backward(*args): return _blcelc.iPcActorMove_Backward(*args)
@@ -2533,14 +2400,11 @@ class iPcActorMove(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcActorMove
     __del__ = lambda self : None;
-_blcelc.iPcActorMove_swigregister(iPcActorMove)
-
+iPcActorMove_swigregister = _blcelc.iPcActorMove_swigregister
+iPcActorMove_swigregister(iPcActorMove)
 celCreateLinearMovement = _blcelc.celCreateLinearMovement
-
 celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
-
 celGetLinearMovement = _blcelc.celGetLinearMovement
-
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
 class iPcCamera(cspace.iBase):
@@ -2551,10 +2415,7 @@ class iPcCamera(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcCamera instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetRegion(*args): return _blcelc.iPcCamera_SetRegion(*args)
     def SetZoneManager(*args): return _blcelc.iPcCamera_SetZoneManager(*args)
     def SetRectangle(*args): return _blcelc.iPcCamera_SetRectangle(*args)
@@ -2647,14 +2508,11 @@ class iPcCamera(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
-_blcelc.iPcCamera_swigregister(iPcCamera)
-
+iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
+iPcCamera_swigregister(iPcCamera)
 celCreateActorMove = _blcelc.celCreateActorMove
-
 celGetSetActorMove = _blcelc.celGetSetActorMove
-
 celGetActorMove = _blcelc.celGetActorMove
-
 
 scfQuery_iPcCamera = _blcelc.scfQuery_iPcCamera
 class iPcDefaultCamera(iPcCamera):
@@ -2665,10 +2523,7 @@ class iPcDefaultCamera(iPcCamera):
     for _s in [iPcCamera]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcDefaultCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcDefaultCamera instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     freelook = _blcelc.iPcDefaultCamera_freelook
     firstperson = _blcelc.iPcDefaultCamera_firstperson
     thirdperson = _blcelc.iPcDefaultCamera_thirdperson
@@ -2790,14 +2645,11 @@ class iPcDefaultCamera(iPcCamera):
 
     __swig_destroy__ = _blcelc.delete_iPcDefaultCamera
     __del__ = lambda self : None;
-_blcelc.iPcDefaultCamera_swigregister(iPcDefaultCamera)
-
+iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
+iPcDefaultCamera_swigregister(iPcDefaultCamera)
 celCreateCamera = _blcelc.celCreateCamera
-
 celGetSetCamera = _blcelc.celGetSetCamera
-
 celGetCamera = _blcelc.celGetCamera
-
 
 scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
 class iPcSimpleCamera(iPcCamera):
@@ -2808,10 +2660,7 @@ class iPcSimpleCamera(iPcCamera):
     for _s in [iPcCamera]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcSimpleCamera, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcSimpleCamera instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetDrawMesh(*args): return _blcelc.iPcSimpleCamera_SetDrawMesh(*args)
     def SetCameraOffset(*args): return _blcelc.iPcSimpleCamera_SetCameraOffset(*args)
     def SetLookAtOffset(*args): return _blcelc.iPcSimpleCamera_SetLookAtOffset(*args)
@@ -2855,14 +2704,11 @@ class iPcSimpleCamera(iPcCamera):
 
     __swig_destroy__ = _blcelc.delete_iPcSimpleCamera
     __del__ = lambda self : None;
-_blcelc.iPcSimpleCamera_swigregister(iPcSimpleCamera)
-
+iPcSimpleCamera_swigregister = _blcelc.iPcSimpleCamera_swigregister
+iPcSimpleCamera_swigregister(iPcSimpleCamera)
 celCreateDefaultCamera = _blcelc.celCreateDefaultCamera
-
 celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
-
 celGetDefaultCamera = _blcelc.celGetDefaultCamera
-
 
 scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
@@ -2876,21 +2722,16 @@ class iPcMeshSelectListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelectListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMeshSelectListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def MouseDown(*args): return _blcelc.iPcMeshSelectListener_MouseDown(*args)
     def MouseUp(*args): return _blcelc.iPcMeshSelectListener_MouseUp(*args)
     def MouseMove(*args): return _blcelc.iPcMeshSelectListener_MouseMove(*args)
     __swig_destroy__ = _blcelc.delete_iPcMeshSelectListener
     __del__ = lambda self : None;
-_blcelc.iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
-
+iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
+iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
 celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
-
 celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
-
 celGetSimpleCamera = _blcelc.celGetSimpleCamera
 
 class iPcMeshSelect(cspace.iBase):
@@ -2901,10 +2742,7 @@ class iPcMeshSelect(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshSelect, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMeshSelect instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def AddMeshSelectListener(*args): return _blcelc.iPcMeshSelect_AddMeshSelectListener(*args)
     def RemoveMeshSelectListener(*args): return _blcelc.iPcMeshSelect_RemoveMeshSelectListener(*args)
     def SetCamera(*args): return _blcelc.iPcMeshSelect_SetCamera(*args)
@@ -2998,8 +2836,8 @@ class iPcMeshSelect(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMeshSelect
     __del__ = lambda self : None;
-_blcelc.iPcMeshSelect_swigregister(iPcMeshSelect)
-
+iPcMeshSelect_swigregister = _blcelc.iPcMeshSelect_swigregister
+iPcMeshSelect_swigregister(iPcMeshSelect)
 
 scfQuery_iPcMeshSelect = _blcelc.scfQuery_iPcMeshSelect
 CEL_PCMESH_PROPERTY_MESH = _blcelc.CEL_PCMESH_PROPERTY_MESH
@@ -3011,10 +2849,7 @@ class iPcMesh(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMesh, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMesh instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
     def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
     def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
@@ -3076,14 +2911,11 @@ class iPcMesh(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMesh
     __del__ = lambda self : None;
-_blcelc.iPcMesh_swigregister(iPcMesh)
-
+iPcMesh_swigregister = _blcelc.iPcMesh_swigregister
+iPcMesh_swigregister(iPcMesh)
 celCreateMeshSelect = _blcelc.celCreateMeshSelect
-
 celGetSetMeshSelect = _blcelc.celGetSetMeshSelect
-
 celGetMeshSelect = _blcelc.celGetMeshSelect
-
 
 scfQuery_iPcMesh = _blcelc.scfQuery_iPcMesh
 class iPcTimer(cspace.iBase):
@@ -3094,10 +2926,7 @@ class iPcTimer(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTimer, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcTimer instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def WakeUp(*args): return _blcelc.iPcTimer_WakeUp(*args)
     def WakeUpFrame(*args): return _blcelc.iPcTimer_WakeUpFrame(*args)
     def Clear(*args): return _blcelc.iPcTimer_Clear(*args)
@@ -3123,14 +2952,11 @@ class iPcTimer(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcTimer
     __del__ = lambda self : None;
-_blcelc.iPcTimer_swigregister(iPcTimer)
-
+iPcTimer_swigregister = _blcelc.iPcTimer_swigregister
+iPcTimer_swigregister(iPcTimer)
 celCreateMesh = _blcelc.celCreateMesh
-
 celGetSetMesh = _blcelc.celGetSetMesh
-
 celGetMesh = _blcelc.celGetMesh
-
 
 scfQuery_iPcTimer = _blcelc.scfQuery_iPcTimer
 class iPcTriggerListener(cspace.iBase):
@@ -3141,22 +2967,17 @@ class iPcTriggerListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTriggerListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcTriggerListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def EntityEnters(*args): return _blcelc.iPcTriggerListener_EntityEnters(*args)
     def EntityLeaves(*args): return _blcelc.iPcTriggerListener_EntityLeaves(*args)
     def EnterTrigger(*args): return _blcelc.iPcTriggerListener_EnterTrigger(*args)
     def LeaveTrigger(*args): return _blcelc.iPcTriggerListener_LeaveTrigger(*args)
     __swig_destroy__ = _blcelc.delete_iPcTriggerListener
     __del__ = lambda self : None;
-_blcelc.iPcTriggerListener_swigregister(iPcTriggerListener)
-
+iPcTriggerListener_swigregister = _blcelc.iPcTriggerListener_swigregister
+iPcTriggerListener_swigregister(iPcTriggerListener)
 celCreateTimer = _blcelc.celCreateTimer
-
 celGetSetTimer = _blcelc.celGetSetTimer
-
 celGetTimer = _blcelc.celGetTimer
 
 class iPcTrigger(cspace.iBase):
@@ -3167,10 +2988,7 @@ class iPcTrigger(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTrigger, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcTrigger instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def AddTriggerListener(*args): return _blcelc.iPcTrigger_AddTriggerListener(*args)
     def RemoveTriggerListener(*args): return _blcelc.iPcTrigger_RemoveTriggerListener(*args)
     def SetupTriggerSphere(*args): return _blcelc.iPcTrigger_SetupTriggerSphere(*args)
@@ -3209,8 +3027,8 @@ class iPcTrigger(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcTrigger
     __del__ = lambda self : None;
-_blcelc.iPcTrigger_swigregister(iPcTrigger)
-
+iPcTrigger_swigregister = _blcelc.iPcTrigger_swigregister
+iPcTrigger_swigregister(iPcTrigger)
 
 scfQuery_iPcTrigger = _blcelc.scfQuery_iPcTrigger
 class iPcProjectile(cspace.iBase):
@@ -3221,10 +3039,7 @@ class iPcProjectile(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcProjectile, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcProjectile instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Start(*args): return _blcelc.iPcProjectile_Start(*args)
     def Interrupt(*args): return _blcelc.iPcProjectile_Interrupt(*args)
     def IsMoving(*args): return _blcelc.iPcProjectile_IsMoving(*args)
@@ -3253,14 +3068,11 @@ class iPcProjectile(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcProjectile
     __del__ = lambda self : None;
-_blcelc.iPcProjectile_swigregister(iPcProjectile)
-
+iPcProjectile_swigregister = _blcelc.iPcProjectile_swigregister
+iPcProjectile_swigregister(iPcProjectile)
 celCreateTrigger = _blcelc.celCreateTrigger
-
 celGetSetTrigger = _blcelc.celGetSetTrigger
-
 celGetTrigger = _blcelc.celGetTrigger
-
 
 scfQuery_iPcProjectile = _blcelc.scfQuery_iPcProjectile
 class iPcSolid(cspace.iBase):
@@ -3271,10 +3083,7 @@ class iPcSolid(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcSolid, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcSolid instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcSolid_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcSolid_GetMesh(*args)
     def GetCollider(*args): return _blcelc.iPcSolid_GetCollider(*args)
@@ -3310,14 +3119,11 @@ class iPcSolid(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcSolid
     __del__ = lambda self : None;
-_blcelc.iPcSolid_swigregister(iPcSolid)
-
+iPcSolid_swigregister = _blcelc.iPcSolid_swigregister
+iPcSolid_swigregister(iPcSolid)
 celCreateProjectile = _blcelc.celCreateProjectile
-
 celGetSetProjectile = _blcelc.celGetSetProjectile
-
 celGetProjectile = _blcelc.celGetProjectile
-
 
 scfQuery_iPcSolid = _blcelc.scfQuery_iPcSolid
 class iPcGravity(cspace.iBase):
@@ -3328,10 +3134,7 @@ class iPcGravity(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcGravity, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcGravity instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CreateGravityColliderFromMesh(*args): return _blcelc.iPcGravity_CreateGravityColliderFromMesh(*args)
     def GetGravityCollider(*args): return _blcelc.iPcGravity_GetGravityCollider(*args)
     def SetMovable(*args): return _blcelc.iPcGravity_SetMovable(*args)
@@ -3396,14 +3199,11 @@ class iPcGravity(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcGravity
     __del__ = lambda self : None;
-_blcelc.iPcGravity_swigregister(iPcGravity)
-
+iPcGravity_swigregister = _blcelc.iPcGravity_swigregister
+iPcGravity_swigregister(iPcGravity)
 celCreateSolid = _blcelc.celCreateSolid
-
 celGetSetSolid = _blcelc.celGetSetSolid
-
 celGetSolid = _blcelc.celGetSolid
-
 
 scfQuery_iPcGravity = _blcelc.scfQuery_iPcGravity
 CEL_PCMOVABLE_PROPERTY_POSITION = _blcelc.CEL_PCMOVABLE_PROPERTY_POSITION
@@ -3418,10 +3218,7 @@ class iPcMovable(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMovable, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMovable instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMovable_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcMovable_GetMesh(*args)
     def SetPos(*args): return _blcelc.iPcMovable_SetPos(*args)
@@ -3455,12 +3252,10 @@ class iPcMovable(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMovable
     __del__ = lambda self : None;
-_blcelc.iPcMovable_swigregister(iPcMovable)
-
+iPcMovable_swigregister = _blcelc.iPcMovable_swigregister
+iPcMovable_swigregister(iPcMovable)
 celCreateGravity = _blcelc.celCreateGravity
-
 celGetSetGravity = _blcelc.celGetSetGravity
-
 celGetGravity = _blcelc.celGetGravity
 
 class iPcMovableConstraint(cspace.iBase):
@@ -3471,15 +3266,12 @@ class iPcMovableConstraint(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMovableConstraint, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMovableConstraint instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CheckMove(*args): return _blcelc.iPcMovableConstraint_CheckMove(*args)
     __swig_destroy__ = _blcelc.delete_iPcMovableConstraint
     __del__ = lambda self : None;
-_blcelc.iPcMovableConstraint_swigregister(iPcMovableConstraint)
-
+iPcMovableConstraint_swigregister = _blcelc.iPcMovableConstraint_swigregister
+iPcMovableConstraint_swigregister(iPcMovableConstraint)
 
 scfQuery_iPcMovable = _blcelc.scfQuery_iPcMovable
 class iPcInventoryListener(cspace.iBase):
@@ -3490,20 +3282,15 @@ class iPcInventoryListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcInventoryListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcInventoryListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def AddChild(*args): return _blcelc.iPcInventoryListener_AddChild(*args)
     def RemoveChild(*args): return _blcelc.iPcInventoryListener_RemoveChild(*args)
     __swig_destroy__ = _blcelc.delete_iPcInventoryListener
     __del__ = lambda self : None;
-_blcelc.iPcInventoryListener_swigregister(iPcInventoryListener)
-
+iPcInventoryListener_swigregister = _blcelc.iPcInventoryListener_swigregister
+iPcInventoryListener_swigregister(iPcInventoryListener)
 celCreateMovable = _blcelc.celCreateMovable
-
 celGetSetMovable = _blcelc.celGetSetMovable
-
 celGetMovable = _blcelc.celGetMovable
 
 class iCelInventorySpaceSlot(cspace.iBase):
@@ -3514,10 +3301,7 @@ class iCelInventorySpaceSlot(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpaceSlot, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelInventorySpaceSlot instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetEntity(*args): return _blcelc.iCelInventorySpaceSlot_GetEntity(*args)
     def AddEntity(*args): return _blcelc.iCelInventorySpaceSlot_AddEntity(*args)
     def RemoveEntity(*args): return _blcelc.iCelInventorySpaceSlot_RemoveEntity(*args)
@@ -3532,7 +3316,8 @@ class iCelInventorySpaceSlot(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelInventorySpaceSlot
     __del__ = lambda self : None;
-_blcelc.iCelInventorySpaceSlot_swigregister(iCelInventorySpaceSlot)
+iCelInventorySpaceSlot_swigregister = _blcelc.iCelInventorySpaceSlot_swigregister
+iCelInventorySpaceSlot_swigregister(iCelInventorySpaceSlot)
 
 class iCelInventorySpace(cspace.iBase):
     __swig_setmethods__ = {}
@@ -3542,10 +3327,7 @@ class iCelInventorySpace(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelInventorySpace, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelInventorySpace instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetSpaceTotal(*args): return _blcelc.iCelInventorySpace_GetSpaceTotal(*args)
     def GetSpaceLeft(*args): return _blcelc.iCelInventorySpace_GetSpaceLeft(*args)
     def GetSpaceTaken(*args): return _blcelc.iCelInventorySpace_GetSpaceTaken(*args)
@@ -3565,7 +3347,8 @@ class iCelInventorySpace(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelInventorySpace
     __del__ = lambda self : None;
-_blcelc.iCelInventorySpace_swigregister(iCelInventorySpace)
+iCelInventorySpace_swigregister = _blcelc.iCelInventorySpace_swigregister
+iCelInventorySpace_swigregister(iCelInventorySpace)
 
 class iPcInventory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -3575,10 +3358,7 @@ class iPcInventory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcInventory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcInventory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def AddInventoryListener(*args): return _blcelc.iPcInventory_AddInventoryListener(*args)
     def RemoveInventoryListener(*args): return _blcelc.iPcInventory_RemoveInventoryListener(*args)
     def AddEntity(*args): return _blcelc.iPcInventory_AddEntity(*args)
@@ -3633,8 +3413,8 @@ class iPcInventory(cspace.iBase):
     __swig_getmethods__["Entities"] = lambda self: self.GetEntities() 
     __swig_destroy__ = _blcelc.delete_iPcInventory
     __del__ = lambda self : None;
-_blcelc.iPcInventory_swigregister(iPcInventory)
-
+iPcInventory_swigregister = _blcelc.iPcInventory_swigregister
+iPcInventory_swigregister(iPcInventory)
 
 scfQuery_iPcInventory = _blcelc.scfQuery_iPcInventory
 class iCelEntityInvFakeArray:
@@ -3669,10 +3449,7 @@ class iPcCharacteristics(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCharacteristics, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcCharacteristics instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetCharacteristic(*args): return _blcelc.iPcCharacteristics_SetCharacteristic(*args)
     def SetInheritedCharacteristic(*args): return _blcelc.iPcCharacteristics_SetInheritedCharacteristic(*args)
     def GetCharacteristic(*args): return _blcelc.iPcCharacteristics_GetCharacteristic(*args)
@@ -3708,14 +3485,11 @@ class iPcCharacteristics(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcCharacteristics
     __del__ = lambda self : None;
-_blcelc.iPcCharacteristics_swigregister(iPcCharacteristics)
-
+iPcCharacteristics_swigregister = _blcelc.iPcCharacteristics_swigregister
+iPcCharacteristics_swigregister(iPcCharacteristics)
 celCreateInventory = _blcelc.celCreateInventory
-
 celGetSetInventory = _blcelc.celGetSetInventory
-
 celGetInventory = _blcelc.celGetInventory
-
 
 scfQuery_iPcCharacteristics = _blcelc.scfQuery_iPcCharacteristics
 CEL_TOOLTIP_LEFT = _blcelc.CEL_TOOLTIP_LEFT
@@ -3729,10 +3503,7 @@ class iPcTooltip(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcTooltip, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcTooltip instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetText(*args): return _blcelc.iPcTooltip_SetText(*args)
     def Show(*args): return _blcelc.iPcTooltip_Show(*args)
     def Hide(*args): return _blcelc.iPcTooltip_Hide(*args)
@@ -3786,14 +3557,11 @@ class iPcTooltip(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcTooltip
     __del__ = lambda self : None;
-_blcelc.iPcTooltip_swigregister(iPcTooltip)
-
+iPcTooltip_swigregister = _blcelc.iPcTooltip_swigregister
+iPcTooltip_swigregister(iPcTooltip)
 celCreateCharacteristics = _blcelc.celCreateCharacteristics
-
 celGetSetCharacteristics = _blcelc.celGetSetCharacteristics
-
 celGetCharacteristics = _blcelc.celGetCharacteristics
-
 
 scfQuery_iPcTooltip = _blcelc.scfQuery_iPcTooltip
 class iPcSoundListener(cspace.iBase):
@@ -3804,10 +3572,7 @@ class iPcSoundListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcSoundListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetSoundListener(*args): return _blcelc.iPcSoundListener_GetSoundListener(*args)
     SoundListener = property(_blcelc.iPcSoundListener_SoundListener_get, None, None,
                     "iPcSoundListener.SoundListener -> iSndSysListener*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: iSndSysListener* iPcSoundListener::GetSoundListener()")
@@ -3834,12 +3599,10 @@ class iPcSoundListener(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcSoundListener
     __del__ = lambda self : None;
-_blcelc.iPcSoundListener_swigregister(iPcSoundListener)
-
+iPcSoundListener_swigregister = _blcelc.iPcSoundListener_swigregister
+iPcSoundListener_swigregister(iPcSoundListener)
 celCreateToolTip = _blcelc.celCreateToolTip
-
 celGetSetToolTip = _blcelc.celGetSetToolTip
-
 celGetToolTip = _blcelc.celGetToolTip
 
 class iPcSoundSource(cspace.iBase):
@@ -3850,10 +3613,7 @@ class iPcSoundSource(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcSoundSource, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcSoundSource instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetSoundSource(*args): return _blcelc.iPcSoundSource_GetSoundSource(*args)
     def SetSoundName(*args): return _blcelc.iPcSoundSource_SetSoundName(*args)
     def GetSoundName(*args): return _blcelc.iPcSoundSource_GetSoundName(*args)
@@ -3889,11 +3649,10 @@ class iPcSoundSource(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcSoundSource
     __del__ = lambda self : None;
-_blcelc.iPcSoundSource_swigregister(iPcSoundSource)
-
+iPcSoundSource_swigregister = _blcelc.iPcSoundSource_swigregister
+iPcSoundSource_swigregister(iPcSoundSource)
 
 scfQuery_iPcSoundSource = _blcelc.scfQuery_iPcSoundSource
-
 scfQuery_iPcSoundListener = _blcelc.scfQuery_iPcSoundListener
 class iPcPropertyListener(cspace.iBase):
     __swig_setmethods__ = {}
@@ -3903,25 +3662,17 @@ class iPcPropertyListener(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcPropertyListener, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcPropertyListener instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def PropertyChanged(*args): return _blcelc.iPcPropertyListener_PropertyChanged(*args)
     __swig_destroy__ = _blcelc.delete_iPcPropertyListener
     __del__ = lambda self : None;
-_blcelc.iPcPropertyListener_swigregister(iPcPropertyListener)
-
+iPcPropertyListener_swigregister = _blcelc.iPcPropertyListener_swigregister
+iPcPropertyListener_swigregister(iPcPropertyListener)
 celCreateSoundSource = _blcelc.celCreateSoundSource
-
 celGetSetSoundSource = _blcelc.celGetSetSoundSource
-
 celGetSoundSource = _blcelc.celGetSoundSource
-
 celCreateSoundListener = _blcelc.celCreateSoundListener
-
 celGetSetSoundListener = _blcelc.celGetSetSoundListener
-
 celGetSoundListener = _blcelc.celGetSoundListener
 
 class iPcProperties(cspace.iBase):
@@ -3932,10 +3683,7 @@ class iPcProperties(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcProperties, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcProperties instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def AddPropertyListener(*args): return _blcelc.iPcProperties_AddPropertyListener(*args)
     def RemovePropertyListener(*args): return _blcelc.iPcProperties_RemovePropertyListener(*args)
     def SetProperty(*args): return _blcelc.iPcProperties_SetProperty(*args)
@@ -4010,8 +3758,8 @@ class iPcProperties(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcProperties
     __del__ = lambda self : None;
-_blcelc.iPcProperties_swigregister(iPcProperties)
-
+iPcProperties_swigregister = _blcelc.iPcProperties_swigregister
+iPcProperties_swigregister(iPcProperties)
 
 scfQuery_iPcProperties = _blcelc.scfQuery_iPcProperties
 class iPcMover(cspace.iBase):
@@ -4022,10 +3770,7 @@ class iPcMover(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMover, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMover instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Start(*args): return _blcelc.iPcMover_Start(*args)
     def MoveTo(*args): return _blcelc.iPcMover_MoveTo(*args)
     def Interrupt(*args): return _blcelc.iPcMover_Interrupt(*args)
@@ -4071,14 +3816,11 @@ class iPcMover(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMover
     __del__ = lambda self : None;
-_blcelc.iPcMover_swigregister(iPcMover)
-
+iPcMover_swigregister = _blcelc.iPcMover_swigregister
+iPcMover_swigregister(iPcMover)
 celCreateProperties = _blcelc.celCreateProperties
-
 celGetSetProperties = _blcelc.celGetSetProperties
-
 celGetProperties = _blcelc.celGetProperties
-
 
 scfQuery_iPcMover = _blcelc.scfQuery_iPcMover
 class iPcHover(cspace.iBase):
@@ -4089,10 +3831,7 @@ class iPcHover(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcHover, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcHover instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetHeightBeamCutoff(*args): return _blcelc.iPcHover_SetHeightBeamCutoff(*args)
     def SetAngularBeamOffset(*args): return _blcelc.iPcHover_SetAngularBeamOffset(*args)
     def SetAngularCutoffHeight(*args): return _blcelc.iPcHover_SetAngularCutoffHeight(*args)
@@ -4151,14 +3890,11 @@ class iPcHover(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcHover
     __del__ = lambda self : None;
-_blcelc.iPcHover_swigregister(iPcHover)
-
+iPcHover_swigregister = _blcelc.iPcHover_swigregister
+iPcHover_swigregister(iPcHover)
 celCreateMover = _blcelc.celCreateMover
-
 celGetSetMover = _blcelc.celGetSetMover
-
 celGetMover = _blcelc.celGetMover
-
 
 scfQuery_iPcHover = _blcelc.scfQuery_iPcHover
 class iPcCraftController(cspace.iBase):
@@ -4169,10 +3905,7 @@ class iPcCraftController(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcCraftController, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcCraftController instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def StartTurnLeft(*args): return _blcelc.iPcCraftController_StartTurnLeft(*args)
     def StopTurnLeft(*args): return _blcelc.iPcCraftController_StopTurnLeft(*args)
     def StartTurnRight(*args): return _blcelc.iPcCraftController_StartTurnRight(*args)
@@ -4266,14 +3999,11 @@ class iPcCraftController(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcCraftController
     __del__ = lambda self : None;
-_blcelc.iPcCraftController_swigregister(iPcCraftController)
-
+iPcCraftController_swigregister = _blcelc.iPcCraftController_swigregister
+iPcCraftController_swigregister(iPcCraftController)
 celCreateHover = _blcelc.celCreateHover
-
 celGetSetHover = _blcelc.celGetSetHover
-
 celGetHover = _blcelc.celGetHover
-
 
 scfQuery_iPcCraftController = _blcelc.scfQuery_iPcCraftController
 class iPcWheeled(cspace.iBase):
@@ -4284,10 +4014,7 @@ class iPcWheeled(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcWheeled, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcWheeled instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetWheelMesh(*args): return _blcelc.iPcWheeled_SetWheelMesh(*args)
     def SetTankMode(*args): return _blcelc.iPcWheeled_SetTankMode(*args)
     def GetTankMode(*args): return _blcelc.iPcWheeled_GetTankMode(*args)
@@ -4445,14 +4172,11 @@ class iPcWheeled(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcWheeled
     __del__ = lambda self : None;
-_blcelc.iPcWheeled_swigregister(iPcWheeled)
-
+iPcWheeled_swigregister = _blcelc.iPcWheeled_swigregister
+iPcWheeled_swigregister(iPcWheeled)
 celCreateCraftController = _blcelc.celCreateCraftController
-
 celGetSetCraftController = _blcelc.celGetSetCraftController
-
 celGetCraftController = _blcelc.celGetCraftController
-
 
 scfQuery_iPcWheeled = _blcelc.scfQuery_iPcWheeled
 class iPcMeshDeform(cspace.iBase):
@@ -4463,10 +4187,7 @@ class iPcMeshDeform(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcMeshDeform, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcMeshDeform instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMesh(*args): return _blcelc.iPcMeshDeform_SetMesh(*args)
     def GetMesh(*args): return _blcelc.iPcMeshDeform_GetMesh(*args)
     def DeformMesh(*args): return _blcelc.iPcMeshDeform_DeformMesh(*args)
@@ -4527,14 +4248,11 @@ class iPcMeshDeform(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcMeshDeform
     __del__ = lambda self : None;
-_blcelc.iPcMeshDeform_swigregister(iPcMeshDeform)
-
+iPcMeshDeform_swigregister = _blcelc.iPcMeshDeform_swigregister
+iPcMeshDeform_swigregister(iPcMeshDeform)
 celCreateWheeled = _blcelc.celCreateWheeled
-
 celGetSetWheeled = _blcelc.celGetSetWheeled
-
 celGetWheeled = _blcelc.celGetWheeled
-
 
 scfQuery_iPcMeshDeform = _blcelc.scfQuery_iPcMeshDeform
 class iPcDamage(cspace.iBase):
@@ -4545,10 +4263,7 @@ class iPcDamage(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcDamage, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcDamage instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetDamage(*args): return _blcelc.iPcDamage_SetDamage(*args)
     def GetDamage(*args): return _blcelc.iPcDamage_GetDamage(*args)
     def SetDamageType(*args): return _blcelc.iPcDamage_SetDamageType(*args)
@@ -4615,14 +4330,11 @@ class iPcDamage(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcDamage
     __del__ = lambda self : None;
-_blcelc.iPcDamage_swigregister(iPcDamage)
-
+iPcDamage_swigregister = _blcelc.iPcDamage_swigregister
+iPcDamage_swigregister(iPcDamage)
 celCreateMeshDeform = _blcelc.celCreateMeshDeform
-
 celGetSetMeshDeform = _blcelc.celGetSetMeshDeform
-
 celGetMeshDeform = _blcelc.celGetMeshDeform
-
 
 scfQuery_iPcDamage = _blcelc.scfQuery_iPcDamage
 class iQuestTriggerCallback(cspace.iBase):
@@ -4633,19 +4345,14 @@ class iQuestTriggerCallback(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestTriggerCallback instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def TriggerFired(*args): return _blcelc.iQuestTriggerCallback_TriggerFired(*args)
     __swig_destroy__ = _blcelc.delete_iQuestTriggerCallback
     __del__ = lambda self : None;
-_blcelc.iQuestTriggerCallback_swigregister(iQuestTriggerCallback)
-
+iQuestTriggerCallback_swigregister = _blcelc.iQuestTriggerCallback_swigregister
+iQuestTriggerCallback_swigregister(iQuestTriggerCallback)
 celCreateDamage = _blcelc.celCreateDamage
-
 celGetSetDamage = _blcelc.celGetSetDamage
-
 celGetDamage = _blcelc.celGetDamage
 
 class iQuestTrigger(cspace.iBase):
@@ -4656,10 +4363,7 @@ class iQuestTrigger(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestTrigger, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestTrigger instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def RegisterCallback(*args): return _blcelc.iQuestTrigger_RegisterCallback(*args)
     def ClearCallback(*args): return _blcelc.iQuestTrigger_ClearCallback(*args)
     def ActivateTrigger(*args): return _blcelc.iQuestTrigger_ActivateTrigger(*args)
@@ -4669,7 +4373,8 @@ class iQuestTrigger(cspace.iBase):
     def SaveTriggerState(*args): return _blcelc.iQuestTrigger_SaveTriggerState(*args)
     __swig_destroy__ = _blcelc.delete_iQuestTrigger
     __del__ = lambda self : None;
-_blcelc.iQuestTrigger_swigregister(iQuestTrigger)
+iQuestTrigger_swigregister = _blcelc.iQuestTrigger_swigregister
+iQuestTrigger_swigregister(iQuestTrigger)
 
 class iQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4679,15 +4384,13 @@ class iQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CreateTrigger(*args): return _blcelc.iQuestTriggerFactory_CreateTrigger(*args)
     def Load(*args): return _blcelc.iQuestTriggerFactory_Load(*args)
     __swig_destroy__ = _blcelc.delete_iQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iQuestTriggerFactory_swigregister(iQuestTriggerFactory)
+iQuestTriggerFactory_swigregister = _blcelc.iQuestTriggerFactory_swigregister
+iQuestTriggerFactory_swigregister(iQuestTriggerFactory)
 
 class iQuestTriggerType(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4697,15 +4400,13 @@ class iQuestTriggerType(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestTriggerType instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestTriggerType_GetName(*args)
     def CreateTriggerFactory(*args): return _blcelc.iQuestTriggerType_CreateTriggerFactory(*args)
     __swig_destroy__ = _blcelc.delete_iQuestTriggerType
     __del__ = lambda self : None;
-_blcelc.iQuestTriggerType_swigregister(iQuestTriggerType)
+iQuestTriggerType_swigregister = _blcelc.iQuestTriggerType_swigregister
+iQuestTriggerType_swigregister(iQuestTriggerType)
 
 class iQuestReward(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4715,14 +4416,12 @@ class iQuestReward(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestReward, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestReward instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Reward(*args): return _blcelc.iQuestReward_Reward(*args)
     __swig_destroy__ = _blcelc.delete_iQuestReward
     __del__ = lambda self : None;
-_blcelc.iQuestReward_swigregister(iQuestReward)
+iQuestReward_swigregister = _blcelc.iQuestReward_swigregister
+iQuestReward_swigregister(iQuestReward)
 
 class iQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4732,15 +4431,13 @@ class iQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CreateReward(*args): return _blcelc.iQuestRewardFactory_CreateReward(*args)
     def Load(*args): return _blcelc.iQuestRewardFactory_Load(*args)
     __swig_destroy__ = _blcelc.delete_iQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iQuestRewardFactory_swigregister(iQuestRewardFactory)
+iQuestRewardFactory_swigregister = _blcelc.iQuestRewardFactory_swigregister
+iQuestRewardFactory_swigregister(iQuestRewardFactory)
 
 class iQuestRewardType(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4750,15 +4447,13 @@ class iQuestRewardType(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestRewardType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestRewardType instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestRewardType_GetName(*args)
     def CreateRewardFactory(*args): return _blcelc.iQuestRewardType_CreateRewardFactory(*args)
     __swig_destroy__ = _blcelc.delete_iQuestRewardType
     __del__ = lambda self : None;
-_blcelc.iQuestRewardType_swigregister(iQuestRewardType)
+iQuestRewardType_swigregister = _blcelc.iQuestRewardType_swigregister
+iQuestRewardType_swigregister(iQuestRewardType)
 
 class iQuestSeqOp(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4768,17 +4463,15 @@ class iQuestSeqOp(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOp, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSeqOp instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def Init(*args): return _blcelc.iQuestSeqOp_Init(*args)
     def Load(*args): return _blcelc.iQuestSeqOp_Load(*args)
     def Save(*args): return _blcelc.iQuestSeqOp_Save(*args)
     def Do(*args): return _blcelc.iQuestSeqOp_Do(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSeqOp
     __del__ = lambda self : None;
-_blcelc.iQuestSeqOp_swigregister(iQuestSeqOp)
+iQuestSeqOp_swigregister = _blcelc.iQuestSeqOp_swigregister
+iQuestSeqOp_swigregister(iQuestSeqOp)
 
 class iQuestSeqOpFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4788,15 +4481,13 @@ class iQuestSeqOpFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSeqOpFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def CreateSeqOp(*args): return _blcelc.iQuestSeqOpFactory_CreateSeqOp(*args)
     def Load(*args): return _blcelc.iQuestSeqOpFactory_Load(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSeqOpFactory
     __del__ = lambda self : None;
-_blcelc.iQuestSeqOpFactory_swigregister(iQuestSeqOpFactory)
+iQuestSeqOpFactory_swigregister = _blcelc.iQuestSeqOpFactory_swigregister
+iQuestSeqOpFactory_swigregister(iQuestSeqOpFactory)
 
 class iQuestSeqOpType(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4806,15 +4497,13 @@ class iQuestSeqOpType(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSeqOpType, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSeqOpType instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSeqOpType_GetName(*args)
     def CreateSeqOpFactory(*args): return _blcelc.iQuestSeqOpType_CreateSeqOpFactory(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSeqOpType
     __del__ = lambda self : None;
-_blcelc.iQuestSeqOpType_swigregister(iQuestSeqOpType)
+iQuestSeqOpType_swigregister = _blcelc.iQuestSeqOpType_swigregister
+iQuestSeqOpType_swigregister(iQuestSeqOpType)
 
 class iQuestSequenceCallback(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4824,14 +4513,12 @@ class iQuestSequenceCallback(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequenceCallback, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSequenceCallback instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SequenceFinished(*args): return _blcelc.iQuestSequenceCallback_SequenceFinished(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSequenceCallback
     __del__ = lambda self : None;
-_blcelc.iQuestSequenceCallback_swigregister(iQuestSequenceCallback)
+iQuestSequenceCallback_swigregister = _blcelc.iQuestSequenceCallback_swigregister
+iQuestSequenceCallback_swigregister(iQuestSequenceCallback)
 
 class iQuestSequence(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4841,10 +4528,7 @@ class iQuestSequence(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequence, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSequence instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSequence_GetName(*args)
     def Start(*args): return _blcelc.iQuestSequence_Start(*args)
     def Finish(*args): return _blcelc.iQuestSequence_Finish(*args)
@@ -4854,7 +4538,8 @@ class iQuestSequence(cspace.iBase):
     def RemoveSequenceCallback(*args): return _blcelc.iQuestSequence_RemoveSequenceCallback(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSequence
     __del__ = lambda self : None;
-_blcelc.iQuestSequence_swigregister(iQuestSequence)
+iQuestSequence_swigregister = _blcelc.iQuestSequence_swigregister
+iQuestSequence_swigregister(iQuestSequence)
 
 class iQuest(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4864,10 +4549,7 @@ class iQuest(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuest, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuest instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SwitchState(*args): return _blcelc.iQuest_SwitchState(*args)
     def GetCurrentState(*args): return _blcelc.iQuest_GetCurrentState(*args)
     def LoadState(*args): return _blcelc.iQuest_LoadState(*args)
@@ -4875,7 +4557,8 @@ class iQuest(cspace.iBase):
     def FindSequence(*args): return _blcelc.iQuest_FindSequence(*args)
     __swig_destroy__ = _blcelc.delete_iQuest
     __del__ = lambda self : None;
-_blcelc.iQuest_swigregister(iQuest)
+iQuest_swigregister = _blcelc.iQuest_swigregister
+iQuest_swigregister(iQuest)
 
 class iQuestTriggerResponseFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4885,15 +4568,13 @@ class iQuestTriggerResponseFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestTriggerResponseFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestTriggerResponseFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetTriggerFactory(*args): return _blcelc.iQuestTriggerResponseFactory_SetTriggerFactory(*args)
     def AddRewardFactory(*args): return _blcelc.iQuestTriggerResponseFactory_AddRewardFactory(*args)
     __swig_destroy__ = _blcelc.delete_iQuestTriggerResponseFactory
     __del__ = lambda self : None;
-_blcelc.iQuestTriggerResponseFactory_swigregister(iQuestTriggerResponseFactory)
+iQuestTriggerResponseFactory_swigregister = _blcelc.iQuestTriggerResponseFactory_swigregister
+iQuestTriggerResponseFactory_swigregister(iQuestTriggerResponseFactory)
 
 class iQuestStateFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4903,15 +4584,13 @@ class iQuestStateFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestStateFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestStateFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestStateFactory_GetName(*args)
     def CreateTriggerResponseFactory(*args): return _blcelc.iQuestStateFactory_CreateTriggerResponseFactory(*args)
     __swig_destroy__ = _blcelc.delete_iQuestStateFactory
     __del__ = lambda self : None;
-_blcelc.iQuestStateFactory_swigregister(iQuestStateFactory)
+iQuestStateFactory_swigregister = _blcelc.iQuestStateFactory_swigregister
+iQuestStateFactory_swigregister(iQuestStateFactory)
 
 class iQuestSequenceFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4921,17 +4600,15 @@ class iQuestSequenceFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestSequenceFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestSequenceFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestSequenceFactory_GetName(*args)
     def Load(*args): return _blcelc.iQuestSequenceFactory_Load(*args)
     def AddSeqOpFactory(*args): return _blcelc.iQuestSequenceFactory_AddSeqOpFactory(*args)
     def AddDelay(*args): return _blcelc.iQuestSequenceFactory_AddDelay(*args)
     __swig_destroy__ = _blcelc.delete_iQuestSequenceFactory
     __del__ = lambda self : None;
-_blcelc.iQuestSequenceFactory_swigregister(iQuestSequenceFactory)
+iQuestSequenceFactory_swigregister = _blcelc.iQuestSequenceFactory_swigregister
+iQuestSequenceFactory_swigregister(iQuestSequenceFactory)
 
 class iQuestFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4941,10 +4618,7 @@ class iQuestFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetName(*args): return _blcelc.iQuestFactory_GetName(*args)
     def CreateQuest(*args): return _blcelc.iQuestFactory_CreateQuest(*args)
     def Load(*args): return _blcelc.iQuestFactory_Load(*args)
@@ -4957,7 +4631,8 @@ class iQuestFactory(cspace.iBase):
     def ClearDefaultParameters(*args): return _blcelc.iQuestFactory_ClearDefaultParameters(*args)
     __swig_destroy__ = _blcelc.delete_iQuestFactory
     __del__ = lambda self : None;
-_blcelc.iQuestFactory_swigregister(iQuestFactory)
+iQuestFactory_swigregister = _blcelc.iQuestFactory_swigregister
+iQuestFactory_swigregister(iQuestFactory)
 
 class iQuestManager(cspace.iBase):
     __swig_setmethods__ = {}
@@ -4967,10 +4642,7 @@ class iQuestManager(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iQuestManager, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iQuestManager instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def RegisterTriggerType(*args): return _blcelc.iQuestManager_RegisterTriggerType(*args)
     def GetTriggerType(*args): return _blcelc.iQuestManager_GetTriggerType(*args)
     def RegisterRewardType(*args): return _blcelc.iQuestManager_RegisterRewardType(*args)
@@ -4999,8 +4671,8 @@ class iQuestManager(cspace.iBase):
     __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iQuestManager_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
-_blcelc.iQuestManager_swigregister(iQuestManager)
-
+iQuestManager_swigregister = _blcelc.iQuestManager_swigregister
+iQuestManager_swigregister(iQuestManager)
 iQuestManager_scfGetVersion = _blcelc.iQuestManager_scfGetVersion
 
 class iTimeoutQuestTriggerFactory(cspace.iBase):
@@ -5011,14 +4683,12 @@ class iTimeoutQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iTimeoutQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iTimeoutQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetTimeoutParameter(*args): return _blcelc.iTimeoutQuestTriggerFactory_SetTimeoutParameter(*args)
     __swig_destroy__ = _blcelc.delete_iTimeoutQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iTimeoutQuestTriggerFactory_swigregister(iTimeoutQuestTriggerFactory)
+iTimeoutQuestTriggerFactory_swigregister = _blcelc.iTimeoutQuestTriggerFactory_swigregister
+iTimeoutQuestTriggerFactory_swigregister(iTimeoutQuestTriggerFactory)
 
 class iPropertyChangeQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5028,16 +4698,14 @@ class iPropertyChangeQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPropertyChangeQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPropertyChangeQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetEntityParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetPropertyParameter(*args)
     def SetValueParameter(*args): return _blcelc.iPropertyChangeQuestTriggerFactory_SetValueParameter(*args)
     __swig_destroy__ = _blcelc.delete_iPropertyChangeQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iPropertyChangeQuestTriggerFactory_swigregister(iPropertyChangeQuestTriggerFactory)
+iPropertyChangeQuestTriggerFactory_swigregister = _blcelc.iPropertyChangeQuestTriggerFactory_swigregister
+iPropertyChangeQuestTriggerFactory_swigregister(iPropertyChangeQuestTriggerFactory)
 
 class iMeshSelectQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5047,14 +4715,12 @@ class iMeshSelectQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMeshSelectQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iMeshSelectQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMeshSelectQuestTriggerFactory_SetEntityParameter(*args)
     __swig_destroy__ = _blcelc.delete_iMeshSelectQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iMeshSelectQuestTriggerFactory_swigregister(iMeshSelectQuestTriggerFactory)
+iMeshSelectQuestTriggerFactory_swigregister = _blcelc.iMeshSelectQuestTriggerFactory_swigregister
+iMeshSelectQuestTriggerFactory_swigregister(iMeshSelectQuestTriggerFactory)
 
 class iInventoryQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5064,15 +4730,13 @@ class iInventoryQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iInventoryQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iInventoryQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestTriggerFactory_SetChildEntityParameter(*args)
     __swig_destroy__ = _blcelc.delete_iInventoryQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iInventoryQuestTriggerFactory_swigregister(iInventoryQuestTriggerFactory)
+iInventoryQuestTriggerFactory_swigregister = _blcelc.iInventoryQuestTriggerFactory_swigregister
+iInventoryQuestTriggerFactory_swigregister(iInventoryQuestTriggerFactory)
 
 class iEnterSectorQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5082,15 +4746,13 @@ class iEnterSectorQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iEnterSectorQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iEnterSectorQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetEntityParameter(*args)
     def SetSectorParameter(*args): return _blcelc.iEnterSectorQuestTriggerFactory_SetSectorParameter(*args)
     __swig_destroy__ = _blcelc.delete_iEnterSectorQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iEnterSectorQuestTriggerFactory_swigregister(iEnterSectorQuestTriggerFactory)
+iEnterSectorQuestTriggerFactory_swigregister = _blcelc.iEnterSectorQuestTriggerFactory_swigregister
+iEnterSectorQuestTriggerFactory_swigregister(iEnterSectorQuestTriggerFactory)
 
 class iSequenceFinishQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5100,15 +4762,13 @@ class iSequenceFinishQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSequenceFinishQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iSequenceFinishQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetEntityParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestTriggerFactory_SetSequenceParameter(*args)
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iSequenceFinishQuestTriggerFactory_swigregister(iSequenceFinishQuestTriggerFactory)
+iSequenceFinishQuestTriggerFactory_swigregister = _blcelc.iSequenceFinishQuestTriggerFactory_swigregister
+iSequenceFinishQuestTriggerFactory_swigregister(iSequenceFinishQuestTriggerFactory)
 
 class iTriggerQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5118,15 +4778,13 @@ class iTriggerQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iTriggerQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iTriggerQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iTriggerQuestTriggerFactory_SetEntityParameter(*args)
     def EnableLeave(*args): return _blcelc.iTriggerQuestTriggerFactory_EnableLeave(*args)
     __swig_destroy__ = _blcelc.delete_iTriggerQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iTriggerQuestTriggerFactory_swigregister(iTriggerQuestTriggerFactory)
+iTriggerQuestTriggerFactory_swigregister = _blcelc.iTriggerQuestTriggerFactory_swigregister
+iTriggerQuestTriggerFactory_swigregister(iTriggerQuestTriggerFactory)
 
 class iWatchQuestTriggerFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5136,10 +4794,7 @@ class iWatchQuestTriggerFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iWatchQuestTriggerFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iWatchQuestTriggerFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetEntityParameter(*args)
     def SetTargetEntityParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetTargetEntityParameter(*args)
     def SetChecktimeParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetChecktimeParameter(*args)
@@ -5147,7 +4802,8 @@ class iWatchQuestTriggerFactory(cspace.iBase):
     def SetOffsetParameter(*args): return _blcelc.iWatchQuestTriggerFactory_SetOffsetParameter(*args)
     __swig_destroy__ = _blcelc.delete_iWatchQuestTriggerFactory
     __del__ = lambda self : None;
-_blcelc.iWatchQuestTriggerFactory_swigregister(iWatchQuestTriggerFactory)
+iWatchQuestTriggerFactory_swigregister = _blcelc.iWatchQuestTriggerFactory_swigregister
+iWatchQuestTriggerFactory_swigregister(iWatchQuestTriggerFactory)
 
 class iDebugPrintQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5157,14 +4813,12 @@ class iDebugPrintQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iDebugPrintQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iDebugPrintQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestRewardFactory_SetMessageParameter(*args)
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iDebugPrintQuestRewardFactory_swigregister(iDebugPrintQuestRewardFactory)
+iDebugPrintQuestRewardFactory_swigregister = _blcelc.iDebugPrintQuestRewardFactory_swigregister
+iDebugPrintQuestRewardFactory_swigregister(iDebugPrintQuestRewardFactory)
 
 class iNewStateQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5174,15 +4828,13 @@ class iNewStateQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iNewStateQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iNewStateQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetStateParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetStateParameter(*args)
     def SetEntityParameter(*args): return _blcelc.iNewStateQuestRewardFactory_SetEntityParameter(*args)
     __swig_destroy__ = _blcelc.delete_iNewStateQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iNewStateQuestRewardFactory_swigregister(iNewStateQuestRewardFactory)
+iNewStateQuestRewardFactory_swigregister = _blcelc.iNewStateQuestRewardFactory_swigregister
+iNewStateQuestRewardFactory_swigregister(iNewStateQuestRewardFactory)
 
 class iChangePropertyQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5192,10 +4844,7 @@ class iChangePropertyQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iChangePropertyQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iChangePropertyQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetEntityParameter(*args)
     def SetPCParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPCParameter(*args)
     def SetPropertyParameter(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetPropertyParameter(*args)
@@ -5207,7 +4856,8 @@ class iChangePropertyQuestRewardFactory(cspace.iBase):
     def SetToggle(*args): return _blcelc.iChangePropertyQuestRewardFactory_SetToggle(*args)
     __swig_destroy__ = _blcelc.delete_iChangePropertyQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iChangePropertyQuestRewardFactory_swigregister(iChangePropertyQuestRewardFactory)
+iChangePropertyQuestRewardFactory_swigregister = _blcelc.iChangePropertyQuestRewardFactory_swigregister
+iChangePropertyQuestRewardFactory_swigregister(iChangePropertyQuestRewardFactory)
 
 class iInventoryQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5217,15 +4867,13 @@ class iInventoryQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iInventoryQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iInventoryQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetEntityParameter(*args)
     def SetChildEntityParameter(*args): return _blcelc.iInventoryQuestRewardFactory_SetChildEntityParameter(*args)
     __swig_destroy__ = _blcelc.delete_iInventoryQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iInventoryQuestRewardFactory_swigregister(iInventoryQuestRewardFactory)
+iInventoryQuestRewardFactory_swigregister = _blcelc.iInventoryQuestRewardFactory_swigregister
+iInventoryQuestRewardFactory_swigregister(iInventoryQuestRewardFactory)
 
 class iCsSequenceQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5235,15 +4883,13 @@ class iCsSequenceQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCsSequenceQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCsSequenceQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetSequenceParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iCsSequenceQuestRewardFactory_SetDelayParameter(*args)
     __swig_destroy__ = _blcelc.delete_iCsSequenceQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iCsSequenceQuestRewardFactory_swigregister(iCsSequenceQuestRewardFactory)
+iCsSequenceQuestRewardFactory_swigregister = _blcelc.iCsSequenceQuestRewardFactory_swigregister
+iCsSequenceQuestRewardFactory_swigregister(iCsSequenceQuestRewardFactory)
 
 class iSequenceQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5253,16 +4899,14 @@ class iSequenceQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSequenceQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iSequenceQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetEntityParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetSequenceParameter(*args)
     def SetDelayParameter(*args): return _blcelc.iSequenceQuestRewardFactory_SetDelayParameter(*args)
     __swig_destroy__ = _blcelc.delete_iSequenceQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iSequenceQuestRewardFactory_swigregister(iSequenceQuestRewardFactory)
+iSequenceQuestRewardFactory_swigregister = _blcelc.iSequenceQuestRewardFactory_swigregister
+iSequenceQuestRewardFactory_swigregister(iSequenceQuestRewardFactory)
 
 class iSequenceFinishQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5272,15 +4916,13 @@ class iSequenceFinishQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iSequenceFinishQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iSequenceFinishQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetEntityParameter(*args)
     def SetSequenceParameter(*args): return _blcelc.iSequenceFinishQuestRewardFactory_SetSequenceParameter(*args)
     __swig_destroy__ = _blcelc.delete_iSequenceFinishQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iSequenceFinishQuestRewardFactory_swigregister(iSequenceFinishQuestRewardFactory)
+iSequenceFinishQuestRewardFactory_swigregister = _blcelc.iSequenceFinishQuestRewardFactory_swigregister
+iSequenceFinishQuestRewardFactory_swigregister(iSequenceFinishQuestRewardFactory)
 
 class iMessageQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5290,16 +4932,14 @@ class iMessageQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMessageQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iMessageQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetEntityParameter(*args)
     def SetIDParameter(*args): return _blcelc.iMessageQuestRewardFactory_SetIDParameter(*args)
     def AddParameter(*args): return _blcelc.iMessageQuestRewardFactory_AddParameter(*args)
     __swig_destroy__ = _blcelc.delete_iMessageQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iMessageQuestRewardFactory_swigregister(iMessageQuestRewardFactory)
+iMessageQuestRewardFactory_swigregister = _blcelc.iMessageQuestRewardFactory_swigregister
+iMessageQuestRewardFactory_swigregister(iMessageQuestRewardFactory)
 
 class iActionQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5309,10 +4949,7 @@ class iActionQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iActionQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iActionQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iActionQuestRewardFactory_SetEntityParameter(*args)
     def SetIDParameter(*args): return _blcelc.iActionQuestRewardFactory_SetIDParameter(*args)
     def SetPropertyClassParameter(*args): return _blcelc.iActionQuestRewardFactory_SetPropertyClassParameter(*args)
@@ -5320,7 +4957,8 @@ class iActionQuestRewardFactory(cspace.iBase):
     def AddParameter(*args): return _blcelc.iActionQuestRewardFactory_AddParameter(*args)
     __swig_destroy__ = _blcelc.delete_iActionQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iActionQuestRewardFactory_swigregister(iActionQuestRewardFactory)
+iActionQuestRewardFactory_swigregister = _blcelc.iActionQuestRewardFactory_swigregister
+iActionQuestRewardFactory_swigregister(iActionQuestRewardFactory)
 
 class iDestroyEntityQuestRewardFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5330,14 +4968,12 @@ class iDestroyEntityQuestRewardFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iDestroyEntityQuestRewardFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iDestroyEntityQuestRewardFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iDestroyEntityQuestRewardFactory_SetEntityParameter(*args)
     __swig_destroy__ = _blcelc.delete_iDestroyEntityQuestRewardFactory
     __del__ = lambda self : None;
-_blcelc.iDestroyEntityQuestRewardFactory_swigregister(iDestroyEntityQuestRewardFactory)
+iDestroyEntityQuestRewardFactory_swigregister = _blcelc.iDestroyEntityQuestRewardFactory_swigregister
+iDestroyEntityQuestRewardFactory_swigregister(iDestroyEntityQuestRewardFactory)
 
 class iDebugPrintQuestSeqOpFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5347,14 +4983,12 @@ class iDebugPrintQuestSeqOpFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iDebugPrintQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iDebugPrintQuestSeqOpFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetMessageParameter(*args): return _blcelc.iDebugPrintQuestSeqOpFactory_SetMessageParameter(*args)
     __swig_destroy__ = _blcelc.delete_iDebugPrintQuestSeqOpFactory
     __del__ = lambda self : None;
-_blcelc.iDebugPrintQuestSeqOpFactory_swigregister(iDebugPrintQuestSeqOpFactory)
+iDebugPrintQuestSeqOpFactory_swigregister = _blcelc.iDebugPrintQuestSeqOpFactory_swigregister
+iDebugPrintQuestSeqOpFactory_swigregister(iDebugPrintQuestSeqOpFactory)
 
 class iTransformQuestSeqOpFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5364,16 +4998,14 @@ class iTransformQuestSeqOpFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iTransformQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iTransformQuestSeqOpFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetEntityParameter(*args)
     def SetVectorParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetVectorParameter(*args)
     def SetRotationParameter(*args): return _blcelc.iTransformQuestSeqOpFactory_SetRotationParameter(*args)
     __swig_destroy__ = _blcelc.delete_iTransformQuestSeqOpFactory
     __del__ = lambda self : None;
-_blcelc.iTransformQuestSeqOpFactory_swigregister(iTransformQuestSeqOpFactory)
+iTransformQuestSeqOpFactory_swigregister = _blcelc.iTransformQuestSeqOpFactory_swigregister
+iTransformQuestSeqOpFactory_swigregister(iTransformQuestSeqOpFactory)
 
 class iMovePathQuestSeqOpFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5383,15 +5015,13 @@ class iMovePathQuestSeqOpFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iMovePathQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iMovePathQuestSeqOpFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iMovePathQuestSeqOpFactory_SetEntityParameter(*args)
     def AddPathNode(*args): return _blcelc.iMovePathQuestSeqOpFactory_AddPathNode(*args)
     __swig_destroy__ = _blcelc.delete_iMovePathQuestSeqOpFactory
     __del__ = lambda self : None;
-_blcelc.iMovePathQuestSeqOpFactory_swigregister(iMovePathQuestSeqOpFactory)
+iMovePathQuestSeqOpFactory_swigregister = _blcelc.iMovePathQuestSeqOpFactory_swigregister
+iMovePathQuestSeqOpFactory_swigregister(iMovePathQuestSeqOpFactory)
 
 class iLightQuestSeqOpFactory(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5401,16 +5031,14 @@ class iLightQuestSeqOpFactory(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iLightQuestSeqOpFactory, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iLightQuestSeqOpFactory instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def SetEntityParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetEntityParameter(*args)
     def SetRelColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetRelColorParameter(*args)
     def SetAbsColorParameter(*args): return _blcelc.iLightQuestSeqOpFactory_SetAbsColorParameter(*args)
     __swig_destroy__ = _blcelc.delete_iLightQuestSeqOpFactory
     __del__ = lambda self : None;
-_blcelc.iLightQuestSeqOpFactory_swigregister(iLightQuestSeqOpFactory)
+iLightQuestSeqOpFactory_swigregister = _blcelc.iLightQuestSeqOpFactory_swigregister
+iLightQuestSeqOpFactory_swigregister(iLightQuestSeqOpFactory)
 
 class iPcQuest(cspace.iBase):
     __swig_setmethods__ = {}
@@ -5420,10 +5048,7 @@ class iPcQuest(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iPcQuest, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iPcQuest instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def NewQuest(*args): return _blcelc.iPcQuest_NewQuest(*args)
     def StopQuest(*args): return _blcelc.iPcQuest_StopQuest(*args)
     def GetQuest(*args): return _blcelc.iPcQuest_GetQuest(*args)
@@ -5450,8 +5075,8 @@ class iPcQuest(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iPcQuest
     __del__ = lambda self : None;
-_blcelc.iPcQuest_swigregister(iPcQuest)
-
+iPcQuest_swigregister = _blcelc.iPcQuest_swigregister
+iPcQuest_swigregister(iPcQuest)
 
 scfQuery_iPcQuest = _blcelc.scfQuery_iPcQuest
 class iCelConsoleCommand(cspace.iBase):
@@ -5462,10 +5087,7 @@ class iCelConsoleCommand(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelConsoleCommand, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelConsoleCommand instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetCommand(*args): return _blcelc.iCelConsoleCommand_GetCommand(*args)
     def GetDescription(*args): return _blcelc.iCelConsoleCommand_GetDescription(*args)
     def Help(*args): return _blcelc.iCelConsoleCommand_Help(*args)
@@ -5478,12 +5100,10 @@ class iCelConsoleCommand(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelConsoleCommand
     __del__ = lambda self : None;
-_blcelc.iCelConsoleCommand_swigregister(iCelConsoleCommand)
-
+iCelConsoleCommand_swigregister = _blcelc.iCelConsoleCommand_swigregister
+iCelConsoleCommand_swigregister(iCelConsoleCommand)
 celCreateQuest = _blcelc.celCreateQuest
-
 celGetSetQuest = _blcelc.celGetSetQuest
-
 celGetQuest = _blcelc.celGetQuest
 
 class iCelConsole(cspace.iBase):
@@ -5494,10 +5114,7 @@ class iCelConsole(cspace.iBase):
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, iCelConsole, name)
     def __init__(self): raise AttributeError, "No constructor defined"
-    def __repr__(self):
-        try: strthis = "at 0x%x" %( self.this, ) 
-        except: strthis = "" 
-        return "<%s.%s; proxy of C++ iCelConsole instance %s>" % (self.__class__.__module__, self.__class__.__name__, strthis,)
+    __repr__ = _swig_repr
     def GetInputConsole(*args): return _blcelc.iCelConsole_GetInputConsole(*args)
     def GetOutputConsole(*args): return _blcelc.iCelConsole_GetOutputConsole(*args)
     def RegisterCommand(*args): return _blcelc.iCelConsole_RegisterCommand(*args)
@@ -5509,8 +5126,8 @@ class iCelConsole(cspace.iBase):
 
     __swig_destroy__ = _blcelc.delete_iCelConsole
     __del__ = lambda self : None;
-_blcelc.iCelConsole_swigregister(iCelConsole)
-
+iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
+iCelConsole_swigregister(iCelConsole)
 
 csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
 class CelConsoleOut:

@@ -1133,36 +1133,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_controller.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_controller.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_reactionary.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_reactionary.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1250,36 +1220,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_move_movefact.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraph.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_move_navgraph.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_move_navgraph.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraphrulesfps.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_move_navgraphrulesfps.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_move_navgraphrulesfps.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2163,12 +2103,6 @@
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
-			</File>
-			<File
 				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
 			</File>
 			<File
@@ -2188,12 +2122,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\movefact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraph.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraphrulesfps.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mover\moverfact.h">
