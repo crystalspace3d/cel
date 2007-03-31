@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+31-Mar-2007
+	- Genjix fixed boulderdash by removing the pcfactory clauses.
 30-Mar-2007
 	- Genjix made the following changes:
 	  - Fixed compile error in apps trying to include old navgraph.
