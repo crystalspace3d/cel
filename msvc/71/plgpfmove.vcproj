@@ -171,12 +171,6 @@
 			<File
 				RelativePath="..\..\plugins\propclass\move\movefact.cpp">
 			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraph.cpp">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraphrulesfps.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -189,12 +183,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\movefact.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraph.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\move\navgraphrulesfps.h">
 			</File>
 		</Filter>
 		<Filter

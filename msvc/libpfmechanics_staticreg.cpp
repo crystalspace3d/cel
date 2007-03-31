@@ -48,33 +48,6 @@ static char const metainfo_pfmechanics[] =
 "          <class>cel.physicallayer</class>"
 "        </requires>"
 "      </class>"
-"      <!-- @@@ to be deprecated -->"
-"      <class>"
-"        <name>cel.pcfactory.mechbalancedgroup</name>"
-"        <implementation>celPfMechanicsBalancedGroup</implementation>"
-"        <description>CEL Mechanics Balanced Thruster Group Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
-"      <!-- @@@ to be deprecated -->"
-"      <class>"
-"        <name>cel.pcfactory.mechthrustercontroller</name>"
-"        <implementation>celPfMechanicsThrusterController</implementation>"
-"        <description>CEL Mechanics Thruster Controller Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
-"      <!-- @@@ to be deprecated -->"
-"      <class>"
-"        <name>cel.pcfactory.mechthrustreactionary</name>"
-"        <implementation>celPfMechanicsThrusterReactionary</implementation>"
-"        <description>CEL Mechanics Reactionary Thruster Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
 ""
 "      <class>"
 "        <name>cel.pcfactory.physics.system</name>"
@@ -100,30 +73,6 @@ static char const metainfo_pfmechanics[] =
 "          <class>cel.physicallayer</class>"
 "        </requires>"
 "      </class>"
-"      <class>"
-"        <name>cel.pcfactory.physics.balancedgroup</name>"
-"        <implementation>celPfMechanicsBalancedGroup</implementation>"
-"        <description>CEL Mechanics Balanced Thruster Group Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
-"      <class>"
-"        <name>cel.pcfactory.physics.thrustercontroller</name>"
-"        <implementation>celPfMechanicsThrusterController</implementation>"
-"        <description>CEL Mechanics Thruster Controller Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
-"      <class>"
-"        <name>cel.pcfactory.physics.thrustreactionary</name>"
-"        <implementation>celPfMechanicsThrusterReactionary</implementation>"
-"        <description>CEL Mechanics Reactionary Thruster Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"        </requires>"
-"      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
@@ -140,18 +89,6 @@ static char const metainfo_pfmechanics[] =
   #define celPfMechanicsJoint_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsJoint) 
   #endif
-  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsBalancedGroup) 
-  #endif
-  #ifndef celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterController) 
-  #endif
-  #ifndef celPfMechanicsThrusterReactionary_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsThrusterReactionary_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterReactionary) 
-  #endif
   #ifndef celPfMechanicsSystem_FACTORY_REGISTER_DEFINED 
   #define celPfMechanicsSystem_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsSystem) 
@@ -163,18 +100,6 @@ static char const metainfo_pfmechanics[] =
   #ifndef celPfMechanicsJoint_FACTORY_REGISTER_DEFINED 
   #define celPfMechanicsJoint_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsJoint) 
-  #endif
-  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsBalancedGroup_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsBalancedGroup) 
-  #endif
-  #ifndef celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsThrusterController_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterController) 
-  #endif
-  #ifndef celPfMechanicsThrusterReactionary_FACTORY_REGISTER_DEFINED 
-  #define celPfMechanicsThrusterReactionary_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMechanicsThrusterReactionary) 
   #endif
 
 class pfmechanics
@@ -192,18 +117,6 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #define celPfMechanicsJoint_FACTORY_REGISTERED 
     celPfMechanicsJoint_StaticInit celPfMechanicsJoint_static_init__; 
   #endif
-  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
-  #define celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
-    celPfMechanicsBalancedGroup_StaticInit celPfMechanicsBalancedGroup_static_init__; 
-  #endif
-  #ifndef celPfMechanicsThrusterController_FACTORY_REGISTERED 
-  #define celPfMechanicsThrusterController_FACTORY_REGISTERED 
-    celPfMechanicsThrusterController_StaticInit celPfMechanicsThrusterController_static_init__; 
-  #endif
-  #ifndef celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
-  #define celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
-    celPfMechanicsThrusterReactionary_StaticInit celPfMechanicsThrusterReactionary_static_init__; 
-  #endif
   #ifndef celPfMechanicsSystem_FACTORY_REGISTERED 
   #define celPfMechanicsSystem_FACTORY_REGISTERED 
     celPfMechanicsSystem_StaticInit celPfMechanicsSystem_static_init__; 
@@ -215,18 +128,6 @@ SCF_REGISTER_STATIC_LIBRARY(pfmechanics,metainfo_pfmechanics)
   #ifndef celPfMechanicsJoint_FACTORY_REGISTERED 
   #define celPfMechanicsJoint_FACTORY_REGISTERED 
     celPfMechanicsJoint_StaticInit celPfMechanicsJoint_static_init__; 
-  #endif
-  #ifndef celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
-  #define celPfMechanicsBalancedGroup_FACTORY_REGISTERED 
-    celPfMechanicsBalancedGroup_StaticInit celPfMechanicsBalancedGroup_static_init__; 
-  #endif
-  #ifndef celPfMechanicsThrusterController_FACTORY_REGISTERED 
-  #define celPfMechanicsThrusterController_FACTORY_REGISTERED 
-    celPfMechanicsThrusterController_StaticInit celPfMechanicsThrusterController_static_init__; 
-  #endif
-  #ifndef celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
-  #define celPfMechanicsThrusterReactionary_FACTORY_REGISTERED 
-    celPfMechanicsThrusterReactionary_StaticInit celPfMechanicsThrusterReactionary_static_init__; 
   #endif
 public:
  pfmechanics();
