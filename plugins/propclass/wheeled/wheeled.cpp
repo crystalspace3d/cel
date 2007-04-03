@@ -814,75 +814,79 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
       bodySectors=bodyMesh->GetMesh()->GetMovable()->GetSectors();
   csRef<iMeshFactoryWrapper> wmeshfact;
   wmeshfact = engine->FindMeshFactory(wheels[wheelnum].Meshfact);
-  //Create the mesh of the wheel
-  if(bodySectors->GetCount() > 0)
+  //Only continue if we have the factory.
+  if (wmeshfact)
   {
-    csRef<iSector> bodySector=bodySectors->Get(0);
-    wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel",
-                                        bodySector,
-                                        realpos);
+    //Create the mesh of the wheel
+    if(bodySectors->GetCount() > 0)
+    {
+        csRef<iSector> bodySector=bodySectors->Get(0);
+        wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel",
+                                            bodySector,
+                                            realpos);
+    }
+    else
+    {
+        wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel");
+        wheelmesh->GetMovable()->SetPosition(realpos);
+        wheelmesh->GetMovable()->UpdateMove();
+    }
+    
+    //Create the dynamic body
+    csRef<iRigidBody> wheelbody=dyn->CreateBody();
+    bodyGroup->AddBody(wheelbody);
+    wheelbody->SetCollisionCallback (scfiWheeledCollisionCallback);
+    
+    csVector3 wheelcenter(0);
+    float wheelradius = 0.0f;
+    wheelmesh->GetMeshObject ()->GetObjectModel
+        ()->GetRadius(wheelradius,wheelcenter);
+    wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3 ());
+    
+    //Set the wheel rotation and position in the mesh.
+    //AFAIK the rotation is overridden by the body anyway.
+    csMatrix3 bodyrot = bodytransform.GetO2T();
+    csMatrix3 wheelrotation = bodyrot * wheels[wheelnum].Rotation;
+    csOrthoTransform t = csOrthoTransform(wheelrotation, realpos);
+    //If it a right wheel, flip it.
+    if (wheels[wheelnum].Position.x < 0.0f)
+        t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
+    wheelbody->SetTransform(t);
+    wheelbody->SetPosition(realpos);
+    wheelbody->AttachMesh(wheelmesh);
+    
+    wheelbody->AttachColliderSphere (
+        wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
+    wheelbody->SetTransform(t);
+        //Create the joint
+    csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
+    joint->SetHingeAnchor(realpos);
+    joint->Attach(bodyMech->GetBody(), wheelbody);
+    joint->SetHingeAnchor(realpos);
+    joint->SetHingeAxis1(bodytransform.This2OtherRelative(csVector3(0,1,0)));
+    joint->SetHingeAxis2(bodytransform.This2OtherRelative(csVector3(1,0,0)));
+    joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
+    joint->SetSuspensionERP(wheels[wheelnum].SuspensionDamping,0);
+    joint->SetLoStop(0,0);
+    joint->SetHiStop(0,0);
+    joint->SetVel(0,0);
+    joint->SetVel(0,1);
+    joint->SetStopERP(1.0f,0);
+    joint->SetFMax(1000,0);
+    joint->SetFMax(100,1);
+    
+    //Create the brakes motor
+    csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
+    bmotor->Attach(bodyMech->GetBody(), wheelbody);
+    bmotor->SetAMotorNumAxes(1);
+    bmotor->SetAMotorAxis(0, 1, csVector3(1, 0, 0));
+    bmotor->SetFMax(brakeforce * brakeamount, 0);
+    bmotor->SetVel(0.0f, 0);
+    
+    wheels[wheelnum].RigidBody = wheelbody;
+    wheels[wheelnum].WheelJoint = joint;
+    wheels[wheelnum].BrakeMotor = bmotor;
   }
-  else
-  {
-    wheelmesh=engine->CreateMeshWrapper(wmeshfact,"wheel");
-    wheelmesh->GetMovable()->SetPosition(realpos);
-    wheelmesh->GetMovable()->UpdateMove();
-  }
-
-  //Create the dynamic body
-  csRef<iRigidBody> wheelbody=dyn->CreateBody();
-  bodyGroup->AddBody(wheelbody);
-  wheelbody->SetCollisionCallback (scfiWheeledCollisionCallback);
-
-  csVector3 wheelcenter(0);
-  float wheelradius = 0.0f;
-  wheelmesh->GetMeshObject ()->GetObjectModel
-      ()->GetRadius(wheelradius,wheelcenter);
-  wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3 ());
-
-  //Set the wheel rotation and position in the mesh.
-  //AFAIK the rotation is overridden by the body anyway.
-  csMatrix3 bodyrot = bodytransform.GetO2T();
-  csMatrix3 wheelrotation = bodyrot * wheels[wheelnum].Rotation;
-  csOrthoTransform t = csOrthoTransform(wheelrotation, realpos);
-   //If it a right wheel, flip it.
-   if (wheels[wheelnum].Position.x < 0.0f)
-     t.RotateThis(csVector3(0.0f,1.0f,0.0f),3.14159f);
-  wheelbody->SetTransform(t);
-  wheelbody->SetPosition(realpos);
-  wheelbody->AttachMesh(wheelmesh);
-
-  wheelbody->AttachColliderSphere (
-      wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
-  wheelbody->SetTransform(t);
-    //Create the joint
-  csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
-  joint->SetHingeAnchor(realpos);
-  joint->Attach(bodyMech->GetBody(), wheelbody);
-  joint->SetHingeAnchor(realpos);
-  joint->SetHingeAxis1(bodytransform.This2OtherRelative(csVector3(0,1,0)));
-  joint->SetHingeAxis2(bodytransform.This2OtherRelative(csVector3(1,0,0)));
-  joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
-  joint->SetSuspensionERP(wheels[wheelnum].SuspensionDamping,0);
-  joint->SetLoStop(0,0);
-  joint->SetHiStop(0,0);
-  joint->SetVel(0,0);
-  joint->SetVel(0,1);
-  joint->SetStopERP(1.0f,0);
-  joint->SetFMax(1000,0);
-  joint->SetFMax(100,1);
-
-  //Create the brakes motor
-  csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
-  bmotor->Attach(bodyMech->GetBody(), wheelbody);
-  bmotor->SetAMotorNumAxes(1);
-  bmotor->SetAMotorAxis(0, 1, csVector3(1, 0, 0));
-  bmotor->SetFMax(brakeforce * brakeamount, 0);
-  bmotor->SetVel(0.0f, 0);
-
-  wheels[wheelnum].RigidBody = wheelbody;
-  wheels[wheelnum].WheelJoint = joint;
-  wheels[wheelnum].BrakeMotor = bmotor;
 }
 
 void celPcWheeled::RestoreAllWheels()

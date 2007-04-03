@@ -123,19 +123,20 @@ void csDeformControl::DeformMesh
                          direction.x + direction.y + direction.z) * 3.141592;
        r_amount -= int(r_amount);
        float noiselevel = r_amount * noise;
-       //Shift the vertice inverse squared proportional to its distance from point
-       float distanceratio = (radius - distance) / (radius);
-       float displacement =  distanceratio * distanceratio;
+       float displacement =  0.0f;
        //Now proportion in the amount that the vertice has already moved.
        float displaced = (cvert - original_verts[i]).Norm();
        float moveallowed =  (maxdeform - displaced) / maxdeform;
        if (moveallowed > 0.0f)
        {
-          displacement *= moveallowed * moveallowed;
+          displacement = moveallowed * moveallowed;
           csVector3 displacementvector = direction * (displacement + noiselevel);
           float dvlength = displacementvector.Norm();
           if  (dvlength > maxdeform && dvlength != 0)
               displacementvector = (displacementvector / dvlength) * (maxdeform + noiselevel);
+          //Shift the vertice inverse squared proportional to its distance from point
+          float distanceratio = (radius - distance) / (radius);
+          displacementvector *= distanceratio * distanceratio;
           //Move the vertice
           deformed_verts[i] = cvert + displacementvector;
        }
