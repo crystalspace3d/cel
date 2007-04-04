@@ -3909,6 +3909,8 @@ SWIGINTERN PyObject *iCelBehaviour_SendMessage__SWIG_1(iCelBehaviour *self,char 
 				break;
 		    }
 		}
+                else
+                    Py_INCREF(Py_None);
 /*@SWIG@*/;
 	 return obj;
        }
@@ -17682,6 +17684,8 @@ SWIGINTERN PyObject *_wrap_iCelParameterBlock_GetParameter__SWIG_1(PyObject *SWI
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -17872,6 +17876,8 @@ SWIGINTERN PyObject *_wrap_iCelParameterBlock_GetParameterByIndex(PyObject *SWIG
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -19914,6 +19920,8 @@ SWIGINTERN PyObject *_wrap_celGenericParameterBlock_GetParameter__SWIG_1(PyObjec
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -20104,6 +20112,8 @@ SWIGINTERN PyObject *_wrap_celGenericParameterBlock_GetParameterByIndex(PyObject
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -20824,6 +20834,8 @@ SWIGINTERN PyObject *_wrap_celVariableParameterBlock_GetParameter__SWIG_1(PyObje
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -21014,6 +21026,8 @@ SWIGINTERN PyObject *_wrap_celVariableParameterBlock_GetParameterByIndex(PyObjec
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -21708,6 +21722,8 @@ SWIGINTERN PyObject *_wrap_celOneParameterBlock_GetParameter__SWIG_2(PyObject *S
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
@@ -21913,6 +21929,8 @@ SWIGINTERN PyObject *_wrap_celOneParameterBlock_GetParameterByIndex(PyObject *SW
         break;
       }
     }
+    else
+    Py_INCREF(Py_None);
     /*@SWIG@*/
     resultobj = obj;
   }
