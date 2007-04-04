@@ -97,6 +97,8 @@
 				break;
 		    }
 		}
+                else
+                    Py_INCREF(Py_None);
 %enddef
 %typemap(out) const celData*
 {
