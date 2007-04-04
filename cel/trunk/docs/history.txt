@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 04-Apr-2007
 	- cfraz89 tweaked meshdeform algorithm.
+	- cfraz89 added a PY_INCREF(Py_None) to datatype.i in python
+	  bl where Py_None may have been used without it. 
 31-Mar-2007
 	- Genjix fixed boulderdash by removing the pcfactory clauses.
 30-Mar-2007
