@@ -3,7 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-04-Apr-2007
+5-Apr-2007
+	- Jorrit removed three forgotten GetName() declarations in
+	  some of the property classes.
+4-Apr-2007
 	- cfraz89 tweaked meshdeform algorithm.
 	- cfraz89 added a PY_INCREF(Py_None) to datatype.i in python
 	  bl where Py_None may have been used without it. 

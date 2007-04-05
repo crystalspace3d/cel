@@ -141,7 +141,6 @@ public:
   virtual void SetMode (const char* modename);
   virtual const char* GetMode () const;
 
-  virtual const char* GetName () const { return "pcsound.source"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
