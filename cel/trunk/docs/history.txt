@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+6-Apr-2007
+	- Genjix fixed small bug with unitialised property classes causing
+	  a crash on FindByName*()
 5-Apr-2007
 	- Jorrit removed three forgotten GetName() declarations in
 	  some of the property classes.
