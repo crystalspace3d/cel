@@ -31,12 +31,12 @@ The history order is reversed so that new features are at the top.
 	- Genjix made the following changes:
 	  - Edited blcel.cpp with workaround to compile against new functions
 	    by deleting various parts to do with PropertyClassFactory.
-	  - Converted the entirety of the property classes to the new naming scheme
-	    which can be found on #30. This involves:
+	  - Converted the entirety of the property classes to the new naming
+	    scheme which can be found on #30. This involves:
 	    - Removing the old GetName() functions in the header implementation
 	      files since that is now done internally.
-	    - Removing the GetName() in celtool/camera.h since that overrides the
-	      GetName() as defined in celPcCommon.
+	    - Removing the GetName() in celtool/camera.h since that overrides
+	      the GetName() as defined in celPcCommon.
 	    - Switching to a CEL_IMPLEMENT_FACTORY_ALT macro with a to be
 	      deprecated 3rd parameter for the old property class names.
 	    - Changing the csplugin factory names to match the newer ones.
@@ -45,9 +45,9 @@ The history order is reversed so that new features are at the top.
 	    - Changing event handler names and whatever else I could find...
 	  - Creating a new CEL_IMPLEMENT_FACTORY_ALT macro for instantiating
 	    property class factories.
-	  - Adding a temporary name parameter to celPf*::CreatePropertyClass() so
-	    that if the property class is created using an old factory name then
-	    it will call itself that too.
+	  - Adding a temporary name parameter to celPf*::CreatePropertyClass()
+	    so that if the property class is created using an old factory name
+	    then it will call itself that too.
 	    When old names are deprecated this should disappear.
 	  - Added altname parameter to RegisterPropertyClassFactory(pf) (to be
 	    deprecated).
