@@ -4,7 +4,10 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 7-Apr-2007
-        - Piotr fixed iSkeleton warnings in CEL
+	- Genjix fixed persistance layer using undefined version of
+	  pf->CreatePropertyClass(), and removed null name checking for
+	  FindByName*() since it shouldn't be ever neccessary.
+	- Piotr fixed iSkeleton warnings in CEL
 6-Apr-2007
 	- Genjix fixed small bug with unitialised property classes causing
 	  a crash on FindByName*()
