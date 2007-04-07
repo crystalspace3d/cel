@@ -673,7 +673,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
     if (!pf)
       return Report ("Couldn't create property class '%s'!",
       	(const char*)pcname);
-    csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
+    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass(pcname);
     pc = pcref;
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
@@ -789,7 +789,7 @@ bool celPersistClassic::ReadFirstPass (iCelEntity* entity)
     if (!pf)
       return Report ("Couldn't create property class '%s'!",
       	(const char*)pcname);
-    csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
+    csRef<iCelPropertyClass> pc = pf->CreatePropertyClass(pcname);
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
     entity->GetPropertyClassList ()->Add (pc);

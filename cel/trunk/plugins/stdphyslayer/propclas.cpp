@@ -148,8 +148,7 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
   for (i = 0 ; i < prop_classes.GetSize () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
-    // uninitialised property classes have GetName () return null
-    if (obj->GetName () != 0 && !strcmp (name, obj->GetName ()))
+    if (!strcmp (name, obj->GetName ()))
     {
       // We prefer to find a property class with no tag. So if we have
       // no tag we can return immediately. Otherwise we have to wait
@@ -170,7 +169,7 @@ iCelPropertyClass* celPropertyClassList::FindByNameAndTag (const char* name,
   for (i = 0 ; i < prop_classes.GetSize () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
-    if (obj->GetName () != 0  && !strcmp (name, obj->GetName ()))
+    if (!strcmp (name, obj->GetName ()))
     {
       if (tag == 0 || *tag == 0 && obj->GetTag () == 0)
       {

@@ -464,7 +464,7 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
     iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
     if (!pf)
       return Report ("Couldn't create property class '%s'!", pcname);
-    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
+    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass(pcname);
     pc = pcref;
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
@@ -562,7 +562,7 @@ bool celPersistXML::ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity)
       iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
       if (!pf)
         return Report ("Couldn't create property class '%s'!", pcname);
-      csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
+      csRef<iCelPropertyClass> pc = pf->CreatePropertyClass(pcname);
       if (tagname) pc->SetTag (tagname);
       pc->SetEntity (entity);
       entity->GetPropertyClassList ()->Add (pc);
