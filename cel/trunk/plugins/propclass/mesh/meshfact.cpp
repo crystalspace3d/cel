@@ -1057,9 +1057,9 @@ void celPcMesh::SetAnimation (const char* actionName, bool cycle,
             csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
             if (skel)
             {
-              iSkeletonScript* script;
+              iSkeletonAnimation* script;
               if (reset) script = 0;
-              else script  = skel->FindScript (actionName);
+              else script  = skel->FindAnimation (actionName);
               if (script)
               {
                 if (script->GetLoop () != cycle)
