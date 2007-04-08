@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 8-Apr-2007
 	- David H. Bronke re-added mechthruster.h, since it's used by
 	  Precursors.
+	- David H. Bronke re-added the implementation of
+	  iPcThrusterController and the other thruster property classes.
 7-Apr-2007
 	- Genjix fixed persistance layer using undefined version of
 	  pf->CreatePropertyClass(), and removed null name checking for
