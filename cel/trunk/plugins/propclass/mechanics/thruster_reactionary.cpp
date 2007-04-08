@@ -39,7 +39,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (MechanicsThrusterReactionary, "pcmechthrustreactionary")
+CEL_IMPLEMENT_FACTORY_ALT (MechanicsThrusterReactionary, "pcphysics.thruster.reactionary", "pcmechthrustreactionary")
 
 //---------------------------------------------------------------------------
 

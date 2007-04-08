@@ -33,7 +33,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (MechanicsBalancedGroup, "pcmechbalancedgroup")
+CEL_IMPLEMENT_FACTORY_ALT (MechanicsBalancedGroup, "pcphysics.thruster.group", "pcmechbalancedgroup")
 
 //---------------------------------------------------------------------------
 
@@ -265,7 +265,7 @@ void celPcMechanicsBalancedGroup::ChangeThrust (float deltathrust)
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY (MechanicsThrusterController, "pcmechthrustercontroller")
+CEL_IMPLEMENT_FACTORY_ALT (MechanicsThrusterController, "pcphysics.thruster.controller", "pcmechthrustercontroller")
 
 //---------------------------------------------------------------------------
 
