@@ -1133,6 +1133,36 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_controller.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_controller.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release71\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_reactionary.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug71\build\libcel_staticplugins\plugins_propclass_mechanics_thruster_reactionary.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\mesh\meshfact.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -2101,6 +2131,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">

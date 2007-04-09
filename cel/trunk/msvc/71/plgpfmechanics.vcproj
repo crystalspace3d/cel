@@ -165,6 +165,12 @@
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.cpp">
 			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -177,6 +183,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\mechanics.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_controller.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\mechanics\thruster_reactionary.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mechanics\ticktimer.h">
