@@ -857,6 +857,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
     
     wheelbody->AttachColliderSphere (
         wheelradius,wheelcenter, wheels[wheelnum].WheelFriction,1.0f,0.5f,0.05f);
+    wheelbody->AdjustTotalMass(wheels[wheelnum].WheelMass);
     wheelbody->SetTransform(t);
         //Create the joint
     csRef<iODEHinge2Joint> joint = osys->CreateHinge2Joint();
@@ -867,13 +868,13 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
     joint->SetHingeAxis2(bodytransform.This2OtherRelative(csVector3(1,0,0)));
     joint->SetSuspensionCFM(wheels[wheelnum].SuspensionSoftness,0);
     joint->SetSuspensionERP(wheels[wheelnum].SuspensionDamping,0);
-    joint->SetLoStop(0,0);
-    joint->SetHiStop(0,0);
-    joint->SetVel(0,0);
-    joint->SetVel(0,1);
+    joint->SetLoStop(0.0f,0);
+    joint->SetHiStop(0.0f,0);
+    joint->SetVel(0.0f,0);
+    joint->SetVel(0.0f,1);
     joint->SetStopERP(1.0f,0);
-    joint->SetFMax(1000,0);
-    joint->SetFMax(100,1);
+    joint->SetFMax(250.0f,0);
+    joint->SetFMax(100.0f,1);
     
     //Create the brakes motor
     csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
@@ -1089,8 +1090,7 @@ void celPcWheeled::TickOnce()
   if(gear > 0 && autotransmission)
     UpdateGear();
 
-  float steerfactor = 1000.0f + fabs(speed) * 100.0f;
-
+  float steerfactor = 250.0f + fabs(speed) * 5.0f;
   for(size_t i=0; i < wheels.GetSize();i++)
   {
     if(wheels[i].WheelJoint !=0 && wheels[i].BrakeMotor != 0)
