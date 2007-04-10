@@ -90,7 +90,7 @@ struct iPcTriggerListener : public virtual iBase
  * - delay (long, read/write): update delay for checking trigger.
  * - jitter (long, read/write): random jitter added to update delay.
  * - monitor (string, read/write): name of entity to monitor.
- * - insivible (bool, read/write): also check on invisible entities
+ * - invisible (bool, read/write): also check on invisible entities
  *     (default off).
  * - follow (bool, read/write): follow own entity pcmesh (default off).
  */
