@@ -1150,7 +1150,7 @@ void celPcWheeled::UpdateBrakes(float avgspin, size_t wheelnum)
 
   //Maybe hanbrake is applied. Apply an insane amount of braking then.
   if (handbrakeapplied && wheels[wheelnum].HandbrakeAffected)
-    wheelbrake = brakeforce * 1000.0f;
+    wheelbrake = brakeforce * 1000000.0f;
 
   //Don't use brakeamount to brake if we are in autoreverse
   else if(!(autoreverse && gear == -1) && brakeamount > 0.05f)
