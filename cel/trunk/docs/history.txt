@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 13-Apr-2007
 	- Jorrit fixed cel for the removal of iSndSysWrapper->GetStream()
 	  in CS.
+	- Jorrit re-added support for pccommandinput. It is too early
+	  to remove this already since it was not properly deprecated
+	  before.
 11-Apr-2007
 	- Genjix swapped 2 letters in trigger.h typo.
 	- cfraz89 increased the strength of the handbrake in pcwheeled.
