@@ -9,6 +9,12 @@
         <implementation>celPfCommandInput</implementation>
         <description>CEL Key Input Property Class Factory</description>
       </class>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.pccommandinput</name>
+        <implementation>celPfCommandInput</implementation>
+        <description>CEL Key Input Property Class Factory</description>
+      </class>
 
       <class>
         <name>cel.pcfactory.input.standard</name>
