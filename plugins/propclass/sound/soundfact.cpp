@@ -560,14 +560,7 @@ bool celPcSoundSource::GetSource ()
     return false;
   }
 
-  // If the stream is present in the sound wrapper then that
-  // means we have a deprecated old-style sound wrapper that
-  // still has a stream associated with it (uses 'mode3d'
-  // attribute in <sound> section on map file).
-  if (soundwrap->GetStream ())
-    stream = soundwrap->GetStream ();
-  else
-    stream = renderer->CreateStream (soundwrap->GetData (), mode);
+  stream = renderer->CreateStream (soundwrap->GetData (), mode);
   csRef<iSndSysSource> src = renderer->CreateSource (stream);
   if (src)
   {

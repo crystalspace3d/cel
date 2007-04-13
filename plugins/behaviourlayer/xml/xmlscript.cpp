@@ -4980,29 +4980,20 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	      return ReportError (cbl, "Error! No sound renderer!");
 	    csRef<iSndSysSource> sound_source;
 	    csRef<iSndSysStream> sound_stream;
-	    // If the stream is present in the sound wrapper then that
-	    // means we have a deprecated old-style sound wrapper that
-	    // still has a stream associated with it (uses 'mode3d'
-	    // attribute in <sound> section on map file).
-	    if (w->GetStream ())
-	      sound_stream = w->GetStream ();
+	    int mode3d;
+	    if (IsNumericType (a_mode3d))
+	      mode3d = ArgToInt32 (a_mode3d);
 	    else
 	    {
-	      int mode3d;
-	      if (IsNumericType (a_mode3d))
-		mode3d = ArgToInt32 (a_mode3d);
+	      const char* modestring = ArgToString (a_mode3d);
+	      if (!strcasecmp ("absolute", modestring))
+		mode3d = CS_SND3D_ABSOLUTE;
+	      else if (!strcasecmp ("relative", modestring))
+		mode3d = CS_SND3D_RELATIVE;
 	      else
-	      {
-		const char* modestring = ArgToString (a_mode3d);
-		if (!strcasecmp ("absolute", modestring))
-		  mode3d = CS_SND3D_ABSOLUTE;
-		else if (!strcasecmp ("relative", modestring))
-		  mode3d = CS_SND3D_RELATIVE;
-		else
-		  mode3d = CS_SND3D_DISABLE;
-	      }
-	      sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+		mode3d = CS_SND3D_DISABLE;
 	    }
+	    sound_stream = renderer->CreateStream (w->GetData (), mode3d);
 	    sound_source = renderer->CreateSource (sound_stream);
 	    sound_source->SetVolume (ArgToFloat (a_volume));
 	    sound_stream->ResetPosition ();
@@ -5168,36 +5159,26 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
               return ReportError (cbl, "Error! No sound renderer!");
             csRef<iSndSysSource> sound_source;
             csRef<iSndSysStream> sound_stream;
-            // If the stream is present in the sound wrapper then that
-            // means we have a deprecated old-style sound wrapper that
-            // still has a stream associated with it (uses 'mode3d'
-            // attribute in <sound> section on map file).
-            if (w->GetStream ())
-              sound_stream = w->GetStream ();
+            int mode3d;
+            if (IsNumericType (a_mode3d))
+              mode3d = ArgToInt32 (a_mode3d);
             else
             {
-              int mode3d;
-              if (IsNumericType (a_mode3d))
-                mode3d = ArgToInt32 (a_mode3d);
+              const char* modestring = ArgToString (a_mode3d);
+              if (!strcasecmp ("absolute", modestring))
+                mode3d = CS_SND3D_ABSOLUTE;
+              else if (!strcasecmp ("relative", modestring))
+                mode3d = CS_SND3D_RELATIVE;
               else
-              {
-                const char* modestring = ArgToString (a_mode3d);
-                if (!strcasecmp ("absolute", modestring))
-                  mode3d = CS_SND3D_ABSOLUTE;
-                else if (!strcasecmp ("relative", modestring))
-                  mode3d = CS_SND3D_RELATIVE;
-                else
-                  mode3d = CS_SND3D_DISABLE;
-              }
-              sound_stream = renderer->CreateStream (w->GetData (), mode3d);
+                mode3d = CS_SND3D_DISABLE;
             }
+            sound_stream = renderer->CreateStream (w->GetData (), mode3d);
             sound_source = renderer->CreateSource (sound_stream);
             sound_source->SetVolume (ArgToFloat (a_volume));
             sound_stream->ResetPosition ();
             sound_stream->SetLoopState(ArgToInt32 (a_loop));
             sound_stream->Unpause ();
-            if (!w->GetStream ())
-              sound_stream->SetAutoUnregister (true);
+            sound_stream->SetAutoUnregister (true);
           }
           else
             return ReportError (cbl, "Error! Can't find sound '%s'!",
