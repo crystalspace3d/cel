@@ -446,10 +446,10 @@ class iCelPlLayer(cspace.iBase):
     BehaviourLayerCount = property(_blcelc.iCelPlLayer_BehaviourLayerCount_get, None, None,
                     "iCelPlLayer.BehaviourLayerCount -> size_t  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: size_t iCelPlLayer::GetBehaviourLayerCount()")
 
-    __swig_destroy__ = _blcelc.delete_iCelPlLayer
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPlLayer_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPlLayer_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iCelPlLayer
+    __del__ = lambda self : None;
     def CreateParameterBlock(self,valdict):
     	"""Create a celGenericParameterBlock from a dict, list or
     	tuple"""
@@ -642,10 +642,10 @@ class iCelEntity(cspace.iBase):
                     "iCelEntity.Classes -> const csSet<csStringID>&  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const csSet<csStringID>& iCelEntity::GetClasses()")
 
     def CreateBehaviour(*args): return _blcelc.iCelEntity_CreateBehaviour(*args)
-    __swig_destroy__ = _blcelc.delete_iCelEntity
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntity_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntity_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iCelEntity
+    __del__ = lambda self : None;
 iCelEntity_swigregister = _blcelc.iCelEntity_swigregister
 iCelEntity_swigregister(iCelEntity)
 iCelEntity_scfGetVersion = _blcelc.iCelEntity_scfGetVersion
@@ -682,10 +682,10 @@ class iCelEntityList(cspace.iBase):
     def __iter__(self): return self.content_iterator()  
     def __getitem__(*args): return _blcelc.iCelEntityList___getitem__(*args)
     def __contains__(*args): return _blcelc.iCelEntityList___contains__(*args)
-    __swig_destroy__ = _blcelc.delete_iCelEntityList
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelEntityList_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelEntityList_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iCelEntityList
+    __del__ = lambda self : None;
 iCelEntityList_swigregister = _blcelc.iCelEntityList_swigregister
 iCelEntityList_swigregister(iCelEntityList)
 iCelEntityList_scfGetVersion = _blcelc.iCelEntityList_scfGetVersion
@@ -810,10 +810,10 @@ class iCelBlLayer(cspace.iBase):
     Name = property(_blcelc.iCelBlLayer_Name_get, None, None,
                     "iCelBlLayer.Name -> const char*  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: const char* iCelBlLayer::GetName()")
 
-    __swig_destroy__ = _blcelc.delete_iCelBlLayer
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelBlLayer_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelBlLayer_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iCelBlLayer
+    __del__ = lambda self : None;
 iCelBlLayer_swigregister = _blcelc.iCelBlLayer_swigregister
 iCelBlLayer_swigregister(iCelBlLayer)
 iCelBlLayer_scfGetVersion = _blcelc.iCelBlLayer_scfGetVersion
@@ -1115,10 +1115,10 @@ class iCelPropertyClass(cspace.iBase):
     def SetPropertyVector3(*args): return _blcelc.iCelPropertyClass_SetPropertyVector3(*args)
     def SetPropertyColor(*args): return _blcelc.iCelPropertyClass_SetPropertyColor(*args)
     def SetPropertyEntity(*args): return _blcelc.iCelPropertyClass_SetPropertyEntity(*args)
-    __swig_destroy__ = _blcelc.delete_iCelPropertyClass
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iCelPropertyClass_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iCelPropertyClass_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iCelPropertyClass
+    __del__ = lambda self : None;
     def GetterFallback(self,attr):
          raise AttributeError
     def SetterFallback(self,attr,value):
@@ -4667,10 +4667,10 @@ class iQuestManager(cspace.iBase):
     def SetPropertyChangeTrigger(*args): return _blcelc.iQuestManager_SetPropertyChangeTrigger(*args)
     def SetTriggerTrigger(*args): return _blcelc.iQuestManager_SetTriggerTrigger(*args)
     def SetWatchTrigger(*args): return _blcelc.iQuestManager_SetWatchTrigger(*args)
-    __swig_destroy__ = _blcelc.delete_iQuestManager
-    __del__ = lambda self : None;
     __swig_getmethods__["scfGetVersion"] = lambda x: _blcelc.iQuestManager_scfGetVersion
     if _newclass:scfGetVersion = staticmethod(_blcelc.iQuestManager_scfGetVersion)
+    __swig_destroy__ = _blcelc.delete_iQuestManager
+    __del__ = lambda self : None;
 iQuestManager_swigregister = _blcelc.iQuestManager_swigregister
 iQuestManager_swigregister(iQuestManager)
 iQuestManager_scfGetVersion = _blcelc.iQuestManager_scfGetVersion
