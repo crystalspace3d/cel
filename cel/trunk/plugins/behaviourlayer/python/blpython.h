@@ -72,19 +72,30 @@ public:
   struct eiScript : public iScript
   {
     SCF_DECLARE_EMBEDDED_IBASE (celBlPython);
-    virtual bool Initialize (iObjectRegistry *object_reg)
-    { return scfParent->Initialize(object_reg); }
     virtual bool RunText (const char *iStr)
     { return scfParent->RunText(iStr); }
     virtual bool LoadModule(const char *iStr)
     { return scfParent->LoadModule(iStr); }
     virtual bool LoadModule(const char *path, const char *name)
     { return scfParent->LoadModule(path, name); }
-    virtual bool Store(const char *name, void *data, void *tag)
-    { return scfParent->Store(name, data, tag); }
 
     /*
       @@@ New functions not yet implemented
+    */
+    bool LoadModuleNative(const char*, const char*) { return false; }
+    csPtr<iScriptValue> Call(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0 ;}
+    csPtr<iScriptValue> RValue(int) { return 0; }
+    csPtr<iScriptValue> RValue(float) { return 0; }
+    csPtr<iScriptValue> RValue(double) { return 0; }
+    csPtr<iScriptValue> RValue(const char*) { return 0; }
+    csPtr<iScriptValue> RValue(bool) { return 0; }
+    csPtr<iScriptValue> RValue(iScriptObject*) { return 0; }
+    csPtr<iScriptObject> New(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0; }
+    bool Store(const char*, iScriptValue*) { return false; }
+    csPtr<iScriptValue> Retrieve(const char*) { return 0; }
+
+    /*
+      @@@ Deprecated functions which wont be implemented
     */
     bool Call(const char *name, const char *fmt, ...)
       { return false; }

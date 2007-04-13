@@ -9,6 +9,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit re-added support for pccommandinput. It is too early
 	  to remove this already since it was not properly deprecated
 	  before.
+	- caedes added new methods from iScript to blpython and removed
+	  some which are no longer needed. The new methods still have to
+	  be implemented.
 11-Apr-2007
 	- Genjix swapped 2 letters in trigger.h typo.
 	- cfraz89 increased the strength of the handbrake in pcwheeled.
