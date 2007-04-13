@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+13-Apr-2007
+	- Jorrit fixed cel for the removal of iSndSysWrapper->GetStream()
+	  in CS.
 11-Apr-2007
 	- Genjix swapped 2 letters in trigger.h typo.
 	- cfraz89 increased the strength of the handbrake in pcwheeled.
