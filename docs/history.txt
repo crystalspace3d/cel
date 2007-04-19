@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 19-Apr-2007
 	- Vincent updated celNumberInput.py (new 'set_value' message) and
 	  celScroller.py (usability improvements) widgets on behalf of cfraz89.
+	- Darek fixed mistypes in pcmechobject docs.
 13-Apr-2007
 	- Jorrit fixed cel for the removal of iSndSysWrapper->GetStream()
 	  in CS.

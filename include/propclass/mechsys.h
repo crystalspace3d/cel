@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2005 by Jorrit Tyberghein
-  
+
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-  
+
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-  
+
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -122,7 +122,7 @@ struct iPcMechanicsSystem : public virtual iBase
    */
   virtual void AddForceDuration (iPcMechanicsObject* pcobject,
   	const csVector3& force, bool relative, const csVector3& position,
-	float seconds) = 0;
+  	float seconds) = 0;
 
   /**
    * During the next frame add the force every step. This function is called
@@ -151,7 +151,7 @@ struct iPcMechanicsSystem : public virtual iBase
    */
   virtual void AddForceTagged (iPcMechanicsObject* pcobject,
   	const csVector3& force, bool relative, const csVector3& position,
-	uint32 forceid) = 0;
+  	uint32 forceid) = 0;
 
   /**
    * Remove the force with the given tag. This function is called by
@@ -161,7 +161,7 @@ struct iPcMechanicsSystem : public virtual iBase
    * \param forceid the tag of the desired force.
    */
   virtual void RemoveForceTagged (iPcMechanicsObject* pcobject,
-	uint32 forceid) = 0;
+  	uint32 forceid) = 0;
 
   /**
    * Remove the given body from the force queues (filled with AddForceFrame()
@@ -246,7 +246,7 @@ struct iPcMechanicsSystem : public virtual iBase
  *      'softness' (float: optional), 'lift' (vector3: optional), and 'drag'
  *      (float: optional).
  * - MakeStatic: parameters 'static' (bool).
- * - SetSystem: parameters 'syspcent' (string) and 'syspctag' (string).
+ * - SetSystem: parameters 'systempcent' (string) and 'systempctag' (string).
  * - SetMesh: parameters 'mechpctag' (string: optional). If tag is not given,
  *      the primary (untagged) pcmesh is used.
  * - SetColliderBoundingSphere: parameters 'radiusadjustment' (float: optional).
@@ -482,7 +482,7 @@ struct iPcMechanicsObject : public virtual iBase
    * by forces.
    */
   virtual void MakeStatic (bool stat) = 0;
-  
+
   /**
    * Return true if static.
    */
@@ -561,7 +561,7 @@ struct iPcMechanicsObject : public virtual iBase
    * \param position the position of the force.
    */
   virtual void AddForceOnce (const csVector3& force, bool relative,
-	const csVector3& position) = 0;
+  	const csVector3& position) = 0;
 
   /**
    * During the specified time (in seconds) add the force every step.
@@ -572,7 +572,7 @@ struct iPcMechanicsObject : public virtual iBase
    * \param seconds the number of seconds that this force should last.
    */
   virtual void AddForceDuration (const csVector3& force, bool relative,
-	const csVector3& position, float seconds) = 0;
+  	const csVector3& position, float seconds) = 0;
 
   /**
    * During the next frame add the force every step.
@@ -582,7 +582,7 @@ struct iPcMechanicsObject : public virtual iBase
    * \param position the position of the force.
    */
   virtual void AddForceFrame (const csVector3& force, bool relative,
-	const csVector3& position) = 0;
+  	const csVector3& position) = 0;
 
   /**
    * Add a force with the given tag, to be manually removed later.
@@ -594,7 +594,7 @@ struct iPcMechanicsObject : public virtual iBase
    */
 
   virtual uint32 AddForceTagged (const csVector3& force, bool relative, 
-	const csVector3& position) = 0;
+  	const csVector3& position) = 0;
 
   /**
    * Remove the force with the given tag.
