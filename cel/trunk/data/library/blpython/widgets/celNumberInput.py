@@ -134,3 +134,9 @@ class celNumberInput:
         newint = int(newtext) + 1
         self.text = list(str(newint))
         self.bb.SetText(str(newint))
+
+    #This message allows to change our value that we store and display
+    def set_value(self, pc, args):
+        text = str(args[parid('value')])
+        self.text = list(text)
+        self.bb.SetText(text)
