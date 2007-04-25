@@ -20,25 +20,27 @@ class celMenu:
     
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
     def addElement(self, name, message, position, sizes, fsize, material, behaviour = 'celButton'):
-        elementEntity = CreateEntity()
-        elementEntity.Name = name
+        elementEntity = CreateEntity(name, self.blpython, None)
         pcbillboard = celBillboard(elementEntity)
-        buttonbb = pcbillboard.Billboard
-        buttonbb.SetMaterialName(material)
-        buttonbb.SetSize(sizes[0], sizes[1])
-        buttonbb.SetPosition(position[0], position[1])
-        buttonbb.SetTextOffset(1500, 1500)
-        buttonbb.SetTextFgColor(GetFontColor())
-        buttonbb.SetTextFont(self.font, fsize)
-        buttonbb.SetText(name)
+        pcbillboard.materialnamefast = material
+        pcbillboard.width = sizes[0]
+        pcbillboard.height = sizes[1]
+        pcbillboard.x = position[0]
+        pcbillboard.y = position[1]
+        pcbillboard.text_offset = csVector2(1500, 1500)
+        pcbillboard.text_fg_color = GetFontColor()
+        pcbillboard.text_font_size = fsize
+        pcbillboard.text_font = self.font
+        pcbillboard.text = name
         params=parblock({'message' : message, 'owner': self.owner})
         if message != '':
             elementEntity.CreateBehaviour(self.blpython, behaviour)
-            pcbillboard.EnableEvents(True)
+            pcbillboard.clickable = True
             elementEntity.Behaviour.SendMessage('setparameters', None, params)
         self.elements.append(elementEntity)
+
         return elementEntity
-        
+
     #Given an [x,y] list for position, and spacing, arrange elements 
     def align(self, position, spacing):
         for i, element in enumerate(self.elements):

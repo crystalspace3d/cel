@@ -16,6 +16,14 @@ class celTextInput:
         self.pcinput.Bind('key', 'keypress')
         self.pcinput.SetCookedMode(True)
         self.pcinput.SetSendTrigger(True)
+
+        #Used for the skipnext message
+        self.skip = False
+
+    #If a keypress was used to activate the input, that key will also
+    #get triggered. We ignore that here
+    def skipnext(self, pc, args):
+        self.skip = True
             
     def pcbillboard_select(self,pc,args):
         params = parblock({'sender':self.entity.Name})
@@ -38,26 +46,14 @@ class celTextInput:
                     self.index = len(text)
                 else:
                     self.text = []
-            #Insert the cursor
-            newtext = ''
-            for i, letter in enumerate(self.text):
-                #Insert the cursor at right position
-                if i is self.index:
-                    newtext += '|'
-                newtext += letter
-            #Also allow cursor to be at the end
-            if self.index is len(newtext):
-                newtext += '|'
-            self.bb.SetText(newtext)
-        
+            self.updatebb()
+
     def setinactive(self, pc, args):
         if self.active:
             self.active = False
             #Remove the cursor
             newtext = ''
-            for i, letter in enumerate(self.text):
-                newtext += letter
-            self.bb.SetText(newtext)
+            self.bb.SetText(newtext.join(self.text))
     
     def setparameters(self,pc,args):
         self.message = args[getid('cel.parameter.message')]
@@ -65,8 +61,10 @@ class celTextInput:
         
     def pccommandinput_keypress1(self, pc, args):
         trigger = args[getid('cel.parameter.trigger')]
-        if self.active:
+        if self.active and not self.skip:
             self.handlekey(trigger)
+        else:
+            self.skip = False
    
     def handlekey(self, trigger):
         #Check if shift is pressed
@@ -81,9 +79,14 @@ class celTextInput:
             self.index -= 1
         if trigger == 'Right' and self.index < len(self.text):
             self.index += 1
-         
+
+        allowed = 'abcdefghijklmnopqrstuvwxyz'
+        allowed += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        allowed += '0123456789'
+        allowed += '`~!@#$%^&*()-_=+\{[}];:",<.>/?'
+
         #Insert a character
-        elif trigger in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':
+        if trigger in allowed:
             self.text.insert(self.index, trigger)
             self.index += 1
         #Insert a space
@@ -95,17 +98,30 @@ class celTextInput:
             if len(self.text) > 0:
                 self.index -= 1
                 self.text.pop(self.index)
+        #Enter was pressed, tell our owner
+        elif trigger == 'Enter':
+            params = parblock({'sender':self.entity.Name})
+            self.owner.Behaviour.SendMessage('textinput_enter', None, params)
+        self.updatebb()
+
+    def updatebb(self):
         newtext = ''
         for i, letter in enumerate(self.text):
             #Insert the cursor at right position
-            if i is self.index:
+            if self.active and (i is self.index):
                 newtext += '|'
             newtext += letter
         #Also allow cursor to be at the end
-        if self.index is len(newtext):
+        if self.active and (self.index is len(newtext)):
             newtext += '|'
         self.bb.SetText(newtext)
-        
+
+    #Clear our text
+    def clear(self, pc, args):
+        self.text = []
+        self.index = 0
+        self.bb.SetText('')
+
     def pccommandinput_keypress0(self, pc, args):
         pass
     
