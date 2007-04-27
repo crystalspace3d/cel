@@ -5,7 +5,7 @@
       <event name="init">
 	<if eval="!ent(celButtonTools)">
 	  <createentity name="celButtonTools" />
-	  <createpropclass entity="celButtonTools" name="pcproperties" />
+	  <createpropclass entity="celButtonTools" name="pctools.properties" />
 	  <var entity="celButtonTools" name="modal" value="false" />
 	</if>
       </event>
@@ -47,8 +47,8 @@
       <event name="Construct">
 	<var name="mat" value="@mat" />
 	<var name="matpress" value="@matpress" />
-	<createpropclass name="pcbillboard" />
-	<default propclass="pc(pcbillboard)" />
+	<createpropclass name="pc2d.billboard" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(name)" value="button+entname()" />
 	<property id="propid(materialname)" value="?mat" />
 	<property id="propid(movable)" value="false" />
@@ -60,13 +60,13 @@
 	<property id="propid(width)" value="@w" />
 	<property id="propid(height)" value="@h" />
 
-	<createpropclass name="pccommandinput" />
-	<default propclass="pc(pccommandinput)" />
+	<createpropclass name="pcinput.standard" />
+	<default propclass="pc(pcinput.standard)" />
 	<expr eval="Bind{trigger=MouseButton0,command=unselect}" />
       </event>
 
       <event name="recalc_textoffset">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<lvar name="w" value="GetTextWidth{}" />
 	<lvar name="h" value="GetTextHeight{}" />
 	<lvar name="dx" value="(property(propid(width))-#w)/2" />
@@ -89,7 +89,7 @@
 	-    @text: text to use.
 	-->
       <event name="SetText">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text)" value="@text" />
 	<call event="recalc_textoffset" />
 	<property id="propid(text_fg_color)" value="?color" />
@@ -102,7 +102,7 @@
 	-    @size: size.
 	-->
       <event name="SetTextFont">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_font_size)" value="@size" />
 	<property id="propid(text_font)" value="@font" />
 	<call event="recalc_textoffset" />
@@ -118,7 +118,7 @@
       <event name="SetColor">
 	<var name="color" value="@color" />
 	<var name="selectcolor" value="@selectcolor" />
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_fg_color)" value="?color" />
       </event>
 
@@ -146,7 +146,7 @@
 	  <stop/>
 	</if>
 	<if eval="@button!=0"> <stop/> </if>
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialnamefast)" value="?matpress" />
 	<property id="propid(text_fg_color)" value="?selectcolor" />
 	<property id="propid(text_offset)" value="?selecttextoffset" />
@@ -159,7 +159,7 @@
 	<var name="focused" value="false" />
 	<var name="ontarget" value="false" />
 	<if eval="!#t"> <stop /> </if>
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialnamefast)" value="?mat" />
 	<property id="propid(text_fg_color)" value="?color" />
 	<property id="propid(text_offset)" value="?textoffset" />
@@ -168,7 +168,7 @@
 
       <event name="pcbillboard_move">
 	<if eval="!?focused"> <stop /> </if>
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialnamefast)" value="?matpress" />
 	<property id="propid(text_fg_color)" value="?selectcolor" />
 	<property id="propid(text_offset)" value="?selecttextoffset" />
@@ -177,7 +177,7 @@
 
       <event name="pcbillboard_moveaway">
 	<if eval="!?focused"> <stop /> </if>
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialnamefast)" value="?mat" />
 	<property id="propid(text_fg_color)" value="?color" />
 	<property id="propid(text_offset)" value="?textoffset" />
@@ -208,8 +208,8 @@
 	-    @h: height
 	-->
       <event name="Construct">
-	<createpropclass name="pcbillboard" />
-	<default propclass="pc(pcbillboard)" />
+	<createpropclass name="pc2d.billboard" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(name)" value="label+entname()" />
 	<property id="propid(movable)" value="false" />
 	<property id="propid(clickable)" value="true" />
@@ -222,7 +222,7 @@
       </event>
 
       <event name="recalc_textoffset">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<lvar name="w" value="GetTextWidth{}" />
 	<lvar name="h" value="GetTextHeight{}" />
 	<lvar name="dx" value="(property(propid(width))-#w)/2" />
@@ -237,7 +237,7 @@
 	-    @mat: material used for the label
 	-->
       <event name="SetMaterial">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialname)" value="@mat" />
       </event>
 
@@ -248,7 +248,7 @@
 	-    @text: text to use.
 	-->
       <event name="SetText">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text)" value="@text" />
 	<call event="recalc_textoffset" />
 	<property id="propid(text_fg_color)" value="?color" />
@@ -261,7 +261,7 @@
 	-    @size: size.
 	-->
       <event name="SetTextFont">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_font_size)" value="@size" />
 	<property id="propid(text_font)" value="@font" />
 	<call event="recalc_textoffset" />
@@ -275,7 +275,7 @@
 	-->
       <event name="SetColor">
 	<var name="color" value="@color" />
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_fg_color)" value="?color" />
       </event>
     </script>
@@ -297,8 +297,8 @@
 	<var name="text" value="''" />
 
 
-	<createpropclass name="pccommandinput" />
-	<default propclass="pc(pccommandinput)" />
+	<createpropclass name="pcinput.standard" />
+	<default propclass="pc(pcinput.standard)" />
 	<property id="propid(cooked)" value="true" />
 	<property id="propid(sendtrigger)" value="true" />
 	<expr eval="Bind{trigger=key,command=handlekey}" />
@@ -313,8 +313,8 @@
 	-    @h: height
 	-->
       <event name="Construct">
-	<createpropclass name="pcbillboard" />
-	<default propclass="pc(pcbillboard)" />
+	<createpropclass name="pc2d.billboard" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(name)" value="label+entname()" />
 	<property id="propid(movable)" value="false" />
 	<property id="propid(clickable)" value="true" />
@@ -327,7 +327,7 @@
       </event>
 
       <event name="recalc_textoffset">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<lvar name="h" value="GetTextHeight{}" />
 	<lvar name="dx" value="100" />
 	<lvar name="dy" value="(property(propid(height))-#h)/2" />
@@ -341,7 +341,7 @@
 	-    @mat: material used for the text input field
 	-->
       <event name="SetMaterial">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(materialname)" value="@mat" />
       </event>
 
@@ -352,7 +352,7 @@
 	-    @text: text to use.
 	-->
       <event name="SetText">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<var name="text" value="@text" />
 	<property id="propid(text)" value="?text+'_'" />
 	<call event="recalc_textoffset" />
@@ -373,7 +373,7 @@
 	-    @size: size.
 	-->
       <event name="SetTextFont">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_font_size)" value="@size" />
 	<property id="propid(text_font)" value="@font" />
 	<call event="recalc_textoffset" />
@@ -387,7 +387,7 @@
 	-->
       <event name="SetColor">
 	<var name="color" value="@color" />
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_fg_color)" value="?color" />
       </event>
 
@@ -411,7 +411,7 @@
       <event name="pccommandinput_handlekey1">
         <if eval="!?active"> <stop /> </if>
 	<lvar name="t" value="@trigger" />
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<if eval="strlen(#t)==1">
 	    <var name="text" value="?text+#t" />
 	    <property id="propid(text)" value="?text+'_'" />
@@ -487,8 +487,8 @@
 	<var name="butheight" value="@bh" />
 	<if eval="?celButtonTools.modal"> <stop /> </if>
 	<var entity="celButtonTools" name="modal" value="true" />
-	<createpropclass name="pcbillboard" />
-	<default propclass="pc(pcbillboard)" />
+	<createpropclass name="pc2d.billboard" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(name)" value="celDialog+entname()" />
 	<property id="propid(materialname)" value="@matbg" />
 	<property id="propid(movable)" value="false" />
@@ -525,7 +525,7 @@
 	-    @text: text to use.
 	-->
       <event name="SetText">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text)" value="@text" />
 	<property id="propid(text_offset)" value="[10000,?butheight]" />
 	<property id="propid(text_fg_color)" value="?color" />
@@ -538,7 +538,7 @@
 	-    @size: size.
 	-->
       <event name="SetTextFont">
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_font_size)" value="@size" />
 	<property id="propid(text_font)" value="@font" />
 	<lvar name="e" value="dialog+entname()+_yes" />
@@ -557,7 +557,7 @@
 	-->
       <event name="SetColor">
 	<var name="color" value="@color" />
-	<default propclass="pc(pcbillboard)" />
+	<default propclass="pc(pc2d.billboard)" />
 	<property id="propid(text_fg_color)" value="?color" />
       </event>
 

@@ -1193,10 +1193,10 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   if (!pc_cd)
   {
     csRef<iCelPropertyClass> pc;
-    pc = pl->CreatePropertyClass (entity, "pccollisiondetection");
+    pc = pl->CreatePropertyClass (entity, "pcobject.mesh.collisiondetection");
     if (!pc)
       return MoveReport (object_reg,
-      	"Could not create property class pccollisiondetection.");
+      	"Could not create property class pcobject.mesh.collisiondetection.");
     csRef<iPcCollisionDetection> pctemp;
     pctemp = scfQueryInterface<iPcCollisionDetection> (pc);
 

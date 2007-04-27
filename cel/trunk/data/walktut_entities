@@ -100,7 +100,7 @@
 
       <propclass name="pcobject.mesh.select" />
 
-      <propclass name="pcproperties">
+      <propclass name="pctools.properties">
         <property name="pos1" vector="9,2,8" />
         <property name="pos2" vector="6,2,8" />
         <property name="pos3" vector="6,2,12" />
@@ -127,7 +127,7 @@
         <property name="time6" long="1000" />
       </propclass>
 
-      <propclass name="pctimer">
+      <propclass name="pctools.timer">
         <action name="WakeUp">
 	  <par name="time" long="5000" />
 	  <par name="repeat" bool="true" />

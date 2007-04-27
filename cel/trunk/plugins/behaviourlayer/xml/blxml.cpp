@@ -1682,6 +1682,28 @@ bool celBlXml::ParseExpressionInt (
       break;
     case CEL_TOKEN_IDENTIFIER:
       {
+	if (stoppri != CEL_PRIORITY_ONETERM)
+	{
+	  const char* remember_input = input;
+	  // To allow constant strings with a '.' in them (very common
+	  // for property class names) we have a little hack here.
+	  const char* prev_input = 0;
+          input = celXmlParseToken (input, token);
+	  while (token == CEL_TOKEN_DOT || token == CEL_TOKEN_IDENTIFIER)
+	  {
+	    prev_input = input;
+            input = celXmlParseToken (input, token);
+	  }
+	  if (prev_input == 0)
+	  {
+	    input = remember_input;
+	  }
+	  else
+	  {
+	    input = prev_input;
+	  }
+	}
+
         char* str;
         str = new char[input-pinput+1];
         strncpy (str, pinput, input-pinput);

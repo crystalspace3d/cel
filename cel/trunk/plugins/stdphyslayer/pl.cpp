@@ -1076,8 +1076,78 @@ csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
   return new celEntityList ();
 }
 
+static const char* deprecated_plugin_ids[] =
+{
+  "colldet",			"object.mesh.collisiondetection",
+  "collisiondetection",		"object.mesh.collisiondetection",
+  "mesh",			"object.mesh",
+  "meshselect",			"object.mesh.select",
+  "meshdeform",			"object.mesh.deform",
+  "light",			"object.light",
+  "portal",			"object.portal",
+  "linmove",			"move.linear",
+  "linearmovement",		"move.linear",
+  "movable",			"move.movable",
+  "solid",			"move.solid",
+  "movableconst_cd",		"move.movableconst_cd",
+  "gravity",			"move.gravity",
+  "actormove",			"move.actor",
+  "npcmove",			"move.npc",
+  "mover",			"move.mover",
+  "projectile",			"move.projectile",
+  "billboard",			"2d.billboard",
+  "tooltip",			"2d.tooltip",
+  "damage",			"logic.damage",
+  "quest",			"logic.quest",
+  "rules",			"logic.rules",
+  "spawn",			"logic.spawn",
+  "trigger",			"logic.trigger",
+  "defaultcamera",		"camera.old",
+  "newcamera",			"camera.standard",
+  "simplecamera",		"camera.simple",
+  "region",			"world.region",
+  "zonemanager",		"world.zonemanager",
+  "hover",			"vehicle.hover",
+  "craft",			"vehicle.craft",
+  "wheeled",			"vehicle.wheeled",
+  "commandinput",		"input.standard",
+  "pccommandinput",		"input.standard",
+  "inventory",			"tools.inventory",
+  "characteristics",		"tools.inventory.characteristics",
+  "timer",			"tools.timer",
+  "properties",			"tools.properties",
+  "mechsys",			"physics.system",
+  "mechobject",			"physics.object",
+  "mechjoint",			"physics.joint",
+  "mechbalancedgroup",		"physics.thruster.group",
+  "mechthrustercontroller",	"physics.thruster.controller",
+  "mechthrusterreactionary",	"physics.thruster.reactionary",
+  "soundlistener",		"sound.listener",
+  "soundsource",		"sound.source",
+  "test",			"misc.test",
+  0
+};
+
 bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 {
+  // Sanity check to avoid crashes with bad plugin_id's.
+  if (strlen (plugin_id) >= 15)
+  {
+    int i = 0;
+    while (deprecated_plugin_ids[i])
+    {
+      if (!strcmp (plugin_id+14, deprecated_plugin_ids[i]))
+      {
+        csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+	    "crystalspace.cel.physicallayer",
+	    "Property class factory name '%s' is deprecated! Use 'cel.pcfactory.%s' instead.",
+	    plugin_id, deprecated_plugin_ids[i+1]);
+        break;
+      }
+      i += 2;
+    }
+  }
+
   csRef<iPluginManager> plugin_mgr =
   	csQueryRegistry<iPluginManager> (object_reg);
   csRef<iBase> pf;

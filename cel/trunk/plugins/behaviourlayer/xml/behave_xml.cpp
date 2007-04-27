@@ -109,7 +109,8 @@ iPcProperties* celBehaviourXml::GetProperties ()
     if (!p)
     {
       csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
-      iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcproperties");
+      iCelPropertyClass* pc = pl->CreatePropertyClass (entity,
+	  "pctools.properties");
       if (pc)
 	p = scfQueryInterface<iPcProperties> (pc);
     }
