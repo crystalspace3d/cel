@@ -22,6 +22,10 @@ The history order is reversed so that new features are at the top.
 	  the use of the '.' operator in other uses. That simplifies
 	  creation of property classes using the new dotted naming
 	  convention.
+	- caedes added an %ignore for the vararg version of CreateEntity
+	  from a template to the swig interface files. Otherwise it was
+	  impossible to pass parameters to entity templates. Now at least
+	  the function that takes a celEntityTemplateParams works.
 25-Apr-2007
 	- Vincent applied updates from cfraz89 to celMenu.py and
 	  celTextInput.py.

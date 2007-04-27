@@ -216,6 +216,7 @@ CEL_APPLY_FOR_EACH_INTERFACE
 %template (celEntityTemplateParams) csHash<csStringFast<12>, csStringFast<12> >; 
 
 %ignore iCelPlLayer::SendMessageV;
+%ignore iCelPlLayer::CreateEntity (iCelEntityTemplate* factory,const char* name, ...);
 %include "physicallayer/pl.h"
 %inline %{
 iCelPlLayer *csQueryRegistry_iCelPlLayer (iObjectRegistry *object_reg)
