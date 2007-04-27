@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+27-Apr-2007
+	- res updated mk/jam and mk/autoconf with the latest copies from the
+	  CS repository.
 25-Apr-2007
 	- Vincent applied updates from cfraz89 to celMenu.py and celTextInput.py.
 19-Apr-2007
