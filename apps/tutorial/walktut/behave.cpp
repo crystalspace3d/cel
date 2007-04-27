@@ -51,7 +51,8 @@ SCF_IMPLEMENT_IBASE (BehaviourCommon)
   SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
 SCF_IMPLEMENT_IBASE_END
 
-BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl,
+    iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
   BehaviourCommon::entity = entity;
@@ -165,13 +166,16 @@ void BehaviourPlayer::Drop ()
   }
   iCelEntity* child = pcinventory->GetEntity (0);
   pcinventory->RemoveEntity (child);
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child, iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (child,
+      iPcLinearMovement);
   if (pclinmove)
   {
     GetMesh ();
-    // Now we get current position and orientation from player mesh and from that
-    // we calculate a spot in front of the player where we will drop down the item.
-    csVector3 pos = pcmesh->GetMesh ()->GetMovable ()->GetTransform ().This2Other (csVector3 (0, 2, -2));
+    // Now we get current position and orientation from player mesh and from
+    // that we calculate a spot in front of the player where we will drop down
+    // the item.
+    csVector3 pos = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+      .This2Other (csVector3 (0, 2, -2));
     iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
     pclinmove->SetPosition (pos, 0, sector);
     pclinmove->SetVelocity (csVector3 (0, .1f, 0));
@@ -226,7 +230,8 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 
 //-----------------------------------------------------------------------------
 
-BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
+BehaviourBox::BehaviourBox (iCelEntity* entity, BehaviourLayer* bl,
+    iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)
 {
   id_pcmeshsel_down = pl->FetchStringID ("pcmeshsel_down");
@@ -334,7 +339,8 @@ void BehaviourBadOne::ReadPath ()
     totaltime += time;
   }
 
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     for (i = 0 ; i < count ; i++)
@@ -346,7 +352,8 @@ void BehaviourBadOne::ReadPath ()
 
 void BehaviourBadOne::Restart ()
 {
-  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+  csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (entity,
+      iPcLinearMovement);
   if (pclinmove)
   {
     pclinmove->SetPath (path);

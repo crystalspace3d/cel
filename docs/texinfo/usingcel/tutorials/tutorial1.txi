@@ -37,19 +37,19 @@ This tutorial features:
 
 @itemize @bullet
 @item
-Camera handling using the @samp{pcdefaultcamera} property class.
+Camera handling using the @samp{pccamera.old} property class.
 @item
-Movement of an actor in a game using the @samp{pclinearmovement} property
+Movement of an actor in a game using the @samp{pcmove.linear} property
 class.
 @item
-Visualization of the player using the @samp{pcmesh} property class.
+Visualization of the player using the @samp{pcobject.mesh} property class.
 @item
-Handling of the player inventory using the @samp{pcinventory} property class.
+Handling of the player inventory using the @samp{pctools.inventory} property class.
 @item
-Handling of keyboard and mouse input using the @samp{pccommandinput}
+Handling of keyboard and mouse input using the @samp{pcinput.standard}
 property class.
 @item
-Loading world and entity file using the @samp{pczonemanager} property
+Loading world and entity file using the @samp{pcworld.zonemanager} property
 class.
 @item
 Usage of the @samp{celentity} addon to add entities from an @sc{xml} map
@@ -77,7 +77,7 @@ looks:
 @example
     <addon plugin="celentity" entityname="badone">
 
-      <propclass name="pcmesh">
+      <propclass name="pcobject.mesh">
         <action name="LoadMeshPath">
 	  <par name="path" string="/this/model" />
 	  <par name="filename" string="monkey" />
@@ -85,9 +85,9 @@ looks:
 	</action>
       </propclass>
 
-      <propclass name="pcmeshselect" />
+      <propclass name="pcobject.mesh.select" />
 
-      <propclass name="pcproperties">
+      <propclass name="pctools.properties">
         <property name="pos1" vector="9,2,8" />
         <property name="pos2" vector="6,2,8" />
         <property name="pos3" vector="6,2,12" />
@@ -114,14 +114,14 @@ looks:
         <property name="time6" long="1000" />
       </propclass>
 
-      <propclass name="pctimer">
+      <propclass name="pctools.timer">
         <action name="WakeUp">
 	  <par name="time" long="5000" />
 	  <par name="repeat" bool="true" />
 	</action>
       </propclass>
 
-      <propclass name="pclinearmovement">
+      <propclass name="pcmove.linear">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -143,19 +143,19 @@ In this particular example we use the @samp{cel.addons.celentity} addon
 (@pxref{Addons CelEntity}) to create an entity with the name @samp{badone}.
 It has the following property classes:
 @itemize @bullet
-@item @samp{pcmesh} (@pxref{PropClass Mesh}).
+@item @samp{pcobject.mesh} (@pxref{PropClass Mesh}).
 This mesh is setup with the @samp{monkey} model that
 was made in @samp{Blender}.
-@item @samp{pcmeshselect}
+@item @samp{pcobject.mesh.select}
 Used for selection of mesh.
-@item @samp{pcproperties}
+@item @samp{pctools.properties}
 This is a generic property class for storing named properties. In this
 particular case the @samp{badone_behave} behaviour will read out the properties
 to construct the path for the catmull rom spline.
-@item @samp{pctimer} (@pxref{PropClass Timer}).
+@item @samp{pctools.timer} (@pxref{PropClass Timer}).
 This timer will be used to restart the movement along the path after
 5 seconds (5000 milliseconds).
-@item @samp{pclinearmovement} (@pxref{PropClass LinMove}).
+@item @samp{pcmove.linear} (@pxref{PropClass LinMove}).
 This is the generic movement system.
 @end itemize
 
@@ -286,7 +286,7 @@ a @code{CreateEntity()} convenience function which creates the entity,
 assigns a behaviour to it and also creates the property classes for it. In
 this particular case we create an entity called @samp{level} and assign it
 with the behaviour that is called @samp{level_behave} (this one will be
-defined later in this tutorial). We also create a @samp{pczonemanager}
+defined later in this tutorial). We also create a @samp{pcworld.zonemanager}
 property class (@pxref{PropClass ZoneMgr}) for it. This property class
 manages loading and unloading of levels (map files) in the game.
 
@@ -312,7 +312,7 @@ for entities in our game.
 bool MainApp::LoadLevel ()
 @{
   level_entity = pl->CreateEntity ("level", bl, "level_behave",
-    "pczonemanager",
+    "pcworld.zonemanager",
     CEL_PROPCLASS_END);
   if (!level_entity)
     return ReportError ("Error creating level entity!");
@@ -354,7 +354,7 @@ Since we are possibly using third-person camera mode the zone manager needs
 to know about the player mesh. This is needed so that the zone manager can
 load the needed regions depending on where the player moves.
 
-Then we setup @samp{pclinearmovement} and @samp{pcactormove} with the
+Then we setup @samp{pcmove.linear} and @samp{pcmove.actor} with the
 proper movement parameters. This includes the dimensions of the collision
 box and various speed parameters with which we will move the player.
 
@@ -367,12 +367,12 @@ you probably want to read the key definitions from a configuration file.
 bool MainApp::CreatePlayer ()
 @{
   player_entity = pl->CreateEntity ("player", bl, "player_behave",
-    "pcdefaultcamera",
-    "pcmesh",
-    "pclinearmovement",
-    "pcactormove",
-    "pccommandinput",
-    "pcinventory",
+    "pccamera.old",
+    "pcobject.mesh",
+    "pcmove.linear",
+    "pcmove.actor",
+    "pcinput.standard",
+    "pctools.inventory",
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError ("Error creating player entity!");
@@ -550,30 +550,6 @@ bool MainApp::Application ()
   vfs->Mount ("cel", "$.$/");
 
   pl->RegisterBehaviourLayer (bl);
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
-    return ReportError ("Error loading pczonemanager factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
-    return ReportError ("Error loading pcsolid factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
-    return ReportError ("Error loading pccolldet factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
-    return ReportError ("Error loading pcdefaultcamera factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
-    return ReportError ("Error loading pcmesh factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
-    return ReportError ("Error loading pcmeshselect factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
-    return ReportError ("Error loading pclinmove factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
-    return ReportError ("Error loading pccommandinput factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
-    return ReportError ("Error loading pcactormove factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
-    return ReportError ("Error loading pcinventory factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
-    return ReportError ("Error loading pcproperties factory!");
-  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
-    return ReportError ("Error loading pctimer factory!");
 
   if (!LoadLevel ())
     return ReportError ("Error loading level!");
@@ -755,8 +731,8 @@ public:
 @end example
 
 And finally the behaviour for our player. This one takes care of matching
-commands from the @samp{pccommandinput} property class to actual operations
-on @samp{pcactormove}.
+commands from the @samp{pcinput.standard} property class to actual operations
+on @samp{pcmove.actor}.
 
 @example
 class BehaviourPlayer : public BehaviourCommon
@@ -923,8 +899,8 @@ bool BehaviourLevel::SendMessage (csStringID msg_id,
 @end example
 
 The player behaviour is responsible for managing input (from
-@samp{pccommandinput}) and moving the actor in response to that input
-(with @samp{pcactormove}). First we request @sc{id}'s from the physical
+@samp{pcinput.standard}) and moving the actor in response to that input
+(with @samp{pcmove.actor}). First we request @sc{id}'s from the physical
 layer for the messages from the input property class that we want to respond
 too. For every command we defined in a @code{Bind()} in the
 @code{CreatePlayer()} function we get both a @samp{1} (when key is pressed)
@@ -937,7 +913,7 @@ on standard output and the @code{Drop()} function will drop one item from
 the inventory.
 
 In @code{SendMessage()} we test which message we got. If it is one of
-the input messages we call the appropriate @sc{api} method in @samp{pcactormove}
+the input messages we call the appropriate @sc{api} method in @samp{pcmove.actor}
 to move, rotate, or jump the player. If it is one of the inventory messages
 then we show the inventory contents.
 
@@ -1071,7 +1047,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 
 The box behaviour supports picking up and putting itself in the player
 inventory. To do that entities that use this behaviour need to use the
-@samp{pcmeshselect} property class so that they get a message whenever
+@samp{pcobject.mesh.select} property class so that they get a message whenever
 the entity is selected. In this behaviour we wait for that message and
 when we get it we will add ourselves to the inventory of the player.
 
@@ -1126,11 +1102,11 @@ This behaviour represents an entity that moves around on a path. We use
 catmull rom splines to calculate a smooth path. The @code{csPath} class
 from Crystal Space helps with this. In the @code{ReadPath()} function we
 read the path from properties that are assigned to the entity (using the
-general @samp{pcproperties} property class).
+general @samp{pctools.properties} property class).
 
-Entities that use this behaviour also need to have a @samp{pctimer} property
-class. This is used to be able to restart the movement path after a certain
-time has expired.
+Entities that use this behaviour also need to have a @samp{pctools.timer}
+property class. This is used to be able to restart the movement path after a
+certain time has expired.
 
 @example
 BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)

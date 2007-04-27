@@ -12,6 +12,16 @@ The history order is reversed so that new features are at the top.
 	- Jorrit re-introduced support for the deprecated
 	  cel.pcfactory.linmove and cel.pcfactory.colldet names. We first
 	  need a warning system to warn users of this at runtime.
+	- Jorrit also re-introduced the old cel.pcfactory.test name.
+	- Jorrit added a system in the physical layer to give a warning
+	  when deprecated property class names are being used.
+	- Jorrit removed all deprecated usages of old property class names
+	  from CEL itself.
+	- Jorrit fixed the XML behaviour layer so that it considers
+	  'foo.bar.chocolate' also a valid identifier while still allowing
+	  the use of the '.' operator in other uses. That simplifies
+	  creation of property classes using the new dotted naming
+	  convention.
 25-Apr-2007
 	- Vincent applied updates from cfraz89 to celMenu.py and
 	  celTextInput.py.
