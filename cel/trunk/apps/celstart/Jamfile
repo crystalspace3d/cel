@@ -1,5 +1,11 @@
 SubDir TOP apps celstart ;
 
+IconsFromSVG CELstart ;
+IconsFromSVG gnome-mime-application-x-zip-celstart ;
+IconsMakeWin32ICO CELstart.ico : CELstart ;
+IconsMakeWin32ICO celzip.ico : gnome-mime-application-x-zip-celstart ;
+
+ApplicationIcon win32 : celstart : CELstart.ico ;
 Application celstart : [ Wildcard *.cpp *.h ] ;
 CFlags celstart : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
 LinkWith celstart : celtool ;
@@ -9,6 +15,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
 {
   SubVariant static ;
 
+  ApplicationIcon win32 : celstart_static : CELstart.ico ;
   Application celstart_static : [ Wildcard *.cpp *.h ]
         [ Wildcard [ ConcatDirs behaviours ] : *.cpp *.h ]
         [ Wildcard [ ConcatDirs screens ] : *.cpp *.h ] :
