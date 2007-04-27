@@ -9,8 +9,12 @@ The history order is reversed so that new features are at the top.
 	- res added CELstart and .celzip icons from Dentoid. Uses CS' icon
 	  generation tools to generate icon files.
 	- res added the celzip icon to Win32 binaries.
+	- Jorrit re-introduced support for the deprecated
+	  cel.pcfactory.linmove and cel.pcfactory.colldet names. We first
+	  need a warning system to warn users of this at runtime.
 25-Apr-2007
-	- Vincent applied updates from cfraz89 to celMenu.py and celTextInput.py.
+	- Vincent applied updates from cfraz89 to celMenu.py and
+	  celTextInput.py.
 19-Apr-2007
 	- Vincent updated celNumberInput.py (new 'set_value' message) and
 	  celScroller.py (usability improvements) widgets on behalf of cfraz89.
