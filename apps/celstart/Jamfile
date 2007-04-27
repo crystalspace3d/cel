@@ -102,7 +102,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   STATIC.OPTIONALPLUGINLIST =
     cspython
     glshader_cg
-    glshader_ps/
+    glshader_ps1
     sndmanager
     sndsyssoft
     sndsysloader
