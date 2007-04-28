@@ -171,8 +171,8 @@ bool BehaviourCommon::SendMessage (csStringID,
 }
 </pre></td></tr></table>
 <p>The player behaviour is responsible for managing input (from
-<samp>`pccommandinput'</samp>) and moving the actor in response to that input
-(with <samp>`pcactormove'</samp>). First we request <small>ID</small>'s from the physical
+<samp>`pcinput.standard'</samp>) and moving the actor in response to that input
+(with <samp>`pcmove.actor'</samp>). First we request <small>ID</small>'s from the physical
 layer for the messages from the input property class that we want to respond
 too. For every command we defined in a <code>Bind()</code> in the
 <code>CreatePlayer()</code> function we get both a <samp>`1'</samp> (when key is pressed)
@@ -185,7 +185,7 @@ on standard output and the <code>Drop()</code> function will drop one item from
 the inventory.
 </p>
 <p>In <code>SendMessage()</code> we test which message we got. If it is one of
-the input messages we call the appropriate <small>API</small> method in <samp>`pcactormove'</samp>
+the input messages we call the appropriate <small>API</small> method in <samp>`pcmove.actor'</samp>
 to move, rotate, or jump the player. If it is one of the inventory messages
 then we show the inventory contents.
 </p>
@@ -317,7 +317,7 @@ bool BehaviourPlayer::SendMessage (csStringID msg_id,
 </pre></td></tr></table>
 <p>The box behaviour supports picking up and putting itself in the player
 inventory. To do that entities that use this behaviour need to use the
-<samp>`pcmeshselect'</samp> property class so that they get a message whenever
+<samp>`pcobject.mesh.select'</samp> property class so that they get a message whenever
 the entity is selected. In this behaviour we wait for that message and
 when we get it we will add ourselves to the inventory of the player.
 </p>
@@ -370,11 +370,11 @@ bool BehaviourBox::SendMessage (csStringID msg_id,
 catmull rom splines to calculate a smooth path. The <code>csPath</code> class
 from Crystal Space helps with this. In the <code>ReadPath()</code> function we
 read the path from properties that are assigned to the entity (using the
-general <samp>`pcproperties'</samp> property class).
+general <samp>`pctools.properties'</samp> property class).
 </p>
-<p>Entities that use this behaviour also need to have a <samp>`pctimer'</samp> property
-class. This is used to be able to restart the movement path after a certain
-time has expired.
+<p>Entities that use this behaviour also need to have a <samp>`pctools.timer'</samp>
+property class. This is used to be able to restart the movement path after a
+certain time has expired.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">BehaviourBadOne::BehaviourBadOne (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)

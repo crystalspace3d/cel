@@ -91,19 +91,19 @@ correctly updated.
 </p>
 <ul>
 <li>
-Camera handling using the <samp>`pcdefaultcamera'</samp> property class.
+Camera handling using the <samp>`pccamera.old'</samp> property class.
 </li><li>
-Movement of an actor in a game using the <samp>`pclinearmovement'</samp> property
+Movement of an actor in a game using the <samp>`pcmove.linear'</samp> property
 class.
 </li><li>
-Visualization of the player using the <samp>`pcmesh'</samp> property class.
+Visualization of the player using the <samp>`pcobject.mesh'</samp> property class.
 </li><li>
-Handling of the player inventory using the <samp>`pcinventory'</samp> property class.
+Handling of the player inventory using the <samp>`pctools.inventory'</samp> property class.
 </li><li>
-Handling of keyboard and mouse input using the <samp>`pccommandinput'</samp>
+Handling of keyboard and mouse input using the <samp>`pcinput.standard'</samp>
 property class.
 </li><li>
-Loading world and entity file using the <samp>`pczonemanager'</samp> property
+Loading world and entity file using the <samp>`pcworld.zonemanager'</samp> property
 class.
 </li><li>
 Usage of the <samp>`celentity'</samp> addon to add entities from an <small>XML</small> map
@@ -131,7 +131,7 @@ looks:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">    &lt;addon plugin=&quot;celentity&quot; entityname=&quot;badone&quot;&gt;
 
-      &lt;propclass name=&quot;pcmesh&quot;&gt;
+      &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
         &lt;action name=&quot;LoadMeshPath&quot;&gt;
 	  &lt;par name=&quot;path&quot; string=&quot;/this/model&quot; /&gt;
 	  &lt;par name=&quot;filename&quot; string=&quot;monkey&quot; /&gt;
@@ -139,9 +139,9 @@ looks:
 	&lt;/action&gt;
       &lt;/propclass&gt;
 
-      &lt;propclass name=&quot;pcmeshselect&quot; /&gt;
+      &lt;propclass name=&quot;pcobject.mesh.select&quot; /&gt;
 
-      &lt;propclass name=&quot;pcproperties&quot;&gt;
+      &lt;propclass name=&quot;pctools.properties&quot;&gt;
         &lt;property name=&quot;pos1&quot; vector=&quot;9,2,8&quot; /&gt;
         &lt;property name=&quot;pos2&quot; vector=&quot;6,2,8&quot; /&gt;
         &lt;property name=&quot;pos3&quot; vector=&quot;6,2,12&quot; /&gt;
@@ -168,14 +168,14 @@ looks:
         &lt;property name=&quot;time6&quot; long=&quot;1000&quot; /&gt;
       &lt;/propclass&gt;
 
-      &lt;propclass name=&quot;pctimer&quot;&gt;
+      &lt;propclass name=&quot;pctools.timer&quot;&gt;
         &lt;action name=&quot;WakeUp&quot;&gt;
 	  &lt;par name=&quot;time&quot; long=&quot;5000&quot; /&gt;
 	  &lt;par name=&quot;repeat&quot; bool=&quot;true&quot; /&gt;
 	&lt;/action&gt;
       &lt;/propclass&gt;
 
-      &lt;propclass name=&quot;pclinearmovement&quot;&gt;
+      &lt;propclass name=&quot;pcmove.linear&quot;&gt;
         &lt;action name=&quot;InitCD&quot;&gt;
 	  &lt;par name=&quot;body&quot; vector=&quot;.2,.2,.2&quot; /&gt;
 	  &lt;par name=&quot;legs&quot; vector=&quot;.2,.2,.2&quot; /&gt;
@@ -196,19 +196,19 @@ looks:
 (see section <a href="cel_4.4.1.html#4.4.1">CelEntity Addon</a>) to create an entity with the name <samp>`badone'</samp>.
 It has the following property classes:
 </p><ul>
-<li> <samp>`pcmesh'</samp> (see section <a href="cel_4.3.5.html#4.3.5">Mesh</a>).
+<li> <samp>`pcobject.mesh'</samp> (see section <a href="cel_4.3.5.html#4.3.5">Mesh</a>).
 This mesh is setup with the <samp>`monkey'</samp> model that
 was made in <samp>`Blender'</samp>.
-</li><li> <samp>`pcmeshselect'</samp>
+</li><li> <samp>`pcobject.mesh.select'</samp>
 Used for selection of mesh.
-</li><li> <samp>`pcproperties'</samp>
+</li><li> <samp>`pctools.properties'</samp>
 This is a generic property class for storing named properties. In this
 particular case the <samp>`badone_behave'</samp> behaviour will read out the properties
 to construct the path for the catmull rom spline.
-</li><li> <samp>`pctimer'</samp> (see section <a href="cel_4.3.9.html#4.3.9">Timer</a>).
+</li><li> <samp>`pctools.timer'</samp> (see section <a href="cel_4.3.9.html#4.3.9">Timer</a>).
 This timer will be used to restart the movement along the path after
 5 seconds (5000 milliseconds).
-</li><li> <samp>`pclinearmovement'</samp> (see section <a href="cel_4.3.4.html#4.3.4">Linear Movement</a>).
+</li><li> <samp>`pcmove.linear'</samp> (see section <a href="cel_4.3.4.html#4.3.4">Linear Movement</a>).
 This is the generic movement system.
 </li></ul>
 

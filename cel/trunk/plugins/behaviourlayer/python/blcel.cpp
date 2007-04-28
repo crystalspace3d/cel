@@ -11032,64 +11032,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity__SWIG_4__varargs__(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *varargs) {
-  PyObject *resultobj = 0;
-  iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
-  iCelEntityTemplate *arg2 = (iCelEntityTemplate *) 0 ;
-  char *arg3 = (char *) 0 ;
-  void *arg4 = 0 ;
-  iCelEntity *result = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  int res3 ;
-  char *buf3 = 0 ;
-  int alloc3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:iCelPlLayer_CreateEntity",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPlLayer_CreateEntity" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
-  }
-  arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntityTemplate, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iCelPlLayer_CreateEntity" "', argument " "2"" of type '" "iCelEntityTemplate *""'"); 
-  }
-  arg2 = reinterpret_cast< iCelEntityTemplate * >(argp2);
-  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iCelPlLayer_CreateEntity" "', argument " "3"" of type '" "char const *""'");
-  }
-  arg3 = buf3;
-  result = (iCelEntity *)(arg1)->CreateEntity(arg2,(char const *)arg3,arg4);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iCelEntity, 0 |  0 );
-  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
-  return resultobj;
-fail:
-  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity__SWIG_4(PyObject *self, PyObject *args) {
-  PyObject *resultobj;
-  PyObject *varargs;
-  PyObject *newargs;
-  
-  newargs = PyTuple_GetSlice(args,0,3);
-  varargs = PyTuple_GetSlice(args,3,PyTuple_Size(args)+1);
-  resultobj = _wrap_iCelPlLayer_CreateEntity__SWIG_4__varargs__(self,newargs,varargs);
-  Py_XDECREF(newargs);
-  Py_XDECREF(varargs);
-  return resultobj;
-}
-
-
 SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *args) {
   int argc;
   PyObject *argv[5];
@@ -11121,27 +11063,6 @@ SWIGINTERN PyObject *_wrap_iCelPlLayer_CreateEntity(PyObject *self, PyObject *ar
       }
       if (_v) {
         return _wrap_iCelPlLayer_CreateEntity__SWIG_1(self, args);
-      }
-    }
-  }
-  if (argc >= 3) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPlLayer, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      void *vptr = 0;
-      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntityTemplate, 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          if (argc <= 3) {
-            return _wrap_iCelPlLayer_CreateEntity__SWIG_4(self, args);
-          }
-          return _wrap_iCelPlLayer_CreateEntity__SWIG_4(self, args);
-        }
       }
     }
   }

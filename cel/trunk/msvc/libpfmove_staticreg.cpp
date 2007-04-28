@@ -68,7 +68,25 @@ static char const metainfo_pfmove[] =
 "      </class>"
 "      <!-- @@@ to be deprecated -->"
 "      <class>"
+"        <name>cel.pcfactory.linmove</name>"
+"        <implementation>celPfLinearMovement</implementation>"
+"        <description>CEL Linear Movement Class Factory</description>"
+"        <requires>"
+"          <class>cel.physicallayer</class>"
+"        </requires>"
+"      </class>"
+"      <!-- @@@ to be deprecated -->"
+"      <class>"
 "        <name>cel.pcfactory.collisiondetection</name>"
+"        <implementation>celPfCollisionDetection</implementation>"
+"        <description>CEL Collision Detection Class Factory</description>"
+"        <requires>"
+"          <class>cel.physicallayer</class>"
+"        </requires>"
+"      </class>"
+"      <!-- @@@ to be deprecated -->"
+"      <class>"
+"        <name>cel.pcfactory.colldet</name>"
 "        <implementation>celPfCollisionDetection</implementation>"
 "        <description>CEL Collision Detection Class Factory</description>"
 "        <requires>"
@@ -148,6 +166,14 @@ static char const metainfo_pfmove[] =
   #define celPfLinearMovement_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfLinearMovement) 
   #endif
+  #ifndef celPfLinearMovement_FACTORY_REGISTER_DEFINED 
+  #define celPfLinearMovement_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfLinearMovement) 
+  #endif
+  #ifndef celPfCollisionDetection_FACTORY_REGISTER_DEFINED 
+  #define celPfCollisionDetection_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCollisionDetection) 
+  #endif
   #ifndef celPfCollisionDetection_FACTORY_REGISTER_DEFINED 
   #define celPfCollisionDetection_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCollisionDetection) 
@@ -199,6 +225,14 @@ SCF_REGISTER_STATIC_LIBRARY(pfmove,metainfo_pfmove)
   #ifndef celPfLinearMovement_FACTORY_REGISTERED 
   #define celPfLinearMovement_FACTORY_REGISTERED 
     celPfLinearMovement_StaticInit celPfLinearMovement_static_init__; 
+  #endif
+  #ifndef celPfLinearMovement_FACTORY_REGISTERED 
+  #define celPfLinearMovement_FACTORY_REGISTERED 
+    celPfLinearMovement_StaticInit celPfLinearMovement_static_init__; 
+  #endif
+  #ifndef celPfCollisionDetection_FACTORY_REGISTERED 
+  #define celPfCollisionDetection_FACTORY_REGISTERED 
+    celPfCollisionDetection_StaticInit celPfCollisionDetection_static_init__; 
   #endif
   #ifndef celPfCollisionDetection_FACTORY_REGISTERED 
   #define celPfCollisionDetection_FACTORY_REGISTERED 
