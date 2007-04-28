@@ -90,7 +90,7 @@ a <code>CreateEntity()</code> convenience function which creates the entity,
 assigns a behaviour to it and also creates the property classes for it. In
 this particular case we create an entity called <samp>`level'</samp> and assign it
 with the behaviour that is called <samp>`level_behave'</samp> (this one will be
-defined later in this tutorial). We also create a <samp>`pczonemanager'</samp>
+defined later in this tutorial). We also create a <samp>`pcworld.zonemanager'</samp>
 property class (see section <a href="cel_4.3.11.html#4.3.11">Zone Manager</a>) for it. This property class
 manages loading and unloading of levels (map files) in the game.
 </p>
@@ -115,7 +115,7 @@ for entities in our game.
 <table><tr><td>&nbsp;</td><td><pre class="example">bool MainApp::LoadLevel ()
 {
   level_entity = pl-&gt;CreateEntity (&quot;level&quot;, bl, &quot;level_behave&quot;,
-    &quot;pczonemanager&quot;,
+    &quot;pcworld.zonemanager&quot;,
     CEL_PROPCLASS_END);
   if (!level_entity)
     return ReportError (&quot;Error creating level entity!&quot;);
@@ -156,7 +156,7 @@ Crystal Entity Layer.
 to know about the player mesh. This is needed so that the zone manager can
 load the needed regions depending on where the player moves.
 </p>
-<p>Then we setup <samp>`pclinearmovement'</samp> and <samp>`pcactormove'</samp> with the
+<p>Then we setup <samp>`pcmove.linear'</samp> and <samp>`pcmove.actor'</samp> with the
 proper movement parameters. This includes the dimensions of the collision
 box and various speed parameters with which we will move the player.
 </p>
@@ -168,12 +168,12 @@ you probably want to read the key definitions from a configuration file.
 <table><tr><td>&nbsp;</td><td><pre class="example">bool MainApp::CreatePlayer ()
 {
   player_entity = pl-&gt;CreateEntity (&quot;player&quot;, bl, &quot;player_behave&quot;,
-    &quot;pcdefaultcamera&quot;,
-    &quot;pcmesh&quot;,
-    &quot;pclinearmovement&quot;,
-    &quot;pcactormove&quot;,
-    &quot;pccommandinput&quot;,
-    &quot;pcinventory&quot;,
+    &quot;pccamera.old&quot;,
+    &quot;pcobject.mesh&quot;,
+    &quot;pcmove.linear&quot;,
+    &quot;pcmove.actor&quot;,
+    &quot;pcinput.standard&quot;,
+    &quot;pctools.inventory&quot;,
     CEL_PROPCLASS_END);
   if (!player_entity)
     return ReportError (&quot;Error creating player entity!&quot;);
@@ -347,30 +347,6 @@ bool MainApp::Application ()
   vfs-&gt;Mount (&quot;cel&quot;, &quot;$.$/&quot;);
 
   pl-&gt;RegisterBehaviourLayer (bl);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.zonemanager&quot;))
-    return ReportError (&quot;Error loading pczonemanager factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.solid&quot;))
-    return ReportError (&quot;Error loading pcsolid factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.colldet&quot;))
-    return ReportError (&quot;Error loading pccolldet factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.defaultcamera&quot;))
-    return ReportError (&quot;Error loading pcdefaultcamera factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
-    return ReportError (&quot;Error loading pcmesh factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.meshselect&quot;))
-    return ReportError (&quot;Error loading pcmeshselect factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.linmove&quot;))
-    return ReportError (&quot;Error loading pclinmove factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.pccommandinput&quot;))
-    return ReportError (&quot;Error loading pccommandinput factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.actormove&quot;))
-    return ReportError (&quot;Error loading pcactormove factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.inventory&quot;))
-    return ReportError (&quot;Error loading pcinventory factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.properties&quot;))
-    return ReportError (&quot;Error loading pcproperties factory!&quot;);
-  if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.timer&quot;))
-    return ReportError (&quot;Error loading pctimer factory!&quot;);
 
   if (!LoadLevel ())
     return ReportError (&quot;Error loading level!&quot;);
