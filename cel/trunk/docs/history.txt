@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 28-Apr-2007
 	- res updated texi2html with the recently tweaked version from CS.
+	- res updated msvcgen from the CS master copies.
 27-Apr-2007
 	- res updated mk/jam and mk/autoconf with the latest copies from the
 	  CS repository.
