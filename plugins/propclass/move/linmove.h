@@ -215,14 +215,19 @@ public:
     velWorld = 0.0f;
   }
 
-  virtual void GetVelocity (csVector3& v) const
+  virtual void GetVelocity (csVector3 &v) const
   {
-    csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-    	.Other2ThisRelative (velWorld);
+    v = GetVelocity ();
+  }
+
+  virtual const csVector3 GetVelocity () const
+  {
+    csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+        .Other2ThisRelative (velWorld);
 
     // Return the composite of the object and world velocity
     // in the OBJECT coordinate system.
-    v = worldVel + velBody;
+    return velworld + velBody;
   }
 
   virtual bool RotateV (float delta);

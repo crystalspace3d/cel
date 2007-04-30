@@ -49,7 +49,7 @@ struct iMeshWrapper;
  */
 struct iPcGravityCallback : public virtual iBase
 {
-  SCF_INTERFACE (iPcGravityCallback, 0, 0, 1);
+  SCF_INTERFACE (iPcGravityCallback, 0, 0, 2);
 
   virtual void Callback () = 0;
 };
@@ -142,8 +142,15 @@ struct iPcLinearMovement : public virtual iBase
 
   /**
    * Get the current velocity vector.
+   * \deprecated Use csVector3 GetVelocity () instead.
    */
+  CS_DEPRECATED_METHOD_MSG("Use csVector3 GetVelocity () instead.")
   virtual void GetVelocity (csVector3& v) const = 0;
+
+  /**
+   * Get the current velocity vector.
+   */
+  virtual const csVector3 GetVelocity () const = 0;
 
   /**
    * Get the current angular velocity vector.
