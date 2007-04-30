@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Apr-2007
+	- Genjix deprecated iPcLinearMovement::GetVelocity (csVector3 &) in
+	  favour of a more consistent
+	    csVector3 iPcLinearMovement::GetVelocity ().
 28-Apr-2007
 	- res updated texi2html with the recently tweaked version from CS.
 	- res updated msvcgen from the CS master copies.
