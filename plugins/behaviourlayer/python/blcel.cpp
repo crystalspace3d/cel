@@ -39442,7 +39442,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetVelocity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetVelocity__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
   csVector3 *arg2 = 0 ;
@@ -39471,6 +39471,68 @@ SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetVelocity(PyObject *SWIGUNUSEDPAR
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetVelocity__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+  csVector3 result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_GetVelocity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcLinearMovement, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcLinearMovement_GetVelocity" "', argument " "1"" of type '" "iPcLinearMovement const *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcLinearMovement * >(argp1);
+  result = ((iPcLinearMovement const *)arg1)->GetVelocity();
+  resultobj = SWIG_NewPointerObj((new csVector3(static_cast< const csVector3& >(result))), SWIGTYPE_p_csVector3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetVelocity(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = PyObject_Length(args);
+  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcLinearMovement, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_iPcLinearMovement_GetVelocity__SWIG_1(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iPcLinearMovement, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_csVector3, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_iPcLinearMovement_GetVelocity__SWIG_0(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iPcLinearMovement_GetVelocity'");
   return NULL;
 }
 
