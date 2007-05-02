@@ -429,7 +429,7 @@ bool celPcWheeled::PerformActionIndexed (int idx,
             
             CEL_FETCH_FLOAT_PAR(returnspeed, params, param_returnspeed);
             if(!p_returnspeed)
-                returnspeed=2.0f;
+                returnspeed=4.0f;
             
             CEL_FETCH_FLOAT_PAR(ss, params, param_suspensionsoftness);
             if(!p_ss)
@@ -709,9 +709,9 @@ size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
 {
     celWheel wheel;
     wheel.Position=position;
-    wheel.TurnSpeed=2;
-    wheel.ReturnSpeed=2;
-    wheel.BrakePower=1;
+    wheel.TurnSpeed=2.0f;
+    wheel.ReturnSpeed=4.0f;
+    wheel.BrakePower=1.0f;
     wheel.Rotation = rotation;
     wheels.Push(wheel);
     size_t index=wheels.GetSize()-1;
