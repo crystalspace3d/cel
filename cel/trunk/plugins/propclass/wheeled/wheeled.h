@@ -63,6 +63,8 @@ struct celWheel
   bool HandbrakeAffected;
   //Used for abs braking. Ratio of brake application
   float ABSBrake;
+  //Used for steering
+  float CurrentStop;
 };
 /**
  * Factory for test.
@@ -184,6 +186,7 @@ private:
   bool autoreverse;
   bool tankmode;
   bool handbrakeapplied;
+  
   //ABS braking
   bool abs;
   //Absolute steering amount
@@ -245,6 +248,7 @@ public:
   void UpdateBrakes(float avgspin, size_t wheelnum);
   void UpdateTankSteer(size_t wheelnum);
   void UpdateGear();
+  void UpdateSteer(size_t wheelnum);
 
   //Setters
   virtual void SetWheelMesh(const char* file, const char* factname);
