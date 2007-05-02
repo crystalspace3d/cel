@@ -911,7 +911,7 @@ void celPcWheeled::UpdateSteer(size_t i)
     float rss = wheels[i].RightSteerSensitivity;
     float steer_min = lss * wheelsteer;
     float steer_max = rss * wheelsteer;
-    float speed = ts / 20.0f;
+    float speed = ts / 40.0f;
     float stop = wheels[i].CurrentStop;
     if(wheels[i].WheelJoint!=0)
     {
@@ -969,7 +969,7 @@ void celPcWheeled::UpdateSteer(size_t i)
         // Return the wheels to centre
         else
         {
-            float rs = wheels[i].ReturnSpeed / 20.0f;
+            float rs = wheels[i].ReturnSpeed / 40.0f;
             if (stop > 0.0f)
             {
                 stop -= rs;
