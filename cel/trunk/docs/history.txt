@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
         - cfraz89 made steering forced in pcwheeled. It is alot sharper now.
 	- cfraz89 slowed down wheel turning in pcwheeled.
 	- cfraz89 sped up wheel default returning in pcwheeled.
+	- cfra89 fixed a bug in brakes in pcwheeled.
 30-Apr-2007
 	- Genjix deprecated iPcLinearMovement::GetVelocity (csVector3 &) in
 	  favour of a more consistent
