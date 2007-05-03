@@ -883,7 +883,7 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
         csRef<iODEAMotorJoint> bmotor = osys->CreateAMotorJoint();
         bmotor->Attach(bodyMech->GetBody(), wheelbody);
         bmotor->SetAMotorNumAxes(1);
-        bmotor->SetAMotorAxis(0, 1, csVector3(1, 0, 0));
+        bmotor->SetAMotorAxis(0, 1, bodytransform.This2OtherRelative(csVector3(1, 0, 0)));
         bmotor->SetFMax(brakeforce * brakeamount, 0);
         bmotor->SetVel(0.0f, 0);
         
@@ -1188,9 +1188,10 @@ void celPcWheeled::UpdateTankSteer(size_t wheelnum)
 
 void celPcWheeled::UpdateGear()
 {
+    float wheelspin = GetAverageWheelSpin();
     for(int i = 1; i <= topgear; i++)
     {
-        if (GetAverageWheelSpin() >= gears[i].x)
+        if (wheelspin  >= gears[i].x)
         {
             gear = i;
         }
@@ -1200,7 +1201,9 @@ void celPcWheeled::UpdateGear()
 void celPcWheeled::SetGear(int gear)
 {
     if (gear>=-1 && gear <= topgear)
+    {
         celPcWheeled::gear=gear;
+    }
 }
 
 void celPcWheeled::SetGearSettings(int gear, float velocity, float
