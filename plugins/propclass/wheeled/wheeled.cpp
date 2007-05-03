@@ -270,7 +270,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     params->SetParameterDef (3, param_depth, "depth");
     params->SetParameterDef (4, param_index, "index");
     
-    pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
+    pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }
 
 celPcWheeled::~celPcWheeled ()
@@ -1092,7 +1092,7 @@ void celPcWheeled::TickOnce()
             
         }
     }
-    pl->CallbackOnce ((iCelTimerListener*)this, 50, CEL_EVENT_PRE);
+    pl->CallbackOnce ((iCelTimerListener*)this, 25, CEL_EVENT_PRE);
 }
 
 //Update acceleration of each of a wheel
