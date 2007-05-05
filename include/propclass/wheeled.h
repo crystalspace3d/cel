@@ -112,6 +112,8 @@
  * - currentgearvelocity (float, read): Velocity of current gear.
  * - currentgearforce (float, read): Force of current gear.
  * - averagewheelspin (float, read): Average spin of wheels.
+ * - differential (bool, read/write): Whether to use a differential
+                                        between wheels.
  */
 
 struct iCelEntity;
@@ -166,6 +168,20 @@ struct iPcWheeled : public virtual iBase
    */
   CS_DEPRECATED_METHOD virtual bool GetABSEnabled() = 0;
 
+  /**
+   * Set if the vehicle uses a differential between left and right wheels.
+   * This primarily aids in steering by letting the inner wheels travel slower
+   * when turning.
+   *  \param enabled Whether differential is enabled.
+   */
+  virtual void SetDifferential(bool enabled) = 0;
+  
+  /**
+   * Get if the vehicle uses a differential between left and right wheels.
+   */
+  virtual bool GetDifferential() = 0;
+
+  
   /**
    * Set if the vehicle uses anti-lock braking.
    *  \param enabled Whether abs is enabled.

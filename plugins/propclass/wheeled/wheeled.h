@@ -46,6 +46,8 @@ struct celWheel
   csRef<iODEHinge2Joint> WheelJoint;
   csRef<iRigidBody> RigidBody;
   csRef<iODEAMotorJoint> BrakeMotor;
+    //Used by the differentials
+  csRef<iODEGeneralJointState> JointState;
   csVector3 Position;
   csMatrix3 Rotation;
   csString Meshfact;
@@ -138,7 +140,8 @@ private:
     propid_abs,
     propid_currentgearvelocity,
     propid_currentgearforce,
-    propid_averagewheelspin
+    propid_averagewheelspin,
+    propid_differential
   };
 
   // Parameters.
@@ -179,38 +182,30 @@ private:
 
   static PropertyHolder propinfo;
 
-  float speed;
-  float brakeforce;
-  int gear;
-  bool autotransmission;
-  bool autoreverse;
-  bool tankmode;
-  bool handbrakeapplied;
+  float speed;          //Current speed
+  float brakeforce;     //Strength of brakes
+  int gear;             //Current gear
+  bool autotransmission;//Whether to automatically shift gears
+  bool autoreverse;     //Whether to automatically reverse after stopping
+  bool tankmode;        //Whether to use tank steering
+  bool handbrakeapplied;//Whether handbrake is applied
+  bool differential;    //Whether the differentials are used
   
-  //ABS braking
-  bool abs;
-  //Absolute steering amount
-  float abssteer;
-  //The angle the user wants the wheels to reach
-  float steeramount;
-  //The amount of preset sensitivity to be applied to front wheels.
-  float frontsteer;
-  //The amount of preset sensitivity to be applied to rear wheels.
-  float rearsteer;
-  //The amount of preset sensitivity to be applied to outer wheels.
-  float outersteer;
-  //The amount of preset power to go to the front wheels.
-  float frontpower;
-  //The amount of preset power to go to the rear wheels.
-  float rearpower;
-  //Preset front wheel mass
-  float frontmass;
-  //Preset rear wheel mass
-  float rearmass;
-  //Preset front wheel friction
-  float frontfriction;
-  //Preset rear wheel friction
-  float rearfriction;
+  bool abs;             //ABS braking
+  float abssteer;       //Absolute steering amount
+  float steeramount;    //The angle the user wants the wheels to reach
+  float frontsteer;     //The Amount of preset sensitivity to be applied to
+                        //front wheels.
+  float rearsteer;      //The amount of preset sensitivity to be applied to
+                        //rear wheels.
+  float outersteer;     //The amount of preset sensitivity to be applied to
+                        //outer wheels.
+  float frontpower;     //The amount of preset power to go to the front wheels.
+  float rearpower;      //The amount of preset power to go to the rear wheels.
+  float frontmass;      //Preset front wheel mass
+  float rearmass;       //Preset rear wheel mass
+  float frontfriction;  //Preset front wheel friction
+  float rearfriction;   //Preset rear wheel friction
 
   //Preset suspension settings
   float frontss;
@@ -218,10 +213,8 @@ private:
   float rearss;
   float rearsd;
 
-  //Accelerator amount of application
-  float accelamount;
-  //Brake amount of application
-  float brakeamount;
+  float accelamount;  //Accelerator amount of application
+  float brakeamount;  //Brake amount of application
 
   csString wheelpath;
   csString wheelfact;
@@ -231,6 +224,9 @@ private:
   csRef<iODEDynamicSystemState> osys;
   csArray<csVector2> gears;
   csArray<celWheel> wheels;
+  //Add a new z pos for linking differential wheels
+  //The csVector2 holds the indexes of left and right wheels in a group.
+  csHash<csVector2, float> diffGroups;
   csRef<iPcMechanicsObject> bodyMech;
   celGenericParameterBlock* params;
   int topgear;
@@ -249,13 +245,16 @@ public:
   void UpdateTankSteer(size_t wheelnum);
   void UpdateGear();
   void UpdateSteer(size_t wheelnum);
+  void AddDiffWheel(int index);
 
   //Setters
   virtual void SetWheelMesh(const char* file, const char* factname);
   virtual void SetTankMode(bool tankmode)
   {celPcWheeled::tankmode = tankmode;};
   virtual void SetABS(bool enabled)
-  {celPcWheeled::abs = enabled;};
+  {celPcWheeled::abs = enabled;}
+  virtual void SetDifferential(bool enabled)
+  {celPcWheeled::differential = enabled;}
   virtual void SetSteerAmount(float steeramount)
   {celPcWheeled::steeramount = steeramount;};
   //This one uses presets
@@ -365,6 +364,7 @@ public:
      const char* factname);
 
   //The getter functions
+  virtual bool GetDifferential(){return differential;}
   virtual iBodyGroup* GetBodyGroup(){return bodyGroup;}
   virtual int GetTopGear() {return topgear;}
   virtual int GetGear(){return gear;}

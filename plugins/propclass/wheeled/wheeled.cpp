@@ -125,7 +125,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
     autotransmission = true;
     autoreverse = true;
     cd_enabled = true;
-    
+    differential = true;
     steeramount = 0.7f;
     
     gears.SetSize(3);
@@ -229,7 +229,7 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
         AddAction (action_setwheelhandbrakeaffected, "cel.action.SetWheelHandbrakeAffected");
     }
     
-    propinfo.SetCount (16);
+    propinfo.SetCount (17);
     AddProperty (propid_speed, "cel.property.speed",
                  CEL_DATA_FLOAT, true, "Vehicle Speed.", &speed);
     AddProperty (propid_tankmode, "cel.property.tankmode",
@@ -262,6 +262,8 @@ celPcWheeled::celPcWheeled (iObjectRegistry* object_reg)
                  CEL_DATA_FLOAT, true, "Current gear force.", 0);
     AddProperty (propid_averagewheelspin, "cel.property.averagewheelspin",
                  CEL_DATA_FLOAT, true, "Average wheel spin.", 0);
+    AddProperty (propid_differential, "cel.property.differential",
+                 CEL_DATA_BOOL, true, "Differential is enabled.",&differential);
     
     params = new celGenericParameterBlock (5);
     params->SetParameterDef (0, param_otherbody, "otherbody");
@@ -703,6 +705,36 @@ void celPcWheeled::SetWheelMesh(size_t wheelnum, const char* factname,const char
         wheels[wheelnum].Meshfact = factname;
 }
 
+void celPcWheeled::AddDiffWheel(int index)
+{
+    float zpos = wheels[index].Position.z;
+    float xpos = wheels[index].Position.x;
+    csVector2 *diffGroup = diffGroups.GetElementPointer(zpos);
+    if (diffGroup)
+    {
+        if (xpos < 0)
+            diffGroup->y = index;
+        else
+            diffGroup->x = index;
+    }
+    //No differential group exists, make one now
+    else
+    {
+        csVector2 diffGroup ;
+        if (xpos < 0)
+        {
+            diffGroup.y = index;
+            diffGroup.x = 0;
+        }
+        else
+        {
+            diffGroup.x = index;
+            diffGroup.y = 0;
+        }
+        diffGroups.Put(zpos, diffGroup);
+    }
+}
+
 //This method uses the vehicle's presets and wheel's position for settings
 size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
                                   const char* wheelfile, csMatrix3 rotation)
@@ -718,6 +750,7 @@ size_t celPcWheeled::AddWheelAuto(csVector3 position, const char* wheelfact,
     ApplyWheelPresets(index);
     SetWheelMesh(index, wheelfact, wheelfile);
     RestoreWheel(index);
+    AddDiffWheel(index);
     return index;
 }
 
@@ -748,6 +781,7 @@ size_t celPcWheeled::AddWheel(csVector3 position,float turnspeed, float
     size_t index=wheels.GetSize()-1;
     SetWheelMesh(index, wheelfact, wheelfile);
     RestoreWheel(index);
+    AddDiffWheel(index);
     return index;
 }
 
@@ -761,6 +795,11 @@ void celPcWheeled::DestroyWheel(size_t wheelnum)
     {
         osys->RemoveJoint(wheels[wheelnum].WheelJoint);
         wheels[wheelnum].WheelJoint = 0;
+    }
+    //Remove the joint state
+    if (wheels[wheelnum].JointState != 0)
+    {
+        wheels[wheelnum].JointState = 0;
     }
 //Remove the brake motor
     if (wheels[wheelnum].BrakeMotor != 0)
@@ -889,6 +928,8 @@ void celPcWheeled::RestoreWheel(size_t wheelnum)
         
         wheels[wheelnum].RigidBody = wheelbody;
         wheels[wheelnum].WheelJoint = joint;
+        csRef<iODEGeneralJointState> js = scfQueryInterface<iODEGeneralJointState> (joint);
+        wheels[wheelnum].JointState = js;
         wheels[wheelnum].BrakeMotor = bmotor;
     }
 }
@@ -1123,9 +1164,50 @@ void celPcWheeled::UpdateAccel(size_t wheelnum)
         vel = gears[gear + 1].x;
         fmax = gears[gear + 1].y * appliedaccel;
     }
-//Apply the throttle
+    
+    
+    float powerratio = 1.0f;
+    float output = fmax * wheels[wheelnum].EnginePower;
+    float wheelpower = output;
+    
+    if (differential)
+    {
+    //Try to work out the power of the wheel after the differential has been applied.
+    //This improves handling by reducing traction loss on corners.
+    //Find the differential group that corresponds with the z position of this wheel.
+        csVector2* diffGroup = diffGroups.GetElementPointer(wheels[wheelnum].Position.z);
+        if (diffGroup)
+        {
+        //Index of the left wheel
+            size_t ix = size_t(diffGroup->x);
+        //Index of the right wheel
+            size_t iy = size_t(diffGroup->y);
+            
+        // x / y
+        //This is inverted to give the powers that we want, as in 1 / resistance
+            powerratio = wheels[iy].JointState->GetFeedbackForce2().Norm() / wheels[ix].JointState->GetFeedbackForce2().Norm();
+        // x + y = 2 * output
+            if (ix == wheelnum)
+            {
+            //y = x /powerratio
+            //Therefore x + x /powerratio = 2 * output
+            //powerratio *x + x = 2 * output * powerratio
+            //x = (2 * output * powerratio) / (1 + powerratio)
+                wheelpower = (2.0f * output * powerratio) / ( 1.0f + powerratio);
+            }
+            else if (iy == wheelnum)
+            {
+            // x = y * powerratio
+            //Therefore y + y * powerratio - 2 * output
+            //y = (2 * output) / (1 + powerratio)
+                wheelpower = (2.0f * output) / (1.0f + powerratio);
+            }
+        }
+    }
+    
+    //Apply the throttle
     wheels[wheelnum].WheelJoint->SetVel(vel, 1);
-    wheels[wheelnum].WheelJoint->SetFMax(fmax * wheels[wheelnum].EnginePower, 1);
+    wheels[wheelnum].WheelJoint->SetFMax(wheelpower, 1);
 }
 
 //Update the braking of a given wheel
