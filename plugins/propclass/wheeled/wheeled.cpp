@@ -1306,7 +1306,7 @@ void celPcWheeled::UpdateGear()
     float wheelspin = GetAverageWheelSpin();
     for(int i = 1; i <= topgear; i++)
     {
-        if (wheelspin  >= gears[i].x)
+        if (wheelspin  >= gears[i].x - 2.5f)
         {
             gear = i;
         }

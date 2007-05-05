@@ -5,6 +5,8 @@ The history order is reversed so that new features are at the top.
 
 05-May-2007
 	- cfraz89 implemented a differential for pcwheeled.
+	- cfraz89 added a small allowance for gear changes in auto
+	  in pcwheeled.
 03-May-2007
         - cfraz89 made steering forced in pcwheeled. It is alot sharper now.
 	- cfraz89 slowed down wheel turning in pcwheeled.
