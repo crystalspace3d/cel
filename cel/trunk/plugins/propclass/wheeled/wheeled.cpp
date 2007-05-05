@@ -940,7 +940,7 @@ wheelbody->SetProperties(wheels[wheelnum].WheelMass,csVector3(0.0f),csMatrix3
         joint->SetVel(0.0f,0);
         joint->SetVel(0.0f,1);
         joint->SetStopERP(1.0f,0);
-        joint->SetFMax(250.0f,0);
+        joint->SetFMax(0.0f,0);
         joint->SetFMax(100.0f,1);
         
 //Create the brakes motor
