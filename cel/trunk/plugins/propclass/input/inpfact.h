@@ -107,6 +107,7 @@ private:
   bool handleKeyboard;
   bool handleMouse;
   bool handleJoystick;
+  int nameoffset;
 
   celGenericParameterBlock* mouse_params;
   celGenericParameterBlock* key_params;
@@ -203,7 +204,7 @@ protected:
   celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
   	uint32 modifiers) const;
   void SendKeyMessage (celKeyMap* p, utf32_char key,
-    csKeyModifiers key_modifiers, celKeyState keystate);
+  	csKeyModifiers key_modifiers, celKeyState keystate);
 };
 
 }
