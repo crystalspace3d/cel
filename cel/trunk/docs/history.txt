@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+05-May-2007
+	- cfraz89 implemented a differential for pcwheeled.
 03-May-2007
         - cfraz89 made steering forced in pcwheeled. It is alot sharper now.
 	- cfraz89 slowed down wheel turning in pcwheeled.
