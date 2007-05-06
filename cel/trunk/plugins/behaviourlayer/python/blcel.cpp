@@ -68605,6 +68605,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcWheeled_SetDifferential(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:iPcWheeled_SetDifferential",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_SetDifferential" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcWheeled_SetDifferential" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->SetDifferential(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcWheeled_GetDifferential(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcWheeled *arg1 = (iPcWheeled *) 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcWheeled_GetDifferential",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcWheeled, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcWheeled_GetDifferential" "', argument " "1"" of type '" "iPcWheeled *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcWheeled * >(argp1);
+  result = (bool)(arg1)->GetDifferential();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcWheeled_SetABS(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcWheeled *arg1 = (iPcWheeled *) 0 ;
@@ -86321,6 +86373,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcWheeled_GetTankMode", _wrap_iPcWheeled_GetTankMode, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetABSEnabled", _wrap_iPcWheeled_SetABSEnabled, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetABSEnabled", _wrap_iPcWheeled_GetABSEnabled, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_SetDifferential", _wrap_iPcWheeled_SetDifferential, METH_VARARGS, NULL},
+	 { (char *)"iPcWheeled_GetDifferential", _wrap_iPcWheeled_GetDifferential, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_SetABS", _wrap_iPcWheeled_SetABS, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_GetABS", _wrap_iPcWheeled_GetABS, METH_VARARGS, NULL},
 	 { (char *)"iPcWheeled_AddWheelAuto", _wrap_iPcWheeled_AddWheelAuto, METH_VARARGS, NULL},
