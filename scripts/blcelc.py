@@ -4020,6 +4020,8 @@ class iPcWheeled(cspace.iBase):
     def GetTankMode(*args): return _blcelc.iPcWheeled_GetTankMode(*args)
     def SetABSEnabled(*args): return _blcelc.iPcWheeled_SetABSEnabled(*args)
     def GetABSEnabled(*args): return _blcelc.iPcWheeled_GetABSEnabled(*args)
+    def SetDifferential(*args): return _blcelc.iPcWheeled_SetDifferential(*args)
+    def GetDifferential(*args): return _blcelc.iPcWheeled_GetDifferential(*args)
     def SetABS(*args): return _blcelc.iPcWheeled_SetABS(*args)
     def GetABS(*args): return _blcelc.iPcWheeled_GetABS(*args)
     def AddWheelAuto(*args): return _blcelc.iPcWheeled_AddWheelAuto(*args)
