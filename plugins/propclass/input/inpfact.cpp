@@ -364,7 +364,8 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
   if (!cfgit) return false;
   while (cfgit->Next ())
   {
-    Report (object_reg,
+    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
+    	"cel.input.standard",
     	"*.CommandInput.Bind.key = action is deprecated. Use *.Input.Bind.action = key instead.");
     Bind (cfgit->GetKey (true), cfgit->GetStr ());
   }
