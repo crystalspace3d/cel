@@ -16,6 +16,7 @@ class celMenu:
         self.elements = []
         self.blpython = BehaviourLayers['blpython']
         self.owner = owner
+        self.active = None
         self.font = '/outlaws/fonts/lcd2.ttf'
     
     #Add a menu element. sends message to menu when clicked. the behaviour chooses the widget.
@@ -69,9 +70,11 @@ class celMenu:
     
     #Activate an item in the menu
     def activate(self, name):
+        self.active = None
         for element in self.elements:
             if element.Name == name:
                 if element.Behaviour:
+                    self.active = element
                     element.Behaviour.SendMessage('setactive', None, celGenericParameterBlock(0))
             else:
                 if element.Behaviour:
@@ -79,6 +82,7 @@ class celMenu:
 
     #Deactivate all elements
     def deactivateAll(self):
+        self.active = None
         for element in self.elements:
             if element.Behaviour:
                 element.Behaviour.SendMessage('setinactive', None, celGenericParameterBlock(0))
