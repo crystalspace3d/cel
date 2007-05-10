@@ -75,6 +75,11 @@ SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNewCamera::PcNewCamera)
   SCF_IMPLEMENTS_INTERFACE (iPcCamera)
 SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
+csStringID celPcNewCamera::id_name = csInvalidStringID;
+csStringID celPcNewCamera::id_nr = csInvalidStringID;
+
+PropertyHolder celPcNewCamera::propinfo;
+
 void celPcNewCamera::UpdateMeshVisibility ()
 {
   if (!pcmesh)
@@ -137,7 +142,7 @@ void celPcNewCamera::CalcElasticVec (
 #endif
 }
 
-celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
+celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 	: celPcCameraCommon(object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
@@ -162,12 +167,128 @@ celPcNewCamera::celPcNewCamera(iObjectRegistry* object_reg)
   transitionSpringCoef = 5.0f;
   transitionCutoffPosDist = 1.0f;
   transitionCutoffTargetDist = 1.0f;
+
+  if (id_name == csInvalidStringID)
+  {
+    id_name = pl->FetchStringID ("cel.parameter.name");
+    id_nr = pl->FetchStringID ("cel.parameter.nr");
+  }
+  params = new celOneParameterBlock ();
+  params->SetParameterDef (id_name, "name");
+  params->SetParameterDef (id_nr, "nr");
+
+  propholder = &propinfo;
+  if (!propinfo.actions_done)
+  {
+    AddAction (action_attachcameramode, "cel.action.AttachCameraMode");
+    AddAction (action_setcameramode, "cel.action.SetCameraMode");
+    AddAction (action_nextcameramode, "cel.action.NextCameraMode");
+    AddAction (action_prevcameramode, "cel.action.PrevCameraMode");
+  }
+
+  propinfo.SetCount (6);
+  AddProperty (propid_colldet, "cel.property.colldet",
+  	CEL_DATA_BOOL, false, "Camera will use collision detection.", 0);
+  AddProperty (propid_offset, "cel.property.offset",
+  	CEL_DATA_VECTOR3, false, "Offset from the center of the mesh.",
+  	&basePosOffset);
+  AddProperty (propid_spring, "cel.property.spring",
+  	CEL_DATA_FLOAT, false, "Spring coefficient.",
+  	&collisionSpringCoef);
+  AddProperty (propid_trans_spring, "cel.property.transition_spring",
+  	CEL_DATA_FLOAT, false,
+  	"Springyness of the transition to a new camera mode.",
+  	&transitionSpringCoef);
+  AddProperty (propid_trans_cutoffpos,
+  	"cel.property.transition_cutoffpos",
+  	CEL_DATA_FLOAT, false,
+  	"Camera transition mode cutoff distance from position to position.",
+  	&transitionCutoffPosDist);
+  AddProperty (propid_trans_cutofftarget,
+  	"cel.property.transition_cutofftarget",
+  	CEL_DATA_FLOAT, false,
+  	"Camera transition mode cutoff distance from target to target.",
+  	&transitionCutoffTargetDist);
 }
 
 celPcNewCamera::~celPcNewCamera ()
 {
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
   SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
+}
+
+bool celPcNewCamera::PerformActionIndexed (int idx,
+	iCelParameterBlock* params,
+	celData& ret)
+{
+  switch (idx)
+  {
+    case action_attachcameramode:
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        if (!p_name) return false;
+        if (!strcmp (name, "camera_firstperson"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_FIRST_PERSON);
+          return true;
+        }
+        if (!strcmp (name, "camera_thirdperson"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
+          return true;
+        }
+        csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+        	"cel.camera.standard",
+        	"Unknown camera mode");
+        return false;
+      }
+    case action_setcameramode:
+      {
+        CEL_FETCH_LONG_PAR (nr,params,id_nr);
+        if (!p_nr) return false;
+        return SetCurrentCameraMode (nr);
+      }
+    case action_nextcameramode:
+      {
+        NextCameraMode ();
+        return true;
+      }
+    case action_prevcameramode:
+      {
+        PrevCameraMode ();
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
+bool celPcNewCamera::SetPropertyIndexed (int idx, bool val)
+{
+  switch (idx)
+  {
+    case propid_colldet:
+      {
+        SetCollisionDetection (val);
+        return true;
+      }
+    default:
+      return false;
+  }
+}
+
+bool celPcNewCamera::GetPropertyIndexed (int idx, bool& val)
+{
+  switch (idx)
+  {
+    case propid_colldet:
+      {
+        val = DetectCollisions ();
+        return true;
+      }
+    default:
+      return false;
+  }
 }
 
 void celPcNewCamera::PropertyClassesHaveChanged ()
@@ -346,7 +467,7 @@ void celPcNewCamera::PrevCameraMode ()
     return;
 
   size_t newMode = currMode - 1;
-  if (newMode == (size_t) - 1)
+  if (newMode == (size_t)-1)
     newMode = cameraModes.GetSize () - 1;
   SetCurrentCameraMode (newMode);
 }
