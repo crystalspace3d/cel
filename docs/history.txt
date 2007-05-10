@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 10-May-2007
 	- Vincent applied an update to celMenu.py widget wrt. activation (focus).
+	- Darek added xml actions to pccamera.standard.
 08-May-2007
 	- Darek changed pcinput deprecation error to warning.
 05-May-2007
