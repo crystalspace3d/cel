@@ -520,6 +520,7 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   q->RemoveListener (scfiEventHandler);
   csEventID esub[] = { 
     csevKeyboardEvent (object_reg),
+    csevMouseEvent (object_reg),
     csevFrame (object_reg),
     csevPreProcess (object_reg),
     csevPostProcess (object_reg),
@@ -626,7 +627,15 @@ bool celConsole::HandleEvent (iEvent& ev)
       }
     }
   }
-  if (ev.Name == csevPostProcess (name_reg))
+  else if (CS_IS_MOUSE_EVENT (name_reg,ev))
+  {
+    if (conout->GetVisible ())
+    {
+      // Eat mouse events while console is visible.
+      return true;
+    }
+  }
+  else if (ev.Name == csevFrame (name_reg))
   {
     GetPL ();
     if (conout->GetVisible ())
