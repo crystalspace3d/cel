@@ -1,0 +1,6 @@
+SubDir TOP plugins propclass evolve ;
+
+Plugin pfevolve : [ Wildcard *.cpp *.h ] ;
+ExternalLibs pfevolve : CRYSTAL ;
+LinkWith pfevolve : celtool ;
+

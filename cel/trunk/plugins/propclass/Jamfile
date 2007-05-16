@@ -26,3 +26,5 @@ SubInclude TOP plugins propclass hover ;
 SubInclude TOP plugins propclass wheeled ;
 SubInclude TOP plugins propclass damage ;
 SubInclude TOP plugins propclass meshdeform ;
+SubInclude TOP plugins propclass neuralnet ;
+SubInclude TOP plugins propclass evolve ;
