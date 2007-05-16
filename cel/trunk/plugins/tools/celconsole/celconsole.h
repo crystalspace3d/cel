@@ -24,6 +24,7 @@
 #include "csutil/hash.h"
 #include "csutil/weakrefarr.h"
 #include "csutil/stringarray.h"
+#include "csutil/eventhandlers.h"
 #include "iutil/comp.h"
 #include "iutil/eventh.h"
 #include "iutil/eventq.h"
@@ -140,7 +141,39 @@ public:
       return parent->HandleEvent (ev);
     }
     CS_EVENTHANDLER_NAMES("cel.tools.celconsole")
-    CS_EVENTHANDLER_NIL_CONSTRAINTS
+    CS_CONST_METHOD virtual const csHandlerID * GenericPrec(
+      csRef<iEventHandlerRegistry> &r1, csRef<iEventNameRegistry> &r2,
+      csEventID e) const
+    {
+      if (e == csevFrame (r2))
+      {
+        /* TODO : not thread-safe */
+        static csHandlerID precs[2];
+	precs[0] = FrameSignpost_2DConsole::StaticID (r1);
+	precs[1] = CS_HANDLERLIST_END;
+        return precs;
+      }
+      else return 0;
+    }
+    CS_CONST_METHOD virtual const csHandlerID * GenericSucc(
+      csRef<iEventHandlerRegistry> &r1, csRef<iEventNameRegistry> &r2,
+      csEventID e) const
+    {
+      if (e == csevKeyboardEvent (r2) || e == csevMouseEvent (r2))
+      {
+        /* TODO : not thread-safe */
+        static csHandlerID precs[4];
+	precs[0] = FrameSignpost_Logic3D::StaticID (r1);
+	precs[1] = r1->GetGenericID ("cel.propclass");
+	precs[2] = r1->GetGenericID ("cel.tools");
+	precs[3] = CS_HANDLERLIST_END;
+        return precs;
+      }
+      else return 0;
+    }
+    
+    CS_EVENTHANDLER_DEFAULT_INSTANCE_CONSTRAINTS
+
   } *scfiEventHandler;
 };
 

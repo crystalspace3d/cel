@@ -10,11 +10,17 @@ The history order is reversed so that new features are at the top.
 	  algorithm, for training the pcneuralnet.
 	- Oktal added xmlscripts neuraltest.xml and evolvetest.xml for testing.
 	- Oktal added a test/demo app evolvecraft, based on hovertest.
-	- Vincent updated celTextInput.py widget wrt. shift/uppercase management.
+	- Jorrit fixed the celconsole that it always renders on top of
+	  everything (including billboards) and it will also eat events
+	  so that billboards and game no longer get them. This fixes
+	  trac #16.
+	- Vincent updated celTextInput.py widget wrt. shift/uppercase
+	  management.
 	- Darek added support for multiple binding in pcinput.standard,
 	  usage: <prefix>.Input.Bind.<action> = <key> [key2] [keyN..].
 10-May-2007
-	- Vincent applied an update to celMenu.py widget wrt. activation (focus).
+	- Vincent applied an update to celMenu.py widget wrt. activation
+	  (focus).
 	- Darek added xml actions to pccamera.standard.
 08-May-2007
 	- Darek changed pcinput deprecation error to warning.
