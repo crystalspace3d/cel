@@ -31,7 +31,7 @@
 #include "neuralnet.h"
 
 CS_IMPLEMENT_PLUGIN
-CEL_IMPLEMENT_FACTORY_ALT(NeuralNet, "pcai.neuralnet", "pcneuralnet")
+CEL_IMPLEMENT_FACTORY(NeuralNet, "pcai.neuralnet")
 
 template <typename T>   T& accessData	     (celData &);
 template <> inline   int8& accessData<int8>  (celData &d) { return d.value.b; }
