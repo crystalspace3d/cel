@@ -16,6 +16,31 @@ class celTextInput:
         self.pcinput.Bind('key', 'keypress')
         self.pcinput.SetCookedMode(True)
         self.pcinput.SetSendTrigger(True)
+        #Maps shift + letter to cap(letter) and other symbols
+        self.shiftmap = {
+                        '`' : '~',
+                        '1' : '!',
+                        '2' : '@',
+                        '3' : '#',
+                        '4' : '$',
+                        '5' : '%',
+                        '6' : '^',
+                        '7' : '&',
+                        '8' : '*',
+                        '9' : '(',
+                        '0' : ')',
+                        '-' : '_',
+                        '=' : '+',
+                        '[' : '{',
+                        ']' : '}',
+                        ';' : ':',
+                        "'" : '"',
+                        ',' : '<',
+                        '.' : '.',
+                        '/' : '?'
+                        }
+        for letter in 'abcdefghijklmnopqrstuvwxyz':
+            self.shiftmap[letter] = letter.upper()
 
         #Used for the skipnext message
         self.skip = False
@@ -71,38 +96,39 @@ class celTextInput:
         shifttest = trigger[1:]
         if shifttest.startswith('Shift'):
             key = trigger[7:]
-            if key in 'abcdefghijklmnopqrstuvwxyz' and len(key) > 0:
-                trigger = key.upper()
-                
-        #Move the cursor
-        if trigger == 'Left' and self.index > 0:
-            self.index -= 1
-        if trigger == 'Right' and self.index < len(self.text):
-            self.index += 1
+            if len(key) == 1:
+                trigger = self.shiftmap.get(key)
 
-        allowed = 'abcdefghijklmnopqrstuvwxyz'
-        allowed += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        allowed += '0123456789'
-        allowed += '`~!@#$%^&*()-_=+\{[}];:",<.>/?'
-
-        #Insert a character
-        if trigger in allowed:
-            self.text.insert(self.index, trigger)
-            self.index += 1
-        #Insert a space
-        elif trigger == 'Space':
-            self.text.insert(self.index, ' ')
-            self.index += 1
-        #Delete a character
-        elif trigger == 'Back':
-            if len(self.text) > 0:
+        if trigger:
+            #Move the cursor
+            if trigger == 'Left' and self.index > 0:
                 self.index -= 1
-                self.text.pop(self.index)
-        #Enter was pressed, tell our owner
-        elif trigger == 'Enter':
-            params = parblock({'sender':self.entity.Name})
-            self.owner.Behaviour.SendMessage('textinput_enter', None, params)
-        self.updatebb()
+            if trigger == 'Right' and self.index < len(self.text):
+                self.index += 1
+
+            allowed = 'abcdefghijklmnopqrstuvwxyz'
+            allowed += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            allowed += '0123456789'
+            allowed += '`~!@#$%^&*()-_=+\{[}];:",<.>/?'
+
+            #Insert a character
+            if trigger in allowed:
+                self.text.insert(self.index, trigger)
+                self.index += 1
+            #Insert a space
+            elif trigger == 'Space':
+                self.text.insert(self.index, ' ')
+                self.index += 1
+            #Delete a character
+            elif trigger == 'Back':
+                if len(self.text) > 0:
+                    self.index -= 1
+                    self.text.pop(self.index)
+            #Enter was pressed, tell our owner
+            elif trigger == 'Enter':
+                params = parblock({'sender':self.entity.Name})
+                self.owner.Behaviour.SendMessage('textinput_enter', None, params)
+            self.updatebb()
 
     def updatebb(self):
         newtext = ''
