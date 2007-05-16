@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-May-2007
+	- Oktal added pcneuralnet, a property class implementing a
+	  feed-forward neural network, which has uses in game AI.
+	- Oktal added pcevolve, a property class implementing a genetic
+	  algorithm, for training the pcneuralnet.
+	- Oktal added xmlscripts neuraltest.xml and evolvetest.xml for testing.
+	- Oktal added a test/demo app evolvecraft, based on hovertest.
 10-May-2007
 	- Vincent applied an update to celMenu.py widget wrt. activation (focus).
 	- Darek added xml actions to pccamera.standard.
