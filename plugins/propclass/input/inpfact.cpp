@@ -375,7 +375,26 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
   csRef<iConfigIterator> it (cfg->Enumerate (strfind.GetData ()));
   if (!it) return false;
   while (it->Next ())
-    Bind (it->GetStr (), it->GetKey (true));
+  {
+    csString keystr = it->GetStr ();
+    if (keystr.Find (" ") == (size_t)-1)
+    {
+      Bind (it->GetStr (), it->GetKey (true));
+    }
+    else
+    {
+      size_t start = 0;
+      size_t pos = 0;
+      do
+      {
+        pos = keystr.Find (" ", pos + 1);
+        csString keyslice = keystr.Slice (start, pos - start);
+        Bind (keyslice.GetData (), it->GetKey (true));
+        start = pos + 1;
+      }
+      while (pos != (size_t)-1);
+    }
+  }
 
   return true;
 }
