@@ -73,6 +73,9 @@ enum celKeyState
  *   is raw).
  * - sendtrigger (bool, read/write): send out trigger name in the
  *   message to the behaviour. (default is false).
+ *
+ * Config file format:
+ *   <prefix>.Input.Bind.<command> = <trigger> [trigger2] [triggerN..]
  */
 struct iPcCommandInput : public virtual iBase
 {
