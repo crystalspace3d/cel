@@ -18,6 +18,10 @@ The history order is reversed so that new features are at the top.
 	  management.
 	- Darek added support for multiple binding in pcinput.standard,
 	  usage: <prefix>.Input.Bind.<action> = <key> [key2] [keyN..].
+	- Jorrit removed support for the 'pcneuralnet' and 'pcevolve'
+	  property class names. That notation is deprecated and we shouldn't
+	  introduce new property classes with deprecated naming conventions.
+	  Use pcai.neuralnet or pcai.evolve.
 10-May-2007
 	- Vincent applied an update to celMenu.py widget wrt. activation
 	  (focus).

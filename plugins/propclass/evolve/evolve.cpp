@@ -29,7 +29,7 @@
 #include <stdlib.h>
 
 CS_IMPLEMENT_PLUGIN
-CEL_IMPLEMENT_FACTORY_ALT(Evolve, "pcai.evolve", "pcevolve")
+CEL_IMPLEMENT_FACTORY(Evolve, "pcai.evolve")
 
 inline void celRandSeed() { srand(csGetTicks()); }
 inline float celRand() { return (float)rand() / RAND_MAX; }
