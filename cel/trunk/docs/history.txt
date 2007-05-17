@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-May-2007
+	- caedes updated all cfg files in cel behaviour library for the new
+	  notation.
 16-May-2007
 	- Oktal added pcneuralnet, a property class implementing a
 	  feed-forward neural network, which has uses in game AI.
