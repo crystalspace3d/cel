@@ -243,6 +243,22 @@ struct iPcLinearMovement : public virtual iBase
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,
   	iSector*& sector) = 0;
 
+  /**
+   * Get Y Rotation.
+   */
+  virtual float GetYRotation () = 0;
+  /**
+   * Get position and sector. If there is an anchor then this
+   * position is relative to the anchor. Use GetFullPosition()
+   * if you want an absolute position.
+   */
+  virtual const csVector3 GetPosition () = 0;
+  /**
+   * Get full position. This is an absolute position which
+   * is not relative to the anchor.
+   */
+  virtual const csVector3 GetFullPosition () = 0;
+
   /// Is a csPath active now or standard DR movement?
   virtual bool IsPath () const = 0;
 

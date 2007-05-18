@@ -139,6 +139,10 @@ protected:
   csVector3 offset_err;    // Error in terms of absolute position
   csVector3 offset_rate;   // Speed to bring error to ZERO within 1s
 
+  // Attempt to query the property class mesh, error and return null
+  // if unsuccessful
+  iPcMesh* GetMesh ();
+
   // Move local entity
   // both MoveV and MoveSprite return CEL_MOVE_* constants defined above
   int MoveV (float delta);
@@ -248,6 +252,10 @@ public:
   	csVector3& shift, iPcCollisionDetection*& pc_cd);
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0);
   virtual void SetSpeed (float speedz);
+
+  virtual float GetYRotation ();
+  const csVector3 GetPosition ();
+  const csVector3 GetFullPosition ();
 
   virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,
