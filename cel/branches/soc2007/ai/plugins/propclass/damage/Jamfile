@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass damage ;
+
+Plugin pfdamage
+	: damagefact.cpp damagefact.h
+;
+ExternalLibs pfdamage : CRYSTAL ;
+LinkWith pfdamage : celtool ;
+
