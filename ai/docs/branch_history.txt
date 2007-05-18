@@ -1,0 +1,8 @@
+History for the SoC AI Project.
+
+The history order is reversed so that new features are at the top.
+
+18-May-2007
+	- Jorrit created the soc2007/ai branch in CEL. This branch was
+	  created from revision 2745.
+
