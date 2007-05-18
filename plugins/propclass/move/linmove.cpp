@@ -1289,8 +1289,13 @@ float celPcLinearMovement::GetYRotation ()
   // user will get a warning and a nothing if theres no mesh
   if (!GetMesh ())  return 0.0;
   const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
-  	->GetTransform ().GetT2O ();
-  return Matrix2YRot (transf);
+    ->GetTransform ().GetT2O ();
+  float yrot = Matrix2YRot (transf);
+  // some fanciful clipping... its really nice to have a value
+  // that says -pi/2 instead of 3/2 pi ...
+  if (yrot > M_PI)
+    yrot -= 2*M_PI;
+  return yrot;
 }
 const csVector3 celPcLinearMovement::GetPosition ()
 {

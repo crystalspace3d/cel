@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 18-May-2007
 	- Genjix added GetYRotation(), GetPosition(), GetFullPosition() to
 	  iPcLinearMovement, since using GetLast*Position() can be cumbersome.
+	- Genjix added some contextual clipping to GetYRotation().
 	- Darek added xml actions:
 	  AdaptiveDistanceClipping, FixedDistanceClipping to pccamera.old and
 	  AdaptiveDistanceClipping, FixedDistanceClipping, SetRectangle,
