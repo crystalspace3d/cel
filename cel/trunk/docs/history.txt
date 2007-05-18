@@ -8,6 +8,12 @@ The history order is reversed so that new features are at the top.
 	  AdaptiveDistanceClipping, FixedDistanceClipping to pccamera.old and
 	  AdaptiveDistanceClipping, FixedDistanceClipping, SetRectangle,
 	  SetPerspectiveCenter to pccamera.default.
+	- Jorrit fixed a problem in NewQuest action in pcquest. The problem
+	  is that the xml behaviour layer defines parameters without names.
+	  And NewQuest uses the name of the parameter as the name of the
+	  variable to use when instantiating the quest. NewQuest will now
+	  get the name from the ID when the name of the parameter is
+	  missing.
 17-May-2007
 	- caedes updated all cfg files in cel behaviour library for the new
 	  notation.
