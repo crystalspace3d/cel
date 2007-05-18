@@ -543,7 +543,8 @@ static float GetAngle (float x, float y)
 
   float angle = acos (x);
   if (y < 0.0f)
-    angle = 2.0f * PI - angle;
+    //angle *= 1.0f;  // in range (-pi, pi)
+    angle = 2.0f * PI - angle;  // in range (0, 2pi)
 
   return angle;
 }
@@ -1290,12 +1291,7 @@ float celPcLinearMovement::GetYRotation ()
   if (!GetMesh ())  return 0.0;
   const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
     ->GetTransform ().GetT2O ();
-  float yrot = Matrix2YRot (transf);
-  // some fanciful clipping... its really nice to have a value
-  // that says -pi/2 instead of 3/2 pi ...
-  if (yrot > M_PI)
-    yrot -= 2*M_PI;
-  return yrot;
+  return Matrix2YRot (transf);
 }
 const csVector3 celPcLinearMovement::GetPosition ()
 {
