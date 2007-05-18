@@ -106,6 +106,15 @@ private:
   // action parameters
   static csStringID id_name;
   static csStringID id_nr;
+  static csStringID id_x;
+  static csStringID id_y;
+  static csStringID id_w;
+  static csStringID id_h;
+  static csStringID id_enable;
+  static csStringID id_minfps;
+  static csStringID id_maxfps;
+  static csStringID id_mindist;
+  static csStringID id_dist;
   celOneParameterBlock* params;
 
   // actions
@@ -114,7 +123,11 @@ private:
     action_attachcameramode = 0,
     action_setcameramode,
     action_nextcameramode,
-    action_prevcameramode
+    action_prevcameramode,
+    action_setrectangle,
+    action_setperspcenter,
+    action_adaptiveclipping,
+    action_fixedclipping
   };
 
   // properties

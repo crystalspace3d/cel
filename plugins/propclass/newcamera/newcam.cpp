@@ -77,6 +77,15 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 csStringID celPcNewCamera::id_name = csInvalidStringID;
 csStringID celPcNewCamera::id_nr = csInvalidStringID;
+csStringID celPcNewCamera::id_x = csInvalidStringID;
+csStringID celPcNewCamera::id_y = csInvalidStringID;
+csStringID celPcNewCamera::id_w = csInvalidStringID;
+csStringID celPcNewCamera::id_h = csInvalidStringID;
+csStringID celPcNewCamera::id_enable = csInvalidStringID;
+csStringID celPcNewCamera::id_minfps = csInvalidStringID;
+csStringID celPcNewCamera::id_maxfps = csInvalidStringID;
+csStringID celPcNewCamera::id_mindist = csInvalidStringID;
+csStringID celPcNewCamera::id_dist = csInvalidStringID;
 
 PropertyHolder celPcNewCamera::propinfo;
 
@@ -172,6 +181,15 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   {
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_nr = pl->FetchStringID ("cel.parameter.nr");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_w = pl->FetchStringID ("cel.parameter.w");
+    id_h = pl->FetchStringID ("cel.parameter.h");
+    id_enable = pl->FetchStringID ("cel.parameter.enable");
+    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
+    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
+    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
+    id_dist = pl->FetchStringID ("cel.parameter.distance");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_name, "name");
@@ -184,6 +202,10 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_setcameramode, "cel.action.SetCameraMode");
     AddAction (action_nextcameramode, "cel.action.NextCameraMode");
     AddAction (action_prevcameramode, "cel.action.PrevCameraMode");
+    AddAction (action_setrectangle, "cel.action.SetRectangle");
+    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
   propinfo.SetCount (6);
@@ -256,6 +278,60 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
     case action_prevcameramode:
       {
         PrevCameraMode ();
+        return true;
+      }
+    case action_setrectangle:
+      {
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
+        SetRectangle (x, y, w, h);
+        return true;
+      }
+    case action_setperspcenter:
+      {
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
+        SetPerspectiveCenter (x, y);
+        return true;
+      }
+    case action_adaptiveclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
+          EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
+        }
+        else
+          DisableDistanceClipping ();
+        return true;
+      }
+    case action_fixedclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
+          EnableFixedDistanceClipping (dist);
+        }
+        else
+          DisableDistanceClipping ();
         return true;
       }
     default:
