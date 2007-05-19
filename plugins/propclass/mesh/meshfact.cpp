@@ -132,6 +132,11 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   factory_ptr = 0;
   creation_flag = CEL_CREATE_NONE;
   engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine)
+  {
+    Report (object_reg, "No iEngine plugin!");
+    return;
+  }
 
   if (id_name == csInvalidStringID)
   {

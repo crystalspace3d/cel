@@ -75,7 +75,7 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 //----------------------------------------------------------------------------
 
 celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
-  :celPcCommon (object_reg)
+	:celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCollisionDetection);
 
@@ -89,6 +89,11 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   collider_actor.SetGravity (19.2f);
 
   engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine)
+  {
+    MoveReport (object_reg, "iEngine missing!");
+    return;
+  }
   collider_actor.SetEngine (engine);
 
   pcmesh = 0;
