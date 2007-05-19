@@ -148,7 +148,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    MoveReport (object_reg, "Engine missing!");
+    MoveReport (object_reg, "iEngine missing!");
     return;
   }
 

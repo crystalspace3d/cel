@@ -139,6 +139,12 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   mousemove_inverted = false;
   mousemove_accelerated = false;
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  if (!g3d)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcmove.linear", "No iGraphics3D plugin!");
+    return;
+  }
   g2d = g3d->GetDriver2D ();
 
   propholder = &propinfo;

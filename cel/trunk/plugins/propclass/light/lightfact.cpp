@@ -50,7 +50,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcobject.light",
     	msg, arg);
   else
   {
@@ -79,6 +79,11 @@ celPcLight::celPcLight (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
   engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine)
+  {
+    Report (object_reg, "No iEngine plugin!");
+    return;
+  }
   created = false;
 
   if (id_name == csInvalidStringID)

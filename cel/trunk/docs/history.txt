@@ -6,6 +6,7 @@ The history order is reversed so that new features are at the top.
 19-May-2007
 	- Genjix made GetYRotation() return in the range 0 -> 2pi as per
 	  earlier behaviour since GetAngle () is deciding that value already.
+	- Darek added missing Reports in many plugins.
 18-May-2007
 	- Genjix added GetYRotation(), GetPosition(), GetFullPosition() to
 	  iPcLinearMovement, since using GetLast*Position() can be cumbersome.

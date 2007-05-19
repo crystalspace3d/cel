@@ -35,6 +35,7 @@
 #include "iengine/movable.h"
 #include "csgeom/transfrm.h"
 #include "iutil/virtclk.h"
+#include "ivaria/reporter.h"
 #include <iostream>
 
 //---------------------------------------------------------------------------
@@ -88,6 +89,12 @@ celPcMeshDeform::celPcMeshDeform (iObjectRegistry* object_reg)
   mesh = 0;
 
   clock = csQueryRegistry<iVirtualClock> (object_reg);
+  if (!clock)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcobject.mesh.deform", "No iVirtualClock!");
+    return;
+  }
 
   controltype = new csDeformControlType(this);
   controlfact = controltype->CreateAnimationControlFactory();
