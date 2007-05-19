@@ -40597,6 +40597,72 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetYRotation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+  float result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_GetYRotation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcLinearMovement, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcLinearMovement_GetYRotation" "', argument " "1"" of type '" "iPcLinearMovement *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcLinearMovement * >(argp1);
+  result = (float)(arg1)->GetYRotation();
+  resultobj = SWIG_From_float(static_cast< float >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetPosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+  csVector3 result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_GetPosition",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcLinearMovement, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcLinearMovement_GetPosition" "', argument " "1"" of type '" "iPcLinearMovement *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcLinearMovement * >(argp1);
+  result = (arg1)->GetPosition();
+  resultobj = SWIG_NewPointerObj((new csVector3(static_cast< const csVector3& >(result))), SWIGTYPE_p_csVector3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_iPcLinearMovement_GetFullPosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
+  csVector3 result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:iPcLinearMovement_GetFullPosition",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcLinearMovement, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcLinearMovement_GetFullPosition" "', argument " "1"" of type '" "iPcLinearMovement *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcLinearMovement * >(argp1);
+  result = (arg1)->GetFullPosition();
+  resultobj = SWIG_NewPointerObj((new csVector3(static_cast< const csVector3& >(result))), SWIGTYPE_p_csVector3, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcLinearMovement_IsPath(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcLinearMovement *arg1 = (iPcLinearMovement *) 0 ;
@@ -85721,6 +85787,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcLinearMovement_SetSoftDRData", _wrap_iPcLinearMovement_SetSoftDRData, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetLastPosition", _wrap_iPcLinearMovement_GetLastPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetLastFullPosition", _wrap_iPcLinearMovement_GetLastFullPosition, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_GetYRotation", _wrap_iPcLinearMovement_GetYRotation, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_GetPosition", _wrap_iPcLinearMovement_GetPosition, METH_VARARGS, NULL},
+	 { (char *)"iPcLinearMovement_GetFullPosition", _wrap_iPcLinearMovement_GetFullPosition, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_IsPath", _wrap_iPcLinearMovement_IsPath, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_GetSector", _wrap_iPcLinearMovement_GetSector, METH_VARARGS, NULL},
 	 { (char *)"iPcLinearMovement_ExtrapolatePosition", _wrap_iPcLinearMovement_ExtrapolatePosition, METH_VARARGS, NULL},
