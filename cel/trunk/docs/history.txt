@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+21-May-2007
+	- Jorrit updated the XML behaviour layer documentation with a
+	  complete list of all commands and functions. People please keep
+	  this list up-to-date when you extend the XML behaviour layer!
 19-May-2007
 	- Genjix made GetYRotation() return in the range 0 -> 2pi as per
 	  earlier behaviour since GetAngle () is deciding that value already.
