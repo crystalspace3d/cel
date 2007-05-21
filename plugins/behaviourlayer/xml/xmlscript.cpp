@@ -2050,7 +2050,8 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  {
 	    case CEL_DATA_LONG: top.Set (top.arg.i != 0); break;
 	    case CEL_DATA_ULONG: top.Set (top.arg.ui != 0); break;
-	    case CEL_DATA_FLOAT: top.Set (fabs (top.arg.f) >= SMALL_EPSILON); break;
+	    case CEL_DATA_FLOAT: top.Set (fabs (top.arg.f) >= SMALL_EPSILON);
+	      break;
 	    case CEL_DATA_BOOL: break;
 	    case CEL_DATA_STRING:
 	      {
