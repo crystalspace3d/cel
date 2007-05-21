@@ -456,10 +456,10 @@ Children: multiple @samp{par} (attributes @samp{id}, @samp{value}).
 Perform an action on the given property class (or default if not given).
 @item @samp{class_add}
 Attributes: @samp{entity}, @samp{class}.
-Add a given class to the entity.
+Add a given class (given as @sc{id}) to the entity.
 @item @samp{class_rem}
 Attributes: @samp{entity}, @samp{class}.
-Remove a given class from the entity.
+Remove a given class (given as @sc{id}) from the entity.
 @end itemize
 
 @subsubheading Inventory Handling
@@ -620,8 +620,8 @@ Get the given property class with the given tag from this (or the
 specified) entity.
 @item @samp{property( [pc,] id )}
 Get the property from the specified (or default) property class.
-@item @samp{hasclass( entity, classname )}
-Return true if the entity has the given class.
+@item @samp{hasclass( entity, id )}
+Return true if the entity has the given class (specified as @sc{id}).
 @item @samp{entname( [entity] )}
 Return the name of the current (or given) entity.
 @item @samp{ent( [name] )}
