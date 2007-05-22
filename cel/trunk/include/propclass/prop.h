@@ -57,7 +57,8 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - SetProperty: parameters 'name' (string) and 'value' (string/bool/float/long/vector).
+ * - SetProperty: parameters 'name' (string) and 'value'
+ *   (string/bool/float/long/vector).
  */
 struct iPcProperties : public iBase
 {

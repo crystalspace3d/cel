@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-May-2007
+	- Jorrit added a new pctools.bag property class. This is a simple
+	  bag of strings.
 21-May-2007
 	- Jorrit updated the XML behaviour layer documentation with a
 	  complete list of all commands and functions. People please keep

@@ -453,19 +453,52 @@
         </propclass>
     </addon>
 
-        <addon plugin="cel.addons.celentity" entityname="rt" >
+    <addon plugin="cel.addons.celentity" entityname="rt" >
         <propclass name="pctools.properties">
             <property name="strength" float="3.4" />
         </propclass>
         <propclass name="pclogic.rules">
-        <action name="AddRule">
-            <par name="name" string="potion_strength" />
-            <par name="time" long="10000" />
-        </action>
-        <action name="AddRule">
-            <par name="name" string="ring_strength" />
-        </action>
+            <action name="AddRule">
+                <par name="name" string="potion_strength" />
+                <par name="time" long="10000" />
+            </action>
+            <action name="AddRule">
+                <par name="name" string="ring_strength" />
+            </action>
         </propclass>
+    </addon>
+
+    <addon plugin="cel.addons.xmlscripts">
+        <script name="bagtester_script">
+            <event name="init">
+		<default propclass="pc(pctools.bag)" />
+	        <print value="'red 1='+HasString{value='red'}" />
+	        <print value="'green 0='+HasString{value='green'}" />
+	        <print value="'blue 1='+HasString{value='blue'}" />
+	        <print value="'yellow 1='+HasString{value='yellow'}" />
+	        <print value="'brown 0='+HasString{value='brown'}" />
+	    </event>
+	</script>
+    </addon>
+    <addon plugin="cel.addons.celentity" entityname="bagtester" >
+        <propclass name="pctools.bag">
+            <action name="AddString">
+                <par name="value" string="red" />
+            </action>
+            <action name="AddString">
+                <par name="value" string="green" />
+            </action>
+            <action name="AddString">
+                <par name="value" string="blue" />
+            </action>
+            <action name="AddString">
+                <par name="value" string="yellow" />
+            </action>
+            <action name="RemoveString">
+                <par name="value" string="green" />
+            </action>
+        </propclass>
+        <behaviour layer="blxml" name="bagtester_script" />
     </addon>
 
 <!--
