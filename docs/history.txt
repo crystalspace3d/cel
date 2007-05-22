@@ -4,6 +4,9 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 22-May-2007
+	- Genjix added new wip camera mode to pccamera.standard and added
+	  interface system to it, so that camera modes can have specific
+	  interfaces. Also changed it to the newer SCF system.
 	- Jorrit added a new pctools.bag property class. This is a simple
 	  bag of strings.
 	- Jorrit added a new 'for' syntax in the xml behaviour layer.

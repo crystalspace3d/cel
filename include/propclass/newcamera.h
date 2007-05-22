@@ -52,9 +52,9 @@ struct iPcZoneManager;
 
 struct iPcNewCamera;
 
-struct iCelCameraMode
+struct iCelCameraMode : public virtual iBase
 {
-  virtual ~iCelCameraMode () {};
+  SCF_INTERFACE (iCelCameraMode, 0, 0, 1);
 
   /**
    * Tells the camera mode what camera has it attached.
@@ -126,10 +126,17 @@ struct iCelCameraMode
    * target, up, etc. of the camera now.
    * \return True on success.
    */
-  virtual bool DecideCameraState () = 0; 
+  virtual bool DecideCameraState () = 0;
 };
 
-SCF_VERSION(iPcNewCamera, 0, 0, 1);
+struct iTrackCameraMode : public virtual iCelCameraMode
+{
+  SCF_INTERFACE (iTrackCameraMode, 0, 0, 1);
+
+  virtual void Foo () = 0;
+};
+
+SCF_VERSION(iPcNewCamera, 0, 0, 3);
 
 /**
  * This is a camera property class.
@@ -264,12 +271,13 @@ struct iPcNewCamera : public iPcCamera
    * \param mode The camera mode to attach.
    * \return A unique id for the attached camera mode.
    */
-  virtual size_t AttachCameraMode (iCelCameraMode * mode) = 0;
+  virtual size_t AttachCameraMode (iCelCameraMode* mode) = 0;
 
   enum CEL_CAMERA_MODE
   {
     CCM_FIRST_PERSON,
     CCM_THIRD_PERSON,
+    CCM_LARA_TRACK,
     CCM_COUNT
   };
 
@@ -278,7 +286,7 @@ struct iPcNewCamera : public iPcCamera
    * \param mode The id of the built-in camera mode to attach.
    * \return A unique id for the attached camera mode.
    */
-  virtual size_t AttachCameraMode (CEL_CAMERA_MODE mode) = 0;
+  virtual size_t AttachCameraMode (CEL_CAMERA_MODE modetype) = 0;
 
   /**
    * Gets the index of the current camera mode.
@@ -290,7 +298,7 @@ struct iPcNewCamera : public iPcCamera
    * Gets the current camera mode.
    * \return The current camera mode.
    */
-  virtual iCelCameraMode * GetCurrentCameraMode () = 0;
+  virtual iCelCameraMode* GetCurrentCameraMode () = 0;
 
   /**
    * Sets the current camera mode.
@@ -313,6 +321,22 @@ struct iPcNewCamera : public iPcCamera
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw () = 0;
+
+  /**
+   * Gets the specified camera mode.
+   * \param idx If -1 it will return the current mode
+   * \return The current camera mode.
+   */
+  virtual iCelCameraMode* GetCameraMode (int idx = -1) = 0;
+
+  template <typename T>
+  csPtr<T> QueryModeInterface (int idx = -1)
+  {
+    iBase* cmode = GetCameraMode (idx);
+    if (!cmode)
+      return 0;
+    return scfQueryInterface<T> (cmode);
+  }
 };
 
 #endif // __CEL_PF_NEW_CAMERA__
