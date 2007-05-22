@@ -48,6 +48,7 @@ struct iView;
 class csView;
 class celPcNewCamera;
 class csReversibleTransform;
+struct csOrthoTransform;
 struct iPcZoneManager;
 
 struct iPcNewCamera;
@@ -107,19 +108,19 @@ struct iCelCameraMode : public virtual iBase
    * Gets the desired camera position.
    * \return The desired camera position.
    */
-  virtual const csVector3 & GetPosition () const = 0;
+  virtual const csVector3 &GetPosition () const = 0;
 
   /**
    * Gets the desired camera target.
    * \return The desired camera target.
    */
-  virtual const csVector3 & GetTarget () const = 0;
+  virtual const csVector3 &GetTarget () const = 0;
 
   /**
    * Gets the desired camera up vector.
    * \return The desired camera up vector.
    */
-  virtual const csVector3 & GetUp () const = 0;
+  virtual const csVector3 &GetUp () const = 0;
 
   /**
    * Informs the camera mode that it should compute the desired position,
@@ -147,43 +148,43 @@ struct iPcNewCamera : public iPcCamera
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.
    */
-  virtual const csVector3 & GetBasePos () const = 0;
+  virtual const csVector3 &GetBasePos () const = 0;
 
   /**
    * Gets the base direction of the camera.
    * \return The base direction of the camera.
    */
-  virtual const csVector3 & GetBaseDir () const = 0;
+  virtual const csVector3 &GetBaseDir () const = 0;
 
   /**
    * Gets the base up vector of the camera.
    * \return The base up vector of the camera.
    */
-  virtual const csVector3 & GetBaseUp () const = 0;
+  virtual const csVector3 &GetBaseUp () const = 0;
 
   /**
    * Gets the base transform of the camera.
    * \return The base transform of the camera.
    */
-  virtual const csReversibleTransform & GetBaseTrans () const = 0;
+  virtual const csReversibleTransform &GetBaseTrans () const = 0;
 
   /**
    * Gets the current position of the camera.
    * \return The current position of the camera.
    */
-  virtual const csVector3 & GetPos () const = 0;
+  virtual const csVector3 &GetPos () const = 0;
 
   /**
    * Gets the current target of the camera.
    * \return The current target of the camera.
    */
-  virtual const csVector3 & GetTarget () const = 0;
+  virtual const csVector3 &GetTarget () const = 0;
 
   /**
    * Gets the current up vector of the camera.
    * \return The current up vector of the camera.
    */
-  virtual const csVector3 & GetUp () const = 0;
+  virtual const csVector3 &GetUp () const = 0;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
@@ -321,6 +322,13 @@ struct iPcNewCamera : public iPcCamera
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw () = 0;
+
+  /**
+    * Get the transform corresponding to this camera.
+    * In this transform, 'other' is world space and 'this' is camera
+    * space.
+    */
+  virtual const csOrthoTransform &GetTransform () = 0;
 
   /**
    * Gets the specified camera mode.

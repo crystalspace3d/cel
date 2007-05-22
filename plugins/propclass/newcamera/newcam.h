@@ -333,6 +333,9 @@ public:
   virtual void Draw ();
   virtual void TickEveryFrame ();
 
+  // get the transform corresponding to this camera
+  virtual const csOrthoTransform &GetTransform ();
+
   /**
    * Gets the specified camera mode.
    * \param idx If -1 it will return the current mode

@@ -25,6 +25,8 @@
 #include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "propclass/newcamera.h"
 
+#include "csgeom/transfrm.h"
+
 namespace celCameraMode
 {
 
@@ -33,10 +35,28 @@ SCF_IMPLEMENT_FACTORY (LaraTrack)
 LaraTrack::LaraTrack (iBase* p)
   : scfImplementationType (this, p)
 {
+  posoffset.Set (0, 3, 7);
 }
 
 LaraTrack::~LaraTrack ()
 {
+}
+
+bool LaraTrack::DrawAttachedMesh() const
+{
+  return true;
+}
+bool LaraTrack::DecideCameraState()
+{
+  if (!parent)
+    return false;
+
+  csVector3 playpos (parent->GetBasePos ());
+
+  pos = csVector3 (0, 0, parent->GetBasePos().z) + posoffset;
+  target = parent->GetBasePos();
+  up  = parent->GetBaseUp();
+  return true;
 }
 
 }

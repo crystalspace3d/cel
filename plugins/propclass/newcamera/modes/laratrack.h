@@ -28,9 +28,15 @@ namespace celCameraMode
 class LaraTrack : public scfImplementation2<LaraTrack, iTrackCameraMode,
   scfFakeInterface<iCelCameraMode> >, public celCameraMode
 {
+private:
+  csVector3 posoffset;
 public:
   LaraTrack (iBase* p = 0);
   virtual ~LaraTrack ();
+
+  void SetPositionOffset(const csVector3 & offset);
+  virtual bool DrawAttachedMesh() const;
+  virtual bool DecideCameraState ();
 
   virtual void Foo ()
   {
@@ -57,10 +63,6 @@ public:
   {
     return celCameraMode::AllowCollisionDetection ();
   }
-  virtual bool DrawAttachedMesh () const
-  {
-    return celCameraMode::DrawAttachedMesh ();
-  }
   virtual float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
@@ -76,10 +78,6 @@ public:
   virtual const csVector3 &GetUp () const
   {
     return celCameraMode::GetUp ();
-  }
-  virtual bool DecideCameraState ()
-  {
-    return celCameraMode::DecideCameraState ();
   }
 };
 
