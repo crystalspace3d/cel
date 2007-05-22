@@ -22,14 +22,19 @@
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
-#include "plugins/propclass/newcamera/firstpersoncameramode.h"
+#include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "propclass/newcamera.h"
 
-celFirstPersonCameraMode::celFirstPersonCameraMode()
-	: celCameraMode()
+namespace celCameraMode
+{
+
+FirstPerson::FirstPerson ()
+ : scfImplementationType (this)
 {
 }
 
-celFirstPersonCameraMode::~celFirstPersonCameraMode()
+FirstPerson::~FirstPerson ()
 {
+}
+
 }

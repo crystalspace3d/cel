@@ -23,8 +23,9 @@
 #include "propclass/solid.h"
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/newcam.h"
-#include "plugins/propclass/newcamera/firstpersoncameramode.h"
-#include "plugins/propclass/newcamera/thirdpersoncameramode.h"
+#include "plugins/propclass/newcamera/modes/firstperson.h"
+#include "plugins/propclass/newcamera/modes/thirdperson.h"
+#include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -64,16 +65,6 @@ CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY_ALT (NewCamera, "pccamera.standard", "pcnewcamera")
 
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE_EXT (celPcNewCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcNewCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNewCamera::PcNewCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcNewCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 csStringID celPcNewCamera::id_name = csInvalidStringID;
 csStringID celPcNewCamera::id_nr = csInvalidStringID;
@@ -152,11 +143,8 @@ void celPcNewCamera::CalcElasticVec (
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
-	: celPcCameraCommon(object_reg)
+  : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
@@ -235,8 +223,6 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
 celPcNewCamera::~celPcNewCamera ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 bool celPcNewCamera::PerformActionIndexed (int idx,
@@ -257,6 +243,11 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
         if (!strcmp (name, "camera_thirdperson"))
         {
           AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
+          return true;
+        }
+        if (!strcmp (name, "camera_laratrack"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
           return true;
         }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -482,19 +473,22 @@ float celPcNewCamera::GetTransitionCutoffTargetDistance () const
 size_t celPcNewCamera::AttachCameraMode(iCelCameraMode* mode)
 {
   cameraModes.Push (mode);
-  mode->SetParentCamera ((iPcNewCamera*)&scfiPcNewCamera);
+  mode->SetParentCamera ((iPcNewCamera*)this);
+  mode->DecRef ();
 
   return (cameraModes.GetSize () - 1);
 }
 
-size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE mode)
+size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
 {
-  switch (mode)
+  switch (modetype)
   {
     case iPcNewCamera::CCM_FIRST_PERSON:
-      return AttachCameraMode (new celFirstPersonCameraMode ());
+      return AttachCameraMode (new celCameraMode::FirstPerson ());
     case iPcNewCamera::CCM_THIRD_PERSON:
-      return AttachCameraMode (new celThirdPersonCameraMode ());
+      return AttachCameraMode (new celCameraMode::ThirdPerson ());
+    case iPcNewCamera::CCM_LARA_TRACK:
+      return AttachCameraMode (new celCameraMode::LaraTrack ());
     default:
       return (size_t)-1;
   }
@@ -508,6 +502,14 @@ size_t celPcNewCamera::GetCurrentCameraModeIndex () const
 iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 {
   return cameraModes.Top ();
+}
+iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
+{
+  if (idx < 0)
+    return cameraModes.Top ();
+  if (static_cast<size_t> (idx) >= cameraModes.GetSize ())
+    return 0;
+  return cameraModes[idx];
 }
 
 bool celPcNewCamera::SetCurrentCameraMode (size_t modeIndex)

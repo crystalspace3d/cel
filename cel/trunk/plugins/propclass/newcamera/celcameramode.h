@@ -37,10 +37,13 @@
 #include "propclass/region.h"
 #include "propclass/mesh.h"
 
-class celCameraMode : public iCelCameraMode
+namespace celCameraMode
+{
+
+class celCameraMode
 {
 protected:
-  iPcNewCamera * parentCamera;
+  iPcNewCamera* parent;
 
   csVector3 pos, target, up;
 
@@ -120,5 +123,7 @@ public:
    */
   virtual bool DecideCameraState();
 };
+
+}
 
 #endif // __CEL_CAMERA_MODE_FACTORY__

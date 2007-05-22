@@ -22,13 +22,17 @@
 
 #include "plugins/propclass/newcamera/celcameramode.h"
 
-class celThirdPersonCameraMode : public celCameraMode
+namespace celCameraMode
+{
+
+class ThirdPerson : public scfImplementation1<ThirdPerson, iCelCameraMode>,
+  public celCameraMode
 {
 private:
-  csVector3 posOffset;
+  csVector3 posoffset;
 public:
-  celThirdPersonCameraMode();
-  virtual ~celThirdPersonCameraMode();
+  ThirdPerson();
+  virtual ~ThirdPerson();
 
   /**
    * Sets the position as an offset from the camera's base position.
@@ -71,6 +75,33 @@ public:
    * \return True on success.
    */
   virtual bool DecideCameraState();
+
+  virtual void SetParentCamera (iPcNewCamera * camera)
+  {
+    celCameraMode::SetParentCamera (camera);
+  }
+  virtual bool AllowCollisionDetection () const
+  {
+    return celCameraMode::AllowCollisionDetection ();
+  }
+  virtual float GetSpringCoefficient () const
+  {
+    return celCameraMode::GetSpringCoefficient ();
+  }
+  virtual const csVector3 &GetPosition () const
+  {
+    return celCameraMode::GetPosition ();
+  }
+  virtual const csVector3 &GetTarget () const
+  {
+    return celCameraMode::GetTarget ();
+  }
+  virtual const csVector3 &GetUp () const
+  {
+    return celCameraMode::GetUp ();
+  }
 };
+
+}
 
 #endif // __CEL_THIRD_PERSON_CAMERA_MODE_FACTORY__
