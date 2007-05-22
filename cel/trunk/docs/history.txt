@@ -14,6 +14,11 @@ The history order is reversed so that new features are at the top.
 	  If you use the 'var' and 'bag' attributes then you can loop
 	  over all strings in a bag. The 'bag' should be a bag property
 	  class.
+	- Oktal added an updated set of evolved weightings for the neuralnet
+	  in evolvecraft. It's still not good enough to demonstrate the full
+	  potential of pcevolve (the fitness evaluation routine in evolvecraft
+	  needs more work) but it's better than not providing any pre-evolved
+	  weightings.
 21-May-2007
 	- Jorrit updated the XML behaviour layer documentation with a
 	  complete list of all commands and functions. People please keep
