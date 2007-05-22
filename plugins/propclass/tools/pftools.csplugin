@@ -48,6 +48,11 @@
         <implementation>celPfProperties</implementation>
         <description>CEL Properties Property Class Factory</description>
       </class>
+      <class>
+        <name>cel.pcfactory.tools.bag</name>
+        <implementation>celPfBag</implementation>
+        <description>CEL Bag Property Class Factory</description>
+      </class>
     </classes>
   </scf>
 </plugin>
