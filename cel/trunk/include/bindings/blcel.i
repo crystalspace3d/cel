@@ -31,6 +31,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
+#include "propclass/actorlara.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
@@ -458,6 +459,11 @@ CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
 //%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
 CEL_PC(iPcActorMove, ActorMove, pcactormove)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/actorlara.h"
+CEL_PC(iPcActorLara, ActorLara, pcmove.lara)
 
 //-----------------------------------------------------------------------------
 
