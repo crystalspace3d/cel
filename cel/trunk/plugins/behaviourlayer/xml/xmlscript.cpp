@@ -61,6 +61,7 @@
 #include "propclass/inv.h"
 #include "propclass/camera.h"
 #include "propclass/mesh.h"
+#include "propclass/bag.h"
 #include "tools/billboard.h"
 #include "celtool/stdparams.h"
 #include "celtool/navigation.h"
@@ -4303,6 +4304,45 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
 	  cbl->call_stack_entity.Pop ();
 	  cbl->call_stack_params.Pop ();
 	  cbl->call_stack.Pop ();
+	}
+	break;
+      case CEL_OPERATION_FORBAG:
+        {
+	  CHECK_STACK(2)
+	  celXmlArg a_bagpc = stack.Pop ();
+	  celXmlArg a_var = stack.Pop ();
+	  DUMP_EXEC ((":%04d: forbag var=%s bag=%s\n", i-1, A2S (a_var),
+	  	A2S (a_bagpc)));
+	  iPcProperties* props = GetProperties (entity, behave);
+	  if (!props) return ReportError (cbl, "Can't find properties!");
+	  const char* varname = ArgToString (a_var);
+	  if (!varname)
+	    return ReportError (cbl, "Illegal variable name!");
+	  char* copy_varname = csStrNew (varname);
+	  iCelPropertyClass* pc = ArgToPClass (a_bagpc);
+	  if (!pc)
+	    return ReportError (cbl, "Bag property class is null!");
+	  csRef<iPcBag> pcbag = scfQueryInterface<iPcBag> (pc);
+	  if (!pcbag)
+	    return ReportError (cbl, "This property class is not a bag!");
+	  csSet<csString>::GlobalIterator iterator = pcbag->GetIterator ();
+	  size_t endlocation = op.arg.arg.codelocation;
+	  celData ret;
+	  cbl->call_stack.Push (GetName ());
+	  cbl->call_stack_params.Push (params);
+	  cbl->call_stack_entity.Push (entity);
+	  while (iterator.HasNext ())
+	  {
+	    csString str = iterator.Next ();
+	    props->SetProperty (copy_varname, str.GetData ());
+	    if (!Execute (entity, cbl, behave, ret, params, i, false))
+	      return false;
+	  }
+	  cbl->call_stack_entity.Pop ();
+	  cbl->call_stack_params.Pop ();
+	  cbl->call_stack.Pop ();
+	  delete[] copy_varname;
+	  i = endlocation;
 	}
 	break;
       case CEL_OPERATION_FORI:

@@ -390,6 +390,11 @@ Attributes: @samp{var}, @samp{start}, @samp{end}.
 This command loops an integer value from @samp{start} to @samp{end} (inclusive).
 Every value is set to @samp{var}. The embedded code will be called for
 every loop instance.
+@item @samp{for} (bag version)
+Attributes: @samp{var}, @samp{bag}.
+This command loops over all strings in a bag. Every string is set to
+@samp{var}. The embedded code will be called for every loop instance. The
+@samp{bag} should be a bag property class.
 @item @samp{switch}
 Atributes: @samp{eval}.
 Children: multiple @samp{case} (attributes @samp{value}, children represents
