@@ -477,6 +477,9 @@
 	        <print value="'blue 1='+HasString{value='blue'}" />
 	        <print value="'yellow 1='+HasString{value='yellow'}" />
 	        <print value="'brown 0='+HasString{value='brown'}" />
+		<for bag="pc(pctools.bag)" var="contents">
+		    <print value="?contents+' is in the bag!'" />
+		</for>
 	    </event>
 	</script>
     </addon>
