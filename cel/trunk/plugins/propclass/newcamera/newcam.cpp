@@ -597,8 +597,6 @@ void celPcNewCamera::UpdateCamera ()
     }
   }
 
-  iCamera * c = view->GetCamera ();
-
   if (inTransition || mode->UseSpringPos ())
   {
     csVector3 deltaIdeal = desiredCamPos - lastIdealPos;
@@ -643,6 +641,7 @@ void celPcNewCamera::UpdateCamera ()
   camTrans.SetOrigin(baseTrans.GetOrigin ());
   camTrans.LookAt (camTarget - camPos, camUp);
 
+  iCamera * c = view->GetCamera ();
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
   if (c->GetSector () != baseSector)
@@ -679,4 +678,9 @@ void celPcNewCamera::Draw ()
 void celPcNewCamera::TickEveryFrame ()
 {
   Draw ();
+}
+
+const csOrthoTransform &celPcNewCamera::GetTransform ()
+{
+  return view->GetCamera ()->GetTransform ();
 }

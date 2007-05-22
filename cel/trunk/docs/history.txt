@@ -4,6 +4,10 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 22-May-2007
+	- Genjix added a new pcmove.lara property class. This is analog movement
+	  for an actor somewhat similar to pcmove.actor.
+	- Genjix added iPcNewCamera::GetTransform () to get the current cameras
+	  csOrthoTransform.
 	- Genjix fixed earlier error, sanely re-formatting basic_entities.
 	- Genjix added new wip camera mode to pccamera.standard and added
 	  interface system to it, so that camera modes can have specific
