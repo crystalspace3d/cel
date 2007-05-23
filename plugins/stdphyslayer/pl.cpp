@@ -1091,7 +1091,7 @@ static const char* deprecated_plugin_ids[] =
   "solid",			"move.solid",
   "movableconst_cd",		"move.movableconst_cd",
   "gravity",			"move.gravity",
-  "actormove",			"move.actor",
+  "actormove",			"move.actorold",
   "npcmove",			"move.npc",
   "mover",			"move.mover",
   "projectile",			"move.projectile",

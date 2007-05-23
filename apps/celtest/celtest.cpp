@@ -191,7 +191,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 #else
 	"pccamera.old",
 #endif
-	"pcmove.actor",
+	"pcmove.actorold",
 	"pcobject.mesh",
 	"pcobject.mesh.select",
 	"pcmove.linear",

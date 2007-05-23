@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-May-2007
+	- Genjix made the following changes:
+	  - Removed pcmove.lara from the Jamfile.
+	  - Changed pcmove.actor to pcmove.actorold. From now on this name is
+	    reserved for a newer property class.
+	  - Updated walktut, celtest and deprecation table to reflect the name
+	    change.
 22-May-2007
 	- Genjix added a new pcmove.lara property class. This is analog movement
 	  for an actor somewhat similar to pcmove.actor.
@@ -80,7 +87,7 @@ The history order is reversed so that new features are at the top.
 	- Darek deprecated *.CommandInput.Bind.key = action,
 	  use *.Input.Bind.action = key instead.
 03-May-2007
-        - cfraz89 made steering forced in pcwheeled. It is alot sharper now.
+	- cfraz89 made steering forced in pcwheeled. It is alot sharper now.
 	- cfraz89 slowed down wheel turning in pcwheeled.
 	- cfraz89 sped up wheel default returning in pcwheeled.
 	- cfra89 fixed a bug in brakes in pcwheeled.
