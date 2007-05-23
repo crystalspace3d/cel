@@ -35,7 +35,8 @@ SCF_IMPLEMENT_FACTORY (LaraTrack)
 LaraTrack::LaraTrack (iBase* p)
   : scfImplementationType (this, p)
 {
-  posoffset.Set (0, 3, 7);
+  posoffset.Set (0, 3, 3);
+  pos = posoffset;
 }
 
 LaraTrack::~LaraTrack ()
@@ -51,9 +52,17 @@ bool LaraTrack::DecideCameraState()
   if (!parent)
     return false;
 
-  csVector3 playpos (parent->GetBasePos ());
 
-  pos = csVector3 (0, 0, parent->GetBasePos().z) + posoffset;
+  const csOrthoTransform &camtr = parent->GetTransform ();
+  csVector3 playpos (parent->GetBasePos ());
+  playpos.x = 0.0f;
+  playpos.y = 0.0f;
+  /*const csVector3 &playpos (camtr.GetO2T () * parent->GetBasePos ());
+  const csVector3 &relative = camtr.GetT2O () * csVector3 (0, 0, playpos.z);*/
+  //printf ("%f (%s)\n", playpos.z, relative.Description().GetData ());
+  printf ("player (%s)\n", parent->GetBasePos ().Description ().GetData ());
+
+  pos = playpos + csVector3 (0, 3, -3);
   target = parent->GetBasePos();
   up  = parent->GetBaseUp();
   return true;

@@ -245,7 +245,7 @@ void celPcActorLara::UpdateMovement ()
     delta_rot -= 2.0f * PI;
   // This is to stop the character moving while they're rotating to
   // face the direction they're turning towards.
-  if (ABS(delta_rot) < EPSILON)
+  if (ABS(delta_rot) < 0.01)
   {
     // move forwards
     pclinmove->SetVelocity (csVector3 (0, 0, -movespeed));
