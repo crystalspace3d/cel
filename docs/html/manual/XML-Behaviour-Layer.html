@@ -421,6 +421,11 @@ Attributes: <samp>&lsquo;var&rsquo;</samp>, <samp>&lsquo;start&rsquo;</samp>, <s
 This command loops an integer value from <samp>&lsquo;start&rsquo;</samp> to <samp>&lsquo;end&rsquo;</samp> (inclusive).
 Every value is set to <samp>&lsquo;var&rsquo;</samp>. The embedded code will be called for
 every loop instance.
+</li><li> <samp>&lsquo;for&rsquo;</samp> (bag version)
+Attributes: <samp>&lsquo;var&rsquo;</samp>, <samp>&lsquo;bag&rsquo;</samp>.
+This command loops over all strings in a bag. Every string is set to
+<samp>&lsquo;var&rsquo;</samp>. The embedded code will be called for every loop instance. The
+<samp>&lsquo;bag&rsquo;</samp> should be a bag property class.
 </li><li> <samp>&lsquo;switch&rsquo;</samp>
 Atributes: <samp>&lsquo;eval&rsquo;</samp>.
 Children: multiple <samp>&lsquo;case&rsquo;</samp> (attributes <samp>&lsquo;value&rsquo;</samp>, children represents
