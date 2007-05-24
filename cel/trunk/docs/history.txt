@@ -6,7 +6,7 @@ The history order is reversed so that new features are at the top.
 24-May-2007
 	- Genjix added small bugfix to iTrackCameraMode and added alternate
 	  mode to celtst. Just uncomment the #define CELTST_USE_ANALOG
-	  in apps/celtst.cpp and plugins/behaviourlayer/test/behave.h
+	  in apps/celtst.cpp and plugins/behaviourlayer/test/behave.cpp
 	- Genjix finished last remaining mode to iTrackCameraMode where
 	  it tracks another entity.
 	- Genjix added functionality to iTrackCameraMode where it doesn't
