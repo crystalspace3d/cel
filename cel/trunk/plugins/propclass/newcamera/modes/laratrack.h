@@ -25,6 +25,7 @@
 #include "csgeom/transfrm.h"
 
 struct iMovable;
+struct iCelPlLayer;
 
 namespace celCameraMode
 {
@@ -45,6 +46,9 @@ private:
   // because you don't want to be looking at the targets feet
   float targetyoffset;
 
+  // used to lookup entities
+  csWeakRef<iCelPlLayer> pl;
+
   csVector3 posoffset;
   // we store a local transform we keep updated
   csReversibleTransform camtrans;
@@ -52,7 +56,8 @@ private:
   // Has this camera been initialised yet?
   bool init_reset;
 public:
-  LaraTrack (iBase* p = 0);
+  LaraTrack (iBase* p);
+  LaraTrack (csWeakRef<iCelPlLayer> pl);
   virtual ~LaraTrack ();
 
   virtual bool SetTargetEntity (const char* name);

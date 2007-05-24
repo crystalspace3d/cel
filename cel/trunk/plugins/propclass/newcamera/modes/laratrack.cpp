@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include <math.h>
+#include "physicallayer/pl.h"
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
@@ -35,8 +36,11 @@ SCF_IMPLEMENT_FACTORY (LaraTrack)
 LaraTrack::LaraTrack (iBase* p)
   : scfImplementationType (this, p)
 {
+}
+LaraTrack::LaraTrack (csWeakRef<iCelPlLayer> pl)
+  : scfImplementationType (this), pl (pl)
+{
   posoffset.Set (0, 3, 3);
-  pos = posoffset;
 
   init_reset = false;
   up.Set (0,1,0);
@@ -99,7 +103,7 @@ bool LaraTrack::DecideCameraState()
   // ... we zero out the axis we don't want to follow
   csVector3 range (0,0,playpos.z - posoffset.z);
   // we follow the x though when we aren't focused on any object
-  if (targetstate == TARGET_NONE)
+  if (targetstate != TARGET_BASE)
     range.x = playpos.x;
   // how much does the camera have to move to be within the z offset
   csVector3 cammove (camtrans.This2OtherRelative (range));
@@ -141,31 +145,22 @@ bool LaraTrack::ResetCamera ()
 
 bool LaraTrack::SetTargetEntity (const char* name)
 {
-/*  iCelEntity* ent = ((celPcNewCamera*)parent)->GetPhysicalLayer ()->FindEntity (name);
+  // lookup entity
+  iCelEntity* ent = pl->FindEntity (name);
   if (!ent)
     return false;
+  // lookup mesh
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity <iPcMesh> (ent);
   if (!pcmesh || !pcmesh->GetMesh ())
     return false;
+  // get movable
   tracktarget = pcmesh->GetMesh ()->GetMovable ();
-  return true;*/
-  return false;
+  // great success!
+  return true;
 }
 void LaraTrack::SetTargetState (TargetState targetstate)
 {
   LaraTrack::targetstate = targetstate;
-  switch (targetstate)
-  {
-    case (TARGET_BASE):
-      puts ("normal");
-      break;
-    case (TARGET_OBJ):
-      puts ("lock on!");
-      break;
-    case (TARGET_NONE):
-      puts ("ready!");
-      break;
-  }
 }
 void LaraTrack::SetTargetYOffset (float targetyoffset)
 {
