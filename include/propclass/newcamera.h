@@ -134,7 +134,11 @@ struct iTrackCameraMode : public virtual iCelCameraMode
 {
   SCF_INTERFACE (iTrackCameraMode, 0, 0, 1);
 
-  virtual void Foo () = 0;
+  /**
+   * Resets this camera to its original state facing the same direction
+   * as the anchor fixed on the target,
+   */
+  virtual bool ResetCamera () = 0;
 };
 
 SCF_VERSION(iPcNewCamera, 0, 0, 3);
@@ -348,4 +352,3 @@ struct iPcNewCamera : public iPcCamera
 };
 
 #endif // __CEL_PF_NEW_CAMERA__
-

@@ -15,7 +15,7 @@ SubInclude TOP plugins propclass test ;
 SubInclude TOP plugins propclass tools ;
 SubInclude TOP plugins propclass billboard ;
 SubInclude TOP plugins propclass actormove ;
-# SubInclude TOP plugins propclass actorlara ;
+SubInclude TOP plugins propclass actorlara ;
 SubInclude TOP plugins propclass zone ;
 SubInclude TOP plugins propclass mover ;
 SubInclude TOP plugins propclass sound ;

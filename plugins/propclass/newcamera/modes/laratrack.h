@@ -22,6 +22,8 @@
 
 #include "plugins/propclass/newcamera/celcameramode.h"
 
+#include "csgeom/transfrm.h"
+
 namespace celCameraMode
 {
 
@@ -30,13 +32,19 @@ class LaraTrack : public scfImplementation2<LaraTrack, iTrackCameraMode,
 {
 private:
   csVector3 posoffset;
+  csReversibleTransform camtrans;
+
+  // Has this camera been initialised yet?
+  bool init_reset;
 public:
   LaraTrack (iBase* p = 0);
   virtual ~LaraTrack ();
 
-  void SetPositionOffset(const csVector3 & offset);
+  virtual void SetPositionOffset(const csVector3 & offset);
   virtual bool DrawAttachedMesh() const;
   virtual bool DecideCameraState ();
+
+  virtual bool ResetCamera ();
 
   virtual void Foo ()
   {

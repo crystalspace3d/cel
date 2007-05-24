@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+24-May-2007
+	- Genjix made changes to tracking camera so it provides the base
+	  functionality of tracking its anchor along its own Z axis and
+	  rotating to face its tracking entity (same entity for now).
 23-May-2007
 	- Genjix made the following changes:
 	  - Removed pcmove.lara from the Jamfile.
