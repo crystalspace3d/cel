@@ -17,6 +17,8 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+//#define CELTST_USE_ANALOG
+
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iengine/mesh.h"
@@ -32,7 +34,6 @@
 #include "propclass/defcam.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
-#include "propclass/actormove.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
@@ -40,6 +41,13 @@
 #include "plugins/behaviourlayer/test/behave.h"
 #include "celtool/stdparams.h"
 #include <iostream>
+
+#ifdef CELTST_USE_ANALOG
+  #include "propclass/actorlara.h"
+  #include "propclass/newcamera.h"
+#else
+  #include "propclass/actormove.h"
+#endif
 
 //---------------------------------------------------------------------------
 
@@ -278,6 +286,7 @@ celBehaviourActor::celBehaviourActor (iCelEntity* entity,
   bhroom = csPtr<celBehaviourRoom> (new celBehaviourRoom (entity, object_reg));
   fpscam=0;
   speed=1;
+  pl = csQueryRegistry<iCelPlLayer> (object_reg);
 }
 
 celBehaviourActor::~celBehaviourActor()
@@ -292,8 +301,53 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
 
   if (pcinput_msg)
   {
-    csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity,
-    	iPcActorMove);
+#ifdef CELTST_USE_ANALOG
+    csRef<iPcActorLara> pcactorlara = celQueryPropertyClassEntity
+      <iPcActorLara> (entity);
+    if (!pcactorlara)
+      return false;
+
+    csRef<iPcNewCamera> pccamera = celQueryPropertyClassEntity
+      <iPcNewCamera> (entity);
+    if (!pccamera)
+      return false;
+    csRef<iTrackCameraMode> trackcam =
+      pccamera->QueryModeInterface<iTrackCameraMode> ();
+    if (!trackcam)
+      return false;
+
+    if (!strcmp (msg_id+15, "joyaxis0"))
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      pcactorlara->SetAxis (0, value);
+    }
+    else if (!strcmp (msg_id+15, "joyaxis1"))
+    {
+      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
+      pcactorlara->SetAxis (1, -value);
+    }
+    else if (!strcmp (msg_id+15, "ready1"))
+      trackcam->SetTargetState (iTrackCameraMode::TARGET_NONE);
+    else if (!strcmp (msg_id+15, "ready0"))
+      trackcam->SetTargetState (iTrackCameraMode::TARGET_BASE);
+    else if (!strcmp (msg_id+15, "lockon1"))
+    {
+      if (trackcam->GetTargetState () == iTrackCameraMode::TARGET_NONE)
+      {
+        trackcam->SetTargetEntity ("dummy2b");
+        trackcam->SetTargetState (iTrackCameraMode::TARGET_OBJ);
+      }
+    }
+    else if (!strcmp (msg_id+15, "lockon0"))
+    {
+      if (trackcam->GetTargetState () == iTrackCameraMode::TARGET_OBJ)
+        trackcam->SetTargetState (iTrackCameraMode::TARGET_NONE);
+    }
+    else if (!strcmp (msg_id+15, "resetcam1"))
+      trackcam->ResetCamera ();
+#else
+    csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity
+      <iPcActorMove> (entity);
     if (!pcactormove)
       return false;
 
@@ -365,6 +419,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       if (pcdefcamera)
         printf ("%s\n", pcdefcamera->GetModeName ()); fflush (stdout);
     }
+#endif
     return true;
   }
 

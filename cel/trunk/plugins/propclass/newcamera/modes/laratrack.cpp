@@ -131,11 +131,15 @@ bool LaraTrack::ResetCamera ()
 {
   if (!parent)
     return false;
+  // no, we don't need to realign the camera. we're already doing this.
+  if (targetstate == TARGET_OBJ)
+    return true;
   // get the transform and position of our anchor object...
   const csReversibleTransform &basetrans = parent->GetBaseTrans ();
   const csVector3 &basepos (parent->GetBasePos ());
   // compute our z offset from it, back along from its direction
-  csVector3 offset (basetrans.This2OtherRelative (csVector3 (0,0,-posoffset.z)));
+  csVector3 offset (basetrans.This2OtherRelative (
+    csVector3 (0,0,-posoffset.z)));
   // offset.y = 0; (assuming its up is (0,1,0))
   camtrans.SetOrigin (basepos + offset);
   // look along same direction as the object
