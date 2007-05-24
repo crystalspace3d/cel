@@ -24,6 +24,8 @@
 
 #include "csgeom/transfrm.h"
 
+struct iMovable;
+
 namespace celCameraMode
 {
 
@@ -31,7 +33,20 @@ class LaraTrack : public scfImplementation2<LaraTrack, iTrackCameraMode,
   scfFakeInterface<iCelCameraMode> >, public celCameraMode
 {
 private:
+  const csVector3 &GetAnchorPosition ();
+  const csVector3 &GetAnchorDirection ();
+  // this function should absolutely never be called unless
+  // targetstate == TARGET_OBJ
+  const csVector3 &GetTargetPosition ();
+
+  // the target we track if targetstate == TARGET_OBJ
+  iMovable* tracktarget;
+  TargetState targetstate;
+  // because you don't want to be looking at the targets feet
+  float targetyoffset;
+
   csVector3 posoffset;
+  // we store a local transform we keep updated
   csReversibleTransform camtrans;
 
   // Has this camera been initialised yet?
@@ -40,16 +55,18 @@ public:
   LaraTrack (iBase* p = 0);
   virtual ~LaraTrack ();
 
+  virtual bool SetTargetEntity (const char* name);
+  virtual void SetTargetState (TargetState targetstate);
+  //virtual void SetTargetMesh (const char* name);
+  //virtual void SetTargetPosition (const csVector3 &pos);
+
+  virtual void SetTargetYOffset (float targetyoffset);
+
   virtual void SetPositionOffset(const csVector3 & offset);
   virtual bool DrawAttachedMesh() const;
   virtual bool DecideCameraState ();
 
   virtual bool ResetCamera ();
-
-  virtual void Foo ()
-  {
-    puts ("Foo!");
-  }
 
   virtual void SetParentCamera (iPcNewCamera * camera)
   {
