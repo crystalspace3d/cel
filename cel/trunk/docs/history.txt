@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 24-May-2007
+	- Genjix added some tracking functionality to LaraTrack camera.
 	- Genjix made changes to tracking camera so it provides the base
 	  functionality of tracking its anchor along its own Z axis and
 	  rotating to face its tracking entity (same entity for now).

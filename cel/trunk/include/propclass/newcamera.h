@@ -139,6 +139,33 @@ struct iTrackCameraMode : public virtual iCelCameraMode
    * as the anchor fixed on the target,
    */
   virtual bool ResetCamera () = 0;
+
+  enum TargetState
+  {
+    TARGET_BASE,
+    TARGET_OBJ,
+    TARGET_NONE
+  };
+
+  /**
+   * Sets the target entity that we focus on when targetstate == TARGET_OBJ
+   * \param The name of the entity.
+   */
+  virtual bool SetTargetEntity (const char* name) = 0;
+
+  /**
+   * Sets the state of the targetting.
+   * - TARGET_BASE: focus on the entity we're following.
+   * - TARGET_OBJ: focus on the entity set by SetTargetEntity (...)
+   * - TARGET_NONE: focus on nothing and also follow the on the x axis
+   */
+  virtual void SetTargetState (TargetState targetstate) = 0;
+
+  /**
+   * Since position is often set at the 'feet' of an object, set
+   * a fixed offset upwards
+   */
+  virtual void SetTargetYOffset (float targetyoffset) = 0;
 };
 
 SCF_VERSION(iPcNewCamera, 0, 0, 3);
