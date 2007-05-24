@@ -1,0 +1,221 @@
+@c -*-texinfo-*-
+@node Addons, XML Behaviour Layer, Property Classes, Using CEL
+@section Addons
+
+Although you can fully work with Crystal Entity Layer by using C++ @sc{api}
+calls, Crystal Entity Layer has a lot of support for @sc{xml}. To supports this
+Crystal Entity Layer uses the @dfn{addon} system that is implemented in
+the Crystal Space map loader. Basically the addon system allows one to write
+plugins that plug into the loader and allow someone to add additional @sc{xml}
+parts to the standard world file. Crystal Entity Layer defines several
+addons.
+
+@menu
+* Addons CelEntity:: CelEntity Addon
+* Addons CelEntityTemplate:: CelEntity Template Addon
+* Addons XmlScripts:: XML Scripts Addon
+* Addons QuestDef:: Quest Definition Addon
+@end menu
+
+@node Addons CelEntity, Addons CelEntityTemplate, Addons, Addons
+@subsection CelEntity Addon
+@cindex celentity addon
+
+With the @samp{cel.addons.celentity} addon you can define your own entities
+directly in the world file. Here is an example on how to use that:
+
+@example
+<addon plugin="cel.addons.celentity" entityname="SlidingDoor">
+  <propclass name="pcmesh">
+    <action name="SetMesh">
+      <par name="name" string="SlidingDoor" />
+    </action>
+  </propclass>
+  <propclass name="pctrigger">
+    <property name="monitor" string="camera" />
+    <action name="SetupTriggerSphere">
+      <par name="sector" string="Corridors" />
+      <par name="position" vector="-118,-8,78.7" />
+      <par name="radius" float="4" />
+    </action>
+  </propclass>
+  <propclass name="pcquest">
+    <action name="NewQuest">
+      <par name="name" string="SlideDoor" />
+      <par name="openx" string="-3.5" />
+      <par name="openy" string="0" />
+      <par name="openz" string="0" />
+      <par name="closex" string="3.5" />
+      <par name="closey" string="0" />
+      <par name="closez" string="0" />
+    </action>
+    <property name="state" string="closed" />
+  </propclass>
+</addon>
+@end example
+
+Here you see how an entity is created with the name @samp{SlidingDoor} and
+three property classes: @samp{pcmesh} (@pxref{PropClass Mesh}),
+@samp{pctrigger}, and @samp{pcquest} (@pxref{PropClass Quest Manager}). For
+every property class we can call actions and set properties.
+
+You can create an entity everywhere in the map file where you can use
+addons. If you create an entity as a child of a @samp{meshobj} then the
+addon will automatically create a @samp{pcmesh} (@pxref{PropClass Mesh})
+property class attached to that mesh.
+
+You can also create an entity from an entity template
+(@pxref{Addons CelEntityTemplate}) like this:
+
+@example
+<addon plugin="cel.addons.celentity" template="EntityTemplate"
+             entityname="MyEntity">
+    <params>
+        <par name="pos" value="-24.5,0,-22.5" />
+    </params>
+</addon>
+@end example
+
+Notice how the @samp{pos} parameter is given to the template. Parameters
+for templates are always strings but can often be interpreted differently.
+In addition to the @samp{pos} parameter there is always an implicit
+@samp{this} parameter which will be set to the name of the entity that is
+being created. In this particular example it will be equal to @samp{MyEntity}.
+
+@node Addons CelEntityTemplate, Addons XmlScripts, Addons CelEntity, Addons
+@subsection CelEntity Template Addon
+@cindex celentity template addon
+
+With the @samp{cel.addons.celentitytpl} addon you can define your own entity
+templates directly in the world file. Here is an example on how to use that:
+
+@example
+<addon plugin="cel.addons.celentitytpl" entityname="EntityTemplate">
+    <propclass name="pcmesh">
+        <action name="SetMesh">
+            <par name="name" string="$this" />
+        </action>
+    </propclass>
+    <propclass name="pctrigger">
+        <property name="monitor" string="camera" />
+        <action name="SetupTriggerSphere">
+            <par name="sector" string="Inside" />
+            <par name="position" vector="$pos" />
+            <par name="radius" float="4" />
+        </action>
+    </propclass>
+    <propclass name="pcquest">
+        <action name="NewQuest">
+            <par name="name" string="MyQuest" />
+        </action>
+        <property name="state" string="closed" />
+    </propclass>
+</addon>
+@end example
+
+You can define an entity template just like you would define an entity
+(@pxref{Addons CelEntity}) except that you can use parameters. The @samp{$this}
+parameter will be set to the name of the entity that is being created from
+the template. In addition you can also define other parameters at the time
+you create an entity from the template. In the example above the @samp{$pos}
+parameter is used.
+
+@node Addons XmlScripts, Addons QuestDef, Addons CelEntityTemplate, Addons
+@subsection XML Scripts Addon
+@cindex XML scripts addon
+
+The @samp{cel.addons.xmlscripts} addon is specifically made for the @sc{xml}
+behaviour layer (@pxref{XML Behaviour Layer}) and gives you the option to define
+@sc{xml} scripts directly in a world file. Here is an example:
+
+@example
+<addon plugin="cel.addons.xmlscripts">
+    <pcfactory>cel.pcfactory.billboard</pcfactory>
+    <pcfactory>cel.pcfactory.timer</pcfactory>
+    <pcfactory>cel.pcfactory.properties</pcfactory>
+
+    <script name="chair_clicker">
+        <event name="init">
+            <var name="counter" value="0" />
+        </event>
+        <event name="pcbillboard_select">
+            <var name="counter" value="?counter+1" />
+            <if eval="?counter < 10">
+                <true>
+                   <print value="'You clicked '+?counter+' times.'" />
+                </true>
+                <false>
+                    <print value="'It is time you stopped clicking!'" />
+                </false>
+            </if>
+        </event>
+    </script>
+
+    <script name="chair_mover">
+        <event name="pctimer_wakeup">
+            <bb_move x="rand(1)*250000" y="rand(1)*250000" delta="500" />
+        </event>
+    </script>
+</addon>
+@end example
+
+This addon allows you to do two things: first you can load a property class
+factory with the @samp{pcfactory} operation. Secondly you can create scripts
+(corresponding with behaviours) for the @sc{xml} behaviour layer.
+
+@node Addons QuestDef, , Addons XmlScripts, Addons
+@subsection Quest Definition Addon
+@cindex quest definition addon
+
+With the @samp{cel.addons.questdef} addon you can define quests for the
+quest manager (@pxref{PropClass Quest Manager}) directly in a world file.
+Here is an example:
+
+@example
+<addon plugin="cel.addons.questdef">
+  <quest name="SlideDoor">
+    <state name="locked">
+      <trigger type="trigger">
+        <fireon entity="$this" />
+        <reward type="debugprint" message="Door is closed!" />
+      </trigger>
+      <trigger type="inventory">
+        <fireon entity="camera" child_entity="$key_ent" />
+        <reward type="debugprint" message="The door is unlocked!" />
+        <reward type="changeproperty" entity="$key_ent" pc="pcbillboard"
+          property="cel.property.visible" bool="true" />
+        <reward type="newstate" state="closed" />
+      </trigger>
+    </state>
+    <state name="closed">
+      <trigger type="trigger">
+        <fireon entity="$this" />
+        <reward type="debugprint" message="Door Opens!" />
+        <reward type="sequencefinish" entity="$this" sequence="closedoor" />
+        <reward type="sequence" entity="$this" sequence="opendoor" />
+        <reward type="newstate" state="opened" />
+      </trigger>
+    </state>
+    <state name="opened">
+      <trigger type="trigger">
+        <fireon entity="$this" leave="true" />
+        <reward type="debugprint" message="Door Closes!" />
+        <reward type="sequencefinish" entity="$this" sequence="opendoor" />
+        <reward type="sequence" entity="$this" sequence="closedoor" />
+        <reward type="newstate" state="closed" />
+      </trigger>
+    </state>
+    <sequence name="opendoor">
+      <op type="transform" duration="500" entity="$this">
+        <v x="$openx" y="$openy" z="$openz" />
+      </op>
+    </sequence>
+    <sequence name="closedoor">
+      <op type="transform" duration="500" entity="$this">
+        <v x="$closex" y="$closey" z="$closez" />
+    </op>
+    </sequence>
+  </quest>
+</addon>
+@end example
+

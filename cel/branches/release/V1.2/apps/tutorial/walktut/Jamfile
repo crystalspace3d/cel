@@ -1,0 +1,7 @@
+SubDir TOP apps tutorial walktut ;
+
+Application walktut : [ Wildcard *.cpp *.h ] ;
+CFlags walktut : "-DLIBDIR='\"$(INSTALLDIR.PLUGIN)/\"'" ;
+LinkWith walktut : celtool ;
+ExternalLibs walktut : CRYSTAL ;
+

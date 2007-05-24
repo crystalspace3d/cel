@@ -1,0 +1,7 @@
+SubDir TOP plugins addons celentity ;
+
+Plugin addon_celentity
+	: celentity.cpp celentity.h
+;
+ExternalLibs addon_celentity : CRYSTAL ;
+LinkWith addon_celentity : celtool ;
