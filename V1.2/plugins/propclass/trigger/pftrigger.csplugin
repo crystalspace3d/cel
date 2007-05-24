@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- pftrigger.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <!-- @@@ to be deprecated -->
+      <class>
+        <name>cel.pcfactory.trigger</name>
+        <implementation>celPfTrigger</implementation>
+        <description>CEL Trigger Property Class Factory</description>
+      </class>
+
+      <class>
+        <name>cel.pcfactory.logic.trigger</name>
+        <implementation>celPfTrigger</implementation>
+        <description>CEL Trigger Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

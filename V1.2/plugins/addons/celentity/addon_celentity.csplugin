@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_celentity.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.celentity</name>
+        <implementation>celAddOnCelEntity</implementation>
+	<description>CEL AddOn for Entities</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
