@@ -7,7 +7,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf.
 #----------------------------------------------------------------------------
-AC_INIT([cel], [1.2], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.2rc1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
     [http://cel.crystalspace3d.org/])
