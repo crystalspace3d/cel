@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 24-May-2007
+	- Genjix added functionality to iTrackCameraMode where it doesn't
+	  rotate around the player.
 	- Genjix reverted check for same property class since it interferes
 	  with other desireable behaviour.
 	- Genjix made the following changes to the physical layer:

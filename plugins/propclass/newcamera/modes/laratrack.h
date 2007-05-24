@@ -62,6 +62,8 @@ public:
 
   virtual void SetTargetYOffset (float targetyoffset);
 
+  virtual TargetState GetTargetState ();
+
   virtual void SetPositionOffset(const csVector3 & offset);
   virtual bool DrawAttachedMesh() const;
   virtual bool DecideCameraState ();

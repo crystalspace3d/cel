@@ -25,6 +25,7 @@
 #include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "propclass/newcamera.h"
 #include "iengine/movable.h"
+#include "iengine/mesh.h"
 
 namespace celCameraMode
 {
@@ -93,15 +94,24 @@ bool LaraTrack::DecideCameraState()
   }
   // get the position of the object we are anchored to in camera space
   const csVector3 &playpos (camtrans.Other2This (GetAnchorPosition ()));
+  // calculate the position (in camera) space to get within the range
+  // we want to be...
+  // ... we zero out the axis we don't want to follow
+  csVector3 range (0,0,playpos.z - posoffset.z);
+  // we follow the x though when we aren't focused on any object
+  if (targetstate == TARGET_NONE)
+    range.x = playpos.x;
   // how much does the camera have to move to be within the z offset
-  csVector3 cammove (camtrans.This2OtherRelative (
-    csVector3 (0,0,playpos.z - posoffset.z)));
+  csVector3 cammove (camtrans.This2OtherRelative (range));
   // enforce the rule to keep everything flat in the transform
   cammove.y = 0.0f;
   // actually move the camera
   camtrans.SetOrigin (camtrans.GetOrigin () + cammove);
   // track the target
-  camtrans.LookAt (tarpos - camtrans.GetOrigin (), up);
+  if (targetstate != TARGET_NONE)
+  {
+    camtrans.LookAt (tarpos - camtrans.GetOrigin (), up);
+  }
 
   // since the camera transform exists in the same plane as the anchor
   // and up is fixed to (0,1,0) (our assumptions), then offset in y
@@ -117,39 +127,54 @@ bool LaraTrack::ResetCamera ()
 {
   if (!parent)
     return false;
+  // get the transform and position of our anchor object...
   const csReversibleTransform &basetrans = parent->GetBaseTrans ();
   const csVector3 &basepos (parent->GetBasePos ());
-  csVector3 offset (basetrans.This2OtherRelative (posoffset));
-  offset.y = 0;
+  // compute our z offset from it, back along from its direction
+  csVector3 offset (basetrans.This2OtherRelative (csVector3 (0,0,-posoffset.z)));
+  // offset.y = 0; (assuming its up is (0,1,0))
   camtrans.SetOrigin (basepos + offset);
-  camtrans.LookAt (offset, parent->GetBaseUp ());
+  // look along same direction as the object
+  camtrans.LookAt (offset, up);
   return true;
 }
 
 bool LaraTrack::SetTargetEntity (const char* name)
 {
-  puts ("BOOM!");
-  return false;
-#if 0
-  if (!name || name[0] = 0)
-    do_track = false;
-  iCelEntity* ent = pl->FindEntity (name);
+/*  iCelEntity* ent = ((celPcNewCamera*)parent)->GetPhysicalLayer ()->FindEntity (name);
   if (!ent)
     return false;
   csRef<iPcMesh> pcmesh = celQueryPropertyClassEntity <iPcMesh> (ent);
   if (!pcmesh || !pcmesh->GetMesh ())
     return false;
   tracktarget = pcmesh->GetMesh ()->GetMovable ();
-  do_track = true;
-#endif
+  return true;*/
+  return false;
 }
 void LaraTrack::SetTargetState (TargetState targetstate)
 {
   LaraTrack::targetstate = targetstate;
+  switch (targetstate)
+  {
+    case (TARGET_BASE):
+      puts ("normal");
+      break;
+    case (TARGET_OBJ):
+      puts ("lock on!");
+      break;
+    case (TARGET_NONE):
+      puts ("ready!");
+      break;
+  }
 }
 void LaraTrack::SetTargetYOffset (float targetyoffset)
 {
   LaraTrack::targetyoffset = targetyoffset;
+}
+
+iTrackCameraMode::TargetState LaraTrack::GetTargetState ()
+{
+  return targetstate;
 }
 
 }

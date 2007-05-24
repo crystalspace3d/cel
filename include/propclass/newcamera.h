@@ -162,6 +162,11 @@ struct iTrackCameraMode : public virtual iCelCameraMode
   virtual void SetTargetState (TargetState targetstate) = 0;
 
   /**
+   * \return The target state
+   */
+  virtual TargetState GetTargetState () = 0;
+
+  /**
    * Since position is often set at the 'feet' of an object, set
    * a fixed offset upwards
    */
