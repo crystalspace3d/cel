@@ -11,7 +11,7 @@ The history order is reversed so that new features are at the top.
 	    iCelPlLayer::CreatePropertyClass() specifying the last argument,
 	    for code reuse.
 	  - Added a check to CreatePropertyClass() so that a propclass
-	    is recreated when it already exists.
+	    isn't recreated when it already exists.
 	- Genjix added some tracking functionality to LaraTrack camera.
 	- Genjix made changes to tracking camera so it provides the base
 	  functionality of tracking its anchor along its own Z axis and
