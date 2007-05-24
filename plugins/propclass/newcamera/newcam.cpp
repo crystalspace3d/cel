@@ -488,7 +488,7 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
     case iPcNewCamera::CCM_LARA_TRACK:
-      return AttachCameraMode (new celCameraMode::LaraTrack ());
+      return AttachCameraMode (new celCameraMode::LaraTrack (pl));
     default:
       return (size_t)-1;
   }
