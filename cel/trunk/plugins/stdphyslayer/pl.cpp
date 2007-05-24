@@ -818,23 +818,6 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
         "No factory for type '%s' registered!", propname);
     return 0;
   }
-  // check for a matching property class with same name and tag
-  iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
-  for (size_t i = 0; i < pclist->GetCount (); i++)
-  {
-    iCelPropertyClass* currpc = pclist->Get (i);
-    if (!strcmp (currpc->GetName (), propname))
-    {
-      // if a tagname was specified, then check that they also match
-      if (tagname)
-      {
-        if (currpc->GetTag () && !strcmp (currpc->GetTag (), tagname))
-          return currpc;
-      }
-      else
-        return currpc;
-    }
-  }
   // create a new property class
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
   if (!pc)
