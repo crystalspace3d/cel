@@ -808,7 +808,7 @@ iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
 }
 
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
-	const char *propname)
+  const char *propname, const char* tagname)
 {
   iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
   if (!pf)
@@ -818,25 +818,24 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
         "No factory for type '%s' registered!", propname);
     return 0;
   }
-  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
-  if (!pc)
-    return 0;
-  pc->SetName (propname);
-  entity->GetPropertyClassList()->Add (pc);
-  return pc;
-}
-
-iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
-	const char *propname, const char* tagname)
-{
-  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
-  if (!pf)
+  // check for a matching property class with same name and tag
+  iCelPropertyClassList* pclist = entity->GetPropertyClassList ();
+  for (size_t i = 0; i < pclist->GetCount (); i++)
   {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "crystalspace.cel.pllayer",
-        "No factory for type '%s' registered!", propname);
-    return 0;
+    iCelPropertyClass* currpc = pclist->Get (i);
+    if (!strcmp (currpc->GetName (), propname))
+    {
+      // if a tagname was specified, then check that they also match
+      if (tagname)
+      {
+        if (currpc->GetTag () && !strcmp (currpc->GetTag (), tagname))
+          return currpc;
+      }
+      else
+        return currpc;
+    }
   }
+  // create a new property class
   csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
   if (!pc)
     return 0;
@@ -844,6 +843,12 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
     pc->SetTag (tagname);
   entity->GetPropertyClassList()->Add (pc);
   return pc;
+}
+
+iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
+  const char *propname, const char* tagname)
+{
+  return CreatePropertyClass (entity, propname, tagname);
 }
 
 // Implementation of iCelDataBuffer.

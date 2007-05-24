@@ -378,8 +378,8 @@ struct iCelPlLayer : public iBase
    * factory.
    * Note that the reference count of the returned class is not turned up.
    */
-  virtual iCelPropertyClass* CreatePropertyClass
-      (iCelEntity* entity, const char* propname) = 0;
+  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
+    const char* propname, const char* tagname = 0) = 0;
 
   /**
    * Convenience function to create a property class with a tag from a
