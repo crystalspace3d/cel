@@ -25,8 +25,6 @@
 #include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "propclass/newcamera.h"
 
-#include "csgeom/transfrm.h"
-
 namespace celCameraMode
 {
 
@@ -37,34 +35,56 @@ LaraTrack::LaraTrack (iBase* p)
 {
   posoffset.Set (0, 3, 3);
   pos = posoffset;
+
+  init_reset = false;
 }
 
 LaraTrack::~LaraTrack ()
 {
 }
 
+void LaraTrack::SetPositionOffset(const csVector3 &offset)
+{
+  posoffset = offset;
+}
 bool LaraTrack::DrawAttachedMesh() const
 {
   return true;
 }
+
 bool LaraTrack::DecideCameraState()
 {
   if (!parent)
     return false;
+  //init_reset = false;
+  if (!ResetCamera ())
+    return false;
 
+  const csVector3 &basepos (parent->GetBasePos ());
+  const csVector3 &playpos (camtrans.Other2This (basepos));
+  csVector3 cammove (camtrans.This2OtherRelative (csVector3 (0,0,playpos.z - 5)));
+  cammove.y = 0.0f;
+  camtrans.SetOrigin (camtrans.GetOrigin () + cammove);
+  camtrans.LookAt (basepos - camtrans.GetOrigin (), parent->GetBaseUp ());
+  pos = camtrans.GetOrigin ();
+  target = parent->GetBasePos ();
+  up = parent->GetBaseUp ();
+  return true;
+}
 
-  const csOrthoTransform &camtr = parent->GetTransform ();
-  csVector3 playpos (parent->GetBasePos ());
-  playpos.x = 0.0f;
-  playpos.y = 0.0f;
-  /*const csVector3 &playpos (camtr.GetO2T () * parent->GetBasePos ());
-  const csVector3 &relative = camtr.GetT2O () * csVector3 (0, 0, playpos.z);*/
-  //printf ("%f (%s)\n", playpos.z, relative.Description().GetData ());
-  printf ("player (%s)\n", parent->GetBasePos ().Description ().GetData ());
-
-  pos = playpos + csVector3 (0, 3, -3);
-  target = parent->GetBasePos();
-  up  = parent->GetBaseUp();
+bool LaraTrack::ResetCamera ()
+{
+  if (!parent)
+    return false;
+  if (init_reset)
+    return true;
+  init_reset = true;
+  const csReversibleTransform &basetrans = parent->GetBaseTrans ();
+  const csVector3 &basepos (parent->GetBasePos ());
+  csVector3 offset (basetrans.This2OtherRelative (posoffset));
+  offset.y = 0;
+  camtrans.SetOrigin (basepos + offset);
+  camtrans.LookAt (offset, parent->GetBaseUp ());
   return true;
 }
 
