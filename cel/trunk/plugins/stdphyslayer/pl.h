@@ -164,7 +164,7 @@ public:
   	const char* name, ...);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
-	  const char* propname);
+	  const char* propname, const char* tagname = 0);
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
