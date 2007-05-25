@@ -25,7 +25,6 @@
 #include "plugins/propclass/newcamera/newcam.h"
 #include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "plugins/propclass/newcamera/modes/thirdperson.h"
-#include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -243,11 +242,6 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
         if (!strcmp (name, "camera_thirdperson"))
         {
           AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
-          return true;
-        }
-        if (!strcmp (name, "camera_laratrack"))
-        {
-          AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
           return true;
         }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -487,8 +481,6 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
       return AttachCameraMode (new celCameraMode::FirstPerson ());
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
-    case iPcNewCamera::CCM_LARA_TRACK:
-      return AttachCameraMode (new celCameraMode::LaraTrack ());
     default:
       return (size_t)-1;
   }
