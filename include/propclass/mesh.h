@@ -73,6 +73,8 @@ class csBox3;
  *   as an entity with the optional tag specifying which pcmesh to use.
  *   If entity is not given then the current entity will be used.
  * - ClearParent: no parameters. Remove this mesh from its parent.
+ * - AttachSocketMesh: parameters 'socket', 'factory' (string)
+ * - DetachSocketMesh: parameters 'socket'
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -209,7 +211,8 @@ struct iPcMesh : public virtual iBase
   virtual bool IsVisible () const = 0;
 
   /**
-   * Attach mesh factory to a socket.
+   * Attach mesh factory to a socket. Meshobject will be created,
+   * requires material in mesh factory. Only one mesh per socket.
    * \param socket Name of the socket.
    * \param factory Name of the loaded mesh factory.
    */
