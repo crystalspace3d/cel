@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Timer, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass Timer, PropClass Trigger, PropClass Quest Manager, Property Classes
 @subsection Timer
 @cindex pctools.timer property class
 @cindex pctools.timer
