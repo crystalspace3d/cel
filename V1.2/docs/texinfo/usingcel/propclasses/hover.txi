@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Hover, , PropClass ZoneMgr, Property Classes
+@node PropClass Hover, PropClass LinMove, PropClass CommandInput, Property Classes
 @subsection Hover
 @cindex pchover property class
 @cindex pchover

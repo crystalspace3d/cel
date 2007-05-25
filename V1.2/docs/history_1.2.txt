@@ -1,0 +1,6 @@
+1.2 branch specific log.
+
+The history order is reversed so that new features are at the top.
+
+25-May-2007
+	- Jorrit merged r2786 into 1.2 (blxml docs).
