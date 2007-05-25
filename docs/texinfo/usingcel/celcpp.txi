@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Cpp specifics, , Addons, Using CEL
+@node Cpp specifics, , Python Behaviour Layer, Using CEL
 @section Using CEL from c++
 @cindex @sc{cpp usage}
 

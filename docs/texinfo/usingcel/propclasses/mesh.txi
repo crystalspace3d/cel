@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Mesh, PropClass LinMove, PropClass Quest Manager, Property Classes
+@node PropClass Mesh, PropClass Mover, PropClass LinMove, Property Classes
 @subsection Mesh
 @cindex pcmesh property class
 @cindex pcmesh

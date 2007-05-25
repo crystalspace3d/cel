@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass LinMove, PropClass Timer, PropClass Mesh, Property Classes
+@node PropClass LinMove, PropClass Mesh, PropClass Hover, Property Classes
 @subsection Linear Movement
 @cindex pclinearmovement property class
 @cindex pclinearmovement
