@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Mover, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass Mover, PropClass Projectile, PropClass Mesh, Property Classes
 @subsection Mover
 @cindex pcmove.mover property class
 @cindex pcmove.mover

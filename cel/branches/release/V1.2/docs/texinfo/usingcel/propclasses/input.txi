@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass CommandInput, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass CommandInput, PropClass Hover, PropClass Billboard, Property Classes
 @subsection Command Input
 @cindex pccommandinput property class
 @cindex pccommandinput
