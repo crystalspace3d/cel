@@ -82,6 +82,7 @@ property class):
 <table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
   return false;
 </pre></td></tr></table>
+
 <a name="3"></a>
 <h4 class="subsubheading"> Creating Property Classes </h4>
 
@@ -96,10 +97,12 @@ with the entity itself:
         ... (other property classes)
         CEL_PROPCLASS_END);
 </pre></td></tr></table>
+
 <p>The second way creates a property class on an entity that is already created:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
 </pre></td></tr></table>
+
 <a name="4"></a>
 <h4 class="subsubheading"> Getting Property Classes from an entity </h4>
 
@@ -107,6 +110,7 @@ with the entity itself:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 </pre></td></tr></table>
+
 <a name="5"></a>
 <h4 class="subsubheading"> Tagged Property Classes </h4>
 
@@ -119,11 +123,13 @@ create a tagged property class for an entity:
 <table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcmesh&quot;,
         &quot;main_mesh&quot;);
 </pre></td></tr></table>
+
 <p>And to fetch a tagged property class you can use:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
         &quot;main_mesh&quot;);
 </pre></td></tr></table>
+
 <p>Note that there is the concept of a default property class for a given
 type. Usually the default property class is the one that has no tag (tag
 equal to 0). So when you call <code>CEL_QUERY_PROPCLASS_ENT</code> it will first
