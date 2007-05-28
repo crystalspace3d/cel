@@ -28,3 +28,4 @@ SubInclude TOP plugins propclass damage ;
 SubInclude TOP plugins propclass meshdeform ;
 SubInclude TOP plugins propclass neuralnet ;
 SubInclude TOP plugins propclass evolve ;
+SubInclude TOP plugins propclass steer ;
