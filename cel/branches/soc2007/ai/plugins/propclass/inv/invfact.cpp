@@ -44,7 +44,7 @@ void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pctools.inventory",
     	msg, arg);
   else
   {
@@ -141,7 +141,7 @@ bool celPcInventory::Load (iCelDataBuffer* databuf)
     iCelEntity* ent = databuf->GetEntity ();
     contents.Push (ent);
     csRef<iPcCharacteristics> pcchar = CEL_QUERY_PROPCLASS_ENT (
-  	ent, iPcCharacteristics);
+    	ent, iPcCharacteristics);
     if (pcchar)
       pcchar->AddToInventory ((iPcInventory*)this);
   }
@@ -570,9 +570,9 @@ float celPcInventory::GetCurrentCharacteristic (const char* charName) const
       csRef<iPcCharacteristics> pcchar (CEL_QUERY_PROPCLASS (
       	child->GetPropertyClassList (), iPcCharacteristics));
       if (pcchar)
-	c->currentValue += pcchar->GetCharacteristic (charName);
+        c->currentValue += pcchar->GetCharacteristic (charName);
       else
-	c->currentValue += DEF;
+        c->currentValue += DEF;
     }
     c->dirty = false;
   }
@@ -696,8 +696,8 @@ void celPcInventory::Dump ()
   {
     constraint* c = constraints[i];
     printf ("  '%s' min=%g max=%g totMax=%g current=%g strict=%d\n",
-		    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
-		    GetCurrentCharacteristic (c->charName), c->strict);
+    	    c->charName, c->minValue, c->maxValue, c->totalMaxValue,
+    	    GetCurrentCharacteristic (c->charName), c->strict);
   }
   printf ("Entities:\n");
   for (i = 0 ; i < contents.GetSize () ; i++)
@@ -903,7 +903,7 @@ bool celPcCharacteristics::SetCharacteristic (const char* name, float value)
     MarkDirty (name);
     return false;
   }
- 
+
   return true;
 }
 
@@ -950,7 +950,7 @@ float celPcCharacteristics::GetInheritedCharacteristic (const char* name) const
 
   csRef<iPcInventory> pcinv (
   	CEL_QUERY_PROPCLASS (entity->GetPropertyClassList (),
-	iPcInventory));
+  	iPcInventory));
   if (pcinv)
   {
     float invval = pcinv->GetCurrentCharacteristic (name);
@@ -978,10 +978,10 @@ bool celPcCharacteristics::ClearCharacteristic (const char* name)
       MarkDirty (name);
       if (!TestConstraints (name))
       {
-	// Undo our change.
-	MarkDirty (name);
-	chars.Push (c);
-	return false;
+        // Undo our change.
+        MarkDirty (name);
+        chars.Push (c);
+        return false;
       }
 
       delete[] c->name;
@@ -1023,7 +1023,7 @@ void celPcCharacteristics::Dump ()
   {
     charact* c = chars[i];
     printf ("  '%s' value=%g, local value=%g factor=%g add=%g\n", c->name,
-		    GetCharacteristic (c->name), c->value, c->factor, c->add);
+    	    GetCharacteristic (c->name), c->value, c->factor, c->add);
   }
   printf ("Inventories:\n");
   for (i = 0 ; i < inventories.GetSize () ; i++)

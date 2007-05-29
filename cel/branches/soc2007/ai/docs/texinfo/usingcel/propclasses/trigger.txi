@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Trigger, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass Trigger, PropClass ZoneMgr, PropClass Timer, Property Classes
 @subsection Trigger
 @cindex pclogic.trigger property class
 @cindex pclogic.trigger

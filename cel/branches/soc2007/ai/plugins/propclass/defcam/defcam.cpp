@@ -264,6 +264,11 @@ csStringID celPcDefaultCamera::id_x = csInvalidStringID;
 csStringID celPcDefaultCamera::id_y = csInvalidStringID;
 csStringID celPcDefaultCamera::id_w = csInvalidStringID;
 csStringID celPcDefaultCamera::id_h = csInvalidStringID;
+csStringID celPcDefaultCamera::id_enable = csInvalidStringID;
+csStringID celPcDefaultCamera::id_minfps = csInvalidStringID;
+csStringID celPcDefaultCamera::id_maxfps = csInvalidStringID;
+csStringID celPcDefaultCamera::id_mindist = csInvalidStringID;
+csStringID celPcDefaultCamera::id_dist = csInvalidStringID;
 
 PropertyHolder celPcDefaultCamera::propinfo;
 
@@ -375,6 +380,11 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_w = pl->FetchStringID ("cel.parameter.w");
     id_h = pl->FetchStringID ("cel.parameter.h");
+    id_enable = pl->FetchStringID ("cel.parameter.enable");
+    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
+    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
+    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
+    id_dist = pl->FetchStringID ("cel.parameter.distance");
   }
 
   SetMode (iPcDefaultCamera::firstperson);
@@ -391,6 +401,8 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
     AddAction (action_setfollowentity, "cel.action.SetFollowEntity");
     AddAction (action_setrectangle, "cel.action.SetRectangle");
     AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
   // For properties.
@@ -574,6 +586,38 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (y,params,id_y);
         if (!p_y) return false;
         SetPerspectiveCenter (x, y);
+        return true;
+      }
+    case action_adaptiveclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
+          EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
+        }
+        else
+          DisableDistanceClipping ();
+        return true;
+      }
+    case action_fixedclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
+          EnableFixedDistanceClipping (dist);
+        }
+        else
+          DisableDistanceClipping ();
         return true;
       }
     default:

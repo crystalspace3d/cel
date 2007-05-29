@@ -2729,21 +2729,12 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         {
           if (!ParseExpression (local_vars, child, h, "var", "for"))
 	    return false;
-          if (!ParseExpression (local_vars, child, h, "start", "for"))
-	    return false;
-          if (!ParseExpression (local_vars, child, h, "end", "for"))
-	    return false;
-	  const char* execname = GetAttributeString (child, "exec", 0);
-	  if (execname)
+	  const char* bagname = GetAttributeString (child, "bag", 0);
+	  if (bagname)
 	  {
-	    celXmlScriptEventHandler* handler = FindEventHandler (
-	    	script, execname);
-	    h->AddOperation (CEL_OPERATION_FOR);
-	    h->GetArgument ().SetEventHandlers (handler, 0);
-	  }
-	  else
-	  {
-	    h->AddOperation (CEL_OPERATION_FORI);
+            if (!ParseExpression (local_vars, child, h, "bag", "for"))
+	      return false;
+	    h->AddOperation (CEL_OPERATION_FORBAG);
 	    size_t for_idx = h->GetLastArgumentIndex ();
 
 	    if (!ParseEventHandler (h, local_vars, child, script))
@@ -2752,6 +2743,33 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
 
 	    size_t last_idx = h->GetLastArgumentIndex ();
 	    h->GetArgument (for_idx).SetCodeLocation (last_idx+1);
+	  }
+	  else
+	  {
+            if (!ParseExpression (local_vars, child, h, "start", "for"))
+	      return false;
+            if (!ParseExpression (local_vars, child, h, "end", "for"))
+	      return false;
+	    const char* execname = GetAttributeString (child, "exec", 0);
+	    if (execname)
+	    {
+	      celXmlScriptEventHandler* handler = FindEventHandler (
+	    	  script, execname);
+	      h->AddOperation (CEL_OPERATION_FOR);
+	      h->GetArgument ().SetEventHandlers (handler, 0);
+	    }
+	    else
+	    {
+	      h->AddOperation (CEL_OPERATION_FORI);
+	      size_t for_idx = h->GetLastArgumentIndex ();
+
+	      if (!ParseEventHandler (h, local_vars, child, script))
+	        return false;
+	      h->AddOperation (CEL_OPERATION_END);
+
+	      size_t last_idx = h->GetLastArgumentIndex ();
+	      h->GetArgument (for_idx).SetCodeLocation (last_idx+1);
+	    }
 	  }
 	}
         break;

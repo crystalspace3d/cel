@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Billboard, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass Billboard, PropClass CommandInput, Property Classes, Property Classes
 @subsection Billboard
 @cindex pcbillboard property class
 @cindex pcbillboard

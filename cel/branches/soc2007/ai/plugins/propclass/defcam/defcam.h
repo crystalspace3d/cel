@@ -197,6 +197,11 @@ private:
   static csStringID id_y;
   static csStringID id_w;
   static csStringID id_h;
+  static csStringID id_enable;
+  static csStringID id_minfps;
+  static csStringID id_maxfps;
+  static csStringID id_mindist;
+  static csStringID id_dist;
 
 public://@@@
   bool modeset_needed;
@@ -308,7 +313,9 @@ public://@@@
     action_centercamera,
     action_setfollowentity,
     action_setrectangle,
-    action_setperspcenter
+    action_setperspcenter,
+    action_adaptiveclipping,
+    action_fixedclipping
   };
 
   // For properties.

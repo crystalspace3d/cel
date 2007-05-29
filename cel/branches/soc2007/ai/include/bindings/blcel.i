@@ -19,6 +19,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/region.h"
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
+#include "propclass/newcamera.h"
 #include "propclass/simpcam.h"
 #include "propclass/mesh.h"
 #include "propclass/meshsel.h"
@@ -31,6 +32,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
+#include "propclass/actorlara.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
@@ -389,21 +391,21 @@ CELLIST_METHODS(iCelPropertyClassList,iCelPropertyClass)
 //-----------------------------------------------------------------------------
 
 %include "propclass/mechsys.h"
-CEL_PC(iPcMechanicsSystem, MechanicsSystem, pcmechsys)
+CEL_PC(iPcMechanicsSystem, MechanicsSystem, pcphysics.system)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsSystem)
 
-CEL_PC(iPcMechanicsObject, MechanicsObject, pcmechobject)
+CEL_PC(iPcMechanicsObject, MechanicsObject, pcphysics.object)
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsObject)
 
 CEL_PC_QUERY_CLASSLIST(iPcMechanicsJoint)
-CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcmechjoint)
+CEL_PC(iPcMechanicsJoint, MechanicsJoint, pcphysics.joint)
 
 //-----------------------------------------------------------------------------
 
 %include "tools/billboard.h"
 
 %include "propclass/billboard.h"
-CEL_PC(iPcBillboard, Billboard, pcbillboard)
+CEL_PC(iPcBillboard, Billboard, pc2d.billboard)
 CEL_PC_QUERY_CLASSLIST(iPcBillboard)
 
 //-----------------------------------------------------------------------------
@@ -421,7 +423,7 @@ CEL_PC_QUERY_CLASSLIST(iPcBillboard)
 iPcRegion *celCreateRegion (iCelPlLayer *pl, iCelEntity *entity,
 	const char *name)
 {
-  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcregion");
+  csRef<iCelPropertyClass> pc = pl->CreatePropertyClass(entity, "pcworld.region");
   if (!pc.IsValid()) return 0;
   csRef<iPcRegion> pcregion = scfQueryInterface<iPcRegion>(pc);
   if (!pcregion.IsValid()) return 0;
@@ -438,13 +440,13 @@ CEL_PC_QUERY_CLASSLIST(iPcRegion)
 
 // TODO these need pseudo-dict like interfaces for some stuff
 %include "propclass/zone.h"
-CEL_PC(iPcZoneManager, ZoneManager, pczonemanager)
+CEL_PC(iPcZoneManager, ZoneManager, pcworld.zonemanager)
 
 //-----------------------------------------------------------------------------
 
 // TODO this needs dict like interface for binds
 %include "propclass/input.h"
-CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
+CEL_PC(iPcCommandInput, CommandInput, pcinput.standard)
 
 //-----------------------------------------------------------------------------
 // TODO this class has a horrible interface, must review carefully
@@ -452,78 +454,92 @@ CEL_PC(iPcCommandInput, CommandInput, pccommandinput)
 //%cel_attribute(iPcLinearMovement,csVector3&,Velocity)
 //%cel_attribute(iPcLinearMovement,float,Speed)
 %include "propclass/linmove.h"
-CEL_PC(iPcLinearMovement, LinearMovement, pclinearmovement)
+CEL_PC(iPcLinearMovement, LinearMovement, pcmove.linear)
 
 //-----------------------------------------------------------------------------
 //%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
-CEL_PC(iPcActorMove, ActorMove, pcactormove)
+CEL_PC(iPcActorMove, ActorMove, pcmove.actorold)
+
+//-----------------------------------------------------------------------------
+
+%include "propclass/actorlara.h"
+CEL_PC(iPcActorLara, ActorLara, pcmove.lara)
 
 //-----------------------------------------------------------------------------
 
 // TODO must review distance methods
 %include "propclass/camera.h"
-CEL_PC(iPcCamera, Camera, pccamera)
+//CEL_PC(iPcCamera, Camera, pccamera)
 
 //-----------------------------------------------------------------------------
 
 //%cel_attribute(iPcDefaultCamera,float,TurnSpeed) ONLY HAS SETTER
 //%cel_attribute(iPcDefaultCamera,float,SwingCoef) ONLY HAS SETTER
 %include "propclass/defcam.h"
-CEL_PC(iPcDefaultCamera, DefaultCamera, pcdefaultcamera)
+CEL_PC(iPcDefaultCamera, DefaultCamera, pccamera.old)
 
 // TODO simpcam missing
 %include "propclass/simpcam.h"
-CEL_PC(iPcSimpleCamera, SimpleCamera, pcsimplecamera)
+CEL_PC(iPcSimpleCamera, SimpleCamera, pccamera.simple)
+
+%include "propclass/newcamera.h"
+CEL_PC(iPcNewCamera, Camera, pccamera.standard)
 
 //-----------------------------------------------------------------------------
 
 // %cel_attribute(iPcMeshSelect,bool,DragPlaneNormal) HAS TWO PARAMETERS
 %include "propclass/meshsel.h"
-CEL_PC(iPcMeshSelect, MeshSelect, pcmeshselect)
+CEL_PC(iPcMeshSelect, MeshSelect, pcobject.mesh.select)
 
 //-----------------------------------------------------------------------------
 
-%rename(LoadMesh) iPcMesh::SetMesh(const char* factname, const char* filename);
 %include "propclass/mesh.h"
-CEL_PC(iPcMesh, Mesh, pcmesh)
+%extend iPcMesh {
+  void LoadMesh (const char* factname, const char* filename)
+  {
+    puts ("Warning! Warning! Deprecated method detected. Please use SetMesh!");
+    self->SetMesh (factname, filename);
+  }
+}
+CEL_PC(iPcMesh, Mesh, pcobject.mesh)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/timer.h"
-CEL_PC(iPcTimer, Timer, pctimer)
+CEL_PC(iPcTimer, Timer, pctools.timer)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/trigger.h"
-CEL_PC(iPcTrigger, Trigger, pctrigger)
+CEL_PC(iPcTrigger, Trigger, pclogic.trigger)
 
 //-----------------------------------------------------------------------------
 %include "propclass/projectile.h"
-CEL_PC(iPcProjectile, Projectile, pcprojectile)
+CEL_PC(iPcProjectile, Projectile, pcmove.projectile)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/solid.h"
-CEL_PC(iPcSolid, Solid, pcsolid)
+CEL_PC(iPcSolid, Solid, pcmove.solid)
 
 //-----------------------------------------------------------------------------
 
 %rename(CreateGravityColliderFromMesh) iPcGravity::CreateGravityCollider;
 %include "propclass/gravity.h"
-CEL_PC(iPcGravity, Gravity, pcgravity)
+CEL_PC(iPcGravity, Gravity, pcmove.gravity)
 
 //-----------------------------------------------------------------------------
 
 %rename(SetPos) iPcMovable::Move;
 %include "propclass/move.h"
-CEL_PC(iPcMovable, Movable, pcmovable)
+CEL_PC(iPcMovable, Movable, pcmove.movable)
 
 //-----------------------------------------------------------------------------
 
 // TODO more things to do here
 %include "propclass/inv.h"
-CEL_PC(iPcInventory, Inventory, pcinventory)
+CEL_PC(iPcInventory, Inventory, pctools.inventory)
 
 // iCelEntityInvFakeArray
 CEL_FAKE_ARRAY(Inv,iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity)
@@ -531,61 +547,61 @@ CEL_FAKE_ARRAY(Inv,iCelEntity,GetEntityCount,GetEntity,In,RemoveEntity,AddEntity
 
 // TODO add dict like interface for characteristics
 %include "propclass/chars.h"
-CEL_PC(iPcCharacteristics, Characteristics, pccharacteristics)
+CEL_PC(iPcCharacteristics, Characteristics, pctools.inventory.characteristics)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/tooltip.h"
-CEL_PC(iPcTooltip, ToolTip, pctooltip)
+CEL_PC(iPcTooltip, ToolTip, pc2d.tooltip)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/sound.h"
-CEL_PC(iPcSoundSource, SoundSource, pcsoundsource)
-CEL_PC(iPcSoundListener, SoundListener, pcsoundlistener)
+CEL_PC(iPcSoundSource, SoundSource, pcsound.source)
+CEL_PC(iPcSoundListener, SoundListener, pcsound.listener)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/prop.h"
-CEL_PC(iPcProperties, Properties, pcproperties)
+CEL_PC(iPcProperties, Properties, pctools.properties)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/mover.h"
-CEL_PC(iPcMover, Mover, pcmover)
+CEL_PC(iPcMover, Mover, pcmove.mover)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/hover.h"
-CEL_PC(iPcHover, Hover, pchover)
+CEL_PC(iPcHover, Hover, pcvehicle.hover)
 
 //-----------------------------------------------------------------------------
 
 // TODO *very* inconsistent interfaces
 %include "propclass/craft.h"
-CEL_PC(iPcCraftController, CraftController, pccraft)
+CEL_PC(iPcCraftController, CraftController, pcvehicle.craft)
 
 //-----------------------------------------------------------------------------
 
 // TODO this deserves some pseudo-dict for wheels
 %include "propclass/wheeled.h"
-CEL_PC(iPcWheeled, Wheeled, pcwheeled)
+CEL_PC(iPcWheeled, Wheeled, pcvehicle.wheeled)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/meshdeform.h"
-CEL_PC(iPcMeshDeform, MeshDeform, pcmeshdeform)
+CEL_PC(iPcMeshDeform, MeshDeform, pcobject.mesh.deform)
 
 //-----------------------------------------------------------------------------
 
 %include "propclass/damage.h"
-CEL_PC(iPcDamage, Damage, pcdamage)
+CEL_PC(iPcDamage, Damage, pclogic.damage)
 
 //-----------------------------------------------------------------------------
 
 %include "tools/questmanager.h"
 %include "propclass/quest.h"
-CEL_PC(iPcQuest, Quest, pcquest)
+CEL_PC(iPcQuest, Quest, pclogic.quest)
 
 //-----------------------------------------------------------------------------
 

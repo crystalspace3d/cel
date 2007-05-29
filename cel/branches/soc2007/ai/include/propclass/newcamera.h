@@ -48,13 +48,14 @@ struct iView;
 class csView;
 class celPcNewCamera;
 class csReversibleTransform;
+struct csOrthoTransform;
 struct iPcZoneManager;
 
 struct iPcNewCamera;
 
-struct iCelCameraMode
+struct iCelCameraMode : public virtual iBase
 {
-  virtual ~iCelCameraMode () {};
+  SCF_INTERFACE (iCelCameraMode, 0, 0, 1);
 
   /**
    * Tells the camera mode what camera has it attached.
@@ -107,29 +108,72 @@ struct iCelCameraMode
    * Gets the desired camera position.
    * \return The desired camera position.
    */
-  virtual const csVector3 & GetPosition () const = 0;
+  virtual const csVector3 &GetPosition () const = 0;
 
   /**
    * Gets the desired camera target.
    * \return The desired camera target.
    */
-  virtual const csVector3 & GetTarget () const = 0;
+  virtual const csVector3 &GetTarget () const = 0;
 
   /**
    * Gets the desired camera up vector.
    * \return The desired camera up vector.
    */
-  virtual const csVector3 & GetUp () const = 0;
+  virtual const csVector3 &GetUp () const = 0;
 
   /**
    * Informs the camera mode that it should compute the desired position,
    * target, up, etc. of the camera now.
    * \return True on success.
    */
-  virtual bool DecideCameraState () = 0; 
+  virtual bool DecideCameraState () = 0;
 };
 
-SCF_VERSION(iPcNewCamera, 0, 0, 1);
+struct iTrackCameraMode : public virtual iCelCameraMode
+{
+  SCF_INTERFACE (iTrackCameraMode, 0, 0, 1);
+
+  /**
+   * Resets this camera to its original state facing the same direction
+   * as the anchor fixed on the target,
+   */
+  virtual bool ResetCamera () = 0;
+
+  enum TargetState
+  {
+    TARGET_BASE,
+    TARGET_OBJ,
+    TARGET_NONE
+  };
+
+  /**
+   * Sets the target entity that we focus on when targetstate == TARGET_OBJ
+   * \param The name of the entity.
+   */
+  virtual bool SetTargetEntity (const char* name) = 0;
+
+  /**
+   * Sets the state of the targetting.
+   * - TARGET_BASE: focus on the entity we're following.
+   * - TARGET_OBJ: focus on the entity set by SetTargetEntity (...)
+   * - TARGET_NONE: focus on nothing and also follow the on the x axis
+   */
+  virtual void SetTargetState (TargetState targetstate) = 0;
+
+  /**
+   * \return The target state
+   */
+  virtual TargetState GetTargetState () = 0;
+
+  /**
+   * Since position is often set at the 'feet' of an object, set
+   * a fixed offset upwards
+   */
+  virtual void SetTargetYOffset (float targetyoffset) = 0;
+};
+
+SCF_VERSION(iPcNewCamera, 0, 0, 3);
 
 /**
  * This is a camera property class.
@@ -140,43 +184,43 @@ struct iPcNewCamera : public iPcCamera
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.
    */
-  virtual const csVector3 & GetBasePos () const = 0;
+  virtual const csVector3 &GetBasePos () const = 0;
 
   /**
    * Gets the base direction of the camera.
    * \return The base direction of the camera.
    */
-  virtual const csVector3 & GetBaseDir () const = 0;
+  virtual const csVector3 &GetBaseDir () const = 0;
 
   /**
    * Gets the base up vector of the camera.
    * \return The base up vector of the camera.
    */
-  virtual const csVector3 & GetBaseUp () const = 0;
+  virtual const csVector3 &GetBaseUp () const = 0;
 
   /**
    * Gets the base transform of the camera.
    * \return The base transform of the camera.
    */
-  virtual const csReversibleTransform & GetBaseTrans () const = 0;
+  virtual const csReversibleTransform &GetBaseTrans () const = 0;
 
   /**
    * Gets the current position of the camera.
    * \return The current position of the camera.
    */
-  virtual const csVector3 & GetPos () const = 0;
+  virtual const csVector3 &GetPos () const = 0;
 
   /**
    * Gets the current target of the camera.
    * \return The current target of the camera.
    */
-  virtual const csVector3 & GetTarget () const = 0;
+  virtual const csVector3 &GetTarget () const = 0;
 
   /**
    * Gets the current up vector of the camera.
    * \return The current up vector of the camera.
    */
-  virtual const csVector3 & GetUp () const = 0;
+  virtual const csVector3 &GetUp () const = 0;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
@@ -264,12 +308,13 @@ struct iPcNewCamera : public iPcCamera
    * \param mode The camera mode to attach.
    * \return A unique id for the attached camera mode.
    */
-  virtual size_t AttachCameraMode (iCelCameraMode * mode) = 0;
+  virtual size_t AttachCameraMode (iCelCameraMode* mode) = 0;
 
   enum CEL_CAMERA_MODE
   {
     CCM_FIRST_PERSON,
     CCM_THIRD_PERSON,
+    CCM_LARA_TRACK,
     CCM_COUNT
   };
 
@@ -278,7 +323,7 @@ struct iPcNewCamera : public iPcCamera
    * \param mode The id of the built-in camera mode to attach.
    * \return A unique id for the attached camera mode.
    */
-  virtual size_t AttachCameraMode (CEL_CAMERA_MODE mode) = 0;
+  virtual size_t AttachCameraMode (CEL_CAMERA_MODE modetype) = 0;
 
   /**
    * Gets the index of the current camera mode.
@@ -290,7 +335,7 @@ struct iPcNewCamera : public iPcCamera
    * Gets the current camera mode.
    * \return The current camera mode.
    */
-  virtual iCelCameraMode * GetCurrentCameraMode () = 0;
+  virtual iCelCameraMode* GetCurrentCameraMode () = 0;
 
   /**
    * Sets the current camera mode.
@@ -313,7 +358,29 @@ struct iPcNewCamera : public iPcCamera
    * Render. This will clear the screen then draw on top of it.
    */
   virtual void Draw () = 0;
+
+  /**
+    * Get the transform corresponding to this camera.
+    * In this transform, 'other' is world space and 'this' is camera
+    * space.
+    */
+  virtual const csOrthoTransform &GetTransform () = 0;
+
+  /**
+   * Gets the specified camera mode.
+   * \param idx If -1 it will return the current mode
+   * \return The current camera mode.
+   */
+  virtual iCelCameraMode* GetCameraMode (int idx = -1) = 0;
+
+  template <typename T>
+  csPtr<T> QueryModeInterface (int idx = -1)
+  {
+    iBase* cmode = GetCameraMode (idx);
+    if (!cmode)
+      return 0;
+    return scfQueryInterface<T> (cmode);
+  }
 };
 
 #endif // __CEL_PF_NEW_CAMERA__
-

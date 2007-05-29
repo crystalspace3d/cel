@@ -28,6 +28,7 @@
 #include "iengine/mesh.h"
 #include "iengine/sector.h"
 #include "iengine/movable.h"
+#include "ivaria/reporter.h"
 
 //---------------------------------------------------------------------------
 
@@ -76,11 +77,17 @@ celPcProjectile::celPcProjectile (iObjectRegistry* object_reg)
   // For properties.
   propinfo.SetCount (1);
   AddProperty (propid_moving, "cel.property.moving",
-	CEL_DATA_BOOL, true, "Moving.", 0);
+  	CEL_DATA_BOOL, true, "Moving.", 0);
 
   is_moving = false;
 
   vc = csQueryRegistry<iVirtualClock> (object_reg);
+  if (!vc)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcmove.projectile", "No iVirtualClock!");
+    return;
+  }
 }
 
 celPcProjectile::~celPcProjectile ()

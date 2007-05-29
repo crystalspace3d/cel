@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Projectile, PropClass ZoneMgr, PropClass LinMove, Property Classes
+@node PropClass Projectile, PropClass Quest Manager, PropClass Mover, Property Classes
 @subsection Projectile
 @cindex pcmove.projectile property class
 @cindex pcmove.projectile

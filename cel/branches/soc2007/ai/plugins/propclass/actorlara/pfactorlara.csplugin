@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfactorlara.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.lara</name>
+        <implementation>celPfActorLara</implementation>
+        <description>CEL Lara Actor Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

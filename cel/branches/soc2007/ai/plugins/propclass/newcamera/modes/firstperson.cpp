@@ -19,56 +19,22 @@
 
 #include "cssysdef.h"
 #include <math.h>
-#include <csgeom/transfrm.h>
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
-#include "plugins/propclass/newcamera/thirdpersoncameramode.h"
+#include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "propclass/newcamera.h"
 
-celThirdPersonCameraMode::celThirdPersonCameraMode()
-	: celCameraMode()
+namespace celCameraMode
 {
-  posOffset.Set(0,0.5,4);
-}
 
-celThirdPersonCameraMode::~celThirdPersonCameraMode()
+FirstPerson::FirstPerson ()
+ : scfImplementationType (this)
 {
 }
 
-void celThirdPersonCameraMode::SetPositionOffset(const csVector3 & offset)
+FirstPerson::~FirstPerson ()
 {
-  posOffset = offset;
 }
 
-bool celThirdPersonCameraMode::UseSpringPos() const
-{
-  return true;
-}
-
-bool celThirdPersonCameraMode::UseSpringTarget() const
-{
-  return true;
-}
-
-bool celThirdPersonCameraMode::UseSpringUp() const
-{
-  return true;
-}
-
-bool celThirdPersonCameraMode::DrawAttachedMesh() const
-{
-  return true;
-}
-
-bool celThirdPersonCameraMode::DecideCameraState()
-{
-  if (!parentCamera)
-    return false;
-
-  pos = parentCamera->GetBasePos() + parentCamera
-    ->GetBaseTrans().This2OtherRelative(posOffset);
-  target = parentCamera->GetBasePos();
-  up  = parentCamera->GetBaseUp();
-  return true;
 }

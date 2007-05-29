@@ -103,6 +103,8 @@ private:
   static csStringID id_max;
   static csStringID id_entity;
   static csStringID id_tag;
+  static csStringID id_socket;
+  static csStringID id_factory;
 
   enum actionids
   {
@@ -122,7 +124,9 @@ private:
     action_createnullmesh,
     action_parentmesh,
     action_clearparent,
-    action_setshaderexpression
+    action_setshaderexpression,
+    action_attachsocketmesh,
+    action_detachsocketmesh
   };
 
   // Remove the mesh from this pcmesh.
@@ -212,6 +216,8 @@ public:
   virtual void SetShaderVar (csStringID name, csVector2 value);
   virtual void SetShaderVar (csStringID name, csVector3 value);
   virtual void SetShaderVar (csStringID name, csVector4 value);
+  virtual bool AttachSocketMesh (const char* socket, const char* factory);
+  virtual bool DetachSocketMesh (const char* socket);
 };
 
 class celPcMeshSelect;

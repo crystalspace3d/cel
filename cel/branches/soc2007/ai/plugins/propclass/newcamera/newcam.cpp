@@ -23,8 +23,9 @@
 #include "propclass/solid.h"
 #include "propclass/zone.h"
 #include "plugins/propclass/newcamera/newcam.h"
-#include "plugins/propclass/newcamera/firstpersoncameramode.h"
-#include "plugins/propclass/newcamera/thirdpersoncameramode.h"
+#include "plugins/propclass/newcamera/modes/firstperson.h"
+#include "plugins/propclass/newcamera/modes/thirdperson.h"
+#include "plugins/propclass/newcamera/modes/laratrack.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -65,18 +66,17 @@ CEL_IMPLEMENT_FACTORY_ALT (NewCamera, "pccamera.standard", "pcnewcamera")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcNewCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcNewCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcNewCamera::PcNewCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcNewCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcNewCamera::id_name = csInvalidStringID;
 csStringID celPcNewCamera::id_nr = csInvalidStringID;
+csStringID celPcNewCamera::id_x = csInvalidStringID;
+csStringID celPcNewCamera::id_y = csInvalidStringID;
+csStringID celPcNewCamera::id_w = csInvalidStringID;
+csStringID celPcNewCamera::id_h = csInvalidStringID;
+csStringID celPcNewCamera::id_enable = csInvalidStringID;
+csStringID celPcNewCamera::id_minfps = csInvalidStringID;
+csStringID celPcNewCamera::id_maxfps = csInvalidStringID;
+csStringID celPcNewCamera::id_mindist = csInvalidStringID;
+csStringID celPcNewCamera::id_dist = csInvalidStringID;
 
 PropertyHolder celPcNewCamera::propinfo;
 
@@ -143,11 +143,8 @@ void celPcNewCamera::CalcElasticVec (
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
-	: celPcCameraCommon(object_reg)
+  : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
@@ -172,6 +169,15 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
   {
     id_name = pl->FetchStringID ("cel.parameter.name");
     id_nr = pl->FetchStringID ("cel.parameter.nr");
+    id_x = pl->FetchStringID ("cel.parameter.x");
+    id_y = pl->FetchStringID ("cel.parameter.y");
+    id_w = pl->FetchStringID ("cel.parameter.w");
+    id_h = pl->FetchStringID ("cel.parameter.h");
+    id_enable = pl->FetchStringID ("cel.parameter.enable");
+    id_minfps = pl->FetchStringID ("cel.parameter.min_fps");
+    id_maxfps = pl->FetchStringID ("cel.parameter.max_fps");
+    id_mindist = pl->FetchStringID ("cel.parameter.min_distance");
+    id_dist = pl->FetchStringID ("cel.parameter.distance");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_name, "name");
@@ -184,6 +190,10 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
     AddAction (action_setcameramode, "cel.action.SetCameraMode");
     AddAction (action_nextcameramode, "cel.action.NextCameraMode");
     AddAction (action_prevcameramode, "cel.action.PrevCameraMode");
+    AddAction (action_setrectangle, "cel.action.SetRectangle");
+    AddAction (action_setperspcenter, "cel.action.SetPerspectiveCenter");
+    AddAction (action_adaptiveclipping, "cel.action.AdaptiveDistanceClipping");
+    AddAction (action_fixedclipping, "cel.action.FixedDistanceClipping");
   }
 
   propinfo.SetCount (6);
@@ -213,8 +223,6 @@ celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
 
 celPcNewCamera::~celPcNewCamera ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcNewCamera);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 bool celPcNewCamera::PerformActionIndexed (int idx,
@@ -237,6 +245,11 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
           return true;
         }
+        if (!strcmp (name, "camera_laratrack"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
+          return true;
+        }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
         	"cel.camera.standard",
         	"Unknown camera mode");
@@ -256,6 +269,60 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
     case action_prevcameramode:
       {
         PrevCameraMode ();
+        return true;
+      }
+    case action_setrectangle:
+      {
+        CEL_FETCH_LONG_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_LONG_PAR (y,params,id_y);
+        if (!p_y) return false;
+        CEL_FETCH_LONG_PAR (w,params,id_w);
+        if (!p_w) return false;
+        CEL_FETCH_LONG_PAR (h,params,id_h);
+        if (!p_h) return false;
+        SetRectangle (x, y, w, h);
+        return true;
+      }
+    case action_setperspcenter:
+      {
+        CEL_FETCH_FLOAT_PAR (x,params,id_x);
+        if (!p_x) return false;
+        CEL_FETCH_FLOAT_PAR (y,params,id_y);
+        if (!p_y) return false;
+        SetPerspectiveCenter (x, y);
+        return true;
+      }
+    case action_adaptiveclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (minfps,params,id_minfps);
+          if (!p_minfps) return false;
+          CEL_FETCH_FLOAT_PAR (maxfps,params,id_maxfps);
+          if (!p_maxfps) return false;
+          CEL_FETCH_FLOAT_PAR (mindist,params,id_mindist);
+          if (!p_mindist) return false;
+          EnableAdaptiveDistanceClipping (minfps, maxfps, mindist);
+        }
+        else
+          DisableDistanceClipping ();
+        return true;
+      }
+    case action_fixedclipping:
+      {
+        CEL_FETCH_BOOL_PAR (enable,params,id_enable);
+        if (!p_enable) return false;
+        if (enable == true)
+        {
+          CEL_FETCH_FLOAT_PAR (dist,params,id_dist);
+          if (!p_dist) return false;
+          EnableFixedDistanceClipping (dist);
+        }
+        else
+          DisableDistanceClipping ();
         return true;
       }
     default:
@@ -406,19 +473,22 @@ float celPcNewCamera::GetTransitionCutoffTargetDistance () const
 size_t celPcNewCamera::AttachCameraMode(iCelCameraMode* mode)
 {
   cameraModes.Push (mode);
-  mode->SetParentCamera ((iPcNewCamera*)&scfiPcNewCamera);
+  mode->SetParentCamera ((iPcNewCamera*)this);
+  mode->DecRef ();
 
   return (cameraModes.GetSize () - 1);
 }
 
-size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE mode)
+size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
 {
-  switch (mode)
+  switch (modetype)
   {
     case iPcNewCamera::CCM_FIRST_PERSON:
-      return AttachCameraMode (new celFirstPersonCameraMode ());
+      return AttachCameraMode (new celCameraMode::FirstPerson ());
     case iPcNewCamera::CCM_THIRD_PERSON:
-      return AttachCameraMode (new celThirdPersonCameraMode ());
+      return AttachCameraMode (new celCameraMode::ThirdPerson ());
+    case iPcNewCamera::CCM_LARA_TRACK:
+      return AttachCameraMode (new celCameraMode::LaraTrack (pl));
     default:
       return (size_t)-1;
   }
@@ -432,6 +502,14 @@ size_t celPcNewCamera::GetCurrentCameraModeIndex () const
 iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 {
   return cameraModes.Top ();
+}
+iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
+{
+  if (idx < 0)
+    return cameraModes.Top ();
+  if (static_cast<size_t> (idx) >= cameraModes.GetSize ())
+    return 0;
+  return cameraModes[idx];
 }
 
 bool celPcNewCamera::SetCurrentCameraMode (size_t modeIndex)
@@ -519,8 +597,6 @@ void celPcNewCamera::UpdateCamera ()
     }
   }
 
-  iCamera * c = view->GetCamera ();
-
   if (inTransition || mode->UseSpringPos ())
   {
     csVector3 deltaIdeal = desiredCamPos - lastIdealPos;
@@ -565,6 +641,7 @@ void celPcNewCamera::UpdateCamera ()
   camTrans.SetOrigin(baseTrans.GetOrigin ());
   camTrans.LookAt (camTarget - camPos, camUp);
 
+  iCamera * c = view->GetCamera ();
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
   if (c->GetSector () != baseSector)
@@ -601,4 +678,9 @@ void celPcNewCamera::Draw ()
 void celPcNewCamera::TickEveryFrame ()
 {
   Draw ();
+}
+
+const csOrthoTransform &celPcNewCamera::GetTransform ()
+{
+  return view->GetCamera ()->GetTransform ();
 }

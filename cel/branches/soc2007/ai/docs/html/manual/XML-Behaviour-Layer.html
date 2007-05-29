@@ -88,10 +88,6 @@ layer is with an example:
     &lt;/settings&gt;
 
     &lt;addon plugin=&quot;cel.addons.xmlscripts&quot;&gt;
-        &lt;pcfactory&gt;cel.pcfactory.billboard&lt;/pcfactory&gt;
-        &lt;pcfactory&gt;cel.pcfactory.timer&lt;/pcfactory&gt;
-        &lt;pcfactory&gt;cel.pcfactory.properties&lt;/pcfactory&gt;
-
         &lt;script name=&quot;chair_clicker&quot;&gt;
             &lt;event name=&quot;init&quot;&gt;
                 &lt;var name=&quot;counter&quot; value=&quot;0&quot; /&gt;
@@ -117,7 +113,7 @@ layer is with an example:
     &lt;/addon&gt;
 
     &lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;red_chair&quot;&gt;
-        &lt;propclass name=&quot;pcbillboard&quot;&gt;
+        &lt;propclass name=&quot;pc2d.billboard&quot;&gt;
             &lt;property name=&quot;name&quot; string=&quot;red_chair&quot; /&gt;
             &lt;property name=&quot;materialname&quot; string=&quot;chair&quot; /&gt;
             &lt;property name=&quot;clickable&quot; bool=&quot;1&quot; /&gt;
@@ -131,7 +127,7 @@ layer is with an example:
     &lt;/addon&gt;
 
     &lt;addon plugin=&quot;cel.addons.celentity&quot; entityname=&quot;green_chair&quot;&gt;
-        &lt;propclass name=&quot;pcbillboard&quot;&gt;
+        &lt;propclass name=&quot;pc2d.billboard&quot;&gt;
             &lt;property name=&quot;name&quot; string=&quot;green_chair&quot; /&gt;
             &lt;property name=&quot;materialname&quot; string=&quot;chair&quot; /&gt;
             &lt;property name=&quot;clickable&quot; bool=&quot;1&quot; /&gt;
@@ -143,7 +139,7 @@ layer is with an example:
             &lt;property name=&quot;x&quot; long=&quot;100000&quot; /&gt;
             &lt;property name=&quot;y&quot; long=&quot;100000&quot; /&gt;
         &lt;/propclass&gt;
-        &lt;propclass name=&quot;pctimer&quot;&gt;
+        &lt;propclass name=&quot;pctools.timer&quot;&gt;
             &lt;action name=&quot;WakeUp&quot;&gt;
                     &lt;par name=&quot;time&quot; long=&quot;500&quot; /&gt;
                     &lt;par name=&quot;repeat&quot; bool=&quot;true&quot; /&gt;
@@ -164,12 +160,12 @@ directory and then do this on Windows:
 </pre></td></tr></table>
 <p>In this example we create two entities using the <samp>&lsquo;cel.addons.celentity&rsquo;</samp>
 addon (see section <a href="Addons-CelEntity.html#0">CelEntity Addon</a>). The <samp>&lsquo;red_chair&rsquo;</samp> entity just
-has one property class which is the <samp>&lsquo;pcbillboard&rsquo;</samp> property class.
+has one property class which is the <samp>&lsquo;pc2d.billboard&rsquo;</samp> property class.
 This property class is designed for simple 2D graphics.
 You can use it to build a complete 2D game (like the
 Boulderdash game that is included with Crystal Entity Layer) or else you can
 use it for <small>HUD</small> elements in a 3D game. The <samp>&lsquo;green_chair&rsquo;</samp> entity has
-a <samp>&lsquo;pcbillboard&rsquo;</samp> property class and a <samp>&lsquo;pctimer&rsquo;</samp>
+a <samp>&lsquo;pc2d.billboard&rsquo;</samp> property class and a <samp>&lsquo;pctools.timer&rsquo;</samp>
 (see section <a href="PropClass-Timer.html#0">Timer</a>).
 </p>
 <a name="2"></a>
@@ -348,6 +344,697 @@ in an array and how to use it:
 &lt;var name=&quot;bla[#index,3]&quot; value=&quot;100&quot; /&gt;
 &lt;print value=&quot;?bla[#index,3]&quot; /&gt;
 </pre></td></tr></table>
+<a name="7"></a>
+<h3 class="subheading"> Commands </h3>
+
+<p>In this section we give a summary of all commands available in the <small>XML</small>
+behaviour layer:
+</p>
+<a name="8"></a>
+<h4 class="subsubheading"> Debugging and Reporting </h4>
+
+<dl compact="compact">
+<dt>* <strong>reporterror</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;message&rsquo;</samp>.<br>
+Report an error to the user.
+</p></dd>
+<dt>* <strong>callstack</strong></dt>
+<dd><p>Show the callstack of the current executing <small>XML</small> script.
+</p></dd>
+<dt>* <strong>variables</strong></dt>
+<dd><p>Show the variables of the current executing <small>XML</small> script.
+</p></dd>
+<dt>* <strong>traceon</strong></dt>
+<dd><p>Enable trace mode. When this is on every time a property or variable
+changes it is dumped on standard output.
+</p></dd>
+<dt>* <strong>traceoff</strong></dt>
+<dd><p>Disable trace mode.
+</p></dd>
+<dt>* <strong>print</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;value&rsquo;</samp>.<br>
+Print out the given value on standard output.
+</p></dd>
+</dl>
+
+<a name="9"></a>
+<h4 class="subsubheading"> Variables and Expressions </h4>
+
+<dl compact="compact">
+<dt>* <strong>var</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;entity&rsquo;</samp> (optional), <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>.<br>
+Set a variable for this (or optionally another) entity to the given value.
+</p></dd>
+<dt>* <strong>lvar</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>.<br>
+Set a local variable to the given value.
+</p></dd>
+<dt>* <strong>expr</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>.<br>
+Evaluate an expression and do nothing with the result.
+</p></dd>
+</dl>
+
+<a name="10"></a>
+<h4 class="subsubheading"> Program Flow </h4>
+
+<dl compact="compact">
+<dt>* <strong>if</strong> (attribute version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>, <samp>&lsquo;true&rsquo;</samp>, <samp>&lsquo;false&rsquo;</samp>.<br>
+This command evaluates an expression and depending on the result
+the respective event handlers are called.
+</p></dd>
+<dt>* <strong>if</strong> (child version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>.<br>
+<em>Children</em>: one or both of <samp>&lsquo;true&rsquo;</samp>, <samp>&lsquo;false&rsquo;</samp>.<br>
+This command evaluates an expression and depending on the result the code
+in the respective child is executed.
+</p></dd>
+<dt>* <strong>if</strong> (inline version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>.<br>
+This command evaluates an expression and if the result is true the code
+inside the <samp>&lsquo;if&rsquo;</samp> statement will be executed.
+</p></dd>
+<dt>* <strong>while</strong> (attribute version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>, <samp>&lsquo;exec&rsquo;</samp>.<br>
+This command evaluates an expression and executes the given handler for
+as long as the expression is true.
+</p></dd>
+<dt>* <strong>while</strong> (inline version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;eval&rsquo;</samp>.<br>
+This command evaluates an expression and execute the embedded code for
+as long as the expression is true.
+</p></dd>
+<dt>* <strong>for</strong> (attribute version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;var&rsquo;</samp>, <samp>&lsquo;start&rsquo;</samp>, <samp>&lsquo;end&rsquo;</samp>, <samp>&lsquo;exec&rsquo;</samp>.<br>
+This command loops an integer value from <samp>&lsquo;start&rsquo;</samp> to <samp>&lsquo;end&rsquo;</samp> (inclusive).
+Every value is set to <samp>&lsquo;var&rsquo;</samp>. The handler will be called for every
+loop instance.
+</p></dd>
+<dt>* <strong>for</strong> (inline version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;var&rsquo;</samp>, <samp>&lsquo;start&rsquo;</samp>, <samp>&lsquo;end&rsquo;</samp>.<br>
+This command loops an integer value from <samp>&lsquo;start&rsquo;</samp> to <samp>&lsquo;end&rsquo;</samp> (inclusive).
+Every value is set to <samp>&lsquo;var&rsquo;</samp>. The embedded code will be called for
+every loop instance.
+</p></dd>
+<dt>* <strong>for</strong> (bag version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;var&rsquo;</samp>, <samp>&lsquo;bag&rsquo;</samp>.<br>
+This command loops over all strings in a bag. Every string is set to
+<samp>&lsquo;var&rsquo;</samp>. The embedded code will be called for every loop instance. The
+<samp>&lsquo;bag&rsquo;</samp> should be a bag property class.
+</p></dd>
+<dt>* <strong>switch</strong></dt>
+<dd><p>Atributes: <samp>&lsquo;eval&rsquo;</samp>.<br>
+<em>Children</em>: multiple <samp>&lsquo;case&rsquo;</samp> (attributes <samp>&lsquo;value&rsquo;</samp>, children represents
+code to be executed in that case), optional <samp>&lsquo;default&rsquo;</samp> (children
+represents code).<br>
+Evaluate the given expression and depending on the result execute the
+<samp>&lsquo;case&rsquo;</samp> that corresponds with the exact value. If no case matches
+then optionally execute the <samp>&lsquo;default&rsquo;</samp> branch.
+</p></dd>
+<dt>* <strong>call</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;entity&rsquo;</samp> (optional), <samp>&lsquo;event&rsquo;</samp>.<br>
+<em>Children</em>: multiple <samp>&lsquo;par&rsquo;</samp> (attributes <samp>&lsquo;id&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>),
+optional <samp>&lsquo;inherit&rsquo;</samp>, optional <samp>&lsquo;return&rsquo;</samp> (attributes <samp>&lsquo;var&rsquo;</samp>).<br>
+Call an event in this or another entity. The given parameters will be
+passed to that event. If <samp>&lsquo;inherit&rsquo;</samp> is given then the parameters
+which were given to the current code will also be passed along to the
+event. If <samp>&lsquo;return&rsquo;</samp> is given then the return value of the event will
+be put in the given variable.
+</p></dd>
+<dt>* <strong>super</strong></dt>
+<dd><p>Call the event with the same name of the superclass.
+</p></dd>
+<dt>* <strong>return</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;value&rsquo;</samp>.<br>
+Return the specified value to the caller of this event.
+</p></dd>
+<dt>* <strong>stop</strong></dt>
+<dd><p>Stop the current <small>XML</small> script.
+</p></dd>
+<dt>* <strong>quit</strong></dt>
+<dd><p>Exit the program.
+</p></dd>
+</dl>
+
+<a name="11"></a>
+<h4 class="subsubheading"> Entity and Property Class Management </h4>
+
+<dl compact="compact">
+<dt>* <strong>destroyentity</strong> (single version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>.<br>
+Destroy the entity with the given name.
+</p></dd>
+<dt>* <strong>destroyentity</strong> (class version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;class&rsquo;</samp>.<br>
+Destroy all entities with the given class.
+</p></dd>
+<dt>* <strong>createentity</strong> (template version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;template&rsquo;</samp>, <samp>&lsquo;name&rsquo;</samp>.<br>
+<em>Children</em>: multiple <samp>&lsquo;par&rsquo;</samp> (attributes <samp>&lsquo;id&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>).<br>
+Create a named entity from the given template. The parameters are passed
+to the template.
+</p></dd>
+<dt>* <strong>createentity</strong> (normal version)</dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;behaviour&rsquo;</samp>, <samp>&lsquo;layer&rsquo;</samp> (optional).<br>
+Create a named entity and assigned it the specified behaviour from either
+the default behaviour layer or otherwise the behaviourlayer specified
+by the <samp>&lsquo;layer&rsquo;</samp> attribute.
+</p></dd>
+<dt>* <strong>createpropclass</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;entity&rsquo;</samp> (optional), <samp>&lsquo;tag&rsquo;</samp> (optional).<br>
+Create a property class for the given entity (or this entity) with a given
+tag (or no tag).
+</p></dd>
+<dt>* <strong>destroypropclass</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;tag&rsquo;</samp> (optional).<br>
+Destroy the given property class for the current entity.
+</p></dd>
+<dt>* <strong>default</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;propclass&rsquo;</samp><br>
+Make the given property class default. This is used by various operations.
+</p></dd>
+<dt>* <strong>property</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;propclass&rsquo;</samp> (optional), <samp>&lsquo;id&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>.<br>
+Set a property on the given property class (or default if not given).
+</p></dd>
+<dt>* <strong>action</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;propclass&rsquo;</samp> (optional), <samp>&lsquo;id&rsquo;</samp>.<br>
+<em>Children</em>: multiple <samp>&lsquo;par&rsquo;</samp> (attributes <samp>&lsquo;id&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>).<br>
+Perform an action on the given property class (or default if not given).
+</p></dd>
+<dt>* <strong>class_add</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;entity&rsquo;</samp>, <samp>&lsquo;class&rsquo;</samp>.<br>
+Add a given class (given as <small>ID</small>) to the entity.
+</p></dd>
+<dt>* <strong>class_rem</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;entity&rsquo;</samp>, <samp>&lsquo;class&rsquo;</samp>.<br>
+Remove a given class (given as <small>ID</small>) from the entity.
+</p></dd>
+</dl>
+
+<a name="12"></a>
+<h4 class="subsubheading"> Inventory Handling </h4>
+
+<dl compact="compact">
+<dt>* <strong>inventory</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;propclass&rsquo;</samp>.<br>
+Set the given property class (which should be an inventory property class)
+as the default inventory.
+</p></dd>
+<dt>* <strong>inventory_add</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;child&rsquo;</samp>.<br>
+Add the given child (entity) to the current inventory.
+</p></dd>
+<dt>* <strong>inventory_rem</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;child&rsquo;</samp>.<br>
+Remove the given child (entity) from the current inventory.
+</p></dd>
+</dl>
+
+<a name="13"></a>
+<h4 class="subsubheading"> Configuration Handling </h4>
+
+<dl compact="compact">
+<dt>* <strong>config_add</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;file&rsquo;</samp>.<br>
+Add the given file (<small>VFS</small> path) to the config system.
+</p></dd>
+<dt>* <strong>config_rem</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;file&rsquo;</samp>.<br>
+Remove the given file (<small>VFS</small> path) from the config system.
+</p></dd>
+<dt>* <strong>config_set</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;key&rsquo;</samp>, <samp>&lsquo;value&rsquo;</samp>.<br>
+Set the given configuration key to the value.
+</p></dd>
+<dt>* <strong>config_save</strong></dt>
+<dd><p>Save the current configuration.
+</p></dd>
+</dl>
+
+<a name="14"></a>
+<h4 class="subsubheading"> Navigation and Mesh Selection </h4>
+
+<dl compact="compact">
+<dt>* <strong>hitbeam</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;sector&rsquo;</samp>, <samp>&lsquo;start&rsquo;</samp>, <samp>&lsquo;end&rsquo;</samp>, <samp>&lsquo;isectvar&rsquo;</samp>,
+<samp>&lsquo;entvar&rsquo;</samp>, <samp>&lsquo;meshvar&rsquo;</samp>.<br>
+Trace a beam starting in the given sector at the <samp>&lsquo;start&rsquo;</samp> location.
+The beam ends at <samp>&lsquo;end&rsquo;</samp>. The three output variables will be set to
+the intersection point, the entity that was hit and the mesh that was
+hit (useful in case a mesh was hit that has no corresponding entity).
+</p></dd>
+<dt>* <strong>selectentity</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp>, <samp>&lsquo;screenx&rsquo;</samp>, <samp>&lsquo;screeny&rsquo;</samp>, <samp>&lsquo;maxdist&rsquo;</samp>,<br>
+<samp>&lsquo;isectvar&rsquo;</samp>, <samp>&lsquo;entvar&rsquo;</samp>.
+The given property class should be from a camera property class. Given
+the screen location and maximum distance it will try to find the first
+entity that is in the way. It will return the intersection point and
+resulting entity.
+</p></dd>
+<dt>* <strong>navigationinfo</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;navigator&rsquo;</samp>, <samp>&lsquo;successvar&rsquo;</samp>, <samp>&lsquo;anglevar&rsquo;</samp>,
+<samp>&lsquo;distancevar&rsquo;</samp>, <samp>&lsquo;visiblevar&rsquo;</samp>, <samp>&lsquo;targetvector&rsquo;</samp> (optional),
+<samp>&lsquo;targetentity&rsquo;</samp> (optional), <samp>&lsquo;targetnode&rsquo;</samp> (optional).<br>
+The navigator represents an entity that wants to navigate somewhere.
+This command will fill in the variables with the navigation info to
+get from the navigator position to the desired target position (either
+a position, entity, or node).
+</p></dd>
+</dl>
+
+<a name="15"></a>
+<h4 class="subsubheading"> Sound </h4>
+
+<dl compact="compact">
+<dt>* <strong>sound</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;name&rsquo;</samp>, <samp>&lsquo;loop&rsquo;</samp> (optional), <samp>&lsquo;volume&rsquo;</samp> (optional),
+<samp>&lsquo;mode&rsquo;</samp> (optional).<br>
+Play the given sound. <samp>&lsquo;loop&rsquo;</samp> is false by default. <samp>&lsquo;volume&rsquo;</samp> is
+1.0 by default and <samp>&lsquo;mode&rsquo;</samp> is 2d by default.
+</p></dd>
+<dt>* <strong>sound_stop</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>.<br>
+Stop playing the specified sound source.
+</p></dd>
+<dt>* <strong>sound_pause</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>.<br>
+Pause playing the specified sound source.
+</p></dd>
+<dt>* <strong>sound_unpause</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>.<br>
+Unpause playing the specified sound source.
+</p></dd>
+<dt>* <strong>sound_restart</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>.<br>
+Restart playing the specified sound source.
+</p></dd>
+<dt>* <strong>sound_volume</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>, <samp>&lsquo;volume&rsquo;</samp>.<br>
+Change the volume of the given sound source.
+</p></dd>
+<dt>* <strong>sound_speed</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;source&rsquo;</samp>, <samp>&lsquo;rate&rsquo;</samp>.<br>
+Change the speed of the given sound source.
+</p></dd>
+</dl>
+
+<a name="16"></a>
+<h4 class="subsubheading"> Billboards </h4>
+
+<dl compact="compact">
+<dt>* <strong>bb_movelayer</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;layer&rsquo;</samp>, <samp>&lsquo;x&rsquo;</samp>, <samp>&lsquo;y&rsquo;</samp>.<br>
+Move the given billboard layer to the absolute location given by <samp>&lsquo;x&rsquo;</samp>
+and <samp>&lsquo;y&rsquo;</samp>.
+</p></dd>
+<dt>* <strong>bb_move</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp> (optional), <samp>&lsquo;x&rsquo;</samp>, <samp>&lsquo;y&rsquo;</samp>, <samp>&lsquo;delta&rsquo;</samp> (optional).<br>
+Move the given billboard ot the absolute location given by <samp>&lsquo;x&rsquo;</samp>
+and <samp>&lsquo;y&rsquo;</samp>.
+</p></dd>
+<dt>* <strong>bb_tofront</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp> (optional)<br>
+Move the given billboard to the front of the render queue.
+</p></dd>
+<dt>* <strong>bb_toback</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp> (optional)<br>
+Move the given billboard to the back of the render queue.
+</p></dd>
+<dt>* <strong>bb_up</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp> (optional)<br>
+Move the given billboard one up in the render queue.
+</p></dd>
+<dt>* <strong>bb_down</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;pc&rsquo;</samp> (optional)<br>
+Move the given billboard one down in the render queue.
+</p></dd>
+</dl>
+
+<a name="17"></a>
+<h4 class="subsubheading"> Various </h4>
+
+<dl compact="compact">
+<dt>* <strong>strsplit</strong></dt>
+<dd><p><em>Attributes</em>: <samp>&lsquo;string&rsquo;</samp>, <samp>&lsquo;left&rsquo;</samp>, <samp>&lsquo;delimiter&rsquo;</samp>, <samp>&lsquo;right&rsquo;</samp>.<br>
+Split the given input string in a left and a right part (<samp>&lsquo;left&rsquo;</samp> and
+<samp>&lsquo;right&rsquo;</samp> are variable names). The <samp>&lsquo;delimiter&rsquo;</samp> will be used
+to decide where to split.
+</p></dd>
+<dt>* <strong>randomize</strong></dt>
+<dd><p>Randomize the randomizer.
+</p></dd>
+<dt>* <strong>hidemouse</strong></dt>
+<dd><p>Hide the mouse.
+</p></dd>
+<dt>* <strong>showmouse</strong></dt>
+<dd><p>Show the mouse.
+</p></dd>
+</dl>
+
+<a name="18"></a>
+<h3 class="subheading"> Functions </h3>
+
+<p>In this section we give a summary of all functions available in the <small>XML</small>
+behaviour layer:
+</p>
+<a name="19"></a>
+<h4 class="subsubheading"> ID Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>id( idname )</strong></dt>
+<dd><p>Calculate the <small>ID</small> from the given string.
+</p></dd>
+<dt>* <strong>parid( idname )</strong></dt>
+<dd><p>Calculate the <small>ID</small> from the given string. The substring
+<samp>&lsquo;cel.parameter.&rsquo;</samp> is added in front of <samp>&lsquo;idname&rsquo;</samp>.
+</p></dd>
+<dt>* <strong>actid( idname )</strong></dt>
+<dd><p>Calculate the <small>ID</small> from the given string. The substring <samp>&lsquo;cel.action.&rsquo;</samp>
+is added in front of <samp>&lsquo;idname&rsquo;</samp>.
+</p></dd>
+<dt>* <strong>propid( idname )</strong></dt>
+<dd><p>Calculate the <small>ID</small> from the given string. The substring
+<samp>&lsquo;cel.property.&rsquo;</samp> is added in front of <samp>&lsquo;idname&rsquo;</samp>.
+</p></dd>
+</dl>
+
+<a name="20"></a>
+<h4 class="subsubheading"> Entity and Property Class Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>pc( [entity,] pcname )</strong></dt>
+<dd><p>Get the given property class from this (or the specified) entity.
+</p></dd>
+<dt>* <strong>pctag( [entity,] pcname, tag )</strong></dt>
+<dd><p>Get the given property class with the given tag from this (or the
+specified) entity.
+</p></dd>
+<dt>* <strong>property( [pc,] id )</strong></dt>
+<dd><p>Get the property from the specified (or default) property class.
+</p></dd>
+<dt>* <strong>hasclass( entity, id )</strong></dt>
+<dd><p>Return true if the entity has the given class (specified as <small>ID</small>).
+</p></dd>
+<dt>* <strong>entname( [entity] )</strong></dt>
+<dd><p>Return the name of the current (or given) entity.
+</p></dd>
+<dt>* <strong>ent( [name] )</strong></dt>
+<dd><p>Return the current entity or find the entity with the given name.
+</p></dd>
+</dl>
+
+<a name="21"></a>
+<h4 class="subsubheading"> Variable and Expression Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>param( id )</strong></dt>
+<dd><p>Dereference a parameter (equivalent to @parname).
+</p></dd>
+<dt>* <strong>if( expression, truevalue, falsevalue )</strong></dt>
+<dd><p>Evaluate the given expression and return the <samp>&lsquo;truevalue&rsquo;</samp> in case
+that expression is true. Otherwise <samp>&lsquo;falsevalue&rsquo;</samp> is returned. Note
+that both expressions will always be evaluated!
+</p></dd>
+<dt>* <strong>testvar( [entity,] variable )</strong></dt>
+<dd><p>Test if the variable exists in this (or the specified) entity.
+</p></dd>
+</dl>
+
+<a name="22"></a>
+<h4 class="subsubheading"> Mathematical Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>abs( value )</strong></dt>
+<dd><p>Calculate the absolute value of the given input. Works for integer and
+floating point.
+</p></dd>
+<dt>* <strong>min( value1, value2 )</strong></dt>
+<dd><p>Calculate the minimum value of the given inputs. Works for strings, floats,
+and integers.
+</p></dd>
+<dt>* <strong>max( value1, value2 )</strong></dt>
+<dd><p>Calculate the maximum value of the given inputs. Works for strings, floats,
+and integers.
+</p></dd>
+<dt>* <strong>cos( angle )</strong></dt>
+<dd><p>Return the cosinus of the given angle (in radians).
+</p></dd>
+<dt>* <strong>sin( angle )</strong></dt>
+<dd><p>Return the sinus of the given angle (in radians).
+</p></dd>
+<dt>* <strong>tan( angle )</strong></dt>
+<dd><p>Return the tangent of the given angle (in radians).
+</p></dd>
+<dt>* <strong>acos( value )</strong></dt>
+<dd><p>Return the arc-cosinus (in radians) of the given value.
+</p></dd>
+<dt>* <strong>asin( value )</strong></dt>
+<dd><p>Return the arc-sinus (in radians) of the given value.
+</p></dd>
+<dt>* <strong>atan( value )</strong></dt>
+<dd><p>Return the arc-tangent (in radians) of the given value.
+</p></dd>
+<dt>* <strong>sign( value )</strong></dt>
+<dd><p>Return 1 if the input is positive, -1 if negative, and 0 otherwise.
+This works for integer and floating point.
+</p></dd>
+<dt>* <strong>sqrt( value )</strong></dt>
+<dd><p>Return the square root of the given value.
+</p></dd>
+<dt>* <strong>normalize( vector )</strong></dt>
+<dd><p>Normalize the given <small>3D</small> vector.
+</p></dd>
+<dt>* <strong>sqdist( vector1, vector2 )</strong></dt>
+<dd><p>Return the squared distance between vector1 and vector2. Vectors can
+be <small>2D</small> or <small>3D</small>.
+</p></dd>
+<dt>* <strong>intpol( delta, value1, value2 )</strong></dt>
+<dd><p>Interpolate the two values with the delta. When delta is 0 then <samp>&lsquo;value1&rsquo;</samp>
+is returned. If delta is 1 then <samp>&lsquo;value2&rsquo;</samp> is returned. Otherwise an
+interpolated value. This function works for integers, floating point values,
+<small>2D</small> and <small>3D</small> vectors, and colors.
+</p></dd>
+<dt>* <strong>int( value )</strong></dt>
+<dd><p>Convert the value to an integer. This works for integers, floating point
+numbers, booleans, and strings. In the last case the string will be parsed
+as an integer and the resulting value will be returned.
+</p></dd>
+<dt>* <strong>float( value )</strong></dt>
+<dd><p>Convert the value to a float point number. This works for integers,
+floating point numbers, booleans, and strings. In the last case the string
+will be parsed as a floating point and the resulting value will be
+returned.
+</p></dd>
+<dt>* <strong>bool( value )</strong></dt>
+<dd><p>Convert the value to a boolean. This works for integers, floating point
+numbers, booleans, strings, entities, and property classes. The semantic
+meaning is that if the value is 0 then false is returned. Otherwise
+true. In case of string the input string is parsed and interprested
+as a boolean value. The parser understands <samp>&lsquo;0&rsquo;</samp>, <samp>&lsquo;1&rsquo;</samp>, <samp>&lsquo;false&rsquo;</samp>,
+<samp>&lsquo;true&rsquo;</samp>, <samp>&lsquo;yes&rsquo;</samp>, <samp>&lsquo;no&rsquo;</samp>, <samp>&lsquo;on&rsquo;</samp>, and <samp>&lsquo;off&rsquo;</samp>.
+</p></dd>
+<dt>* <strong>rand( value )</strong></dt>
+<dd><p>Return a random number between 0 and the given value (exclusive). If the
+input value is an integer then the result will be an integer. If the
+input value is a floating point number then the result will also be
+floating point.
+</p></dd>
+<dt>* <strong>getyrot( vector1, vector2 )</strong></dt>
+<dd><p>Calculate the angle between the two given <small>3D</small> vectors.
+</p></dd>
+<dt>* <strong>vecx( vector )</strong></dt>
+<dd><p>Get the x component from the given <small>2D</small> or <small>3D</small> vector.
+</p></dd>
+<dt>* <strong>vecy( vector )</strong></dt>
+<dd><p>Get the y component from the given <small>2D</small> or <small>3D</small> vector.
+</p></dd>
+<dt>* <strong>vecz( vector )</strong></dt>
+<dd><p>Get the z component from the given <small>3D</small> vector.
+</p></dd>
+</dl>
+
+<a name="23"></a>
+<h4 class="subsubheading"> String Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>strsub( string, position, length )</strong></dt>
+<dd><p>Calculate the substring of the input string starting at the given
+position (positions count at 0) and the specific length.
+</p></dd>
+<dt>* <strong>stridx( string, substring )</strong></dt>
+<dd><p>Calculate the first position of the substring in the string. Return -1
+if not found (positions start counting at 0).
+</p></dd>
+<dt>* <strong>strlen( string )</strong></dt>
+<dd><p>Return the length of the string.
+</p></dd>
+</dl>
+
+<a name="24"></a>
+<h4 class="subsubheading"> Inventory Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>inventory_get( index )</strong></dt>
+<dd><p>Return the given entity from the current inventory (with index).
+</p></dd>
+<dt>* <strong>inventory_count( )</strong></dt>
+<dd><p>Return the number of items in the current inventory.
+</p></dd>
+<dt>* <strong>inventory_in( entity )</strong></dt>
+<dd><p>Check if the entity is part of the current inventory.
+</p></dd>
+<dt>* <strong>inventory_inname( name )</strong></dt>
+<dd><p>Check if the named entity is part of the current inventory.
+</p></dd>
+<dt>* <strong>inventory_find( entity )</strong></dt>
+<dd><p>Find the entity in the current inventory and return the index (or -1
+if not found).
+</p></dd>
+<dt>* <strong>inventory_findname( name )</strong></dt>
+<dd><p>Find the named entity in the current inventory and return the index (or -1
+if not found).
+</p></dd>
+</dl>
+
+<a name="25"></a>
+<h4 class="subsubheading"> Billboard and Screen Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>mousex( )</strong></dt>
+<dd><p>Return the x mouse position in screen coordinates.
+</p></dd>
+<dt>* <strong>mousey( )</strong></dt>
+<dd><p>Return the y mouse position in screen coordinates.
+</p></dd>
+<dt>* <strong>bb_mousex( )</strong></dt>
+<dd><p>Return the x mouse position in billboard coordinates.
+</p></dd>
+<dt>* <strong>bb_mousey( )</strong></dt>
+<dd><p>Return the y mouse position in billboard coordinates.
+</p></dd>
+<dt>* <strong>scr_width( )</strong></dt>
+<dd><p>Return the width of the window or screen in pixels.
+</p></dd>
+<dt>* <strong>scr_height( )</strong></dt>
+<dd><p>Return the height of the window or screen in pixels.
+</p></dd>
+<dt>* <strong>bb_testcollide( pc )</strong></dt>
+<dd><p>The given property class should be a billboard property class. This function
+will test if the given billboard collides with the billboard of this
+entity.
+</p></dd>
+</dl>
+
+<a name="26"></a>
+<h4 class="subsubheading"> File Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>chdirauto( directory, file )</strong></dt>
+<dd><p>Set the current <small>VFS</small> directory to the given directory. If the directory
+is a <small>ZIP</small> file then the given file will be used to help mount the given
+path.
+</p></dd>
+<dt>* <strong>readfile( vararray, file )</strong></dt>
+<dd><p>Read the given file from <small>VFS</small> and put every line in the input
+array. Return the number of lines that were read or -1 in case of error.
+</p></dd>
+<dt>* <strong>writefile( vararray, file, start, stop )</strong></dt>
+<dd><p>Write the given file in <small>VFS</small> and put the lines starting at <samp>&lsquo;start&rsquo;</samp>
+until <samp>&lsquo;stop&rsquo;</samp> in that file.
+</p></dd>
+</dl>
+
+<a name="27"></a>
+<h4 class="subsubheading"> Key Pair Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>keynode( sector, node, key [, valuename] )</strong></dt>
+<dd><p>Find a named node in the given sector and locate the <samp>&lsquo;key&rsquo;</samp> in that node.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keymeshobj( mesh, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given mesh.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keysector( sector, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given sector.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keymeshfact( meshfact, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given mesh factory.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keytexture( texture, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given texture.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keymaterial( material, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given material.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+<dt>* <strong>keylight( light, key [, valuename] )</strong></dt>
+<dd><p>Locate the <samp>&lsquo;key&rsquo;</samp> in the given light.
+If <samp>&lsquo;valuename&rsquo;</samp> is given then additionally locate the right value.
+The result of this function is the value associated with that key (and
+valuename).
+</p></dd>
+</dl>
+
+<a name="28"></a>
+<h4 class="subsubheading"> Sound Functions </h4>
+
+<dl compact="compact">
+<dt>* <strong>sound( name [,loop [,volume [,play [,mode3d] ] ] ] )</strong></dt>
+<dd><p>Create a sound source for the given sound name. <samp>&lsquo;loop&rsquo;</samp> is false by
+default, <samp>&lsquo;volume&rsquo;</samp> is 1.0 by default, <samp>&lsquo;play&rsquo;</samp> is true by default
+(if set to false the sound will not be played but the source is still
+created). <samp>&lsquo;mode3d&rsquo;</samp> is set to <small>2D</small> by default.
+</p></dd>
+<dt>* <strong>soundpaused( source )</strong></dt>
+<dd><p>Return true if the sound source is paused.
+</p></dd>
+</dl>
+
+<a name="29"></a>
+<h4 class="subsubheading"> Various </h4>
+
+<dl compact="compact">
+<dt>* <strong>rgb( red, green, blue )</strong></dt>
+<dd><p>Calculate the color for the given red, green, and blue values (values between
+0 and 1).
+</p></dd>
+<dt>* <strong>config( key, default )</strong></dt>
+<dd><p>Read the given configuration key from the configuration system. If the key is
+not present then the default will be returned.
+</p></dd>
+<dt>* <strong>colred( color )</strong></dt>
+<dd><p>Get the red component from the given color.
+</p></dd>
+<dt>* <strong>colgreen( color )</strong></dt>
+<dd><p>Get the green component from the given color.
+</p></dd>
+<dt>* <strong>colblue( color )</strong></dt>
+<dd><p>Get the blue component from the given color.
+</p></dd>
+<dt>* <strong>getmsg( message )</strong></dt>
+<dd><p>Use the translator to translate this message to the default language
+of the user.
+</p></dd>
+</dl>
 
 
 <hr size="1">

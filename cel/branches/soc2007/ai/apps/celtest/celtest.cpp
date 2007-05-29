@@ -18,6 +18,7 @@
 */
 
 //#define CEL_USE_NEW_CAMERA
+//#define CELTST_USE_ANALOG
 
 #include "cssysdef.h"
 #include "celtest.h"
@@ -81,14 +82,19 @@
 #include "propclass/tooltip.h"
 #include "propclass/defcam.h"
 #ifdef CEL_USE_NEW_CAMERA
-#include "propclass/newcamera.h"
+  #include "propclass/newcamera.h"
 #endif
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
 #include "propclass/linmove.h"
-#include "propclass/actormove.h"
+#ifdef CELTST_USE_ANALOG
+  #include "propclass/actorlara.h"
+  #include "propclass/newcamera.h"
+#else
+  #include "propclass/actormove.h"
+#endif
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -186,12 +192,17 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pcinput.standard",
-#ifdef CEL_USE_NEW_CAMERA
+#ifdef CELTST_USE_ANALOG
+	"pcmove.lara",
 	"pccamera.standard",
 #else
+  #ifdef CEL_USE_NEW_CAMERA
+	"pccamera.standard",
+  #else
 	"pccamera.old",
+  #endif
+	"pcmove.actorold",
 #endif
-	"pcmove.actor",
 	"pcobject.mesh",
 	"pcobject.mesh.select",
 	"pcmove.linear",
@@ -203,6 +214,13 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcCommandInput);
+#ifdef CELTST_USE_ANALOG
+  pcinp->Bind ("JoystickButton4", "ready");
+  pcinp->Bind ("JoystickButton6", "lockon");
+  pcinp->Bind ("JoystickButton2", "resetcam");
+  pcinp->Bind ("JoystickAxis0", "joyaxis0");
+  pcinp->Bind ("JoystickAxis1", "joyaxis1");
+#else
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
   pcinp->Bind ("shift", "run");
@@ -215,8 +233,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("x", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
+#endif
 
-#ifdef CEL_USE_NEW_CAMERA
+#ifdef CELTST_USE_ANALOG
+  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
+    entity_cam, iPcNewCamera);
+  newcamera->AttachCameraMode(iPcNewCamera::CCM_LARA_TRACK);
+#else
+  #ifdef CEL_USE_NEW_CAMERA
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
 	entity_cam, iPcNewCamera);
   size_t first_idx = 
@@ -226,7 +250,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   newcamera->SetCurrentCameraMode(third_idx);
   newcamera->SetCollisionDetection(true);
   newcamera->SetPositionOffset(csVector3(0,2,0));
-#else
+  #else
   csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
   	entity_cam, iPcDefaultCamera);
   pccamera->SetMode (iPcDefaultCamera::firstperson);
@@ -248,7 +272,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
   pccamera->SetThirdPersonOffset (csVector3 (0, 1, 5));
   pccamera->SetModeName ("thirdperson");
-#endif
+  #endif
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -257,6 +281,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
+#endif
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
@@ -376,6 +401,7 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_PLUGIN ("crystalspace.sndsys.element.loader", iSndSysLoader),
 	CS_REQUEST_PLUGIN ("crystalspace.sndsys.renderer.software",
 		iSndSysRenderer),
+	CS_REQUEST_PLUGIN ("crystalspace.device.joystick", iEventPlug),
 	CS_REQUEST_END))
   {
     return ReportError ("Can't initialize plugins!");

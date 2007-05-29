@@ -68,7 +68,7 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.region",
     	msg, arg);
   else
   {

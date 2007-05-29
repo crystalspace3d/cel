@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Python Behaviour Layer, , Addons, Using CEL
+@node Python Behaviour Layer, Cpp specifics, XML Behaviour Layer, Using CEL
 @section The Python Behaviour Layer
 @cindex @sc{blpython}
 @cindex behaviour layer
