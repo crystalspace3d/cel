@@ -88,6 +88,7 @@ enum
   CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
   CEL_OPERATION_FOR,		// A:EH		S:S,?,?		OS:-
   CEL_OPERATION_FORI,		// A:C		S:S,?,?		OS:-
+  CEL_OPERATION_FORBAG,		// A:C		S:S,PC		OS:-
 
   CEL_OPERATION_RETURN,		// A:-		S:?		OS:-
   CEL_OPERATION_CALL_I,		// A:EH		S:-		OS:-

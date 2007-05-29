@@ -43,7 +43,7 @@ class csView;
 /**
  * The representation of a camera.
  */
-struct celPcCameraCommon: public celPcCommon
+struct celPcCameraCommon : public celPcCommon
 {
 protected:
   csRef<iGraphics3D> g3d;

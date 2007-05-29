@@ -148,7 +148,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    MoveReport (object_reg, "Engine missing!");
+    MoveReport (object_reg, "iEngine missing!");
     return;
   }
 
@@ -543,7 +543,8 @@ static float GetAngle (float x, float y)
 
   float angle = acos (x);
   if (y < 0.0f)
-    angle = 2.0f * PI - angle;
+    //angle *= 1.0f;  // in range (-pi, pi)
+    angle = 2.0f * PI - angle;  // in range (0, 2pi)
 
   return angle;
 }
@@ -1273,52 +1274,66 @@ void celPcLinearMovement::SetPathAction (int which, const char *action)
 //#define DRDBG(X) printf ("DR: [ %f ] : %s\n", delta, X);
 #define DRDBG(x)
 
-void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
-	iSector*& sector)
+iPcMesh* celPcLinearMovement::GetMesh ()
 {
+  FindSiblingPropertyClasses ();
   if (!pcmesh || !pcmesh->GetMesh ())
   {
     MoveReport (object_reg, "No Mesh found on entity!");
-    return;
+    return 0;
   }
+  return pcmesh;
+}
+
+float celPcLinearMovement::GetYRotation ()
+{
+  // user will get a warning and a nothing if theres no mesh
+  if (!GetMesh ())  return 0.0;
+  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
+    ->GetTransform ().GetT2O ();
+  return Matrix2YRot (transf);
+}
+const csVector3 celPcLinearMovement::GetPosition ()
+{
+  // user will get a warning and a nothing if theres no mesh
+  if (!GetMesh ())  return csVector3 ();
+  return pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
+}
+const csVector3 celPcLinearMovement::GetFullPosition ()
+{
+  // user will get a warning and a nothing if theres no mesh
+  if (!GetMesh ())  return csVector3 ();
+  return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
+}
+
+void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
+    iSector*& sector)
+{
+  if (!GetMesh ())  return;
 
   // Position
-  pos = pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
+  pos = GetPosition ();
 
   // rotation
-  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
-  	->GetTransform ().GetT2O ();
-  yrot = Matrix2YRot (transf);
+  yrot = GetYRotation ();
 
   // Sector
-  if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
-    sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-  else
-    sector = 0;
+  sector = GetSector ();
 }
 
 void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
-	iSector*& sector)
+    iSector*& sector)
 {
-  if (!pcmesh || !pcmesh->GetMesh ())
-  {
-    MoveReport (object_reg, "No Mesh found on entity!");
-    return;
-  }
+  if (!GetMesh ())  return;
 
   // Position
-  pos = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
+  pos = GetFullPosition ();
 
   // rotation
-  csMatrix3 transf = pcmesh->GetMesh ()->GetMovable ()
-  	->GetFullTransform ().GetT2O ();
-  yrot = Matrix2YRot (transf);
+  yrot = GetYRotation ();
 
   // Sector
-  if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
-    sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
-  else
-    sector = 0;
+  sector = GetSector ();
 }
 
 void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,

@@ -56,9 +56,12 @@
 #include "ivideo/graph3d.h"
 #include "csqsqrt.h"
 
+namespace celCameraMode
+{
+
 celCameraMode::celCameraMode()
 {
-  parentCamera = 0;
+  parent = 0;
 
   pos = csVector3(0,0,0);
   target = csVector3(0,0,0);
@@ -71,7 +74,7 @@ celCameraMode::~celCameraMode()
 
 void celCameraMode::SetParentCamera(iPcNewCamera * camera)
 {
-  parentCamera = camera;
+  celCameraMode::parent = camera;
 }
 
 bool celCameraMode::UseSpringPos() const
@@ -121,12 +124,13 @@ const csVector3 & celCameraMode::GetUp() const
 
 bool celCameraMode::DecideCameraState()
 {
-  if (!parentCamera)
+  if (!parent)
     return false;
 
-  pos = parentCamera->GetBasePos();
-  target = pos + parentCamera->GetBaseDir();
-  up  = parentCamera->GetBaseUp();
+  pos = parent->GetBasePos();
+  target = pos + parent->GetBaseDir();
+  up  = parent->GetBaseUp();
   return true;
 }
 
+}

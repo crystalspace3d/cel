@@ -33,8 +33,10 @@ SCF_VERSION (iPcCamera, 0, 0, 4);
 /**
  * The representation of a camera.
  */
-struct iPcCamera : public iBase
+struct iPcCamera : public virtual iBase
 {
+  SCF_INTERFACE (iPcCamera, 0, 0, 4);
+
   /**
    * Set Camera to a Region
    * \param region is a pointer to the region to add the camera to.

@@ -216,6 +216,12 @@ bool celPcQuest::PerformActionIndexed (int idx,
           csStringID id;
           celDataType t;
           const char* n = params->GetParameter (i, id, t);
+	  if (n == 0 || *n == 0)
+	  {
+	    // Parameter is not defined with a name. In that
+	    // case we try to fetch the name from the id.
+	    n = pl->FetchString (id);
+	  }
           if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
           {
             const celData* cd = params->GetParameter (id);

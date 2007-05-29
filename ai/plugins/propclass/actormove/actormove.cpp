@@ -48,7 +48,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actor", "pcactormove")
+CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actorold", "pcactormove")
 
 //---------------------------------------------------------------------------
 
@@ -139,6 +139,12 @@ celPcActorMove::celPcActorMove (iObjectRegistry* object_reg)
   mousemove_inverted = false;
   mousemove_accelerated = false;
   csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  if (!g3d)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+    	"cel.pcmove.linear", "No iGraphics3D plugin!");
+    return;
+  }
   g2d = g3d->GetDriver2D ();
 
   propholder = &propinfo;
@@ -528,7 +534,7 @@ void celPcActorMove::RotateTo (float yrot)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.actor", "pcmove.linear is missing!");
+    	"cel.pcmove.actorold", "pcmove.linear is missing!");
     return;
   }
   csVector3 current_position;

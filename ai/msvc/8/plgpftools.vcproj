@@ -166,6 +166,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\plugins\propclass\tools\bagfact.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\tools\propfact.cpp">
 			</File>
 			<File
@@ -181,6 +184,9 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\plugins\propclass\tools\bagfact.h">
+			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\tools\propfact.h">
 			</File>

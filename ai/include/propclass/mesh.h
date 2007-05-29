@@ -73,6 +73,8 @@ class csBox3;
  *   as an entity with the optional tag specifying which pcmesh to use.
  *   If entity is not given then the current entity will be used.
  * - ClearParent: no parameters. Remove this mesh from its parent.
+ * - AttachSocketMesh: parameters 'socket', 'factory' (string)
+ * - DetachSocketMesh: parameters 'socket'
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -88,7 +90,7 @@ class csBox3;
  */
 struct iPcMesh : public virtual iBase
 {
-  SCF_INTERFACE (iPcMesh, 0, 0, 4);
+  SCF_INTERFACE (iPcMesh, 0, 0, 5);
 
   /**
    * Set the path to use. If this is not done then the filename
@@ -207,6 +209,20 @@ struct iPcMesh : public virtual iBase
    * Return true if mesh is visible.
    */
   virtual bool IsVisible () const = 0;
+
+  /**
+   * Attach mesh factory to a socket. Meshobject will be created,
+   * requires material in mesh factory. Only one mesh per socket.
+   * \param socket Name of the socket.
+   * \param factory Name of the loaded mesh factory.
+   */
+  virtual bool AttachSocketMesh (const char* socket, const char* factory) = 0;
+
+  /**
+   * Detach mesh factory from a socket.
+   * \param socket Name of the socket.
+   */
+  virtual bool DetachSocketMesh (const char* socket) = 0;
 };
 
 #endif // __CEL_PF_MESH__

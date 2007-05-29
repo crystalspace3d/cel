@@ -3,6 +3,84 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+25-May-2007
+	- Jorrit did some better formatting of the command and function
+	  descriptions in the XML behaviour layer documentation.
+	- Darek added socket support for pcmesh.
+24-May-2007
+	- Genjix updated python bindings to new property class names.
+	  iPcNewCamera was also added as celPcCamera.
+	- Genjix added small bugfix to iTrackCameraMode and added alternate
+	  mode to celtst. Just uncomment the #define CELTST_USE_ANALOG
+	  in apps/celtst.cpp and plugins/behaviourlayer/test/behave.cpp
+	- Genjix finished last remaining mode to iTrackCameraMode where
+	  it tracks another entity.
+	- Genjix added functionality to iTrackCameraMode where it doesn't
+	  rotate around the player.
+	- Genjix reverted check for same property class since it interferes
+	  with other desireable behaviour.
+	- Genjix made the following changes to the physical layer:
+	  - iCelPlLayer::CreatePropertyClass have a tag argument that defaults
+	    to 0.
+	  - Made iCelPlLayer::CreateTaggedPropertyClass() use
+	    iCelPlLayer::CreatePropertyClass() specifying the last argument,
+	    for code reuse.
+	  - Added a check to CreatePropertyClass() so that a propclass
+	    isn't recreated when it already exists.
+	- Genjix added some tracking functionality to LaraTrack camera.
+	- Genjix made changes to tracking camera so it provides the base
+	  functionality of tracking its anchor along its own Z axis and
+	  rotating to face its tracking entity (same entity for now).
+	- Jorrit created 1.2 branch and labeled trunk as 1.3.
+23-May-2007
+	- Genjix made the following changes:
+	  - Removed pcmove.lara from the Jamfile.
+	  - Changed pcmove.actor to pcmove.actorold. From now on this name is
+	    reserved for a newer property class.
+	  - Updated walktut, celtest and deprecation table to reflect the name
+	    change.
+22-May-2007
+	- Genjix added a new pcmove.lara property class. This is analog movement
+	  for an actor somewhat similar to pcmove.actor.
+	- Genjix added iPcNewCamera::GetTransform () to get the current cameras
+	  csOrthoTransform.
+	- Genjix fixed earlier error, sanely re-formatting basic_entities.
+	- Genjix added new wip camera mode to pccamera.standard and added
+	  interface system to it, so that camera modes can have specific
+	  interfaces. Also changed it to the newer SCF system.
+	- Jorrit added a new pctools.bag property class. This is a simple
+	  bag of strings.
+	- Jorrit added a new 'for' syntax in the xml behaviour layer.
+	  If you use the 'var' and 'bag' attributes then you can loop
+	  over all strings in a bag. The 'bag' should be a bag property
+	  class.
+	- Oktal added an updated set of evolved weightings for the neuralnet
+	  in evolvecraft. It's still not good enough to demonstrate the full
+	  potential of pcevolve (the fitness evaluation routine in evolvecraft
+	  needs more work) but it's better than not providing any pre-evolved
+	  weightings.
+21-May-2007
+	- Jorrit updated the XML behaviour layer documentation with a
+	  complete list of all commands and functions. People please keep
+	  this list up-to-date when you extend the XML behaviour layer!
+19-May-2007
+	- Genjix made GetYRotation() return in the range 0 -> 2pi as per
+	  earlier behaviour since GetAngle () is deciding that value already.
+	- Darek added missing Reports in many plugins.
+18-May-2007
+	- Genjix added GetYRotation(), GetPosition(), GetFullPosition() to
+	  iPcLinearMovement, since using GetLast*Position() can be cumbersome.
+	- Genjix added some contextual clipping to GetYRotation().
+	- Darek added xml actions:
+	  AdaptiveDistanceClipping, FixedDistanceClipping to pccamera.old and
+	  AdaptiveDistanceClipping, FixedDistanceClipping, SetRectangle,
+	  SetPerspectiveCenter to pccamera.default.
+	- Jorrit fixed a problem in NewQuest action in pcquest. The problem
+	  is that the xml behaviour layer defines parameters without names.
+	  And NewQuest uses the name of the parameter as the name of the
+	  variable to use when instantiating the quest. NewQuest will now
+	  get the name from the ID when the name of the parameter is
+	  missing.
 17-May-2007
 	- caedes updated all cfg files in cel behaviour library for the new
 	  notation.
@@ -38,7 +116,7 @@ The history order is reversed so that new features are at the top.
 	- Darek deprecated *.CommandInput.Bind.key = action,
 	  use *.Input.Bind.action = key instead.
 03-May-2007
-        - cfraz89 made steering forced in pcwheeled. It is alot sharper now.
+	- cfraz89 made steering forced in pcwheeled. It is alot sharper now.
 	- cfraz89 slowed down wheel turning in pcwheeled.
 	- cfraz89 sped up wheel default returning in pcwheeled.
 	- cfra89 fixed a bug in brakes in pcwheeled.

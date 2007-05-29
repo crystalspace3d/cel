@@ -326,6 +326,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfactorlara_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfactormove_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -986,6 +1001,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\actorlara\actorlara.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1346,18 +1376,48 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\firstpersoncameramode.cpp">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_firstpersoncameramode.cpp.obj"/>
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_firstperson.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_firstpersoncameramode.cpp.obj"/>
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_firstperson.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_laratrack.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_laratrack.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_thirdperson.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_thirdperson.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1373,21 +1433,6 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_newcam.cpp.obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\newcamera\thirdpersoncameramode.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_thirdpersoncameramode.cpp.obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_thirdpersoncameramode.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1493,6 +1538,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_test_testfact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\tools\bagfact.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_tools_bagfact.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_tools_bagfact.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2154,6 +2214,9 @@
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\actorlara\actorlara.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
 			</File>
 			<File
@@ -2235,13 +2298,16 @@
 				RelativePath="..\..\plugins\propclass\newcamera\celcameramode.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\firstpersoncameramode.h">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.h">
-			</File>
-			<File
-				RelativePath="..\..\plugins\propclass\newcamera\thirdpersoncameramode.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\portal\portalfact.h">
@@ -2263,6 +2329,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\test\testfact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\tools\bagfact.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\tools\propfact.h">

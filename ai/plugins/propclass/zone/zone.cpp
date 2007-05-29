@@ -71,7 +71,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.zonemanager",
     	msg, arg);
   else
   {
@@ -441,9 +441,29 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
   engine = csQueryRegistry<iEngine> (object_reg);
+  if (!engine)
+  {
+    Report (object_reg, "No iEngine plugin!");
+    return;
+  }
   loader = csQueryRegistry<iLoader> (object_reg);
+  if (!loader)
+  {
+    Report (object_reg, "No iLoader plugin!");
+    return;
+  }
   vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs)
+  {
+    Report (object_reg, "No iVFS plugin!");
+    return;
+  }
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
+  if (!cdsys)
+  {
+    Report (object_reg, "No iCollideSystem plugin!");
+    return;
+  }
 
   do_colliderwrappers = true;
   loading_mode = CEL_ZONE_NORMAL;
