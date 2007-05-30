@@ -3,6 +3,7 @@
 @subsection Linear Movement
 @cindex pclinearmovement property class
 @cindex pclinearmovement
+@cindex pcmove.linear
 @cindex @code{iPcLinearMovement}
 
 The linear movement property class implements a movement system that
@@ -12,7 +13,7 @@ handles gravity and collision detection but not accurate physics.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pclinearmovement}
+@samp{pcmove.linear}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.move.linear}
 @item @emph{Interface}:

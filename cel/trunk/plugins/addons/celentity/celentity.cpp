@@ -467,7 +467,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   if (mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
-    pc = pl->CreatePropertyClass (ent, "pcmesh");
+    pc = pl->CreatePropertyClass (ent, "pcobject.mesh");
     csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
     pcmesh->SetMesh (mesh);
   }

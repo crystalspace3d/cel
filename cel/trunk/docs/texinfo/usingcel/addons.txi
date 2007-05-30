@@ -26,12 +26,12 @@ directly in the world file. Here is an example on how to use that:
 
 @example
 <addon plugin="cel.addons.celentity" entityname="SlidingDoor">
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par name="name" string="SlidingDoor" />
     </action>
   </propclass>
-  <propclass name="pctrigger">
+  <propclass name="pclogic.trigger">
     <property name="monitor" string="camera" />
     <action name="SetupTriggerSphere">
       <par name="sector" string="Corridors" />
@@ -39,7 +39,7 @@ directly in the world file. Here is an example on how to use that:
       <par name="radius" float="4" />
     </action>
   </propclass>
-  <propclass name="pcquest">
+  <propclass name="pclogic.quest">
     <action name="NewQuest">
       <par name="name" string="SlideDoor" />
       <par name="openx" string="-3.5" />
@@ -55,13 +55,14 @@ directly in the world file. Here is an example on how to use that:
 @end example
 
 Here you see how an entity is created with the name @samp{SlidingDoor} and
-three property classes: @samp{pcmesh} (@pxref{PropClass Mesh}),
-@samp{pctrigger}, and @samp{pcquest} (@pxref{PropClass Quest Manager}). For
-every property class we can call actions and set properties.
+three property classes: @samp{pcobject.mesh} (@pxref{PropClass Mesh}),
+@samp{pclogic.trigger}, and @samp{pclogic.quest}
+(@pxref{PropClass Quest Manager}). For every property class we can call
+actions and set properties.
 
 You can create an entity everywhere in the map file where you can use
 addons. If you create an entity as a child of a @samp{meshobj} then the
-addon will automatically create a @samp{pcmesh} (@pxref{PropClass Mesh})
+addon will automatically create a @samp{pcobject.mesh} (@pxref{PropClass Mesh})
 property class attached to that mesh.
 
 You can also create an entity from an entity template
@@ -91,12 +92,12 @@ templates directly in the world file. Here is an example on how to use that:
 
 @example
 <addon plugin="cel.addons.celentitytpl" entityname="EntityTemplate">
-    <propclass name="pcmesh">
+    <propclass name="pcobject.mesh">
         <action name="SetMesh">
             <par name="name" string="$this" />
         </action>
     </propclass>
-    <propclass name="pctrigger">
+    <propclass name="pclogic.trigger">
         <property name="monitor" string="camera" />
         <action name="SetupTriggerSphere">
             <par name="sector" string="Inside" />
@@ -104,7 +105,7 @@ templates directly in the world file. Here is an example on how to use that:
             <par name="radius" float="4" />
         </action>
     </propclass>
-    <propclass name="pcquest">
+    <propclass name="pclogic.quest">
         <action name="NewQuest">
             <par name="name" string="MyQuest" />
         </action>
