@@ -5,9 +5,9 @@
 @cindex pcmove.mover
 @cindex @code{iPcMover}
 
-This is a mover property class. It works closely with pclinmove and
-pcactormove in order to help in making higher level movement actions
-while checking collision detection along the way.
+This is a mover property class. It works closely with @samp{pcmove.linear}
+and @samp{pcmove.actorold} in order to help in making higher level movement
+actions while checking collision detection along the way.
 
 @subsubheading Property Class Details
 

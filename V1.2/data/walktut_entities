@@ -7,7 +7,7 @@
 
     <addon plugin="celentity" entityname="box1">
 
-      <propclass name="pcmesh">
+      <propclass name="pcobject.mesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
@@ -35,7 +35,7 @@
 
     <addon plugin="celentity" entityname="box2">
 
-      <propclass name="pcmesh">
+      <propclass name="pcobject.mesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
@@ -63,7 +63,7 @@
 
     <addon plugin="celentity" entityname="box3">
 
-      <propclass name="pcmesh">
+      <propclass name="pcobject.mesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
@@ -91,7 +91,7 @@
 
     <addon plugin="celentity" entityname="badone">
 
-      <propclass name="pcmesh">
+      <propclass name="pcobject.mesh">
         <action name="LoadMesh">
 	  <par name="filename" string="monkey" />
 	  <par name="factoryname" string="monkey" />
