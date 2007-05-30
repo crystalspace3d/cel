@@ -6,6 +6,11 @@ The history order is reversed so that new features are at the top.
 30-May-2007
 	- Jorrit fixed a few occurances in the plugins and documentation
 	  of the old property class names.
+	- caedes changed celBillboard so when texture being loaded
+	  doesnt have keepimage flag the whole image size will be used
+	  as clickmap. This way keepimage is not needed for billboards
+	  with no alpha. Previously the same situation would yield no
+	  mouse events at all.
 25-May-2007
 	- Jorrit did some better formatting of the command and function
 	  descriptions in the XML behaviour layer documentation.
