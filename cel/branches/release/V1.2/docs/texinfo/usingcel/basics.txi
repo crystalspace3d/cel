@@ -41,17 +41,17 @@ for a box in a game. Here are the property classes you could use for that
 entity:
 
 @itemize @bullet
-@item @samp{pcmesh} (@pxref{PropClass Mesh}).
+@item @samp{pcobject.mesh} (@pxref{PropClass Mesh}).
 This property class gives entities a 3D representation (i.e. a mesh in
 Crystal Space terminology). It is only when an entity has this property class
 that you can see it in the 3D world. In this particular example this property
 class would be setup with a mesh that represents a box.
-@item @samp{pclinearmovement} (@pxref{PropClass LinMove}).
+@item @samp{pcmove.linear} (@pxref{PropClass LinMove}).
 This property class is the general movement system in Crystal Entity Layer
 that does not use physics but only simple gravity and collision detection
 simulation. By attaching this property class this entity will correctly fall
 on the floor when it is released in the air.
-@item @samp{pcinventory}
+@item @samp{pctools.inventory}
 By adding this property class the box will be able to contain other items
 (entities). It really acts like a box now. You can assign various attributes
 to the inventory so that you can set the maximum capacity this box can
@@ -61,26 +61,28 @@ carry for example.
 Here is another example of how you could setup your hero:
 
 @itemize @bullet
-@item @samp{pcmesh} (@pxref{PropClass Mesh}).
+@item @samp{pcobject.mesh} (@pxref{PropClass Mesh}).
 Again we need a mesh if we plan to use our hero in third-person mode.
-@item @samp{pclinearmovement} (@pxref{PropClass LinMove}).
-Here we again use @samp{pclinearmovement}. This time we use it also to
+@item @samp{pcmove.linear} (@pxref{PropClass LinMove}).
+Here we again use @samp{pcmove.linear}. This time we use it also to
 control actual movement of the hero.
-@item @samp{pcdefaultcamera}
+@item @samp{pccamera.old}
 Our hero defines the camera. So everything the hero sees we see too. The default
 camera in Crystal Entity Layer also suports 3rd person view. It is actually a
 pretty powerful property class with lots of options on how you want the camera
-to follow the hero.
-@item @samp{pcactormove}
+to follow the hero. Note that it is called 'old' because we're working on a
+future new camera system.
+@item @samp{pcmove.actorold}
 This class helps to combine the features of the three property classes
 above so that they work nicely together. It basically knows about player
-animations and how they relate to walking/running speed.
-@item @samp{pcinventory}
+animations and how they relate to walking/running speed. Note that it is
+called 'old' because we're working on a future new movement system.
+@item @samp{pctools.inventory}
 Possible a player can hold items so it is useful to have an inventory.
-@item @samp{pccommandinput}
+@item @samp{pcinput.standard}
 To be able to react to user input (mouse, keyboard, @dots{}) we use the
-@samp{pccommandinput} property class. We also configure this property class
-so that the right input is propagate to @samp{pcactormove}.
+@samp{pcinput.standard} property class. We also configure this property class
+so that the right input is propagate to @samp{pcmove.actorold}.
 @end itemize
 
 These are only two examples. There are a lot more possibilities. It is
@@ -118,10 +120,10 @@ In the same game you can mix behaviours of different types
 and in the future more ways will be added.
 
 Property classes send messages to the behaviour when something interesting
-happens. For example, when an entity has a @samp{pccommandinput} property
+happens. For example, when an entity has a @samp{pcinput.standard} property
 class then the behaviour will get messages every time a key is pressed.
 In reaction to those messages the behaviour can then call @sc{api} calls
-in @samp{pcactormove} to (for example) move the actor around.
+in @samp{pcmove.actorold} to (for example) move the actor around.
 
 A behaviour is represented by the @code{iCelBehaviour} interface. You can
 create behaviours from @code{iCelBlLayer}.

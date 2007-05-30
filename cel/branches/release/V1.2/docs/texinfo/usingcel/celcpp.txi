@@ -16,7 +16,7 @@ use any property class you must first ensure that the property class factory
 for that property class is loaded and registered with the physical layer.
 To do that you need the @dfn{Factory ID} for the property class which is
 documented in every property class documentation. Then you add the following
-line to the initialization of your application (example for @samp{pcmesh}
+line to the initialization of your application (example for @samp{pcobject.mesh}
 property class):
 
 @example
@@ -34,7 +34,7 @@ with the entity itself:
 @example
 csRef<iCelEntity> entity = pl->CreateEntity (entname, behaviourlayer,
         behavename,
-        "pcmesh",
+        "pcobject.mesh",
         @dots{} (other property classes)
         CEL_PROPCLASS_END);
 @end example
@@ -42,7 +42,7 @@ csRef<iCelEntity> entity = pl->CreateEntity (entname, behaviourlayer,
 The second way creates a property class on an entity that is already created:
 
 @example
-iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcmesh");
+iCelPropertyClass* pc = pl->CreatePropertyClass (entity, "pcobject.mesh");
 @end example
 
 @subsubheading Getting Property Classes from an entity
@@ -56,13 +56,13 @@ csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 @subsubheading Tagged Property Classes
 
 Normally an entity only has one instance of a given property class 
-type (i.e. only one @samp{pcmesh} maximum). Sometimes it is useful to be
+type (i.e. only one @samp{pcobject.mesh} maximum). Sometimes it is useful to be
 able to add multiple property class instances of the same type. To distinguish
 between the different instances you can use @dfn{tags}. Here is how you can
 create a tagged property class for an entity:
 
 @example
-iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, "pcmesh",
+iCelPropertyClass* pc = pl->CreateTaggedPropertyClass (entity, "pcobject.mesh",
         "main_mesh");
 @end example
 

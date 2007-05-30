@@ -3,6 +3,7 @@
 @subsection Command Input
 @cindex pccommandinput property class
 @cindex pccommandinput
+@cindex pcinput.standard
 @cindex @code{iPcCommandInput}
 
 The commandinput property class implements a simple way to register input
@@ -12,7 +13,7 @@ binds and get appropriate callbacks in response to them.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pccommandinput}
+@samp{pcinput.standard}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.input.standard}
 @item @emph{Interface}:

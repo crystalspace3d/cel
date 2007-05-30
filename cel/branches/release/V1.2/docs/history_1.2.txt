@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+30-May-2007
+	- Jorrit merged r2794 into 1.2 (deprecated pc names).
 25-May-2007
 	- Jorrit merged r2786 into 1.2 (blxml docs).
 	- Jorrit removed the new lara camera handling from 1.2 since
