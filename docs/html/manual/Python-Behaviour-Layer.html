@@ -111,7 +111,7 @@ class fovcontrol:
 		# get camera from main actor (called camera in this case)
                 self.camera = celGetDefaultCamera(Entities[&quot;camera&quot;]).Camera
                 self.initfov = self.camera.GetFOV ()
-		# get/create a pccommandinput
+		# get/create a pcinput.standard
                 self.input = celCommandInput(celEntity)
                 self.input.Bind(&quot;z&quot;,&quot;zoomin&quot;)
                 self.input.Bind(&quot;x&quot;,&quot;zoomout&quot;)
@@ -173,18 +173,18 @@ elsewhere in this manual.
 set to it:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;camera&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
-  &lt;propclass name=&quot;pcmesh&quot;&gt;
+  &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
     &lt;action name=&quot;SetMesh&quot;&gt;
       &lt;par name=&quot;name&quot; string=&quot;ActorMesh&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pcdefaultcamera&quot;&gt;
+  &lt;propclass name=&quot;pccamera.old&quot;&gt;
     &lt;action name=&quot;SetCamera&quot;&gt;
       &lt;par name=&quot;modename&quot; string=&quot;thirdperson&quot;/&gt;
     &lt;/action&gt;
   &lt;/propclass&gt;
-  &lt;propclass name=&quot;pccommandinput&quot;/&gt;
-  &lt;propclass name=&quot;pcmeshselect&quot;&gt;
+  &lt;propclass name=&quot;pcinput.standard&quot;/&gt;
+  &lt;propclass name=&quot;pcobject.mesh.select&quot;&gt;
     &lt;action name=&quot;SetCamera&quot;&gt;
       &lt;par name=&quot;entity&quot; string=&quot;camera&quot;/&gt;
     &lt;/action&gt;
@@ -321,10 +321,13 @@ class factory full name (cel.pcfactory.pcclass) to the <samp>&lsquo;PcFactories&
 layer).
 </p>
 <p>An example of this follows:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">pcclasses = [&quot;region&quot;,&quot;tooltip&quot;,&quot;mesh&quot;,&quot;solid&quot;,&quot;meshselect&quot;,&quot;zonemanager&quot;,&quot;trigger&quot;,
-	     &quot;quest&quot;,&quot;light&quot;,&quot;inventory&quot;,&quot;defaultcamera&quot;,&quot;gravity&quot;,&quot;movable&quot;,
-	     &quot;pccommandinput&quot;,&quot;linmove&quot;,&quot;actormove&quot;,&quot;colldet&quot;,&quot;timer&quot;,&quot;soundlistener&quot;,
-	     &quot;soundsource&quot;,&quot;billboard&quot;,&quot;properties&quot;]
+</p><table><tr><td>&nbsp;</td><td><pre class="example">pcclasses = [&quot;world.region&quot;,&quot;2d.tooltip&quot;,&quot;object.mesh&quot;,&quot;move.solid&quot;,
+             &quot;object.mesh.select&quot;,&quot;world.zonemanager&quot;,&quot;logic.trigger&quot;,
+	     &quot;logic.quest&quot;,&quot;object.light&quot;,&quot;tools.inventory&quot;,
+             &quot;camera.old&quot;,&quot;move.gravity&quot;,&quot;input.standard&quot;,&quot;move.linear&quot;,
+	     &quot;move.actorold&quot;,&quot;move.colldet&quot;,&quot;tools.timer&quot;,
+	     &quot;sound.listener&quot;,&quot;sound.source&quot;,&quot;2d.billboard&quot;,
+	     &quot;toolsproperties&quot;]
 for pcclass in pcclasses:
 	PcFactories.append(&quot;cel.pcfactory.&quot;+pcclass)
 </pre></td></tr></table>
@@ -390,8 +393,9 @@ will receive three different events named <code>pccommandinput_bind1</code>,
 <code>pccommandinput_bind0</code> and <code>pccommandinput_bind_</code>, respectively for
 the key press, release and maintain events.
 </p>
-<p>Other property classes like <code>pcmechanicsobject</code>, <code>pcmeshselect</code>,
-<code>pcbillboard</code>, <code>pcdamage</code>, <code>pclinmove</code> also generate their own
+<p>Other property classes like <code>pcphysics.object</code>,
+<code>pcobject.mesh.select</code>, <code>pc2d.billboard</code>, <code>pclogic.damage</code>,
+<code>pcmove.linear</code> also generate their own
 special messages.
 </p>
 <p>Message function calls get three parameters. The first is the behaviour class

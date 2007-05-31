@@ -65,12 +65,12 @@ ul.toc {list-style: none}
 templates directly in the world file. Here is an example on how to use that:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon plugin=&quot;cel.addons.celentitytpl&quot; entityname=&quot;EntityTemplate&quot;&gt;
-    &lt;propclass name=&quot;pcmesh&quot;&gt;
+    &lt;propclass name=&quot;pcobject.mesh&quot;&gt;
         &lt;action name=&quot;SetMesh&quot;&gt;
             &lt;par name=&quot;name&quot; string=&quot;$this&quot; /&gt;
         &lt;/action&gt;
     &lt;/propclass&gt;
-    &lt;propclass name=&quot;pctrigger&quot;&gt;
+    &lt;propclass name=&quot;pclogic.trigger&quot;&gt;
         &lt;property name=&quot;monitor&quot; string=&quot;camera&quot; /&gt;
         &lt;action name=&quot;SetupTriggerSphere&quot;&gt;
             &lt;par name=&quot;sector&quot; string=&quot;Inside&quot; /&gt;
@@ -78,7 +78,7 @@ templates directly in the world file. Here is an example on how to use that:
             &lt;par name=&quot;radius&quot; float=&quot;4&quot; /&gt;
         &lt;/action&gt;
     &lt;/propclass&gt;
-    &lt;propclass name=&quot;pcquest&quot;&gt;
+    &lt;propclass name=&quot;pclogic.quest&quot;&gt;
         &lt;action name=&quot;NewQuest&quot;&gt;
             &lt;par name=&quot;name&quot; string=&quot;MyQuest&quot; /&gt;
         &lt;/action&gt;
