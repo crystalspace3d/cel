@@ -76,12 +76,13 @@ use any property class you must first ensure that the property class factory
 for that property class is loaded and registered with the physical layer.
 To do that you need the <em>Factory ID</em> for the property class which is
 documented in every property class documentation. Then you add the following
-line to the initialization of your application (example for <samp>&lsquo;pcmesh&rsquo;</samp>
+line to the initialization of your application (example for <samp>&lsquo;pcobject.mesh&rsquo;</samp>
 property class):
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">if (!pl-&gt;LoadPropertyClassFactory (&quot;cel.pcfactory.mesh&quot;))
   return false;
 </pre></td></tr></table>
+
 <a name="3"></a>
 <h4 class="subsubheading"> Creating Property Classes </h4>
 
@@ -92,14 +93,16 @@ with the entity itself:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iCelEntity&gt; entity = pl-&gt;CreateEntity (entname, behaviourlayer,
         behavename,
-        &quot;pcmesh&quot;,
+        &quot;pcobject.mesh&quot;,
         ... (other property classes)
         CEL_PROPCLASS_END);
 </pre></td></tr></table>
+
 <p>The second way creates a property class on an entity that is already created:
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcmesh&quot;);
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreatePropertyClass (entity, &quot;pcobject.mesh&quot;);
 </pre></td></tr></table>
+
 <a name="4"></a>
 <h4 class="subsubheading"> Getting Property Classes from an entity </h4>
 
@@ -107,23 +110,26 @@ with the entity itself:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
 </pre></td></tr></table>
+
 <a name="5"></a>
 <h4 class="subsubheading"> Tagged Property Classes </h4>
 
 <p>Normally an entity only has one instance of a given property class 
-type (i.e. only one <samp>&lsquo;pcmesh&rsquo;</samp> maximum). Sometimes it is useful to be
+type (i.e. only one <samp>&lsquo;pcobject.mesh&rsquo;</samp> maximum). Sometimes it is useful to be
 able to add multiple property class instances of the same type. To distinguish
 between the different instances you can use <em>tags</em>. Here is how you can
 create a tagged property class for an entity:
 </p>
-<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcmesh&quot;,
+<table><tr><td>&nbsp;</td><td><pre class="example">iCelPropertyClass* pc = pl-&gt;CreateTaggedPropertyClass (entity, &quot;pcobject.mesh&quot;,
         &quot;main_mesh&quot;);
 </pre></td></tr></table>
+
 <p>And to fetch a tagged property class you can use:
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT (entity, iPcMesh,
         &quot;main_mesh&quot;);
 </pre></td></tr></table>
+
 <p>Note that there is the concept of a default property class for a given
 type. Usually the default property class is the one that has no tag (tag
 equal to 0). So when you call <code>CEL_QUERY_PROPCLASS_ENT</code> it will first

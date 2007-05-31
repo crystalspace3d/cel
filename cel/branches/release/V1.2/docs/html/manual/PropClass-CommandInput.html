@@ -69,7 +69,7 @@ binds and get appropriate callbacks in response to them.
 
 <ul>
 <li> <em>Name</em>:
-<samp>&lsquo;pccommandinput&rsquo;</samp>
+<samp>&lsquo;pcinput.standard&rsquo;</samp>
 </li><li> <em>Factory ID</em>:
 <samp>&lsquo;cel.pcfactory.input.standard&rsquo;</samp>
 </li><li> <em>Interface</em>:
@@ -77,6 +77,7 @@ binds and get appropriate callbacks in response to them.
 </li><li> <em>Header</em>:
 <tt>&lsquo;include/propclass/input.h&rsquo;</tt>
 </li></ul>
+
 
 <a name="2"></a>
 <h4 class="subsubheading"> General Information </h4>
@@ -110,6 +111,7 @@ Optionally sends <samp>&lsquo;state&rsquo;</samp> parameter in messages.
 </li><li> <em>JoystickAxis&lt;num&gt;</em>: This binds joystick axis &lt;num&gt;.
 Sends <samp>&lsquo;value&rsquo;</samp> parameter in messages.
 </li></ul>
+
 
 <p>Also for joystick/mouse move events <samp>&lsquo;_centered&rsquo;</samp> can be appended to the bind code to get coordinates relative to the center of the screen.
 </p>
@@ -163,6 +165,7 @@ Ecksdee.CommandInput.Bind.tab = cammode
 Ecksdee.CommandInput.Bind.r   = resetpos
 Ecksdee.CommandInput.Bind.t   = nextreg
 </pre></td></tr></table>
+
 <p>The binds can then be loaded from the property class by doing LoadConfig(&lt;section&gt;), note for this the config file must already be loaded. LoadConfig is available both as xml action for blxml/map files, and from iPcCommandInput api for c++ and python.
 </p>
 <a name="6"></a>
@@ -175,6 +178,7 @@ behaviour from this property class, these are:
 </li><li> <em>screenspace (bool, read/write)</em>: use screenspace instead of -1/1 normalized coordinates. Default is false. 
 </li><li> <em>trigger (bool, read/write)</em>: send out trigger name in the message to the behaviour. Default is false.
 </li></ul>
+
 
 <a name="7"></a>
 <h4 class="subsubheading"> Defining command input for an entity in map xml. </h4>
@@ -196,6 +200,7 @@ to the entity or entity template &lt;addon&gt; section.
   &lt;behaviour layer=&quot;blpython&quot; name=&quot;spaceship&quot;/&gt;
 &lt;/addon&gt;
 </pre></td></tr></table>
+
 
 <hr size="1">
 <table cellpadding="1" cellspacing="1" border="0">
