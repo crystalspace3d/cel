@@ -31,7 +31,6 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
-#include "propclass/actorlara.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
