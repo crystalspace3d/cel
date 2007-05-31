@@ -2954,17 +2954,18 @@ SWIG_Python_MustGetPtr(PyObject *obj, swig_type_info *ty, int argnum, int flags)
 #define SWIGTYPE_p_scfImplementation1TcsTriangleMesh_iTriangleMesh_t swig_types[472]
 #define SWIGTYPE_p_scfImplementationExt0TcsImageMemory_csImageBase_t swig_types[473]
 #define SWIGTYPE_p_scfImplementationExt1TcsColliderWrapper_csObject_scfFakeInterfaceTcsColliderWrapper_t_t swig_types[474]
-#define SWIGTYPE_p_uint16_t swig_types[475]
-#define SWIGTYPE_p_uint32_t swig_types[476]
-#define SWIGTYPE_p_uint64_t swig_types[477]
-#define SWIGTYPE_p_uint8_t swig_types[478]
-#define SWIGTYPE_p_uint_least64_t swig_types[479]
-#define SWIGTYPE_p_unsigned_int swig_types[480]
-#define SWIGTYPE_p_unsigned_long swig_types[481]
-#define SWIGTYPE_p_void swig_types[482]
-#define SWIGTYPE_p_wchar_t swig_types[483]
-static swig_type_info *swig_types[485];
-static swig_module_info swig_module = {swig_types, 484, 0, 0, 0, 0};
+#define SWIGTYPE_p_scfInterfaceMetadataList swig_types[475]
+#define SWIGTYPE_p_uint16_t swig_types[476]
+#define SWIGTYPE_p_uint32_t swig_types[477]
+#define SWIGTYPE_p_uint64_t swig_types[478]
+#define SWIGTYPE_p_uint8_t swig_types[479]
+#define SWIGTYPE_p_uint_least64_t swig_types[480]
+#define SWIGTYPE_p_unsigned_int swig_types[481]
+#define SWIGTYPE_p_unsigned_long swig_types[482]
+#define SWIGTYPE_p_void swig_types[483]
+#define SWIGTYPE_p_wchar_t swig_types[484]
+static swig_type_info *swig_types[486];
+static swig_module_info swig_module = {swig_types, 485, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -19785,6 +19786,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_celGenericParameterBlock_GetInterfaceMetadata(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  celGenericParameterBlock *arg1 = (celGenericParameterBlock *) 0 ;
+  scfInterfaceMetadataList *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:celGenericParameterBlock_GetInterfaceMetadata",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_celGenericParameterBlock, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGenericParameterBlock_GetInterfaceMetadata" "', argument " "1"" of type '" "celGenericParameterBlock *""'"); 
+  }
+  arg1 = reinterpret_cast< celGenericParameterBlock * >(argp1);
+  result = (scfInterfaceMetadataList *)(arg1)->GetInterfaceMetadata();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_scfInterfaceMetadataList, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_celGenericParameterBlock_QueryInterface(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   celGenericParameterBlock *arg1 = (celGenericParameterBlock *) 0 ;
@@ -20699,6 +20722,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_celVariableParameterBlock_GetInterfaceMetadata(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  celVariableParameterBlock *arg1 = (celVariableParameterBlock *) 0 ;
+  scfInterfaceMetadataList *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:celVariableParameterBlock_GetInterfaceMetadata",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_celVariableParameterBlock, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celVariableParameterBlock_GetInterfaceMetadata" "', argument " "1"" of type '" "celVariableParameterBlock *""'"); 
+  }
+  arg1 = reinterpret_cast< celVariableParameterBlock * >(argp1);
+  result = (scfInterfaceMetadataList *)(arg1)->GetInterfaceMetadata();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_scfInterfaceMetadataList, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_celVariableParameterBlock_QueryInterface(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   celVariableParameterBlock *arg1 = (celVariableParameterBlock *) 0 ;
@@ -21581,6 +21626,28 @@ SWIGINTERN PyObject *_wrap_celOneParameterBlock_RemoveRefOwner(PyObject *SWIGUNU
   arg2 = reinterpret_cast< void ** >(argp2);
   (arg1)->RemoveRefOwner(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_celOneParameterBlock_GetInterfaceMetadata(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  celOneParameterBlock *arg1 = (celOneParameterBlock *) 0 ;
+  scfInterfaceMetadataList *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:celOneParameterBlock_GetInterfaceMetadata",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_celOneParameterBlock, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celOneParameterBlock_GetInterfaceMetadata" "', argument " "1"" of type '" "celOneParameterBlock *""'"); 
+  }
+  arg1 = reinterpret_cast< celOneParameterBlock * >(argp1);
+  result = (scfInterfaceMetadataList *)(arg1)->GetInterfaceMetadata();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_scfInterfaceMetadataList, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -87359,6 +87426,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celGenericParameterBlock_GetRefCount", _wrap_celGenericParameterBlock_GetRefCount, METH_VARARGS, NULL},
 	 { (char *)"celGenericParameterBlock_AddRefOwner", _wrap_celGenericParameterBlock_AddRefOwner, METH_VARARGS, NULL},
 	 { (char *)"celGenericParameterBlock_RemoveRefOwner", _wrap_celGenericParameterBlock_RemoveRefOwner, METH_VARARGS, NULL},
+	 { (char *)"celGenericParameterBlock_GetInterfaceMetadata", _wrap_celGenericParameterBlock_GetInterfaceMetadata, METH_VARARGS, NULL},
 	 { (char *)"celGenericParameterBlock_QueryInterface", _wrap_celGenericParameterBlock_QueryInterface, METH_VARARGS, NULL},
 	 { (char *)"celGenericParameterBlock_GetParameterCount", _wrap_celGenericParameterBlock_GetParameterCount, METH_VARARGS, NULL},
 	 { (char *)"celGenericParameterBlock_GetParameter", _wrap_celGenericParameterBlock_GetParameter, METH_VARARGS, NULL},
@@ -87380,6 +87448,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celVariableParameterBlock_GetRefCount", _wrap_celVariableParameterBlock_GetRefCount, METH_VARARGS, NULL},
 	 { (char *)"celVariableParameterBlock_AddRefOwner", _wrap_celVariableParameterBlock_AddRefOwner, METH_VARARGS, NULL},
 	 { (char *)"celVariableParameterBlock_RemoveRefOwner", _wrap_celVariableParameterBlock_RemoveRefOwner, METH_VARARGS, NULL},
+	 { (char *)"celVariableParameterBlock_GetInterfaceMetadata", _wrap_celVariableParameterBlock_GetInterfaceMetadata, METH_VARARGS, NULL},
 	 { (char *)"celVariableParameterBlock_QueryInterface", _wrap_celVariableParameterBlock_QueryInterface, METH_VARARGS, NULL},
 	 { (char *)"celVariableParameterBlock_GetParameterCount", _wrap_celVariableParameterBlock_GetParameterCount, METH_VARARGS, NULL},
 	 { (char *)"celVariableParameterBlock_GetParameter", _wrap_celVariableParameterBlock_GetParameter, METH_VARARGS, NULL},
@@ -87401,6 +87470,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celOneParameterBlock_GetRefCount", _wrap_celOneParameterBlock_GetRefCount, METH_VARARGS, NULL},
 	 { (char *)"celOneParameterBlock_AddRefOwner", _wrap_celOneParameterBlock_AddRefOwner, METH_VARARGS, NULL},
 	 { (char *)"celOneParameterBlock_RemoveRefOwner", _wrap_celOneParameterBlock_RemoveRefOwner, METH_VARARGS, NULL},
+	 { (char *)"celOneParameterBlock_GetInterfaceMetadata", _wrap_celOneParameterBlock_GetInterfaceMetadata, METH_VARARGS, NULL},
 	 { (char *)"celOneParameterBlock_QueryInterface", _wrap_celOneParameterBlock_QueryInterface, METH_VARARGS, NULL},
 	 { (char *)"celOneParameterBlock_GetParameterCount", _wrap_celOneParameterBlock_GetParameterCount, METH_VARARGS, NULL},
 	 { (char *)"celOneParameterBlock_GetParameter", _wrap_celOneParameterBlock_GetParameter, METH_VARARGS, NULL},
@@ -90739,6 +90809,7 @@ static swig_type_info _swigt__p_int_least64_t = {"_p_int_least64_t", "int_least6
 static swig_type_info _swigt__p_p_iPcCollisionDetection = {"_p_p_iPcCollisionDetection", "iPcCollisionDetection **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_iSector = {"_p_p_iSector", "iSector **", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_void = {"_p_p_void", "void **", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_scfInterfaceMetadataList = {"_p_scfInterfaceMetadataList", "scfInterfaceMetadataList *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint16_t = {"_p_uint16_t", "uint16_t *|uint16 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint32_t = {"_p_uint32_t", "uint32_t *|uint32 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_uint64_t = {"_p_uint64_t", "uint64_t *|uintmax_t *", 0, 0, (void*)0, 0};
@@ -91225,6 +91296,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_scfImplementation1TcsTriangleMesh_iTriangleMesh_t,
   &_swigt__p_scfImplementationExt0TcsImageMemory_csImageBase_t,
   &_swigt__p_scfImplementationExt1TcsColliderWrapper_csObject_scfFakeInterfaceTcsColliderWrapper_t_t,
+  &_swigt__p_scfInterfaceMetadataList,
   &_swigt__p_uint16_t,
   &_swigt__p_uint32_t,
   &_swigt__p_uint64_t,
@@ -91711,6 +91783,7 @@ static swig_cast_info _swigc__p_int_least64_t[] = {  {&_swigt__p_int_least64_t, 
 static swig_cast_info _swigc__p_p_iPcCollisionDetection[] = {  {&_swigt__p_p_iPcCollisionDetection, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_iSector[] = {  {&_swigt__p_p_iSector, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_void[] = {  {&_swigt__p_p_void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_scfInterfaceMetadataList[] = {  {&_swigt__p_scfInterfaceMetadataList, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint16_t[] = {  {&_swigt__p_uint16_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint32_t[] = {  {&_swigt__p_uint32_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_uint64_t[] = {  {&_swigt__p_uint64_t, 0, 0, 0},{0, 0, 0, 0}};
@@ -92197,6 +92270,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_scfImplementation1TcsTriangleMesh_iTriangleMesh_t,
   _swigc__p_scfImplementationExt0TcsImageMemory_csImageBase_t,
   _swigc__p_scfImplementationExt1TcsColliderWrapper_csObject_scfFakeInterfaceTcsColliderWrapper_t_t,
+  _swigc__p_scfInterfaceMetadataList,
   _swigc__p_uint16_t,
   _swigc__p_uint32_t,
   _swigc__p_uint64_t,
