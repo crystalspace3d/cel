@@ -461,11 +461,6 @@ CEL_PC(iPcActorMove, ActorMove, pcactormove)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/actorlara.h"
-CEL_PC(iPcActorLara, ActorLara, pcmove.lara)
-
-//-----------------------------------------------------------------------------
-
 // TODO must review distance methods
 %include "propclass/camera.h"
 CEL_PC(iPcCamera, Camera, pccamera)
