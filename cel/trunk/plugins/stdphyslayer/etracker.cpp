@@ -35,7 +35,8 @@
 
 //---------------------------------------------------------------------------
 
-class celMeshcb : public iSectorMeshCallback
+class celMeshcb : public scfImplementation1<
+	celMeshcb, iSectorMeshCallback>
 {
 private:
   iSector* sector;
@@ -45,14 +46,13 @@ private:
 
 public:
   celMeshcb (celEntityTracker* tracker, iSector* sector)
+    : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     celMeshcb::tracker = tracker;
     celMeshcb::sector = sector;
   }
   virtual ~celMeshcb ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
 
   iSector* GetSector () const { return sector; }
@@ -82,8 +82,6 @@ public:
       }
     }
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual void NewMesh (iSector* sector, iMeshWrapper* mesh)
   {
@@ -124,29 +122,22 @@ public:
   }
 };
 
-SCF_IMPLEMENT_IBASE (celMeshcb)
-  SCF_IMPLEMENTS_INTERFACE (iSectorMeshCallback)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
 
-class celSectorcb : public iEngineSectorCallback
+class celSectorcb : public scfImplementation1<
+	celSectorcb, iEngineSectorCallback>
 {
 private:
   celEntityTracker* tracker;
 
 public:
-  celSectorcb (celEntityTracker* tracker)
+  celSectorcb (celEntityTracker* tracker) : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     celSectorcb::tracker = tracker;
   }
   virtual ~celSectorcb ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual void NewSector (iEngine*, iSector* sector)
   {
@@ -162,19 +153,11 @@ public:
   }
 };
 
-SCF_IMPLEMENT_IBASE (celSectorcb)
-  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEntityTracker)
-  SCF_IMPLEMENTS_INTERFACE (iCelEntityTracker)
-SCF_IMPLEMENT_IBASE_END
-
 celEntityTracker::celEntityTracker (celPlLayer* pl, const char* name)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celEntityTracker::pl = pl;
   celEntityTracker::name = csStrNew (name);
   sector_cb.AttachNew (new celSectorcb (this));
@@ -204,7 +187,6 @@ celEntityTracker::~celEntityTracker ()
     mesh_cbs[0]->GetSector ()->RemoveSectorMeshCallback (mesh_cbs[0]);
     mesh_cbs.DeleteIndex (0);
   }
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celEntityTracker::AddEntity (iCelEntity* entity)

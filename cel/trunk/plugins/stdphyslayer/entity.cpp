@@ -25,20 +25,11 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celEntity)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntity)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
-  SCF_IMPLEMENTS_INTERFACE (iCelEntity)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 CS_LEAKGUARD_IMPLEMENT (celEntity);
 
-celEntity::celEntity (celPlLayer* pl)
+celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
-  plist = new celPropertyClassList (&scfiCelEntity);
+  plist = new celPropertyClassList (this);
   behaviour = 0;
   celEntity::pl = pl;
   entity_ID = 0;
@@ -47,8 +38,6 @@ celEntity::celEntity (celPlLayer* pl)
 celEntity::~celEntity ()
 {
   delete plist;
-
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntity);
 }
 
 void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
@@ -63,7 +52,7 @@ iCelPropertyClassList* celEntity::GetPropertyClassList ()
 
 void celEntity::SetName (const char *name)
 {
-  if (GetName ()) pl->RemoveEntityName (this);
+  if (csObject::GetName ()) pl->RemoveEntityName (this);
   csObject::SetName (name);
   if (name) pl->AddEntityName (this);
 }
@@ -83,7 +72,7 @@ void celEntity::AddClass (csStringID cls)
   if (!classes.Contains(cls))
   {
     classes.AddNoTest (cls);
-    pl->EntityClassAdded(&scfiCelEntity,cls);
+    pl->EntityClassAdded(this,cls);
   }
 }
 
@@ -91,7 +80,7 @@ void celEntity::RemoveClass (csStringID cls)
 {
   if (classes.Delete (cls))
   {
-    pl->EntityClassRemoved(&scfiCelEntity,cls);
+    pl->EntityClassRemoved(this,cls);
   }
 }
 
@@ -102,19 +91,13 @@ bool celEntity::HasClass (csStringID cls)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celEntityList)
-  SCF_IMPLEMENTS_INTERFACE (iCelEntityList)
-SCF_IMPLEMENT_IBASE_END
-
-celEntityList::celEntityList ()
+celEntityList::celEntityList () : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
 }
 
 celEntityList::~celEntityList ()
 {
   RemoveAll ();
-  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celEntityList::GetCount () const
