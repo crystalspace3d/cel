@@ -41,50 +41,24 @@ extern size_t pycel_py_wrapper_size;
 
 CS_IMPLEMENT_PLUGIN
 
-SCF_IMPLEMENT_IBASE(celBlPython)
-  SCF_IMPLEMENTS_INTERFACE(iCelBlLayer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iComponent)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iScript)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE(iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiComponent)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiScript)
-  SCF_IMPLEMENTS_INTERFACE (iScript)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBlPython::eiEventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 SCF_IMPLEMENT_FACTORY (celBlPython)
 
 celBlPython* celBlPython::shared_instance = 0;
 
 celBlPython::celBlPython (iBase *iParent) :
-	object_reg (0)
+  scfImplementationType (this, iParent), object_reg (0)
 {
-  SCF_CONSTRUCT_IBASE (iParent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiScript);
-  SCF_CONSTRUCT_EMBEDDED_IBASE(scfiEventHandler);
   shared_instance = this;
 }
 
 celBlPython::~celBlPython ()
 {
   csRef<iEventQueue> queue = csQueryRegistry<iEventQueue> (object_reg);
+  //@@@ Circular ref: leak
   if (queue.IsValid())
-    queue->RemoveListener(&scfiEventHandler);
+    queue->RemoveListener(this);
   Py_Finalize ();
   object_reg = 0;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiScript);
-  SCF_DESTRUCT_EMBEDDED_IBASE(scfiEventHandler);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlPython::Initialize (iObjectRegistry* object_reg)
@@ -172,8 +146,9 @@ bool celBlPython::Initialize (iObjectRegistry* object_reg)
   }
   // Register event queue
   csRef<iEventQueue> queue = csQueryRegistry<iEventQueue> (object_reg);
+  // @@@ Circular ref: leak
   if (queue.IsValid())
-    queue->RegisterListener(&scfiEventHandler, csevCommandLineHelp(object_reg));
+    queue->RegisterListener(this, csevCommandLineHelp(object_reg));
 
   return true;
 }
@@ -332,14 +307,10 @@ bool celBlPython::HandleEvent(iEvent& e)
 
 //----------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE(celPythonBehaviour)
-  SCF_IMPLEMENTS_INTERFACE(iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
 celPythonBehaviour::celPythonBehaviour (celBlPython *scripter,
-	PyObject *py_entity, PyObject *py_object, const char *name)
+	PyObject *py_entity, PyObject *py_object, const char *name) :
+  scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celPythonBehaviour::scripter = scripter;
   celPythonBehaviour::py_entity = py_entity;
   celPythonBehaviour::py_object = py_object;
@@ -372,7 +343,6 @@ celPythonBehaviour::~celPythonBehaviour ()
   Py_DECREF (py_entity);
 
   delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPythonBehaviour::SendMessage (const char* msg_id,

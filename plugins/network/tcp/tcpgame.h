@@ -21,6 +21,7 @@
 #define __CEL_GAME_TCP__
 
 #include "csutil/csobject.h"
+#include "csutil/scf_implementation.h"
 
 #include "physicallayer/nettypes.h"
 #include "physicallayer/network.h"
@@ -30,21 +31,20 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
-class celTCPGame : public csObject
+class celTCPGame : public scfImplementationExt1<
+	celTCPGame,csObject,iCelGame>
 {
   friend class celTCPGameFactory;
   friend class celTCPGameClient;
   friend class celTCPGameServer;
 
- protected:
+protected:
   celNetworkGameType game_type;
   celGameInfo game_info;
   celTCPGameServer* server;
   celTCPGameClient* client;
 
- public:
-  SCF_DECLARE_IBASE_EXT (csObject);
-
+public:
   celTCPGame (celNetworkGameType game_type, celGameInfo* game_info);
   virtual ~celTCPGame ();
 
@@ -61,24 +61,8 @@ class celTCPGame : public csObject
   virtual iCelGameClient* GetGameClient () const
     { return client ? &client->scfiCelGameClient : 0; }
 
-  struct TCPGame : public iCelGame
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celTCPGame);
-    virtual celNetworkGameType GetGameType () const
+  virtual celNetworkGameType GetGameType () const
     { return scfParent->GetGameType (); }
-    virtual celGameInfo* GetGameInfo ()
-    { return scfParent->GetGameInfo (); }
-    virtual bool IsServerAvailable () const
-    { return scfParent->IsServerAvailable (); }
-    virtual iCelGameServer* GetGameServer () const
-    { return scfParent->GetGameServer (); }
-    virtual bool IsClientAvailable () const
-    { return scfParent->IsClientAvailable (); }
-    virtual iCelGameClient* GetGameClient () const
-    { return scfParent->GetGameClient (); }
-
-  } scfiCelGame;
-  friend struct TCPGame;
 };
 
 }

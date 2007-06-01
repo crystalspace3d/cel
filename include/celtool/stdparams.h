@@ -100,7 +100,8 @@
 /**
  * Generic parameter block implementation.
  */
-class celGenericParameterBlock : public iCelParameterBlock
+class celGenericParameterBlock : public scfImplementation1<
+	celGenericParameterBlock, iCelParameterBlock>
 {
 private:
   size_t count;
@@ -109,9 +110,9 @@ private:
   char** names;
 
 public:
-  celGenericParameterBlock (size_t count)
+  celGenericParameterBlock (size_t count) :
+    scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     celGenericParameterBlock::count = count;
     ids = new csStringID[count];
     data = new celData[count];
@@ -126,7 +127,6 @@ public:
     for (i = 0 ; i < count ; i++)
       delete[] names[i];
     delete[] names;
-    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
@@ -136,8 +136,6 @@ public:
     names[idx] = csStrNew (parname);
   }
   celData& GetParameter (size_t idx) { return data[idx]; }
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetParameterCount () const { return count; }
   virtual const char* GetParameter (size_t idx, csStringID& id,
@@ -170,7 +168,8 @@ public:
 /**
  * Variable parameter block implementation.
  */
-class celVariableParameterBlock : public iCelParameterBlock
+class celVariableParameterBlock : public scfImplementation1<
+	celVariableParameterBlock,iCelParameterBlock>
 {
 private:
   csArray<csStringID> ids;
@@ -178,16 +177,15 @@ private:
   csStringArray names;
 
 public:
-  celVariableParameterBlock ()
+  celVariableParameterBlock () : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
   }
   /**
    * Copy constructor.
    */
-  celVariableParameterBlock (iCelParameterBlock* other)
+  celVariableParameterBlock (iCelParameterBlock* other) :
+    scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     if (other != 0)
     {
       const char* name = 0;
@@ -203,7 +201,6 @@ public:
   }
   virtual ~celVariableParameterBlock ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (size_t idx, csStringID id, const char* parname)
@@ -214,8 +211,6 @@ public:
     names.Put (idx, parname);
   }
   celData& GetParameter (size_t idx) { return data.GetExtend (idx); }
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetParameterCount () const { return data.GetSize (); }
   virtual const char* GetParameter (size_t idx, csStringID& id,
@@ -248,7 +243,8 @@ public:
 /**
  * Parameter block implementation if only one parameter is desired.
  */
-class celOneParameterBlock : public iCelParameterBlock
+class celOneParameterBlock : public scfImplementation1<
+	celOneParameterBlock, iCelParameterBlock>
 {
 private:
   csStringID id;
@@ -256,15 +252,13 @@ private:
   char* name;
 
 public:
-  celOneParameterBlock ()
+  celOneParameterBlock () : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     name = 0;
   }
   virtual ~celOneParameterBlock ()
   {
     delete[] name;
-    SCF_DESTRUCT_IBASE ();
   }
 
   void SetParameterDef (csStringID id, const char* parname)
@@ -274,8 +268,6 @@ public:
     name = csStrNew (parname);
   }
   celData& GetParameter (int) { return data; }
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetParameterCount () const { return 1; }
   virtual const char* GetParameter (size_t idx, csStringID& id,

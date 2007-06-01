@@ -25,17 +25,9 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
-SCF_IMPLEMENT_IBASE_EXT (celTCPGame)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGame)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGame::TCPGame)
-  SCF_IMPLEMENTS_INTERFACE (iCelGame)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celTCPGame::celTCPGame (celNetworkGameType game_type, celGameInfo* game_info)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelGame);
   server = 0;
   client = 0;
   celTCPGame::game_type = game_type;
@@ -46,7 +38,6 @@ celTCPGame::~celTCPGame ()
 {
   delete client;
   delete server;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGame);
 }
 
 }

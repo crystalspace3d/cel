@@ -121,7 +121,7 @@ void CAFirstPerson::DoCameraCalculations (const csTicks elapsedTicks,
 	const float actor_yrot)
 {
   parent->SetPosition (actor_eye);
-  parent->SetYaw (actor_yrot);
+  parent->SetYaw (actor_yrot, -1);
   parent->CalculateFromYawPitchRoll ();
 }
 
@@ -134,7 +134,7 @@ void CAThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
 	const float actor_yrot)
 {
   parent->SetTarget (actor_eye);
-  parent->SetYaw (actor_yrot);
+  parent->SetYaw (actor_yrot, -1);
   parent->CalculatePositionFromYawPitchRoll ();
 }
 
@@ -148,7 +148,7 @@ void CAThirdPerson::SetupMode ()
   parent->GetLastFullPosition (actor_pos, actor_yrot, actor_sector);
   parent->SetPosition (CalculateEyePos (actor_pos, actor_yrot,
   	parent->thirdPersonPositionOffset));
-  parent->SetYaw (actor_yrot);
+  parent->SetYaw (actor_yrot, -1);
 }
 
 void CAM64ThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
@@ -156,15 +156,16 @@ void CAM64ThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
 	const float actor_yrot)
 {
   parent->SetTarget (actor_eye);
-  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm());
+  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm(),
+      -1);
   parent->EnsureCameraDistance ();
   parent->CalculatePositionFromYawPitchRoll ();
 }
 
 void CAM64ThirdPerson::SetupMode ()
 {
-  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
-  parent->SetDistance (parent->GetMaxDistance ());
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode), -1);
+  parent->SetDistance (parent->GetMaxDistance (), -1);
   parent->EnsureCameraDistance ();
   parent->CalculatePositionFromYawPitchRoll ();
 }
@@ -205,11 +206,12 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
     	0, (float)elapsedTicks/1000.0f, parent->GetSwingCoef (),
     	0.0f, parent->GetSpringLength ()));
     parent->SetYaw (CalculateNewYaw (parent->GetTarget ()
-    	-parent->GetPosition ()));
+    	-parent->GetPosition ()), -1);
   }
 
   // Ensure valid distance.
-  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm ());
+  parent->SetDistance ((parent->GetTarget ()-parent->GetPosition ()).Norm (),
+      -1);
   parent->EnsureCameraDistance ();
 
   // This allows pitch to work
@@ -223,8 +225,8 @@ void CALaraThirdPerson::DoCameraCalculations (const csTicks elapsedTicks,
 
 void CALaraThirdPerson::SetupMode ()
 {
-  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
-  parent->SetDistance (parent->GetMaxDistance ());
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode), -1);
+  parent->SetDistance (parent->GetMaxDistance (), -1);
   parent->EnsureCameraDistance ();
   parent->CalculatePositionFromYawPitchRoll ();
 }
@@ -240,7 +242,7 @@ void CAFreeLook::DoCameraCalculations (const csTicks elapsedTicks,
 
 void CAFreeLook::SetupMode ()
 {
-  parent->SetYaw (parent->GetYaw (parent->prev_cammode));
+  parent->SetYaw (parent->GetYaw (parent->prev_cammode), -1);
 }
 
 //---------------------------------------------------------------------------
@@ -272,22 +274,9 @@ csStringID celPcDefaultCamera::id_dist = csInvalidStringID;
 
 PropertyHolder celPcDefaultCamera::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcDefaultCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcDefaultCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcDefaultCamera::PcDefaultCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcDefaultCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
-	: celPcCameraCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-
   modeset_needed = false;
   cammode = iPcDefaultCamera::freelook;
   camalgo = 0;
@@ -423,8 +412,6 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
 
 celPcDefaultCamera::~celPcDefaultCamera ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcDefaultCamera);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 bool celPcDefaultCamera::SetPropertyIndexed (int idx, float b)
@@ -432,10 +419,10 @@ bool celPcDefaultCamera::SetPropertyIndexed (int idx, float b)
   switch (idx)
   {
     case propid_yaw:
-      SetYaw (b);
+      SetYaw (b, -1);
       return true;
     case propid_distance:
-      SetDistance (b);
+      SetDistance (b, -1);
       return true;
     case propid_pitch:
       SetPitch (b);
@@ -450,7 +437,7 @@ bool celPcDefaultCamera::GetPropertyIndexed (int idx, float& b)
   switch (idx)
   {
     case propid_yaw:
-      b = GetYaw ();
+      b = GetYaw (-1);
       return true;
     case propid_distance:
       b = GetDistance ();
@@ -525,7 +512,7 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         CEL_FETCH_FLOAT_PAR (yaw,params,id_yaw);
         if (p_yaw)
         {
-          SetYaw (yaw);
+          SetYaw (yaw, -1);
         }
         CEL_FETCH_FLOAT_PAR (yawvelocity,params,id_yawvelocity);
         if (p_yawvelocity)
@@ -536,7 +523,7 @@ bool celPcDefaultCamera::PerformActionIndexed (int idx,
         if (p_distance)
         {
           SetMinDistance (distance.x);
-          SetDistance (distance.y);
+          SetDistance (distance.y, -1);
           SetMaxDistance (distance.z);
         }
         CEL_FETCH_FLOAT_PAR (distancevelocity,params,id_distancevelocity);
@@ -909,7 +896,7 @@ void celPcDefaultCamera::CenterCamera ()
   	  sin (actor_yrot) * GetMaxDistance (),
   	  0.0,
   	  cos (actor_yrot) * GetMaxDistance ()));
-  SetYaw (actor_yrot);
+  SetYaw (actor_yrot, -1);
   if (cammode == iPcDefaultCamera::freelook)
     SetPitch (0);
 }
@@ -925,8 +912,8 @@ void celPcDefaultCamera::UpdateCamera ()
   AdaptDistanceClipping (elapsed_time);
 
   // Velocity calculations.
-  MovePitch (pitchVelocity * elapsed_sec);
-  MoveYaw (yawVelocity * elapsed_sec);
+  MovePitch (pitchVelocity * elapsed_sec, -1);
+  MoveYaw (yawVelocity * elapsed_sec, -1);
   MoveDistance (distanceVelocity * elapsed_sec);
 
   // Try to get position and sector from either linmove or mesh if
@@ -1144,7 +1131,7 @@ void celPcDefaultCamera::MoveDistance (float deltaDistance, int mode)
   SetDistance (GetDistance (mode) + deltaDistance, mode);
 }
 
-float celPcDefaultCamera::GetDistance (int mode) const
+float celPcDefaultCamera::GetDistance (int mode)
 {
   if (mode < 0) mode = cammode;
   return camData[mode].distance;

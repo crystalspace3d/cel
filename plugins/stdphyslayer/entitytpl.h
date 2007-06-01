@@ -31,7 +31,8 @@ class celPlLayer;
 struct ccfPropAct
 {
   csStringID id;
-  celData data;	// If data.type == CEL_DATA_NONE then params will be used (action).
+  // If data.type == CEL_DATA_NONE then params will be used (action).
+  celData data;
   csRef<iCelParameterBlock> params;
 };
 
@@ -41,7 +42,8 @@ struct ccfMessage
   csRef<iCelParameterBlock> params;
 };
 
-class celPropertyClassTemplate : public iCelPropertyClassTemplate
+class celPropertyClassTemplate : public scfImplementation1<
+	celPropertyClassTemplate, iCelPropertyClassTemplate>
 {
 private:
   csString name;
@@ -55,8 +57,6 @@ public:
   virtual ~celPropertyClassTemplate ();
 
   const csArray<ccfPropAct>& GetProperties () const { return properties; }
-
-  SCF_DECLARE_IBASE;
 
   virtual void SetName (const char* name)
   {
@@ -85,7 +85,8 @@ public:
 /**
  * Implementation of iCelEntityTemplate.
  */
-class celEntityTemplate : public csObject
+class celEntityTemplate : public scfImplementationExt1<
+	celEntityTemplate, csObject, iCelEntityTemplate>
 {
 private:
   csRefArray<celPropertyClassTemplate> propclasses;
@@ -97,78 +98,31 @@ public:
   celEntityTemplate ();
   virtual ~celEntityTemplate ();
 
-  void AddClass (csStringID cls);
-  void RemoveClass (csStringID cls);
-  bool HasClass (csStringID cls);
-  const csSet<csStringID>& GetClasses () const { return classes; }
+  virtual void AddClass (csStringID cls);
+  virtual void RemoveClass (csStringID cls);
+  virtual bool HasClass (csStringID cls);
+  virtual const csSet<csStringID>& GetClasses () const { return classes; }
 
   const csArray<ccfMessage>& GetMessages () const { return messages; }
 
-  iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
-  void SetBehaviour (const char* layer, const char* behaviour)
+  virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
+  virtual void SetBehaviour (const char* layer, const char* behaviour)
   {
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
-  void AddMessage (const char* msgid, iCelParameterBlock* params);
+  virtual void AddMessage (const char* msgid, iCelParameterBlock* params);
+  virtual const char* GetBehaviourLayer () const { return layer; }
   const char* GetLayer () const { return layer; }
-  const char* GetBehaviour () const { return behaviour; }
+  virtual const char* GetBehaviour () const { return behaviour; }
   const csRefArray<celPropertyClassTemplate> GetPropClasses () const
   {
     return propclasses;
   }
 
-  SCF_DECLARE_IBASE_EXT (csObject);
-
-  //------------------- iCelEntityTemplate implementation --------------------
-  struct CelEntityTemplate : public iCelEntityTemplate
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celEntityTemplate);
-    celEntityTemplate* GetCelEntityTemplate () const
-    {
-      return (celEntityTemplate*)scfParent;
-    }
-    virtual iObject* QueryObject () { return scfParent; }
-    virtual const char* GetName () const { return scfParent->GetName (); }
-    virtual void SetName (const char* n) { scfParent->SetName (n); }
-    virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ()
-    {
-      return scfParent->CreatePropertyClassTemplate ();
-    }
-    virtual void SetBehaviour (const char* layer, const char* behaviour)
-    {
-      scfParent->SetBehaviour (layer, behaviour);
-    }
-    virtual const char* GetBehaviourLayer () const
-    {
-      return scfParent->GetLayer ();
-    }
-    virtual const char* GetBehaviour () const
-    {
-      return scfParent->GetBehaviour ();
-    }
-    virtual void AddMessage (const char* msgid, iCelParameterBlock* params)
-    {
-      scfParent->AddMessage (msgid, params);
-    }
-    virtual void AddClass (csStringID cls)
-    {
-      scfParent->AddClass (cls);
-    }
-    virtual void RemoveClass (csStringID cls)
-    {
-      scfParent->RemoveClass (cls);
-    }
-    virtual bool HasClass (csStringID cls)
-    {
-      return scfParent->HasClass (cls);
-    }
-    virtual const csSet<csStringID>& GetClasses () const
-    {
-      return scfParent->GetClasses ();
-    }
-  } scfiCelEntityTemplate;
-  friend struct CelEntityTemplate;
+  virtual iObject* QueryObject () { return this; }
+  virtual const char* GetName () const { return csObject::GetName (); }
+  virtual void SetName (const char* n) { csObject::SetName (n); }
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__

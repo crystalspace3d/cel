@@ -30,8 +30,6 @@ struct iCelBehaviour;
 struct iCelEntityIterator;
 struct iObject;
 
-SCF_VERSION (iCelEntity, 0, 0, 1);
-
 /**
  * This is an entity in the CEL layer at the PL (physical layer) side.
  *
@@ -43,8 +41,9 @@ SCF_VERSION (iCelEntity, 0, 0, 1);
  * Entities are generally created, and destroyed, as required by the 
  * Physical Layer at the request of the Behaviour Layer.
  */
-struct iCelEntity : public iBase
+struct iCelEntity : public virtual iBase
 {
+  SCF_INTERFACE (iCelEntity, 0, 0, 1);
   /**
    * Get the iObject for this entity (if supported).
    * \return A pointer to the iObject for this entity if supported,
@@ -122,8 +121,6 @@ struct iCelEntity : public iBase
   virtual const csSet<csStringID>& GetClasses () const = 0;
 };
 
-SCF_VERSION (iCelEntityList, 0, 0, 2);
-
 /**
  * A list of entities.
  *
@@ -132,8 +129,10 @@ SCF_VERSION (iCelEntityList, 0, 0, 2);
  * the index of an Entity in the list, or get a pointer to an Entity in the
  * list.
  */
-struct iCelEntityList : public iBase
+struct iCelEntityList : public virtual iBase
 {
+  SCF_INTERFACE (iCelEntityList, 0, 0, 2);
+
   /**
    * Get the number of entities in this list.
    *

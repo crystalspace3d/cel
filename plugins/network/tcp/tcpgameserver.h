@@ -38,7 +38,8 @@ struct celIncomingPlayer;
 struct celPlayerData;
 struct KickedPlayer;
 
-class celPlayerList : public iCelPlayerList
+class celPlayerList : public scfImplementation1<
+	celPlayerList, iCelPlayerList>
 {
 private:
   csArray<celPlayer*> players;
@@ -46,8 +47,6 @@ private:
 public:
   celPlayerList ();
   virtual ~celPlayerList ();
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetCount () const;
   virtual celPlayer* Get (size_t index) const;
@@ -58,7 +57,8 @@ public:
   virtual size_t Find (celPlayer* player) const;
 };
 
-class celTCPGameServer : public csObject
+class celTCPGameServer : public scfImplementationExt1<
+	celTCPGameServer, csObject, iCelGameServer>
 {
 private:
   iObjectRegistry* object_reg;
@@ -81,8 +81,6 @@ private:
   csTicks last_update;
 
 public:
-  SCF_DECLARE_IBASE_EXT (csObject);
-
   celTCPGameServer (iObjectRegistry* object_reg, celTCPGameFactory* factory);
   virtual ~celTCPGameServer ();
 
@@ -126,60 +124,6 @@ public:
   virtual void GetNetworkPlayerStats (celPlayer* player, 
         celNetworkPlayerStats& stats) const;
   virtual void GetNetworkTotalStats (celNetworkPlayerTotalStats& stats) const;
-
-  struct TCPGameServer : public iCelGameServer
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celTCPGameServer);
-    virtual void RegisterServerManager (celGameServerManager* manager)
-    { scfParent->RegisterServerManager (manager); }
-    virtual void SetAdministrator (celPlayer* new_admin)
-    { scfParent->SetAdministrator (new_admin); }
-    virtual celPlayer* GetAdministrator ()
-    { return scfParent->GetAdministrator (); }
-    virtual iCelPlayerList* GetPlayerList ()
-    { return scfParent->GetPlayerList (); }
-    virtual celPlayerNetworkState GetPlayerState (celPlayer* player) 
-    { return scfParent->GetPlayerState (player); }
-    virtual void KickPlayer (celPlayer* player, csString reason)
-    { scfParent->KickPlayer (player, reason); }
-    virtual iCelPlayerList* CreateChannel (csStringID channel_id)
-    { return scfParent->CreateChannel (channel_id); }
-    virtual void RemoveChannel (csStringID channel_id)
-    { scfParent->RemoveChannel (channel_id); }
-    virtual void LaunchServerEvent (celPlayer* player, 
-				    celServerEventData &event_data)
-    { scfParent->LaunchServerEvent (player, event_data); }
-    virtual void LaunchServerEvent (csStringID channel_id, 
-				    celServerEventData &event_data)
-    { scfParent->LaunchServerEvent (channel_id, event_data); }
-    virtual void SetNetworkLink (celPlayer* player, 
-				 celNetworkLinkData &link_data, bool player_controlled)
-    { scfParent->SetNetworkLink (player, link_data, player_controlled); }
-    virtual void ChangeLinkControl (iCelEntity* entity, celPlayer* player, 
-				    bool player_controlled)
-    { scfParent->ChangeLinkControl (entity, player, player_controlled); }
-    virtual void SetNetworkLink (csStringID channel_id, 
-				 celNetworkLinkData &link_data)
-    { scfParent->SetNetworkLink (channel_id, link_data); }
-    virtual void RemoveNetworkLink (iCelEntity* entity, celPlayer* player)
-    { scfParent->RemoveNetworkLink (entity, player); }
-    virtual void RemoveNetworkLink (iCelEntity* entity, csStringID channel_id)
-    { scfParent->RemoveNetworkLink (entity, channel_id); }
-    virtual void ChangeLevel (celGameInfo* new_game)
-    { scfParent->ChangeLevel (new_game); }
-    virtual void SetNetworkPeriod (csTicks period)
-    { scfParent->SetNetworkPeriod (period); }
-    virtual void SetMaximumBandwidth (size_t width)
-    { scfParent->SetMaximumBandwidth (width); }
-    virtual void SetClientTimeOut (csTicks timeout)
-    { scfParent->SetClientTimeOut (timeout); }
-    virtual void GetNetworkPlayerStats (celPlayer* player, 
-        celNetworkPlayerStats& stats) const
-    { scfParent->GetNetworkPlayerStats (player, stats); }
-    virtual void GetNetworkTotalStats (celNetworkPlayerTotalStats& stats) const
-    { scfParent->GetNetworkTotalStats (stats); }
-  } scfiCelGameServer;
-  friend struct TCPGameServer;
 };
 
 class celIncomingPlayer

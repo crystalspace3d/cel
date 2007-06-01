@@ -36,7 +36,8 @@ class HoverTest;
  * so we make our own behaviour layer which basically just creates the
  * required behaviour class depending on what the entity wants.
  */
-class htBehaviourLayer : public iCelBlLayer
+class htBehaviourLayer : public scfImplementation1<htBehaviourLayer,
+  iCelBlLayer>
 {
 private:
   HoverTest* app;
@@ -49,8 +50,6 @@ public:
   htBehaviourLayer (HoverTest* app, iCelPlLayer *pl);
   // Destructor.
   virtual ~htBehaviourLayer ();
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "behaviour_layer"; }
 

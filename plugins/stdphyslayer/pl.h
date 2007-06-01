@@ -64,7 +64,8 @@ struct CallbackInfo
 /**
  * Implementation of the physical layer.
  */
-class celPlLayer : public iCelPlLayer
+class celPlLayer : public scfImplementation2<
+	celPlLayer, iCelPlLayer, iComponent>
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
@@ -122,13 +123,11 @@ private:
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
 
   bool HandleEvent (iEvent& ev);
 
   iEngine* GetEngine () const { return engine; }
-
-  SCF_DECLARE_IBASE;
 
   // For managing the names of entities (to find them faster).
   void RemoveEntityName (celEntity* ent);
@@ -242,31 +241,22 @@ public:
   virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
         iCelParameterBlock* params, va_list arg);
 
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public iEventHandler
+  class EventHandler : public scfImplementation1<
+	EventHandler, iEventHandler>
   {
   private:
     celPlLayer* parent;
 
   public:
-    EventHandler (celPlLayer* parent)
+    EventHandler (celPlLayer* parent) : scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler ()
     {
-      SCF_DESTRUCT_IBASE ();
     }
 
-    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
       return parent->HandleEvent (ev);
