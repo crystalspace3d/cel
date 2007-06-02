@@ -900,12 +900,10 @@ class iCelBehaviour(cspace.iBase):
 iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
 iCelBehaviour_swigregister(iCelBehaviour)
 
-class celGenericParameterBlock(iCelParameterBlock):
+class celGenericParameterBlock(_object):
     __swig_setmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, celGenericParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -915,23 +913,6 @@ class celGenericParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celGenericParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celGenericParameterBlock_scfRefCount_get, _blcelc.celGenericParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celGenericParameterBlock_scfWeakRefOwners_get, _blcelc.celGenericParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celGenericParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celGenericParameterBlock_scfParent_get, _blcelc.celGenericParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celGenericParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celGenericParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celGenericParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celGenericParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celGenericParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.celGenericParameterBlock_GetInterfaceMetadata(*args)
-    def QueryInterface(*args): return _blcelc.celGenericParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
@@ -945,12 +926,10 @@ class celGenericParameterBlock(iCelParameterBlock):
 celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
 celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
-class celVariableParameterBlock(iCelParameterBlock):
+class celVariableParameterBlock(_object):
     __swig_setmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, celVariableParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -960,23 +939,6 @@ class celVariableParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celVariableParameterBlock_scfRefCount_get, _blcelc.celVariableParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celVariableParameterBlock_scfWeakRefOwners_get, _blcelc.celVariableParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celVariableParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celVariableParameterBlock_scfParent_get, _blcelc.celVariableParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celVariableParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celVariableParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celVariableParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celVariableParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celVariableParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.celVariableParameterBlock_GetInterfaceMetadata(*args)
-    def QueryInterface(*args): return _blcelc.celVariableParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
@@ -990,12 +952,10 @@ class celVariableParameterBlock(iCelParameterBlock):
 celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
 celVariableParameterBlock_swigregister(celVariableParameterBlock)
 
-class celOneParameterBlock(iCelParameterBlock):
+class celOneParameterBlock(_object):
     __swig_setmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, celOneParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -1005,23 +965,6 @@ class celOneParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celOneParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celOneParameterBlock_scfRefCount_get, _blcelc.celOneParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celOneParameterBlock_scfWeakRefOwners_get, _blcelc.celOneParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celOneParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celOneParameterBlock_scfParent_get, _blcelc.celOneParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celOneParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celOneParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celOneParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celOneParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celOneParameterBlock_RemoveRefOwner(*args)
-    def GetInterfaceMetadata(*args): return _blcelc.celOneParameterBlock_GetInterfaceMetadata(*args)
-    def QueryInterface(*args): return _blcelc.celOneParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
