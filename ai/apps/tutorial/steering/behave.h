@@ -5,6 +5,7 @@
 #include <behaviourlayer/bl.h>
 #include <behaviourlayer/behave.h>
 #include <propclass/actormove.h>
+#include <propclass/mover.h>
 #include <propclass/meshsel.h>
 #include <propclass/mesh.h>
 #include <propclass/camera.h>
