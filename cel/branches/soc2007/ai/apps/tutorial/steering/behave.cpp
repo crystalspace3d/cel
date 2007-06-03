@@ -134,9 +134,9 @@ void BehaviourPlayer::GetActorMove ()
 void BehaviourPlayer::GetInventory ()
 {
   if (!pcinventory)
-  {
-    pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
-  }
+    {
+      pcinventory = CEL_QUERY_PROPCLASS_ENT (entity, iPcInventory);
+    }
 }
 
 void BehaviourPlayer::GetMesh ()
@@ -386,15 +386,32 @@ BehaviourSteering::BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iC
   id_pccommandinput_seek1 = pl->FetchStringID ("pccommandinput_seek1");
   id_pccommandinput_flee1 = pl->FetchStringID ("pccommandinput_flee1");
   id_pccommandinput_wander1 = pl->FetchStringID ("pccommandinput_wander1");
-} 
+}
+ 
 bool BehaviourSteering::SendMessage (csStringID msg_id,
 				     iCelPropertyClass* pc,
 				     celData& ret, iCelParameterBlock* params, va_list arg)
 {
   if (msg_id == id_pcmover_arrived)
     printf("LLegue\n");
-  else if (msg_id == id_pccommandinput_seek1)
+  else if (msg_id == id_pccommandinput_seek1){
     printf("Seek\n");
+    csRef<iCelEntity> player_entity = pl->FindEntity("player");
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								  iPcLinearMovement);
+    iSector* sector;
+    csVector3 position;
+    float rot;
+    
+    pclinmove->GetLastFullPosition (position, rot, sector);
+    
+    csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+
+    csRef<iPcMover> pcmover = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+						       iPcMover);
+    pcmover->MoveTo(sector, position, 1.0f, false);
+
+  }
   else if (msg_id == id_pccommandinput_flee1)
     printf("Flee\n");
   else if (msg_id == id_pccommandinput_wander1)
