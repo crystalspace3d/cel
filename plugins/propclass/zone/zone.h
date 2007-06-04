@@ -337,6 +337,7 @@ public:
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }
+  iObjectRegistry* GetObjectReg () const { return object_reg; }
 
   // Activate some region. This will load all zones that contain
   // the given region and unload all other zones. It is safe to call
