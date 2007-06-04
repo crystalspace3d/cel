@@ -284,9 +284,9 @@ bool celRegion::Load (bool allow_entity_addon)
 
   if (mgr->IsColliderWrappers ())
   {
-    if (!cdsys)
+    if (!mgr->GetCDSystem ())
     {
-      Report (object_reg, "No iCollideSystem plugin!");
+      Report (mgr->GetObjectReg (), "No iCollideSystem plugin!");
       return false;
     }
     // Create colliders for all meshes in this region.
