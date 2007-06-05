@@ -6,6 +6,7 @@
 #include <behaviourlayer/behave.h>
 #include <propclass/actormove.h>
 #include <propclass/mover.h>
+#include <propclass/steer.h>
 #include <propclass/meshsel.h>
 #include <propclass/mesh.h>
 #include <propclass/camera.h>
@@ -120,10 +121,15 @@ public:
 class BehaviourSteering : public BehaviourCommon
 {
  private:
-  csStringID id_pcmover_arrived;
+  csStringID id_pcsteer_arrived;
+  csStringID id_pccommandinput_arrival1;
+  csStringID id_pccommandinput_ca1;
   csStringID id_pccommandinput_seek1;
   csStringID id_pccommandinput_flee1;
   csStringID id_pccommandinput_wander1;
+  
+  bool ca;
+  bool arrival;
   
  public:
   BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);

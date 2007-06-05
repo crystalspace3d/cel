@@ -9,7 +9,7 @@
 
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNUmy c
     Library General Public License for more details.
 
     You should have received a copy of the GNU Library General Public
@@ -48,6 +48,9 @@ csStringID celPcSteer::id_cur_direction = csInvalidStringID;
 csStringID celPcSteer::id_up = csInvalidStringID;
 csStringID celPcSteer::id_meshname = csInvalidStringID;
 csStringID celPcSteer::id_cur_yrot = csInvalidStringID;
+csStringID celPcSteer::id_arrival_radius = csInvalidStringID;
+csStringID celPcSteer::id_ca_lookahead = csInvalidStringID;
+csStringID celPcSteer::id_ca_weight = csInvalidStringID;
 
 PropertyHolder celPcSteer::propinfo;
 
@@ -65,9 +68,12 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
     id_cur_position = pl->FetchStringID ("cel.parameter.cur_position");
     id_cur_direction = pl->FetchStringID ("cel.parameter.cur_direction");
     id_up = pl->FetchStringID ("cel.parameter.up");
-    //id_sqradius = pl->FetchStringID ("cel.parameter.sqradius");
     id_meshname = pl->FetchStringID ("cel.parameter.meshname");
     id_cur_yrot = pl->FetchStringID ("cel.parameter.cur_yrot");
+    id_arrival_radius = pl->FetchStringID ("cel.parameter.arrival_radius");
+    id_ca_lookahead = pl->FetchStringID ("cel.parameter.ca_lookahead");
+    id_ca_weight = pl->FetchStringID ("cel.parameter.ca_weight");
+
   }
 
   params = new celOneParameterBlock ();
@@ -76,12 +82,13 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   propholder = &propinfo;
   if (!propinfo.actions_done)
   {
-    AddAction (action_steer, "cel.action.Steer");
+    AddAction (action_seek, "cel.action.Seek");
+    AddAction (action_flee, "cel.action.Flee");
     AddAction (action_interrupt, "cel.action.Interrupt");
   }
 
   // For properties.
-  propinfo.SetCount (6);
+  propinfo.SetCount (12);
   AddProperty (propid_position, "cel.property.position",
 	       CEL_DATA_VECTOR3, true, "Desired end position.", &position);
   AddProperty (propid_cur_position, "cel.property.cur_position",
@@ -92,10 +99,24 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 	       CEL_DATA_VECTOR3, true, "Current up vector.", &up);
   AddProperty (propid_cur_yrot, "cel.property.cur_yrot",
 	       CEL_DATA_FLOAT, false, "Current rotation.", &cur_yrot);
+  AddProperty (propid_arrival_radius, "cel.property.arrival_radius",
+	       CEL_DATA_FLOAT, false, "Arrival Radius.", &arrival_radius);
+  AddProperty (propid_ca_lookahead, "cel.property.ca_lookahead",
+	       CEL_DATA_FLOAT, false, "CA Lookahead.", &ca_lookahead);
+  AddProperty (propid_ca_weight, "cel.property.ca_weight",
+	       CEL_DATA_FLOAT, false, "CA weight.", &ca_weight);
   AddProperty (propid_moving, "cel.property.moving",
 	       CEL_DATA_BOOL, true, "Is moving?", &is_moving);
+  AddProperty (propid_check_arrival, "cel.property.check_arrival",
+	       CEL_DATA_BOOL, true, "Check if arrived at position?", &check_arrival);
+  AddProperty (propid_collision_avoidance, "cel.property.collision_avoidance",
+	      CEL_DATA_BOOL, true, "Avoid Collisions?", &collision_avoidance);
+
 
   is_moving = false;
+  //check_arrival = false;
+  //collision_avoidance = false;
+  
   up = csVector3(0,1,0);
 }
 
@@ -155,6 +176,10 @@ bool celPcSteer::Seek (iSector* sector, const csVector3& position)
   if (!pcactormove)
     return false;
 
+  //Interrupt();
+
+  current_action = action_seek;
+
   celPcSteer::sector = sector;
   celPcSteer::position = position;
 
@@ -164,12 +189,123 @@ bool celPcSteer::Seek (iSector* sector, const csVector3& position)
   // check only on x and z axis.
   cur_position.y = position.y;
 
-  csVector3 vec (0,0,1);
   cur_direction = position-cur_position;
 
+  Move();
+
+  pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
+ 
+  return true;
+}
+
+bool celPcSteer::Flee (iSector* sector, const csVector3& position)
+{
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+    return false;
+  if (!pcactormove)
+    return false;
+
+
+  current_action = action_flee;
+  
+  celPcSteer::sector = sector;
+  celPcSteer::position = position;
+
+  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+
+  // set destination y value to the same as current y value so as to
+  // check only on x and z axis.
+  cur_position.y = position.y;
+
+  //Here we substract position from cur_position instead so we get the opposite
+  // direction
+
+  cur_direction = cur_position-position;
+
+  Move();   
+
+  pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
+
+  return true;
+}
+
+
+
+void celPcSteer::CheckArrivalOn(float radius){
+  celPcSteer::arrival_radius = radius;
+  check_arrival = true;
+}
+
+
+void celPcSteer::CheckArrivalOff(){
+  check_arrival = false;
+}
+
+bool celPcSteer::CheckArrival(){
+  if(check_arrival){
+    float sqlen = csSquaredDist::PointPoint (cur_position, position);
+    if (sqlen < arrival_radius)
+      {
+	StopMovement ();
+	SendMessage ("pcsteer_arrived");
+	return true;
+      }
+  }
+  return false;
+}
+
+void celPcSteer::CollisionAvoidanceOn(float lookahead, float weight){
+  ca_lookahead = lookahead;
+  ca_weight = weight;
+  collision_avoidance = true;
+}
+
+void celPcSteer::CollisionAvoidanceOff(){
+  collision_avoidance = false;
+}
+
+bool celPcSteer::CollisionAvoidance(){
+  if(!collision_avoidance)
+    return false;
+  csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
+							 position);
+  if (rc.mesh){
+    float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
+    
+    /*
+     * If the collision is too far away, we don´t bother to avoid it
+     */
+    if(distance > ca_lookahead)
+      return false;
+    
+    printf("AVOID!\n");
+    csVector3 direction = cur_position - rc.isect;
+    //direction = direction*ca_weight;
+    cur_direction = direction;
+    SendMessage ("pcsteer_avoiding_collision", rc.mesh->QueryObject ()->GetName ());
+    return true;
+  }
+  
+  return false;
+}
+
+bool celPcSteer::Move()
+{
+  if(!pcactormove)
+    return false;
+
+  if(CheckArrival())
+    return true;
+
+  CollisionAvoidance();
+
+  csVector3 vec (0,0,1);
+  
   float yrot = GetAngle (cur_direction, vec);
   pcactormove->RotateTo (yrot);
   pcactormove->Forward (true);
+  is_moving=true;
   
   return true;
 }
@@ -197,7 +333,7 @@ bool celPcSteer::PerformActionIndexed (int idx,
 {
   switch (idx)
   {
-  case action_steer:
+  case action_seek:
     {
       CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
       if (!p_sectorname) return false;
@@ -227,19 +363,10 @@ void celPcSteer::TickOnce ()
   // check only on x and z axis.
   cur_position.y = position.y;
    
-  // check arrival
-  /* float sqlen = csSquaredDist::PointPoint (cur_position, position);
-  if (sqlen < sqradius)
-    {
-      StopMovement ();
-      SendMessage ("pcsteer_arrived");
-      return;
-    }
-  */
-  csVector3 vec (0,0,1);
-  float yrot = GetAngle (position-cur_position, vec);
-  pcactormove->RotateTo (yrot);
-  pl->CallbackOnce ((iCelTimerListener*)this, DELAY_RECHECK, CEL_EVENT_PRE);
+  if(current_action == action_seek)
+    Seek(sector, position);
+  else if (current_action == action_flee)
+    Flee(sector, position);
 }
 
 void celPcSteer::FindSiblingPropertyClasses ()
