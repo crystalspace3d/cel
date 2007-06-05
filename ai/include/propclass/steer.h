@@ -49,7 +49,14 @@ struct iPcLinearMovement;
  *     you should use MoveTo instead.
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the following properties (add prefix
+ * This property class supports the 
+
+
+
+
+
+
+following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
  * - sqradius (float, read/write): current squared radius.
@@ -81,6 +88,29 @@ struct iPcSteer : public virtual iBase
    */
   virtual bool Seek (iSector* sector, const csVector3& position) = 0;
 
+  virtual bool Flee (iSector* sector, const csVector3& position) = 0;
+
+  /**
+   *Actually performs the movement in cur_direction which has been
+   *modified by the previous calls to all other steering functions
+   *
+   */
+
+  virtual bool Move () = 0;
+
+  virtual void CheckArrivalOn (float) = 0;
+
+  virtual void CheckArrivalOff () = 0;
+
+  virtual bool CheckArrival () = 0;
+
+  virtual void CollisionAvoidanceOn (float, float) = 0;
+
+  virtual void CollisionAvoidanceOff () = 0;
+
+  virtual bool CollisionAvoidance () = 0;
+
+  
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
    * message if the mover was really moving. Otherwise nothing happens.

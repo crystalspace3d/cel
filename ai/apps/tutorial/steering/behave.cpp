@@ -382,7 +382,9 @@ bool BehaviourBadOne::SendMessage (csStringID msg_id,
 BehaviourSteering::BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)
 {
-  id_pcmover_arrived = pl->FetchStringID ("pcmover_arrived");
+  id_pcsteer_arrived = pl->FetchStringID ("pcsteer_arrived");
+  id_pccommandinput_ca1 = pl->FetchStringID ("pccommandinput_ca1");
+  id_pccommandinput_arrival1 = pl->FetchStringID ("pccommandinput_arrival1");
   id_pccommandinput_seek1 = pl->FetchStringID ("pccommandinput_seek1");
   id_pccommandinput_flee1 = pl->FetchStringID ("pccommandinput_flee1");
   id_pccommandinput_wander1 = pl->FetchStringID ("pccommandinput_wander1");
@@ -392,8 +394,8 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 				     iCelPropertyClass* pc,
 				     celData& ret, iCelParameterBlock* params, va_list arg)
 {
-  if (msg_id == id_pcmover_arrived)
-    printf("LLegue\n");
+  if (msg_id == id_pcsteer_arrived)
+    printf("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1){
     printf("Seek\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
@@ -407,15 +409,68 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
     
     csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
 
-    csRef<iPcMover> pcmover = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-						       iPcMover);
-    pcmover->MoveTo(sector, position, 1.0f, false);
-
+    csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+						       iPcSteer);
+    
+    pcsteer->Seek(sector, position);
+    
   }
   else if (msg_id == id_pccommandinput_flee1)
+    {
     printf("Flee\n");
+    csRef<iCelEntity> player_entity = pl->FindEntity("player");
+    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
+								  iPcLinearMovement);
+    iSector* sector;
+    csVector3 position;
+    float rot;
+    
+    pclinmove->GetLastFullPosition (position, rot, sector);
+    
+    csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+    csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+						       iPcSteer);
+    pcsteer->Flee(sector, position);
+
+    }
   else if (msg_id == id_pccommandinput_wander1)
     printf("Wander\n");
+  else if(msg_id == id_pccommandinput_arrival1)
+    {
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
+      if(!arrival){
+	//Turns Position Arrival Checking on with a sq radius of 1.0
+	pcsteer->CheckArrivalOn(1.0f);
+	arrival = true;
+	printf("Check Arrival On\n");
+      } else {
+	pcsteer->CheckArrivalOff();
+	arrival = false;
+	printf("Check Arrival Off\n");
+      }
+    }
+  else if (msg_id == id_pccommandinput_ca1)
+    {
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
+
+      if(!ca){
+	//Turns Collision Avoidance ON
+	//with lookahead 3.0 and weight 1.0
+	
+	pcsteer->CollisionAvoidanceOn(10.0f, 3.0f);
+	ca = true;
+	printf("Collision Avoidance On\n");
+	
+      } else{
+	pcsteer->CollisionAvoidanceOff();
+	ca = false;
+	printf("Collision Avoidance Off\n");      
+      }
+    }
   else
     return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
   
