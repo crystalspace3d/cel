@@ -22,6 +22,7 @@
 
 #include "cstypes.h"
 #include "csutil/scf.h"
+#include "physicallayer/entity.h"
 
 struct iPcLinearMovement;
 
@@ -50,10 +51,6 @@ struct iPcLinearMovement;
  * - Interrupt: interrupt the current movement.
  *
  * This property class supports the 
-
-
-
-
 
 
 following properties (add prefix
@@ -90,6 +87,10 @@ struct iPcSteer : public virtual iBase
 
   virtual bool Flee (iSector* sector, const csVector3& position) = 0;
 
+  virtual bool Wander (float offset, float radius, float rate) = 0;
+  
+  virtual bool Pursue (iCelEntity* target, float max_prediction)=0;
+  
   /**
    *Actually performs the movement in cur_direction which has been
    *modified by the previous calls to all other steering functions
@@ -131,6 +132,10 @@ struct iPcSteer : public virtual iBase
    * Get the current squared radius.
    */
   //  virtual float GetSqRadius () const = 0;
+
+  virtual float RandomBinomial (float rate) = 0;
+  
+  virtual void SetDelayRecheck (int delay) = 0;
 
   /**
    * Return true if currently moving.

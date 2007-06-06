@@ -127,6 +127,7 @@ class BehaviourSteering : public BehaviourCommon
   csStringID id_pccommandinput_seek1;
   csStringID id_pccommandinput_flee1;
   csStringID id_pccommandinput_wander1;
+  csStringID id_pccommandinput_pursue1;
   
   bool ca;
   bool arrival;

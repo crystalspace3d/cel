@@ -388,6 +388,10 @@ BehaviourSteering::BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iC
   id_pccommandinput_seek1 = pl->FetchStringID ("pccommandinput_seek1");
   id_pccommandinput_flee1 = pl->FetchStringID ("pccommandinput_flee1");
   id_pccommandinput_wander1 = pl->FetchStringID ("pccommandinput_wander1");
+  id_pccommandinput_pursue1 = pl->FetchStringID ("pccommandinput_pursue1");
+
+  ca = false;
+  arrival = false;
 }
  
 bool BehaviourSteering::SendMessage (csStringID msg_id,
@@ -435,11 +439,20 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
     }
   else if (msg_id == id_pccommandinput_wander1)
     printf("Wander\n");
+  else if(msg_id == id_pccommandinput_pursue1)
+    {
+      csRef<iCelEntity> player_entity = pl->FindEntity("player");
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);    
+      pcsteer->Pursue(player_entity, 1.0f);
+    }
   else if(msg_id == id_pccommandinput_arrival1)
     {
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
       csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 							 iPcSteer);
+
       if(!arrival){
 	//Turns Position Arrival Checking on with a sq radius of 1.0
 	pcsteer->CheckArrivalOn(1.0f);
