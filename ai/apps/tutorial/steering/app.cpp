@@ -15,7 +15,7 @@
 
 MainApp::MainApp ()
 {
-  SetApplicationName ("Seminar Test");
+  SetApplicationName ("Steering Test");
 }
 
 MainApp::~MainApp ()
@@ -147,12 +147,12 @@ bool MainApp::LoadSteering ()
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (steering_entity, iPcActorMove);
   pcactormove->SetMovementSpeed (3.0f);
   pcactormove->SetRunningSpeed (5.0f);
-  pcactormove->SetRotationSpeed (1.75f);
+  pcactormove->SetRotationSpeed (2.75f);
   
   
 
-  csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-						     iPcSteer);
+  //csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+  //					     iPcSteer);
 
  
 
@@ -165,6 +165,7 @@ bool MainApp::LoadSteering ()
   pcinput->Bind ("s", "seek");
   pcinput->Bind ("w", "wander");
   pcinput->Bind ("f", "flee");
+  pcinput->Bind ("p", "pursue");
 
   return true;
 }
