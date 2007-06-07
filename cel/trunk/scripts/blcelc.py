@@ -915,6 +915,7 @@ class scfGenericParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfGenericParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfGenericParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfGenericParameterBlock_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.scfGenericParameterBlock_GetInterfaceMetadata(*args)
 scfGenericParameterBlock_swigregister = _blcelc.scfGenericParameterBlock_swigregister
 scfGenericParameterBlock_swigregister(scfGenericParameterBlock)
 
@@ -933,6 +934,7 @@ class scfVariableParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfVariableParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfVariableParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfVariableParameterBlock_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.scfVariableParameterBlock_GetInterfaceMetadata(*args)
 scfVariableParameterBlock_swigregister = _blcelc.scfVariableParameterBlock_swigregister
 scfVariableParameterBlock_swigregister(scfVariableParameterBlock)
 
@@ -951,6 +953,7 @@ class scfOneParameterBlock(iCelParameterBlock):
     def QueryInterface(*args): return _blcelc.scfOneParameterBlock_QueryInterface(*args)
     def AddRefOwner(*args): return _blcelc.scfOneParameterBlock_AddRefOwner(*args)
     def RemoveRefOwner(*args): return _blcelc.scfOneParameterBlock_RemoveRefOwner(*args)
+    def GetInterfaceMetadata(*args): return _blcelc.scfOneParameterBlock_GetInterfaceMetadata(*args)
 scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
 scfOneParameterBlock_swigregister(scfOneParameterBlock)
 
@@ -961,8 +964,11 @@ class celGenericParameterBlock(scfGenericParameterBlock):
     __swig_getmethods__ = {}
     for _s in [scfGenericParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
-    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celGenericParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celGenericParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
@@ -986,8 +992,11 @@ class celVariableParameterBlock(scfVariableParameterBlock):
     __swig_getmethods__ = {}
     for _s in [scfVariableParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
-    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celVariableParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
@@ -1011,8 +1020,11 @@ class celOneParameterBlock(scfOneParameterBlock):
     __swig_getmethods__ = {}
     for _s in [scfOneParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
-    def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _blcelc.new_celOneParameterBlock(*args)
+        try: self.this.append(this)
+        except: self.this = this
     __swig_destroy__ = _blcelc.delete_celOneParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
