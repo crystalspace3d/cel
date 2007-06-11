@@ -124,13 +124,17 @@ class BehaviourSteering : public BehaviourCommon
   csStringID id_pcsteer_arrived;
   csStringID id_pccommandinput_arrival1;
   csStringID id_pccommandinput_ca1;
+  csStringID id_pccommandinput_cohesion1;
+  csStringID id_pccommandinput_separation1;
+ csStringID id_pccommandinput_dm1;
   csStringID id_pccommandinput_seek1;
   csStringID id_pccommandinput_flee1;
   csStringID id_pccommandinput_wander1;
   csStringID id_pccommandinput_pursue1;
   
-  bool ca;
-  bool arrival;
+  bool ca, arrival, cohesion, separation, dm;
+  
+  csRef<iCelEntityList> entities;
   
  public:
   BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);

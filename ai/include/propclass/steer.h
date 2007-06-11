@@ -111,6 +111,27 @@ struct iPcSteer : public virtual iBase
 
   virtual bool CollisionAvoidance () = 0;
 
+  virtual void CohesionOn (iCelEntityList* targets, float radius, float weight) = 0;
+  
+  //virtual void CohesionOn(float radius) = 0;
+
+  virtual void CohesionOff () = 0;
+
+  virtual void Cohesion () = 0;
+
+  virtual void SeparationOn (iCelEntityList* targets, float radius, float weight) = 0;
+ 
+  virtual void Separation () = 0;
+
+  virtual void SeparationOff () = 0;
+  
+  virtual void DirectionMatchingOn (iCelEntityList* targets, float weight) = 0;
+  
+  //virtual void DirectionMatchingOn () = 0;
+  
+  virtual void DirectionMatchingOff () = 0;
+
+  virtual void DirectionMatching () = 0;
   
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'

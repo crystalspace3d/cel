@@ -37,7 +37,6 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
-
 /**
  * Factory for steer.
  */
@@ -50,7 +49,7 @@ CEL_DECLARE_FACTORY (Steer)
 class celPcSteer : public scfImplementationExt1<
 	celPcSteer, celPcCommon, iPcSteer>
 {
-private:
+private: 
   csWeakRef<iEngine> engine;
   csWeakRef<iPcLinearMovement> pclinmove;
   csWeakRef<iPcActorMove> pcactormove;
@@ -74,6 +73,9 @@ private:
   static csStringID id_separation_radius;
   static csStringID id_dm_radius;
   static csStringID id_pursue_max_prediction;
+  static csStringID id_separation_weight;
+  static csStringID id_cohesion_weight;
+  static csStringID id_dm_weight;
   
   enum actionids
   {
@@ -93,6 +95,9 @@ private:
     propid_up,
     propid_cur_yrot,
     propid_moving,
+    propid_check_cohesion,
+    propid_check_separation,
+    propid_check_dm,
     propid_check_arrival,
     propid_arrival_radius,
     propid_collision_avoidance,
@@ -104,7 +109,10 @@ private:
     propid_separation_radius,
     propid_cohesion_radius,
     propid_dm_radius,
-    propid_pursue_max_prediction
+    propid_pursue_max_prediction,
+    propid_separation_weight,
+    propid_cohesion_weight,
+    propid_dm_weight
   };
   static PropertyHolder propinfo;
 
@@ -118,13 +126,15 @@ private:
   float separation_radius;
   float cohesion_radius;
   float dm_radius;
+  float separation_weight, cohesion_weight, dm_weight;
   float pursue_max_prediction;
   bool is_moving, check_arrival, collision_avoidance;
+  bool check_cohesion, check_separation, check_dm;
   int current_action, delay_recheck;
 
-  iCelEntityList* separation_targets;
-  iCelEntityList* cohesion_targets;
-  iCelEntityList* dm_targets;
+  csRef<iCelEntityList> separation_targets;
+  csRef<iCelEntityList> cohesion_targets;
+  csRef<iCelEntityList> dm_targets;
   iCelEntity* pursue_target;
 
   csRandomGen random;
@@ -165,6 +175,28 @@ public:
 
   virtual bool CollisionAvoidance();
   
+  virtual void CohesionOn (iCelEntityList* targets, float radius, float weight);
+  
+  //virtual void CohesionOn (float radius);
+
+  virtual void CohesionOff ();
+  
+  virtual void Cohesion ();
+
+  virtual void SeparationOn (iCelEntityList* targets, float radius, float weight);
+ 
+  virtual void SeparationOff ();
+  
+  virtual void Separation ();
+
+  virtual void DirectionMatchingOn (iCelEntityList* targets, float weight);
+  
+  ///virtual void DirectionMatchingOn ();
+
+  virtual void DirectionMatchingOff ();
+
+  virtual void DirectionMatching ();
+
   virtual void SetDelayRecheck(int delay);
 
   virtual iSector* GetSector () const { return sector; }
