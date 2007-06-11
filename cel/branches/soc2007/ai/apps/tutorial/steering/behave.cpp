@@ -384,14 +384,24 @@ BehaviourSteering::BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iC
 {
   id_pcsteer_arrived = pl->FetchStringID ("pcsteer_arrived");
   id_pccommandinput_ca1 = pl->FetchStringID ("pccommandinput_ca1");
+  id_pccommandinput_cohesion1 = pl->FetchStringID ("pccommandinput_cohesion1");
+  id_pccommandinput_separation1 = pl->FetchStringID ("pccommandinput_separation1");
+  id_pccommandinput_dm1 = pl->FetchStringID ("pccommandinput_dm1");
   id_pccommandinput_arrival1 = pl->FetchStringID ("pccommandinput_arrival1");
   id_pccommandinput_seek1 = pl->FetchStringID ("pccommandinput_seek1");
   id_pccommandinput_flee1 = pl->FetchStringID ("pccommandinput_flee1");
   id_pccommandinput_wander1 = pl->FetchStringID ("pccommandinput_wander1");
   id_pccommandinput_pursue1 = pl->FetchStringID ("pccommandinput_pursue1");
 
-  ca = false;
   arrival = false;
+  ca = false;
+  cohesion = false;
+  separation = false;
+  dm = false;
+
+  entities = pl->CreateEmptyEntityList();
+  csRef<iCelEntity> player_entity = pl->FindEntity("player");
+  entities->Add(player_entity);
 }
  
 bool BehaviourSteering::SendMessage (csStringID msg_id,
@@ -445,7 +455,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
       csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 							 iPcSteer);    
-      pcsteer->Pursue(player_entity, 1.0f);
+      pcsteer->Pursue(player_entity, 0.5f);
     }
   else if(msg_id == id_pccommandinput_arrival1)
     {
@@ -482,6 +492,63 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	pcsteer->CollisionAvoidanceOff();
 	ca = false;
 	printf("Collision Avoidance Off\n");      
+      }
+    }
+  else if (msg_id == id_pccommandinput_cohesion1)
+    {
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
+      if(!cohesion){
+	//Turns Cohesion ON
+	//with radius 10.0 and weight 1.0
+
+	pcsteer->CohesionOn(entities, 10.0f, 1.0f);
+	cohesion = true;
+	printf("Cohesion On\n");
+	
+      } else{
+	pcsteer->CohesionOff();
+	cohesion = false;
+	printf("Cohesion Off\n");      
+      }
+    } else if (msg_id == id_pccommandinput_separation1)
+    {
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
+      if(!separation){
+	//Turns Separation On
+	//with radius 3.0 and weight 1.0
+	
+       	pcsteer->SeparationOn(entities, 1.0f, 3.0f);
+	separation = true;
+	printf("Separation On\n");
+	
+      } else{
+	pcsteer->SeparationOff();
+	separation = false;
+	printf("Separation Off\n");      
+      }
+    }
+ else if (msg_id == id_pccommandinput_dm1)
+    {
+      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							 iPcSteer);
+
+      if(!dm){
+	//Turns Direction Matching On
+	//With weight 1.0
+	
+	pcsteer->DirectionMatchingOn(entities, 1.0f);
+	dm = true;
+	printf("Direction Matching On\n");
+	
+      } else{
+	pcsteer->DirectionMatchingOff();
+	dm = false;
+	printf("Direction Matching Off\n");      
       }
     }
   else

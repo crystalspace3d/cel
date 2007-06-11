@@ -59,6 +59,9 @@ csStringID celPcSteer::id_cohesion_radius = csInvalidStringID;
 csStringID celPcSteer::id_separation_radius = csInvalidStringID;
 csStringID celPcSteer::id_dm_radius = csInvalidStringID;
 csStringID celPcSteer::id_pursue_max_prediction = csInvalidStringID;
+csStringID celPcSteer::id_separation_weight = csInvalidStringID;
+csStringID celPcSteer::id_cohesion_weight = csInvalidStringID;
+csStringID celPcSteer::id_dm_weight = csInvalidStringID;
 
 PropertyHolder celPcSteer::propinfo;
 
@@ -88,7 +91,10 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
     id_separation_radius = pl->FetchStringID ("cel.parameter.separation_radius");
     id_dm_radius = pl->FetchStringID ("cel.parameter.dm_radius");
     id_pursue_max_prediction = pl->FetchStringID ("cel.parameter.pursue_max_prediction");
-  }
+    id_separation_weight = pl->FetchStringID ("cel.parameter.separation_weight");
+    id_cohesion_weight = pl->FetchStringID ("cel.parameter.cohesion_weight");
+    id_dm_weight = pl->FetchStringID ("cel.parameter.dm_weight");  
+}
 
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_meshname, "meshname");
@@ -104,7 +110,7 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (18);
+  propinfo.SetCount (24);
   AddProperty (propid_position, "cel.property.position",
 	       CEL_DATA_VECTOR3, true, "Desired end position.", &position);
   AddProperty (propid_cur_position, "cel.property.cur_position",
@@ -135,22 +141,39 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 	       CEL_DATA_FLOAT, false, "Direction Matching Radius.", &dm_radius);
   AddProperty (propid_pursue_max_prediction, "cel.property.pursue_max_prediction",
 	       CEL_DATA_FLOAT, false, "Pursue Max Prediction.", &pursue_max_prediction);
+  AddProperty (propid_separation_weight, "cel.property.separation_weight",
+	       CEL_DATA_FLOAT, false, "Separation Weight.", &separation_weight);
+  AddProperty (propid_cohesion_weight, "cel.property.cohesion_weight",
+	       CEL_DATA_FLOAT, false, "Cohesion Wegight.", &cohesion_weight);
+  AddProperty (propid_dm_weight, "cel.property.dm_weight",
+	       CEL_DATA_FLOAT, false, "Direction Matching Weight.", &dm_weight);
   AddProperty (propid_moving, "cel.property.moving",
 	       CEL_DATA_BOOL, true, "Is moving?", &is_moving);
   AddProperty (propid_check_arrival, "cel.property.check_arrival",
 	       CEL_DATA_BOOL, true, "Check if arrived at position?", &check_arrival);
   AddProperty (propid_collision_avoidance, "cel.property.collision_avoidance",
 	      CEL_DATA_BOOL, true, "Avoid Collisions?", &collision_avoidance);
+  AddProperty (propid_check_cohesion, "cel.property.check_cohesion",
+	      CEL_DATA_BOOL, true, "Check for Cohesion?", &check_cohesion);
+  AddProperty (propid_check_separation, "cel.property.check_separation",
+	      CEL_DATA_BOOL, true, "Check for separation", &check_separation);
+  AddProperty (propid_check_dm, "cel.property.check_dm",
+	      CEL_DATA_BOOL, true, "Check for Direction Matching", &check_dm);
 
 
   is_moving = false;
   check_arrival = false;
+  check_cohesion = false;
+  check_separation = false;
+  check_dm = false;
   collision_avoidance = false;
 
+  separation_targets = pl->CreateEmptyEntityList();
+  cohesion_targets = pl->CreateEmptyEntityList();
+  dm_targets = pl->CreateEmptyEntityList();
+  
   up = csVector3(0,1,0);
-
   delay_recheck = 20;
-
   random.Initialize();
 }
 
@@ -205,10 +228,10 @@ static float GetAngle (const csVector3& v1, const csVector3& v2)
 static csVector3 GetVector (const float angle)
 {
   csYRotMatrix3 rot(angle);
-  //csVector3 vec(0, 0, 1);
+  csVector3 vec(0, 0, 1);
 
-  csVector3 vec(cos(angle), 0, -sin(angle));
-  return vec;
+  //csVector3 vec(cos(angle), 0, -sin(angle));
+  //return vec;
   return rot*vec;
   
 }
@@ -336,7 +359,6 @@ bool celPcSteer :: Pursue (iCelEntity* target, float max_prediction)
   pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
   cur_speed = pcactormove->GetMovementSpeed();
   
-  
   float distance = csSquaredDist::PointPoint (cur_position, position);
   
   if(cur_speed <= distance/pursue_max_prediction)
@@ -344,7 +366,9 @@ bool celPcSteer :: Pursue (iCelEntity* target, float max_prediction)
   else
     prediction = distance/cur_speed;
   
-  //position += targetlinmove->GetVelocity()*prediction;
+  csVector3 target_velocity;  
+  targetlinmove->GetVelocity(target_velocity);
+  position += target_velocity*prediction;
   
   cur_direction = position-cur_position;
   
@@ -399,6 +423,8 @@ bool celPcSteer::CollisionAvoidance ()
     return false;
   csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
 							 position);
+
+  //If theres a collision we handle it
   if (rc.mesh){
     float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     
@@ -412,13 +438,147 @@ bool celPcSteer::CollisionAvoidance ()
     csVector3 direction = cur_position - position;
     //direction = direction*ca_weight;
     cur_direction = cur_position - position;
-    //SendMessage ("pcsteer_avoiding_collision", rc.mesh->QueryObject ()->GetName ());
+    SendMessage ("pcsteer_avoiding_collision", rc.mesh->QueryObject ()->GetName ());
     return true;
-    }
+  }
 
   printf("NO!\n");
   
   return false;
+}
+
+
+void celPcSteer:: CohesionOn (iCelEntityList* targets, float radius, float weight) 
+{
+  check_cohesion = true;
+  cohesion_radius = radius;
+  cohesion_weight = weight;
+  cohesion_targets->RemoveAll();
+  csRef<iCelEntityIterator> it = targets->GetIterator();
+  
+  while(it->HasNext())
+    cohesion_targets->Add(it->Next());
+}
+  
+//void celPcSteer:: CohesionOn (float radius) 
+//{
+  //check_cohesion = true;
+  //}
+void celPcSteer:: CohesionOff () 
+{
+  check_cohesion = false;
+}
+
+
+void celPcSteer :: Cohesion ()
+{
+  bool changed = false;
+  if(check_cohesion){
+    csVector3 pos(0, 0, 0);
+    csVector3 target_position(0, 0, 0);
+    float target_yrot;
+    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+    
+    csRef<iCelEntityIterator> it = cohesion_targets->GetIterator();
+    csRef<iCelEntity> target;
+    while(it->HasNext()){
+      target = it->Next();
+      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
+      if(csSquaredDist::PointPoint (cur_position, target_position) >= cohesion_radius){
+	pos = pos + target_position;
+	changed = true;
+      }
+    }
+    if(changed)
+      cur_direction += (pos - cur_position)*cohesion_weight;
+  }
+}
+
+void celPcSteer:: SeparationOn (iCelEntityList* targets, float radius, float weight) 
+{
+  check_separation = true;
+  separation_radius = radius;
+  separation_weight = weight;
+  separation_targets->RemoveAll();
+  csRef<iCelEntityIterator> it = targets->GetIterator();
+  
+  while(it->HasNext())
+    separation_targets->Add(it->Next());
+}
+
+void celPcSteer:: SeparationOff ()
+{
+  check_separation = false;
+}
+
+
+void celPcSteer :: Separation ()
+{
+  bool changed = false;
+  if(check_separation){
+    csVector3 pos(0, 0, 0);
+    csVector3 target_position(0, 0, 0);
+    float target_yrot;
+    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+    
+    csRef<iCelEntityIterator> it = separation_targets->GetIterator();
+    csRef<iCelEntity> target;
+    while(it->HasNext()){
+      target = it->Next();
+      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
+      if(csSquaredDist::PointPoint (cur_position, target_position) <= separation_radius){
+	pos += target_position;
+	changed = true;
+      }
+    }
+    if(changed)
+      cur_direction += (cur_position - pos)*separation_weight;
+  }  
+}
+ 
+void celPcSteer:: DirectionMatchingOn (iCelEntityList* targets, float weight)
+{
+  check_dm = true;
+  dm_weight = weight;
+  dm_targets->RemoveAll();
+  csRef<iCelEntityIterator> it = targets->GetIterator();
+  
+  while(it->HasNext())
+    dm_targets->Add(it->Next());
+}
+
+
+//void celPcSteer::DirectionMatchingOn(){
+  //check_dm = true;
+  //}
+  
+void celPcSteer:: DirectionMatchingOff ()
+{
+  check_dm = false;
+}
+
+
+
+void celPcSteer :: DirectionMatching ()
+{
+  if(check_dm){
+    csVector3 direction(0, 0, 0);
+    csVector3 target_velocity(0, 0, 0);
+    pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
+    
+    csRef<iCelEntityIterator> it = dm_targets->GetIterator();
+    csRef<iCelEntity> target;
+    while(it->HasNext()){
+      target = it->Next();
+      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      targetlinmove->GetVelocity(target_velocity);
+      
+      direction += target_velocity;
+    }
+    cur_direction += direction;
+  }
 }
 
 bool celPcSteer::Move ()
@@ -430,13 +590,17 @@ bool celPcSteer::Move ()
     return true;
 
   CollisionAvoidance();
+  Separation();
+  Cohesion();
+  DirectionMatching();
 
   csVector3 vec (0,0,1);
-  csVector3 vec1 (1,0,1);
+  
 
   float yrot = GetAngle (cur_direction, vec);
 
-  /* DEBUG
+  /*DEBUG
+  csVector3 vec1 (sqrt(3),0,2);
   csVector3 vec2 = GetVector(yrot); 
 
   printf("Original yrot %f\n", yrot);
@@ -444,7 +608,7 @@ bool celPcSteer::Move ()
   yrot = GetAngle (vec2, vec);
 
   
-  printf("vec1 .x %f, .y %f, .z%f\n", vec1.x, vec1.y, vec1.z);
+  printf("Original Vector .x %f, .y %f, .z%f\n", vec1.x, vec1.y, vec1.z);
   printf("vec2 .x %f, .y %f, .z%f\n", vec2.x, vec2.y, vec2.z);
   printf("yrot %f\n", yrot);
   
@@ -515,7 +679,7 @@ void celPcSteer::TickOnce ()
   else if (current_action == action_flee)
     Flee(sector, position);
   else if (current_action == action_pursue)
-    Pursue (pursue_target, pursue_max_prediction);
+    Pursue(pursue_target, pursue_max_prediction);
 }
 
 void celPcSteer::FindSiblingPropertyClasses ()

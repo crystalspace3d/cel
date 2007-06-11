@@ -162,6 +162,9 @@ bool MainApp::LoadSteering ()
 							    iPcCommandInput);
   pcinput->Bind ("1", "arrival");
   pcinput->Bind ("2", "ca");
+  pcinput->Bind ("3", "cohesion");
+  pcinput->Bind ("4", "separation");
+  pcinput->Bind ("5", "dm");
   pcinput->Bind ("s", "seek");
   pcinput->Bind ("w", "wander");
   pcinput->Bind ("f", "flee");
