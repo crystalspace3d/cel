@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+14-Jun-2007
+	- Darek added 'horizontal' mode to pccamera.default.
 11-Jun-2007
 	- Jorrit fixed a problem in the standard physical layer which
 	  would cause FindAttachedEntity() to fail (and that would cause

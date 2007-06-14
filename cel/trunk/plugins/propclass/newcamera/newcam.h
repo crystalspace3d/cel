@@ -60,7 +60,7 @@ CEL_DECLARE_FACTORY(NewCamera)
  * This is a camera property class.
  */
 class celPcNewCamera : public scfImplementationExt2<celPcNewCamera,
-  celPcCameraCommon, iPcNewCamera, scfFakeInterface<iPcCamera> >
+	celPcCameraCommon, iPcNewCamera, scfFakeInterface<iPcCamera> >
 {
 private:
   csRef<iCollideSystem> cdsys;
@@ -165,43 +165,43 @@ public:
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.
    */
-  virtual const csVector3 & GetBasePos () const;
+  virtual const csVector3& GetBasePos () const;
 
   /**
    * Gets the base direction of the camera.
    * \return The base direction of the camera.
    */
-  virtual const csVector3 & GetBaseDir () const;
+  virtual const csVector3& GetBaseDir () const;
 
   /**
    * Gets the base up vector of the camera.
    * \return The base up vector of the camera.
    */
-  virtual const csVector3 & GetBaseUp () const;
+  virtual const csVector3& GetBaseUp () const;
 
   /**
    * Gets the base transform of the camera.
    * \return The base transform of the camera.
    */
-  virtual const csReversibleTransform & GetBaseTrans () const;
+  virtual const csReversibleTransform& GetBaseTrans () const;
 
   /**
    * Gets the current position of the camera.
    * \return The current position of the camera.
    */
-  virtual const csVector3 & GetPos () const;
+  virtual const csVector3& GetPos () const;
 
   /**
    * Gets the current target of the camera.
    * \return The current target of the camera.
    */
-  virtual const csVector3 & GetTarget () const;
+  virtual const csVector3& GetTarget () const;
 
   /**
    * Gets the current up vector of the camera.
    * \return The current up vector of the camera.
    */
-  virtual const csVector3 & GetUp () const;
+  virtual const csVector3& GetUp () const;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
@@ -209,7 +209,7 @@ public:
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset (const csVector3 & offset);
+  virtual void SetPositionOffset (const csVector3& offset);
 
   /**
    * Returns whether the camera will use collision detection to avoid
@@ -347,21 +347,21 @@ public:
   int GetDrawFlags ();
 
   virtual bool SetRegion (iPcRegion* region, bool point = true,
-      const char* name = 0)
+  	const char* name = 0)
   {
     return celPcCameraCommon::SetRegion (region, point, name);
   }
   virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-      const char* regionname, const char* name = 0)
+  	const char* regionname, const char* name = 0)
   {
     return celPcCameraCommon::SetZoneManager (zonemgr, point, regionname,
-      name);
+    	name);
   }
   virtual bool SetZoneManager (const char* entityname, bool point,
-      const char* regionname, const char* name = 0)
+  	const char* regionname, const char* name = 0)
   {
     return celPcCameraCommon::SetZoneManager (entityname, point, regionname,
-      name);
+    	name);
   }
   virtual void SetRectangle (int x, int y, int w, int h)
   {
@@ -404,10 +404,10 @@ public:
     celPcCameraCommon::EnableFixedDistanceClipping (dist);
   }
   virtual void EnableAdaptiveDistanceClipping (float min_fps,
-      float max_fps, float min_dist)
+  	float max_fps, float min_dist)
   {
     celPcCameraCommon::EnableAdaptiveDistanceClipping (min_fps, max_fps,
-      min_dist);
+    	min_dist);
   }
   virtual bool UseDistanceClipping () const
   {

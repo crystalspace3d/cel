@@ -26,6 +26,7 @@
 #include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "plugins/propclass/newcamera/modes/thirdperson.h"
 #include "plugins/propclass/newcamera/modes/laratrack.h"
+#include "plugins/propclass/newcamera/modes/horizontal.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -143,17 +144,17 @@ void celPcNewCamera::CalcElasticVec (
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
-  : scfImplementationType (this, object_reg)
+	: scfImplementationType (this, object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
-  basePosOffset.Set (0,0,0);
+  basePosOffset.Set (0.0f, 0.0f, 0.0f);
 
-  lastIdealPos.Set (0,0,0);
-  lastIdealTarget.Set (0,0,0);
-  lastIdealUp.Set (0,0,0);
+  lastIdealPos.Set (0.0f, 0.0f, 0.0f);
+  lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
+  lastIdealUp.Set (0.0f, 0.0f, 0.0f);
 
   currMode = (size_t)-1;
 
@@ -248,6 +249,11 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
         if (!strcmp (name, "camera_laratrack"))
         {
           AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
+          return true;
+        }
+        if (!strcmp (name, "camera_horizontal"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_HORIZONTAL);
           return true;
         }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -370,9 +376,9 @@ void celPcNewCamera::PropertyClassesHaveChanged ()
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
     camPos = lastIdealPos = movable->GetTransform ().GetOrigin ();
     camTarget = lastIdealTarget = movable->GetTransform ().
-    	This2OtherRelative (csVector3 (0,0,-1));
+    	This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
     camUp  = lastIdealUp = movable->GetTransform ().
-    	This2OtherRelative (csVector3 (0,1,0));
+    	This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
   }
 
   UpdateMeshVisibility ();
@@ -489,6 +495,8 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
     case iPcNewCamera::CCM_LARA_TRACK:
       return AttachCameraMode (new celCameraMode::LaraTrack (pl));
+    case iPcNewCamera::CCM_HORIZONTAL:
+      return AttachCameraMode (new celCameraMode::Horizontal ());
     default:
       return (size_t)-1;
   }
@@ -503,6 +511,7 @@ iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 {
   return cameraModes.Top ();
 }
+
 iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
 {
   if (idx < 0)
@@ -549,6 +558,7 @@ void celPcNewCamera::PrevCameraMode ()
     newMode = cameraModes.GetSize () - 1;
   SetCurrentCameraMode (newMode);
 }
+
 void celPcNewCamera::UpdateCamera ()
 {
   csTicks elapsedTime = vc->GetElapsedTicks ();
@@ -568,8 +578,8 @@ void celPcNewCamera::UpdateCamera ()
 
   basePos = baseTrans.GetOrigin () +
   	baseTrans.This2OtherRelative (basePosOffset);
-  baseDir = baseTrans.This2OtherRelative (csVector3 (0,0,-1));
-  baseUp  = baseTrans.This2OtherRelative (csVector3 (0,1,0));
+  baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
+  baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
   if (!mode->DecideCameraState ())
     return;
@@ -641,7 +651,7 @@ void celPcNewCamera::UpdateCamera ()
   camTrans.SetOrigin(baseTrans.GetOrigin ());
   camTrans.LookAt (camTarget - camPos, camUp);
 
-  iCamera * c = view->GetCamera ();
+  iCamera* c = view->GetCamera ();
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
   if (c->GetSector () != baseSector)
