@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Dariusz Dawidowski
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -17,46 +17,29 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
-#ifndef __CEL_CAMERA_MODE_FACTORY__
-#define __CEL_CAMERA_MODE_FACTORY__
+#ifndef __CEL_ABOVE_CAMERA_MODE_FACTORY__
+#define __CEL_ABOVE_CAMERA_MODE_FACTORY__
 
-#include "cstypes.h"
-#include "iutil/comp.h"
-#include "iutil/eventh.h"
-#include "csutil/scf.h"
-#include "csutil/weakref.h"
-#include "csutil/weakrefarr.h"
-#include "csutil/refarr.h"
-#include "physicallayer/propclas.h"
-#include "physicallayer/propfact.h"
-#include "physicallayer/facttmpl.h"
-#include "celtool/stdpcimp.h"
-#include "celtool/stdparams.h"
-#include "celtool/camera.h"
-#include "propclass/newcamera.h"
-#include "propclass/region.h"
-#include "propclass/mesh.h"
+#include "plugins/propclass/newcamera/celcameramode.h"
 
 namespace celCameraMode
 {
 
-class celCameraMode
+class Horizontal : public scfImplementation1<Horizontal, iCelCameraMode>,
+	public celCameraMode
 {
-protected:
-  iPcNewCamera* parent;
-
-  csVector3 pos, target, up;
-  float spring;
-
+private:
+  csVector3 posoffset;
 public:
-  celCameraMode ();
-  virtual ~celCameraMode ();
+  Horizontal ();
+  virtual ~Horizontal ();
 
   /**
-   * Tells the camera mode what camera has it attached.
-   * \param camera The parent camera.
+   * Sets the position as an offset from the camera's base position.
+   * \offset  The offset from the camera's base position to the 
+   * desired position.
    */
-  virtual void SetParentCamera (iPcNewCamera* camera);
+  void SetPositionOffset (const csVector3& offset);
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
@@ -80,13 +63,6 @@ public:
   virtual bool UseSpringUp () const;
 
   /**
-   * Decides if collision detection should be allowed if for this mode the
-   * camera wants it.
-   * \return True if this camera mode allows collision detection.
-   */
-  virtual bool AllowCollisionDetection () const;
-
-  /**
    * Decides if the mesh the camera is attached to should be drawn or not in
    * this mode.
    * \return True if the attached mesh should be drawn.
@@ -94,37 +70,38 @@ public:
   virtual bool DrawAttachedMesh () const;
 
   /**
-   * Gets the spring coefficient to use for the spring physics.
-   * \return The spring coefficient of this camera mode.
-   */
-  virtual float GetSpringCoefficient () const;
-
-  /**
-   * Gets the desired camera position.
-   * \return The desired camera position.
-   */
-  virtual const csVector3& GetPosition () const;
-
-  /**
-   * Gets the desired camera target.
-   * \return The desired camera target.
-   */
-  virtual const csVector3& GetTarget () const;
-
-  /**
-   * Gets the desired camera up vector.
-   * \return The desired camera up vector.
-   */
-  virtual const csVector3& GetUp () const;
-
-  /**
    * Informs the camera mode that it should compute the desired position,
    * target, up, etc. of the camera now.
    * \return True on success.
    */
   virtual bool DecideCameraState ();
+
+  virtual void SetParentCamera (iPcNewCamera * camera)
+  {
+    celCameraMode::SetParentCamera (camera);
+  }
+  virtual bool AllowCollisionDetection () const
+  {
+    return celCameraMode::AllowCollisionDetection ();
+  }
+  virtual float GetSpringCoefficient () const
+  {
+    return celCameraMode::GetSpringCoefficient ();
+  }
+  virtual const csVector3 &GetPosition () const
+  {
+    return celCameraMode::GetPosition ();
+  }
+  virtual const csVector3 &GetTarget () const
+  {
+    return celCameraMode::GetTarget ();
+  }
+  virtual const csVector3 &GetUp () const
+  {
+    return celCameraMode::GetUp ();
+  }
 };
 
 }
 
-#endif // __CEL_CAMERA_MODE_FACTORY__
+#endif // __CEL_ABOVE_CAMERA_MODE_FACTORY__
