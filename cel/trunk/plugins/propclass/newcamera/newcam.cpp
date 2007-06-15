@@ -594,15 +594,10 @@ void celPcNewCamera::UpdateCamera ()
   csVector3 desiredCamPos = mode->GetPosition ();
   if (DetectCollisions () && mode->AllowCollisionDetection ())
   {
-    csVector3 iSect;
-    csIntersectingTriangle closestTri;
-    float sqDist = csColliderHelper::TraceBeam (cdsys, baseSector,
-    	basePos, desiredCamPos, true, closestTri, iSect);
-    if (sqDist >= 0)
+    csSectorHitBeamResult beam = baseSector->HitBeam (basePos, desiredCamPos, true);
+    if (beam.mesh != 0)
     {
-      desiredCamPos = iSect;
-
-      // if there has been a collision, we use the spring coefficient designed for collisions
+      desiredCamPos = beam.isect;
       springCoef = collisionSpringCoef;
     }
   }
