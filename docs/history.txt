@@ -6,6 +6,10 @@ The history order is reversed so that new features are at the top.
 15-Jun-2007
 	- Darek fixed collisions with terrain in pccamera.default.
 	- Darek rollback this change.
+	- caedes added functions inside blcel.i to allow setting of
+	  module SCF pointer from scripting languages, this is needed
+	  when using blcelc in a pure scripting environment, as it
+	  wont be initialized by cs, and thus a lot of stuff wont work.
 14-Jun-2007
 	- Darek added 'horizontal' mode to pccamera.default.
 11-Jun-2007
