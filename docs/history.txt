@@ -10,6 +10,9 @@ The history order is reversed so that new features are at the top.
 	  module SCF pointer from scripting languages, this is needed
 	  when using blcelc in a pure scripting environment, as it
 	  wont be initialized by cs, and thus a lot of stuff wont work.
+	- caedes changed iPcProperties::GetPropertyIndex docstring to
+	  reflect the real "not found" value that is to be used
+	  (csArrayItemNotFound instead of -1).
 14-Jun-2007
 	- Darek added 'horizontal' mode to pccamera.default.
 11-Jun-2007
