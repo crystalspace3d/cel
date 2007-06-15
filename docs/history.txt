@@ -5,6 +5,7 @@ The history order is reversed so that new features are at the top.
 
 15-Jun-2007
 	- Darek fixed collisions with terrain in pccamera.default.
+	- Darek rollback this change.
 14-Jun-2007
 	- Darek added 'horizontal' mode to pccamera.default.
 11-Jun-2007
