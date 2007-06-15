@@ -172,6 +172,9 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.cpp">
 			</File>
 			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.cpp">
+			</File>
+			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.cpp">
 			</File>
 			<File
@@ -189,6 +192,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.h">

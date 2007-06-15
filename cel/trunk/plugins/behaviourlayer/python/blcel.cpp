@@ -92339,6 +92339,7 @@ SWIGEXPORT void SWIG_init(void) {
   SWIG_Python_SetConstant(d, "iPcNewCamera_CCM_FIRST_PERSON",SWIG_From_int(static_cast< int >(iPcNewCamera::CCM_FIRST_PERSON)));
   SWIG_Python_SetConstant(d, "iPcNewCamera_CCM_THIRD_PERSON",SWIG_From_int(static_cast< int >(iPcNewCamera::CCM_THIRD_PERSON)));
   SWIG_Python_SetConstant(d, "iPcNewCamera_CCM_LARA_TRACK",SWIG_From_int(static_cast< int >(iPcNewCamera::CCM_LARA_TRACK)));
+  SWIG_Python_SetConstant(d, "iPcNewCamera_CCM_HORIZONTAL",SWIG_From_int(static_cast< int >(iPcNewCamera::CCM_HORIZONTAL)));
   SWIG_Python_SetConstant(d, "iPcNewCamera_CCM_COUNT",SWIG_From_int(static_cast< int >(iPcNewCamera::CCM_COUNT)));
   SWIG_Python_SetConstant(d, "CEL_MOUSE_BUTTON1",SWIG_From_int(static_cast< int >(1)));
   SWIG_Python_SetConstant(d, "CEL_MOUSE_BUTTON2",SWIG_From_int(static_cast< int >(2)));
