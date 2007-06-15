@@ -13,6 +13,8 @@ The history order is reversed so that new features are at the top.
 	- caedes changed iPcProperties::GetPropertyIndex docstring to
 	  reflect the real "not found" value that is to be used
 	  (csArrayItemNotFound instead of -1).
+	- caedes changed the python __contains__ method for pcproperties
+	  to check for not found element correctly (was using -1).
 14-Jun-2007
 	- Darek added 'horizontal' mode to pccamera.default.
 11-Jun-2007

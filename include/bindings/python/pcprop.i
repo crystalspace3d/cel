@@ -72,7 +72,7 @@
   size_t __len__() { return self->GetPropertyCount(); }
   void clear() { return self->Clear(); }
   bool __contains__(const char *name) {
-    if (self->GetPropertyIndex(name) == -1)
+    if (self->GetPropertyIndex(name) == csArrayItemNotFound)
       return false;
     else
       return true;
