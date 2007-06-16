@@ -53,9 +53,11 @@ struct iPcZoneManager;
 
 struct iPcNewCamera;
 
-struct iCelCameraMode : public virtual iBase
+namespace iPcmNewCamera
 {
-  SCF_INTERFACE (iCelCameraMode, 0, 0, 1);
+struct General : public virtual iBase
+{
+  SCF_INTERFACE (General, 0, 0, 1);
 
   /**
    * Tells the camera mode what camera has it attached.
@@ -130,9 +132,9 @@ struct iCelCameraMode : public virtual iBase
   virtual bool DecideCameraState () = 0;
 };
 
-struct iTrackCameraMode : public virtual iCelCameraMode
+struct Tracking : public virtual General
 {
-  SCF_INTERFACE (iTrackCameraMode, 0, 0, 1);
+  SCF_INTERFACE (Tracking, 0, 0, 1);
 
   /**
    * Resets this camera to its original state facing the same direction
@@ -172,6 +174,9 @@ struct iTrackCameraMode : public virtual iCelCameraMode
    */
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 };
+} // iPcmNewCamera
+
+typedef iPcmNewCamera::General iCelCameraMode;
 
 SCF_VERSION(iPcNewCamera, 0, 0, 3);
 
@@ -314,7 +319,7 @@ struct iPcNewCamera : public iPcCamera
   {
     CCM_FIRST_PERSON,
     CCM_THIRD_PERSON,
-    CCM_LARA_TRACK,
+    CCM_TRACKING,
     CCM_HORIZONTAL,
     CCM_COUNT
   };
