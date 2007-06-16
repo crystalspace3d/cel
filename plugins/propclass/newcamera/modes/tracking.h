@@ -30,8 +30,8 @@ struct iCelPlLayer;
 namespace celCameraMode
 {
 
-class LaraTrack : public scfImplementation2<LaraTrack, iTrackCameraMode,
-  scfFakeInterface<iCelCameraMode> >, public celCameraMode
+class Tracking : public scfImplementation2<Tracking, iPcmNewCamera::Tracking,
+  scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
 {
 private:
   const csVector3 &GetAnchorPosition ();
@@ -56,9 +56,9 @@ private:
   // Has this camera been initialised yet?
   bool init_reset;
 public:
-  LaraTrack (iBase* p);
-  LaraTrack (csWeakRef<iCelPlLayer> pl);
-  virtual ~LaraTrack ();
+  Tracking (iBase* p);
+  Tracking (csWeakRef<iCelPlLayer> pl);
+  virtual ~Tracking ();
 
   virtual bool SetTargetEntity (const char* name);
   virtual void SetTargetState (TargetState targetstate);

@@ -23,7 +23,7 @@
 #include "propclass/mesh.h"
 #include "propclass/solid.h"
 #include "propclass/zone.h"
-#include "plugins/propclass/newcamera/modes/laratrack.h"
+#include "plugins/propclass/newcamera/modes/tracking.h"
 #include "propclass/newcamera.h"
 #include "iengine/movable.h"
 #include "iengine/mesh.h"
@@ -31,13 +31,13 @@
 namespace celCameraMode
 {
 
-SCF_IMPLEMENT_FACTORY (LaraTrack)
+SCF_IMPLEMENT_FACTORY (Tracking)
 
-LaraTrack::LaraTrack (iBase* p)
+Tracking::Tracking (iBase* p)
   : scfImplementationType (this, p)
 {
 }
-LaraTrack::LaraTrack (csWeakRef<iCelPlLayer> pl)
+Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
   : scfImplementationType (this), pl (pl)
 {
   posoffset.Set (0, 3, 3);
@@ -50,33 +50,33 @@ LaraTrack::LaraTrack (csWeakRef<iCelPlLayer> pl)
   targetyoffset = 2;
 }
 
-LaraTrack::~LaraTrack ()
+Tracking::~Tracking ()
 {
 }
 
-void LaraTrack::SetPositionOffset(const csVector3 &offset)
+void Tracking::SetPositionOffset(const csVector3 &offset)
 {
   posoffset = offset;
 }
-bool LaraTrack::DrawAttachedMesh() const
+bool Tracking::DrawAttachedMesh() const
 {
   return true;
 }
 
-const csVector3 &LaraTrack::GetAnchorPosition ()
+const csVector3 &Tracking::GetAnchorPosition ()
 {
   return parent->GetBasePos ();
 }
-const csVector3 &LaraTrack::GetAnchorDirection ()
+const csVector3 &Tracking::GetAnchorDirection ()
 {
   return parent->GetBaseDir ();
 }
-const csVector3 &LaraTrack::GetTargetPosition ()
+const csVector3 &Tracking::GetTargetPosition ()
 {
   return tracktarget->GetPosition ();
 }
 
-bool LaraTrack::DecideCameraState()
+bool Tracking::DecideCameraState()
 {
   if (!parent)
     return false;
@@ -127,7 +127,7 @@ bool LaraTrack::DecideCameraState()
   return true;
 }
 
-bool LaraTrack::ResetCamera ()
+bool Tracking::ResetCamera ()
 {
   if (!parent)
     return false;
@@ -147,7 +147,7 @@ bool LaraTrack::ResetCamera ()
   return true;
 }
 
-bool LaraTrack::SetTargetEntity (const char* name)
+bool Tracking::SetTargetEntity (const char* name)
 {
   // lookup entity
   iCelEntity* ent = pl->FindEntity (name);
@@ -162,16 +162,16 @@ bool LaraTrack::SetTargetEntity (const char* name)
   // great success!
   return true;
 }
-void LaraTrack::SetTargetState (TargetState targetstate)
+void Tracking::SetTargetState (TargetState targetstate)
 {
-  LaraTrack::targetstate = targetstate;
+  Tracking::targetstate = targetstate;
 }
-void LaraTrack::SetTargetYOffset (float targetyoffset)
+void Tracking::SetTargetYOffset (float targetyoffset)
 {
-  LaraTrack::targetyoffset = targetyoffset;
+  Tracking::targetyoffset = targetyoffset;
 }
 
-iTrackCameraMode::TargetState LaraTrack::GetTargetState ()
+iPcmNewCamera::Tracking::TargetState Tracking::GetTargetState ()
 {
   return targetstate;
 }

@@ -5,6 +5,9 @@ The history order is reversed so that new features are at the top.
 
 16-Jun-2007
 	- Genjix added documentation clause to newcamera.h
+	- Genjix renamed LaraTrack camera mode to Tracking and added to
+	  iPcmNewCamera namespace. Also added typedef for renamed
+	  iCelCameraMode.
 15-Jun-2007
 	- Darek fixed collisions with terrain in pccamera.default.
 	- Darek rollback this change.
