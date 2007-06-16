@@ -5704,7 +5704,7 @@ SWIGINTERN PyObject *iPcProperties_GetPropertyValueIndex(iPcProperties *self,siz
 SWIGINTERN size_t iPcProperties___len__(iPcProperties *self){ return self->GetPropertyCount(); }
 SWIGINTERN void iPcProperties_clear(iPcProperties *self){ return self->Clear(); }
 SWIGINTERN bool iPcProperties___contains__(iPcProperties *self,char const *name){
-    if (self->GetPropertyIndex(name) == -1)
+    if (self->GetPropertyIndex(name) == csArrayItemNotFound)
       return false;
     else
       return true;
@@ -6198,6 +6198,22 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
   csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
 }
+
+/* Funtions to set the modules global SCF pointer, this is needed
+   when working on a pure scripting environment, as then this code
+   lives in a non-cs dll, thus the pointer isnt initialized
+   by cs itself, and scf stuff wont work unless the pointer is
+   initialized manually. Use it after CreateEnvironment call. */
+void SetSCFPointer(iSCF* pscf)
+{
+  iSCF::SCF = pscf;
+}
+
+iSCF* GetSCFPointer()
+{
+  return iSCF::SCF;
+}
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -86587,6 +86603,40 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_SetSCFPointer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iSCF *arg1 = (iSCF *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:SetSCFPointer",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iSCF, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "SetSCFPointer" "', argument " "1"" of type '" "iSCF *""'"); 
+  }
+  arg1 = reinterpret_cast< iSCF * >(argp1);
+  SetSCFPointer(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_GetSCFPointer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iSCF *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":GetSCFPointer")) SWIG_fail;
+  result = (iSCF *)GetSCFPointer();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iSCF, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"_csRef_to_Python", _wrap__csRef_to_Python, METH_VARARGS, NULL},
 	 { (char *)"celInitializer_SetupCelPluginDirs", _wrap_celInitializer_SetupCelPluginDirs, METH_VARARGS, NULL},
@@ -88554,6 +88604,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_iCelConsole", _wrap_delete_iCelConsole, METH_VARARGS, NULL},
 	 { (char *)"iCelConsole_swigregister", iCelConsole_swigregister, METH_VARARGS, NULL},
 	 { (char *)"csQueryRegistry_iCelConsole", _wrap_csQueryRegistry_iCelConsole, METH_VARARGS, NULL},
+	 { (char *)"SetSCFPointer", _wrap_SetSCFPointer, METH_VARARGS, NULL},
+	 { (char *)"GetSCFPointer", _wrap_GetSCFPointer, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -90033,7 +90085,6 @@ static swig_type_info _swigt__p_iJoystickDriver = {"_p_iJoystickDriver", 0, 0, 0
 static swig_type_info _swigt__p_iMouseDriver = {"_p_iMouseDriver", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iSndSysSoftwareDriver = {"_p_iSndSysSoftwareDriver", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iShaderVariableAccessor = {"_p_iShaderVariableAccessor", 0, 0, 0, 0, 0};
-static swig_type_info _swigt__p_iSCF = {"_p_iSCF", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_csImageMemory = {"_p_csImageMemory", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iGeneralMeshState = {"_p_iGeneralMeshState", 0, 0, 0, 0, 0};
 static swig_type_info _swigt__p_iSequenceTimedOperation = {"_p_iSequenceTimedOperation", 0, 0, 0, 0, 0};
@@ -90274,6 +90325,7 @@ static swig_type_info _swigt__p_iQuestTriggerResponseFactory = {"_p_iQuestTrigge
 static swig_type_info _swigt__p_iQuestTriggerType = {"_p_iQuestTriggerType", "iQuestTriggerType *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iRegion = {"_p_iRegion", "iRegion *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iRigidBody = {"_p_iRigidBody", "iRigidBody *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_iSCF = {"_p_iSCF", "iSCF *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iSector = {"_p_iSector", "iSector *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iSequenceFinishQuestRewardFactory = {"_p_iSequenceFinishQuestRewardFactory", "iSequenceFinishQuestRewardFactory *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_iSequenceFinishQuestTriggerFactory = {"_p_iSequenceFinishQuestTriggerFactory", "iSequenceFinishQuestTriggerFactory *", 0, 0, (void*)0, 0};
@@ -91010,7 +91062,6 @@ static swig_cast_info _swigc__p_iJoystickDriver[] = {{&_swigt__p_iJoystickDriver
 static swig_cast_info _swigc__p_iMouseDriver[] = {{&_swigt__p_iMouseDriver, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSndSysSoftwareDriver[] = {{&_swigt__p_iSndSysSoftwareDriver, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iShaderVariableAccessor[] = {{&_swigt__p_iShaderVariableAccessor, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_iSCF[] = {{&_swigt__p_iSCF, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_csImageMemory[] = {{&_swigt__p_csImageMemory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iGeneralMeshState[] = {{&_swigt__p_iGeneralMeshState, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSequenceTimedOperation[] = {{&_swigt__p_iSequenceTimedOperation, 0, 0, 0},{0, 0, 0, 0}};
@@ -91252,6 +91303,7 @@ static swig_cast_info _swigc__p_iQuestTriggerResponseFactory[] = {  {&_swigt__p_
 static swig_cast_info _swigc__p_iQuestTriggerType[] = {  {&_swigt__p_iQuestTriggerType, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iRegion[] = {  {&_swigt__p_iRegion, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iRigidBody[] = {  {&_swigt__p_iRigidBody, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_iSCF[] = {  {&_swigt__p_iSCF, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSector[] = {  {&_swigt__p_iSector, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSequenceFinishQuestRewardFactory[] = {  {&_swigt__p_iSequenceFinishQuestRewardFactory, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_iSequenceFinishQuestTriggerFactory[] = {  {&_swigt__p_iSequenceFinishQuestTriggerFactory, 0, 0, 0},{0, 0, 0, 0}};

@@ -5280,6 +5280,8 @@ iCelConsole_swigregister = _blcelc.iCelConsole_swigregister
 iCelConsole_swigregister(iCelConsole)
 
 csQueryRegistry_iCelConsole = _blcelc.csQueryRegistry_iCelConsole
+SetSCFPointer = _blcelc.SetSCFPointer
+GetSCFPointer = _blcelc.GetSCFPointer
 class CelConsoleOut:
 	"""Class that can be assigned to sys.stdout or sys.stderr"""
 	def __init__(self,oreg):
