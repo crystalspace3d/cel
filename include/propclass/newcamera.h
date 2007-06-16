@@ -374,6 +374,13 @@ struct iPcNewCamera : public iPcCamera
    */
   virtual iCelCameraMode* GetCameraMode (int idx = -1) = 0;
 
+  /**
+   * Gets the camera mode's specialised interface. If the specified
+   * mode does not implement that interface will return null.
+   * \param T Template parameter for camera interface
+   * \param idx If -1 it will return the current mode
+   * \return The current camera mode's interface.
+   */
   template <typename T>
   csPtr<T> QueryModeInterface (int idx = -1)
   {

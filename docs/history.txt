@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Jun-2007
+	- Genjix added documentation clause to newcamera.h
 15-Jun-2007
 	- Darek fixed collisions with terrain in pccamera.default.
 	- Darek rollback this change.
