@@ -25,7 +25,7 @@
 #include "plugins/propclass/newcamera/newcam.h"
 #include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "plugins/propclass/newcamera/modes/thirdperson.h"
-#include "plugins/propclass/newcamera/modes/laratrack.h"
+#include "plugins/propclass/newcamera/modes/tracking.h"
 #include "plugins/propclass/newcamera/modes/horizontal.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -246,9 +246,9 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
           return true;
         }
-        if (!strcmp (name, "camera_laratrack"))
+        if (!strcmp (name, "camera_tracking"))
         {
-          AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
+          AttachCameraMode (iPcNewCamera::CCM_TRACKING);
           return true;
         }
         if (!strcmp (name, "camera_horizontal"))
@@ -493,8 +493,8 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
       return AttachCameraMode (new celCameraMode::FirstPerson ());
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
-    case iPcNewCamera::CCM_LARA_TRACK:
-      return AttachCameraMode (new celCameraMode::LaraTrack (pl));
+    case iPcNewCamera::CCM_TRACKING:
+      return AttachCameraMode (new celCameraMode::Tracking (pl));
     case iPcNewCamera::CCM_HORIZONTAL:
       return AttachCameraMode (new celCameraMode::Horizontal ());
     default:

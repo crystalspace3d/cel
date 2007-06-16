@@ -25,7 +25,8 @@
 namespace celCameraMode
 {
 
-class ThirdPerson : public scfImplementation1<ThirdPerson, iCelCameraMode>,
+class ThirdPerson : public scfImplementation1<ThirdPerson,
+  iPcmNewCamera::General>,
   public celCameraMode
 {
 private:
