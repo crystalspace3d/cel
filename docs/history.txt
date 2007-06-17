@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Jun-2007
+	- Genjix added preliminary pcmove.actor property class, which is
+	  just a shell for an empty moded property class.
 16-Jun-2007
 	- Genjix added documentation clause to newcamera.h
 	- Genjix renamed LaraTrack camera mode to Tracking and added to
