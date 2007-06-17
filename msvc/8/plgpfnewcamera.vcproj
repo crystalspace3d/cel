@@ -175,10 +175,10 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.cpp">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.cpp">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.cpp">
@@ -197,10 +197,10 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.h">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.h">
