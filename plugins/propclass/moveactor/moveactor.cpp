@@ -30,7 +30,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (MoveActor, "pcmisc.test")
+CEL_IMPLEMENT_FACTORY (MoveActor, "pcmove.actor")
 
 //---------------------------------------------------------------------------
 
