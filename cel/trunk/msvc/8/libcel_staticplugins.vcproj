@@ -551,6 +551,21 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\libpfmoveactor_staticreg.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfmoveactor_staticreg.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfmoveactor_staticreg.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\libpfmover_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1328,6 +1343,36 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_move_movefact.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\moveactor\modes\analog.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_moveactor_modes_analog.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_moveactor_modes_analog.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\moveactor\moveactor.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_moveactor_moveactor.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_moveactor_moveactor.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2302,6 +2347,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\move\movefact.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\moveactor\modes\analog.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\moveactor\moveactor.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\mover\moverfact.h">
