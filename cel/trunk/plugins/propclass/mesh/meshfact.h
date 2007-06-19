@@ -105,6 +105,7 @@ private:
   static csStringID id_tag;
   static csStringID id_socket;
   static csStringID id_factory;
+  static csStringID id_object;
 
   enum actionids
   {
@@ -216,7 +217,8 @@ public:
   virtual void SetShaderVar (csStringID name, csVector2 value);
   virtual void SetShaderVar (csStringID name, csVector3 value);
   virtual void SetShaderVar (csStringID name, csVector4 value);
-  virtual bool AttachSocketMesh (const char* socket, const char* factory);
+  virtual bool AttachSocketMesh (const char* socket,
+  	iMeshWrapper* meshwrapper);
   virtual bool DetachSocketMesh (const char* socket);
 };
 
