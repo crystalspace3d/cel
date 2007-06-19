@@ -62,8 +62,8 @@ class csBox3;
  * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
  *   default false), and 'reset' (bool: default false).
  * - SetShaderVar: parameters 'name' (string), 'type' (string) and 'value'
- *     (type depending on type parameter). Supported types are:
- *     'float', 'long', 'vector3', a'dn 'libexpr'.
+ *   (type depending on type parameter). Supported types are:
+ *   'float', 'long', 'vector3' and 'libexpr'.
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),
@@ -74,6 +74,7 @@ class csBox3;
  *   If entity is not given then the current entity will be used.
  * - ClearParent: no parameters. Remove this mesh from its parent.
  * - AttachSocketMesh: parameters 'socket', 'factory' (string)
+ *   or 'object' (string)
  * - DetachSocketMesh: parameters 'socket'
  *
  * This property class supports the following properties (add prefix
@@ -90,7 +91,7 @@ class csBox3;
  */
 struct iPcMesh : public virtual iBase
 {
-  SCF_INTERFACE (iPcMesh, 0, 0, 5);
+  SCF_INTERFACE (iPcMesh, 0, 1, 0);
 
   /**
    * Set the path to use. If this is not done then the filename
@@ -211,15 +212,16 @@ struct iPcMesh : public virtual iBase
   virtual bool IsVisible () const = 0;
 
   /**
-   * Attach mesh factory to a socket. Meshobject will be created,
-   * requires material in mesh factory. Only one mesh per socket.
+   * Attach mesh to a socket. Only one mesh per socket.
+   * Support for genmesh, cal3d and sprite3d.
    * \param socket Name of the socket.
    * \param factory Name of the loaded mesh factory.
    */
-  virtual bool AttachSocketMesh (const char* socket, const char* factory) = 0;
+  virtual bool AttachSocketMesh (const char* socket,
+  	iMeshWrapper* meshwrapper) = 0;
 
   /**
-   * Detach mesh factory from a socket.
+   * Detach mesh from a socket.
    * \param socket Name of the socket.
    */
   virtual bool DetachSocketMesh (const char* socket) = 0;

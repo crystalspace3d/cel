@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Jun-2007
+	- Darek added to xml action pcmesh:AttachSocketMesh support
+	  for optional 'object' and iMeshWrapper in the interface.
 17-Jun-2007
 	- Genjix added preliminary pcmove.actor property class, which is
 	  just a shell for an empty moded property class.
