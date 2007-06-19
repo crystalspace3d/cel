@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Amir Taaki
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -34,11 +34,12 @@ namespace celCameraMode
 SCF_IMPLEMENT_FACTORY (Tracking)
 
 Tracking::Tracking (iBase* p)
-  : scfImplementationType (this, p)
+	: scfImplementationType (this, p)
 {
 }
+
 Tracking::Tracking (csWeakRef<iCelPlLayer> pl)
-  : scfImplementationType (this), pl (pl)
+	: scfImplementationType (this), pl (pl)
 {
   posoffset.Set (0, 3, 3);
 
@@ -54,11 +55,11 @@ Tracking::~Tracking ()
 {
 }
 
-void Tracking::SetPositionOffset(const csVector3 &offset)
+void Tracking::SetPositionOffset (const csVector3 &offset)
 {
   posoffset = offset;
 }
-bool Tracking::DrawAttachedMesh() const
+bool Tracking::DrawAttachedMesh () const
 {
   return true;
 }
@@ -76,7 +77,7 @@ const csVector3 &Tracking::GetTargetPosition ()
   return tracktarget->GetPosition ();
 }
 
-bool Tracking::DecideCameraState()
+bool Tracking::DecideCameraState ()
 {
   if (!parent)
     return false;
@@ -120,7 +121,7 @@ bool Tracking::DecideCameraState()
   // since the camera transform exists in the same plane as the anchor
   // and up is fixed to (0,1,0) (our assumptions), then offset in y
   // (we ignore posoffset.x totally)
-  pos = camtrans.GetOrigin () + csVector3(0,posoffset.y,0);
+  pos = camtrans.GetOrigin () + csVector3 (0,posoffset.y,0);
   // from transform, recompute target
   target = camtrans.This2Other (csVector3 (0,0,posoffset.z));
   target.y += targetyoffset;
@@ -139,7 +140,7 @@ bool Tracking::ResetCamera ()
   const csVector3 &basepos (parent->GetBasePos ());
   // compute our z offset from it, back along from its direction
   csVector3 offset (basetrans.This2OtherRelative (
-    csVector3 (0,0,-posoffset.z)));
+  	csVector3 (0,0,-posoffset.z)));
   // offset.y = 0; (assuming its up is (0,1,0))
   camtrans.SetOrigin (basepos + offset);
   // look along same direction as the object

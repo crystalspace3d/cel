@@ -120,6 +120,10 @@ void celPcNewCamera::CalcElasticVec (
 	const csVector3& deltaIdeal, float deltaTime, float springCoef,
 	csVector3& newVec)
 {
+  if (deltaTime > (1.0f / springCoef))
+    deltaTime = (1.0f / springCoef);
+  newVec = curr - ((curr - ideal) * deltaTime * springCoef);
+/*
   csVector3 deltaVec;
 
   deltaVec = curr - ideal;
@@ -140,7 +144,7 @@ void celPcNewCamera::CalcElasticVec (
     newVec = curr;
   else
     newVec = curr - deltaVec;
-#endif
+#endif*/
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
@@ -476,7 +480,7 @@ float celPcNewCamera::GetTransitionCutoffTargetDistance () const
   return transitionCutoffTargetDist;
 }
 
-size_t celPcNewCamera::AttachCameraMode(iCelCameraMode* mode)
+size_t celPcNewCamera::AttachCameraMode (iCelCameraMode* mode)
 {
   cameraModes.Push (mode);
   mode->SetParentCamera ((iPcNewCamera*)this);
@@ -570,7 +574,7 @@ void celPcNewCamera::UpdateCamera ()
     if (currMode >= cameraModes.GetSize ())
       return;
   }
-  iCelCameraMode * mode = cameraModes[currMode];
+  iCelCameraMode* mode = cameraModes[currMode];
 
   GetActorTransform ();
   if (!baseSector)

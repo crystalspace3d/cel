@@ -1,6 +1,6 @@
 /*
     Crystal Space Entity Layer
-    Copyright (C) 2001 by Jorrit Tyberghein
+    Copyright (C) 2007 by Amir Taaki
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -31,7 +31,7 @@ namespace celCameraMode
 {
 
 class Tracking : public scfImplementation2<Tracking, iPcmNewCamera::Tracking,
-  scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
+	scfFakeInterface<iPcmNewCamera::General> >, public celCameraMode
 {
 private:
   const csVector3 &GetAnchorPosition ();
@@ -69,8 +69,8 @@ public:
 
   virtual TargetState GetTargetState ();
 
-  virtual void SetPositionOffset(const csVector3 & offset);
-  virtual bool DrawAttachedMesh() const;
+  virtual void SetPositionOffset (const csVector3 & offset);
+  virtual bool DrawAttachedMesh () const;
   virtual bool DecideCameraState ();
 
   virtual bool ResetCamera ();

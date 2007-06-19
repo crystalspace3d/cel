@@ -29,7 +29,7 @@ namespace celCameraMode
 {
 
 FirstPerson::FirstPerson ()
- : scfImplementationType (this)
+	: scfImplementationType (this)
 {
 }
 

@@ -26,7 +26,7 @@ namespace celCameraMode
 {
 
 class FirstPerson : public scfImplementation1<FirstPerson, iCelCameraMode>,
-  public celCameraMode
+	public celCameraMode
 {
 public:
   FirstPerson ();
@@ -60,15 +60,15 @@ public:
   {
     return celCameraMode::GetSpringCoefficient ();
   }
-  virtual const csVector3 &GetPosition () const
+  virtual const csVector3& GetPosition () const
   {
     return celCameraMode::GetPosition ();
   }
-  virtual const csVector3 &GetTarget () const
+  virtual const csVector3& GetTarget () const
   {
     return celCameraMode::GetTarget ();
   }
-  virtual const csVector3 &GetUp () const
+  virtual const csVector3& GetUp () const
   {
     return celCameraMode::GetUp ();
   }
