@@ -186,7 +186,7 @@ struct iPcTrigger : public virtual iBase
   virtual void EnableMessagesToOthers (bool en) = 0;
 
   /**
-   * Disable trigger. Triggers are enabled by default.
+   * Enable/Disable trigger. Triggers are enabled by default.
    */
   virtual void EnableTrigger (bool en) = 0;
 
