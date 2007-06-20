@@ -54096,16 +54096,15 @@ SWIGINTERN PyObject *_wrap_iPcMesh_AttachSocketMesh(PyObject *SWIGUNUSEDPARM(sel
   PyObject *resultobj = 0;
   iPcMesh *arg1 = (iPcMesh *) 0 ;
   char *arg2 = (char *) 0 ;
-  char *arg3 = (char *) 0 ;
+  iMeshWrapper *arg3 = (iMeshWrapper *) 0 ;
   bool result;
   void *argp1 = 0 ;
   int res1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
-  int res3 ;
-  char *buf3 = 0 ;
-  int alloc3 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
@@ -54121,19 +54120,17 @@ SWIGINTERN PyObject *_wrap_iPcMesh_AttachSocketMesh(PyObject *SWIGUNUSEDPARM(sel
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "iPcMesh_AttachSocketMesh" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = buf2;
-  res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_iMeshWrapper, 0 |  0 );
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iPcMesh_AttachSocketMesh" "', argument " "3"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "iPcMesh_AttachSocketMesh" "', argument " "3"" of type '" "iMeshWrapper *""'"); 
   }
-  arg3 = buf3;
-  result = (bool)(arg1)->AttachSocketMesh((char const *)arg2,(char const *)arg3);
+  arg3 = reinterpret_cast< iMeshWrapper * >(argp3);
+  result = (bool)(arg1)->AttachSocketMesh((char const *)arg2,arg3);
   resultobj = SWIG_From_bool(static_cast< bool >(result));
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
-  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return resultobj;
 fail:
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
-  if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return NULL;
 }
 
