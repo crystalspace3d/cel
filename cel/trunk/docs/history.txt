@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Jun-2007
+	- Darek added xml property 'enabled' to trigger.
 19-Jun-2007
 	- Darek added to xml action pcmesh:AttachSocketMesh support
 	  for optional 'object' and iMeshWrapper in the interface.
