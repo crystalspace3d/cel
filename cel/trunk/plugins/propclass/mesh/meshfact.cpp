@@ -1190,74 +1190,7 @@ void celPcMesh::Show ()
   visible = true;
   if (mesh) mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
 }
-/*
-bool celPcMesh::AttachSocketMesh (const char* socket, const char* factory)
-{
-  iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
-  	->FindByName (factory);
-  if (!meshfact)
-    return Report (object_reg,
-    	"Can't find factory '%s' for AttachMesh!", (const char*)factory);
-  csRef<iMeshWrapper> meshobj = engine->CreateMeshWrapper (meshfact, factory);
-  if (!meshobj)
-    return Report (object_reg,
-    	"Can't create meshobj from '%s' in AttachMesh!", (const char*)factory);
 
-  csRef<iGeneralMeshState> genstate = scfQueryInterface<iGeneralMeshState> (
-  	GetMesh ()->GetMeshObject ());
-  if (genstate)
-  {
-    csRef<iGenMeshAnimationControl> skelstate = genstate
-    	->GetAnimationControl ();
-    if (skelstate)
-    {
-      csRef<iGenMeshSkeletonControlState> ctlstate =
-      	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
-      if (ctlstate)
-      {
-        csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
-        if (skel)
-        {
-          iSkeletonSocket* skelsocket = skel->FindSocket (socket);
-          if (!skelsocket)
-            return Report (object_reg,
-            	"Can't find socket '%s' for AttachMesh!", (const char*)socket);
-          meshobj->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
-          skelsocket->SetSceneNode (meshobj->QuerySceneNode ());
-          return true;
-        }
-      }
-    }
-  }
-
-  csRef<iSprite3DState> spr3dstate = scfQueryInterface<iSprite3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (spr3dstate)
-  {
-    iSpriteSocket* spr3dsocket = spr3dstate->FindSocket (socket);
-    if (!spr3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for AttachMesh!", (const char*)socket);
-    meshobj->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
-    spr3dsocket->SetMeshWrapper (meshobj);
-    return true;
-  }
-
-  csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (cal3dstate)
-  {
-    iSpriteCal3DSocket* cal3dsocket = cal3dstate->FindSocket (socket);
-    if (!cal3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for AttachMesh!", (const char*)socket);
-    meshobj->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
-    cal3dsocket->SetMeshWrapper (meshobj);
-    return true;
-  }
-  return false;
-}
-*/
 bool celPcMesh::AttachSocketMesh (const char* socket, iMeshWrapper* meshwrapper)
 {
   csRef<iGeneralMeshState> genstate = scfQueryInterface<iGeneralMeshState> (
@@ -1341,11 +1274,12 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
             return Report (object_reg,
             	"Can't find socket '%s' for DetachSocketMesh!",
             	(const char*)socket);
-            iMeshWrapper* skelmeshobj =
-            	skelsocket->GetSceneNode ()->QueryMesh ();
-            if (!skelmeshobj)
-              return Report (object_reg,
-              	"Can't find mesh for DetachSocketMesh!");
+          iSceneNode* scnode = skelsocket->GetSceneNode ();
+          if (!scnode)
+            return false;
+          iMeshWrapper* skelmeshobj = scnode->QueryMesh ();
+          if (!skelmeshobj)
+            return false;
           skelmeshobj->QuerySceneNode ()->SetParent (0);
           skelsocket->SetSceneNode (0);
           engine->RemoveObject (skelmeshobj);
@@ -1365,8 +1299,7 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
       	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
     iMeshWrapper* spr3dmeshobj = spr3dsocket->GetMeshWrapper ();
     if (!spr3dmeshobj)
-      return Report (object_reg,
-      	"Can't find mesh for DetachMesh!");
+      return false;
     spr3dmeshobj->QuerySceneNode ()->SetParent (0);
     spr3dsocket->SetMeshWrapper (0);
     engine->RemoveObject (spr3dmeshobj);
@@ -1383,8 +1316,7 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
       	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
     iMeshWrapper* cal3dmeshobj = cal3dsocket->GetMeshWrapper ();
     if (!cal3dmeshobj)
-      return Report (object_reg,
-      	"Can't find mesh for DetachMesh!");
+      return false;
     cal3dmeshobj->QuerySceneNode ()->SetParent (0);
     cal3dsocket->SetMeshWrapper (0);
     engine->RemoveObject (cal3dmeshobj);
