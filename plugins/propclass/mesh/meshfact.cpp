@@ -1282,7 +1282,6 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
             return false;
           skelmeshobj->QuerySceneNode ()->SetParent (0);
           skelsocket->SetSceneNode (0);
-          engine->RemoveObject (skelmeshobj);
           return true;
         }
       }
@@ -1302,7 +1301,6 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
       return false;
     spr3dmeshobj->QuerySceneNode ()->SetParent (0);
     spr3dsocket->SetMeshWrapper (0);
-    engine->RemoveObject (spr3dmeshobj);
     return true;
   }
 
@@ -1319,7 +1317,6 @@ bool celPcMesh::DetachSocketMesh (const char* socket)
       return false;
     cal3dmeshobj->QuerySceneNode ()->SetParent (0);
     cal3dsocket->SetMeshWrapper (0);
-    engine->RemoveObject (cal3dmeshobj);
     return true;
   }
 
