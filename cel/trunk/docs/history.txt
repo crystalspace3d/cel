@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 22-Jun-2007
 	- Darek fixed celPcMesh::DetachSocketMesh in case when socket 
 	  is empty.
+	- Darek removed destroying object from celPcMesh::DetachSocketMesh
+	  and let to user do that optionally.
 20-Jun-2007
 	- Darek added xml property 'enabled' to trigger.
 19-Jun-2007
