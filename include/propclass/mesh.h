@@ -42,12 +42,13 @@ class csBox3;
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetMesh: parameters 'name' (string). This sets an already existing
- *   mesh for this pcmesh.
+ *   mesh for this pcmesh and sets property 'meshname'.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
  *   'filename' is optional. If not given then the factory should already
- *   be in memory.
+ *   be in memory and sets properties 'factory' and 'filename'.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
- *   and 'factoryname' (string).
+ *   and 'factoryname' (string) and sets properties 'factory', 'path'
+ *   and 'filename'.
  * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3)
  *   or 'position' (string: represents name of the node),
  *   'rotation' (vector3: optional. Represents an absolute rotation).
@@ -87,6 +88,7 @@ class csBox3;
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.
  * - filename (string, read): filename for model.
+ * - meshname (string, read): mesh object name for model.
  * - hitbeam (bool, read/write): allow hitbeam for this mesh.
  */
 struct iPcMesh : public virtual iBase
