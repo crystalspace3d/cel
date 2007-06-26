@@ -65,6 +65,7 @@ private:
   csString path;
   csString fileName;
   csString factName;
+  csString meshName;
   csRef<iMeshFactoryWrapper> factory_ptr;
 
   enum celPcMeshCreationFlag
@@ -144,7 +145,8 @@ private:
     propid_path,
     propid_factory,
     propid_filename,
-    propid_hitbeam
+    propid_hitbeam,
+    propid_meshname
   };
   static PropertyHolder propinfo;
 

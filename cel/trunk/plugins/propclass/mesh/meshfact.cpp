@@ -192,7 +192,7 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   }
 
   // For properties.
-  propinfo.SetCount (9);
+  propinfo.SetCount (10);
   AddProperty (propid_position, "cel.property.position",
   	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
   AddProperty (propid_fullposition, "cel.property.fullposition",
@@ -211,6 +211,8 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   	CEL_DATA_STRING, true, "Filename for the model.", 0);
   AddProperty (propid_hitbeam, "cel.property.hitbeam",
   	CEL_DATA_BOOL, false, "Allow hitbeams for the mesh.", 0);
+  AddProperty (propid_meshname, "cel.property.meshname",
+  	CEL_DATA_STRING, true, "Mesh obejct name for the model.", 0);
 }
 
 celPcMesh::~celPcMesh ()
@@ -325,6 +327,9 @@ bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
     case propid_filename:
       s = fileName.GetData ();
       return true;
+    case propid_meshname:
+      s = meshName.GetData ();
+      return true;
     default:
       return false;
   }
@@ -332,6 +337,7 @@ bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
 
 void celPcMesh::Clear ()
 {
+  meshName.Empty ();
   fileName.Empty ();
   factName.Empty ();
   path.Empty ();
@@ -710,6 +716,7 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
     databuf->Add (factName);
     databuf->Add (fileName);
     databuf->Add (path);
+    databuf->Add (meshName);
   }
   else if (creation_flag == CEL_CREATE_MESH
   	|| creation_flag == CEL_CREATE_MESHREMOVE)
@@ -966,7 +973,10 @@ void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
     creation_flag = CEL_CREATE_MESH;
   mesh = m;
   if (mesh)
+  {
     pl->AttachEntity (mesh->QueryObject (), entity);
+    meshName = mesh->QueryObject ()->GetName ();
+  }
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
