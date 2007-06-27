@@ -240,11 +240,11 @@ celGraph::~celGraph ()
 bool celGraph::Initialize(iObjectRegistry* object_reg)
 {
   celGraph::object_reg = object_reg;
-
+  
+  //nodes = csRefArray<iCelNode>::csRefArray(100, 100);
+  
   return true;
 }
-
-
 
 void celGraph:: AddNode(iCelNode* node)
 {

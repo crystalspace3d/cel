@@ -126,10 +126,10 @@ class celGraph : public scfImplementation2<
 {
 private:
   iObjectRegistry* object_reg;
-  csRefArray<iCelNode> nodes;
+  csRefArray <iCelNode> nodes;
   //csHash<csRef<iCelNode>, csStringBase> nodes;
 
-public:
+public: 
   celGraph (iBase* parent);
   virtual ~celGraph ();
   virtual bool Initialize (iObjectRegistry* object_reg);

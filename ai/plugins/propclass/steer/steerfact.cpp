@@ -345,6 +345,7 @@ bool celPcSteer :: Pursue (iCelEntity* target, float max_prediction)
   if (!pcactormove)
     return false;
   
+  
   current_action = action_pursue;
   pursue_target = target;
 

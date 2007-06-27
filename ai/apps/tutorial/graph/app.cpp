@@ -206,7 +206,6 @@ bool MainApp::LoadGraph ()
   n2.SetPosition(v2);
   gn2->SetMapNode(&n2);
   
-  
   csMapNode n3("n3");
   csRef<iCelNode> gn3 = scfCreateInstance<iCelNode> ("cel.celnode");
   csVector3 v3(5.641, 0, 2.166);
@@ -231,7 +230,15 @@ bool MainApp::LoadGraph ()
   n6.SetPosition(v6);
   gn6->SetMapNode(&n6);
 
+  csRefArray<iCelNode> prueba;
+  prueba.Push(gn1);
   
+  celgraph->AddNode(gn1);
+  //celgraph->AddNode(gn2);
+  //celgraph->AddNode(gn3);
+  //celgraph->AddNode(gn4);
+  //celgraph->AddNode(gn5);
+  //celgraph->AddNode(gn6);
 
   return true;
 }

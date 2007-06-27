@@ -205,7 +205,6 @@ struct iCelGraph : public virtual iBase
    */
   virtual void AddNode(iCelNode* node) = 0;
 
-  
   /**
    * Adds an edge to the graph.
    */
