@@ -17,7 +17,6 @@
     MA 02111-1307, USA.
 */
 
-//#define CEL_USE_NEW_CAMERA
 //#define CELTST_USE_ANALOG
 
 #include "cssysdef.h"
@@ -80,10 +79,7 @@
 #include "propclass/chars.h"
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
-#include "propclass/defcam.h"
-#ifdef CEL_USE_NEW_CAMERA
-  #include "propclass/newcamera.h"
-#endif
+#include "propclass/newcamera.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
@@ -196,11 +192,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 	"pcmove.lara",
 	"pccamera.standard",
 #else
-  #ifdef CEL_USE_NEW_CAMERA
 	"pccamera.standard",
-  #else
-	"pccamera.old",
-  #endif
 	"pcmove.actorold",
 #endif
 	"pcobject.mesh",
@@ -240,7 +232,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
     entity_cam, iPcNewCamera);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_LARA_TRACK);
 #else
-  #ifdef CEL_USE_NEW_CAMERA
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
 	entity_cam, iPcNewCamera);
   size_t first_idx = 
@@ -250,29 +241,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   newcamera->SetCurrentCameraMode(third_idx);
   newcamera->SetCollisionDetection(true);
   newcamera->SetPositionOffset(csVector3(0,2,0));
-  #else
-  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
-  	entity_cam, iPcDefaultCamera);
-  pccamera->SetMode (iPcDefaultCamera::firstperson);
-  pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
-  pccamera->SetMode (iPcDefaultCamera::thirdperson);
-  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMode (iPcDefaultCamera::m64_thirdperson);
-  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
-  pccamera->SetTurnSpeed (1.0f);
-  pccamera->SetMode (iPcDefaultCamera::lara_thirdperson);
-  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
-  pccamera->SetTurnSpeed (1.0f);
-  pccamera->SetSwingCoef (0.7f);
-  pccamera->SetMode (iPcDefaultCamera::freelook);
-  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
-  pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
-  pccamera->SetThirdPersonOffset (csVector3 (0, 1, 5));
-  pccamera->SetModeName ("thirdperson");
-  #endif
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
