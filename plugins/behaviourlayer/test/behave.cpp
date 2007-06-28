@@ -32,6 +32,7 @@
 #include "propclass/tooltip.h"
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
+#include "propclass/newcamera.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
@@ -44,7 +45,6 @@
 
 #ifdef CELTST_USE_ANALOG
   #include "propclass/actorlara.h"
-  #include "propclass/newcamera.h"
 #else
   #include "propclass/actormove.h"
 #endif
@@ -381,7 +381,8 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       pcactormove->Run (true);
     else if (!strcmp (msg_id+15, "run0"))
       pcactormove->Run (false);
-    else if (!strcmp (msg_id+15, "lookup1"))
+    // Don't know any NewCamera equivalents!
+    /*else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
       	iPcDefaultCamera);
@@ -410,14 +411,16 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
       	iPcDefaultCamera);
       pcdefcamera->CenterCamera ();
-    }
+    }*/
     else if (!strcmp (msg_id+15, "cammode1"))
     {
-      pcactormove->ToggleCameraMode ();
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      if (pcdefcamera)
-        printf ("%s\n", pcdefcamera->GetModeName ()); fflush (stdout);
+      csRef<iPcNewCamera> pccamera =
+        celQueryPropertyClassEntity<iPcNewCamera> (entity);
+      if (pccamera)
+      {
+        pccamera->NextCameraMode ();
+        printf ("%u\n", pccamera->GetCurrentCameraModeIndex ());
+      }
     }
 #endif
     return true;
