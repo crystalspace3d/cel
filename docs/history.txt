@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Jun-2007
+	- Vincent applied updates to celMenu and celScroller python widgets
+	  (resp. font constant computation and new getmaxvisible() function).
 28-Jun-2007
 	- Genjix made NewCamera default in celtest and removed DefaultCamera.
 	- Vincent fixed path to dot.png texture in data/basic_world.

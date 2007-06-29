@@ -21,10 +21,6 @@ class celScroller:
         self.scrolled = 0.0
         #The index of our topmost item
         self.topindex = 0
-        #The most items our scroller can show at once
-        self.maxvisible = int(dims[1] / self.spacing) - 1
-        if self.maxvisible < 1:
-            self.maxvisible = 1
 
         #If false, we don't let two items with same name/text to be added
         self.allowdoubles = False
@@ -76,6 +72,13 @@ class celScroller:
             mat = 'unselection'
         pcbb.materialnamefast = mat
         pcbb.text = self.names[index]
+
+    #The most items our scroller can show at once
+    def getmaxvisible(self):
+        maxvisible = int(self.dims[1] / self.spacing) - 1
+        if maxvisible < 1:
+           maxvisible = 1
+        return maxvisible
 
     #Hide an item
     def hideitem(self, index):
@@ -133,7 +136,7 @@ class celScroller:
 
     #Scroll down by 1 item
     def scrolldown(self):
-        if self.topindex + self.maxvisible < len(self.items) - 1:
+        if self.topindex + self.getmaxvisible() < len(self.items) - 1:
             self.topindex += 1
             self.update()
 
@@ -149,5 +152,5 @@ class celScroller:
 
     #Work out whether an item is able to be seen in this scroller.
     def isvisible(self, index):
-        return (index >= self.topindex) and (index <= self.topindex + self.maxvisible)
+        return (index >= self.topindex) and (index <= self.topindex + self.getmaxvisible())
 
