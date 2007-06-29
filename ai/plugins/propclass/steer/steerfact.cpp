@@ -159,7 +159,7 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 	      CEL_DATA_BOOL, true, "Check for separation", &check_separation);
   AddProperty (propid_check_dm, "cel.property.check_dm",
 	      CEL_DATA_BOOL, true, "Check for Direction Matching", &check_dm);
-
+ 
 
   is_moving = false;
   check_arrival = false;
@@ -344,7 +344,8 @@ bool celPcSteer :: Pursue (iCelEntity* target, float max_prediction)
     return false;
   if (!pcactormove)
     return false;
-  
+
+  Interrupt();
   
   current_action = action_pursue;
   pursue_target = target;

@@ -113,8 +113,12 @@ celPath, iCelPath, iComponent>
   virtual void InsertNode(size_t pos, iMapNode* node);
   virtual iMapNode* Next();
   virtual iMapNode* Previous();
+  virtual iMapNode* Current();
+  virtual csVector3 CurrentPosition();
+  virtual iSector* CurrentSector();
   virtual bool HasNext();
   virtual bool HasPrevious();
+  virtual void Restart();
   virtual bool Initialize (iObjectRegistry* object_reg);
 };
 
@@ -126,7 +130,7 @@ class celGraph : public scfImplementation2<
 {
 private:
   iObjectRegistry* object_reg;
-  csRefArray <iCelNode> nodes;
+   csRefArray <iCelNode> nodes;
   //csHash<csRef<iCelNode>, csStringBase> nodes;
 
 public: 
@@ -137,6 +141,7 @@ public:
   virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
   virtual iCelNode* GetClosest(csVector3 position);
   virtual iCelPath* ShortestPath(iCelNode* from, iCelNode* goal);
+  virtual iCelPath* RandomPath(iCelNode* from, int distance);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
