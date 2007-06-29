@@ -34,6 +34,7 @@
 #include "ivaria/reporter.h"
 #include "ivaria/conin.h"
 #include "ivaria/script.h"
+#include "csutil/randomgen.h"
 
 #include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
@@ -188,22 +189,42 @@ void celPath::InsertNode (size_t pos, iMapNode* node)
 
 iMapNode* celPath::Next ()
 {
-  return nodes[cur_node++];
+  return nodes[++cur_node];
 }
 
 iMapNode* celPath::Previous ()
 {
-  return nodes[--cur_node];
+  return nodes[cur_node--];
+}
+
+iMapNode* celPath:: Current ()
+{
+  return nodes[cur_node];
+}
+
+csVector3 celPath:: CurrentPosition ()
+{
+  return nodes[cur_node]->GetPosition();
+}
+
+iSector* celPath:: CurrentSector ()
+{
+  return nodes[cur_node]->GetSector();
 }
 
 bool celPath::HasNext ()
 {
-  return cur_node < size;
+  return cur_node < size-1;
 }
 
 bool celPath::HasPrevious ()
 {
-  return cur_node > 0;
+  return cur_node >= 0;
+}
+
+void celPath::Restart ()
+{
+  cur_node = 0;
 }
 
 bool celPath::Initialize(iObjectRegistry* object_reg)
@@ -315,5 +336,21 @@ iCelPath* celGraph::ShortestPath (iCelNode* from, iCelNode* goal)
     }
 
   //goal is unreachable from here
+  return path;
+}
+
+iCelPath* celGraph::RandomPath (iCelNode* from, int distance)
+{
+  csRandomGen random;
+  random.Initialize();
+
+  iCelNode* current = from;
+  csRef<iCelPath> path;
+  for(int i=0; i< distance; i++){
+    path->AddNode(current->GetMapNode());
+    csArray<iCelNode*> succ = current->GetSuccessors();
+    current = succ[random.Get(succ.GetSize())];
+  }
+
   return path;
 }
