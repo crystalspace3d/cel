@@ -239,12 +239,12 @@ struct iCelGraph : public virtual iBase
   /**
    * Gets the shortest path from node from to node to.
    */
-  virtual iCelPath* ShortestPath (iCelNode* from, iCelNode* goal) = 0;
+  virtual bool ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path) = 0;
 
   /**
    * Gets the shortest path from node from to node to.
    */
-  virtual iCelPath* RandomPath (iCelNode* from, int distance) = 0;
+  virtual iCelNode* RandomPath (iCelNode* from, int distance, iCelPath* path) = 0;
 
   
   /**

@@ -4,6 +4,7 @@
 #include <physicallayer/propclas.h>
 #include <propclass/linmove.h>
 #include <propclass/prop.h>
+#include <propclass/pathfinder.h>
 
 #include "behave.h"
 
@@ -417,6 +418,13 @@ BehaviourPF::BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* p
   entities = pl->CreateEmptyEntityList();
   csRef<iCelEntity> player_entity = pl->FindEntity("player");
   entities->Add(player_entity);
+
+  LoadGraph();
+  
+  csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
+  csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+							       iPcPathFinder);
+  //  pcpathfinder->SetGraph(celgraph);
 }
  
 bool BehaviourPF::SendMessage (csStringID msg_id,
@@ -432,6 +440,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 								  iPcLinearMovement);
     iSector* sector;
     csVector3 position;
+    csVector3 cur_position;
     float rot;
     
     pclinmove->GetLastFullPosition (position, rot, sector);
@@ -440,9 +449,28 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 
     csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 						       iPcSteer);
+
+    csRef<iPcLinearMovement> pclinmove2 = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+								   iPcLinearMovement);
+
+    pclinmove2->GetLastFullPosition (cur_position, rot, sector);
+
+    //csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+    //							 iPcPathFinder);
+
+    //pcpathfinder->Seek(sector, position);
     
-    pcsteer->Seek(sector, position);
+    csRef <iCelPath> cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
+
+    iCelNode* from = celgraph->GetClosest(cur_position);
+    iCelNode* goal = celgraph->GetClosest(position);
     
+    if(celgraph->ShortestPath(from, goal, cur_path)){
+      if(cur_path->HasNext()){
+	cur_path->Next();
+      }
+      pcsteer->Seek(sector, cur_path->CurrentPosition());
+    }
   }
   else if (msg_id == id_pccommandinput_flee1)
     {
@@ -571,4 +599,90 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
   
   return true;
 }
+
+
+bool BehaviourPF::LoadGraph ()
+{
+  //csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
+  //csRef<iCelGraph> celgraph = csLoadPlugin<iCelGraph> (plugin_mgr, "cel.celgraph");
+  
+  //  if(celgraph.IsValid())
+    
+  csRef<iMapNode> n1;
+  n1.AttachNew(new csMapNode("n1"));
+  csRef<iMapNode> n2;
+  n2.AttachNew(new csMapNode("n2"));
+  csRef<iMapNode> n3;
+  n3.AttachNew(new csMapNode("n3"));
+  csRef<iMapNode> n4;
+  n4.AttachNew(new csMapNode("n4"));
+  csRef<iMapNode> n5;
+  n5.AttachNew(new csMapNode("n5"));
+  csRef<iMapNode> n6;
+  n6.AttachNew(new csMapNode("n6"));
+  csRef<iMapNode> n7;
+  n7.AttachNew(new csMapNode("n7"));
+  
+  celgraph = scfCreateInstance<iCelGraph> ("cel.celgraph");
+  if(!celgraph)
+    fprintf(stderr, "Error Loading CelGraph!\n");
+
+  csRef<iCelNode> gn1 = scfCreateInstance<iCelNode> ("cel.celnode");
+  csVector3 v1(15.858, 0, 11.138);
+  n1->SetPosition(v1);
+  gn1->SetMapNode(n1);
+
+
+  csRef<iCelNode> gn2 = scfCreateInstance<iCelNode> ("cel.celnode");  
+  csVector3 v2(15.665, 0, 2.292);
+  n2->SetPosition(v2);
+  gn2->SetMapNode(n2);
+  
+
+  csRef<iCelNode> gn3 = scfCreateInstance<iCelNode> ("cel.celnode");
+  csVector3 v3(5.641, 0, 2.166);
+  n3->SetPosition(v3);
+  gn3->SetMapNode(n3);
+  
+
+  csRef<iCelNode> gn4 = scfCreateInstance<iCelNode> ("cel.celnode");
+  csVector3 v4(-10.878, 0, 1.195);
+  n4->SetPosition(v4);
+  gn4->SetMapNode(n4);  
+
+
+  csRef<iCelNode> gn5 = scfCreateInstance<iCelNode> ("cel.celnode");
+  csVector3 v5(-11.645, 0, -15.996);
+  n5->SetPosition(v5);
+  gn5->SetMapNode(n5);  
+
+
+  csRef<iCelNode> gn6 = scfCreateInstance<iCelNode> ("cel.celnode");
+  csVector3 v6(-3.395, 0, -15.892);
+  n6->SetPosition(v6);
+  gn6->SetMapNode(n6);
+
+  celgraph->AddNode(gn1);
+  celgraph->AddNode(gn2);
+  celgraph->AddNode(gn3);
+  celgraph->AddNode(gn4);
+  celgraph->AddNode(gn5);
+  celgraph->AddNode(gn6);
+
+  celgraph->AddEdge(gn1, gn2, true);
+  celgraph->AddEdge(gn2, gn3, true);
+  celgraph->AddEdge(gn3, gn4, true);
+  celgraph->AddEdge(gn4, gn5, true);
+  celgraph->AddEdge(gn5, gn6, true);  
+
+  csRef<iCelPath> path = scfCreateInstance<iCelPath> ("cel.celpath");
+  if(!path)
+    fprintf(stderr, "Error Loading celPath!\n");
+
+  if(!celgraph->ShortestPath(gn1, gn2, path))
+    fprintf(stderr, "Error Loading celPath!\n");
+
+  return true;
+}
+
 

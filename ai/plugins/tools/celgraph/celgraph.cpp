@@ -97,10 +97,11 @@ celNode::~celNode ()
 
 void celNode:: AddSuccessor(iCelNode* node, bool state)
 {
-  csRef<iCelEdge> edge;
+  csRef<iCelEdge> edge = scfCreateInstance<iCelEdge> ("cel.celedge");
   edge->SetState(state);
   edge->SetSuccessor(node);
   edges.Push(edge);
+
 }
 
 void celNode:: SetMapNode (iMapNode* node)
@@ -299,9 +300,8 @@ iCelNode* celGraph:: GetClosest (csVector3 position)
   return closest;
 }
 
-iCelPath* celGraph::ShortestPath (iCelNode* from, iCelNode* goal)
+bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
-  csRef<iCelPath> path;
   CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
  
   from->Heuristic(0, goal);
@@ -310,17 +310,18 @@ iCelPath* celGraph::ShortestPath (iCelNode* from, iCelNode* goal)
   //Check if the list is empty
   while(!queue.IsEmpty())
     {
+      
       //Choose the node with less cost+h
       iCelNode* current = queue.Pop();
 
       //Check if we have arrived to our goal      
+      
       if(current == goal){
 	while(true){
 	  path->AddNode(current->GetMapNode());
-
-	  if(current == from)
-	    return path;
-
+	  if(current == from){
+	    return true;
+	  }
 	  current = current->GetParent();
 	}
       }
@@ -336,21 +337,21 @@ iCelPath* celGraph::ShortestPath (iCelNode* from, iCelNode* goal)
     }
 
   //goal is unreachable from here
-  return path;
+  return false;
 }
 
-iCelPath* celGraph::RandomPath (iCelNode* from, int distance)
+iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
 {
   csRandomGen random;
   random.Initialize();
+  int i=0;
 
   iCelNode* current = from;
-  csRef<iCelPath> path;
-  for(int i=0; i< distance; i++){
+  while(true){
     path->AddNode(current->GetMapNode());
     csArray<iCelNode*> succ = current->GetSuccessors();
+    if(i==distance)
+      return current;
     current = succ[random.Get(succ.GetSize())];
   }
-
-  return path;
 }

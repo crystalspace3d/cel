@@ -11,7 +11,7 @@
 #include <propclass/mesh.h>
 #include <propclass/camera.h>
 #include <propclass/inv.h>
-
+#include <plugins/tools/celgraph/celgraph.h>
 
 class BehaviourLayer : public iCelBlLayer
 {
@@ -135,7 +135,8 @@ class BehaviourPF : public BehaviourCommon
   bool ca, arrival, cohesion, separation, dm;
   
   csRef<iCelEntityList> entities;
-  
+  csRef<iCelGraph> celgraph;
+
  public:
   BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);
   virtual ~BehaviourPF() {}
@@ -143,6 +144,7 @@ class BehaviourPF : public BehaviourCommon
   virtual bool SendMessage (csStringID msg_id,
 			    iCelPropertyClass* pc,
 			    celData& ret, iCelParameterBlock* params, va_list arg);
+  virtual bool LoadGraph ();
 };
 
 class BehaviourPlayer : public BehaviourCommon

@@ -120,12 +120,13 @@ bool MainApp::CreatePlayer ()
 bool MainApp::LoadPathFinder ()
 {
   pf_entity = pl->CreateEntity ("pf", bl, "pathfinding_behave",
-				      "pcmove.linear",
-				      "pcmove.actorold",
-				      "pcsteer",
-				      "pcobject.mesh",
-				      "pcinput.standard",
-				      CEL_PROPCLASS_END);
+				"pcmove.linear",
+				"pcmove.actorold",
+				"pcsteer",
+				"pcpathfinder",
+				"pcobject.mesh",
+				"pcinput.standard",
+				CEL_PROPCLASS_END);
 
   if (!pf_entity)
     return ReportError ("Error creating PathFinding entity!");
@@ -159,11 +160,6 @@ bool MainApp::LoadPathFinder ()
   
   
 
-  //csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-  //					     iPcSteer);
-
- 
-
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the steerer can move.
   csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (pf_entity,
@@ -181,67 +177,6 @@ bool MainApp::LoadPathFinder ()
   return true;
 }
 
-bool MainApp::LoadGraph ()
-{
-  //csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-  //csRef<iCelGraph> celgraph = csLoadPlugin<iCelGraph> (plugin_mgr, "cel.celgraph");
-  
-  //  if(celgraph.IsValid())
-    
-
-  csRef<iCelGraph> celgraph = scfCreateInstance<iCelGraph> ("cel.celgraph");
-    
-  if(!celgraph)
-    fprintf(stderr, "Error Loading CelGraph!\n");
-
-  csMapNode n1("n1");
-  csRef<iCelNode> gn1 = scfCreateInstance<iCelNode> ("cel.celnode");
-  csVector3 v1(15.858, 0, 11.138);
-  n1.SetPosition(v1);
-  gn1->SetMapNode(&n1);
-
-  csMapNode n2("n2");
-  csRef<iCelNode> gn2 = scfCreateInstance<iCelNode> ("cel.celnode");  
-  csVector3 v2(15.665, 0, 2.292);
-  n2.SetPosition(v2);
-  gn2->SetMapNode(&n2);
-  
-  csMapNode n3("n3");
-  csRef<iCelNode> gn3 = scfCreateInstance<iCelNode> ("cel.celnode");
-  csVector3 v3(5.641, 0, 2.166);
-  n3.SetPosition(v3);
-  gn3->SetMapNode(&n3);
-  
-  csMapNode n4("n4");
-  csRef<iCelNode> gn4 = scfCreateInstance<iCelNode> ("cel.celnode");
-  csVector3 v4(-10.878, 0, 1.195);
-  n4.SetPosition(v4);
-  gn4->SetMapNode(&n4);  
-
-  csMapNode n5("n5");
-  csRef<iCelNode> gn5 = scfCreateInstance<iCelNode> ("cel.celnode");
-  csVector3 v5(-11.645, 0, -15.996);
-  n5.SetPosition(v5);
-  gn5->SetMapNode(&n5);  
-
-  csMapNode n6("n6");
-  csRef<iCelNode> gn6 = scfCreateInstance<iCelNode> ("cel.celnode");
-  csVector3 v6(-3.395, 0, -15.892);
-  n6.SetPosition(v6);
-  gn6->SetMapNode(&n6);
-
-  csRefArray<iCelNode> prueba;
-  prueba.Push(gn1);
-  
-  celgraph->AddNode(gn1);
-  //celgraph->AddNode(gn2);
-  //celgraph->AddNode(gn3);
-  //celgraph->AddNode(gn4);
-  //celgraph->AddNode(gn5);
-  //celgraph->AddNode(gn6);
-
-  return true;
-}
 
 
 void MainApp::ProcessFrame ()
@@ -331,9 +266,7 @@ bool MainApp::Application ()
     return ReportError ("Couldn't create player!"); 
  if (!LoadPathFinder ())
     return ReportError ("Couldn't create Pathfinding entity!"); 
- if(!LoadGraph())
-   return ReportError  ("Error loading graph!"); 
-  Run ();
+ Run ();
 
   return true;
 }
