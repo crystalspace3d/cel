@@ -4,6 +4,7 @@
 #include <physicallayer/entity.h>
 #include <physicallayer/pl.h>
 #include <tools/celgraph.h>
+#include <cstool/mapnode.h>
 
 class MainApp : public csApplicationFramework,
                 public csBaseEventHandler
@@ -31,7 +32,6 @@ private:
   bool LoadLevel ();
   bool CreatePlayer ();
   bool LoadPathFinder ();
-  bool LoadGraph();
 
 public:
   MainApp ();

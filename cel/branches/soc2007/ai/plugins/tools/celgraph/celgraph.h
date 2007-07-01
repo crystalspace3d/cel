@@ -140,8 +140,8 @@ public:
   virtual void AddNode(iCelNode* node);
   virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
   virtual iCelNode* GetClosest(csVector3 position);
-  virtual iCelPath* ShortestPath(iCelNode* from, iCelNode* goal);
-  virtual iCelPath* RandomPath(iCelNode* from, int distance);
+  virtual bool ShortestPath(iCelNode* from, iCelNode* goal, iCelPath* path);
+  virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);
 };
 
 #endif //__CEL_TOOLS_CELGRAPH__ 
