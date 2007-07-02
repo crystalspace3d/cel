@@ -72,7 +72,9 @@ private:
     action_wander,
     action_pursue,
     action_interrupt,
-    action_cyclic
+    action_cyclic,
+    action_one_way,
+    action_two_way
   };
 
   // For properties.
@@ -120,11 +122,17 @@ public:
 
   virtual bool FollowCyclicPath (iCelPath* path);
 
+  virtual bool FollowOneWayPath (iCelPath* path);
+
+  virtual bool FollowTwoWayPath (iCelPath* path);
+
   virtual bool FollowPath ();
       
   virtual void Interrupt ();
 
   virtual void SetDelayRecheck(int delay);
+
+  virtual void SetMinDistance(int distance);
 
   virtual const csVector3& GetPosition () const { return position; }
   

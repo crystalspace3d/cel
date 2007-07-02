@@ -37,7 +37,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (PathFinder, "pcpathfinder.pathfinder", "pcpathfinder")
+CEL_IMPLEMENT_FACTORY_ALT (PathFinder, "pcmove.pathfinder", "pcpathfinder")
 
 //---------------------------------------------------------------------------
 
@@ -90,6 +90,8 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
  
   delay_recheck = 20;
   random.Initialize();
+  min_distance = 2.0;
+
   cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
     if(!cur_path)
       fprintf(stderr, "Error Loading celPath in PathFinder!\n");
@@ -136,6 +138,11 @@ void celPcPathFinder:: SetDelayRecheck (int delay)
   delay_recheck = delay;
 }
 
+void celPcPathFinder:: SetMinDistance (int distance)
+{
+  min_distance = distance;
+}
+
 bool celPcPathFinder::Seek (iSector* sector, const csVector3& position)
 {
   FindSiblingPropertyClasses ();
@@ -148,6 +155,7 @@ bool celPcPathFinder::Seek (iSector* sector, const csVector3& position)
 
   Interrupt();
 
+  is_active = true;
   current_action = action_seek;
 
   celPcPathFinder::sector = sector;
@@ -165,6 +173,7 @@ bool celPcPathFinder::Seek (iSector* sector, const csVector3& position)
 
   iCelNode* from = celgraph->GetClosest(cur_position);
   goal = celgraph->GetClosest(position);
+
   if(celgraph->ShortestPath(from, goal, cur_path)){
     FollowPath();
     return true;
@@ -181,6 +190,8 @@ bool celPcPathFinder::Wander (size_t distance){
   if (!pcsteer)
     return false;
 
+  Interrupt();
+  
   float cur_yrot;
   csVector3 cur_position;
   iSector* cur_sector;
@@ -191,6 +202,7 @@ bool celPcPathFinder::Wander (size_t distance){
     
   current_action = action_wander;
   wander_distance = distance;
+  is_active = true;
 
   goal = celgraph->RandomPath(from, wander_distance, cur_path);
   FollowPath();
@@ -208,9 +220,12 @@ bool celPcPathFinder :: Pursue (iCelEntity* target, float max_prediction)
   if (!pcsteer)
     return false;
 
+  Interrupt();
+
   current_action = action_pursue;
   pursue_target = target;
   pursue_max_prediction = max_prediction;
+  is_active = true;
 
   csWeakRef<iPcLinearMovement> targetlinmove;
   float yrot;
@@ -244,8 +259,49 @@ bool celPcPathFinder :: FollowCyclicPath (iCelPath* path)
 
   Interrupt();
 
+  is_active = true;
   cur_path = path;
   current_action = action_cyclic;
+  
+  FollowPath();
+  return true;
+}
+
+bool celPcPathFinder :: FollowOneWayPath (iCelPath* path)
+{
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+    return false;
+  if (!pcactormove)
+    return false;
+  if (!pcsteer)
+    return false;
+
+  Interrupt();
+
+  is_active = true;
+  cur_path = path;
+  current_action = action_one_way;
+  
+  FollowPath();
+  return true;
+}
+
+bool celPcPathFinder :: FollowTwoWayPath (iCelPath* path)
+{
+  FindSiblingPropertyClasses ();
+  if (!pclinmove)
+    return false;
+  if (!pcactormove)
+    return false;
+  if (!pcsteer)
+    return false;
+
+  Interrupt();
+
+  is_active = true;
+  cur_path = path;
+  current_action = action_two_way;
   
   FollowPath();
   return true;
@@ -287,6 +343,16 @@ bool celPcPathFinder::FollowPath ()
 	  cur_path->Restart();
 	  break;
 	}
+      case action_one_way:
+	{
+	  pcsteer->Interrupt();
+	  return true;
+	}
+      case action_two_way:
+	{
+	  cur_path->Restart();
+	  break;
+	}
       case action_interrupt:
 	Interrupt ();
 	return true;
@@ -299,10 +365,11 @@ bool celPcPathFinder::FollowPath ()
     csVector3 target_position = cur_path->CurrentPosition();
     iSector* target_sector = cur_path->CurrentSector();
 
-    if(csSquaredDist::PointPoint(cur_position, position) <= min_distance)
+    if(csSquaredDist::PointPoint(cur_position, target_position) <= min_distance)
       if(cur_path->HasNext()){
-	csVector3 target_position = cur_path->CurrentPosition();
-	target_sector = cur_path->CurrentSector();
+	iMapNode* node = cur_path->Next();
+	csVector3 target_position = node->GetPosition();
+	target_sector = node->GetSector();
       }
       else {
 	Interrupt();
@@ -385,7 +452,7 @@ void celPcPathFinder::FindSiblingPropertyClasses ()
 
 void celPcPathFinder::SetGraph (iCelGraph* graph)
 {
-  //celgraph = graph;
+  celgraph = graph;
 }
 
 //---------------------------------------------------------------------------

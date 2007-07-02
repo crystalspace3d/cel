@@ -126,11 +126,12 @@ class BehaviourPF : public BehaviourCommon
   csStringID id_pccommandinput_ca1;
   csStringID id_pccommandinput_cohesion1;
   csStringID id_pccommandinput_separation1;
- csStringID id_pccommandinput_dm1;
+  csStringID id_pccommandinput_dm1;
   csStringID id_pccommandinput_seek1;
   csStringID id_pccommandinput_flee1;
   csStringID id_pccommandinput_wander1;
   csStringID id_pccommandinput_pursue1;
+  csStringID id_pccommandinput_next1;
   
   bool ca, arrival, cohesion, separation, dm;
   

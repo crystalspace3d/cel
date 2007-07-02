@@ -7,6 +7,7 @@
 #include <propclass/camera.h>
 #include <propclass/mesh.h>
 #include <propclass/steer.h>
+#include <propclass/pathfinder.h>
 #include <propclass/linmove.h>
 #include <propclass/actormove.h>
 #include <propclass/input.h>
@@ -122,8 +123,8 @@ bool MainApp::LoadPathFinder ()
   pf_entity = pl->CreateEntity ("pf", bl, "pathfinding_behave",
 				"pcmove.linear",
 				"pcmove.actorold",
-				"pcsteer",
-				"pcpathfinder",
+				"pcmove.steer",
+				"pcmove.pathfinder",
 				"pcobject.mesh",
 				"pcinput.standard",
 				CEL_PROPCLASS_END);
@@ -173,7 +174,8 @@ bool MainApp::LoadPathFinder ()
   pcinput->Bind ("w", "wander");
   pcinput->Bind ("f", "flee");
   pcinput->Bind ("p", "pursue");
-  
+  pcinput->Bind ("n", "next");
+
   return true;
 }
 
