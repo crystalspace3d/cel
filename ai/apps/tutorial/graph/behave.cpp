@@ -408,6 +408,7 @@ BehaviourPF::BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* p
   id_pccommandinput_flee1 = pl->FetchStringID ("pccommandinput_flee1");
   id_pccommandinput_wander1 = pl->FetchStringID ("pccommandinput_wander1");
   id_pccommandinput_pursue1 = pl->FetchStringID ("pccommandinput_pursue1");
+  id_pccommandinput_next1 = pl->FetchStringID ("pccommandinput_next1");
 
   arrival = false;
   ca = false;
@@ -455,23 +456,30 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 
     pclinmove2->GetLastFullPosition (cur_position, rot, sector);
 
-    //csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-    //							 iPcPathFinder);
+    csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (steering_entity,
+								 iPcPathFinder);
 
-    //pcpathfinder->Seek(sector, position);
+    pcpathfinder->SetGraph(celgraph);
+
+    pcpathfinder->Seek(sector, position);
     
-    csRef <iCelPath> cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
+    /*csRef <iCelPath> cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
 
     iCelNode* from = celgraph->GetClosest(cur_position);
     iCelNode* goal = celgraph->GetClosest(position);
-    
-    if(celgraph->ShortestPath(from, goal, cur_path)){
-      if(cur_path->HasNext()){
+
+    celgraph->ShortestPath(from, goal, cur_path);
+
+      /*      while(cur_path->HasNext()){
+	csVector3 vec = cur_path->CurrentPosition();
+	printf("x: %f y: %f z: %f\n", vec.x, vec.y, vec.z);
 	cur_path->Next();
       }
-      pcsteer->Seek(sector, cur_path->CurrentPosition());
     }
-  }
+      */
+   
+      //      pcsteer->Seek(sector, cur_path->CurrentPosition());
+      }
   else if (msg_id == id_pccommandinput_flee1)
     {
     printf("Flee\n");
@@ -594,7 +602,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 	printf("Direction Matching Off\n");      
       }
     }
-  else
+ else
     return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
   
   return true;

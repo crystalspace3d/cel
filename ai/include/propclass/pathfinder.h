@@ -95,6 +95,11 @@ struct iPcPathFinder : public virtual iBase
 
   virtual bool FollowCyclicPath (iCelPath* path)=0;
 
+  virtual bool FollowOneWayPath (iCelPath* path)=0;
+
+  virtual bool FollowTwoWayPath (iCelPath* path)=0;
+
+
   
   /**
    *Actually performs the movement in cur_direction which has been
@@ -111,6 +116,8 @@ struct iPcPathFinder : public virtual iBase
   virtual void Interrupt () = 0;
 
   virtual void SetDelayRecheck (int delay) = 0;
+
+  virtual void SetMinDistance (int distance) = 0;
 
   virtual const csVector3& GetPosition () const = 0;
 

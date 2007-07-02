@@ -4,7 +4,7 @@
   <scf>
     <classes>
       <class>
-        <name>cel.pcfactory.steer</name>
+        <name>cel.pcfactory.move.steer</name>
         <implementation>celPfSteer</implementation>
         <description>CEL Steer Property Class Factory</description>
       </class>

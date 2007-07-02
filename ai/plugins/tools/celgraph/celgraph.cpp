@@ -180,7 +180,7 @@ celPath::~celPath ()
 
 void celPath::AddNode (iMapNode* node)
 {
-  nodes.Push(node);
+  nodes.Insert(0, node);
 }
 
 void celPath::InsertNode (size_t pos, iMapNode* node)

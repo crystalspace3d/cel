@@ -4,7 +4,7 @@
   <scf>
     <classes>
       <class>
-        <name>cel.pcfactory.pathfinder</name>
+        <name>cel.pcfactory.move.pathfinder</name>
         <implementation>celPfPathFinder</implementation>
         <description>CEL Path Finder Property Class Factory</description>
       </class>
