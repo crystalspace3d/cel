@@ -93,6 +93,7 @@ struct iPcTriggerListener : public virtual iBase
  * - invisible (bool, read/write): also check on invisible entities
  *     (default off).
  * - follow (bool, read/write): follow own entity pcmesh (default off).
+ * - enabled (bool, read/write): enable/disable triger (default on).
  */
 struct iPcTrigger : public virtual iBase
 {
