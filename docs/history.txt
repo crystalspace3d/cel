@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+04-Jul-2007
+	- Genjix got rid of python info about loading property class
+	  factories as its uneeded.
 02-Jul-2007
 	- Darek made default yrot=0 for pcmove.linear:SetPosition.
 29-Jun-2007
