@@ -128,15 +128,19 @@ class BehaviourPF : public BehaviourCommon
   csStringID id_pccommandinput_separation1;
   csStringID id_pccommandinput_dm1;
   csStringID id_pccommandinput_seek1;
-  csStringID id_pccommandinput_flee1;
+  csStringID id_pccommandinput_cyclic1;
   csStringID id_pccommandinput_wander1;
   csStringID id_pccommandinput_pursue1;
-  csStringID id_pccommandinput_next1;
+  csStringID id_pccommandinput_oneway1;
+  csStringID id_pccommandinput_twoway1;
   
   bool ca, arrival, cohesion, separation, dm;
   
   csRef<iCelEntityList> entities;
   csRef<iCelGraph> celgraph;
+  csRef<iCelPath> celpath;
+  
+  int cur;
 
  public:
   BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);

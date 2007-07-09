@@ -52,9 +52,6 @@ csStringID celPcSteer::id_cur_yrot = csInvalidStringID;
 csStringID celPcSteer::id_arrival_radius = csInvalidStringID;
 csStringID celPcSteer::id_ca_lookahead = csInvalidStringID;
 csStringID celPcSteer::id_ca_weight = csInvalidStringID;
-csStringID celPcSteer::id_wander_offset = csInvalidStringID;
-csStringID celPcSteer::id_wander_radius = csInvalidStringID;
-csStringID celPcSteer::id_wander_rate = csInvalidStringID;
 csStringID celPcSteer::id_cohesion_radius = csInvalidStringID;
 csStringID celPcSteer::id_separation_radius = csInvalidStringID;
 csStringID celPcSteer::id_dm_radius = csInvalidStringID;
@@ -84,9 +81,6 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
     id_arrival_radius = pl->FetchStringID ("cel.parameter.arrival_radius");
     id_ca_lookahead = pl->FetchStringID ("cel.parameter.ca_lookahead");
     id_ca_weight = pl->FetchStringID ("cel.parameter.ca_weight");
-    id_wander_offset = pl->FetchStringID ("cel.parameter.wander_offset");
-    id_wander_radius = pl->FetchStringID ("cel.parameter.wander_radius");
-    id_wander_rate = pl->FetchStringID ("cel.parameter.wander_rate");
     id_cohesion_radius = pl->FetchStringID ("cel.parameter.cohesion_radius");
     id_separation_radius = pl->FetchStringID ("cel.parameter.separation_radius");
     id_dm_radius = pl->FetchStringID ("cel.parameter.dm_radius");
@@ -104,7 +98,6 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
   {
     AddAction (action_seek, "cel.action.Seek");
     AddAction (action_flee, "cel.action.Flee");
-    AddAction (action_wander, "cel.action.Wander");
     AddAction (action_pursue, "cel.action.Pursue");
     AddAction (action_interrupt, "cel.action.Interrupt");
   }
@@ -127,12 +120,6 @@ celPcSteer::celPcSteer (iObjectRegistry* object_reg)
 	       CEL_DATA_FLOAT, false, "CA Lookahead.", &ca_lookahead);
   AddProperty (propid_ca_weight, "cel.property.ca_weight",
 	       CEL_DATA_FLOAT, false, "CA weight.", &ca_weight);
-  AddProperty (propid_wander_offset, "cel.property.wander_offset",
-	       CEL_DATA_FLOAT, false, "Wander Offset", &wander_offset);
-  AddProperty (propid_wander_radius, "cel.property.wander_radius",
-	       CEL_DATA_FLOAT, false, "Wander Radius", &wander_radius);
-  AddProperty (propid_wander_rate, "cel.property.wander_rate",
-	       CEL_DATA_FLOAT, false, "Wander_rate", &wander_rate);
   AddProperty (propid_cohesion_radius, "cel.property.cohesion_radius",
 	       CEL_DATA_FLOAT, false, "Cohesion Radius.", &cohesion_radius);
   AddProperty (propid_separation_radius, "cel.property.separation_radius",
@@ -304,36 +291,6 @@ bool celPcSteer::Flee (iSector* sector, const csVector3& position)
 
   pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
 
-  return true;
-}
-
-bool celPcSteer::Wander (float offset, float radius, float rate){
-    FindSiblingPropertyClasses ();
-  if (!pclinmove)
-    return false;
-  if (!pcactormove)
-    return false;
-
-  current_action = action_wander;
-  wander_offset = offset;
-  wander_radius = radius;
-  wander_rate = rate;
-
-  pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
-
-  if(is_moving){
-    csVector3 vec (0,0,1);
-
-    float yrot = GetAngle (cur_direction, vec);
-    pcactormove->RotateTo (yrot+RandomBinomial(wander_rate));
-    pcactormove->Forward (true);
-    is_moving=true;
-  }
-  
-  Move();   
-
-  pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
-  
   return true;
 }
 
@@ -598,24 +555,8 @@ bool celPcSteer::Move ()
 
   csVector3 vec (0,0,1);
   
-
   float yrot = GetAngle (cur_direction, vec);
 
-  /*DEBUG
-  csVector3 vec1 (sqrt(3),0,2);
-  csVector3 vec2 = GetVector(yrot); 
-
-  printf("Original yrot %f\n", yrot);
-
-  yrot = GetAngle (vec2, vec);
-
-  
-  printf("Original Vector .x %f, .y %f, .z%f\n", vec1.x, vec1.y, vec1.z);
-  printf("vec2 .x %f, .y %f, .z%f\n", vec2.x, vec2.y, vec2.z);
-  printf("yrot %f\n", yrot);
-  
-  */
-  
   pcactormove->RotateTo (yrot);
   pcactormove->Forward (true);
   is_moving=true;  

@@ -66,9 +66,6 @@ private:
   static csStringID id_arrival_radius;
   static csStringID id_ca_lookahead;
   static csStringID id_ca_weight;
-  static csStringID id_wander_offset;
-  static csStringID id_wander_radius;
-  static csStringID id_wander_rate;
   static csStringID id_cohesion_radius;
   static csStringID id_separation_radius;
   static csStringID id_dm_radius;
@@ -81,7 +78,6 @@ private:
   {
     action_seek=0,
     action_flee,
-    action_wander,
     action_pursue,
     action_interrupt
   };
@@ -103,9 +99,6 @@ private:
     propid_collision_avoidance,
     propid_ca_lookahead,
     propid_ca_weight,
-    propid_wander_offset,
-    propid_wander_radius,
-    propid_wander_rate,
     propid_separation_radius,
     propid_cohesion_radius,
     propid_dm_radius,
@@ -122,7 +115,6 @@ private:
   csVector3 position, cur_position, cur_direction, up;
   float cur_yrot, arrival_radius;
   float ca_lookahead, ca_weight;
-  float wander_offset, wander_radius, wander_rate;
   float separation_radius;
   float cohesion_radius;
   float dm_radius;
@@ -142,9 +134,18 @@ private:
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg, const char* meshname = 0);
   void StopMovement ();
-
+  virtual bool CheckArrival();
+  virtual bool CollisionAvoidance();
+  virtual void Cohesion ();
+  virtual void Separation ();
+  virtual void DirectionMatching ();  
+  virtual float RandomBinomial (float rate);
+  virtual bool Move ();
+      
   static csStringID id_meshname;
   celOneParameterBlock* params;
+
+
 
 public:
   celPcSteer (iObjectRegistry* object_reg);
@@ -155,47 +156,29 @@ public:
 
   virtual bool Flee(iSector* sector, const csVector3& position);
 
-  virtual bool Wander (float offset, float radius, float rate);
-
   virtual bool Pursue (iCelEntity* target, float max_prediction);
 
-  virtual bool Move ();
-      
   virtual void Interrupt ();
 
   virtual void CheckArrivalOn(float radius);
 
   virtual void CheckArrivalOff();
-
-  virtual bool CheckArrival();
-  
+   
   virtual void CollisionAvoidanceOn(float lookahead, float weight);
 
   virtual void CollisionAvoidanceOff();
-
-  virtual bool CollisionAvoidance();
   
   virtual void CohesionOn (iCelEntityList* targets, float radius, float weight);
   
-  //virtual void CohesionOn (float radius);
-
   virtual void CohesionOff ();
   
-  virtual void Cohesion ();
-
   virtual void SeparationOn (iCelEntityList* targets, float radius, float weight);
  
   virtual void SeparationOff ();
   
-  virtual void Separation ();
-
   virtual void DirectionMatchingOn (iCelEntityList* targets, float weight);
   
-  ///virtual void DirectionMatchingOn ();
-
   virtual void DirectionMatchingOff ();
-
-  virtual void DirectionMatching ();
 
   virtual void SetDelayRecheck(int delay);
 
@@ -204,10 +187,6 @@ public:
   virtual const csVector3& GetPosition () const { return position; }
   
   virtual const csVector3& GetUp () const { return up; }
-  
-  //virtual float GetSqRadius () const { return sqradius; }
-  
-  virtual float RandomBinomial (float rate);
 
   virtual bool IsMoving () const { return is_moving; }
 

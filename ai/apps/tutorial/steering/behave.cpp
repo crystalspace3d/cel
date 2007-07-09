@@ -451,6 +451,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
     printf("Wander\n");
   else if(msg_id == id_pccommandinput_pursue1)
     {
+      printf("Pursue\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
       csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
@@ -503,7 +504,7 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 	//Turns Cohesion ON
 	//with radius 10.0 and weight 1.0
 
-	pcsteer->CohesionOn(entities, 10.0f, 1.0f);
+	pcsteer->CohesionOn(entities, 10.0f, 3.0f);
 	cohesion = true;
 	printf("Cohesion On\n");
 	
