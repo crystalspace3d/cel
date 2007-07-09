@@ -180,7 +180,7 @@ celPath::~celPath ()
 
 void celPath::AddNode (iMapNode* node)
 {
-  nodes.Insert(0, node);
+  nodes.Push(node);
 }
 
 void celPath::InsertNode (size_t pos, iMapNode* node)
@@ -226,6 +226,32 @@ bool celPath::HasPrevious ()
 void celPath::Restart ()
 {
   cur_node = 0;
+}
+
+void celPath ::Invert ()
+{
+  csRefArray <iMapNode> dummy;
+  dummy.SetCapacity(nodes.GetSize());
+  for(unsigned int i=0;i<nodes.GetSize(); i++)
+    dummy[i] = nodes[nodes.GetSize()-i-1];
+
+  nodes.Empty();
+  nodes = dummy;
+}
+
+iMapNode* celPath::GetFirst ()
+{
+  if(nodes.GetSize()>0)
+    return nodes[0];
+  return NULL;
+}
+
+
+iMapNode* celPath::GetLast ()
+{
+  if(nodes.GetSize()>0)
+    return nodes[nodes.GetSize()-1];
+  return NULL;
 }
 
 bool celPath::Initialize(iObjectRegistry* object_reg)
@@ -318,7 +344,7 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       
       if(current == goal){
 	while(true){
-	  path->AddNode(current->GetMapNode());
+	  path->InsertNode(0, current->GetMapNode());
 	  if(current == from){
 	    return true;
 	  }
@@ -329,6 +355,8 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       //Get successors
       csArray<iCelNode*> suc = current->GetSuccessors();
       for(size_t i=0; i<suc.GetSize(); i++){
+	if(suc[i] == current->GetParent())
+	  continue;
 	suc[i]->SetParent(current);
 	float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
 	suc[i]->Heuristic(current->GetCost()+cost, goal);
@@ -352,6 +380,11 @@ iCelNode* celGraph::RandomPath (iCelNode* from, int distance, iCelPath* path)
     csArray<iCelNode*> succ = current->GetSuccessors();
     if(i==distance)
       return current;
+    
+    if(succ.GetSize() == 0)
+      return current;
+    
     current = succ[random.Get(succ.GetSize())];
+    i++;
   }
 }

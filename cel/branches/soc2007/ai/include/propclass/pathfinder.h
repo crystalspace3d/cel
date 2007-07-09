@@ -30,37 +30,32 @@ struct iCelPath;
 struct iCelGraph;
 
 /**
- * This is a mover property class. It works closely with pclinmove and
- * pcactormove in order to move an object from one position to another
- * while checking collision detection along the way.
+ * This is a pathfinder property class. It works closely with pcsteer
+ * in order to move an object from one position to another
+ * using celgraph to navigate correctly through the map.
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcmover_impossible: don't even start the move: impossible. This
- *   message will have a 'meshname' parameter containing the name of the
- *   mesh that was preventing the move.
- * - pcmover_stuck: can't move further.
- * - pcmover_arrived: arrived at final position.
- * - pcmover_interrupted: movement has been interrupted.
+ * - pcpathfinder_interrupted: movement has been interrupted.
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - MoveTo: parameters 'sectorname' (string), 'position' (vector3),
- *     ,'sqradius' (float) and optional 'checklos' (bool, default false).
- * - Start: parameters 'sectorname' (string), 'position' (vector3),
- *     'up' (vector3), and 'sqradius' (float). This action is deprecated,
- *     you should use MoveTo instead.
+ * - Seek: parameters 'sectorname' (string), 'position' (vector3).
+ * - Wander: parameters 'distance' (int).
+ * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float).
+ * - FollowCyclicPath: parameters 'path' (iCelPath*). 
+ * - FollowOneWayPath: parameters 'path' (iCelPath*). 
+ * - FollowTwoWayPath: parameters 'path' (iCelPath*). 
  * - Interrupt: interrupt the current movement.
  *
- * This property class supports the 
-
-
-following properties (add prefix
+ * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
- * - sqradius (float, read/write): current squared radius.
- * - moving (bool, read only): returns true if currently moving.
+ * - active (bool, read only): returns true if currently tracking.
+ * - pursue_max_prediction (float, read/write): current max prediction
+ * - min_distance (float, read/write): current min distance to check when
+ * arriving to check points (nodes).
  */
 struct iPcPathFinder : public virtual iBase
 {
@@ -99,20 +94,11 @@ struct iPcPathFinder : public virtual iBase
 
   virtual bool FollowTwoWayPath (iCelPath* path)=0;
 
-
-  
-  /**
-   *Actually performs the movement in cur_direction which has been
-   *modified by the previous calls to all other steering functions
-   *
-   */
-
-  virtual bool FollowPath () = 0;
-
   /**
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
    * message if the mover was really moving. Otherwise nothing happens.
    */
+
   virtual void Interrupt () = 0;
 
   virtual void SetDelayRecheck (int delay) = 0;

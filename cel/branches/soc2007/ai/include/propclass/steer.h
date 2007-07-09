@@ -27,37 +27,44 @@
 struct iPcLinearMovement;
 
 /**
- * This is a mover property class. It works closely with pclinmove and
+ * This is a steering property class. It works closely with pclinmove and
  * pcactormove in order to move an object from one position to another
  * while checking collision detection along the way.
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pcmover_impossible: don't even start the move: impossible. This
- *   message will have a 'meshname' parameter containing the name of the
- *   mesh that was preventing the move.
- * - pcmover_stuck: can't move further.
- * - pcmover_arrived: arrived at final position.
- * - pcmover_interrupted: movement has been interrupted.
+ * - pcsteer_arrived: arrived at final position.
+ * - pcsteer_interrupted: movement has been interrupted.
  *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - MoveTo: parameters 'sectorname' (string), 'position' (vector3),
- *     ,'sqradius' (float) and optional 'checklos' (bool, default false).
- * - Start: parameters 'sectorname' (string), 'position' (vector3),
- *     'up' (vector3), and 'sqradius' (float). This action is deprecated,
- *     you should use MoveTo instead.
+ * - Seek: parameters 'sectorname' (string), 'position' (vector3).
+ * - Flee: parameters 'sectorname' (string), 'position' (vector3).
+ * - Pursue: parameters 'target' (iCelEntity*), 'max_prediction' (float),
  * - Interrupt: interrupt the current movement.
- *
- * This property class supports the 
-
-
-following properties (add prefix
+ * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
  * - position (vector3, read only): current end position.
  * - sqradius (float, read/write): current squared radius.
  * - moving (bool, read only): returns true if currently moving.
+ * - cur_position (vector3, read only): current position.
+ * - cur_direction (vector3, read only): current direction.
+ * - check_cohesion (bool, read/write): returns true if currently checking for cohesion.
+ * - check_separation (bool, read/write): returns true if currently checking for separation.
+ * - check_arrival (bool, read/write): returns true if currently checking for arrival.
+ * - check_dm (bool, read/write): returns true if currently checking for direction matching.
+ * - arrival_radius (bool, read/write): current arrival radius.
+ * - collision_avoidance (bool, read only): returns true if currently checking for collisions.
+ * - ca_lookahead (float, read/write): current collision avoidance max lookahead.
+ * - separation_radius (float, read/write): current min radius before separating.
+ * - cohesion_radius (float, read/write): current max radius before activating cohesion.
+ * - separation_weight (float, read/write): current separation weight.
+ * - cohesion_weight (float, read/write): current cohesion weight.
+ * - dm_weight (float, read/write): current direction matching weight.
+ * - pursue_max_prediction (float, read/write): current pursue max prediction.
+ * - current_action (int, read only): current action code value.
+ * - delay_recheck (int, read/write): current delay before calling TickOnce.
  */
 struct iPcSteer : public virtual iBase
 {
@@ -66,75 +73,121 @@ struct iPcSteer : public virtual iBase
   /**
    * Move to the specified position. When you call this function this property
    * class will attempt to move the linmove to the correct position.
-   * If it fails the behaviour will get a 'pcmover_stuck' message. Otherwise
-   * it will get a 'pcmover_arrived' message.
-   * If checklos parameter is true a line of sight test will be made in
-   * advance, and if this function detects that line of sight is blocked
-   * then the behaviour will get a 'pcmover_impossible' message and this 
-   * function will return false then. 
+   * If arrival checking is activated it will stop at the specified position and
+   * it will get a 'pcsteer_arrived' message.
    * If this property class was already controlling a movement
    * then that movement will be interrupted (possibly giving a
-   * pcmover_interrupted message).
+   * pcsteer_interrupted message).
    * \param sector is the desired sector to move to.
    * \param position is the desired position to move to.
-   * \param sqradius if the linmove ends up within the given squared
-   * radius of the desired position the movement will stop and be considered
-   * sucessful.
-   * \param checklos whether to check line of sight to destination on movement
-   * start.
    */
   virtual bool Seek (iSector* sector, const csVector3& position) = 0;
 
+  /**
+   * Move away from the specified position. When you call this function this property
+   * class will attempt to move the linmove to oposite of the specified position.
+   * If this property class was already controlling a movement
+   * then that movement will be interrupted (possibly giving a
+   * pcsteer_interrupted message).
+   * \param sector is the desired sector to move away from.
+   * \param position is the desired position to move away from.
+   */
   virtual bool Flee (iSector* sector, const csVector3& position) = 0;
 
-  virtual bool Wander (float offset, float radius, float rate) = 0;
   
+  /**
+   * Move to the specified targets position. When you call this function this property
+   * class will attempt to move the linmove to the targets current position.
+   * The targets position will be updated periodically. Also, if max_prediction > 0,
+   * this function will calculate targets future position instead of its actual
+   * position in order to have more chance to cacth its target.
+   * If arrival checking is activated it will stop at the specified position and
+   * it will get a 'pcsteer_arrived' message.
+   * If this property class was already controlling a movement
+   * then that movement will be interrupted (possibly giving a
+   * pcsteer_interrupted message).
+   * \param target is the desired target to pursue.
+   * \param max_prediction is the maximun prediction that can be used to calculate 
+   * target's future position.
+   */
   virtual bool Pursue (iCelEntity* target, float max_prediction)=0;
   
   /**
-   *Actually performs the movement in cur_direction which has been
-   *modified by the previous calls to all other steering functions
-   *
+   * Sets arrival checking on with arrival_radius = radius
+   * \param radius sets current arrival_radius
    */
 
-  virtual bool Move () = 0;
+  virtual void CheckArrivalOn (float radius) = 0;
 
-  virtual void CheckArrivalOn (float) = 0;
+  /**
+   * Sets arrival checking off
+   */
 
   virtual void CheckArrivalOff () = 0;
 
-  virtual bool CheckArrival () = 0;
+  /**
+   * Sets collision avoidance on
+   * \param lookahead sets current ca_lookahead
+   * \param weight sets current ca_weight
+   */
 
-  virtual void CollisionAvoidanceOn (float, float) = 0;
+  virtual void CollisionAvoidanceOn (float lookahead, float weight) = 0;
+  
+  /**
+   * Sets Collision Avoidance off
+   */
 
   virtual void CollisionAvoidanceOff () = 0;
 
-  virtual bool CollisionAvoidance () = 0;
+  
+  /**
+   * Sets Cohesion on
+   * \param targets sets current cohesion_targets
+   * \param radius sets current cohesion_radius
+   * \param weight sets current cohesion_weight
+   */
 
   virtual void CohesionOn (iCelEntityList* targets, float radius, float weight) = 0;
-  
-  //virtual void CohesionOn(float radius) = 0;
+
+  /**
+   * Sets Cohesion off
+   */
 
   virtual void CohesionOff () = 0;
 
-  virtual void Cohesion () = 0;
-
+  /**
+   * Sets Separation on
+   * \param targets sets current separation_targets
+   * \param radius sets current separation_radius
+   * \param weight sets current separation_weight
+   */
+  
   virtual void SeparationOn (iCelEntityList* targets, float radius, float weight) = 0;
  
-  virtual void Separation () = 0;
+  /**
+   * Sets Separation off
+   */
 
   virtual void SeparationOff () = 0;
-  
+
+  /**
+   * Sets Direction Matching on
+   * \param targets sets current dm_targets
+   * \param weight sets current dm_weight
+   */
+
   virtual void DirectionMatchingOn (iCelEntityList* targets, float weight) = 0;
-  
-  //virtual void DirectionMatchingOn () = 0;
+
+  /**
+   * Sets Direction Matching off
+   */
+
   
   virtual void DirectionMatchingOff () = 0;
 
-  virtual void DirectionMatching () = 0;
-  
+
   /**
-   * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
+   * Interrupt a movement. The behaviour will get a 'pcsteer_interrupted'
    * message if the mover was really moving. Otherwise nothing happens.
    */
   virtual void Interrupt () = 0;
@@ -149,12 +202,17 @@ struct iPcSteer : public virtual iBase
    */
   virtual const csVector3& GetPosition () const = 0;
 
+
   /**
-   * Get the current squared radius.
+   * Returns a random number using a random binomial.
    */
-  //  virtual float GetSqRadius () const = 0;
 
   virtual float RandomBinomial (float rate) = 0;
+
+  /**
+   * Sets current delay_recheck
+   * \param delay sets delay_recheck
+   */
   
   virtual void SetDelayRecheck (int delay) = 0;
 

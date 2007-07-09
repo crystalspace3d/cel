@@ -95,6 +95,11 @@ celPcPathFinder::celPcPathFinder (iObjectRegistry* object_reg)
   cur_path = scfCreateInstance<iCelPath> ("cel.celpath");
     if(!cur_path)
       fprintf(stderr, "Error Loading celPath in PathFinder!\n");
+
+  goal = scfCreateInstance<iCelNode> ("cel.celnode");
+    if(!goal)
+      fprintf(stderr, "Error Loading celNode in PathFinder!\n");
+
 }
 
 celPcPathFinder::~celPcPathFinder ()
@@ -175,6 +180,7 @@ bool celPcPathFinder::Seek (iSector* sector, const csVector3& position)
   goal = celgraph->GetClosest(position);
 
   if(celgraph->ShortestPath(from, goal, cur_path)){
+    pcsteer->Interrupt();
     FollowPath();
     return true;
   }
@@ -238,9 +244,12 @@ bool celPcPathFinder :: Pursue (iCelEntity* target, float max_prediction)
 
   pclinmove->GetLastFullPosition (cur_position, yrot, cur_sector);
   
+
   iCelNode* from = celgraph->GetClosest(cur_position);
-  iCelNode* to = celgraph->GetClosest(position);
-  if(celgraph->ShortestPath(from, to, cur_path)){
+  goal = celgraph->GetClosest(position);
+  
+
+  if(celgraph->ShortestPath(from, goal, cur_path)){
     FollowPath();
     return true;
   }
@@ -282,7 +291,7 @@ bool celPcPathFinder :: FollowOneWayPath (iCelPath* path)
   is_active = true;
   cur_path = path;
   current_action = action_one_way;
-  
+  goal->SetMapNode(cur_path->GetLast());
   FollowPath();
   return true;
 }
@@ -302,7 +311,7 @@ bool celPcPathFinder :: FollowTwoWayPath (iCelPath* path)
   is_active = true;
   cur_path = path;
   current_action = action_two_way;
-  
+  goal->SetMapNode(cur_path->GetLast());
   FollowPath();
   return true;
 }
@@ -326,11 +335,13 @@ bool celPcPathFinder::FollowPath ()
       case action_seek:
 	{
 	  pcsteer->Seek(sector, position);
+	  Interrupt();
 	  return true;
 	}
       case action_pursue:
 	{
 	  pcsteer->Pursue(pursue_target, pursue_max_prediction);
+	  Interrupt();
 	  return true;
 	}
       case action_wander:
@@ -341,16 +352,19 @@ bool celPcPathFinder::FollowPath ()
       case action_cyclic:
 	{
 	  cur_path->Restart();
+	  goal->SetMapNode(cur_path->GetLast());
 	  break;
 	}
       case action_one_way:
 	{
-	  pcsteer->Interrupt();
+	  pcsteer->CheckArrivalOn(min_distance);
+	  Interrupt();
 	  return true;
 	}
       case action_two_way:
 	{
-	  cur_path->Restart();
+	  cur_path->Invert();
+	  goal->SetMapNode(cur_path->GetFirst());
 	  break;
 	}
       case action_interrupt:
@@ -387,8 +401,6 @@ void celPcPathFinder::StopTracking ()
   if (!is_active) return;
   is_active = false;
   pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  if(pcsteer)
-    pcsteer->Interrupt();
 }
 
 

@@ -95,7 +95,7 @@ private:
   int current_action, delay_recheck;
   size_t wander_distance;
   bool is_active;
-  iCelNode* goal;
+  csRef <iCelNode> goal;
 
   float pursue_max_prediction, min_distance;
 
@@ -105,11 +105,12 @@ private:
 
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg, const char* meshname = 0);
+  virtual bool FollowPath ();    
   
   static csStringID id_meshname;
   celOneParameterBlock* params;
 
-public:
+ public:
   celPcPathFinder (iObjectRegistry* object_reg);
   
   virtual ~celPcPathFinder ();
@@ -126,9 +127,7 @@ public:
 
   virtual bool FollowTwoWayPath (iCelPath* path);
 
-  virtual bool FollowPath ();
-      
-  virtual void Interrupt ();
+    virtual void Interrupt ();
 
   virtual void SetDelayRecheck(int delay);
 

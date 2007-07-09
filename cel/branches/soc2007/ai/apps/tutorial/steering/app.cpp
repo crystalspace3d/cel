@@ -114,7 +114,7 @@ bool MainApp::LoadSteering ()
   steering_entity = pl->CreateEntity ("steer", bl, "steering_behave",
 				      "pcmove.linear",
 				      "pcmove.actorold",
-				      "pcsteer",
+				      "pcmove.steer",
 				      "pcobject.mesh",
 				      "pcinput.standard",
 				      CEL_PROPCLASS_END);
@@ -150,11 +150,6 @@ bool MainApp::LoadSteering ()
   pcactormove->SetRotationSpeed (2.75f);
   
   
-
-  //csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
-  //					     iPcSteer);
-
- 
 
   // Get iPcCommandInput so we can do key bindings. The behaviour layer
   // will interprete the commands so the steerer can move.

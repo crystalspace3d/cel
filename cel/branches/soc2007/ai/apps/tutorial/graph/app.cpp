@@ -172,9 +172,10 @@ bool MainApp::LoadPathFinder ()
   pcinput->Bind ("5", "dm");
   pcinput->Bind ("s", "seek");
   pcinput->Bind ("w", "wander");
-  pcinput->Bind ("f", "flee");
+  pcinput->Bind ("c", "cyclic");
   pcinput->Bind ("p", "pursue");
-  pcinput->Bind ("n", "next");
+  pcinput->Bind ("o", "oneway");
+  pcinput->Bind ("t", "twoway");
 
   return true;
 }

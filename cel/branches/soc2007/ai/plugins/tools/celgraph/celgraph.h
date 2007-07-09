@@ -109,17 +109,20 @@ celPath, iCelPath, iComponent>
  public:
   celPath (iBase* parent);
   virtual ~celPath ();
-  virtual void AddNode(iMapNode* node);
-  virtual void InsertNode(size_t pos, iMapNode* node);
-  virtual iMapNode* Next();
-  virtual iMapNode* Previous();
-  virtual iMapNode* Current();
-  virtual csVector3 CurrentPosition();
-  virtual iSector* CurrentSector();
-  virtual bool HasNext();
-  virtual bool HasPrevious();
-  virtual void Restart();
+  virtual void AddNode (iMapNode* node);
+  virtual void InsertNode (size_t pos, iMapNode* node);
+  virtual iMapNode* Next ();
+  virtual iMapNode* Previous ();
+  virtual iMapNode* Current ();
+  virtual csVector3 CurrentPosition ();
+  virtual iSector* CurrentSector ();
+  virtual bool HasNext ();
+  virtual bool HasPrevious ();
+  virtual void Restart ();
   virtual bool Initialize (iObjectRegistry* object_reg);
+  virtual iMapNode* GetFirst ();
+  virtual iMapNode* GetLast ();
+  virtual void Invert ();
 };
 
 /**

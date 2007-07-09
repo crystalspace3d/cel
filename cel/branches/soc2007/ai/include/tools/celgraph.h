@@ -210,6 +210,21 @@ struct iCelPath : public virtual iBase
    */
   virtual void Restart () = 0;
 
+  /**
+   * Get First node in path.
+   */
+  virtual iMapNode* GetFirst () = 0;
+  
+  /**
+   * Get last node in path.
+   */
+  virtual iMapNode* GetLast () = 0;
+  
+  /**
+   * Invert nodes in the path.
+   */
+  virtual void Invert () = 0;
+  
 };
 
 
