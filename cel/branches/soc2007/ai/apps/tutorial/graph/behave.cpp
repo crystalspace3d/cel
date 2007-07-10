@@ -1023,6 +1023,7 @@ bool BehaviourPF::LoadGraph ()
   celgraph->AddEdge(gn36, gn37, true);
   celgraph->AddEdge(gn37, gn38, true);
   celgraph->AddEdge(gn38, gn39, true);
+  celgraph->AddEdge(gn0, gn39, true);
 
   celgraph->AddEdge(gn1, gn0 , true);
   celgraph->AddEdge(gn2, gn1 , true);
@@ -1073,7 +1074,7 @@ bool BehaviourPF::LoadGraph ()
   celgraph->AddEdge(gn37, gn36, true);
   celgraph->AddEdge(gn38, gn37, true);
   celgraph->AddEdge(gn39, gn38, true);
-  
+  celgraph->AddEdge(gn39, gn0, true);
 
   /*celgraph->AddEdge(gn1, gn2, true);
   celgraph->AddEdge(gn2, gn3, true);
