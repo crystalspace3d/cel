@@ -35,6 +35,7 @@
 #include "ivaria/conin.h"
 #include "ivaria/script.h"
 #include "csutil/randomgen.h"
+#include "csutil/hash.h"
 
 #include "tools/expression.h"
 #include "plugins/tools/celgraph/celgraph.h"
@@ -329,19 +330,23 @@ iCelNode* celGraph:: GetClosest (csVector3 position)
 bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
   CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
- 
+  csHash<iCelNode*, uint> hash;
+  csHashComputer<float> computer;
+  csArray<iCelNode*> array;
+
   from->Heuristic(0, goal);
   queue.Insert(from);
 
   //Check if the list is empty
+
   while(!queue.IsEmpty())
     {
       
       //Choose the node with less cost+h
       iCelNode* current = queue.Pop();
-
-      //Check if we have arrived to our goal      
       
+      
+      //Check if we have arrived to our goal
       if(current == goal){
 	while(true){
 	  path->InsertNode(0, current->GetMapNode());
@@ -355,12 +360,31 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       //Get successors
       csArray<iCelNode*> suc = current->GetSuccessors();
       for(size_t i=0; i<suc.GetSize(); i++){
-	if(suc[i] == current->GetParent())
+
+	//if(suc[i] == current->GetParent())
+	//continue;
+	
+	//Check if this Node is already in the queue
+	array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
+	csArray<iCelNode*> :: Iterator it = array.GetIterator();
+	bool in = false;
+
+	while(it.HasNext()){
+	  iCelNode* cur = it.Next();
+	  if(cur == suc[i]){
+	    in = true;
+	    break;
+	  }
+	}
+	
+	if(in)
 	  continue;
+
 	suc[i]->SetParent(current);
 	float cost = csSquaredDist::PointPoint(current->GetPosition(), suc[i]->GetPosition());
 	suc[i]->Heuristic(current->GetCost()+cost, goal);
 	queue.Insert(suc[i]);
+	hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
       }
     }
 
