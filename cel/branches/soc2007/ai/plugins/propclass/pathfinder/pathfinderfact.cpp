@@ -211,6 +211,7 @@ bool celPcPathFinder::Wander (size_t distance){
   is_active = true;
 
   goal = celgraph->RandomPath(from, wander_distance, cur_path);
+  pcsteer->Interrupt();
   FollowPath();
 
   return true;
@@ -250,6 +251,7 @@ bool celPcPathFinder :: Pursue (iCelEntity* target, float max_prediction)
   
 
   if(celgraph->ShortestPath(from, goal, cur_path)){
+    pcsteer->Interrupt();
     FollowPath();
     return true;
   }
