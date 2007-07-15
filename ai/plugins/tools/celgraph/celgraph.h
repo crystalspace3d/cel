@@ -119,6 +119,7 @@ celPath, iCelPath, iComponent>
   virtual bool HasNext ();
   virtual bool HasPrevious ();
   virtual void Restart ();
+  virtual void Clear ();
   virtual bool Initialize (iObjectRegistry* object_reg);
   virtual iMapNode* GetFirst ();
   virtual iMapNode* GetLast ();

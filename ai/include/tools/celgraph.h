@@ -211,6 +211,11 @@ struct iCelPath : public virtual iBase
   virtual void Restart () = 0;
 
   /**
+   * Clears path
+   */
+  virtual void Clear () = 0;
+
+  /**
    * Get First node in path.
    */
   virtual iMapNode* GetFirst () = 0;

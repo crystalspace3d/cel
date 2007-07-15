@@ -229,6 +229,12 @@ void celPath::Restart ()
   cur_node = 0;
 }
 
+void celPath::Clear ()
+{
+  nodes.DeleteAll();
+  Restart();
+}
+
 void celPath ::Invert ()
 {
   csRefArray <iMapNode> dummy;
@@ -329,6 +335,8 @@ iCelNode* celGraph:: GetClosest (csVector3 position)
 
 bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 {
+  path->Clear();
+
   CS::Utility::PriorityQueue<iCelNode*, csArray<iCelNode*>, Comparator<iCelNode*, iCelNode*> > queue;
   csHash<iCelNode*, uint> hash;
   csHashComputer<float> computer;
@@ -349,10 +357,9 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       //Check if we have arrived to our goal
       if(current == goal){
 	while(true){
-	  path->InsertNode(0, current->GetMapNode());
-	  if(current == from){
+	  if(current == from)
 	    return true;
-	  }
+	  path->InsertNode(0, current->GetMapNode());
 	  current = current->GetParent();
 	}
       }
