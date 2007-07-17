@@ -6,6 +6,9 @@ The history order is reversed so that new features are at the top.
 17-Jul-2007
 	- Jorrit converted a big bunch of old SCF to new SCF. Only a few
 	  classes left.
+	- Jorrit fixed a few left over SCF things. Only thing that still has
+	  to be converted to new SCF but that one is problematic due to
+	  API clash.
 4-Jul-2007
 	- Genjix got rid of python info about loading property class
 	  factories as its uneeded.
