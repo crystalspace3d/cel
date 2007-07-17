@@ -30,14 +30,14 @@ struct iSector;
 class csColor;
 class csVector2;
 
-SCF_VERSION (iBillboardLayer, 0, 0, 1);
-
 /**
  * A layer of billboards. You can add several billboards on one
  * layer and then you can move the layer.
  */
-struct iBillboardLayer : public iBase
+struct iBillboardLayer : public virtual iBase
 {
+  SCF_INTERFACE (iBillboardLayer, 0, 0, 1);
+
   /**
    * Get current offset of layer in billboard space.
    */
@@ -125,8 +125,6 @@ struct iBillboardEventHandler : public virtual iBase
  */
 #define CEL_BILLBOARD_SENDMOVE 16
 
-SCF_VERSION (iBillboard, 0, 0, 1);
-
 /**
  * A billboard (2D image on screen).
  * Billboards work in a coordinate system independent of the size
@@ -136,8 +134,10 @@ SCF_VERSION (iBillboard, 0, 0, 1);
  * (i.e. a 1280x1024 screen is exactly 307200/240 x 307200/300).
  * For convenience we call this coordinate system 'billboard space'.
  */
-struct iBillboard : public iBase
+struct iBillboard : public virtual iBase
 {
+  SCF_INTERFACE (iBillboard, 0, 0, 1);
+
   /**
    * Get the name of this billboard.
    */
@@ -406,14 +406,14 @@ struct iBillboard : public iBase
   virtual void ClearTextBgColor () = 0;
 };
 
-SCF_VERSION (iBillboardManager, 0, 0, 1);
-
 /**
  * This is a manager to handle billboards. This is used in combination
  * with the billboard property class.
  */
-struct iBillboardManager : public iBase
+struct iBillboardManager : public virtual iBase
 {
+  SCF_INTERFACE (iBillboardManager, 0, 0, 1);
+
   /**
    * Convert a screen X position to billboard space.
    */

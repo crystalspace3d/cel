@@ -71,19 +71,9 @@ csStringID celPcRules::id_name = csInvalidStringID;
 csStringID celPcRules::id_time = csInvalidStringID;
 PropertyHolder celPcRules::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcRules)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRules)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRules::PcRules)
-  SCF_IMPLEMENTS_INTERFACE (iPcRules)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcRules::celPcRules (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
-
   // For actions.
   if (id_name == csInvalidStringID)
   {
@@ -113,7 +103,6 @@ celPcRules::~celPcRules ()
   if (pcprop && prop_listener)
     pcprop->RemovePropertyListener (prop_listener);
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRules);
 }
 
 #define RULES_SERIAL 1

@@ -51,14 +51,9 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBehaviourGeneral)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
 celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
-	iObjectRegistry* object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celBehaviourGeneral::entity = entity;
   celBehaviourGeneral::object_reg = object_reg;
   name = 0;
@@ -67,7 +62,6 @@ celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
 celBehaviourGeneral::~celBehaviourGeneral ()
 {
   delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id,

@@ -25,8 +25,6 @@
 
 #include "tools/rulebase.h"
 
-SCF_VERSION (iPcRules, 0, 0, 1);
-
 /**
  * This property class represents a set of active rules for an entity.
  * It uses the rule base system (iCelRuleBase). Note that this property class
@@ -51,8 +49,10 @@ SCF_VERSION (iPcRules, 0, 0, 1);
  * - DeleteRule: parameters 'name' (string).
  * - DeleteAllRules: no parameters.
  */
-struct iPcRules : public iBase
+struct iPcRules : public virtual iBase
 {
+  SCF_INTERFACE (iPcRules, 0, 0, 1);
+
   /**
    * Add a rule.
    */

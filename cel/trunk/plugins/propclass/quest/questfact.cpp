@@ -60,19 +60,9 @@ csStringID celPcQuest::id_name = csInvalidStringID;
 
 PropertyHolder celPcQuest::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcQuest)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcQuest)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcQuest::PcQuest)
-  SCF_IMPLEMENTS_INTERFACE (iPcQuest)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcQuest::celPcQuest (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcQuest);
-
   // For SendMessage parameters.
   //params = new celOneParameterBlock ();
   //params->SetParameterDef (id_message, "message");
@@ -103,7 +93,6 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 celPcQuest::~celPcQuest ()
 {
   //delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcQuest);
 }
 
 bool celPcQuest::SetPropertyIndexed (int idx, const char* b)

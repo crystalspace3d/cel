@@ -77,10 +77,6 @@ csStringID celPcCommandInput::id_value = csInvalidStringID;
 
 PropertyHolder celPcCommandInput::propinfo;
 
-SCF_IMPLEMENT_IBASE (celPcCommandInput::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
 celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {

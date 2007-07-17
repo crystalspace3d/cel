@@ -26,20 +26,17 @@
 #include "propclass/mechsys.h"
 #include "physicallayer/propclas.h"
 
-SCF_IMPLEMENT_IBASE (htBehaviourActor)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
-htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity) : bl (bl), entity (entity)
+htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity)
+	: scfImplementationType (this), bl (bl), entity (entity)
 {
-  SCF_CONSTRUCT_IBASE (0);
 }
+
 htBehaviourActor::~htBehaviourActor()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
-bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,...)
+bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc,
+    celData &ret, iCelParameterBlock *params,...)
 {
   va_list arg;
   va_start (arg, params);
@@ -47,7 +44,8 @@ bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, c
   va_end (arg);
   return rc;
 }
-bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params, va_list arg)
+bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc,
+    celData &ret, iCelParameterBlock *params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
 

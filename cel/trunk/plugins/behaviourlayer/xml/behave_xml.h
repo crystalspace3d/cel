@@ -39,7 +39,8 @@ class celXmlScript;
 /**
  * General behaviour class.
  */
-class celBehaviourXml : public iCelBehaviour
+class celBehaviourXml : public scfImplementation1<
+	celBehaviourXml, iCelBehaviour>
 {
 protected:
   iCelEntity* entity;
@@ -75,8 +76,6 @@ public:
   uint32 GetRandUInt32 (uint32 u) { return rng.Get (u); }
   void Quit ();
 
-  SCF_DECLARE_IBASE;
-
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id,
@@ -91,7 +90,8 @@ public:
 /**
  * Special bootstrap behaviour.
  */
-class celBehaviourBootstrap : public iCelBehaviour
+class celBehaviourBootstrap : public scfImplementation1<
+	celBehaviourBootstrap, iCelBehaviour>
 {
 protected:
   iCelEntity* entity;
@@ -108,8 +108,6 @@ public:
   {
     celBehaviourBootstrap::bl = bl;
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }

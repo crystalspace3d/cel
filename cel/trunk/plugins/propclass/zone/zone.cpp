@@ -92,10 +92,6 @@ void cameraSectorListener::NewSector (iCamera* /*camera*/, iSector* sector)
     zonemgr->ActivateSector (sector);
 }
 
-SCF_IMPLEMENT_IBASE (cameraSectorListener)
-  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
-SCF_IMPLEMENT_IBASE_END
-
 void meshmoveListener::MovableChanged (iMovable* movable)
 {
   if (!zonemgr) return;
@@ -103,15 +99,7 @@ void meshmoveListener::MovableChanged (iMovable* movable)
     zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
 }
 
-SCF_IMPLEMENT_IBASE (meshmoveListener)
-  SCF_IMPLEMENTS_INTERFACE (iMovableListener)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celMapFile)
-  SCF_IMPLEMENTS_INTERFACE (iCelMapFile)
-SCF_IMPLEMENT_IBASE_END
 
 void celMapFile::SetFile (const char* file)
 {
@@ -144,12 +132,6 @@ void celMapFile::SetSectorName (const char* name)
 }
 
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
-  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
-SCF_IMPLEMENT_IBASE_END
 
 void celRegion::SetEntityName (const char* entname)
 {
@@ -380,10 +362,6 @@ iCelMapFile* celRegion::FindMapFile (const char* name) const
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celZone)
-  SCF_IMPLEMENTS_INTERFACE (iCelZone)
-SCF_IMPLEMENT_IBASE_END
-
 void celZone::LinkRegion (iCelRegion* region)
 {
   size_t idx = regions.Find ((celRegion*)region);
@@ -433,18 +411,9 @@ csStringID celPcZoneManager::id_name = csInvalidStringID;
 
 PropertyHolder celPcZoneManager::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcZoneManager::PcZoneManager)
-  SCF_IMPLEMENTS_INTERFACE (iPcZoneManager)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
@@ -520,7 +489,6 @@ celPcZoneManager::~celPcZoneManager ()
   loading_mode = CEL_ZONE_NORMAL;
   ActivateRegion (0);
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
 bool celPcZoneManager::GetPropertyIndexed (int idx, const char*& b)

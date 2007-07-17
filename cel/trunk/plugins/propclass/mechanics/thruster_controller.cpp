@@ -50,19 +50,9 @@ csStringID celPcMechanicsBalancedGroup::type_translation = csInvalidStringID;
 
 PropertyHolder celPcMechanicsBalancedGroup::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsBalancedGroup)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsBalancedGroup)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsBalancedGroup::PcMechanicsBalancedGroup)
-  SCF_IMPLEMENTS_INTERFACE (iPcMechanicsBalancedGroup)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMechanicsBalancedGroup::celPcMechanicsBalancedGroup (
-	iObjectRegistry* object_reg) : celPcCommon (object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsBalancedGroup);
-
   if (param_thruster == csInvalidStringID)
   {
     // Parameters for action_addthruster
@@ -291,19 +281,9 @@ csStringID celPcMechanicsThrusterController::type_translation = csInvalidStringI
 
 PropertyHolder celPcMechanicsThrusterController::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsThrusterController)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsThrusterController)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterController::PcMechanicsThrusterController)
-  SCF_IMPLEMENTS_INTERFACE (iPcMechanicsThrusterController)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMechanicsThrusterController::celPcMechanicsThrusterController (
-	iObjectRegistry* object_reg) : celPcCommon (object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThrusterController);
-
   if (param_object == csInvalidStringID)
   {
     // Parameters for action_inittc

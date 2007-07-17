@@ -42,14 +42,6 @@ CEL_IMPLEMENT_FACTORY_ALT (Timer, "pctools.timer", "pctimer")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcTimer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTimer)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
-  SCF_IMPLEMENTS_INTERFACE (iPcTimer)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcTimer::id_elapsedticks = csInvalidStringID;
 csStringID celPcTimer::id_currentticks = csInvalidStringID;
 csStringID celPcTimer::id_time = csInvalidStringID;
@@ -58,9 +50,8 @@ csStringID celPcTimer::id_repeat = csInvalidStringID;
 PropertyHolder celPcTimer::propinfo;
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
   enabled = false;
   wakeupframe = false;
   wakeuponce = false;
@@ -88,7 +79,6 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 
 celPcTimer::~celPcTimer ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTimer);
 }
 
 bool celPcTimer::PerformActionIndexed (int idx,
