@@ -55,6 +55,7 @@ rule CelConfigGen
   libaddstrings on $(<) = $(libaddstrings) ;
   libbasestrs on $(<) = $(libbasestrs) ;
   libswitchcase on $(<) = $(libswitchcase) ;
+  ENV_VERSION on $(<) = $(PACKAGE_VERSION_LIST[1])_$(PACKAGE_VERSION_LIST[2]) ;
 
   CelConfigGen1 cel-config : cel-config.template ;
 }
@@ -80,8 +81,9 @@ if test "\${PATH_SEPARATOR+set}" != set; then
 fi
 
 CEL="\${CEL-$(prefix)\$PATH_SEPARATOR.}"
+CEL_$(ENV_VERSION)="\${CEL_$(ENV_VERSION)-\$CEL}"
 my_IFS=\$IFS; IFS=\$PATH_SEPARATOR
-for p in \$CEL
+for p in \$CEL_$(ENV_VERSION)
 do
   prefix="\${p}"
   exec_prefix="\${prefix}"
@@ -92,9 +94,9 @@ do
   # try to determine if we're in a source or installed CEL version
   if test "x\$includedir" = "x"
   then
-    if [ -r \${prefix}/include/$(PACKAGE_NAME)/physicallayer/pl.h ] ; then
-      includedir="\${prefix}/include/$(PACKAGE_NAME)"
-    elif [ -r \${prefix}/include/physicallayer/pl.h ] ; then
+    if [ -r \${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/celversion.h ] ; then
+      includedir="\${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)"
+    elif [ -r \${prefix}/include/celversion.h ] ; then
       includedir="\${prefix}/include"
     fi
   fi
