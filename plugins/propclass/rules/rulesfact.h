@@ -91,7 +91,8 @@ struct celTimedRule
 /**
  * This is the rules property class.
  */
-class celPcRules : public celPcCommon
+class celPcRules : public scfImplementationExt1<
+	celPcRules, celPcCommon, iPcRules>
 {
 private:
   // For SendMessage parameters.
@@ -131,85 +132,26 @@ public:
 
   void PropertyChanged (iPcProperties* pcprop, size_t idx);
 
-  void AddRule (iCelRule* rule);
-  void AddRule (iCelRule* rule, csTicks time);
-  void DeleteRule (iCelRule* rule);
+  virtual void AddRule (iCelRule* rule);
+  virtual void AddRule (iCelRule* rule, csTicks time);
+  virtual void DeleteRule (iCelRule* rule);
   void DeleteRule (celActiveRule* rule);
-  void DeleteAllRules ();
-  celDataType GetPropertyType (const char* name);
-  bool GetProperty (const char* name, celData& ret);
-  float GetPropertyFloat (const char* name);
-  long GetPropertyLong (const char* name);
-  bool GetPropertyBool (const char* name);
-  bool GetPropertyVector (const char* name, csVector2& v);
-  bool GetPropertyVector (const char* name, csVector3& v);
-  bool GetPropertyColor (const char* name, csColor& v);
-  const char* GetPropertyString (const char* name);
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void DeleteAllRules ();
+  virtual celDataType GetPropertyType (const char* name);
+  virtual bool GetProperty (const char* name, celData& ret);
+  virtual float GetPropertyFloat (const char* name);
+  virtual long GetPropertyLong (const char* name);
+  virtual bool GetPropertyBool (const char* name);
+  virtual bool GetPropertyVector (const char* name, csVector2& v);
+  virtual bool GetPropertyVector (const char* name, csVector3& v);
+  virtual bool GetPropertyColor (const char* name, csColor& v);
+  virtual const char* GetPropertyString (const char* name);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickEveryFrame ();
-
-  struct PcRules : public iPcRules
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcRules);
-    virtual void AddRule (iCelRule* rule)
-    {
-      scfParent->AddRule (rule);
-    }
-    virtual void AddRule (iCelRule* rule, csTicks time)
-    {
-      scfParent->AddRule (rule, time);
-    }
-    virtual void DeleteRule (iCelRule* rule)
-    {
-      scfParent->DeleteRule (rule);
-    }
-    virtual void DeleteAllRules ()
-    {
-      scfParent->DeleteAllRules ();
-    }
-    virtual celDataType GetPropertyType (const char* name)
-    {
-      return scfParent->GetPropertyType (name);
-    }
-    virtual bool GetProperty (const char* name, celData& ret)
-    {
-      return scfParent->GetProperty (name, ret);
-    }
-    virtual float GetPropertyFloat (const char* name)
-    {
-      return scfParent->GetPropertyFloat (name);
-    }
-    virtual long GetPropertyLong (const char* name)
-    {
-      return scfParent->GetPropertyLong (name);
-    }
-    virtual bool GetPropertyBool (const char* name)
-    {
-      return scfParent->GetPropertyBool (name);
-    }
-    virtual bool GetPropertyVector (const char* name, csVector2& v)
-    {
-      return scfParent->GetPropertyVector (name, v);
-    }
-    virtual bool GetPropertyVector (const char* name, csVector3& v)
-    {
-      return scfParent->GetPropertyVector (name, v);
-    }
-    virtual bool GetPropertyColor (const char* name, csColor& v)
-    {
-      return scfParent->GetPropertyColor (name, v);
-    }
-    virtual const char* GetPropertyString (const char* name)
-    {
-      return scfParent->GetPropertyString (name);
-    }
-  } scfiPcRules;
 };
 
 #endif // __CEL_PF_RULESFACT__

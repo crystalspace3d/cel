@@ -52,19 +52,9 @@ csStringID celPcMechanicsThrusterReactionary::param_maxthrust = csInvalidStringI
 PropertyHolder celPcMechanicsThrusterReactionary::propinfo;
 
 
-SCF_IMPLEMENT_IBASE_EXT (celPcMechanicsThrusterReactionary)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcMechanicsThruster)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary::PcMechanicsThruster)
-  SCF_IMPLEMENTS_INTERFACE (iPcMechanicsThruster)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcMechanicsThrusterReactionary::celPcMechanicsThrusterReactionary (
-	iObjectRegistry* object_reg) : celPcCommon (object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcMechanicsThruster);
-
   lastforceid = 0;
   thrust = 0;
   maxthrust = 0;
@@ -94,7 +84,8 @@ celPcMechanicsThrusterReactionary::~celPcMechanicsThrusterReactionary ()
 csPtr<iCelDataBuffer> celPcMechanicsThrusterReactionary::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (MECHSYS_SERIAL);
-  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (mechanicsobject);
+  csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (
+      mechanicsobject);
   databuf->Add (pc);
   databuf->Add (position);
   databuf->Add (orientation);

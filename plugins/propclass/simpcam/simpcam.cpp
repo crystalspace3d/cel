@@ -72,22 +72,9 @@ csStringID celPcSimpleCamera::param_mesh = csInvalidStringID;
 
 PropertyHolder celPcSimpleCamera::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcSimpleCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSimpleCamera)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSimpleCamera::PcSimpleCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcSimpleCamera)
-  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
-	: celPcCameraCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
-
   objectlookat.Set (0, 0, 0);
   objectcampos.Set (0, 0, 0);
   objectcampos_world = false;
@@ -117,8 +104,6 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
 
 celPcSimpleCamera::~celPcSimpleCamera ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcSimpleCamera::FindSiblingPropertyClasses ()

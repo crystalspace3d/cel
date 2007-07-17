@@ -31,8 +31,6 @@
 struct iPcSolid;
 class csVector3;
 
-SCF_VERSION (iPcEnvAttractor, 0, 0, 1);
-
 /**
  * A property class representing an attractor or a repulsor.
  *
@@ -44,8 +42,10 @@ SCF_VERSION (iPcEnvAttractor, 0, 0, 1);
  * - radius (float, read/write): the maximum radius at which the field affects
  *   an object.
  */
-struct iPcEnvAttractor : public iBase
+struct iPcEnvAttractor : public virtual iBase
 {
+  SCF_INTERFACE (iPcEnvAttractor, 0, 0, 1);
+
   /**
    * Set the magnitude of the force at the center of the attractor. (negative
    * creates a repulsor)

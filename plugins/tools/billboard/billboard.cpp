@@ -43,19 +43,9 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBillboardLayer)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardLayer)
-SCF_IMPLEMENT_IBASE_END
-
-//---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celBillboard)
-  SCF_IMPLEMENTS_INTERFACE (iBillboard)
-SCF_IMPLEMENT_IBASE_END
-
 celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   name = 0;
   flags.SetAll (CEL_BILLBOARD_VISIBLE);
   materialname = 0;
@@ -91,7 +81,6 @@ celBillboard::~celBillboard ()
   delete[] name;
   delete[] materialname;
   delete[] clickmap;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celBillboard::GetRect (csRect& r)
@@ -849,23 +838,9 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBillboardManager)
 
-SCF_IMPLEMENT_IBASE (celBillboardManager)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardManager)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBillboardManager::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_IBASE (celBillboardManager::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
-celBillboardManager::celBillboardManager (iBase* parent)
+celBillboardManager::celBillboardManager (iBase* parent) :
+  scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
   moving_billboard = 0;
   lastmove_billboard = 0;
@@ -890,8 +865,6 @@ celBillboardManager::~celBillboardManager ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBillboardManager::Initialize (iObjectRegistry* object_reg)

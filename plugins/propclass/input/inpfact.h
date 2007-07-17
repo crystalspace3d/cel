@@ -166,7 +166,8 @@ public:
   virtual void EnableJoystickEvents ();
   virtual void DisableJoystickEvents ();
 
-  class EventHandler : public iEventHandler
+  class EventHandler : public scfImplementation1<
+	EventHandler, iEventHandler>
   {
   private:
     // This is a weak ref so that we can ignore the events
@@ -174,17 +175,13 @@ public:
     csWeakRef<celPcCommandInput> parent;
 
   public:
-    EventHandler (celPcCommandInput* parent)
+    EventHandler (celPcCommandInput* parent) : scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE(0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler()
     {
-      SCF_DESTRUCT_IBASE ();
     }
-
-    SCF_DECLARE_IBASE;
 
     virtual bool HandleEvent (iEvent& ev)
     {
