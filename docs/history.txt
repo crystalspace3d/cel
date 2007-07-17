@@ -9,6 +9,10 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed a few left over SCF things. Only thing that still has
 	  to be converted to new SCF but that one is problematic due to
 	  API clash.
+	- Jorrit deprecated the methods iCelPropertyClass->GetPropertyFloat(),
+	  GetPropertyLong(), GetPropertyString() and so on in favor
+	  of the new GetPropertyFloatByID(), GetPropertyLongByID() and
+	  so on.
 4-Jul-2007
 	- Genjix got rid of python info about loading property class
 	  factories as its uneeded.

@@ -1118,47 +1118,47 @@ static bool pcProp2celXmlArg (iCelPropertyClass* pc, csStringID id,
   switch (t)
   {
     case CEL_DATA_BOOL:
-      out.Set (pc->GetPropertyBool (id));
+      out.Set (pc->GetPropertyBoolByID (id));
       break;
     case CEL_DATA_FLOAT:
-      out.SetFloat (pc->GetPropertyFloat (id));
+      out.SetFloat (pc->GetPropertyFloatByID (id));
       break;
     case CEL_DATA_STRING:
-      out.SetString (pc->GetPropertyString (id), true);
+      out.SetString (pc->GetPropertyStringByID (id), true);
       break;
     case CEL_DATA_LONG:
-      out.SetInt32 (pc->GetPropertyLong (id));
+      out.SetInt32 (pc->GetPropertyLongByID (id));
       break;
     case CEL_DATA_ULONG:
-      out.SetUInt32 ((uint32)pc->GetPropertyLong (id));
+      out.SetUInt32 ((uint32)pc->GetPropertyLongByID (id));
       break;
     case CEL_DATA_PCLASS:
-      out.SetPC (pc->GetPropertyPClass (id));
+      out.SetPC (pc->GetPropertyPClassByID (id));
       break;
     case CEL_DATA_ENTITY:
-      out.SetEntity (pc->GetPropertyEntity (id));
+      out.SetEntity (pc->GetPropertyEntityByID (id));
       break;
     case CEL_DATA_IBASE:
-      out.SetIBase (pc->GetPropertyIBase (id));
+      out.SetIBase (pc->GetPropertyIBaseByID (id));
       break;
     case CEL_DATA_COLOR:
       {
         csColor col;
-        pc->GetPropertyColor (id, col);
+        pc->GetPropertyColorByID (id, col);
         out.SetColor (col);
       }
       break;
     case CEL_DATA_VECTOR2:
       {
         csVector2 v;
-        pc->GetPropertyVector (id, v);
+        pc->GetPropertyVectorByID (id, v);
         out.SetVector (v);
       }
       break;
     case CEL_DATA_VECTOR3:
       {
         csVector3 v;
-        pc->GetPropertyVector (id, v);
+        pc->GetPropertyVectorByID (id, v);
         out.SetVector (v);
       }
       break;
