@@ -315,53 +315,53 @@ bool celPcCommon::GetPropertyTemplated (csStringID propertyId, celDataType type,
 }
 
 
-long celPcCommon::GetPropertyLong (csStringID propertyId)
+long celPcCommon::GetPropertyLongByID (csStringID propertyId)
 {
   return GetPropertyTemplated<long> (propertyId, CEL_DATA_LONG);
 }
 
-float celPcCommon::GetPropertyFloat (csStringID propertyId)
+float celPcCommon::GetPropertyFloatByID (csStringID propertyId)
 {
   return GetPropertyTemplated<float> (propertyId, CEL_DATA_FLOAT);
 }
 
-bool celPcCommon::GetPropertyBool (csStringID propertyId)
+bool celPcCommon::GetPropertyBoolByID (csStringID propertyId)
 {
   return GetPropertyTemplated<bool> (propertyId, CEL_DATA_BOOL);
 }
 
-const char* celPcCommon::GetPropertyString (csStringID propertyId)
+const char* celPcCommon::GetPropertyStringByID (csStringID propertyId)
 {
   return GetPropertyTemplated<const char*> (propertyId, CEL_DATA_STRING);
 }
 
-bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
+bool celPcCommon::GetPropertyVectorByID (csStringID propertyId, csVector2& v)
 {
   return GetPropertyTemplated<csVector2> (propertyId, CEL_DATA_VECTOR2, v);
 }
 
-bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
+bool celPcCommon::GetPropertyVectorByID (csStringID propertyId, csVector3& v)
 {
   return GetPropertyTemplated<csVector3> (propertyId, CEL_DATA_VECTOR3, v);
 }
 
-bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
+bool celPcCommon::GetPropertyColorByID (csStringID propertyId, csColor& v )
 {
   return GetPropertyTemplated<csColor> (propertyId, CEL_DATA_COLOR, v);
 }
 
-iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
+iCelPropertyClass* celPcCommon::GetPropertyPClassByID (csStringID propertyId)
 {
   return GetPropertyTemplated<iCelPropertyClass*> (propertyId,
       CEL_DATA_PCLASS);
 }
 
-iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
+iCelEntity* celPcCommon::GetPropertyEntityByID (csStringID propertyId)
 {
   return GetPropertyTemplated<iCelEntity*> (propertyId, CEL_DATA_ENTITY);
 }
 
-iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
+iBase* celPcCommon::GetPropertyIBaseByID (csStringID propertyId)
 {
   return GetPropertyTemplated<iBase*> (propertyId, CEL_DATA_IBASE);
 }
