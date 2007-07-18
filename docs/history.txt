@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 18-Jul-2007
+	- Genjix added new name parameter to cel actions so that actid(...)
+	  isn't always needed.
 	- res made CEL install into versioned directories and support a
 	  versioned CEL_x_y environment variable as measures to get towards
 	  support for parallel installation of multiple versions.
