@@ -2517,9 +2517,11 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
           }
           else if (child->GetAttributeValue ("name"))
           {
-            if (!ParseExpression (local_vars, child, h, "name", "action",
-              CEL_DATA_STRING))
-              return false;
+            csString actid = "cel.action.";
+            actid += child->GetAttributeValue ("name");
+            csStringID id = pl->FetchStringID (actid);
+            h->AddOperation (CEL_OPERATION_PUSH);
+            h->GetArgument ().SetID (id);
           }
           else
             synldr->ReportError ("cel.behaviour.xml", child,
