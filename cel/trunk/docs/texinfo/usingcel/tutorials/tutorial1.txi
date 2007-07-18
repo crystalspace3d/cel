@@ -7,10 +7,7 @@
 @cindex @code{csBaseEventHandler}
 
 This is a tutorial to show how you can use Crystal Entity Layer in your
-own applications. The original game data and the Blender level and model
-source used to create the artwork of this tutorial can be downloaded from:
-
-@uref{http://www.crystalspace3d.org/celtutorial.zip}
+own applications.
 
 The source files of this tutorial can be found in the
 @file{apps/tutorial/walktut} directory that is included with @sc{cel}.

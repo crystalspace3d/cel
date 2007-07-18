@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	- res made CEL install into versioned directories and support a
 	  versioned CEL_x_y environment variable as measures to get towards
 	  support for parallel installation of multiple versions.
+	- Jorrit removed a broken link from the tutorial.
 17-Jul-2007
 	- Jorrit converted a big bunch of old SCF to new SCF. Only a few
 	  classes left.
