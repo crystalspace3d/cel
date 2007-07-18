@@ -832,7 +832,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctools.timer)" id="WakeUp">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
