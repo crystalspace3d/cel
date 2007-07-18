@@ -18,7 +18,7 @@ FILEFLAGS 0x0
       VALUE "ProductName", "Crystal Entity Layer"
       VALUE "ProductVersion", "1.0.1"
       VALUE "FileVersion", "1.0.1"
-      VALUE "LegalCopyright", "Copyright (C)2002-2006 Jorrit Tyberghein and others."
+      VALUE "LegalCopyright", "Copyright (C)2002-2007 Jorrit Tyberghein and others."
       VALUE "FileDescription", "addon_xmlscripts"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
