@@ -57,7 +57,7 @@ rule CelConfigGen
   libswitchcase on $(<) = $(libswitchcase) ;
   ENV_VERSION on $(<) = $(PACKAGE_VERSION_LIST[1])_$(PACKAGE_VERSION_LIST[2]) ;
 
-  CelConfigGen1 cel-config : cel-config.template ;
+  CelConfigGen1 $(<) : cel-config.template ;
 }
 
 actions CelConfigGen1
@@ -157,8 +157,13 @@ __END__
   cat $(>) >> $(<)
 }
 
-ShellScript cel-config : CelConfigGen ;
+CELCONFIGNAME = cel-config-$(PACKAGE_VERSION_SIGNIFICANT) ;
+ShellScript $(CELCONFIGNAME) : CelConfigGen : nohelp ;
 
-# Deprecated...
-SEARCH on cel.cex = $(SUBDIR) ;
-Depends install_bin : [ DoInstall cel.cex : $(bindir) : $(INSTALL_PROGRAM) ] ;
+Depends cel-config : $(CELCONFIGNAME) ;
+CEL_CONFIG_GRISTED = [ DoSourceGrist cel-config ] ;
+SEARCH on $(CEL_CONFIG_GRISTED) = $(SUBDIR) ;
+Depends cel-config : $(CEL_CONFIG_GRISTED) ;
+Copy cel-config : $(CEL_CONFIG_GRISTED) ;
+Help cel-config : "Build the cs-config script" ;
+Depends install_bin : [ DoInstall cel-config : $(bindir) : $(INSTALL_PROGRAM) ] ;

@@ -11,6 +11,9 @@ The history order is reversed so that new features are at the top.
 	- Jorrit renamed 'pcmove.actorold' to 'pcmove.actor' again. Since
 	  this property class is not likely to go away it shouldn't be called
 	  with an 'old' suffix.
+	- res made cel-config versioned (ie it's now called cel-config-X.Y
+	  where X.Y is the CEL version). 'Plain' cel-config is now a wrapper
+	  script using the cs-config-X.Y with the highest found version.
 18-Jul-2007
 	- Genjix then changed it to be speeeed up by working out the string
 	  at compile not runtime.
