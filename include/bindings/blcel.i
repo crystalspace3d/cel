@@ -32,7 +32,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
-#include "propclass/actorlara.h"
+#include "propclass/actoranalog.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
@@ -466,8 +466,8 @@ CEL_PC(iPcActorMove, ActorMove, pcmove.actor)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/actorlara.h"
-CEL_PC(iPcActorLara, ActorLara, pcmove.lara)
+%include "propclass/actoranalog.h"
+CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
 
 //-----------------------------------------------------------------------------
 
