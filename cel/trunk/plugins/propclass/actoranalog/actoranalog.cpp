@@ -19,7 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
-#include "plugins/propclass/actorlara/actorlara.h"
+#include "plugins/propclass/actoranalog/actoranalog.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -39,18 +39,18 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (ActorLara, "pcmove.lara")
+CEL_IMPLEMENT_FACTORY (ActorAnalog, "pcmove.actor.analog")
 
 //---------------------------------------------------------------------------
 
-csStringID celPcActorLara::id_axis = csInvalidStringID;
-csStringID celPcActorLara::id_value = csInvalidStringID;
+csStringID celPcActorAnalog::id_axis = csInvalidStringID;
+csStringID celPcActorAnalog::id_value = csInvalidStringID;
 
-PropertyHolder celPcActorLara::propinfo;
+PropertyHolder celPcActorAnalog::propinfo;
 
 const csTicks wakeup = 100;
 
-celPcActorLara::celPcActorLara (iObjectRegistry* object_reg)
+celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   : scfImplementationType (this, object_reg)
 {
   // For SendMessage parameters.
@@ -92,13 +92,13 @@ celPcActorLara::celPcActorLara (iObjectRegistry* object_reg)
   movespeed = 10;
 }
 
-celPcActorLara::~celPcActorLara ()
+celPcActorAnalog::~celPcActorAnalog ()
 {
 }
 
 const size_t actorlara_serial = 4;
 
-csPtr<iCelDataBuffer> celPcActorLara::Save ()
+csPtr<iCelDataBuffer> celPcActorAnalog::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (actorlara_serial);
   databuf->Add (target_axis.x);
@@ -108,7 +108,7 @@ csPtr<iCelDataBuffer> celPcActorLara::Save ()
   return csPtr<iCelDataBuffer> (databuf);
 }
 
-bool celPcActorLara::Load (iCelDataBuffer* databuf)
+bool celPcActorAnalog::Load (iCelDataBuffer* databuf)
 {
   size_t serialnr = databuf->GetSerialNumber ();
   if (serialnr != actorlara_serial) return false;
@@ -121,7 +121,7 @@ bool celPcActorLara::Load (iCelDataBuffer* databuf)
   return true;
 }
 
-bool celPcActorLara::PerformActionIndexed (int idx,
+bool celPcActorAnalog::PerformActionIndexed (int idx,
   iCelParameterBlock* params,
   celData& ret)
 {
@@ -158,7 +158,7 @@ bool celPcActorLara::PerformActionIndexed (int idx,
   return false;
 }
 
-void celPcActorLara::SetAxis (size_t axis, float value)
+void celPcActorAnalog::SetAxis (size_t axis, float value)
 {
   // make sure value is in desired range of [-1,1]
   if (value < -1.0f)
@@ -174,16 +174,16 @@ void celPcActorLara::SetAxis (size_t axis, float value)
   // keep the movement synced
   UpdateMovement ();
 }
-void celPcActorLara::SetMovementSpeed (float movespeed)
+void celPcActorAnalog::SetMovementSpeed (float movespeed)
 {
-  celPcActorLara::movespeed = movespeed;
+  celPcActorAnalog::movespeed = movespeed;
 }
-void celPcActorLara::SetTurningSpeed (float turnspeed)
+void celPcActorAnalog::SetTurningSpeed (float turnspeed)
 {
-  celPcActorLara::turnspeed = turnspeed;
+  celPcActorAnalog::turnspeed = turnspeed;
 }
 
-void celPcActorLara::FindSiblingPropertyClasses ()
+void celPcActorAnalog::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
@@ -193,17 +193,17 @@ void celPcActorLara::FindSiblingPropertyClasses ()
   }
 }
 
-void celPcActorLara::TickOnce ()
+void celPcActorAnalog::TickOnce ()
 {
   UpdateMovement ();
   pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);
 }
-/*void celPcActorLara::TickEveryFrame ()
+/*void celPcActorAnalog::TickEveryFrame ()
 {
   UpdateMovement ();
 }*/
 
-void celPcActorLara::UpdateMovement ()
+void celPcActorAnalog::UpdateMovement ()
 {
   FindSiblingPropertyClasses ();
   // check if we're missing any property classes we need

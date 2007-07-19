@@ -41,9 +41,9 @@
  * - movespeed (float, read/write): Movement speed.
  * - turnspeed (float, read/write): Turning speed.
  */
-struct iPcActorLara : public virtual iBase
+struct iPcActorAnalog : public virtual iBase
 {
-  SCF_INTERFACE (iPcActorLara, 0, 0, 1);
+  SCF_INTERFACE (iPcActorAnalog, 0, 0, 1);
 
   /**
    * Set axis to a value.

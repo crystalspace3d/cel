@@ -28,7 +28,7 @@
 #include "physicallayer/facttmpl.h"
 #include "celtool/stdpcimp.h"
 #include "celtool/stdparams.h"
-#include "propclass/actorlara.h"
+#include "propclass/actoranalog.h"
 
 struct iCelEntity;
 struct iObjectRegistry;
@@ -39,17 +39,17 @@ struct iPcNewCamera;
 /**
  * Factory for actor lara.
  */
-CEL_DECLARE_FACTORY (ActorLara)
+CEL_DECLARE_FACTORY (ActorAnalog)
 
 /**
  * This is a actor lara property class.
  */
-class celPcActorLara : public scfImplementationExt1<celPcActorLara,
-  celPcCommon, iPcActorLara>
+class celPcActorAnalog : public scfImplementationExt1<celPcActorAnalog,
+  celPcCommon, iPcActorAnalog>
 {
 public:
-  celPcActorLara (iObjectRegistry* object_reg);
-  virtual ~celPcActorLara ();
+  celPcActorAnalog (iObjectRegistry* object_reg);
+  virtual ~celPcActorAnalog ();
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
