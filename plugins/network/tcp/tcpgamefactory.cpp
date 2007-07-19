@@ -116,8 +116,7 @@ void celTCPGameFactory::StopSearchForGameList ()
 
 iCelGame* celTCPGameFactory::GetCurrentGame () const
 {
-  if (!game) return 0;
-  else return &game->scfiCelGame;
+  return game;
 }
 
 bool celTCPGameFactory::CreateNewGame (celNetworkGameType game_type, 
