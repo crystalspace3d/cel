@@ -4577,9 +4577,9 @@ iPcActorMove *celCreateActorMove(iCelPlLayer *pl, iCelEntity *entity, const char
 {
   csRef<iCelPropertyClass> pc;
   if (tagname)
-    pc = pl->CreateTaggedPropertyClass(entity,"pcmove.actorold", tagname);
+    pc = pl->CreateTaggedPropertyClass(entity,"pcmove.actor", tagname);
   else
-    pc = pl->CreatePropertyClass(entity,"pcmove.actorold" );
+    pc = pl->CreatePropertyClass(entity,"pcmove.actor" );
   if (!pc.IsValid()) return 0;
   csRef<iPcActorMove> pclm = scfQueryInterface<iPcActorMove>(pc);
   if (!pclm.IsValid()) return 0;
@@ -4597,9 +4597,9 @@ iPcActorMove * celGetSetActorMove (iCelPlLayer *pl, iCelEntity *entity, const ch
   if (pclm.IsValid()) return pclm;
   csRef<iCelPropertyClass> pc;
   if (tagname)
-    pc = pl->CreateTaggedPropertyClass(entity,"pcmove.actorold", tagname );
+    pc = pl->CreateTaggedPropertyClass(entity,"pcmove.actor", tagname );
   else
-    pc = pl->CreatePropertyClass(entity,"pcmove.actorold" );
+    pc = pl->CreatePropertyClass(entity,"pcmove.actor" );
   if (!pc.IsValid()) return 0;
   pclm = scfQueryInterface<iPcActorMove>(pc);
   if (!pclm.IsValid()) return 0;
