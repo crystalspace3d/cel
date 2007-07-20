@@ -35,7 +35,7 @@ static char const metainfo_pfactormove[] =
 "      </class>"
 ""
 "      <class>"
-"        <name>cel.pcfactory.move.actorold</name>"
+"        <name>cel.pcfactory.move.actor</name>"
 "        <implementation>celPfActorMove</implementation>"
 "        <description>CEL Actor Movement Class Factory</description>"
 "      </class>"

@@ -326,18 +326,18 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfactorlara_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfactoranalog_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1016,18 +1016,18 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.cpp">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+						ObjectFile="..\..\out\release8\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+						ObjectFile="..\..\out\debug8\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2274,7 +2274,7 @@
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.h">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
