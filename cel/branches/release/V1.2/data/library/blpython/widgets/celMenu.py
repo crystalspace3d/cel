@@ -5,7 +5,7 @@ from pycel import *
 
 
 def GetFontConstant():
-    return Graphics2D.GetHeight() / 75.0
+    return 1.0 + float(Graphics2D.GetHeight()) / 100.0
 
 def GetFontColor():
     return csColor(0.9, 0.9, 0.9)
