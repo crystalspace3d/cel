@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	  data/basic_world).
 	- Vincent merged r2843 into 1.2 (updates for celMenu.py and
 	  celScroller.py widgets).
+	- Vincent merged r2864 into 1.2 (tutorial documentation fix).
 20-Jul-2007
 	- Vincent merged r2785 into 1.2 (updated python bindings to new
 	  property class names, iPcNewCamera was also added as celPcCamera).
