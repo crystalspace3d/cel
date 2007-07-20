@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 	- Vincent merged r2785 into 1.2 (updated python bindings to new
 	  property class names, iPcNewCamera was also added as celPcCamera).
 	- Vincent merged r2807 into 1.2 (fixed blxml destroyentity class).
+	- Vincent merged r2809 into 1.2 (fix for non-standard round() in
+	  pcneuralnet).
 31-May-2007
 	- Jorrit removed actorlara.h include from blcel.i.
 30-May-2007
