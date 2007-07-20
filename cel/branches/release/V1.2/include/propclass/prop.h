@@ -124,7 +124,7 @@ struct iPcProperties : public iBase
 
   /**
    * Get the specified property index for a named property.
-   * Returns -1 if not found.
+   * Returns csArrayItemNotFound if not found.
    */
   virtual size_t GetPropertyIndex (const char* name) = 0;
 
