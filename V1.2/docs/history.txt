@@ -6,6 +6,8 @@ The history order is reversed so that new features are at the top.
 29-Jun-2007
 	- Oktal replaced the calls to the non-standard isnormal() in
 	  with a portable alternative, in pcneuralnet.
+28-Jun-2007
+	- Vincent fixed path to dot.png texture in data/basic_world.
 15-Jun-2007
 	- caedes changed iPcProperties::GetPropertyIndex docstring to
 	  reflect the real "not found" value that is to be used
