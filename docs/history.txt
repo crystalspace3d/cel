@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+20-Jul-2007
+	- Jorrit fixed walktut for the actorold rename.
 19-Jul-2007
 	- Genjix migrated actor.lara to actor.analog
 	- Genjix fixed python bindings.

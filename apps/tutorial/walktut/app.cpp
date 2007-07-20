@@ -53,7 +53,7 @@ bool MainApp::CreatePlayer ()
     "pccamera.old",
     "pcobject.mesh",
     "pcmove.linear",
-    "pcmove.actorold",
+    "pcmove.actor",
     "pcinput.standard",
     "pctools.inventory",
     CEL_PROPCLASS_END);
