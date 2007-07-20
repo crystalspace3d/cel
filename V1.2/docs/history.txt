@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 29-Jun-2007
+	- Vincent applied updates to celMenu and celScroller python widgets
+	  (resp. font constant computation and new getmaxvisible() function).
 	- Oktal replaced the calls to the non-standard isnormal() in
 	  with a portable alternative, in pcneuralnet.
 28-Jun-2007
