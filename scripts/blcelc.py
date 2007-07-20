@@ -2428,22 +2428,22 @@ celGetSetLinearMovement = _blcelc.celGetSetLinearMovement
 celGetLinearMovement = _blcelc.celGetLinearMovement
 
 scfQuery_iPcActorMove = _blcelc.scfQuery_iPcActorMove
-class iPcActorLara(cspace.iBase):
+class iPcActorAnalog(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcActorLara, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcActorAnalog, name, value)
     __swig_getmethods__ = {}
     for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
-    __getattr__ = lambda self, name: _swig_getattr(self, iPcActorLara, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcActorAnalog, name)
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
-    def SetAxis(*args): return _blcelc.iPcActorLara_SetAxis(*args)
-    def SetMovementSpeed(*args): return _blcelc.iPcActorLara_SetMovementSpeed(*args)
-    def SetTurningSpeed(*args): return _blcelc.iPcActorLara_SetTurningSpeed(*args)
+    def SetAxis(*args): return _blcelc.iPcActorAnalog_SetAxis(*args)
+    def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
+    def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
     _PC = None
     def __getattr__(self,attr):
          try:
-             return _swig_getattr(self, iPcActorLara, attr)
+             return _swig_getattr(self, iPcActorAnalog, attr)
          except:
              pass
          if hasattr(iCelPropertyClass,attr):
@@ -2452,23 +2452,23 @@ class iPcActorLara(cspace.iBase):
          else:
              return self.GetterFallback(attr)
     def __setattr__(self,attr,value):
-         if attr in iPcActorLara.__swig_setmethods__.keys():
-             return _swig_setattr(self,iPcActorLara,attr,value)
+         if attr in iPcActorAnalog.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcActorAnalog,attr,value)
          elif hasattr(iCelPropertyClass,attr):
              _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
              setattr(_PC,attr,value)
          else:
              return self.SetterFallback(attr,value)
 
-    __swig_destroy__ = _blcelc.delete_iPcActorLara
+    __swig_destroy__ = _blcelc.delete_iPcActorAnalog
     __del__ = lambda self : None;
-iPcActorLara_swigregister = _blcelc.iPcActorLara_swigregister
-iPcActorLara_swigregister(iPcActorLara)
+iPcActorAnalog_swigregister = _blcelc.iPcActorAnalog_swigregister
+iPcActorAnalog_swigregister(iPcActorAnalog)
 celCreateActorMove = _blcelc.celCreateActorMove
 celGetSetActorMove = _blcelc.celGetSetActorMove
 celGetActorMove = _blcelc.celGetActorMove
 
-scfQuery_iPcActorLara = _blcelc.scfQuery_iPcActorLara
+scfQuery_iPcActorAnalog = _blcelc.scfQuery_iPcActorAnalog
 class iPcCamera(cspace.iBase):
     __swig_setmethods__ = {}
     for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2552,9 +2552,9 @@ class iPcCamera(cspace.iBase):
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
 iPcCamera_swigregister(iPcCamera)
-celCreateActorLara = _blcelc.celCreateActorLara
-celGetSetActorLara = _blcelc.celGetSetActorLara
-celGetActorLara = _blcelc.celGetActorLara
+celCreateActorAnalog = _blcelc.celCreateActorAnalog
+celGetSetActorAnalog = _blcelc.celGetSetActorAnalog
+celGetActorAnalog = _blcelc.celGetActorAnalog
 
 class iPcDefaultCamera(iPcCamera):
     __swig_setmethods__ = {}

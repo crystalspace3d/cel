@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="plgpfactorlara"
-	ProjectGUID="{EE7923D7-5AB9-51D3-FFCB-91E90CFABE9E}"
+	Name="plgpfactoranalog"
+	ProjectGUID="{26C0690C-CDA5-5C37-87AC-D0C18C4F7064}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\out\release71\build\plgpfactorlara\"
-			IntermediateDirectory="..\..\out\release71\build\plgpfactorlara\"
+			OutputDirectory="..\..\out\release71\build\plgpfactoranalog\"
+			IntermediateDirectory="..\..\out\release71\build\plgpfactoranalog\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -31,10 +31,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\release71\build\plgpfactorlara\plgpfactorlara.pch"
-				AssemblerListingLocation="..\..\out\release71\build\plgpfactorlara\"
-				ObjectFile="..\..\out\release71\build\plgpfactorlara\"
-				ProgramDataBaseFileName="..\..\out\release71\build\plgpfactorlara\pfactorlara.pdb"
+				PrecompiledHeaderFile="..\..\out\release71\build\plgpfactoranalog\plgpfactoranalog.pch"
+				AssemblerListingLocation="..\..\out\release71\build\plgpfactoranalog\"
+				ObjectFile="..\..\out\release71\build\plgpfactoranalog\"
+				ProgramDataBaseFileName="..\..\out\release71\build\plgpfactoranalog\pfactoranalog.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -50,15 +50,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\pfactorlara.dll"
+				OutputFile="..\..\pfactoranalog.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release71\build\plgpfactorlara\plgpfactorlara.lib"
+				ImportLibrary="..\..\out\release71\build\plgpfactoranalog\plgpfactoranalog.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				ProgramDatabaseFile="..\..\out\release71\build\plgpfactorlara\pfactorlara.pdb"
+				ProgramDatabaseFile="..\..\out\release71\build\plgpfactoranalog\pfactoranalog.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -69,7 +69,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\plgpfactorlara\plgpfactorlara.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\plgpfactoranalog\plgpfactoranalog.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -80,7 +80,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;PACKAGE_NAME=CEL;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\actorlara;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\actoranalog;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -89,8 +89,8 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\out\debug71\build\plgpfactorlara\"
-			IntermediateDirectory="..\..\out\debug71\build\plgpfactorlara\"
+			OutputDirectory="..\..\out\debug71\build\plgpfactoranalog\"
+			IntermediateDirectory="..\..\out\debug71\build\plgpfactoranalog\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -106,10 +106,10 @@
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
-				PrecompiledHeaderFile="..\..\out\debug71\build\plgpfactorlara\plgpfactorlara.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\plgpfactorlara\"
-				ObjectFile="..\..\out\debug71\build\plgpfactorlara\"
-				ProgramDataBaseFileName="..\..\out\debug71\build\plgpfactorlara\pfactorlara.pdb"
+				PrecompiledHeaderFile="..\..\out\debug71\build\plgpfactoranalog\plgpfactoranalog.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\plgpfactoranalog\"
+				ObjectFile="..\..\out\debug71\build\plgpfactoranalog\"
+				ProgramDataBaseFileName="..\..\out\debug71\build\plgpfactoranalog\pfactoranalog.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -123,15 +123,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\pfactorlara.dll"
+				OutputFile="..\..\pfactoranalog.dll"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug71\build\plgpfactorlara\plgpfactorlara.lib"
+				ImportLibrary="..\..\out\debug71\build\plgpfactoranalog\plgpfactoranalog.lib"
 				AdditionalOptions=" "
 				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs\csutil\win32\libs"
-				ProgramDatabaseFile="..\..\out\debug71\build\plgpfactorlara\pfactorlara.pdb"
+				ProgramDatabaseFile="..\..\out\debug71\build\plgpfactoranalog\pfactoranalog.pdb"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -142,7 +142,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\plgpfactorlara\plgpfactorlara.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\plgpfactoranalog\plgpfactoranalog.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				/>
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;PACKAGE_NAME=CEL;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\plugins\propclass\actorlara;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..\plugins\propclass\actoranalog;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -166,24 +166,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.cpp">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.h">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\plgpfactorlara.rc">
+				RelativePath="..\..\msvc\plgpfactoranalog.rc">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\pfactorlara.csplugin">
+				RelativePath="..\..\plugins\propclass\actoranalog\pfactoranalog.csplugin">
 			</File>
 		</Filter>
 	</Files>
