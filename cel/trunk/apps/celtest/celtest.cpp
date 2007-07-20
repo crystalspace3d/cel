@@ -17,7 +17,7 @@
     MA 02111-1307, USA.
 */
 
-//#define CELTST_USE_ANALOG
+#define CELTST_USE_ANALOG
 
 #include "cssysdef.h"
 #include "celtest.h"
@@ -86,7 +86,7 @@
 #include "propclass/input.h"
 #include "propclass/linmove.h"
 #ifdef CELTST_USE_ANALOG
-  #include "propclass/actorlara.h"
+  #include "propclass/actoranalog.h"
   #include "propclass/newcamera.h"
 #else
   #include "propclass/actormove.h"
@@ -189,7 +189,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pcinput.standard",
 #ifdef CELTST_USE_ANALOG
-	"pcmove.lara",
+	"pcmove.actor.analog",
 	"pccamera.standard",
 #else
 	"pccamera.standard",
@@ -212,6 +212,14 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("JoystickButton2", "resetcam");
   pcinp->Bind ("JoystickAxis0", "joyaxis0");
   pcinp->Bind ("JoystickAxis1", "joyaxis1");
+
+  pcinp->Bind ("z", "ready");
+  pcinp->Bind ("x", "lockon");
+  pcinp->Bind ("c", "resetcam");
+  pcinp->Bind ("left", "left");
+  pcinp->Bind ("right", "right");
+  pcinp->Bind ("up", "up");
+  pcinp->Bind ("down", "down");
 #else
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
@@ -230,7 +238,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 #ifdef CELTST_USE_ANALOG
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_LARA_TRACK);
+  newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
 #else
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
 	entity_cam, iPcNewCamera);

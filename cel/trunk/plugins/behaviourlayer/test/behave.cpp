@@ -17,7 +17,7 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//#define CELTST_USE_ANALOG
+#define CELTST_USE_ANALOG
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
@@ -44,7 +44,7 @@
 #include <iostream>
 
 #ifdef CELTST_USE_ANALOG
-  #include "propclass/actorlara.h"
+  #include "propclass/actoranalog.h"
 #else
   #include "propclass/actormove.h"
 #endif
@@ -296,49 +296,66 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
   if (pcinput_msg)
   {
 #ifdef CELTST_USE_ANALOG
-    csRef<iPcActorLara> pcactorlara = celQueryPropertyClassEntity
-      <iPcActorLara> (entity);
-    if (!pcactorlara)
+    csRef<iPcActorAnalog> pcactor = celQueryPropertyClassEntity
+      <iPcActorAnalog> (entity);
+    if (!pcactor)
       return false;
 
     csRef<iPcNewCamera> pccamera = celQueryPropertyClassEntity
       <iPcNewCamera> (entity);
     if (!pccamera)
       return false;
-    csRef<iTrackCameraMode> trackcam =
-      pccamera->QueryModeInterface<iTrackCameraMode> ();
+    csRef<iPcmNewCamera::Tracking> trackcam =
+      pccamera->QueryModeInterface<iPcmNewCamera::Tracking> ();
     if (!trackcam)
       return false;
 
     if (!strcmp (msg_id+15, "joyaxis0"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      pcactorlara->SetAxis (0, value);
+      pcactor->SetAxis (0, value);
     }
     else if (!strcmp (msg_id+15, "joyaxis1"))
     {
       CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      pcactorlara->SetAxis (1, -value);
+      pcactor->SetAxis (1, -value);
     }
     else if (!strcmp (msg_id+15, "ready1"))
-      trackcam->SetTargetState (iTrackCameraMode::TARGET_NONE);
+      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
     else if (!strcmp (msg_id+15, "ready0"))
-      trackcam->SetTargetState (iTrackCameraMode::TARGET_BASE);
+      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_BASE);
     else if (!strcmp (msg_id+15, "lockon1"))
     {
-      if (trackcam->GetTargetState () == iTrackCameraMode::TARGET_NONE)
+      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_NONE)
       {
         trackcam->SetTargetEntity ("dummy2b");
-        trackcam->SetTargetState (iTrackCameraMode::TARGET_OBJ);
+        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_OBJ);
       }
     }
     else if (!strcmp (msg_id+15, "lockon0"))
     {
-      if (trackcam->GetTargetState () == iTrackCameraMode::TARGET_OBJ)
-        trackcam->SetTargetState (iTrackCameraMode::TARGET_NONE);
+      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_OBJ)
+        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
     }
     else if (!strcmp (msg_id+15, "resetcam1"))
       trackcam->ResetCamera ();
+
+    else if (!strcmp (msg_id+15, "left1"))
+      pcactor->SetAxis (0, -1);
+    else if (!strcmp (msg_id+15, "left0"))
+      pcactor->SetAxis (0, 0);
+    else if (!strcmp (msg_id+15, "right1"))
+      pcactor->SetAxis (0, 1);
+    else if (!strcmp (msg_id+15, "right0"))
+      pcactor->SetAxis (0, 0);
+    else if (!strcmp (msg_id+15, "up1"))
+      pcactor->SetAxis (1, 1);
+    else if (!strcmp (msg_id+15, "up0"))
+      pcactor->SetAxis (1, 0);
+    else if (!strcmp (msg_id+15, "down1"))
+      pcactor->SetAxis (1, -1);
+    else if (!strcmp (msg_id+15, "down0"))
+      pcactor->SetAxis (1, 0);
 #else
     csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity
       <iPcActorMove> (entity);
