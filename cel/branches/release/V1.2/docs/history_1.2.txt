@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	- Vincent merged r2809 into 1.2 (fix for non-standard round() in
 	  pcneuralnet).
 	- Vincent merged r2821:2822 into 1.2 (pcproperties fixes).
+	- Vincent merged r2844 into 1.2 (non-standard usage of isnormal() in
+	  pcneuralnet).
 31-May-2007
 	- Jorrit removed actorlara.h include from blcel.i.
 30-May-2007
