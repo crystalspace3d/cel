@@ -4060,21 +4060,25 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
             	(unsigned long)i-1, A2S (entclass));
             fflush (stdout);
           }
-          iCelEntityList* entlist = pl->GetClassEntitiesList (
-          	pl->FetchStringID (ArgToString (entclass)));
-          if (!entlist)
-            return ReportError (cbl,
-            	"Couldn't find entities with class name '%s' for 'destroyentity'!",
-            	(const char*)ArgToString (entclass));
           size_t e;
-          size_t entcount = entlist->GetCount ();
+          size_t entcount = pl->GetEntityCount ();
+          iCelEntity* ent;
+          csArray<uint> blacklist;
           for (e = 0; e < entcount; e ++)
           {
-            iCelEntity* ent = entlist->Get (e);
+            ent = pl->GetEntityByIndex (e);
             if (!ent)
               return ReportError (cbl,
-              	"Couldn't find entity nr %d on the list for 'destroyentity'!",
-              	e);
+              	"Entity list truncated, can't find entity while 'destroyentity'!");
+            if (ent->HasClass (pl->FetchStringID (ArgToString (entclass))))
+              blacklist.Push (ent->GetID ());
+          }
+          for (e = 0; e < blacklist.GetSize (); e ++)
+          {
+            ent = pl->GetEntity (blacklist.Get (e));
+            if (!ent)
+              return ReportError (cbl,
+              	"Entity list truncated, can't find entity while 'destroyentity'!");
             pl->RemoveEntity (ent);
           }
         }
@@ -4147,132 +4151,132 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
         break;
       case CEL_OPERATION_BB_UP:
         {
-	  DUMP_EXEC ((":%04d: bb_up\n", i-1));
-	  behave->GetBillboard ()->GetBillboard ()->StackUp ();
-	}
-	break;
+          DUMP_EXEC ((":%04d: bb_up\n", i-1));
+          behave->GetBillboard ()->GetBillboard ()->StackUp ();
+        }
+        break;
       case CEL_OPERATION_BB_DOWN:
         {
-	  DUMP_EXEC ((":%04d: bb_down\n", i-1));
-	  behave->GetBillboard ()->GetBillboard ()->StackDown ();
-	}
-	break;
+          DUMP_EXEC ((":%04d: bb_down\n", i-1));
+          behave->GetBillboard ()->GetBillboard ()->StackDown ();
+        }
+        break;
       case CEL_OPERATION_BB_TOFRONT_E:
         {
-	  CHECK_STACK(1)
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_tofront_e pc=%s\n", i-1, A2S (top)));
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->StackTop ();
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_tofront_e pc=%s\n", i-1, A2S (top)));
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+            	"Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->StackTop ();
+        }
+        break;
       case CEL_OPERATION_BB_TOBACK_E:
         {
-	  CHECK_STACK(1)
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_toback_e pc=%s\n", i-1, A2S (top)));
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->StackBottom ();
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_toback_e pc=%s\n", i-1, A2S (top)));
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+          	"Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->StackBottom ();
+        }
+        break;
       case CEL_OPERATION_BB_UP_E:
         {
-	  CHECK_STACK(1)
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_up_e pc=%s\n", i-1, A2S (top)));
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->StackUp ();
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_up_e pc=%s\n", i-1, A2S (top)));
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+          	"Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->StackUp ();
+       }
+       break;
       case CEL_OPERATION_BB_DOWN_E:
         {
-	  CHECK_STACK(1)
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_down_e pc=%s\n", i-1, A2S (top)));
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->StackDown ();
-	}
-	break;
+          CHECK_STACK(1)
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_down_e pc=%s\n", i-1, A2S (top)));
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+                "Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->StackDown ();
+        }
+        break;
       case CEL_OPERATION_BB_MOVE:
         {
-	  CHECK_STACK(2)
-	  celXmlArg ay = stack.Pop ();
-	  celXmlArg ax = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_move x=%s y=%s\n", i-1, A2S (ax), A2S (ay)));
-	  int32 x = ArgToInt32 (ax);
-	  int32 y = ArgToInt32 (ay);
-	  behave->GetBillboard ()->GetBillboard ()->SetPosition (x, y);
-	}
-	break;
+          CHECK_STACK(2)
+          celXmlArg ay = stack.Pop ();
+          celXmlArg ax = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_move x=%s y=%s\n", i-1, A2S (ax), A2S (ay)));
+          int32 x = ArgToInt32 (ax);
+          int32 y = ArgToInt32 (ay);
+          behave->GetBillboard ()->GetBillboard ()->SetPosition (x, y);
+        }
+        break;
       case CEL_OPERATION_BB_MOVE_E:
         {
-	  CHECK_STACK(3)
-	  celXmlArg ay = stack.Pop ();
-	  celXmlArg ax = stack.Pop ();
-	  celXmlArg top = stack.Pop ();
-	  DUMP_EXEC ((":%04d: bb_move_e pc=%s x=%s y=%s\n", i-1, A2S (top), A2S (ax), A2S (ay)));
-	  int32 x = ArgToInt32 (ax);
-	  int32 y = ArgToInt32 (ay);
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  other_bb->GetBillboard ()->SetPosition (x, y);
-	}
-	break;
+          CHECK_STACK(3)
+          celXmlArg ay = stack.Pop ();
+          celXmlArg ax = stack.Pop ();
+          celXmlArg top = stack.Pop ();
+          DUMP_EXEC ((":%04d: bb_move_e pc=%s x=%s y=%s\n", i-1, A2S (top), A2S (ax), A2S (ay)));
+          int32 x = ArgToInt32 (ax);
+          int32 y = ArgToInt32 (ay);
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+                "Property class is not a billboard!\n");
+          other_bb->GetBillboard ()->SetPosition (x, y);
+        }
+        break;
       case CEL_OPERATION_BB_TESTCOLLIDE:
         {
-	  CHECK_STACK(1)
-	  celXmlArg& top = stack.Top ();
-	  DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (top)));
-	  iCelPropertyClass* pc = ArgToPClass (top);
-	  if (!pc)
-	    return ReportError (cbl, "Bad property class!\n");
+          CHECK_STACK(1)
+          celXmlArg& top = stack.Top ();
+          DUMP_EXEC ((":%04d: bb_testcollide %s\n", i-1, A2S (top)));
+          iCelPropertyClass* pc = ArgToPClass (top);
+          if (!pc)
+            return ReportError (cbl, "Bad property class!\n");
 
-	  // @@@ Efficiency?
-	  csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
-	  if (!other_bb)
-	    return ReportError (cbl,
-	    	"Property class is not a billboard!\n");
-	  iPcBillboard* bb = behave->GetBillboard ();
-	  if (!bb)
-	    return ReportError (cbl,
-	    	"This entity does not have a pcbillboard!\n");
-	  iBillboardManager* bbmgr = cbl->GetBillboardManager ();
-	  if (!bbmgr)
-	    return ReportError (cbl,
-	    	"Billboard manager is missing!\n");
-	  top.Set (bbmgr->TestCollision (bb->GetBillboard (),
-	  	other_bb->GetBillboard ()));
-	}
-	break;
+          // @@@ Efficiency?
+          csRef<iPcBillboard> other_bb = scfQueryInterface<iPcBillboard> (pc);
+          if (!other_bb)
+            return ReportError (cbl,
+            	"Property class is not a billboard!\n");
+          iPcBillboard* bb = behave->GetBillboard ();
+          if (!bb)
+            return ReportError (cbl,
+            	"This entity does not have a pcbillboard!\n");
+          iBillboardManager* bbmgr = cbl->GetBillboardManager ();
+          if (!bbmgr)
+            return ReportError (cbl,
+            	"Billboard manager is missing!\n");
+          top.Set (bbmgr->TestCollision (bb->GetBillboard (),
+          	other_bb->GetBillboard ()));
+        }
+        break;
       case CEL_OPERATION_FOR:
         {
 	  CHECK_STACK(3)
