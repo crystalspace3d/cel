@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+21-Jul-2007
+	- Vincent merged r2842 into 1.2 (fix for dot.png path in
+	  data/basic_world).
 20-Jul-2007
 	- Vincent merged r2785 into 1.2 (updated python bindings to new
 	  property class names, iPcNewCamera was also added as celPcCamera).
