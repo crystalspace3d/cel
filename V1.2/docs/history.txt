@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+15-Jun-2007
+	- caedes changed iPcProperties::GetPropertyIndex docstring to
+	  reflect the real "not found" value that is to be used
+	  (csArrayItemNotFound instead of -1).
+	- caedes changed the python __contains__ method for pcproperties
+	  to check for not found element correctly (was using -1).
 4-Jun-2007
 	- Darek fixed blxml destroyentity class.
 	- Oktal replaced the non-standard round() calls in pcneuralnet with
