@@ -10,6 +10,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit did some better formatting of the command and function
 	  descriptions in the XML behaviour layer documentation.
 24-May-2007
+	- Genjix updated python bindings to new property class names.
+	  iPcNewCamera was also added as celPcCamera.
 	- Genjix added some tracking functionality to LaraTrack camera.
 	- Genjix made changes to tracking camera so it provides the base
 	  functionality of tracking its anchor along its own Z axis and
