@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Jul-2007
+	- Darek fixed newcamera collisions.
 20-Jul-2007
 	- Genjix activated analog movement in celtest so camera can broken
 	  camera can be fixed.

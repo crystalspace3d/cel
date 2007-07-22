@@ -75,6 +75,7 @@ private:
   csVector3 basePosOffset;
   csReversibleTransform baseTrans;
   iSector* baseSector;
+  float baseRadius;
   csVector3 camPos, camTarget, camUp;
   csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
@@ -89,8 +90,6 @@ private:
   float transitionCutoffTargetDist;
 
   void UpdateMeshVisibility ();
-
-  void GetActorTransform ();
 
   /** Calculates an elastic vector based on an ideal vector and a current one.
    *  \param curr         The current vector value.
