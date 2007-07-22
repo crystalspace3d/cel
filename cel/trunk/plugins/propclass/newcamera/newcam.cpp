@@ -99,22 +99,6 @@ void celPcNewCamera::UpdateMeshVisibility ()
     	CS_ENTITY_INVISIBLE);
 }
 
-void celPcNewCamera::GetActorTransform ()
-{
-  // Try to get position and sector from the mesh.
-  if (pcmesh)
-  {
-    iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-    baseTrans = movable->GetFullTransform ();
-    baseSector = movable->GetSectors ()->Get (0);
-  }
-  else
-  {
-    baseTrans.SetT2O (csMatrix3 ());
-    baseSector = 0;
-  }
-}
-
 void celPcNewCamera::CalcElasticVec (
 	const csVector3& curr, const csVector3& ideal,
 	const csVector3& deltaIdeal, float deltaTime, float springCoef,
@@ -576,9 +560,21 @@ void celPcNewCamera::UpdateCamera ()
   }
   iCelCameraMode* mode = cameraModes[currMode];
 
-  GetActorTransform ();
-  if (!baseSector)
+  // Try to get position and sector from the mesh.
+  if (pcmesh)
+  {
+    iMeshWrapper* mesh = pcmesh->GetMesh ();
+    iMovable* movable = mesh->GetMovable ();
+    baseTrans = movable->GetFullTransform ();
+    baseSector = movable->GetSectors ()->Get (0);
+    baseRadius = mesh->GetRadius ().GetRadius ();
+  }
+  else
+  {
+    baseTrans.SetT2O (csMatrix3 ());
+    baseSector = 0;
     return;
+  }
 
   basePos = baseTrans.GetOrigin () +
   	baseTrans.This2OtherRelative (basePosOffset);
@@ -594,19 +590,21 @@ void celPcNewCamera::UpdateCamera ()
   if (inTransition)
     springCoef = transitionSpringCoef;
 
-  // perform collision detection
   csVector3 desiredCamPos = mode->GetPosition ();
+  csVector3 desiredCamTarget = mode->GetTarget ();
+  csVector3 desiredCamUp = mode->GetUp ();
+
+  // perform collision detection
   if (DetectCollisions () && mode->AllowCollisionDetection ())
   {
-    csVector3 iSect;
-    csIntersectingTriangle closestTri;
-    float sqDist = csColliderHelper::TraceBeam (cdsys, baseSector,
-    	basePos, desiredCamPos, true, closestTri, iSect);
-    if (sqDist >= 0)
+    csVector3 beamDirection = basePos - desiredCamPos;
+    beamDirection.Normalize ();
+    csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, baseSector,
+    	basePos + (beamDirection * baseRadius * 2.0f), desiredCamPos, true);
+    if (beam.closest_mesh)
     {
-      desiredCamPos = iSect;
-
-      // if there has been a collision, we use the spring coefficient designed for collisions
+      desiredCamPos = beam.closest_isect;
+      desiredCamTarget =  basePos + (beamDirection * baseRadius * 4.0f);
       springCoef = collisionSpringCoef;
     }
   }
@@ -622,8 +620,8 @@ void celPcNewCamera::UpdateCamera ()
 
   if (inTransition || mode->UseSpringTarget ())
   {
-    csVector3 deltaIdeal = mode->GetTarget () - lastIdealTarget;
-    CalcElasticVec (camTarget, mode->GetTarget (), deltaIdeal,
+    csVector3 deltaIdeal = desiredCamTarget - lastIdealTarget;
+    CalcElasticVec (camTarget, desiredCamTarget, deltaIdeal,
     	elapsedSecs, springCoef, camTarget);
   }
   else
@@ -631,8 +629,8 @@ void celPcNewCamera::UpdateCamera ()
 
   if (inTransition || mode->UseSpringUp ())
   {
-    csVector3 deltaIdeal = mode->GetUp () - lastIdealUp;
-    CalcElasticVec (camUp, mode->GetUp (), deltaIdeal,
+    csVector3 deltaIdeal = desiredCamUp - lastIdealUp;
+    CalcElasticVec (camUp, desiredCamUp, deltaIdeal,
     	elapsedSecs, springCoef, camUp);
   }
   else
@@ -670,8 +668,8 @@ void celPcNewCamera::UpdateCamera ()
   c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
 
   lastIdealPos = desiredCamPos;
-  lastIdealTarget = mode->GetTarget ();
-  lastIdealUp = mode->GetUp ();
+  lastIdealTarget = desiredCamTarget;
+  lastIdealUp = desiredCamUp;
 }
 
 int celPcNewCamera::GetDrawFlags ()
