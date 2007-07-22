@@ -53,6 +53,7 @@
 #include "cstool/csview.h"
 #include "cstool/collider.h"
 #include "csgeom/transfrm.h"
+#include "csgeom/sphere.h"
 #include "ivaria/view.h"
 #include "ivaria/collider.h"
 #include "ivaria/reporter.h"
