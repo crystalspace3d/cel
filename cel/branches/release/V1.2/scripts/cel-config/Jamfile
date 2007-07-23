@@ -55,8 +55,9 @@ rule CelConfigGen
   libaddstrings on $(<) = $(libaddstrings) ;
   libbasestrs on $(<) = $(libbasestrs) ;
   libswitchcase on $(<) = $(libswitchcase) ;
+  ENV_VERSION on $(<) = $(PACKAGE_VERSION_LIST[1])_$(PACKAGE_VERSION_LIST[2]) ;
 
-  CelConfigGen1 cel-config : cel-config.template ;
+  CelConfigGen1 $(<) : cel-config.template ;
 }
 
 actions CelConfigGen1
@@ -80,8 +81,9 @@ if test "\${PATH_SEPARATOR+set}" != set; then
 fi
 
 CEL="\${CEL-$(prefix)\$PATH_SEPARATOR.}"
+CEL_$(ENV_VERSION)="\${CEL_$(ENV_VERSION)-\$CEL}"
 my_IFS=\$IFS; IFS=\$PATH_SEPARATOR
-for p in \$CEL
+for p in \$CEL_$(ENV_VERSION)
 do
   prefix="\${p}"
   exec_prefix="\${prefix}"
@@ -92,9 +94,9 @@ do
   # try to determine if we're in a source or installed CEL version
   if test "x\$includedir" = "x"
   then
-    if [ -r \${prefix}/include/$(PACKAGE_NAME)/physicallayer/pl.h ] ; then
-      includedir="\${prefix}/include/$(PACKAGE_NAME)"
-    elif [ -r \${prefix}/include/physicallayer/pl.h ] ; then
+    if [ -r \${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)/celversion.h ] ; then
+      includedir="\${prefix}/include/$(PACKAGE_NAME)-$(PACKAGE_VERSION)"
+    elif [ -r \${prefix}/include/celversion.h ] ; then
       includedir="\${prefix}/include"
     fi
   fi
@@ -155,8 +157,13 @@ __END__
   cat $(>) >> $(<)
 }
 
-ShellScript cel-config : CelConfigGen ;
+CELCONFIGNAME = cel-config-$(PACKAGE_VERSION_SIGNIFICANT) ;
+ShellScript $(CELCONFIGNAME) : CelConfigGen : nohelp ;
 
-# Deprecated...
-SEARCH on cel.cex = $(SUBDIR) ;
-Depends install_bin : [ DoInstall cel.cex : $(bindir) : $(INSTALL_PROGRAM) ] ;
+Depends cel-config : $(CELCONFIGNAME) ;
+CEL_CONFIG_GRISTED = [ DoSourceGrist cel-config ] ;
+SEARCH on $(CEL_CONFIG_GRISTED) = $(SUBDIR) ;
+Depends cel-config : $(CEL_CONFIG_GRISTED) ;
+Copy cel-config : $(CEL_CONFIG_GRISTED) ;
+Help cel-config : "Build the cs-config script" ;
+Depends install_bin : [ DoInstall cel-config : $(bindir) : $(INSTALL_PROGRAM) ] ;
