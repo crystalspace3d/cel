@@ -93,9 +93,9 @@ cel_version_minor=`echo $cel_version_desired | sed "s/$sed_expr_base/\2/"`
 
 cel_version_sequence="$cel_version_major.$cels_version_minor"
 
-cel_version_desired_is_stable=`expr $cel_version_minor % 2`
+cel_version_desired_is_unstable=`expr $cel_version_minor % 2`
 
-AS_IF([test $cel_version_desired_is_stable -eq 0],
+AS_IF([test $cel_version_desired_is_stable -eq 1],
   [# Development version search sequence
   y=`expr $cel_version_minor + 1`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
