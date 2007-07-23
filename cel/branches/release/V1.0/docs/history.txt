@@ -3,6 +3,12 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Jul-2007
+	- res fixed cel.m4 to use the right test order when a development
+	  resp. stable version is requested (previously, the orders actually
+	  tested where swapped in comparison to the described desired
+	  behaviour).
+	- res fixed a cut-and-paste error in cel.m4.
 19-Jul-2007
 	- res made cel-config versioned (ie it's now called cel-config-X.Y
 	  where X.Y is the CEL version). 'Plain' cel-config is now a wrapper
