@@ -9,6 +9,8 @@ chronological order.
 23-Jul-2007
 	- res merged (a changed) r2588, (a reduced) r2859, r2873 into 1.0
 	  (multi-version support).
+	- res updated mk/autoconf and mk/jam with the master copies 
+	  from CS 1.0 branch.
 2-Mar-2007
 	- res merged r2644 into 1.0 (autopackage fix).
 13-Feb-2007
