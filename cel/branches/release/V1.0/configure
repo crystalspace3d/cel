@@ -695,6 +695,7 @@ APPLE_LIBTOOL
 MKDIR
 MKDIRS
 INSTALL
+LN_S
 TEXI2DVI
 TEXI2PDF
 DVIPS
@@ -4676,10 +4677,9 @@ fi
 
 
     # Check if binutils support response files
-    rm -f conftest.resp
-    echo "" > conftest.resp
-    if test "" != yes; then
-  { echo "$as_me:$LINENO: checking if response files are accepted" >&5
+    rm -f conf$$.resp
+    echo "" > conf$$.resp
+    { echo "$as_me:$LINENO: checking if response files are accepted" >&5
 echo $ECHO_N "checking if response files are accepted... $ECHO_C" >&6; }
 if test "${cs_cv_prog_link_respfile+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -4690,71 +4690,8 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-    cs_cflags_save="$CXXFLAGS"
-    cs_lflags_save="$LDFLAGS"
-    cs_libs_save="$LIBS"
-    cs_build_ok=no
-
-
-    for cs_build_item in -Wl,@conftest.resp
-    do
-
-    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
-	{ for (i=1; i <= NF; ++i)
-	    { if ($i == "") print "filler"; else print $i } }'`
-    shift
-    if test $# -eq 0; then
-  cs_dummy=''
-else
-  if test "$1" = filler; then
-  cs_dummy=''
-else
-  cs_dummy=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_cflags_test=''
-else
-  if test "$1" = filler; then
-  cs_cflags_test=''
-else
-  cs_cflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_lflags_test=''
-else
-  if test "$1" = filler; then
-  cs_lflags_test=''
-else
-  cs_lflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_libs_test=''
-else
-  if test "$1" = filler; then
-  cs_libs_test=''
-else
-  cs_libs_test=$1
-fi
-
-	shift
-fi
-
-    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
-    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
-    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
-
-	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
-	LIBS="$cs_libs_test  $cs_libs_save"
+        cs_lflags_save="$LDFLAGS"
+	LDFLAGS="-Wl,@conf$$.resp $cs_lflags_save"
 	cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -4788,198 +4725,26 @@ eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
 	 test ! -s conftest.err
        } && test -s conftest$ac_exeext &&
        $as_test_x conftest$ac_exeext; then
-  cs_build_ok=yes
+  cs_cv_prog_link_respfile=yes
 else
   echo "$as_me: failed program was:" >&5
 sed 's/^/| /' conftest.$ac_ext >&5
 
-
+	cs_cv_prog_link_respfile=no
 fi
 
 rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
       conftest$ac_exeext conftest.$ac_ext
-	if test $cs_build_ok = yes; then
-  break
-fi
-
-    done
-
-
-    CXXFLAGS=$cs_cflags_save
-    LDFLAGS=$cs_lflags_save
-    LIBS=$cs_libs_save
-    ac_ext=c
+	LDFLAGS=$cs_lflags_save
+    	ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-    if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_cv_prog_link_respfile=yes
-		cs_cv_prog_link_respfile_cflags=$cs_build_cflags
-		cs_cv_prog_link_respfile_lflags=$cs_build_lflags
-		cs_cv_prog_link_respfile_libs=$cs_build_libs
-else
-  cs_cv_prog_link_respfile=no
-fi
 
 fi
 { echo "$as_me:$LINENO: result: $cs_cv_prog_link_respfile" >&5
 echo "${ECHO_T}$cs_cv_prog_link_respfile" >&6; }
-else
-  { echo "$as_me:$LINENO: checking if response files are accepted" >&5
-echo $ECHO_N "checking if response files are accepted... $ECHO_C" >&6; }
-	    ac_ext=cpp
-ac_cpp='$CXXCPP $CPPFLAGS'
-ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
-
-    cs_cflags_save="$CXXFLAGS"
-    cs_lflags_save="$LDFLAGS"
-    cs_libs_save="$LIBS"
-    cs_build_ok=no
-
-
-    for cs_build_item in -Wl,@conftest.resp
-    do
-
-    set filler `echo "$cs_build_item" | awk 'BEGIN { FS="@" }
-	{ for (i=1; i <= NF; ++i)
-	    { if ($i == "") print "filler"; else print $i } }'`
-    shift
-    if test $# -eq 0; then
-  cs_dummy=''
-else
-  if test "$1" = filler; then
-  cs_dummy=''
-else
-  cs_dummy=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_cflags_test=''
-else
-  if test "$1" = filler; then
-  cs_cflags_test=''
-else
-  cs_cflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_lflags_test=''
-else
-  if test "$1" = filler; then
-  cs_lflags_test=''
-else
-  cs_lflags_test=$1
-fi
-
-	shift
-fi
-if test $# -eq 0; then
-  cs_libs_test=''
-else
-  if test "$1" = filler; then
-  cs_libs_test=''
-else
-  cs_libs_test=$1
-fi
-
-	shift
-fi
-
-    cs_cflags_test=`echo $cs_cflags_test | sed 'y%#% %'`
-    cs_lflags_test=`echo $cs_lflags_test | sed 'y%#% %'`
-    cs_libs_test=`echo $cs_libs_test | sed 'y%#% %'`
-
-	CXXFLAGS="$cs_cflags_test  $cs_cflags_save"
-	LDFLAGS="$cs_lflags_test  $cs_lflags_save"
-	LIBS="$cs_libs_test  $cs_libs_save"
-	cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-  (eval "$ac_link") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_cxx_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest$ac_exeext &&
-       $as_test_x conftest$ac_exeext; then
-  cs_build_ok=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-
-fi
-
-rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
-      conftest$ac_exeext conftest.$ac_ext
-	if test $cs_build_ok = yes; then
-  break
-fi
-
-    done
-
-
-    CXXFLAGS=$cs_cflags_save
-    LDFLAGS=$cs_lflags_save
-    LIBS=$cs_libs_save
-    ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-    if test $cs_build_ok = yes; then
-  cs_build_cflags=`echo x$cs_cflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_lflags=`echo x$cs_lflags_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_build_libs=`echo x$cs_libs_test  | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
-	cs_cv_prog_link_respfile=yes
-		cs_cv_prog_link_respfile_cflags=$cs_build_cflags
-		cs_cv_prog_link_respfile_lflags=$cs_build_lflags
-		cs_cv_prog_link_respfile_libs=$cs_build_libs
-else
-  cs_cv_prog_link_respfile=no
-fi
-
-	    { echo "$as_me:$LINENO: result: $cs_cv_prog_link_respfile" >&5
-echo "${ECHO_T}$cs_cv_prog_link_respfile" >&6; }
-fi
-
     if test $cs_cv_prog_link_respfile = yes; then
   cs_build_prop_val="yes"
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
@@ -4988,14 +4753,9 @@ fi
 "
 fi
 
-else
-  cs_cv_prog_link_respfile_cflags=''
-	cs_cv_prog_link_respfile_lflags=''
-	cs_cv_prog_link_respfile_libs=''
-
 fi
 
-    rm -f conftest.resp
+    rm -f conf$$.resp
 
     # Check if linker supports --as-needed.
     # Check whether --enable-as-needed was given.
@@ -6599,6 +6359,24 @@ done
     cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
     if test -n "$cs_build_prop_val"; then
   cs_jamconfig_text="${cs_jamconfig_text}INSTALL ?= \"$cs_build_prop_val\" ;
+"
+fi
+
+    { echo "$as_me:$LINENO: checking whether ln -s works" >&5
+echo $ECHO_N "checking whether ln -s works... $ECHO_C" >&6; }
+LN_S=$as_ln_s
+if test "$LN_S" = "ln -s"; then
+  { echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no, using $LN_S" >&5
+echo "${ECHO_T}no, using $LN_S" >&6; }
+fi
+
+    cs_build_prop_val="$LN_S"
+    cs_build_prop_val=`echo x$cs_build_prop_val | sed 's/^x//;s/   */ /g;s/^ //;s/ $//'`
+    if test -n "$cs_build_prop_val"; then
+  cs_jamconfig_text="${cs_jamconfig_text}LN_S ?= \"$cs_build_prop_val\" ;
 "
 fi
 
@@ -13038,7 +12816,155 @@ fi
 
 cs_path="$cs_path$PATH$PATH_SEPARATOR/usr/local/crystalspace/bin"
 
-if test -n "$ac_tool_prefix"; then
+# Find a suitable CS version.
+# For a given desired version X.Y, the compatibility rules are as follows:
+#  Y is even (stable version): compatible are X.Y+1 and X.Y+2.
+#  Y is odd (development version): compatible are X.Y+1 up to X.Y+3, assuming
+#                                  no deprecated features are used.
+# Generally, an exact version match is preferred. If that is not the case,
+# stable versions are preferred over development version, with a closer
+# version number preferred.
+# This yields the following search order:
+#  Y is even (stable version): X.Y, X.Y+2, X.Y+1
+#  Y is odd (development version): X.Y, X.Y+1, X.Y+3, X.Y+2
+
+cs_version_desired=1.0
+sed_expr_base=\\\([0-9]\\\+\\\)\.\\\([0-9]\\\+\\\).*
+cs_version_major=`echo $cs_version_desired | sed "s/$sed_expr_base/\1/"`
+cs_version_minor=`echo $cs_version_desired | sed "s/$sed_expr_base/\2/"`
+
+cs_version_sequence="$cs_version_major.$cs_version_minor"
+
+cs_version_desired_is_unstable=`expr $cs_version_minor % 2`
+
+if test $cs_version_desired_is_unstable -eq 1; then
+  # Development version search sequence
+  y=`expr $cs_version_minor + 1`
+  cs_version_sequence="$cs_version_sequence $cs_version_major.$y"
+  y=`expr $cs_version_minor + 3`
+  cs_version_sequence="$cs_version_sequence $cs_version_major.$y"
+  y=`expr $cs_version_minor + 2`
+  cs_version_sequence="$cs_version_sequence $cs_version_major.$y"
+else
+  # Stable version search sequence
+  y=`expr $cs_version_minor + 2`
+  cs_version_sequence="$cs_version_sequence $cs_version_major.$y"
+  y=`expr $cs_version_minor + 1`
+  cs_version_sequence="$cs_version_sequence $cs_version_major.$y"
+fi
+
+
+for test_version in $cs_version_sequence; do
+  if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}cs-config-$test_version", so it can be a program name with args.
+set dummy ${ac_tool_prefix}cs-config-$test_version; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_CRYSTAL_CONFIG_TOOL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $CRYSTAL_CONFIG_TOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_CRYSTAL_CONFIG_TOOL="$CRYSTAL_CONFIG_TOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $cs_path
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_CRYSTAL_CONFIG_TOOL="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+CRYSTAL_CONFIG_TOOL=$ac_cv_path_CRYSTAL_CONFIG_TOOL
+if test -n "$CRYSTAL_CONFIG_TOOL"; then
+  { echo "$as_me:$LINENO: result: $CRYSTAL_CONFIG_TOOL" >&5
+echo "${ECHO_T}$CRYSTAL_CONFIG_TOOL" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_CRYSTAL_CONFIG_TOOL"; then
+  ac_pt_CRYSTAL_CONFIG_TOOL=$CRYSTAL_CONFIG_TOOL
+  # Extract the first word of "cs-config-$test_version", so it can be a program name with args.
+set dummy cs-config-$test_version; ac_word=$2
+{ echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6; }
+if test "${ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $ac_pt_CRYSTAL_CONFIG_TOOL in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL="$ac_pt_CRYSTAL_CONFIG_TOOL" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $cs_path
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
+    ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_CRYSTAL_CONFIG_TOOL=$ac_cv_path_ac_pt_CRYSTAL_CONFIG_TOOL
+if test -n "$ac_pt_CRYSTAL_CONFIG_TOOL"; then
+  { echo "$as_me:$LINENO: result: $ac_pt_CRYSTAL_CONFIG_TOOL" >&5
+echo "${ECHO_T}$ac_pt_CRYSTAL_CONFIG_TOOL" >&6; }
+else
+  { echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6; }
+fi
+
+  if test "x$ac_pt_CRYSTAL_CONFIG_TOOL" = x; then
+    CRYSTAL_CONFIG_TOOL=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ echo "$as_me:$LINENO: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&5
+echo "$as_me: WARNING: In the future, Autoconf will not detect cross-tools
+whose name does not start with the host triplet.  If you think this
+configuration is useful to you, please write to autoconf@gnu.org." >&2;}
+ac_tool_warned=yes ;;
+esac
+    CRYSTAL_CONFIG_TOOL=$ac_pt_CRYSTAL_CONFIG_TOOL
+  fi
+else
+  CRYSTAL_CONFIG_TOOL="$ac_cv_path_CRYSTAL_CONFIG_TOOL"
+fi
+
+  if test -n "$CRYSTAL_CONFIG_TOOL"; then
+  break
+fi
+
+done
+# Legacy: CS 1.0 used a bare-named cs-config
+if test -z "$CRYSTAL_CONFIG_TOOL"; then
+  if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}cs-config", so it can be a program name with args.
 set dummy ${ac_tool_prefix}cs-config; ac_word=$2
 { echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -13140,10 +13066,14 @@ else
   CRYSTAL_CONFIG_TOOL="$ac_cv_path_CRYSTAL_CONFIG_TOOL"
 fi
 
+fi
+
 
 if test -n "$CRYSTAL_CONFIG_TOOL"; then
   cfg="$CRYSTAL_CONFIG_TOOL"
 
+    # Still do cs-config version check - this one will also take the release
+    # component into account. Also needed for legacy cs-config.
     { echo "$as_me:$LINENO: checking if Crystal Space version >= 1.0" >&5
 echo $ECHO_N "checking if Crystal Space version >= 1.0... $ECHO_C" >&6; }
 if test "${cs_cv_prog_Crystal_Space_version_m4_default__1_0___cs_min_version_default___ok_annotated+set}" = set; then
@@ -16050,6 +15980,8 @@ cs_jamconfig_text="${cs_jamconfig_text}sbindir ?= \"`echo "$sbindir" | sed 's/\$
 "
 cs_jamconfig_text="${cs_jamconfig_text}libexecdir ?= \"`echo "$libexecdir" | sed 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g;s/\\\\/\\\\\\\\/g'`\" ;
 "
+cs_jamconfig_text="${cs_jamconfig_text}datarootdir ?= \"`echo "$datarootdir" | sed 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g;s/\\\\/\\\\\\\\/g'`\" ;
+"
 cs_jamconfig_text="${cs_jamconfig_text}datadir ?= \"`echo "$datadir" | sed 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g;s/\\\\/\\\\\\\\/g'`\" ;
 "
 cs_jamconfig_text="${cs_jamconfig_text}sysconfdir ?= \"`echo "$sysconfdir" | sed 's/\${\([a-zA-Z_][a-zA-Z_]*\)}/$(\1)/g;s/\\\\/\\\\\\\\/g'`\" ;
@@ -16876,6 +16808,7 @@ APPLE_LIBTOOL!$APPLE_LIBTOOL$ac_delim
 MKDIR!$MKDIR$ac_delim
 MKDIRS!$MKDIRS$ac_delim
 INSTALL!$INSTALL$ac_delim
+LN_S!$LN_S$ac_delim
 TEXI2DVI!$TEXI2DVI$ac_delim
 TEXI2PDF!$TEXI2PDF$ac_delim
 DVIPS!$DVIPS$ac_delim
@@ -16894,7 +16827,6 @@ PKG_CONFIG!$PKG_CONFIG$ac_delim
 ac_ct_PKG_CONFIG!$ac_ct_PKG_CONFIG$ac_delim
 CONFIG_CPPUNIT!$CONFIG_CPPUNIT$ac_delim
 ac_ct_CONFIG_CPPUNIT!$ac_ct_CONFIG_CPPUNIT$ac_delim
-CONFIG_NL!$CONFIG_NL$ac_delim
 _ACEOF
 
   if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -16936,6 +16868,7 @@ _ACEOF
 ac_delim='%!_!# '
 for ac_last_try in false false false false false :; do
   cat >conf$$subs.sed <<_ACEOF
+CONFIG_NL!$CONFIG_NL$ac_delim
 ac_ct_CONFIG_NL!$ac_ct_CONFIG_NL$ac_delim
 CRYSTAL!$CRYSTAL$ac_delim
 CRYSTAL_CONFIG_TOOL!$CRYSTAL_CONFIG_TOOL$ac_delim
@@ -16948,7 +16881,7 @@ LIBOBJS!$LIBOBJS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 10; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 11; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
