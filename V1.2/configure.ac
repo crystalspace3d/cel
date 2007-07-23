@@ -7,6 +7,8 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf.
 #----------------------------------------------------------------------------
+# Don't forget to update include/celversion.h, docs/texinfo/version.txi
+# and mk/autoconf/cel.m4 when changing this version number.
 AC_INIT([cel], [1.2rc1], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
