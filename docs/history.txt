@@ -9,6 +9,7 @@ The history order is reversed so that new features are at the top.
 	  tested where swapped in comparison to the described desired
 	  behaviour).
 	- res updated mk/autoconf/ and mk/jam/ from the CS master copies.
+	- res fixed a cut-and-paste error in cel.m4.
 22-Jul-2007
 	- Darek fixed newcamera collisions.
 20-Jul-2007
