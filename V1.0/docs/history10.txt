@@ -11,6 +11,7 @@ chronological order.
 	  (multi-version support).
 	- res updated mk/autoconf and mk/jam with the master copies 
 	  from CS 1.0 branch.
+	- res merged r2887 and r2896 into 1.0 (cel.m4 fix).
 2-Mar-2007
 	- res merged r2644 into 1.0 (autopackage fix).
 13-Feb-2007
