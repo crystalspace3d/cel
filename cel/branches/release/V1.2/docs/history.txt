@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	  resp. stable version is requested (previously, the orders actually
 	  tested where swapped in comparison to the described desired
 	  behaviour).
+	- res updated mk/autoconf/ and mk/jam/ from the CS master copies.
 19-Jul-2007
 	- res made cel-config versioned (ie it's now called cel-config-X.Y
 	  where X.Y is the CEL version). 'Plain' cel-config is now a wrapper
