@@ -7,6 +7,7 @@ The history order is reversed so that new features are at the top.
 	  support).
 	- res merged r2887 into 1.2 (cel.m4 fix).
 	- res merged r2888 into 1.2 (mk/autoconf and mk/jam update).
+	- res merged r2896 into 1.2 (cel.m4 fix).
 21-Jul-2007
 	- Vincent merged r2842 into 1.2 (fix for dot.png path in
 	  data/basic_world).
