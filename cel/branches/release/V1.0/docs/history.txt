@@ -3,9 +3,18 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
-27-Feb-2007
-	- res fixed a double-slash in the celstart wrapper script generated
-	  for the autopackage (which reportedly tripped up some shell).
+19-Jul-2007
+	- res made cel-config versioned (ie it's now called cel-config-X.Y
+	  where X.Y is the CEL version). 'Plain' cel-config is now a wrapper
+	  script using the cs-config-X.Y with the highest found version.
+18-Jul-2007
+	- res made CEL install into versioned directories and support a
+	  versioned CEL_x_y environment variable as measures to get towards
+	  support for parallel installation of multiple versions.
+30-Jan-2007
+	- res updated cel-config to properly handle the new versioned
+	  library file names. (Side note: borrows a lot more code from
+	  cs-config now.)
 8-Dec-2006
 	- caedes fixed actormove going back to previous animation after a
 	  jump, and also reordered code a bit.

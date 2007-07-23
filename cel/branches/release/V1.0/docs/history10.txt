@@ -6,6 +6,9 @@ each new day's entries apears before the previous day's entries.  The
 individual changes for each given day, however, are in normal (ascending)
 chronological order.
 
+23-Jul-2007
+	- res merged (a changed) r2588, (a reduced) r2859, r2873 into 1.0
+	  (multi-version support).
 2-Mar-2007
 	- res merged r2644 into 1.0 (autopackage fix).
 13-Feb-2007
