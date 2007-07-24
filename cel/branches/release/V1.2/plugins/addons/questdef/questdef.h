@@ -37,22 +37,21 @@ struct iQuestManager;
  * This is an add-on to allow loading of quests through a standard
  * CS map file.
  */
-class celAddOnQuestDef : public iLoaderPlugin
+class celAddOnQuestDef : public scfImplementation2<
+	celAddOnQuestDef, iLoaderPlugin, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
   csWeakRef<iQuestManager> questmgr;
 
 public:
-  SCF_DECLARE_IBASE;
- 
   celAddOnQuestDef (iBase* parent);
   virtual ~celAddOnQuestDef ();
 
   /**
    * Initialize this plugin.
    */
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
 
   /**
    * Parses the quests.
@@ -60,13 +59,6 @@ public:
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnQuestDef);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_ADDON_QUESTDEF__

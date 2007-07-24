@@ -43,16 +43,6 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnCelEntityTemplate)
 
-SCF_IMPLEMENT_IBASE (celAddOnCelEntityTemplate)
-  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
-  SCF_IMPLEMENTS_INTERFACE (iEntityTemplateLoader)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntityTemplate::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 enum
 {
   XMLTOKEN_BEHAVIOUR,
@@ -74,17 +64,14 @@ enum
 };
 
 
-celAddOnCelEntityTemplate::celAddOnCelEntityTemplate (iBase* parent)
+celAddOnCelEntityTemplate::celAddOnCelEntityTemplate (iBase* parent) :
+  scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnCelEntityTemplate::~celAddOnCelEntityTemplate ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)

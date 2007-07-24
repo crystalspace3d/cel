@@ -47,7 +47,8 @@ CEL_DECLARE_FACTORY (Portal)
 /**
  * This is a portal property class.
  */
-class celPcPortal : public celPcCommon
+class celPcPortal : public scfImplementationExt1<
+	celPcPortal, celPcCommon, iPcPortal>
 {
 private:
   csWeakRef<iPortal> portal;
@@ -73,17 +74,15 @@ public:
   celPcPortal (iObjectRegistry* object_reg);
   virtual ~celPcPortal ();
 
-  bool SetPortal (const char* mesh, const char* portal = 0);
-  iPortal* GetPortal ()
+  virtual bool SetPortal (const char* mesh, const char* portal = 0);
+  virtual iPortal* GetPortal ()
   {
     ResolvePortal ();
     return portal;
   }
-  void ClosePortal ();
-  void OpenPortal ();
-  bool IsPortalClosed () const { return closed; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void ClosePortal ();
+  virtual void OpenPortal ();
+  virtual bool IsPortalClosed () const { return closed; }
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -93,31 +92,6 @@ public:
   virtual bool GetPropertyIndexed (int, const char*&);
   virtual bool SetPropertyIndexed (int, bool);
   virtual bool GetPropertyIndexed (int, bool&);
-
-  struct PcPortal : public iPcPortal
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcPortal);
-    virtual bool SetPortal (const char* mesh, const char* portal = 0)
-    {
-      return scfParent->SetPortal (mesh, portal);
-    }
-    virtual iPortal* GetPortal ()
-    {
-      return scfParent->GetPortal ();
-    }
-    virtual void ClosePortal ()
-    {
-      scfParent->ClosePortal ();
-    }
-    virtual void OpenPortal ()
-    {
-      scfParent->OpenPortal ();
-    }
-    virtual bool IsPortalClosed () const
-    {
-      return scfParent->IsPortalClosed ();
-    }
-  } scfiPcPortal;
 };
 
 #endif // __CEL_PF_PORTALFACT__

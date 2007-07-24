@@ -47,7 +47,8 @@ class csColliderWrapper;
 /**
  * Movement property class for use in sectors containing a fluid.
  */
-class celPcFluidMove : public celPcCommon
+class celPcFluidMove : public scfImplementationExt1<
+	celPcFluidMove, celPcCommon, iPcFluidMove>
 {
 private:
   csRef<iDynamics> dynamics;
@@ -62,42 +63,15 @@ public:
   celPcFluidMove (iObjectRegistry* object_reg);
   virtual ~celPcFluidMove ();
 
-  void SetDrag (float dragcoefficient);
-  float GetDrag ();
-  void SetLift (float density);
-  float GetLift ();
-  const csVector3& CalculateFluidForces ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void SetDrag (float dragcoefficient);
+  virtual float GetDrag ();
+  virtual void SetLift (float density);
+  virtual float GetLift ();
+  virtual const csVector3& CalculateFluidForces ();
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
-
-  struct PcFluidMove : public iPcFluidMove
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcFluidMove);
-    virtual void SetDrag (float dragcoefficient)
-    {
-      scfParent->SetDrag (dragcoefficient);
-    }
-    virtual float GetDrag ()
-    {
-      return scfParent->GetDrag ();
-    }
-    virtual void SetLift (float density)
-    {
-      scfParent->SetLift (density);
-    }
-    virtual float GetLift ()
-    {
-      return scfParent->GetLift ();
-    }
-    virtual const csVector3& CalculateFluidForces ();
-    {
-      return scfParent->CalculateFluidForces ();
-    }
-  } scfiPcFluidMove;
 };
 
 #endif // __CEL_PF_MECHANICS_ENVIRONMENT_FACTORY__

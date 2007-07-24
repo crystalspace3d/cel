@@ -168,13 +168,13 @@ struct iTrackCameraMode : public virtual iCelCameraMode
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 };
 
-SCF_VERSION(iPcNewCamera, 0, 0, 3);
-
 /**
  * This is a camera property class.
  */
-struct iPcNewCamera : public iPcCamera
+struct iPcNewCamera : public virtual iPcCamera
 {
+  SCF_INTERFACE (iPcNewCamera, 0, 0, 3);
+
   /**
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.

@@ -33,7 +33,8 @@ struct iPcMeshDeform;
 /**
  * General behaviour class.
  */
-class celBehaviourGeneral : public iCelBehaviour
+class celBehaviourGeneral : public scfImplementation1<
+	celBehaviourGeneral, iCelBehaviour>
 {
 protected:
   iCelEntity* entity;
@@ -50,8 +51,6 @@ public:
   {
     celBehaviourGeneral::bl = bl;
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
