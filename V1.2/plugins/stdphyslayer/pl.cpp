@@ -884,8 +884,8 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 // Class which is used to attach to an iObject so that
 // we can find the iCelEntity again.
 
-struct celEntityFinder : public scfImplementationExt0<
-	celEntityFinder, csObject>
+struct celEntityFinder : public scfImplementationExt1<
+	celEntityFinder, csObject, scfFakeInterface<celEntityFinder> >
 {
   SCF_INTERFACE (celEntityFinder, 0, 0, 1);
 private:
