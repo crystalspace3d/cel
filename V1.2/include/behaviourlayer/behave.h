@@ -30,16 +30,16 @@
 struct iCelBlLayer;
 struct iCelPropertyClass;
 
-SCF_VERSION (iCelParameterBlock, 0, 0, 1);
-
 /**
  * This interface is a parameter block that can be used to pass parameters
  * through SendMessage() in a behaviour.
  * Parameter ids are constructed from the following string:
  *     cel.parameter."name"
  */
-struct iCelParameterBlock : public iBase
+struct iCelParameterBlock : public virtual iBase
 {
+  SCF_INTERFACE (iCelParameterBlock, 0, 0, 1);
+
   /**
    * Get number of parameters.
    */

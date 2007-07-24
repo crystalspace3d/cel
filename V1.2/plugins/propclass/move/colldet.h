@@ -63,7 +63,8 @@ CEL_DECLARE_FACTORY (CollisionDetection)
  * Collision Detection (CD) related class.
  * This class handles CD for linearmovement PC.
  */
-class celPcCollisionDetection : public celPcCommon
+class celPcCollisionDetection : public scfImplementationExt1<
+	celPcCollisionDetection, celPcCommon, iPcCollisionDetection>
 {
 protected:
   iPcMesh* pcmesh;
@@ -90,82 +91,33 @@ public:
   celPcCollisionDetection(iObjectRegistry* object_reg);
   virtual ~celPcCollisionDetection();
 
-  bool Init (const csVector3& body, const csVector3& legs,
+  virtual bool Init (const csVector3& body, const csVector3& legs,
   	         const csVector3& shift);
-  bool Init ();
+  virtual bool Init ();
 
-  bool IsOnGround () const
+  virtual bool IsOnGround () const
   {
     return collider_actor.IsOnGround ();
   }
-  void SetOnGround (bool flag)
+  virtual void SetOnGround (bool flag)
   {
     collider_actor.SetOnGround (flag);
   }
 
-  void UseCD (bool flag)
+  virtual void UseCD (bool flag)
   { useCD = flag; }
 
-  bool AdjustForCollisions (csVector3& oldpos,
+  virtual bool AdjustForCollisions (csVector3& oldpos,
                             csVector3& newpos,
                             csVector3& vel,
                             float delta,
                             iMovable* movable);
 
-  bool QueryRevert()
+  virtual bool QueryRevert()
   { return collider_actor.CheckRevertMove ();}
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
-
-  struct PcCollisionDetection : public iPcCollisionDetection
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcCollisionDetection);
-
-    virtual bool Init (const csVector3& top, const csVector3& bottom,
-    	const csVector3& shift)
-    {
-      return scfParent->Init (top, bottom, shift);
-    }
-    virtual bool Init ()
-    {
-      return scfParent->Init ();
-    }
-
-    virtual bool IsOnGround () const
-    {
-      return scfParent->IsOnGround ();
-    }
-
-    virtual void UseCD(bool flag)
-    { scfParent->UseCD(flag); }
-
-    virtual void SetOnGround (bool flag)
-    {
-      scfParent->SetOnGround (flag);
-    }
-
-    /**
-     * This function takes a position vector, checks against all known
-     * colliders, and returns the adjusted position in the same variable.
-     */
-    virtual bool AdjustForCollisions (csVector3& oldpos,
-                                      csVector3& newpos,
-                                      csVector3& vel,
-                                      float delta,
-                                      iMovable* movable)
-    {
-        return scfParent->AdjustForCollisions (oldpos,newpos,vel,delta,movable);
-    }
-
-    virtual bool QueryRevert()
-    {
-        return scfParent->QueryRevert();
-    }
-
-  } scfiPcCollisionDetection;
 };
 
 #endif 

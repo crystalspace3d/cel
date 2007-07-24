@@ -31,7 +31,6 @@ struct iCelEntity;
 struct iCelEntityList;
 struct iCelEntityIterator;
 struct iCelDataBuffer;
-struct iCelMessage;
 struct iCelParameterBlock;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
@@ -102,13 +101,13 @@ struct iCelTimerListener : public virtual iBase
   virtual void TickOnce () = 0;
 };
 
-SCF_VERSION (iCelPlLayer, 0, 4, 0);
-
 /**
  * This is the Physical Layer itself.
  */
-struct iCelPlLayer : public iBase
+struct iCelPlLayer : public virtual iBase
 {
+  SCF_INTERFACE (iCelPlLayer, 0, 4, 0);
+
   /**
    * Create a new physical layer entity. The physical layer
    * will keep a reference to this entity. You need to call RemoveEntity()
@@ -556,15 +555,15 @@ struct iCelPlLayer : public iBase
 	iCelParameterBlock* params, va_list arg) = 0;
 };
 
-SCF_VERSION (iCelEntityTracker, 0, 0, 2);
-
 /**
  * This structure maintains a tracker for entities. You can use this
  * to find all entities near some location. Note that this only works
  * on entities with a pcmesh property class.
  */
-struct iCelEntityTracker : public iBase
+struct iCelEntityTracker : public virtual iBase
 {
+  SCF_INTERFACE (iCelEntityTracker, 0, 0, 2);
+
   /**
    * Get the name of this tracker.
    */

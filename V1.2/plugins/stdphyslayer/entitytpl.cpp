@@ -25,18 +25,13 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPropertyClassTemplate)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassTemplate)
-SCF_IMPLEMENT_IBASE_END
-
 celPropertyClassTemplate::celPropertyClassTemplate ()
+	: scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
 }
 
 celPropertyClassTemplate::~celPropertyClassTemplate ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 ccfPropAct& celPropertyClassTemplate::Create (csStringID id)
@@ -112,22 +107,12 @@ void celPropertyClassTemplate::PerformAction (csStringID actionID,
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celEntityTemplate)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntityTemplate)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celEntityTemplate::CelEntityTemplate)
-  SCF_IMPLEMENTS_INTERFACE (iCelEntityTemplate)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celEntityTemplate::celEntityTemplate ()
+celEntityTemplate::celEntityTemplate () : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntityTemplate);
 }
 
 celEntityTemplate::~celEntityTemplate ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntityTemplate);
 }
 
 iCelPropertyClassTemplate* celEntityTemplate::CreatePropertyClassTemplate ()

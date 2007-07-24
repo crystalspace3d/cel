@@ -25,19 +25,14 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celStandardLocalEntitySet)
-  SCF_IMPLEMENTS_INTERFACE (iCelLocalEntitySet)
-SCF_IMPLEMENT_IBASE_END
-
 celStandardLocalEntitySet::celStandardLocalEntitySet (iCelPlLayer* pl)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celStandardLocalEntitySet::pl = pl;
 }
 
 celStandardLocalEntitySet::~celStandardLocalEntitySet ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 #define SERIAL_ENTITY 1
@@ -93,13 +88,9 @@ iCelPropertyClass* celStandardLocalEntitySet::FindExternalPC (
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celStandardPersistentDataList)
-  SCF_IMPLEMENTS_INTERFACE (iCelPersistentDataList)
-SCF_IMPLEMENT_IBASE_END
-
 celStandardPersistentDataList::celStandardPersistentDataList ()
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
 }
 
 celStandardPersistentDataList::~celStandardPersistentDataList ()
@@ -108,8 +99,6 @@ celStandardPersistentDataList::~celStandardPersistentDataList ()
   for (i = 0; i < count; i++)
     delete data_list[i];
   data_list.DeleteAll ();
-
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celStandardPersistentDataList::GetPersistentData (size_t idx, 

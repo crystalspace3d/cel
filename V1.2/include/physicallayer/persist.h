@@ -35,26 +35,24 @@ struct celData;
 
 /**
  * The different types of persistence. The different values can be:
- * <UL>
- * <LI>CEL_PERSIST_TYPE_UNDEF: Undefined, should never be encountered</LI>
- * <LI>CEL_PERSIST_TYPE_RECORD: The state of the entity is saved and 
- * loaded from a record.</LI>
- * <LI>CEL_PERSIST_TYPE_RECORD_FIRST_PASS: The state of the entity is 
- * saved and loaded from a record for the first pass</LI>
- * <LI>CEL_PERSIST_TYPE_SERVER_CONTROL: This is a network link controlled 
- * on the server side. A property class will receive calls to 
- * GetPersistentData if we are on the server side, and calls to 
- * SetPersistentData if we are on the client side.</LI>
- * <LI>CEL_PERSIST_TYPE_CLIENT_CONTROL: This is a network link controlled 
- * on the client side. A property class will receive calls to 
- * GetPersistentData if we are on the client side, and calls to 
- * SetPersistentData if we are on the server side.</LI>
- * <LI>CEL_PERSIST_TYPE_SERVER_FORCING: This is a network link controlled 
- * on the client side but the data are forced authoritatively by the server. 
- * A property class will receive calls to GetPersistentData if we are on 
- * the server side, and calls to SetPersistentData if we are on the client 
- * side.</LI>
- * </UL>
+ * - CEL_PERSIST_TYPE_UNDEF: Undefined, should never be encountered
+ * - CEL_PERSIST_TYPE_RECORD: The state of the entity is saved and 
+ *   loaded from a record.
+ * - CEL_PERSIST_TYPE_RECORD_FIRST_PASS: The state of the entity is 
+ *   saved and loaded from a record for the first pass
+ * - CEL_PERSIST_TYPE_SERVER_CONTROL: This is a network link controlled 
+ *   on the server side. A property class will receive calls to 
+ *   GetPersistentData if we are on the server side, and calls to 
+ *   SetPersistentData if we are on the client side.
+ * - CEL_PERSIST_TYPE_CLIENT_CONTROL: This is a network link controlled 
+ *   on the client side. A property class will receive calls to 
+ *   GetPersistentData if we are on the client side, and calls to 
+ *   SetPersistentData if we are on the server side.
+ * - CEL_PERSIST_TYPE_SERVER_FORCING: This is a network link controlled 
+ *   on the client side but the data are forced authoritatively by the server. 
+ *   A property class will receive calls to GetPersistentData if we are on 
+ *   the server side, and calls to SetPersistentData if we are on the client 
+ *   side.
  */
 enum celPersistenceType
 {
@@ -69,17 +67,15 @@ enum celPersistenceType
 /**
  * The result while setting the persistence data of a property class. The 
  * different values can be:
- * <UL>
- * <LI>CEL_PERSIST_RESULT_UNDEF: Undefined, should never be encountered.</LI>
- * <LI>CEL_PERSIST_RESULT_OK: No problems and no cheat detected.</LI>
- * <LI>CEL_PERSIST_RESULT_CHEAT_SUSPICIOUS: Suspicious, the player may be 
- * cheating.</LI>
- * <LI>CEL_PERSIST_RESULT_CHEAT_CLEAR: The player is clearly cheating.</LI>
- * <LI>CEL_PERSIST_RESULT_ERROR: An error was encountered while setting 
- * the persistent data.</LI>
- * <LI>CEL_PERSIST_RESULT_UNKNOWN_PC: Trying to set the persistence data 
- * of an unknown property class.</LI>
- * </UL>
+ * - CEL_PERSIST_RESULT_UNDEF: Undefined, should never be encountered.
+ * - CEL_PERSIST_RESULT_OK: No problems and no cheat detected.
+ * - CEL_PERSIST_RESULT_CHEAT_SUSPICIOUS: Suspicious, the player may be 
+ *   cheating.
+ * - CEL_PERSIST_RESULT_CHEAT_CLEAR: The player is clearly cheating.
+ * - CEL_PERSIST_RESULT_ERROR: An error was encountered while setting 
+ *   the persistent data.
+ * - CEL_PERSIST_RESULT_UNKNOWN_PC: Trying to set the persistence data 
+ *   of an unknown property class.
  */
 enum celPersistenceResult
 {
@@ -91,13 +87,13 @@ enum celPersistenceResult
   CEL_PERSIST_RESULT_UNKNOWN_PC
 };
 
-SCF_VERSION (iCelDataBuffer, 0, 0, 2);
-
 /**
  * This interface describes persistable data.
  */
-struct iCelDataBuffer : public iBase
+struct iCelDataBuffer : public virtual iBase
 {
+  SCF_INTERFACE (iCelDataBuffer, 0, 0, 2);
+
   /**
    * Get a serial number for this data. This can be used
    * to check validity of the data (i.e. to compare version
@@ -251,16 +247,16 @@ struct iCelDataBuffer : public iBase
   }
 };
 
-SCF_VERSION (iCelPersistentDataList, 0, 0, 1);
-
 /**
  * A list of persistent data for all the property classes of an entity.
  * The complete state of all the property classes of an entity can be specified
  * with this list. The list can contain one entry per property class. The name
  * and the tag of the property class is used to identify it.
  */
-struct iCelPersistentDataList : public iBase
+struct iCelPersistentDataList : public virtual iBase
 {
+  SCF_INTERFACE (iCelPersistentDataList, 0, 0, 1);
+
   /**
    * Return the number of entries in this list.
    */
@@ -291,8 +287,6 @@ struct iCelPersistentDataList : public iBase
         csString& pc_name, csString& pc_tag) = 0;
 };
 
-SCF_VERSION (iCelLocalEntitySet, 0, 0, 1);
-
 /**
  * A local entity set define the set of entities that are considered
  * 'local' to the saved file. That means that all entities that are in
@@ -300,8 +294,10 @@ SCF_VERSION (iCelLocalEntitySet, 0, 0, 1);
  * (but are still referred too from entities in this set) will be
  * saved as references.
  */
-struct iCelLocalEntitySet : public iBase
+struct iCelLocalEntitySet : public virtual iBase
 {
+  SCF_INTERFACE (iCelLocalEntitySet, 0, 0, 1);
+
   /// Number of entities managed by this set.
   virtual size_t GetEntityCount () const = 0;
   
@@ -345,14 +341,14 @@ struct iCelLocalEntitySet : public iBase
   virtual iCelPropertyClass* FindExternalPC (iCelDataBuffer* databuf) = 0;
 };
 
-SCF_VERSION (iCelPersistence, 0, 1, 1);
-
 /**
  * This interface describes a module that can
  * persist CEL data.
  */
-struct iCelPersistence : public iBase
+struct iCelPersistence : public virtual iBase
 {
+  SCF_INTERFACE (iCelPersistence, 0, 1, 1);
+
   /**
    * Load a local entity set. 'name' is a name relevant for the
    * given type of persistence. It can be a filename for example

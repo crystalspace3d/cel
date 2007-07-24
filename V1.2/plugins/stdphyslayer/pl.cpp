@@ -52,24 +52,8 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
-SCF_IMPLEMENT_IBASE (celPlLayer)
-  SCF_IMPLEMENTS_INTERFACE (iCelPlLayer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPlLayer::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_IBASE (celPlLayer::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
-celPlLayer::celPlLayer (iBase* parent)
+celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
-
   entities_hash_dirty = false;
   scfiEventHandler = 0;
 
@@ -92,8 +76,6 @@ celPlLayer::~celPlLayer ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPlLayer::HandleEvent (iEvent& ev)
@@ -188,7 +170,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   uint objid;
 
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  iCelEntity* ientity = &entity->scfiCelEntity;
+  iCelEntity* ientity = entity;
   objid = idlist.Register (ientity, scope);
   if (objid == 0)
   {
@@ -210,7 +192,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
 csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  iCelEntity* ientity = &entity->scfiCelEntity;
+  iCelEntity* ientity = entity;
 
   entity->SetEntityID (entity_id);
   idlist.RegisterWithID (ientity, entity_id);
@@ -271,13 +253,13 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
 void celPlLayer::RemoveEntityName (celEntity* ent)
 {
   if (!entities_hash_dirty)
-    entities_hash.Delete (ent->GetName (), &(ent->scfiCelEntity));
+    entities_hash.Delete (ent->GetName (), ent);
 }
 
 void celPlLayer::AddEntityName (celEntity* ent)
 {
   if (!entities_hash_dirty)
-    entities_hash.Put (ent->GetName (), &(ent->scfiCelEntity));
+    entities_hash.Put (ent->GetName (), ent);
 }
 
 iCelEntity* celPlLayer::FindEntity (const char* name)
@@ -302,7 +284,7 @@ iCelEntityTemplate* celPlLayer::CreateEntityTemplate (const char* factname)
   fact.AttachNew (new celEntityTemplate ());
   fact->SetName (factname);
   entity_templates.Put (factname, fact);
-  return &(((celEntityTemplate*)fact)->scfiCelEntityTemplate);
+  return static_cast<iCelEntityTemplate*> (fact);
 }
 
 void celPlLayer::RemoveEntityTemplate (iCelEntityTemplate* entfact)
@@ -318,7 +300,7 @@ void celPlLayer::RemoveEntityTemplates ()
 iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
 {
   csRef<celEntityTemplate> f = entity_templates.Get (factname, 0);
-  return f ? &(f->scfiCelEntityTemplate) : 0;
+  return static_cast<iCelEntityTemplate*> (f);
 }
 
 size_t celPlLayer::GetEntityTemplateCount () const
@@ -337,7 +319,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
   {
     if (!it.HasNext ()) return 0;
     const csRef<celEntityTemplate>& tpl = it.Next ();
-    temp = &(((celEntityTemplate*)tpl)->scfiCelEntityTemplate);
+    temp = static_cast<iCelEntityTemplate*> (tpl);
   }
   return temp;
 }
@@ -482,8 +464,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params)
 {
-  celEntityTemplate* cfact = ((celEntityTemplate::CelEntityTemplate*)
-  	factory)->GetCelEntityTemplate ();
+  celEntityTemplate* cfact = static_cast<celEntityTemplate*> (factory);
   csRef<iCelBlLayer> bl;
   if (cfact->GetLayer ())
   {
@@ -847,7 +828,8 @@ iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
 }
 
 // Implementation of iCelDataBuffer.
-class celDataBuffer : public iCelDataBuffer
+class celDataBuffer : public scfImplementation1<
+	celDataBuffer, iCelDataBuffer>
 {
 private:
   csArray<celData> data;
@@ -855,18 +837,14 @@ private:
   size_t posidx;
 
 public:
-  celDataBuffer (long serialnr)
+  celDataBuffer (long serialnr) : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     celDataBuffer::serialnr = serialnr;
     posidx = 0;
   }
   virtual ~celDataBuffer ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual long GetSerialNumber () const
   {
@@ -898,10 +876,6 @@ public:
   }
 };
 
-SCF_IMPLEMENT_IBASE (celDataBuffer)
-  SCF_IMPLEMENTS_INTERFACE (iCelDataBuffer)
-SCF_IMPLEMENT_IBASE_END
-
 csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 {
   return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
@@ -910,26 +884,22 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 // Class which is used to attach to an iObject so that
 // we can find the iCelEntity again.
 
-SCF_VERSION (celEntityFinder, 0, 0, 1);
-struct celEntityFinder : public csObject
+struct celEntityFinder : public scfImplementationExt0<
+	celEntityFinder, csObject>
 {
+  SCF_INTERFACE (celEntityFinder, 0, 0, 1);
 private:
   iCelEntity* entity;
 
 public:
-  celEntityFinder (iCelEntity* entity)
+  celEntityFinder (iCelEntity* entity) : scfImplementationType (this)
   {
     celEntityFinder::entity = entity;
   }
   virtual ~celEntityFinder ()
   { }
   iCelEntity* GetEntity () const { return entity; }
-  SCF_DECLARE_IBASE_EXT (csObject);
 };
-
-SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
-  SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
-SCF_IMPLEMENT_IBASE_EXT_END
 
 void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 {

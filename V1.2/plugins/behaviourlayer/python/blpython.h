@@ -21,6 +21,7 @@
 
 #include <Python.h>
 
+#include "csutil/scf_implementation.h"
 #include "iutil/eventh.h"
 #include "iutil/comp.h"
 #include "ivaria/script.h"
@@ -33,7 +34,8 @@ extern "C" {
   extern CS_IMPORT_SYM PyObject* csWrapTypedObject (void *, const char *, int own);
 }
 
-class celBlPython : public iCelBlLayer
+class celBlPython : public scfImplementation4<celBlPython, iCelBlLayer,
+  iComponent, iScript, iEventHandler>
 {
 public:  
   celBlPython (iBase *iParent);
@@ -44,121 +46,97 @@ public:
   bool use_debugger;
   bool do_verbose;
   bool deprecation_warning;
-  virtual bool Initialize (iObjectRegistry* object_reg);
   virtual const char* GetName () const { return "blpython"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
-  bool RunText (const char *Text);
-  bool LoadModule (const char *Text);
-  bool LoadModule (const char *path, const char *name);
   bool Store (const char* name, void* data, void* tag);
-  
   void ShowError ();
   void Print (bool Error, const char *msg);
 
   virtual bool HandleEvent(iEvent&);
 
-  SCF_DECLARE_IBASE;
-
   // Implement iComponent interface.
-  struct eiComponent : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBlPython);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
+  virtual bool Initialize (iObjectRegistry* p);
 
   // Implement iScript interface.
-  struct eiScript : public iScript
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBlPython);
-    virtual bool RunText (const char *iStr)
-    { return scfParent->RunText(iStr); }
-    virtual bool LoadModule(const char *iStr)
-    { return scfParent->LoadModule(iStr); }
-    virtual bool LoadModule(const char *path, const char *name)
-    { return scfParent->LoadModule(path, name); }
+  virtual bool RunText (const char *iStr);
+  virtual bool LoadModule(const char *iStr);
+  virtual bool LoadModule(const char *path, const char *name);
 
-    /*
-      @@@ New functions not yet implemented
-    */
-    bool LoadModuleNative(const char*, const char*) { return false; }
-    csPtr<iScriptValue> Call(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0 ;}
-    csPtr<iScriptValue> RValue(int) { return 0; }
-    csPtr<iScriptValue> RValue(float) { return 0; }
-    csPtr<iScriptValue> RValue(double) { return 0; }
-    csPtr<iScriptValue> RValue(const char*) { return 0; }
-    csPtr<iScriptValue> RValue(bool) { return 0; }
-    csPtr<iScriptValue> RValue(iScriptObject*) { return 0; }
-    csPtr<iScriptObject> New(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0; }
-    bool Store(const char*, iScriptValue*) { return false; }
-    csPtr<iScriptValue> Retrieve(const char*) { return 0; }
+  /*
+    @@@ New functions not yet implemented
+  */
+  bool LoadModuleNative(const char*, const char*) { return false; }
+  csPtr<iScriptValue> Call(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0 ;}
+  csPtr<iScriptValue> RValue(int) { return 0; }
+  csPtr<iScriptValue> RValue(float) { return 0; }
+  csPtr<iScriptValue> RValue(double) { return 0; }
+  csPtr<iScriptValue> RValue(const char*) { return 0; }
+  csPtr<iScriptValue> RValue(bool) { return 0; }
+  csPtr<iScriptValue> RValue(iScriptObject*) { return 0; }
+  csPtr<iScriptObject> New(const char*, const csRefArray<iScriptValue, CS::Memory::AllocatorMalloc>&) { return 0; }
+  bool Store(const char*, iScriptValue*) { return false; }
+  csPtr<iScriptValue> Retrieve(const char*) { return 0; }
 
-    /*
-      @@@ Deprecated functions which wont be implemented
-    */
-    bool Call(const char *name, const char *fmt, ...)
+  /*
+    @@@ Deprecated functions which wont be implemented
+  */
+  bool Call(const char *name, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, int &ret, const char *fmt, ...)
+  bool Call(const char *name, int &ret, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, float &ret, const char *fmt, ...)
+  bool Call(const char *name, float &ret, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, double &ret, const char *fmt, ...)
+  bool Call(const char *name, double &ret, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, char **ret, const char *fmt, ...)
+  bool Call(const char *name, char **ret, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, void **ret, const char *fmt, ...)
+  bool Call(const char *name, void **ret, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, csRef<iString> &ref, const char *fmt, ...)
+  bool Call(const char *name, csRef<iString> &ref, const char *fmt, ...)
       { return false; }
-    bool Call(const char *name, csRef<iScriptObject> &ref, const char *fmt, ...)
+  bool Call(const char *name, csRef<iScriptObject> &ref, const char *fmt, ...)
       { return false; }
-    csRef<iScriptObject> NewObject(const char *type, const char *fmt, ...) 
+  csRef<iScriptObject> NewObject(const char *type, const char *fmt, ...) 
       { return 0; }
-    bool Store(const char *name, int data)
+  bool Store(const char *name, int data)
       { return false; }
-    bool Store(const char *name, float data)
+  bool Store(const char *name, float data)
       { return false; }
-    bool Store(const char *name, double data)
+  bool Store(const char *name, double data)
       { return false; }
-    bool Store(const char *name, const char *data)
+  bool Store(const char *name, const char *data)
       { return false; }
-    bool Store(const char *name, iScriptObject *data)
+  bool Store(const char *name, iScriptObject *data)
       { return false; }
-    bool SetTruth(const char *name, bool data)
+  bool SetTruth(const char *name, bool data)
       { return false; }
-    bool Retrieve(const char *name, int &data) const
+  bool Retrieve(const char *name, int &data) const
       { return false; }
-    bool Retrieve(const char *name, float &data) const
+  bool Retrieve(const char *name, float &data) const
       { return false; }
-    bool Retrieve(const char *name, double &data) const
+  bool Retrieve(const char *name, double &data) const
       { return false; }
-    bool Retrieve(const char *name, char **data) const
+  bool Retrieve(const char *name, char **data) const
       { return false; }
-    bool Retrieve(const char *name, void **data, const char *type) const
+  bool Retrieve(const char *name, void **data, const char *type) const
       { return false; }
-    bool Retrieve(const char *name, csRef<iScriptObject> &data) const
+  bool Retrieve(const char *name, csRef<iScriptObject> &data) const
       { return false; }
-    bool Retrieve(const char *name, csRef<iString> &data) const
+  bool Retrieve(const char *name, csRef<iString> &data) const
       { return false; }
-    bool GetTruth(const char *name, bool &data) const
+  bool GetTruth(const char *name, bool &data) const
       { return false; }
-    bool Remove(const char *name)
+  bool Remove(const char *name)
       { return false; }
-  } scfiScript;
 
   // Implement iEventHandler interface.
-  struct eiEventHandler : public iEventHandler
-  {
-    SCF_DECLARE_EMBEDDED_IBASE(celBlPython);
-    virtual bool HandleEvent (iEvent& e)
-    { return scfParent->HandleEvent(e); }
-    CS_EVENTHANDLER_NAMES("cel.behaviourlayer.python")
-    CS_EVENTHANDLER_NIL_CONSTRAINTS
-  } scfiEventHandler;
+  CS_EVENTHANDLER_NAMES("cel.behaviourlayer.python")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
-class celPythonBehaviour : public iCelBehaviour
+class celPythonBehaviour : public scfImplementation1<
+	celPythonBehaviour, iCelBehaviour>
 {
 private:
   celBlPython* scripter;
@@ -167,13 +145,10 @@ private:
   char* name;
   int api_version;
 
-
 public:
   celPythonBehaviour (celBlPython* scripter, PyObject* py_ent,
   	PyObject* py_behaviour, const char* name);
   virtual ~celPythonBehaviour ();
-
-  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return scripter; }
