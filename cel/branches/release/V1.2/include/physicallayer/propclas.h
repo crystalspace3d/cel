@@ -376,13 +376,13 @@ struct iCelPropertyClass : public virtual iBase
 };
 
 
-SCF_VERSION (iCelPropertyClassList, 0, 0, 2);
-
 /**
  * A list of property classes.
  */
-struct iCelPropertyClassList : public iBase
+struct iCelPropertyClassList : public virtual iBase
 {
+  SCF_INTERFACE (iCelPropertyClassList, 0, 0, 2);
+
   /**
    * Return the number of property classes in this list.
    */

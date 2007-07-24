@@ -7,19 +7,13 @@
 
 #include "behave.h"
 
-SCF_IMPLEMENT_IBASE (BehaviourLayer)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
-SCF_IMPLEMENT_IBASE_END
-
-BehaviourLayer::BehaviourLayer (iCelPlLayer* pl)
+BehaviourLayer::BehaviourLayer (iCelPlLayer* pl) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   BehaviourLayer::pl = pl;
 }
 
 BehaviourLayer::~BehaviourLayer ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
@@ -47,14 +41,9 @@ iCelBehaviour* BehaviourLayer::CreateBehaviour (iCelEntity* entity,
 
 //-----------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (BehaviourCommon)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
 BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl,
-    iCelPlLayer* pl)
+    iCelPlLayer* pl) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   BehaviourCommon::entity = entity;
   BehaviourCommon::bl = bl;
   BehaviourCommon::pl = pl;
@@ -62,7 +51,6 @@ BehaviourCommon::BehaviourCommon (iCelEntity* entity, BehaviourLayer* bl,
 
 BehaviourCommon::~BehaviourCommon ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool BehaviourCommon::SendMessage (const char* msg_id,

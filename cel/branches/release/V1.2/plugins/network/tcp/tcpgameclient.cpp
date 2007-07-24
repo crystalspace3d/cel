@@ -32,20 +32,12 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
-SCF_IMPLEMENT_IBASE_EXT (celTCPGameClient)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameClient)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGameClient::TCPGameClient)
-  SCF_IMPLEMENTS_INTERFACE (iCelGameClient)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 // default value to be used for the server timeout set with SetServerTimeOut
 #define DEFAULT_SERVER_TIMEOUT 60000
 
-celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg, celTCPGameFactory* factory)
+celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg,
+    celTCPGameFactory* factory) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelGameClient);
   celTCPGameClient::object_reg = object_reg;
   celTCPGameClient::factory = factory;
   manager = 0;
@@ -78,8 +70,6 @@ celTCPGameClient::~celTCPGameClient ()
   linked_entities.DeleteAll ();
 
   delete socket_cache;
-
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGameClient);
 }
 
 bool celTCPGameClient::InitializeClient (celTCPGame* game, celPlayer* player)

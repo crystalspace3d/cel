@@ -24,8 +24,6 @@
 
 struct iCelEntity;
 
-SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
-
 /**
  * This is a property class that wraps a standard first-person and
  * third-person camera and related functionality. It depends on either iPcMesh
@@ -56,9 +54,10 @@ SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
  * - yaw (float, read/write): yaw.
  * - distance (float, read/write): distance (zoom).
  */
-struct iPcDefaultCamera : public iPcCamera
+struct iPcDefaultCamera : public virtual iPcCamera
 {
-public:
+  SCF_INTERFACE (iPcDefaultCamera, 0, 0, 3);
+
   /**
    * Camera modes
    */

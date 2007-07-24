@@ -38,7 +38,8 @@ struct iCelPlLayer;
  * finding external entities. So it can only be used if non-local entities
  * have unique names.
  */
-class celStandardLocalEntitySet : public iCelLocalEntitySet
+class celStandardLocalEntitySet : public scfImplementation1<
+	celStandardLocalEntitySet, iCelLocalEntitySet>
 {
 private:
   iCelPlLayer* pl;
@@ -49,8 +50,6 @@ private:
 public:
   celStandardLocalEntitySet (iCelPlLayer* pl);
   virtual ~celStandardLocalEntitySet ();
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetEntityCount () const
   {
@@ -82,7 +81,8 @@ public:
 /**
  * Standard implementation of iCelPersistentDataList.
  */
-class celStandardPersistentDataList : public iCelPersistentDataList
+class celStandardPersistentDataList : public scfImplementation1<
+	celStandardPersistentDataList, iCelPersistentDataList>
 {
  private:
   class celPersistentDataEntry
@@ -98,10 +98,8 @@ class celStandardPersistentDataList : public iCelPersistentDataList
   celStandardPersistentDataList ();
   virtual ~celStandardPersistentDataList ();
 
-  SCF_DECLARE_IBASE;
-
   virtual size_t GetCount () const
-    { return data_list.GetSize (); }
+  { return data_list.GetSize (); }
 
   virtual bool GetPersistentData (size_t idx, csRef<iCelDataBuffer>& databuf, 
 	csString& pc_name, csString& pc_tag) const;
