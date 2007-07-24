@@ -8,6 +8,7 @@ The history order is reversed so that new features are at the top.
 	- Jorrit merged r2856:2858 into 1.2 (new SCF and iCelPropertyClass
 	  deprecations).
 	- Jorrit merged r2814 into 1.2 (fix for FindAttachedEntity).
+	- Jorrit merged r2903 into 1.2 (TCP plugin fix).
 23-Jul-2007
 	- res merged r2859, r2873 into 1.2 (multiple versions install
 	  support).

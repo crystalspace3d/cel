@@ -129,7 +129,7 @@ bool celTCPGameServer::InitializeServer (celTCPGame* game,
   }
 
   // init the manager of the game factory
-  if (!factory->manager->InitServer (&game->scfiCelGame))
+  if (!factory->manager->InitServer (game))
   {
     nlClose (server_socket);
     return ReportError (object_reg, "The server manager failed its initialization");

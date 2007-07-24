@@ -342,7 +342,7 @@ void celTCPGameClient::UpdateConnecting ()
       
       // TODO: if the connection was broken, we do not need to re-load the level, should need to clean all network links
       // init the manager of the game factory
-      if (!factory->manager->InitClient (&game->scfiCelGame))
+      if (!factory->manager->InitClient (game))
       {
 	to_delete = true;
 	ReportError (object_reg, "The client manager failed its initialization");
