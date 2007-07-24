@@ -4,6 +4,7 @@ The history order is reversed so that new features are at the top.
 
 24-Jul-2007
 	- Jorrit merged r2801 into 1.2 (new SCF).
+	- Jorrit merged r2808 into 1.2 (python bindings fix).
 23-Jul-2007
 	- res merged r2859, r2873 into 1.2 (multiple versions install
 	  support).
