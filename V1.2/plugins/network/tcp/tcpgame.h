@@ -1,6 +1,7 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2005 by Christian Van Brussel
+    Copyright (C) 2007 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -55,14 +56,11 @@ public:
   virtual bool IsServerAvailable () const
     { return server != 0; }
   virtual iCelGameServer* GetGameServer () const
-    { return server ? &server->scfiCelGameServer : 0; }
+    { return server; }
   virtual bool IsClientAvailable () const
     { return client != 0; }
   virtual iCelGameClient* GetGameClient () const
-    { return client ? &client->scfiCelGameClient : 0; }
-
-  virtual celNetworkGameType GetGameType () const
-    { return scfParent->GetGameType (); }
+    { return client; }
 };
 
 }
