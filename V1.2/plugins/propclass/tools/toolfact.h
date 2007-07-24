@@ -52,7 +52,8 @@ CEL_DECLARE_FACTORY(Tooltip)
 /**
  * This is a tooltip property class.
  */
-class celPcTooltip : public celPcCommon
+class celPcTooltip : public scfImplementationExt1<
+	celPcTooltip, celPcCommon, iPcTooltip>
 {
 private:
   bool visible;
@@ -73,60 +74,21 @@ public:
   celPcTooltip (iObjectRegistry* object_reg);
   virtual ~celPcTooltip ();
 
-  void SetText (const char* text);
-  void Show (int x, int y);
-  void Hide ();
-  bool IsVisible () const { return visible; }
-  void SetTextColor (int r, int g, int b)
+  void virtual SetText (const char* text);
+  virtual void Show (int x, int y);
+  virtual void Hide ();
+  virtual bool IsVisible () const { return visible; }
+  virtual void SetTextColor (int r, int g, int b)
   { text_r = r; text_g = g; text_b = b; }
-  void SetBackgroundColor (int r, int g, int b)
+  virtual void SetBackgroundColor (int r, int g, int b)
   { bg_r = r; bg_g = g; bg_b = b; }
-  void SetFont(iFont* font);
-  void SetJustify (celTooltipJustify justify)
+  virtual void SetFont(iFont* font);
+  virtual void SetJustify (celTooltipJustify justify)
   { this->justify = justify; }
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
-
-  struct PcTooltip : public iPcTooltip
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTooltip);
-    virtual void SetText (const char* text)
-    {
-      scfParent->SetText (text);
-    }
-    virtual void Show (int x, int y)
-    {
-      scfParent->Show (x, y);
-    }
-    virtual void Hide ()
-    {
-      scfParent->Hide ();
-    }
-    virtual bool IsVisible () const
-    {
-      return scfParent->IsVisible ();
-    }
-    virtual void SetTextColor (int r, int g, int b)
-    {
-      scfParent->SetTextColor (r, g, b);
-    }
-    virtual void SetBackgroundColor (int r, int g, int b)
-    {
-      scfParent->SetBackgroundColor (r, g, b);
-    }
-    virtual void SetFont (iFont* font)
-    {
-      scfParent->SetFont (font);
-    }
-    virtual void SetJustify (celTooltipJustify justify)
-    {
-      scfParent->SetJustify (justify);
-    }
-  } scfiPcTooltip;
 };
 
 #endif // __CEL_PF_TOOLFACT__

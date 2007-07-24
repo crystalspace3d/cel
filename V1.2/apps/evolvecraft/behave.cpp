@@ -33,22 +33,22 @@
 #include "physicallayer/propclas.h"
 #include "physicallayer/pl.h"
 
-SCF_IMPLEMENT_IBASE (htBehaviourActor)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
-htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity, iCelPlLayer* pl) : bl (bl), entity (entity), evolving (false), bestFitness (0), targetFitness (100000000.0)
+htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity,
+    iCelPlLayer* pl) :
+  	scfImplementationType (this),
+  	bl (bl), entity (entity), evolving (false),
+  	bestFitness (0), targetFitness (100000000.0)
 {
-  SCF_CONSTRUCT_IBASE (0);
   parid_currentticks = pl->FetchStringID("cel.parameter.currentticks");
   parid_maxfitness = pl->FetchStringID("cel.parameter.max_fitness");
 }
+
 htBehaviourActor::~htBehaviourActor()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
-bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,...)
+bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc,
+    celData &ret, iCelParameterBlock *params,...)
 {
   va_list arg;
   va_start (arg, params);
@@ -56,7 +56,9 @@ bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, c
   va_end (arg);
   return rc;
 }
-bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params, va_list arg)
+bool htBehaviourActor::SendMessageV (const char *msg_id,
+    iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,
+    va_list arg)
 {
   if (csString ("pctimer_wakeupframe") == msg_id)
   {

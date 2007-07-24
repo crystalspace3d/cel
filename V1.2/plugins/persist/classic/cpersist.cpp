@@ -42,26 +42,14 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPersistClassic)
 
-SCF_IMPLEMENT_IBASE (celPersistClassic)
-  SCF_IMPLEMENTS_INTERFACE (iCelPersistence)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistClassic::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celPersistClassic::celPersistClassic (iBase* parent)
+celPersistClassic::celPersistClassic (iBase* parent) :
+  scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celPersistClassic::~celPersistClassic ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPersistClassic::Initialize (iObjectRegistry* object_reg)

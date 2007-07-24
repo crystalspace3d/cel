@@ -25,8 +25,6 @@
 
 #include "tools/questmanager.h"
 
-SCF_VERSION (iPcQuest, 0, 0, 1);
-
 /**
  * This property class represents a quest. It uses the quest manager
  * to manage quests. Note that this property class will automatically
@@ -48,8 +46,10 @@ SCF_VERSION (iPcQuest, 0, 0, 1);
  * - name (string, read only): name of the quest factory or null if no quest.
  * - state (string, read/write): name of the current state.
  */
-struct iPcQuest : public iBase
+struct iPcQuest : public virtual iBase
 {
+  SCF_INTERFACE (iPcQuest, 0, 0, 1);
+
   /**
    * Initialize this quest with a new named quest. The quest manager
    * will be used to find a quest factory that has the given name. Then

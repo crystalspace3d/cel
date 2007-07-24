@@ -278,14 +278,13 @@ class celPlayer
   }
 };
 
-SCF_VERSION (iCelPlayerList, 0, 0, 1);
-
 /**
  * A list of players.
  */
-struct iCelPlayerList
+struct iCelPlayerList : public virtual iBase
 {
- public:
+  SCF_INTERFACE (iCelPlayerList, 0, 0, 1);
+
   virtual ~iCelPlayerList () = 0;
   virtual size_t GetCount () const = 0;
   virtual celPlayer* Get (size_t index) const = 0;

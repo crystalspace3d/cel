@@ -34,7 +34,8 @@ struct iCelExpressionParser;
  * This is an add-on to allow adding of rules through a standard
  * CS map file.
  */
-class celAddOnRuleDef : public iLoaderPlugin
+class celAddOnRuleDef : public scfImplementation2<
+	celAddOnRuleDef, iLoaderPlugin, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -44,25 +45,16 @@ private:
   iCelExpressionParser* GetParser ();
 
 public:
-  SCF_DECLARE_IBASE;
- 
   celAddOnRuleDef (iBase* parent);
   virtual ~celAddOnRuleDef ();
   /**
    * Initialize this plugin. Register XML tokens.
    */
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
 
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnRuleDef);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_ADDON_RULEDEF__

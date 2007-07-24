@@ -35,7 +35,8 @@ struct iCelBlLayerGenerate;
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnXmlScripts : public iLoaderPlugin
+class celAddOnXmlScripts : public scfImplementation2<
+	celAddOnXmlScripts, iLoaderPlugin, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -47,14 +48,13 @@ private:
   void GetBlGen (iDocumentNode* child);
 
 public:
-  SCF_DECLARE_IBASE;
- 
   celAddOnXmlScripts (iBase* parent);
   virtual ~celAddOnXmlScripts ();
   /**
-   * Initialize this plugin. Register XML tokens for script, layer and pcfactory.
+   * Initialize this plugin. Register XML tokens for script, layer and
+   * pcfactory.
    */
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
   /**
    * Parses a document/script for addons defining a pcfactory, a behaviour
    * layer and/or behaviour xmlscripts.
@@ -62,13 +62,6 @@ public:
   virtual csPtr<iBase> Parse (iDocumentNode* node,
   	iStreamSource*, iLoaderContext* ldr_context,
   	iBase* context);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnXmlScripts);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_ADDON_XMLSCRIPTS__

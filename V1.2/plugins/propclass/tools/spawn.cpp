@@ -76,14 +76,6 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcSpawn)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSpawn)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSpawn::PcSpawn)
-  SCF_IMPLEMENTS_INTERFACE (iPcSpawn)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcSpawn::id_repeat_param = csInvalidStringID;
 csStringID celPcSpawn::id_random_param = csInvalidStringID;
 csStringID celPcSpawn::id_mindelay_param = csInvalidStringID;
@@ -105,9 +97,8 @@ csStringID celPcSpawn::id_behaviour = csInvalidStringID;
 PropertyHolder celPcSpawn::propinfo;
 
 celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
   enabled = true;
   repeat = false;
   random = true;
@@ -177,7 +168,6 @@ celPcSpawn::celPcSpawn (iObjectRegistry* object_reg)
 celPcSpawn::~celPcSpawn ()
 {
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSpawn);
 }
 
 bool celPcSpawn::PerformActionIndexed (int idx,
@@ -204,9 +194,9 @@ bool celPcSpawn::PerformActionIndexed (int idx,
           iCelBlLayer* bl = pl->FindBehaviourLayer (layer_param);
           if (!bl)
             return Report (object_reg,
-        	    "Couldn't find '%s' behaviour layer in action AddEntityType!",
-        	    layer_param);
-          scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
+        	"Couldn't find '%s' behaviour layer in action AddEntityType!",
+        	layer_param);
+          AddEntityType (chance_param, entity_param, bl,
       	    behaviour_param, call_param, params, 0);
         }
         else
@@ -215,7 +205,7 @@ bool celPcSpawn::PerformActionIndexed (int idx,
           if (!bl)
             return Report (object_reg,
         	    "Couldn't find behaviour layer in action AddEntityType!");
-          scfiPcSpawn.AddEntityType (chance_param, entity_param, bl,
+          AddEntityType (chance_param, entity_param, bl,
       	    behaviour_param, call_param, params, 0);
         }
         return true;

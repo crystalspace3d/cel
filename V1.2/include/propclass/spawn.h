@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcSpawn, 1, 1, 0);
-
 /**
  * Spawn property class. This property class is responsible
  * for creating other entities based on time related rules.
@@ -57,8 +55,10 @@ SCF_VERSION (iPcSpawn, 1, 1, 0);
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
  * - pcspawn_newentity: new entity has been created (entity,behaviour)
  */
-struct iPcSpawn : public iBase
+struct iPcSpawn : public virtual iBase
 {
+  SCF_INTERFACE (iPcSpawn, 1, 1, 0);
+
   /**
    * Enable/disable spawning. Enabled by default although the spawner
    * will only start working after the first SetTiming() call.

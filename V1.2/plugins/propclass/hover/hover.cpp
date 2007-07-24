@@ -39,14 +39,6 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (Hover, "pcvehicle.hover", "pchover")
 
-SCF_IMPLEMENT_IBASE_EXT (celPcHover)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcHover)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
-  SCF_IMPLEMENTS_INTERFACE (iPcHover)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 // Parameters.
 csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
 csStringID celPcHover::param_angoff = csInvalidStringID;
@@ -61,10 +53,8 @@ csStringID celPcHover::param_hoverheight = csInvalidStringID;
 PropertyHolder celPcHover::propinfo;
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg), celPeriodicTimer (pl)
+	: scfImplementationType (this, object_reg), celPeriodicTimer (pl)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
-
   hover_on = true;
   ang_beam_offset = 0.5;
   ang_cutoff_height = 8;

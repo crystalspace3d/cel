@@ -43,7 +43,8 @@ struct celData;
 /**
  * This is the XML persistence layer.
  */
-class celPersistXML : public iCelPersistence
+class celPersistXML : public scfImplementation2<
+	celPersistXML, iCelPersistence, iComponent>
 {
 private:
   bool Write (iDocumentNode* node, iCelDataBuffer* db);
@@ -61,7 +62,6 @@ private:
   bool Report (const char* msg, ...);
 
 public:
-  SCF_DECLARE_IBASE;
   csRef<iVFS> vfs;
   iCelLocalEntitySet* set;
   csWeakRef<iCelPlLayer> pl;
@@ -76,12 +76,6 @@ public:
   virtual bool Save (iCelLocalEntitySet* set, iFile* file);
   virtual bool Save (iCelLocalEntitySet* set, const char* name);
 
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPersistXML);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 protected:
   iObjectRegistry* object_reg;
 };

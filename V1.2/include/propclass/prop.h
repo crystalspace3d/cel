@@ -44,8 +44,6 @@ struct iPcPropertyListener : public virtual iBase
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx) = 0;
 };
 
-SCF_VERSION (iPcProperties, 0, 0, 1);
-
 /**
  * This is a general property class.
  *
@@ -60,8 +58,10 @@ SCF_VERSION (iPcProperties, 0, 0, 1);
  * - SetProperty: parameters 'name' (string) and 'value'
  *   (string/bool/float/long/vector).
  */
-struct iPcProperties : public iBase
+struct iPcProperties : public virtual iBase
 {
+  SCF_INTERFACE (iPcProperties, 0, 0, 1);
+
   /**
    * Add a property listener. Property listeners are called right before
    * the behaviour is called.
