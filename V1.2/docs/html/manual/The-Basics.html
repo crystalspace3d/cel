@@ -129,7 +129,7 @@ camera in Crystal Entity Layer also suports 3rd person view. It is actually a
 pretty powerful property class with lots of options on how you want the camera
 to follow the hero. Note that it is called 'old' because we're working on a
 future new camera system.
-</li><li> <samp>&lsquo;pcmove.actorold&rsquo;</samp>
+</li><li> <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>
 This class helps to combine the features of the three property classes
 above so that they work nicely together. It basically knows about player
 animations and how they relate to walking/running speed. Note that it is
@@ -139,7 +139,7 @@ Possible a player can hold items so it is useful to have an inventory.
 </li><li> <samp>&lsquo;pcinput.standard&rsquo;</samp>
 To be able to react to user input (mouse, keyboard, <small class="dots">...</small>) we use the
 <samp>&lsquo;pcinput.standard&rsquo;</samp> property class. We also configure this property class
-so that the right input is propagate to <samp>&lsquo;pcmove.actorold&rsquo;</samp>.
+so that the right input is propagate to <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>.
 </li></ul>
 
 <p>These are only two examples. There are a lot more possibilities. It is
@@ -179,7 +179,7 @@ and in the future more ways will be added.
 happens. For example, when an entity has a <samp>&lsquo;pcinput.standard&rsquo;</samp> property
 class then the behaviour will get messages every time a key is pressed.
 In reaction to those messages the behaviour can then call <small>API</small> calls
-in <samp>&lsquo;pcmove.actorold&rsquo;</samp> to (for example) move the actor around.
+in <samp>&lsquo;pcmove.actor.standard&rsquo;</samp> to (for example) move the actor around.
 </p>
 <p>A behaviour is represented by the <code>iCelBehaviour</code> interface. You can
 create behaviours from <code>iCelBlLayer</code>.
