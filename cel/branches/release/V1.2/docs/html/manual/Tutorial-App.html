@@ -157,7 +157,7 @@ Crystal Entity Layer.
 to know about the player mesh. This is needed so that the zone manager can
 load the needed regions depending on where the player moves.
 </p>
-<p>Then we setup <samp>&lsquo;pcmove.linear&rsquo;</samp> and <samp>&lsquo;pcmove.actor&rsquo;</samp> with the
+<p>Then we setup <samp>&lsquo;pcmove.linear&rsquo;</samp> and <samp>&lsquo;pcmove.actor.standard&rsquo;</samp> with the
 proper movement parameters. This includes the dimensions of the collision
 box and various speed parameters with which we will move the player.
 </p>
@@ -172,7 +172,7 @@ you probably want to read the key definitions from a configuration file.
     &quot;pccamera.old&quot;,
     &quot;pcobject.mesh&quot;,
     &quot;pcmove.linear&quot;,
-    &quot;pcmove.actor&quot;,
+    &quot;pcmove.actor.standard&quot;,
     &quot;pcinput.standard&quot;,
     &quot;pctools.inventory&quot;,
     CEL_PROPCLASS_END);

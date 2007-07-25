@@ -900,12 +900,66 @@ class iCelBehaviour(cspace.iBase):
 iCelBehaviour_swigregister = _blcelc.iCelBehaviour_swigregister
 iCelBehaviour_swigregister(iCelBehaviour)
 
-class celGenericParameterBlock(iCelParameterBlock):
+class scfGenericParameterBlock(iCelParameterBlock):
     __swig_setmethods__ = {}
     for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
-    __setattr__ = lambda self, name, value: _swig_setattr(self, celGenericParameterBlock, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfGenericParameterBlock, name, value)
     __swig_getmethods__ = {}
     for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, scfGenericParameterBlock, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.scfGenericParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.scfGenericParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.scfGenericParameterBlock_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.scfGenericParameterBlock_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.scfGenericParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.scfGenericParameterBlock_RemoveRefOwner(*args)
+scfGenericParameterBlock_swigregister = _blcelc.scfGenericParameterBlock_swigregister
+scfGenericParameterBlock_swigregister(scfGenericParameterBlock)
+
+class scfVariableParameterBlock(iCelParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfVariableParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, scfVariableParameterBlock, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.scfVariableParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.scfVariableParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.scfVariableParameterBlock_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.scfVariableParameterBlock_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.scfVariableParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.scfVariableParameterBlock_RemoveRefOwner(*args)
+scfVariableParameterBlock_swigregister = _blcelc.scfVariableParameterBlock_swigregister
+scfVariableParameterBlock_swigregister(scfVariableParameterBlock)
+
+class scfOneParameterBlock(iCelParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, scfOneParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, scfOneParameterBlock, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def IncRef(*args): return _blcelc.scfOneParameterBlock_IncRef(*args)
+    def DecRef(*args): return _blcelc.scfOneParameterBlock_DecRef(*args)
+    def GetRefCount(*args): return _blcelc.scfOneParameterBlock_GetRefCount(*args)
+    def QueryInterface(*args): return _blcelc.scfOneParameterBlock_QueryInterface(*args)
+    def AddRefOwner(*args): return _blcelc.scfOneParameterBlock_AddRefOwner(*args)
+    def RemoveRefOwner(*args): return _blcelc.scfOneParameterBlock_RemoveRefOwner(*args)
+scfOneParameterBlock_swigregister = _blcelc.scfOneParameterBlock_swigregister
+scfOneParameterBlock_swigregister(scfOneParameterBlock)
+
+class celGenericParameterBlock(scfGenericParameterBlock):
+    __swig_setmethods__ = {}
+    for _s in [scfGenericParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, celGenericParameterBlock, name, value)
+    __swig_getmethods__ = {}
+    for _s in [scfGenericParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celGenericParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -915,22 +969,6 @@ class celGenericParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celGenericParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celGenericParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celGenericParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celGenericParameterBlock_scfRefCount_get, _blcelc.celGenericParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celGenericParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celGenericParameterBlock_scfWeakRefOwners_get, _blcelc.celGenericParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celGenericParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celGenericParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celGenericParameterBlock_scfParent_get, _blcelc.celGenericParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celGenericParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celGenericParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celGenericParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celGenericParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celGenericParameterBlock_RemoveRefOwner(*args)
-    def QueryInterface(*args): return _blcelc.celGenericParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celGenericParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celGenericParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celGenericParameterBlock_GetParameterByIndex(*args)
@@ -944,12 +982,12 @@ class celGenericParameterBlock(iCelParameterBlock):
 celGenericParameterBlock_swigregister = _blcelc.celGenericParameterBlock_swigregister
 celGenericParameterBlock_swigregister(celGenericParameterBlock)
 
-class celVariableParameterBlock(iCelParameterBlock):
+class celVariableParameterBlock(scfVariableParameterBlock):
     __swig_setmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    for _s in [scfVariableParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, celVariableParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    for _s in [scfVariableParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celVariableParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -959,22 +997,6 @@ class celVariableParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celVariableParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celVariableParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celVariableParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celVariableParameterBlock_scfRefCount_get, _blcelc.celVariableParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celVariableParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celVariableParameterBlock_scfWeakRefOwners_get, _blcelc.celVariableParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celVariableParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celVariableParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celVariableParameterBlock_scfParent_get, _blcelc.celVariableParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celVariableParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celVariableParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celVariableParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celVariableParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celVariableParameterBlock_RemoveRefOwner(*args)
-    def QueryInterface(*args): return _blcelc.celVariableParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celVariableParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celVariableParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celVariableParameterBlock_GetParameterByIndex(*args)
@@ -988,12 +1010,12 @@ class celVariableParameterBlock(iCelParameterBlock):
 celVariableParameterBlock_swigregister = _blcelc.celVariableParameterBlock_swigregister
 celVariableParameterBlock_swigregister(celVariableParameterBlock)
 
-class celOneParameterBlock(iCelParameterBlock):
+class celOneParameterBlock(scfOneParameterBlock):
     __swig_setmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    for _s in [scfOneParameterBlock]: __swig_setmethods__.update(_s.__swig_setmethods__)
     __setattr__ = lambda self, name, value: _swig_setattr(self, celOneParameterBlock, name, value)
     __swig_getmethods__ = {}
-    for _s in [iCelParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    for _s in [scfOneParameterBlock]: __swig_getmethods__.update(_s.__swig_getmethods__)
     __getattr__ = lambda self, name: _swig_getattr(self, celOneParameterBlock, name)
     __repr__ = _swig_repr
     def __init__(self, *args): 
@@ -1003,22 +1025,6 @@ class celOneParameterBlock(iCelParameterBlock):
     __swig_destroy__ = _blcelc.delete_celOneParameterBlock
     __del__ = lambda self : None;
     def SetParameterDef(*args): return _blcelc.celOneParameterBlock_SetParameterDef(*args)
-    __swig_setmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_set
-    __swig_getmethods__["scfRefCount"] = _blcelc.celOneParameterBlock_scfRefCount_get
-    if _newclass:scfRefCount = property(_blcelc.celOneParameterBlock_scfRefCount_get, _blcelc.celOneParameterBlock_scfRefCount_set)
-    __swig_setmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_set
-    __swig_getmethods__["scfWeakRefOwners"] = _blcelc.celOneParameterBlock_scfWeakRefOwners_get
-    if _newclass:scfWeakRefOwners = property(_blcelc.celOneParameterBlock_scfWeakRefOwners_get, _blcelc.celOneParameterBlock_scfWeakRefOwners_set)
-    def scfRemoveRefOwners(*args): return _blcelc.celOneParameterBlock_scfRemoveRefOwners(*args)
-    __swig_setmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_set
-    __swig_getmethods__["scfParent"] = _blcelc.celOneParameterBlock_scfParent_get
-    if _newclass:scfParent = property(_blcelc.celOneParameterBlock_scfParent_get, _blcelc.celOneParameterBlock_scfParent_set)
-    def IncRef(*args): return _blcelc.celOneParameterBlock_IncRef(*args)
-    def DecRef(*args): return _blcelc.celOneParameterBlock_DecRef(*args)
-    def GetRefCount(*args): return _blcelc.celOneParameterBlock_GetRefCount(*args)
-    def AddRefOwner(*args): return _blcelc.celOneParameterBlock_AddRefOwner(*args)
-    def RemoveRefOwner(*args): return _blcelc.celOneParameterBlock_RemoveRefOwner(*args)
-    def QueryInterface(*args): return _blcelc.celOneParameterBlock_QueryInterface(*args)
     def GetParameterCount(*args): return _blcelc.celOneParameterBlock_GetParameterCount(*args)
     def GetParameter(*args): return _blcelc.celOneParameterBlock_GetParameter(*args)
     def GetParameterByIndex(*args): return _blcelc.celOneParameterBlock_GetParameterByIndex(*args)
@@ -1084,6 +1090,15 @@ class iCelPropertyClass(cspace.iBase):
     def GetPropertyPClass(*args): return _blcelc.iCelPropertyClass_GetPropertyPClass(*args)
     def GetPropertyEntity(*args): return _blcelc.iCelPropertyClass_GetPropertyEntity(*args)
     def GetPropertyIBase(*args): return _blcelc.iCelPropertyClass_GetPropertyIBase(*args)
+    def GetPropertyLongByID(*args): return _blcelc.iCelPropertyClass_GetPropertyLongByID(*args)
+    def GetPropertyFloatByID(*args): return _blcelc.iCelPropertyClass_GetPropertyFloatByID(*args)
+    def GetPropertyBoolByID(*args): return _blcelc.iCelPropertyClass_GetPropertyBoolByID(*args)
+    def GetPropertyStringByID(*args): return _blcelc.iCelPropertyClass_GetPropertyStringByID(*args)
+    def GetPropertyVectorByID(*args): return _blcelc.iCelPropertyClass_GetPropertyVectorByID(*args)
+    def GetPropertyColorByID(*args): return _blcelc.iCelPropertyClass_GetPropertyColorByID(*args)
+    def GetPropertyPClassByID(*args): return _blcelc.iCelPropertyClass_GetPropertyPClassByID(*args)
+    def GetPropertyEntityByID(*args): return _blcelc.iCelPropertyClass_GetPropertyEntityByID(*args)
+    def GetPropertyIBaseByID(*args): return _blcelc.iCelPropertyClass_GetPropertyIBaseByID(*args)
     def PerformAction(*args): return _blcelc.iCelPropertyClass_PerformAction(*args)
     def GetPropertyAndActionCount(*args): return _blcelc.iCelPropertyClass_GetPropertyAndActionCount(*args)
     def GetPropertyOrActionID(*args): return _blcelc.iCelPropertyClass_GetPropertyOrActionID(*args)
@@ -2489,26 +2504,6 @@ class iPcCamera(cspace.iBase):
     DrawFlags = property(_blcelc.iPcCamera_DrawFlags_get, None, None,
                     "iPcCamera.DrawFlags -> int  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: int iPcCamera::GetDrawFlags()")
 
-    _PC = None
-    def __getattr__(self,attr):
-         try:
-             return _swig_getattr(self, iPcCamera, attr)
-         except:
-             pass
-         if hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-             return getattr(_PC,attr)
-         else:
-             return self.GetterFallback(attr)
-    def __setattr__(self,attr,value):
-         if attr in iPcCamera.__swig_setmethods__.keys():
-             return _swig_setattr(self,iPcCamera,attr,value)
-         elif hasattr(iCelPropertyClass,attr):
-             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
-             setattr(_PC,attr,value)
-         else:
-             return self.SetterFallback(attr,value)
-
     __swig_destroy__ = _blcelc.delete_iPcCamera
     __del__ = lambda self : None;
 iPcCamera_swigregister = _blcelc.iPcCamera_swigregister
@@ -2517,7 +2512,6 @@ celCreateActorMove = _blcelc.celCreateActorMove
 celGetSetActorMove = _blcelc.celGetSetActorMove
 celGetActorMove = _blcelc.celGetActorMove
 
-scfQuery_iPcCamera = _blcelc.scfQuery_iPcCamera
 class iPcDefaultCamera(iPcCamera):
     __swig_setmethods__ = {}
     for _s in [iPcCamera]: __swig_setmethods__.update(_s.__swig_setmethods__)
@@ -2650,9 +2644,6 @@ class iPcDefaultCamera(iPcCamera):
     __del__ = lambda self : None;
 iPcDefaultCamera_swigregister = _blcelc.iPcDefaultCamera_swigregister
 iPcDefaultCamera_swigregister(iPcDefaultCamera)
-celCreateCamera = _blcelc.celCreateCamera
-celGetSetCamera = _blcelc.celGetSetCamera
-celGetCamera = _blcelc.celGetCamera
 
 scfQuery_iPcDefaultCamera = _blcelc.scfQuery_iPcDefaultCamera
 class iPcSimpleCamera(iPcCamera):
@@ -2714,6 +2705,121 @@ celGetSetDefaultCamera = _blcelc.celGetSetDefaultCamera
 celGetDefaultCamera = _blcelc.celGetDefaultCamera
 
 scfQuery_iPcSimpleCamera = _blcelc.scfQuery_iPcSimpleCamera
+class iCelCameraMode(cspace.iBase):
+    __swig_setmethods__ = {}
+    for _s in [cspace.iBase]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iCelCameraMode, name, value)
+    __swig_getmethods__ = {}
+    for _s in [cspace.iBase]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iCelCameraMode, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def SetParentCamera(*args): return _blcelc.iCelCameraMode_SetParentCamera(*args)
+    def UseSpringPos(*args): return _blcelc.iCelCameraMode_UseSpringPos(*args)
+    def UseSpringTarget(*args): return _blcelc.iCelCameraMode_UseSpringTarget(*args)
+    def UseSpringUp(*args): return _blcelc.iCelCameraMode_UseSpringUp(*args)
+    def AllowCollisionDetection(*args): return _blcelc.iCelCameraMode_AllowCollisionDetection(*args)
+    def DrawAttachedMesh(*args): return _blcelc.iCelCameraMode_DrawAttachedMesh(*args)
+    def GetSpringCoefficient(*args): return _blcelc.iCelCameraMode_GetSpringCoefficient(*args)
+    def GetPosition(*args): return _blcelc.iCelCameraMode_GetPosition(*args)
+    def GetTarget(*args): return _blcelc.iCelCameraMode_GetTarget(*args)
+    def GetUp(*args): return _blcelc.iCelCameraMode_GetUp(*args)
+    def DecideCameraState(*args): return _blcelc.iCelCameraMode_DecideCameraState(*args)
+    __swig_destroy__ = _blcelc.delete_iCelCameraMode
+    __del__ = lambda self : None;
+iCelCameraMode_swigregister = _blcelc.iCelCameraMode_swigregister
+iCelCameraMode_swigregister(iCelCameraMode)
+celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
+celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
+celGetSimpleCamera = _blcelc.celGetSimpleCamera
+
+class iTrackCameraMode(iCelCameraMode):
+    __swig_setmethods__ = {}
+    for _s in [iCelCameraMode]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iTrackCameraMode, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iCelCameraMode]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iTrackCameraMode, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def ResetCamera(*args): return _blcelc.iTrackCameraMode_ResetCamera(*args)
+    TARGET_BASE = _blcelc.iTrackCameraMode_TARGET_BASE
+    TARGET_OBJ = _blcelc.iTrackCameraMode_TARGET_OBJ
+    TARGET_NONE = _blcelc.iTrackCameraMode_TARGET_NONE
+    def SetTargetEntity(*args): return _blcelc.iTrackCameraMode_SetTargetEntity(*args)
+    def SetTargetState(*args): return _blcelc.iTrackCameraMode_SetTargetState(*args)
+    def SetTargetYOffset(*args): return _blcelc.iTrackCameraMode_SetTargetYOffset(*args)
+    __swig_destroy__ = _blcelc.delete_iTrackCameraMode
+    __del__ = lambda self : None;
+iTrackCameraMode_swigregister = _blcelc.iTrackCameraMode_swigregister
+iTrackCameraMode_swigregister(iTrackCameraMode)
+
+class iPcNewCamera(iPcCamera):
+    __swig_setmethods__ = {}
+    for _s in [iPcCamera]: __swig_setmethods__.update(_s.__swig_setmethods__)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, iPcNewCamera, name, value)
+    __swig_getmethods__ = {}
+    for _s in [iPcCamera]: __swig_getmethods__.update(_s.__swig_getmethods__)
+    __getattr__ = lambda self, name: _swig_getattr(self, iPcNewCamera, name)
+    def __init__(self): raise AttributeError, "No constructor defined"
+    __repr__ = _swig_repr
+    def GetBasePos(*args): return _blcelc.iPcNewCamera_GetBasePos(*args)
+    def GetBaseDir(*args): return _blcelc.iPcNewCamera_GetBaseDir(*args)
+    def GetBaseUp(*args): return _blcelc.iPcNewCamera_GetBaseUp(*args)
+    def GetBaseTrans(*args): return _blcelc.iPcNewCamera_GetBaseTrans(*args)
+    def GetPos(*args): return _blcelc.iPcNewCamera_GetPos(*args)
+    def GetTarget(*args): return _blcelc.iPcNewCamera_GetTarget(*args)
+    def GetUp(*args): return _blcelc.iPcNewCamera_GetUp(*args)
+    def SetPositionOffset(*args): return _blcelc.iPcNewCamera_SetPositionOffset(*args)
+    def DetectCollisions(*args): return _blcelc.iPcNewCamera_DetectCollisions(*args)
+    def SetCollisionDetection(*args): return _blcelc.iPcNewCamera_SetCollisionDetection(*args)
+    def SetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetCollisionSpringCoefficient(*args)
+    def GetCollisionSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetCollisionSpringCoefficient(*args)
+    def InCameraTransition(*args): return _blcelc.iPcNewCamera_InCameraTransition(*args)
+    def SetTransitionSpringCoefficient(*args): return _blcelc.iPcNewCamera_SetTransitionSpringCoefficient(*args)
+    def GetTransitionSpringCoefficient(*args): return _blcelc.iPcNewCamera_GetTransitionSpringCoefficient(*args)
+    def SetTransitionCutoffDistance(*args): return _blcelc.iPcNewCamera_SetTransitionCutoffDistance(*args)
+    def GetTransitionCutoffPosDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffPosDistance(*args)
+    def GetTransitionCutoffTargetDistance(*args): return _blcelc.iPcNewCamera_GetTransitionCutoffTargetDistance(*args)
+    CCM_FIRST_PERSON = _blcelc.iPcNewCamera_CCM_FIRST_PERSON
+    CCM_THIRD_PERSON = _blcelc.iPcNewCamera_CCM_THIRD_PERSON
+    CCM_LARA_TRACK = _blcelc.iPcNewCamera_CCM_LARA_TRACK
+    CCM_COUNT = _blcelc.iPcNewCamera_CCM_COUNT
+    def AttachCameraMode(*args): return _blcelc.iPcNewCamera_AttachCameraMode(*args)
+    def GetCurrentCameraModeIndex(*args): return _blcelc.iPcNewCamera_GetCurrentCameraModeIndex(*args)
+    def GetCurrentCameraMode(*args): return _blcelc.iPcNewCamera_GetCurrentCameraMode(*args)
+    def SetCurrentCameraMode(*args): return _blcelc.iPcNewCamera_SetCurrentCameraMode(*args)
+    def NextCameraMode(*args): return _blcelc.iPcNewCamera_NextCameraMode(*args)
+    def PrevCameraMode(*args): return _blcelc.iPcNewCamera_PrevCameraMode(*args)
+    def Draw(*args): return _blcelc.iPcNewCamera_Draw(*args)
+    def GetTransform(*args): return _blcelc.iPcNewCamera_GetTransform(*args)
+    def GetCameraMode(*args): return _blcelc.iPcNewCamera_GetCameraMode(*args)
+    _PC = None
+    def __getattr__(self,attr):
+         try:
+             return _swig_getattr(self, iPcNewCamera, attr)
+         except:
+             pass
+         if hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             return getattr(_PC,attr)
+         else:
+             return self.GetterFallback(attr)
+    def __setattr__(self,attr,value):
+         if attr in iPcNewCamera.__swig_setmethods__.keys():
+             return _swig_setattr(self,iPcNewCamera,attr,value)
+         elif hasattr(iCelPropertyClass,attr):
+             _PC = cspace.SCF_QUERY_INTERFACE(self,iCelPropertyClass)
+             setattr(_PC,attr,value)
+         else:
+             return self.SetterFallback(attr,value)
+
+    __swig_destroy__ = _blcelc.delete_iPcNewCamera
+    __del__ = lambda self : None;
+iPcNewCamera_swigregister = _blcelc.iPcNewCamera_swigregister
+iPcNewCamera_swigregister(iPcNewCamera)
+
+scfQuery_iPcNewCamera = _blcelc.scfQuery_iPcNewCamera
 CEL_MOUSE_BUTTON1 = _blcelc.CEL_MOUSE_BUTTON1
 CEL_MOUSE_BUTTON2 = _blcelc.CEL_MOUSE_BUTTON2
 CEL_MOUSE_BUTTON3 = _blcelc.CEL_MOUSE_BUTTON3
@@ -2733,9 +2839,9 @@ class iPcMeshSelectListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
 iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
-celCreateSimpleCamera = _blcelc.celCreateSimpleCamera
-celGetSetSimpleCamera = _blcelc.celGetSetSimpleCamera
-celGetSimpleCamera = _blcelc.celGetSimpleCamera
+celCreateCamera = _blcelc.celCreateCamera
+celGetSetCamera = _blcelc.celGetSetCamera
+celGetCamera = _blcelc.celGetCamera
 
 class iPcMeshSelect(cspace.iBase):
     __swig_setmethods__ = {}
@@ -2854,7 +2960,6 @@ class iPcMesh(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetPath(*args): return _blcelc.iPcMesh_SetPath(*args)
-    def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
     def SetMesh(*args): return _blcelc.iPcMesh_SetMesh(*args)
     def CreateEmptyThing(*args): return _blcelc.iPcMesh_CreateEmptyThing(*args)
     def CreateEmptyGenmesh(*args): return _blcelc.iPcMesh_CreateEmptyGenmesh(*args)
@@ -2892,6 +2997,7 @@ class iPcMesh(cspace.iBase):
     Visible = property(_blcelc.iPcMesh_Visible_get, None, None,
                     "iPcMesh.Visible -> bool  (read-only)\n\nThis is equivalent to calling the C++ cs method:\n\tget: bool iPcMesh::IsVisible()")
 
+    def LoadMesh(*args): return _blcelc.iPcMesh_LoadMesh(*args)
     _PC = None
     def __getattr__(self,attr):
          try:
