@@ -72,7 +72,7 @@ camera in Crystal Entity Layer also suports 3rd person view. It is actually a
 pretty powerful property class with lots of options on how you want the camera
 to follow the hero. Note that it is called 'old' because we're working on a
 future new camera system.
-@item @samp{pcmove.actorold}
+@item @samp{pcmove.actor.standard}
 This class helps to combine the features of the three property classes
 above so that they work nicely together. It basically knows about player
 animations and how they relate to walking/running speed. Note that it is
@@ -82,7 +82,7 @@ Possible a player can hold items so it is useful to have an inventory.
 @item @samp{pcinput.standard}
 To be able to react to user input (mouse, keyboard, @dots{}) we use the
 @samp{pcinput.standard} property class. We also configure this property class
-so that the right input is propagate to @samp{pcmove.actorold}.
+so that the right input is propagate to @samp{pcmove.actor.standard}.
 @end itemize
 
 These are only two examples. There are a lot more possibilities. It is
@@ -123,7 +123,7 @@ Property classes send messages to the behaviour when something interesting
 happens. For example, when an entity has a @samp{pcinput.standard} property
 class then the behaviour will get messages every time a key is pressed.
 In reaction to those messages the behaviour can then call @sc{api} calls
-in @samp{pcmove.actorold} to (for example) move the actor around.
+in @samp{pcmove.actor.standard} to (for example) move the actor around.
 
 A behaviour is represented by the @code{iCelBehaviour} interface. You can
 create behaviours from @code{iCelBlLayer}.

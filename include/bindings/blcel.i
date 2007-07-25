@@ -462,7 +462,7 @@ CEL_PC(iPcLinearMovement, LinearMovement, pcmove.linear)
 //-----------------------------------------------------------------------------
 //%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
-CEL_PC(iPcActorMove, ActorMove, pcmove.actor)
+CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
