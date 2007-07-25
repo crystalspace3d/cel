@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+25-Jul-2007
+	- jorrit merged r2906 into 1.2 (actor->actor.standard).
 24-Jul-2007
 	- Jorrit merged r2801 into 1.2 (new SCF).
 	- Jorrit merged r2808 into 1.2 (python bindings fix).
