@@ -1,9 +1,0 @@
-SubDir TOP plugins propclass moveactor ;
-
-Plugin pfmoveactor
-	: [ Wildcard *.cpp *.h ]
-	  [ Wildcard [ ConcatDirs modes ] : *.cpp *.h ]
-;
-ExternalLibs pfmoveactor : CRYSTAL ;
-LinkWith pfmoveactor : celtool ;
-
