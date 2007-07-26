@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+26-Jul-2007
+	- Jorrit merged r2915 into 1.2 (doc title fix).
 25-Jul-2007
 	- jorrit merged r2906 into 1.2 (actor->actor.standard).
 	- jorrit merged r2910 into 1.2 (doc title).
