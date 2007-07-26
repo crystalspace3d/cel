@@ -1,4 +1,8 @@
 \input texinfo    @c -*-texinfo-*-
+@c Grab definitions for @import{}, @imports{}, @importss{}, etc.
+@include unixdef.txi
+@import{version.txi}
+
 @c %**start of header
 @setfilename cel
 @settitle Crystal Entity Layer @value{VERSION}
@@ -9,10 +13,6 @@
 @end tex
 @finalout
 @c %**end of header
-
-@c Grab definitions for @import{}, @imports{}, @importss{}, etc.
-@include unixdef.txi
-@import{version.txi}
 
 @contents
 
