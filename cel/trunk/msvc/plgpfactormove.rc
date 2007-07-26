@@ -52,7 +52,7 @@ FILEFLAGS 0x0
   "      </class>",
   "",
   "      <class>",
-  "        <name>cel.pcfactory.move.actor</name>",
+  "        <name>cel.pcfactory.move.actor.standard</name>",
   "        <implementation>celPfActorMove</implementation>",
   "        <description>CEL Actor Movement Class Factory</description>",
   "      </class>",
