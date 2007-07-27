@@ -1,0 +1,113 @@
+@c -*-texinfo-*-
+@node Property Classes, Addons, Tutorials, Using CEL
+@section Property Classes
+@cindex property class
+
+A property class is a piece of functionality that you can attach to some 
+entity. By attaching the right property classes
+to an entity you define the characteristics of that entity.
+
+Here in this chapter the various property classes are documented, as well
+as generics on property class usage.
+
+For specific documentation on handling
+them from some programming/scripting language refer to the appropiate section 
+in the manual.
+
+@subheading General Information
+
+Property classes can be attached to entities by using the @code{API} for a specific language, or by using xml in map definition.
+
+Each of the property classes has some @emph{actions} to control the entity, @emph{properties} to customize property class behaviour, and an specific @emph{API} for direct access to functionality.
+
+In general @code{actions} and @code{properties} can be accessed either from any of the supported languages or map/quest/behaviour xml. On the other hand cel @code{API} is only accessible from the @samp{real} languages supported, at the moment @code{c++} or @code{python}, in the future more might be implemented.
+
+@subheading Actions
+
+@code{Actions} are specific commands available to control a property class from xml or code. Most property classes have some actions, which mean that specific functionality can be used from quests, xml behaviours or map definition.
+
+As an example the PcTimer property class supports @code{WakeUp} and 
+@code{WakeUpFrame} actions and @code{Clear} actions, so timer can be set or
+cleared.
+
+Note usually functionality accessible through the API will be a bit more 
+extensive than that implemented in actions, but these should be enough to
+handle more usual (or sometimes simpler) situations.
+
+@subheading Properties
+
+@code{Properties} can be used to customize property class behaviour. Most property classes have at least some of these, and unlike actions many times the same
+funtionality can't be directly accessed using API (other than by setting the
+properties), so you can say these are @emph{very} important to understand well
+how property classes can be used, no matter what your programming environment
+might be.
+
+As an example, @code{PcTrigger} has @samp{delay}, @samp{jitter}, @samp{monitor}, @samp{invisible} and @samp{follow} properties to control how often the trigger
+is checked, what entity it monitors, whether to check for invisible entities and
+whether to follow own entity around.
+
+@subheading Property classes from map xml
+
+Property classes can be specified in map xml by using the entity or entitytpl
+addons.
+
+An example follows with the typical xml for a player entity.
+@example
+<addon entityname="player" plugin="cel.addons.celentity">
+  <propclass name="pcobject.mesh">
+     <action name="SetMesh">
+        <par string="PlayerMesh" name="name"/>
+     </action>
+  </propclass>
+  <propclass name="pcmove.linear">
+     <action name="InitCDMesh">
+        <par float="10.0" name="percentage"/>
+     </action>
+  </propclass>
+  <propclass name="pccamera.old">
+    <action name="SetCamera">
+      <par name="distance" vector="2,6,10"/>
+      <par name="modename" string="thirdperson"/>
+      <par name="pitch" float="-0.5"/>
+    </action>
+  </propclass>
+  <propclass name="pcinput.standard">
+    <action name="LoadConfig">
+      <par name="prefix" string="Player"/>
+    </action>
+  </propclass>
+  <behaviour layer="blpython" name="actor"/>
+</addon>
+@end example
+
+Specific examples for each of the property classes can be found on their own
+sections.
+
+@subheading The Property Classes
+
+@menu
+* PropClass Billboard:: Billboard
+* PropClass CommandInput:: Command Input
+* PropClass Hover:: Hover
+* PropClass LinMove:: Linear Movement
+* PropClass Mesh:: Mesh
+* PropClass Mover:: Mover
+* PropClass Projectile:: Projectile
+* PropClass Quest Manager:: Quest Manager
+* PropClass Timer:: Timer
+* PropClass Trigger:: Trigger
+* PropClass ZoneMgr:: Zone Manager
+@end menu
+
+@importss{usingcel,propclasses,billboard.txi}
+@importss{usingcel,propclasses,input.txi}
+@importss{usingcel,propclasses,hover.txi}
+@importss{usingcel,propclasses,linmove.txi}
+@importss{usingcel,propclasses,mesh.txi}
+@importss{usingcel,propclasses,mover.txi}
+@importss{usingcel,propclasses,projectile.txi}
+@importss{usingcel,propclasses,questmgr.txi}
+@importss{usingcel,propclasses,timer.txi}
+@importss{usingcel,propclasses,trigger.txi}
+@importss{usingcel,propclasses,zonemgr.txi}
+

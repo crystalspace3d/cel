@@ -1,0 +1,6 @@
+SubDir TOP plugins addons xmlscripts ;
+
+Plugin addon_xmlscripts
+	: xmlscripts.cpp xmlscripts.h
+;
+ExternalLibs addon_xmlscripts : CRYSTAL ;

@@ -1,0 +1,7 @@
+SubDir TOP plugins tools rulebase ;
+
+Plugin rulebase
+	: rulebase.cpp rulebase.h
+;
+ExternalLibs rulebase : CRYSTAL ;
+
