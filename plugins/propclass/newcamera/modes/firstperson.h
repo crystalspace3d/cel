@@ -26,61 +26,49 @@ namespace celCameraMode
 {
 
 class FirstPerson : public scfImplementation1<FirstPerson, iCelCameraMode>,
-	public celCameraMode
+  public celCameraMode
 {
 public:
   FirstPerson ();
   virtual ~FirstPerson ();
 
-  /**
-   * Decides if this camera mode should use spring physics for the camera's
-   * position.
-   * \return True if this camera mode uses spring physics.
-   */
-  virtual bool UseSpringPos () const;
-
-  /**
-   * Decides if this camera mode should use spring physics for the camera's
-   * target.
-   * \return True if this camera mode uses spring physics.
-   */
-  virtual bool UseSpringTarget () const;
-
-  /**
-   * Decides if this camera mode should use spring physics for the camera's
-   * up vector.
-   * \return True if this camera mode uses spring physics.
-   */
-  virtual bool UseSpringUp () const;
-
-  /**
-   * Decides if the mesh the camera is attached to should be drawn or not in
-   * this mode.
-   * \return True if the attached mesh should be drawn.
-   */
-  virtual bool DrawAttachedMesh () const;
-
   virtual void SetParentCamera (iPcNewCamera * camera)
   {
     celCameraMode::SetParentCamera (camera);
+  }
+  virtual bool UseSpringPos () const
+  {
+    return celCameraMode::UseSpringPos ();
+  }
+  virtual bool UseSpringTarget () const
+  {
+    return celCameraMode::UseSpringTarget ();
+  }
+  virtual bool UseSpringUp () const
+  {
+    return celCameraMode::UseSpringUp ();
   }
   virtual bool AllowCollisionDetection () const
   {
     return celCameraMode::AllowCollisionDetection ();
   }
+  virtual bool DrawAttachedMesh () const
+  {
+    return celCameraMode::DrawAttachedMesh ();
+  }
   virtual float GetSpringCoefficient () const
   {
     return celCameraMode::GetSpringCoefficient ();
   }
-  virtual const csVector3& GetPosition () const
+  virtual const csVector3 &GetPosition () const
   {
     return celCameraMode::GetPosition ();
   }
-  virtual const csVector3& GetTarget () const
+  virtual const csVector3 &GetTarget () const
   {
     return celCameraMode::GetTarget ();
   }
-  virtual const csVector3& GetUp () const
+  virtual const csVector3 &GetUp () const
   {
     return celCameraMode::GetUp ();
   }

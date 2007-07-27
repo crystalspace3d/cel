@@ -243,6 +243,25 @@ section of this manual.
 Property classes are objects we can create attached to an entity, and which
 augment the entity with some functionality (@pxref{Property Classes}).
 
+First it must be noted to use each property class it must be ensured it is
+registered at the physical layer, to do this in python simply add the property
+class factory full name (cel.pcfactory.pcclass) to the @samp{PcFactories} dict
+(which is a member of the physicallayer but has global access due to pycel
+layer).
+
+An example of this follows:
+@example
+pcclasses = ["world.region","2d.tooltip","object.mesh","move.solid",
+             "object.mesh.select","world.zonemanager","logic.trigger",
+	     "logic.quest","object.light","tools.inventory",
+             "camera.old","move.gravity","input.standard","move.linear",
+	     "move.actorold","move.colldet","tools.timer",
+	     "sound.listener","sound.source","2d.billboard",
+	     "toolsproperties"]
+for pcclass in pcclasses:
+	PcFactories.append("cel.pcfactory."+pcclass)
+@end example
+
 For each property class there are several functions in pycel module that allow
 easily fetching or creating of the appropiate property class from an entity
 object:

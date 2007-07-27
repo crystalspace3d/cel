@@ -117,8 +117,6 @@ public:
  */
 class celBehaviourActor : public celBehaviourGeneral
 {
-private:
-  csRef<iCelPlLayer> pl;
   int fpscam;
   float speed;
   csRef<celBehaviourRoom> bhroom;

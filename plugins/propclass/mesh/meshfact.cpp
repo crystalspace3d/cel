@@ -122,9 +122,6 @@ csStringID celPcMesh::id_min = csInvalidStringID;
 csStringID celPcMesh::id_max = csInvalidStringID;
 csStringID celPcMesh::id_entity = csInvalidStringID;
 csStringID celPcMesh::id_tag = csInvalidStringID;
-csStringID celPcMesh::id_socket = csInvalidStringID;
-csStringID celPcMesh::id_factory = csInvalidStringID;
-csStringID celPcMesh::id_object = csInvalidStringID;
 
 PropertyHolder celPcMesh::propinfo;
 
@@ -163,9 +160,6 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     id_max = pl->FetchStringID ("cel.parameter.max");
     id_entity = pl->FetchStringID ("cel.parameter.entity");
     id_tag = pl->FetchStringID ("cel.parameter.tag");
-    id_socket = pl->FetchStringID ("cel.parameter.socket");
-    id_factory = pl->FetchStringID ("cel.parameter.factory");
-    id_object = pl->FetchStringID ("cel.parameter.object");
   }
 
   propholder = &propinfo;
@@ -187,12 +181,10 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
     AddAction (action_createnullmesh, "cel.action.CreateNullMesh");
     AddAction (action_parentmesh, "cel.action.ParentMesh");
     AddAction (action_clearparent, "cel.action.ClearParent");
-    AddAction (action_attachsocketmesh, "cel.action.AttachSocketMesh");
-    AddAction (action_detachsocketmesh, "cel.action.DetachSocketMesh");
   }
 
   // For properties.
-  propinfo.SetCount (10);
+  propinfo.SetCount (9);
   AddProperty (propid_position, "cel.property.position",
   	CEL_DATA_VECTOR3, true, "Current position of mesh.", 0);
   AddProperty (propid_fullposition, "cel.property.fullposition",
@@ -211,8 +203,6 @@ celPcMesh::celPcMesh (iObjectRegistry* object_reg)
   	CEL_DATA_STRING, true, "Filename for the model.", 0);
   AddProperty (propid_hitbeam, "cel.property.hitbeam",
   	CEL_DATA_BOOL, false, "Allow hitbeams for the mesh.", 0);
-  AddProperty (propid_meshname, "cel.property.meshname",
-  	CEL_DATA_STRING, true, "Mesh obejct name for the model.", 0);
 }
 
 celPcMesh::~celPcMesh ()
@@ -327,9 +317,6 @@ bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
     case propid_filename:
       s = fileName.GetData ();
       return true;
-    case propid_meshname:
-      s = meshName.GetData ();
-      return true;
     default:
       return false;
   }
@@ -337,7 +324,6 @@ bool celPcMesh::GetPropertyIndexed (int idx, const char*& s)
 
 void celPcMesh::Clear ()
 {
-  meshName.Empty ();
   fileName.Empty ();
   factName.Empty ();
   path.Empty ();
@@ -650,55 +636,6 @@ bool celPcMesh::PerformActionIndexed (int idx,
         }
         return true;
       }
-    case action_attachsocketmesh:
-      {
-        CEL_FETCH_STRING_PAR (socket,params,id_socket);
-        if (!socket)
-          return Report (object_reg,
-          	"Missing parameter 'socket' for AttachSocketMesh!");
-        CEL_FETCH_STRING_PAR (factory,params,id_factory);
-        if (factory)
-        {
-          iMeshFactoryWrapper* meshfact = engine->GetMeshFactories ()
-          	->FindByName (factory);
-          if (!meshfact)
-            return Report (object_reg,
-            	"Can't find factory '%s' for AttachSocketMesh!",
-            	(const char*)factory);
-          csRef<iMeshWrapper> meshobj = engine->CreateMeshWrapper (meshfact, factory);
-          if (!meshobj)
-            return Report (object_reg,
-            	"Can't create meshobj from '%s' in AttachSocketMesh!",
-            	(const char*)factory);
-          AttachSocketMesh (socket, meshobj);
-        }
-        else
-        {
-          CEL_FETCH_STRING_PAR (object,params,id_object);
-          if (object)
-          {
-            csRef<iMeshWrapper> meshobj = engine->FindMeshObject (object);
-            if (!meshobj)
-              return Report (object_reg,
-              	"Can't find meshobj '%s' in AttachSocketMesh!",
-              	(const char*)object);
-            AttachSocketMesh (socket, meshobj);
-          }
-          else
-            return Report (object_reg,
-            	"Missing parameter 'factory' or 'object' for AttachSocketMesh!");
-        }
-        return true;
-      }
-    case action_detachsocketmesh:
-      {
-        CEL_FETCH_STRING_PAR (socket,params,id_socket);
-        if (!socket)
-          return Report (object_reg,
-          	"Missing parameter 'socket' for action DetachSocketMesh!");
-        DetachSocketMesh (socket);
-        return true;
-      }
     default:
       return false;
   }
@@ -716,7 +653,6 @@ csPtr<iCelDataBuffer> celPcMesh::Save ()
     databuf->Add (factName);
     databuf->Add (fileName);
     databuf->Add (path);
-    databuf->Add (meshName);
   }
   else if (creation_flag == CEL_CREATE_MESH
   	|| creation_flag == CEL_CREATE_MESHREMOVE)
@@ -973,10 +909,7 @@ void celPcMesh::SetMesh (iMeshWrapper* m, bool do_remove)
     creation_flag = CEL_CREATE_MESH;
   mesh = m;
   if (mesh)
-  {
     pl->AttachEntity (mesh->QueryObject (), entity);
-    meshName = mesh->QueryObject ()->GetName ();
-  }
   FirePropertyChangeCallback (CEL_PCMESH_PROPERTY_MESH);
 }
 
@@ -1092,6 +1025,7 @@ void celPcMesh::MoveMesh (iSector* sector, const char* node)
 void celPcMesh::SetAnimation (const char* actionName, bool cycle,
 	float weight, float fadein, float fadeout, bool reset)
 {
+//   printf("set anim %s\n", actionName);
   if (!actionName) return;
   if (!mesh) return;
   csRef<iSprite3DState> spr3dstate (
@@ -1199,138 +1133,6 @@ void celPcMesh::Show ()
   if (visible) return;
   visible = true;
   if (mesh) mesh->GetFlags ().Reset (CS_ENTITY_INVISIBLE);
-}
-
-bool celPcMesh::AttachSocketMesh (const char* socket, iMeshWrapper* meshwrapper)
-{
-  csRef<iGeneralMeshState> genstate = scfQueryInterface<iGeneralMeshState> (
-  	GetMesh ()->GetMeshObject ());
-  if (genstate)
-  {
-    csRef<iGenMeshAnimationControl> skelstate = genstate
-    	->GetAnimationControl ();
-    if (skelstate)
-    {
-      csRef<iGenMeshSkeletonControlState> ctlstate =
-      	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
-      if (ctlstate)
-      {
-        csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
-        if (skel)
-        {
-          iSkeletonSocket* skelsocket = skel->FindSocket (socket);
-          if (!skelsocket)
-            return Report (object_reg,
-            	"Can't find socket '%s' for AttachSocketMesh!",
-            	(const char*)socket);
-          meshwrapper->QuerySceneNode ()->SetParent (
-          	GetMesh ()->QuerySceneNode ());
-          skelsocket->SetSceneNode (meshwrapper->QuerySceneNode ());
-          return true;
-        }
-      }
-    }
-  }
-
-  csRef<iSprite3DState> spr3dstate = scfQueryInterface<iSprite3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (spr3dstate)
-  {
-    iSpriteSocket* spr3dsocket = spr3dstate->FindSocket (socket);
-    if (!spr3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for AttachSocketMesh!",
-      	(const char*)socket);
-    meshwrapper->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
-    spr3dsocket->SetMeshWrapper (meshwrapper);
-    return true;
-  }
-
-  csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (cal3dstate)
-  {
-    iSpriteCal3DSocket* cal3dsocket = cal3dstate->FindSocket (socket);
-    if (!cal3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for AttachSocketMesh!",
-      	(const char*)socket);
-    meshwrapper->QuerySceneNode ()->SetParent (GetMesh ()->QuerySceneNode ());
-    cal3dsocket->SetMeshWrapper (meshwrapper);
-    return true;
-  }
-  return false;
-}
-
-bool celPcMesh::DetachSocketMesh (const char* socket)
-{
-  csRef<iGeneralMeshState> genstate = scfQueryInterface<iGeneralMeshState> (
-  	GetMesh ()->GetMeshObject ());
-  if (genstate)
-  {
-    csRef<iGenMeshAnimationControl> skelstate = genstate
-    	->GetAnimationControl ();
-    if (skelstate)
-    {
-      csRef<iGenMeshSkeletonControlState> ctlstate =
-      	scfQueryInterface<iGenMeshSkeletonControlState> (skelstate);
-      if (ctlstate)
-      {
-        csRef<iSkeleton> skel = ctlstate->GetSkeleton ();
-        if (skel)
-        {
-          iSkeletonSocket* skelsocket = skel->FindSocket (socket);
-          if (!skelsocket)
-            return Report (object_reg,
-            	"Can't find socket '%s' for DetachSocketMesh!",
-            	(const char*)socket);
-          iSceneNode* scnode = skelsocket->GetSceneNode ();
-          if (!scnode)
-            return false;
-          iMeshWrapper* skelmeshobj = scnode->QueryMesh ();
-          if (!skelmeshobj)
-            return false;
-          skelmeshobj->QuerySceneNode ()->SetParent (0);
-          skelsocket->SetSceneNode (0);
-          return true;
-        }
-      }
-    }
-  }
-
-  csRef<iSprite3DState> spr3dstate = scfQueryInterface<iSprite3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (spr3dstate)
-  {
-    iSpriteSocket* spr3dsocket = spr3dstate->FindSocket (socket);
-    if (!spr3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
-    iMeshWrapper* spr3dmeshobj = spr3dsocket->GetMeshWrapper ();
-    if (!spr3dmeshobj)
-      return false;
-    spr3dmeshobj->QuerySceneNode ()->SetParent (0);
-    spr3dsocket->SetMeshWrapper (0);
-    return true;
-  }
-
-  csRef<iSpriteCal3DState> cal3dstate = scfQueryInterface<iSpriteCal3DState> (
-  	GetMesh ()->GetMeshObject ());
-  if (cal3dstate)
-  {
-    iSpriteCal3DSocket* cal3dsocket = cal3dstate->FindSocket (socket);
-    if (!cal3dsocket)
-      return Report (object_reg,
-      	"Can't find socket '%s' for DetachMesh!", (const char*)socket);
-    iMeshWrapper* cal3dmeshobj = cal3dsocket->GetMeshWrapper ();
-    if (!cal3dmeshobj)
-      return false;
-    cal3dmeshobj->QuerySceneNode ()->SetParent (0);
-    cal3dsocket->SetMeshWrapper (0);
-    return true;
-  }
-
-  return false;
 }
 
 //---------------------------------------------------------------------------

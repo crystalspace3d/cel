@@ -77,7 +77,7 @@ struct iPcGravityCallback : public virtual iBase
  * - InitCDMesh: parameters 'percentage' (float).
  * - SetPosition: parameters 'sector' (string), 'position' (vector3 or
  *     string (name of mapnode in that case)), and
- *     'yrot' (y rotation default=0).
+ *     'yrot' (y rotation).
  * - SetVelocity: parameters 'velocity' (vector3) in body coordinates.
  * - AddVelocity: parameters 'velocity' (vector3) in world coordinates.
  * - SetAngularVelocity: parameters 'velocity' (vector3).

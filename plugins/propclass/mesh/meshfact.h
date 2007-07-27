@@ -65,7 +65,6 @@ private:
   csString path;
   csString fileName;
   csString factName;
-  csString meshName;
   csRef<iMeshFactoryWrapper> factory_ptr;
 
   enum celPcMeshCreationFlag
@@ -104,9 +103,6 @@ private:
   static csStringID id_max;
   static csStringID id_entity;
   static csStringID id_tag;
-  static csStringID id_socket;
-  static csStringID id_factory;
-  static csStringID id_object;
 
   enum actionids
   {
@@ -126,9 +122,7 @@ private:
     action_createnullmesh,
     action_parentmesh,
     action_clearparent,
-    action_setshaderexpression,
-    action_attachsocketmesh,
-    action_detachsocketmesh
+    action_setshaderexpression
   };
 
   // Remove the mesh from this pcmesh.
@@ -145,8 +139,7 @@ private:
     propid_path,
     propid_factory,
     propid_filename,
-    propid_hitbeam,
-    propid_meshname
+    propid_hitbeam
   };
   static PropertyHolder propinfo;
 
@@ -219,9 +212,6 @@ public:
   virtual void SetShaderVar (csStringID name, csVector2 value);
   virtual void SetShaderVar (csStringID name, csVector3 value);
   virtual void SetShaderVar (csStringID name, csVector4 value);
-  virtual bool AttachSocketMesh (const char* socket,
-  	iMeshWrapper* meshwrapper);
-  virtual bool DetachSocketMesh (const char* socket);
 };
 
 class celPcMeshSelect;
