@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+29-Jul-2007
+        - res adjusted the use of the Crystal Space MSVC static plugin
+          information to the new one-file-per-version split.
 26-Jul-2007
 	- Jorrit fixed cel.txi so that the version is now correctly put in
 	  the generated documentation title.
