@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+30-Jul-2007
+	- caedes fixed error handling in the python behaviour layer,
+	  it was inconsistently using the python debugger in a way that 
+	  made python2.5 show weird errors.
 29-Jul-2007
         - res adjusted the use of the Crystal Space MSVC static plugin
           information to the new one-file-per-version split.
