@@ -11,6 +11,14 @@ SCF_IMPLEMENT_IBASE (BehaviourLayer)
   SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
 SCF_IMPLEMENT_IBASE_END
 
+
+/*
+ * This is a test application which serves as a tutorial
+ * for pcsteer. Main functions to look at are BehvaiorSteering()
+ * constructor and SendMessage().
+ * 
+ */
+
 BehaviourLayer::BehaviourLayer (iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
@@ -408,9 +416,23 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
 				     iCelPropertyClass* pc,
 				     celData& ret, iCelParameterBlock* params, va_list arg)
 {
+  /*
+   * Here we handle all messages concerning
+   * Steering behaviours
+   */
+
+  // This will print once we get the arrived message from pcsteer
+
   if (msg_id == id_pcsteer_arrived)
     printf("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1){
+  
+    /*
+     * In order to seek a target we first have to 
+     * calculate its actual position
+     *
+     */
+
     printf("Seek\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
@@ -420,7 +442,14 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
     float rot;
     
     pclinmove->GetLastFullPosition (position, rot, sector);
-    
+ 
+    /*
+     * Once we have targets position and sector
+     * we create a reference to the pcsteer instance in our
+     * steering entity and call Seek().
+     *
+     */
+   
     csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
 
     csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
@@ -431,6 +460,12 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
   }
   else if (msg_id == id_pccommandinput_flee1)
     {
+      /*
+       * The same proccess of finding targets location
+       * is repeated here.
+       *
+       */
+
     printf("Flee\n");
     csRef<iCelEntity> player_entity = pl->FindEntity("player");
     csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
@@ -441,16 +476,28 @@ bool BehaviourSteering::SendMessage (csStringID msg_id,
     
     pclinmove->GetLastFullPosition (position, rot, sector);
     
+
+    /*
+     * Once we have targets position and sector
+     * we create a reference to the pcsteer instance in our
+     * steering entity and call Flee().
+     *
+     */
+
     csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
     csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 						       iPcSteer);
     pcsteer->Flee(sector, position);
 
     }
-  else if (msg_id == id_pccommandinput_wander1)
-    printf("Wander\n");
   else if(msg_id == id_pccommandinput_pursue1)
     {
+      /*
+       * To pursue we just calle Pursue() in pcsteer with
+       * the target as parameter.
+       * Pcsteer will calculate its position on its own.
+       */
+
       printf("Pursue\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iCelEntity> steering_entity = pl->FindEntity("steer");

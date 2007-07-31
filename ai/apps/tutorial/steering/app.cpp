@@ -13,6 +13,14 @@
 #include "app.h"
 #include "behave.h"
 
+
+/*
+ * This is a test application which serves as a tutorial
+ * for pcsteer. Main function to look at is LoadSteering().
+ * Also check behave.cpp to learn how to call functions in
+ * pcsteer.
+ */
+
 MainApp::MainApp ()
 {
   SetApplicationName ("Steering Test");
@@ -109,8 +117,19 @@ bool MainApp::CreatePlayer ()
   return true;
 }
 
+/*
+ * Here we will create the entity which will use
+ * the steering property class
+ *
+ */
+
 bool MainApp::LoadSteering ()
 {
+
+  /*
+   * We load pcmove.steer
+   */
+
   steering_entity = pl->CreateEntity ("steer", bl, "steering_behave",
 				      "pcmove.linear",
 				      "pcmove.actorold",
@@ -155,6 +174,11 @@ bool MainApp::LoadSteering ()
   // will interprete the commands so the steerer can move.
   csRef<iPcCommandInput> pcinput = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 							    iPcCommandInput);
+  /*
+   * We bind each key needed for the steering behaviours
+   *
+   */
+
   pcinput->Bind ("1", "arrival");
   pcinput->Bind ("2", "ca");
   pcinput->Bind ("3", "cohesion");
