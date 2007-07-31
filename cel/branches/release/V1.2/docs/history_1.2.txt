@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+31-Jul-2007
+	- Jorrit merged r2927 into 1.2 (pcproperties fix).
 26-Jul-2007
 	- Jorrit merged r2915 into 1.2 (doc title fix).
 25-Jul-2007

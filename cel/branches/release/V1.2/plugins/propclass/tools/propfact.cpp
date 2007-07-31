@@ -207,70 +207,70 @@ bool celPcProperties::SetProperty (csStringID id, iBase* v)
   return true;
 }
 
-const char* celPcProperties::GetPropertyString (csStringID id)
+const char* celPcProperties::GetPropertyStringByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyStringIndex (idx);
 }
 
-bool celPcProperties::GetPropertyBool (csStringID id)
+bool celPcProperties::GetPropertyBoolByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyBoolIndex (idx);
 }
 
-long celPcProperties::GetPropertyLong (csStringID id)
+long celPcProperties::GetPropertyLongByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyLongIndex (idx);
 }
 
-float celPcProperties::GetPropertyFloat (csStringID id)
+float celPcProperties::GetPropertyFloatByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyFloatIndex (idx);
 }
 
-bool celPcProperties::GetPropertyVector (csStringID id, csVector2& v)
+bool celPcProperties::GetPropertyVectorByID (csStringID id, csVector2& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyVectorIndex (idx, v);
 }
 
-bool celPcProperties::GetPropertyVector (csStringID id, csVector3& v)
+bool celPcProperties::GetPropertyVectorByID (csStringID id, csVector3& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyVectorIndex (idx, v);
 }
 
-bool celPcProperties::GetPropertyColor (csStringID id, csColor& v)
+bool celPcProperties::GetPropertyColorByID (csStringID id, csColor& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyColorIndex (idx, v);
 }
 
-iCelPropertyClass* celPcProperties::GetPropertyPClass (csStringID id)
+iCelPropertyClass* celPcProperties::GetPropertyPClassByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyPClassIndex (idx);
 }
 
-iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
+iCelEntity* celPcProperties::GetPropertyEntityByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyEntityIndex (idx);
 }
 
-iBase* celPcProperties::GetPropertyIBase (csStringID id)
+iBase* celPcProperties::GetPropertyIBaseByID (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;

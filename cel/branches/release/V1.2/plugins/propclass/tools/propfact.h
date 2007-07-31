@@ -112,16 +112,16 @@ public:
   virtual bool SetProperty (csStringID, iCelPropertyClass*);
   virtual bool SetProperty (csStringID, iCelEntity*);
   virtual bool SetProperty (csStringID, iBase*);
-  virtual const char* GetPropertyString (csStringID);
-  virtual bool GetPropertyBool (csStringID);
-  virtual long GetPropertyLong (csStringID);
-  virtual float GetPropertyFloat (csStringID);
-  virtual bool GetPropertyVector (csStringID, csVector2&);
-  virtual bool GetPropertyVector (csStringID, csVector3&);
-  virtual bool GetPropertyColor (csStringID, csColor&);
-  virtual iCelPropertyClass* GetPropertyPClass (csStringID);
-  virtual iCelEntity* GetPropertyEntity (csStringID);
-  virtual iBase* GetPropertyIBase (csStringID);
+  virtual const char* GetPropertyStringByID (csStringID);
+  virtual bool GetPropertyBoolByID (csStringID);
+  virtual long GetPropertyLongByID (csStringID);
+  virtual float GetPropertyFloatByID (csStringID);
+  virtual bool GetPropertyVectorByID (csStringID, csVector2&);
+  virtual bool GetPropertyVectorByID (csStringID, csVector3&);
+  virtual bool GetPropertyColorByID (csStringID, csColor&);
+  virtual iCelPropertyClass* GetPropertyPClassByID (csStringID);
+  virtual iCelEntity* GetPropertyEntityByID (csStringID);
+  virtual iBase* GetPropertyIBaseByID (csStringID);
 
   virtual celDataType GetPropertyOrActionType (csStringID propertyID);
   virtual bool IsPropertyReadOnly (csStringID) { return false; }
