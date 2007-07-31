@@ -223,13 +223,13 @@ static csVector3 GetVector (const float angle)
   
 }
 
-float celPcSteer:: RandomBinomial (float rate)
+float celPcSteer::RandomBinomial (float rate)
 {
   float r = random.Get() -  random.Get();
   return r*rate;
 }
 
-void celPcSteer:: SetDelayRecheck(int delay){
+void celPcSteer::SetDelayRecheck(int delay){
   delay_recheck = delay;
 }
 
@@ -294,7 +294,7 @@ bool celPcSteer::Flee (iSector* sector, const csVector3& position)
   return true;
 }
 
-bool celPcSteer :: Pursue (iCelEntity* target, float max_prediction)
+bool celPcSteer::Pursue (iCelEntity* target, float max_prediction)
 {
   FindSiblingPropertyClasses ();
   if (!pclinmove)

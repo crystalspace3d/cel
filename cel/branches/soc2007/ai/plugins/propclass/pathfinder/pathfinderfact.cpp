@@ -250,11 +250,12 @@ bool celPcPathFinder :: Pursue (iCelEntity* target, float max_prediction)
   goal = celgraph->GetClosest(position);
   
 
-  if(celgraph->ShortestPath(from, goal, cur_path)){
+  if(celgraph->ShortestPath(from, goal, cur_path))
+    {
     pcsteer->Interrupt();
     FollowPath();
     return true;
-  }
+    }
   return false;
 }
 
@@ -273,7 +274,8 @@ bool celPcPathFinder :: FollowCyclicPath (iCelPath* path)
   is_active = true;
   cur_path = path;
   current_action = action_cyclic;
-  
+  goal->SetMapNode(cur_path->GetLast());
+ 
   FollowPath();
   return true;
 }
@@ -330,9 +332,10 @@ bool celPcPathFinder::FollowPath ()
   float yrot;
   csVector3 cur_position;
   iSector* cur_sector;
-  
-  if(goal->GetMapNode() == cur_path->Current()){
-    switch (current_action)
+
+  if(goal->GetMapNode() == cur_path->Current())
+    {
+      switch (current_action)
       {
       case action_seek:
 	{
@@ -354,7 +357,6 @@ bool celPcPathFinder::FollowPath ()
       case action_cyclic:
 	{
 	  cur_path->Restart();
-	  goal->SetMapNode(cur_path->GetLast());
 	  break;
 	}
       case action_one_way:
@@ -366,7 +368,8 @@ bool celPcPathFinder::FollowPath ()
       case action_two_way:
 	{
 	  cur_path->Invert();
-	  goal->SetMapNode(cur_path->GetFirst());
+	  cur_path->Restart();
+	  goal->SetMapNode(cur_path->GetLast());
 	  break;
 	}
       case action_interrupt:
@@ -375,26 +378,30 @@ bool celPcPathFinder::FollowPath ()
       default:
 	return false;
       }
-  } else {
-   
-    pclinmove->GetLastFullPosition (cur_position, yrot, cur_sector);
-    csVector3 target_position = cur_path->CurrentPosition();
-    iSector* target_sector = cur_path->CurrentSector();
+  } else 
+    {
+      pclinmove->GetLastFullPosition (cur_position, yrot, cur_sector);
+      csVector3 target_position = cur_path->CurrentPosition();
+      iSector* target_sector = cur_path->CurrentSector();
 
-    if(csSquaredDist::PointPoint(cur_position, target_position) <= min_distance)
-      if(cur_path->HasNext()){
-	iMapNode* node = cur_path->Next();
-	csVector3 target_position = node->GetPosition();
-	target_sector = node->GetSector();
-      }
-      else {
-	Interrupt();
-	return false;
-      }
-    pcsteer->Seek(target_sector, target_position);
-  }
+      if(csSquaredDist::PointPoint(cur_position, target_position) <= min_distance)
+	if(cur_path->HasNext())
+	  {
+	    iMapNode* node = cur_path->Next();
+	    csVector3 target_position = node->GetPosition();
+	    target_sector = node->GetSector();
+	  }
+	else 
+	  {
+	    Interrupt();
+	    return false;
+	  }
+      pcsteer->Seek(target_sector, target_position);
+    }
+  
   pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
-   
+  
+  
   return true;
 }
 
@@ -456,12 +463,12 @@ void celPcPathFinder::TickOnce ()
 void celPcPathFinder::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
-  {
-    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
-    pcsteer = CEL_QUERY_PROPCLASS_ENT (entity, iPcSteer);
-  }
+    {
+      pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
+      pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
+      pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+      pcsteer = CEL_QUERY_PROPCLASS_ENT (entity, iPcSteer);
+    }
 }
 
 void celPcPathFinder::SetGraph (iCelGraph* graph)

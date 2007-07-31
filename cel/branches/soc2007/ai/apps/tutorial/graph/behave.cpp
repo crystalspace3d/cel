@@ -12,6 +12,16 @@ SCF_IMPLEMENT_IBASE (BehaviourLayer)
   SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
 SCF_IMPLEMENT_IBASE_END
 
+
+
+/*
+ * This is a test application which serves as a tutorial
+ * for pcpathfinder and celgraph. Main functions to look at 
+ * are LoadGraph(), 
+ * constructor and SendMessage().
+ * 
+ */
+
 BehaviourLayer::BehaviourLayer (iCelPlLayer* pl)
 {
   SCF_CONSTRUCT_IBASE (0);
@@ -435,68 +445,87 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 				     iCelPropertyClass* pc,
 				     celData& ret, iCelParameterBlock* params, va_list arg)
 {
+  /*
+   * Here we handle all messages and calls
+   * to pcpathfinder
+   *
+   */
+
   if (msg_id == id_pcsteer_arrived)
     printf("Arrived\n");
   else if (msg_id == id_pccommandinput_seek1)
     {
       /*
+       * In order to seek a target we first have to 
+       * calculate its actual position
+       *
+       */
+
+      printf("Seek\n");
       csRef<iCelEntity> player_entity = pl->FindEntity("player");
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
-								  iPcLinearMovement);
+								    iPcLinearMovement);
       iSector* sector;
       csVector3 position;
+      csVector3 cur_position;
       float rot;
-    
+      
       pclinmove->GetLastFullPosition (position, rot, sector);
       
-      printf("\ncsRef<iMapNode> n%d;", cur);
-      printf("\nn%d.AttachNew(new csMapNode(\"n%d\"));", cur, cur);
-      printf("\ncsRef<iCelNode> gn%d = scfCreateInstance<iCelNode> (\"cel.celnode\");", cur);
-      printf("\ncsVector3 v%d(%f, %f, %f);", cur, position.x, position.y, position.z);
-      printf("\nn%d->SetPosition(v%d);", cur, cur);
-      printf("\ngn%d->SetMapNode(n%d);", cur, cur);
-      printf("\ncelgraph->AddNodegn%d);", cur);
-      printf("\n");
-  
-    cur++;
-    */    
-	    printf("Seek\n");
-    csRef<iCelEntity> player_entity = pl->FindEntity("player");
-    csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT (player_entity,
-								  iPcLinearMovement);
-    iSector* sector;
-    csVector3 position;
-    csVector3 cur_position;
-    float rot;
-    
-    pclinmove->GetLastFullPosition (position, rot, sector);
-    
-    csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
+      csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
+      
+      csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+							 iPcSteer);
+      
+      csRef<iPcLinearMovement> pclinmove2 = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								     iPcLinearMovement);
+      
+      pclinmove2->GetLastFullPosition (cur_position, rot, sector);
 
-    csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (pf_entity,
-						       iPcSteer);
+ 
+    /*
+     * Once we have targets position and sector
+     * we create a reference to the pcpathfinder instance in our
+     * pathfinder entity and call Seek().
+     *
+     */
 
-    csRef<iPcLinearMovement> pclinmove2 = CEL_QUERY_PROPCLASS_ENT (pf_entity,
-								   iPcLinearMovement);
+      
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);
 
-    pclinmove2->GetLastFullPosition (cur_position, rot, sector);
-
-    csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
-								 iPcPathFinder);
-    pcpathfinder->SetGraph(celgraph);
-    pcpathfinder->Seek(sector, position);
-    
-}
+      /*
+       * First we call SetGraph in case the reference
+       * in pathfinder is not actualized.
+       */
+     
+      pcpathfinder->SetGraph(celgraph);
+      pcpathfinder->Seek(sector, position);
+      
+    }
   else if (msg_id == id_pccommandinput_cyclic1)
     {
-    printf("Follow Cyclic Path\n");
-    csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
+      
+      printf("Follow Cyclic Path\n");
+      csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
     
-    csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
-								 iPcPathFinder);
-    pcpathfinder->SetGraph(celgraph);    
-    pcpathfinder->FollowCyclicPath(celpath);
+      csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
+								   iPcPathFinder);
+      
+      /*
+       * First we call SetGraph in case the reference
+       * in pathfinder is not actualized.
+       */
+     
+      pcpathfinder->SetGraph(celgraph);
+      
+      /*
+       * We just have to call FollowCyclicPath since celpath was
+       * already loaded in LoadGraph().
+       */
 
+      pcpathfinder->FollowCyclicPath(celpath);
+    
     }
   else if (msg_id == id_pccommandinput_oneway1)
     {
@@ -505,7 +534,18 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
     
     csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
 								 iPcPathFinder);
+    /*
+     * First we call SetGraph in case the reference
+     * in pathfinder is not actualized.
+     */
+     
     pcpathfinder->SetGraph(celgraph);
+
+      /*
+       * We just have to call FollowOneWayPath since celpath was
+       * already loaded in LoadGraph().
+       */
+
     pcpathfinder->FollowOneWayPath(celpath);
 
     }
@@ -516,8 +556,18 @@ else if (msg_id == id_pccommandinput_twoway1)
     
     csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
 								 iPcPathFinder);
+    /*
+     * First we call SetGraph in case the reference
+     * in pathfinder is not actualized.
+     */
     
     pcpathfinder->SetGraph(celgraph);
+    
+    /*
+     * We just have to call FollowOneWayPath since celpath was
+     * already loaded in LoadGraph().
+     */
+    
     pcpathfinder->FollowTwoWayPath(celpath);
 
     }
@@ -529,7 +579,20 @@ else if (msg_id == id_pccommandinput_twoway1)
 
       csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
 								   iPcPathFinder);
+
+	
+    /*
+     * First we call SetGraph in case the reference
+     * in pathfinder is not actualized.
+     */
+    
       pcpathfinder->SetGraph(celgraph);
+      
+      /*
+       * We call Wander() which will generate a random path of
+       * depth 2.
+       */
+
       pcpathfinder->Wander(2);
 }
   else if(msg_id == id_pccommandinput_pursue1)
@@ -538,7 +601,19 @@ else if (msg_id == id_pccommandinput_twoway1)
       csRef<iCelEntity> pf_entity = pl->FindEntity("pf");
       csRef<iPcPathFinder> pcpathfinder = CEL_QUERY_PROPCLASS_ENT (pf_entity,
 								   iPcPathFinder);    
+      
+      /*
+       * First we call SetGraph in case the reference
+       * in pathfinder is not actualized.
+       */
+      
       pcpathfinder->SetGraph(celgraph);      
+      
+      /*
+       * The pathfinder will continue searching the player
+       * until telled otherwise.
+       */
+
       pcpathfinder->Pursue(player_entity, 0.5f);
     }
   else if(msg_id == id_pccommandinput_arrival1)
@@ -644,14 +719,20 @@ else if (msg_id == id_pccommandinput_twoway1)
 
 bool BehaviourPF::LoadGraph ()
 {
-  //csRef<iPluginManager> plugin_mgr = csQueryRegistry<iPluginManager> (object_reg);
-  //csRef<iCelGraph> celgraph = csLoadPlugin<iCelGraph> (plugin_mgr, "cel.celgraph");
-  
-  //  if(celgraph.IsValid())
+  /*
+   * To load a celgraph we first create an instance of iCelGraph
+   *
+   */
     
   celgraph = scfCreateInstance<iCelGraph> ("cel.celgraph");
   if(!celgraph)
     fprintf(stderr, "Error Loading CelGraph!\n");
+
+  /*
+   * Then we create and load each Node.
+   *
+   */
+
 
   csRef<iMapNode> n0;
   n0.AttachNew(new csMapNode("n0"));
@@ -974,6 +1055,11 @@ bool BehaviourPF::LoadGraph ()
   celgraph->AddNode(gn39);
 
 
+  /*
+   * Finally, we add all the edges we need between
+   * the already added nodes.
+   */
+
   celgraph->AddEdge(gn0, gn1, true);
   celgraph->AddEdge(gn1, gn2, true);
   celgraph->AddEdge(gn2, gn3, true);
@@ -1081,17 +1167,26 @@ bool BehaviourPF::LoadGraph ()
   celgraph->AddEdge(gn3, gn4, true);
   celgraph->AddEdge(gn4, gn5, true);
   celgraph->AddEdge(gn5, gn6, tru(e);  
+  */
+
+  /*
+   * Now, we load a small path so we can later
+   * work with FollowOneWayPath, FollowCyclicPath
+   * and FollowTwoWayPath.
+   *
+   * Notice that celpath consists of a set of 
+   * csMapNodes rather than iCelNodes.
+   */
 
   celpath = scfCreateInstance<iCelPath> ("cel.celpath");
   if(!celpath)
     fprintf(stderr, "Error Loading CelPath!\n");
+  celpath->AddNode(n0);
   celpath->AddNode(n1);
   celpath->AddNode(n2);
   celpath->AddNode(n3);
   celpath->AddNode(n4);
-  //celpath->AddNode(n5);
-  // celpath->AddNode(n6);
-  */
+  
   return true;
 }
 
