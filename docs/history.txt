@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+1-Aug-2007
+	- Jorrit added an alternative (and cleaner) syntax for
+	  the <expr> node in the blxml language. You can now specify
+	  the expression as a text child of the <expr> node. So no need
+	  for the 'eval' attribute. Instead of:
+		<expr eval="someexpression()" />
+	  you do:
+		<expr>someexpression()</expr>
 31-Jul-2007
 	- Jorrit fixed a problem in pcproperties. The iCelPropertyClass
 	  api to fetch properties by ID didn't work anymore.

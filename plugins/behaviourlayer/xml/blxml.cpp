@@ -460,6 +460,58 @@ bool celBlXml::ParseExpression (csStringArray& local_vars,
   return true;
 }
 
+bool celBlXml::ParseExpressionContents (csStringArray& local_vars,
+        iDocumentNode* child,
+        celXmlScriptEventHandler* h, const char* name,
+        int optional_type)
+{
+  const char* input = child->GetContentsValue ();
+  if (!input && optional_type == CEL_DATA_NONE)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+            "Can't find expression for '%s'!", name);
+    return false;
+  }
+  if (!input && optional_type != CEL_DATA_NONE)
+  {
+    switch (optional_type)
+    {
+      case CEL_DATA_STRING:
+        h->AddOperation (CEL_OPERATION_PUSHSTR);
+        h->GetArgument ().SetString (0, false);
+        break;
+      case CEL_DATA_LONG:
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetInt32 (0);
+        break;
+      case CEL_DATA_FLOAT:
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetFloat (0.0f);
+        break;
+      case CEL_DATA_PCLASS:
+        h->AddOperation (CEL_OPERATION_PUSH);
+        h->GetArgument ().SetPC (0);
+        break;
+      default: CS_ASSERT (false);
+    }
+    return true;
+  }
+  bool rc = ParseExpression (input, local_vars, child, h,
+          name, CEL_PRIORITY_NORMAL);
+  if (!rc) return false;
+
+  // Check if there are remaining tokens.
+  input = celXmlSkipWhiteSpace (input);
+  if (*input != 0)
+  {
+    synldr->ReportError ("cel.behaviour.xml", child,
+            "Unexpected tokens found for '%s'!", name);
+    return false;
+  }
+
+  return true;
+}
+
 bool celBlXml::ParseID (const char*& input, csStringArray& local_vars,
         iDocumentNode* child, celXmlScriptEventHandler* h,
         const char* name, char* str, csStringID fun_id)
@@ -2604,8 +2656,16 @@ bool celBlXml::ParseEventHandler (celXmlScriptEventHandler* h,
         }
         break;
       case XMLTOKEN_EXPR:
-        if (!ParseExpression (local_vars, child, h, "eval", "expr"))
-          return false;
+	if (child->GetAttributeValue ("eval"))
+	{
+          if (!ParseExpression (local_vars, child, h, "eval", "expr"))
+            return false;
+	}
+	else
+	{
+          if (!ParseExpressionContents (local_vars, child, h, "expr"))
+            return false;
+	}
         h->AddOperation (CEL_OPERATION_CLEARSTACK);
         break;
       case XMLTOKEN_LVAR:
