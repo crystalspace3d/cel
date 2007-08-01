@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfzone.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.zonemanager</name>
+        <implementation>celPfZoneManager</implementation>
+	<description>CEL Zone Manager Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

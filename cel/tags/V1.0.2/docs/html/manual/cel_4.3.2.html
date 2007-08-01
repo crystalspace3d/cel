@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.3.2 Mesh</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.3.2 Mesh">
+<meta name="keywords" content="Crystal Entity Layer: 4.3.2 Mesh">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="PropClass-Mesh"></a>
+<a name="4.3.2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.3.html#4.3.3" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.3.2 Mesh </h3>
+
+<p>The mesh property class can be used to assign a 3D model to an entity.
+This property class defines a visual representation for an entity.
+</p>
+<a name="SEC56"></a>
+<h4 class="subsubheading"> Property Class Details </h4>
+
+<ul>
+<li> <em>Name</em>:
+<samp>`pcmesh'</samp>
+</li><li> <em>Factory ID</em>:
+<samp>`cel.pcfactory.mesh'</samp>
+</li><li> <em>Interface</em>:
+<code>iPcMesh</code>
+</li><li> <em>Header</em>:
+<tt>`include/propclass/mesh.h'</tt>
+</li></ul>
+
+<a name="SEC57"></a>
+<h4 class="subsubheading"> General Information </h4>
+
+<p>Using this property class one can assign a 3D mesh from Crystal Space
+to an entity.
+</p>
+<a name="SEC58"></a>
+<h4 class="subsubheading"> Setting the Mesh Data </h4>
+
+<p>There are a few ways to set the mesh in <samp>`pcmesh'</samp>:
+</p>
+<ul>
+<li>
+If you already have a pointer to a mesh wrapper from Crystal Space then
+you can simply use <code>iPcMesh-&gt;SetMesh()</code> with the mesh wrapper as
+a parameter.
+</li><li>
+If you know the mesh factory is already loaded in memory then you can set
+the mesh directly from the mesh factory name by calling
+<code>iPcMesh-&gt;SetMesh()</code> with <samp>`factname'</samp> given and <samp>`filename'</samp>
+equal to <samp>`0'</samp>.
+</li><li>
+Otherwise you have to give a valid filename in which case <code>SetMesh()</code>
+will first check to see if the factory is already loaded. If not then it
+will load it from the given filename. If you call <code>iPcMesh-&gt;SetPath()</code>
+then you can also control the <small>VFS</small> path from which the factory file
+will be loaded.
+</li></ul>
+
+<p>Note that the file can be either a <samp>`meshfact'</samp> <small>XML</small> file or else
+a <samp>`library'</samp> <small>XML</small> file.
+</p>
+<a name="SEC59"></a>
+<h4 class="subsubheading"> From Mesh to Entity and Back </h4>
+
+<p>It is easy to get from the entity to the mesh by using the following code:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">csRef&lt;iPcMesh&gt; pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+iMeshWrapper* mesh = pcmesh-&gt;GetMesh ();
+</pre></td></tr></table>
+<p>But you can also get from the mesh back to the entity very easily because
+the physical layer maintains a link:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">iMeshWrapper* mesh = ...;
+iCelEntity* entity = pl-&gt;FindAttachedEntity (mesh-&gt;QueryObject ());
+</pre></td></tr></table>
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.3.1.html#4.3.1" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.3.html#4.3.3" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.3.html#4.3" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

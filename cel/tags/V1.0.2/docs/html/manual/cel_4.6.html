@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>Crystal Entity Layer: 4.6 The Python Behaviour Layer</title>
+
+<meta name="description" content="Crystal Entity Layer: 4.6 The Python Behaviour Layer">
+<meta name="keywords" content="Crystal Entity Layer: 4.6 The Python Behaviour Layer">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Python-Behaviour-Layer"></a>
+<a name="4.6"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.5.html#4.5" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="index.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="cel_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="cel_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.6 The Python Behaviour Layer </h2>
+
+<p>One of the predefined behaviour layers in Crystal Entity Layer is the
+<small>BLPYTHON</small> behaviour layer. In this behaviour layer <small>PYTHON</small> is used as
+simple scripting language. This allows one to create game logic using
+<small>PYTHON</small>, and thus creating full scripting games without need of
+recompilation.
+</p>
+<a name="SEC91"></a>
+<h3 class="subheading"> <small>CS</small> and <small>CEL</small> python bindings </h3>
+
+<p>There are several python modules for Crystal Space and <small>CEL</small>:
+</p>
+<ul>
+<li> <samp>`cspace'</samp>
+This is the main <small>CS</small> python module which provides most of the functionality
+in its <small>API</small>.
+</li><li> <samp>`blcelc'</samp>
+This is the main <small>CEL</small> python module which provides most of the
+functionality in its <small>API</small>.
+</li><li> <samp>`pycel'</samp>
+This is a high level layer that is accessible when running scripts under the
+python behaviourlayer. It provides easy access to some of the common
+functionality in <small>CEL</small>, and usually this is what you'll import into your
+scripts. Note pycel includes all functionality from both of the above.
+</li></ul>
+
+<p>Also it has to be noted pycel is automatically imported into each behaviour
+namespace, so you need not import it unless to <code>import *</code> from it.
+</p>
+<a name="SEC92"></a>
+<h3 class="subheading"> Behaviours </h3>
+
+<p>When using the <small>BLPYTHON</small> behaviour layer you basically create <em>scripts</em>.
+Every script corresponds to a behaviour for an entity (multiple entities
+can use it of course).
+</p>
+<p>Every script must include a behaviour of the same name.
+</p>
+<p>A python behaviour has the following structure:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"># file fovcontrol.py
+from pycel import *
+
+class fovcontrol:
+        def __init__(self,celEntity):
+                print &quot;Initializing fovcontrol...&quot;,celEntity.Name
+		# get camera from main actor (called camera in this case)
+                self.camera = celGetDefaultCamera(Entities[&quot;camera&quot;]).Camera
+                self.initfov = self.camera.GetFOV ()
+		# get/create a pccommandinput
+                self.input = celCommandInput(celEntity)
+                self.input.Bind(&quot;z&quot;,&quot;zoomin&quot;)
+                self.input.Bind(&quot;x&quot;,&quot;zoomout&quot;)
+                self.input.Bind(&quot;c&quot;,&quot;zoom0&quot;)
+		# get/create a timer
+                self.timer = celTimer(celEntity)
+                self.timer.WakeUpFrame(CEL_EVENT_PRE)
+		# define some initial values
+                self.zoomin = False
+                self.zoomout = False
+		# get initial time
+                self.time = Clock.GetCurrentTicks()
+
+	# property class message callbacks
+        def pctimer_wakeupframe(self,celEntity,args):
+                self.time = Clock.GetCurrentTicks() - self.time
+                if self.zoomin:
+                        self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
+                if self.zoomout:
+                        self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
+        def pccommandinput_zoomin1(self,celEntity,args):
+                self.zoomin = True
+        def pccommandinput_zoomout1(self,celEntity,args):
+                self.zoomout = True
+        def pccommandinput_zoomin0(self,celEntity,args):
+                self.zoomin = False
+        def pccommandinput_zoomout0(self,celEntity,args):
+                self.zoomout = False
+        def pccommandinput_zoom01(self,celEntity,args):
+                self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
+
+</pre></td></tr></table>
+<p>As can be seen we have a class with several methods.
+</p>
+<p>First we have the constructor (<code>__init__</code> function) that gets a pointer
+to the entity it's being attached to (celEntity). As usual in python all
+methods in the class get a first parameter that points to the own python class
+instance (<code>self</code>) of the behaviour, we can use it to save variables for
+the instance.
+</p>
+<p>After this we have some callback functions, in many situations <small>CEL</small> will
+call certain functions in our python behaviours so we may react to events.
+For example <code>pctimer_wakeup</code> is got when the entity receives a wakeup
+event from a timer, <code>pctrigger_entertrigger</code> is got when the entity
+enters some trigger's area.
+</p>
+<a name="SEC93"></a>
+<h4 class="subsubheading"> Python behaviours at <small>XML</small> worldfiles </h4>
+
+<p>Python behaviours can be set directly in <small>CEL</small> <small>XML</small> format as seen
+elsewhere in this manual.
+</p>
+<p>Here is an example entity with some property classes and a python behaviour
+set to it:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">&lt;addon entityname=&quot;camera&quot; plugin=&quot;cel.addons.celentity&quot;&gt;
+  &lt;propclass name=&quot;pcmesh&quot;&gt;
+    &lt;action name=&quot;SetMesh&quot;&gt;
+      &lt;par name=&quot;name&quot; string=&quot;ActorMesh&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pcdefaultcamera&quot;&gt;
+    &lt;action name=&quot;SetCamera&quot;&gt;
+      &lt;par name=&quot;modename&quot; string=&quot;thirdperson&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;propclass name=&quot;pccommandinput&quot;/&gt;
+  &lt;propclass name=&quot;pcmeshselect&quot;&gt;
+    &lt;action name=&quot;SetCamera&quot;&gt;
+      &lt;par name=&quot;entity&quot; string=&quot;camera&quot;/&gt;
+    &lt;/action&gt;
+    &lt;action name=&quot;SetMouseButtons&quot;&gt;
+      &lt;par name=&quot;buttons&quot; long=&quot;2&quot;/&gt;
+    &lt;/action&gt;
+  &lt;/propclass&gt;
+  &lt;behaviour layer='blpython' name='actor'/&gt;
+&lt;/addon&gt;
+</pre></td></tr></table>
+<p>Note the python behaviour will be loaded from the <tt>`actor.py'</tt> file that
+must lie somewhere in PYTHONPATH (note <tt>`celstart'</tt> will add the main folder
+of your <small>ZIP</small> file to the PYTHONPATH if you're using it).
+</p>
+<p>Usually the celentity addon is placed in a Crystal Space sector inside the
+world files.
+</p>
+<a name="SEC94"></a>
+<h3 class="subheading"> pycel </h3>
+<p>pycel is a high level layer which defines some aliases for some of the most
+accessed things:
+</p>
+<a name="SEC95"></a>
+<h4 class="subsubheading"> The PhysicalLayer </h4>
+<p>The physical layer is your main pointer to <small>CEL</small> functionality, and you'll
+require this to create entities, destroy them, get string <small>ID</small>s<small class="enddots">....</small>
+It can be accessed from python at <samp>`pycel.PhysicalLayer'</samp>. 
+</p>
+<a name="SEC96"></a>
+<h4 class="subsubheading"> PhysicalLayer dictionaries </h4>
+<p>All the physical layer dictionaries can be accessed directly from pycel:
+</p><ul class="toc">
+<li> <samp>`pycel.Entities'</samp>
+Used to get entity objects by name.
+</li><li> <samp>`pycel.EntityTemplates'</samp>
+Used to get entity templates by name.
+</li><li> <samp>`pycel.PcFactories'</samp>
+Used to get or register property class factories by <small>ID</small>
+(like cel.pcfactory.timer).
+</li><li> <samp>`pycel.BehaviourLayers'</samp>
+Used to get or register behaviour layers with <small>CEL</small>.
+</li></ul>
+<a name="SEC97"></a>
+<h4 class="subsubheading"> Crystal Space plugins </h4>
+<p>Some often used plugins in <small>CS</small> are ready to use (if present). 
+These are: 
+</p><ul class="toc">
+<li> <code>pycel.Engine</code>
+The engine plugin where you can get access to most Crystal Space objects in
+your map (<code>iEngine</code> interface) 
+</li><li> <code>pycel.Vfs</code>
+The virtual file system plugin that you can use to move around the file system
+(<code>iVFS</code> interface).
+</li><li> <code>pycel.Clock</code>
+The virtual clock plugin, used to get precise times to calculate motion
+(<code>iVirtualClock</code> interface).
+</li><li> <code>pycel.Graphics2D</code>
+The graphics2d plugin presently in use, used to draw <small>2D</small> things on the
+screen (<code>iGraphics2D</code> interface).
+</li><li> <code>pycel.Graphics3D</code>
+The graphics3d plugin presently in use, used to draw <small>3D</small> things on the
+screen (<code>iGraphics3D</code> interface).
+</li><li> <code>pycel.Config</code>
+The configuration manager plugin, used to query or load Crystal Space config
+files (<code>iConfigManager</code> interface).
+</li><li> <code>pycel.Loader</code>
+The loader plugin from Crystal Space, used to load world or library files
+(<code>iLoader</code> interface).
+</li><li> <code>pycel.Stringset</code>
+The string set plugin, used to transform from <small>CS</small> string <small>ID</small>s to
+regular strings (<code>iStringSet</code> interface). 
+</li></ul>
+<a name="SEC98"></a>
+<h4 class="subsubheading"> <code>getid</code> / <code>fromid</code> </h4>
+<p>Functions to transform from string to stringid.
+</p><ul class="toc">
+<li> <code>pycel.getid(string)</code>
+returns a string <small>ID</small> from the given string.
+</li><li> <code>pycel.fromid(stringid)</code> 
+returns a string from the given stringid.
+</li></ul>
+<a name="SEC99"></a>
+<h4 class="subsubheading"> <code>parblock</code> </h4>
+<p>Function to create a <code>celParameterBlock</code> from a python dict or list.
+This is described in detail later.
+</p><a name="SEC100"></a>
+<h4 class="subsubheading"> <code>CreateEntity</code> / <code>RemoveEntity</code> </h4>
+<p>These can be accessed directly from pycel to create and destroy entities.
+Use them in the same way as the physical layer functions of the same name.
+</p><a name="SEC101"></a>
+<h4 class="subsubheading"> Property Class accessors </h4>
+<p>Some functions are defined to easily create <small>CEL</small> property classes for
+entities, or access the pre existent ones. This will be described in the next
+section of this manual.
+</p>
+<a name="SEC102"></a>
+<h3 class="subheading"> Accessing entity property classes </h3>
+
+<p>Property classes are objects we can create attached to an entity, and which
+augment the entity with some functionality (see section <a href="cel_4.3.html#4.3">Property Classes</a>).
+</p>
+<p>First it must be noted to use each property class it must be ensured it is
+registered at the physical layer, to do this in python simply add the property
+class factory full name (cel.pcfactory.pcclass) to the <samp>`PcFactories'</samp> dict
+(which is a member of the physicallayer but has global access due to pycel
+layer).
+</p>
+<p>An example of this follows:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">pcclasses = [&quot;region&quot;,&quot;tooltip&quot;,&quot;mesh&quot;,&quot;solid&quot;,&quot;meshselect&quot;,&quot;zonemanager&quot;,&quot;trigger&quot;,
+	     &quot;quest&quot;,&quot;light&quot;,&quot;inventory&quot;,&quot;defaultcamera&quot;,&quot;gravity&quot;,&quot;movable&quot;,
+	     &quot;pccommandinput&quot;,&quot;linmove&quot;,&quot;actormove&quot;,&quot;colldet&quot;,&quot;timer&quot;,&quot;soundlistener&quot;,
+	     &quot;soundsource&quot;,&quot;billboard&quot;,&quot;properties&quot;]
+for pcclass in pcclasses:
+	PcFactories.append(&quot;cel.pcfactory.&quot;+pcclass)
+</pre></td></tr></table>
+<p>For each property class there are several functions in pycel module that allow
+easily fetching or creating of the appropiate property class from an entity
+object:
+</p><ul>
+<li> <samp>`celPropertyClass(celEntity)'</samp>
+Get the property class if it exists or create a new one.
+</li><li> <samp>`celAddPropertyClass(celEntity)'</samp>
+Add the property class to the entity.
+</li><li> <samp>`celGetPropertyClass(celEntity)'</samp>
+Get the property class if it exists.
+</li></ul>
+<p>Where <samp>`PropertyClass'</samp> would be substituted for the appropiate name, like
+in <code>celGetTimer</code>, <code>celAddCommandInput</code>...
+</p>
+<p>As an example at the initialization section we could do:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">    def __init__(self,celEntity):
+          self.input = celCommandInput(celEntity)
+          self.timer = celAddTimer(celEntity)
+          self.timer.WakeUpFrame (CEL_EVENT_POST)
+          self.select = celMeshSelect(celEntity)
+</pre></td></tr></table>
+<a name="SEC103"></a>
+<h3 class="subheading"> Messages </h3>
+
+<p>Each property class in <small>CEL</small> can generate a number of messages. A python
+behaviour receives this messages as python function calls with the same name
+as the message. We can use this calls to respond to events from the different
+property classes appropiately.
+</p>
+<p>In the first example we're receiving a <code>pctimer_wakeupframe</code> function call
+each frame, due to the activated <code>pctimer</code>.
+</p>
+<p>Also there are some <code>pccommandinput_*</code> functions, that are triggered by
+the <code>pccommandinput</code> binds. 
+Notice for each input bind we make through <code>pccommandinput</code>, the behaviour
+will receive three different events named <code>pccommandinput_bind1</code>,
+<code>pccommandinput_bind0</code> and <code>pccommandinput_bind_</code>, respectively for
+the key press, release and maintain events.
+</p>
+<p>Other property classes like <code>pcmechanicsobject</code>, <code>pcmeshselect</code>,
+<code>pcbillboard</code>, <code>pcdamage</code>, <code>pclinmove</code> also generate their own
+special messages.
+</p>
+<p>Message function calls get three parameters. The first is the behaviour class
+instance, the second the entity receiving the message, and the last a
+<code>celParameterBlock</code> that holds all message specific values.
+</p>
+<p>You can access the values from the parameter block as a python dict with
+<small>CEL</small> StringIDs for index instead of normal strings.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"># a pcbillboard select message
+def pcbillboard_select(self,celEntity,args):
+       bx = args[getid(&quot;cel.parameter.x&quot;)]
+       by = args[getid(&quot;cel.parameter.y&quot;)]
+       button= args[getid(&quot;cel.parameter.button&quot;)]
+</pre></td></tr></table>
+<p>It is possible to test for existence of a certain parameter, or iterate over
+the values. Also note for efficiency you would save the StringIDs for later
+use instead of querying them each time.
+</p>
+<p>A final snippet for printing all parameters to a message:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def pcbillboard_select(self,celEntity,Args):
+       for strid in args.keys():
+		print fromid(strid),args[strid]
+</pre></td></tr></table>
+<a name="SEC104"></a>
+<h3 class="subheading"> Sending Messages </h3>
+
+<p>Some messages (like <code>__init__</code> and messages from property classes) are
+automatically called but you can also define your own messages and call them
+using the <code>iCelBehaviour.SendMessage</code> function.
+</p>
+<p>To send a message/event to another entity, we must create the same kind of
+parameter list. There exists a helper function in the physical layer to do this
+called <code>CreateParameterBlock</code>, and also the <samp>`pycel'</samp> alias
+<code>parblock</code>. It accepts either a dict, list or tuple as arguments. If we
+provide a dict, it will initialize the <small>ID</small>s and values in the parameter
+block; if we provide a list or tuple, it will only fill the <small>ID</small>s and will
+require filling the values later:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">#Creating a parameter block from a list. This is more similar to the c++ method
+pars = parblock([&quot;control&quot;,&quot;x&quot;,&quot;y&quot;])
+pars[getid (&quot;cel.parameter.control&quot;)] = &quot;specular&quot;
+pars[getid (&quot;cel.parameter.x&quot;)] = 15
+pars[getid (&quot;cel.parameter.y&quot;)] = 200
+
+#Creating a parameter block from a dictionary.
+pars2 = parblock({&quot;control&quot;:&quot;shininess&quot;,&quot;x&quot;:30,&quot;y&quot;:200})
+</pre></td></tr></table>
+<p>The difference is in speed, usually if you'll be sending the same kind of
+parameter block many times, you'll want to build it in the constructor from the
+behaviour, and just fill values before sending. In other situations it can be
+appropriate to create the entire parameter block from a dict when needed.
+</p>
+<p>After this, the message is sent using <code>SendMessage</code> in the target entity
+behaviour:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">Entities[&quot;player&quot;].Behaviour.SendMessage(&quot;control_variable&quot;, None, pars)
+</pre></td></tr></table>
+<a name="SEC105"></a>
+<h3 class="subheading"> A python world for <tt>`celstart'</tt> </h3>
+
+<p>The best way to run python (or <small>XML</small> and python) only <small>CEL</small> worlds is to
+use the <tt>`celstart'</tt> <small>CEL</small> application (see section <a href="cel_3.4.html#3.4">celstart</a>).
+</p>
+<p>For this you will need to load the python behaviourlayer from the celstart
+configuration file. Another common procedure is to define some starting entity
+to be created with an app behaviour. From here it is possible to load the map
+entirely from python although note other setups are possible.
+</p>
+<p>In order to do do this, we would add something like the following to the config
+file:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">CelStart.BehaviourLayer.blpython = cel.behaviourlayer.python
+CelStart.Entity.bootstrap = bootstrap
+CelStart.EntityBehaviour.bootstrap = appinit
+CelStart.EntityBehaviourLayer.bootstrap = blpython
+</pre></td></tr></table>
+<p>This would create a starting entity and load the python behaviour
+<code>appinit</code>, which would be loaded from the file <tt>`appinit.py'</tt>.
+</p>
+<p>From this behaviour you can load a map using either <small>CS</small> or <small>CEL</small>
+<small>API</small>, an usual way of doing this is through a <code>celZoneManager</code>
+property class (see section <a href="cel_4.3.5.html#4.3.5">Zone Manager</a>) at the initial entity:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">def __init__(self,celEntity):
+	zoneMgr = celZoneManager(celEntity)
+	Vfs.ChDirAuto(&quot;/tmp/celstart/&quot;)
+	zoneMgr.Load(&quot;/tmp/celstart&quot;,&quot;level.xml&quot;)
+</pre></td></tr></table>
+<p>Note <tt>`/tmp/celstart/'</tt> is the <small>VFS</small> path where <tt>`celstart'</tt> maps the
+<small>ZIP</small> file initially, so this doesn't change depending on operating system
+or real file location.
+</p>
+
+
+
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="cel_4.5.html#4.5" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="cel_4.html#4." title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="cel_Index.html#Index" title="Next chapter"> &gt;&gt; </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

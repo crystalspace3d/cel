@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfdefcam.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.defaultcamera</name>
+        <implementation>celPfDefaultCamera</implementation>
+	<description>CEL Default Camera Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

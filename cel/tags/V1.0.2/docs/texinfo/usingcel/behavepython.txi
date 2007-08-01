@@ -1,0 +1,374 @@
+@c -*-texinfo-*-
+@node Python Behaviour Layer, , Addons, Using CEL
+@section The Python Behaviour Layer
+@cindex @sc{blpython}
+@cindex behaviour layer
+
+One of the predefined behaviour layers in Crystal Entity Layer is the
+@sc{blpython} behaviour layer. In this behaviour layer @sc{python} is used as
+simple scripting language. This allows one to create game logic using
+@sc{python}, and thus creating full scripting games without need of
+recompilation.
+
+@subheading @sc{cs} and @sc{cel} python bindings
+
+There are several python modules for Crystal Space and @sc{cel}:
+
+@itemize @bullet
+@item @samp{cspace}
+This is the main @sc{cs} python module which provides most of the functionality
+in its @sc{api}.
+@item @samp{blcelc}
+This is the main @sc{cel} python module which provides most of the
+functionality in its @sc{api}.
+@item @samp{pycel}
+This is a high level layer that is accessible when running scripts under the
+python behaviourlayer. It provides easy access to some of the common
+functionality in @sc{cel}, and usually this is what you'll import into your
+scripts. Note pycel includes all functionality from both of the above.
+@end itemize
+
+Also it has to be noted pycel is automatically imported into each behaviour
+namespace, so you need not import it unless to @code{import *} from it.
+
+@subheading Behaviours
+
+When using the @sc{blpython} behaviour layer you basically create @dfn{scripts}.
+Every script corresponds to a behaviour for an entity (multiple entities
+can use it of course).
+
+Every script must include a behaviour of the same name.
+
+A python behaviour has the following structure:
+
+@example
+# file fovcontrol.py
+from pycel import *
+
+class fovcontrol:
+        def __init__(self,celEntity):
+                print "Initializing fovcontrol...",celEntity.Name
+		# get camera from main actor (called camera in this case)
+                self.camera = celGetDefaultCamera(Entities["camera"]).Camera
+                self.initfov = self.camera.GetFOV ()
+		# get/create a pccommandinput
+                self.input = celCommandInput(celEntity)
+                self.input.Bind("z","zoomin")
+                self.input.Bind("x","zoomout")
+                self.input.Bind("c","zoom0")
+		# get/create a timer
+                self.timer = celTimer(celEntity)
+                self.timer.WakeUpFrame(CEL_EVENT_PRE)
+		# define some initial values
+                self.zoomin = False
+                self.zoomout = False
+		# get initial time
+                self.time = Clock.GetCurrentTicks()
+
+	# property class message callbacks
+        def pctimer_wakeupframe(self,celEntity,args):
+                self.time = Clock.GetCurrentTicks() - self.time
+                if self.zoomin:
+                        self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
+                if self.zoomout:
+                        self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
+        def pccommandinput_zoomin1(self,celEntity,args):
+                self.zoomin = True
+        def pccommandinput_zoomout1(self,celEntity,args):
+                self.zoomout = True
+        def pccommandinput_zoomin0(self,celEntity,args):
+                self.zoomin = False
+        def pccommandinput_zoomout0(self,celEntity,args):
+                self.zoomout = False
+        def pccommandinput_zoom01(self,celEntity,args):
+                self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
+
+@end example
+
+As can be seen we have a class with several methods.
+
+First we have the constructor (@code{__init__} function) that gets a pointer
+to the entity it's being attached to (celEntity). As usual in python all
+methods in the class get a first parameter that points to the own python class
+instance (@code{self}) of the behaviour, we can use it to save variables for
+the instance.
+
+After this we have some callback functions, in many situations @sc{cel} will
+call certain functions in our python behaviours so we may react to events.
+For example @code{pctimer_wakeup} is got when the entity receives a wakeup
+event from a timer, @code{pctrigger_entertrigger} is got when the entity
+enters some trigger's area.
+
+@subsubheading Python behaviours at @sc{xml} worldfiles
+
+Python behaviours can be set directly in @sc{cel} @sc{xml} format as seen
+elsewhere in this manual.
+
+Here is an example entity with some property classes and a python behaviour
+set to it:
+
+@example
+<addon entityname="camera" plugin="cel.addons.celentity">
+  <propclass name="pcmesh">
+    <action name="SetMesh">
+      <par name="name" string="ActorMesh"/>
+    </action>
+  </propclass>
+  <propclass name="pcdefaultcamera">
+    <action name="SetCamera">
+      <par name="modename" string="thirdperson"/>
+    </action>
+  </propclass>
+  <propclass name="pccommandinput"/>
+  <propclass name="pcmeshselect">
+    <action name="SetCamera">
+      <par name="entity" string="camera"/>
+    </action>
+    <action name="SetMouseButtons">
+      <par name="buttons" long="2"/>
+    </action>
+  </propclass>
+  <behaviour layer='blpython' name='actor'/>
+</addon>
+@end example
+
+Note the python behaviour will be loaded from the @file{actor.py} file that
+must lie somewhere in PYTHONPATH (note @file{celstart} will add the main folder
+of your @sc{zip} file to the PYTHONPATH if you're using it).
+
+Usually the celentity addon is placed in a Crystal Space sector inside the
+world files.
+
+@subheading pycel
+pycel is a high level layer which defines some aliases for some of the most
+accessed things:
+
+@subsubheading The PhysicalLayer
+The physical layer is your main pointer to @sc{cel} functionality, and you'll
+require this to create entities, destroy them, get string @sc{id}s@enddots{}
+It can be accessed from python at @samp{pycel.PhysicalLayer}. 
+
+@subsubheading PhysicalLayer dictionaries
+All the physical layer dictionaries can be accessed directly from pycel:
+@itemize
+@item @samp{pycel.Entities}
+Used to get entity objects by name.
+@item @samp{pycel.EntityTemplates}
+Used to get entity templates by name.
+@item @samp{pycel.PcFactories}
+Used to get or register property class factories by @sc{id}
+(like cel.pcfactory.timer).
+@item @samp{pycel.BehaviourLayers}
+Used to get or register behaviour layers with @sc{cel}.
+@end itemize
+@subsubheading Crystal Space plugins
+Some often used plugins in @sc{cs} are ready to use (if present). 
+These are: 
+@itemize
+@item @code{pycel.Engine}
+The engine plugin where you can get access to most Crystal Space objects in
+your map (@code{iEngine} interface) 
+@item @code{pycel.Vfs}
+The virtual file system plugin that you can use to move around the file system
+(@code{iVFS} interface).
+@item @code{pycel.Clock}
+The virtual clock plugin, used to get precise times to calculate motion
+(@code{iVirtualClock} interface).
+@item @code{pycel.Graphics2D}
+The graphics2d plugin presently in use, used to draw @sc{2d} things on the
+screen (@code{iGraphics2D} interface).
+@item @code{pycel.Graphics3D}
+The graphics3d plugin presently in use, used to draw @sc{3d} things on the
+screen (@code{iGraphics3D} interface).
+@item @code{pycel.Config}
+The configuration manager plugin, used to query or load Crystal Space config
+files (@code{iConfigManager} interface).
+@item @code{pycel.Loader}
+The loader plugin from Crystal Space, used to load world or library files
+(@code{iLoader} interface).
+@item @code{pycel.Stringset}
+The string set plugin, used to transform from @sc{cs} string @sc{id}s to
+regular strings (@code{iStringSet} interface). 
+@end itemize
+@subsubheading @code{getid} / @code{fromid}
+Functions to transform from string to stringid.
+@itemize
+@item @code{pycel.getid(string)}
+returns a string @sc{id} from the given string.
+@item @code{pycel.fromid(stringid)} 
+returns a string from the given stringid.
+@end itemize
+@subsubheading @code{parblock}
+Function to create a @code{celParameterBlock} from a python dict or list.
+This is described in detail later.
+@subsubheading @code{CreateEntity} / @code{RemoveEntity}
+These can be accessed directly from pycel to create and destroy entities.
+Use them in the same way as the physical layer functions of the same name.
+@subsubheading Property Class accessors
+Some functions are defined to easily create @sc{cel} property classes for
+entities, or access the pre existent ones. This will be described in the next
+section of this manual.
+
+@subheading Accessing entity property classes
+
+Property classes are objects we can create attached to an entity, and which
+augment the entity with some functionality (@pxref{Property Classes}).
+
+First it must be noted to use each property class it must be ensured it is
+registered at the physical layer, to do this in python simply add the property
+class factory full name (cel.pcfactory.pcclass) to the @samp{PcFactories} dict
+(which is a member of the physicallayer but has global access due to pycel
+layer).
+
+An example of this follows:
+@example
+pcclasses = ["region","tooltip","mesh","solid","meshselect","zonemanager","trigger",
+	     "quest","light","inventory","defaultcamera","gravity","movable",
+	     "pccommandinput","linmove","actormove","colldet","timer","soundlistener",
+	     "soundsource","billboard","properties"]
+for pcclass in pcclasses:
+	PcFactories.append("cel.pcfactory."+pcclass)
+@end example
+
+For each property class there are several functions in pycel module that allow
+easily fetching or creating of the appropiate property class from an entity
+object:
+@itemize @bullet
+@item @samp{celPropertyClass(celEntity)}
+Get the property class if it exists or create a new one.
+@item @samp{celAddPropertyClass(celEntity)}
+Add the property class to the entity.
+@item @samp{celGetPropertyClass(celEntity)}
+Get the property class if it exists.
+@end itemize
+Where @samp{PropertyClass} would be substituted for the appropiate name, like
+in @code{celGetTimer}, @code{celAddCommandInput}...
+
+As an example at the initialization section we could do:
+
+@example
+    def __init__(self,celEntity):
+          self.input = celCommandInput(celEntity)
+          self.timer = celAddTimer(celEntity)
+          self.timer.WakeUpFrame (CEL_EVENT_POST)
+          self.select = celMeshSelect(celEntity)
+@end example
+
+@subheading Messages
+
+Each property class in @sc{cel} can generate a number of messages. A python
+behaviour receives this messages as python function calls with the same name
+as the message. We can use this calls to respond to events from the different
+property classes appropiately.
+
+In the first example we're receiving a @code{pctimer_wakeupframe} function call
+each frame, due to the activated @code{pctimer}.
+
+Also there are some @code{pccommandinput_*} functions, that are triggered by
+the @code{pccommandinput} binds. 
+Notice for each input bind we make through @code{pccommandinput}, the behaviour
+will receive three different events named @code{pccommandinput_bind1},
+@code{pccommandinput_bind0} and @code{pccommandinput_bind_}, respectively for
+the key press, release and maintain events.
+
+Other property classes like @code{pcmechanicsobject}, @code{pcmeshselect},
+@code{pcbillboard}, @code{pcdamage}, @code{pclinmove} also generate their own
+special messages.
+
+Message function calls get three parameters. The first is the behaviour class
+instance, the second the entity receiving the message, and the last a
+@code{celParameterBlock} that holds all message specific values.
+
+You can access the values from the parameter block as a python dict with
+@sc{cel} StringIDs for index instead of normal strings.
+
+@example
+# a pcbillboard select message
+def pcbillboard_select(self,celEntity,args):
+       bx = args[getid("cel.parameter.x")]
+       by = args[getid("cel.parameter.y")]
+       button= args[getid("cel.parameter.button")]
+@end example
+
+It is possible to test for existence of a certain parameter, or iterate over
+the values. Also note for efficiency you would save the StringIDs for later
+use instead of querying them each time.
+
+A final snippet for printing all parameters to a message:
+@example
+def pcbillboard_select(self,celEntity,Args):
+       for strid in args.keys():
+		print fromid(strid),args[strid]
+@end example
+
+@subheading Sending Messages
+
+Some messages (like @code{__init__} and messages from property classes) are
+automatically called but you can also define your own messages and call them
+using the @code{iCelBehaviour.SendMessage} function.
+
+To send a message/event to another entity, we must create the same kind of
+parameter list. There exists a helper function in the physical layer to do this
+called @code{CreateParameterBlock}, and also the @samp{pycel} alias
+@code{parblock}. It accepts either a dict, list or tuple as arguments. If we
+provide a dict, it will initialize the @sc{id}s and values in the parameter
+block; if we provide a list or tuple, it will only fill the @sc{id}s and will
+require filling the values later:
+@example
+#Creating a parameter block from a list. This is more similar to the c++ method
+pars = parblock(["control","x","y"])
+pars[getid ("cel.parameter.control")] = "specular"
+pars[getid ("cel.parameter.x")] = 15
+pars[getid ("cel.parameter.y")] = 200
+
+#Creating a parameter block from a dictionary.
+pars2 = parblock(@{"control":"shininess","x":30,"y":200@})
+@end example
+
+The difference is in speed, usually if you'll be sending the same kind of
+parameter block many times, you'll want to build it in the constructor from the
+behaviour, and just fill values before sending. In other situations it can be
+appropriate to create the entire parameter block from a dict when needed.
+
+After this, the message is sent using @code{SendMessage} in the target entity
+behaviour:
+@example
+Entities["player"].Behaviour.SendMessage("control_variable", None, pars)
+@end example
+
+@subheading A python world for @file{celstart}
+
+The best way to run python (or @sc{xml} and python) only @sc{cel} worlds is to
+use the @file{celstart} @sc{cel} application (@pxref{AppCelstart}).
+
+For this you will need to load the python behaviourlayer from the celstart
+configuration file. Another common procedure is to define some starting entity
+to be created with an app behaviour. From here it is possible to load the map
+entirely from python although note other setups are possible.
+
+In order to do do this, we would add something like the following to the config
+file:
+@example
+CelStart.BehaviourLayer.blpython = cel.behaviourlayer.python
+CelStart.Entity.bootstrap = bootstrap
+CelStart.EntityBehaviour.bootstrap = appinit
+CelStart.EntityBehaviourLayer.bootstrap = blpython
+@end example
+
+This would create a starting entity and load the python behaviour
+@code{appinit}, which would be loaded from the file @file{appinit.py}.
+
+From this behaviour you can load a map using either @sc{cs} or @sc{cel}
+@sc{api}, an usual way of doing this is through a @code{celZoneManager}
+property class (@pxref{PropClass ZoneMgr}) at the initial entity:
+@example
+def __init__(self,celEntity):
+	zoneMgr = celZoneManager(celEntity)
+	Vfs.ChDirAuto("/tmp/celstart/")
+	zoneMgr.Load("/tmp/celstart","level.xml")
+@end example
+
+Note @file{/tmp/celstart/} is the @sc{vfs} path where @file{celstart} maps the
+@sc{zip} file initially, so this doesn't change depending on operating system
+or real file location.
+

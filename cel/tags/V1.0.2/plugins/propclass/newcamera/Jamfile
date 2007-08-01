@@ -1,0 +1,8 @@
+SubDir TOP plugins propclass newcamera ;
+
+Plugin pfnewcamera
+	: [ Wildcard *.cpp *.h ]
+;
+ExternalLibs pfnewcamera : CRYSTAL ;
+LinkWith pfnewcamera : celtool ;
+
