@@ -104,12 +104,7 @@ struct iCelParameterBlock;
  */
 struct iCelPropertyClass : public virtual iBase
 {
-  SCF_INTERFACE (iCelPropertyClass, 0, 0, 8);
-
-  /**
-   * Set the name of this property class.
-   */
-  virtual void SetName (const char* name) = 0;
+  SCF_INTERFACE (iCelPropertyClass, 0, 0, 7);
 
   /**
    * Get the name of this property class.
@@ -270,123 +265,53 @@ struct iCelPropertyClass : public virtual iBase
 
   /**
    * Get a property as long.
-   * \deprecated Use GetPropertyLongByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyLongByID() instead.")
   virtual long GetPropertyLong (csStringID propertyID) = 0;
 
   /**
    * Get a property as float.
-   * \deprecated Use GetPropertyFloatByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyFloatByID() instead.")
   virtual float GetPropertyFloat (csStringID propertyID) = 0;
 
   /**
    * Get a property as bool.
-   * \deprecated Use GetPropertyBoolByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyBoolByID() instead.")
   virtual bool GetPropertyBool (csStringID propertyID) = 0;
 
   /**
    * Get a property as string.
-   * \deprecated Use GetPropertyStringByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyStringByID() instead.")
   virtual const char* GetPropertyString (csStringID propertyID) = 0;
 
   /**
    * Get a property as a 2D vector.
-   * \deprecated Use GetPropertyVectorByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyVectorByID() instead.")
   virtual bool GetPropertyVector (csStringID propertyID, csVector2& v) = 0;
 
   /**
    * Get a property as a 3D vector.
-   * \deprecated Use GetPropertyVectorByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyVectorByID() instead.")
   virtual bool GetPropertyVector (csStringID propertyID, csVector3& v) = 0;
 
   /**
    * Get a property as a color.
-   * \deprecated Use GetPropertyColorByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyColorByID() instead.")
   virtual bool GetPropertyColor (csStringID propertyID, csColor& v) = 0;
 
   /**
    * Get a property as property class.
-   * \deprecated Use GetPropertyPClassByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyPClassByID() instead.")
   virtual iCelPropertyClass* GetPropertyPClass (csStringID propertyID) = 0;
 
   /**
    * Get a property as entity.
-   * \deprecated Use GetPropertyEntityByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyEntityByID() instead.")
   virtual iCelEntity* GetPropertyEntity (csStringID propertyID) = 0;
 
   /**
    * Get a property as iBase.
-   * \deprecated Use GetPropertyIBaseByID() instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use GetPropertyIBaseByID() instead.")
   virtual iBase* GetPropertyIBase (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as long.
-   */
-  virtual long GetPropertyLongByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as float.
-   */
-  virtual float GetPropertyFloatByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as bool.
-   */
-  virtual bool GetPropertyBoolByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as string.
-   */
-  virtual const char* GetPropertyStringByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as a 2D vector.
-   */
-  virtual bool GetPropertyVectorByID (csStringID propertyID, csVector2& v) = 0;
-
-  /**
-   * Get a property as a 3D vector.
-   */
-  virtual bool GetPropertyVectorByID (csStringID propertyID, csVector3& v) = 0;
-
-  /**
-   * Get a property as a color.
-   */
-  virtual bool GetPropertyColorByID (csStringID propertyID, csColor& v) = 0;
-
-  /**
-   * Get a property as property class.
-   */
-  virtual iCelPropertyClass* GetPropertyPClassByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as entity.
-   */
-  virtual iCelEntity* GetPropertyEntityByID (csStringID propertyID) = 0;
-
-  /**
-   * Get a property as iBase.
-   */
-  virtual iBase* GetPropertyIBaseByID (csStringID propertyID) = 0;
 
   /**
    * Perform an action with a generic string parameter.
@@ -446,13 +371,13 @@ struct iCelPropertyClass : public virtual iBase
 };
 
 
+SCF_VERSION (iCelPropertyClassList, 0, 0, 2);
+
 /**
  * A list of property classes.
  */
-struct iCelPropertyClassList : public virtual iBase
+struct iCelPropertyClassList : public iBase
 {
-  SCF_INTERFACE (iCelPropertyClassList, 0, 0, 2);
-
   /**
    * Return the number of property classes in this list.
    */

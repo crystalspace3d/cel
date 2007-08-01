@@ -113,7 +113,7 @@ void celQuestSequence::AddSeqOp (iQuestSeqOp* seqop, csTicks start, csTicks end)
   seq.seqop = seqop;
   seq.start = start;
   seq.end = end;
-  seq.idx = seqops.GetSize ();
+  seq.idx = seqops.Length ();
   seqops.Push (seq);
 }
 
@@ -148,7 +148,7 @@ bool celQuestSequence::IsRunning ()
 void celQuestSequence::Perform (csTicks rel)
 {
   // Find all operations that have to be performed.
-  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
+  while (idx < seqops.Length () && rel >= seqops[idx].start)
   {
     seqops[idx].seqop->Init ();
     if (rel >= seqops[idx].end)
@@ -166,7 +166,7 @@ void celQuestSequence::Perform (csTicks rel)
 
   // Perform the operations that are still in progress.
   size_t i = 0;
-  while (i < ops_in_progress.GetSize ())
+  while (i < ops_in_progress.Length ())
   {
     if (rel >= ops_in_progress[i].end)
     {
@@ -204,9 +204,9 @@ void celQuestSequence::SaveState (iCelDataBuffer* databuf)
   databuf->Add ((uint32)(vc->GetCurrentTicks ()-start_time));
 
   // Save all operations that are still in progress.
-  databuf->Add ((uint16)ops_in_progress.GetSize ());
+  databuf->Add ((uint16)ops_in_progress.Length ());
   size_t i;
-  for (i = 0 ; i < ops_in_progress.GetSize () ; i++)
+  for (i = 0 ; i < ops_in_progress.Length () ; i++)
   {
     databuf->Add ((uint32)ops_in_progress[i].idx);
     ops_in_progress[i].seqop->Save (databuf);
@@ -243,7 +243,7 @@ bool celQuestSequence::LoadState (iCelDataBuffer* databuf)
 #if 0
   // Find all operations that have to be performed.
   idx = 0;
-  while (idx < seqops.GetSize () && rel >= seqops[idx].start)
+  while (idx < seqops.Length () && rel >= seqops[idx].start)
   {
     if (rel < seqops[idx].end)
       ops_in_progress.Push (seqops[idx]);
@@ -266,7 +266,7 @@ void celQuestSequence::RemoveSequenceCallback (iQuestSequenceCallback* cb)
 
 void celQuestSequence::FireSequenceCallbacks ()
 {
-  size_t i = callbacks.GetSize ();
+  size_t i = callbacks.Length ();
   while (i > 0)
   {
     i--;
@@ -367,7 +367,7 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
   size_t i;
   csTicks total_time = 0;
   csTicks max_time = 0;
-  for (i = 0 ; i < seqops.GetSize () ; i++)
+  for (i = 0 ; i < seqops.Length () ; i++)
   {
     csTicks duration = ToUInt (parent_factory->GetQuestManager ()->
     	ResolveParameter (params, seqops[i].duration));
@@ -393,6 +393,7 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 	scfImplementationType (this)
 {
+  SCF_CONSTRUCT_IBASE (0);
   celQuestFactory::questmgr = questmgr;
   celQuestFactory::name = name;
   InitTokenTable (xmltokens);
@@ -447,7 +448,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
     	= sf->GetResponses ();
     size_t stateidx = q->AddState (sf->GetName ());
     size_t i;
-    for (i = 0 ; i < responses.GetSize () ; i++)
+    for (i = 0 ; i < responses.Length () ; i++)
     {
       celQuestTriggerResponseFactory* respfact = responses[i];
       iQuestTriggerFactory* trigfact = respfact->GetTriggerFactory ();
@@ -460,7 +461,7 @@ csPtr<iQuest> celQuestFactory::CreateQuest (
       if (!trig) return 0;	// @@@ Report
       q->SetStateTrigger (stateidx, respidx, trig);
       size_t j;
-      for (j = 0 ; j < rewfacts.GetSize () ; j++)
+      for (j = 0 ; j < rewfacts.Length () ; j++)
       {
         csRef<iQuestReward> rew = rewfacts[j]->CreateReward ((iQuest*)q,
 		*p_params);
@@ -738,7 +739,7 @@ void celQuestStateResponse::TickEveryFrame ()
   while (reward_counter > 0)
   {
     size_t i;
-    for (i = 0 ; i < rewards.GetSize () ; i++)
+    for (i = 0 ; i < rewards.Length () ; i++)
       rewards[i]->Reward ();
     reward_counter--;
   }
@@ -784,7 +785,7 @@ bool celQuest::SwitchState (const char* state, iCelDataBuffer* databuf)
   // will probably only have few states and will not switch
   // THAT often either.
   size_t i, j;
-  for (i = 0 ; i < states.GetSize () ; i++)
+  for (i = 0 ; i < states.Length () ; i++)
   {
     if (strcmp (state, states[i]->GetName ()) == 0)
     {
@@ -863,7 +864,7 @@ void celQuest::SaveState (iCelDataBuffer* databuf)
       st->GetResponse (i)->GetTrigger ()->SaveTriggerState (databuf);
   }
 
-  for (i = 0 ; i < sequences.GetSize () ; i++)
+  for (i = 0 ; i < sequences.Length () ; i++)
     if (sequences[i]->IsRunning ())
     {
       databuf->Add (sequences[i]->GetName ());
@@ -908,7 +909,7 @@ void celQuest::AddSequence (celQuestSequence* sequence)
 celQuestSequence* celQuest::FindCelSequence (const char* name)
 {
   size_t i;
-  for (i = 0 ; i < sequences.GetSize () ; i++)
+  for (i = 0 ; i < sequences.Length () ; i++)
     if (!strcmp (name, sequences[i]->GetName ()))
       return sequences[i];
   return 0;

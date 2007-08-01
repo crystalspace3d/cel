@@ -42,8 +42,7 @@ CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
  * transmission quality. Its qualities are that it is really simple, 
  * and that it should handle easily the gateways and firewalls.
  */
-class celTCPGameFactory : public scfImplementation2<
-	celTCPGameFactory, iCelGameFactory, iComponent>
+class celTCPGameFactory : public iCelGameFactory
 {
   friend class celTCPGameClient;
   friend class celTCPGameServer;
@@ -58,9 +57,11 @@ class celTCPGameFactory : public scfImplementation2<
   iObjectRegistry* object_reg;
 
  public:
+  SCF_DECLARE_IBASE;
+
   celTCPGameFactory (iBase* parent);
   virtual ~celTCPGameFactory ();
-  virtual bool Initialize (iObjectRegistry* object_reg);
+  bool Initialize (iObjectRegistry* object_reg);
 
   bool HandleEvent (iEvent& ev);
 
@@ -89,24 +90,33 @@ class celTCPGameFactory : public scfImplementation2<
   virtual void StartPlayBackGame (csString filename, 
 				  csTicks start_time, csTicks stop_time);
 
+  struct Component : public iComponent
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celTCPGameFactory);
+    virtual bool Initialize (iObjectRegistry* p)
+    { return scfParent->Initialize (p); }
+  } scfiComponent;
+
   CS_DECLARE_EVENT_SHORTCUTS;
 
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public scfImplementation1<
-	EventHandler, iEventHandler>
+  class EventHandler : public iEventHandler
   {
   private:
     celTCPGameFactory* parent;
 
   public:
-    EventHandler (celTCPGameFactory* parent) : scfImplementationType (this)
+    EventHandler (celTCPGameFactory* parent)
     {
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler ()
     {
+      SCF_DESTRUCT_IBASE ();
     }
 
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
       return parent->HandleEvent (ev);

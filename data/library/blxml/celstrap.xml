@@ -15,6 +15,38 @@
 
   <!-- Allowed Property Classes -->
   <addon plugin="xmlbehaviour">
+    <pcfactory> cel.pcfactory.movable </pcfactory>
+    <pcfactory> cel.pcfactory.linmove </pcfactory>
+    <pcfactory> cel.pcfactory.actormove </pcfactory>
+    <pcfactory> cel.pcfactory.solid </pcfactory>
+    <pcfactory> cel.pcfactory.colldet </pcfactory>
+    <pcfactory> cel.pcfactory.movableconst_cd </pcfactory>
+    <pcfactory> cel.pcfactory.gravity </pcfactory>
+    <pcfactory> cel.pcfactory.region </pcfactory>
+    <pcfactory> cel.pcfactory.defaultcamera </pcfactory>
+    <pcfactory> cel.pcfactory.tooltip </pcfactory>
+    <pcfactory> cel.pcfactory.timer </pcfactory>
+    <pcfactory> cel.pcfactory.inventory </pcfactory>
+    <pcfactory> cel.pcfactory.characteristics </pcfactory>
+    <pcfactory> cel.pcfactory.mesh </pcfactory>
+    <pcfactory> cel.pcfactory.meshselect </pcfactory>
+    <pcfactory> cel.pcfactory.pccommandinput </pcfactory>
+    <pcfactory> cel.pcfactory.graph </pcfactory>
+    <pcfactory> cel.pcfactory.link </pcfactory>
+    <pcfactory> cel.pcfactory.node </pcfactory>
+    <pcfactory> cel.pcfactory.navgraphrules </pcfactory>
+    <pcfactory> cel.pcfactory.navgraphrulesfps </pcfactory>
+    <pcfactory> cel.pcfactory.zonemanager </pcfactory>
+    <pcfactory> cel.pcfactory.properties </pcfactory>
+    <pcfactory> cel.pcfactory.quest </pcfactory>
+    <pcfactory> cel.pcfactory.trigger </pcfactory>
+    <pcfactory> cel.pcfactory.billboard </pcfactory>
+    <pcfactory> cel.pcfactory.hover </pcfactory>
+    <pcfactory> cel.pcfactory.craft </pcfactory>
+    <pcfactory> cel.pcfactory.mechsys </pcfactory>
+    <pcfactory> cel.pcfactory.mechobject </pcfactory>
+    <pcfactory> cel.pcfactory.soundsource </pcfactory>
+    <pcfactory> cel.pcfactory.soundlistener </pcfactory>
   </addon>
 
   <!-- This should be a library that holds references to all behaviours

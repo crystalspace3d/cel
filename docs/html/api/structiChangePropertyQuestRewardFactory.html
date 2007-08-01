@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,16 +28,12 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iChangePropertyQuestRewardFactory Struct Reference</h1><!-- doxytag: class="iChangePropertyQuestRewardFactory" --><!-- doxytag: inherits="iBase" -->This interface is implemented by the reward that changes the value of a property (either on a property from pcproperties or a generic property on any property class).  
+<h1>iChangePropertyQuestRewardFactory Struct Reference</h1><!-- doxytag: class="iChangePropertyQuestRewardFactory" -->This interface is implemented by the reward that changes the value of a property (either on a property from pcproperties or a generic property on any property class).  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-Inheritance diagram for iChangePropertyQuestRewardFactory:<p><center><img src="structiChangePropertyQuestRewardFactory__inherit__graph.png" border="0" usemap="#iChangePropertyQuestRewardFactory__inherit__map" alt="Inheritance graph"></center>
-<map name="iChangePropertyQuestRewardFactory__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="113,5,172,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiChangePropertyQuestRewardFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiChangePropertyQuestRewardFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiChangePropertyQuestRewardFactory.html#d1848a2bde05918e211387865f365c33">SetBoolParameter</a> (const char *pbool)=0</td></tr>
@@ -71,15 +67,35 @@ Inheritance diagram for iChangePropertyQuestRewardFactory:<p><center><img src="s
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 This interface is implemented by the reward that changes the value of a property (either on a property from pcproperties or a generic property on any property class). 
 <p>
-You can query this interface from the reward factory if you want to manually control this factory as opposed to loading its definition from an XML document.<p>
-The predefined name of this reward type is 'cel.questreward.changeproperty'.<p>
-In XML, factories recognize the following attributes on the 'reward' node:<ul>
-<li><em>entity</em>: the name of the entity containing the pcproperties property class.</li><li><em>pc</em>: the name of the property class. If this is not given then pcproperties is used.</li><li><em>tag</em>: used together with 'pc' to specify an optional tag.</li><li><em>property</em>: the name of the property.</li><li><em>string</em>: the new string value of the property.</li><li><em>long</em>: the new long value of the property.</li><li><em>float</em>: the new float value of the property.</li><li><em>bool</em>: the new bool value of the property.</li><li><em>diff</em>: this long or float value will be added to the property.</li><li><em>toggle</em>: toggle the boolean or long value. </li></ul>
+You can query this interface from the reward factory if you want to manually control this factory as opposed to loading its definition from an XML document. <p>
+The predefined name of this reward type is 'cel.questreward.changeproperty'. <p>
+In XML, factories recognize the following attributes on the 'reward' node: <ul>
+<li>
+<em>entity</em>: the name of the entity containing the pcproperties property class. </li>
+<li>
+<em>pc</em>: the name of the property class. If this is not given then pcproperties is used. </li>
+<li>
+<em>tag</em>: used together with 'pc' to specify an optional tag. </li>
+<li>
+<em>property</em>: the name of the property. </li>
+<li>
+<em>string</em>: the new string value of the property. </li>
+<li>
+<em>long</em>: the new long value of the property. </li>
+<li>
+<em>float</em>: the new float value of the property. </li>
+<li>
+<em>bool</em>: the new bool value of the property. </li>
+<li>
+<em>diff</em>: this long or float value will be added to the property. </li>
+<li>
+<em>toggle</em>: toggle the boolean or long value. </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l01312">1312</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l01318">1318</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="d1848a2bde05918e211387865f365c33"></a><!-- doxytag: member="iChangePropertyQuestRewardFactory::SetBoolParameter" ref="d1848a2bde05918e211387865f365c33" args="(const char *pbool)=0" -->
 <div class="memitem">
 <div class="memproto">

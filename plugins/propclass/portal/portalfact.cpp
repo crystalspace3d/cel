@@ -39,7 +39,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Portal, "pcobject.portal", "pcportal")
+CEL_IMPLEMENT_FACTORY (Portal, "pcportal")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -62,35 +62,45 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-class celPcPortalCallback : public scfImplementation1<
-	celPcPortalCallback, iPortalCallback>
+class celPcPortalCallback : public iPortalCallback
 {
 public:
-  celPcPortalCallback () : scfImplementationType (this)
+  celPcPortalCallback ()
   {
+    SCF_CONSTRUCT_IBASE (0);
   }
   virtual ~celPcPortalCallback ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
+  SCF_DECLARE_IBASE;
   virtual bool Traverse (iPortal*, iBase*)
   {
     return false;
   }
 };
 
+SCF_IMPLEMENT_IBASE (celPcPortalCallback)
+  SCF_IMPLEMENTS_INTERFACE (iPortalCallback)
+SCF_IMPLEMENT_IBASE_END
+
 //---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE_EXT (celPcPortal)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcPortal)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcPortal::PcPortal)
+  SCF_IMPLEMENTS_INTERFACE (iPcPortal)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 PropertyHolder celPcPortal::propinfo;
 
 celPcPortal::celPcPortal (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+	: celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcPortal);
   engine = csQueryRegistry<iEngine> (object_reg);
-  if (!engine)
-  {
-    Report (object_reg, "No iEngine plugin!");
-    return;
-  }
 
   closed = false;
 
@@ -98,19 +108,20 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
   propholder = &propinfo;
   propinfo.SetCount (3);
   AddProperty (propid_mesh, "cel.property.mesh",
-  	CEL_DATA_STRING, false, "Portal mesh name.", 0);
+	CEL_DATA_STRING, false, "Portal mesh name.", 0);
   AddProperty (propid_portal, "cel.property.portal",
-  	CEL_DATA_STRING, false, "Portal name.", 0);
+	CEL_DATA_STRING, false, "Portal name.", 0);
   AddProperty (propid_closed, "cel.property.closed",
-  	CEL_DATA_BOOL, false, "Closed status.", 0);
+	CEL_DATA_BOOL, false, "Closed status.", 0);
 }
 
 celPcPortal::~celPcPortal ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcPortal);
 }
 
 bool celPcPortal::PerformActionIndexed (int, iCelParameterBlock*,
-	celData& ret)
+    celData& ret)
 {
   return false;
 }
@@ -206,8 +217,7 @@ void celPcPortal::ResolvePortal ()
   {
     iMeshWrapper* m = engine->FindMeshObject (meshname);
     if (!m) return;
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (
-	m->GetMeshObject ());
+    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (m->GetMeshObject ());
     if (!pc) return;	// @@@ ERROR?
     if (portalname.IsEmpty ())
     {
@@ -219,7 +229,7 @@ void celPcPortal::ResolvePortal ()
       for (i = 0 ; i < pc->GetPortalCount () ; i++)
       {
         portal = pc->GetPortal (i);
-        if (portalname == portal->GetName ()) break;
+	if (portalname == portal->GetName ()) break;
       }
     }
     if (portal)

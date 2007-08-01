@@ -72,8 +72,7 @@ private:
 
   enum actionids
   {
-    action_load = 0,
-    action_unload
+    action_load = 0
   };
 
   enum propids
@@ -144,13 +143,14 @@ public:
   /// Get the CS region
   virtual iRegion* GetRegion ();
 
+  virtual const char* GetName () const { return "pcregion"; }
   virtual csPtr<iCelDataBuffer> SaveFirstPass ();
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
   virtual bool PerformActionIndexed (int, iCelParameterBlock* params,
-  	celData& ret);
+      celData& ret);
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);

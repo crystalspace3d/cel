@@ -39,11 +39,13 @@ struct celPlayerListIterator;
 
 /**
  * The different game types. The values can be:
- * - CEL_NET_UNDEF: Undefined, should never be encountered.
- * - CEL_NET_SINGLEPLAYER: Only one player.
- * - CEL_NET_LOCAL: Open to other players from the local network
- * - CEL_NET_PUBLIC: Open to other players from Internet
- * - CEL_NET_PLAYBACK: Game played back from a file 
+ * <UL>
+ * <LI>CEL_NET_UNDEF: Undefined, should never be encountered.</LI>
+ * <LI>CEL_NET_SINGLEPLAYER: Only one player.</LI>
+ * <LI>CEL_NET_LOCAL: Open to other players from the local network</LI>
+ * <LI>CEL_NET_PUBLIC: Open to other players from Internet</LI>
+ * <LI>CEL_NET_PLAYBACK: Game played back from a file </LI>
+ * </UL>
  */
 enum celNetworkGameType
 {
@@ -63,17 +65,19 @@ typedef uint8 celNetworkLinkType;
 /**
  * The server view of the state of the network connection to a player. 
  * The values can be:
- * - CEL_NET_PLAYER_UNDEF: Undefined, should never be encountered.
- * - CEL_NET_PLAYER_NOT_CONNECTED: The player is not connected to the game.
- * - CEL_NET_PLAYER_CONNECTING: The player is connected to the game and 
- *   is now loading needed data.
- * - CEL_NET_PLAYER_PLAYING: The player has loaded everything and is 
- *   ready to play.
- * - CEL_NET_PLAYER_DISCONNECTED: The player has cleanly left the game.
- * - CEL_NET_PLAYER_UNREACHABLE: The player is no more reachable, ie the 
- *   connection has been broken or the client has crashed.
- * - CEL_NET_PLAYER_LOST: The player was unreachable, and the connection
- *   to the player is now definitively lost.
+ * <UL>
+ * <LI>CEL_NET_PLAYER_UNDEF: Undefined, should never be encountered.</LI>
+ * <LI>CEL_NET_PLAYER_NOT_CONNECTED: The player is not connected to the game.</LI>
+ * <LI>CEL_NET_PLAYER_CONNECTING: The player is connected to the game and 
+ * is now loading needed data.</LI>
+ * <LI>CEL_NET_PLAYER_PLAYING: The player has loaded everything and is 
+ * ready to play.</LI>
+ * <LI>CEL_NET_PLAYER_DISCONNECTED: The player has cleanly left the game.</LI>
+ * <LI>CEL_NET_PLAYER_UNREACHABLE: The player is no more reachable, ie the 
+ * connection has been broken or the client has crashed.</LI>
+ * <LI>CEL_NET_PLAYER_LOST: The player was unreachable, and the connection
+ * to the player is now definitively lost.</LI>
+ * </UL>
  */
 enum celPlayerNetworkState
 {
@@ -89,35 +93,37 @@ enum celPlayerNetworkState
 /**
  * The client view of the state of the network connection to the server. 
  * The values can be:
- * - CEL_NET_SERVER_UNDEF: Undefined, should never be encountered.
- * - CEL_NET_SERVER_NOT_CONNECTED: The player is not connected to the game.
- * - CEL_NET_SERVER_INVALID_HOSTNAME: The hostname of the server is not 
- *   valid.
- * - CEL_NET_SERVER_TRYING_CONNECTION: The system is trying to connect to the 
- *   server.
- * - CEL_NET_SERVER_CONNECTING: The player is connected to the game and is 
- *   waiting for an acknowledgment from the server.
- * - CEL_NET_SERVER_REJECTED_BAD_GAME: The client has a game name different 
- *   of the one of the server.
- * - CEL_NET_SERVER_REJECTED_BAD_PROTOCOL: The client has a protocol version 
- *   different of the one of the server.
- * - CEL_NET_SERVER_REJECTED_BAD_PASSWORD: The client do not know the needed 
- *   password.
- * - CEL_NET_SERVER_REJECTED_SINGLEPLAYER: The server is playing a single 
- *   player game.
- * - CEL_NET_SERVER_REJECTED_UNAUTHORIZED: The server manager has not 
- *   authorized the player to connect to the game.
- * - CEL_NET_SERVER_REJECTED_MAX_PLAYERS: The maximum number of players is 
- *   already reached.
- * - CEL_NET_SERVER_LOADING_DATA: The player is connected to the server and 
- *   is now loading the level.
- * - CEL_NET_SERVER_PLAYING: The player is now playing.
- * - CEL_NET_SERVER_DISCONNECTED: The server has cleanly closed the session.
- * - CEL_NET_SERVER_UNREACHABLE: The server is no more reachable, ie the 
- *   connection has been broken or the server has crashed.
- * - CEL_NET_SERVER_LOST: The server was unreachable, and the connection 
- *   to the server is now definitively lost.
- * - CEL_NET_SERVER_KICKED: The server has kicked the player.
+ * <UL>
+ * <LI>CEL_NET_SERVER_UNDEF: Undefined, should never be encountered.</LI>
+ * <LI>CEL_NET_SERVER_NOT_CONNECTED: The player is not connected to the game.</LI>
+ * <LI>CEL_NET_SERVER_INVALID_HOSTNAME: The hostname of the server is not 
+ * valid.</LI>
+ * <LI>CEL_NET_SERVER_TRYING_CONNECTION: The system is trying to connect to the 
+ * server.</LI>
+ * <LI>CEL_NET_SERVER_CONNECTING: The player is connected to the game and is 
+ * waiting for an acknowledgment from the server.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_BAD_GAME: The client has a game name different 
+ * of the one of the server.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_BAD_PROTOCOL: The client has a protocol version 
+ * different of the one of the server.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_BAD_PASSWORD: The client do not know the needed 
+ * password.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_SINGLEPLAYER: The server is playing a single 
+ * player game.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_UNAUTHORIZED: The server manager has not 
+ * authorized the player to connect to the game.</LI>
+ * <LI>CEL_NET_SERVER_REJECTED_MAX_PLAYERS: The maximum number of players is 
+ * already reached.</LI>
+ * <LI>CEL_NET_SERVER_LOADING_DATA: The player is connected to the server and 
+ * is now loading the level.</LI>
+ * <LI>CEL_NET_SERVER_PLAYING: The player is now playing.</LI>
+ * <LI>CEL_NET_SERVER_DISCONNECTED: The server has cleanly closed the session.</LI>
+ * <LI>CEL_NET_SERVER_UNREACHABLE: The server is no more reachable, ie the 
+ * connection has been broken or the server has crashed.</LI>
+ * <LI>CEL_NET_SERVER_LOST: The server was unreachable, and the connection 
+ * to the server is now definitively lost.</LI>
+ * <LI>CEL_NET_SERVER_KICKED: The server has kicked the player.</LI>
+ * </UL>
  */
 enum celServerNetworkState
 {
@@ -206,7 +212,6 @@ class celGameInfo
 class celGameInfoList
 {
  public:
-  virtual ~celGameInfoList () = 0;
   virtual size_t GetCount () const = 0;
   virtual celGameInfo* Get (size_t index) const = 0;
   virtual size_t Add (celGameInfo* player) = 0;
@@ -234,8 +239,6 @@ class celGameInfoList
 class celPlayer
 {
  public:
-  virtual ~celPlayer () {}
-
   /// The ID of the player.
   uint32 player_id;
 
@@ -278,14 +281,14 @@ class celPlayer
   }
 };
 
+SCF_VERSION (iCelPlayerList, 0, 0, 1);
+
 /**
  * A list of players.
  */
-struct iCelPlayerList : public virtual iBase
+struct iCelPlayerList
 {
-  SCF_INTERFACE (iCelPlayerList, 0, 0, 1);
-
-  virtual ~iCelPlayerList () = 0;
+ public:
   virtual size_t GetCount () const = 0;
   virtual celPlayer* Get (size_t index) const = 0;
   virtual size_t Add (celPlayer* player) = 0;

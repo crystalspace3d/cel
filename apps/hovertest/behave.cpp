@@ -1,19 +1,21 @@
 /*
-    Copyright (C) 2006 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Library General Public
-    License as published by the Free Software Foundation; either
-    version 2 of the License, or (at your option) any later version.
+    This file is part of CEL.
 
-    This library is distributed in the hope that it will be useful,
+    CEL is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    CEL is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Library General Public License for more details.
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-    You should have received a copy of the GNU Library General Public
-    License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    You should have received a copy of the GNU General Public License
+    along with CEL; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "cssysdef.h"
@@ -26,17 +28,20 @@
 #include "propclass/mechsys.h"
 #include "physicallayer/propclas.h"
 
-htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity)
-	: scfImplementationType (this), bl (bl), entity (entity)
-{
-}
+SCF_IMPLEMENT_IBASE (htBehaviourActor)
+  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
+SCF_IMPLEMENT_IBASE_END
 
+htBehaviourActor::htBehaviourActor(iCelBlLayer* bl, iCelEntity* entity) : bl (bl), entity (entity)
+{
+  SCF_CONSTRUCT_IBASE (0);
+}
 htBehaviourActor::~htBehaviourActor()
 {
+  SCF_DESTRUCT_IBASE ();
 }
 
-bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc,
-    celData &ret, iCelParameterBlock *params,...)
+bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,...)
 {
   va_list arg;
   va_start (arg, params);
@@ -44,8 +49,7 @@ bool htBehaviourActor::SendMessage (const char *msg_id, iCelPropertyClass *pc,
   va_end (arg);
   return rc;
 }
-bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc,
-    celData &ret, iCelParameterBlock *params, va_list arg)
+bool htBehaviourActor::SendMessageV (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
 

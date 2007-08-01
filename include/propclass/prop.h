@@ -44,6 +44,8 @@ struct iPcPropertyListener : public virtual iBase
   virtual void PropertyChanged (iPcProperties* pcprop, size_t idx) = 0;
 };
 
+SCF_VERSION (iPcProperties, 0, 0, 1);
+
 /**
  * This is a general property class.
  *
@@ -55,13 +57,10 @@ struct iPcPropertyListener : public virtual iBase
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
- * - SetProperty: parameters 'name' (string) and 'value'
- *   (string/bool/float/long/vector).
+ * - SetProperty: parameters 'name' (string) and 'value' (string/bool/float/long/vector).
  */
-struct iPcProperties : public virtual iBase
+struct iPcProperties : public iBase
 {
-  SCF_INTERFACE (iPcProperties, 0, 0, 1);
-
   /**
    * Add a property listener. Property listeners are called right before
    * the behaviour is called.
@@ -124,7 +123,7 @@ struct iPcProperties : public virtual iBase
 
   /**
    * Get the specified property index for a named property.
-   * Returns csArrayItemNotFound if not found.
+   * Returns -1 if not found.
    */
   virtual size_t GetPropertyIndex (const char* name) = 0;
 

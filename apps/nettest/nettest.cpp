@@ -39,6 +39,7 @@
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
@@ -60,6 +61,7 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -82,6 +84,7 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
+#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
@@ -143,7 +146,7 @@ void NetTest::PostProcessFrame ()
     {
       int pos_y = 34;
       size_t i = 0;
-      for ( ; i < gfm->client_manager->comments.GetSize(); i++)
+      for ( ; i < gfm->client_manager->comments.Length(); i++)
       {
 	WriteShadow( 0, 10, pos_y, g2d->FindRGB(119, 130, 122), "%s",
 		gfm->client_manager->comments[i].GetData());
@@ -492,6 +495,8 @@ bool NetTest::CreateRoom (const csString path, const csString file)
 
 bool NetTest::OnInitialize (int argc, char* argv[])
 {
+  csDebuggingGraph::SetupGraph (object_reg);
+
   // analyse command line arguments
   csRef<iCommandLineParser> cmdline = 
   	csQueryRegistry<iCommandLineParser> (object_reg);
@@ -651,6 +656,17 @@ bool NetTest::Application ()
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
     return false;
   if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
     return false;
 
   // analyse command line arguments

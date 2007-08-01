@@ -3,17 +3,10 @@
 <plugin>
   <scf>
     <classes>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.newcamera</name>
         <implementation>celPfNewCamera</implementation>
-        <description>CEL New Camera Property Class Factory</description>
-      </class>
-
-      <class>
-        <name>cel.pcfactory.camera.standard</name>
-        <implementation>celPfNewCamera</implementation>
-        <description>CEL New Camera Property Class Factory</description>
+	<description>CEL New Camera Property Class Factory</description>
       </class>
     </classes>
   </scf>

@@ -31,6 +31,8 @@
 #include "csutil/strhash.h"
 
 
+SCF_VERSION (iPcCollisionDetection, 0, 0, 1);
+
 /**
  * This property class controls collision detection of an entity with
  * the world map and other meshes. It should be used in combination
@@ -38,10 +40,8 @@
  * property classes. So in that sense it is unrelated to the other 
  * movement property classes.
  */
-struct iPcCollisionDetection : public virtual iBase
+struct iPcCollisionDetection : public iBase
 {
-  SCF_INTERFACE (iPcCollisionDetection, 0, 0, 1);
-
   /**
    * Initialize CD box for the object.
    * The two parameters are the dimensions of the body and the legs

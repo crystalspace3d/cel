@@ -21,8 +21,6 @@
 #include "cstool/initapp.h"
 #include "csutil/objreg.h"
 #include "csutil/event.h"
-#include "csutil/cfgacc.h"
-#include "csutil/inputdef.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
 #include "iutil/plugin.h"
@@ -77,7 +75,7 @@ public:
   }
   virtual void Execute (const csStringArray& args)
   {
-    if (args.GetSize () <= 1)
+    if (args.Length () <= 1)
       parent->ListCommands ();
     else
       parent->HelpCommand (args[1]);
@@ -119,7 +117,7 @@ public:
   {
     unsigned int i;
     csString cmd = args[0];
-    for (i=1;i<args.GetSize();i++)
+    for (i=1;i<args.Length();i++)
     {
       cmd+=" ";
       cmd+=args[i];
@@ -401,48 +399,6 @@ public:
 
 //--------------------------------------------------------------------------
 
-class celNewEntityCallback : public scfImplementation1<celNewEntityCallback,
-  iCelNewEntityCallback>
-{
-private:
-  csWeakRef<celConsole> console;
-
-public:
-  celNewEntityCallback (celConsole* console) : scfImplementationType (this),
-  	console (console)
-  {
-  }
-  virtual ~celNewEntityCallback () { }
-  virtual void NewEntity (iCelEntity* entity)
-  {
-    if (console)
-      console->RegisterNewEntity (entity);
-  }
-};
-
-
-class celEntityRemoveCallback : public scfImplementation1<celEntityRemoveCallback,
-  iCelEntityRemoveCallback>
-{
-private:
-  csWeakRef<celConsole> console;
-
-public:
-  celEntityRemoveCallback (celConsole* console) : scfImplementationType (this),
-  	console (console)
-  {
-  }
-  virtual ~celEntityRemoveCallback () { }
-  virtual void RemoveEntity (iCelEntity* entity)
-  {
-    if (console)
-      console->RegisterRemoveEntity (entity);
-  }
-};
-
-
-//--------------------------------------------------------------------------
-
 celConsole::celConsole (iBase* parent)
   : scfImplementationType (this, parent)
 {
@@ -467,23 +423,6 @@ celConsole::~celConsole ()
 bool celConsole::Initialize (iObjectRegistry* object_reg)
 {
   celConsole::object_reg = object_reg;
-
-  csRef<iEventNameRegistry> namereg = csEventNameRegistry::GetRegistry (
-      object_reg);
-
-  csConfigAccess config;
-  config.AddConfig (object_reg, "/celconfig/celconsole.cfg");
-  const char* bind = config->GetStr ("CelConsole.Bind.Open", "tab");
-  utf32_char cooked;
-  csKeyModifiers modifiers;
-  csInputDefinition::ParseKey (namereg, bind, &console_key, &cooked, &modifiers);
-  console_modifiers = csKeyEventHelper::GetModifiersBits (modifiers);
-
-  bind = config->GetStr ("CelConsole.Bind.List", "ctrl-shift-e");
-  csInputDefinition::ParseKey (namereg, bind, &entlist_key, &cooked, &modifiers);
-  entlist_modifiers = csKeyEventHelper::GetModifiersBits (modifiers);
-
-  do_monitor = config->GetBool ("CelConsole.Monitor", false);
 
   csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
       object_reg);
@@ -520,7 +459,6 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   q->RemoveListener (scfiEventHandler);
   csEventID esub[] = { 
     csevKeyboardEvent (object_reg),
-    csevMouseEvent (object_reg),
     csevFrame (object_reg),
     csevPreProcess (object_reg),
     csevPostProcess (object_reg),
@@ -546,8 +484,6 @@ bool celConsole::Initialize (iObjectRegistry* object_reg)
   cmd.AttachNew (new cmdVarEnt (this)); RegisterCommand (cmd);
   cmd.AttachNew (new cmdPython (this)); RegisterCommand (cmd);
 
-  GetPL ();
-
   return true;
 }
 
@@ -566,57 +502,16 @@ bool celConsole::HandleEvent (iEvent& ev)
 {
   if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
-    utf32_char key = csKeyEventHelper::GetRawCode (&ev);
-    csKeyModifiers key_modifiers;
-    csKeyEventHelper::GetModifiers (&ev, key_modifiers);
-    uint32 modifiers = csKeyEventHelper::GetModifiersBits (key_modifiers);
-    uint32 type = csKeyEventHelper::GetEventType (&ev);
-
-    if (key == console_key && modifiers == console_modifiers)
+    utf32_char key = csKeyEventHelper::GetCookedCode (&ev);
+    if (key == CSKEY_TAB)
     {
+      uint32 type = csKeyEventHelper::GetEventType (&ev);
       if (type == csKeyEventTypeDown)
       {
         if (conout->GetVisible ())
 	  conout->SetVisible (false);
         else
 	  conout->SetVisible (true);
-      }
-    }
-    else if (key == entlist_key && modifiers == entlist_modifiers)
-    {
-      if (type == csKeyEventTypeDown)
-      {
-	if (!do_monitor)
-	{
-	  csReport (object_reg,
-	    	CS_REPORTER_SEVERITY_WARNING, "cel.console",
-		"Monitor is not enabled. Enable in celconsole.cfg!");
-	}
-	else
-	{
-	  printf ("List all entities still in memory:\n");
-	  size_t i = 0;
-	  while (i < monitor_entities.GetSize ())
-	  {
-	    iCelEntity* ent = monitor_entities[i];
-	    if (ent)
-	    {
-	      if (monitor_wasremoved[i])
-	        printf ("  ###### Entity %p/'%s' removed but still in memory (ref=%d)!\n",
-		    ent, ent->GetName (), ent->GetRefCount ());
-	      else
-	        printf ("  Entity %p/'%s' not removed yet (ref=%d).\n",
-		    ent, ent->GetName (), ent->GetRefCount ());
-	      i++;
-	    }
-	    else
-	    {
-	      monitor_entities.DeleteIndex (i);
-	      monitor_wasremoved.DeleteIndex (i);
-	    }
-	  }
-	  fflush (stdout);
-	}
       }
     }
     else
@@ -627,17 +522,8 @@ bool celConsole::HandleEvent (iEvent& ev)
       }
     }
   }
-  else if (CS_IS_MOUSE_EVENT (name_reg,ev))
+  if (ev.Name == csevPostProcess (name_reg))
   {
-    if (conout->GetVisible ())
-    {
-      // Eat mouse events while console is visible.
-      return true;
-    }
-  }
-  else if (ev.Name == csevFrame (name_reg))
-  {
-    GetPL ();
     if (conout->GetVisible ())
     {
       g3d->BeginDraw (CSDRAW_2DGRAPHICS);
@@ -654,16 +540,8 @@ iCelPlLayer* celConsole::GetPL ()
   if (!pl)
   {
     pl = csQueryRegistry<iCelPlLayer> (object_reg);
-    if (!pl) return 0;
-    if (do_monitor)
-    {
-      csRef<celNewEntityCallback> new_cb;
-      new_cb.AttachNew (new celNewEntityCallback (this));
-      csRef<celEntityRemoveCallback> rem_cb;
-      rem_cb.AttachNew (new celEntityRemoveCallback (this));
-      pl->AddNewEntityCallback (new_cb);
-      pl->AddEntityRemoveCallback (rem_cb);
-    }
+    if (!pl)
+      conout->PutText ("Can't find physical layer!\n");
   }
   return pl;
 }
@@ -693,21 +571,6 @@ iCelExpressionParser* celConsole::GetParser ()
     object_reg->Register (parser, "iCelExpressionParser");
   }
   return parser;
-}
-
-void celConsole::RegisterNewEntity (iCelEntity* entity)
-{
-  if (!do_monitor) return;
-  monitor_entities.Push (entity);
-  monitor_wasremoved.Push (false);
-}
-
-void celConsole::RegisterRemoveEntity (iCelEntity* entity)
-{
-  if (!do_monitor) return;
-  size_t idx = monitor_entities.Find (entity);
-  if (idx != csArrayItemNotFound)
-    monitor_wasremoved[idx] = true;
 }
 
 void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
@@ -793,7 +656,7 @@ void celConsole::AssignVar (iCelEntity* ent, iCelExpression* exprvar,
 
 void celConsole::AssignVarEntity (const csStringArray& args)
 {
-  if (args.GetSize () < 3)
+  if (args.Length () < 3)
   {
     conout->PutText ("Too few parameters for 'varent'!\n");
     return;
@@ -829,7 +692,7 @@ void celConsole::AssignVarEntity (const csStringArray& args)
 
 void celConsole::AssignVar (const csStringArray& args)
 {
-  if (args.GetSize () < 2)
+  if (args.Length () < 2)
   {
     conout->PutText ("Too few parameters for 'var'!\n");
     return;
@@ -844,7 +707,7 @@ void celConsole::AssignVar (const csStringArray& args)
 
 void celConsole::EvalulateExpression (const csStringArray& args)
 {
-  if (args.GetSize () < 1)
+  if (args.Length () < 1)
   {
     conout->PutText ("Too few parameters for 'expr'!\n");
     return;
@@ -940,7 +803,7 @@ void celConsole::SnapshotDiffPC (iCelEntity* ent)
   {
     iCelPropertyClass* pc = plist->Get (i);
     size_t foundidx = csArrayItemNotFound;
-    for (j = 0 ; j < snapshot->pcs.GetSize () ; j++)
+    for (j = 0 ; j < snapshot->pcs.Length () ; j++)
     {
       if (snapshot->pcs[j] == pc) { foundidx = j; break; }
     }
@@ -958,7 +821,7 @@ void celConsole::SnapshotDiffPC (iCelEntity* ent)
   }
 #if 0
   // @@@ TODO
-  for (i = 0 ; i < snapshot->pcs.GetSize () ; i++)
+  for (i = 0 ; i < snapshot->pcs.Length () ; i++)
   {
     iCelPropertyClass* pc = snapshot->pcs[i];
     if (pc == 0)
@@ -998,7 +861,7 @@ void celConsole::SnapshotDiff ()
   {
     iCelEntity* ent = pl->GetEntityByIndex (i);
     size_t foundidx = csArrayItemNotFound;
-    for (j = 0 ; j < snapshot->entities.GetSize () ; j++)
+    for (j = 0 ; j < snapshot->entities.Length () ; j++)
     {
       if (snapshot->entities[j] == ent) { foundidx = j; break; }
     }
@@ -1015,7 +878,7 @@ void celConsole::SnapshotDiff ()
     }
     SnapshotDiffPC (ent);
   }
-  for (i = 0 ; i < snapshot->entities.GetSize () ; i++)
+  for (i = 0 ; i < snapshot->entities.Length () ; i++)
   {
     iCelEntity* ent = snapshot->entities[i];
     if (ent == 0)
@@ -1042,7 +905,7 @@ void celConsole::SnapshotDiff ()
 
 void celConsole::ListInfoEntity (const csStringArray& args)
 {
-  if (args.GetSize () < 2)
+  if (args.Length () < 2)
   {
     conout->PutText ("Too few parameters for 'infoent'!\n");
     return;
@@ -1084,26 +947,24 @@ void celConsole::ListInfoEntity (const csStringArray& args)
       {
 	case CEL_DATA_LONG:
 	  conout->PutText ("        prop: LONG id=%u/%s ro=%d v=%ld (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyLongByID (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyLong (id), desc);
 	  break;
 	case CEL_DATA_FLOAT:
 	  conout->PutText ("        prop: FLOAT id=%u/%s ro=%d v=%g (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyFloatByID (id),
-              desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyFloat (id), desc);
 	  break;
 	case CEL_DATA_BOOL:
 	  conout->PutText ("        prop: BOOL id=%u/%s ro=%d v=%d (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyBoolByID (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyBool (id), desc);
 	  break;
 	case CEL_DATA_STRING:
 	  conout->PutText ("        prop: STRING id=%u/%s ro=%d v=%s (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyStringByID (id),
-              desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyString (id), desc);
 	  break;
 	case CEL_DATA_VECTOR2:
 	  {
 	    csVector2 v;
-	    pc->GetPropertyVectorByID (id, v);
+	    pc->GetPropertyVector (id, v);
 	    conout->PutText ("        prop: VECTOR2 id=%u/%s ro=%d v=%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.x, v.y, desc);
 	  }
@@ -1111,7 +972,7 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	case CEL_DATA_VECTOR3:
 	  {
 	    csVector3 v;
-	    pc->GetPropertyVectorByID (id, v);
+	    pc->GetPropertyVector (id, v);
 	    conout->PutText ("        prop: VECTOR3 id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.x, v.y, v.z, desc);
 	  }
@@ -1119,7 +980,7 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	case CEL_DATA_COLOR:
 	  {
 	    csColor v;
-	    pc->GetPropertyColorByID (id, v);
+	    pc->GetPropertyColor (id, v);
 	    conout->PutText ("        prop: COLOR id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.red, v.green, v.blue, desc);
 	  }
@@ -1130,14 +991,14 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	  break;
 	case CEL_DATA_PCLASS:
 	  {
-	    iCelPropertyClass* p = pc->GetPropertyPClassByID (id);
+	    iCelPropertyClass* p = pc->GetPropertyPClass (id);;
 	    conout->PutText ("        prop: PC id=%u/%s ro=%d v=%p/%s (%s)\n",
 	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }
 	  break;
 	case CEL_DATA_ENTITY:
 	  {
-	    iCelEntity* p = pc->GetPropertyEntityByID (id);
+	    iCelEntity* p = pc->GetPropertyEntity (id);;
 	    conout->PutText ("        prop: ENTITY id=%u/%s ro=%d v=%p/%s (%s)\n",
 	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }
@@ -1221,7 +1082,7 @@ void celConsole::ListTemplates ()
 
 void celConsole::CreateEntityFromTemplate (const csStringArray& args)
 {
-  if (args.GetSize () < 3)
+  if (args.Length () < 3)
   {
     conout->PutText ("Too few parameters for 'createenttpl'!\n");
     return;
@@ -1237,7 +1098,7 @@ void celConsole::CreateEntityFromTemplate (const csStringArray& args)
   const char* entname = args[2];
   celEntityTemplateParams params;
   size_t i;
-  for (i = 3 ; i < args.GetSize ()-1 ; i += 2)
+  for (i = 3 ; i < args.Length ()-1 ; i += 2)
   {
     params.Put (args[i], args[i+1]);
   }
@@ -1287,7 +1148,7 @@ void celConsole::Execute (const char* cmd)
 {
   csStringArray args;
   args.SplitString (cmd, " \t", csStringArray::delimIgnore);
-  if (args.GetSize () <= 0) return;
+  if (args.Length () <= 0) return;
   if (!args[0] || !*args[0]) return;
   if (override)
   {

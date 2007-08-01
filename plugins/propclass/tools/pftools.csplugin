@@ -3,55 +3,25 @@
 <plugin>
   <scf>
     <classes>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.spawn</name>
         <implementation>celPfSpawn</implementation>
-        <description>CEL Spawn Property Class Factory</description>
+	<description>CEL Spawn Property Class Factory</description>
       </class>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.tooltip</name>
         <implementation>celPfTooltip</implementation>
-        <description>CEL Tooltip Property Class Factory</description>
+	<description>CEL Tooltip Property Class Factory</description>
       </class>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.timer</name>
         <implementation>celPfTimer</implementation>
-        <description>CEL Timer Property Class Factory</description>
+	<description>CEL Timer Property Class Factory</description>
       </class>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.properties</name>
         <implementation>celPfProperties</implementation>
-        <description>CEL Properties Property Class Factory</description>
-      </class>
-
-      <class>
-        <name>cel.pcfactory.logic.spawn</name>
-        <implementation>celPfSpawn</implementation>
-        <description>CEL Spawn Property Class Factory</description>
-      </class>
-      <class>
-        <name>cel.pcfactory.2d.tooltip</name>
-        <implementation>celPfTooltip</implementation>
-        <description>CEL Tooltip Property Class Factory</description>
-      </class>
-      <class>
-        <name>cel.pcfactory.tools.timer</name>
-        <implementation>celPfTimer</implementation>
-        <description>CEL Timer Property Class Factory</description>
-      </class>
-      <class>
-        <name>cel.pcfactory.tools.properties</name>
-        <implementation>celPfProperties</implementation>
-        <description>CEL Properties Property Class Factory</description>
-      </class>
-      <class>
-        <name>cel.pcfactory.tools.bag</name>
-        <implementation>celPfBag</implementation>
-        <description>CEL Bag Property Class Factory</description>
+	<description>CEL Properties Property Class Factory</description>
       </class>
     </classes>
   </scf>

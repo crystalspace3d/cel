@@ -28,14 +28,14 @@
 class csVector3;
 struct iPcMechanicsObject;
 
+SCF_VERSION (iPcMechanicsSteering, 0, 0, 1);
+
 /**
  * Property class representing a steering mechanism that affects forces on the
  * attached object, dependent on the forward velocity of the object.
  */
-struct iPcMechanicsSteering : public virtual iBase
+struct iPcMechanicsSteering : public iBase
 {
-  SCF_INTERFACE (iPcMechanicsSteering, 0, 0, 1);
-
   /**
    * Set this thruster's identifier.
    */

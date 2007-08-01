@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,17 +28,16 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcCamera Struct Reference</h1><!-- doxytag: class="iPcCamera" --><!-- doxytag: inherits="iBase" -->The representation of a camera.  
+<h1>iPcCamera Struct Reference</h1><!-- doxytag: class="iPcCamera" -->The representation of a camera.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="propclass_2camera_8h-source.html">propclass/camera.h</a>&gt;</code>
 <p>
 Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit__graph.png" border="0" usemap="#iPcCamera__inherit__map" alt="Inheritance graph"></center>
 <map name="iPcCamera__inherit__map">
-<area href="structiPcDefaultCamera.html" shape="rect" coords="5,155,149,182" alt="">
-<area href="structiPcNewCamera.html" shape="rect" coords="173,155,296,182" alt="">
-<area href="structiPcSimpleCamera.html" shape="rect" coords="320,155,459,182" alt="">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="205,6,264,32" alt="">
+<area href="structiPcDefaultCamera.html" shape="rect" coords="7,83,151,107" alt="">
+<area href="structiPcNewCamera.html" shape="rect" coords="175,83,298,107" alt="">
+<area href="structiPcSimpleCamera.html" shape="rect" coords="322,83,461,107" alt="">
 </map>
 <center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcCamera-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -49,22 +48,22 @@ Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#f8f854a9ed62fa704a00cbabfa5e8539">Draw</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Render.  <a href="#f8f854a9ed62fa704a00cbabfa5e8539"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#b5c71dc2df46fba42939d3fea00a969c">EnableAdaptiveDistanceClipping</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> min_fps, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> max_fps, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> min_dist)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#b5c71dc2df46fba42939d3fea00a969c">EnableAdaptiveDistanceClipping</a> (float min_fps, float max_fps, float min_dist)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable adaptive distance clipping.  <a href="#b5c71dc2df46fba42939d3fea00a969c"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#4b23f8eff6214de96c45213625f55c94">EnableFixedDistanceClipping</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> dist)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#4b23f8eff6214de96c45213625f55c94">EnableFixedDistanceClipping</a> (float dist)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable fixed distance clipping.  <a href="#4b23f8eff6214de96c45213625f55c94"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#c701d72bb28b837c9aba6560b5ff0072">GetAdaptiveMaxFPS</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#c701d72bb28b837c9aba6560b5ff0072">GetAdaptiveMaxFPS</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the maximum fps used for adaptive distance clipping.  <a href="#c701d72bb28b837c9aba6560b5ff0072"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#24b5f01457a4453c2c353086e2680e94">GetAdaptiveMinDistance</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#24b5f01457a4453c2c353086e2680e94">GetAdaptiveMinDistance</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum distance used for adaptive distance clipping.  <a href="#24b5f01457a4453c2c353086e2680e94"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0c7a4bdb265db3c57fb9ac1c9cf595dc">GetAdaptiveMinFPS</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0c7a4bdb265db3c57fb9ac1c9cf595dc">GetAdaptiveMinFPS</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the minimum fps used for adaptive distance clipping.  <a href="#0c7a4bdb265db3c57fb9ac1c9cf595dc"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#b78ef09e09cc2c03e0c8560921ecc2e2">GetCamera</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iCamera *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#b78ef09e09cc2c03e0c8560921ecc2e2">GetCamera</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the camera.  <a href="#b78ef09e09cc2c03e0c8560921ecc2e2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#a04779c151ea489fe8f046b7c1b646b8">GetClearScreen</a> () const =0</td></tr>
@@ -73,13 +72,13 @@ Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#264ed335bb9f38562cb9f10be704fb83">GetClearZBuffer</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the clear zbuffer flag.  <a href="#264ed335bb9f38562cb9f10be704fb83"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#f7a386dc347bba63a79cc0f53c671497">GetDrawFlags</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#f7a386dc347bba63a79cc0f53c671497">GetDrawFlags</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get camera drawing flags.  <a href="#f7a386dc347bba63a79cc0f53c671497"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0041a68464d819fc859febb39e14b847">GetFixedDistance</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0041a68464d819fc859febb39e14b847">GetFixedDistance</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the fixed distance (returns &lt; 0 if adaptive is used).  <a href="#0041a68464d819fc859febb39e14b847"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiView.html">iView</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#366442a0a6d366f7a6e69d7da85fc9a3">GetView</a> () const =0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual iView *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#366442a0a6d366f7a6e69d7da85fc9a3">GetView</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the view.  <a href="#366442a0a6d366f7a6e69d7da85fc9a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#c98cb5337f0ab6b454cf41abb2b7fdce">SetAutoDraw</a> (bool auto_draw)=0</td></tr>
@@ -91,10 +90,10 @@ Inheritance diagram for iPcCamera:<p><center><img src="structiPcCamera__inherit_
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#e4eb456aa5a4e4130ac5b623229eda2f">SetClearZBuffer</a> (bool flag)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set flag indicating if the camera should clear z-buffer every frame.  <a href="#e4eb456aa5a4e4130ac5b623229eda2f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#3bbe75cada613b1275dcdd82969c7363">SetRectangle</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> x, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> y, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> w, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> h)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#3bbe75cada613b1275dcdd82969c7363">SetRectangle</a> (int x, int y, int w, int h)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the view rectangle to use on screen.  <a href="#3bbe75cada613b1275dcdd82969c7363"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#4c06211ea06eace5391548d269bb3e21">SetRegion</a> (<a class="el" href="structiPcRegion.html">iPcRegion</a> *region, bool point=<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a>, const char *name=0)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#4c06211ea06eace5391548d269bb3e21">SetRegion</a> (<a class="el" href="structiPcRegion.html">iPcRegion</a> *region, bool point=true, const char *name=0)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set Camera to a Region.  <a href="#4c06211ea06eace5391548d269bb3e21"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcCamera.html#0d73d05fd1e708611e2a4f146712f3b5">SetZoneManager</a> (const char *entityname, bool point, const char *regionname, const char *name=0)=0</td></tr>
@@ -170,19 +169,19 @@ Implemented in <a class="el" href="structiPcNewCamera.html#6606a8da72c7af93984b4
         <tr>
           <td class="memname">virtual void iPcCamera::EnableAdaptiveDistanceClipping           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>min_fps</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>max_fps</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>min_dist</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -214,7 +213,7 @@ In this mode the clipping plane will vary depending on the desired minimum and m
         <tr>
           <td class="memname">virtual void iPcCamera::EnableFixedDistanceClipping           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>dist</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -239,7 +238,7 @@ In this mode there is a fixed plane at the specified distance. All geometry that
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCamera::GetAdaptiveMaxFPS           </td>
+          <td class="memname">virtual float iPcCamera::GetAdaptiveMaxFPS           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -260,7 +259,7 @@ Get the maximum fps used for adaptive distance clipping.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCamera::GetAdaptiveMinDistance           </td>
+          <td class="memname">virtual float iPcCamera::GetAdaptiveMinDistance           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -281,7 +280,7 @@ Get the minimum distance used for adaptive distance clipping.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCamera::GetAdaptiveMinFPS           </td>
+          <td class="memname">virtual float iPcCamera::GetAdaptiveMinFPS           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -302,7 +301,7 @@ Get the minimum fps used for adaptive distance clipping.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiCamera.html">iCamera</a>* iPcCamera::GetCamera           </td>
+          <td class="memname">virtual iCamera* iPcCamera::GetCamera           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -365,7 +364,7 @@ Get the clear zbuffer flag.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> iPcCamera::GetDrawFlags           </td>
+          <td class="memname">virtual int iPcCamera::GetDrawFlags           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -386,7 +385,7 @@ Get camera drawing flags.
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcCamera::GetFixedDistance           </td>
+          <td class="memname">virtual float iPcCamera::GetFixedDistance           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -407,7 +406,7 @@ Get the fixed distance (returns &lt; 0 if adaptive is used).
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiView.html">iView</a>* iPcCamera::GetView           </td>
+          <td class="memname">virtual iView* iPcCamera::GetView           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -511,25 +510,25 @@ Off by default unless the loaded map specifies this. <dl compact><dt><b>Paramete
         <tr>
           <td class="memname">virtual void iPcCamera::SetRectangle           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>y</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>w</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>h</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -569,7 +568,7 @@ Set the view rectangle to use on screen.
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>point</em> = <code><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structCrystalSpace_1_1COMPILE__ASSERT__FAILURE_3_01true_01_4.html">true</a></code>, </td>
+          <td class="paramname"> <em>point</em> = <code>true</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -719,7 +718,7 @@ Set Camera to a zone manager.
 <p>
 Update camera position. 
 <p>
-This method will update camera position without rendering (you will have to call <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiView.html#01c040b1dd37d8a0e195b61a53f0d3df">iView::Draw</a> manual later). 
+This method will update camera position without rendering (you will have to call iView::Draw manual later). 
 </div>
 </div><p>
 <a class="anchor" name="dc6b621187072bac9875304b6d48a719"></a><!-- doxytag: member="iPcCamera::UseDistanceClipping" ref="dc6b621187072bac9875304b6d48a719" args="() const =0" -->

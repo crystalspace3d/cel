@@ -11,7 +11,7 @@
 #include <propclass/inv.h>
 
 
-class BehaviourLayer : public scfImplementation1<BehaviourLayer, iCelBlLayer>
+class BehaviourLayer : public iCelBlLayer
 {
 private:
   iCelPlLayer* pl;
@@ -20,12 +20,13 @@ public:
   BehaviourLayer (iCelPlLayer* pl);
   virtual ~BehaviourLayer ();
 
+  SCF_DECLARE_IBASE;
+
   virtual const char* GetName () const { return "behaviourlayer"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 };
 
-class BehaviourCommon : public scfImplementation1<BehaviourCommon,
-  iCelBehaviour>
+class BehaviourCommon : public iCelBehaviour
 {
 protected:
   iCelEntity* entity;
@@ -46,6 +47,8 @@ public:
   virtual bool SendMessage (csStringID msg_id,
 	iCelPropertyClass* pc,
   	celData& ret, iCelParameterBlock* params, va_list arg);
+
+  SCF_DECLARE_IBASE;
 
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual bool SendMessage (const char* msg_id,

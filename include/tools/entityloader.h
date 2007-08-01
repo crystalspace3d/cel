@@ -27,6 +27,8 @@ struct iDocumentNode;
 struct iMeshWrapper;
 struct iCelEntity;
 
+SCF_VERSION (iEntityLoader, 0, 0, 1);
+
 /**
  * This interface allows one to access the celentity addon
  * with an easier interface. With this addon you can load
@@ -35,8 +37,6 @@ struct iCelEntity;
  */
 struct iEntityLoader : virtual public iBase
 {
-  SCF_INTERFACE (iEntityLoader, 0, 0, 1);
-
   /**
    * Load the entity from the document node.
    * If the optional mesh is given then a pcmesh is automatically

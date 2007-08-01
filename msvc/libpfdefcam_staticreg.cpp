@@ -21,17 +21,10 @@ static char const metainfo_pfdefcam[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.defaultcamera</name>"
 "        <implementation>celPfDefaultCamera</implementation>"
-"        <description>CEL Default Camera Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.camera.old</name>"
-"        <implementation>celPfDefaultCamera</implementation>"
-"        <description>CEL Default Camera Property Class Factory</description>"
+"	<description>CEL Default Camera Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfdefcam[] =
   #define celPfDefaultCamera_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfDefaultCamera) 
   #endif
-  #ifndef celPfDefaultCamera_FACTORY_REGISTER_DEFINED 
-  #define celPfDefaultCamera_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfDefaultCamera) 
-  #endif
 
 class pfdefcam
 {
 SCF_REGISTER_STATIC_LIBRARY(pfdefcam,metainfo_pfdefcam)
-  #ifndef celPfDefaultCamera_FACTORY_REGISTERED 
-  #define celPfDefaultCamera_FACTORY_REGISTERED 
-    celPfDefaultCamera_StaticInit celPfDefaultCamera_static_init__; 
-  #endif
   #ifndef celPfDefaultCamera_FACTORY_REGISTERED 
   #define celPfDefaultCamera_FACTORY_REGISTERED 
     celPfDefaultCamera_StaticInit celPfDefaultCamera_static_init__; 

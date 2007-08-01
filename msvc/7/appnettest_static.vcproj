@@ -30,7 +30,7 @@
 				BufferSecurityCheck="FALSE"
 				PreprocessorDefinitions="NDEBUG;PACKAGE_NAME=CEL;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\release7\build\appnettest_static\appnettest_static.pch"
 				AssemblerListingLocation="..\..\out\release7\build\appnettest_static\"
@@ -40,7 +40,6 @@
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -53,7 +52,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				OutputFile="..\..\nettest_static.exe"
 				SubSystem="2"
-				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc7.lib cg.lib cgGL.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d.lib cg.lib cgGL.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib version.lib libcrystalspace_staticplugins.lib libcrystalspace.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -80,7 +79,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;PACKAGE_NAME=CEL;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,10 +101,9 @@
 				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
-
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;PACKAGE_NAME=CEL;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions="/D CS_HAVE_CAL3D "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				PrecompiledHeaderFile="..\..\out\debug7\build\appnettest_static\appnettest_static.pch"
 				AssemblerListingLocation="..\..\out\debug7\build\appnettest_static\"
@@ -115,7 +113,6 @@
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
 				TreatWChar_tAsBuiltInType="false"
-				ForceConformanceInForLoopScope="true"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -126,7 +123,7 @@
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				OutputFile="..\..\nettest_static.exe"
 				SubSystem="1"
-				AdditionalOptions="libjpeg.lib libpng.lib cal3d-vc7_d.lib cg.lib cgGL.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
+				AdditionalOptions="libjpeg.lib libpng.lib cal3d_d.lib cg.lib cgGL.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib version.lib libcrystalspace_staticplugins_d.lib libcrystalspace_d.lib zlib.lib "
 				AdditionalDependencies="libcrystalspace_d.lib"
 				IgnoreImportLibrary="TRUE"
 				SuppressStartupBanner="TRUE"
@@ -153,7 +150,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;PACKAGE_NAME=CEL;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;_WINDOWS;PROJECTGEN_VERSION=7"
-				AdditionalIncludeDirectories=".;..\..\apps\nettest;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\csutil\win32"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

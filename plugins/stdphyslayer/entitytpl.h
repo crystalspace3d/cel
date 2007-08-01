@@ -31,8 +31,7 @@ class celPlLayer;
 struct ccfPropAct
 {
   csStringID id;
-  // If data.type == CEL_DATA_NONE then params will be used (action).
-  celData data;
+  celData data;	// If data.type == CEL_DATA_NONE then params will be used (action).
   csRef<iCelParameterBlock> params;
 };
 
@@ -42,8 +41,7 @@ struct ccfMessage
   csRef<iCelParameterBlock> params;
 };
 
-class celPropertyClassTemplate : public scfImplementation1<
-	celPropertyClassTemplate, iCelPropertyClassTemplate>
+class celPropertyClassTemplate : public iCelPropertyClassTemplate
 {
 private:
   csString name;
@@ -57,6 +55,8 @@ public:
   virtual ~celPropertyClassTemplate ();
 
   const csArray<ccfPropAct>& GetProperties () const { return properties; }
+
+  SCF_DECLARE_IBASE;
 
   virtual void SetName (const char* name)
   {
@@ -85,8 +85,7 @@ public:
 /**
  * Implementation of iCelEntityTemplate.
  */
-class celEntityTemplate : public scfImplementationExt1<
-	celEntityTemplate, csObject, iCelEntityTemplate>
+class celEntityTemplate : public csObject
 {
 private:
   csRefArray<celPropertyClassTemplate> propclasses;
@@ -98,31 +97,78 @@ public:
   celEntityTemplate ();
   virtual ~celEntityTemplate ();
 
-  virtual void AddClass (csStringID cls);
-  virtual void RemoveClass (csStringID cls);
-  virtual bool HasClass (csStringID cls);
-  virtual const csSet<csStringID>& GetClasses () const { return classes; }
+  void AddClass (csStringID cls);
+  void RemoveClass (csStringID cls);
+  bool HasClass (csStringID cls);
+  const csSet<csStringID>& GetClasses () const { return classes; }
 
   const csArray<ccfMessage>& GetMessages () const { return messages; }
 
-  virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
-  virtual void SetBehaviour (const char* layer, const char* behaviour)
+  iCelPropertyClassTemplate* CreatePropertyClassTemplate ();
+  void SetBehaviour (const char* layer, const char* behaviour)
   {
     celEntityTemplate::layer = layer;
     celEntityTemplate::behaviour = behaviour;
   }
-  virtual void AddMessage (const char* msgid, iCelParameterBlock* params);
-  virtual const char* GetBehaviourLayer () const { return layer; }
+  void AddMessage (const char* msgid, iCelParameterBlock* params);
   const char* GetLayer () const { return layer; }
-  virtual const char* GetBehaviour () const { return behaviour; }
+  const char* GetBehaviour () const { return behaviour; }
   const csRefArray<celPropertyClassTemplate> GetPropClasses () const
   {
     return propclasses;
   }
 
-  virtual iObject* QueryObject () { return this; }
-  virtual const char* GetName () const { return csObject::GetName (); }
-  virtual void SetName (const char* n) { csObject::SetName (n); }
+  SCF_DECLARE_IBASE_EXT (csObject);
+
+  //------------------- iCelEntityTemplate implementation --------------------
+  struct CelEntityTemplate : public iCelEntityTemplate
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celEntityTemplate);
+    celEntityTemplate* GetCelEntityTemplate () const
+    {
+      return (celEntityTemplate*)scfParent;
+    }
+    virtual iObject* QueryObject () { return scfParent; }
+    virtual const char* GetName () const { return scfParent->GetName (); }
+    virtual void SetName (const char* n) { scfParent->SetName (n); }
+    virtual iCelPropertyClassTemplate* CreatePropertyClassTemplate ()
+    {
+      return scfParent->CreatePropertyClassTemplate ();
+    }
+    virtual void SetBehaviour (const char* layer, const char* behaviour)
+    {
+      scfParent->SetBehaviour (layer, behaviour);
+    }
+    virtual const char* GetBehaviourLayer () const
+    {
+      return scfParent->GetLayer ();
+    }
+    virtual const char* GetBehaviour () const
+    {
+      return scfParent->GetBehaviour ();
+    }
+    virtual void AddMessage (const char* msgid, iCelParameterBlock* params)
+    {
+      scfParent->AddMessage (msgid, params);
+    }
+    virtual void AddClass (csStringID cls)
+    {
+      scfParent->AddClass (cls);
+    }
+    virtual void RemoveClass (csStringID cls)
+    {
+      scfParent->RemoveClass (cls);
+    }
+    virtual bool HasClass (csStringID cls)
+    {
+      return scfParent->HasClass (cls);
+    }
+    virtual const csSet<csStringID>& GetClasses () const
+    {
+      return scfParent->GetClasses ();
+    }
+  } scfiCelEntityTemplate;
+  friend struct CelEntityTemplate;
 };
 
 #endif // __CEL_PLIMP_ENTITYFACT__

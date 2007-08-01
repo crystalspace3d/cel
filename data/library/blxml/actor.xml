@@ -1,5 +1,10 @@
 <library>
   <addon plugin="cel.addons.xmlscripts">
+    <pcfactory> cel.pcfactory.defaultcamera </pcfactory>
+    <pcfactory> cel.pcfactory.pccommandinput </pcfactory>
+    <pcfactory> cel.pcfactory.actormove </pcfactory>
+    <pcfactory> cel.pcfactory.linmove </pcfactory>
+
     <script name="actor">
 
       <event name="init">
@@ -127,6 +132,7 @@
       </event>
 
       <event name="pccommandinput_jump1">
+        <sound name="jump" loop="false"/>
         <action propclass="pc(pcactormove)" id="actid(Jump)">
           <par id="parid(start)" value="true"/>
         </action>

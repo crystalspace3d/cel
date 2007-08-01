@@ -13,7 +13,7 @@ rule CelConfigGen
   
   for l in $(INSTALLEDLIBS) $(INSTALLEDLIBS_OPTIONAL)
   {
-    libbase = [ LibraryBaseName $(l) ] ;
+    libbase = $(l) ;
     libaddstrings += "    $(l)) \
 	addlib \"-l$(libbase)\" 	\
 	;;			\
@@ -21,7 +21,7 @@ rule CelConfigGen
     libdep = ;
     for d in $($(l)_depends)
     {
-      local depbase = [ LibraryBaseName $(d) ] ;
+      local depbase = $(d) ;
       libdep += -l$(depbase) ;
     }
     for e in $($(l).EXTERNALLIBS)
@@ -43,7 +43,7 @@ rule CelConfigGen
   for l in $(INSTALLEDLIBS) $(INSTALLEDLIBS_OPTIONAL)
   {
     # split this up since it seems impossible to escape \$
-    libbase = [ LibraryBaseName $(l) ] ;
+    libbase = $(l) ;
     libswitchcase += "   \"$(l)\"):
       libbase=$(libbase) ;;
 " ;

@@ -24,8 +24,11 @@
 
 //----------------------- NumRegLists --------------------------------------
 
-NumRegLists::NumRegLists(int limit, int freelistsize, int startsize) :
-  scfImplementationType (this)
+SCF_IMPLEMENT_IBASE(NumRegLists)
+  SCF_IMPLEMENTS_INTERFACE(iNumReg)
+SCF_IMPLEMENT_IBASE_END
+
+NumRegLists::NumRegLists(int limit, int freelistsize, int startsize)
 {
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
@@ -185,8 +188,11 @@ void NumRegLists::Clear()
 } 
 
 //------------------------ NumRegHash --------------------------------------
+SCF_IMPLEMENT_IBASE(NumRegHash)
+  SCF_IMPLEMENTS_INTERFACE(iNumReg)
+SCF_IMPLEMENT_IBASE_END
 
-NumRegHash::NumRegHash (int size) : scfImplementationType (this)
+NumRegHash::NumRegHash (int size)
 {
   current_id = 1;
   limit = size;
@@ -258,7 +264,7 @@ void* NumRegHash::Get (uint id)
   return reg.Get (id, 0);
 }
 
-size_t NumRegHash::GetSize ()
+size_t NumRegHash::Length ()
 {
   return reg.GetSize ();
 }
@@ -272,7 +278,7 @@ celIDRegistry::celIDRegistry () :
 
 celIDRegistry::~celIDRegistry ()
 {
-  for (size_t i = 0; i < regs.GetSize(); i++)
+  for (size_t i = 0; i < regs.Length(); i++)
     delete regs[i].numreg;
 
   regs.DeleteAll ();
@@ -280,7 +286,7 @@ celIDRegistry::~celIDRegistry ()
 
 size_t celIDRegistry::GetScopeOfID (uint id)
 {
-  for (size_t i = 0; i < regs.GetSize (); i++)
+  for (size_t i = 0; i < regs.Length (); i++)
   {
     if (regs[i].start < id && id < regs[i].end)
       return i;
@@ -291,7 +297,7 @@ size_t celIDRegistry::GetScopeOfID (uint id)
 
 size_t celIDRegistry::AddScope (csString impl, int size)
 {
-  size_t id = regs.GetSize ();
+  size_t id = regs.Length ();
   uint start;
 
   if (id == 0)
@@ -351,7 +357,7 @@ bool celIDRegistry::Remove (uint id)
 
 bool celIDRegistry::Remove (void* obj)
 {
-  for (size_t i = 0; i < regs.GetSize (); i++)
+  for (size_t i = 0; i < regs.Length (); i++)
   {
     if (regs[i].numreg->Remove (obj))
       return true;
@@ -362,7 +368,7 @@ bool celIDRegistry::Remove (void* obj)
 
 void celIDRegistry::Clear ()
 {
-  for (size_t i = 0; i < regs.GetSize (); i++)
+  for (size_t i = 0; i < regs.Length (); i++)
     regs[i].numreg->Clear();
 }
 

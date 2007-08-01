@@ -21,17 +21,10 @@ static char const metainfo_pfzone[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.zonemanager</name>"
 "        <implementation>celPfZoneManager</implementation>"
-"        <description>CEL Zone Manager Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.world.zonemanager</name>"
-"        <implementation>celPfZoneManager</implementation>"
-"        <description>CEL Zone Manager Property Class Factory</description>"
+"	<description>CEL Zone Manager Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfzone[] =
   #define celPfZoneManager_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfZoneManager) 
   #endif
-  #ifndef celPfZoneManager_FACTORY_REGISTER_DEFINED 
-  #define celPfZoneManager_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfZoneManager) 
-  #endif
 
 class pfzone
 {
 SCF_REGISTER_STATIC_LIBRARY(pfzone,metainfo_pfzone)
-  #ifndef celPfZoneManager_FACTORY_REGISTERED 
-  #define celPfZoneManager_FACTORY_REGISTERED 
-    celPfZoneManager_StaticInit celPfZoneManager_static_init__; 
-  #endif
   #ifndef celPfZoneManager_FACTORY_REGISTERED 
   #define celPfZoneManager_FACTORY_REGISTERED 
     celPfZoneManager_StaticInit celPfZoneManager_static_init__; 

@@ -35,6 +35,7 @@
 #include <imesh/sprite3d.h>
 #include <imesh/spritecal3d.h>
 
+#include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
 #include <iengine/movable.h>
@@ -70,7 +71,7 @@
 
 extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
-CEL_IMPLEMENT_FACTORY_ALT (LinearMovement, "pcmove.linear", "pclinearmovement")
+CEL_IMPLEMENT_FACTORY (LinearMovement, "pclinearmovement")
 
 csStringID celPcLinearMovement::id_body = csInvalidStringID;
 csStringID celPcLinearMovement::id_legs = csInvalidStringID;
@@ -148,7 +149,7 @@ celPcLinearMovement::celPcLinearMovement (iObjectRegistry* object_reg)
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
-    MoveReport (object_reg, "iEngine missing!");
+    MoveReport (object_reg, "Engine missing!");
     return;
   }
 
@@ -270,7 +271,7 @@ bool celPcLinearMovement::Load (iCelDataBuffer* databuf)
 {
   int seriallnr = databuf->GetSerialNumber ();
   if (seriallnr != LINMOVE_SERIAL)
-    return MoveReport (object_reg, "Can't load propertyclass pcmove.linear!");
+    return MoveReport (object_reg, "Can't load propertyclass pclinmove!");
 
   iCelPropertyClass* pc = databuf->GetPC ();
   csRef<iPcCollisionDetection> pccd;
@@ -366,7 +367,7 @@ bool celPcLinearMovement::SetPropertyIndexed (int idx, const char* b)
     iCelEntity* ent = pl->FindEntity (b);
     if (!ent)
       return MoveReport (object_reg,
-      	"Can't find entity '%s' for property 'anchor' in pcmove.linear!", b);
+      	"Can't find entity '%s' for property 'anchor' in pclinmove!", b);
     csRef<iPcMesh> m = CEL_QUERY_PROPCLASS_ENT (ent, iPcMesh);
     if (!m)
       return MoveReport (object_reg,
@@ -433,10 +434,10 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
       }
     case action_setposition:
       {
-        float yrotation = 0.0f;
         CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-        if (p_yrot)
-          yrotation = yrot;
+        if (!p_yrot)
+          return MoveReport (object_reg,
+          	"Missing parameter 'yrot' for action SetPosition!");
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
         if (!sector)
           return MoveReport (object_reg,
@@ -455,16 +456,12 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
           vpos.x = p_position->value.v.x;
           vpos.y = p_position->value.v.y;
           vpos.z = p_position->value.v.z;
-          SetPosition (vpos, yrotation, sect);
+          SetPosition (vpos, yrot, sect);
         }
         else if (p_position->type == CEL_DATA_STRING)
         {
           const char* cpos = p_position->value.s->GetData ();
-          if (!cpos)
-            return MoveReport (object_reg,
-            	"Can't find node '%s' for action SetPosition!",
-            	(const char*)cpos);
-          SetPosition (cpos, yrotation, sect);
+          SetPosition (cpos, yrot, sect);
         }
         else
           return MoveReport (object_reg,
@@ -547,8 +544,7 @@ static float GetAngle (float x, float y)
 
   float angle = acos (x);
   if (y < 0.0f)
-    //angle *= 1.0f;  // in range (-pi, pi)
-    angle = 2.0f * PI - angle;  // in range (0, 2pi)
+    angle = 2.0f * PI - angle;
 
   return angle;
 }
@@ -566,12 +562,7 @@ static float Matrix2YRot (const csMatrix3& mat)
 bool celPcLinearMovement::RotateV (float delta)
 {
   if (!pcmesh || !pcmesh->GetMesh ())
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-            "cel.pfmove.linear.rotatev",
-            "Linear movement: No Mesh found on entity!");
-    return false;
-  }
+    return MoveReport (object_reg, "Linmove: No Mesh found on entity!");
 
   // rotation
   if (angularVelocity < SMALL_EPSILON)
@@ -841,7 +832,7 @@ int celPcLinearMovement::MoveV (float delta)
       // Call callbacks
       if (!called)
       {
-        size_t i = gravityCallbacks.GetSize ();
+        size_t i = gravityCallbacks.Length ();
         while (i > 0)
         {
           i--;
@@ -865,7 +856,7 @@ int celPcLinearMovement::MoveV (float delta)
     if(velWorld.y < 0)
     {
       // Call callbacks
-      size_t i = gravityCallbacks.GetSize ();
+      size_t i = gravityCallbacks.Length ();
       while (i > 0)
       {
         i--;
@@ -1198,10 +1189,10 @@ bool celPcLinearMovement::InitCD (const csVector3& body, const csVector3& legs,
   if (!pc_cd)
   {
     csRef<iCelPropertyClass> pc;
-    pc = pl->CreatePropertyClass (entity, "pcobject.mesh.collisiondetection");
+    pc = pl->CreatePropertyClass (entity, "pccollisiondetection");
     if (!pc)
       return MoveReport (object_reg,
-      	"Could not create property class pcobject.mesh.collisiondetection.");
+      	"Could not create property class pccollisiondetection.");
     csRef<iPcCollisionDetection> pctemp;
     pctemp = scfQueryInterface<iPcCollisionDetection> (pc);
 
@@ -1278,66 +1269,52 @@ void celPcLinearMovement::SetPathAction (int which, const char *action)
 //#define DRDBG(X) printf ("DR: [ %f ] : %s\n", delta, X);
 #define DRDBG(x)
 
-iPcMesh* celPcLinearMovement::GetMesh ()
+void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
+	iSector*& sector)
 {
-  FindSiblingPropertyClasses ();
   if (!pcmesh || !pcmesh->GetMesh ())
   {
     MoveReport (object_reg, "No Mesh found on entity!");
-    return 0;
+    return;
   }
-  return pcmesh;
-}
-
-float celPcLinearMovement::GetYRotation ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return 0.0;
-  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
-    ->GetTransform ().GetT2O ();
-  return Matrix2YRot (transf);
-}
-const csVector3 celPcLinearMovement::GetPosition ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csVector3 ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
-}
-const csVector3 celPcLinearMovement::GetFullPosition ()
-{
-  // user will get a warning and a nothing if theres no mesh
-  if (!GetMesh ())  return csVector3 ();
-  return pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
-}
-
-void celPcLinearMovement::GetLastPosition (csVector3& pos, float& yrot,
-    iSector*& sector)
-{
-  if (!GetMesh ())  return;
 
   // Position
-  pos = GetPosition ();
+  pos = pcmesh->GetMesh ()->GetMovable ()->GetPosition ();
 
   // rotation
-  yrot = GetYRotation ();
+  const csMatrix3& transf = pcmesh->GetMesh ()->GetMovable ()
+  	->GetTransform ().GetT2O ();
+  yrot = Matrix2YRot (transf);
 
   // Sector
-  sector = GetSector ();
+  if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
+    sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  else
+    sector = 0;
 }
 
 void celPcLinearMovement::GetLastFullPosition (csVector3& pos, float& yrot,
-    iSector*& sector)
+	iSector*& sector)
 {
-  if (!GetMesh ())  return;
+  if (!pcmesh || !pcmesh->GetMesh ())
+  {
+    MoveReport (object_reg, "No Mesh found on entity!");
+    return;
+  }
 
   // Position
-  pos = GetFullPosition ();
+  pos = pcmesh->GetMesh ()->GetMovable ()->GetFullPosition ();
 
   // rotation
-  yrot = GetYRotation ();
+  csMatrix3 transf = pcmesh->GetMesh ()->GetMovable ()
+  	->GetFullTransform ().GetT2O ();
+  yrot = Matrix2YRot (transf);
 
   // Sector
-  sector = GetSector ();
+  if (pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->GetCount ())
+    sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  else
+    sector = 0;
 }
 
 void celPcLinearMovement::SetFullPosition (const csVector3& pos, float yrot,

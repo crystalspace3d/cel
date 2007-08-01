@@ -21,7 +21,6 @@
 #define __CEL_PLIMP_PROPCLASS__
 
 #include "csutil/refarr.h"
-#include "csutil/scf_implementation.h"
 #include "physicallayer/propclas.h"
 
 struct iCelEntity;
@@ -29,8 +28,7 @@ struct iCelEntity;
 /**
  * A list of property classes.
  */
-class celPropertyClassList : public scfImplementation1<
-	celPropertyClassList, iCelPropertyClassList>
+class celPropertyClassList : public iCelPropertyClassList
 {
 private:
   iCelEntity* parent_entity;
@@ -39,6 +37,8 @@ private:
 public:
   celPropertyClassList (iCelEntity* parent_entity);
   virtual ~celPropertyClassList ();
+
+  SCF_DECLARE_IBASE;
 
   virtual size_t GetCount () const;
   virtual iCelPropertyClass* Get (size_t n) const;

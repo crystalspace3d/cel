@@ -42,15 +42,13 @@ class csBox3;
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetMesh: parameters 'name' (string). This sets an already existing
- *   mesh for this pcmesh and sets property 'meshname'.
+ *   mesh for this pcmesh.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
  *   'filename' is optional. If not given then the factory should already
- *   be in memory and sets properties 'factory' and 'filename'.
+ *   be in memory.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
- *   and 'factoryname' (string) and sets properties 'factory', 'path'
- *   and 'filename'.
- * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3)
- *   or 'position' (string: represents name of the node),
+ *   and 'factoryname' (string).
+ * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3),
  *   'rotation' (vector3: optional. Represents an absolute rotation).
  *   If 'sector' is empty string then we will remove the mesh
  *   from all sectors. If 'sector' is not given then we simply move
@@ -62,9 +60,8 @@ class csBox3;
  * - SetMaterial: parameters 'material' (string).
  * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
  *   default false), and 'reset' (bool: default false).
- * - SetShaderVar: parameters 'name' (string), 'type' (string) and 'value'
- *   (type depending on type parameter). Supported types are:
- *   'float', 'long', 'vector3' and 'libexpr'.
+ * - SetShaderVar: parameters 'name' (string), 'type' (bool) and 'value'
+ *     (type depending on type parameter).
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),
@@ -74,9 +71,6 @@ class csBox3;
  *   as an entity with the optional tag specifying which pcmesh to use.
  *   If entity is not given then the current entity will be used.
  * - ClearParent: no parameters. Remove this mesh from its parent.
- * - AttachSocketMesh: parameters 'socket', 'factory' (string)
- *   or 'object' (string)
- * - DetachSocketMesh: parameters 'socket'
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -88,12 +82,11 @@ class csBox3;
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.
  * - filename (string, read): filename for model.
- * - meshname (string, read): mesh object name for model.
  * - hitbeam (bool, read/write): allow hitbeam for this mesh.
  */
 struct iPcMesh : public virtual iBase
 {
-  SCF_INTERFACE (iPcMesh, 0, 1, 0);
+  SCF_INTERFACE (iPcMesh, 0, 0, 3);
 
   /**
    * Set the path to use. If this is not done then the filename
@@ -149,7 +142,7 @@ struct iPcMesh : public virtual iBase
    * A nullmesh can be used in mesh hierarchies.
    */
   virtual void CreateNullMesh (const char* factname,
-  	const csBox3& box) = 0;
+      const csBox3& box) = 0;
 
   /**
    * Get the mesh.
@@ -164,19 +157,12 @@ struct iPcMesh : public virtual iBase
   virtual void MoveMesh (iSector* sector, const csVector3& pos) = 0;
 
   /**
-   * Convenience function to move the mesh to some sector and node
-   * and also update lighting.  If sector specified is 0, sector
-   * is not updated.
-   */
-  virtual void MoveMesh (iSector* sector, const char* node) = 0;
-
-  /**
    * Convenience function to set an 'action' for the mesh.
    * This only works for 3D sprites. For other mesh objects nothing
    * will happen.
    */
   CS_DEPRECATED_METHOD virtual void SetAction (const char* actionName,
-  	bool reset = false) = 0;
+      bool reset = false) = 0;
   /**
    * Return the current action name.
    */
@@ -195,8 +181,8 @@ struct iPcMesh : public virtual iBase
    * support the same feature set.
    */
   virtual void SetAnimation (const char* actionName, bool cycle,
-  	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
-  	bool reset = false) = 0;
+      float weight=1.0, float fadein=0.1, float fadeout=0.1,
+      bool reset = false) = 0;
 
   /**
    * Hide this mesh.
@@ -212,21 +198,6 @@ struct iPcMesh : public virtual iBase
    * Return true if mesh is visible.
    */
   virtual bool IsVisible () const = 0;
-
-  /**
-   * Attach mesh to a socket. Only one mesh per socket.
-   * Support for genmesh, cal3d and sprite3d.
-   * \param socket Name of the socket.
-   * \param factory Name of the loaded mesh factory.
-   */
-  virtual bool AttachSocketMesh (const char* socket,
-  	iMeshWrapper* meshwrapper) = 0;
-
-  /**
-   * Detach mesh from a socket.
-   * \param socket Name of the socket.
-   */
-  virtual bool DetachSocketMesh (const char* socket) = 0;
 };
 
 #endif // __CEL_PF_MESH__

@@ -35,8 +35,7 @@ class celEntityList;
 /**
  * A list of property classes.
  */
-class celEntityTracker : public scfImplementation1<
-	celEntityTracker, iCelEntityTracker>
+class celEntityTracker : public iCelEntityTracker
 {
 private:
   celPlLayer* pl;
@@ -62,6 +61,8 @@ public:
 
   void RegisterSector (celMeshcb* cb);
   void UnregisterSector (iSector* sector);
+
+  SCF_DECLARE_IBASE;
 
   // ---- For iCelEntityTracker -----------------------------------------
 

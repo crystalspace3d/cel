@@ -42,14 +42,26 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPersistClassic)
 
-celPersistClassic::celPersistClassic (iBase* parent) :
-  scfImplementationType (this, parent)
+SCF_IMPLEMENT_IBASE (celPersistClassic)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistence)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistClassic::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPersistClassic::celPersistClassic (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celPersistClassic::~celPersistClassic ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPersistClassic::Initialize (iObjectRegistry* object_reg)
@@ -661,7 +673,7 @@ bool celPersistClassic::Read (iCelEntity* entity, iCelPropertyClass*& pc)
     if (!pf)
       return Report ("Couldn't create property class '%s'!",
       	(const char*)pcname);
-    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass(pcname);
+    csRef<iCelPropertyClass> pcref (pf->CreatePropertyClass());
     pc = pcref;
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
@@ -777,7 +789,7 @@ bool celPersistClassic::ReadFirstPass (iCelEntity* entity)
     if (!pf)
       return Report ("Couldn't create property class '%s'!",
       	(const char*)pcname);
-    csRef<iCelPropertyClass> pc = pf->CreatePropertyClass(pcname);
+    csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
     entity->GetPropertyClassList ()->Add (pc);

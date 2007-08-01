@@ -64,8 +64,7 @@ struct CallbackInfo
 /**
  * Implementation of the physical layer.
  */
-class celPlLayer : public scfImplementation2<
-	celPlLayer, iCelPlLayer, iComponent>
+class celPlLayer : public iCelPlLayer
 {
 private:
   csRefArray<iCelPropertyClassFactory> pf_list;
@@ -74,7 +73,6 @@ private:
 
   csRefArray<iCelEntity> entities;
   csHash<iCelEntity*,csStringBase> entities_hash;
-  csHash<csRef<iCelEntityList>,csStringID> entityclasses_hash;
   bool entities_hash_dirty;
 
   csHash<csRef<celEntityTemplate>, csStringBase> entity_templates;
@@ -117,17 +115,16 @@ private:
   	const celEntityTemplateParams& params,
 	iCelEntity* ent, iCelEntityTemplate* factory);
 
-  // Used by CreatePropertyClass*() - makes a guess at propfact id
-  iCelPropertyClassFactory* FindOrLoadPropfact (const char *propname);
-
 public:
   celPlLayer (iBase* parent);
   virtual ~celPlLayer ();
-  virtual bool Initialize (iObjectRegistry* object_reg);
+  bool Initialize (iObjectRegistry* object_reg);
 
   bool HandleEvent (iEvent& ev);
 
   iEngine* GetEngine () const { return engine; }
+
+  SCF_DECLARE_IBASE;
 
   // For managing the names of entities (to find them faster).
   void RemoveEntityName (celEntity* ent);
@@ -146,7 +143,7 @@ public:
   void RemoveEntityIndex (size_t idx);
   virtual void RemoveEntities ();
   virtual iCelEntity* GetEntity (uint id);
-  virtual size_t GetEntityCount () const { return entities.GetSize (); }
+  virtual size_t GetEntityCount () const { return entities.Length (); }
   virtual iCelEntity* GetEntityByIndex (size_t idx) const
   { return entities[idx]; }
   virtual iCelBehaviour* GetBehaviour (uint id);
@@ -163,7 +160,7 @@ public:
   	const char* name, ...);
 
   virtual iCelPropertyClass* CreatePropertyClass (iCelEntity *entity,
-	  const char* propname, const char* tagname = 0);
+	  const char* propname);
   virtual iCelPropertyClass* CreateTaggedPropertyClass (iCelEntity *entity,
 	  const char* propname, const char* tagname);
   virtual csPtr<iCelDataBuffer> CreateDataBuffer (long serialnr);
@@ -190,8 +187,7 @@ public:
   { return allow_entity_addon; }
 
   virtual bool LoadPropertyClassFactory (const char* plugin_id);
-  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
-      const char* altname);
+  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf);
   virtual void UnregisterPropertyClassFactory (
   	iCelPropertyClassFactory* pf);
   virtual size_t GetPropertyClassFactoryCount () const;
@@ -231,32 +227,32 @@ public:
   virtual void RemoveCallbackOnce (iCelTimerListener* listener, int where);
 
   virtual int AddScope (csString impl, int size);
-
-  void EntityClassAdded(iCelEntity*,csStringID entclass);
-  void EntityClassRemoved(iCelEntity*,csStringID entclass);
-  virtual const csRef<iCelEntityList> GetClassEntitiesList (csStringID classid);
-
-  virtual int SendMessage (iCelEntityList *entlist, const char* msgname, 
-        iCelParameterBlock* params, ...);
-  virtual int SendMessageV (iCelEntityList *entlist, const char* msgname, 
-        iCelParameterBlock* params, va_list arg);
+  
+  struct Component : public iComponent
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPlLayer);
+    virtual bool Initialize (iObjectRegistry* p)
+    { return scfParent->Initialize (p); }
+  } scfiComponent;
 
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public scfImplementation1<
-	EventHandler, iEventHandler>
+  class EventHandler : public iEventHandler
   {
   private:
     celPlLayer* parent;
 
   public:
-    EventHandler (celPlLayer* parent) : scfImplementationType (this)
+    EventHandler (celPlLayer* parent)
     {
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler ()
     {
+      SCF_DESTRUCT_IBASE ();
     }
 
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
       return parent->HandleEvent (ev);

@@ -5,7 +5,6 @@
 from pycel import *
 
 class actor:
-	api_version = 2 # use new version of message callbacks.
 	# INITIALIZATION
 	def __init__(self,celEntity):
 		print "Initializing actor...",celEntity.Name
@@ -48,7 +47,7 @@ class actor:
 	# to certain events. 
 	
 	# pctimer wakeup callback
-	def pctimer_wakeup (self,pc,args):
+	def pctimer_wakeup (self,celentity,args):
 		pass
 		
 	# walk callbacks. note that for each bind defined in
@@ -56,88 +55,88 @@ class actor:
 	# pccommandinput_(bindcode)1     -> Key down event
 	# pccommandinput_(bindcode)0     -> Key release event
 	# pccommandinput_(bindcode)_     -> Key hold events
-	def pccommandinput_forward1(self,pc,args):
+	def pccommandinput_forward1(self,celentity,args):
 		meshobj = self.mesh.Mesh
 		self.actormove.MovingForward = True
-	def pccommandinput_forward0(self,pc,args):
+	def pccommandinput_forward0(self,celentity,args):
 		self.actormove.MovingForward = 0
-	def pccommandinput_forward_(self,pc,args):
+	def pccommandinput_forward_(self,celentity,args):
 		pass
-	def pccommandinput_backward1(self,pc,args):
+	def pccommandinput_backward1(self,celEntity,args):
 		self.actormove.MovingBackward = 1
-	def pccommandinput_backward0(self,pc,args):
+	def pccommandinput_backward0(self,celEntity,args):
 		self.actormove.MovingBackward = 0
-	def pccommandinput_backward_(self,pc,args):
+	def pccommandinput_backward_(self,celentity,args):
 		pass
 		
 	# ROTATE
-	def pccommandinput_rotateleft1(self,pc,args):
+	def pccommandinput_rotateleft1(self,celEntity,args):
 		self.actormove.RotatingLeft = 1
-	def pccommandinput_rotateleft0(self,pc,args):
+	def pccommandinput_rotateleft0(self,celEntity,args):
 		self.actormove.RotatingLeft = 0
-	def pccommandinput_rotateleft_(self,pc,args):
+	def pccommandinput_rotateleft_(self,celentity,args):
 		pass
-	def pccommandinput_rotateright1(self,pc,args):
+	def pccommandinput_rotateright1(self,celEntity,args):
 		self.actormove.RotatingRight = 1
-	def pccommandinput_rotateright0(self,pc,args):
+	def pccommandinput_rotateright0(self,celEntity,args):
 		self.actormove.RotatingRight = 0
-	def pccommandinput_rotateright_(self,pc,args):
+	def pccommandinput_rotateright_(self,celentity,args):
 		pass
 
 	# STRAFE
-	def pccommandinput_strafeleft1(self,pc,args):
+	def pccommandinput_strafeleft1(self,celEntity,args):
 		self.actormove.StrafingLeft = 1
 		if self.cal3dstate:
 			self.cal3dstate.SetAnimCycle("Strafeleft",1)
 
-	def pccommandinput_strafeleft0(self,pc,args):
+	def pccommandinput_strafeleft0(self,celEntity,args):
 		self.actormove.StrafingLeft = 0
-	def pccommandinput_straferight1(self,pc,args):
+	def pccommandinput_straferight1(self,celEntity,args):
 		self.actormove.StrafingRight = 1
 		if self.cal3dstate:
 			self.cal3dstate.SetAnimCycle("Straferight",1)	
-	def pccommandinput_straferight0(self,pc,args):
+	def pccommandinput_straferight0(self,celEntity,args):
 		self.actormove.StrafingRight = 0
 
 	# LOOK UP AND DOWN
-	def pccommandinput_lookup1(self,pc,args):
+	def pccommandinput_lookup1(self,celEntity,args):
 		self.camera.PitchVelocity = 1.0
 
-	def pccommandinput_lookup0(self,pc,args):
+	def pccommandinput_lookup0(self,celEntity,args):
 		self.camera.PitchVelocity = 0.0
 
-	def pccommandinput_lookdown1(self,pc,args):
+	def pccommandinput_lookdown1(self,celEntity,args):
 		self.camera.PitchVelocity = -1.0
 
-	def pccommandinput_lookdown0(self,pc,args):
+	def pccommandinput_lookdown0(self,celEntity,args):
 		self.camera.PitchVelocity = 0.0
 
 	# JUMP
-	def pccommandinput_jump1(self,pc,args):
+	def pccommandinput_jump1(self,celEntity,args):
 		if self.cal3dstate:
 			self.cal3dstate.SetAnimAction("Jump",0.1,0.2)
 		self.actormove.Jump()
-	def pccommandinput_jump0(self,pc,args):
+	def pccommandinput_jump0(self,celEntity,args):
 		pass
 
 	# RUN
-	def pccommandinput_run1(self,pc,args):
+	def pccommandinput_run1(self,celEntity,args):
 		self.actormove.Running = True
 
-	def pccommandinput_run0(self,pc,args):
+	def pccommandinput_run0(self,celEntity,args):
 		self.actormove.Running = False
 
 	# CAMERA MODES
-	def pccommandinput_cammode1(self,pc,args):
+	def pccommandinput_cammode1(self,celEntity,args):
 		self.camera.Mode = self.camera.GetNextMode ()
 
 	# TRIGGER CALLBACKS
 	# you will receive this callbacks when the entity enters
 	# or leaves triggers.
-	def pctrigger_entertrigger(self,pc,args):
+	def pctrigger_entertrigger(self,celEntity,args):
 		pass
-	def pctrigger_leavetrigger(self,pc,args):
+	def pctrigger_leavetrigger(self,celEntity,args):
 		pass
-	def pclinearmovement_collision(self,pc,args):
+	def pclinearmovement_collision(self,celEntity,args):
 		pass
 

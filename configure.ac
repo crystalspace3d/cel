@@ -7,9 +7,7 @@ AC_PREREQ([2.54])
 #----------------------------------------------------------------------------
 # Initialize autoconf.
 #----------------------------------------------------------------------------
-# Don't forget to update include/celversion.h, docs/texinfo/version.txi
-# and mk/autoconf/cel.m4 when changing this version number.
-AC_INIT([cel], [1.3], [cel-main@lists.sourceforge.net])
+AC_INIT([cel], [1.0.2], [cel-main@lists.sourceforge.net])
 CS_PACKAGEINFO([Crystal Entity Layer],
     [Copyright (C)2002-2007 Jorrit Tyberghein and others.],
     [http://cel.crystalspace3d.org/])
@@ -29,7 +27,6 @@ CS_CHECK_COMMON_TOOLS_LINK
 CS_CHECK_COMMON_TOOLS_BASIC
 CS_CHECK_COMMON_TOOLS_DOC_TEXINFO
 CS_CHECK_COMMON_TOOLS_DOC_DOXYGEN
-CS_CHECK_COMMON_TOOLS_ICONS
 
 CS_CHECK_PROGS([PERL], [perl5 perl])
 CS_EMIT_BUILD_PROPERTY([PERL], [$PERL])
@@ -193,7 +190,7 @@ AS_IF([test $cs_cv_prog_cxx_visibility_inlines_hidden_buggy != yes],
 # Check for external libraries.
 #----------------------------------------------------------------------------
 CS_CHECK_CSWIN32LIBS
-CS_CHECK_PYTHON([])
+CS_CHECK_PYTHON([emit])
 CS_CHECK_CPPUNIT([emit])
 CS_CHECK_PTHREAD([cygwin*])
 
@@ -226,7 +223,7 @@ AS_IF([test -z "$with_cs"], [with_cs=yes])
 AS_IF([test $with_cs != no],
     [AS_IF([test $cs_cv_python != no],
 	[cs_opt_libs="crystalspace_python"], [cs_opt_libs=''])
-    CS_PATH_CRYSTAL_EMIT([1.1], [],
+    CS_PATH_CRYSTAL_EMIT([1.0], [],
 	[AC_MSG_ERROR([
 *** Crystal Space could not be found or was unusable. The latest version is
 *** always available from http://www.crystalspace3d.org/

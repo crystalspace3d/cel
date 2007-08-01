@@ -27,18 +27,18 @@
  * MyName as Factory Name.
  */
 #define CEL_DECLARE_FACTORY(name)					    \
-class celPf##name : public scfImplementation2<celPf##name,		    \
-  iCelPropertyClassFactory, iComponent>					    \
+class celPf##name : public iCelPropertyClassFactory, public iComponent	    \
 {									    \
 private:								    \
   iObjectRegistry* object_reg;						    \
 									    \
 public:									    \
-  celPf##name (iBase* parent) : scfImplementationType (this, parent) { }    \
-  virtual ~celPf##name () { }						    \
+  celPf##name (iBase* parent);						    \
+  virtual ~celPf##name ();						    \
   bool Initialize (iObjectRegistry* object_reg);			    \
+  SCF_DECLARE_IBASE;							    \
   virtual const char* GetName() const;					    \
-  virtual csPtr<iCelPropertyClass> CreatePropertyClass (const char* name);  \
+  virtual csPtr<iCelPropertyClass> CreatePropertyClass ();		    \
 };
 
 /** 
@@ -51,48 +51,34 @@ public:									    \
  */
 #define CEL_IMPLEMENT_FACTORY(name, strname)				    \
 SCF_IMPLEMENT_FACTORY (celPf##name)					    \
+SCF_IMPLEMENT_IBASE (celPf##name)					    \
+  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassFactory)			    \
+  SCF_IMPLEMENTS_INTERFACE (iComponent)					    \
+SCF_IMPLEMENT_IBASE_END							    \
+celPf##name::celPf##name (iBase *parent)				    \
+{									    \
+  SCF_CONSTRUCT_IBASE (parent);						    \
+}									    \
+celPf##name::~celPf##name()						    \
+{									    \
+  SCF_DESTRUCT_IBASE ();						    \
+}									    \
 bool celPf##name::Initialize (iObjectRegistry* object_reg)		    \
 {									    \
   celPf##name::object_reg = object_reg;					    \
   csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);	    \
   if (!pl) return false;						    \
-  pl->RegisterPropertyClassFactory(this, 0);				    \
+  pl->RegisterPropertyClassFactory(this);				    \
   return true;								    \
 }									    \
 const char* celPf##name::GetName() const				    \
 {									    \
   return strname;							    \
 }									    \
-csPtr<iCelPropertyClass> celPf##name::CreatePropertyClass(const char* name) \
+csPtr<iCelPropertyClass> celPf##name::CreatePropertyClass()		    \
 {									    \
-  iCelPropertyClass* pc = new celPc##name (object_reg);	    		    \
-  pc->SetName (name); 							    \
-  return csPtr<iCelPropertyClass> (pc); 				    \
-}									    \
-
-/**
- * This macro is a temporary hack! It allows us to remain backwards
- * compatible with old propclass names.
- */
-#define CEL_IMPLEMENT_FACTORY_ALT(name, strname, altname)		    \
-SCF_IMPLEMENT_FACTORY (celPf##name)					    \
-bool celPf##name::Initialize (iObjectRegistry* object_reg)		    \
-{									    \
-  celPf##name::object_reg = object_reg;					    \
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);	    \
-  if (!pl) return false;						    \
-  pl->RegisterPropertyClassFactory(this, altname);			    \
-  return true;								    \
-}									    \
-const char* celPf##name::GetName() const				    \
-{									    \
-  return strname;							    \
-}									    \
-csPtr<iCelPropertyClass> celPf##name::CreatePropertyClass(const char* name) \
-{									    \
-  iCelPropertyClass* pc = new celPc##name (object_reg);	  		    \
-  pc->SetName (name); 							    \
-  return csPtr<iCelPropertyClass> (pc); 				    \
+  return csPtr<iCelPropertyClass> (new celPc##name (object_reg));	    \
 }									    \
 
 #endif
+

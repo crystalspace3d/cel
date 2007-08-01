@@ -21,17 +21,10 @@ static char const metainfo_pfsimpcam[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.simplecamera</name>"
 "        <implementation>celPfSimpleCamera</implementation>"
-"        <description>CEL Simple Camera Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.camera.simple</name>"
-"        <implementation>celPfSimpleCamera</implementation>"
-"        <description>CEL Simple Camera Property Class Factory</description>"
+"	<description>CEL Simple Camera Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfsimpcam[] =
   #define celPfSimpleCamera_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSimpleCamera) 
   #endif
-  #ifndef celPfSimpleCamera_FACTORY_REGISTER_DEFINED 
-  #define celPfSimpleCamera_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfSimpleCamera) 
-  #endif
 
 class pfsimpcam
 {
 SCF_REGISTER_STATIC_LIBRARY(pfsimpcam,metainfo_pfsimpcam)
-  #ifndef celPfSimpleCamera_FACTORY_REGISTERED 
-  #define celPfSimpleCamera_FACTORY_REGISTERED 
-    celPfSimpleCamera_StaticInit celPfSimpleCamera_static_init__; 
-  #endif
   #ifndef celPfSimpleCamera_FACTORY_REGISTERED 
   #define celPfSimpleCamera_FACTORY_REGISTERED 
     celPfSimpleCamera_StaticInit celPfSimpleCamera_static_init__; 

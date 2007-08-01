@@ -23,25 +23,23 @@
 #include "csutil/scf.h"
 
 /**
- * This interface is used for ID -> iCelEntity* registers in the physical 
+ *  This interface is used for ID -> iCelEntity* registers in the physical 
  * layer.
  *
- * Currently, two implementations are available:
- * - cel.numreg.lists (using arrays)
- *   This version is more effective if you don't care of the IDs used and if
+ *  Currently, two implementations are available:
+ *   - cel.numreg.lists (using arrays)
+ *    This version is more effective if you don't care of the IDs used and if
  *   all the ID will be contiguous. This is usually the case of a server or
  *   a single app.
- * - cel.numreg.hash (using hashs)
- *   This version is more effective if you want to allow any kind of ID used.
+ *   - cel.numreg.hash (using hashs)
+ *    This version is more effective if you want to allow any kind of ID used.
  *   This is usually the case of client apps.
  *
  * You can choose between these two implementations with the
  * iCelPlLayer::ChangeNumReg function.
  */
-struct iNumReg : public virtual iBase
+struct iNumReg : public iBase
 {
-  SCF_INTERFACE(iNumReg, 0, 0, 1);
-
   /**
    *  Registers an object in the registry and returns the new ID, in error
    * case ID 0 is returned
@@ -81,7 +79,9 @@ struct iNumReg : public virtual iBase
    * registry). It is the size of array if you use array implementation, the 
    * size of the hash otherwise.
    */
-  virtual size_t GetSize() = 0;
+  virtual size_t Length() = 0;
 };
+
+SCF_VERSION(iNumReg, 0, 0, 1);
 
 #endif

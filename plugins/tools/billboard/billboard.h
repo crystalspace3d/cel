@@ -54,16 +54,16 @@ class celBillboardManager;
  * A layer for the billboard manager. Several billboards can
  * be in one layer. You can move layers independently.
  */
-class celBillboardLayer : public scfImplementation1<
-	celBillboardLayer, iBillboardLayer>
+class celBillboardLayer : public iBillboardLayer
 {
 public:
   int bb_layer_x, bb_layer_y;
   char* name;
 
 public:
-  celBillboardLayer (const char* name) : scfImplementationType (this)
+  celBillboardLayer (const char* name)
   {
+    SCF_CONSTRUCT_IBASE (0);
     bb_layer_x = 0;
     bb_layer_y = 0;
     celBillboardLayer::name = csStrNew (name);
@@ -72,7 +72,10 @@ public:
   virtual ~celBillboardLayer ()
   {
     delete[] name;
+    SCF_DESTRUCT_IBASE ();
   }
+
+  SCF_DECLARE_IBASE;
 
   virtual void GetOffset (int& x, int& y) const
   {
@@ -98,8 +101,7 @@ public:
 /**
  * A billboard.
  */
-class celBillboard : public scfImplementation1<
-	celBillboard, iBillboard>
+class celBillboard : public iBillboard
 {
   friend class celBillboardManager;
 
@@ -188,6 +190,8 @@ public:
   bool UseTextFgColor () const { return do_fg_color; }
   bool UseTextBgColor () const { return do_bg_color; }
 
+  SCF_DECLARE_IBASE;
+
   virtual const char* GetName () const { return name; }
   virtual csFlags& GetFlags () { return flags; }
   virtual bool SetMaterialName (const char* matname);
@@ -252,8 +256,7 @@ public:
 /**
  * This is a manager for billboards.
  */
-class celBillboardManager : public scfImplementation2<
-	celBillboardManager, iBillboardManager, iComponent>
+class celBillboardManager : public iBillboardManager
 {
 private:
   iObjectRegistry* object_reg;
@@ -301,8 +304,6 @@ private:
   int default_fg_color;
   int default_bg_color;
 
-  csEventID CanvasResize;
-
 public:
   csRef<iEngine> engine;
 
@@ -327,11 +328,13 @@ public:
 public:
   celBillboardManager (iBase* parent);
   virtual ~celBillboardManager ();
-  virtual bool Initialize (iObjectRegistry* object_reg);
+  bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
 
   iFont* GetDefaultFont () const { return default_font; }
   iGraphics3D* GetGraphics3D () const { return g3d; }
+
+  SCF_DECLARE_IBASE;
 
   virtual int ScreenToBillboardX (int x) const { return x * screen_w_fact; }
   virtual int ScreenToBillboardY (int y) const { return y * screen_h_fact; }
@@ -341,14 +344,14 @@ public:
   virtual iBillboard* CreateBillboard (const char* name);
   virtual iBillboard* FindBillboard (const char* name) const;
   virtual void RemoveBillboard (iBillboard* billboard);
-  virtual size_t GetBillboardCount () const { return billboards.GetSize (); }
+  virtual size_t GetBillboardCount () const { return billboards.Length (); }
   virtual iBillboard* GetBillboard (size_t idx) const
   { return billboards[idx]; }
 
   virtual iBillboardLayer* CreateBillboardLayer (const char* name);
   virtual iBillboardLayer* FindBillboardLayer (const char* name) const;
   virtual void RemoveBillboardLayer (iBillboardLayer* layer);
-  virtual size_t GetBillboardLayerCount () const { return layers.GetSize (); }
+  virtual size_t GetBillboardLayerCount () const { return layers.Length (); }
   virtual iBillboardLayer* GetBillboardLayer (size_t idx) const
   { return layers[idx]; }
 
@@ -377,22 +380,31 @@ public:
   csMeshOnTexture* GetMeshOnTexture ();
   virtual iSector* GetShowroom ();
 
+  struct Component : public iComponent
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celBillboardManager);
+    virtual bool Initialize (iObjectRegistry* p)
+    { return scfParent->Initialize (p); }
+  } scfiComponent;
+
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public scfImplementation1<
-	EventHandler, iEventHandler>
+  class EventHandler : public iEventHandler
   {
   private:
     celBillboardManager* parent;
 
   public:
-    EventHandler (celBillboardManager* parent) : scfImplementationType (this)
+    EventHandler (celBillboardManager* parent)
     {
+      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler ()
     {
+      SCF_DESTRUCT_IBASE ();
     }
 
+    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
       return parent->HandleEvent (ev);

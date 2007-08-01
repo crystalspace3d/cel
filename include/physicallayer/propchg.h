@@ -25,14 +25,14 @@
 
 struct iCelPropertyClass;
 
+SCF_VERSION (iCelPropertyChangeCallback, 0, 0, 1);
+
 /**
  * This is a callback that is called whenever a property
  * changes for some property class.
  */
-struct iCelPropertyChangeCallback : public virtual iBase
+struct iCelPropertyChangeCallback : public iBase
 {
-  SCF_INTERFACE (iCelPropertyChangeCallback, 0, 0, 1);
-
   /**
    * This function will be called when a property changes.
    * 'propertyId' is a local id (local to the property class)

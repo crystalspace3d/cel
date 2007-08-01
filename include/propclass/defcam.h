@@ -24,6 +24,8 @@
 
 struct iCelEntity;
 
+SCF_VERSION (iPcDefaultCamera, 0, 0, 3);
+
 /**
  * This is a property class that wraps a standard first-person and
  * third-person camera and related functionality. It depends on either iPcMesh
@@ -35,15 +37,11 @@ struct iCelEntity;
  * - SetCamera: parameters 'modename' (string), 'spring' (vector3),
  *   'turnspeed' (float), 'swingcoef' (float), 'fpoffset' (vector3),
  *   'tpoffset' (vector3), 'pitch' (float), 'pitchvelocity' (float),
- *   'yaw' (float), 'yawvelocity' (float) and 'distance'
- *   (vector3=minimal, default, maximal).
+ *   'yaw' (float), 'yawvelocity' (float) and 'distance' (vector3=min,def,max).
  * - SetZoneManager: parameters 'entity' (string), 'region' (string)
  *   and 'start' (string).
- * - SetFollowEntity: parameters 'entity' (string).
  * - CenterCamera: no parameters.
- * - PointCamera: parameters 'start' (map start name).
- * - SetRectangle: parameters 'x' (long), 'y' (long), 'w' (long), 'h' (long).
- * - SetPerspectiveCenter: parameters 'x' (float), 'y' (float).
+ * - PointCamera: parameters 'start'.
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -54,10 +52,9 @@ struct iCelEntity;
  * - yaw (float, read/write): yaw.
  * - distance (float, read/write): distance (zoom).
  */
-struct iPcDefaultCamera : public virtual iPcCamera
+struct iPcDefaultCamera : public iPcCamera
 {
-  SCF_INTERFACE (iPcDefaultCamera, 0, 0, 3);
-
+public:
   /**
    * Camera modes
    */

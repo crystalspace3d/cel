@@ -26,6 +26,7 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -40,13 +41,22 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Tooltip, "pc2d.tooltip", "pctooltip")
+CEL_IMPLEMENT_FACTORY (Tooltip, "pctooltip")
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE_EXT (celPcTooltip)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTooltip)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTooltip::PcTooltip)
+  SCF_IMPLEMENTS_INTERFACE (iPcTooltip)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+	: celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
   visible = false;
   text_r = 0;
   text_g = 0;
@@ -64,6 +74,7 @@ celPcTooltip::celPcTooltip (iObjectRegistry* object_reg)
 
 celPcTooltip::~celPcTooltip ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTooltip);
 }
 
 #define TOOLTIP_SERIAL 1

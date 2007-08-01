@@ -19,17 +19,27 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "plugins/stdphyslayer/entity.h"
 #include "plugins/stdphyslayer/propclas.h"
 #include "behaviourlayer/behave.h"
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE_EXT (celEntity)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelEntity)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celEntity::CelEntity)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntity)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 CS_LEAKGUARD_IMPLEMENT (celEntity);
 
-celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
+celEntity::celEntity (celPlLayer* pl)
 {
-  plist = new celPropertyClassList (this);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelEntity);
+  plist = new celPropertyClassList (&scfiCelEntity);
   behaviour = 0;
   celEntity::pl = pl;
   entity_ID = 0;
@@ -38,6 +48,8 @@ celEntity::celEntity (celPlLayer* pl) : scfImplementationType (this)
 celEntity::~celEntity ()
 {
   delete plist;
+
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelEntity);
 }
 
 void celEntity::SetBehaviour (iCelBehaviour* newbehaviour)
@@ -52,7 +64,7 @@ iCelPropertyClassList* celEntity::GetPropertyClassList ()
 
 void celEntity::SetName (const char *name)
 {
-  if (csObject::GetName ()) pl->RemoveEntityName (this);
+  if (GetName ()) pl->RemoveEntityName (this);
   csObject::SetName (name);
   if (name) pl->AddEntityName (this);
 }
@@ -69,19 +81,12 @@ void celEntity::NotifySiblingPropertyClasses ()
 
 void celEntity::AddClass (csStringID cls)
 {
-  if (!classes.Contains(cls))
-  {
-    classes.AddNoTest (cls);
-    pl->EntityClassAdded(this,cls);
-  }
+  classes.Add (cls);
 }
 
 void celEntity::RemoveClass (csStringID cls)
 {
-  if (classes.Delete (cls))
-  {
-    pl->EntityClassRemoved(this,cls);
-  }
+  classes.Delete (cls);
 }
 
 bool celEntity::HasClass (csStringID cls)
@@ -91,23 +96,29 @@ bool celEntity::HasClass (csStringID cls)
 
 //---------------------------------------------------------------------------
 
-celEntityList::celEntityList () : scfImplementationType (this)
+SCF_IMPLEMENT_IBASE (celEntityList)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntityList)
+SCF_IMPLEMENT_IBASE_END
+
+celEntityList::celEntityList ()
 {
+  SCF_CONSTRUCT_IBASE (0);
 }
 
 celEntityList::~celEntityList ()
 {
   RemoveAll ();
+  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celEntityList::GetCount () const
 {
-  return entities.GetSize ();
+  return entities.Length ();
 }
 
 iCelEntity* celEntityList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.GetSize ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < entities.Length ());
   return entities[n];
 }
 
@@ -137,7 +148,7 @@ bool celEntityList::Remove (size_t n)
 
 void celEntityList::RemoveAll ()
 {
-  while (entities.GetSize () > 0)
+  while (entities.Length () > 0)
     Remove ((size_t) 0);
 }
 
@@ -149,7 +160,7 @@ size_t celEntityList::Find (iCelEntity* obj) const
 iCelEntity* celEntityList::FindByName (const char *Name) const
 {
   size_t i;
-  for (i = 0 ; i < entities.GetSize () ; i++)
+  for (i = 0 ; i < entities.Length () ; i++)
   {
     iCelEntity* ent = entities[i];
     if (!strcmp (ent->GetName (), Name)) return ent;

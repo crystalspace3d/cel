@@ -21,6 +21,7 @@
 #include "csgeom/math3d.h"
 #include "csutil/util.h"
 #include "csutil/weakref.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iengine/engine.h"
 #include "iengine/mesh.h"
@@ -35,8 +36,7 @@
 
 //---------------------------------------------------------------------------
 
-class celMeshcb : public scfImplementation1<
-	celMeshcb, iSectorMeshCallback>
+class celMeshcb : public iSectorMeshCallback
 {
 private:
   iSector* sector;
@@ -46,13 +46,14 @@ private:
 
 public:
   celMeshcb (celEntityTracker* tracker, iSector* sector)
-    : scfImplementationType (this)
   {
+    SCF_CONSTRUCT_IBASE (0);
     celMeshcb::tracker = tracker;
     celMeshcb::sector = sector;
   }
   virtual ~celMeshcb ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
 
   iSector* GetSector () const { return sector; }
@@ -82,6 +83,8 @@ public:
       }
     }
   }
+
+  SCF_DECLARE_IBASE;
 
   virtual void NewMesh (iSector* sector, iMeshWrapper* mesh)
   {
@@ -122,22 +125,29 @@ public:
   }
 };
 
+SCF_IMPLEMENT_IBASE (celMeshcb)
+  SCF_IMPLEMENTS_INTERFACE (iSectorMeshCallback)
+SCF_IMPLEMENT_IBASE_END
+
 //---------------------------------------------------------------------------
 
-class celSectorcb : public scfImplementation1<
-	celSectorcb, iEngineSectorCallback>
+class celSectorcb : public iEngineSectorCallback
 {
 private:
   celEntityTracker* tracker;
 
 public:
-  celSectorcb (celEntityTracker* tracker) : scfImplementationType (this)
+  celSectorcb (celEntityTracker* tracker)
   {
+    SCF_CONSTRUCT_IBASE (0);
     celSectorcb::tracker = tracker;
   }
   virtual ~celSectorcb ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
+
+  SCF_DECLARE_IBASE;
 
   virtual void NewSector (iEngine*, iSector* sector)
   {
@@ -153,11 +163,19 @@ public:
   }
 };
 
+SCF_IMPLEMENT_IBASE (celSectorcb)
+  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
+SCF_IMPLEMENT_IBASE_END
+
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celEntityTracker)
+  SCF_IMPLEMENTS_INTERFACE (iCelEntityTracker)
+SCF_IMPLEMENT_IBASE_END
+
 celEntityTracker::celEntityTracker (celPlLayer* pl, const char* name)
-  : scfImplementationType (this)
 {
+  SCF_CONSTRUCT_IBASE (0);
   celEntityTracker::pl = pl;
   celEntityTracker::name = csStrNew (name);
   sector_cb.AttachNew (new celSectorcb (this));
@@ -182,11 +200,12 @@ celEntityTracker::~celEntityTracker ()
 {
   if (pl->GetEngine ())
     pl->GetEngine ()->RemoveEngineSectorCallback (sector_cb);
-  while (mesh_cbs.GetSize () > 0)
+  while (mesh_cbs.Length () > 0)
   {
     mesh_cbs[0]->GetSector ()->RemoveSectorMeshCallback (mesh_cbs[0]);
     mesh_cbs.DeleteIndex (0);
   }
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celEntityTracker::AddEntity (iCelEntity* entity)
@@ -261,7 +280,7 @@ void celEntityTracker::FindNearbyEntities (celEntityList* list,
 	  {
 	    bool already_visited = false;
 	    size_t l;
-            for (l = 0 ; l < visited_sectors.GetSize () ; l++)
+            for (l = 0 ; l < visited_sectors.Length () ; l++)
             {
               if (visited_sectors[l] == portal->GetSector ())
               {
@@ -336,7 +355,7 @@ void celEntityTracker::RegisterSector (celMeshcb* cb)
 
 void celEntityTracker::UnregisterSector (iSector* sector)
 {
-  size_t i = mesh_cbs.GetSize ();
+  size_t i = mesh_cbs.Length ();
   while (i > 0)
   {
     i--;

@@ -17,8 +17,6 @@
 */
 
 #include "celtool/initapp.h"
-#include "celversion.h"
-
 #include <csutil/syspath.h>
 #include "iutil/cfgmgr.h"
 
@@ -34,24 +32,18 @@
 // can be quite costly to recurse over the entire tree.
 #define CEL_PLUGIN_SCAN_RECURSE false
 
-#define VERSION_STR             CEL_VERSION_MAJOR "_" CEL_VERSION_MINOR
-#define VERSION_STR_DOTTED      CEL_VERSION_MAJOR "." CEL_VERSION_MINOR
-
-#define CEL_PACKAGE_NAME        "cel"
-#define CEL_PACKAGE_NAME_VER    CEL_PACKAGE_NAME "-" VERSION_STR_DOTTED
-
 // These defines should be set by the configure script
 #ifndef CEL_CONFIGDIR
 #ifdef CS_COMPILER_GCC
 #warning CEL_CONFIGDIR not set
 #endif
-#define CEL_CONFIGDIR "/usr/local/" CEL_PACKAGE_NAME_VER
+#define CEL_CONFIGDIR "/usr/local/" CS_PACKAGE_NAME
 #endif
 #ifndef CEL_PLUGINDIR
 #ifdef CEL_COMPILER_GCC
 #warning CEL_PLUGINDIR not set
 #endif
-#define CEL_PLUGINDIR "/usr/local/" CEL_PACKAGE_NAME_VER "/lib"
+#define CEL_PLUGINDIR "/usr/local/" CS_PACKAGE_NAME "/lib"
 #endif
 
 
@@ -63,9 +55,7 @@ void celInitializer::setup_plugin_dirs(iObjectRegistry* r, char const* dir0)
   if (!done)
   {
     csPathsList cel_paths;
-    csString cel_env (getenv ("CEL_" VERSION_STR));
-    if (cel_env.IsEmpty())
-      cel_env = getenv ("CEL");
+    csString cel_env (getenv ("CEL"));
     if (!cel_env.IsEmpty())
     {
       static const char* const celDirs[] = {
@@ -135,9 +125,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   if (cel_config_done) return true;
   // find and add cel vfs file
   csPathsList cel_env_path;
-  csString cel_env (getenv ("CEL_" VERSION_STR));
-  if (cel_env.IsEmpty())
-    cel_env = getenv ("CEL");
+  csString cel_env (getenv ("CEL"));
   // find dir
   if (cel_env.IsEmpty())
     cel_env_path = csPathsList(CEL_CONFIGDIR);
@@ -148,7 +136,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
   // check vfs.cfg file is actually there.
   csPathsList vfs_file_path = 
 	    csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
-  if (vfs_file_path.GetSize())
+  if (vfs_file_path.Length())
   {
     csString cel_vfs_file = 
       vfs_file_path[0].path+csString(CS_PATH_SEPARATOR)+csString("vfs.cfg");
@@ -160,7 +148,7 @@ bool celInitializer::LoadCelVFS(iObjectRegistry* r)
     csRef<iCommandLineParser> cmdline = csQueryRegistry<iCommandLineParser> (r);
     cel_env_path = csPathsList(cmdline->GetAppDir ());
     vfs_file_path = csPathsUtilities::LocateFile(cel_env_path,"vfs.cfg");
-    if (vfs_file_path.GetSize())
+    if (vfs_file_path.Length())
       ok = true;
     else
       csReport(r,CS_REPORTER_SEVERITY_WARNING,"cel.initializer",

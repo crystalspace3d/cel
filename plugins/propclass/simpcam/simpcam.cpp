@@ -29,6 +29,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -58,7 +59,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (SimpleCamera, "pccamera.simple", "pcsimplecamera")
+CEL_IMPLEMENT_FACTORY (SimpleCamera, "pcsimplecamera")
 
 //---------------------------------------------------------------------------
 
@@ -72,9 +73,22 @@ csStringID celPcSimpleCamera::param_mesh = csInvalidStringID;
 
 PropertyHolder celPcSimpleCamera::propinfo;
 
+SCF_IMPLEMENT_IBASE_EXT (celPcSimpleCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcSimpleCamera)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCamera)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcSimpleCamera::PcSimpleCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcSimpleCamera)
+  SCF_IMPLEMENTS_INTERFACE (iPcCamera)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+  : celPcCameraCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCamera);
+
   objectlookat.Set (0, 0, 0);
   objectcampos.Set (0, 0, 0);
   objectcampos_world = false;
@@ -104,6 +118,8 @@ celPcSimpleCamera::celPcSimpleCamera (iObjectRegistry* object_reg)
 
 celPcSimpleCamera::~celPcSimpleCamera ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcSimpleCamera);
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCamera);
 }
 
 void celPcSimpleCamera::FindSiblingPropertyClasses ()
@@ -123,7 +139,7 @@ void celPcSimpleCamera::GetActorTransform ()
   FindSiblingPropertyClasses ();
   if (pcmesh)
   {
-    iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
+    iMovable* movable = pcmesh->GetMesh()->GetMovable();
     actor_trans = movable->GetFullTransform ();
     actor_sector = movable->GetSectors ()->Get (0);
   }
@@ -182,7 +198,7 @@ bool celPcSimpleCamera::PerformActionIndexed (int idx,
           return false;
         }
         csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_TAG_ENT
-        	(GetEntity (), iPcMesh, mesh);
+	    (GetEntity (), iPcMesh, mesh);
         if (!pcmesh)
         {
           csString msg = "Couldn't find mesh with given tag: ";
@@ -210,11 +226,10 @@ void celPcSimpleCamera::SetDrawMesh (bool draw)
     else
     {
       pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
-      	CS_ENTITY_INVISIBLE);
+		      CS_ENTITY_INVISIBLE);
     }
   }
 }
-
 void celPcSimpleCamera::UpdateCamera ()
 {
   // Try to get position and sector from mesh.
@@ -240,14 +255,12 @@ void celPcSimpleCamera::UpdateCamera ()
     c->OnlyPortals (true);
   }
 }
-
 int celPcSimpleCamera::GetDrawFlags ()
 {
   return engine->GetBeginDrawFlags () | CSDRAW_3DGRAPHICS
-  	| (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
-  	| (clear_screen ? CSDRAW_CLEARSCREEN : 0);
+    | (clear_zbuf ? CSDRAW_CLEARZBUFFER : 0)
+    | (clear_screen ? CSDRAW_CLEARSCREEN : 0);
 }
-
 void celPcSimpleCamera::Draw ()
 {
   UpdateCamera ();

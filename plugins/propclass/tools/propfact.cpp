@@ -26,6 +26,7 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -38,7 +39,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY_ALT (Properties, "pctools.properties", "pcproperties")
+CEL_IMPLEMENT_FACTORY (Properties, "pcproperties")
 
 //---------------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ celPcProperties::celPcProperties (iObjectRegistry* object_reg)
 	: celPcCommon (object_reg)
 {
   SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcProperties);
+  DG_TYPE (this, "celPcProperties()");
   if (id_index == csInvalidStringID)
   {
     id_index = pl->FetchStringID ("cel.parameter.index");
@@ -91,7 +93,7 @@ celPcProperties::~celPcProperties ()
 size_t celPcProperties::FindProperty (csStringID id)
 {
   size_t i;
-  for (i = 0 ; i < properties.GetSize () ; i++)
+  for (i = 0 ; i < properties.Length () ; i++)
   {
     property* p = properties[i];
     if (p->id == csInvalidStringID)
@@ -207,70 +209,70 @@ bool celPcProperties::SetProperty (csStringID id, iBase* v)
   return true;
 }
 
-const char* celPcProperties::GetPropertyStringByID (csStringID id)
+const char* celPcProperties::GetPropertyString (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyStringIndex (idx);
 }
 
-bool celPcProperties::GetPropertyBoolByID (csStringID id)
+bool celPcProperties::GetPropertyBool (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyBoolIndex (idx);
 }
 
-long celPcProperties::GetPropertyLongByID (csStringID id)
+long celPcProperties::GetPropertyLong (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyLongIndex (idx);
 }
 
-float celPcProperties::GetPropertyFloatByID (csStringID id)
+float celPcProperties::GetPropertyFloat (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyFloatIndex (idx);
 }
 
-bool celPcProperties::GetPropertyVectorByID (csStringID id, csVector2& v)
+bool celPcProperties::GetPropertyVector (csStringID id, csVector2& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyVectorIndex (idx, v);
 }
 
-bool celPcProperties::GetPropertyVectorByID (csStringID id, csVector3& v)
+bool celPcProperties::GetPropertyVector (csStringID id, csVector3& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyVectorIndex (idx, v);
 }
 
-bool celPcProperties::GetPropertyColorByID (csStringID id, csColor& v)
+bool celPcProperties::GetPropertyColor (csStringID id, csColor& v)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyColorIndex (idx, v);
 }
 
-iCelPropertyClass* celPcProperties::GetPropertyPClassByID (csStringID id)
+iCelPropertyClass* celPcProperties::GetPropertyPClass (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyPClassIndex (idx);
 }
 
-iCelEntity* celPcProperties::GetPropertyEntityByID (csStringID id)
+iCelEntity* celPcProperties::GetPropertyEntity (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
   return GetPropertyEntityIndex (idx);
 }
 
-iBase* celPcProperties::GetPropertyIBaseByID (csStringID id)
+iBase* celPcProperties::GetPropertyIBase (csStringID id)
 {
   size_t idx = FindProperty (id);
   if (idx == csArrayItemNotFound) return 0;
@@ -283,8 +285,8 @@ csPtr<iCelDataBuffer> celPcProperties::Save ()
 {
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (PROPERTIES_SERIAL);
   size_t i;
-  databuf->Add ((uint32)properties.GetSize ());
-  for (i = 0 ; i < properties.GetSize () ; i++)
+  databuf->Add ((uint32)properties.Length ());
+  for (i = 0 ; i < properties.Length () ; i++)
   {
     property* p = properties[i];
     databuf->Add (p->propName);
@@ -445,7 +447,7 @@ size_t celPcProperties::NewProperty (const char* name)
   p->id = csInvalidStringID;	// Fetch later if needed.
   p->propName = csStrNew (name);
   p->type = CEL_DATA_NONE;
-  size_t idx = properties.GetSize ();
+  size_t idx = properties.Length ();
   properties.Push (p);
   if (!properties_hash_dirty) properties_hash.Put (name, idx+1);	// +1 so that 0 is an error.
   return idx;
@@ -524,7 +526,7 @@ size_t celPcProperties::GetPropertyIndex (const char* name)
     // Create the hash.
     properties_hash.DeleteAll ();
     size_t i;
-    for (i = 0 ; i < properties.GetSize () ; i++)
+    for (i = 0 ; i < properties.Length () ; i++)
     {
       property* p = properties[i];
       properties_hash.Put (p->propName, i+1);	// +1 so that 0 is an error
@@ -536,7 +538,7 @@ size_t celPcProperties::GetPropertyIndex (const char* name)
 
 void celPcProperties::SetPropertyIndex (size_t index, float value)
 {
-  CS_ASSERT ((index != csArrayItemNotFound) && index < properties.GetSize ());
+  CS_ASSERT ((index != csArrayItemNotFound) && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_FLOAT;
@@ -553,7 +555,7 @@ void celPcProperties::SetPropertyIndex (size_t index, float value)
 
 void celPcProperties::SetPropertyIndex (size_t index, long value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_LONG;
@@ -570,7 +572,7 @@ void celPcProperties::SetPropertyIndex (size_t index, long value)
 
 void celPcProperties::SetPropertyIndex (size_t index, bool value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_BOOL;
@@ -587,7 +589,7 @@ void celPcProperties::SetPropertyIndex (size_t index, bool value)
 
 void celPcProperties::SetPropertyIndex (size_t index, const csVector2& value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_VECTOR2;
@@ -605,7 +607,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector2& value)
 
 void celPcProperties::SetPropertyIndex (size_t index, const csVector3& value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_VECTOR3;
@@ -624,7 +626,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csVector3& value)
 
 void celPcProperties::SetPropertyIndex (size_t index, const csColor& value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_COLOR;
@@ -643,7 +645,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const csColor& value)
 
 void celPcProperties::SetPropertyIndex (size_t index, const char* value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_STRING;
@@ -660,7 +662,7 @@ void celPcProperties::SetPropertyIndex (size_t index, const char* value)
 
 void celPcProperties::SetPropertyIndex (size_t index, iCelPropertyClass* value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_PCLASS;
@@ -677,7 +679,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelPropertyClass* value)
 
 void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_ENTITY;
@@ -694,7 +696,7 @@ void celPcProperties::SetPropertyIndex (size_t index, iCelEntity* value)
 
 void celPcProperties::SetPropertyIndex (size_t index, iBase* value)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   ClearPropertyValue (p);
   p->type = CEL_DATA_IBASE;
@@ -711,14 +713,14 @@ void celPcProperties::SetPropertyIndex (size_t index, iBase* value)
 
 celDataType celPcProperties::GetPropertyType (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   return p->type;
 }
 
 float celPcProperties::GetPropertyFloatIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_FLOAT)
     return p->v.f;
@@ -728,7 +730,7 @@ float celPcProperties::GetPropertyFloatIndex (size_t index) const
 
 long celPcProperties::GetPropertyLongIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_LONG)
     return p->v.l;
@@ -738,7 +740,7 @@ long celPcProperties::GetPropertyLongIndex (size_t index) const
 
 bool celPcProperties::GetPropertyBoolIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_BOOL)
     return p->v.b;
@@ -748,7 +750,7 @@ bool celPcProperties::GetPropertyBoolIndex (size_t index) const
 
 bool celPcProperties::GetPropertyVectorIndex (size_t index, csVector2& v) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_VECTOR2)
   {
@@ -762,7 +764,7 @@ bool celPcProperties::GetPropertyVectorIndex (size_t index, csVector2& v) const
 
 bool celPcProperties::GetPropertyVectorIndex (size_t index, csVector3& v) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_VECTOR3)
   {
@@ -777,7 +779,7 @@ bool celPcProperties::GetPropertyVectorIndex (size_t index, csVector3& v) const
 
 bool celPcProperties::GetPropertyColorIndex (size_t index, csColor& v) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_COLOR)
   {
@@ -792,7 +794,7 @@ bool celPcProperties::GetPropertyColorIndex (size_t index, csColor& v) const
 
 const char* celPcProperties::GetPropertyStringIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_STRING)
     return p->v.s;
@@ -802,7 +804,7 @@ const char* celPcProperties::GetPropertyStringIndex (size_t index) const
 
 iCelPropertyClass* celPcProperties::GetPropertyPClassIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_PCLASS)
     return p->pclass;
@@ -812,7 +814,7 @@ iCelPropertyClass* celPcProperties::GetPropertyPClassIndex (size_t index) const
 
 iCelEntity* celPcProperties::GetPropertyEntityIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_ENTITY)
     return p->entity;
@@ -822,7 +824,7 @@ iCelEntity* celPcProperties::GetPropertyEntityIndex (size_t index) const
 
 iBase* celPcProperties::GetPropertyIBaseIndex (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   if (p->type == CEL_DATA_IBASE)
     return p->ref;
@@ -832,7 +834,7 @@ iBase* celPcProperties::GetPropertyIBaseIndex (size_t index) const
 
 void celPcProperties::ClearProperty (size_t index)
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   FirePropertyListeners (index);
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (bh)
@@ -850,7 +852,7 @@ void celPcProperties::ClearProperty (size_t index)
 
 void celPcProperties::Clear ()
 {
-  while (properties.GetSize () > 0)
+  while (properties.Length () > 0)
   {
     ClearProperty (0);
   }
@@ -860,12 +862,12 @@ void celPcProperties::Clear ()
 
 size_t celPcProperties::GetPropertyCount () const
 {
-  return properties.GetSize ();
+  return properties.Length ();
 }
 
 const char* celPcProperties::GetPropertyName (size_t index) const
 {
-  CS_ASSERT (index >= 0 && index < properties.GetSize ());
+  CS_ASSERT (index >= 0 && index < properties.Length ());
   property* p = properties[index];
   return p->propName;
 }
@@ -886,7 +888,7 @@ void celPcProperties::RemovePropertyListener (iPcPropertyListener* listener)
 
 void celPcProperties::FirePropertyListeners (size_t idx)
 {
-  size_t i = listeners.GetSize ();
+  size_t i = listeners.Length ();
   while (i > 0)
   {
     i--;

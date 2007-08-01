@@ -26,6 +26,7 @@
 #include "iutil/event.h"
 #include "iutil/object.h"
 #include "cstool/initapp.h"
+#include "csutil/debug.h"
 #include "csutil/objreg.h"
 #include "csgeom/vector3.h"
 #include "csgeom/math3d.h"
@@ -50,9 +51,9 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (MechanicsSystem, "pcphysics.system", "pcmechsys")
-CEL_IMPLEMENT_FACTORY_ALT (MechanicsObject, "pcphysics.object", "pcmechobject")
-CEL_IMPLEMENT_FACTORY_ALT (MechanicsJoint, "pcphysics.joint", "pcmechjoint")
+CEL_IMPLEMENT_FACTORY(MechanicsSystem, "pcmechsys")
+CEL_IMPLEMENT_FACTORY(MechanicsObject, "pcmechobject")
+CEL_IMPLEMENT_FACTORY(MechanicsJoint, "pcmechjoint")
 
 //---------------------------------------------------------------------------
 
@@ -110,7 +111,7 @@ void celPcMechanicsSystem::ProcessForces (float dt)
 // remaining time for a force may be smaller than the 'dt' value
 // given here.
   size_t i;
-  for (i = 0 ; i < forces.GetSize () ; i++)
+  for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid != 0 || f.frame)
@@ -193,7 +194,7 @@ void celPcMechanicsSystem::TickEveryFrame ()
   // Delete all expired forces and forces that were only
   // meant to be here for one frame.
   size_t i;
-  for (i = 0 ; i < forces.GetSize () ; i++)
+  for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid == 0 && (f.frame || f.seconds <= 0))
@@ -431,7 +432,7 @@ void celPcMechanicsSystem::AddForceTagged (iPcMechanicsObject* pcobject,
 void celPcMechanicsSystem::RemoveForceTagged (iPcMechanicsObject* pcobject,
 	uint32 forceid)
 {
-  for (size_t i = 0 ; i < forces.GetSize () ; i++)
+  for (size_t i = 0 ; i < forces.Length () ; i++)
   {
     celForce& f = forces[i];
     if (f.forceid == forceid)
@@ -474,7 +475,7 @@ void celPcMechanicsSystem::AddForceFrame (iPcMechanicsObject* body,
 void celPcMechanicsSystem::ClearForces (iPcMechanicsObject* body)
 {
   size_t i;
-  for (i = 0 ; i < forces.GetSize () ; i++)
+  for (i = 0 ; i < forces.Length () ; i++)
   {
     if (forces[i].body == body)
     {
@@ -576,9 +577,15 @@ csStringID celPcMechanicsObject::param_group = csInvalidStringID;
 
 PropertyHolder celPcMechanicsObject::propinfo;
 
+SCF_IMPLEMENT_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
+  SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
+SCF_IMPLEMENT_IBASE_END
+
 celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  DG_TYPE (this, "celPcMechanicsObject()");
+
   scfiDynamicsCollisionCallback = new DynamicsCollisionCallback (this);
 
   btype = CEL_BODY_INVALID;

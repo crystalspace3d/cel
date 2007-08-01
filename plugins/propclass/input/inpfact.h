@@ -50,10 +50,9 @@ struct celKeyMap
   celKeyMap *next, *prev;
   utf32_char key;	// If equal to CS_UC_INVALID we catch all keys.
   uint32 modifiers;
-  bool packedargs;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celKeyMap () : packedargs (false), command (0) { }
+  celKeyMap () : command (0) { }
 };
 
 struct celButtonMap
@@ -63,10 +62,9 @@ struct celButtonMap
   uint device;
   int numeric;
   uint32 modifiers;
-  bool packedargs;
   char *command;
   char *command_end;	// Points to 0 or 1 to indicate positive/negative cmd
-  celButtonMap () : packedargs (false), command (0) { }
+  celButtonMap () : command (0) { }
 };
 
 struct celAxisMap
@@ -92,27 +90,19 @@ private:
   celButtonMap* buttonlist;
   celAxisMap* axislist;
   static csStringID id_trigger;
-  static csStringID id_state;
   static csStringID id_command;
   static csStringID id_x;
   static csStringID id_y;
   static csStringID id_prefix;
   static csStringID id_activate;
-  static csStringID id_value;
   bool screenspace;
   csRef<iGraphics2D> g2d;
   csRef<iEventNameRegistry> name_reg;
   bool do_cooked;
   bool do_sendtrigger;	// If true then send trigger name with messages.
-  bool handleKeyboard;
-  bool handleMouse;
-  bool handleJoystick;
-  int nameoffset;
 
   celGenericParameterBlock* mouse_params;
-  celGenericParameterBlock* key_params;
-  celOneParameterBlock* joy_params;
-  celOneParameterBlock* but_params;
+  celOneParameterBlock* key_params;
 
   // For actions.
   enum actionids
@@ -138,6 +128,7 @@ public:
   celPcCommandInput (iObjectRegistry* object_reg);
   virtual ~celPcCommandInput ();
 
+  virtual const char* GetName () const { return "pccommandinput"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -159,15 +150,8 @@ public:
   virtual const char* GetBind (const char *triggername) const;
   virtual bool RemoveBind (const char* triggername, const char* command);
   virtual void RemoveAllBinds ();
-  virtual void EnableMouseEvents ();
-  virtual void DisableMouseEvents ();
-  virtual void EnableKeyboardEvents ();
-  virtual void DisableKeyboardEvents ();
-  virtual void EnableJoystickEvents ();
-  virtual void DisableJoystickEvents ();
 
-  class EventHandler : public scfImplementation1<
-	EventHandler, iEventHandler>
+  class EventHandler : public iEventHandler
   {
   private:
     // This is a weak ref so that we can ignore the events
@@ -175,13 +159,17 @@ public:
     csWeakRef<celPcCommandInput> parent;
 
   public:
-    EventHandler (celPcCommandInput* parent) : scfImplementationType (this)
+    EventHandler (celPcCommandInput* parent)
     {
+      SCF_CONSTRUCT_IBASE(0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler()
     {
+      SCF_DESTRUCT_IBASE ();
     }
+
+    SCF_DECLARE_IBASE;
 
     virtual bool HandleEvent (iEvent& ev)
     {
@@ -190,7 +178,7 @@ public:
       else
         return false;
     }
-    CS_EVENTHANDLER_NAMES("cel.propclass.pcinput.standard")
+    CS_EVENTHANDLER_NAMES("cel.propclass.pccommandinput")
     CS_EVENTHANDLER_NIL_CONSTRAINTS
   } *scfiEventHandler;
 
@@ -201,7 +189,7 @@ protected:
   celButtonMap *GetButtonMap (csEventID type, uint device, int numeric,
   	uint32 modifiers) const;
   void SendKeyMessage (celKeyMap* p, utf32_char key,
-  	csKeyModifiers key_modifiers, celKeyState keystate);
+    csKeyModifiers key_modifiers, char end);
 };
 
 }

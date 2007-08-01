@@ -43,6 +43,16 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnCelEntityTemplate)
 
+SCF_IMPLEMENT_IBASE (celAddOnCelEntityTemplate)
+  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
+  SCF_IMPLEMENTS_INTERFACE (iEntityTemplateLoader)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntityTemplate::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 enum
 {
   XMLTOKEN_BEHAVIOUR,
@@ -64,14 +74,17 @@ enum
 };
 
 
-celAddOnCelEntityTemplate::celAddOnCelEntityTemplate (iBase* parent) :
-  scfImplementationType (this, parent)
+celAddOnCelEntityTemplate::celAddOnCelEntityTemplate (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnCelEntityTemplate::~celAddOnCelEntityTemplate ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelEntityTemplate::Initialize (iObjectRegistry* object_reg)
@@ -221,20 +234,6 @@ csRef<celVariableParameterBlock> celAddOnCelEntityTemplate::ParseParameterBlock
 	{
 	  csVector3 v;
 	  csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	  params->GetParameter (par_idx-1).Set (v);
-	}
-        continue;
-      }
-      const char* col_value = par_child->GetAttributeValue ("color");
-      if (col_value)
-      {
-	if (*col_value == '$')
-          params->GetParameter (par_idx-1).SetParameter (col_value+1,
-	  	CEL_DATA_COLOR);
-	else
-	{
-	  csColor v;
-	  csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
 	  params->GetParameter (par_idx-1).Set (v);
 	}
         continue;

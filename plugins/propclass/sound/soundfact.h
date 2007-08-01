@@ -75,6 +75,7 @@ public:
 
   virtual iSndSysListener* GetSoundListener () { return listener; }
 
+  virtual const char* GetName () const { return "pcsoundlistener"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -141,6 +142,7 @@ public:
   virtual void SetMode (const char* modename);
   virtual const char* GetMode () const;
 
+  virtual const char* GetName () const { return "pcsoundsource"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

@@ -139,10 +139,6 @@ protected:
   csVector3 offset_err;    // Error in terms of absolute position
   csVector3 offset_rate;   // Speed to bring error to ZERO within 1s
 
-  // Attempt to query the property class mesh, error and return null
-  // if unsuccessful
-  iPcMesh* GetMesh ();
-
   // Move local entity
   // both MoveV and MoveSprite return CEL_MOVE_* constants defined above
   int MoveV (float delta);
@@ -219,19 +215,14 @@ public:
     velWorld = 0.0f;
   }
 
-  virtual void GetVelocity (csVector3 &v) const
+  virtual void GetVelocity (csVector3& v) const
   {
-    v = GetVelocity ();
-  }
-
-  virtual const csVector3 GetVelocity () const
-  {
-    csVector3 velworld = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
-        .Other2ThisRelative (velWorld);
+    csVector3 worldVel = pcmesh->GetMesh ()->GetMovable ()->GetTransform ()
+    	.Other2ThisRelative (velWorld);
 
     // Return the composite of the object and world velocity
     // in the OBJECT coordinate system.
-    return velworld + velBody;
+    v = worldVel + velBody;
   }
 
   virtual bool RotateV (float delta);
@@ -252,10 +243,6 @@ public:
   	csVector3& shift, iPcCollisionDetection*& pc_cd);
   virtual bool InitCD (iPcCollisionDetection *pc_cd=0);
   virtual void SetSpeed (float speedz);
-
-  virtual float GetYRotation ();
-  const csVector3 GetPosition ();
-  const csVector3 GetFullPosition ();
 
   virtual void GetLastPosition (csVector3& pos, float& yrot, iSector*& sector);
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,
@@ -343,6 +330,7 @@ public:
   	float yrot, iSector *sector, csVector3& vel, csVector3& worldVel,
   	float ang_vel);
 
+  virtual const char* GetName () const { return "pclinearmovement"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,

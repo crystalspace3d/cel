@@ -64,8 +64,7 @@ CEL_DECLARE_FACTORY (MechanicsBalancedGroup)
 /**
  * This is a property class containing a group of thrusters that work together.
  */
-class celPcMechanicsBalancedGroup : public scfImplementationExt1<
-	celPcMechanicsBalancedGroup, celPcCommon, iPcMechanicsBalancedGroup>
+class celPcMechanicsBalancedGroup : public celPcCommon
 {
 private:
   // Actions
@@ -96,6 +95,9 @@ public:
   celPcMechanicsBalancedGroup (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsBalancedGroup ();
 
+  // celPcCommon implementation
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
   virtual const char* GetName () const { return "pcmechbalancedgroup"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -120,6 +122,44 @@ public:
   virtual float AvailableThrust ();
   virtual float AvailableThrustForce ();
   virtual void ChangeThrust (float deltathrust);
+
+  // embedded iPcMechanicsBalancedGroup implementation
+  struct PcMechanicsBalancedGroup : public iPcMechanicsBalancedGroup
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsBalancedGroup);
+    virtual void SetType (celAxisType type)
+    {
+      scfParent->SetType (type);
+    }
+    virtual celAxisType GetType ()
+    {
+      return scfParent->GetType ();
+    }
+    virtual void AddThruster (iPcMechanicsThruster* thruster, float multiplier)
+    {
+      scfParent->AddThruster (thruster, multiplier);
+    }
+    virtual void RemoveThruster (const char* thrustertag)
+    {
+      scfParent->RemoveThruster (thrustertag);
+    }
+    virtual iPcMechanicsThruster* GetThruster (const char* thrustertag)
+    {
+      return scfParent->GetThruster (thrustertag);
+    }
+    virtual float AvailableThrust ()
+    {
+      return scfParent->AvailableThrust ();
+    }
+    virtual float AvailableThrustForce ()
+    {
+      return scfParent->AvailableThrustForce ();
+    }
+    virtual void ChangeThrust (float deltathrust)
+    {
+      scfParent->ChangeThrust (deltathrust);
+    }
+  } scfiPcMechanicsBalancedGroup;
 };
 
 
@@ -166,9 +206,7 @@ CEL_DECLARE_FACTORY (MechanicsThrusterController)
 /**
  * This is a thruster controller property class.
  */
-class celPcMechanicsThrusterController : public scfImplementationExt1<
-	celPcMechanicsThrusterController, celPcCommon,
-	iPcMechanicsThrusterController>
+class celPcMechanicsThrusterController : public celPcCommon
 {
 private:
   // Actions
@@ -215,6 +253,9 @@ public:
   celPcMechanicsThrusterController (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsThrusterController ();
 
+  // celPcCommon implementation
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
   virtual const char* GetName () const { return "pcmechthrustercontroller"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -237,6 +278,63 @@ public:
 	axisname);
   virtual void ApplyThrust (float thrust, const char* axisname, uint32& id);
   virtual void CancelThrust (uint32 id);
+
+  // embedded iPcMechanicsBalancedGroup implementation
+  struct PcMechanicsThrusterController : public iPcMechanicsThrusterController
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsThrusterController);
+    virtual void SetMechanicsObject (iPcMechanicsObject* mechobj)
+    {
+      scfParent->SetMechanicsObject (mechobj);
+    }
+    virtual iPcMechanicsObject* GetMechanicsObject ()
+    {
+      return scfParent->GetMechanicsObject ();
+    }
+    virtual void AddAxis (const char* name, celAxisType type, const
+	csVector3 axis)
+    {
+      scfParent->AddAxis (name, type, axis);
+    }
+    virtual const csVector3 GetAxis (const char* name)
+    {
+      return scfParent->GetAxis (name);
+    }
+    virtual const celAxisType GetAxisType (const char* name)
+    {
+      return scfParent->GetAxisType (name);
+    }
+    virtual const float GetAxisVelocity (const char* name)
+    {
+      return scfParent->GetAxisVelocity (name);
+    }
+    virtual float GetAxisMaxForce (const char* name)
+    {
+      return scfParent->GetAxisMaxForce (name);
+    }
+    virtual float GetAxisMaxThrust (const char* name)
+    {
+      return scfParent->GetAxisMaxThrust (name);
+    }
+    virtual void AddBalancedGroup (iPcMechanicsBalancedGroup* group,
+	const char* axisname)
+    {
+      scfParent->AddBalancedGroup (group, axisname);
+    }
+    virtual void RemoveBalancedGroup (const char* grouptag,
+	const char* axisname)
+    {
+      scfParent->RemoveBalancedGroup (grouptag, axisname);
+    }
+    virtual void ApplyThrust (float thrust, const char* axisname, uint32& id)
+    {
+      scfParent->ApplyThrust (thrust, axisname, id);
+    }
+    virtual void CancelThrust (uint32 id)
+    {
+      scfParent->CancelThrust (id);
+    }
+  } scfiPcMechanicsThrusterController;
 };
 
 #endif // __CEL_PF_MECHANICS_THRUSTER_CONTROLLER_FACTORY__

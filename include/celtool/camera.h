@@ -43,7 +43,7 @@ class csView;
 /**
  * The representation of a camera.
  */
-struct celPcCameraCommon : public celPcCommon
+struct celPcCameraCommon: public celPcCommon
 {
 protected:
   csRef<iGraphics3D> g3d;
@@ -52,8 +52,6 @@ protected:
   csRef<iView> view;
   bool rect_set;
   int rect_x, rect_y, rect_w, rect_h;
-  bool center_set;
-  float center_x, center_y;
 
   // Fields for the far plane.
   struct
@@ -88,7 +86,6 @@ public:
   bool SetZoneManager (const char* entityname, bool point,
   	const char* regionname, const char* name);
   void SetRectangle (int x, int y, int w, int h);
-  void SetPerspectiveCenter (float x, float y);
 
   iCamera* GetCamera () const;
   iView* GetView () const { return view; }
@@ -105,7 +102,7 @@ public:
   void DisableDistanceClipping ();
   void EnableFixedDistanceClipping (float dist);
   void EnableAdaptiveDistanceClipping (float min_fps,
-  	float max_fps, float min_dist);
+	float max_fps, float min_dist);
   bool UseDistanceClipping () const { return fp.use_farplane; }
   bool UseFixedDistanceClipping () const
   {
@@ -131,9 +128,11 @@ public:
 
   virtual void Draw ();
 
+  virtual const char* GetName () const { return "pccamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
 };
 
 #endif // __CEL_PF_CAMFACT__
+

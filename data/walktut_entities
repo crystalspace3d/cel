@@ -7,16 +7,16 @@
 
     <addon plugin="celentity" entityname="box1">
 
-      <propclass name="pcobject.mesh">
+      <propclass name="pcmesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcmeshselect" />
 
-      <propclass name="pcmove.linear">
+      <propclass name="pclinearmovement">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -35,16 +35,16 @@
 
     <addon plugin="celentity" entityname="box2">
 
-      <propclass name="pcobject.mesh">
+      <propclass name="pcmesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcmeshselect" />
 
-      <propclass name="pcmove.linear">
+      <propclass name="pclinearmovement">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -63,16 +63,16 @@
 
     <addon plugin="celentity" entityname="box3">
 
-      <propclass name="pcobject.mesh">
+      <propclass name="pcmesh">
         <action name="LoadMesh">
 	  <par name="filename" string="walktut_box" />
 	  <par name="factoryname" string="box" />
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcmeshselect" />
 
-      <propclass name="pcmove.linear">
+      <propclass name="pclinearmovement">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />
@@ -91,16 +91,16 @@
 
     <addon plugin="celentity" entityname="badone">
 
-      <propclass name="pcobject.mesh">
+      <propclass name="pcmesh">
         <action name="LoadMesh">
 	  <par name="filename" string="monkey" />
 	  <par name="factoryname" string="monkey" />
 	</action>
       </propclass>
 
-      <propclass name="pcobject.mesh.select" />
+      <propclass name="pcmeshselect" />
 
-      <propclass name="pctools.properties">
+      <propclass name="pcproperties">
         <property name="pos1" vector="9,2,8" />
         <property name="pos2" vector="6,2,8" />
         <property name="pos3" vector="6,2,12" />
@@ -127,14 +127,14 @@
         <property name="time6" long="1000" />
       </propclass>
 
-      <propclass name="pctools.timer">
+      <propclass name="pctimer">
         <action name="WakeUp">
 	  <par name="time" long="5000" />
 	  <par name="repeat" bool="true" />
 	</action>
       </propclass>
 
-      <propclass name="pcmove.linear">
+      <propclass name="pclinearmovement">
         <action name="InitCD">
 	  <par name="body" vector=".2,.2,.2" />
 	  <par name="legs" vector=".2,.2,.2" />

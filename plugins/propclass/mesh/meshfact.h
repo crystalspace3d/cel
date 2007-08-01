@@ -41,10 +41,6 @@ struct iPcCamera;
 struct iCamera;
 struct iEngine;
 class csVector3;
-class csVector4;
-
-CS_PLUGIN_NAMESPACE_BEGIN(pfMesh)
-{
 
 /**
  * Factory for mesh.
@@ -65,7 +61,6 @@ private:
   csString path;
   csString fileName;
   csString factName;
-  csString meshName;
   csRef<iMeshFactoryWrapper> factory_ptr;
 
   enum celPcMeshCreationFlag
@@ -104,9 +99,6 @@ private:
   static csStringID id_max;
   static csStringID id_entity;
   static csStringID id_tag;
-  static csStringID id_socket;
-  static csStringID id_factory;
-  static csStringID id_object;
 
   enum actionids
   {
@@ -125,10 +117,7 @@ private:
     action_createemptygenmesh,
     action_createnullmesh,
     action_parentmesh,
-    action_clearparent,
-    action_setshaderexpression,
-    action_attachsocketmesh,
-    action_detachsocketmesh
+    action_clearparent
   };
 
   // Remove the mesh from this pcmesh.
@@ -145,8 +134,7 @@ private:
     propid_path,
     propid_factory,
     propid_filename,
-    propid_hitbeam,
-    propid_meshname
+    propid_hitbeam
   };
   static PropertyHolder propinfo;
 
@@ -170,17 +158,13 @@ public:
    */
   virtual void MoveMesh (iSector* sector, const csVector3& pos);
   /**
-   * Move this mesh to the according sector and node.
-   */
-  virtual void MoveMesh (iSector* sector, const char* node);
-  /**
    * Sets an action for this mesh if different from the current action,
    * or resetaction is set.
    */
   virtual void SetAction (const char* actionName, bool reset = false);
   virtual void SetAnimation (const char* actionName, bool cycle,
   	float weight = 1.0, float fadein = 0.1, float fadeout = 0.1,
-  	bool reset = false);
+	bool reset = false);
 
   /**
    * Returns the name for the current action.
@@ -203,6 +187,7 @@ public:
    */
   virtual bool IsVisible () const { return visible; }
 
+  virtual const char* GetName () const { return "pcmesh"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -213,15 +198,10 @@ public:
   virtual bool SetPropertyIndexed (int, bool);
 
   // Functions to set ShaderVars in the mesh
-  virtual bool SetShaderVarExpr (csStringID name, const char* exprname);
-  virtual void SetShaderVar (csStringID name, float value);
-  virtual void SetShaderVar (csStringID name, int value);
-  virtual void SetShaderVar (csStringID name, csVector2 value);
-  virtual void SetShaderVar (csStringID name, csVector3 value);
-  virtual void SetShaderVar (csStringID name, csVector4 value);
-  virtual bool AttachSocketMesh (const char* socket,
-  	iMeshWrapper* meshwrapper);
-  virtual bool DetachSocketMesh (const char* socket);
+  virtual void SetShaderVar(csStringID name, float value);
+  virtual void SetShaderVar(csStringID name, int value);
+  virtual void SetShaderVar(csStringID name, csVector3 value);
+  virtual void SetShaderVar(csStringID name, csVector2 value);
 };
 
 class celPcMeshSelect;
@@ -257,7 +237,7 @@ public:
   void RegisterMeshSelect (celPcMeshSelect* meshsel, bool withmove);
   void UnregisterMeshSelect (celPcMeshSelect* meshsel);
 
-  CS_EVENTHANDLER_NAMES("cel.propclass.pcobject.mesh.select")
+  CS_EVENTHANDLER_NAMES("cel.propclass.pcmeshselect")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 };
 
@@ -427,6 +407,7 @@ public:
   void FireListenersUp (int x, int y, int button, iCelEntity* entity);
   void FireListenersMove (int x, int y, int button, iCelEntity* entity);
 
+  virtual const char* GetName () const { return "pcmeshselect"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -438,7 +419,5 @@ public:
   virtual bool GetPropertyIndexed (int, bool&);
 };
 
-}
-CS_PLUGIN_NAMESPACE_END(pfMesh)
-
 #endif // __CEL_PF_MESHFACT__
+

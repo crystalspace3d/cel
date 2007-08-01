@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
+#include "csutil/debug.h"
 #include "cstool/initapp.h"
 #include "ivaria/reporter.h"
 #include "plugins/propclass/quest/questfact.h"
@@ -32,7 +33,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Quest, "pclogic.quest", "pcquest")
+CEL_IMPLEMENT_FACTORY (Quest, "pcquest")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -60,9 +61,19 @@ csStringID celPcQuest::id_name = csInvalidStringID;
 
 PropertyHolder celPcQuest::propinfo;
 
+SCF_IMPLEMENT_IBASE_EXT (celPcQuest)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcQuest)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcQuest::PcQuest)
+  SCF_IMPLEMENTS_INTERFACE (iPcQuest)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcQuest::celPcQuest (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+	: celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcQuest);
+
   // For SendMessage parameters.
   //params = new celOneParameterBlock ();
   //params->SetParameterDef (id_message, "message");
@@ -93,6 +104,7 @@ celPcQuest::celPcQuest (iObjectRegistry* object_reg)
 celPcQuest::~celPcQuest ()
 {
   //delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcQuest);
 }
 
 bool celPcQuest::SetPropertyIndexed (int idx, const char* b)
@@ -205,12 +217,6 @@ bool celPcQuest::PerformActionIndexed (int idx,
           csStringID id;
           celDataType t;
           const char* n = params->GetParameter (i, id, t);
-	  if (n == 0 || *n == 0)
-	  {
-	    // Parameter is not defined with a name. In that
-	    // case we try to fetch the name from the id.
-	    n = pl->FetchString (id);
-	  }
           if (t == CEL_DATA_STRING && strcmp ("name", n) != 0)
           {
             const celData* cd = params->GetParameter (id);

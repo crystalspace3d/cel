@@ -49,7 +49,7 @@ struct iMeshWrapper;
  */
 struct iPcGravityCallback : public virtual iBase
 {
-  SCF_INTERFACE (iPcGravityCallback, 0, 0, 2);
+  SCF_INTERFACE (iPcGravityCallback, 0, 0, 1);
 
   virtual void Callback () = 0;
 };
@@ -63,12 +63,6 @@ struct iPcGravityCallback : public virtual iBase
  * This property class supports dead reckoning which is useful for
  * networking.
  *
- * This property class can send out the following messages
- * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
- * - pclinearmovement_stuck: sent when couldn't move at all.
- * - pclinearmovement_collision: sent when we could move but not all the way.
- * - pclinearmovement_arrived: when we arrived without problems.
- *
  * This property class supports the following actions (add prefix
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
@@ -77,7 +71,7 @@ struct iPcGravityCallback : public virtual iBase
  * - InitCDMesh: parameters 'percentage' (float).
  * - SetPosition: parameters 'sector' (string), 'position' (vector3 or
  *     string (name of mapnode in that case)), and
- *     'yrot' (y rotation default=0).
+ *     'yrot' (y rotation degrees).
  * - SetVelocity: parameters 'velocity' (vector3) in body coordinates.
  * - AddVelocity: parameters 'velocity' (vector3) in world coordinates.
  * - SetAngularVelocity: parameters 'velocity' (vector3).
@@ -142,15 +136,8 @@ struct iPcLinearMovement : public virtual iBase
 
   /**
    * Get the current velocity vector.
-   * \deprecated Use csVector3 GetVelocity () instead.
    */
-  CS_DEPRECATED_METHOD_MSG("Use csVector3 GetVelocity () instead.")
   virtual void GetVelocity (csVector3& v) const = 0;
-
-  /**
-   * Get the current velocity vector.
-   */
-  virtual const csVector3 GetVelocity () const = 0;
 
   /**
    * Get the current angular velocity vector.
@@ -242,22 +229,6 @@ struct iPcLinearMovement : public virtual iBase
    */
   virtual void GetLastFullPosition (csVector3& pos, float& yrot,
   	iSector*& sector) = 0;
-
-  /**
-   * Get Y Rotation.
-   */
-  virtual float GetYRotation () = 0;
-  /**
-   * Get position and sector. If there is an anchor then this
-   * position is relative to the anchor. Use GetFullPosition()
-   * if you want an absolute position.
-   */
-  virtual const csVector3 GetPosition () = 0;
-  /**
-   * Get full position. This is an absolute position which
-   * is not relative to the anchor.
-   */
-  virtual const csVector3 GetFullPosition () = 0;
 
   /// Is a csPath active now or standard DR movement?
   virtual bool IsPath () const = 0;

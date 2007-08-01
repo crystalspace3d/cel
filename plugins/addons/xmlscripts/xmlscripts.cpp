@@ -41,6 +41,15 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnXmlScripts)
 
+SCF_IMPLEMENT_IBASE (celAddOnXmlScripts)
+  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnXmlScripts::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 enum
 {
   XMLTOKEN_SCRIPT,
@@ -49,14 +58,17 @@ enum
 };
 
 
-celAddOnXmlScripts::celAddOnXmlScripts (iBase* parent) :
-  scfImplementationType (this, parent)
+celAddOnXmlScripts::celAddOnXmlScripts (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnXmlScripts::~celAddOnXmlScripts ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnXmlScripts::Initialize (iObjectRegistry* object_reg)

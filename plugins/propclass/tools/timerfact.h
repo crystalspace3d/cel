@@ -52,8 +52,7 @@ CEL_DECLARE_FACTORY(Timer)
 /**
  * This is a timer property class.
  */
-class celPcTimer : public scfImplementationExt1<
-	celPcTimer, celPcCommon, iPcTimer>
+class celPcTimer : public celPcCommon
 {
 private:
   csRef<iVirtualClock> vc;
@@ -82,16 +81,36 @@ public:
   celPcTimer (iObjectRegistry* object_reg);
   virtual ~celPcTimer ();
 
-  virtual void WakeUp (csTicks t, bool repeat);
-  virtual void WakeUpFrame (int where);
-  virtual void Clear ();
+  void WakeUp (csTicks t, bool repeat);
+  void WakeUpFrame (int where);
+  void Clear ();
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pctimer"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
   virtual void TickOnce ();
   virtual void TickEveryFrame ();
+
+  struct PcTimer : public iPcTimer
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcTimer);
+    virtual void WakeUp (csTicks t, bool repeat)
+    {
+      scfParent->WakeUp (t, repeat);
+    }
+    virtual void WakeUpFrame (int where)
+    {
+      scfParent->WakeUpFrame (where);
+    }
+    virtual void Clear ()
+    {
+      scfParent->Clear ();
+    }
+  } scfiPcTimer;
 };
 
 #endif // __CEL_PF_TIMERFACT__

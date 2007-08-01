@@ -2,7 +2,6 @@ SubDir TOP plugins propclass newcamera ;
 
 Plugin pfnewcamera
 	: [ Wildcard *.cpp *.h ]
-	  [ Wildcard [ ConcatDirs modes ] : *.cpp *.h ]
 ;
 ExternalLibs pfnewcamera : CRYSTAL ;
 LinkWith pfnewcamera : celtool ;

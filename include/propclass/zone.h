@@ -25,7 +25,6 @@
 #include "csutil/scf.h"
 
 struct iSector;
-struct iRegion;
 struct iPcCamera;
 struct iPcMesh;
 struct iCelEntity;
@@ -33,18 +32,13 @@ struct iStringArray;
 struct iString;
 struct iDocumentNode;
 
+SCF_VERSION (iCelMapFile, 0, 1, 0);
+
 /**
  * A representation of a map file for a region.
  */
-struct iCelMapFile : public virtual iBase
+struct iCelMapFile : public iBase
 {
-  SCF_INTERFACE (iCelMapFile, 0, 2, 0);
-
-  /**
-   * Set the name associated with this map.
-   */
-  virtual void SetName (const char* name) = 0;
-
   /**
    * Set the VFS path for the world file associated with this map.
    * If not 0 then the VFS current dir will be set to this path and
@@ -57,12 +51,6 @@ struct iCelMapFile : public virtual iBase
    * This is relative to the path if given.
    */
   virtual void SetFile (const char* file) = 0;
-
-  /**
-   * Get name associated with this map.
-   * Returns 0 if name is not used.
-   */
-  virtual const char* GetName () const = 0;
 
   /**
    * Get the VFS path for the world file associated with this map.
@@ -91,14 +79,14 @@ struct iCelMapFile : public virtual iBase
   virtual const char* GetSectorName () const = 0;
 };
 
+SCF_VERSION (iCelRegion, 0, 2, 1);
+
 /**
  * A region. A region is a collection of map files
  * which will be loaded in one CS region (iRegion).
  */
-struct iCelRegion : public virtual iBase
+struct iCelRegion : public iBase
 {
-  SCF_INTERFACE (iCelRegion, 0, 3, 0);
-
   /// Get the name of this region.
   virtual const char* GetName () const = 0;
 
@@ -142,11 +130,6 @@ struct iCelRegion : public virtual iBase
   virtual iCelMapFile* GetMapFile (int idx) const = 0;
 
   /**
-   * Find the specified map file.
-   */
-  virtual iCelMapFile* FindMapFile (const char* name) const = 0;
-
-  /**
    * Delete the given map file from this region. Returns
    * false if the map file could not be found in this region.
    */
@@ -162,31 +145,21 @@ struct iCelRegion : public virtual iBase
    * region is unloaded.
    */
   virtual void AssociateEntity (iCelEntity* entity) = 0;
-
+  
   /**
    * Unregister an entity from this region.
    */
   virtual void DissociateEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Determine whether the given entity is in this region.
-   */
-  virtual bool ContainsEntity (iCelEntity* entity) = 0;
-
-  /**
-   * Get the CS region that is used for this region.
-   */
-  virtual iRegion* GetCsRegion () = 0;
 };
+
+SCF_VERSION (iCelZone, 0, 1, 0);
 
 /**
  * A zone. A zone represents a collection of regions
  * that are all in memory at the same time.
  */
-struct iCelZone : public virtual iBase
+struct iCelZone : public iBase
 {
-  SCF_INTERFACE (iCelZone, 0, 1, 0);
-
   /// Get the name of this zone.
   virtual const char* GetName () const = 0;
 
@@ -252,6 +225,8 @@ struct iCelZone : public virtual iBase
 
 /** @} */
 
+SCF_VERSION (iPcZoneManager, 0, 1, 2);
+
 /**
  * This is the zone manager. In this property class you can define
  * zones. A zone is a collection of regions that are either all together
@@ -275,15 +250,6 @@ struct iCelZone : public virtual iBase
  * - SetLoadingMode: parameters 'mode' (string: one of 'loadall',
  *   'normal', or 'keep').
  * - ActivateRegion: parameters 'region' (string).
- * - CreateRegion: parameters 'name' (string).
- * - RemoveRegion: parameters 'name' (string).
- * - CreateZone: parameters 'name' (string).
- * - RemoveZone: parameters 'name' (string).
- * - CreateMap: parameters 'region' (string) 'name' (string) 'path' (string) 'file' (string).
- * - RemoveMap: parameters 'region' (string) 'name' (string).
- * - SetCache: parameters 'region' (string) 'path' (string).
- * - LinkRegion: parameters 'zone' (string) 'region' (string).
- * - UnlinkRegion: parameters 'zone' (string) 'region' (string).
  *
  * This property class supports the following properties (add prefix
  * 'cel.property.' to get the ID of the property:
@@ -298,10 +264,8 @@ struct iCelZone : public virtual iBase
  * - pczonemanager_stoploading: loading of regions stops
  * - pczonemanager_errorloading: loading of regions stops with error (region)
  */
-struct iPcZoneManager : public virtual iBase
+struct iPcZoneManager : public iBase
 {
-  SCF_INTERFACE (iPcZoneManager, 0, 1, 3);
-
   /**
    * By default the zone manager will create collider wrappers
    * (csColliderWrapper) for all objects that are loaded. If you don't want
@@ -485,11 +449,6 @@ struct iPcZoneManager : public virtual iBase
    */
   virtual bool ActivateRegion (iCelRegion* region,
       bool allow_entity_addon = true) = 0;
-
-  /**
-   * Get the region containing the specified entity.
-   */
-  virtual iCelRegion* FindRegionContaining (iCelEntity* ent) = 0;
 };
 
 #endif // __CEL_PF_ZONE__

@@ -73,6 +73,7 @@ public:
 
   virtual void Print (const char* msg);
 
+  virtual const char* GetName () const { return "pctest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx,

@@ -32,12 +32,20 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
+SCF_IMPLEMENT_IBASE_EXT (celTCPGameClient)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameClient)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGameClient::TCPGameClient)
+  SCF_IMPLEMENTS_INTERFACE (iCelGameClient)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 // default value to be used for the server timeout set with SetServerTimeOut
 #define DEFAULT_SERVER_TIMEOUT 60000
 
-celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg,
-    celTCPGameFactory* factory) : scfImplementationType (this)
+celTCPGameClient::celTCPGameClient (iObjectRegistry* object_reg, celTCPGameFactory* factory)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelGameClient);
   celTCPGameClient::object_reg = object_reg;
   celTCPGameClient::factory = factory;
   manager = 0;
@@ -63,13 +71,15 @@ celTCPGameClient::~celTCPGameClient ()
   nlDisable (NL_BLOCKING_IO);
 
   size_t i;
-  for (i = 0; i < client_events.GetSize (); i++)
+  for (i = 0; i < client_events.Length (); i++)
     delete client_events[i];
   client_events.DeleteAll ();
 
   linked_entities.DeleteAll ();
 
   delete socket_cache;
+
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGameClient);
 }
 
 bool celTCPGameClient::InitializeClient (celTCPGame* game, celPlayer* player)
@@ -331,9 +341,7 @@ void celTCPGameClient::UpdateConnecting ()
       packet->Read (temp_game_info.game_name);
       packet->Read (temp_game_info.hostname);
       packet->Read (temp_game_info.port_nb);
-      uint32 max_players;
-      packet->Read (max_players);
-      temp_game_info.max_players = max_players;
+      packet->Read (temp_game_info.max_players);
       packet->Read (temp_game_info.custom_data);
       if (!game->IsServerAvailable ())
 	game->game_info = temp_game_info;
@@ -342,7 +350,7 @@ void celTCPGameClient::UpdateConnecting ()
       
       // TODO: if the connection was broken, we do not need to re-load the level, should need to clean all network links
       // init the manager of the game factory
-      if (!factory->manager->InitClient (game))
+      if (!factory->manager->InitClient (&game->scfiCelGame))
       {
 	to_delete = true;
 	ReportError (object_reg, "The client manager failed its initialization");
@@ -585,7 +593,7 @@ void celTCPGameClient::WriteServerSocket (csTicks snapshot_time)
   celNetworkBuffer* packet = new celNetworkBuffer ();
 
   // write client events
-  uint8 list_size = client_events.GetSize ();
+  uint8 list_size = client_events.Length ();
   if (list_size > 0)
   {
     uint8 data_type = CLIENT_DATA_EVENT;

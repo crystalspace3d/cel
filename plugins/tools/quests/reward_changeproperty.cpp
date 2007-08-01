@@ -247,7 +247,7 @@ void celChangePropertyReward::Reward ()
 	  {
 	    long diff;
 	    sscanf (pdiff, "%ld", &diff);
-	    long l = pclass->GetPropertyLongByID (id);
+	    long l = pclass->GetPropertyLong (id);
 	    pclass->SetProperty (id, l+diff);
 	  }
 	  return;
@@ -255,7 +255,7 @@ void celChangePropertyReward::Reward ()
 	  {
 	    float diff;
 	    sscanf (pdiff, "%f", &diff);
-	    float f = pclass->GetPropertyFloatByID (id);
+	    float f = pclass->GetPropertyFloat (id);
 	    pclass->SetProperty (id, f+diff);
 	  }
 	  return;
@@ -301,19 +301,19 @@ void celChangePropertyReward::Reward ()
       {
         case CEL_DATA_LONG:
 	  {
-	    long l = pclass->GetPropertyLongByID (id);
+	    long l = pclass->GetPropertyLong (id);
 	    pclass->SetProperty (id, !l);
 	  }
 	  return;
         case CEL_DATA_FLOAT:
 	  {
-	    float f = pclass->GetPropertyFloatByID (id);
+	    float f = pclass->GetPropertyFloat (id);
 	    pclass->SetProperty (id, fabs (f) < .00001 ? 1.0f : 0.0f);
 	  }
 	  return;
         case CEL_DATA_BOOL:
 	  {
-	    bool f = pclass->GetPropertyBoolByID (id);
+	    bool f = pclass->GetPropertyBool (id);
 	    pclass->SetProperty (id, !f);
 	  }
 	  return;

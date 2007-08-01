@@ -42,6 +42,16 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnCelEntity)
 
+SCF_IMPLEMENT_IBASE (celAddOnCelEntity)
+  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
+  SCF_IMPLEMENTS_INTERFACE (iEntityLoader)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntity::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 enum
 {
   XMLTOKEN_BEHAVIOUR,
@@ -62,14 +72,17 @@ enum
 };
 
 
-celAddOnCelEntity::celAddOnCelEntity (iBase* parent) :
-  scfImplementationType (this, parent)
+celAddOnCelEntity::celAddOnCelEntity (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnCelEntity::~celAddOnCelEntity ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
@@ -180,30 +193,6 @@ csRef<celVariableParameterBlock> celAddOnCelEntity::ParseParameterBlock (
 	  csScanStr (vec_value, "%f,%f", &v2.x, &v2.y);
 	  params->GetParameter (par_idx-1).Set (v2);
 	}
-        continue;
-      }
-      const char* vec3_value = par_child->GetAttributeValue ("vector3");
-      if (vec3_value)
-      {
-	csVector3 v;
-	csScanStr (vec3_value, "%f,%f,%f", &v.x, &v.y, &v.z);
-	params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* vec2_value = par_child->GetAttributeValue ("vector2");
-      if (vec2_value)
-      {
-	csVector2 v;
-	csScanStr (vec2_value, "%f,%f", &v.x, &v.y);
-	params->GetParameter (par_idx-1).Set (v);
-        continue;
-      }
-      const char* col_value = par_child->GetAttributeValue ("color");
-      if (col_value)
-      {
-	csColor v;
-	csScanStr (col_value, "%f,%f,%f", &v.red, &v.green, &v.blue);
-	params->GetParameter (par_idx-1).Set (v);
         continue;
       }
       const char* float_value = par_child->GetAttributeValue ("float");
@@ -454,7 +443,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   if (mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
-    pc = pl->CreatePropertyClass (ent, "pcobject.mesh");
+    pc = pl->CreatePropertyClass (ent, "pcmesh");
     csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
     pcmesh->SetMesh (mesh);
   }

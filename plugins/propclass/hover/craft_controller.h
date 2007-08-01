@@ -39,14 +39,15 @@ CEL_DECLARE_FACTORY (CraftController)
 /**
  * Hover stabiliser property class.
  */
-class celPcCraftController : public scfImplementationExt1<
-	celPcCraftController, celPcCommon , iPcCraftController>,
-	public celPeriodicTimer
+class celPcCraftController : public celPcCommon , public celPeriodicTimer
 {
 public:
   celPcCraftController (iObjectRegistry* object_reg);
   virtual ~celPcCraftController ();
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName() const { return "pccraft"; };
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -77,7 +78,6 @@ public:
   virtual void SetMaxTurn (float turn) { turn_max = turn; }
   virtual void SetAccPitch (float uacc) { pitch_acc = uacc; }
   virtual void SetMaxPitch (float mud) { pitch_max = mud; }
-  virtual void SetRoll (float rol) { roll = rol; }
   virtual void SetThrustForce (float tf) { thrust = tf; }
   virtual void SetTopSpeed (float tspeed) { topspeed = tspeed; }
   virtual void SetAfterBurnerTopSpeed (float tspeed)
@@ -102,40 +102,127 @@ public:
   virtual void SlideOn () { slide_on = true; }
   virtual void SlideOff () { slide_on = false; }
 
-  virtual bool GetPropertyIndexed (int, float& val);
-  virtual bool SetPropertyIndexed (int, float val);
+  struct PcCraftController : public iPcCraftController
+  {
+    SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
+
+    virtual void StartTurnLeft ()
+    {
+      scfParent->StartTurnLeft ();
+    }
+    virtual void StopTurnLeft ()
+    {
+      scfParent->StopTurnLeft ();
+    }
+    virtual void StartTurnRight ()
+    {
+      scfParent->StartTurnRight ();
+    }
+    virtual void StopTurnRight ()
+    {
+      scfParent->StopTurnRight ();
+    }
+
+    virtual void StartTurnUp ()
+    {
+      scfParent->StartTurnUp ();
+    }
+    virtual void StopTurnUp ()
+    {
+      scfParent->StopTurnUp ();
+    }
+    virtual void StartTurnDown ()
+    {
+      scfParent->StartTurnDown ();
+    }
+    virtual void StopTurnDown ()
+    {
+      scfParent->StopTurnDown ();
+    }
+
+    virtual void SetAccTurn (float tacc)
+    {
+      scfParent->SetAccTurn (tacc);
+    }
+    virtual void SetAccPitch (float uacc)
+    {
+      scfParent->SetAccPitch (uacc);
+    }
+    virtual void SetMaxTurn (float turn)
+    {
+      scfParent->SetMaxTurn (turn);
+    }
+    virtual void SetMaxPitch (float mud)
+    {
+      scfParent->SetMaxPitch (mud);
+    }
+    virtual void SetThrustForce (float tf)
+    {
+      scfParent->SetThrustForce (tf);
+    }
+    virtual void SetTopSpeed (float tspeed)
+    {
+      scfParent->SetTopSpeed (tspeed);
+    }
+    virtual void SetAfterBurnerTopSpeed (float tspeed)
+    {
+      scfParent->SetAfterBurnerTopSpeed (tspeed);
+    }
+    virtual void SetRedirectVelocityRatio (float rdvr)
+    {
+      scfParent->SetRedirectVelocityRatio (rdvr);
+    }
+    virtual void SetDecelerationRate (float decr)
+    {
+      scfParent->SetDecelerationRate (decr);
+    }
+    virtual void SetBrakingSpeed (float bspd)
+    {
+      scfParent->SetBrakingSpeed (bspd);
+    }
+
+    virtual void ThrustOn ()
+    {
+      scfParent->ThrustOn ();
+    }
+    virtual void ThrustOff ()
+    {
+      scfParent->ThrustOff ();
+    }
+    virtual bool IsThrusterOn ()
+    {
+      return scfParent->IsThrusterOn ();
+    }
+
+    virtual void AfterBurnerOn ()
+    {
+      scfParent->AfterBurnerOn ();
+    }
+    virtual void AfterBurnerOff ()
+    {
+      scfParent->AfterBurnerOff ();
+    }
+
+    virtual void BrakesOn ()
+    {
+      scfParent->BrakesOn ();
+    }
+    virtual void BrakesOff ()
+    {
+      scfParent->BrakesOff ();
+    }
+
+    virtual void SlideOn ()
+    {
+      scfParent->SlideOn ();
+    }
+    virtual void SlideOff ()
+    {
+      scfParent->SlideOff ();
+    }
+  } scfiPcCraftController;
 
 private:
-  static PropertyHolder propinfo;
-
-  // Actions
-  enum actionids
-  {
-    action_sliding = 0,
-    action_braking,
-    action_thruster,
-    action_aburner
-  };
-
-  // For properties.
-  enum propids
-  {
-    propid_turnmax = 0,
-    propid_turnacc,
-    propid_pitchmax,
-    propid_pitchacc,
-    propid_roll,
-    propid_thrust,
-    propid_topspeed,
-    propid_atopspeed,
-    propid_brakingspeed,
-    propid_decelrate,
-    propid_rvelratio
-  };
-
-  // Parameters.
-  static csStringID id_enabled;
-
   void DoTurningCalc (bool isturning, float &turn, float acc, float max);
 
   // turning variables
@@ -147,9 +234,6 @@ private:
 
   float turn_acc, pitch_acc;
   float turn_max, pitch_max;
-
-  // how much roll when turning left and right
-  float roll;
 
   // thruster variables
   bool thrust_on;

@@ -81,8 +81,7 @@ struct SpawnPosition
 /**
  * This is a spawn property class.
  */
-class celPcSpawn : public scfImplementationExt1<
-	celPcSpawn, celPcCommon, iPcSpawn>
+class celPcSpawn : public celPcCommon
 {
 private:
   csRef<iVirtualClock> vc;
@@ -145,29 +144,30 @@ public:
   celPcSpawn (iObjectRegistry* object_reg);
   virtual ~celPcSpawn ();
 
-  virtual void SetEnabled (bool e) { enabled = e; }
-  virtual bool IsEnabled () const { return enabled; }
+  void SetEnabled (bool e) { enabled = e; }
+  bool IsEnabled () const { return enabled; }
   void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
   	const char* behaviour, const char* msg_id,
   	iCelParameterBlock* params, va_list pcclasses);
-  virtual void AddEntityTemplateType (float chance, const char* templ,
+  void AddEntityTemplateType (float chance, const char* templ,
   	const char* name, const char* msg_id,
   	iCelParameterBlock* params);
-  virtual void ClearEntityList ();
-  virtual void SetTiming (bool repeat, bool random,
+  void ClearEntityList ();
+  void SetTiming (bool repeat, bool random,
   	csTicks mindelay, csTicks maxdelay);
-  virtual void ResetTiming ();
-  virtual void InhibitCount (int number);
-  virtual void Spawn ();
-  virtual void AddSpawnPosition (const char* node, float yrot,
-      const char* sector);
-  virtual void AddSpawnPosition (const csVector3& pos, float yrot,
-      const char* sector);
-  virtual void SetEntityNameCounter (bool en) { do_name_counter = en; }
-  virtual bool IsEntityNameCounterCounter () const { return do_name_counter; }
-  virtual void EnableSpawnUnique (bool en) { do_spawn_unique = en; }
-  virtual bool IsSpawnUniqueEnabled () const { return do_spawn_unique; }
+  void ResetTiming ();
+  void InhibitCount (int number);
+  void Spawn ();
+  void AddSpawnPosition (const char* node, float yrot, const char* sector);
+  void AddSpawnPosition (const csVector3& pos, float yrot, const char* sector);
+  void SetEntityNameCounter (bool en) { do_name_counter = en; }
+  bool IsEntityNameCounterCounter () const { return do_name_counter; }
+  void EnableSpawnUnique (bool en) { do_spawn_unique = en; }
+  bool IsSpawnUniqueEnabled () const { return do_spawn_unique; }
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pcspawn"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -176,15 +176,81 @@ public:
   virtual void SpawnEntityNr (size_t idx);
   virtual void Reset ();
 
-  virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
+  struct PcSpawn : public iPcSpawn
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcSpawn);
+    virtual void SetEnabled (bool e)
+    {
+      scfParent->SetEnabled (e);
+    }
+    virtual bool IsEnabled () const
+    {
+      return scfParent->IsEnabled ();
+    }
+    virtual void AddEntityType (float chance, const char* name, iCelBlLayer* bl,
     	const char* behaviour, const char* msg_id,
     	iCelParameterBlock* params, ...)
-  {
-    va_list arg;
-    va_start (arg, params);
-    AddEntityType (chance, name, bl, behaviour, msg_id, params, arg);
-    va_end (arg);
-  }
+    {
+      va_list arg;
+      va_start (arg, params);
+      scfParent->AddEntityType (chance, name, bl, behaviour, msg_id,
+      	params, arg);
+      va_end (arg);
+    }
+    virtual void AddEntityTemplateType (float chance, const char* templ,
+    	const char* name, const char* msg_id,
+    	iCelParameterBlock* params)
+    {
+      scfParent->AddEntityTemplateType (chance, templ, name, msg_id, params);
+    }
+    virtual void ClearEntityList ()
+    {
+      scfParent->ClearEntityList ();
+    }
+    virtual void SetTiming (bool repeat, bool random,
+    	csTicks mindelay, csTicks maxdelay)
+    {
+      scfParent->SetTiming (repeat, random, mindelay, maxdelay);
+    }
+    virtual void ResetTiming ()
+    {
+      scfParent->ResetTiming ();
+    }
+    virtual void InhibitCount (int number)
+    {
+      scfParent->InhibitCount (number);
+    }
+    virtual void Spawn ()
+    {
+      scfParent->Spawn ();
+    }
+    virtual void AddSpawnPosition (const char* node, float yrot,
+    	const char* sector)
+    {
+      scfParent->AddSpawnPosition (node, yrot, sector);
+    }
+    virtual void AddSpawnPosition (const csVector3& pos, float yrot,
+    	const char* sector)
+    {
+      scfParent->AddSpawnPosition (pos, yrot, sector);
+    }
+    virtual void SetEntityNameCounter (bool en)
+    {
+      scfParent->SetEntityNameCounter (en);
+    }
+    virtual bool IsEntityNameCounterCounter () const
+    {
+      return scfParent->IsEntityNameCounterCounter ();
+    }
+    virtual void EnableSpawnUnique (bool en)
+    {
+      scfParent->EnableSpawnUnique (en);
+    }
+    virtual bool IsSpawnUniqueEnabled () const
+    {
+      return scfParent->IsSpawnUniqueEnabled ();
+    }
+  } scfiPcSpawn;
 };
 
 #endif // __CEL_PF_SPAWNFACT__

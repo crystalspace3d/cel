@@ -31,7 +31,7 @@ struct iCelEntity;
 struct iCelEntityList;
 struct iCelEntityIterator;
 struct iCelDataBuffer;
-struct iCelParameterBlock;
+struct iCelMessage;
 struct iCelPropertyClass;
 struct iCelPropertyClassFactory;
 struct iCelBlLayer;
@@ -101,13 +101,13 @@ struct iCelTimerListener : public virtual iBase
   virtual void TickOnce () = 0;
 };
 
+SCF_VERSION (iCelPlLayer, 0, 3, 2);
+
 /**
  * This is the Physical Layer itself.
  */
-struct iCelPlLayer : public virtual iBase
+struct iCelPlLayer : public iBase
 {
-  SCF_INTERFACE (iCelPlLayer, 0, 4, 0);
-
   /**
    * Create a new physical layer entity. The physical layer
    * will keep a reference to this entity. You need to call RemoveEntity()
@@ -346,8 +346,7 @@ struct iCelPlLayer : public virtual iBase
    * factory itself will do it when it is loaded. To load a property class
    * factory plugin you can use LoadPropertyClassFactory().
    */
-  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
-      const char* altname = 0) = 0;
+  virtual void RegisterPropertyClassFactory (iCelPropertyClassFactory* pf) = 0;
 
   /**
    * Unregister a property class factory.
@@ -377,8 +376,8 @@ struct iCelPlLayer : public virtual iBase
    * factory.
    * Note that the reference count of the returned class is not turned up.
    */
-  virtual iCelPropertyClass* CreatePropertyClass (iCelEntity* entity,
-    const char* propname, const char* tagname = 0) = 0;
+  virtual iCelPropertyClass* CreatePropertyClass
+      (iCelEntity* entity, const char* propname) = 0;
 
   /**
    * Convenience function to create a property class with a tag from a
@@ -531,39 +530,17 @@ struct iCelPlLayer : public virtual iBase
    * completely manage the ID allocation of your own scopes. 
    */
   virtual int AddScope (csString version, int size) = 0;
-
-  /*
-   * Get a list of all entities with a certain class assigned.
-   * The list returned is always kept up to date by the physical layer so 
-   * you can save the reference safely and keep using it.
-   */
-  virtual const csRef<iCelEntityList> GetClassEntitiesList (
-	csStringID classid) = 0;
-
-  /*
-   * Send a message to all entities in an entity list. Returns the number
-   * of entities that understood and handled the message.
-   */
-  virtual int SendMessage (iCelEntityList *entlist, const char* msgname,
-	iCelParameterBlock* params, ...) = 0;
-
-  /*
-   * Send a message to all entities in an entity list. Returns the number
-   * of entities that understood and handled the message.
-   */
-  virtual int SendMessageV (iCelEntityList *entlist, const char* msgname,
-	iCelParameterBlock* params, va_list arg) = 0;
 };
+
+SCF_VERSION (iCelEntityTracker, 0, 0, 2);
 
 /**
  * This structure maintains a tracker for entities. You can use this
  * to find all entities near some location. Note that this only works
  * on entities with a pcmesh property class.
  */
-struct iCelEntityTracker : public virtual iBase
+struct iCelEntityTracker : public iBase
 {
-  SCF_INTERFACE (iCelEntityTracker, 0, 0, 2);
-
   /**
    * Get the name of this tracker.
    */

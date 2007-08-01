@@ -41,8 +41,7 @@ struct celData;
 /**
  * This is the classic persistence layer.
  */
-class celPersistClassic : public scfImplementation2<
-	celPersistClassic, iCelPersistence, iComponent>
+class celPersistClassic : public iCelPersistence
 {
 private:
   bool WriteMarker (const char* s);
@@ -82,6 +81,7 @@ private:
   bool ReportWrite ();
 
 public:
+  SCF_DECLARE_IBASE;
   csRef<iVFS> vfs;
   iFile* file;
   iCelLocalEntitySet* set;
@@ -96,6 +96,12 @@ public:
   virtual bool Save (iCelLocalEntitySet* set, iFile* file);
   virtual bool Save (iCelLocalEntitySet* set, const char* name);
 
+  struct Component : public iComponent
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPersistClassic);
+    virtual bool Initialize (iObjectRegistry* p)
+    { return scfParent->Initialize (p); }
+  } scfiComponent;
 protected:
   iObjectRegistry* object_reg;
 };

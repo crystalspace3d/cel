@@ -30,6 +30,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
@@ -59,7 +60,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Region, "pcworld.region", "pcregion")
+CEL_IMPLEMENT_FACTORY (Region, "pcregion")
 
 void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -68,7 +69,7 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.region",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
   else
   {
@@ -85,23 +86,22 @@ void EngReport (iObjectRegistry* object_reg, const char* msg, ...)
 PropertyHolder celPcRegion::propinfo;
 
 celPcRegion::celPcRegion (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+  : scfImplementationType (this, object_reg)
 {
   propholder = &propinfo;
 
   if (!propinfo.actions_done)
   {
     AddAction (action_load, "cel.action.Load");
-    AddAction (action_unload, "cel.action.Unload");
   }
 
   propinfo.SetCount (3);
   AddProperty (propid_worlddir, "cel.property.worlddir",
-  	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
+	CEL_DATA_STRING, false, "Map VFS path.", &worlddir);
   AddProperty (propid_worldfile, "cel.property.worldfile",
-  	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
+	CEL_DATA_STRING, false, "Map VFS file name.", &worldfile);
   AddProperty (propid_regionname, "cel.property.regionname",
-  	CEL_DATA_STRING, false, "Name of this region.", &regionname);
+	CEL_DATA_STRING, false, "Name of this region.", &regionname);
 
   worlddir = 0;
   worldfile = 0;
@@ -184,33 +184,18 @@ bool celPcRegion::PerformActionIndexed (int idx,
 	iCelParameterBlock* params,
 	celData& ret)
 {
-  switch (idx)
+  if (idx == action_load)
   {
-    case action_load:
+    if ((empty_sector || worldfile) && regionname)
+      Load ();
+    else
     {
-      if ((empty_sector || worldfile) && regionname)
-        Load ();
-      else
-      {
-        printf ("World filename or region name not set!\n");
-        return false;
-      }
-      return true;
-    }
-    case action_unload:
-    {
-      if ((empty_sector || worldfile) && regionname)
-        Unload ();
-      else
-      {
-        printf ("World filename or region name not set!\n");
-        return false;
-      }
-      return true;
-    }
-    default:
+      printf ("World filename or region name not set!\n");
       return false;
+    }
+    return true;
   }
+  return false;
 }
 
 void celPcRegion::CreateEmptySector (const char* name)
@@ -256,7 +241,7 @@ bool celPcRegion::Load (bool allow_entity_addon)
 {
   if (loaded)
   {
-    EngReport (object_reg,"Entity '%s' already loaded.", entity->GetName ());
+    EngReport (object_reg,"Entity '%s' already loaded.", entity->GetName());
     return true;
   }
   if (!empty_sector && !worlddir)
@@ -350,7 +335,7 @@ void celPcRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.GetSize () ; i++)
+    for (i = 0 ; i < entities.Length () ; i++)
       if (entities[i])
       {
         pl->RemoveEntity (entities[i]);
@@ -375,7 +360,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
   CS_ASSERT (engine != 0);
   if (empty_sector)
   {
-    iRegion* reg = GetRegionInternal (engine);
+    iRegion* reg = GetRegionInternal(engine);
     return engine->FindSector (worldfile, reg);
   }
   iSector* sector;
@@ -389,7 +374,7 @@ iSector* celPcRegion::GetStartSector (const char* name)
   }
   else
   {
-    sector = engine->FindSector ("room", GetRegionInternal (engine));
+    sector = engine->FindSector("room", GetRegionInternal(engine));
   }
   return sector;
 }
@@ -404,7 +389,7 @@ csVector3 celPcRegion::GetStartPosition (const char* name)
   {
     iCameraPosition* campos =
     	name ? engine->GetCameraPositions ()->FindByName (name)
-    	: engine->GetCameraPositions ()->Get (0);
+       : engine->GetCameraPositions ()->Get (0);
     if (campos) pos = campos->GetPosition ();
   }
   return pos;
@@ -415,35 +400,35 @@ void celPcRegion::PointCamera (iPcCamera* pccamera, const char* name)
   CS_ASSERT(pccamera != 0);
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-  if (engine->GetCameraPositions ()->GetCount () > 0)
+  if (engine->GetCameraPositions()->GetCount() > 0)
   {
     iCameraPosition* campos =
-    	name ? engine->GetCameraPositions ()->FindByName (name)
-    	: engine->GetCameraPositions ()->Get (0);
+        name ? engine->GetCameraPositions()->FindByName(name)
+       : engine->GetCameraPositions()->Get(0);
     if (campos)
     {
-      campos->Load (pccamera->GetCamera (), engine);
+      campos->Load(pccamera->GetCamera(), engine);
       return;
     }
   }
 
   iSector* s = GetStartSector (name);
   pccamera->GetCamera ()->SetSector (s);
-  pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
+  pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3(0,0,0));
 }
 
-iRegion* celPcRegion::GetRegionInternal (csRef<iEngine> engine)
+iRegion* celPcRegion::GetRegionInternal(csRef<iEngine> engine)
 {
-  return engine->GetRegions ()->FindByName (regionname);
+  return engine->GetRegions()->FindByName(regionname);
 }
 
-iRegion* celPcRegion::GetRegion ()
+iRegion* celPcRegion::GetRegion()
 {
   if (!loaded)
     return 0;
 
   csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-  iRegion* region = GetRegionInternal (engine);
+  iRegion* region = GetRegionInternal(engine);
   CS_ASSERT(region);
   return region;
 }

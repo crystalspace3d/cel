@@ -52,8 +52,24 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPlLayer)
 
-celPlLayer::celPlLayer (iBase* parent) : scfImplementationType (this, parent)
+SCF_IMPLEMENT_IBASE (celPlLayer)
+  SCF_IMPLEMENTS_INTERFACE (iCelPlLayer)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPlLayer::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_IBASE (celPlLayer::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
+celPlLayer::celPlLayer (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+
   entities_hash_dirty = false;
   scfiEventHandler = 0;
 
@@ -67,7 +83,6 @@ celPlLayer::~celPlLayer ()
 
   entities.DeleteAll ();
   entities_hash.DeleteAll ();
-  entityclasses_hash.DeleteAll ();
 
   if (scfiEventHandler)
   {
@@ -76,6 +91,8 @@ celPlLayer::~celPlLayer ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPlLayer::HandleEvent (iEvent& ev)
@@ -107,9 +124,9 @@ bool celPlLayer::HandleEvent (iEvent& ev)
       compress = true;
   }
   cbinfo->handling_every_frame = false;
-  while (cbinfo->todo_del_every_frame.GetSize () > 0)
+  while (cbinfo->todo_del_every_frame.Length () > 0)
     cbinfo->every_frame.Delete (cbinfo->todo_del_every_frame.Pop ());
-  while (cbinfo->todo_add_every_frame.GetSize () > 0)
+  while (cbinfo->todo_add_every_frame.Length () > 0)
     cbinfo->every_frame.Add (cbinfo->todo_add_every_frame.Pop ());
 
   // Then fire all property classes that are interested in receiving
@@ -118,7 +135,7 @@ bool celPlLayer::HandleEvent (iEvent& ev)
   // one that will fire first.
   csTicks current_time = vc->GetCurrentTicks ();
   csArray<CallbackTiming>& cbs = cbinfo->timed_callbacks;
-  while (cbs.GetSize () > 0 && cbs.Top ().time_to_fire <= current_time)
+  while (cbs.Length () > 0 && cbs.Top ().time_to_fire <= current_time)
   {
     CallbackTiming pcfire = cbs.Pop ();
     iCelTimerListener* listener = weak_listeners[pcfire.pc_idx];
@@ -170,7 +187,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
   uint objid;
 
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  iCelEntity* ientity = entity;
+  iCelEntity* ientity = &entity->scfiCelEntity;
   objid = idlist.Register (ientity, scope);
   if (objid == 0)
   {
@@ -192,7 +209,7 @@ csPtr<iCelEntity> celPlLayer::CreateEntityInScope (int scope)
 csPtr<iCelEntity> celPlLayer::CreateEntity (uint entity_id)
 {
   csRef<celEntity> entity = csPtr<celEntity> (new celEntity (this));
-  iCelEntity* ientity = entity;
+  iCelEntity* ientity = &entity->scfiCelEntity;
 
   entity->SetEntityID (entity_id);
   idlist.RegisterWithID (ientity, entity_id);
@@ -253,13 +270,13 @@ csPtr<iCelEntity> celPlLayer::CreateEntity (const char* entname,
 void celPlLayer::RemoveEntityName (celEntity* ent)
 {
   if (!entities_hash_dirty)
-    entities_hash.Delete (ent->GetName (), ent);
+    entities_hash.Delete (ent->GetName (), &(ent->scfiCelEntity));
 }
 
 void celPlLayer::AddEntityName (celEntity* ent)
 {
   if (!entities_hash_dirty)
-    entities_hash.Put (ent->GetName (), ent);
+    entities_hash.Put (ent->GetName (), &(ent->scfiCelEntity));
 }
 
 iCelEntity* celPlLayer::FindEntity (const char* name)
@@ -269,7 +286,7 @@ iCelEntity* celPlLayer::FindEntity (const char* name)
     entities_hash_dirty = false;
     size_t i;
     entities_hash.DeleteAll ();
-    for (i = 0 ; i < entities.GetSize () ; i++)
+    for (i = 0 ; i < entities.Length () ; i++)
     {
       if (entities[i]->GetName ())
         entities_hash.Put (entities[i]->GetName (), entities[i]);
@@ -284,7 +301,7 @@ iCelEntityTemplate* celPlLayer::CreateEntityTemplate (const char* factname)
   fact.AttachNew (new celEntityTemplate ());
   fact->SetName (factname);
   entity_templates.Put (factname, fact);
-  return static_cast<iCelEntityTemplate*> (fact);
+  return &(((celEntityTemplate*)fact)->scfiCelEntityTemplate);
 }
 
 void celPlLayer::RemoveEntityTemplate (iCelEntityTemplate* entfact)
@@ -300,7 +317,7 @@ void celPlLayer::RemoveEntityTemplates ()
 iCelEntityTemplate* celPlLayer::FindEntityTemplate (const char* factname)
 {
   csRef<celEntityTemplate> f = entity_templates.Get (factname, 0);
-  return static_cast<iCelEntityTemplate*> (f);
+  return f ? &(f->scfiCelEntityTemplate) : 0;
 }
 
 size_t celPlLayer::GetEntityTemplateCount () const
@@ -319,7 +336,7 @@ iCelEntityTemplate* celPlLayer::GetEntityTemplate (size_t idx) const
   {
     if (!it.HasNext ()) return 0;
     const csRef<celEntityTemplate>& tpl = it.Next ();
-    temp = static_cast<iCelEntityTemplate*> (tpl);
+    temp = &(((celEntityTemplate*)tpl)->scfiCelEntityTemplate);
   }
   return temp;
 }
@@ -435,9 +452,8 @@ bool celPlLayer::PerformActionTemplate (const ccfPropAct& act,
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
 	  "crystalspace.cel.physicallayer",
-	  "Error performing '%s' in '%s' for entity '%s' from factory '%s'!",
-          FetchString(act.id), pc->GetName (), ent->GetName (),
-          factory->GetName ());
+	  "Error performing action in '%s' for entity '%s' from factory '%s'!",
+		pc->GetName (), ent->GetName (), factory->GetName ());
     RemoveEntity (ent);
     return false;
   }
@@ -464,7 +480,8 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   	const char* name, const celEntityTemplateParams& params)
 {
-  celEntityTemplate* cfact = static_cast<celEntityTemplate*> (factory);
+  celEntityTemplate* cfact = ((celEntityTemplate::CelEntityTemplate*)
+  	factory)->GetCelEntityTemplate ();
   csRef<iCelBlLayer> bl;
   if (cfact->GetLayer ())
   {
@@ -494,7 +511,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
 
   const csRefArray<celPropertyClassTemplate>& pcs = cfact->GetPropClasses ();
   size_t i;
-  for (i = 0 ; i < pcs.GetSize () ; i++)
+  for (i = 0 ; i < pcs.Length () ; i++)
   {
     celPropertyClassTemplate* pcc = pcs[i];
     const char* pcname = pcc->GetName ();
@@ -513,7 +530,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
     }
     const csArray<ccfPropAct>& props = pcc->GetProperties ();
     size_t j;
-    for (j = 0 ; j < props.GetSize () ; j++)
+    for (j = 0 ; j < props.Length () ; j++)
     {
       const celData& d = props[j].data;
       csStringID id = props[j].id;
@@ -663,7 +680,7 @@ iCelEntity* celPlLayer::CreateEntity (iCelEntityTemplate* factory,
   if (ent->GetBehaviour ())
   {
     const csArray<ccfMessage>& messages = cfact->GetMessages ();
-    for (i = 0 ; i < messages.GetSize () ; i++)
+    for (i = 0 ; i < messages.Length () ; i++)
     {
       const ccfMessage& msg = messages[i];
       celData ret;
@@ -686,15 +703,17 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
   // extra reference to the entity to prevent the entity from being
   // deleted in the call to entities.Delete().
   csRef<iCelEntity> entity = entities[idx];
+
   // First notify the behaviour of the destruction.
   if (entity->GetBehaviour ())
   {
     celData ret;
     entity->GetBehaviour ()->SendMessage ("destruct", 0, ret, 0);
   }
+
   // First register this entity from all trackers.
   size_t i;
-  for (i = 0 ; i < trackers.GetSize () ; i++)
+  for (i = 0 ; i < trackers.Length () ; i++)
     trackers[i]->RemoveEntity (entity);
 
   if (!idlist.Remove (entity->GetID ()))
@@ -706,16 +725,11 @@ void celPlLayer::RemoveEntityIndex (size_t idx)
     return;
   }
 
-  for (i = 0; i < removecallbacks.GetSize(); i++)
+  for (i = 0; i < removecallbacks.Length(); i++)
   {
     iCelEntityRemoveCallback* callback = removecallbacks[i];
     callback->RemoveEntity (entity);
   }
-
-  // remove entity from class trackers
-  csSet<csStringID>::GlobalIterator it = entity->GetClasses().GetIterator();
-  while (it.HasNext())
-    EntityClassRemoved(entity,it.Next());
 
   if (!entities_hash_dirty && entity->GetName ())
     entities_hash.Delete (entity->GetName (), entity);
@@ -735,15 +749,15 @@ void celPlLayer::RemoveEntities ()
   // on his own so this is only a warning.
   size_t i;
   csWeakRefArray<iCelEntity> weakrefs;
-  for (i = 0 ; i < entities.GetSize () ; i++)
+  for (i = 0 ; i < entities.Length () ; i++)
     weakrefs.Push (entities[i]);
 #endif
-  while (entities.GetSize () > 0)
+  while (entities.Length () > 0)
   {
-    RemoveEntityIndex (entities.GetSize ()-1);
+    RemoveEntityIndex (entities.Length ()-1);
   }
 #ifdef CS_DEBUG
-  for (i = 0 ; i < weakrefs.GetSize () ; i++)
+  for (i = 0 ; i < weakrefs.Length () ; i++)
     if (weakrefs[i] != 0)
     {
       printf ("Entity '%s' not removed (ref count %d)\n",
@@ -768,39 +782,36 @@ iCelBehaviour* celPlLayer::GetBehaviour (uint id)
   return 0;
 }
 
-iCelPropertyClassFactory* celPlLayer::FindOrLoadPropfact (const char *propname)
-{
-  if (propname == 0 || !*propname) return 0;
-
-  // if already loaded return existing propfact
-  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
-  if (pf)
-    return pf;
-
-  // use cel.pcfactory.propname if it is able to load
-  // and propclass is queried successfully
-  csString pfid ("cel.pcfactory.");
-  // skip the first 2 characters since they have the 'pc' bit
-  pfid += &propname[2];
-  // try to load property class factory using constructed id
-  if (!LoadPropertyClassFactory (pfid))
-    return 0;
-  return FindPropertyClassFactory (propname);
-}
-
 iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
-  const char *propname, const char* tagname)
+	const char *propname)
 {
-  iCelPropertyClassFactory* pf = FindOrLoadPropfact (propname);
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
   if (!pf)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-        "crystalspace.cel.pllayer",
-        "No factory for type '%s' registered!", propname);
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
     return 0;
   }
-  // create a new property class
-  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass(propname));
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
+  if (!pc)
+    return 0;
+  entity->GetPropertyClassList()->Add (pc);
+  return pc;
+}
+
+iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
+	const char *propname, const char* tagname)
+{
+  iCelPropertyClassFactory* pf = FindPropertyClassFactory (propname);
+  if (!pf)
+  {
+    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
+	"crystalspace.cel.pllayer",
+	"No factory for type '%s' registered!", propname);
+    return 0;
+  }
+  csRef<iCelPropertyClass> pc (pf->CreatePropertyClass());
   if (!pc)
     return 0;
   if (tagname)
@@ -809,15 +820,8 @@ iCelPropertyClass* celPlLayer::CreatePropertyClass (iCelEntity *entity,
   return pc;
 }
 
-iCelPropertyClass* celPlLayer::CreateTaggedPropertyClass (iCelEntity *entity,
-  const char *propname, const char* tagname)
-{
-  return CreatePropertyClass (entity, propname, tagname);
-}
-
 // Implementation of iCelDataBuffer.
-class celDataBuffer : public scfImplementation1<
-	celDataBuffer, iCelDataBuffer>
+class celDataBuffer : public iCelDataBuffer
 {
 private:
   csArray<celData> data;
@@ -825,14 +829,18 @@ private:
   size_t posidx;
 
 public:
-  celDataBuffer (long serialnr) : scfImplementationType (this)
+  celDataBuffer (long serialnr)
   {
+    SCF_CONSTRUCT_IBASE (0);
     celDataBuffer::serialnr = serialnr;
     posidx = 0;
   }
   virtual ~celDataBuffer ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
+
+  SCF_DECLARE_IBASE;
 
   virtual long GetSerialNumber () const
   {
@@ -840,17 +848,17 @@ public:
   }
   virtual size_t GetDataCount () const
   {
-    return data.GetSize ();
+    return data.Length ();
   }
   virtual celData* GetData ()
   {
-    if (posidx >= data.GetSize ()) return 0;
+    if (posidx >= data.Length ()) return 0;
     posidx++;
     return &data[posidx-1];
   }
   virtual celData* GetData (size_t idx)
   {
-    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.GetSize ());
+    CS_ASSERT ((idx != csArrayItemNotFound) && idx < data.Length ());
     return &data[idx];
   }
   virtual void Reset ()
@@ -864,6 +872,10 @@ public:
   }
 };
 
+SCF_IMPLEMENT_IBASE (celDataBuffer)
+  SCF_IMPLEMENTS_INTERFACE (iCelDataBuffer)
+SCF_IMPLEMENT_IBASE_END
+
 csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 {
   return csPtr<iCelDataBuffer> (new celDataBuffer (serialnr));
@@ -872,22 +884,26 @@ csPtr<iCelDataBuffer> celPlLayer::CreateDataBuffer (long serialnr)
 // Class which is used to attach to an iObject so that
 // we can find the iCelEntity again.
 
-struct celEntityFinder : public scfImplementationExt1<
-	celEntityFinder, csObject, scfFakeInterface<celEntityFinder> >
+SCF_VERSION (celEntityFinder, 0, 0, 1);
+struct celEntityFinder : public csObject
 {
-  SCF_INTERFACE (celEntityFinder, 0, 0, 1);
 private:
   iCelEntity* entity;
 
 public:
-  celEntityFinder (iCelEntity* entity) : scfImplementationType (this)
+  celEntityFinder (iCelEntity* entity)
   {
     celEntityFinder::entity = entity;
   }
   virtual ~celEntityFinder ()
   { }
   iCelEntity* GetEntity () const { return entity; }
+  SCF_DECLARE_IBASE_EXT (csObject);
 };
+
+SCF_IMPLEMENT_IBASE_EXT (celEntityFinder)
+  SCF_IMPLEMENTS_INTERFACE (celEntityFinder)
+SCF_IMPLEMENT_IBASE_EXT_END
 
 void celPlLayer::AttachEntity (iObject* object, iCelEntity* entity)
 {
@@ -1006,7 +1022,7 @@ iCelEntityTracker* celPlLayer::CreateEntityTracker (const char* name)
 iCelEntityTracker* celPlLayer::FindEntityTracker (const char* name)
 {
   size_t i;
-  for (i = 0 ; i < trackers.GetSize () ; i++)
+  for (i = 0 ; i < trackers.Length () ; i++)
     if (strcmp (name, trackers[i]->GetName ()) == 0)
       return trackers[i];
   return 0;
@@ -1034,78 +1050,8 @@ csPtr<iCelEntityList> celPlLayer::CreateEmptyEntityList ()
   return new celEntityList ();
 }
 
-static const char* deprecated_plugin_ids[] =
-{
-  "colldet",			"object.mesh.collisiondetection",
-  "collisiondetection",		"object.mesh.collisiondetection",
-  "mesh",			"object.mesh",
-  "meshselect",			"object.mesh.select",
-  "meshdeform",			"object.mesh.deform",
-  "light",			"object.light",
-  "portal",			"object.portal",
-  "linmove",			"move.linear",
-  "linearmovement",		"move.linear",
-  "movable",			"move.movable",
-  "solid",			"move.solid",
-  "movableconst_cd",		"move.movableconst_cd",
-  "gravity",			"move.gravity",
-  "actormove",			"move.actor.standard",
-  "npcmove",			"move.npc",
-  "mover",			"move.mover",
-  "projectile",			"move.projectile",
-  "billboard",			"2d.billboard",
-  "tooltip",			"2d.tooltip",
-  "damage",			"logic.damage",
-  "quest",			"logic.quest",
-  "rules",			"logic.rules",
-  "spawn",			"logic.spawn",
-  "trigger",			"logic.trigger",
-  "defaultcamera",		"camera.old",
-  "newcamera",			"camera.standard",
-  "simplecamera",		"camera.simple",
-  "region",			"world.region",
-  "zonemanager",		"world.zonemanager",
-  "hover",			"vehicle.hover",
-  "craft",			"vehicle.craft",
-  "wheeled",			"vehicle.wheeled",
-  "commandinput",		"input.standard",
-  "pccommandinput",		"input.standard",
-  "inventory",			"tools.inventory",
-  "characteristics",		"tools.inventory.characteristics",
-  "timer",			"tools.timer",
-  "properties",			"tools.properties",
-  "mechsys",			"physics.system",
-  "mechobject",			"physics.object",
-  "mechjoint",			"physics.joint",
-  "mechbalancedgroup",		"physics.thruster.group",
-  "mechthrustercontroller",	"physics.thruster.controller",
-  "mechthrusterreactionary",	"physics.thruster.reactionary",
-  "soundlistener",		"sound.listener",
-  "soundsource",		"sound.source",
-  "test",			"misc.test",
-  0
-};
-
 bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
 {
-  // Sanity check to avoid crashes with bad plugin_id's.
-  if (strlen (plugin_id) >= 15)
-  {
-    int i = 0;
-    while (deprecated_plugin_ids[i])
-    {
-      if (!strcmp (plugin_id+14, deprecated_plugin_ids[i]))
-      {
-        csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-	    "crystalspace.cel.physicallayer",
-	    "Property class factory name '%s' is deprecated! Use 'cel.pcfactory.%s' instead.",
-	    plugin_id, deprecated_plugin_ids[i+1]);
-        break;
-      }
-      i += 2;
-    }
-  }
-
   csRef<iPluginManager> plugin_mgr =
   	csQueryRegistry<iPluginManager> (object_reg);
   csRef<iBase> pf;
@@ -1125,14 +1071,11 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
   return true;
 }
 
-void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf,
-    const char* altname)
+void celPlLayer::RegisterPropertyClassFactory (iCelPropertyClassFactory* pf)
 {
   if (pf_list.Find (pf) != csArrayItemNotFound) return;
   pf_list.Push (pf);
   pf_hash.Put (pf->GetName (), pf);
-  if (altname)
-    pf_hash.Put (altname, pf);
 }
 
 void celPlLayer::UnregisterPropertyClassFactory (
@@ -1144,12 +1087,12 @@ void celPlLayer::UnregisterPropertyClassFactory (
 
 size_t celPlLayer::GetPropertyClassFactoryCount () const
 {
-  return pf_list.GetSize ();
+  return pf_list.Length ();
 }
 
 iCelPropertyClassFactory* celPlLayer::GetPropertyClassFactory (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.GetSize ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < pf_list.Length ());
   iCelPropertyClassFactory* pf = pf_list[idx];
   return pf;
 }
@@ -1179,7 +1122,7 @@ void celPlLayer::Uncache (iBase* object)
 
 void celPlLayer::CleanCache ()
 {
-  while (cache.GetSize () > 0)
+  while (cache.Length () > 0)
     Uncache ((iBase*)cache[0]);
 }
 
@@ -1196,12 +1139,12 @@ void celPlLayer::UnregisterBehaviourLayer (iCelBlLayer* bl)
 
 size_t celPlLayer::GetBehaviourLayerCount () const
 {
-  return bl_list.GetSize ();
+  return bl_list.Length ();
 }
 
 iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 {
-  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.GetSize ());
+  CS_ASSERT ((idx != csArrayItemNotFound) && idx < bl_list.Length ());
   iCelBlLayer* bl = bl_list[idx];
   return bl;
 }
@@ -1209,7 +1152,7 @@ iCelBlLayer* celPlLayer::GetBehaviourLayer (size_t idx) const
 iCelBlLayer* celPlLayer::FindBehaviourLayer (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < bl_list.GetSize () ; i++)
+  for (i = 0 ; i < bl_list.Length () ; i++)
   {
     iCelBlLayer* bl = bl_list[i];
     if (!strcmp (bl->GetName (), name))
@@ -1246,7 +1189,7 @@ void celPlLayer::RemoveNewEntityCallback (iCelNewEntityCallback* callback)
 
 void celPlLayer::FireNewEntityCallbacks (iCelEntity* entity)
 {
-  size_t i = newcallbacks.GetSize ();
+  size_t i = newcallbacks.Length ();
   while (i > 0)
   {
     i--;
@@ -1282,7 +1225,7 @@ void celPlLayer::CompressCallbackInfo ()
 
   // First copy all weak ref PC's that are still relevant to 'store' and
   // remember original index.
-  size_t orig_pcs_length = weak_listeners.GetSize ();
+  size_t orig_pcs_length = weak_listeners.Length ();
   csArray<pc_idx> store;
   size_t i;
   for (i = 0 ; i < orig_pcs_length ; i++)
@@ -1292,7 +1235,7 @@ void celPlLayer::CompressCallbackInfo ()
   // Delete the weak array and build it again.
   weak_listeners.DeleteAll ();
   weak_listeners_hash.DeleteAll ();
-  for (i = 0 ; i < store.GetSize () ; i++)
+  for (i = 0 ; i < store.Length () ; i++)
   {
     weak_listeners.Push (store[i].listener);
     weak_listeners_hash.Put (store[i].listener, i);
@@ -1301,7 +1244,7 @@ void celPlLayer::CompressCallbackInfo ()
   // Now create a reverse table to map from original index to new index.
   size_t* map = new size_t[orig_pcs_length];
   memset (map, 0xffffffff, sizeof (size_t) * orig_pcs_length);
-  for (i = 0 ; i < store.GetSize () ; i++)
+  for (i = 0 ; i < store.Length () ; i++)
     map[store[i].idx] = i;
 
   // Now change the indices in all lists.
@@ -1322,7 +1265,7 @@ void celPlLayer::CompressCallbackInfo ()
     cbinfo->every_frame = newset;
 
     size_t i;
-    for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
+    for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
     {
       size_t newidx = map[cbinfo->timed_callbacks[i].pc_idx];
       if (newidx == (size_t)~0)
@@ -1425,70 +1368,10 @@ void celPlLayer::RemoveCallbackOnce (iCelTimerListener* listener, int where)
 
   CallbackInfo* cbinfo = GetCBInfo (where);
   size_t i;
-  for (i = 0 ; i < cbinfo->timed_callbacks.GetSize () ; )
+  for (i = 0 ; i < cbinfo->timed_callbacks.Length () ; )
     if (cbinfo->timed_callbacks[i].pc_idx == pc_idx)
       cbinfo->timed_callbacks.DeleteIndex (i);
     else
       i++;
 }
-
-// Handling of class-entities lists
-void celPlLayer::EntityClassAdded(iCelEntity *ent,csStringID entclass)
-{
-  csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
-  if (!list)
-  {
-    list.AttachNew(new celEntityList ());
-    entityclasses_hash.Put(entclass,list);
-  }
-  list->Add(ent);
-}
-
-void celPlLayer::EntityClassRemoved(iCelEntity *ent,csStringID entclass)
-{
-  csRef<iCelEntityList> list = entityclasses_hash.Get(entclass,0);
-  list->Remove(ent);
-}
-
-const csRef<iCelEntityList> celPlLayer::GetClassEntitiesList (
-	csStringID classid)
-{
-  csRef<iCelEntityList> list = entityclasses_hash.Get(classid,0);
-  if (!list)
-  {
-    list.AttachNew(new celEntityList ());
-    entityclasses_hash.Put(classid,list);
-  }
-  return list;
-}
-
-// Send messages to entity lists.
-int celPlLayer::SendMessage (iCelEntityList *entlist, const char* msgname,
-		iCelParameterBlock* params, ...)
-{
-  va_list arg;
-  va_start (arg, params);
-  int responses = SendMessageV (entlist, msgname, params, arg);
-  va_end (arg);
-  return responses;
-}
-
-int celPlLayer::SendMessageV (iCelEntityList *entlist, const char* msgname, 
-		iCelParameterBlock* params, va_list arg)
-{
-  csRef<iCelEntityIterator> it = entlist->GetIterator();
-  celData ret;
-  int responses = 0;
-  while (it->HasNext())
-  {
-    iCelEntity *ent = it->Next();
-    iCelBehaviour *beh = ent->GetBehaviour();
-    if (beh)
-    {
-      responses+=beh->SendMessageV(msgname, 0, ret, params, arg);
-    }
-  }
-  return responses;
-}
-
 

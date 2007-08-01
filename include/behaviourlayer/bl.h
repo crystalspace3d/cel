@@ -26,13 +26,13 @@
 struct iCelBehaviour;
 struct iCelEntity;
 
+SCF_VERSION (iCelBlLayer, 0, 0, 1);
+
 /**
  * This is the Behaviour Layer itself.
  */
 struct iCelBlLayer : virtual public iBase
 {
-  SCF_INTERFACE (iCelBlLayer, 0, 0, 1);
-
   /**
    * The name of this behaviour layer.
    */

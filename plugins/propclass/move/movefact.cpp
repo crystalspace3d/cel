@@ -30,6 +30,7 @@
 #include "behaviourlayer/behave.h"
 #include "celtool/stdparams.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/csobject.h"
 #include "csutil/scanstr.h"
 #include "iutil/object.h"
@@ -55,10 +56,10 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Movable, "pcmove.movable", "pcmovable")
-CEL_IMPLEMENT_FACTORY_ALT (Solid, "pcmove.solid", "pcsolid")
-CEL_IMPLEMENT_FACTORY_ALT (MovableConstraintCD, "pcmove.movableconst_cd", "pcmovableconst_cd")
-CEL_IMPLEMENT_FACTORY_ALT (Gravity, "pcmove.gravity", "pcgravity")
+CEL_IMPLEMENT_FACTORY(Movable, "pcmovable")
+CEL_IMPLEMENT_FACTORY(Solid, "pcsolid")
+CEL_IMPLEMENT_FACTORY(MovableConstraintCD, "pcmovableconst_cd")
+CEL_IMPLEMENT_FACTORY(Gravity, "pcgravity")
 
 bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -67,7 +68,7 @@ bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcmove",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
   else
   {
@@ -87,7 +88,7 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.pcmove",
+    rep->ReportV (CS_REPORTER_SEVERITY_NOTIFY, "cel.persistence",
     	msg, arg);
   else
   {
@@ -104,6 +105,7 @@ void MoveNotify (iObjectRegistry* object_reg, const char* msg, ...)
 celPcMovable::celPcMovable (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  DG_TYPE (this, "celPcMovable()");
 }
 
 celPcMovable::~celPcMovable ()
@@ -120,8 +122,8 @@ csPtr<iCelDataBuffer> celPcMovable::Save ()
   csRef<iCelPropertyClass> pc;
   if (pcmesh) pc = scfQueryInterface<iCelPropertyClass> (pcmesh);
   databuf->Add (pc);
-  databuf->Add ((uint16)constraints.GetSize ());
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  databuf->Add ((uint16)constraints.Length ());
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* pcm = constraints[i];
     csRef<iCelPropertyClass> pc = scfQueryInterface<iCelPropertyClass> (pcm);
@@ -181,7 +183,7 @@ int celPcMovable::Move (iSector* sector, const csVector3& pos)
   CS_ASSERT (pcmesh != 0);
   csVector3 realpos;
   size_t i;
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, pos, pos, realpos);
@@ -207,7 +209,7 @@ int celPcMovable::Move (const csVector3& relpos)
   csVector3 realpos = end;
   bool partial = false;
   size_t i;
-  for (i = 0 ; i < constraints.GetSize () ; i++)
+  for (i = 0 ; i < constraints.Length () ; i++)
   {
     iPcMovableConstraint* c = constraints[i];
     int rc = c->CheckMove (sector, start, end, realpos);
@@ -245,6 +247,7 @@ PropertyHolder celPcSolid::propinfo;
 celPcSolid::celPcSolid (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
+  DG_TYPE (this, "celPcSolid()");
   no_collider = false;
 
   if (id_min == csInvalidStringID)
@@ -356,20 +359,20 @@ bool celPcSolid::PerformActionIndexed (int idx,
   {
     case action_setup:
       {
-        Setup ();
-        return true;
+	Setup ();
+	return true;
       }
     case action_setupbox:
       {
         CEL_FETCH_VECTOR3_PAR (min,params,id_min);
-        if (!p_min)
+	if (!p_min)
           return MoveReport (object_reg,
-          	"'min' parameter missing for SetupBox!");
+	      "'min' parameter missing for SetupBox!");
         CEL_FETCH_VECTOR3_PAR (max,params,id_max);
-        if (!p_max)
+	if (!p_max)
           return MoveReport (object_reg,
-          	"'max' parameter missing for SetupBox!");
-        SetupBox (csBox3 (min, max));
+	      "'max' parameter missing for SetupBox!");
+	SetupBox (csBox3 (min, max));
         return true;
       }
     default:
@@ -383,7 +386,7 @@ bool celPcSolid::PerformActionIndexed (int idx,
 // This will be used for detecting collision in the movement
 // vector.
 class celPolygonMeshTriangle : public scfImplementation1<
-	celPolygonMeshTriangle, iPolygonMesh>
+			       celPolygonMeshTriangle, iPolygonMesh>
 {
 private:
   csVector3 vertices[3];
@@ -393,7 +396,7 @@ private:
 
 public:
   celPolygonMeshTriangle (const csVector3& start, const csVector3& end) :
-  	scfImplementationType (this)
+    scfImplementationType (this)
   {
     vertices[0] = start;
     vertices[1] = start;
@@ -428,6 +431,7 @@ celPcMovableConstraintCD::celPcMovableConstraintCD (iObjectRegistry* object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   CS_ASSERT (cdsys != 0);
+  DG_TYPE (this, "celPcMovableConstraintCD()");
 }
 
 celPcMovableConstraintCD::~celPcMovableConstraintCD ()
@@ -475,7 +479,7 @@ int celPcMovableConstraintCD::CheckMove (iSector* sector,
     if (!single_point)
     {
       csRef<celPolygonMeshTriangle> pmtri =
-      	csPtr<celPolygonMeshTriangle> (new celPolygonMeshTriangle (start,end));
+	csPtr<celPolygonMeshTriangle> (new celPolygonMeshTriangle (start,end));
       path_collider = cdsys->CreateCollider (pmtri);
     }
 
@@ -553,10 +557,10 @@ celPcGravity::celPcGravity (iObjectRegistry* object_reg)
   {
     AddAction (action_applypermanentforce, "cel.action.ApplyPermanentForce");
   }
-
+  
   propinfo.SetCount (1);
   AddProperty (propid_weight, "cel.property.weight",
-  	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
+	CEL_DATA_FLOAT, false, "Weight of this object", &weight);
 
   if (id_force == csInvalidStringID)
   {
@@ -590,9 +594,9 @@ csPtr<iCelDataBuffer> celPcGravity::Save ()
   databuf->Add (is_resting);
   databuf->Add (active);
 
-  databuf->Add ((uint16)forces.GetSize ());
+  databuf->Add ((uint16)forces.Length ());
   size_t i;
-  for (i = 0 ; i < forces.GetSize () ; i++)
+  for (i = 0 ; i < forces.Length () ; i++)
   {
     celForce* f = forces[i];
     databuf->Add (f->force);
@@ -644,7 +648,7 @@ void celPcGravity::CreateGravityCollider (iPcMesh* /*mesh*/)
 }
 
 void celPcGravity::CreateGravityCollider (const csVector3& dim,
-	const csVector3& offs)
+  	const csVector3& offs)
 {
   gravity_mesh = 0;
   has_gravity_collider = true;
@@ -729,8 +733,8 @@ void celPcGravity::TickEveryFrame ()
   delta_t1 = elapsed_time/1000.0;
 
   csRef<iCelEntityList> cd_list (pl->FindNearbyEntities (movable->
-  	GetSectors ()->Get (0),
-  	w2o.GetOrigin (), 10/*@@@*/));
+    	GetSectors ()->Get (0),
+    	w2o.GetOrigin (), 10/*@@@*/));
 
   // Handle physics so that we only call HandleForce for 0.1 second
   // maximum. This ensures that it will work ok on slower systems.
@@ -746,7 +750,7 @@ void celPcGravity::TickEveryFrame ()
 }
 
 int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
-	iCollider**& colliders, csReversibleTransform**& transforms)
+  	iCollider**& colliders, csReversibleTransform**& transforms)
 {
   static csReversibleTransform identity;
 
@@ -763,7 +767,7 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
     iCelEntity* ent = cd_list->Get (i);
     csRef<iPcSolid> solid_ent (
     	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-    	iPcSolid));
+      	iPcSolid));
     if (!solid_ent)
       continue;
     if (!solid_ent->GetCollider ())
@@ -771,11 +775,11 @@ int celPcGravity::GetColliderArray (iCelEntityList* cd_list,
 
     csRef<iPcMovable> mov_ent (
     	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (),
-    	iPcMovable));
+      	iPcMovable));
     csReversibleTransform* coltrans;
     // @@@ Should use GetFullTransform()???
     if (mov_ent) coltrans = &mov_ent->GetMesh ()->GetMesh ()->GetMovable ()->
-    	GetTransform ();
+      	GetTransform ();
     else
       coltrans = &identity;
     //@@@ More than one collider for pcsolid?
@@ -814,7 +818,7 @@ int celPcGravity::TestMove (iCollider* this_collider,
 }
 
 bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
-	iCelEntityList* cd_list, const csVector3& force)
+    	iCelEntityList* cd_list, const csVector3& force)
 {
   GetMovable ();
   iMovable* movable = pcmovable->GetMesh ()->GetMesh ()->GetMovable ();
@@ -869,7 +873,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Here we have to find out where exactly.
     // @@@ Here we also have to calculate impuse: for later...
     float disttot = csQsqrt (csSquaredDist::PointPoint (oldpos,
-    	  desired_endpos));
+	  desired_endpos));
     float dist = csQsqrt (csSquaredDist::PointPoint (oldpos, newpos));
     delta_t = delta_t * dist / disttot;
 
@@ -884,7 +888,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
 }
 
 bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
-	iCelEntityList* cd_list)
+    	iCelEntityList* cd_list)
 {
   while (delta_t > EPSILON)
   {
@@ -892,7 +896,7 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     csVector3 force (infinite_forces);
     float smallest_time = 1000000000;
     size_t i;
-    for (i = 0 ; i < forces.GetSize () ; i++)
+    for (i = 0 ; i < forces.Length () ; i++)
     {
       celForce* f = forces[i];
       if (f->time_remaining < smallest_time)
@@ -911,13 +915,13 @@ bool celPcGravity::HandleForce (float delta_t, iCollider* this_collider,
     // Remove all forces that are done and update the remaining
     // time of the others.
     i = 0;
-    while (i < forces.GetSize ())
+    while (i < forces.Length ())
     {
       celForce* f = forces[i];
       f->time_remaining -= smallest_time;
       if (f->time_remaining < EPSILON)
       {
-        forces.DeleteIndex (i);
+	forces.DeleteIndex (i);
       }
       else
       {

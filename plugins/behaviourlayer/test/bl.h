@@ -20,7 +20,6 @@
 #ifndef __CEL_BLTEST_BL__
 #define __CEL_BLTEST_BL__
 
-#include "csutil/scf_implementation.h"
 #include "iutil/comp.h"
 #include "behaviourlayer/bl.h"
 
@@ -30,8 +29,7 @@ struct iCelEntity;
 /**
  * This is the Behaviour Layer itself.
  */
-class celBlTest : public scfImplementation2<celBlTest, iCelBlLayer,
-  iComponent>
+class celBlTest : public iCelBlLayer
 {
 private:
   iObjectRegistry* object_reg;
@@ -39,11 +37,19 @@ private:
 public:
   celBlTest (iBase* parent);
   virtual ~celBlTest ();
+  bool Initialize (iObjectRegistry* object_reg);
+
+  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return "bltest"; }
   virtual iCelBehaviour* CreateBehaviour (iCelEntity* entity, const char* name);
 
-  virtual bool Initialize (iObjectRegistry* p);
+  struct Component : public iComponent
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celBlTest);
+    virtual bool Initialize (iObjectRegistry* p)
+    { return scfParent->Initialize (p); }
+  } scfiComponent;
 };
 
 #endif // __CEL_BLTEST_BL__

@@ -104,7 +104,6 @@ private:
   csRef<iVirtualClock> vc;
   bool mousemove;
   bool mousemove_inverted;
-  bool mousemove_accelerated;
   csTicks mousemove_lastticks;
   float mousemove_totdelta;
   float mousemove_lastx;
@@ -154,7 +153,6 @@ private:
   {
     propid_mousemove = 0,
     propid_mousemove_inverted,
-    propid_mousemove_accelerated,
     propid_mousemove_xfactor,
     propid_mousemove_yfactor
   };
@@ -187,8 +185,6 @@ public:
   virtual void MouseMove (float x, float y);
   virtual void EnableMouseMove (bool en);
   virtual bool IsMouseMoveEnabled () const { return mousemove; }
-  virtual void SetMouseMoveAccelerated (bool en) { mousemove_accelerated = en; }
-  virtual bool IsMouseMoveAccelerated () const { return mousemove_accelerated; }
   virtual void SetMouseMoveInverted (bool en) { mousemove_inverted = en; }
   virtual bool IsMouseMoveInverted () const { return mousemove_inverted; }
   virtual void SetMouseMoveSpeed (float xs, float ys)
@@ -213,6 +209,7 @@ public:
 
   virtual void SetAnimation (const char *name, bool cycle=true);
 
+  virtual const char* GetName () const { return "pcactormove"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();

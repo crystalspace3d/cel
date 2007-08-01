@@ -151,6 +151,7 @@ public:
   virtual void EnableStepFast ();
   virtual void EnableQuickStep ();
 
+  virtual const char* GetName () const { return "pcmechsys"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual void TickEveryFrame ();
@@ -446,6 +447,7 @@ public:
   void Collision (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth);
 
+  virtual const char* GetName () const { return "pcmechobject"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -458,18 +460,19 @@ public:
   virtual csVector3 LocalToWorld(csVector3 local);
   virtual csVector3 WorldToLocal(csVector3 world);
 
-  struct DynamicsCollisionCallback : public scfImplementation1<
-	DynamicsCollisionCallback, iDynamicsCollisionCallback>
+  struct DynamicsCollisionCallback : public iDynamicsCollisionCallback
   {
     celPcMechanicsObject* parent;
-    DynamicsCollisionCallback (celPcMechanicsObject* parent) :
-      scfImplementationType (this)
+    DynamicsCollisionCallback (celPcMechanicsObject* parent)
     {
+      SCF_CONSTRUCT_IBASE (0);
       DynamicsCollisionCallback::parent = parent;
     }
     virtual ~DynamicsCollisionCallback ()
     {
+      SCF_DESTRUCT_IBASE ();
     }
+    SCF_DECLARE_IBASE;
 
     virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth)
@@ -520,6 +523,7 @@ public:
 
   virtual iJoint* GetJoint () { return joint; }
 
+  virtual const char* GetName () const { return "pcmechjoint"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,

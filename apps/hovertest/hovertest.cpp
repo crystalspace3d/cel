@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2006 by Jorrit Tyberghein
+    Copyright (C) 2005 by Jorrit Tyberghein
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -13,7 +13,8 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
+    MA 02111-1307, USA.
 */
 
 #include "cssysdef.h"
@@ -37,6 +38,7 @@
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
@@ -60,6 +62,7 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -84,12 +87,14 @@
 #include "propclass/region.h"
 #include "propclass/hover.h"
 #include "propclass/input.h"
+#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
+#include "propclass/stabiliser_dist.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -109,6 +114,7 @@ HoverTest::~HoverTest ()
 void HoverTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+  csDebuggingGraph::Dump (0);
 }
 
 void HoverTest::ProcessFrame ()
@@ -151,19 +157,19 @@ bool HoverTest::CreatePlayer (const csVector3 &pos)
   // The Real Camera
   player = pl->CreateEntity ("ent_player", behaviour_layer,
         "dynactor",
-        "pcinput.standard",
-        "pcobject.mesh",
-        "pccamera.old",
-        "pcphysics.object",
-        "pcvehicle.hover",
-        "pcvehicle.craft",
+        "pccommandinput",
+        "pcmesh",
+        "pcdefaultcamera",
+        "pcmechobject",
+        "pchover",
+        "pccraft",
         (void*)0);
   if (!player) return false;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (player,
   	iPcCommandInput);
-  pcinp->Bind ("JoystickButton0", "up");
-  pcinp->Bind ("JoystickAxis0", "down");
+  pcinp->Bind ("up", "up");
+  pcinp->Bind ("down", "down");
   pcinp->Bind ("left", "left");
   pcinp->Bind ("right", "right");
   pcinp->Bind ("space", "jump");
@@ -233,9 +239,9 @@ bool HoverTest::CreateRoom ()
   // Create the room entity.
   //===============================
   level = pl->CreateEntity ("ent_level", 0, 0,
-        "pcworld.zonemanager",
-        "pctools.inventory",
-        "pcphysics.system",
+        "pczonemanager",
+        "pcinventory",
+        "pcmechsys",
 	(void*)0);
 
   csRef<iCommandLineParser> cmdline = 
@@ -297,18 +303,19 @@ bool HoverTest::CreateRoom ()
   if (!pcinv_room->AddEntity (player)) return false;
   //if (!pcinv_room->AddEntity (scene)) return false;
 
-   csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
-         iPcMechanicsObject);
-   // Get the first start position available.
-   iCameraPosition* campos;
-   campos = engine->GetCameraPositions ()->Get (0);
-   csVector3 up (campos->GetUpwardVector ());
-   csVector3 fw (campos->GetForwardVector ());
-   csVector3 cr;
-   cr.Cross (up, fw);
-   csMatrix3 mat (cr.x, cr.y, cr.z, up.x, up.y, up.z, fw.x, fw.y, fw.z);
-   pcmechobj->GetBody ()->SetOrientation (mat);
-   pcmechobj->GetBody ()->SetPosition (campos->GetPosition ());
+    csRef<iPcMechanicsObject> pcmechobj = CEL_QUERY_PROPCLASS_ENT(player,
+          iPcMechanicsObject);
+    // Get the first start position available.
+    // \todo manage multiple start positions.
+    iCameraPosition* campos;
+    campos = engine->GetCameraPositions ()->Get (0);
+    csVector3 up (campos->GetUpwardVector ());
+    csVector3 fw (campos->GetForwardVector ());
+    csVector3 cr;
+    cr.Cross (up, fw);
+    csMatrix3 mat (cr.x, cr.y, cr.z, up.x, up.y, up.z, fw.x, fw.y, fw.z);
+    pcmechobj->GetBody ()->SetOrientation (mat);
+    pcmechobj->GetBody ()->SetPosition (campos->GetPosition ());
 
   return true;
 }
@@ -339,28 +346,8 @@ bool HoverTest::OnInitialize (int argc, char* argv[])
       CS_REQUEST_PLUGIN ("cel.manager.quests", iQuestManager),
       CS_REQUEST_PLUGIN ("crystalspace.collisiondetection.opcode",
           iCollideSystem),
-      CS_REQUEST_PLUGIN ("crystalspace.device.joystick", iEventPlug),
       CS_REQUEST_END))
     return ReportError("Failed to initialize plugins!");
-
-  // Attempt to load a joystick plugin.
-  /*csRef<iStringArray> joystickClasses =
-    iSCF::SCF->QueryClassList ("crystalspace.device.joystick.");
-  if (joystickClasses.IsValid())
-  {
-    csRef<iPluginManager> plugmgr = 
-      csQueryRegistry<iPluginManager> (object_reg);
-    for (size_t i = 0; i < joystickClasses->GetSize (); i++)
-    {
-      const char* className = joystickClasses->Get (i);
-      iBase* b = plugmgr->LoadPlugin (className);
-
-      csReport (object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-	"crystalspace.application.joytest", "Attempt to load plugin '%s' %s",
-	className, (b != 0) ? "successful" : "failed");
-      if (b != 0) b->DecRef ();
-    }
-  }*/
 
   // "Warm up" the event handler so it can interact with the world
   csBaseEventHandler::Initialize (r);
@@ -403,6 +390,40 @@ bool HoverTest::Application()
     return ReportError ("Can't find the CEL physical layer!");
 
   vfs = csQueryRegistry<iVFS> (r);
+
+  #define LOAD_PROPERTY_CLASS(class)  if(!pl->LoadPropertyClassFactory(class))\
+                                        return ReportError("error loading property class "\
+                                        class "!");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.test");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.linmove");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.actormove");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.solid");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.colldet");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.region");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.zonemanager");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.defaultcamera");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.tooltip");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.timer");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.inventory");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.characteristics");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mesh");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.light");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.portal");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.meshselect");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.pccommandinput");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.quest");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.properties");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.trigger");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.billboard");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.graph");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.link");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.node");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrules");
+  //LOAD_PROPERTY_CLASS("cel.pcfactory.navgraphrulesfps");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mechsys");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.mechobject");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.hover");
+  LOAD_PROPERTY_CLASS("cel.pcfactory.craft");
 
   behaviour_layer.AttachNew (new htBehaviourLayer (this));
   pl->RegisterBehaviourLayer (behaviour_layer);

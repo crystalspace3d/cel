@@ -43,14 +43,26 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnQuestDef)
 
-celAddOnQuestDef::celAddOnQuestDef (iBase* parent) :
-  scfImplementationType (this, parent)
+SCF_IMPLEMENT_IBASE (celAddOnQuestDef)
+  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnQuestDef::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celAddOnQuestDef::celAddOnQuestDef (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnQuestDef::~celAddOnQuestDef ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnQuestDef::Initialize (iObjectRegistry* object_reg)

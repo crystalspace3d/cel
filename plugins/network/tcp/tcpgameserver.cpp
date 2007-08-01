@@ -33,6 +33,14 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
+SCF_IMPLEMENT_IBASE_EXT (celTCPGameServer)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameServer)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGameServer::TCPGameServer)
+  SCF_IMPLEMENTS_INTERFACE (iCelGameServer)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 /// default port number of a server
 #define DEFAULT_SERVER_PORT 35000
 
@@ -46,8 +54,9 @@ CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 #define DEFAULT_UPDATE_PERIOD 40
 
 celTCPGameServer::celTCPGameServer (iObjectRegistry* object_reg, 
-	celTCPGameFactory* factory) : scfImplementationType (this)
+				    celTCPGameFactory* factory)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelGameServer);
   celTCPGameServer::object_reg = object_reg;
   celTCPGameServer::factory = factory;
   manager = 0;
@@ -68,7 +77,7 @@ celTCPGameServer::~celTCPGameServer ()
   nlDisable (NL_BLOCKING_IO);
 
   size_t i;
-  for (i = 0; i < incoming_players.GetSize (); i++)
+  for (i = 0; i < incoming_players.Length (); i++)
     delete incoming_players[i];
   incoming_players.DeleteAll ();
 
@@ -79,6 +88,8 @@ celTCPGameServer::~celTCPGameServer ()
   players_data.DeleteAll ();
 
   players_kicked.DeleteAll ();  
+
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGameServer);
 }
 
 bool celTCPGameServer::InitializeServer (celTCPGame* game, 
@@ -129,7 +140,7 @@ bool celTCPGameServer::InitializeServer (celTCPGame* game,
   }
 
   // init the manager of the game factory
-  if (!factory->manager->InitServer (game))
+  if (!factory->manager->InitServer (&game->scfiCelGame))
   {
     nlClose (server_socket);
     return ReportError (object_reg, "The server manager failed its initialization");
@@ -180,7 +191,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
     incoming_players.Put (0, new_player);
   }
 
-  size_t incoming_index = incoming_players.GetSize ();
+  size_t incoming_index = incoming_players.Length ();
   while (incoming_index > 0)
   {
     celIncomingPlayer* incoming_player = incoming_players[incoming_index - 1];
@@ -439,8 +450,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
       answer_packet->Write (game->game_info.game_name);
       answer_packet->Write (game->game_info.hostname);
       answer_packet->Write (game->game_info.port_nb);
-      uint32 max_players = game->game_info.max_players;
-      answer_packet->Write (max_players);
+      answer_packet->Write (game->game_info.max_players);
       answer_packet->Write (game->game_info.custom_data);
  
       // send packet
@@ -475,7 +485,7 @@ void celTCPGameServer::UpdateConnectingPlayers (csTicks snapshot_time)
 	player_data->unreachable_start = 0;
 
 	size_t i;
-	for (i = 0; i < player_data->server_events.GetSize (); i++)
+	for (i = 0; i < player_data->server_events.Length (); i++)
 	  delete player_data->server_events[i];
 	player_data->server_events.DeleteAll ();
 
@@ -1061,7 +1071,7 @@ celPlayerData::~celPlayerData ()
   delete socket_cache;
     
   size_t i;
-  for (i = 0; i < server_events.GetSize (); i++)
+  for (i = 0; i < server_events.Length (); i++)
     delete server_events[i];
   server_events.DeleteAll ();
 
@@ -1115,23 +1125,29 @@ void celPlayerData::GetNetworkLinks (csTicks snapshot_time,
 
 //---------------------------------------------------------------------------
 
-celPlayerList::celPlayerList () : scfImplementationType (this)
+SCF_IMPLEMENT_IBASE (celPlayerList)
+  SCF_IMPLEMENTS_INTERFACE (iCelPlayerList)
+SCF_IMPLEMENT_IBASE_END
+
+celPlayerList::celPlayerList ()
 {
+  SCF_CONSTRUCT_IBASE (0);
 }
 
 celPlayerList::~celPlayerList ()
 {
   RemoveAll ();
+  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celPlayerList::GetCount () const
 {
-  return players.GetSize ();
+  return players.Length ();
 }
 
 celPlayer* celPlayerList::Get (size_t index) const
 {
-  CS_ASSERT ((index != csArrayItemNotFound) && index < players.GetSize ());
+  CS_ASSERT ((index != csArrayItemNotFound) && index < players.Length ());
   return players[index];
 }
 
@@ -1159,7 +1175,7 @@ bool celPlayerList::Remove (size_t n)
 
 void celPlayerList::RemoveAll ()
 {
-  while (players.GetSize () > 0)
+  while (players.Length () > 0)
     Remove ((size_t) 0);
 }
 

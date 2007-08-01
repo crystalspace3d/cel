@@ -25,14 +25,14 @@
 
 struct iCelPropertyClass;
 
+SCF_VERSION (iCelPropertyClassFactory, 0, 0, 1);
+
 /**
  * This is a factory for property classes.
  * One factory can support multiple types of property classes.
  */
-struct iCelPropertyClassFactory : public virtual iBase
+struct iCelPropertyClassFactory : virtual public iBase
 {
-  SCF_INTERFACE (iCelPropertyClassFactory, 0, 0, 1);
-
   /**
    * Get the name of this property class factory.
    */
@@ -41,7 +41,7 @@ struct iCelPropertyClassFactory : public virtual iBase
   /**
    * Create a property class of some type.
    */
-  virtual csPtr<iCelPropertyClass> CreatePropertyClass (const char* name) = 0;
+  virtual csPtr<iCelPropertyClass> CreatePropertyClass () = 0;
 };
 
 #endif // __CEL_PL_PROPFACT__

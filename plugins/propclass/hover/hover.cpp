@@ -24,12 +24,12 @@
 
 #include "propclass/mechsys.h"
 #include "propclass/mesh.h"
+#include "propclass/defcam.h"
 
 #include "csgeom/box.h"
 #include "csgeom/math3d.h"
 #include "iengine/camera.h"
 #include "iengine/mesh.h"
-#include "iengine/movable.h"
 #include "iengine/sector.h"
 #include "imesh/object.h"
 #include "imesh/objmodel.h"
@@ -37,7 +37,15 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY_ALT (Hover, "pcvehicle.hover", "pchover")
+CEL_IMPLEMENT_FACTORY(Hover, "pchover")
+
+SCF_IMPLEMENT_IBASE_EXT (celPcHover)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcHover)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcHover::PcHover)
+  SCF_IMPLEMENTS_INTERFACE (iPcHover)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 // Parameters.
 csStringID celPcHover::param_hbeamcutoff = csInvalidStringID;
@@ -53,8 +61,10 @@ csStringID celPcHover::param_hoverheight = csInvalidStringID;
 PropertyHolder celPcHover::propinfo;
 
 celPcHover::celPcHover (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg), celPeriodicTimer (pl)
+	: celPcCommon (object_reg), celPeriodicTimer (pl)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcHover);
+
   hover_on = true;
   ang_beam_offset = 0.5;
   ang_cutoff_height = 8;
@@ -266,30 +276,35 @@ float celPcHover::AngularAlignment (csVector3 offset, float height)
 
 float celPcHover::PIDStatus::Force (float curr_height)
 {
-  float pval, dval, ival;
-  float error = hover_height - curr_height;
-  //printf ("E: %f\n", error);
+    float pval, dval, ival;
+    float error = hover_height - curr_height;
+    //printf ("E: %f\n", error);
 
-  // calculate the proportional term
-  pval = p_factor * error;
+    // calculate the proportional term
+    pval = p_factor * error;
+    csClamp (pval, -clamp, clamp);
 
-  // calculate the integral term
-  sum_errors += error;
-  ival = i_factor * sum_errors;
+    // calculate the integral term
+    sum_errors += error;
+    ival = i_factor * sum_errors;
+    csClamp (ival, -clamp, clamp);
 
-  // calculate the differential term
-  dval = d_factor * (curr_height - last_height);
-  last_height = curr_height;
+    // calculate the differential term
+    dval = d_factor * (curr_height - last_height);
+    last_height = curr_height;
+    csClamp (dval, -clamp, clamp);
 
-  //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
-  return csClamp (pval + ival + dval, clamp, -clamp);
+    //printf ("p: %f\ti: %f\td: %f\n", pval, ival, dval);
+    return pval + ival + dval;
 }
 
 void celPcHover::PerformStabilising ()
 {
   if (!pcmechobj)
     pcmechobj = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcMechanicsObject);
-  if (!pcmechobj)
+  if (!pccamera)
+    pccamera = CEL_QUERY_PROPCLASS_ENT (GetEntity(), iPcDefaultCamera);
+  if (!pcmechobj || !pccamera)
     return;
 
   /* here we get ship info which can be used to calculate
@@ -300,11 +315,13 @@ void celPcHover::PerformStabilising ()
   {
     // do PID calculation here.
     float force = pid.Force (height);
-    //printf ("%f %f\n",height,force);
+    //printf ("%f %f\n",obj_info.height,force);
 
     // apply the force
     pcmechobj->AddForceDuration(csVector3 (0, force, 0), false,
         csVector3 (0,0,0), 0.1f);
+    //pcmechobj->AddForceOnce (csVector3 (0,force,0), false, csVector3 (0,0,0));
+    //pcmechobj->SetLinearVelocity (pcmechobj->GetLinearVelocity () + csVector3 (0,force,0));
   }
   else
   {
@@ -318,10 +335,6 @@ void celPcHover::PerformStabilising ()
   {
     float rx = AngularAlignment (csVector3 (0,0,-1), height);
     float rz = AngularAlignment (csVector3 (1,0,0), height);
-
-    // offset hack for tendency of nose to dip into ground when going uphill
-    if (rx > 0.0)
-      rx *= 3.0;
 
     // align the ship by getting it to rotate in whatever direction
     pcmechobj->SetAngularVelocity (pcmechobj->GetAngularVelocity() +
@@ -347,17 +360,34 @@ float celPcHover::Height (csVector3 offset, bool accurate)
   csVector3 start = pcmechobj->GetBody ()->GetPosition () + offset;
   csVector3 end = start + csVector3 (0,-height_beam_cutoff,0);
 
-  iSector* sector = pcmesh->GetMesh ()->GetMovable ()->GetSectors ()->Get (0);
+  iSector *sector = pccamera->GetCamera ()->GetSector ();
   csSectorHitBeamResult bres = sector->HitBeam (start, end, true);
-  // beam height * proportion of beam hit
-  float height = (bres.isect - start).Norm ();
-  if (!csFinite (height))
-  {
+  //if(bres.hit)
+    // beam height * proportion of beam hit
+    float height = (bres.isect - start).Norm ();
+    if (!csFinite (height))
+    {
+      // reset flags to original state
+      pcmesh->GetMesh()->GetFlags().SetAll (flags);
+      return 999999999.9f;
+    }
     // reset flags to original state
     pcmesh->GetMesh()->GetFlags().SetAll (flags);
-    return 999999999.9f;
-  }
-  // reset flags to original state
-  pcmesh->GetMesh()->GetFlags().SetAll (flags);
-  return height;
+    return height;
+  //else
+    /* beam didn't hit so we try going upwards
+        from object */
+    //return ReverseHeight(start);
+}
+
+float celPcHover::ReverseHeight (csVector3 &start, iSector *sector)
+{
+  // instead of downwards the beam goes upwards
+  csVector3 end = start + csVector3 (0,height_beam_cutoff,0);
+
+  csSectorHitBeamResult bres = sector->HitBeam(start, end, false);
+  if(false)
+    return (start - bres.isect).Norm ();
+  else
+    return 999999999.0f;
 }

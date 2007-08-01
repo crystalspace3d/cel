@@ -203,7 +203,7 @@ celMessageReward::celMessageReward (
   id = csStrNew (qm->ResolveParameter (params, id_par));
   msg_params = new celVariableParameterBlock ();
   size_t i;
-  for (i = 0 ; i < parameters.GetSize () ; i++)
+  for (i = 0 ; i < parameters.Length () ; i++)
   {
     csString v = qm->ResolveParameter (params, parameters[i].value);
     msg_params->SetParameterDef (i, parameters[i].id, parameters[i].name);

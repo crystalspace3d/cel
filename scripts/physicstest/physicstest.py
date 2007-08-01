@@ -3,6 +3,17 @@ from blcelc import *
 class physicstest:
 	def __init__(self,celEntity):
 		print "Initializing game..."
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.region")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.mesh")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.solid")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.camera")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.gravity")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.movable")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.pccommandinput")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.dynsys")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.dynbody")
+		celRegisterPCFactory(object_reg_ptr,"cel.pcfactory.timer")
+
 		g3d = CS_QUERY_REGISTRY(object_reg, iGraphics3D)
 		txtmgr = g3d.GetTextureManager()
 		engine = CS_QUERY_REGISTRY(object_reg, iEngine)

@@ -21,26 +21,15 @@ static char const metainfo_pfdamage[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.damage</name>"
 "        <implementation>celPfDamage</implementation>"
-"        <description>CEL Damage Property Class Factory</description>"
+"	<description>CEL Damage Property Class Factory</description>"
 "      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.logic.damage</name>"
-"        <implementation>celPfDamage</implementation>"
-"        <description>CEL Damage Property Class Factory</description>"
-"      </class>"
-"</classes>"
+"    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef celPfDamage_FACTORY_REGISTER_DEFINED 
-  #define celPfDamage_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfDamage) 
-  #endif
   #ifndef celPfDamage_FACTORY_REGISTER_DEFINED 
   #define celPfDamage_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfDamage) 
@@ -49,10 +38,6 @@ static char const metainfo_pfdamage[] =
 class pfdamage
 {
 SCF_REGISTER_STATIC_LIBRARY(pfdamage,metainfo_pfdamage)
-  #ifndef celPfDamage_FACTORY_REGISTERED 
-  #define celPfDamage_FACTORY_REGISTERED 
-    celPfDamage_StaticInit celPfDamage_static_init__; 
-  #endif
   #ifndef celPfDamage_FACTORY_REGISTERED 
   #define celPfDamage_FACTORY_REGISTERED 
     celPfDamage_StaticInit celPfDamage_static_init__; 

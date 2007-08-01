@@ -34,6 +34,7 @@
 
 #include <imesh/sprite3d.h>
 
+#include <csutil/debug.h>
 #include <csutil/databuf.h>
 #include <csutil/plugmgr.h>
 #include <iengine/movable.h>
@@ -61,14 +62,23 @@
 
 extern bool MoveReport (iObjectRegistry* object_reg, const char* msg, ...);
 
-CEL_IMPLEMENT_FACTORY_ALT (CollisionDetection, "pcobject.mesh.collisiondetection",
-    "pccollisiondetection")
+CEL_IMPLEMENT_FACTORY (CollisionDetection, "pccollisiondetection")
+
+SCF_IMPLEMENT_IBASE_EXT (celPcCollisionDetection)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCollisionDetection)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCollisionDetection::PcCollisionDetection)
+  SCF_IMPLEMENTS_INTERFACE (iPcCollisionDetection)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 //----------------------------------------------------------------------------
 
 celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+  :celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCollisionDetection);
+
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
   if (!cdsys)
   {
@@ -79,11 +89,6 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
   collider_actor.SetGravity (19.2f);
 
   engine = csQueryRegistry<iEngine> (object_reg);
-  if (!engine)
-  {
-    MoveReport (object_reg, "iEngine missing!");
-    return;
-  }
   collider_actor.SetEngine (engine);
 
   pcmesh = 0;
@@ -91,6 +96,7 @@ celPcCollisionDetection::celPcCollisionDetection (iObjectRegistry* object_reg)
 
 celPcCollisionDetection::~celPcCollisionDetection ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcCollisionDetection);
 }
 
 #define COLLDET_SERIAL 27

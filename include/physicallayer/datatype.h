@@ -1,17 +1,17 @@
 /*
     Crystal Space Entity Layer
     Copyright (C) 2001 by Jorrit Tyberghein
-
+  
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-
+  
     This library is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
     Library General Public License for more details.
-
+  
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
@@ -24,7 +24,6 @@
 #include "csutil/scfstr.h"
 #include "csgeom/vector2.h"
 #include "csgeom/vector3.h"
-#include "csgeom/vector4.h"
 #include "csutil/cscolor.h"
 
 struct iCelPropertyClass;
@@ -47,13 +46,11 @@ enum celDataType
   CEL_DATA_FLOAT,
   CEL_DATA_VECTOR2,
   CEL_DATA_VECTOR3,
-  CEL_DATA_VECTOR4,
   CEL_DATA_STRING,
   CEL_DATA_PCLASS,
   CEL_DATA_ENTITY,
   CEL_DATA_ACTION,
   CEL_DATA_COLOR,
-  CEL_DATA_COLOR4,
   CEL_DATA_IBASE,
   CEL_DATA_PARAMETER,
 
@@ -79,11 +76,11 @@ struct celData
     iString* s;
     struct
     {
-      float x, y, z, w;
+      float x, y, z;
     } v;
     struct
     {
-      float red, green, blue, alpha;
+      float red, green, blue;
     } col;
     iCelPropertyClass* pc;
     iCelEntity* ent;
@@ -148,15 +145,6 @@ struct celData
     value.v.y = v.y;
     value.v.z = v.z;
   }
-  void Set (const csVector4& v)
-  {
-    Clear ();
-    type = CEL_DATA_VECTOR4;
-    value.v.x = v.x;
-    value.v.y = v.y;
-    value.v.z = v.z;
-    value.v.w = v.w;
-  }
   void Set (const csColor& v)
   {
     Clear ();
@@ -164,15 +152,6 @@ struct celData
     value.col.red = v.red;
     value.col.green = v.green;
     value.col.blue = v.blue;
-  }
-  void Set (const csColor4& v)
-  {
-    Clear ();
-    type = CEL_DATA_COLOR4;
-    value.col.red = v.red;
-    value.col.green = v.green;
-    value.col.blue = v.blue;
-    value.col.alpha = v.alpha;
   }
   void Set (const char* s)
   {

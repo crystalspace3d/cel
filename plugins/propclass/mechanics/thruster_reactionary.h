@@ -54,9 +54,7 @@ CEL_DECLARE_FACTORY(MechanicsThrusterReactionary)
 /**
  * This is a thruster.
  */
-class celPcMechanicsThrusterReactionary : public scfImplementationExt1<
-	celPcMechanicsThrusterReactionary, celPcCommon,
-	iPcMechanicsThruster>
+class celPcMechanicsThrusterReactionary : public celPcCommon
 {
 private:
   // Actions
@@ -84,6 +82,9 @@ public:
   celPcMechanicsThrusterReactionary (iObjectRegistry* object_reg);
   virtual ~celPcMechanicsThrusterReactionary ();
 
+  // celPcCommon implementation
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
   virtual const char* GetName () const { return "pcmechthrustreactionary"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -102,14 +103,83 @@ public:
   }
 
   virtual void SetPosition (const csVector3& pos);
+
   virtual const csVector3& GetPosition ();
+
   virtual void SetOrientation (const csVector3& orientation);
+
   virtual const csVector3& GetOrientation ();
+
   virtual void SetMaxThrust (float maxthrust);
+
   virtual float GetMaxThrust ();
+
   virtual float GetThrustForce (float thrust);
+
   virtual void ThrustChange (float deltathrust);
+
   virtual float AvailableThrust ();
+
+  // embedded iPcMechanicsThruster implementation
+  struct PcMechanicsThruster : public iPcMechanicsThruster
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcMechanicsThrusterReactionary);
+
+    virtual void SetMechanicsObject (iPcMechanicsObject* mechsys)
+    {
+      scfParent->SetMechanicsObject (mechsys);
+    }
+
+    virtual iPcMechanicsObject* GetMechanicsObject ()
+    {
+      return scfParent->GetMechanicsObject ();
+    }
+
+    virtual void SetPosition (const csVector3& pos)
+    {
+      scfParent->SetPosition (pos);
+    }
+
+    virtual const csVector3& GetPosition ()
+    {
+      return scfParent->GetPosition ();
+    }
+
+    virtual void SetOrientation (const csVector3& orientation)
+    {
+      scfParent->SetOrientation (orientation);
+    }
+
+    virtual const csVector3& GetOrientation ()
+    {
+      return scfParent->GetOrientation ();
+    }
+
+    virtual void SetMaxThrust (float maxthrust)
+    {
+      scfParent->SetMaxThrust (maxthrust);
+    }
+
+    virtual float GetMaxThrust ()
+    {
+      return scfParent->GetMaxThrust ();
+    }
+
+    virtual float GetThrustForce (float thrust)
+    {
+      return scfParent->GetThrustForce (thrust);
+    }
+
+    virtual void ThrustChange (float deltathrust)
+    {
+      scfParent->ThrustChange (deltathrust);
+    }
+
+    virtual float AvailableThrust ()
+    {
+      return scfParent->AvailableThrust ();
+    }
+  } scfiPcMechanicsThruster;
 };
 
 #endif // __CEL_PF_MECHANICS_SYSTEM_FACTORY__

@@ -88,7 +88,6 @@ enum
   CEL_OPERATION_GOTO,		// A:C		S:-		OS:-
   CEL_OPERATION_FOR,		// A:EH		S:S,?,?		OS:-
   CEL_OPERATION_FORI,		// A:C		S:S,?,?		OS:-
-  CEL_OPERATION_FORBAG,		// A:C		S:S,PC		OS:-
 
   CEL_OPERATION_RETURN,		// A:-		S:?		OS:-
   CEL_OPERATION_CALL_I,		// A:EH		S:-		OS:-
@@ -136,7 +135,6 @@ enum
   CEL_OPERATION_CLASS_REM,	// A:-		S:E,ID		OS:-
 
   CEL_OPERATION_DESTROYENTITY,	// A:-		S:E		OS:-
-  CEL_OPERATION_DESTROYENTITY_CLASS,// A:-	S:ID		OS:-
   CEL_OPERATION_CREATEENTITY,	// A:-		S:S,S		OS:-
   CEL_OPERATION_CREATEENTITYL,	// A:-		S:S,S,S		OS:-
   CEL_OPERATION_CREATEENTITYTPL,// A:-		S:S,S		OS:-
@@ -255,7 +253,6 @@ enum
   CEL_OPERATION_SOUND_UNPAUSE,	// A:-		S:IB		OS:-
   CEL_OPERATION_SOUND_RESTART,	// A:-		S:IB		OS:-
   CEL_OPERATION_SOUND_VOLUME,	// A:-		S:IB,F		OS:-
-  CEL_OPERATION_SOUND_SPEED,	// A:-		S:IB,F		OS:-
   CEL_OPERATION_SOUNDFUN,	// A:-		S:S,B,F,B	OS:IB
   CEL_OPERATION_SOUNDPAUSED,	// A:-		S:S,B,F		OS:IB
   CEL_OPERATION_READFILE,	// A:-		S:S,S		OS:I
@@ -275,27 +272,6 @@ enum
 
   CEL_OPERATION_HIDEMOUSE,	// A:-		S:-		OS:-
   CEL_OPERATION_SHOWMOUSE,	// A:-		S:-		OS:-
-
-  CEL_OPERATION_GETMSG,		// A:-		S:S		OS:S
-
-  CEL_OPERATION_NAVI_ENT_VEC3,	// A:-		S:E,V,S,S,S,S	OS:-
-  CEL_OPERATION_NAVI_ENT_ENT,	// A:-		S:E,E,S,S,S,S	OS:-
-  CEL_OPERATION_NAVI_ENT_NODE,	// A:-		S:E,S,S,S,S,S	OS:-
-
-  CEL_OPERATION_KEYNODE3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYNODE4,	// A:-		S:S,S,S,S	OS:S
-  CEL_OPERATION_KEYMESHOBJ2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYMESHOBJ3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYSECTOR2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYSECTOR3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYMESHFACT2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYMESHFACT3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYTEXTURE2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYTEXTURE3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYMATERIAL2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYMATERIAL3,	// A:-		S:S,S,S		OS:S
-  CEL_OPERATION_KEYLIGHT2,	// A:-		S:S,S		OS:S
-  CEL_OPERATION_KEYLIGHT3,	// A:-		S:S,S,S		OS:S
 
   CEL_OPERATION_FINALOP
 };
@@ -510,7 +486,7 @@ public:
   // Get argument for last operation.
   celXmlArg& GetArgument ();
   // Get argument index for last operation.
-  size_t GetLastArgumentIndex () { return operations.GetSize ()-1; }
+  size_t GetLastArgumentIndex () { return operations.Length ()-1; }
   // Get argument with index.
   celXmlArg& GetArgument (size_t idx);
 

@@ -24,6 +24,8 @@
 
 struct iPcMesh;
 
+SCF_VERSION (iPcSimpleCamera, 0, 0, 3);
+
 /**
  * A class representing a simple camera, with capabilities for both
  * first-person and third-person modes.
@@ -36,10 +38,8 @@ struct iPcMesh;
  * - SetPosition: parameters 'campos' (vector3), 'lookat' (vector3).
  * - SetMesh: parameters 'meshpctag' (string).
  */
-struct iPcSimpleCamera : public virtual iPcCamera
+struct iPcSimpleCamera : public iPcCamera
 {
-  SCF_INTERFACE (iPcSimpleCamera, 0, 0, 3);
-
   /**
    * Set a flag to determine whether or not the attached mesh and its children
    * will be drawn in this camera view.

@@ -27,6 +27,7 @@
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -43,7 +44,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Billboard, "pc2d.billboard", "pcbillboard")
+CEL_IMPLEMENT_FACTORY (Billboard, "pcbillboard")
 
 csStringID celPcBillboard::id_materialname = csInvalidStringID;
 csStringID celPcBillboard::id_factory = csInvalidStringID;

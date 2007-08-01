@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,57 +28,41 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcSpawn Struct Reference</h1><!-- doxytag: class="iPcSpawn" --><!-- doxytag: inherits="iBase" -->Spawn property class.  
+<h1>iPcSpawn Struct Reference</h1><!-- doxytag: class="iPcSpawn" -->Spawn property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="spawn_8h-source.html">propclass/spawn.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcSpawn:<p><center><img src="structiPcSpawn__inherit__graph.png" border="0" usemap="#iPcSpawn__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcSpawn__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="19,5,77,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcSpawn-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcSpawn-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#b01ddfadde358f2a61c36ffe7235f94d">AddEntityTemplateType</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> chance, const char *templ, const char *name, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#b01ddfadde358f2a61c36ffe7235f94d">AddEntityTemplateType</a> (float chance, const char *templ, const char *name, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#b01ddfadde358f2a61c36ffe7235f94d"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#236122722af95031a7372effc172174f">AddEntityType</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> chance, const char *name, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *behaviour, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#236122722af95031a7372effc172174f">AddEntityType</a> (float chance, const char *name, <a class="el" href="structiCelBlLayer.html">iCelBlLayer</a> *bl, const char *behaviour, const char *msg_id, <a class="el" href="structiCelParameterBlock.html">iCelParameterBlock</a> *params,...)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Add an entry to the list of entities that can be created by this property class.  <a href="#236122722af95031a7372effc172174f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8083dfd08692a798cbf614500c795c31">AddSpawnPosition</a> (const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;pos, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, const char *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8083dfd08692a798cbf614500c795c31">AddSpawnPosition</a> (const csVector3 &amp;pos, float yrot, const char *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set positional information about where to spawn.  <a href="#8083dfd08692a798cbf614500c795c31"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#9d21a3f5844714cb3bc83bf3ad0d7fd9">AddSpawnPosition</a> (const char *node, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> yrot, const char *sector)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#9d21a3f5844714cb3bc83bf3ad0d7fd9">AddSpawnPosition</a> (const char *node, float yrot, const char *sector)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set positional information about where to spawn.  <a href="#9d21a3f5844714cb3bc83bf3ad0d7fd9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8189e1e56b7a6c820cbea87333cd2e5f">ClearEntityList</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Clear the list of entities to create.  <a href="#8189e1e56b7a6c820cbea87333cd2e5f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#a722737ca5b3118b05b6e513384df779">EnableSpawnUnique</a> (bool en)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is useful in combination with a disabled entity name counter (SetEntityNameCounter(false)).  <a href="#a722737ca5b3118b05b6e513384df779"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#60ea847d706042989d6185563faf94c9">InhibitCount</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a> number)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#60ea847d706042989d6185563faf94c9">InhibitCount</a> (int number)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Inhibit respawn in case count will reach given number.  <a href="#60ea847d706042989d6185563faf94c9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#8d2f4994d841866fb5c551f81d7f77c3">IsEnabled</a> () const =0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Is spawning enabled.  <a href="#8d2f4994d841866fb5c551f81d7f77c3"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#0c1e3a11ef829d70d637092e6ec68e3b">IsEntityNameCounterCounter</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if the unique entity name counter is enabled.  <a href="#0c1e3a11ef829d70d637092e6ec68e3b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#7c858c3cf2b6d1c702018114f36fc7bf">IsSpawnUniqueEnabled</a> () const =0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return true if spawn unique is enabled.  <a href="#7c858c3cf2b6d1c702018114f36fc7bf"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#762bb7143bb11f8adf31cd34908d02d9">ResetTiming</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Reset timing.  <a href="#762bb7143bb11f8adf31cd34908d02d9"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#c83ab975dd90bbb86794f14c6d949dc9">SetEnabled</a> (bool e)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable spawning.  <a href="#c83ab975dd90bbb86794f14c6d949dc9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#bb48533ecb97580f7d4561c385d40a37">SetEntityNameCounter</a> (bool en)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Enable/disable entity name counter.  <a href="#bb48533ecb97580f7d4561c385d40a37"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcSpawn.html#6582b9e9f285b1c20c20a61d1ca41f10">SetTiming</a> (bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set timing information.  <a href="#6582b9e9f285b1c20c20a61d1ca41f10"></a><br></td></tr>
@@ -89,20 +73,37 @@ Inheritance diagram for iPcSpawn:<p><center><img src="structiPcSpawn__inherit__g
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Spawn property class. 
 <p>
-This property class is responsible for creating other entities based on time related rules.<p>
-This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter):<ul>
-<li>AddEntityType: parameters 'chance' (float), 'entity' (string), 'behaviour' (string), 'layer' (string), 'call' (string)</li><li>AddEntityTemplateType: parameters 'chance' (float), 'entity' (string), 'template' (string), 'call' (string)</li><li>SetTiming: parameters 'repeat' (bool), 'random' (bool), 'mindelay' (long), 'maxdelay' (long)</li><li>ResetTiming</li><li>SetEnabled: parameters 'enabled' (bool)</li><li>ClearEntityList</li><li>Inhibit: parameters 'count' (long)</li><li>Spawn</li><li>AddSpawnPosition: parameters 'sector' (string), 'yrot' (float), 'position' (vector or name of the node)</li></ul>
+This property class is responsible for creating other entities based on time related rules. <p>
+This property class supports the following actions (add prefix 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.' to get the ID of the parameter): <ul>
+<li>
+AddEntityType: parameters 'chance' (float), 'entity' (string), 'behaviour' (string), 'layer' (string), 'call' (string) </li>
+<li>
+AddEntityTemplateType: parameters 'chance' (float), 'entity' (string), 'template' (string), 'call' (string) </li>
+<li>
+SetTiming: parameters 'repeat' (bool), 'random' (bool), 'mindelay' (long), 'maxdelay' (long) </li>
+<li>
+ResetTiming </li>
+<li>
+SetEnabled: parameters 'enabled' (bool) </li>
+<li>
+ClearEntityList </li>
+<li>
+Inhibit: parameters 'count' (long) </li>
+<li>
+Spawn </li>
+<li>
+AddSpawnPosition: parameters 'sector' (string), 'yrot' (float), 'position' (vector or name of the node) </li>
+</ul>
 <p>
-This property class supports the following properties (add prefix 'cel.property.' to get the ID of the property:<ul>
-<li>namecounter (bool, read/write): enable/disable unique name counter (default true).</li><li>spawnunique (bool, read/write): enable/disable prevention of spawning of entities with same name (default false).</li></ul>
-<p>
-This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):<ul>
-<li>pcspawn_newentity: new entity has been created (entity,behaviour) </li></ul>
+This property class can send out the following messages to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters): <ul>
+<li>
+pcspawn_newentity: new entity has been created (entity,behaviour) </li>
+</ul>
 
 <p>
 
 <p>
-Definition at line <a class="el" href="spawn_8h-source.html#l00060">60</a> of file <a class="el" href="spawn_8h-source.html">spawn.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="spawn_8h-source.html#l00057">57</a> of file <a class="el" href="spawn_8h-source.html">spawn.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="b01ddfadde358f2a61c36ffe7235f94d"></a><!-- doxytag: member="iPcSpawn::AddEntityTemplateType" ref="b01ddfadde358f2a61c36ffe7235f94d" args="(float chance, const char *templ, const char *name, const char *msg_id, iCelParameterBlock *params)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -110,7 +111,7 @@ Definition at line <a class="el" href="spawn_8h-source.html#l00060">60</a> of fi
         <tr>
           <td class="memname">virtual void iPcSpawn::AddEntityTemplateType           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>chance</em>, </td>
         </tr>
         <tr>
@@ -168,7 +169,7 @@ This version works with templates. <dl compact><dt><b>Parameters:</b></dt><dd>
         <tr>
           <td class="memname">virtual void iPcSpawn::AddEntityType           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>chance</em>, </td>
         </tr>
         <tr>
@@ -240,13 +241,13 @@ Add an entry to the list of entities that can be created by this property class.
         <tr>
           <td class="memname">virtual void iPcSpawn::AddSpawnPosition           </td>
           <td>(</td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsVector3.html">csVector3</a> &amp;&nbsp;</td>
+          <td class="paramtype">const csVector3 &amp;&nbsp;</td>
           <td class="paramname"> <em>pos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
@@ -283,7 +284,7 @@ This version accepts position vector
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>yrot</em>, </td>
         </tr>
         <tr>
@@ -328,28 +329,6 @@ Clear the list of entities to create.
 
 </div>
 </div><p>
-<a class="anchor" name="a722737ca5b3118b05b6e513384df779"></a><!-- doxytag: member="iPcSpawn::EnableSpawnUnique" ref="a722737ca5b3118b05b6e513384df779" args="(bool en)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcSpawn::EnableSpawnUnique           </td>
-          <td>(</td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>en</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-This is useful in combination with a disabled entity name counter (SetEntityNameCounter(false)). 
-<p>
-In spawn unique is true then spawning will not occur if the entity with that name is already in existance. By default this is false. 
-</div>
-</div><p>
 <a class="anchor" name="60ea847d706042989d6185563faf94c9"></a><!-- doxytag: member="iPcSpawn::InhibitCount" ref="60ea847d706042989d6185563faf94c9" args="(int number)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -357,7 +336,7 @@ In spawn unique is true then spawning will not occur if the entity with that nam
         <tr>
           <td class="memname">virtual void iPcSpawn::InhibitCount           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01int_01_4.html">int</a>&nbsp;</td>
+          <td class="paramtype">int&nbsp;</td>
           <td class="paramname"> <em>number</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -389,48 +368,6 @@ Inhibit respawn in case count will reach given number.
 
 <p>
 Is spawning enabled. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="0c1e3a11ef829d70d637092e6ec68e3b"></a><!-- doxytag: member="iPcSpawn::IsEntityNameCounterCounter" ref="0c1e3a11ef829d70d637092e6ec68e3b" args="() const =0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool iPcSpawn::IsEntityNameCounterCounter           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Return true if the unique entity name counter is enabled. 
-<p>
-
-</div>
-</div><p>
-<a class="anchor" name="7c858c3cf2b6d1c702018114f36fc7bf"></a><!-- doxytag: member="iPcSpawn::IsSpawnUniqueEnabled" ref="7c858c3cf2b6d1c702018114f36fc7bf" args="() const =0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool iPcSpawn::IsSpawnUniqueEnabled           </td>
-          <td>(</td>
-          <td class="paramname">          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"> const<code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Return true if spawn unique is enabled. 
 <p>
 
 </div>
@@ -476,28 +413,6 @@ In case of a non repeating spawner this will enable the spawn again so that it w
 Enable/disable spawning. 
 <p>
 Enabled by default although the spawner will only start working after the first <a class="el" href="structiPcSpawn.html#6582b9e9f285b1c20c20a61d1ca41f10">SetTiming()</a> call. 
-</div>
-</div><p>
-<a class="anchor" name="bb48533ecb97580f7d4561c385d40a37"></a><!-- doxytag: member="iPcSpawn::SetEntityNameCounter" ref="bb48533ecb97580f7d4561c385d40a37" args="(bool en)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcSpawn::SetEntityNameCounter           </td>
-          <td>(</td>
-          <td class="paramtype">bool&nbsp;</td>
-          <td class="paramname"> <em>en</em>          </td>
-          <td>&nbsp;)&nbsp;</td>
-          <td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Enable/disable entity name counter. 
-<p>
-With this enabled (default) every entity will get a unique name formed by the name given in <a class="el" href="structiPcSpawn.html#b01ddfadde358f2a61c36ffe7235f94d">AddEntityTemplateType()</a> and a unique number. With this disabled this will not occur. 
 </div>
 </div><p>
 <a class="anchor" name="6582b9e9f285b1c20c20a61d1ca41f10"></a><!-- doxytag: member="iPcSpawn::SetTiming" ref="6582b9e9f285b1c20c20a61d1ca41f10" args="(bool repeat, bool random, csTicks mindelay, csTicks maxdelay)=0" -->

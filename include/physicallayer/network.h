@@ -43,14 +43,14 @@ struct celNetworkServerStats;
 struct celNetworkPlayerStats;
 struct celNetworkServerTotalStats;
 
+SCF_VERSION (iCelGame, 0, 0, 1);
+
 /**
  * A networked game. It maintains the main data of a game: game type, game 
  * info and pointers to the local client and server.
  */
-struct iCelGame : public virtual iBase
+struct iCelGame : public iBase
 {
-  SCF_INTERFACE (iCelGame, 0, 0, 1);
-
   /**
    * Return the type of the game.
    */
@@ -84,21 +84,22 @@ struct iCelGame : public virtual iBase
   virtual iCelGameClient* GetGameClient () const = 0;
 };
 
+SCF_VERSION (iCelGameFactory, 0, 0, 1);
+
 /**
  * A factory to manage game sessions. You can use it to:
- * - set and get the name of the game and of the network protocol 
- *   version.
- * - search for available games, connect to them or create a new game.
- * - record the events of the game and playback them.
- *
+ * <UL>
+ * <LI>set and get the name of the game and of the network protocol 
+ * version.</LI>
+ * <LI>search for available games, connect to them or create a new game.</LI>
+ * <LI>record the events of the game and playback them.</LI>
+ * </UL>
  * You must define and register a iCelGameFactoryManager which will catch 
  * the events from this factory.
  * <P>There should be only one game factory in an application.
  */
-struct iCelGameFactory : public virtual iBase
+struct iCelGameFactory : public iBase
 {
-  SCF_INTERFACE (iCelGameFactory, 0, 0, 1);
-
   /**
    * Set the name of the game. Client and server instances can talk 
    * together only if they have the same game name and protocol version.
@@ -227,18 +228,18 @@ struct iCelGameFactory : public virtual iBase
 /**
  * This is an interface you should implement in order to manage the events from 
  * the factory of game sessions. You can use it to:
- * - receive the information on new games accessible.
- * - catch the changes of the connection state from the client to the
- *   server. 
- * - initialize the client and the server.
- * - provide the baselines of the client and server events, and of the
- *   network links.
+ * <UL>
+ * <LI>receive the information on new games accessible.</LI>
+ * <LI>catch the changes of the connection state from the client to the
+ *     server.</LI> 
+ * <LI>initialize the client and the server.</LI>
+ * <LI>provide the baselines of the client and server events, and of the
+ *     network links.</LI>
+ * </UL>
  */
 class celGameFactoryManager
 {
-public:
-  virtual ~celGameFactoryManager () {}
-
+ public:
   /**
    * The game factory is searching for available games (it has been started
    * with iCelGameFactory::StartSearchForGameList), and a game has been found.
@@ -253,17 +254,19 @@ public:
   /**
    * The state of the network connection from the client to the server has 
    * changed. An extra comment can be specified when new_state is:
-   * - CEL_NET_SERVER_INVALID_HOSTNAME: reason is the value of the
-   *   hostname.
-   * - CEL_NET_SERVER_REJECTED_BAD_GAME: reason is the name of the game
-   *   played by the server.
-   * - CEL_NET_SERVER_REJECTED_BAD_PROTOCOL: reason is the name of the
-   *   protocol version used by the server.
-   * - CEL_NET_SERVER_REJECTED_UNAUTHORIZED: reason is the text given by
-   *   the server to explain why this player has not been authorized to
-   *   enter the game.
-   * - CEL_NET_SERVER_KICKED: reason is the text given by the server to
-   *   explain why this player has been kicked from the game.
+   * <UL>
+   * <LI>CEL_NET_SERVER_INVALID_HOSTNAME: reason is the value of the
+   *     hostname.</LI>
+   * <LI>CEL_NET_SERVER_REJECTED_BAD_GAME: reason is the name of the game
+   *     played by the server.</LI>
+   * <LI>CEL_NET_SERVER_REJECTED_BAD_PROTOCOL: reason is the name of the
+   *     protocol version used by the server.</LI>
+   * <LI>CEL_NET_SERVER_REJECTED_UNAUTHORIZED: reason is the text given by
+   *     the server to explain why this player has not been authorized to
+   *     enter the game.</LI>
+   * <LI>CEL_NET_SERVER_KICKED: reason is the text given by the server to
+   *     explain why this player has been kicked from the game.</LI>
+   * </UL>
    */
   virtual void ServerNetworkStateChanged (celServerNetworkState new_state, 
         celServerNetworkState previous_state, csString reason = "") = 0;
@@ -319,23 +322,24 @@ public:
 
 };
 
+SCF_VERSION (iCelGameServer, 0, 0, 1);
+
 /**
  * The main object to manage the server game logic. You can use it to:
- * - get and set the administrator of the game, get the list of players of 
- *   the game, kick a player from the game.
- * - create and remove channels, ie list of players.
- * - send server events, create and remove network links.
- * - re-initialize a game for example when a new level is started.
- * - set some options on the server.
- * - get some network statistics.
- *
+ * <UL>
+ * <LI>get and set the administrator of the game, get the list of players of 
+ * the game, kick a player from the game.</LI>
+ * <LI>create and remove channels, ie list of players.</LI>
+ * <LI>send server events, create and remove network links.</LI>
+ * <LI>re-initialize a game for example when a new level is started.</LI>
+ * <LI>set some options on the server.</LI>
+ * <LI>get some network statistics.</LI>
+ * </UL>
  * You should define and register a celGameServerManager which will catch 
  * the events from this server.
  */
-struct iCelGameServer : public virtual iBase
+struct iCelGameServer : public iBase
 {
-  SCF_INTERFACE (iCelGameServer, 0, 0, 1);
-
   /**
    * Register the manager of this server. Only one manager can be registered
    * at a time.
@@ -497,22 +501,23 @@ struct iCelGameServer : public virtual iBase
   	celNetworkPlayerTotalStats& stats) const = 0;
 };
 
+SCF_VERSION (iCelGameClient, 0, 0, 1);
+
 /**
  * The main object to manage the client game logic. You can use it to:
- * - update the data of the player.
- * - convert a server clock or a server entity ID in client values.
- * - tell the system when the player is ready to play.
- * - send client events.
- * - set some options on the client.
- * - get some network statistics.
- *
+ * <UL>
+ * <LI>update the data of the player.</LI>
+ * <LI>convert a server clock or a server entity ID in client values.</LI>
+ * <LI>tell the system when the player is ready to play.</LI>
+ * <LI>send client events.</LI>
+ * <LI>set some options on the client.</LI>
+ * <LI>get some network statistics.</LI>
+ * </UL>
  * You should define and register a celGameClientManager which will catch 
  * the events from this client.
  */
-struct iCelGameClient : public virtual iBase
+struct iCelGameClient : public iBase
 {
-  SCF_INTERFACE (iCelGameClient, 0, 0, 1);
-
   /**
    * Register the manager of this client. Only one manager can be registered at 
    * a time.
@@ -584,19 +589,19 @@ struct iCelGameClient : public virtual iBase
 /**
  * This is an interface you should implement in order to manage the events from 
  * the server. You can use it to:
- * - authorize players to join the game, check the validity of the data of
- *   the players.
- * - listen for changes in the state of the network connections to the 
- *   clients.
- * - catch the client events.
- * - handle the detection of cheats.
- * - close the game.
+ * <UL>
+ * <LI>authorize players to join the game, check the validity of the data of
+ * the players.</LI>
+ * <LI>listen for changes in the state of the network connections to the 
+ * clients.</LI>
+ * <LI>catch the client events.</LI>
+ * <LI>handle the detection of cheats.</LI>
+ * <LI>close the game.</LI>
+ * </UL>
  */
 class celGameServerManager
 {
  public:
-  virtual ~celGameServerManager () {};
-
   /**
    * A player is asking to join the game. Return true if the new player is 
    * accepted, false otherwise (for example, because the player has been 
@@ -647,18 +652,18 @@ class celGameServerManager
 /**
  * This is an interface you should implement in order to manage the events from 
  * the client. You can use it to:
- * - listen for changes in the state of the network connection to the 
- *   server.
- * - get the data of the player validated by the server.
- * - catch the server events.
- * - handle the creation and removing of the network links.
- * - close the client.
+ * <UL>
+ * <LI>listen for changes in the state of the network connection to the 
+ * server.</LI>
+ * <LI>get the data of the player validated by the server.</LI>
+ * <LI>catch the server events.</LI>
+ * <LI>handle the creation and removing of the network links.</LI>
+ * <LI>close the client.</LI>
+ * </UL>
  */
 class celGameClientManager
 {
  public:
-  virtual ~celGameClientManager () {};
-
   /**
    * The data of the player has been validated by the server.
    */

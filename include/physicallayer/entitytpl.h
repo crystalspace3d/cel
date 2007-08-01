@@ -35,13 +35,13 @@ struct iCelPropertyClassTemplate;
 struct iCelPropertyClass;
 struct iCelParameterBlock;
 
+SCF_VERSION (iCelEntityTemplate, 0, 0, 1);
+
 /**
  * This is an entity template. It can be used to create other entities.
  */
-struct iCelEntityTemplate : public virtual iBase
+struct iCelEntityTemplate : public iBase
 {
-  SCF_INTERFACE (iCelEntityTemplate, 0, 0, 1);
-
   /**
    * Get the iObject for this entity template.
    * \return A pointer to the iObject for this entity.
@@ -113,14 +113,14 @@ struct iCelEntityTemplate : public virtual iBase
   virtual const csSet<csStringID>& GetClasses () const = 0;
 };
 
+SCF_VERSION (iCelPropertyClassTemplate, 0, 0, 1);
+
 /**
  * This is a property class template for an entity. A property class
  * describe physical attributes of an entity.
  */
-struct iCelPropertyClassTemplate : public virtual iBase
+struct iCelPropertyClassTemplate : public iBase
 {
-  SCF_INTERFACE (iCelPropertyClassTemplate, 0, 0, 1);
-
   /**
    * Set the name of this property class.
    */

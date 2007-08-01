@@ -38,6 +38,7 @@
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
@@ -55,11 +56,11 @@
 #include "ivideo/fontserv.h"
 #include "igraphic/imageio.h"
 #include "imap/loader.h"
-#include "ivaria/dynamics.h"
 #include "ivaria/reporter.h"
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -82,6 +83,7 @@
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
+#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
 #include "propclass/quest.h"
@@ -89,7 +91,6 @@
 #include "propclass/zone.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 
 #define PATHFIND_VERBOSE 0
 
@@ -107,6 +108,7 @@ WheeledTest::~WheeledTest ()
 void WheeledTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+  csDebuggingGraph::Dump (0);
 }
 
 void WheeledTest::ProcessFrame ()
@@ -185,12 +187,12 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
 {
   // The vehicle
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "wheeled",
-      "pcinput.standard",
-      "pcobject.mesh",
-      "pccamera.old",
-      "pcphysics.object",
-      "pcvehicle.wheeled",
-      "pcobject.mesh.deform",
+      "pccommandinput",
+      "pcmesh",
+      "pcdefaultcamera",
+      "pcmechobject",
+      "pcwheeled",
+     // "pcmeshdeform",
       CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
@@ -216,7 +218,6 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
   pccamera->SetMode (iPcDefaultCamera::thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
-  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, -3.0f));
   pccamera->SetMode (iPcDefaultCamera::m64_thirdperson);
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
@@ -230,7 +231,7 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
   pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
   pccamera->SetFirstPersonOffset (csVector3 (0, 1.0f, 0));
-  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, -3.0f));
+  pccamera->SetThirdPersonOffset (csVector3 (0, 1.0f, 3.0f));
   pccamera->SetModeName ("thirdperson");
 
   csRef<iPcMechanicsObject> pcmech=CEL_QUERY_PROPCLASS_ENT(entity_cam,
@@ -238,55 +239,48 @@ csPtr<iCelEntity> WheeledTest::CreateVehicle (const char* name,
   //The mass of the vehicle
   pcmech->SetMass(1000.0);
   pcmech->SetDensity(1.0);
-  pcmech->SetFriction(0.04f);
+  pcmech->SetFriction(0.4f);
   pcmech->AttachColliderBoundingBox();
 
   csRef<iPcWheeled> pcwheeled=CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcWheeled);
   pcwheeled->SetWheelMesh("celCarWheel","/cellib/objects/celcarwheel");
   //Activate this, and the vehicle will steer like a tank. Ownage!
-  //pcwheeled->SetTankMode(true);
+  pcwheeled->SetTankMode(true);
 
   /*This part demos how to use presets to modify the steer and drive settings
     of groups of wheels. It isn't neccessary, as the vehicle defaults to
     front-wheel steer 4-wheel-drive, but tweaking these provides an easy way
-    to modify car handling.
-    Settings are: steersensitivity, enginepower, suspensionsoftness,
-                  suspensiondamping, friction, mass */
-  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125, 0.07f, 10.0f);
+    to modify car handling. The first setting is steering sensitivity, second
+    setting is drive power.*/
+  pcwheeled->SetFrontWheelPreset(1.0f,0.8f, 0.000125, 0.125);
 
   /*By letting the rear wheels steer a small amount, and giving them most power,
     the vehicle's handling becomes much more twitchy. */
-  pcwheeled->SetRearWheelPreset(0.2f, 1.0f, 0.000125, 0.125, 0.09f, 15.0f);
+  pcwheeled->SetRearWheelPreset(0.2f,1.0f, 0.000125, 0.125);
 
   //Making the outer wheels steer a wider arc also improves traction while turning.
   pcwheeled->SetOuterWheelSteerPreset(0.7f);
 
-  pcwheeled->SetBrakeForce(1000.0f);
-  pcwheeled->SetABS(true);
+  pcwheeled->SetBrakeForce(1000);
   pcwheeled->SetSteerAmount(0.7f);
 
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.7f));
-//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
-//   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,0,-0.25f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,0,-0.25f));
+  pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.25f));
+  pcwheeled->AddWheelAuto(csVector3(0.5,0,0.25f));
   pcwheeled->AddWheelAuto(csVector3(-0.5,0,0.7f));
   pcwheeled->AddWheelAuto(csVector3(0.5,0,0.7f));
 
-  //Setup gear speeds. settings are gear, speed, force. note that gear -1
-  //is reverse, and the speed is negative.
-  pcwheeled->SetGearSettings(-1,-50,700);
   pcwheeled->SetGearSettings(1,10,3000);
   pcwheeled->SetGearSettings(2,20,2000);
   pcwheeled->SetGearSettings(3,50,700);
   pcwheeled->SetGearSettings(4,75,450);
   pcwheeled->SetGearSettings(5,100,200);
 
-  csRef<iPcMeshDeform> pcmeshdeform
-    = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
-  pcmeshdeform->SetDeformFactor(7.0f);
-
+ // csRef<iPcMeshDeform> pcmeshdeform
+  //  = CEL_QUERY_PROPCLASS_ENT(entity_cam,iPcMeshDeform);
   return csPtr<iCelEntity> (entity_cam);
 }
 
@@ -299,9 +293,9 @@ bool WheeledTest::CreateMap ()
   // Create the map entity.
   //===============================
   entity_map = pl->CreateEntity ("ent_level", 0, 0,
-                                 "pcworld.zonemanager",
-                                 "pctools.inventory",
-                                 "pcphysics.system",
+                                 "pczonemanager",
+                                 "pcinventory",
+                                 "pcmechsys",
                                  CEL_PROPCLASS_END);
 
   //===============================
@@ -380,6 +374,8 @@ bool WheeledTest::CreateMap ()
 
 bool WheeledTest::OnInitialize (int argc, char* argv[])
 {
+  csDebuggingGraph::SetupGraph (object_reg);
+
   if (!celInitializer::RequestPlugins (object_reg,
        CS_REQUEST_VFS,
        CS_REQUEST_OPENGL3D,
@@ -442,6 +438,69 @@ bool WheeledTest::Application ()
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
 
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechsys"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mechobject"))
+    return false;
+  if(!pl->LoadPropertyClassFactory("cel.pcfactory.wheeled"))
+    return false;
+//  if(!pl->LoadPropertyClassFactory("cel.pcfactory.meshdeform"))
+//    return false;
   if (!CreateMap ()) return false;
 
   // This calls the default runloop. This will basically just keep

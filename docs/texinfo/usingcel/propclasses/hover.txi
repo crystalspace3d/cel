@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Hover, PropClass LinMove, PropClass CommandInput, Property Classes
+@node PropClass Hover, , PropClass ZoneMgr, Property Classes
 @subsection Hover
 @cindex pchover property class
 @cindex pchover
@@ -14,7 +14,7 @@ with @samp{pcmechobject}.
 @item @emph{Name}:
 @samp{pchover}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.vehicle.hover}
+@samp{cel.pcfactory.hover}
 @item @emph{Interface}:
 @code{iPcHover}
 @item @emph{Header}:

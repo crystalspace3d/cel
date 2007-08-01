@@ -511,7 +511,7 @@ void GameClientManager::HandleServerEvent (celServerEventType event_type,
 
     // add it to list of comments
     comments.Push (comment);
-    if (comments.GetSize () > 5)
+    if (comments.Length () > 5)
       comments.DeleteIndex (0);
     return;
   }
@@ -523,7 +523,7 @@ void GameClientManager::HandleServerEvent (celServerEventType event_type,
 
     // add it to list of comments
     comments.Push (message);
-    if (comments.GetSize () > 5)
+    if (comments.Length () > 5)
       comments.DeleteIndex (0);
     return;
   }

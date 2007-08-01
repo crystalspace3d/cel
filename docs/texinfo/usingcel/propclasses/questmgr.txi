@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node PropClass Quest Manager, PropClass Timer, PropClass Projectile, Property Classes
+@node PropClass Quest Manager, PropClass Mesh, Property Classes, Property Classes
 @subsection Quest Manager
 @cindex quest manager
 @cindex @code{iQuestManager}
@@ -15,9 +15,9 @@ this section will also explain the quest manager.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pclogic.quest}
+@samp{pcquest}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.logic.quest}
+@samp{cel.pcfactory.quest}
 @item @emph{Interface}:
 @code{iPcQuest}
 @item @emph{Header}:
@@ -69,9 +69,6 @@ This triggers when an object enters inventory. See
 @item @samp{cel.questtrigger.meshselect}:
 This triggers when a mesh is selected. See
 @code{iMeshSelectQuestTriggerFactory}.
-@item @samp{cel.questtrigger.watch}:
-This triggers when a mesh becomes visible. See
-@code{iWatchQuestTriggerFactory}.
 @end itemize
 
 It is of course possible to define your own triggers and register them to
@@ -101,17 +98,6 @@ This manipulates the inventory. See
 This fires a sequence. See @code{iSequenceQuestRewardFactory}.
 @item @samp{cel.questreward.sequencefinish}:
 Finishes a sequence. See @code{iSequenceFinishQuestRewardFactory}.
-@item @samp{cel.questreward.destroyentity}:
-This destroys an entity. See @code{iDestroyEntityQuestRewardFactory}.
-@item @samp{cel.questreward.cssequence}:
-This will run a crystalspace sequence.
-See @code{iCsSequenceQuestRewardFactory}.
-@item @samp{cel.questreward.message}:
-This sends a message to an entity. 
-See @code{iMessageQuestRewardFactory}.
-@item @samp{cel.questreward.action}:
-This run an action from a property class in an entity.
-See @code{iActionQuestRewardFactory}.
 @end itemize
 
 It is also possible to define your own rewards.
@@ -223,12 +209,12 @@ addon (@pxref{Addons CelEntity}) like this:
 
 @example
 <addon plugin="cel.addons.celentity" entityname="SlidingDoor">
-  <propclass name="pcobject.mesh">
+  <propclass name="pcmesh">
     <action name="SetMesh">
       <par name="name" string="SlidingDoor" />
     </action>
   </propclass>
-  <propclass name="pclogic.trigger">
+  <propclass name="pctrigger">
     <property name="monitor" string="camera" />
     <action name="SetupTriggerSphere">
       <par name="sector" string="Corridors" />
@@ -236,7 +222,7 @@ addon (@pxref{Addons CelEntity}) like this:
       <par name="radius" float="4" />
     </action>
   </propclass>
-  <propclass name="pclogic.quest">
+  <propclass name="pcquest">
     <action name="NewQuest">
       <par name="name" string="SlideDoor" />
       <par name="openx" string="-3.5" />

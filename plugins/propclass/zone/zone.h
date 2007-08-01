@@ -58,79 +58,81 @@ class celPcZoneManager;
  */
 CEL_DECLARE_FACTORY(ZoneManager)
 
-class cameraSectorListener : public scfImplementation1<
-	cameraSectorListener, iCameraSectorListener>
+class cameraSectorListener : public iCameraSectorListener
 {
 private:
   csWeakRef<celPcZoneManager> zonemgr;
 
 public:
-  cameraSectorListener (celPcZoneManager* zonemgr) :
-    scfImplementationType (this)
+  cameraSectorListener (celPcZoneManager* zonemgr)
   {
+    SCF_CONSTRUCT_IBASE (0);
     cameraSectorListener::zonemgr = zonemgr;
   }
   virtual ~cameraSectorListener ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
+  SCF_DECLARE_IBASE;
   virtual void NewSector (iCamera* camera, iSector* sector);
 };
 
-class meshmoveListener : public scfImplementation1<
-	meshmoveListener, iMovableListener>
+class meshmoveListener : public iMovableListener
 {
 private:
   csWeakRef<celPcZoneManager> zonemgr;
 
 public:
-  meshmoveListener (celPcZoneManager* zonemgr) : scfImplementationType (this)
+  meshmoveListener (celPcZoneManager* zonemgr)
   {
+    SCF_CONSTRUCT_IBASE (0);
     meshmoveListener::zonemgr = zonemgr;
   }
   virtual ~meshmoveListener ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
+  SCF_DECLARE_IBASE;
   virtual void MovableChanged (iMovable* movable);
   virtual void MovableDestroyed (iMovable*) { }
 };
 
-class celMapFile : public scfImplementation1<
-	celMapFile, iCelMapFile>
+class celMapFile : public iCelMapFile
 {
 private:
-  char* name;
   char* path;
   char* file;
   char* sectorname;
 
 public:
-  celMapFile () : scfImplementationType (this)
+  celMapFile ()
   {
-    name = 0;
+    SCF_CONSTRUCT_IBASE (0);
     path = 0;
     file = 0;
     sectorname = 0;
   }
   virtual ~celMapFile ()
   {
-    delete[] name;
     delete[] path;
     delete[] file;
     delete[] sectorname;
+    SCF_DESTRUCT_IBASE ();
   }
 
-  virtual void SetName (const char* name);
+  SCF_DECLARE_IBASE;
+
   virtual void SetPath (const char* path);
   virtual void SetFile (const char* file);
-  virtual const char* GetName () const { return name; }
   virtual const char* GetPath () const { return path; }
   virtual const char* GetFile () const { return file; }
   virtual void SetSectorName (const char* name);
   virtual const char* GetSectorName () const { return sectorname; }
 };
 
-class celRegion : public scfImplementation3<
-	celRegion, iCelRegion, iCelNewEntityCallback, iEngineSectorCallback>
+class celRegion : public iCelRegion,
+	public iCelNewEntityCallback,
+	public iEngineSectorCallback
 {
 private:
   celPcZoneManager* mgr;
@@ -138,7 +140,6 @@ private:
   csString csregionname;
   csString cache_path;
   bool loaded;
-  csRef<iRegion> csregion;
   csRefArray<celMapFile> mapfiles;
   csSet<csPtrKey<iSector> > sectors;
 
@@ -146,15 +147,16 @@ private:
   csWeakRefArray<iCelEntity> entities;
 
 public:
-  celRegion (celPcZoneManager* mgr, const char* name) :
-    scfImplementationType (this)
+  celRegion (celPcZoneManager* mgr, const char* name)
   {
+    SCF_CONSTRUCT_IBASE (0);
     celRegion::mgr = mgr;
     celRegion::name = name;
     loaded = false;
   }
   virtual ~celRegion ()
   {
+    SCF_DESTRUCT_IBASE ();
   }
   void SetEntityName (const char* entname);
 
@@ -170,23 +172,22 @@ public:
 
   bool ContainsSector (iSector* sector) { return sectors.In (sector); }
 
+  SCF_DECLARE_IBASE;
+
   virtual const char* GetName () const { return name; }
   virtual const char* GetCsRegionName () const { return csregionname; }
   virtual void SetCachePath (const char* path);
   virtual const char* GetCachePath () const { return cache_path; }
   virtual iCelMapFile* CreateMapFile ();
-  virtual size_t GetMapFileCount () const { return mapfiles.GetSize (); }
+  virtual size_t GetMapFileCount () const { return mapfiles.Length (); }
   virtual iCelMapFile* GetMapFile (int idx) const
   {
     return (iCelMapFile*)mapfiles[idx];
   }
-  virtual iCelMapFile* FindMapFile (const char* name) const;
   virtual bool RemoveMapFile (iCelMapFile* mapfile);
   virtual void RemoveAllMapFiles ();
   virtual void AssociateEntity (iCelEntity* entity);
   virtual void DissociateEntity (iCelEntity* entity);
-  virtual bool ContainsEntity (iCelEntity* entity);
-  virtual iRegion* GetCsRegion ();
 
   // For iCelNewEntityCallback.
   virtual void NewEntity (iCelEntity* entity);
@@ -196,8 +197,7 @@ public:
   virtual void RemoveSector (iEngine* engine, iSector* sector);
 };
 
-class celZone : public scfImplementation1<
-	celZone, iCelZone>
+class celZone : public iCelZone
 {
 private:
   celPcZoneManager* mgr;
@@ -205,22 +205,25 @@ private:
   csRefArray<celRegion> regions;
 
 public:
-  celZone (celPcZoneManager* mgr, const char* name) :
-    scfImplementationType (this)
+  celZone (celPcZoneManager* mgr, const char* name)
   {
+    SCF_CONSTRUCT_IBASE (0);
     celZone::mgr = mgr;
     celZone::name = csStrNew (name);
   }
   virtual ~celZone ()
   {
     delete[] name;
+    SCF_DESTRUCT_IBASE ();
   }
 
   bool ContainsRegion (celRegion* region);
 
+  SCF_DECLARE_IBASE;
+
   virtual const char* GetName () const { return name; }
   virtual void LinkRegion (iCelRegion* region);
-  virtual size_t GetRegionCount () const { return regions.GetSize (); }
+  virtual size_t GetRegionCount () const { return regions.Length (); }
   virtual iCelRegion* GetRegion (size_t idx) const
   {
     return (iCelRegion*)regions[idx];
@@ -233,8 +236,7 @@ public:
 /**
  * This is the zone manager property class.
  */
-class celPcZoneManager : public scfImplementationExt1<
-	celPcZoneManager, celPcCommon, iPcZoneManager>
+class celPcZoneManager : public celPcCommon
 {
 private:
   csRef<iEngine> engine;
@@ -265,9 +267,7 @@ private:
   static csStringID id_entityname;
   static csStringID id_regionname;
   static csStringID id_startname;
-  static csStringID id_zonename;
   static csStringID id_mode;
-  static csStringID id_name;
 
   enum actionids
   {
@@ -277,16 +277,7 @@ private:
     action_pointmesh,
     action_pointcamera,
     action_setloadingmode,
-    action_activateregion,
-    action_createregion,
-    action_removeregion,
-    action_createzone,
-    action_removezone,
-    action_createmap,
-    action_removemap,
-    action_setcache,
-    action_linkregion,
-    action_unlinkregion
+    action_activateregion
   };
 
   celOneParameterBlock* params;
@@ -326,19 +317,20 @@ public:
   iVFS* GetVFS () const { return vfs; }
   iCelPlLayer* GetPL () const { return pl; }
   iCollideSystem* GetCDSystem () const { return cdsys; }
-  iObjectRegistry* GetObjectReg () const { return object_reg; }
 
   // Activate some region. This will load all zones that contain
   // the given region and unload all other zones. It is safe to call
   // this too many times as it will check if a region or zone is already
   // loaded or not and avoid doing unneeded work.
-  virtual bool ActivateRegion (iCelRegion* region,
-      bool allow_entity_addon = true);
+  bool ActivateRegion (iCelRegion* region, bool allow_entity_addon = true);
 
   // Activate some sector. This will first find the region that this
   // sector is in and then it will activate that region.
   bool ActivateSector (iSector* sector);
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pczonemanager"; }
   virtual csPtr<iCelDataBuffer> SaveFirstPass ();
   virtual bool LoadFirstPass (iCelDataBuffer* databuf);
   virtual csPtr<iCelDataBuffer> Save ();
@@ -350,42 +342,147 @@ public:
 
   void SendZoneMessage (iCelRegion* region, const char* msgid);
 
-  virtual void EnableColliderWrappers (bool en) { do_colliderwrappers = en; }
-  virtual bool IsColliderWrappers () const { return do_colliderwrappers; }
-  virtual void SetLoadingMode (int mode);
-  virtual int GetLoadingMode () const { return loading_mode; }
+  void EnableColliderWrappers (bool en) { do_colliderwrappers = en; }
+  bool IsColliderWrappers () const { return do_colliderwrappers; }
+  void SetLoadingMode (int mode);
+  int GetLoadingMode () const { return loading_mode; }
 
-  virtual bool Load (iDocumentNode* node);
-  virtual bool Load (const char* path, const char* file);
+  bool Load (iDocumentNode* node);
+  bool Load (const char* path, const char* file);
 
-  virtual iCelZone* CreateZone (const char* name);
-  virtual size_t GetZoneCount () const { return zones.GetSize (); }
-  virtual iCelZone* GetZone (int idx) const { return (iCelZone*)zones[idx]; }
-  virtual iCelZone* FindZone (const char* name) const;
-  virtual bool RemoveZone (iCelZone* zone);
-  virtual void RemoveAllZones ();
+  iCelZone* CreateZone (const char* name);
+  size_t GetZoneCount () const { return zones.Length (); }
+  iCelZone* GetZone (int idx) const { return (iCelZone*)zones[idx]; }
+  iCelZone* FindZone (const char* name) const;
+  bool RemoveZone (iCelZone* zone);
+  void RemoveAllZones ();
 
-  virtual iCelRegion* CreateRegion (const char* name);
-  virtual size_t GetRegionCount () const { return regions.GetSize (); }
-  virtual iCelRegion* GetRegion (int idx) const
-  { return (iCelRegion*)regions[idx]; }
-  virtual iCelRegion* FindRegion (const char* name) const;
-  virtual bool RemoveRegion (iCelRegion* region);
-  virtual void RemoveAllRegions ();
-  virtual iCelRegion* FindRegionContaining (iCelEntity* ent);
+  iCelRegion* CreateRegion (const char* name);
+  size_t GetRegionCount () const { return regions.Length (); }
+  iCelRegion* GetRegion (int idx) const { return (iCelRegion*)regions[idx]; }
+  iCelRegion* FindRegion (const char* name) const;
+  bool RemoveRegion (iCelRegion* region);
+  void RemoveAllRegions ();
 
-  virtual void FindStartLocations (iStringArray* regionnames,
-      iStringArray* startnames);
-  virtual void GetLastStartLocation (iString* regionname,
-      iString* startname);
-  virtual const char *GetLastStartRegionName ();
-  virtual const char *GetLastStartName ();
+  void FindStartLocations (iStringArray* regionnames, iStringArray* startnames);
+  void GetLastStartLocation (iString* regionname, iString* startname);
+  const char *GetLastStartRegionName ();
+  const char *GetLastStartName ();
 
-  virtual int PointCamera (const char* entity, const char* regionname,
-  	const char* startname = 0);
-  virtual int PointMesh (const char* entity, const char* regionname,
-  	const char* startname = 0);
+  int PointCamera (const char* entity, const char* regionname,
+  	const char* startname);
+  int PointMesh (const char* entity, const char* regionname,
+  	const char* startname);
   int UpdateMeshCamera ();
+
+  struct PcZoneManager : public iPcZoneManager
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcZoneManager);
+    virtual void EnableColliderWrappers (bool en)
+    {
+      scfParent->EnableColliderWrappers (en);
+    }
+    virtual bool IsColliderWrappers () const
+    {
+      return scfParent->IsColliderWrappers ();
+    }
+    virtual void SetLoadingMode (int mode)
+    {
+      return scfParent->SetLoadingMode (mode);
+    }
+    virtual int GetLoadingMode () const
+    {
+      return scfParent->GetLoadingMode ();
+    }
+    virtual bool Load (iDocumentNode* node)
+    {
+      return scfParent->Load (node);
+    }
+    virtual bool Load (const char* path, const char* file)
+    {
+      return scfParent->Load (path, file);
+    }
+    virtual iCelZone* CreateZone (const char* name)
+    {
+      return scfParent->CreateZone (name);
+    }
+    virtual size_t GetZoneCount () const
+    {
+      return scfParent->GetZoneCount ();
+    }
+    virtual iCelZone* GetZone (int idx) const
+    {
+      return scfParent->GetZone (idx);
+    }
+    virtual iCelZone* FindZone (const char* name) const
+    {
+      return scfParent->FindZone (name);
+    }
+    virtual bool RemoveZone (iCelZone* zone)
+    {
+      return scfParent->RemoveZone (zone);
+    }
+    virtual void RemoveAllZones ()
+    {
+      scfParent->RemoveAllZones ();
+    }
+    virtual iCelRegion* CreateRegion (const char* name)
+    {
+      return scfParent->CreateRegion (name);
+    }
+    virtual size_t GetRegionCount () const
+    {
+      return scfParent->GetRegionCount ();
+    }
+    virtual iCelRegion* GetRegion (int idx) const
+    {
+      return scfParent->GetRegion (idx);
+    }
+    virtual iCelRegion* FindRegion (const char* name) const
+    {
+      return scfParent->FindRegion (name);
+    }
+    virtual bool RemoveRegion (iCelRegion* region)
+    {
+      return scfParent->RemoveRegion (region);
+    }
+    virtual void RemoveAllRegions ()
+    {
+      scfParent->RemoveAllRegions ();
+    }
+    virtual void FindStartLocations (iStringArray* regionnames,
+  	iStringArray* startnames)
+    {
+      scfParent->FindStartLocations (regionnames, startnames);
+    }
+    virtual void GetLastStartLocation (iString* regionname,
+  	iString* startname)
+    {
+      scfParent->GetLastStartLocation (regionname, startname);
+    }
+    virtual const char *GetLastStartRegionName ()
+    {
+      return scfParent->GetLastStartRegionName ();
+    }
+    virtual const char *GetLastStartName ()
+    {
+      return scfParent->GetLastStartName ();
+    }
+    virtual int PointCamera (const char* entity, const char* regionname,
+  	const char* startname = 0)
+    {
+      return scfParent->PointCamera (entity, regionname, startname);
+    }
+    virtual int PointMesh (const char* entity, const char* regionname,
+  	const char* startname = 0)
+    {
+      return scfParent->PointMesh (entity, regionname, startname);
+    }
+    virtual bool ActivateRegion (iCelRegion* region, bool allow_entity_addon)
+    {
+      return scfParent->ActivateRegion (region, allow_entity_addon);
+    }
+  } scfiPcZoneManager;
 };
 
 #endif // __CEL_PF_ZONEMGR__

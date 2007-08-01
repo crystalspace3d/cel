@@ -1,5 +1,5 @@
 @c -*-texinfo-*-
-@node Python Behaviour Layer, Cpp specifics, XML Behaviour Layer, Using CEL
+@node Python Behaviour Layer, , Addons, Using CEL
 @section The Python Behaviour Layer
 @cindex @sc{blpython}
 @cindex behaviour layer
@@ -46,13 +46,12 @@ A python behaviour has the following structure:
 from pycel import *
 
 class fovcontrol:
-        api_version = 2
         def __init__(self,celEntity):
                 print "Initializing fovcontrol...",celEntity.Name
 		# get camera from main actor (called camera in this case)
                 self.camera = celGetDefaultCamera(Entities["camera"]).Camera
                 self.initfov = self.camera.GetFOV ()
-		# get/create a pcinput.standard
+		# get/create a pccommandinput
                 self.input = celCommandInput(celEntity)
                 self.input.Bind("z","zoomin")
                 self.input.Bind("x","zoomout")
@@ -67,21 +66,21 @@ class fovcontrol:
                 self.time = Clock.GetCurrentTicks()
 
 	# property class message callbacks
-        def pctimer_wakeupframe(self,pc,args):
+        def pctimer_wakeupframe(self,celEntity,args):
                 self.time = Clock.GetCurrentTicks() - self.time
                 if self.zoomin:
                         self.camera.SetFOV(int(self.camera.GetFOV()+(5*(self.time/1000.0))),Graphics2D.GetWidth())
                 if self.zoomout:
                         self.camera.SetFOV(int(self.camera.GetFOV()-(5*(self.time/1000.0))),Graphics2D.GetWidth())
-        def pccommandinput_zoomin1(self,pc,args):
+        def pccommandinput_zoomin1(self,celEntity,args):
                 self.zoomin = True
-        def pccommandinput_zoomout1(self,pc,args):
+        def pccommandinput_zoomout1(self,celEntity,args):
                 self.zoomout = True
-        def pccommandinput_zoomin0(self,pc,args):
+        def pccommandinput_zoomin0(self,celEntity,args):
                 self.zoomin = False
-        def pccommandinput_zoomout0(self,pc,args):
+        def pccommandinput_zoomout0(self,celEntity,args):
                 self.zoomout = False
-        def pccommandinput_zoom01(self,pc,args):
+        def pccommandinput_zoom01(self,celEntity,args):
                 self.camera.SetFOV(self.initfov,Graphics2D.GetWidth())
 
 @end example
@@ -100,10 +99,6 @@ For example @code{pctimer_wakeup} is got when the entity receives a wakeup
 event from a timer, @code{pctrigger_entertrigger} is got when the entity
 enters some trigger's area.
 
-Note also de @code{api_version = 2} variable, it specifies the message
-callback version to use. Version 2 is new in 1.2 and is recommended although
-version 1 is still default for backward compatibility reasons.
-
 @subsubheading Python behaviours at @sc{xml} worldfiles
 
 Python behaviours can be set directly in @sc{cel} @sc{xml} format as seen
@@ -114,18 +109,18 @@ set to it:
 
 @example
 <addon entityname="camera" plugin="cel.addons.celentity">
-  <propclass name="pcobject.mesh">
+  <propclass name="pcmesh">
     <action name="SetMesh">
       <par name="name" string="ActorMesh"/>
     </action>
   </propclass>
-  <propclass name="pccamera.old">
+  <propclass name="pcdefaultcamera">
     <action name="SetCamera">
       <par name="modename" string="thirdperson"/>
     </action>
   </propclass>
-  <propclass name="pcinput.standard"/>
-  <propclass name="pcobject.mesh.select">
+  <propclass name="pccommandinput"/>
+  <propclass name="pcmeshselect">
     <action name="SetCamera">
       <par name="entity" string="camera"/>
     </action>
@@ -169,7 +164,7 @@ Used to get or register behaviour layers with @sc{cel}.
 @subsubheading Crystal Space plugins
 Some often used plugins in @sc{cs} are ready to use (if present). 
 These are: 
-@itemize @bullet
+@itemize
 @item @code{pycel.Engine}
 The engine plugin where you can get access to most Crystal Space objects in
 your map (@code{iEngine} interface) 
@@ -191,39 +186,15 @@ files (@code{iConfigManager} interface).
 @item @code{pycel.Loader}
 The loader plugin from Crystal Space, used to load world or library files
 (@code{iLoader} interface).
-@item @code{pycel.KeyboardDriver}
-The keyboard driver plugin, used to query keyboard state.
-(@code{iKeyboardDriver} interface).
-@item @code{pycel.JoystickDriver}
-The keyboard driver plugin, used to query joystick state.
-(@code{iJoystickDriver} interface).
-@item @code{pycel.MouseDriver}
-The mouse driver plugin, used to query mouse state.
-(@code{iMouseDriver} interface).
-@item @code{pycel.PluginManager}
-The plugin manager from Crystal Space, used to load additional plugins.
-(@code{iPluginManager} interface).
-@item @code{pycel.FontServer}
-The loader plugin from Crystal Space, used to load and access font objects.
-(@code{iFontServer} interface).
 @item @code{pycel.Stringset}
 The string set plugin, used to transform from @sc{cs} string @sc{id}s to
 regular strings (@code{iStringSet} interface). 
 @end itemize
-@subsubheading @code{getid} / @code{fromid} and other StringID related functions.
-Functions to transform from string to stringid and back.
-@itemize @bullet
+@subsubheading @code{getid} / @code{fromid}
+Functions to transform from string to stringid.
+@itemize
 @item @code{pycel.getid(string)}
 returns a string @sc{id} from the given string.
-@item @code{pycel.parid(string)}
-returns a string @sc{id} from the given parameter identifier string.
-This adds @samp{cel.parameter.} prefix to the given string automatically.
-@item @code{pycel.propid(string)}
-returns a string @sc{id} from the given property identifier string.
-This adds @samp{cel.property.} prefix to the given string automatically.
-@item @code{pycel.actid(string)}
-returns a string @sc{id} from the given action identifier string.
-This adds @samp{cel.action.} prefix to the given string automatically.
 @item @code{pycel.fromid(stringid)} 
 returns a string from the given stringid.
 @end itemize
@@ -243,25 +214,32 @@ section of this manual.
 Property classes are objects we can create attached to an entity, and which
 augment the entity with some functionality (@pxref{Property Classes}).
 
+First it must be noted to use each property class it must be ensured it is
+registered at the physical layer, to do this in python simply add the property
+class factory full name (cel.pcfactory.pcclass) to the @samp{PcFactories} dict
+(which is a member of the physicallayer but has global access due to pycel
+layer).
+
+An example of this follows:
+@example
+pcclasses = ["region","tooltip","mesh","solid","meshselect","zonemanager","trigger",
+	     "quest","light","inventory","defaultcamera","gravity","movable",
+	     "pccommandinput","linmove","actormove","colldet","timer","soundlistener",
+	     "soundsource","billboard","properties"]
+for pcclass in pcclasses:
+	PcFactories.append("cel.pcfactory."+pcclass)
+@end example
+
 For each property class there are several functions in pycel module that allow
 easily fetching or creating of the appropiate property class from an entity
 object:
 @itemize @bullet
-@item @samp{celPropertyClass(celEntity,tag=None)}
-Get the property class if it exists or create a new one. If tag isnt defined
-then it will only create the property class if there is no property class of
-this type. If it is set it will only search for pcclass with such tag set, or
-else create a new one with the tag.
-To ensure creation/querying for untagged property class even if tagged
-pcclasses exist set the tag to an empty string ("").
-@item @samp{celAddPropertyClass(celEntity,tag=None)}
-Add the property class to the entity. If tag is set then the pcclass will be
-created with such tag, otherwise an untagged class is created.
-@item @samp{celGetPropertyClass(celEntity,tag=None)}
-Get the property class if it exists. If tag is used then it will only get
-the pcclass with the appropriate tag (or with no tag if "" is used). Else
-it will return a not tagged pcclass, or if it doesnt exist the first tagged
-pccclass found.
+@item @samp{celPropertyClass(celEntity)}
+Get the property class if it exists or create a new one.
+@item @samp{celAddPropertyClass(celEntity)}
+Add the property class to the entity.
+@item @samp{celGetPropertyClass(celEntity)}
+Get the property class if it exists.
 @end itemize
 Where @samp{PropertyClass} would be substituted for the appropiate name, like
 in @code{celGetTimer}, @code{celAddCommandInput}...
@@ -274,16 +252,6 @@ As an example at the initialization section we could do:
           self.timer = celAddTimer(celEntity)
           self.timer.WakeUpFrame (CEL_EVENT_POST)
           self.select = celMeshSelect(celEntity)
-@end example
-
-@subheading Accessing property class properties.
-
-To access property class properties from python you can use standard python
-syntax. For example to query/set jitter for a pctrigger:
-
-@example
-    oldjitter = trigger.jitter
-    trigger.jitter = 100
 @end example
 
 @subheading Messages
@@ -303,26 +271,23 @@ will receive three different events named @code{pccommandinput_bind1},
 @code{pccommandinput_bind0} and @code{pccommandinput_bind_}, respectively for
 the key press, release and maintain events.
 
-Other property classes like @code{pcphysics.object},
-@code{pcobject.mesh.select}, @code{pc2d.billboard}, @code{pclogic.damage},
-@code{pcmove.linear} also generate their own
+Other property classes like @code{pcmechanicsobject}, @code{pcmeshselect},
+@code{pcbillboard}, @code{pcdamage}, @code{pclinmove} also generate their own
 special messages.
 
 Message function calls get three parameters. The first is the behaviour class
-instance, the second the property class sending the message, and the last a
+instance, the second the entity receiving the message, and the last a
 @code{celParameterBlock} that holds all message specific values.
 
 You can access the values from the parameter block as a python dict with
-@sc{cel} StringIDs or python strings for index. Using StringIDs directly is
-slightly more efficient.
+@sc{cel} StringIDs for index instead of normal strings.
 
 @example
 # a pcbillboard select message
-def pcbillboard_select(self,pc,args):
-       print pc.Tag
-       bx = args["x"]
-       by = args["y"]
-       button = args["button"]
+def pcbillboard_select(self,celEntity,args):
+       bx = args[getid("cel.parameter.x")]
+       by = args[getid("cel.parameter.y")]
+       button= args[getid("cel.parameter.button")]
 @end example
 
 It is possible to test for existence of a certain parameter, or iterate over
@@ -331,43 +296,10 @@ use instead of querying them each time.
 
 A final snippet for printing all parameters to a message:
 @example
-def pcbillboard_select(self,pc,args):
+def pcbillboard_select(self,celEntity,Args):
        for strid in args.keys():
 		print fromid(strid),args[strid]
 @end example
-
-@subsubheading New PcClass Messages Callback Style
-
-There is a new style for receiving message callbacks from pcclasses in cel 1.2
-to address some design errors in previous version. This new style is the one
-present in this documentation and also in all behaviour examples in cel.
-
-By specifying @code{api_version = 2} at the body of a behaviour class you
-can use the new message callback style (see initial example in this chapter).
-
-Old message callback style was:
-@example
-def pcbillboard_select(self,celEntity,args):
-        ...
-@end example
-
-And the new one in cel 1.2 is:
-@example
-def pcbillboard_select(self,pc,args):
-        ...
-@end example
-
-Although the old style is still default due to backwards compatibility reasons,
-you are recommended to start using the new one, as it gives access to the pc
-sending the message, required in case you want to discriminate among similar 
-pc classes present in the entity.
-
-Note specifying api_version is required in cel 1.2 so as to be able to maintain
-backwards compatibility in future releases when default callback style is
-changed.
-
-If you need access to the entity parameter, you should
-now save it in the behaviour constructor.
 
 @subheading Sending Messages
 
@@ -385,9 +317,9 @@ require filling the values later:
 @example
 #Creating a parameter block from a list. This is more similar to the c++ method
 pars = parblock(["control","x","y"])
-pars["control"] = "specular"
-pars["x"] = 15
-pars["y"] = 200
+pars[getid ("cel.parameter.control")] = "specular"
+pars[getid ("cel.parameter.x")] = 15
+pars[getid ("cel.parameter.y")] = 200
 
 #Creating a parameter block from a dictionary.
 pars2 = parblock(@{"control":"shininess","x":30,"y":200@})

@@ -43,9 +43,19 @@
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celBillboardLayer)
+  SCF_IMPLEMENTS_INTERFACE (iBillboardLayer)
+SCF_IMPLEMENT_IBASE_END
+
+//---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celBillboard)
+  SCF_IMPLEMENTS_INTERFACE (iBillboard)
+SCF_IMPLEMENT_IBASE_END
+
 celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
-  : scfImplementationType (this)
 {
+  SCF_CONSTRUCT_IBASE (0);
   name = 0;
   flags.SetAll (CEL_BILLBOARD_VISIBLE);
   materialname = 0;
@@ -81,6 +91,7 @@ celBillboard::~celBillboard ()
   delete[] name;
   delete[] materialname;
   delete[] clickmap;
+  SCF_DESTRUCT_IBASE ();
 }
 
 void celBillboard::GetRect (csRect& r)
@@ -121,6 +132,8 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 
 bool celBillboard::GetFromClickMap (int tx, int ty)
 {
+  if (!has_clickmap)
+    SetupMaterial ();
   if (!clickmap) return true;
   uint8 c = clickmap[ty*(1 + image_w/8) + tx/8];
   return (c & (1<<(tx%8))) != 0;
@@ -270,7 +283,7 @@ void celBillboard::SetupMaterial ()
     }
     image = 0;	// We no longer need the image.
   }
-  if (image_w != -1 && bb_w != -1 && material)
+  if (image_w != -1 && has_clickmap && bb_w != -1 && material)
     material_ok = true;
 }
 
@@ -546,7 +559,7 @@ void celBillboard::FireMouseUp (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.GetSize () ; i++)
+  for (i = 0 ; i < handlers.Length () ; i++)
   {
     handlers[i]->Unselect (this, button, sx, sy);
     if (delete_me)
@@ -563,7 +576,7 @@ void celBillboard::FireMouseDown (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.GetSize () ; i++)
+  for (i = 0 ; i < handlers.Length () ; i++)
   {
     handlers[i]->Select (this, button, sx, sy);
     if (delete_me)
@@ -580,7 +593,7 @@ void celBillboard::FireMouseMoveAway (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.GetSize () ; i++)
+  for (i = 0 ; i < handlers.Length () ; i++)
   {
     handlers[i]->MouseMoveAway (this, button, sx, sy);
     if (delete_me)
@@ -597,7 +610,7 @@ void celBillboard::FireMouseMove (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.GetSize () ; i++)
+  for (i = 0 ; i < handlers.Length () ; i++)
   {
     handlers[i]->MouseMove (this, button, sx, sy);
     if (delete_me)
@@ -614,7 +627,7 @@ void celBillboard::FireMouseDoubleClick (int sx, int sy, int button)
   mgr->ScreenToBillboardSpace (sx, sy);
   size_t i;
   firing_messages = true;
-  for (i = 0 ; i < handlers.GetSize () ; i++)
+  for (i = 0 ; i < handlers.Length () ; i++)
   {
     handlers[i]->DoubleClick (this, button, sx, sy);
     if (delete_me)
@@ -638,10 +651,10 @@ bool celBillboard::HasFullClickmap ()
 
 bool celBillboard::In (int sx, int sy)
 {
-  if (bb_w == -1 || !material_ok)
+  if (bb_w == -1 || !has_clickmap)
   {
     SetupMaterial ();
-    if (bb_w == -1 || !material_ok)
+    if (bb_w == -1 || !has_clickmap)
       return false;
   }
   csRect r;
@@ -687,7 +700,7 @@ static void mesh_draw (iGraphics3D* g3d)
   if (mesh_indices_count <= 0) return;
   mesh.indexCount = (uint)mesh_indices_count;
   mesh.indices = GetMeshIndices ()->GetArray ();
-  mesh.vertexCount = (uint)GetMeshVertices ()->GetSize ();
+  mesh.vertexCount = (uint)GetMeshVertices ()->Length ();
   mesh.vertices = GetMeshVertices ()->GetArray ();
   mesh.texcoords = GetMeshTexels ()->GetArray ();
   mesh.colors = GetMeshColors ()->GetArray ();
@@ -759,7 +772,7 @@ void celBillboard::Draw (iGraphics3D* g3d, float z)
   
   mesh_indices_count += 4;
   size_t i;
-  for (i = mesh_indices.GetSize () ; i < mesh_indices_count ; i++)
+  for (i = mesh_indices.Length () ; i < mesh_indices_count ; i++)
   {
     mesh_indices.Put (i, i);
   }
@@ -838,9 +851,23 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBillboardManager)
 
-celBillboardManager::celBillboardManager (iBase* parent) :
-  scfImplementationType (this, parent)
+SCF_IMPLEMENT_IBASE (celBillboardManager)
+  SCF_IMPLEMENTS_INTERFACE (iBillboardManager)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celBillboardManager::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_IBASE (celBillboardManager::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
+celBillboardManager::celBillboardManager (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
   moving_billboard = 0;
   lastmove_billboard = 0;
@@ -865,17 +892,13 @@ celBillboardManager::~celBillboardManager ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 {
   celBillboardManager::object_reg = object_reg;
-
-  engine = csQueryRegistry<iEngine> (object_reg);
-  g3d = csQueryRegistry<iGraphics3D> (object_reg);
-  vc = csQueryRegistry<iVirtualClock> (object_reg);
-  name_reg = csEventNameRegistry::GetRegistry (object_reg);
-  CanvasResize = csevCanvasResize (name_reg, g3d->GetDriver2D ());
 
   scfiEventHandler = new EventHandler (this);
   csRef<iEventQueue> q = csQueryRegistry<iEventQueue> (object_reg);
@@ -887,10 +910,14 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
     csevPreProcess (object_reg),
     csevPostProcess (object_reg),
     csevProcess (object_reg),
-    CanvasResize,
     CS_EVENTLIST_END 
   };
   q->RegisterListener (scfiEventHandler, esub);
+
+  engine = csQueryRegistry<iEngine> (object_reg);
+  g3d = csQueryRegistry<iGraphics3D> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+  name_reg = csEventNameRegistry::GetRegistry (object_reg);
 
   screen_w_fact = BSX / g3d->GetWidth ();
   screen_h_fact = BSY / g3d->GetHeight ();
@@ -907,7 +934,7 @@ bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
 size_t celBillboardManager::FindMovingBillboard (celBillboard* bb)
 {
   size_t i;
-  for (i = 0 ; i < moving_billboards.GetSize () ; i++)
+  for (i = 0 ; i < moving_billboards.Length () ; i++)
   {
     if (bb == moving_billboards[i].bb) return i;
   }
@@ -916,7 +943,7 @@ size_t celBillboardManager::FindMovingBillboard (celBillboard* bb)
 
 void celBillboardManager::HandleMovingBillboards (csTicks elapsed)
 {
-  size_t i = moving_billboards.GetSize ();
+  size_t i = moving_billboards.Length ();
   while (i-- > 0)
   {
     movingBillboard& mbb = moving_billboards[i];
@@ -994,7 +1021,7 @@ celBillboard* celBillboardManager::FindBillboard (int x, int y,
 {
   // @@@ OPTIMIZE WITH SOME KIND OF HIERARCHICAL BBOXES.
   // @@@ KEEP Z-ORDER IN MIND!
-  size_t i = billboards.GetSize ();
+  size_t i = billboards.Length ();
   while (i > 0)
   {
     i--;
@@ -1041,29 +1068,21 @@ void celBillboardManager::SetDefaultTextBgTransparent ()
 
 bool celBillboardManager::HandleEvent (iEvent& ev)
 {
-  if (ev.Name == CanvasResize)
-  {
-    screen_w_fact = BSX / g3d->GetWidth ();
-    screen_h_fact = BSY / g3d->GetHeight ();
-  }
-  else if (ev.Name == csevPreProcess (object_reg))
+  if (ev.Name == csevPreProcess (object_reg))
   {
     HandleMovingBillboards (vc->GetElapsedTicks ());
   }
   else if (ev.Name == csevPostProcess (object_reg))
   {
-    if (billboards.GetSize () > 0)
+    if (billboards.Length () > 0)
     {
-      // reset perspective center in case user is drawing some other
-      // view. this assumes bb space is fullscreen.
-      g3d->SetPerspectiveCenter(g3d->GetWidth()/2,g3d->GetHeight()/2);
       g3d->BeginDraw (CSDRAW_3DGRAPHICS);
       mesh_reset ();
       size_t i;
       float z = z_max;
-      float dz = (z_max-z_min) / float (billboards.GetSize ());
+      float dz = (z_max-z_min) / float (billboards.Length ());
       g3d->SetWorldToCamera (csReversibleTransform ());
-      for (i = 0 ; i < billboards.GetSize () ; i++)
+      for (i = 0 ; i < billboards.Length () ; i++)
       {
 	celBillboard* bb = billboards[i];
 	if (bb->flags.Check (CEL_BILLBOARD_VISIBLE))
@@ -1185,7 +1204,7 @@ void celBillboardManager::StackTop (iBillboard* bb)
 {
   size_t idx = billboards.Find ((celBillboard*)bb);
   if (idx == csArrayItemNotFound) return;
-  if (idx == billboards.GetSize ()-1) return;	// Nothing to do.
+  if (idx == billboards.Length ()-1) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Push (cbb);
 }
@@ -1201,17 +1220,17 @@ void celBillboardManager::StackBottom (iBillboard* bb)
 
 void celBillboardManager::StackUp (iBillboard* bb)
 {
-  if (billboards.GetSize () <= 1) return;	// Nothing to do.
+  if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx = billboards.Find ((celBillboard*)bb);
   if (idx == csArrayItemNotFound) return;
-  if (idx == billboards.GetSize ()-1) return;	// Nothing to do.
+  if (idx == billboards.Length ()-1) return;	// Nothing to do.
   celBillboard* cbb = billboards.Extract (idx);
   billboards.Insert (idx+1, cbb);
 }
 
 void celBillboardManager::StackDown (iBillboard* bb)
 {
-  if (billboards.GetSize () <= 1) return;	// Nothing to do.
+  if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx = billboards.Find ((celBillboard*)bb);
   if (idx == csArrayItemNotFound) return;
   if (idx == 0) return;				// Nothing to do.
@@ -1222,14 +1241,14 @@ void celBillboardManager::StackDown (iBillboard* bb)
 void celBillboardManager::StackBefore (iBillboard* bb, iBillboard* other)
 {
   if (other == bb) return;
-  if (billboards.GetSize () <= 1) return;	// Nothing to do.
+  if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx_other = billboards.Find ((celBillboard*)other);
   if (idx_other == csArrayItemNotFound) return;
   size_t idx = billboards.Find ((celBillboard*)bb);
   if (idx == csArrayItemNotFound) return;
   celBillboard* cbb = billboards.Extract (idx);
   idx_other = billboards.Find ((celBillboard*)other);
-  if (idx_other == billboards.GetSize ()-1)
+  if (idx_other == billboards.Length ()-1)
     billboards.Push (cbb);
   else
     billboards.Insert (idx_other+1, cbb);
@@ -1238,7 +1257,7 @@ void celBillboardManager::StackBefore (iBillboard* bb, iBillboard* other)
 void celBillboardManager::StackAfter (iBillboard* bb, iBillboard* other)
 {
   if (other == bb) return;
-  if (billboards.GetSize () <= 1) return;	// Nothing to do.
+  if (billboards.Length () <= 1) return;	// Nothing to do.
   size_t idx_other = billboards.Find ((celBillboard*)other);
   if (idx_other == csArrayItemNotFound) return;
   size_t idx = billboards.Find ((celBillboard*)bb);
@@ -1292,7 +1311,7 @@ iBillboardLayer* celBillboardManager::CreateBillboardLayer (const char* name)
 iBillboardLayer* celBillboardManager::FindBillboardLayer (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < layers.GetSize () ; i++)
+  for (i = 0 ; i < layers.Length () ; i++)
     if (!strcmp (layers[i]->GetName (), name))
       return layers[i];
   return 0;
@@ -1302,7 +1321,7 @@ void celBillboardManager::RemoveBillboardLayer (iBillboardLayer* layer)
 {
   if (layer == default_layer) return;	// Not allowed!
   size_t i;
-  for (i = 0 ; i < billboards.GetSize () ; i++)
+  for (i = 0 ; i < billboards.Length () ; i++)
   {
     if (billboards[i]->GetLayer () == layer)
       billboards[i]->SetLayer (default_layer);
@@ -1320,7 +1339,7 @@ void celBillboardManager::RemoveAll ()
 void celBillboardManager::SetFlags (uint32 flags, uint32 mask)
 {
   size_t i;
-  for (i = 0 ; i < billboards.GetSize () ; i++)
+  for (i = 0 ; i < billboards.Length () ; i++)
     billboards[i]->GetFlags ().Set (flags, mask);
 }
 

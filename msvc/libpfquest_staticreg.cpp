@@ -21,17 +21,10 @@ static char const metainfo_pfquest[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.quest</name>"
 "        <implementation>celPfQuest</implementation>"
-"        <description>CEL Quest Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.logic.quest</name>"
-"        <implementation>celPfQuest</implementation>"
-"        <description>CEL Quest Property Class Factory</description>"
+"	<description>CEL Quest Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfquest[] =
   #define celPfQuest_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfQuest) 
   #endif
-  #ifndef celPfQuest_FACTORY_REGISTER_DEFINED 
-  #define celPfQuest_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfQuest) 
-  #endif
 
 class pfquest
 {
 SCF_REGISTER_STATIC_LIBRARY(pfquest,metainfo_pfquest)
-  #ifndef celPfQuest_FACTORY_REGISTERED 
-  #define celPfQuest_FACTORY_REGISTERED 
-    celPfQuest_StaticInit celPfQuest_static_init__; 
-  #endif
   #ifndef celPfQuest_FACTORY_REGISTERED 
   #define celPfQuest_FACTORY_REGISTERED 
     celPfQuest_StaticInit celPfQuest_static_init__; 

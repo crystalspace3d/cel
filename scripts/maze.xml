@@ -57,6 +57,11 @@
     </plugins>
 
     <addon plugin="xmlscripts">
+        <pcfactory>cel.pcfactory.billboard</pcfactory>
+        <pcfactory>cel.pcfactory.properties</pcfactory>
+        <pcfactory>cel.pcfactory.timer</pcfactory>
+        <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
+
 	<!-- *****************************************************
 	  - This script is the superclass of moving objects. You cannot
 	  - use this script standalone.

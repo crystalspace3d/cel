@@ -4,7 +4,6 @@
 from pycel import *
 
 class actortimer:
-	api_version = 2 # use new version of message callbacks.
 	# INITIALIZATION
 	def __init__(self,celEntity):
 		print "Initializing actortimer...",celEntity.Name
@@ -28,7 +27,7 @@ class actortimer:
 		return str(min)+":"+str(sec)+":"+str(rest)
 
 	# pctimer wakeup callback
-	def pctimer_wakeup (self,pc,args):
+	def pctimer_wakeup (self,celentity,args):
 		self.tooltip.Show(100,100)
 		time = (Clock.GetCurrentTicks()-self.time)/1000.0
 		self.tooltip.SetText("time: "+self.format_time(time))

@@ -25,6 +25,8 @@
 
 struct iPortal;
 
+SCF_VERSION (iPcPortal, 0, 0, 1);
+
 /**
  * This is a property class holding the representation of a portal.
  * This is mainly useful in cases where you want to close a portal for
@@ -38,10 +40,8 @@ struct iPortal;
  * - portal (string, read/write): the name of the portal.
  * - closed (bool, read/write): if the portal is closed or not.
  */
-struct iPcPortal : public virtual iBase
+struct iPcPortal : public iBase
 {
-  SCF_INTERFACE (iPcPortal, 0, 0, 1);
-
   /**
    * Set the portal to use.
    * \param mesh is the name of the portal mesh.

@@ -4,7 +4,6 @@
 from pycel import *
 
 class blink:
-	api_version = 2 # use new version of message callbacks.
 	def __init__(self,celEntity):
 		print "initializing blink",celEntity.Name
 		# some variables for the counter
@@ -25,7 +24,7 @@ class blink:
 			self.timer = celAddTimer(celEntity)
 			self.timer.WakeUp (500,True)
 
-	def pctimer_wakeup(self,pc,args):
+	def pctimer_wakeup(self,celEntity,args):
 		if self.on:
 			self.on=False
 			self.movable.SetPosition(csVector3(10000,1000,10000))
@@ -35,7 +34,7 @@ class blink:
 			self.movable.SetPosition(self.startpos)
 			self.movable.UpdateMove()
 
-	def pctimer_wakeupframe(self,pc,args):
+	def pctimer_wakeupframe(self,celEntity,args):
 		self.counter =self.counter-1
 		if self.counter<0:
 			self.counter=25

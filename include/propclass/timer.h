@@ -24,6 +24,8 @@
 #include "csutil/scf.h"
 #include "iutil/evdefs.h"
 
+SCF_VERSION (iPcTimer, 0, 0, 1);
+
 /**
  * Timer propery class.
  *
@@ -39,10 +41,8 @@
  * - pctimer_wakeup: wakeup message
  * - pctimer_wakeupframe: wakeup every frame (elapsedticks,currentticks)
  */
-struct iPcTimer : public virtual iBase
+struct iPcTimer : public iBase
 {
-  SCF_INTERFACE (iPcTimer, 0, 0, 1);
-
   /**
    * Wake up the Behaviour in 't' ticks.
    * If 'repeat' is true then this will be repeated.

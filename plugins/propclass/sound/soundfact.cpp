@@ -21,6 +21,7 @@
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
 #include "iutil/object.h"
+#include "csutil/debug.h"
 #include "cstool/initapp.h"
 #include "iengine/engine.h"
 #include "plugins/propclass/sound/soundfact.h"
@@ -37,8 +38,8 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (SoundListener, "pcsound.listener", "pcsoundlistener")
-CEL_IMPLEMENT_FACTORY_ALT (SoundSource, "pcsound.source", "pcsoundsource")
+CEL_IMPLEMENT_FACTORY (SoundListener, "pcsoundlistener")
+CEL_IMPLEMENT_FACTORY (SoundSource, "pcsoundsource")
 
 //---------------------------------------------------------------------------
 
@@ -560,7 +561,14 @@ bool celPcSoundSource::GetSource ()
     return false;
   }
 
-  stream = renderer->CreateStream (soundwrap->GetData (), mode);
+  // If the stream is present in the sound wrapper then that
+  // means we have a deprecated old-style sound wrapper that
+  // still has a stream associated with it (uses 'mode3d'
+  // attribute in <sound> section on map file).
+  if (soundwrap->GetStream ())
+    stream = soundwrap->GetStream ();
+  else
+    stream = renderer->CreateStream (soundwrap->GetData (), mode);
   csRef<iSndSysSource> src = renderer->CreateSource (stream);
   if (src)
   {

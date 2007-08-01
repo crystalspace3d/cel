@@ -19,6 +19,7 @@
 
 #include "cssysdef.h"
 #include "iutil/objreg.h"
+#include "csutil/debug.h"
 #include "plugins/propclass/test/testfact.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
@@ -29,7 +30,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY (Test, "pcmisc.test")
+CEL_IMPLEMENT_FACTORY (Test, "pctest")
 
 //---------------------------------------------------------------------------
 
@@ -141,7 +142,7 @@ void celPcTest::Print (const char* msg)
   {
     celData ret;
     params->GetParameter (0).Set (msg);
-    ble->SendMessage ("pcmisc.test_print", this, ret, params);
+    ble->SendMessage ("pctest_print", this, ret, params);
   }
 
   counter++;

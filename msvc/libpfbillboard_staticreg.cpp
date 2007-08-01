@@ -21,17 +21,10 @@ static char const metainfo_pfbillboard[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.billboard</name>"
 "        <implementation>celPfBillboard</implementation>"
-"        <description>CEL Billboard Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.2d.billboard</name>"
-"        <implementation>celPfBillboard</implementation>"
-"        <description>CEL Billboard Property Class Factory</description>"
+"	<description>CEL Billboard Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfbillboard[] =
   #define celPfBillboard_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfBillboard) 
   #endif
-  #ifndef celPfBillboard_FACTORY_REGISTER_DEFINED 
-  #define celPfBillboard_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfBillboard) 
-  #endif
 
 class pfbillboard
 {
 SCF_REGISTER_STATIC_LIBRARY(pfbillboard,metainfo_pfbillboard)
-  #ifndef celPfBillboard_FACTORY_REGISTERED 
-  #define celPfBillboard_FACTORY_REGISTERED 
-    celPfBillboard_StaticInit celPfBillboard_static_init__; 
-  #endif
   #ifndef celPfBillboard_FACTORY_REGISTERED 
   #define celPfBillboard_FACTORY_REGISTERED 
     celPfBillboard_StaticInit celPfBillboard_static_init__; 

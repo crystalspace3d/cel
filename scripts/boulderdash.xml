@@ -550,12 +550,12 @@
         <material name="number_9"> <texture>number_9</texture> </material>
     </materials>
     <sounds>
-        <sound name="boing" file="/cellib/sounds/boing_x.wav" />
-        <sound name="click" file="/cellib/sounds/click_x.wav" />
-        <sound name="yay" file="/cellib/sounds/yay_x.wav" />
-        <sound name="clang" file="/cellib/sounds/clang_x.wav" />
-        <sound name="bloop" file="/cellib/sounds/bloop_x.wav" />
-        <sound name="explosion" file="/cellib/sounds/explosion_x.wav" />
+        <sound name="boing" file="/cellib/sounds/boing_x.wav" mode3d="disable" />
+        <sound name="click" file="/cellib/sounds/click_x.wav" mode3d="disable" />
+        <sound name="yay" file="/cellib/sounds/yay_x.wav" mode3d="disable" />
+        <sound name="clang" file="/cellib/sounds/clang_x.wav" mode3d="disable" />
+        <sound name="bloop" file="/cellib/sounds/bloop_x.wav" mode3d="disable" />
+        <sound name="explosion" file="/cellib/sounds/explosion_x.wav" mode3d="disable" />
     </sounds>
     <settings>
         <clearscreen>yes</clearscreen>
@@ -569,6 +569,16 @@
     <library file="/cellib/library/blxml/buttons.xml" />
 
     <addon plugin="xmlscripts">
+        <pcfactory>cel.pcfactory.mesh</pcfactory>
+        <pcfactory>cel.pcfactory.solid</pcfactory>
+        <pcfactory>cel.pcfactory.gravity</pcfactory>
+        <pcfactory>cel.pcfactory.movable</pcfactory>
+        <pcfactory>cel.pcfactory.billboard</pcfactory>
+        <pcfactory>cel.pcfactory.properties</pcfactory>
+        <pcfactory>cel.pcfactory.timer</pcfactory>
+        <pcfactory>cel.pcfactory.inventory</pcfactory>
+        <pcfactory>cel.pcfactory.pccommandinput</pcfactory>
+
 	<!-- *****************************************************
 	  - General superclass for utility functions.
 	  -  ***************************************************** -->
@@ -661,7 +671,7 @@
 		<var name="l" value="9" />
 		<createentity name="level9_button" behaviour="level_button" />
 
-		<default propclass="pc(level+?level+_button,pc2d.billboard)" />
+		<default propclass="pc(level+?level+_button,pcbillboard)" />
 	        <property id="propid(color)" value="rgb(1,1,1)" />
 	    </event>
 
@@ -724,9 +734,9 @@
 	      - Initialization.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pc2d.billboard" />
-	        <createpropclass name="pctools.properties" />
-		<default propclass="pc(pc2d.billboard)" />
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(name)" value="menu" />
 		<var name="level" value="?menu.l" />
 	        <property id="propid(materialname)" value="number_+?level" />
@@ -745,10 +755,10 @@
 	      -->
 	    <event name="pcbillboard_select">
 		<lvar name="other_selected" value="ent(level+?menu.level+_button)" />
-		<default propclass="pc(#other_selected,pc2d.billboard)" />
+		<default propclass="pc(#other_selected,pcbillboard)" />
 	        <property id="propid(color)" value="rgb(.2,.2,.2)" />
 		<var entity="menu" name="level" value="?level" />
-		<default propclass="pc(pc2d.billboard)" />
+		<default propclass="pc(pcbillboard)" />
 	        <property id="propid(color)" value="rgb(1,1,1)" />
 	    </event>
 	</script>
@@ -768,9 +778,9 @@
 	      - objects.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pctools.timer" />
-	        <createpropclass name="pc2d.billboard" />
-		<var name="pcbb" value="pc(pc2d.billboard)" />
+	        <createpropclass name="pctimer" />
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="?material" />
 	        <property id="propid(materialname)" value="?material" />
@@ -822,7 +832,7 @@
 	      - End movement.
 	      -->
 	    <event name="endmove">
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -832,7 +842,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctools.timer)" name="WakeUp">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -848,8 +858,8 @@
 	      - Initialize.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pc2d.billboard" />
-		<var name="pcbb" value="pc(pc2d.billboard)" />
+	        <createpropclass name="pcbillboard" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
 	    </event>
 
@@ -890,7 +900,7 @@
 	    <superscript name="tools" />
 
 	    <event name="init">
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<for var="i" start="0" end="6">
 		    <for var="d" start="0" end="9">
 		    	<lvar name="entname" value="number+?i+'_'+?d" />
@@ -967,8 +977,8 @@
 		<var name="level" value="?menu.level" />
 		<var name="dirty" value="false" />
 
-	        <createpropclass name="pctools.inventory" />
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pcinventory" />
+	        <createpropclass name="pctimer" />
 
 	    	<super />
 
@@ -987,7 +997,7 @@
 
 		<!-- Create the menu back button -->
 		<expr eval="createbutton(name=back_button,x=270000,y=2000,w=32000,h=16000,text=Menu,action=check_and_menu)" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="back_button" />
 
 		<!-- Every entity we create will get a name made from a unique number -->
@@ -1332,7 +1342,7 @@
 		<var name="layer_x" value="?layer_movetox" />
 		<var name="layer_y" value="?layer_movetoy" />
 		<bb_movelayer layer="game" x="?layer_x" y="?layer_y" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 
 		<!-- Counter to avoid doing too much work every frame -->
 		<var name="counter" value="10" />
@@ -1354,7 +1364,7 @@
 	      -->
 	    <event name="menu">
 	        <print value="'Start destroying game...'" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<while eval="inventory_count()>0" >
 		    <var name="child" value="inventory_get(0)" />
 		    <inventory_rem child="?child" />
@@ -1399,7 +1409,7 @@
 		<lvar name="entname" value="?entity_number" />
 		<var name="entity_number" value="?entity_number+1" />
 		<createentity name="#entname" behaviour="?behaviour[@blocktype]" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<lvar name="ent" value="ent(#entname)" />
 		<inventory_add child="#ent" />
 		<return value="#ent" />
@@ -1436,7 +1446,7 @@
 		    <var name="hero_x" value="?x" />
 		    <var name="hero_y" value="?y" />
 		    <createentity name="hero" behaviour="bdash_hero" />
-		    <inventory propclass="pc(pctools.inventory)" />
+		    <inventory propclass="pc(pcinventory)" />
 		    <var name="hero" value="ent(hero)" />
 		    <inventory_add child="?hero" />
 		    <var name="#mazepos" value="''" />
@@ -2190,8 +2200,8 @@
 	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
-	        <createpropclass name="pcinput.standard" />
-		<default propclass="pc(pcinput.standard)" />
+	        <createpropclass name="pccommandinput" />
+		<default propclass="pc(pccommandinput)" />
 		<property id="propid(cooked)" value="true" />
 		<expr eval="Bind{trigger=esc,command=quit}" />
 		<expr eval="Bind{trigger=right,command=move_right}" />
@@ -2955,9 +2965,9 @@
 	        <var name="blocktype" value="?bdash_main.blocktype" />
 		<var name="dim" value="?bdash_main.blockdim" />
 
-	        <createpropclass name="pc2d.billboard" />
-	        <createpropclass name="pctools.properties" />
-		<var name="pcbb" value="pc(pc2d.billboard)" />
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="block" />
 	        <property id="propid(materialname)" value="?bdash_main.material[?blocktype]" />
@@ -3022,12 +3032,12 @@
 	      -->
 	    <event name="init">
 		<var name="speed" value="?bdash_main.fallspeed" />
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 	    	<super />
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3038,7 +3048,7 @@
 		    <if eval="?twosteps">
 		        <!-- Movement in two steps -->
 			<var name="twosteps" value="false" />
-			<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(500*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3063,7 +3073,7 @@
 		    <true>
 		    	<!-- Movement is in two steps -->
 			<var name="twosteps" value="true" />
-			<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(500*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3071,7 +3081,7 @@
 		    </true>
 		    <false>
 			<var name="twosteps" value="false" />
-			<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+			<action propclass="pc(pctimer)" id="actid(WakeUp)">
 			    <par id="parid(time)" value="int(1000*?speed)" />
 			    <par id="parid(repeat)" value="false" />
 			</action>
@@ -3107,7 +3117,7 @@
 		        </if>
 		    </if>
 		</if>
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3140,11 +3150,11 @@
 	      -->
 	    <event name="init">
 		<var name="speed" value="?bdash_main.pushspeed" />
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 		<super />
 	    </event>
 	    <event name="cleanup">
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3166,7 +3176,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -3174,7 +3184,7 @@
 	    </event>
 
 	    <event name="endmove">
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3189,19 +3199,19 @@
 
 	    <event name="init">
 		<!--<var name="speed" value="?bdash_main.pushspeed" />-->
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 	        <super />
 	    </event>
 	    <event name="reinit">
 	    	<super />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="4000+int(rand(1000.0))" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3264,7 +3274,7 @@
 	        <property propclass="?pcbb"
 			id="propid(color)" value="rgb(.2,.2,.2)" />
 		<var name="checking_power" value="true" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="50" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3292,7 +3302,7 @@
 	    </event>
 	    <event name="endmove">
 	        <super />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="50" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3523,7 +3533,7 @@
 	    <superscript name="bdash_block" />
 
 	    <event name="init">
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 	        <super />
 		<var name="bitout" value="?bdash_main.tubeout[?blocktype]" />
 		<var name="bitin" value="?bdash_main.tubein[?blocktype]" />
@@ -3533,7 +3543,7 @@
 	        <var name="power" value="0" />
 	        <property propclass="?pcbb"
 			id="propid(color)" value="rgb(.2,.2,.2)" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="200" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
@@ -3542,7 +3552,7 @@
 	    </event>
 	    <event name="cleanup">
 	    	<super />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <event name="pctimer_wakeup">
@@ -3700,7 +3710,7 @@
 	      -->
 	    <event name="init">
 		<var name="speed" value="?bdash_main.fallspeed" />
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 		<super />
 	    </event>
 	    <event name="reinit">
@@ -3708,7 +3718,7 @@
 		<call event="waitfornewmove" />
 	    </event>
 	    <event name="cleanup">
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -3737,7 +3747,7 @@
 	      - on a new move again.
 	      -->
 	    <event name="waitfornewmove">
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <!-- Add a small random amount to avoid a hickup at exactly the same time for
 		         all moving objects -->
 		    <par id="parid(time)" value="150+int(rand(50.0))" />
@@ -3889,7 +3899,7 @@
 		<var name="x" value="?x+?dx" />
 		<var name="y" value="?y+?dy" />
 		<var name="moving" value="true" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="int(1000*?speed)" />
 		    <par id="parid(repeat)" value="false" />
 		</action>
@@ -3897,7 +3907,7 @@
 	    </event>
 
 	    <event name="endmove">
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block">
 		    <par id="parid(entity)" value="ent()" />
 		</call>
@@ -3923,7 +3933,7 @@
 		<var entity="bdash_main" name="x" value="?x" />
 		<var entity="bdash_main" name="y" value="?y" />
 		<var name="companion_entity" value="bdash_main::createentity(blocktype='##')" />
-		<bb_toback pc="pc(?companion_entity,pc2d.billboard)" />
+		<bb_toback pc="pc(?companion_entity,pcbillboard)" />
 		<var entity="bdash_main" name="x" value="#keepx" />
 		<var entity="bdash_main" name="y" value="#keepy" />
 	    </event>
@@ -3936,19 +3946,19 @@
 	    	<lvar name="newx" value="?x+?dx" />
 	    	<lvar name="newy" value="?y+?dy" />
 		<var name="keep_entity" value="?bdash_main.maze[#newx,#newy]" />
-		<bb_toback pc="pc(?keep_entity,pc2d.billboard)" />
+		<bb_toback pc="pc(?keep_entity,pcbillboard)" />
 		<var entity="bdash_main" name="maze_+#newx+_+#newy" value="''" />
 	    	<super />
 	    </event>
 
 	    <event name="endmove">
 		<expr eval="bdash_main::destroyentity(entity=?keep_entity)" />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 		<call entity="bdash_main" event="endmove_block_trail">
 		    <par id="parid(entity)" value="ent()" />
 		    <par id="parid(bt)" value="'##'" />
 		</call>
-		<bb_move pc="pc(?companion_entity,pc2d.billboard)" x="?x*?dim" y="?y*?dim" delta="0" />
+		<bb_move pc="pc(?companion_entity,pcbillboard)" x="?x*?dim" y="?y*?dim" delta="0" />
 		<call event="decidenewmove" />
 	    </event>
 
@@ -4224,12 +4234,12 @@
 		<var name="offset" value="0" />
 		<var name="origx" value="property(?pcbb,propid(x))" />
 		<var name="origy" value="property(?pcbb,propid(y))" />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 	    </event>
 
 	    <event name="endmove">
 	        <super />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUpFrame)" />
+		<action propclass="pc(pctimer)" id="actid(WakeUpFrame)" />
 	    </event>
 
 	    <event name="pctimer_wakeupframe">
@@ -4276,7 +4286,7 @@
 	      - Initialize.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 	    	<super />
 	    </event>
 
@@ -4284,14 +4294,14 @@
 	    	<super />
 		<var name="counter" value="10" />
 		<var name="explode" value="11" />	<!-- Don't explode -->
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="20" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	        <super />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <!--
@@ -4348,7 +4358,7 @@
 	      - Initialize.
 	      -->
 	    <event name="init">
-	        <createpropclass name="pctools.timer" />
+	        <createpropclass name="pctimer" />
 	    	<super />
 		<switch eval="?blocktype">
 		    <case value="TR"> <var name="materialbase" value="redteleport" /> </case>
@@ -4367,14 +4377,14 @@
 	    </event>
 	    <event name="reinit">
 	    	<super />
-		<action propclass="pc(pctools.timer)" id="actid(WakeUp)">
+		<action propclass="pc(pctimer)" id="actid(WakeUp)">
 		    <par id="parid(time)" value="100" />
 		    <par id="parid(repeat)" value="true" />
 		</action>
 	    </event>
 	    <event name="cleanup">
 	        <super />
-		<action propclass="pc(pctools.timer)" id="actid(Clear)" />
+		<action propclass="pc(pctimer)" id="actid(Clear)" />
 	    </event>
 
 	    <event name="pctimer_wakeup">
@@ -4476,7 +4486,7 @@
 	        <lvar name="y" value="20000+(?bdash_main.lasty+2)*(?bdash_main.menudim+1000)" />
 		<lvar name="w" value="?bdash_main.menudim" />
 		<expr eval="createbutton(name=save_button,x=240000,y=#y,w=#w*2,h=#w,text=Save,action=ask_and_save)" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="ent(save_button)" />
 
 		<!-- Create our hero -->
@@ -4484,7 +4494,7 @@
 		<inventory_add child="ent(hero)" />
 
 		<createentity name="menu_cursor" behaviour="bdashedit_menucursor" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="ent(menu_cursor)" />
 
 		<!-- Move all items to the back -->
@@ -4492,7 +4502,7 @@
 		    <for var="x" start="0" end="?dimension-1">
 		    	<lvar name="ent" value="?maze[?x,?y]" />
 			<if eval="#ent">
-			    <bb_toback pc="pc(#ent,pc2d.billboard)" />
+			    <bb_toback pc="pc(#ent,pcbillboard)" />
 		        </if>
 		    </for>
 		</for>
@@ -4506,7 +4516,7 @@
 	        <lvar name="entname" value="menu_+@blocktype" />
 		<createentity name="#entname" behaviour="bdashedit_menuitem" />
 		<lvar name="ent" value="ent(#entname)" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<inventory_add child="#ent" />
 		<call entity="#ent" event="realinit">
 		    <par id="parid(blocktype)" value="@blocktype" />
@@ -4593,7 +4603,7 @@
 		<var name="entity_number" value="?entity_number+1" />
 		<lvar name="bh" value="bdash_nonmovable" />
 		<createentity name="#entname" behaviour="#bh" />
-		<inventory propclass="pc(pctools.inventory)" />
+		<inventory propclass="pc(pcinventory)" />
 		<lvar name="ent" value="ent(#entname)" />
 		<inventory_add child="#ent" />
 		<return value="#ent" />
@@ -4609,7 +4619,7 @@
 		</if>
 	    	<if eval="?blocktype != '. '">
 		    <var name="#mazepos" value="createentity(blocktype=?blocktype)" />
-		    <bb_toback pc="pc(?#mazepos,pc2d.billboard)" />
+		    <bb_toback pc="pc(?#mazepos,pcbillboard)" />
 		    <stop />
 		</if>
 		<var name="#mazepos" value="''" />
@@ -4643,8 +4653,8 @@
 	        <var name="blocktype" value="'HH'" />
 		<default propclass="?pcbb" />
 	        <property id="propid(layer)" value="game" />
-	        <createpropclass name="pcinput.standard" />
-		<default propclass="pc(pcinput.standard)" />
+	        <createpropclass name="pccommandinput" />
+		<default propclass="pc(pccommandinput)" />
 		<property id="propid(cooked)" value="true" />
 		<action id="actid(Bind)">
 		    <par id="parid(trigger)" value="right" />
@@ -4865,9 +4875,9 @@
 	        <var name="blocktype" value="@blocktype" />
 
 	        <lvar name="dim" value="?bdash_main.menudim" />
-	        <createpropclass name="pc2d.billboard" />
-	        <createpropclass name="pctools.properties" />
-		<var name="pcbb" value="pc(pc2d.billboard)" />
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="block" />
 	        <property id="propid(materialname)" value="?bdash_main.material[?blocktype]" />
@@ -4912,9 +4922,9 @@
 	      -->
 	    <event name="init">
 	        <lvar name="dim" value="?bdash_main.menudim" />
-	        <createpropclass name="pc2d.billboard" />
-	        <createpropclass name="pctools.properties" />
-		<var name="pcbb" value="pc(pc2d.billboard)" />
+	        <createpropclass name="pcbillboard" />
+	        <createpropclass name="pcproperties" />
+		<var name="pcbb" value="pc(pcbillboard)" />
 		<default propclass="?pcbb" />
 	        <property id="propid(name)" value="block" />
 	        <property id="propid(materialname)" value="white" />

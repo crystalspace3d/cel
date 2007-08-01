@@ -1,9 +1,8 @@
 @c -*-texinfo-*-
-@node PropClass Mesh, PropClass Mover, PropClass LinMove, Property Classes
+@node PropClass Mesh, PropClass LinMove, PropClass Quest Manager, Property Classes
 @subsection Mesh
 @cindex pcmesh property class
 @cindex pcmesh
-@cindex pcobject.mesh
 @cindex @code{iPcMesh}
 @cindex @code{iMeshWrapper}
 
@@ -14,9 +13,9 @@ This property class defines a visual representation for an entity.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcobject.mesh}
+@samp{pcmesh}
 @item @emph{Factory ID}:
-@samp{cel.pcfactory.object.mesh}
+@samp{cel.pcfactory.mesh}
 @item @emph{Interface}:
 @code{iPcMesh}
 @item @emph{Header}:
@@ -30,7 +29,7 @@ to an entity.
 
 @subsubheading Setting the Mesh Data
 
-There are a few ways to set the mesh in @samp{pcobject.mesh}:
+There are a few ways to set the mesh in @samp{pcmesh}:
 
 @itemize @bullet
 @item

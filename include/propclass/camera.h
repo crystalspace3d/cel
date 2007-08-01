@@ -28,13 +28,13 @@ struct iView;
 struct iPcRegion;
 struct iPcZoneManager;
 
+SCF_VERSION (iPcCamera, 0, 0, 3);
+
 /**
  * The representation of a camera.
  */
-struct iPcCamera : public virtual iBase
+struct iPcCamera : public iBase
 {
-  SCF_INTERFACE (iPcCamera, 0, 0, 4);
-
   /**
    * Set Camera to a Region
    * \param region is a pointer to the region to add the camera to.
@@ -42,7 +42,7 @@ struct iPcCamera : public virtual iBase
    * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetRegion (iPcRegion* region, bool point = true,
-  	const char* name = 0) = 0;
+      const char* name = 0) = 0;
 
   /**
    * Set Camera to a zone manager
@@ -52,7 +52,7 @@ struct iPcCamera : public virtual iBase
    * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
-  	const char* regionname, const char* name = 0) = 0;
+      const char* regionname, const char* name = 0) = 0;
 
   /**
    * Set Camera to a zone manager
@@ -62,7 +62,7 @@ struct iPcCamera : public virtual iBase
    * \param name is the name of the start position to move the camera to.
    */
   virtual bool SetZoneManager (const char* entityname, bool point,
-  	const char* regionname, const char* name = 0) = 0;
+      const char* regionname, const char* name = 0) = 0;
 
   /**
    * Set the view rectangle to use on screen.
@@ -136,7 +136,7 @@ struct iPcCamera : public virtual iBase
    *        move the clipping closer to the camera then this distance.
    */
   virtual void EnableAdaptiveDistanceClipping (float min_fps,
-  	float max_fps, float min_dist) = 0;
+	float max_fps, float min_dist) = 0;
 
   /**
    * Returns true if we use distance clipping (either fixed or adaptive).
@@ -191,13 +191,6 @@ struct iPcCamera : public virtual iBase
    * Get camera drawing flags.
    */
   virtual int GetDrawFlags () = 0;
-
-  /**
-   * Set the projection center of the camera on screen space.
-   * \param x horizontal coordinate.
-   * \param y vertical coordinate.
-   */
-  virtual void SetPerspectiveCenter (float x, float y) = 0;
 };
 
 #endif // __CEL_PF_CAMERA__

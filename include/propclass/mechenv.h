@@ -31,6 +31,8 @@
 struct iPcSolid;
 class csVector3;
 
+SCF_VERSION (iPcEnvAttractor, 0, 0, 1);
+
 /**
  * A property class representing an attractor or a repulsor.
  *
@@ -42,10 +44,8 @@ class csVector3;
  * - radius (float, read/write): the maximum radius at which the field affects
  *   an object.
  */
-struct iPcEnvAttractor : public virtual iBase
+struct iPcEnvAttractor : public iBase
 {
-  SCF_INTERFACE (iPcEnvAttractor, 0, 0, 1);
-
   /**
    * Set the magnitude of the force at the center of the attractor. (negative
    * creates a repulsor)
@@ -67,18 +67,14 @@ struct iPcEnvAttractor : public virtual iBase
 };
 
 
+SCF_VERSION (celEnvFluid, 0, 0, 1);
+
 /**
  * A class implementing a fluid in a sector.
  */
-class celEnvFluid : public scfImplementationExt1<
-        celEnvFluid, csObject, scfFakeInterface<celEnvFluid> >
+class celEnvFluid : public csObject
 {
 public:
-  SCF_INTERFACE (celEnvFluid, 0, 0, 1);
-
-  celEnvFluid () : scfImplementationType (this) { }
-  virtual ~celEnvFluid () { }
-
   /**
    * The density of the fluid in this sector.
    */
@@ -87,25 +83,34 @@ public:
    * The velocity of fluid flow in this sector.
    */
   csVector3 flow;
+
+  SCF_DECLARE_IBASE_EXT (csObject);
 };
+
+SCF_IMPLEMENT_IBASE_EXT (celEnvFluid)
+  SCF_IMPLEMENTS_INTERFACE (celEnvFluid)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+
+SCF_VERSION (celEnvGravity, 0, 0, 1);
 
 /**
  * A class implementing gravity in a sector.
  */
-class celEnvGravity : public scfImplementationExt1<
-        celEnvGravity, csObject, scfFakeInterface<celEnvGravity> >
+class celEnvGravity : public csObject
 {
 public:
-  SCF_INTERFACE (celEnvGravity, 0, 0, 1);
-
-  celEnvGravity () : scfImplementationType (this) { }
-  virtual ~celEnvGravity () { }
-
   /**
    * The acceleration due to gravity in this sector.
    */
   csVector3 gravity;
+
+  SCF_DECLARE_IBASE_EXT (csObject);
 };
+
+SCF_IMPLEMENT_IBASE_EXT (celEnvGravity)
+  SCF_IMPLEMENTS_INTERFACE (celEnvGravity)
+SCF_IMPLEMENT_IBASE_EXT_END
 
 #endif // __CEL_PF_MECHANICS_ATTRACTOR__
 

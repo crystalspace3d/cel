@@ -16,7 +16,7 @@
 # The PROJECT_NAME tag is a single word (or a sequence of words surrounded 
 # by quotes) that should identify the project. 
 
-PROJECT_NAME           = "CEL: Crystal Entity Layer $(VERSION)"
+PROJECT_NAME           = "CEL: Crystal Entity Layer"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. 
 # This could be handy for archiving the generated documentation or 
@@ -669,7 +669,7 @@ EXPAND_AS_DEFINED      =  csAPIENTRY		\
 
 # The TAGFILES tag can be used to specify one or more tagfiles. 
 
-TAGFILES               = docs/doxygen/crystalspace.tag
+TAGFILES               = 
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create 
 # a tag file that is based on the input files it reads. 

@@ -25,6 +25,7 @@
 #include "iutil/cfgmgr.h"
 #include "ivideo/graph2d.h"
 #include "csutil/event.h"
+#include "csutil/debug.h"
 #include "csutil/inputdef.h"
 #include "csutil/csevent.h"
 #include "plugins/propclass/input/inpfact.h"
@@ -43,7 +44,7 @@ CS_IMPLEMENT_PLUGIN
 CS_PLUGIN_NAMESPACE_BEGIN(pfInput)
 {
 
-CEL_IMPLEMENT_FACTORY_ALT (CommandInput, "pcinput.standard", "pccommandinput")
+CEL_IMPLEMENT_FACTORY (CommandInput, "pccommandinput")
 
 static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -52,7 +53,7 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcinput.standard",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
   else
   {
@@ -67,15 +68,17 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 //---------------------------------------------------------------------------
 
 csStringID celPcCommandInput::id_trigger = csInvalidStringID;
-csStringID celPcCommandInput::id_state = csInvalidStringID;
 csStringID celPcCommandInput::id_command = csInvalidStringID;
 csStringID celPcCommandInput::id_x = csInvalidStringID;
 csStringID celPcCommandInput::id_y = csInvalidStringID;
 csStringID celPcCommandInput::id_prefix = csInvalidStringID;
 csStringID celPcCommandInput::id_activate = csInvalidStringID;
-csStringID celPcCommandInput::id_value = csInvalidStringID;
 
 PropertyHolder celPcCommandInput::propinfo;
+
+SCF_IMPLEMENT_IBASE (celPcCommandInput::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
 
 celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
@@ -89,10 +92,6 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   screenspace = false;
   do_cooked = false;
   do_sendtrigger = false;
-  handleMouse = true;
-  handleKeyboard = true;
-  handleJoystick = true;
-  nameoffset = sizeof ("pccommandinput_") - 1;
 
   g2d = csQueryRegistry<iGraphics2D> (object_reg);
   if (!g2d)
@@ -107,13 +106,11 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   if (id_trigger == csInvalidStringID)
   {
     id_trigger = pl->FetchStringID ("cel.parameter.trigger");
-    id_state = pl->FetchStringID ("cel.parameter.state");
     id_command = pl->FetchStringID ("cel.parameter.command");
     id_x = pl->FetchStringID ("cel.parameter.x");
     id_y = pl->FetchStringID ("cel.parameter.y");
     id_prefix = pl->FetchStringID ("cel.parameter.prefix");
     id_activate = pl->FetchStringID ("cel.parameter.activate");
-    id_value = pl->FetchStringID ("cel.parameter.value");
   }
 
   // For properties.
@@ -137,20 +134,12 @@ celPcCommandInput::celPcCommandInput (iObjectRegistry* object_reg)
   AddProperty (propid_sendtrigger, "cel.property.sendtrigger",
   	CEL_DATA_BOOL, false, "Send trigger.", &do_sendtrigger);
 
-  mouse_params = new celGenericParameterBlock (3);
+  mouse_params = new celGenericParameterBlock (2);
   mouse_params->SetParameterDef (0, id_x, "x");
   mouse_params->SetParameterDef (1, id_y, "y");
-  mouse_params->SetParameterDef (2, id_value, "value");
 
-  key_params = new celGenericParameterBlock (2);
-  key_params->SetParameterDef (0,id_trigger, "trigger");
-  key_params->SetParameterDef (1,id_state, "state");
-
-  joy_params = new celOneParameterBlock ();
-  joy_params->SetParameterDef (id_value, "value");
-
-  but_params = new celOneParameterBlock ();
-  but_params->SetParameterDef (id_state, "state");
+  key_params = new celOneParameterBlock ();
+  key_params->SetParameterDef (id_trigger, "trigger");
 }
 
 celPcCommandInput::~celPcCommandInput ()
@@ -287,7 +276,7 @@ bool celPcCommandInput::Load (iCelDataBuffer* databuf)
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != COMMANDINPUT_SERIAL)
   {
-    Report (object_reg, "serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
+    Report (object_reg,"serialnr != COMMANDINPUT_SERIAL.  Cannot load.");
     return false;
   }
   do_cooked = databuf->GetBool ();
@@ -353,44 +342,12 @@ bool celPcCommandInput::LoadConfig (const char* prefix)
 {
   csRef<iConfigManager> cfg = csQueryRegistry<iConfigManager> (object_reg);
   if (!cfg) return false;
-
   csString strbind = csString (prefix);
   strbind += ".CommandInput.Bind.";
   csRef<iConfigIterator> cfgit (cfg->Enumerate (strbind.GetData ()));
   if (!cfgit) return false;
   while (cfgit->Next ())
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_WARNING,
-    	"cel.input.standard",
-    	"*.CommandInput.Bind.key = action is deprecated. Use *.Input.Bind.action = key instead.");
     Bind (cfgit->GetKey (true), cfgit->GetStr ());
-  }
-
-  csString strfind = csString (prefix);
-  strfind += ".Input.Bind.";
-  csRef<iConfigIterator> it (cfg->Enumerate (strfind.GetData ()));
-  if (!it) return false;
-  while (it->Next ())
-  {
-    csString keystr = it->GetStr ();
-    if (keystr.Find (" ") == (size_t)-1)
-    {
-      Bind (it->GetStr (), it->GetKey (true));
-    }
-    else
-    {
-      size_t start = 0;
-      size_t pos = 0;
-      do
-      {
-        pos = keystr.Find (" ", pos + 1);
-        csString keyslice = keystr.Slice (start, pos - start);
-        Bind (keyslice.GetData (), it->GetKey (true));
-        start = pos + 1;
-      }
-      while (pos != (size_t)-1);
-    }
-  }
 
   return true;
 }
@@ -402,11 +359,8 @@ void celPcCommandInput::SaveConfig (const char* prefix)
   celKeyMap* km = keylist;
   while (km)
   {
-    csString cmdbind = csString (km->command + nameoffset);
-    if (km->packedargs)
-      cmdbind += ".args";
     csString strbind = csString (prefix);
-    strbind += ".Input.Bind.";
+    strbind += ".CommandInput.Bind.";
     if (km->key == CS_UC_INVALID)
     {
       strbind += "key";
@@ -416,58 +370,44 @@ void celPcCommandInput::SaveConfig (const char* prefix)
       csKeyModifiers modifiers;
       csKeyEventHelper::GetModifiers (km->modifiers, modifiers);
       strbind += csInputDefinition::GetKeyString (
-      	  name_reg, km->key, &modifiers).GetData ();
+    	  name_reg, km->key, &modifiers).GetData ();
     }
-    cfg->SetStr (cmdbind.GetData (), strbind.GetData ());
+    cfg->SetStr (strbind.GetData (), km->command+15);
     km = km->next;
   }
   celAxisMap* am = axislist;
   while (am)
   {
     csString strbind = csString (prefix);
-    strbind += ".Input.Bind.";
+    strbind += ".CommandInput.Bind.";
     strbind += am->device;
     if (am->type == csevMouseMove (name_reg, am->device))
       strbind += "MouseAxis";
     if (am->type == csevJoystickMove (name_reg, am->device))
       strbind += "JoystickAxis";
     strbind += am->numeric;
-    cfg->SetStr (am->command + nameoffset, strbind.GetData ());
+    cfg->SetStr (strbind.GetData (), am->command+15);
     am = am->next;
   }
   celButtonMap* bm = buttonlist;
   while (bm)
   {
-    csString cmdbind = csString (km->command + nameoffset);
-    if (km->packedargs)
-      cmdbind += ".args";
     csString strbind = csString (prefix);
-    strbind += ".Input.Bind.";
+    strbind += ".CommandInput.Bind.";
     strbind += bm->device;
     if (bm->type == csevMouseButton (name_reg, bm->device))
       strbind += "MouseButton";
     if (bm->type == csevJoystickButton (name_reg, bm->device))
       strbind += "JoystickButton";
     strbind += bm->numeric;
-    cfg->SetStr (cmdbind.GetData (), strbind.GetData ());
+    cfg->SetStr (strbind.GetData (), bm->command+15);
     bm = bm->next;
   }
   cfg->Save ();
 }
 
-bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
+bool celPcCommandInput::Bind (const char* triggername, const char* command)
 {
-  // find if we want packed args for this mapping
-  csString strcommand = csString (rawcommand);
-  size_t packedpos = strcommand.FindStr (".args");
-  bool packedargs = false;
-  const char *command = rawcommand;
-  if (packedpos != (size_t)-1)
-  {
-    packedargs = true;
-    strcommand.Truncate (packedpos);
-    command = strcommand.GetData ();
-  }
   // Catch a special case that catches all keys.
   if (!strcasecmp ("key", triggername))
   {
@@ -480,7 +420,6 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       newkmap->prev = 0;
       newkmap->key = CS_UC_INVALID;
       newkmap->modifiers = 0;
-      newkmap->packedargs = packedargs;
 
       if (keylist)
         keylist->prev = newkmap;
@@ -488,14 +427,14 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
     }
     delete [] newkmap->command;
     newkmap->command = new char[
-    	strlen ("pccommandinput_")+strlen (command)+2];
+      	strlen ("pccommandinput_")+strlen (command)+2];
     strcpy (newkmap->command, "pccommandinput_");
     strcat (newkmap->command, command);
     newkmap->command_end = strchr (newkmap->command, 0);
-    *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
+    *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
     return true;
   }
-  // parse and handle event type
+
   csEventID type;
   uint device;
   int numeric;
@@ -515,7 +454,6 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
     Report (object_reg, "Bad input specification '%s'!", trig);
     return false;
   }
-  // Key binding
   if (type == csevKeyboardEvent (object_reg))
   {
     utf32_char key, cooked;
@@ -540,20 +478,18 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
         keylist->prev = newkmap;
       keylist = newkmap;
     }
-    newkmap->packedargs = packedargs;
-    // fill command in mapping structure
     delete [] newkmap->command;
     newkmap->command = new char[
-    	strlen ("pccommandinput_") + strlen (command) + 2];
+      	strlen ("pccommandinput_")+strlen (command)+2];
     strcpy (newkmap->command, "pccommandinput_");
     strcat (newkmap->command, command);
     newkmap->command_end = strchr (newkmap->command, 0);
-    *(newkmap->command_end + 1) = 0; // Make sure there is an end there too.
+    *(newkmap->command_end+1) = 0; // Make sure there is an end there too.
+
     return true;
   }
   else
   {
-    // Joystick/Mouse move binding
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     if (type == csevMouseMove (name_reg, device) ||
     	type == csevJoystickMove (name_reg, device))
@@ -577,11 +513,10 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
       delete [] newamap->command;
       newamap->recenter = centered;
       newamap->command = new char[
-      	strlen ("pccommandinput_") + strlen (command) + 1];
+        	strlen ("pccommandinput_")+strlen (command)+1];
       strcpy (newamap->command, "pccommandinput_");
       strcat (newamap->command, command);
     }
-    // Joystick/Mouse button binding
     else
     {
       celButtonMap* newbmap;
@@ -600,14 +535,13 @@ bool celPcCommandInput::Bind (const char* triggername, const char* rawcommand)
           buttonlist->prev = newbmap;
         buttonlist = newbmap;
       }
-      newbmap->packedargs = packedargs;
       delete [] newbmap->command;
       newbmap->command = new char[
-      	strlen ("pccommandinput_") + strlen (command) + 2];
+        	strlen ("pccommandinput_")+strlen (command)+2];
       strcpy (newbmap->command, "pccommandinput_");
       strcat (newbmap->command, command);
       newbmap->command_end = strchr (newbmap->command, 0);
-      *(newbmap->command_end + 1) = 0; // Make sure there is an end there too.
+      *(newbmap->command_end+1) = 0; // Make sure there is an end there too.
     }
     return true;
   }
@@ -628,7 +562,7 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
     celKeyMap* map;
     if (!(map = GetMap (key, mods)))
       return 0;
-    return map->command + nameoffset;
+    return map->command+15;
   }
   else if (csInputDefinition::ParseOther (name_reg, triggername, &type,
   	&device, &numeric, &modifiers))
@@ -640,14 +574,14 @@ const char* celPcCommandInput::GetBind (const char* triggername) const
       celAxisMap* amap;
       if (!(amap = GetAxisMap (type, device, numeric, mods)))
         return 0;
-      return amap->command + nameoffset;
+      return amap->command+15;
     }
     else
     {
       celButtonMap* bmap;
       if (!(bmap = GetButtonMap (type, device, numeric, mods)))
         return 0;
-      return bmap->command + nameoffset;
+      return bmap->command+15;
     }
   }
   return 0;
@@ -684,7 +618,7 @@ bool celPcCommandInput::RemoveBind (const char* triggername,
   {
     uint32 mods = csKeyEventHelper::GetModifiersBits (modifiers);
     if (type == csevMouseMove (name_reg, device) ||
-    	type == csevJoystickMove (name_reg, device))
+        type == csevJoystickMove (name_reg, device))
     {
       celAxisMap *pamap = 0, *amap = axislist;
       while (amap)
@@ -756,36 +690,6 @@ void celPcCommandInput::RemoveAllBinds ()
     button = nextb;
   }
   buttonlist = 0;
-}
-
-void celPcCommandInput::EnableMouseEvents ()
-{
-  handleMouse = true;
-}
-
-void celPcCommandInput::DisableMouseEvents ()
-{
-  handleMouse = false;
-}
-
-void celPcCommandInput::EnableKeyboardEvents ()
-{
-  handleKeyboard = true;
-}
-
-void celPcCommandInput::DisableKeyboardEvents ()
-{
-  handleKeyboard = false;
-}
-
-void celPcCommandInput::EnableJoystickEvents ()
-{
-  handleJoystick = true;
-}
-
-void celPcCommandInput::DisableJoystickEvents ()
-{
-  handleJoystick = false;
 }
 
 celKeyMap* celPcCommandInput::GetMap (utf32_char key, uint32 mods) const
@@ -860,37 +764,16 @@ static bool KeyEqual (utf32_char key1, utf32_char key2)
 }
 
 void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
-    csKeyModifiers key_modifiers, celKeyState keystate)
+    csKeyModifiers key_modifiers, char end)
 {
   iCelBehaviour* bh = entity->GetBehaviour ();
   if (!bh) return;
+  *(p->command_end) = end;
   celData ret;
-  if (p->packedargs)
-    key_params->GetParameter (1).Set (keystate);
-  else
-  {
-    key_params->GetParameter (1).Set (CEL_KEY_STATE_UNUSED);
-    switch (keystate)
-    {
-      case CEL_KEY_STATE_UP:
-        *(p->command_end) = '0';
-        break;
-      case CEL_KEY_STATE_DOWN:
-        *(p->command_end) = '1';
-        break;
-      case CEL_KEY_STATE_REPEAT:
-        *(p->command_end) = '_';
-        break;
-      default:
-        // cant happen really..
-        *(p->command_end) = '0';
-        break;
-    }
-  }
   if (do_sendtrigger)
   {
     const char* trigger = csInputDefinition::GetKeyString (
-    	name_reg, key, &key_modifiers).GetData ();
+		  name_reg, key, &key_modifiers).GetData ();
     key_params->GetParameter (0).Set (trigger);
   }
   else
@@ -898,13 +781,12 @@ void celPcCommandInput::SendKeyMessage (celKeyMap* p, utf32_char key,
     key_params->GetParameter (0).Clear ();
   }
   bh->SendMessage (p->command, this, ret, key_params);
-  if (!p->packedargs)
-    *(p->command_end) = 0;
+  *(p->command_end) = 0;
 }
 
 bool celPcCommandInput::HandleEvent (iEvent &ev)
 {
-  if (CS_IS_KEYBOARD_EVENT(name_reg,ev) && handleKeyboard)
+  if (CS_IS_KEYBOARD_EVENT(name_reg,ev))
   {
     utf32_char key = csKeyEventHelper::GetRawCode (&ev);
     csKeyModifiers key_modifiers;
@@ -918,7 +800,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     while (p)
     {
       if (p->key == CS_UC_INVALID)
-        break;
+	break;
       if (KeyEqual (p->key, key)
         && (!do_cooked || ((modifiers & p->modifiers) == p->modifiers)))
       {
@@ -934,22 +816,22 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
     csRef<iCelEntity> keepref = entity;
     if (type == csKeyEventTypeUp)
     {
-      SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_UP);
+      SendKeyMessage (p, key, key_modifiers, '0');
     }
     else
     {
       if (autorep)
       {
         // Send auto-repeat message.
-        SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_REPEAT);
+        SendKeyMessage (p, key, key_modifiers, '_');
       }
       else
       {
-        SendKeyMessage (p, key, key_modifiers, CEL_KEY_STATE_DOWN);
+        SendKeyMessage (p, key, key_modifiers, '1');
       }
     }
   }
-  else if (CS_IS_MOUSE_EVENT(name_reg, ev) && handleMouse)
+  else if (CS_IS_MOUSE_EVENT(name_reg, ev))
   {
     uint device = csMouseEventHelper::GetNumber (&ev);
     if (ev.Name == csevMouseMove (name_reg, device))
@@ -980,27 +862,11 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             {
               mouse_params->GetParameter (0).Set (x);
               mouse_params->GetParameter (1).Set (y);
-              if (p->numeric == 0)
-              {
-                mouse_params->GetParameter (2).Set (x);
-              }
-              else if (p->numeric == 1)
-              {
-                mouse_params->GetParameter (2).Set (y);
-              }
             }
             else
             {
               mouse_params->GetParameter (0).Set (ScreenToCentered (x, 0));
               mouse_params->GetParameter (1).Set (ScreenToCentered (y, 1));
-              if (p->numeric == 0)
-              {
-                mouse_params->GetParameter (2).Set (ScreenToCentered (x, 0));
-              }
-              else if (p->numeric == 1)
-              {
-                mouse_params->GetParameter (2).Set (ScreenToCentered (y, 1));
-              }
             }
             bh->SendMessage (p->command, this, ret, mouse_params);
           }
@@ -1043,7 +909,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
 
       if (ev.Name == csevMouseUp (object_reg, device))
       {
-        iCelBehaviour* bh = entity->GetBehaviour ();
+        iCelBehaviour* bh = entity->GetBehaviour();
         if (bh)
         {
           *(p->command_end) = '0';
@@ -1054,7 +920,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
       else if (ev.Name == csevMouseDown (object_reg, device))
       {
-        iCelBehaviour* bh = entity->GetBehaviour ();
+        iCelBehaviour* bh = entity->GetBehaviour();
         if (bh)
         {
           *(p->command_end) = '1';
@@ -1065,7 +931,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       }
     }
   }
-  else if (CS_IS_JOYSTICK_EVENT(name_reg,ev) && handleJoystick)
+  else if (CS_IS_JOYSTICK_EVENT(name_reg,ev))
   {
     uint device = csJoystickEventHelper::GetNumber(&ev);
     if (ev.Name == csevJoystickMove (name_reg, device))
@@ -1075,7 +941,7 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       csRef<iCelEntity> keepref = entity;
 
       //joystick move event
-      uint32 modifiers = csJoystickEventHelper::GetModifiers (&ev);
+      uint32 modifiers = csJoystickEventHelper::GetModifiers(&ev);
       csJoystickEventData data;
       csJoystickEventHelper::GetEventData (&ev, data);
       //find mapping
@@ -1097,12 +963,17 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
             	&ev, p->numeric) / 32767;
 
             celData ret;
+            csStringID id_joyval = pl->FetchStringID ("cel.parameter.value");
+            celGenericParameterBlock *params =
+            	new celGenericParameterBlock (1);
+            params->SetParameterDef (0, id_joyval, "value");
             if (screenspace)
-              joy_params->GetParameter (0).Set (
+              params->GetParameter (0).Set (
               	CenteredToScreen (val, p->numeric));
             else
-              joy_params->GetParameter (0).Set (val);
-            bh->SendMessage (p->command, this, ret, joy_params);
+              params->GetParameter (0).Set (val);
+            bh->SendMessage (p->command, this, ret, params);
+            params->DecRef ();
           }
         }
         p = p->next;
@@ -1137,23 +1008,15 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
       // during behaviour message handling.
       csRef<iCelEntity> keepref = entity;
 
-      celOneParameterBlock* celparms = 0;
       if (ev.Name == csevJoystickUp (name_reg, device))
       {
         iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
-          if (p->packedargs)
-          {
-            but_params->GetParameter(0).Set (CEL_KEY_STATE_UP);
-            celparms = but_params;
-          }
-          else
-            *(p->command_end) = '0';
+          *(p->command_end) = '0';
           celData ret;
-          bh->SendMessage (p->command, this, ret, celparms);
-          if (!p->packedargs)
-            *(p->command_end) = 0;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
         }
       }
       else
@@ -1161,17 +1024,10 @@ bool celPcCommandInput::HandleEvent (iEvent &ev)
         iCelBehaviour* bh = entity->GetBehaviour ();
         if (bh)
         {
-          if (p->packedargs)
-          {
-            but_params->GetParameter(0).Set (CEL_KEY_STATE_DOWN);
-            celparms = but_params;
-          }
-          else
-            *(p->command_end) = '1';
+          *(p->command_end) = '1';
           celData ret;
-          bh->SendMessage (p->command, this, ret, celparms);
-          if (!p->packedargs)
-            *(p->command_end) = 0;
+          bh->SendMessage (p->command, this, ret, 0);
+          *(p->command_end) = 0;
         }
       }
     }

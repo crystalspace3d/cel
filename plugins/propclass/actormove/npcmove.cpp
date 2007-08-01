@@ -29,6 +29,7 @@
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
 #include "csutil/scanstr.h"
+#include "csutil/debug.h"
 #include "iutil/eventq.h"
 #include "iutil/evdefs.h"
 #include "iutil/event.h"
@@ -47,7 +48,7 @@
 
 //---------------------------------------------------------------------------
 
-CEL_IMPLEMENT_FACTORY_ALT (NpcMove, "pcmove.npc", "pcnpcmove")
+CEL_IMPLEMENT_FACTORY (NpcMove, "pcnpcmove")
 
 //---------------------------------------------------------------------------
 

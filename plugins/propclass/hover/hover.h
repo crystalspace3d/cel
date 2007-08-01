@@ -31,12 +31,14 @@
 #include "propclass/hover.h"
 #include "propclass/mesh.h"
 
+#include "propclass/stabiliser_dist.h"
 #include "../mechanics/ticktimer.h"
 
 struct iSector;
 
 struct iPcMechanicsObject;
 struct iPcMesh;
+struct iPcDefaultCamera;
 struct iVirtualClock;
 
 /**
@@ -49,13 +51,15 @@ CEL_DECLARE_FACTORY (Hover)
 /**
  * Hover stabiliser property class.
  */
-class celPcHover : public scfImplementationExt1<
-	celPcHover, celPcCommon, iPcHover>, public celPeriodicTimer
+class celPcHover : public celPcCommon , public celPeriodicTimer
 {
 public:
   celPcHover (iObjectRegistry* object_reg);
   virtual ~celPcHover ();
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName() const { return "pchover"; };
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -78,6 +82,50 @@ public:
   virtual void HoverOn () { hover_on = true; }
   virtual void HoverOff () { hover_on = false; }
   virtual float GetHeight () { return pid.last_height; }
+
+  struct PcHover : public iPcHover
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcHover);
+
+    virtual void SetHeightBeamCutoff (float chm)
+    {
+      scfParent->SetHeightBeamCutoff (chm);
+    }
+    virtual void SetAngularBeamOffset (float abo)
+    {
+      scfParent->SetAngularBeamOffset (abo);
+    }
+    virtual void SetAngularCutoffHeight (float ach)
+    {
+      scfParent->SetAngularCutoffHeight (ach);
+    }
+    virtual void SetAngularCorrectionStrength (float mul)
+    {
+      scfParent->SetAngularCorrectionStrength (mul);
+    }
+    virtual void SetFactors (float p, float i, float d)
+    {
+      scfParent->SetFactors (p, i, d);
+    }
+    virtual void SetHoverHeight (float height)
+    {
+      scfParent->SetHoverHeight (height);
+    }
+
+    virtual void HoverOn ()
+    {
+      scfParent->HoverOn ();
+    }
+    virtual void HoverOff ()
+    {
+      scfParent->HoverOff ();
+    }
+
+    virtual float GetHeight ()
+    {
+      return scfParent->GetHeight ();
+    }
+  } scfiPcHover;
 
 private:
   static PropertyHolder propinfo;
@@ -122,6 +170,13 @@ private:
       bool accurate = false);
 
   /**
+   * In case of object not being in range in Height(),
+   * extend another beam upwards to calculate reverse distance,
+   * else return infinity
+   */
+  float ReverseHeight(csVector3 &start, iSector *sector);
+
+  /**
    * This function computes the angle the ship has to roll through to
    * to be aligned with the terrain
    *
@@ -160,6 +215,8 @@ private:
   csWeakRef<iPcMechanicsObject> pcmechobj;
   /// stored mesh interface
   csWeakRef<iPcMesh> pcmesh;
+  /// stored camera interface
+  csWeakRef<iPcDefaultCamera> pccamera;
 };
 
 #endif

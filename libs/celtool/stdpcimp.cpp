@@ -39,7 +39,6 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
   propholder = 0;
   propclasses_dirty = true;
   tag = 0;
-  name = 0;
 
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
 }
@@ -47,21 +46,12 @@ celPcCommon::celPcCommon (iObjectRegistry* object_reg) :
 celPcCommon::~celPcCommon ()
 {
   delete[] tag;
-  delete[] name;
 }
 
 void celPcCommon::SetTag (const char* tagname)
 {
   delete[] tag;
   tag = csStrNew (tagname);
-}
-// @@@ (ge) Please note that after the alternate names are deprecated
-//  that this can turn into a simple assignment and the macro factory
-//  definition should pass in a hard reference for the name.
-void celPcCommon::SetName (const char* pcname)
-{
-  delete[] name;
-  name = csStrNew (pcname);
 }
 
 void celPcCommon::SetEntity (iCelEntity* entity)
@@ -72,7 +62,7 @@ void celPcCommon::SetEntity (iCelEntity* entity)
 void celPcCommon::FirePropertyChangeCallback (int propertyId)
 {
   size_t i;
-  for (i = 0 ; i < callbacks.GetSize () ; i++)
+  for (i = 0 ; i < callbacks.Length () ; i++)
   {
     iCelPropertyChangeCallback* cb = callbacks[i];
     cb->PropertyChanged (propertyId, this);
@@ -315,53 +305,53 @@ bool celPcCommon::GetPropertyTemplated (csStringID propertyId, celDataType type,
 }
 
 
-long celPcCommon::GetPropertyLongByID (csStringID propertyId)
+long celPcCommon::GetPropertyLong (csStringID propertyId)
 {
   return GetPropertyTemplated<long> (propertyId, CEL_DATA_LONG);
 }
 
-float celPcCommon::GetPropertyFloatByID (csStringID propertyId)
+float celPcCommon::GetPropertyFloat (csStringID propertyId)
 {
   return GetPropertyTemplated<float> (propertyId, CEL_DATA_FLOAT);
 }
 
-bool celPcCommon::GetPropertyBoolByID (csStringID propertyId)
+bool celPcCommon::GetPropertyBool (csStringID propertyId)
 {
   return GetPropertyTemplated<bool> (propertyId, CEL_DATA_BOOL);
 }
 
-const char* celPcCommon::GetPropertyStringByID (csStringID propertyId)
+const char* celPcCommon::GetPropertyString (csStringID propertyId)
 {
   return GetPropertyTemplated<const char*> (propertyId, CEL_DATA_STRING);
 }
 
-bool celPcCommon::GetPropertyVectorByID (csStringID propertyId, csVector2& v)
+bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector2& v)
 {
   return GetPropertyTemplated<csVector2> (propertyId, CEL_DATA_VECTOR2, v);
 }
 
-bool celPcCommon::GetPropertyVectorByID (csStringID propertyId, csVector3& v)
+bool celPcCommon::GetPropertyVector (csStringID propertyId, csVector3& v)
 {
   return GetPropertyTemplated<csVector3> (propertyId, CEL_DATA_VECTOR3, v);
 }
 
-bool celPcCommon::GetPropertyColorByID (csStringID propertyId, csColor& v )
+bool celPcCommon::GetPropertyColor (csStringID propertyId, csColor& v )
 {
   return GetPropertyTemplated<csColor> (propertyId, CEL_DATA_COLOR, v);
 }
 
-iCelPropertyClass* celPcCommon::GetPropertyPClassByID (csStringID propertyId)
+iCelPropertyClass* celPcCommon::GetPropertyPClass (csStringID propertyId)
 {
   return GetPropertyTemplated<iCelPropertyClass*> (propertyId,
       CEL_DATA_PCLASS);
 }
 
-iCelEntity* celPcCommon::GetPropertyEntityByID (csStringID propertyId)
+iCelEntity* celPcCommon::GetPropertyEntity (csStringID propertyId)
 {
   return GetPropertyTemplated<iCelEntity*> (propertyId, CEL_DATA_ENTITY);
 }
 
-iBase* celPcCommon::GetPropertyIBaseByID (csStringID propertyId)
+iBase* celPcCommon::GetPropertyIBase (csStringID propertyId)
 {
   return GetPropertyTemplated<iBase*> (propertyId, CEL_DATA_IBASE);
 }

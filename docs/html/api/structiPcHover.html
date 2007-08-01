@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,19 +28,15 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iPcHover Struct Reference</h1><!-- doxytag: class="iPcHover" --><!-- doxytag: inherits="iBase" -->Hover stabiliser property class.  
+<h1>iPcHover Struct Reference</h1><!-- doxytag: class="iPcHover" -->Hover stabiliser property class.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="hover_8h-source.html">propclass/hover.h</a>&gt;</code>
 <p>
-Inheritance diagram for iPcHover:<p><center><img src="structiPcHover__inherit__graph.png" border="0" usemap="#iPcHover__inherit__map" alt="Inheritance graph"></center>
-<map name="iPcHover__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="16,5,75,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiPcHover-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiPcHover-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#a5e5f854391f2eee0f2b1ce5aa18b965">GetHeight</a> ()=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual float&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#a5e5f854391f2eee0f2b1ce5aa18b965">GetHeight</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get's the last calculated height for object.  <a href="#a5e5f854391f2eee0f2b1ce5aa18b965"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#3f5dcdb307535cc23b3c9bfae9e00e2d">HoverOff</a> ()=0</td></tr>
@@ -49,24 +45,30 @@ Inheritance diagram for iPcHover:<p><center><img src="structiPcHover__inherit__g
 <tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#45d7c2bd27d938d23b4027aa3a37302b">HoverOn</a> ()=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Turn hovering on (on by default).  <a href="#45d7c2bd27d938d23b4027aa3a37302b"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#9559ae347564f967355dd996f5466304">SetAngularBeamOffset</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> abo)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#9559ae347564f967355dd996f5466304">SetAngularBeamOffset</a> (float abo)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The offsets to the sides of the objects, to test height to calculate angular orientation with respect to the ground.  <a href="#9559ae347564f967355dd996f5466304"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#1b6dbf7f13686acaf93a70c5ed6df6a9">SetAngularCorrectionStrength</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> mul)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#1b6dbf7f13686acaf93a70c5ed6df6a9">SetAngularCorrectionStrength</a> (float mul)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">How strongly does the object align itself with the terrain? Higher values means that an object going down a hill will snap to the slope.  <a href="#1b6dbf7f13686acaf93a70c5ed6df6a9"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#6d49050c492685cea9feb9251e5e6934">SetAngularCutoffHeight</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> ach)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#6d49050c492685cea9feb9251e5e6934">SetAngularCutoffHeight</a> (float ach)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Height at which to perform the angular correction.  <a href="#6d49050c492685cea9feb9251e5e6934"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#caed8f611d1a6513f12132fea469915f">SetFactors</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> p, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> i, <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> d)=0</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the various PID factors to affect hovering behaviour.  <a href="#caed8f611d1a6513f12132fea469915f"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#7d5d306b9ab8a705d86ccf91178a9c34">SetHeightBeamCutoff</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> chm)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#7d5d306b9ab8a705d86ccf91178a9c34">SetHeightBeamCutoff</a> (float chm)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">The height for hit beams.  <a href="#7d5d306b9ab8a705d86ccf91178a9c34"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#2b0d3f33e3084d47aa01709212745adf">SetHoverHeight</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> height)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#602f6b8e4261f1fa713b8a03bf89af49">SetStabiliserFunction</a> (<a class="el" href="classcelStabiliserFunction.html">celStabiliserFunction</a> *sfunc)=0</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the height at which the object should hover.  <a href="#2b0d3f33e3084d47aa01709212745adf"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the distribution functions which decide upthrust depending on height of ship.  <a href="#602f6b8e4261f1fa713b8a03bf89af49"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#1b3023a8a9943e8f556cd633eb2f5fbf">SetWorld</a> (const char *name)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get world mesh using a name by querying this objects physical layer.  <a href="#1b3023a8a9943e8f556cd633eb2f5fbf"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#4db747e68cc9006ac05d50f5ff13709e">SetWorldMesh</a> (csRef&lt; <a class="el" href="structiPcMesh.html">iPcMesh</a> &gt; wmesh)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set the mesh to do the height tests on (the ground).  <a href="#4db747e68cc9006ac05d50f5ff13709e"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiPcHover.html#bc3809ac5b44eff494e030e046376c50">UseDefaultFunction</a> (float dampening=1.5f)=0</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Use a default stabiliser function - not recommended unless not possible to create own, use SetStabiliserFunction instead.  <a href="#bc3809ac5b44eff494e030e046376c50"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Hover stabiliser property class. 
@@ -79,7 +81,7 @@ Definition at line <a class="el" href="hover_8h-source.html#l00034">34</a> of fi
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a> iPcHover::GetHeight           </td>
+          <td class="memname">virtual float iPcHover::GetHeight           </td>
           <td>(</td>
           <td class="paramname">          </td>
           <td>&nbsp;)&nbsp;</td>
@@ -144,7 +146,7 @@ Turn hovering on (on by default).
         <tr>
           <td class="memname">virtual void iPcHover::SetAngularBeamOffset           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>abo</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -166,7 +168,7 @@ Smaller is more accurate, but too small and the roll angles will differ in bigge
         <tr>
           <td class="memname">virtual void iPcHover::SetAngularCorrectionStrength           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>mul</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -188,7 +190,7 @@ Smaller values and it will slowly align
         <tr>
           <td class="memname">virtual void iPcHover::SetAngularCutoffHeight           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>ach</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -203,43 +205,6 @@ Height at which to perform the angular correction.
 
 </div>
 </div><p>
-<a class="anchor" name="caed8f611d1a6513f12132fea469915f"></a><!-- doxytag: member="iPcHover::SetFactors" ref="caed8f611d1a6513f12132fea469915f" args="(float p, float i, float d)=0" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void iPcHover::SetFactors           </td>
-          <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>i</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>d</em></td><td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td><td width="100%"><code> [pure virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>
-Set the various PID factors to affect hovering behaviour. 
-<p>
-
-</div>
-</div><p>
 <a class="anchor" name="7d5d306b9ab8a705d86ccf91178a9c34"></a><!-- doxytag: member="iPcHover::SetHeightBeamCutoff" ref="7d5d306b9ab8a705d86ccf91178a9c34" args="(float chm)=0" -->
 <div class="memitem">
 <div class="memproto">
@@ -247,7 +212,7 @@ Set the various PID factors to affect hovering behaviour.
         <tr>
           <td class="memname">virtual void iPcHover::SetHeightBeamCutoff           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
+          <td class="paramtype">float&nbsp;</td>
           <td class="paramname"> <em>chm</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
@@ -262,15 +227,15 @@ The height for hit beams.
 Above this height, all height tests return infinity 
 </div>
 </div><p>
-<a class="anchor" name="2b0d3f33e3084d47aa01709212745adf"></a><!-- doxytag: member="iPcHover::SetHoverHeight" ref="2b0d3f33e3084d47aa01709212745adf" args="(float height)=0" -->
+<a class="anchor" name="602f6b8e4261f1fa713b8a03bf89af49"></a><!-- doxytag: member="iPcHover::SetStabiliserFunction" ref="602f6b8e4261f1fa713b8a03bf89af49" args="(celStabiliserFunction *sfunc)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void iPcHover::SetHoverHeight           </td>
+          <td class="memname">virtual void iPcHover::SetStabiliserFunction           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHashComputer_3_01float_01_4.html">float</a>&nbsp;</td>
-          <td class="paramname"> <em>height</em>          </td>
+          <td class="paramtype"><a class="el" href="classcelStabiliserFunction.html">celStabiliserFunction</a> *&nbsp;</td>
+          <td class="paramname"> <em>sfunc</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>
         </tr>
@@ -279,7 +244,83 @@ Above this height, all height tests return infinity
 <div class="memdoc">
 
 <p>
-Set the height at which the object should hover. 
+Set the distribution functions which decide upthrust depending on height of ship. 
+<p>
+
+</div>
+</div><p>
+<a class="anchor" name="1b3023a8a9943e8f556cd633eb2f5fbf"></a><!-- doxytag: member="iPcHover::SetWorld" ref="1b3023a8a9943e8f556cd633eb2f5fbf" args="(const char *name)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void iPcHover::SetWorld           </td>
+          <td>(</td>
+          <td class="paramtype">const char *&nbsp;</td>
+          <td class="paramname"> <em>name</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Get world mesh using a name by querying this objects physical layer. 
+<p>
+The entity does not have to exist yet, as it is not queried till the first game engine tick. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>name</em>&nbsp;</td><td>name of world mesh </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="4db747e68cc9006ac05d50f5ff13709e"></a><!-- doxytag: member="iPcHover::SetWorldMesh" ref="4db747e68cc9006ac05d50f5ff13709e" args="(csRef&lt; iPcMesh &gt; wmesh)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void iPcHover::SetWorldMesh           </td>
+          <td>(</td>
+          <td class="paramtype">csRef&lt; <a class="el" href="structiPcMesh.html">iPcMesh</a> &gt;&nbsp;</td>
+          <td class="paramname"> <em>wmesh</em>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Set the mesh to do the height tests on (the ground). 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>wmesh</em>&nbsp;</td><td>ground object </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
+<a class="anchor" name="bc3809ac5b44eff494e030e046376c50"></a><!-- doxytag: member="iPcHover::UseDefaultFunction" ref="bc3809ac5b44eff494e030e046376c50" args="(float dampening=1.5f)=0" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void iPcHover::UseDefaultFunction           </td>
+          <td>(</td>
+          <td class="paramtype">float&nbsp;</td>
+          <td class="paramname"> <em>dampening</em> = <code>1.5f</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td width="100%"><code> [pure virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Use a default stabiliser function - not recommended unless not possible to create own, use SetStabiliserFunction instead. 
 <p>
 
 </div>

@@ -27,14 +27,11 @@
 
 struct iCelEntity;
 struct iObjectRegistry;
-struct iCelPlLayer;
-struct iPcMeshDeform;
 
 /**
  * General behaviour class.
  */
-class celBehaviourGeneral : public scfImplementation1<
-	celBehaviourGeneral, iCelBehaviour>
+class celBehaviourGeneral : public iCelBehaviour
 {
 protected:
   iCelEntity* entity;
@@ -51,6 +48,8 @@ public:
   {
     celBehaviourGeneral::bl = bl;
   }
+
+  SCF_DECLARE_IBASE;
 
   virtual const char* GetName () const { return name; }
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
@@ -117,8 +116,6 @@ public:
  */
 class celBehaviourActor : public celBehaviourGeneral
 {
-private:
-  csRef<iCelPlLayer> pl;
   int fpscam;
   float speed;
   csRef<celBehaviourRoom> bhroom;
@@ -150,9 +147,6 @@ public:
  */
 class celBehaviourWheeled : public celBehaviourGeneral
 {
-private:
-  csRef<iCelPlLayer> pl;
-  csRef<iPcMeshDeform> pcmeshdeform;
 public:
   celBehaviourWheeled (iCelEntity* entity, iObjectRegistry* object_reg);
   virtual ~celBehaviourWheeled();

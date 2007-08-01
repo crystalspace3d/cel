@@ -7,5 +7,4 @@ SubInclude TOP apps nettest ;
 SubInclude TOP apps tutorial ;
 SubInclude TOP apps hovertest ;
 SubInclude TOP apps wheeledtest ;
-SubInclude TOP apps evolvecraft ;
 

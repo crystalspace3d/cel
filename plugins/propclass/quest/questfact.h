@@ -43,8 +43,7 @@ CEL_DECLARE_FACTORY (Quest)
 /**
  * This is a quest property class.
  */
-class celPcQuest : public scfImplementationExt1<
-	celPcQuest, celPcCommon, iPcQuest>
+class celPcQuest : public celPcCommon
 {
 private:
   // For SendMessage parameters.
@@ -81,11 +80,14 @@ public:
   celPcQuest (iObjectRegistry* object_reg);
   virtual ~celPcQuest ();
 
-  virtual bool NewQuest (const char* name, celQuestParams& params);
-  virtual void StopQuest ();
-  virtual iQuest* GetQuest () const { return quest; }
-  virtual const char* GetQuestName () const { return questname; }
+  bool NewQuest (const char* name, celQuestParams& params);
+  void StopQuest ();
+  iQuest* GetQuest () const { return quest; }
+  const char* GetQuestName () const { return questname; }
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pcquest"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -93,6 +95,27 @@ public:
 
   virtual bool SetPropertyIndexed (int, const char*);
   virtual bool GetPropertyIndexed (int, const char*&);
+
+  struct PcQuest : public iPcQuest
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcQuest);
+    virtual bool NewQuest (const char* name, celQuestParams& params)
+    {
+      return scfParent->NewQuest (name, params);
+    }
+    virtual void StopQuest ()
+    {
+      scfParent->StopQuest ();
+    }
+    virtual iQuest* GetQuest () const
+    {
+      return scfParent->GetQuest ();
+    }
+    virtual const char* GetQuestName () const
+    {
+      return scfParent->GetQuestName ();
+    }
+  } scfiPcQuest;
 };
 
 #endif // __CEL_PF_QUESTFACT__

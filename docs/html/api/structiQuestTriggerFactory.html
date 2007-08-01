@@ -5,11 +5,11 @@
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 </head><body>
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="head">
- <tr height="59">
+ <tr heigth="59">
   <td class="head" width="202" valign="bottom" style="padding-left:0;"><a href="http://cel.crystalspace3d.org/"><img src="celblur.png" width="210" height="59" alt="CEL" border="0"></a></td>
   <td class="head"><h2>Public API Reference</h2></td>
  </tr>
- <tr height="11">
+ <tr heigth="11">
   <td colspan="2" class="headshadow" valign="top" style="padding-left:0;"><img src="celshadow.png" width="9" height="11" alt="" border="0"></td>
  </tr>
 </table>
@@ -28,22 +28,18 @@
     <li><a href="hierarchy.html"><span>Class&nbsp;Hierarchy</span></a></li>
     <li><a href="functions.html"><span>Class&nbsp;Members</span></a></li>
   </ul></div>
-<h1>iQuestTriggerFactory Struct Reference</h1><!-- doxytag: class="iQuestTriggerFactory" --><!-- doxytag: inherits="iBase" -->A factory to create triggers.  
+<h1>iQuestTriggerFactory Struct Reference</h1><!-- doxytag: class="iQuestTriggerFactory" -->A factory to create triggers.  
 <a href="#_details">More...</a>
 <p>
 <code>#include &lt;<a class="el" href="questmanager_8h-source.html">tools/questmanager.h</a>&gt;</code>
 <p>
-Inheritance diagram for iQuestTriggerFactory:<p><center><img src="structiQuestTriggerFactory__inherit__graph.png" border="0" usemap="#iQuestTriggerFactory__inherit__map" alt="Inheritance graph"></center>
-<map name="iQuestTriggerFactory__inherit__map">
-<area doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiBase.html" shape="rect" coords="57,5,116,32" alt="">
-</map>
-<center><font size="2">[<a href="graph_legend.html">legend</a>]</font></center><a href="structiQuestTriggerFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
+<a href="structiQuestTriggerFactory-members.html">List of all members.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt; <a class="el" href="structiQuestTrigger.html">iQuestTrigger</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTriggerFactory.html#e3bde35a8c1f9663fdb9fc3372054da1">CreateTrigger</a> (<a class="el" href="structiQuest.html">iQuest</a> *quest, const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;params)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual csPtr&lt; <a class="el" href="structiQuestTrigger.html">iQuestTrigger</a> &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTriggerFactory.html#e3bde35a8c1f9663fdb9fc3372054da1">CreateTrigger</a> (<a class="el" href="structiQuest.html">iQuest</a> *quest, const celQuestParams &amp;params)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Create a trigger.  <a href="#e3bde35a8c1f9663fdb9fc3372054da1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTriggerFactory.html#57d3abd25cd36b1dba13741b586328a2">Load</a> (<a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *node)=0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">virtual bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structiQuestTriggerFactory.html#57d3abd25cd36b1dba13741b586328a2">Load</a> (iDocumentNode *node)=0</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Load this factory from a document node.  <a href="#57d3abd25cd36b1dba13741b586328a2"></a><br></td></tr>
 </table>
@@ -54,13 +50,13 @@ Trigger factories are created by an <a class="el" href="structiQuestTriggerType.
 <p>
 
 <p>
-Definition at line <a class="el" href="questmanager_8h-source.html#l00156">156</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
+Definition at line <a class="el" href="questmanager_8h-source.html#l00155">155</a> of file <a class="el" href="questmanager_8h-source.html">questmanager.h</a>.<hr><h2>Member Function Documentation</h2>
 <a class="anchor" name="e3bde35a8c1f9663fdb9fc3372054da1"></a><!-- doxytag: member="iQuestTriggerFactory::CreateTrigger" ref="e3bde35a8c1f9663fdb9fc3372054da1" args="(iQuest *quest, const celQuestParams &amp;params)=0" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsPtr.html">csPtr</a>&lt;<a class="el" href="structiQuestTrigger.html">iQuestTrigger</a>&gt; iQuestTriggerFactory::CreateTrigger           </td>
+          <td class="memname">virtual csPtr&lt;<a class="el" href="structiQuestTrigger.html">iQuestTrigger</a>&gt; iQuestTriggerFactory::CreateTrigger           </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structiQuest.html">iQuest</a> *&nbsp;</td>
           <td class="paramname"> <em>quest</em>, </td>
@@ -68,7 +64,7 @@ Definition at line <a class="el" href="questmanager_8h-source.html#l00156">156</
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/classcsHash.html">celQuestParams</a> &amp;&nbsp;</td>
+          <td class="paramtype">const celQuestParams &amp;&nbsp;</td>
           <td class="paramname"> <em>params</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -99,7 +95,7 @@ Create a trigger.
         <tr>
           <td class="memname">virtual bool iQuestTriggerFactory::Load           </td>
           <td>(</td>
-          <td class="paramtype"><a class="elRef" doxygen="crystalspace.tag:$CRYSTAL/out/docs/html/api/" href="$CRYSTAL/out/docs/html/api/structiDocumentNode.html">iDocumentNode</a> *&nbsp;</td>
+          <td class="paramtype">iDocumentNode *&nbsp;</td>
           <td class="paramname"> <em>node</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"><code> [pure virtual]</code></td>

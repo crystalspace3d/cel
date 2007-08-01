@@ -21,16 +21,10 @@ static char const metainfo_pftest[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.test</name>"
 "        <implementation>celPfTest</implementation>"
-"        <description>CEL Test Property Class Factory</description>"
-"      </class>"
-"      <class>"
-"        <name>cel.pcfactory.misc.test</name>"
-"        <implementation>celPfTest</implementation>"
-"        <description>CEL Test Property Class Factory</description>"
+"	<description>CEL Test Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -40,18 +34,10 @@ static char const metainfo_pftest[] =
   #define celPfTest_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfTest) 
   #endif
-  #ifndef celPfTest_FACTORY_REGISTER_DEFINED 
-  #define celPfTest_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfTest) 
-  #endif
 
 class pftest
 {
 SCF_REGISTER_STATIC_LIBRARY(pftest,metainfo_pftest)
-  #ifndef celPfTest_FACTORY_REGISTERED 
-  #define celPfTest_FACTORY_REGISTERED 
-    celPfTest_StaticInit celPfTest_static_init__; 
-  #endif
   #ifndef celPfTest_FACTORY_REGISTERED 
   #define celPfTest_FACTORY_REGISTERED 
     celPfTest_StaticInit celPfTest_static_init__; 

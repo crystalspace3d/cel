@@ -34,11 +34,26 @@ CS_IMPLEMENT_PLUGIN
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
+SCF_IMPLEMENT_IBASE (celTCPGameFactory)
+  SCF_IMPLEMENTS_INTERFACE (iCelGameFactory)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGameFactory::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+SCF_IMPLEMENT_IBASE (celTCPGameFactory::EventHandler)
+  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
+SCF_IMPLEMENT_IBASE_END
+
 SCF_IMPLEMENT_FACTORY (celTCPGameFactory)
 
 celTCPGameFactory::celTCPGameFactory (iBase* parent)
-	: scfImplementationType (this, parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
+
   object_reg = 0;
   scfiEventHandler = 0;
   manager = 0;
@@ -63,6 +78,9 @@ celTCPGameFactory::~celTCPGameFactory ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
+
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celTCPGameFactory::Initialize (iObjectRegistry* object_reg)
@@ -94,8 +112,7 @@ bool celTCPGameFactory::HandleEvent (iEvent& ev)
   // TODO: listen for game info received
  
   // update client and server
-  if (game)
-  {
+  if (game) {
     if (game->IsServerAvailable ()) game->server->UpdateNetwork ();
     if (game->IsClientAvailable ()) game->client->UpdateNetwork ();
   }
@@ -116,7 +133,8 @@ void celTCPGameFactory::StopSearchForGameList ()
 
 iCelGame* celTCPGameFactory::GetCurrentGame () const
 {
-  return game;
+  if (!game) return 0;
+  else return &game->scfiCelGame;
 }
 
 bool celTCPGameFactory::CreateNewGame (celNetworkGameType game_type, 

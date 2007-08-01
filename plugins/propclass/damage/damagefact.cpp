@@ -30,13 +30,11 @@
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
 #include "behaviourlayer/behave.h"
-#include "ivaria/reporter.h"
-
 //---------------------------------------------------------------------------
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Damage, "pclogic.damage", "pcdamage")
+CEL_IMPLEMENT_FACTORY (Damage, "pcdamage")
 
 //---------------------------------------------------------------------------
 
@@ -88,27 +86,21 @@ celPcDamage::celPcDamage (iObjectRegistry* object_reg)
     AddAction (action_beamdamage, "cel.action.BeamDamage");
     AddAction (action_singledamage, "cel.action.SingleDamage");
   }
-
+ 
   // For properties.
   propinfo.SetCount (5);
   AddProperty (propid_amount, "cel.property.amount",
-  	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
+	CEL_DATA_FLOAT, false, "Amount of damage.", &amount);
   AddProperty (propid_type, "cel.property.type",
-  	CEL_DATA_STRING, false, "Type of damage.", 0);
+	CEL_DATA_STRING, false, "Type of damage.", 0);
   AddProperty (propid_sector, "cel.property.sector",
-  	CEL_DATA_STRING, false, "Originating sector.", 0);
+	CEL_DATA_STRING, false, "Originating sector.", 0);
   AddProperty (propid_position, "cel.property.position",
-  	CEL_DATA_VECTOR3, false, "Originating position.", &position);
+	CEL_DATA_VECTOR3, false, "Originating position.", &position);
   AddProperty (propid_source, "cel.property.source",
-  	CEL_DATA_STRING, false, "Source of damage.", &amount);
+	CEL_DATA_STRING, false, "Source of damage.", &amount);
 
   engine = csQueryRegistry<iEngine> (object_reg);
-  if (!engine)
-  {
-    csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pclogic.damage", "No iEngine plugin!");
-    return;
-  }
 }
 
 celPcDamage::~celPcDamage ()

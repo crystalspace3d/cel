@@ -28,6 +28,7 @@
 #include "physicallayer/datatype.h"
 #include "behaviourlayer/behave.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "csutil/flags.h"
 #include "csutil/xmltiny.h"
 #include "csutil/databuf.h"
@@ -62,7 +63,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (ZoneManager, "pcworld.zonemanager", "pczonemanager")
+CEL_IMPLEMENT_FACTORY (ZoneManager, "pczonemanager")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -71,7 +72,7 @@ static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 
   csRef<iReporter> rep (csQueryRegistry<iReporter> (object_reg));
   if (rep)
-    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.pcworld.zonemanager",
+    rep->ReportV (CS_REPORTER_SEVERITY_ERROR, "cel.persistence",
     	msg, arg);
   else
   {
@@ -92,6 +93,10 @@ void cameraSectorListener::NewSector (iCamera* /*camera*/, iSector* sector)
     zonemgr->ActivateSector (sector);
 }
 
+SCF_IMPLEMENT_IBASE (cameraSectorListener)
+  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
+SCF_IMPLEMENT_IBASE_END
+
 void meshmoveListener::MovableChanged (iMovable* movable)
 {
   if (!zonemgr) return;
@@ -99,7 +104,15 @@ void meshmoveListener::MovableChanged (iMovable* movable)
     zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
 }
 
+SCF_IMPLEMENT_IBASE (meshmoveListener)
+  SCF_IMPLEMENTS_INTERFACE (iMovableListener)
+SCF_IMPLEMENT_IBASE_END
+
 //---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celMapFile)
+  SCF_IMPLEMENTS_INTERFACE (iCelMapFile)
+SCF_IMPLEMENT_IBASE_END
 
 void celMapFile::SetFile (const char* file)
 {
@@ -107,12 +120,6 @@ void celMapFile::SetFile (const char* file)
   delete[] celMapFile::sectorname;
   celMapFile::file = csStrNew (file);
   celMapFile::sectorname = 0;
-}
-
-void celMapFile::SetName (const char* name)
-{
-  delete[] celMapFile::name;
-  celMapFile::name = csStrNew (name);
 }
 
 void celMapFile::SetPath (const char* path)
@@ -132,6 +139,12 @@ void celMapFile::SetSectorName (const char* name)
 }
 
 //---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celRegion)
+  SCF_IMPLEMENTS_INTERFACE (iCelRegion)
+  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
+  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
+SCF_IMPLEMENT_IBASE_END
 
 void celRegion::SetEntityName (const char* entname)
 {
@@ -158,7 +171,7 @@ bool celRegion::RemoveMapFile (iCelMapFile* mapfile)
 
 void celRegion::RemoveAllMapFiles ()
 {
-  mapfiles.SetSize (0);
+  mapfiles.SetLength (0);
 }
 
 void celRegion::NewEntity (iCelEntity* entity)
@@ -222,7 +235,7 @@ bool celRegion::Load (bool allow_entity_addon)
 
   size_t i;
   bool rc = true;
-  for (i = 0 ; i < mapfiles.GetSize () ; i++)
+  for (i = 0 ; i < mapfiles.Length () ; i++)
   {
     celMapFile* mf = mapfiles[i];
     if (mf->GetSectorName ())
@@ -266,14 +279,9 @@ bool celRegion::Load (bool allow_entity_addon)
 
   if (mgr->IsColliderWrappers ())
   {
-    if (!mgr->GetCDSystem ())
-    {
-      Report (mgr->GetObjectReg (), "No iCollideSystem plugin!");
-      return false;
-    }
     // Create colliders for all meshes in this region.
     csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
-    	engine, cur_region);
+  	engine, cur_region);
   }
 
   mgr->SendZoneMessage ((iCelRegion*)this, "pczonemanager_addregion");
@@ -295,7 +303,7 @@ void celRegion::Unload ()
   if (pl)
   {
     size_t i;
-    for (i = 0 ; i < entities.GetSize () ; i++)
+    for (i = 0 ; i < entities.Length () ; i++)
       if (entities[i])
         pl->RemoveEntity (entities[i]);
 
@@ -314,8 +322,8 @@ void celRegion::Unload ()
         if (e)
         {
           // Check if the entity is also in other sectors. If so we
-          // will not remove it.
-          if (m->GetMovable ()->GetSectors ()->GetCount () <= 1)
+	  // will not remove it.
+	  if (m->GetMovable ()->GetSectors ()->GetCount () <= 1)
             pl->RemoveEntity (e);
         }
       }
@@ -334,33 +342,16 @@ void celRegion::AssociateEntity (iCelEntity* entity)
 {
   entities.Push (entity);
 }
-
 void celRegion::DissociateEntity (iCelEntity* entity)
 {
   entities.Delete (entity);
 }
 
-iRegion* celRegion::GetCsRegion ()
-{
-  iEngine* engine = mgr->GetEngine ();
-  return engine->GetRegions()->FindByName(csregionname);
-}
-
-bool celRegion::ContainsEntity (iCelEntity* entity)
-{
-  return (entities.Contains (entity) != csArrayItemNotFound);
-}
-
-iCelMapFile* celRegion::FindMapFile (const char* name) const
-{
-  size_t i;
-  for (i = 0; i < GetMapFileCount (); i ++)
-    if (!strcmp (name, mapfiles[i]->GetName ()))
-      return (iCelMapFile*)mapfiles[i];
-  return 0;
-}
-
 //---------------------------------------------------------------------------
+
+SCF_IMPLEMENT_IBASE (celZone)
+  SCF_IMPLEMENTS_INTERFACE (iCelZone)
+SCF_IMPLEMENT_IBASE_END
 
 void celZone::LinkRegion (iCelRegion* region)
 {
@@ -379,13 +370,13 @@ bool celZone::UnlinkRegion (iCelRegion* region)
 
 void celZone::UnlinkAllRegions ()
 {
-  regions.SetSize (0);
+  regions.SetLength (0);
 }
 
 iCelRegion* celZone::FindRegion (const char* name) const
 {
   size_t i;
-  for (i = 0; i < regions.GetSize (); i ++)
+  for (i = 0 ; i < regions.Length () ; i++)
     if (!strcmp (name, regions[i]->GetName ()))
       return (iCelRegion*)regions[i];
   return 0;
@@ -405,33 +396,25 @@ csStringID celPcZoneManager::id_file = csInvalidStringID;
 csStringID celPcZoneManager::id_entityname = csInvalidStringID;
 csStringID celPcZoneManager::id_regionname = csInvalidStringID;
 csStringID celPcZoneManager::id_startname = csInvalidStringID;
-csStringID celPcZoneManager::id_zonename = csInvalidStringID;
 csStringID celPcZoneManager::id_mode = csInvalidStringID;
-csStringID celPcZoneManager::id_name = csInvalidStringID;
 
 PropertyHolder celPcZoneManager::propinfo;
 
+SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcZoneManager::PcZoneManager)
+  SCF_IMPLEMENTS_INTERFACE (iPcZoneManager)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+  : celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
   engine = csQueryRegistry<iEngine> (object_reg);
-  if (!engine)
-  {
-    Report (object_reg, "No iEngine plugin!");
-    return;
-  }
   loader = csQueryRegistry<iLoader> (object_reg);
-  if (!loader)
-  {
-    Report (object_reg, "No iLoader plugin!");
-    return;
-  }
   vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!vfs)
-  {
-    Report (object_reg, "No iVFS plugin!");
-    return;
-  }
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   do_colliderwrappers = true;
@@ -445,9 +428,7 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     id_entityname = pl->FetchStringID ("cel.parameter.entity");
     id_regionname = pl->FetchStringID ("cel.parameter.region");
     id_startname = pl->FetchStringID ("cel.parameter.start");
-    id_zonename = pl->FetchStringID ("cel.parameter.zone");
     id_mode = pl->FetchStringID ("cel.parameter.mode");
-    id_name = pl->FetchStringID ("cel.parameter.name");
   }
   params = new celOneParameterBlock ();
   params->SetParameterDef (id_region, "region");
@@ -464,23 +445,14 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     AddAction (action_pointcamera, "cel.action.PointCamera");
     AddAction (action_setloadingmode, "cel.action.SetLoadingMode");
     AddAction (action_activateregion, "cel.action.ActivateRegion");
-    AddAction (action_createregion, "cel.action.CreateRegion");
-    AddAction (action_removeregion, "cel.action.RemoveRegion");
-    AddAction (action_createzone, "cel.action.CreateZone");
-    AddAction (action_removezone, "cel.action.RemoveZone");
-    AddAction (action_createmap, "cel.action.CreateMap");
-    AddAction (action_removemap, "cel.action.RemoveMap");
-    AddAction (action_setcache, "cel.action.SetCache");
-    AddAction (action_linkregion, "cel.action.LinkRegion");
-    AddAction (action_unlinkregion, "cel.action.UnlinkRegion");
   }
-
+ 
   // For properties.
   propinfo.SetCount (2);
   AddProperty (propid_laststart, "cel.property.laststart",
-  	CEL_DATA_STRING, true, "Last used start location.", 0);
+	CEL_DATA_STRING, true, "Last used start location.", 0);
   AddProperty (propid_lastregion, "cel.property.lastregion",
-  	CEL_DATA_STRING, true, "Last used region name.", 0);
+	CEL_DATA_STRING, true, "Last used region name.", 0);
 }
 
 celPcZoneManager::~celPcZoneManager ()
@@ -489,6 +461,7 @@ celPcZoneManager::~celPcZoneManager ()
   loading_mode = CEL_ZONE_NORMAL;
   ActivateRegion (0);
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
 bool celPcZoneManager::GetPropertyIndexed (int idx, const char*& b)
@@ -528,7 +501,7 @@ csPtr<iCelDataBuffer> celPcZoneManager::SaveFirstPass ()
   databuf->Add (path);
   databuf->Add (file);
   size_t i;
-  for (i = 0 ; i < regions.GetSize () ; i++)
+  for (i = 0 ; i < regions.Length () ; i++)
   {
     celRegion* r = regions[i];
     if (r->IsLoaded ())
@@ -626,12 +599,9 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
     case action_activateregion:
       {
         CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for ActivateRegion!");
+        if (!p_regionname) return false;	// @@@ Error?
         iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for ActivateRegion!",
-        	(const char*)regionname);
+        if (!region) return false;	// @@@ Error?
         ActivateRegion (region);
         return true;
       }
@@ -646,10 +616,10 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       }
     case action_setloadingmode:
       {
-         CEL_FETCH_STRING_PAR (mode,params,id_mode);
+        CEL_FETCH_STRING_PAR (mode,params,id_mode);
         if (!p_mode)
           return Report (object_reg,
-          	"'mode' is missing for SetLoadingMode!");
+	    	    "'mode' is missing for SetLoadingMode!");
         if (!strcmp ("normal", mode))
         {
           SetLoadingMode (CEL_ZONE_NORMAL);
@@ -667,7 +637,7 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
         }
         else
           return Report (object_reg,
-          	"Unknown mode '%s' for SetLoadingMode!", mode);
+	    	    "Unknown mode '%s' for SetLoadingMode!", mode);
       }
     case action_pointmesh:
       {
@@ -691,147 +661,6 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
         if (!p_startname) return false;
         if (!PointCamera (entityname, regionname, startname))
           return false;
-        return true;
-      }
-    case action_createregion:
-      {
-        CEL_FETCH_STRING_PAR (regname,params,id_name);
-        if (!p_regname) return Report (object_reg,
-        	"'name' is missing for CreateRegion!");
-        iCelRegion* region = CreateRegion (regname);
-        if (!region) return Report (object_reg,
-        	"Can't create region for CreateRegion!");
-        return true;
-      }
-    case action_removeregion:
-      {
-        CEL_FETCH_STRING_PAR (regname,params,id_name);
-        if (!p_regname) return Report (object_reg,
-        	"'name' is missing for RemoveRegion!");
-        iCelRegion* region = FindRegion (regname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for RemoveRegion!",
-        	(const char*)regname);
-        return RemoveRegion (region);
-      }
-    case action_createzone:
-      {
-        CEL_FETCH_STRING_PAR (zoname,params,id_name);
-        if (!p_zoname) return Report (object_reg,
-        	"'name' is missing for CreateZone!");
-        iCelZone* zone = CreateZone (zoname);
-        if (!zone) return Report (object_reg,
-        	"Can't create zone '%s' for CreateZone!",
-        	(const char*)zoname);
-        return true;
-      }
-    case action_removezone:
-      {
-        CEL_FETCH_STRING_PAR (zoname,params,id_name);
-        if (!p_zoname) return Report (object_reg,
-        	"'name' is missing for RemoveZone!");
-        iCelZone* zone = FindZone (zoname);
-        if (!zone) return  Report (object_reg,
-        	"Can't find '%s' zone for RemoveZone!",
-        	(const char*)zoname);
-        return RemoveZone (zone);
-      }
-    case action_createmap:
-      {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (mname,params,id_name);
-        if (!p_mname) return Report (object_reg,
-        	"'name' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (path,params,id_path);
-        if (!p_path) return Report (object_reg,
-        	"'path' is missing for CreateMap!");
-        CEL_FETCH_STRING_PAR (filename,params,id_file);
-        if (!p_filename) return Report (object_reg,
-        	"'file' is missing for CreateMap!");
-        iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for CreateMap!",
-        	(const char*)regionname);
-        iCelMapFile* mapfile = region->CreateMapFile ();
-        if (!mapfile) return Report (object_reg,
-        	"Error creating map '%s' for CreateMap!",
-        	(const char*)filename);
-        mapfile->SetName (mname);
-        mapfile->SetPath (path);
-        mapfile->SetFile (filename);
-        return true;
-      }
-    case action_removemap:
-      {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for RemoveMap!");
-        CEL_FETCH_STRING_PAR (mname,params,id_name);
-        if (!p_mname) return Report (object_reg,
-        	"'name' is missing for RemoveMap!");
-        iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for RemoveMap!",
-        	(const char*)regionname);
-        iCelMapFile* mapfile = region->FindMapFile (mname);
-        if (!mapfile) return Report (object_reg,
-        	"Error searching map '%s' for RemoveMap!",
-        	(const char*)mname);
-        return region->RemoveMapFile (mapfile);
-      }
-    case action_setcache:
-      {
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for SetCache!");
-        CEL_FETCH_STRING_PAR (path,params,id_path);
-        if (!p_path) return Report (object_reg,
-        	"'path' is missing for SetCache!");
-        iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for SetCache!",
-        	(const char*)regionname);
-        region->SetCachePath (path);
-        return true;
-      }
-    case action_linkregion:
-      {
-        CEL_FETCH_STRING_PAR (zonename,params,id_zonename);
-        if (!p_zonename) return Report (object_reg,
-        	"'zone' is missing for LinkRegion!");
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for LinkRegion!");
-        iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for LinkRegion!",
-        	(const char*)regionname);
-        iCelZone* zone = FindZone (zonename);
-        if (!zone) return  Report (object_reg,
-        	"Can't find '%s' zone for LinkRegion!",
-        	(const char*)zonename);
-        zone->LinkRegion (region);
-        return true;
-      }
-    case action_unlinkregion:
-      {
-        CEL_FETCH_STRING_PAR (zonename,params,id_zonename);
-        if (!p_zonename) return Report (object_reg,
-        	"'zone' is missing for UnlinkRegion!");
-        CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return Report (object_reg,
-        	"'region' is missing for UnlinkRegion!");
-        iCelRegion* region = FindRegion (regionname);
-        if (!region) return  Report (object_reg,
-        	"Can't find '%s' region for UnlinkRegion!",
-        	(const char*)regionname);
-        iCelZone* zone = FindZone (zonename);
-        if (!zone) return  Report (object_reg,
-        	"Can't find '%s' zone for UnlinkRegion!",
-        	(const char*)zonename);
-        zone->UnlinkRegion (region);
         return true;
       }
     default:
@@ -860,31 +689,26 @@ bool celPcZoneManager::ParseRegion (iDocumentNode* regionnode,
     switch (id)
     {
       case XMLTOKEN_MAP:
-        {
-          const char* name = child->GetAttributeValue ("name");
-          if (!name)
+	{
+	  const char* file = child->GetAttributeValue ("file");
+	  if (!file)
             return Report (object_reg,
-            	"'name' attribute is missing for the map!");
-          const char* file = child->GetAttributeValue ("file");
-          if (!file)
-            return Report (object_reg,
-            	"'file' attribute is missing for the map!");
-          const char* path = child->GetAttributeValue ("path");
-          iCelMapFile* mapfile = region->CreateMapFile ();
+	    	"'file' attribute is missing for the map!");
+	  const char* path = child->GetAttributeValue ("path");
+	  iCelMapFile* mapfile = region->CreateMapFile ();
           if (!mapfile)
             return Report (object_reg, "Error creating map '%s'!", file);
-          mapfile->SetName (name);
-          mapfile->SetPath (path);
-          mapfile->SetFile (file);
-        }
+	  mapfile->SetPath (path);
+	  mapfile->SetFile (file);
+	}
         break;
       case XMLTOKEN_CACHE:
         {
-          const char* path = child->GetAttributeValue ("path");
-          if (!path)
+	  const char* path = child->GetAttributeValue ("path");
+	  if (!path)
             return Report (object_reg,
-            	"'path' attribute is missing for the cache!");
-          region->SetCachePath (path);
+	    	"'path' attribute is missing for the cache!");
+	  region->SetCachePath (path);
         }
         break;
       default:
@@ -907,15 +731,15 @@ bool celPcZoneManager::ParseZone (iDocumentNode* zonenode, iCelZone* zone)
     switch (id)
     {
       case XMLTOKEN_REGION:
-        {
-          const char* regionname = child->GetContentsValue ();
-          if (!regionname)
+	{
+	  const char* regionname = child->GetContentsValue ();
+	  if (!regionname)
             return Report (object_reg, "Region name missing for zone!");
           iCelRegion* region = FindRegion (regionname);
           if (!region)
             return Report (object_reg, "Can't find region '%s'!", regionname);
-          zone->LinkRegion (region);
-        }
+	  zone->LinkRegion (region);
+	}
         break;
       default:
         return Report (object_reg, "Unknown token '%s' in the zone!", value);
@@ -937,27 +761,27 @@ bool celPcZoneManager::ParseStart (iDocumentNode* startnode)
     switch (id)
     {
       case XMLTOKEN_REGION:
-        {
-          const char* regionname = child->GetContentsValue ();
-          if (!regionname)
+	{
+	  const char* regionname = child->GetContentsValue ();
+	  if (!regionname)
             return Report (object_reg, "Region name missing for start!");
           iCelRegion* region = FindRegion (regionname);
           if (!region)
             return Report (object_reg, "Can't find region '%s'!", regionname);
-          last_regionname = regionname;
-        }
+	  last_regionname = regionname;
+	}
         break;
       case XMLTOKEN_NAME:
-        {
-          const char* startname = child->GetContentsValue ();
-          if (!startname)
+	{
+	  const char* startname = child->GetContentsValue ();
+	  if (!startname)
             return Report (object_reg, "Name missing for start!");
-          last_startname = startname;
-        }
+	  last_startname = startname;
+	}
         break;
       default:
         return Report (object_reg, "Unknown token '%s' in the start section!",
-        	value);
+		value);
     }
   }
 
@@ -1008,7 +832,7 @@ bool celPcZoneManager::Load (const char* path, const char* file)
     if (!rc) return false;
     if (loading_mode == CEL_ZONE_LOADALL)
       if (!ActivateRegion (0))
-        return false;
+	return false;
     return true;
   }
 
@@ -1027,13 +851,13 @@ bool celPcZoneManager::Load (const char* path, const char* file)
     last_startname.Empty ();
     if (loading_mode == CEL_ZONE_LOADALL)
       if (!ActivateRegion (0))
-        return false;
+	return false;
     return true;
   }
 
   return Report (object_reg,
-  	"Malformed XML file, 'level' or 'world' node is missing in '%s'!",
-  	file);
+    	"Malformed XML file, 'level' or 'world' node is missing in '%s'!",
+	file);
 }
 
 bool celPcZoneManager::Load (iDocumentNode* levelnode)
@@ -1049,41 +873,41 @@ bool celPcZoneManager::Load (iDocumentNode* levelnode)
     {
       case XMLTOKEN_MOUNT:
         {
-          const char* vfsname = child->GetAttributeValue ("vfs");
-          const char* realname = child->GetAttributeValue ("real");
-          if (!vfs->Mount (vfsname, realname))
-            return Report (object_reg, "Error mounting '%s' on '%s'!",
-            	realname, vfsname);
-        }
-        break;
+	  const char* vfsname = child->GetAttributeValue ("vfs");
+	  const char* realname = child->GetAttributeValue ("real");
+	  if (!vfs->Mount (vfsname, realname))
+	    return Report (object_reg, "Error mounting '%s' on '%s'!",
+	    	realname, vfsname);
+	}
+	break;
       case XMLTOKEN_REGION:
-        {
-          const char* regionname = child->GetAttributeValue ("name");
-          if (!regionname)
+	{
+	  const char* regionname = child->GetAttributeValue ("name");
+	  if (!regionname)
             return Report (object_reg, "Region name missing!");
           iCelRegion* region = CreateRegion (regionname);
           if (!region)
             return Report (object_reg, "Error creating region '%s'!",
-            	regionname);
-          if (!ParseRegion (child, region))
-            return false;
-        }
+	    	regionname);
+	  if (!ParseRegion (child, region))
+	    return false;
+	}
         break;
       case XMLTOKEN_ZONE:
         {
-          const char* zonename = child->GetAttributeValue ("name");
-          if (!zonename)
+	  const char* zonename = child->GetAttributeValue ("name");
+	  if (!zonename)
             return Report (object_reg, "Zone name missing!");
           iCelZone* zone = CreateZone (zonename);
           if (!zone)
             return Report (object_reg, "Error creating zone '%s'!", zonename);
-          if (!ParseZone (child, zone))
-            return false;
-        }
+	  if (!ParseZone (child, zone))
+	    return false;
+	}
         break;
       case XMLTOKEN_START:
-        if (!ParseStart (child))
-          return false;
+	if (!ParseStart (child))
+	  return false;
         break;
       default:
         return Report (object_reg, "Unknown token '%s' in the level!", value);
@@ -1111,13 +935,13 @@ bool celPcZoneManager::RemoveZone (iCelZone* zone)
 
 void celPcZoneManager::RemoveAllZones ()
 {
-  zones.SetSize (0);
+  zones.SetLength (0);
 }
 
 iCelZone* celPcZoneManager::FindZone (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < zones.GetSize () ; i++)
+  for (i = 0 ; i < zones.Length () ; i++)
     if (!strcmp (name, zones[i]->GetName ()))
       return (iCelZone*)zones[i];
   return 0;
@@ -1135,7 +959,7 @@ iCelRegion* celPcZoneManager::CreateRegion (const char* name)
 iCelRegion* celPcZoneManager::FindRegion (const char* name) const
 {
   size_t i;
-  for (i = 0 ; i < regions.GetSize () ; i++)
+  for (i = 0 ; i < regions.Length () ; i++)
     if (!strcmp (name, regions[i]->GetName ()))
       return (iCelRegion*)regions[i];
   return 0;
@@ -1151,7 +975,7 @@ bool celPcZoneManager::RemoveRegion (iCelRegion* region)
 
 void celPcZoneManager::RemoveAllRegions ()
 {
-  regions.SetSize (0);
+  regions.SetLength (0);
 }
 
 bool celPcZoneManager::ActivateRegion (iCelRegion* region,
@@ -1165,33 +989,32 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
 
   // First we make a set of all regions that we need to load.
   csSet<csPtrKey<celRegion> > loadable_regions;
-  for (i = 0 ; i < zones.GetSize () ; i++)
+  for (i = 0 ; i < zones.Length () ; i++)
     if (loading_mode == CEL_ZONE_LOADALL
-    	|| zones[i]->ContainsRegion ((celRegion*) region))
+	|| zones[i]->ContainsRegion ((celRegion*) region))
     {
       size_t j;
       for (j = 0 ; j < zones[i]->GetRegionCount () ; j++)
         loadable_regions.Add ((celRegion*)zones[i]->GetRegion (j));
     }
 
-  celRegion* r;
-  for (i = 0 ; i < regions.GetSize () ; i++)
+  for (i = 0 ; i < regions.Length () ; i++)
   {
-    r = regions[i];
+    celRegion* r = regions[i];
     if (loadable_regions.In (r))
     {
       if (!r->IsLoaded ())
       {
         if (first)
-        {
-          first = false;
-          SendZoneMessage (0, "pczonemanager_startloading");
-        }
-        if (!r->Load (allow_entity_addon))
-        {
-          SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
+	{
+	  first = false;
+	  SendZoneMessage (0, "pczonemanager_startloading");
+	}
+	if (!r->Load (allow_entity_addon))
+	{
+	  SendZoneMessage ((iCelRegion*)r, "pczonemanager_errorloading");
           return false;
-        }
+	}
       }
     }
     else
@@ -1210,26 +1033,12 @@ bool celPcZoneManager::ActivateRegion (iCelRegion* region,
   return true;
 }
 
-iCelRegion* celPcZoneManager::FindRegionContaining (iCelEntity* ent)
-{
-  celRegion* r;
-  for (size_t i = 0 ; i < regions.GetSize () ; i++)
-  {
-    r = regions[i];
-    if (r->ContainsEntity (ent))
-    {
-      return r;
-    }
-  }
-  return 0;
-}
-
 bool celPcZoneManager::ActivateSector (iSector* sector)
 {
   if (active_sector == sector) return true;	// Nothing to do.
   active_sector = sector;
   size_t i;
-  for (i = 0 ; i < regions.GetSize () ; i++)
+  for (i = 0 ; i < regions.Length () ; i++)
   {
     if (regions[i]->ContainsSector (sector))
       return ActivateRegion (regions[i]);
@@ -1270,7 +1079,7 @@ const char *celPcZoneManager::GetLastStartName ()
 }
 
 int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
-	const char* startname)
+  	const char* startname)
 {
   camera_entity = entity;
 
@@ -1315,7 +1124,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
       if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
-      	&& cur_region->IsInRegion (o))
+      		&& cur_region->IsInRegion (o))
         break;
       campos = 0;
     }
@@ -1334,12 +1143,12 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
       iSector* room = 0;
       for (i = 0 ; i < sl->GetCount () ; i++)
         if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
-        {
-          room = sl->Get (i);
-          break;
+	{
+	  room = sl->Get (i);
+	  break;
         }
       if (!room)
-        return CEL_ZONEERROR_BADSTART;
+	return CEL_ZONEERROR_BADSTART;
       pccamera->GetCamera ()->SetSector (room);
       pccamera->GetCamera ()->GetTransform ().SetOrigin (csVector3 (0,0,0));
     }
@@ -1352,7 +1161,7 @@ int celPcZoneManager::PointCamera (const char* entity, const char* regionname,
 }
 
 int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
-	const char* startname)
+  	const char* startname)
 {
   mesh_entity = entity;
 
@@ -1401,7 +1210,7 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
       campos = engine->GetCameraPositions ()->Get (i);
       iObject* o = campos->QueryObject ();
       if ((o->GetName () == 0 || !strcmp (o->GetName (), "Start"))
-      	&& cur_region->IsInRegion (o))
+      		&& cur_region->IsInRegion (o))
         break;
       campos = 0;
     }
@@ -1420,10 +1229,10 @@ int celPcZoneManager::PointMesh (const char* entity, const char* regionname,
       sector = 0;
       for (i = 0 ; i < sl->GetCount () ; i++)
         if (cur_region->IsInRegion (sl->Get (i)->QueryObject ()))
-        {
-          sector = sl->Get (i);
-          break;
-        }
+	{
+	  sector = sl->Get (i);
+	  break;
+	}
       pos.Set (0, 0, 0);
     }
   }

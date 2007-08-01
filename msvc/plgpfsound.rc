@@ -2,9 +2,9 @@
 
 1 VERSIONINFO
 FILEVERSION 
-1,3,0,0
+1,0,2,0
 PRODUCTVERSION 
-1,3,0,0
+1,0,2,0
 #ifdef CS_DEBUG
 FILEFLAGS 0x1
 #else
@@ -16,8 +16,8 @@ FILEFLAGS 0x0
     BLOCK "040904E4"
     {
       VALUE "ProductName", "Crystal Entity Layer"
-      VALUE "ProductVersion", "1.3"
-      VALUE "FileVersion", "1.3"
+      VALUE "ProductVersion", "1.0.2"
+      VALUE "FileVersion", "1.0.2"
       VALUE "LegalCopyright", "Copyright (C)2002-2007 Jorrit Tyberghein and others."
       VALUE "FileDescription", "pfsound"
 #ifdef CS_DEBUG
@@ -38,28 +38,15 @@ FILEFLAGS 0x0
   "<plugin>",
   "  <scf>",
   "    <classes>",
-  "      <!-- @@@ to be deprecated -->",
   "      <class>",
   "        <name>cel.pcfactory.soundlistener</name>",
   "        <implementation>celPfSoundListener</implementation>",
-  "        <description>CEL Sound Listener Property Class Factory</description>",
+  "	<description>CEL Sound Listener Property Class Factory</description>",
   "      </class>",
-  "      <!-- @@@ to be deprecated -->",
   "      <class>",
   "        <name>cel.pcfactory.soundsource</name>",
   "        <implementation>celPfSoundSource</implementation>",
-  "        <description>CEL Sound Source Property Class Factory</description>",
-  "      </class>",
-  "",
-  "      <class>",
-  "        <name>cel.pcfactory.sound.listener</name>",
-  "        <implementation>celPfSoundListener</implementation>",
-  "        <description>CEL Sound Listener Property Class Factory</description>",
-  "      </class>",
-  "      <class>",
-  "        <name>cel.pcfactory.sound.source</name>",
-  "        <implementation>celPfSoundSource</implementation>",
-  "        <description>CEL Sound Source Property Class Factory</description>",
+  "	<description>CEL Sound Source Property Class Factory</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

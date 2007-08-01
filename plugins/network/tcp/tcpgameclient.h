@@ -34,8 +34,7 @@ struct celTCPGame;
 struct celTCPGameFactory;
 struct NetworkLinkClientData;
 
-class celTCPGameClient : public scfImplementationExt1<
-	celTCPGameClient, csObject, iCelGameClient>
+class celTCPGameClient : public csObject
 {
 private:
   iObjectRegistry* object_reg;
@@ -68,6 +67,8 @@ private:
   csTicks client_time2;
 
 public:
+  SCF_DECLARE_IBASE_EXT (csObject);
+
   celTCPGameClient (iObjectRegistry* object_reg, celTCPGameFactory* factory);
   virtual ~celTCPGameClient ();
 
@@ -92,6 +93,36 @@ public:
   virtual void SetMaximumBandwidth (size_t width);
   virtual void SetServerTimeOut (csTicks timeout);
   virtual void GetNetworkStats (celNetworkServerStats& stats) const;
+
+  struct TCPGameClient : public iCelGameClient
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celTCPGameClient);
+    virtual void RegisterClientManager (celGameClientManager* manager)
+    { scfParent->RegisterClientManager (manager); }
+    virtual celPlayer* GetPlayer ()
+    { return scfParent->GetPlayer (); }
+    virtual void UpdatePlayer (celPlayer* player)
+    { scfParent->UpdatePlayer (player); }
+    virtual csTicks ConvertServerClock (csTicks server_time) const
+    { return scfParent->ConvertServerClock (server_time); }
+    virtual uint GetMappedID (uint entity_id) const
+    { return scfParent->GetMappedID (entity_id); }
+    virtual iCelEntity* GetMappedEntity (uint entity_id) const
+    { return scfParent->GetMappedEntity (entity_id); }
+    virtual void SetReady ()
+    { scfParent->SetReady (); }
+    virtual void LaunchClientEvent (celClientEventData &event_data)
+    { scfParent->LaunchClientEvent (event_data); }
+    virtual void SetNetworkPeriod (csTicks period)
+    { scfParent->SetNetworkPeriod (period); }
+    virtual void SetMaximumBandwidth (size_t width)
+    { scfParent->SetMaximumBandwidth (width); }
+    virtual void SetServerTimeOut (csTicks timeout)
+    { scfParent->SetServerTimeOut (timeout); }
+    virtual void GetNetworkStats (celNetworkServerStats& stats) const
+    { scfParent->GetNetworkStats (stats); }
+  } scfiCelGameClient;
+  friend struct TCPGameClient;
 };
 
 class NetworkLinkClientData

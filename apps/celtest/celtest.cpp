@@ -17,7 +17,7 @@
     MA 02111-1307, USA.
 */
 
-#define CELTST_USE_ANALOG
+//#define CEL_USE_NEW_CAMERA
 
 #include "cssysdef.h"
 #include "celtest.h"
@@ -39,6 +39,7 @@
 #include "iengine/engine.h"
 #include "iengine/camera.h"
 #include "iengine/campos.h"
+#include "iengine/collectn.h"
 #include "iengine/light.h"
 #include "iengine/texture.h"
 #include "iengine/mesh.h"
@@ -62,6 +63,7 @@
 #include "ivaria/stdrep.h"
 #include "ivaria/collider.h"
 #include "csutil/cmdhelp.h"
+#include "csutil/debug.h"
 #include "csutil/csshlib.h"
 
 #include "celtool/initapp.h"
@@ -79,18 +81,17 @@
 #include "propclass/chars.h"
 #include "propclass/move.h"
 #include "propclass/tooltip.h"
+#include "propclass/defcam.h"
+#ifdef CEL_USE_NEW_CAMERA
 #include "propclass/newcamera.h"
+#endif
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
 #include "propclass/region.h"
 #include "propclass/input.h"
+#include "propclass/navgraph.h"
 #include "propclass/linmove.h"
-#ifdef CELTST_USE_ANALOG
-  #include "propclass/actoranalog.h"
-  #include "propclass/newcamera.h"
-#else
-  #include "propclass/actormove.h"
-#endif
+#include "propclass/actormove.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -112,6 +113,7 @@ CelTest::~CelTest ()
 void CelTest::OnExit ()
 {
   if (pl) pl->CleanCache ();
+  csDebuggingGraph::Dump (0);
 }
 
 void CelTest::ProcessFrame ()
@@ -187,40 +189,24 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 {
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
-  	"pcinput.standard",
-#ifdef CELTST_USE_ANALOG
-	"pcmove.actor.analog",
-	"pccamera.standard",
+  	"pccommandinput",
+#ifdef CEL_USE_NEW_CAMERA
+	"pcnewcamera",
 #else
-	"pccamera.standard",
-	"pcmove.actor.standard",
+	"pcdefaultcamera",
 #endif
-	"pcobject.mesh",
-	"pcobject.mesh.select",
-	"pcmove.linear",
-	"pc2d.tooltip",
-	"pctools.inventory",
-	"pcsound.listener",
+	"pcactormove",
+	"pcmesh",
+	"pcmeshselect",
+	"pclinearmovement",
+	"pctooltip",
+	"pcinventory",
+	"pcsoundlistener",
 	CEL_PROPCLASS_END);
   if (!entity_cam) return 0;
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcCommandInput);
-#ifdef CELTST_USE_ANALOG
-  pcinp->Bind ("JoystickButton4", "ready");
-  pcinp->Bind ("JoystickButton6", "lockon");
-  pcinp->Bind ("JoystickButton2", "resetcam");
-  pcinp->Bind ("JoystickAxis0", "joyaxis0");
-  pcinp->Bind ("JoystickAxis1", "joyaxis1");
-
-  pcinp->Bind ("z", "ready");
-  pcinp->Bind ("x", "lockon");
-  pcinp->Bind ("c", "resetcam");
-  pcinp->Bind ("left", "left");
-  pcinp->Bind ("right", "right");
-  pcinp->Bind ("up", "up");
-  pcinp->Bind ("down", "down");
-#else
   pcinp->Bind ("up", "forward");
   pcinp->Bind ("down", "backward");
   pcinp->Bind ("shift", "run");
@@ -233,13 +219,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("x", "center");
   pcinp->Bind ("pgup", "lookup");
   pcinp->Bind ("pgdn", "lookdown");
-#endif
 
-#ifdef CELTST_USE_ANALOG
-  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
-    entity_cam, iPcNewCamera);
-  newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
-#else
+#ifdef CEL_USE_NEW_CAMERA
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
 	entity_cam, iPcNewCamera);
   size_t first_idx = 
@@ -249,6 +230,29 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   newcamera->SetCurrentCameraMode(third_idx);
   newcamera->SetCollisionDetection(true);
   newcamera->SetPositionOffset(csVector3(0,2,0));
+#else
+  csRef<iPcDefaultCamera> pccamera = CEL_QUERY_PROPCLASS_ENT (
+  	entity_cam, iPcDefaultCamera);
+  pccamera->SetMode (iPcDefaultCamera::firstperson);
+  pccamera->SetSpringParameters (10.0f, 0.1f, 0.01f);
+  pccamera->SetMode (iPcDefaultCamera::thirdperson);
+  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
+  pccamera->SetMode (iPcDefaultCamera::m64_thirdperson);
+  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
+  pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
+  pccamera->SetTurnSpeed (1.0f);
+  pccamera->SetMode (iPcDefaultCamera::lara_thirdperson);
+  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
+  pccamera->SetMinMaxCameraDistance (2.0f, 6.0f);
+  pccamera->SetTurnSpeed (1.0f);
+  pccamera->SetSwingCoef (0.7f);
+  pccamera->SetMode (iPcDefaultCamera::freelook);
+  pccamera->SetSpringParameters (3.5f, 0.25f, 0.01f);
+  pccamera->SetMinMaxCameraDistance (2.0f, 16.0f);
+  pccamera->SetFirstPersonOffset (csVector3 (0, 1, 0));
+  pccamera->SetThirdPersonOffset (csVector3 (0, 1, 5));
+  pccamera->SetModeName ("thirdperson");
+#endif
 
   // Get the iPcActorMove interface so that we can set movement speed.
   csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
@@ -257,7 +261,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcactormove->SetRunningSpeed (5.0f);
   pcactormove->SetRotationSpeed (1.75f);
   pcactormove->SetJumpingVelocity (6.31f);
-#endif
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
@@ -293,8 +296,8 @@ bool CelTest::CreateRoom ()
   // Create the room entity.
   //===============================
   entity_room = pl->CreateEntity ("room", bltest, "room",
-  	"pcworld.zonemanager",
-	"pctools.inventory",
+  	"pczonemanager",
+	"pcinventory",
   	CEL_PROPCLASS_END);
 
   //===============================
@@ -353,6 +356,8 @@ bool CelTest::CreateRoom ()
 
 bool CelTest::OnInitialize (int argc, char* argv[])
 {
+  csDebuggingGraph::SetupGraph (object_reg);
+
   if (!celInitializer::SetupConfigManager (object_reg,
   	"/celconfig/celtest.cfg"))
   {
@@ -377,7 +382,6 @@ bool CelTest::OnInitialize (int argc, char* argv[])
 	CS_REQUEST_PLUGIN ("crystalspace.sndsys.element.loader", iSndSysLoader),
 	CS_REQUEST_PLUGIN ("crystalspace.sndsys.renderer.software",
 		iSndSysRenderer),
-	CS_REQUEST_PLUGIN ("crystalspace.device.joystick", iEventPlug),
 	CS_REQUEST_END))
   {
     return ReportError ("Can't initialize plugins!");
@@ -424,6 +428,71 @@ bool CelTest::Application ()
   	object_reg, "iCelBlLayer.Test");
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
   pl->RegisterBehaviourLayer (bltest);
+
+  // XXX: This should be in a config file...
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.test"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.linmove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.actormove"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.solid"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.colldet"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.region"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.zonemanager"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.defaultcamera"))
+    return false;
+#ifdef CEL_USE_NEW_CAMERA
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.newcamera"))
+    return false;
+#endif
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.tooltip"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.timer"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.inventory"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.characteristics"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.mesh"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.light"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.portal"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.meshselect"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.pccommandinput"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.quest"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.rules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.properties"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.trigger"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.billboard"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundlistener"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.soundsource"))
+    return false;
+
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.graph"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.link"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.node"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrules"))
+    return false;
+  if (!pl->LoadPropertyClassFactory ("cel.pcfactory.navgraphrulesfps"))
+    return false;
 
   if (!CreateRoom ()) return false;
 

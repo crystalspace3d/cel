@@ -20,6 +20,7 @@
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iutil/plugin.h"
+#include "csutil/debug.h"
 #include "cstool/initapp.h"
 #include "ivaria/reporter.h"
 #include "plugins/propclass/rules/rulesfact.h"
@@ -33,7 +34,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (Rules, "pclogic.rules", "pcrules")
+CEL_IMPLEMENT_FACTORY (Rules, "pcrules")
 
 static bool Report (iObjectRegistry* object_reg, const char* msg, ...)
 {
@@ -71,9 +72,19 @@ csStringID celPcRules::id_name = csInvalidStringID;
 csStringID celPcRules::id_time = csInvalidStringID;
 PropertyHolder celPcRules::propinfo;
 
+SCF_IMPLEMENT_IBASE_EXT (celPcRules)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcRules)
+SCF_IMPLEMENT_IBASE_EXT_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPcRules::PcRules)
+  SCF_IMPLEMENTS_INTERFACE (iPcRules)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
 celPcRules::celPcRules (iObjectRegistry* object_reg)
-	: scfImplementationType (this, object_reg)
+	: celPcCommon (object_reg)
 {
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcRules);
+
   // For actions.
   if (id_name == csInvalidStringID)
   {
@@ -103,6 +114,7 @@ celPcRules::~celPcRules ()
   if (pcprop && prop_listener)
     pcprop->RemovePropertyListener (prop_listener);
   delete params;
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcRules);
 }
 
 #define RULES_SERIAL 1
@@ -229,7 +241,7 @@ void celPcRules::AddRule (iCelRule* rule)
 
 void celPcRules::TickEveryFrame ()
 {
-  if (timed_rules.GetSize () == 0) return;
+  if (timed_rules.Length () == 0) return;
   csTicks current = vc->GetCurrentTicks ();
   do
   {
@@ -237,7 +249,7 @@ void celPcRules::TickEveryFrame ()
     DeleteRule (timed_rules[0].rule);
     timed_rules.DeleteIndex (0);
   }
-  while (timed_rules.GetSize () > 0);
+  while (timed_rules.Length () > 0);
 }
 
 void celPcRules::AddRule (iCelRule* rule, csTicks time)
@@ -277,7 +289,7 @@ void celPcRules::DeleteRule (celActiveRule* rule)
   	rule->rule->GetVariable (), 0);
   if (av)
   {
-    size_t i = av->active_rules.GetSize ();
+    size_t i = av->active_rules.Length ();
     while (i > 0)
     {
       i--;
@@ -304,7 +316,7 @@ void celPcRules::DeleteRule (iCelRule* rule)
   	rule->GetVariable (), 0);
   if (av)
   {
-    size_t i = av->active_rules.GetSize ();
+    size_t i = av->active_rules.Length ();
     while (i > 0)
     {
       i--;
@@ -342,7 +354,7 @@ void celPcRules::DeleteAllRules ()
   if (ble)
   {
     celData ret;
-    for (size_t i = 0 ; i < vars.GetSize () ; i++)
+    for (size_t i = 0 ; i < vars.Length () ; i++)
     {
       params->GetParameter (0).Set (vars[i]);
       ble->SendMessage ("pcrules_modifypar", this, ret, params);
@@ -441,7 +453,7 @@ bool celPcRules::GetProperty (const char* name, celData& ret)
   {
     size_t i;
     // @@@ Need to sort rules on priority!
-    for (i = 0 ; i < av->active_rules.GetSize () ; i++)
+    for (i = 0 ; i < av->active_rules.Length () ; i++)
     {
       celActiveRule* ar = av->active_rules[i];
       iCelExpression* expr = ar->rule->GetExpression ();

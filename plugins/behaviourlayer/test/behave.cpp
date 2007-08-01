@@ -17,8 +17,6 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#define CELTST_USE_ANALOG
-
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iengine/mesh.h"
@@ -32,28 +30,24 @@
 #include "propclass/tooltip.h"
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
-#include "propclass/newcamera.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
+#include "propclass/actormove.h"
 #include "propclass/timer.h"
 #include "propclass/mechsys.h"
 #include "propclass/wheeled.h"
-#include "propclass/meshdeform.h"
 #include "plugins/behaviourlayer/test/behave.h"
-#include "celtool/stdparams.h"
-#include <iostream>
-
-#ifdef CELTST_USE_ANALOG
-  #include "propclass/actoranalog.h"
-#else
-  #include "propclass/actormove.h"
-#endif
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celBehaviourGeneral)
+  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
+SCF_IMPLEMENT_IBASE_END
+
 celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
-	iObjectRegistry* object_reg) : scfImplementationType (this)
+	iObjectRegistry* object_reg)
 {
+  SCF_CONSTRUCT_IBASE (0);
   celBehaviourGeneral::entity = entity;
   celBehaviourGeneral::object_reg = object_reg;
   name = 0;
@@ -62,6 +56,7 @@ celBehaviourGeneral::celBehaviourGeneral (iCelEntity* entity,
 celBehaviourGeneral::~celBehaviourGeneral ()
 {
   delete[] name;
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourGeneral::SendMessage (const char* msg_id,
@@ -280,7 +275,6 @@ celBehaviourActor::celBehaviourActor (iCelEntity* entity,
   bhroom = csPtr<celBehaviourRoom> (new celBehaviourRoom (entity, object_reg));
   fpscam=0;
   speed=1;
-  pl = csQueryRegistry<iCelPlLayer> (object_reg);
 }
 
 celBehaviourActor::~celBehaviourActor()
@@ -295,70 +289,8 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
 
   if (pcinput_msg)
   {
-#ifdef CELTST_USE_ANALOG
-    csRef<iPcActorAnalog> pcactor = celQueryPropertyClassEntity
-      <iPcActorAnalog> (entity);
-    if (!pcactor)
-      return false;
-
-    csRef<iPcNewCamera> pccamera = celQueryPropertyClassEntity
-      <iPcNewCamera> (entity);
-    if (!pccamera)
-      return false;
-    csRef<iPcmNewCamera::Tracking> trackcam =
-      pccamera->QueryModeInterface<iPcmNewCamera::Tracking> ();
-    if (!trackcam)
-      return false;
-
-    if (!strcmp (msg_id+15, "joyaxis0"))
-    {
-      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      pcactor->SetAxis (0, value);
-    }
-    else if (!strcmp (msg_id+15, "joyaxis1"))
-    {
-      CEL_FETCH_FLOAT_PAR (value, params, pl->FetchStringID("cel.parameter.value"));
-      pcactor->SetAxis (1, -value);
-    }
-    else if (!strcmp (msg_id+15, "ready1"))
-      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
-    else if (!strcmp (msg_id+15, "ready0"))
-      trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_BASE);
-    else if (!strcmp (msg_id+15, "lockon1"))
-    {
-      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_NONE)
-      {
-        trackcam->SetTargetEntity ("dummy2b");
-        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_OBJ);
-      }
-    }
-    else if (!strcmp (msg_id+15, "lockon0"))
-    {
-      if (trackcam->GetTargetState () == iPcmNewCamera::Tracking::TARGET_OBJ)
-        trackcam->SetTargetState (iPcmNewCamera::Tracking::TARGET_NONE);
-    }
-    else if (!strcmp (msg_id+15, "resetcam1"))
-      trackcam->ResetCamera ();
-
-    else if (!strcmp (msg_id+15, "left1"))
-      pcactor->SetAxis (0, -1);
-    else if (!strcmp (msg_id+15, "left0"))
-      pcactor->SetAxis (0, 0);
-    else if (!strcmp (msg_id+15, "right1"))
-      pcactor->SetAxis (0, 1);
-    else if (!strcmp (msg_id+15, "right0"))
-      pcactor->SetAxis (0, 0);
-    else if (!strcmp (msg_id+15, "up1"))
-      pcactor->SetAxis (1, 1);
-    else if (!strcmp (msg_id+15, "up0"))
-      pcactor->SetAxis (1, 0);
-    else if (!strcmp (msg_id+15, "down1"))
-      pcactor->SetAxis (1, -1);
-    else if (!strcmp (msg_id+15, "down0"))
-      pcactor->SetAxis (1, 0);
-#else
-    csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity
-      <iPcActorMove> (entity);
+    csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity,
+    	iPcActorMove);
     if (!pcactormove)
       return false;
 
@@ -392,8 +324,7 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       pcactormove->Run (true);
     else if (!strcmp (msg_id+15, "run0"))
       pcactormove->Run (false);
-    // Don't know any NewCamera equivalents!
-    /*else if (!strcmp (msg_id+15, "lookup1"))
+    else if (!strcmp (msg_id+15, "lookup1"))
     {
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
       	iPcDefaultCamera);
@@ -422,18 +353,15 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
       	iPcDefaultCamera);
       pcdefcamera->CenterCamera ();
-    }*/
+    }
     else if (!strcmp (msg_id+15, "cammode1"))
     {
-      csRef<iPcNewCamera> pccamera =
-        celQueryPropertyClassEntity<iPcNewCamera> (entity);
-      if (pccamera)
-      {
-        pccamera->NextCameraMode ();
-        printf ("%u\n", pccamera->GetCurrentCameraModeIndex ());
-      }
+      pcactormove->ToggleCameraMode ();
+      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
+      	iPcDefaultCamera);
+      if (pcdefcamera)
+        printf ("%s\n", pcdefcamera->GetModeName ()); fflush (stdout);
     }
-#endif
     return true;
   }
 
@@ -520,8 +448,6 @@ bool celBehaviourDynActor::SendMessageV (const char* msg_id,
 celBehaviourWheeled::celBehaviourWheeled (iCelEntity* entity,
     iObjectRegistry* object_reg) : celBehaviourGeneral (entity, object_reg)
 {
-  pl= csQueryRegistry<iCelPlLayer> (object_reg);
-  pcmeshdeform = 0;
 }
 
 celBehaviourWheeled::~celBehaviourWheeled()
@@ -533,6 +459,7 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	celData& ret, iCelParameterBlock* params, va_list arg)
 {
   bool pcinput_msg = strncmp (msg_id, "pccommandinput_", 15) == 0;
+
   if (pcinput_msg)
   {
     csRef<iPcWheeled> pcwheeled = CEL_QUERY_PROPCLASS_ENT (entity,
@@ -541,11 +468,11 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       return false;
 
     if (!strcmp (msg_id+15, "accelerate1"))
-	pcwheeled->Accelerate();
+	pcwheeled->Accelerate(true);
 
 //Autoreverse handles putting the car in reverse once it is slow enough.
     else if (!strcmp (msg_id+15, "reverse1"))
-	pcwheeled->Brake();
+	pcwheeled->Brake(true);
 
     else if (!strcmp (msg_id+15, "steerleft1"))
 	pcwheeled->SteerLeft();
@@ -566,11 +493,12 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
 	pcwheeled->Handbrake(false);
 
     if (!strcmp (msg_id+15, "accelerate0"))
-	pcwheeled->Accelerate(0.0f);
+	pcwheeled->Accelerate(false);
 
     if (!strcmp (msg_id+15, "reverse0"))
     {
-	pcwheeled->Brake(0.0f);
+	pcwheeled->Brake(false);
+        pcwheeled->SetGear(1);
     }
     else if (!strcmp (msg_id+15, "lookup1"))
     {
@@ -602,19 +530,6 @@ bool celBehaviourWheeled::SendMessageV (const char* msg_id,
       	iPcDefaultCamera);
       pcdefcamera->CenterCamera ();
     }
-    return true;
-  }
-  else if (!strcmp (msg_id, "pcdynamicbody_collision"))
-  {
-    CEL_FETCH_VECTOR3_PAR(pos, params, pl->FetchStringID("cel.parameter.position"));
-    CEL_FETCH_VECTOR3_PAR(norm, params, pl->FetchStringID("cel.parameter.normal"));
-    CEL_FETCH_FLOAT_PAR(depth, params, pl->FetchStringID("cel.parameter.depth"));
-    if (depth > 0.005f)
-    {
-      if(!pcmeshdeform)
-        pcmeshdeform = CEL_QUERY_PROPCLASS_ENT (entity, iPcMeshDeform);
-      if (pcmeshdeform)
-        pcmeshdeform->DeformMesh(pos, norm * depth, true);}
     return true;
   }
 

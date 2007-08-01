@@ -59,8 +59,7 @@ CEL_DECLARE_FACTORY(SimpleCamera)
 /**
  * This is a camera property class.
  */
-class celPcSimpleCamera : public scfImplementationExt1<
-	celPcSimpleCamera, celPcCameraCommon, iPcSimpleCamera>
+class celPcSimpleCamera : public celPcCameraCommon
 {
 private:
   // Actions.
@@ -141,101 +140,130 @@ public:
 
   virtual int GetDrawFlags ();
 
+  SCF_DECLARE_IBASE_EXT (celPcCommon);
+
+  virtual const char* GetName () const { return "pcsimplecamera"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
       celData& ret);
 
-  virtual bool SetRegion (iPcRegion* region, bool point = true,
+  struct PcSimpleCamera : public iPcSimpleCamera
+  {
+    SCF_DECLARE_EMBEDDED_IBASE (celPcSimpleCamera);
+    virtual bool SetRegion (iPcRegion* region, bool point = true,
         const char* name = 0)
-  {
-    return celPcCameraCommon::SetRegion (region, point, name);
-  }
-  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+    {
+      return scfParent->SetRegion (region, point, name);
+    }
+    virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
         const char* regionname, const char* name = 0)
-  {
-    return celPcCameraCommon::SetZoneManager (zonemgr, point, regionname, name);
-  }
-  virtual bool SetZoneManager (const char* entityname, bool point,
+    {
+      return scfParent->SetZoneManager (zonemgr, point, regionname, name);
+    }
+    virtual bool SetZoneManager (const char* entityname, bool point,
         const char* regionname, const char* name = 0)
-  {
-    return celPcCameraCommon::SetZoneManager (entityname,
-	point, regionname, name);
-  }
-  virtual void SetRectangle (int x, int y, int w, int h)
-  {
-    celPcCameraCommon::SetRectangle (x, y, w, h);
-  }
-  virtual void SetPerspectiveCenter (float x, float y)
-  {
-    celPcCameraCommon::SetPerspectiveCenter (x, y);
-  }
-  virtual iCamera* GetCamera () const
-  {
-    return celPcCameraCommon::GetCamera ();
-  }
-  virtual iView* GetView () const
-  {
-    return celPcCameraCommon::GetView ();
-  }
-  virtual void SetClearZBuffer (bool flag)
-  {
-    celPcCameraCommon::SetClearZBuffer (flag);
-  }
-  virtual bool GetClearZBuffer () const
-  {
-    return celPcCameraCommon::GetClearZBuffer ();
-  }
-  virtual void SetClearScreen (bool flag)
-  {
-    celPcCameraCommon::SetClearScreen (flag);
-  }
-  virtual bool GetClearScreen () const
-  {
-    return celPcCameraCommon::GetClearScreen ();
-  }
-  virtual void DisableDistanceClipping ()
-  {
-    celPcCameraCommon::DisableDistanceClipping ();
-  }
-  virtual void EnableFixedDistanceClipping (float dist)
-  {
-    celPcCameraCommon::EnableFixedDistanceClipping (dist);
-  }
-  virtual void EnableAdaptiveDistanceClipping (float min_fps,
+    {
+      return scfParent->SetZoneManager (entityname, point, regionname, name);
+    }
+    virtual void SetRectangle (int x, int y, int w, int h)
+    {
+      scfParent->SetRectangle (x, y, w, h);
+    }
+    virtual iCamera* GetCamera () const
+    {
+      return scfParent->GetCamera ();
+    }
+    virtual iView* GetView () const
+    {
+      return scfParent->GetView ();
+    }
+    virtual void SetClearZBuffer (bool flag)
+    {
+      scfParent->SetClearZBuffer (flag);
+    }
+    virtual bool GetClearZBuffer () const
+    {
+      return scfParent->GetClearZBuffer ();
+    }
+    virtual void SetClearScreen (bool flag)
+    {
+      scfParent->SetClearScreen (flag);
+    }
+    virtual bool GetClearScreen () const
+    {
+      return scfParent->GetClearScreen ();
+    }
+    virtual void DisableDistanceClipping ()
+    {
+      scfParent->DisableDistanceClipping ();
+    }
+    virtual void EnableFixedDistanceClipping (float dist)
+    {
+      scfParent->EnableFixedDistanceClipping (dist);
+    }
+    virtual void EnableAdaptiveDistanceClipping (float min_fps,
         float max_fps, float min_dist)
-  {
-    celPcCameraCommon::EnableAdaptiveDistanceClipping (min_fps,
-	max_fps, min_dist);
-  }
-  virtual bool UseDistanceClipping () const
-  {
-    return celPcCameraCommon::UseDistanceClipping ();
-  }
-  virtual bool UseFixedDistanceClipping () const
-  {
-    return celPcCameraCommon::UseFixedDistanceClipping ();
-  }
-  virtual float GetFixedDistance () const
-  {
-    return celPcCameraCommon::GetFixedDistance ();
-  }
-  virtual float GetAdaptiveMinFPS () const
-  {
-    return celPcCameraCommon::GetAdaptiveMinFPS ();
-  }
-  virtual float GetAdaptiveMaxFPS () const
-  {
-    return celPcCameraCommon::GetAdaptiveMaxFPS ();
-  }
-  virtual float GetAdaptiveMinDistance () const
-  {
-    return celPcCameraCommon::GetAdaptiveMinDistance ();
-  }
-  virtual void SetAutoDraw (bool auto_draw)
-  {
-    celPcCameraCommon::SetAutoDraw (auto_draw);
-  }
+    {
+      scfParent->EnableAdaptiveDistanceClipping (min_fps, max_fps, min_dist);
+    }
+    virtual bool UseDistanceClipping () const
+    {
+      return scfParent->UseDistanceClipping ();
+    }
+    virtual bool UseFixedDistanceClipping () const
+    {
+      return scfParent->UseFixedDistanceClipping ();
+    }
+    virtual float GetFixedDistance () const
+    {
+      return scfParent->GetFixedDistance ();
+    }
+    virtual float GetAdaptiveMinFPS () const
+    {
+      return scfParent->GetAdaptiveMinFPS ();
+    }
+    virtual float GetAdaptiveMaxFPS () const
+    {
+      return scfParent->GetAdaptiveMaxFPS ();
+    }
+    virtual float GetAdaptiveMinDistance () const
+    {
+      return scfParent->GetAdaptiveMinDistance ();
+    }
+    virtual void SetAutoDraw (bool auto_draw)
+    {
+      scfParent->SetAutoDraw (auto_draw);
+    }
+    virtual void SetDrawMesh (bool draw)
+    {
+      scfParent->SetDrawMesh (draw);
+    }
+    virtual void SetCameraOffset (const csVector3& offset, bool world = false)
+    {
+      scfParent->SetCameraOffset (offset, world);
+    }
+    virtual void SetLookAtOffset (const csVector3& lookat)
+    {
+      scfParent->SetLookAtOffset (lookat);
+    }
+    virtual void SetMesh (iPcMesh* mesh)
+    {
+      scfParent->SetMesh (mesh);
+    }
+    virtual void Draw()
+    {
+      scfParent->Draw ();
+    }
+    virtual void UpdateCamera ()
+    {
+      scfParent->UpdateCamera ();
+    }
+    virtual int GetDrawFlags ()
+    {
+      return scfParent->GetDrawFlags ();
+    }
+  } scfiPcSimpleCamera, scfiPcCamera;
 };
 
 #endif // __CEL_PF_SIMPLE_CAMERA_FACTORY__

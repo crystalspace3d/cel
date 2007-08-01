@@ -21,7 +21,6 @@ static char const metainfo_pfhover[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.hover</name>"
 "        <implementation>celPfHover</implementation>"
@@ -31,28 +30,8 @@ static char const metainfo_pfhover[] =
 "          <class>cel.mechobject</class>"
 "        </requires>"
 "      </class>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.craft</name>"
-"        <implementation>celPfCraftController</implementation>"
-"        <description>CEL Craft Controller Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"          <class>cel.mechobject</class>"
-"        </requires>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.vehicle.hover</name>"
-"        <implementation>celPfHover</implementation>"
-"        <description>CEL Hover type Class Factory</description>"
-"        <requires>"
-"          <class>cel.physicallayer</class>"
-"          <class>cel.mechobject</class>"
-"        </requires>"
-"      </class>"
-"      <class>"
-"        <name>cel.pcfactory.vehicle.craft</name>"
 "        <implementation>celPfCraftController</implementation>"
 "        <description>CEL Craft Controller Class Factory</description>"
 "        <requires>"
@@ -72,26 +51,10 @@ static char const metainfo_pfhover[] =
   #define celPfCraftController_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCraftController) 
   #endif
-  #ifndef celPfHover_FACTORY_REGISTER_DEFINED 
-  #define celPfHover_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfHover) 
-  #endif
-  #ifndef celPfCraftController_FACTORY_REGISTER_DEFINED 
-  #define celPfCraftController_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfCraftController) 
-  #endif
 
 class pfhover
 {
 SCF_REGISTER_STATIC_LIBRARY(pfhover,metainfo_pfhover)
-  #ifndef celPfHover_FACTORY_REGISTERED 
-  #define celPfHover_FACTORY_REGISTERED 
-    celPfHover_StaticInit celPfHover_static_init__; 
-  #endif
-  #ifndef celPfCraftController_FACTORY_REGISTERED 
-  #define celPfCraftController_FACTORY_REGISTERED 
-    celPfCraftController_StaticInit celPfCraftController_static_init__; 
-  #endif
   #ifndef celPfHover_FACTORY_REGISTERED 
   #define celPfHover_FACTORY_REGISTERED 
     celPfHover_StaticInit celPfHover_static_init__; 

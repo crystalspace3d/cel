@@ -3,17 +3,10 @@
 <plugin>
   <scf>
     <classes>
-      <!-- @@@ to be deprecated -->
       <class>
         <name>cel.pcfactory.zonemanager</name>
         <implementation>celPfZoneManager</implementation>
-        <description>CEL Zone Manager Property Class Factory</description>
-      </class>
-
-      <class>
-        <name>cel.pcfactory.world.zonemanager</name>
-        <implementation>celPfZoneManager</implementation>
-        <description>CEL Zone Manager Property Class Factory</description>
+	<description>CEL Zone Manager Property Class Factory</description>
       </class>
     </classes>
   </scf>

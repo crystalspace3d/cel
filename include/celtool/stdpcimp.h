@@ -88,8 +88,6 @@ private:
   // and cleared by HavePropertyClassesChanged().
   bool propclasses_dirty;
   char* tag;
-  // the name of the property class
-  const char* name;
 
 protected:
   iCelEntity* entity;
@@ -165,9 +163,6 @@ public:
   virtual void SetTag (const char* tagname);
   virtual const char* GetTag () const { return tag; }
 
-  virtual void SetName (const char* pcname);
-  virtual const char* GetName () const { return name; }
-
   virtual iCelEntity* GetEntity () { return entity; }
   virtual void SetEntity (iCelEntity* entity);
   virtual bool AddPropertyChangeCallback (iCelPropertyChangeCallback* cb);
@@ -208,57 +203,16 @@ public:
   virtual bool GetPropertyIndexed (int, iCelEntity*&) { return false; }
   virtual bool GetPropertyIndexed (int, iBase*&) { return false; }
 
-  virtual long GetPropertyLongByID (csStringID);
-  virtual float GetPropertyFloatByID (csStringID);
-  virtual bool GetPropertyBoolByID (csStringID);
-  virtual const char* GetPropertyStringByID (csStringID);
-  virtual bool GetPropertyVectorByID (csStringID, csVector2&);
-  virtual bool GetPropertyVectorByID (csStringID, csVector3&);
-  virtual bool GetPropertyColorByID (csStringID, csColor&);
-  virtual iCelPropertyClass* GetPropertyPClassByID (csStringID);
-  virtual iCelEntity* GetPropertyEntityByID (csStringID);
-  virtual iBase* GetPropertyIBaseByID (csStringID);
-
-  virtual long GetPropertyLong (csStringID id)
-  {
-    return GetPropertyLongByID (id);
-  }
-  virtual float GetPropertyFloat (csStringID id)
-  {
-    return GetPropertyFloatByID (id);
-  }
-  virtual bool GetPropertyBool (csStringID id)
-  {
-    return GetPropertyBoolByID (id);
-  }
-  virtual const char* GetPropertyString (csStringID id)
-  {
-    return GetPropertyStringByID (id);
-  }
-  virtual bool GetPropertyVector (csStringID id, csVector2& v)
-  {
-    return GetPropertyVectorByID (id, v);
-  }
-  virtual bool GetPropertyVector (csStringID id, csVector3& v)
-  {
-    return GetPropertyVectorByID (id, v);
-  }
-  virtual bool GetPropertyColor (csStringID id, csColor& c)
-  {
-    return GetPropertyColorByID (id, c);
-  }
-  virtual iCelPropertyClass* GetPropertyPClass (csStringID id)
-  {
-    return GetPropertyPClassByID (id);
-  }
-  virtual iCelEntity* GetPropertyEntity (csStringID id)
-  {
-    return GetPropertyEntityByID (id);
-  }
-  virtual iBase* GetPropertyIBase (csStringID id)
-  {
-    return GetPropertyIBaseByID (id);
-  }
+  virtual long GetPropertyLong (csStringID);
+  virtual float GetPropertyFloat (csStringID);
+  virtual bool GetPropertyBool (csStringID);
+  virtual const char* GetPropertyString (csStringID);
+  virtual bool GetPropertyVector (csStringID, csVector2&);
+  virtual bool GetPropertyVector (csStringID, csVector3&);
+  virtual bool GetPropertyColor (csStringID, csColor&);
+  virtual iCelPropertyClass* GetPropertyPClass (csStringID);
+  virtual iCelEntity* GetPropertyEntity (csStringID);
+  virtual iBase* GetPropertyIBase (csStringID);
 
   virtual bool PerformAction (csStringID, iCelParameterBlock*, celData& ret);
   virtual bool PerformActionIndexed (int, iCelParameterBlock*, celData& ret)

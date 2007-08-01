@@ -25,6 +25,8 @@
 
 struct iFont;
 
+SCF_VERSION (iPcTooltip, 0, 0, 1);
+
 enum celTooltipJustify
 {
   CEL_TOOLTIP_LEFT,
@@ -35,10 +37,8 @@ enum celTooltipJustify
 /**
  * Tooltip property class.
  */
-struct iPcTooltip : public virtual iBase
+struct iPcTooltip : public iBase
 {
-  SCF_INTERFACE (iPcTooltip, 0, 0, 1);
-
   /**
    * Set the text to display. Newlines will be properly handled.
    */

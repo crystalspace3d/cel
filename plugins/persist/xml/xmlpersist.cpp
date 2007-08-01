@@ -43,14 +43,26 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celPersistXML)
 
-celPersistXML::celPersistXML (iBase* parent) :
-  scfImplementationType (this, parent)
+SCF_IMPLEMENT_IBASE (celPersistXML)
+  SCF_IMPLEMENTS_INTERFACE (iCelPersistence)
+  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
+SCF_IMPLEMENT_IBASE_END
+
+SCF_IMPLEMENT_EMBEDDED_IBASE (celPersistXML::Component)
+  SCF_IMPLEMENTS_INTERFACE (iComponent)
+SCF_IMPLEMENT_EMBEDDED_IBASE_END
+
+celPersistXML::celPersistXML (iBase* parent)
 {
+  SCF_CONSTRUCT_IBASE (parent);
+  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celPersistXML::~celPersistXML ()
 {
+  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
+  SCF_DESTRUCT_IBASE ();
 }
 
 bool celPersistXML::Initialize (iObjectRegistry* object_reg)
@@ -452,7 +464,7 @@ bool celPersistXML::Read (iDocumentNode* pcnode,
     iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
     if (!pf)
       return Report ("Couldn't create property class '%s'!", pcname);
-    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass(pcname);
+    csRef<iCelPropertyClass> pcref = pf->CreatePropertyClass();
     pc = pcref;
     if (tagname) pc->SetTag (tagname);
     pc->SetEntity (entity);
@@ -550,7 +562,7 @@ bool celPersistXML::ReadFirstPass (iDocumentNode* entnode, iCelEntity* entity)
       iCelPropertyClassFactory* pf = pl->FindPropertyClassFactory (pcname);
       if (!pf)
         return Report ("Couldn't create property class '%s'!", pcname);
-      csRef<iCelPropertyClass> pc = pf->CreatePropertyClass(pcname);
+      csRef<iCelPropertyClass> pc = pf->CreatePropertyClass();
       if (tagname) pc->SetTag (tagname);
       pc->SetEntity (entity);
       entity->GetPropertyClassList ()->Add (pc);

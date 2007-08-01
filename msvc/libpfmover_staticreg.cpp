@@ -21,17 +21,10 @@ static char const metainfo_pfmover[] =
 "<plugin>"
 "  <scf>"
 "    <classes>"
-"      <!-- @@@ to be deprecated -->"
 "      <class>"
 "        <name>cel.pcfactory.mover</name>"
 "        <implementation>celPfMover</implementation>"
-"        <description>CEL Mover Property Class Factory</description>"
-"      </class>"
-""
-"      <class>"
-"        <name>cel.pcfactory.move.mover</name>"
-"        <implementation>celPfMover</implementation>"
-"        <description>CEL Mover Property Class Factory</description>"
+"	<description>CEL Mover Property Class Factory</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
@@ -41,18 +34,10 @@ static char const metainfo_pfmover[] =
   #define celPfMover_FACTORY_REGISTER_DEFINED 
     SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMover) 
   #endif
-  #ifndef celPfMover_FACTORY_REGISTER_DEFINED 
-  #define celPfMover_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(celPfMover) 
-  #endif
 
 class pfmover
 {
 SCF_REGISTER_STATIC_LIBRARY(pfmover,metainfo_pfmover)
-  #ifndef celPfMover_FACTORY_REGISTERED 
-  #define celPfMover_FACTORY_REGISTERED 
-    celPfMover_StaticInit celPfMover_static_init__; 
-  #endif
   #ifndef celPfMover_FACTORY_REGISTERED 
   #define celPfMover_FACTORY_REGISTERED 
     celPfMover_StaticInit celPfMover_static_init__; 

@@ -19,30 +19,38 @@
 
 #include "cssysdef.h"
 #include "csutil/util.h"
+#include "csutil/debug.h"
 #include "plugins/stdphyslayer/propclas.h"
 #include "plugins/stdphyslayer/entity.h"
 
 //---------------------------------------------------------------------------
 
+SCF_IMPLEMENT_IBASE (celPropertyClassList)
+  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassList)
+SCF_IMPLEMENT_IBASE_END
+
 celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
-  : scfImplementationType (this)
 {
+  SCF_CONSTRUCT_IBASE (0);
   celPropertyClassList::parent_entity = parent_entity;
+  DG_ADDI (this, "celPCList()");
 }
 
 celPropertyClassList::~celPropertyClassList ()
 {
   RemoveAll ();
+  DG_REM (this);
+  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celPropertyClassList::GetCount () const
 {
-  return prop_classes.GetSize ();
+  return prop_classes.Length ();
 }
 
 iCelPropertyClass* celPropertyClassList::Get (size_t n) const
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
   iCelPropertyClass* pclass = prop_classes[n];
   return pclass;
 }
@@ -51,8 +59,9 @@ size_t celPropertyClassList::Add (iCelPropertyClass* obj)
 {
   size_t idx = prop_classes.Push (obj);
   obj->SetEntity (parent_entity);
-  (static_cast<celEntity*> (parent_entity))
+  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();
+  DG_LINK (this, obj);
   return idx;
 }
 
@@ -61,9 +70,10 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   size_t idx = prop_classes.Find (obj);
   if (idx != csArrayItemNotFound)
   {
+    DG_UNLINK (this, obj);
     obj->SetEntity (0);
     prop_classes.DeleteIndex (idx);
-    (static_cast<celEntity*> (parent_entity))
+    ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();
     return true;
   }
@@ -74,7 +84,7 @@ bool celPropertyClassList::RemoveByInterface (scfInterfaceID scf_id, int ver)
 {
   bool res = false;
 
-  for (size_t i = 0; i < prop_classes.GetSize (); i++)
+  for (size_t i = 0; i < prop_classes.Length (); i++)
   {
     iBase* interface = (iBase*)prop_classes[i]->QueryInterface (scf_id, ver);
     if (!interface)
@@ -95,7 +105,7 @@ bool celPropertyClassList::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
 {
   bool res = false;
 
-  for (size_t i = 0; i < prop_classes.GetSize (); i++)
+  for (size_t i = 0; i < prop_classes.Length (); i++)
   {
     const char* pctag = prop_classes[i]->GetTag ();
     if (!(((tag == 0 || *tag == 0) && pctag == 0) ||
@@ -117,9 +127,10 @@ bool celPropertyClassList::RemoveByInterfaceAndTag (scfInterfaceID scf_id,
 
 bool celPropertyClassList::Remove (size_t n)
 {
-  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
+  CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.Length ());
+  DG_UNLINK (this, prop_classes[n]);
   prop_classes.DeleteIndex (n);
-  (static_cast<celEntity*> (parent_entity))
+  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
 	  ->NotifySiblingPropertyClasses ();
 
   return true;
@@ -127,7 +138,7 @@ bool celPropertyClassList::Remove (size_t n)
 
 void celPropertyClassList::RemoveAll ()
 {
-  while (prop_classes.GetSize () > 0)
+  while (prop_classes.Length () > 0)
     Remove ((size_t)0);
 }
 
@@ -140,13 +151,13 @@ iCelPropertyClass* celPropertyClassList::FindByName (const char* name) const
 {
   size_t i;
   iCelPropertyClass* found_pc = 0;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
+  for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!strcmp (name, obj->GetName ()))
     {
       // We prefer to find a property class with no tag. So if we have
-      // no tag we can return immediately. Otherwise we have to wait
+      // no tag we can return immediatelly. Otherwise we have to wait
       // until we find one with no tag.
       if (obj->GetTag () == 0)
         return obj;
@@ -161,20 +172,19 @@ iCelPropertyClass* celPropertyClassList::FindByNameAndTag (const char* name,
 	const char* tag) const
 {
   size_t i;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
+  for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
-    if (!strcmp (name, obj->GetName ()))
+    if (tag == 0 || *tag == 0)
     {
-      if (tag == 0 || *tag == 0 && obj->GetTag () == 0)
-      {
-        if (obj->GetTag () == 0)
-          return obj;
-      }
-      else if (obj->GetTag () != 0 && !strcmp (tag, obj->GetTag ()))
-      {
+      if (!strcmp (name, obj->GetName ()) && obj->GetTag () == 0)
         return obj;
-      }
+    }
+    else
+    {
+      if (!strcmp (name, obj->GetName ()) && obj->GetTag () != 0 &&
+    	  !strcmp (tag, obj->GetTag ()))
+        return obj;
     }
   }
   return 0;
@@ -185,7 +195,7 @@ iBase* celPropertyClassList::FindByInterface (scfInterfaceID id,
 {
   size_t i;
   csRef<iBase> found_interf;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
+  for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!obj) continue;
@@ -209,7 +219,7 @@ iBase* celPropertyClassList::FindByInterfaceAndTag (scfInterfaceID id,
 {
   bool tag_empty = tag == 0 || *tag == 0;
   size_t i;
-  for (i = 0 ; i < prop_classes.GetSize () ; i++)
+  for (i = 0 ; i < prop_classes.Length () ; i++)
   {
     iCelPropertyClass* obj = prop_classes[i];
     if (!obj) continue;

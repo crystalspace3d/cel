@@ -75,6 +75,7 @@ public:
   virtual void RemoveConstraint (iPcMovableConstraint* constraint);
   virtual void RemoveAllConstraints ();
 
+  virtual const char* GetName () const { return "pcmovable"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 };
@@ -107,6 +108,7 @@ public:
   virtual iPcMesh* GetMesh () const { return pcmesh; }
   virtual iCollider* GetCollider ();
 
+  virtual const char* GetName () const { return "pcsolid"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
@@ -137,6 +139,7 @@ public:
   virtual int CheckMove (iSector* sector, const csVector3& start,
   	const csVector3& end, csVector3& pos);
 
+  virtual const char* GetName () const { return "pcmovableconst_cd"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 };
@@ -225,6 +228,7 @@ public:
   virtual void ApplyForce (const csVector3& force, float time);
   virtual void ApplyPermanentForce (const csVector3& force);
 
+  virtual const char* GetName () const { return "pcgravity"; }
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
