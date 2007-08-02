@@ -4,6 +4,7 @@ The history order is reversed so that new features are at the top.
 
 2-Aug-2007
 	- Jorrit merged r2935 into 1.2 (zonemanager error handling).
+	- Jorrit merged r2938 into 1.2 (zonemanager error handling fix).
 31-Jul-2007
 	- Jorrit merged r2927 into 1.2 (pcproperties fix).
 26-Jul-2007
