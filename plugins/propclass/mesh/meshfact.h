@@ -269,6 +269,9 @@ class celPcMeshSelect : public scfImplementationExt1<
 {
 private:
   csWeakRef<iPcCamera> pccamera;
+  // If the camera entity could not be found at initialization time
+  // then we store the name here so we can try again later.
+  csString camera_entity;
 
   csRef<iMouseDriver> mousedrv;
   csRef<iEventNameRegistry> name_reg;
@@ -366,6 +369,8 @@ private:
   void SendMessage (int t, iCelEntity* ent, int x, int y, int but);
 
   csRef<celMeshSelectListener> handler;
+
+  void TryGetCamera ();
 
 public:
   celPcMeshSelect (iObjectRegistry* object_reg);

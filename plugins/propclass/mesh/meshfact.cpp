@@ -1665,9 +1665,18 @@ void celPcMeshSelect::SendMessage (int t, iCelEntity* ent,
   bh->SendMessage (msg, this, ret, params);
 }
 
+void celPcMeshSelect::TryGetCamera ()
+{
+  if (pccamera) return;
+  if (camera_entity.IsEmpty ()) return;
+  iCelEntity* ent = pl->FindEntity (camera_entity);
+  if (!ent) return;
+  pccamera = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
+}
 
 bool celPcMeshSelect::HandleEvent (iEvent& ev)
 {
+  TryGetCamera ();
   if (!pccamera) return false;
   iCamera* camera = pccamera->GetCamera ();
 
@@ -1937,14 +1946,18 @@ bool celPcMeshSelect::PerformActionIndexed (int idx,
   {
     case action_setcamera:
       {
+	pccamera = 0;
         CEL_FETCH_STRING_PAR (entity,params,id_entity);
         if (!entity)
           return Report (object_reg,
           	"Missing parameter 'entity' for action SetCamera!");
         iCelEntity* ent = pl->FindEntity (entity);
         if (!ent)
-          return Report (object_reg,
-          	"Can't find entity '%s' for action SetCamera!", entity);
+	{
+	  // We'll try to get it later.
+	  camera_entity = entity;
+	  return true;
+	}
         csRef<iPcCamera> pccam = CEL_QUERY_PROPCLASS_ENT (ent, iPcCamera);
         if (!pccam)
           return Report (object_reg,
