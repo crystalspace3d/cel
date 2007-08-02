@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+2-Aug-2007
+	- Jorrit did some better error reporting in the action handling
+	  of the zone manager.
 1-Aug-2007
 	- Jorrit added an alternative (and cleaner) syntax for
 	  the <expr> node in the blxml language. You can now specify
