@@ -680,7 +680,7 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
         if (!p_startname)
 	  return Report (object_reg, "Start name missing for PointMesh action!");;
-        if (!PointMesh (entityname, regionname, startname))
+        if (PointMesh (entityname, regionname, startname) != CEL_ZONEERROR_OK)
           return Report (object_reg, "PointMesh failed!");
         return true;
       }

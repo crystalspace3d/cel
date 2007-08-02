@@ -9,6 +9,8 @@ The history order is reversed so that new features are at the top.
 	- Jorrit fixed pcmeshselect so that it also accepts setting
 	  the camera entity when that entity is not present. In that
 	  case it will try to get it later.
+	- Jorrit fixed a bug in the error handling of zone manager.
+	  It would give an error when there was no error and vice versa.
 1-Aug-2007
 	- Jorrit added an alternative (and cleaner) syntax for
 	  the <expr> node in the blxml language. You can now specify
