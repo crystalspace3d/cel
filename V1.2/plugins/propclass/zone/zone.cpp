@@ -639,7 +639,7 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       {
         CEL_FETCH_STRING_PAR (path,params,id_path);
         CEL_FETCH_STRING_PAR (file,params,id_file);
-        if (!p_file) return false;
+        if (!p_file) return Report (object_reg, "File parameter missing for Load action!");
         if (!Load (path, file))
           return false;
         return true;
@@ -672,25 +672,31 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
     case action_pointmesh:
       {
         CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
+        if (!p_entityname)
+	  return Report (object_reg, "Entity name missing for PointMesh action!");;
         CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return false;
+        if (!p_regionname)
+	  return Report (object_reg, "Region name missing for PointMesh action!");;
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
+        if (!p_startname)
+	  return Report (object_reg, "Start name missing for PointMesh action!");;
         if (!PointMesh (entityname, regionname, startname))
-          return false;
+          return Report (object_reg, "PointMesh failed!");
         return true;
       }
     case action_pointcamera:
       {
         CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
+        if (!p_entityname)
+	  return Report (object_reg, "Entity name missing for PointCamera action!");;
         CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return false;
+        if (!p_regionname)
+	  return Report (object_reg, "Region name missing for PointCamera action!");;
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
+        if (!p_startname)
+	  return Report (object_reg, "Start name missing for PointCamera action!");;
         if (!PointCamera (entityname, regionname, startname))
-          return false;
+          return Report (object_reg, "PointCamera failed!");
         return true;
       }
     case action_createregion:
