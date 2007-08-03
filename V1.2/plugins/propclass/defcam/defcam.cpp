@@ -281,6 +281,9 @@ celPcDefaultCamera::celPcDefaultCamera (iObjectRegistry* object_reg)
   cammode = iPcDefaultCamera::freelook;
   camalgo = 0;
 
+  old_mesh_invisibility_flags = 0;
+  old_mesh_invisibility_flags_set = false;
+
   use_cd = false;
   kbd = csQueryRegistry<iKeyboardDriver> (object_reg);
   mouse = csQueryRegistry<iMouseDriver> (object_reg);
@@ -968,12 +971,19 @@ void celPcDefaultCamera::UpdateCamera ()
     {
       if ((GetPosition (iPcDefaultCamera::actual_data)
       	  - GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
-        pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLEMESH, 0);
+      {
+	if (old_mesh_invisibility_flags_set)
+          pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
+	      old_mesh_invisibility_flags);
+      }
     }
     else
     {
-      pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLEMESH,
-      	      CS_ENTITY_INVISIBLEMESH);
+      old_mesh_invisibility_flags = pcmesh->GetMesh()->GetFlags().Get ()
+	  & CS_ENTITY_INVISIBLE;
+      old_mesh_invisibility_flags_set = true;
+      pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
+      	      CS_ENTITY_INVISIBLE);
     }
   }
   iCamera* c = view->GetCamera ();

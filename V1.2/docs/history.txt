@@ -3,6 +3,13 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+3-Aug-2007
+	- Jorrit fixed a problem in the default camera. It would only
+	  set the INVISIBLEMESH flag and not INVISIBLE. That means that
+	  in first person mode hitbeams would sometimes hit the player
+	  mesh. Fixed this by setting INVISIBLE again. When returning back
+	  from first person the settings as they were before going to
+	  INVISIBLE are restored.
 2-Aug-2007
 	- Jorrit did some better error reporting in the action handling
 	  of the zone manager.

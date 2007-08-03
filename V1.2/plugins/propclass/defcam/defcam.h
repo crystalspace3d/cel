@@ -179,6 +179,10 @@ private:
   csRef<iMouseDriver> mouse;
   csRef<iCollideSystem> cdsys;
   bool use_cd;
+  // Used to restore mesh invisibility flags after returning from
+  // first person.
+  bool old_mesh_invisibility_flags_set;
+  uint32 old_mesh_invisibility_flags;
 
   static csStringID id_modename;
   static csStringID id_spring;
