@@ -31,8 +31,13 @@
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - WakeUp: parameters 'time' (long) and 'repeat' (bool).
+ *   Optional 'name' (string) parameter for a named timer event.
  * - WakeUpFrame: no parameters.
- * - Clear: no parameters.
+ * - Clear: Optional 'name' (string) parameter for clearing a named
+ *   timer event. Otherwise all timer events are cleared. If you want
+ *   to clear only the anonymous timer then you can use "wakeup" as
+ *   the name. Note that if no name is given then the frame event is
+ *   also cleared.
  *
  * This property class can send out the following messages
  * to the behaviour (add prefix 'cel.parameter.' to get the ID for parameters):
@@ -41,14 +46,19 @@
  */
 struct iPcTimer : public virtual iBase
 {
-  SCF_INTERFACE (iPcTimer, 0, 0, 1);
+  SCF_INTERFACE (iPcTimer, 0, 0, 2);
 
   /**
-   * Wake up the Behaviour in 't' ticks.
+   * Wake up the Behaviour in 't' ticks. If the name is not
+   * given then it is an anonymous timer (will send out
+   * message 'pctimer_wakeup'). There can only be one
+   * anonymous timer active. If you want multiple timer events
+   * then use a named timer. The message in that case will
+   * be 'pctimer_<name>'.
    * If 'repeat' is true then this will be repeated.
    * Otherwise there will only be one signal.
    */
-  virtual void WakeUp (csTicks t, bool repeat) = 0;
+  virtual void WakeUp (csTicks t, bool repeat, const char* name = 0) = 0;
 
   /**
    * Wake up the Behaviour every frame.
@@ -56,9 +66,13 @@ struct iPcTimer : public virtual iBase
   virtual void WakeUpFrame (int where) = 0;
 
   /**
-   * Clear this timer.
+   * Clear this timer. Optional 'name' (string) parameter for clearing a named
+   * timer event. Otherwise all timer events are cleared. If you want
+   * to clear only the anonymous timer then you can use "wakeup" as
+   * the name. Note that if no name is given then the frame event is
+   * also cleared.
    */
-  virtual void Clear () = 0;
+  virtual void Clear (const char* name = 0) = 0;
 };
 
 #endif // __CEL_PF_TIMER__
