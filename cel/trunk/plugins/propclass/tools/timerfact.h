@@ -49,6 +49,14 @@ class csStringArray;
  */
 CEL_DECLARE_FACTORY(Timer)
 
+struct TimeEvent
+{
+  csTicks firetime;	// When to fire.
+  csTicks amount;	// Amount to fire on again (in case of repeat).
+  bool repeat;
+  csString name;	// Name of this timer (or "wakeup" for anonymous).
+};
+
 /**
  * This is a timer property class.
  */
@@ -58,10 +66,9 @@ class celPcTimer : public scfImplementationExt1<
 private:
   csRef<iVirtualClock> vc;
   bool enabled;
-  csTicks wakeup;
-  bool repeat;
   bool wakeupframe;
-  bool wakeuponce;
+  int whereframe;
+  csArray<TimeEvent> timer_events;
 
   static PropertyHolder propinfo;
 
@@ -76,15 +83,16 @@ private:
   static csStringID id_currentticks;
   static csStringID id_time;
   static csStringID id_repeat;
+  static csStringID id_name;
   celGenericParameterBlock* params;
 
 public:
   celPcTimer (iObjectRegistry* object_reg);
   virtual ~celPcTimer ();
 
-  virtual void WakeUp (csTicks t, bool repeat);
+  virtual void WakeUp (csTicks t, bool repeat, const char* name);
   virtual void WakeUpFrame (int where);
-  virtual void Clear ();
+  virtual void Clear (const char* name);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);

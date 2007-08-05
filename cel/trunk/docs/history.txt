@@ -3,6 +3,14 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+5-Aug-2007
+	- Jorrit extended pctimer with the ability to do named
+	  wakeup calls. This is done in a backwards compatible manner.
+	  The WakeUp and Clear actions (and functions in the api) now
+	  support an additional 'name' property. The default name
+	  is 'wakeup'. By using another name you can get multiple
+	  timers running at the same time and every timer will fire
+	  another message ('pctimer_<name>').
 3-Aug-2007
 	- Jorrit fixed a problem in the default camera. It would only
 	  set the INVISIBLEMESH flag and not INVISIBLE. That means that
