@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Aug-2007
+	- Jorrit fixed CEL for the iPolygonMesh removal in CS.
 5-Aug-2007
 	- Jorrit extended pctimer with the ability to do named
 	  wakeup calls. This is done in a backwards compatible manner.
