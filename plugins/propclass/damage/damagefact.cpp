@@ -21,7 +21,6 @@
 #include "csgeom/math3d.h"
 #include "iutil/objreg.h"
 #include "iutil/object.h"
-#include "csutil/debug.h"
 #include "iengine/mesh.h"
 #include "iengine/movable.h"
 #include "iengine/sector.h"
