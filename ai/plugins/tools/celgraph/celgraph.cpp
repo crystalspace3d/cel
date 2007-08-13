@@ -115,6 +115,10 @@ void celNode:: SetParent (iCelNode* par)
   parent = par;
 }
 
+void celNode:: SetName (const char* n)
+{
+  strcpy(name, n);
+}
 
 void celNode:: Heuristic (float cost, iCelNode* goal)
 {
@@ -130,6 +134,11 @@ iMapNode* celNode:: GetMapNode ()
 csVector3 celNode:: GetPosition ()
 {
   return map_node->GetPosition();
+}
+
+char* celNode:: GetName ()
+{
+  return name;
 }
 
 csArray<iCelNode*> celNode:: GetSuccessors ()
@@ -312,6 +321,37 @@ void celGraph:: AddNode(iCelNode* node)
 void celGraph:: AddEdge(iCelNode* from, iCelNode* to, bool state)
 {
   from->AddSuccessor(to, state);
+}
+
+bool celGraph:: AddEdgeByNames(const char* from, const char* to, bool state)
+{
+  iCelNode* f;
+  iCelNode* t;
+  bool fd = false, td = false;
+
+  for(unsigned int i=0; i<nodes.GetSize();i++)
+    {
+      if(nodes[i]->GetName() == from)
+	{
+	  fd = true;
+	  f = nodes[i];
+	}
+      if(nodes[i]->GetName() == to)
+	{	
+	  td = true;
+	  t = nodes[i];
+	}
+
+      if(fd && td)
+	break;
+    }
+
+  if(!f || !t)
+    return false;
+    
+
+  f->AddSuccessor(t, state);
+  return true;
 }
 
 iCelNode* celGraph:: GetClosest (csVector3 position)

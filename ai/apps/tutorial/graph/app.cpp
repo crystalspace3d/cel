@@ -128,7 +128,7 @@ bool MainApp::LoadPathFinder ()
 				"pcobject.mesh",
 				"pcinput.standard",
 				CEL_PROPCLASS_END);
-
+  
   if (!pf_entity)
     return ReportError ("Error creating PathFinding entity!");
   
