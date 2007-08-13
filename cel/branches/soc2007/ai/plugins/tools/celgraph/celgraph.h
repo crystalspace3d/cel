@@ -41,6 +41,9 @@
 #include "propclass/prop.h"
 #include "propclass/quest.h"
 
+#include <stdio.h>
+#include <string.h>
+
 /**
  * This is a mapnode Graph for CEL.
  */
@@ -74,6 +77,7 @@ class celNode : public scfImplementation2<
   csRef<iCelNode> parent;
   float heuristic;
   float cost;
+  char* name;
   
  public:
   
@@ -82,9 +86,11 @@ class celNode : public scfImplementation2<
   virtual void AddSuccessor (iCelNode* node, bool state);
   virtual void SetMapNode (iMapNode* node);
   virtual void SetParent (iCelNode* par);
+  virtual void SetName (const char* n);
   virtual void Heuristic(float cost, iCelNode* goal);
   virtual iMapNode* GetMapNode ();
   virtual csVector3 GetPosition ();
+  virtual char* GetName ();
   virtual iCelNode* GetParent () {return parent;}
   virtual csArray<iCelNode*> GetSuccessors ();
   virtual csArray<iCelNode*> GetAllSuccessors ();
@@ -143,6 +149,7 @@ public:
   virtual bool Initialize (iObjectRegistry* object_reg);
   virtual void AddNode(iCelNode* node);
   virtual void AddEdge(iCelNode* from, iCelNode* to, bool state);
+  virtual bool AddEdgeByNames(const char* from, const char* to, bool state);
   virtual iCelNode* GetClosest(csVector3 position);
   virtual bool ShortestPath(iCelNode* from, iCelNode* goal, iCelPath* path);
   virtual iCelNode* RandomPath(iCelNode* from, int distance, iCelPath* path);

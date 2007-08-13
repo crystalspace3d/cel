@@ -99,6 +99,13 @@ struct iCelNode : public virtual iBase
    * Calculates euclidean distance between this node and goal.
    */
 
+  virtual void SetName (const char* par)= 0;
+  
+  /**
+   * Calculates euclidean distance between this node and goal.
+   */
+
+
   virtual void Heuristic (float cost, iCelNode* goal)= 0;
 
 
@@ -113,6 +120,11 @@ struct iCelNode : public virtual iBase
    * Get position of this node.
    */
   virtual csVector3 GetPosition () = 0;
+
+ /**
+   * Get name of this node.
+   */
+  virtual char* GetName () = 0;
 
   
   /**
@@ -249,6 +261,11 @@ struct iCelGraph : public virtual iBase
    * Adds an edge to the graph.
    */
   virtual void AddEdge (iCelNode* from, iCelNode* to, bool state) = 0;
+
+  /**
+   * Adds an edge to the graph.
+   */
+  virtual bool AddEdgeByNames (const char* from, const char* to, bool state) = 0;
 
   /**
    * Gets the closest node to position.
