@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+16-Aug-2007
+	- Genjix added temporary hack to camera spring problem until
+	  the fix is found.
 8-Aug-2007
 	- Jorrit fixed CEL for the iPolygonMesh removal in CS.
 5-Aug-2007
