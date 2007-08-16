@@ -568,6 +568,8 @@ else if (msg_id == id_pccommandinput_twoway1)
      * already loaded in LoadGraph().
      */
     
+    celpath->Invert();
+
     pcpathfinder->FollowTwoWayPath(celpath);
 
     }

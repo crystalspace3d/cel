@@ -399,9 +399,14 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       
       //Check if we have arrived to our goal
       if(current == goal){
+	if(current == from){
+	  path->InsertNode(0, current->GetMapNode());
+	  return true;
+	}
 	while(true){
-	  if(current == from)
+	  if(current == from){
 	    return true;
+	  }
 	  path->InsertNode(0, current->GetMapNode());
 	  current = current->GetParent();
 	}
@@ -437,7 +442,6 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
 	hash.Put(computer.ComputeHash(suc[i]->GetPosition().x+suc[i]->GetPosition().y), suc[i]);
       }
     }
-
   //goal is unreachable from here
   return false;
 }
