@@ -248,7 +248,7 @@ void celPath ::Invert ()
 {
   csRef <iMapNode> dum;
 
-  for(unsigned int i=0;i<dummy.GetSize(); i++){
+  for(unsigned int i=0;i<nodes.GetSize(); i++){
     dum = nodes[nodes.GetSize()-i-1];
     nodes[nodes.GetSize()-i-1] = nodes[i];
     nodes[i] = dum;
