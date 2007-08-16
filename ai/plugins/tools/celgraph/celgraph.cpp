@@ -246,16 +246,13 @@ void celPath::Clear ()
 
 void celPath ::Invert ()
 {
-  csRefArray <iMapNode> dummy;
-  dummy.SetCapacity(nodes.GetSize());
-  for(unsigned int i=0;i<nodes.GetSize(); i++)
-    dummy[i] = nodes[nodes.GetSize()-i-1];
+  csRef <iMapNode> dum;
 
-  nodes.Empty();
-  //nodes = dummy;
-
-  for(unsigned int i=0;i<dummy.GetSize(); i++)
-    nodes[i] = dummy[i];
+  for(unsigned int i=0;i<dummy.GetSize(); i++){
+    dum = nodes[nodes.GetSize()-i-1];
+    nodes[nodes.GetSize()-i-1] = nodes[i];
+    nodes[i] = dum;
+  }
 }
 
 iMapNode* celPath::GetFirst ()

@@ -384,6 +384,7 @@ bool celPcPathFinder::FollowPath ()
       csVector3 target_position = cur_path->CurrentPosition();
       iSector* target_sector = cur_path->CurrentSector();
 
+      
       if(csSquaredDist::PointPoint(cur_position, target_position) <= min_distance)
 	if(cur_path->HasNext())
 	  {
@@ -400,7 +401,6 @@ bool celPcPathFinder::FollowPath ()
     }
   
   pl->CallbackOnce ((iCelTimerListener*)this, delay_recheck, CEL_EVENT_PRE);
-  
   
   return true;
 }
