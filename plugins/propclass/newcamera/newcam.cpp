@@ -100,14 +100,12 @@ void celPcNewCamera::UpdateMeshVisibility ()
     	CS_ENTITY_INVISIBLE);
 }
 
-void celPcNewCamera::CalcElasticVec (
-	const csVector3& curr, const csVector3& ideal,
-	const csVector3& deltaIdeal, float deltaTime, float springCoef,
-	csVector3& newVec)
+void celPcNewCamera::CalcElasticVec (csVector3& curr, const csVector3& ideal,
+    float deltaTime, float springCoef)
 {
   if (deltaTime > (1.0f / springCoef))
     deltaTime = (1.0f / springCoef);
-  newVec = curr - ((curr - ideal) * deltaTime * springCoef);
+  curr = curr - ((curr - ideal) * deltaTime * springCoef);
 /*
   csVector3 deltaVec;
 
@@ -611,29 +609,17 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   if (inTransition || mode->UseSpringPos ())
-  {
-    csVector3 deltaIdeal = desiredCamPos - lastIdealPos;
-    CalcElasticVec (camPos, desiredCamPos, deltaIdeal,
-    	elapsedSecs, springCoef, camPos);
-  }
+    CalcElasticVec (camPos, desiredCamPos, elapsedSecs, springCoef);
   else
     camPos = desiredCamPos;
 
   if (inTransition || mode->UseSpringTarget ())
-  {
-    csVector3 deltaIdeal = desiredCamTarget - lastIdealTarget;
-    CalcElasticVec (camTarget, desiredCamTarget, deltaIdeal,
-    	elapsedSecs, springCoef, camTarget);
-  }
+    CalcElasticVec (camTarget, desiredCamTarget, elapsedSecs, springCoef);
   else
     camTarget = mode->GetTarget ();
 
   if (inTransition || mode->UseSpringUp ())
-  {
-    csVector3 deltaIdeal = desiredCamUp - lastIdealUp;
-    CalcElasticVec (camUp, desiredCamUp, deltaIdeal,
-    	elapsedSecs, springCoef, camUp);
-  }
+    CalcElasticVec (camUp, desiredCamUp, elapsedSecs, springCoef);
   else
     camUp = mode->GetUp ();
 

@@ -92,16 +92,13 @@ private:
   void UpdateMeshVisibility ();
 
   /** Calculates an elastic vector based on an ideal vector and a current one.
-   *  \param curr         The current vector value.
+   *  \param curr         The current vector value. This value gets updated.
    *  \param ideal        The ideal/target vector value.
-   *  \param deltaIdeal   The change in ideal value since last frame.
    *  \param deltaTime    The change in time since last frame.
    *  \param springCoef   The spring coefficient to use in our calculations.
-   *  \param newVec       A container to hold the new value of the vector.
    */
-  static void CalcElasticVec (const csVector3& curr, const csVector3& ideal,
-  	const csVector3& deltaIdeal, float deltaTime, float springCoef,
-  	csVector3& newVec);
+  static void CalcElasticVec (csVector3& curr, const csVector3& ideal,
+    float deltaTime, float springCoef);
 
   // action parameters
   static csStringID id_name;
