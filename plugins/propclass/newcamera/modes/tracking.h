@@ -81,18 +81,15 @@ public:
   }
   virtual bool UseSpringPos () const
   {
-    return false;
-    //return celCameraMode::UseSpringPos ();
+    return celCameraMode::UseSpringPos ();
   }
   virtual bool UseSpringTarget () const
   {
-    return false;
-    //return celCameraMode::UseSpringTarget ();
+    return celCameraMode::UseSpringTarget ();
   }
   virtual bool UseSpringUp () const
   {
-    return false;
-    //return celCameraMode::UseSpringUp ();
+    return celCameraMode::UseSpringUp ();
   }
   virtual bool AllowCollisionDetection () const
   {

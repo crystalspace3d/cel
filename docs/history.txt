@@ -4,6 +4,7 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 16-Aug-2007
+	- Genjix added a spring default to celCameraMode.
 	- Genjix added temporary hack to camera spring problem until
 	  the fix is found.
 8-Aug-2007

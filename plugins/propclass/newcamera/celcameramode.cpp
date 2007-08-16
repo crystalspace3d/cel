@@ -65,6 +65,7 @@ celCameraMode::celCameraMode ()
   pos = csVector3 (0.0f, 0.0f, 0.0f);
   target = csVector3 (0.0f, 0.0f, 0.0f);
   up = csVector3 (0.0f, 1.0f, 0.0f);
+  spring = 2.0f;
 }
 
 celCameraMode::~celCameraMode ()
