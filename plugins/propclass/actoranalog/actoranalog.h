@@ -61,6 +61,7 @@ public:
   //virtual void TickEveryFrame ();
 
   virtual void SetAxis (size_t axis, float value);
+  virtual void AddAxis (size_t axis, float value);
   virtual void SetMovementSpeed (float movespeed);
   virtual void SetTurningSpeed (float turnspeed);
 private:
@@ -89,6 +90,7 @@ private:
   enum actionids
   {
     action_setaxis = 0,
+    action_addaxis,
     action_setmovespeed,
     action_setturnspeed
   };

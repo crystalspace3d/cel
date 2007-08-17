@@ -66,6 +66,7 @@ celPcActorAnalog::celPcActorAnalog (iObjectRegistry* object_reg)
   if (!propinfo.actions_done)
   {
     AddAction (action_setaxis, "cel.action.SetAxis");
+    AddAction (action_addaxis, "cel.action.AddAxis");
     AddAction (action_setmovespeed, "cel.action.SetMovementSpeed");
     AddAction (action_setturnspeed, "cel.action.SetTurningSpeed");
   }
@@ -136,6 +137,15 @@ bool celPcActorAnalog::PerformActionIndexed (int idx,
         SetAxis (axis, value);
         return true;
       }
+    case action_addaxis:
+      {
+        CEL_FETCH_LONG_PAR (axis, params, id_axis);
+        CEL_FETCH_FLOAT_PAR (value, params, id_value);
+        if (!p_axis || !p_value)
+          return false;
+        AddAxis (axis, value);
+        return true;
+      }
     case action_setmovespeed:
       {
         CEL_FETCH_FLOAT_PAR (value, params, id_value);
@@ -173,6 +183,10 @@ void celPcActorAnalog::SetAxis (size_t axis, float value)
     target_axis.Set (value);
   // keep the movement synced
   UpdateMovement ();
+}
+void celPcActorAnalog::AddAxis (size_t axis, float value)
+{
+  SetAxis (axis, target_axis[axis] + value);
 }
 void celPcActorAnalog::SetMovementSpeed (float movespeed)
 {
@@ -245,7 +259,7 @@ void celPcActorAnalog::UpdateMovement ()
     delta_rot -= 2.0f * PI;
   // This is to stop the character moving while they're rotating to
   // face the direction they're turning towards.
-  if (ABS(delta_rot) < 0.01)
+  if (ABS(delta_rot) < 0.1)
   {
     // move forwards
     pclinmove->SetVelocity (csVector3 (0, 0, -movespeed));
