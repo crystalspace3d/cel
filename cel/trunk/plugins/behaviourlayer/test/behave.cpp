@@ -341,21 +341,21 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       trackcam->ResetCamera ();
 
     else if (!strcmp (msg_id+15, "left1"))
-      pcactor->SetAxis (0, -1);
+      pcactor->AddAxis (0, -1);
     else if (!strcmp (msg_id+15, "left0"))
-      pcactor->SetAxis (0, 0);
+      pcactor->AddAxis (0, 1);
     else if (!strcmp (msg_id+15, "right1"))
-      pcactor->SetAxis (0, 1);
+      pcactor->AddAxis (0, 1);
     else if (!strcmp (msg_id+15, "right0"))
-      pcactor->SetAxis (0, 0);
+      pcactor->AddAxis (0, -1);
     else if (!strcmp (msg_id+15, "up1"))
-      pcactor->SetAxis (1, 1);
+      pcactor->AddAxis (1, 1);
     else if (!strcmp (msg_id+15, "up0"))
-      pcactor->SetAxis (1, 0);
+      pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+15, "down1"))
-      pcactor->SetAxis (1, -1);
+      pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+15, "down0"))
-      pcactor->SetAxis (1, 0);
+      pcactor->AddAxis (1, 1);
 #else
     csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity
       <iPcActorMove> (entity);

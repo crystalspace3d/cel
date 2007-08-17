@@ -31,6 +31,7 @@
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetAxis: parameters 'axis' (long), 'value' (float).
+ * - AddAxis: parameters 'axis' (long), 'value' (float).
  * - SetMovementSpeed: parameters 'value' (float).
  * - SetTurningSpeed: parameters 'value' (float).
  *
@@ -50,9 +51,19 @@ struct iPcActorAnalog : public virtual iBase
    * \param axis This is the axis. 0 for left/right axis,
    * 1 for forwards/backwards axis, 2 or above for both together.
    * \param value The value in the range [-1,1] to set it to. Anything
-   * else is invalid.
+   * else is invalid and is clipped.
    */
   virtual void SetAxis (size_t axis, float value) = 0;
+
+  /**
+   * Increase axis by a value. This is for keyboard keys to avoid
+   * 'deadlock'
+   * \param axis This is the axis. 0 for left/right axis,
+   * 1 for forwards/backwards axis, 2 or above for both together.
+   * \param value The value to add to it. Anything resulting in the
+   * target axis value being out of the range [-1,1] will be clipped.
+   */
+  virtual void AddAxis (size_t axis, float value) = 0;
 
   /**
    * Set the movement speed of the character.
