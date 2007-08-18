@@ -44737,6 +44737,45 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_iPcActorAnalog_AddAxis(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  iPcActorAnalog *arg1 = (iPcActorAnalog *) 0 ;
+  size_t arg2 ;
+  float arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  float val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:iPcActorAnalog_AddAxis",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iPcActorAnalog, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iPcActorAnalog_AddAxis" "', argument " "1"" of type '" "iPcActorAnalog *""'"); 
+  }
+  arg1 = reinterpret_cast< iPcActorAnalog * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iPcActorAnalog_AddAxis" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  ecode3 = SWIG_AsVal_float(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "iPcActorAnalog_AddAxis" "', argument " "3"" of type '" "float""'");
+  } 
+  arg3 = static_cast< float >(val3);
+  (arg1)->AddAxis(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_iPcActorAnalog_SetMovementSpeed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iPcActorAnalog *arg1 = (iPcActorAnalog *) 0 ;
@@ -88186,6 +88225,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"celGetActorMove", _wrap_celGetActorMove, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcActorMove", _wrap_scfQuery_iPcActorMove, METH_VARARGS, NULL},
 	 { (char *)"iPcActorAnalog_SetAxis", _wrap_iPcActorAnalog_SetAxis, METH_VARARGS, NULL},
+	 { (char *)"iPcActorAnalog_AddAxis", _wrap_iPcActorAnalog_AddAxis, METH_VARARGS, NULL},
 	 { (char *)"iPcActorAnalog_SetMovementSpeed", _wrap_iPcActorAnalog_SetMovementSpeed, METH_VARARGS, NULL},
 	 { (char *)"iPcActorAnalog_SetTurningSpeed", _wrap_iPcActorAnalog_SetTurningSpeed, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcActorAnalog", _wrap_delete_iPcActorAnalog, METH_VARARGS, NULL},

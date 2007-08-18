@@ -2438,6 +2438,7 @@ class iPcActorAnalog(cspace.iBase):
     def __init__(self): raise AttributeError, "No constructor defined"
     __repr__ = _swig_repr
     def SetAxis(*args): return _blcelc.iPcActorAnalog_SetAxis(*args)
+    def AddAxis(*args): return _blcelc.iPcActorAnalog_AddAxis(*args)
     def SetMovementSpeed(*args): return _blcelc.iPcActorAnalog_SetMovementSpeed(*args)
     def SetTurningSpeed(*args): return _blcelc.iPcActorAnalog_SetTurningSpeed(*args)
     _PC = None
