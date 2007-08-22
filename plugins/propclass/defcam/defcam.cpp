@@ -973,17 +973,23 @@ void celPcDefaultCamera::UpdateCamera ()
       	  - GetTarget (iPcDefaultCamera::actual_data)).SquaredNorm () > 0.3f)
       {
 	if (old_mesh_invisibility_flags_set)
+        {
           pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
 	      old_mesh_invisibility_flags);
+          old_mesh_invisibility_flags_set = false;
+        }
       }
     }
     else
     {
-      old_mesh_invisibility_flags = pcmesh->GetMesh()->GetFlags().Get ()
-	  & CS_ENTITY_INVISIBLE;
-      old_mesh_invisibility_flags_set = true;
-      pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
+      if (old_mesh_invisibility_flags_set == false)
+      {
+        old_mesh_invisibility_flags = pcmesh->GetMesh()->GetFlags().Get ()
+              & CS_ENTITY_INVISIBLE;
+        old_mesh_invisibility_flags_set = true;
+        pcmesh->GetMesh ()->SetFlagsRecursive (CS_ENTITY_INVISIBLE,
       	      CS_ENTITY_INVISIBLE);
+      }
     }
   }
   iCamera* c = view->GetCamera ();
