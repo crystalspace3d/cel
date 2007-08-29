@@ -75,6 +75,7 @@ The history order is reversed so that new features are at the top.
 	  would cause FindAttachedEntity() to fail (and that would cause
 	  nearly entire CEL to fail).
 4-Jun-2007
+	- Darek fixed iCollideSystem checking in zonemanager.
 	- Darek fixed blxml destroyentity class.
 	- Oktal replaced the non-standard round() calls in pcneuralnet with
 	  a custom-written rounding function, thus fixing compilation on MSVC.
