@@ -3,6 +3,11 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+22-Aug-2007
+	- Vincent fixed INVISIBLE flag setting and restoring in default
+	  camera 1st person mode. The saved flags were being overwritten
+	  with the newly set flags value, and the restoration done more
+	  than one time.
 3-Aug-2007
 	- Jorrit fixed a problem in the default camera. It would only
 	  set the INVISIBLEMESH flag and not INVISIBLE. That means that
