@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+29-Aug-2007
+	- Vincent merged r2805:2806 into 1.2 (fix for iCollideSystem checking
+	  zonemanager).
 3-Aug-2007
 	- Jorrit merged r2941 into 1.2 (defcamera hitbeam fix).
 2-Aug-2007

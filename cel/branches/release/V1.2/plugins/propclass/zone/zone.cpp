@@ -266,6 +266,11 @@ bool celRegion::Load (bool allow_entity_addon)
 
   if (mgr->IsColliderWrappers ())
   {
+    if (!mgr->GetCDSystem ())
+    {
+      Report (mgr->GetObjectReg (), "No iCollideSystem plugin!");
+      return false;
+    }
     // Create colliders for all meshes in this region.
     csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
     	engine, cur_region);
@@ -428,11 +433,6 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     return;
   }
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
-  if (!cdsys)
-  {
-    Report (object_reg, "No iCollideSystem plugin!");
-    return;
-  }
 
   do_colliderwrappers = true;
   loading_mode = CEL_ZONE_NORMAL;
