@@ -92,8 +92,8 @@ iCelExpressionParser* celAddOnRuleDef::GetParser ()
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
     	object_reg);
-    parser = CS_LOAD_PLUGIN (plugmgr, "cel.behaviourlayer.xml",
-    	iCelExpressionParser);
+    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+      "cel.behaviourlayer.xml");
     if (!parser)
     {
       // @@@ Error report.
