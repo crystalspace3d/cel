@@ -181,7 +181,7 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pcinput.standard",
-	"pccamera.standard",
+	"pccamera.old",
 	"pcmove.actor.standard",
 	"pcobject.mesh",
 	"pcobject.mesh.select",
