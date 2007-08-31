@@ -2,6 +2,9 @@
 
 The history order is reversed so that new features are at the top.
 
+1-Sep-2007
+	- Vincent fixed celtest requesting pccamera.standard instead of
+	  pccamera.old in CreateActor() while still using iPcDefaultCamera.
 29-Aug-2007
 	- Vincent merged r2805:2806 into 1.2 (fix for iCollideSystem checking
 	  zonemanager).
