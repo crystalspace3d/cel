@@ -1246,8 +1246,8 @@ bool celPcZoneManager::ActivateSector (iSector* sector)
 void celPcZoneManager::FindStartLocations (iStringArray* regionnames,
 	iStringArray* startnames)
 {
-  regionnames->DeleteAll ();
-  startnames->DeleteAll ();
+  regionnames->Empty ();
+  startnames->Empty ();
   size_t i;
   for (i = 0 ; i < region_names.GetSize () ; i++)
   {
