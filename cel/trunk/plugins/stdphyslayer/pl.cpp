@@ -1112,7 +1112,7 @@ bool celPlLayer::LoadPropertyClassFactory (const char* plugin_id)
   pf = CS_QUERY_PLUGIN_CLASS (plugin_mgr, plugin_id, iBase);
   if (!pf)
   {
-    pf = CS_LOAD_PLUGIN_ALWAYS (plugin_mgr, plugin_id);
+    pf = csLoadPluginAlways (plugin_mgr, plugin_id);
   }
   if (!pf)
   {
