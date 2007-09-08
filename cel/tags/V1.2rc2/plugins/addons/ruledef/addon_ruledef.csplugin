@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- addon_ruledef.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.addons.ruledef</name>
+        <implementation>celAddOnRuleDef</implementation>
+	<description>CEL AddOn for Defining Rules</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
