@@ -12,6 +12,9 @@ The history order is reversed so that new features are at the top.
 30-Aug-2007
 	- iceeey removed "returns blaa..." from api description of void
 	  function.
+	- Genjix replaced call to GetLastPosition(...) in actormove with
+	  GetYRotation().
+	- Genjix updated seriously out of date html api docs.
 22-Aug-2007
 	- Vincent fixed INVISIBLE flag setting and restoring in default
 	  camera 1st person mode. The saved flags were being overwritten
