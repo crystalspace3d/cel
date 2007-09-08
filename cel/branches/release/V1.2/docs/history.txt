@@ -3,6 +3,8 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Sep-2007
+	- Vincent added a few plugins to the list for celstart_static.
 1-Sep-2007
         - Vincent fixed celtest requesting pccamera.standard instead of
           pccamera.old in CreateActor() while still using iPcDefaultCamera.
