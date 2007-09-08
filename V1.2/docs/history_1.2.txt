@@ -2,6 +2,8 @@
 
 The history order is reversed so that new features are at the top.
 
+8-Sep-2007
+	- Vincent merged r2973 into 1.2 (celstart_static plugins addition).
 1-Sep-2007
 	- Vincent fixed celtest requesting pccamera.standard instead of
 	  pccamera.old in CreateActor() while still using iPcDefaultCamera.
