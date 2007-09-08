@@ -3998,7 +3998,7 @@ bool celXmlScriptEventHandler::Execute (iCelEntity* entity,
           if (!pc) pc = default_pc;
           if (!pc)
             return ReportError (cbl,
-                "No valid property class for 'action'!");
+            	"No valid property class for 'action'!");
           csStringID id = ArgToID (a_id);
           csRef<iCelParameterBlock> ref = action_params;
           celData ret;

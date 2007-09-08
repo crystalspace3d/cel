@@ -683,8 +683,8 @@ iCelExpressionParser* celConsole::GetParser ()
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
 	object_reg);
-    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
-      "cel.behaviourlayer.xml");
+    parser = CS_LOAD_PLUGIN (plugmgr, "cel.behaviourlayer.xml",
+	iCelExpressionParser);
     if (!parser)
     {
       conout->PutText ("Cannot find the expression parser!\n");
