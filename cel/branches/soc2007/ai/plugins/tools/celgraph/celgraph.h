@@ -53,9 +53,9 @@ class celEdge : public scfImplementation2<
  private:
   iObjectRegistry* object_reg;
   csRef<iCelNode> successor;
-  //csRef<iCelNode> predecessor;
   bool state;
 
+   
  public:
   celEdge (iBase* parent);
   virtual ~celEdge ();
@@ -63,7 +63,6 @@ class celEdge : public scfImplementation2<
   virtual void SetSuccessor (iCelNode* node);
   virtual bool GetState ();
   virtual iCelNode* GetSuccessor ();
-  //virtual iCelNode* GetPredecessor ();
   virtual bool Initialize (iObjectRegistry* object_reg);
 };
 
@@ -78,7 +77,7 @@ class celNode : public scfImplementation2<
   float heuristic;
   float cost;
   char* name;
-  
+  float multiplier;
  public:
   
   celNode (iBase* parent);
@@ -97,6 +96,9 @@ class celNode : public scfImplementation2<
   virtual float GetHeuristic () {return heuristic;};
   virtual float GetCost () {return cost;};
   virtual bool Initialize (iObjectRegistry* object_reg);
+  virtual float GetMultiplier () {return multiplier;}
+  virtual void SetMultiplier (float mult);
+
 };
 
 /**

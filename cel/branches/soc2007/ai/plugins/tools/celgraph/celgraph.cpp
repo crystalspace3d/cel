@@ -120,10 +120,18 @@ void celNode:: SetName (const char* n)
   strcpy(name, n);
 }
 
+void celNode::SetMultiplier (float mult)
+{
+  multiplier = mult;
+}
+
+
+
+
 void celNode:: Heuristic (float cost, iCelNode* goal)
 {
   heuristic = csSquaredDist::PointPoint(GetPosition(), goal->GetPosition());
-  cost = cost;
+  cost = cost*multiplier;
 }
 
 iMapNode* celNode:: GetMapNode ()
@@ -169,7 +177,7 @@ csArray<iCelNode*> celNode:: GetAllSuccessors ()
 bool celNode::Initialize(iObjectRegistry* object_reg)
 {
   celNode::object_reg = object_reg;
-
+  multiplier = 1;
   return true;
 }
 
@@ -413,9 +421,6 @@ bool celGraph::ShortestPath (iCelNode* from, iCelNode* goal, iCelPath* path)
       csArray<iCelNode*> suc = current->GetSuccessors();
       for(size_t i=0; i<suc.GetSize(); i++){
 
-	//if(suc[i] == current->GetParent())
-	//continue;
-	
 	//Check if this Node is already in the queue
 	array = hash.GetAll(computer.ComputeHash(suc[i]->GetPosition().x + suc[i]->GetPosition().y));
 	csArray<iCelNode*> :: Iterator it = array.GetIterator();
