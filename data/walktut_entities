@@ -1,10 +1,11 @@
 <world>
   <plugins>
     <plugin name="celentity">cel.addons.celentity</plugin>
+    <plugin name="celgraph">cel.addons.celgraph</plugin>
   </plugins>
 
   <sector name="Scene">
-
+  
     <addon plugin="celentity" entityname="box1">
 
       <propclass name="pcobject.mesh">
