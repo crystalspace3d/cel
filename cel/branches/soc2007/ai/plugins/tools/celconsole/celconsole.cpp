@@ -683,8 +683,8 @@ iCelExpressionParser* celConsole::GetParser ()
   {
     csRef<iPluginManager> plugmgr = csQueryRegistry<iPluginManager> (
 	object_reg);
-    parser = CS_LOAD_PLUGIN (plugmgr, "cel.behaviourlayer.xml",
-	iCelExpressionParser);
+    parser = csLoadPlugin<iCelExpressionParser> (plugmgr,
+      "cel.behaviourlayer.xml");
     if (!parser)
     {
       conout->PutText ("Cannot find the expression parser!\n");
@@ -1084,24 +1084,26 @@ void celConsole::ListInfoEntity (const csStringArray& args)
       {
 	case CEL_DATA_LONG:
 	  conout->PutText ("        prop: LONG id=%u/%s ro=%d v=%ld (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyLong (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyLongByID (id), desc);
 	  break;
 	case CEL_DATA_FLOAT:
 	  conout->PutText ("        prop: FLOAT id=%u/%s ro=%d v=%g (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyFloat (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyFloatByID (id),
+              desc);
 	  break;
 	case CEL_DATA_BOOL:
 	  conout->PutText ("        prop: BOOL id=%u/%s ro=%d v=%d (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyBool (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyBoolByID (id), desc);
 	  break;
 	case CEL_DATA_STRING:
 	  conout->PutText ("        prop: STRING id=%u/%s ro=%d v=%s (%s)\n",
-	      (unsigned int) id, idstr, ro, pc->GetPropertyString (id), desc);
+	      (unsigned int) id, idstr, ro, pc->GetPropertyStringByID (id),
+              desc);
 	  break;
 	case CEL_DATA_VECTOR2:
 	  {
 	    csVector2 v;
-	    pc->GetPropertyVector (id, v);
+	    pc->GetPropertyVectorByID (id, v);
 	    conout->PutText ("        prop: VECTOR2 id=%u/%s ro=%d v=%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.x, v.y, desc);
 	  }
@@ -1109,7 +1111,7 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	case CEL_DATA_VECTOR3:
 	  {
 	    csVector3 v;
-	    pc->GetPropertyVector (id, v);
+	    pc->GetPropertyVectorByID (id, v);
 	    conout->PutText ("        prop: VECTOR3 id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.x, v.y, v.z, desc);
 	  }
@@ -1117,7 +1119,7 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	case CEL_DATA_COLOR:
 	  {
 	    csColor v;
-	    pc->GetPropertyColor (id, v);
+	    pc->GetPropertyColorByID (id, v);
 	    conout->PutText ("        prop: COLOR id=%u/%s ro=%d v=%g,%g,%g (%s)\n",
 	      (unsigned int) id, idstr, ro, v.red, v.green, v.blue, desc);
 	  }
@@ -1128,14 +1130,14 @@ void celConsole::ListInfoEntity (const csStringArray& args)
 	  break;
 	case CEL_DATA_PCLASS:
 	  {
-	    iCelPropertyClass* p = pc->GetPropertyPClass (id);;
+	    iCelPropertyClass* p = pc->GetPropertyPClassByID (id);
 	    conout->PutText ("        prop: PC id=%u/%s ro=%d v=%p/%s (%s)\n",
 	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }
 	  break;
 	case CEL_DATA_ENTITY:
 	  {
-	    iCelEntity* p = pc->GetPropertyEntity (id);;
+	    iCelEntity* p = pc->GetPropertyEntityByID (id);
 	    conout->PutText ("        prop: ENTITY id=%u/%s ro=%d v=%p/%s (%s)\n",
 	      (unsigned int) id, idstr, ro, p, p ? p->GetName () : "0", desc);
 	  }

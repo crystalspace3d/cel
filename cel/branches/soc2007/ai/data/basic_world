@@ -65,7 +65,7 @@
       </params>
     </texture>
     <texture name="dot">
-      <file>dot.png</file>
+      <file>/lev/partsys/dot.png</file>
     </texture>
   </textures>
   <materials>

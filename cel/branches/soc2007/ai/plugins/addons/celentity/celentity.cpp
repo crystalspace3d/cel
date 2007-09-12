@@ -42,16 +42,6 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celAddOnCelEntity)
 
-SCF_IMPLEMENT_IBASE (celAddOnCelEntity)
-  SCF_IMPLEMENTS_INTERFACE (iLoaderPlugin)
-  SCF_IMPLEMENTS_INTERFACE (iEntityLoader)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celAddOnCelEntity::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 enum
 {
   XMLTOKEN_BEHAVIOUR,
@@ -72,17 +62,14 @@ enum
 };
 
 
-celAddOnCelEntity::celAddOnCelEntity (iBase* parent)
+celAddOnCelEntity::celAddOnCelEntity (iBase* parent) :
+  scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   object_reg = 0;
 }
 
 celAddOnCelEntity::~celAddOnCelEntity ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celAddOnCelEntity::Initialize (iObjectRegistry* object_reg)
@@ -467,7 +454,7 @@ iCelEntity* celAddOnCelEntity::Load (iDocumentNode* node, iMeshWrapper* mesh)
   if (mesh)
   {
     // If we have a mesh we also create a pcmesh property class.
-    pc = pl->CreatePropertyClass (ent, "pcmesh");
+    pc = pl->CreatePropertyClass (ent, "pcobject.mesh");
     csRef<iPcMesh> pcmesh = scfQueryInterface<iPcMesh> (pc);
     pcmesh->SetMesh (mesh);
   }

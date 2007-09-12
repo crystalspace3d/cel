@@ -49,8 +49,6 @@
 #include "ivaria/mapnode.h"
 
 #include <imesh/thing.h>
-#include <csgeom/polymesh.h>
-#include <igeom/polymesh.h>
 #include <imesh/objmodel.h>
 #include <igeom/path.h>
 #include <csgeom/path.h>
@@ -433,10 +431,10 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
       }
     case action_setposition:
       {
+        float yrotation = 0.0f;
         CEL_FETCH_FLOAT_PAR (yrot,params,id_yrot);
-        if (!p_yrot)
-          return MoveReport (object_reg,
-          	"Missing parameter 'yrot' for action SetPosition!");
+        if (p_yrot)
+          yrotation = yrot;
         CEL_FETCH_STRING_PAR (sector,params,id_sector);
         if (!sector)
           return MoveReport (object_reg,
@@ -455,12 +453,16 @@ bool celPcLinearMovement::PerformActionIndexed (int idx,
           vpos.x = p_position->value.v.x;
           vpos.y = p_position->value.v.y;
           vpos.z = p_position->value.v.z;
-          SetPosition (vpos, yrot, sect);
+          SetPosition (vpos, yrotation, sect);
         }
         else if (p_position->type == CEL_DATA_STRING)
         {
           const char* cpos = p_position->value.s->GetData ();
-          SetPosition (cpos, yrot, sect);
+          if (!cpos)
+            return MoveReport (object_reg,
+            	"Can't find node '%s' for action SetPosition!",
+            	(const char*)cpos);
+          SetPosition (cpos, yrotation, sect);
         }
         else
           return MoveReport (object_reg,
@@ -1160,8 +1162,8 @@ void celPcLinearMovement::GetCDDimensions (csVector3& body, csVector3& legs,
 bool celPcLinearMovement::InitCD (iMeshWrapper* mesh, float percentage,
 	iPcCollisionDetection* pc_cd)
 {
-  csBox3 bbox;
-  mesh->GetMeshObject ()->GetObjectModel ()->GetObjectBoundingBox (bbox);
+  csBox3 bbox = mesh->GetMeshObject ()->GetObjectModel ()
+  ->GetObjectBoundingBox ();
   csVector3 body = bbox.Max () - bbox.Min ();
   csVector3 legs = body;
   csVector3 shift (0); shift.y = bbox.MinY ();

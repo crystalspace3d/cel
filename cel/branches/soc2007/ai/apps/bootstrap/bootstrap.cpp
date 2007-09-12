@@ -185,7 +185,7 @@ bool Bootstrap::Initialize (int argc, const char* const argv[])
 
   csRef<iPluginManager> plugin_mgr = 
   	csQueryRegistry<iPluginManager> (object_reg);
-  bl = CS_LOAD_PLUGIN (plugin_mgr, plugin, iCelBlLayer);
+  bl = csLoadPlugin<iCelBlLayer> (plugin_mgr, plugin);
   if (!bl)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,

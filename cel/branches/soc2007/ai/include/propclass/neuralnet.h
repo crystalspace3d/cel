@@ -27,11 +27,9 @@
 #include "csutil/scf.h"
 #include "csutil/refcount.h"
 #include "csutil/array.h"
+#include "csgeom/math.h"
 
 #include "physicallayer/datatype.h"
-
-#include <math.h>
-#include <float.h>
 
 class celNNActivationFunc;
 
@@ -378,7 +376,7 @@ public:
   {
     const T &val = GetFrom<T>(data);
     double e_v = log(fabs((double) val)); // log may return not-a-number
-    data.Set((T) (std::isnormal(e_v) ? e_v : 0.0));
+    data.Set((T) (csNormal(e_v) ? e_v : 0.0));
   }
   virtual celDataType GetDataType() { return DataType<T>(); }
   virtual ~celLogActivationFunc() {}
@@ -452,7 +450,7 @@ public:
   {
     const T &val = GetFrom<T>(data);
     double e_v = exp((double) val); // exp may return infinite
-    data.Set((T) (std::isnormal(e_v) ? e_v : 0.0));
+    data.Set((T) (csNormal(e_v) ? e_v : 0.0));
   }
   virtual celDataType GetDataType() { return DataType<T>(); }
   virtual ~celExpActivationFunc() {}

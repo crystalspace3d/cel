@@ -42,28 +42,20 @@ CEL_IMPLEMENT_FACTORY_ALT (Timer, "pctools.timer", "pctimer")
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE_EXT (celPcTimer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcTimer)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcTimer::PcTimer)
-  SCF_IMPLEMENTS_INTERFACE (iPcTimer)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcTimer::id_elapsedticks = csInvalidStringID;
 csStringID celPcTimer::id_currentticks = csInvalidStringID;
 csStringID celPcTimer::id_time = csInvalidStringID;
 csStringID celPcTimer::id_repeat = csInvalidStringID;
+csStringID celPcTimer::id_name = csInvalidStringID;
 
 PropertyHolder celPcTimer::propinfo;
 
 celPcTimer::celPcTimer (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcTimer);
   enabled = false;
   wakeupframe = false;
-  wakeuponce = false;
+  whereframe = CEL_EVENT_PRE;
   vc = csQueryRegistry<iVirtualClock> (object_reg);
   CS_ASSERT (vc != 0);
   if (id_elapsedticks == csInvalidStringID)
@@ -72,6 +64,7 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
     id_currentticks = pl->FetchStringID ("cel.parameter.currentticks");
     id_time = pl->FetchStringID ("cel.parameter.time");
     id_repeat = pl->FetchStringID ("cel.parameter.repeat");
+    id_name = pl->FetchStringID ("cel.parameter.name");
   }
   params = new celGenericParameterBlock (2);
   params->SetParameterDef (0, id_elapsedticks, "elapsedticks");
@@ -88,7 +81,6 @@ celPcTimer::celPcTimer (iObjectRegistry* object_reg)
 
 celPcTimer::~celPcTimer ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcTimer);
 }
 
 bool celPcTimer::PerformActionIndexed (int idx,
@@ -103,14 +95,18 @@ bool celPcTimer::PerformActionIndexed (int idx,
         if (!p_time) return false;
         CEL_FETCH_BOOL_PAR (repeat,params,id_repeat);
         if (!p_repeat) return false;
-        WakeUp ((csTicks)time, repeat);
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        WakeUp ((csTicks)time, repeat, name);
         return true;
       }
     case action_wakeupframe:
       WakeUpFrame (CEL_EVENT_PRE);
       return true;
     case action_clear:
-      Clear ();
+      {
+        CEL_FETCH_STRING_PAR (name,params,id_name);
+        Clear (name);
+      }
       return true;
     default:
       return false;
@@ -121,46 +117,80 @@ bool celPcTimer::PerformActionIndexed (int idx,
 
 csPtr<iCelDataBuffer> celPcTimer::Save ()
 {
+  //@@@ BROKEN!
   csRef<iCelDataBuffer> databuf = pl->CreateDataBuffer (TIMER_SERIAL);
   databuf->Add (enabled);
-  databuf->Add ((int32)wakeup);
-  databuf->Add (repeat);
+  //databuf->Add ((int32)wakeup);
+  //databuf->Add (repeat);
   databuf->Add (wakeupframe);
-  databuf->Add (wakeuponce);
+  //databuf->Add (wakeuponce);
   return csPtr<iCelDataBuffer> (databuf);
 }
 
 bool celPcTimer::Load (iCelDataBuffer* databuf)
 {
+  //@@@ BROKEN!
   int serialnr = databuf->GetSerialNumber ();
   if (serialnr != TIMER_SERIAL) return false;
   enabled = databuf->GetBool ();
-  wakeup = databuf->GetInt32 ();
-  repeat = databuf->GetBool ();
+  //wakeup = databuf->GetInt32 ();
+  //repeat = databuf->GetBool ();
   wakeupframe = databuf->GetBool ();
-  wakeuponce = databuf->GetBool ();
+  //wakeuponce = databuf->GetBool ();
 
   return true;
 }
 
-void celPcTimer::Clear ()
+void celPcTimer::Clear (const char* name)
 {
-  enabled = false;
-  wakeupframe = false;
-  wakeuponce = false;
-  pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  if (name == 0)
+  {
+    enabled = false;
+    wakeupframe = false;
+    timer_events.Empty ();
+
+    pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+    pl->RemoveCallbackEveryFrame ((iCelTimerListener*)this, whereframe);
+  }
+  else
+  {
+    size_t i = 0;
+    while (i < timer_events.GetSize ())
+    {
+      if (timer_events[i].name == name)
+	timer_events.DeleteIndex (i);
+      else
+	i++;
+    }
+    if (timer_events.GetSize () == 0)
+      pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
+  }
 }
 
-void celPcTimer::WakeUp (csTicks t, bool repeat)
+static int CompareTimeEvent (TimeEvent const& e1, TimeEvent const& e2)
+{
+  csTicks t1 = e1.firetime;
+  csTicks t2 = e2.firetime;
+  if (t1 < t2) return -1;
+  else if (t1 > t2) return 1;
+  else return 0;
+}
+
+void celPcTimer::WakeUp (csTicks t, bool repeat, const char* name)
 {
   enabled = true;
-  wakeuponce = true;
   pl->RemoveCallbackOnce ((iCelTimerListener*)this, CEL_EVENT_PRE);
-  pl->CallbackOnce ((iCelTimerListener*)this, t, CEL_EVENT_PRE);
 
-  celPcTimer::repeat = repeat;
-  wakeup = t;
+  csTicks current = vc->GetCurrentTicks ();
+  TimeEvent te_new;
+  te_new.firetime = current + t;
+  te_new.amount = t;
+  te_new.repeat = repeat;
+  te_new.name = name ? name : "wakeup";
+  timer_events.InsertSorted (te_new, CompareTimeEvent);
+
+  pl->CallbackOnce ((iCelTimerListener*)this,
+      timer_events[0].firetime - current, CEL_EVENT_PRE);
 }
 
 void celPcTimer::WakeUpFrame (int where)
@@ -168,6 +198,7 @@ void celPcTimer::WakeUpFrame (int where)
   if (wakeupframe) return;
   enabled = true;
   wakeupframe = true;
+  whereframe = where;
   pl->CallbackEveryFrame ((iCelTimerListener*)this, where);
 }
 
@@ -196,25 +227,29 @@ void celPcTimer::TickOnce ()
   // To prevent the entity from being deleted during
   // the call of pctimer_wakeupframe we keep a temporary reference
   // here.
+  csTicks current = vc->GetCurrentTicks ();
   csRef<iCelEntity> ref;
-  if (wakeuponce)
+  while (timer_events.GetSize () > 0 && current >= timer_events[0].firetime)
   {
+    TimeEvent te = timer_events[0];
+    timer_events.DeleteIndex (0);
     ref = entity;
-    if (repeat)
+    if (te.repeat)
     {
-      pl->CallbackOnce ((iCelTimerListener*)this, wakeup, CEL_EVENT_PRE);
-    }
-    else
-    {
-      wakeuponce = false;
+      WakeUp (te.amount, te.repeat, te.name);
     }
     iCelBehaviour* bh = entity->GetBehaviour ();
     if (bh)
     {
       celData ret;
-      bh->SendMessage ("pctimer_wakeup", this, ret, 0);
+      csString msg = "pctimer_";
+      msg += te.name;
+      bh->SendMessage ((const char*)msg, this, ret, 0);
     }
   }
+  if (timer_events.GetSize () > 0)
+    pl->CallbackOnce ((iCelTimerListener*)this,
+      timer_events[0].firetime - current, CEL_EVENT_PRE);
 }
 
 //---------------------------------------------------------------------------

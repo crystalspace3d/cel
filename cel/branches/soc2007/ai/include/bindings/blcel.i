@@ -32,7 +32,7 @@ CS_PROPERTY_HELPERS
 #include "propclass/chars.h"
 #include "propclass/linmove.h"
 #include "propclass/actormove.h"
-#include "propclass/actorlara.h"
+#include "propclass/actoranalog.h"
 #include "propclass/input.h"
 #include "propclass/billboard.h"
 #include "propclass/mechsys.h"
@@ -343,6 +343,9 @@ iCelBlLayer *csQueryRegistry_iCelBlLayer (iObjectRegistry *object_reg)
 
 %ignore celVariableParameterBlock::GetParameter (size_t idx);
 %ignore celGenericParameterBlock::GetParameter (size_t idx);
+%template (scfGenericParameterBlock) scfImplementation1<celGenericParameterBlock, iCelParameterBlock >;
+%template (scfVariableParameterBlock) scfImplementation1<celVariableParameterBlock,iCelParameterBlock >;
+%template (scfOneParameterBlock) scfImplementation1<celOneParameterBlock,iCelParameterBlock >;
 %include "celtool/stdparams.h"
 
 //-----------------------------------------------------------------------------
@@ -459,12 +462,12 @@ CEL_PC(iPcLinearMovement, LinearMovement, pcmove.linear)
 //-----------------------------------------------------------------------------
 //%cel_attribute(iPcActorMove,float,MouseMoveSpeed)
 %include "propclass/actormove.h"
-CEL_PC(iPcActorMove, ActorMove, pcmove.actorold)
+CEL_PC(iPcActorMove, ActorMove, pcmove.actor.standard)
 
 //-----------------------------------------------------------------------------
 
-%include "propclass/actorlara.h"
-CEL_PC(iPcActorLara, ActorLara, pcmove.lara)
+%include "propclass/actoranalog.h"
+CEL_PC(iPcActorAnalog, ActorAnalog, pcmove.actor.analog)
 
 //-----------------------------------------------------------------------------
 
@@ -612,6 +615,22 @@ iCelConsole *csQueryRegistry_iCelConsole (iObjectRegistry *object_reg)
   csRef<iCelConsole> bl = csQueryRegistry<iCelConsole> (object_reg);
   return bl;
 }
+
+/* Funtions to set the modules global SCF pointer, this is needed
+   when working on a pure scripting environment, as then this code
+   lives in a non-cs dll, thus the pointer isnt initialized
+   by cs itself, and scf stuff wont work unless the pointer is
+   initialized manually. Use it after CreateEnvironment call. */
+void SetSCFPointer(iSCF* pscf)
+{
+  iSCF::SCF = pscf;
+}
+
+iSCF* GetSCFPointer()
+{
+  return iSCF::SCF;
+}
+
 %}
 
 //-----------------------------------------------------------------------------

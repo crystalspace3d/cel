@@ -30,8 +30,20 @@
 
 #include "neuralnet.h"
 
+#include <math.h>
+
 CS_IMPLEMENT_PLUGIN
 CEL_IMPLEMENT_FACTORY(NeuralNet, "pcai.neuralnet")
+
+// portable rounding function
+int nnRound(double x)
+{
+  double integer;
+  double fraction = modf(x, &integer);
+  int i = (int) integer;
+  if (x > 0.0) return (fraction <  0.5) ? i : i + 1;
+	  else return (fraction > -0.5) ? i : i - 1;
+}
 
 template <typename T>   T& accessData	     (celData &);
 template <> inline   int8& accessData<int8>  (celData &d) { return d.value.b; }
@@ -239,11 +251,11 @@ bool celPcNeuralNet::InitLayerSizes()
   }
   else if (sizeHeuristic == "halfLinear")
   {
-    LinearLayerSizes((int) round((double)numInputs * 0.5));
+    LinearLayerSizes(nnRound(numInputs * 0.5));
   }
   else if (sizeHeuristic == "addHalfLinear")
   {
-    LinearLayerSizes((int) round((double)numInputs * 1.5));
+    LinearLayerSizes(nnRound(numInputs * 1.5));
   }
   else
     return Error("Unsupported size heuristic '%s'", sizeHeuristic.GetData());
@@ -266,7 +278,7 @@ void celPcNeuralNet::LinearLayerSizes(int size1)
 
   for (size_t i = 0; i < size_t(numLayers); i++)
   {
-    layerSizes.Push((size_t) round(size1 + step * i));
+    layerSizes.Push(size_t(nnRound(size1 + step * i)));
   }
 }
 

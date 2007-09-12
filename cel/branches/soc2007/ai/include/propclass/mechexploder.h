@@ -23,8 +23,6 @@
 #include "cstypes.h"
 #include "csutil/scf.h"
 
-SCF_VERSION (iPcMechanicsExploder, 0, 0, 1);
-
 /**
  * A property class for handling the physics of an explosion.
  *
@@ -40,8 +38,10 @@ SCF_VERSION (iPcMechanicsExploder, 0, 0, 1);
  * 'cel.property.' to get the ID of the property):
  * - force (float, read/write): the force of the explosion.
  */
-struct iPcMechanicsExploder : public iBase
+struct iPcMechanicsExploder : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsExploder, 0, 0, 1);
+
   /**
    * Set the magnitude of the force of the explosion this object will create.
    */

@@ -24,20 +24,15 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPropertyClassList)
-  SCF_IMPLEMENTS_INTERFACE (iCelPropertyClassList)
-SCF_IMPLEMENT_IBASE_END
-
 celPropertyClassList::celPropertyClassList (iCelEntity* parent_entity)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celPropertyClassList::parent_entity = parent_entity;
 }
 
 celPropertyClassList::~celPropertyClassList ()
 {
   RemoveAll ();
-  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celPropertyClassList::GetCount () const
@@ -56,7 +51,7 @@ size_t celPropertyClassList::Add (iCelPropertyClass* obj)
 {
   size_t idx = prop_classes.Push (obj);
   obj->SetEntity (parent_entity);
-  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+  (static_cast<celEntity*> (parent_entity))
 	  ->NotifySiblingPropertyClasses ();
   return idx;
 }
@@ -68,7 +63,7 @@ bool celPropertyClassList::Remove (iCelPropertyClass* obj)
   {
     obj->SetEntity (0);
     prop_classes.DeleteIndex (idx);
-    ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+    (static_cast<celEntity*> (parent_entity))
 	  ->NotifySiblingPropertyClasses ();
     return true;
   }
@@ -124,7 +119,7 @@ bool celPropertyClassList::Remove (size_t n)
 {
   CS_ASSERT ((n != csArrayItemNotFound) && n < prop_classes.GetSize ());
   prop_classes.DeleteIndex (n);
-  ((celEntity::CelEntity*)parent_entity)->GetCelEntity ()
+  (static_cast<celEntity*> (parent_entity))
 	  ->NotifySiblingPropertyClasses ();
 
   return true;

@@ -42,12 +42,13 @@ class csBox3;
  * 'cel.action.' to get the ID of the action and add prefix 'cel.parameter.'
  * to get the ID of the parameter):
  * - SetMesh: parameters 'name' (string). This sets an already existing
- *   mesh for this pcmesh.
+ *   mesh for this pcmesh and sets property 'meshname'.
  * - LoadMesh: parameters 'filename' (string) and 'factoryname' (string).
  *   'filename' is optional. If not given then the factory should already
- *   be in memory.
+ *   be in memory and sets properties 'factory' and 'filename'.
  * - LoadMeshPath: parameters 'path' (string), 'filename' (string)
- *   and 'factoryname' (string).
+ *   and 'factoryname' (string) and sets properties 'factory', 'path'
+ *   and 'filename'.
  * - MoveMesh: parameters 'sector' (string: optional), 'position' (vector3)
  *   or 'position' (string: represents name of the node),
  *   'rotation' (vector3: optional. Represents an absolute rotation).
@@ -62,8 +63,8 @@ class csBox3;
  * - SetAnimation: parameters 'animation' (string), 'cycle' (bool:
  *   default false), and 'reset' (bool: default false).
  * - SetShaderVar: parameters 'name' (string), 'type' (string) and 'value'
- *     (type depending on type parameter). Supported types are:
- *     'float', 'long', 'vector3', a'dn 'libexpr'.
+ *   (type depending on type parameter). Supported types are:
+ *   'float', 'long', 'vector3' and 'libexpr'.
  * - CreateEmptyThing: parameters 'factoryname' (string)
  * - CreateEmptyGenmesh: parameters 'factoryname' (string)
  * - CreateNullMesh: parameters 'factoryname' (string), 'min' (vector3),
@@ -74,6 +75,7 @@ class csBox3;
  *   If entity is not given then the current entity will be used.
  * - ClearParent: no parameters. Remove this mesh from its parent.
  * - AttachSocketMesh: parameters 'socket', 'factory' (string)
+ *   or 'object' (string)
  * - DetachSocketMesh: parameters 'socket'
  *
  * This property class supports the following properties (add prefix
@@ -86,11 +88,12 @@ class csBox3;
  * - path (string, read): path for model.
  * - factory (string, read): factory for model.
  * - filename (string, read): filename for model.
+ * - meshname (string, read): mesh object name for model.
  * - hitbeam (bool, read/write): allow hitbeam for this mesh.
  */
 struct iPcMesh : public virtual iBase
 {
-  SCF_INTERFACE (iPcMesh, 0, 0, 5);
+  SCF_INTERFACE (iPcMesh, 0, 1, 0);
 
   /**
    * Set the path to use. If this is not done then the filename
@@ -211,15 +214,16 @@ struct iPcMesh : public virtual iBase
   virtual bool IsVisible () const = 0;
 
   /**
-   * Attach mesh factory to a socket. Meshobject will be created,
-   * requires material in mesh factory. Only one mesh per socket.
+   * Attach mesh to a socket. Only one mesh per socket.
+   * Support for genmesh, cal3d and sprite3d.
    * \param socket Name of the socket.
    * \param factory Name of the loaded mesh factory.
    */
-  virtual bool AttachSocketMesh (const char* socket, const char* factory) = 0;
+  virtual bool AttachSocketMesh (const char* socket,
+  	iMeshWrapper* meshwrapper) = 0;
 
   /**
-   * Detach mesh factory from a socket.
+   * Detach mesh from a socket.
    * \param socket Name of the socket.
    */
   virtual bool DetachSocketMesh (const char* socket) = 0;

@@ -458,19 +458,18 @@ public:
   virtual csVector3 LocalToWorld(csVector3 local);
   virtual csVector3 WorldToLocal(csVector3 world);
 
-  struct DynamicsCollisionCallback : public iDynamicsCollisionCallback
+  struct DynamicsCollisionCallback : public scfImplementation1<
+	DynamicsCollisionCallback, iDynamicsCollisionCallback>
   {
     celPcMechanicsObject* parent;
-    DynamicsCollisionCallback (celPcMechanicsObject* parent)
+    DynamicsCollisionCallback (celPcMechanicsObject* parent) :
+      scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE (0);
       DynamicsCollisionCallback::parent = parent;
     }
     virtual ~DynamicsCollisionCallback ()
     {
-      SCF_DESTRUCT_IBASE ();
     }
-    SCF_DECLARE_IBASE;
 
     virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth)

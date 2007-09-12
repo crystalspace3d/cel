@@ -59,7 +59,7 @@ An example follows with the typical xml for a player entity.
         <par string="PlayerMesh" name="name"/>
      </action>
   </propclass>
-  <propclass name="pclinearmovement">
+  <propclass name="pcmove.linear">
      <action name="InitCDMesh">
         <par float="10.0" name="percentage"/>
      </action>

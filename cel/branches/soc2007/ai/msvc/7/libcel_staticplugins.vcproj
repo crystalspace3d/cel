@@ -326,18 +326,18 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\libpfactorlara_staticreg.cpp">
+				RelativePath="..\..\msvc\libpfactoranalog_staticreg.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactorlara_staticreg.cpp.obj"/>
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\msvc_libpfactoranalog_staticreg.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1001,18 +1001,18 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.cpp">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actorlara_actorlara.cpp.obj"/>
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_actoranalog_actoranalog.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1391,18 +1391,18 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.cpp">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_laratrack.cpp.obj"/>
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_horizontal.cpp.obj"/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
-						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_laratrack.cpp.obj"/>
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_horizontal.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -1418,6 +1418,21 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_thirdperson.cpp.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.cpp">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\release7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="..\..\out\debug7\build\libcel_staticplugins\plugins_propclass_newcamera_modes_tracking.cpp.obj"/>
 				</FileConfiguration>
 			</File>
 			<File
@@ -2214,7 +2229,7 @@
 				RelativePath="..\..\plugins\persist\xml\xmlpersist.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\actorlara\actorlara.h">
+				RelativePath="..\..\plugins\propclass\actoranalog\actoranalog.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\actormove\actormove.h">
@@ -2301,10 +2316,13 @@
 				RelativePath="..\..\plugins\propclass\newcamera\modes\firstperson.h">
 			</File>
 			<File
-				RelativePath="..\..\plugins\propclass\newcamera\modes\laratrack.h">
+				RelativePath="..\..\plugins\propclass\newcamera\modes\horizontal.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\modes\thirdperson.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\propclass\newcamera\modes\tracking.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\propclass\newcamera\newcam.h">

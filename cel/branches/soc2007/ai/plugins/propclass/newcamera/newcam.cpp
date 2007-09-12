@@ -25,7 +25,8 @@
 #include "plugins/propclass/newcamera/newcam.h"
 #include "plugins/propclass/newcamera/modes/firstperson.h"
 #include "plugins/propclass/newcamera/modes/thirdperson.h"
-#include "plugins/propclass/newcamera/modes/laratrack.h"
+#include "plugins/propclass/newcamera/modes/tracking.h"
+#include "plugins/propclass/newcamera/modes/horizontal.h"
 #include "physicallayer/pl.h"
 #include "physicallayer/entity.h"
 #include "physicallayer/persist.h"
@@ -52,6 +53,7 @@
 #include "cstool/csview.h"
 #include "cstool/collider.h"
 #include "csgeom/transfrm.h"
+#include "csgeom/sphere.h"
 #include "ivaria/view.h"
 #include "ivaria/collider.h"
 #include "ivaria/reporter.h"
@@ -98,27 +100,13 @@ void celPcNewCamera::UpdateMeshVisibility ()
     	CS_ENTITY_INVISIBLE);
 }
 
-void celPcNewCamera::GetActorTransform ()
+void celPcNewCamera::CalcElasticVec (csVector3& curr, const csVector3& ideal,
+    float deltaTime, float springCoef)
 {
-  // Try to get position and sector from the mesh.
-  if (pcmesh)
-  {
-    iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
-    baseTrans = movable->GetFullTransform ();
-    baseSector = movable->GetSectors ()->Get (0);
-  }
-  else
-  {
-    baseTrans.SetT2O (csMatrix3 ());
-    baseSector = 0;
-  }
-}
-
-void celPcNewCamera::CalcElasticVec (
-	const csVector3& curr, const csVector3& ideal,
-	const csVector3& deltaIdeal, float deltaTime, float springCoef,
-	csVector3& newVec)
-{
+  if (deltaTime > (1.0f / springCoef))
+    deltaTime = (1.0f / springCoef);
+  curr = curr - ((curr - ideal) * deltaTime * springCoef);
+/*
   csVector3 deltaVec;
 
   deltaVec = curr - ideal;
@@ -139,21 +127,21 @@ void celPcNewCamera::CalcElasticVec (
     newVec = curr;
   else
     newVec = curr - deltaVec;
-#endif
+#endif*/
 }
 
 celPcNewCamera::celPcNewCamera (iObjectRegistry* object_reg)
-  : scfImplementationType (this, object_reg)
+	: scfImplementationType (this, object_reg)
 {
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
 
   pl->CallbackEveryFrame ((iCelTimerListener*)this, CEL_EVENT_VIEW);
 
-  basePosOffset.Set (0,0,0);
+  basePosOffset.Set (0.0f, 0.0f, 0.0f);
 
-  lastIdealPos.Set (0,0,0);
-  lastIdealTarget.Set (0,0,0);
-  lastIdealUp.Set (0,0,0);
+  lastIdealPos.Set (0.0f, 0.0f, 0.0f);
+  lastIdealTarget.Set (0.0f, 0.0f, 0.0f);
+  lastIdealUp.Set (0.0f, 0.0f, 0.0f);
 
   currMode = (size_t)-1;
 
@@ -245,9 +233,14 @@ bool celPcNewCamera::PerformActionIndexed (int idx,
           AttachCameraMode (iPcNewCamera::CCM_THIRD_PERSON);
           return true;
         }
-        if (!strcmp (name, "camera_laratrack"))
+        if (!strcmp (name, "camera_tracking"))
         {
-          AttachCameraMode (iPcNewCamera::CCM_LARA_TRACK);
+          AttachCameraMode (iPcNewCamera::CCM_TRACKING);
+          return true;
+        }
+        if (!strcmp (name, "camera_horizontal"))
+        {
+          AttachCameraMode (iPcNewCamera::CCM_HORIZONTAL);
           return true;
         }
         csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
@@ -370,9 +363,9 @@ void celPcNewCamera::PropertyClassesHaveChanged ()
     iMovable* movable = pcmesh->GetMesh ()->GetMovable ();
     camPos = lastIdealPos = movable->GetTransform ().GetOrigin ();
     camTarget = lastIdealTarget = movable->GetTransform ().
-    	This2OtherRelative (csVector3 (0,0,-1));
+    	This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
     camUp  = lastIdealUp = movable->GetTransform ().
-    	This2OtherRelative (csVector3 (0,1,0));
+    	This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
   }
 
   UpdateMeshVisibility ();
@@ -470,7 +463,7 @@ float celPcNewCamera::GetTransitionCutoffTargetDistance () const
   return transitionCutoffTargetDist;
 }
 
-size_t celPcNewCamera::AttachCameraMode(iCelCameraMode* mode)
+size_t celPcNewCamera::AttachCameraMode (iCelCameraMode* mode)
 {
   cameraModes.Push (mode);
   mode->SetParentCamera ((iPcNewCamera*)this);
@@ -487,8 +480,10 @@ size_t celPcNewCamera::AttachCameraMode (iPcNewCamera::CEL_CAMERA_MODE modetype)
       return AttachCameraMode (new celCameraMode::FirstPerson ());
     case iPcNewCamera::CCM_THIRD_PERSON:
       return AttachCameraMode (new celCameraMode::ThirdPerson ());
-    case iPcNewCamera::CCM_LARA_TRACK:
-      return AttachCameraMode (new celCameraMode::LaraTrack (pl));
+    case iPcNewCamera::CCM_TRACKING:
+      return AttachCameraMode (new celCameraMode::Tracking (pl));
+    case iPcNewCamera::CCM_HORIZONTAL:
+      return AttachCameraMode (new celCameraMode::Horizontal ());
     default:
       return (size_t)-1;
   }
@@ -503,6 +498,7 @@ iCelCameraMode* celPcNewCamera::GetCurrentCameraMode ()
 {
   return cameraModes.Top ();
 }
+
 iCelCameraMode* celPcNewCamera::GetCameraMode (int idx)
 {
   if (idx < 0)
@@ -549,6 +545,7 @@ void celPcNewCamera::PrevCameraMode ()
     newMode = cameraModes.GetSize () - 1;
   SetCurrentCameraMode (newMode);
 }
+
 void celPcNewCamera::UpdateCamera ()
 {
   csTicks elapsedTime = vc->GetElapsedTicks ();
@@ -560,16 +557,28 @@ void celPcNewCamera::UpdateCamera ()
     if (currMode >= cameraModes.GetSize ())
       return;
   }
-  iCelCameraMode * mode = cameraModes[currMode];
+  iCelCameraMode* mode = cameraModes[currMode];
 
-  GetActorTransform ();
-  if (!baseSector)
+  // Try to get position and sector from the mesh.
+  if (pcmesh)
+  {
+    iMeshWrapper* mesh = pcmesh->GetMesh ();
+    iMovable* movable = mesh->GetMovable ();
+    baseTrans = movable->GetFullTransform ();
+    baseSector = movable->GetSectors ()->Get (0);
+    baseRadius = mesh->GetRadius ().GetRadius ();
+  }
+  else
+  {
+    baseTrans.SetT2O (csMatrix3 ());
+    baseSector = 0;
     return;
+  }
 
   basePos = baseTrans.GetOrigin () +
   	baseTrans.This2OtherRelative (basePosOffset);
-  baseDir = baseTrans.This2OtherRelative (csVector3 (0,0,-1));
-  baseUp  = baseTrans.This2OtherRelative (csVector3 (0,1,0));
+  baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
+  baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
 
   if (!mode->DecideCameraState ())
     return;
@@ -580,47 +589,37 @@ void celPcNewCamera::UpdateCamera ()
   if (inTransition)
     springCoef = transitionSpringCoef;
 
-  // perform collision detection
   csVector3 desiredCamPos = mode->GetPosition ();
+  csVector3 desiredCamTarget = mode->GetTarget ();
+  csVector3 desiredCamUp = mode->GetUp ();
+
+  // perform collision detection
   if (DetectCollisions () && mode->AllowCollisionDetection ())
   {
-    csVector3 iSect;
-    csIntersectingTriangle closestTri;
-    float sqDist = csColliderHelper::TraceBeam (cdsys, baseSector,
-    	basePos, desiredCamPos, true, closestTri, iSect);
-    if (sqDist >= 0)
+    csVector3 beamDirection = basePos - desiredCamPos;
+    beamDirection.Normalize ();
+    csTraceBeamResult beam = csColliderHelper::TraceBeam (cdsys, baseSector,
+    	basePos + (beamDirection * baseRadius * 2.0f), desiredCamPos, true);
+    if (beam.closest_mesh)
     {
-      desiredCamPos = iSect;
-
-      // if there has been a collision, we use the spring coefficient designed for collisions
+      desiredCamPos = beam.closest_isect;
+      desiredCamTarget =  basePos + (beamDirection * baseRadius * 4.0f);
       springCoef = collisionSpringCoef;
     }
   }
 
   if (inTransition || mode->UseSpringPos ())
-  {
-    csVector3 deltaIdeal = desiredCamPos - lastIdealPos;
-    CalcElasticVec (camPos, desiredCamPos, deltaIdeal,
-    	elapsedSecs, springCoef, camPos);
-  }
+    CalcElasticVec (camPos, desiredCamPos, elapsedSecs, springCoef);
   else
     camPos = desiredCamPos;
 
   if (inTransition || mode->UseSpringTarget ())
-  {
-    csVector3 deltaIdeal = mode->GetTarget () - lastIdealTarget;
-    CalcElasticVec (camTarget, mode->GetTarget (), deltaIdeal,
-    	elapsedSecs, springCoef, camTarget);
-  }
+    CalcElasticVec (camTarget, desiredCamTarget, elapsedSecs, springCoef);
   else
     camTarget = mode->GetTarget ();
 
   if (inTransition || mode->UseSpringUp ())
-  {
-    csVector3 deltaIdeal = mode->GetUp () - lastIdealUp;
-    CalcElasticVec (camUp, mode->GetUp (), deltaIdeal,
-    	elapsedSecs, springCoef, camUp);
-  }
+    CalcElasticVec (camUp, desiredCamUp, elapsedSecs, springCoef);
   else
     camUp = mode->GetUp ();
 
@@ -641,7 +640,7 @@ void celPcNewCamera::UpdateCamera ()
   camTrans.SetOrigin(baseTrans.GetOrigin ());
   camTrans.LookAt (camTarget - camPos, camUp);
 
-  iCamera * c = view->GetCamera ();
+  iCamera* c = view->GetCamera ();
   // First set the camera back on where the sector is.
   // We assume here that normal camera movement is good.
   if (c->GetSector () != baseSector)
@@ -656,8 +655,8 @@ void celPcNewCamera::UpdateCamera ()
   c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
 
   lastIdealPos = desiredCamPos;
-  lastIdealTarget = mode->GetTarget ();
-  lastIdealUp = mode->GetUp ();
+  lastIdealTarget = desiredCamTarget;
+  lastIdealUp = desiredCamUp;
 }
 
 int celPcNewCamera::GetDrawFlags ()

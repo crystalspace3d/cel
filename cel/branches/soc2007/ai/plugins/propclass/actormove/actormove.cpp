@@ -48,7 +48,7 @@
 
 CS_IMPLEMENT_PLUGIN
 
-CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actorold", "pcactormove")
+CEL_IMPLEMENT_FACTORY_ALT (ActorMove, "pcmove.actor.standard", "pcactormove")
 
 //---------------------------------------------------------------------------
 
@@ -534,14 +534,11 @@ void celPcActorMove::RotateTo (float yrot)
   if (!pclinmove)
   {
     csReport (object_reg, CS_REPORTER_SEVERITY_ERROR,
-    	"cel.pcmove.actorold", "pcmove.linear is missing!");
+    	"cel.pcmove.actor.standard", "pcmove.linear is missing!");
     return;
   }
-  csVector3 current_position;
-  iSector* current_sector;
-  float current_yrot;
-  pclinmove->GetLastPosition (current_position, current_yrot, current_sector);
 
+  float current_yrot = pclinmove->GetYRotation ();
   current_yrot = atan2f (sin (current_yrot), cos (current_yrot));
   rotate_to = atan2f (sin (yrot), cos (yrot));
   float delta_angle = atan2f (sin (rotate_to - current_yrot),

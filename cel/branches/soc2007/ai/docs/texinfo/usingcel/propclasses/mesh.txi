@@ -3,6 +3,7 @@
 @subsection Mesh
 @cindex pcmesh property class
 @cindex pcmesh
+@cindex pcobject.mesh
 @cindex @code{iPcMesh}
 @cindex @code{iMeshWrapper}
 
@@ -13,7 +14,7 @@ This property class defines a visual representation for an entity.
 
 @itemize @bullet
 @item @emph{Name}:
-@samp{pcmesh}
+@samp{pcobject.mesh}
 @item @emph{Factory ID}:
 @samp{cel.pcfactory.object.mesh}
 @item @emph{Interface}:
@@ -29,7 +30,7 @@ to an entity.
 
 @subsubheading Setting the Mesh Data
 
-There are a few ways to set the mesh in @samp{pcmesh}:
+There are a few ways to set the mesh in @samp{pcobject.mesh}:
 
 @itemize @bullet
 @item

@@ -393,7 +393,6 @@ csPtr<celQuestSequence> celQuestSequenceFactory::CreateSequence (
 celQuestFactory::celQuestFactory (celQuestManager* questmgr, const char* name) :
 	scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celQuestFactory::questmgr = questmgr;
   celQuestFactory::name = name;
   InitTokenTable (xmltokens);

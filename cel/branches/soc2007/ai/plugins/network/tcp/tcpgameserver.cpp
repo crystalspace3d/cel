@@ -33,14 +33,6 @@
 CS_PLUGIN_NAMESPACE_BEGIN(celTCPNetwork)
 {
 
-SCF_IMPLEMENT_IBASE_EXT (celTCPGameServer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iCelGameServer)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celTCPGameServer::TCPGameServer)
-  SCF_IMPLEMENTS_INTERFACE (iCelGameServer)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 /// default port number of a server
 #define DEFAULT_SERVER_PORT 35000
 
@@ -54,9 +46,8 @@ SCF_IMPLEMENT_EMBEDDED_IBASE_END
 #define DEFAULT_UPDATE_PERIOD 40
 
 celTCPGameServer::celTCPGameServer (iObjectRegistry* object_reg, 
-				    celTCPGameFactory* factory)
+	celTCPGameFactory* factory) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiCelGameServer);
   celTCPGameServer::object_reg = object_reg;
   celTCPGameServer::factory = factory;
   manager = 0;
@@ -88,8 +79,6 @@ celTCPGameServer::~celTCPGameServer ()
   players_data.DeleteAll ();
 
   players_kicked.DeleteAll ();  
-
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiCelGameServer);
 }
 
 bool celTCPGameServer::InitializeServer (celTCPGame* game, 
@@ -140,7 +129,7 @@ bool celTCPGameServer::InitializeServer (celTCPGame* game,
   }
 
   // init the manager of the game factory
-  if (!factory->manager->InitServer (&game->scfiCelGame))
+  if (!factory->manager->InitServer (game))
   {
     nlClose (server_socket);
     return ReportError (object_reg, "The server manager failed its initialization");
@@ -1126,19 +1115,13 @@ void celPlayerData::GetNetworkLinks (csTicks snapshot_time,
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celPlayerList)
-  SCF_IMPLEMENTS_INTERFACE (iCelPlayerList)
-SCF_IMPLEMENT_IBASE_END
-
-celPlayerList::celPlayerList ()
+celPlayerList::celPlayerList () : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
 }
 
 celPlayerList::~celPlayerList ()
 {
   RemoveAll ();
-  SCF_DESTRUCT_IBASE ();
 }
 
 size_t celPlayerList::GetCount () const

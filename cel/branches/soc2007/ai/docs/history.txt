@@ -3,6 +3,198 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+8-Sep-2007
+	- Vincent added a few plugins to the list for celstart_static.
+31-Aug-2007
+	- Jorrit fixed CEL for latest CS changes.
+	- Jorrit fixed CEL for latest CS changes.
+	- Jorrit fixed CEL for latest CS changes.
+30-Aug-2007
+	- iceeey removed "returns blaa..." from api description of void
+	  function.
+	- Genjix replaced call to GetLastPosition(...) in actormove with
+	  GetYRotation().
+	- Genjix updated seriously out of date html api docs.
+22-Aug-2007
+	- Vincent fixed INVISIBLE flag setting and restoring in default
+	  camera 1st person mode. The saved flags were being overwritten
+	  with the newly set flags value, and the restoration done more
+	  than one time.
+17-Aug-2007
+	- Genjix fixed 2 bugs in analog actor movement property involving
+	  deadlocks.
+16-Aug-2007
+	- Genjix cleaned up NewCamera::CalcElasticVec ()
+	- Genjix added a spring default to celCameraMode.
+	- Genjix added temporary hack to camera spring problem until
+	  the fix is found.
+8-Aug-2007
+	- Jorrit fixed CEL for the iPolygonMesh removal in CS.
+5-Aug-2007
+	- Jorrit extended pctimer with the ability to do named
+	  wakeup calls. This is done in a backwards compatible manner.
+	  The WakeUp and Clear actions (and functions in the api) now
+	  support an additional 'name' property. The default name
+	  is 'wakeup'. By using another name you can get multiple
+	  timers running at the same time and every timer will fire
+	  another message ('pctimer_<name>').
+3-Aug-2007
+	- Jorrit fixed a problem in the default camera. It would only
+	  set the INVISIBLEMESH flag and not INVISIBLE. That means that
+	  in first person mode hitbeams would sometimes hit the player
+	  mesh. Fixed this by setting INVISIBLE again. When returning back
+	  from first person the settings as they were before going to
+	  INVISIBLE are restored.
+2-Aug-2007
+	- Jorrit did some better error reporting in the action handling
+	  of the zone manager.
+	- Jorrit fixed pcmeshselect so that it also accepts setting
+	  the camera entity when that entity is not present. In that
+	  case it will try to get it later.
+	- Jorrit fixed a bug in the error handling of zone manager.
+	  It would give an error when there was no error and vice versa.
+1-Aug-2007
+	- Jorrit added an alternative (and cleaner) syntax for
+	  the <expr> node in the blxml language. You can now specify
+	  the expression as a text child of the <expr> node. So no need
+	  for the 'eval' attribute. Instead of:
+		<expr eval="someexpression()" />
+	  you do:
+		<expr>someexpression()</expr>
+31-Jul-2007
+	- Jorrit fixed a problem in pcproperties. The iCelPropertyClass
+	  api to fetch properties by ID didn't work anymore.
+30-Jul-2007
+	- caedes fixed error handling in the python behaviour layer,
+	  it was inconsistently using the python debugger in a way that 
+	  made python2.5 show weird errors.
+29-Jul-2007
+        - res adjusted the use of the Crystal Space MSVC static plugin
+          information to the new one-file-per-version split.
+26-Jul-2007
+	- Jorrit fixed cel.txi so that the version is now correctly put in
+	  the generated documentation title.
+25-Jul-2007
+        - Jorrit renamed (again!) 'pcmove.actor' to 'pcmove.actor.standard'.
+          This is now really the final name!
+	- Jorrit changed the texinfo documentation so that the version
+	  number is now part of the title.
+	- Jorrit removed the obsolete moveactor property class.
+24-Jul-2007
+	- Jorrit fixed the TCP networking plugin to compile again.
+23-Jul-2007
+	- res fixed cel.m4 to use the right test order when a development
+	  resp. stable version is requested (previously, the orders actually
+	  tested where swapped in comparison to the described desired
+	  behaviour).
+	- res updated mk/autoconf/ and mk/jam/ from the CS master copies.
+	- res fixed a cut-and-paste error in cel.m4.
+22-Jul-2007
+	- Darek fixed newcamera collisions.
+20-Jul-2007
+	- Genjix activated analog movement in celtest so camera can broken
+	  camera can be fixed.
+	- Jorrit fixed walktut for the actorold rename.
+19-Jul-2007
+	- Genjix migrated actor.lara to actor.analog
+	- Genjix fixed python bindings.
+	- Jorrit blindly fixed a few build errors in the tcp network
+	  plugin.
+	- Jorrit renamed 'pcmove.actorold' to 'pcmove.actor' again. Since
+	  this property class is not likely to go away it shouldn't be called
+	  with an 'old' suffix.
+	- res made cel-config versioned (ie it's now called cel-config-X.Y
+	  where X.Y is the CEL version). 'Plain' cel-config is now a wrapper
+	  script using the cs-config-X.Y with the highest found version.
+18-Jul-2007
+	- Genjix then changed it to be speeeed up by working out the string
+	  at compile not runtime.
+	- Genjix added new name parameter to cel actions so that actid(...)
+	  isn't always needed.
+	- res made CEL install into versioned directories and support a
+	  versioned CEL_x_y environment variable as measures to get towards
+	  support for parallel installation of multiple versions.
+	- Jorrit removed a broken link from the tutorial.
+17-Jul-2007
+	- Jorrit converted a big bunch of old SCF to new SCF. Only a few
+	  classes left.
+	- Jorrit fixed a few left over SCF things. Only thing that still has
+	  to be converted to new SCF but that one is problematic due to
+	  API clash.
+	- Jorrit deprecated the methods iCelPropertyClass->GetPropertyFloat(),
+	  GetPropertyLong(), GetPropertyString() and so on in favor
+	  of the new GetPropertyFloatByID(), GetPropertyLongByID() and
+	  so on.
+4-Jul-2007
+	- Genjix got rid of python info about loading property class
+	  factories as its uneeded.
+2-Jul-2007
+	- Darek made default yrot=0 for pcmove.linear:SetPosition.
+29-Jun-2007
+	- Vincent applied updates to celMenu and celScroller python widgets
+	  (resp. font constant computation and new getmaxvisible() function).
+	- Oktal replaced the calls to the non-standard isnormal() in
+	  with a portable alternative, in pcneuralnet.
+28-Jun-2007
+	- Genjix made NewCamera default in celtest and removed DefaultCamera.
+	- Vincent fixed path to dot.png texture in data/basic_world.
+22-Jun-2007
+	- Darek cel.property.meshname to pcobject.mesh.
+	- Darek fixed celPcMesh::DetachSocketMesh in case when socket 
+	  is empty.
+	- Darek removed destroying object from celPcMesh::DetachSocketMesh
+	  and let to user do that optionally.
+20-Jun-2007
+	- Darek added xml property 'enabled' to trigger.
+19-Jun-2007
+	- Darek added to xml action pcmesh:AttachSocketMesh support
+	  for optional 'object' and iMeshWrapper in the interface.
+	- Darek fixed spring in the pccamera.default.
+	- Darek fixed firstperson mode in the pccamera.default.
+17-Jun-2007
+	- Genjix added preliminary pcmove.actor property class, which is
+	  just a shell for an empty moded property class.
+16-Jun-2007
+	- Genjix added documentation clause to newcamera.h
+	- Genjix renamed LaraTrack camera mode to Tracking and added to
+	  iPcmNewCamera namespace. Also added typedef for renamed
+	  iCelCameraMode.
+15-Jun-2007
+	- Darek fixed collisions with terrain in pccamera.default.
+	- Darek rollback this change.
+	- caedes added functions inside blcel.i to allow setting of
+	  module SCF pointer from scripting languages, this is needed
+	  when using blcelc in a pure scripting environment, as it
+	  wont be initialized by cs, and thus a lot of stuff wont work.
+	- caedes changed iPcProperties::GetPropertyIndex docstring to
+	  reflect the real "not found" value that is to be used
+	  (csArrayItemNotFound instead of -1).
+	- caedes changed the python __contains__ method for pcproperties
+	  to check for not found element correctly (was using -1).
+14-Jun-2007
+	- Darek added 'horizontal' mode to pccamera.default.
+11-Jun-2007
+	- Jorrit fixed a problem in the standard physical layer which
+	  would cause FindAttachedEntity() to fail (and that would cause
+	  nearly entire CEL to fail).
+4-Jun-2007
+	- Darek fixed iCollideSystem checking in zonemanager.
+	- Darek fixed blxml destroyentity class.
+	- caedes added %template declarations to swig interface files for
+	  the ParameterBlock classes. After converting this classes to new
+	  scf swig doesnt know how to resolve inheritance otherwise.
+	- Oktal replaced the non-standard round() calls in pcneuralnet with
+	  a custom-written rounding function, thus fixing compilation on MSVC.
+1-Jun-2007
+	- Jorrit started converting all classes to new SCF.
+30-May-2007
+	- Jorrit fixed a few occurances in the plugins and documentation
+	  of the old property class names.
+	- caedes changed celBillboard so when texture being loaded
+	  doesnt have keepimage flag the whole image size will be used
+	  as clickmap. This way keepimage is not needed for billboards
+	  with no alpha. Previously the same situation would yield no
+	  mouse events at all.
 25-May-2007
 	- Jorrit did some better formatting of the command and function
 	  descriptions in the XML behaviour layer documentation.

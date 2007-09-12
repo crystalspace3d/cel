@@ -92,10 +92,6 @@ void cameraSectorListener::NewSector (iCamera* /*camera*/, iSector* sector)
     zonemgr->ActivateSector (sector);
 }
 
-SCF_IMPLEMENT_IBASE (cameraSectorListener)
-  SCF_IMPLEMENTS_INTERFACE (iCameraSectorListener)
-SCF_IMPLEMENT_IBASE_END
-
 void meshmoveListener::MovableChanged (iMovable* movable)
 {
   if (!zonemgr) return;
@@ -103,15 +99,7 @@ void meshmoveListener::MovableChanged (iMovable* movable)
     zonemgr->ActivateSector (movable->GetSectors ()->Get (0));
 }
 
-SCF_IMPLEMENT_IBASE (meshmoveListener)
-  SCF_IMPLEMENTS_INTERFACE (iMovableListener)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celMapFile)
-  SCF_IMPLEMENTS_INTERFACE (iCelMapFile)
-SCF_IMPLEMENT_IBASE_END
 
 void celMapFile::SetFile (const char* file)
 {
@@ -144,12 +132,6 @@ void celMapFile::SetSectorName (const char* name)
 }
 
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelRegion)
-  SCF_IMPLEMENTS_INTERFACE (iCelNewEntityCallback)
-  SCF_IMPLEMENTS_INTERFACE (iEngineSectorCallback)
-SCF_IMPLEMENT_IBASE_END
 
 void celRegion::SetEntityName (const char* entname)
 {
@@ -284,6 +266,11 @@ bool celRegion::Load (bool allow_entity_addon)
 
   if (mgr->IsColliderWrappers ())
   {
+    if (!mgr->GetCDSystem ())
+    {
+      Report (mgr->GetObjectReg (), "No iCollideSystem plugin!");
+      return false;
+    }
     // Create colliders for all meshes in this region.
     csColliderHelper::InitializeCollisionWrappers (mgr->GetCDSystem (),
     	engine, cur_region);
@@ -375,10 +362,6 @@ iCelMapFile* celRegion::FindMapFile (const char* name) const
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celZone)
-  SCF_IMPLEMENTS_INTERFACE (iCelZone)
-SCF_IMPLEMENT_IBASE_END
-
 void celZone::LinkRegion (iCelRegion* region)
 {
   size_t idx = regions.Find ((celRegion*)region);
@@ -428,18 +411,9 @@ csStringID celPcZoneManager::id_name = csInvalidStringID;
 
 PropertyHolder celPcZoneManager::propinfo;
 
-SCF_IMPLEMENT_IBASE_EXT (celPcZoneManager)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcZoneManager)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcZoneManager::PcZoneManager)
-  SCF_IMPLEMENTS_INTERFACE (iPcZoneManager)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
@@ -459,11 +433,6 @@ celPcZoneManager::celPcZoneManager (iObjectRegistry* object_reg)
     return;
   }
   cdsys = csQueryRegistry<iCollideSystem> (object_reg);
-  if (!cdsys)
-  {
-    Report (object_reg, "No iCollideSystem plugin!");
-    return;
-  }
 
   do_colliderwrappers = true;
   loading_mode = CEL_ZONE_NORMAL;
@@ -520,7 +489,6 @@ celPcZoneManager::~celPcZoneManager ()
   loading_mode = CEL_ZONE_NORMAL;
   ActivateRegion (0);
   delete params;
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcZoneManager);
 }
 
 bool celPcZoneManager::GetPropertyIndexed (int idx, const char*& b)
@@ -671,7 +639,7 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
       {
         CEL_FETCH_STRING_PAR (path,params,id_path);
         CEL_FETCH_STRING_PAR (file,params,id_file);
-        if (!p_file) return false;
+        if (!p_file) return Report (object_reg, "File parameter missing for Load action!");
         if (!Load (path, file))
           return false;
         return true;
@@ -704,25 +672,31 @@ bool celPcZoneManager::PerformActionIndexed (int idx,
     case action_pointmesh:
       {
         CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
+        if (!p_entityname)
+	  return Report (object_reg, "Entity name missing for PointMesh action!");;
         CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return false;
+        if (!p_regionname)
+	  return Report (object_reg, "Region name missing for PointMesh action!");;
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
-        if (!PointMesh (entityname, regionname, startname))
-          return false;
+        if (!p_startname)
+	  return Report (object_reg, "Start name missing for PointMesh action!");;
+        if (PointMesh (entityname, regionname, startname) != CEL_ZONEERROR_OK)
+          return Report (object_reg, "PointMesh failed!");
         return true;
       }
     case action_pointcamera:
       {
         CEL_FETCH_STRING_PAR (entityname,params,id_entityname);
-        if (!p_entityname) return false;
+        if (!p_entityname)
+	  return Report (object_reg, "Entity name missing for PointCamera action!");;
         CEL_FETCH_STRING_PAR (regionname,params,id_regionname);
-        if (!p_regionname) return false;
+        if (!p_regionname)
+	  return Report (object_reg, "Region name missing for PointCamera action!");;
         CEL_FETCH_STRING_PAR (startname,params,id_startname);
-        if (!p_startname) return false;
+        if (!p_startname)
+	  return Report (object_reg, "Start name missing for PointCamera action!");;
         if (!PointCamera (entityname, regionname, startname))
-          return false;
+          return Report (object_reg, "PointCamera failed!");
         return true;
       }
     case action_createregion:
@@ -1272,8 +1246,8 @@ bool celPcZoneManager::ActivateSector (iSector* sector)
 void celPcZoneManager::FindStartLocations (iStringArray* regionnames,
 	iStringArray* startnames)
 {
-  regionnames->DeleteAll ();
-  startnames->DeleteAll ();
+  regionnames->Empty ();
+  startnames->Empty ();
   size_t i;
   for (i = 0 ; i < region_names.GetSize () ; i++)
   {

@@ -76,11 +76,13 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     ptanimimg
     rendloop_loader
     rendstep_std
+    rendstep_stencil
     reporter
     sequence
     shadermgr
     skeleton
     skelldr
+    softshader
     spr2d
     spr3d
     sprcal3d
@@ -108,6 +110,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     sndmanager
     sndsyssoft
     sndsysloader
+    sndsysnull
     sndsysogg
     sndsyswav
     ;
@@ -122,6 +125,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     STATIC.PLUGINLIST += xwin ;
     STATIC.OPTIONALPLUGINLIST += sndsysoss ;
     STATIC.OPTIONALPLUGINLIST += sndsysalsa ;
+    STATIC.OPTIONALPLUGINLIST += xext86vm ;
   }
 
   LinkStaticPlugins celstart_static : $(STATIC.PLUGINLIST) : $(STATIC.OPTIONALPLUGINLIST)
@@ -149,6 +153,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
     pfmechanics
     pfhover
     pfmesh
+    pfmeshdeform
     pfmove
     pfmover
     pfportal

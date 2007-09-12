@@ -54,16 +54,16 @@ class celBillboardManager;
  * A layer for the billboard manager. Several billboards can
  * be in one layer. You can move layers independently.
  */
-class celBillboardLayer : public iBillboardLayer
+class celBillboardLayer : public scfImplementation1<
+	celBillboardLayer, iBillboardLayer>
 {
 public:
   int bb_layer_x, bb_layer_y;
   char* name;
 
 public:
-  celBillboardLayer (const char* name)
+  celBillboardLayer (const char* name) : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
     bb_layer_x = 0;
     bb_layer_y = 0;
     celBillboardLayer::name = csStrNew (name);
@@ -72,10 +72,7 @@ public:
   virtual ~celBillboardLayer ()
   {
     delete[] name;
-    SCF_DESTRUCT_IBASE ();
   }
-
-  SCF_DECLARE_IBASE;
 
   virtual void GetOffset (int& x, int& y) const
   {
@@ -101,7 +98,8 @@ public:
 /**
  * A billboard.
  */
-class celBillboard : public iBillboard
+class celBillboard : public scfImplementation1<
+	celBillboard, iBillboard>
 {
   friend class celBillboardManager;
 
@@ -190,8 +188,6 @@ public:
   bool UseTextFgColor () const { return do_fg_color; }
   bool UseTextBgColor () const { return do_bg_color; }
 
-  SCF_DECLARE_IBASE;
-
   virtual const char* GetName () const { return name; }
   virtual csFlags& GetFlags () { return flags; }
   virtual bool SetMaterialName (const char* matname);
@@ -256,7 +252,8 @@ public:
 /**
  * This is a manager for billboards.
  */
-class celBillboardManager : public iBillboardManager
+class celBillboardManager : public scfImplementation2<
+	celBillboardManager, iBillboardManager, iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -330,13 +327,11 @@ public:
 public:
   celBillboardManager (iBase* parent);
   virtual ~celBillboardManager ();
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
   bool HandleEvent (iEvent& ev);
 
   iFont* GetDefaultFont () const { return default_font; }
   iGraphics3D* GetGraphics3D () const { return g3d; }
-
-  SCF_DECLARE_IBASE;
 
   virtual int ScreenToBillboardX (int x) const { return x * screen_w_fact; }
   virtual int ScreenToBillboardY (int y) const { return y * screen_h_fact; }
@@ -382,31 +377,22 @@ public:
   csMeshOnTexture* GetMeshOnTexture ();
   virtual iSector* GetShowroom ();
 
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celBillboardManager);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
-
   // Not an embedded interface to avoid circular references!!!
-  class EventHandler : public iEventHandler
+  class EventHandler : public scfImplementation1<
+	EventHandler, iEventHandler>
   {
   private:
     celBillboardManager* parent;
 
   public:
-    EventHandler (celBillboardManager* parent)
+    EventHandler (celBillboardManager* parent) : scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE (0);
       EventHandler::parent = parent;
     }
     virtual ~EventHandler ()
     {
-      SCF_DESTRUCT_IBASE ();
     }
 
-    SCF_DECLARE_IBASE;
     virtual bool HandleEvent (iEvent& ev)
     {
       return parent->HandleEvent (ev);

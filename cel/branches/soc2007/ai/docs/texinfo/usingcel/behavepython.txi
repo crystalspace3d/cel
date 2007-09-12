@@ -52,7 +52,7 @@ class fovcontrol:
 		# get camera from main actor (called camera in this case)
                 self.camera = celGetDefaultCamera(Entities["camera"]).Camera
                 self.initfov = self.camera.GetFOV ()
-		# get/create a pccommandinput
+		# get/create a pcinput.standard
                 self.input = celCommandInput(celEntity)
                 self.input.Bind("z","zoomin")
                 self.input.Bind("x","zoomout")
@@ -114,18 +114,18 @@ set to it:
 
 @example
 <addon entityname="camera" plugin="cel.addons.celentity">
-  <propclass name="pcmesh">
+  <propclass name="pcobject.mesh">
     <action name="SetMesh">
       <par name="name" string="ActorMesh"/>
     </action>
   </propclass>
-  <propclass name="pcdefaultcamera">
+  <propclass name="pccamera.old">
     <action name="SetCamera">
       <par name="modename" string="thirdperson"/>
     </action>
   </propclass>
-  <propclass name="pccommandinput"/>
-  <propclass name="pcmeshselect">
+  <propclass name="pcinput.standard"/>
+  <propclass name="pcobject.mesh.select">
     <action name="SetCamera">
       <par name="entity" string="camera"/>
     </action>
@@ -243,22 +243,6 @@ section of this manual.
 Property classes are objects we can create attached to an entity, and which
 augment the entity with some functionality (@pxref{Property Classes}).
 
-First it must be noted to use each property class it must be ensured it is
-registered at the physical layer, to do this in python simply add the property
-class factory full name (cel.pcfactory.pcclass) to the @samp{PcFactories} dict
-(which is a member of the physicallayer but has global access due to pycel
-layer).
-
-An example of this follows:
-@example
-pcclasses = ["region","tooltip","mesh","solid","meshselect","zonemanager","trigger",
-	     "quest","light","inventory","defaultcamera","gravity","movable",
-	     "pccommandinput","linmove","actormove","colldet","timer","soundlistener",
-	     "soundsource","billboard","properties"]
-for pcclass in pcclasses:
-	PcFactories.append("cel.pcfactory."+pcclass)
-@end example
-
 For each property class there are several functions in pycel module that allow
 easily fetching or creating of the appropiate property class from an entity
 object:
@@ -319,8 +303,9 @@ will receive three different events named @code{pccommandinput_bind1},
 @code{pccommandinput_bind0} and @code{pccommandinput_bind_}, respectively for
 the key press, release and maintain events.
 
-Other property classes like @code{pcmechanicsobject}, @code{pcmeshselect},
-@code{pcbillboard}, @code{pcdamage}, @code{pclinmove} also generate their own
+Other property classes like @code{pcphysics.object},
+@code{pcobject.mesh.select}, @code{pc2d.billboard}, @code{pclogic.damage},
+@code{pcmove.linear} also generate their own
 special messages.
 
 Message function calls get three parameters. The first is the behaviour class

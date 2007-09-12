@@ -28,25 +28,12 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBlTest)
 
-SCF_IMPLEMENT_IBASE (celBlTest)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBlTest::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-celBlTest::celBlTest (iBase* parent)
+celBlTest::celBlTest (iBase* parent) : scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
 }
 
 celBlTest::~celBlTest ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBlTest::Initialize (iObjectRegistry* object_reg)

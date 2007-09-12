@@ -36,23 +36,13 @@
 
 CEL_IMPLEMENT_FACTORY_ALT (CraftController, "pcvehicle.craft", "pccraft")
 
-SCF_IMPLEMENT_IBASE_EXT (celPcCraftController)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcCraftController)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcCraftController::PcCraftController)
-  SCF_IMPLEMENTS_INTERFACE (iPcCraftController)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
 csStringID celPcCraftController::id_enabled = csInvalidStringID;
 
 PropertyHolder celPcCraftController::propinfo;
 
 celPcCraftController::celPcCraftController (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg), celPeriodicTimer (pl)
+	: scfImplementationType (this, object_reg), celPeriodicTimer (pl)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcCraftController);
-
   if (id_enabled == csInvalidStringID)
   {
     id_enabled = pl->FetchStringID ("cel.parameter.enabled");

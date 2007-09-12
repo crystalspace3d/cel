@@ -38,7 +38,8 @@ struct iCelBlLayer;
 struct iCelPlLayer;
 struct iCelEntity;
 
-class htBehaviourActor : public iCelBehaviour
+class htBehaviourActor : public scfImplementation1<htBehaviourActor,
+  iCelBehaviour>
 {
 private:
   iCelBlLayer* bl;
@@ -70,13 +71,13 @@ public:
   htBehaviourActor(iCelBlLayer *bl, iCelEntity *entity, iCelPlLayer *pl);
   virtual ~htBehaviourActor();
 
-  SCF_DECLARE_IBASE;
-
   virtual iCelBlLayer* GetBehaviourLayer () const { return bl; }
   virtual void* GetInternalObject () { return 0; }
   virtual const char* GetName () const { return "hoverobj"; }
-  virtual bool SendMessage (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params,...);
-  virtual bool SendMessageV (const char *msg_id, iCelPropertyClass *pc, celData &ret, iCelParameterBlock *params, va_list arg);
+  virtual bool SendMessage (const char *msg_id, iCelPropertyClass *pc,
+      celData &ret, iCelParameterBlock *params,...);
+  virtual bool SendMessageV (const char *msg_id, iCelPropertyClass *pc,
+      celData &ret, iCelParameterBlock *params, va_list arg);
 };
 
 #endif
