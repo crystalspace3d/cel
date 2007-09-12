@@ -1,4 +1,5 @@
 SubDir TOP apps tutorial ;
 
 SubInclude TOP apps tutorial walktut ;
-
+SubInclude TOP apps tutorial steering ;
+SubInclude TOP apps tutorial graph ;
