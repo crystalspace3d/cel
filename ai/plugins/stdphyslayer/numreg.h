@@ -2,6 +2,7 @@
 #define PLUGINS_STDPHYSLAYER_NUMREG_H
 
 #include "cstypes.h"
+#include "csutil/scf_implementation.h"
 #include "csutil/hash.h"
 
 #include "physicallayer/numreg.h"
@@ -13,7 +14,7 @@ class csString;
  *  Note: This class does nearly no error checking  and should be used with
  *  care
  */
-class NumRegLists : public iNumReg
+class NumRegLists : public scfImplementation1<NumRegLists, iNumReg>
 {
 public:
   /** 
@@ -26,8 +27,6 @@ public:
   NumRegLists(int limit=100000, int freelistsize=100, int startsize=300);
   /// The destructor frees all memory
   virtual ~NumRegLists();
-
-  SCF_DECLARE_IBASE;
 
   /** 
    *  Registers an object in the registry and returns the new ID, in error
@@ -80,13 +79,11 @@ protected:
  * Another implementation of iNumReg. You should use it for client 
  * applications when IDs are allocated on server.
  */
-class NumRegHash : public iNumReg
+class NumRegHash : public scfImplementation1<NumRegHash, iNumReg>
 {
 public:
   NumRegHash(int limit);
   virtual ~NumRegHash();
-
-  SCF_DECLARE_IBASE;
 
   virtual uint Register(void* obj);
   virtual void RegisterWithID(void* obj, uint id);

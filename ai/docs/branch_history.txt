@@ -2,6 +2,8 @@ History for the SoC AI Project.
 
 The history order is reversed so that new features are at the top.
 
+12-Sep-2007
+	- Jorrit merged r2793:2978 from trunk into ai branch.
 29-May-2007
 	- Jorrit merged r2746:2792 from trunk into ai branch.
 18-May-2007

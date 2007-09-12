@@ -36,9 +36,9 @@ struct iCelPlLayer;
  * This is an add-on to allow adding of cel entities through a standard
  * CS map file.
  */
-class celAddOnCelEntityTemplate :
-	public iLoaderPlugin,
-	public iEntityTemplateLoader
+class celAddOnCelEntityTemplate : public scfImplementation3<
+	celAddOnCelEntityTemplate, iLoaderPlugin, iEntityTemplateLoader,
+	iComponent>
 {
 private:
   iObjectRegistry* object_reg;
@@ -54,15 +54,13 @@ private:
   csRef<celVariableParameterBlock> ParseParameterBlock (iDocumentNode* child);
 
 public:
-  SCF_DECLARE_IBASE;
- 
   celAddOnCelEntityTemplate (iBase* parent);
   virtual ~celAddOnCelEntityTemplate ();
   /**
    * Initialize this plugin. Register XML tokens for behaviour, propclass
    * and property.
    */
-  bool Initialize (iObjectRegistry* object_reg);
+  virtual bool Initialize (iObjectRegistry* object_reg);
   /**
    * Parses a document/script and assigns behaviour and/or property class to
    * an entity. If the context is not a mesh, a standalone entity will be
@@ -74,13 +72,6 @@ public:
 
   virtual iCelEntityTemplate* Load (iDocumentNode* node);
   virtual iCelEntityTemplate* Load (const char* path, const char* file);
-
-  struct Component : public iComponent
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celAddOnCelEntityTemplate);
-    virtual bool Initialize (iObjectRegistry* p)
-    { return scfParent->Initialize (p); }
-  } scfiComponent;
 };
 
 #endif // __CEL_ADDON_CELENTITYTPL__

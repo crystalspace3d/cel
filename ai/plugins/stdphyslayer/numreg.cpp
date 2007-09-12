@@ -24,11 +24,8 @@
 
 //----------------------- NumRegLists --------------------------------------
 
-SCF_IMPLEMENT_IBASE(NumRegLists)
-  SCF_IMPLEMENTS_INTERFACE(iNumReg)
-SCF_IMPLEMENT_IBASE_END
-
-NumRegLists::NumRegLists(int limit, int freelistsize, int startsize)
+NumRegLists::NumRegLists(int limit, int freelistsize, int startsize) :
+  scfImplementationType (this)
 {
   list = (void**) malloc(sizeof(void*)*startsize);
   memset ((void*) list, 0, sizeof(void*)*startsize);
@@ -188,11 +185,8 @@ void NumRegLists::Clear()
 } 
 
 //------------------------ NumRegHash --------------------------------------
-SCF_IMPLEMENT_IBASE(NumRegHash)
-  SCF_IMPLEMENTS_INTERFACE(iNumReg)
-SCF_IMPLEMENT_IBASE_END
 
-NumRegHash::NumRegHash (int size)
+NumRegHash::NumRegHash (int size) : scfImplementationType (this)
 {
   current_id = 1;
   limit = size;

@@ -7,10 +7,7 @@
 @cindex @code{csBaseEventHandler}
 
 This is a tutorial to show how you can use Crystal Entity Layer in your
-own applications. The original game data and the Blender level and model
-source used to create the artwork of this tutorial can be downloaded from:
-
-@uref{http://www.crystalspace3d.org/celtutorial.zip}
+own applications.
 
 The source files of this tutorial can be found in the
 @file{apps/tutorial/walktut} directory that is included with @sc{cel}.
@@ -354,7 +351,7 @@ Since we are possibly using third-person camera mode the zone manager needs
 to know about the player mesh. This is needed so that the zone manager can
 load the needed regions depending on where the player moves.
 
-Then we setup @samp{pcmove.linear} and @samp{pcmove.actor} with the
+Then we setup @samp{pcmove.linear} and @samp{pcmove.actor.standard} with the
 proper movement parameters. This includes the dimensions of the collision
 box and various speed parameters with which we will move the player.
 
@@ -370,7 +367,7 @@ bool MainApp::CreatePlayer ()
     "pccamera.old",
     "pcobject.mesh",
     "pcmove.linear",
-    "pcmove.actor",
+    "pcmove.actor.standard",
     "pcinput.standard",
     "pctools.inventory",
     CEL_PROPCLASS_END);
@@ -732,7 +729,7 @@ public:
 
 And finally the behaviour for our player. This one takes care of matching
 commands from the @samp{pcinput.standard} property class to actual operations
-on @samp{pcmove.actor}.
+on @samp{pcmove.actor.standard}.
 
 @example
 class BehaviourPlayer : public BehaviourCommon
@@ -900,9 +897,9 @@ bool BehaviourLevel::SendMessage (csStringID msg_id,
 
 The player behaviour is responsible for managing input (from
 @samp{pcinput.standard}) and moving the actor in response to that input
-(with @samp{pcmove.actor}). First we request @sc{id}'s from the physical
-layer for the messages from the input property class that we want to respond
-too. For every command we defined in a @code{Bind()} in the
+(with @samp{pcmove.actor.standard}). First we request @sc{id}'s from the
+physical layer for the messages from the input property class that we want
+to respond too. For every command we defined in a @code{Bind()} in the
 @code{CreatePlayer()} function we get both a @samp{1} (when key is pressed)
 and a @samp{0} message (when key is released).
 
@@ -913,9 +910,9 @@ on standard output and the @code{Drop()} function will drop one item from
 the inventory.
 
 In @code{SendMessage()} we test which message we got. If it is one of
-the input messages we call the appropriate @sc{api} method in @samp{pcmove.actor}
-to move, rotate, or jump the player. If it is one of the inventory messages
-then we show the inventory contents.
+the input messages we call the appropriate @sc{api} method in
+@samp{pcmove.actor.standard} to move, rotate, or jump the player. If it is
+one of the inventory messages then we show the inventory contents.
 
 @example
 BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)

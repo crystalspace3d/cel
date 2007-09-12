@@ -49,18 +49,26 @@ class csStringArray;
  */
 CEL_DECLARE_FACTORY(Timer)
 
+struct TimeEvent
+{
+  csTicks firetime;	// When to fire.
+  csTicks amount;	// Amount to fire on again (in case of repeat).
+  bool repeat;
+  csString name;	// Name of this timer (or "wakeup" for anonymous).
+};
+
 /**
  * This is a timer property class.
  */
-class celPcTimer : public celPcCommon
+class celPcTimer : public scfImplementationExt1<
+	celPcTimer, celPcCommon, iPcTimer>
 {
 private:
   csRef<iVirtualClock> vc;
   bool enabled;
-  csTicks wakeup;
-  bool repeat;
   bool wakeupframe;
-  bool wakeuponce;
+  int whereframe;
+  csArray<TimeEvent> timer_events;
 
   static PropertyHolder propinfo;
 
@@ -75,17 +83,16 @@ private:
   static csStringID id_currentticks;
   static csStringID id_time;
   static csStringID id_repeat;
+  static csStringID id_name;
   celGenericParameterBlock* params;
 
 public:
   celPcTimer (iObjectRegistry* object_reg);
   virtual ~celPcTimer ();
 
-  void WakeUp (csTicks t, bool repeat);
-  void WakeUpFrame (int where);
-  void Clear ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
+  virtual void WakeUp (csTicks t, bool repeat, const char* name);
+  virtual void WakeUpFrame (int where);
+  virtual void Clear (const char* name);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -93,23 +100,6 @@ public:
       celData& ret);
   virtual void TickOnce ();
   virtual void TickEveryFrame ();
-
-  struct PcTimer : public iPcTimer
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcTimer);
-    virtual void WakeUp (csTicks t, bool repeat)
-    {
-      scfParent->WakeUp (t, repeat);
-    }
-    virtual void WakeUpFrame (int where)
-    {
-      scfParent->WakeUpFrame (where);
-    }
-    virtual void Clear ()
-    {
-      scfParent->Clear ();
-    }
-  } scfiPcTimer;
 };
 
 #endif // __CEL_PF_TIMERFACT__

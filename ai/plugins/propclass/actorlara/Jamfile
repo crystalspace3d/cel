@@ -1,8 +1,0 @@
-SubDir TOP plugins propclass actorlara ;
-
-Plugin pfactorlara
-	: actorlara.cpp actorlara.h
-;
-ExternalLibs pfactorlara : CRYSTAL ;
-LinkWith pfactorlara : celtool ;
-

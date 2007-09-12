@@ -33,7 +33,8 @@ class celPlLayer;
 /**
  * Implementation of iCelEntity.
  */
-class celEntity : public csObject
+class celEntity : public scfImplementationExt1<celEntity,csObject,
+  iCelEntity>
 {
 private:
   celPropertyClassList* plist;
@@ -54,70 +55,30 @@ public:
   { entity_ID = ID; }
 
   virtual void SetName (const char *name);
+  virtual const char* GetName () const { return csObject::GetName (); }
 
-  void AddClass (csStringID cls);
-  void RemoveClass (csStringID cls);
-  bool HasClass (csStringID cls);
-  const csSet<csStringID>& GetClasses () const { return classes; }
+  virtual void AddClass (csStringID cls);
+  virtual void RemoveClass (csStringID cls);
+  virtual bool HasClass (csStringID cls);
+  virtual const csSet<csStringID>& GetClasses () const { return classes; }
 
-  iCelPropertyClassList* GetPropertyClassList ();
-  void SetBehaviour (iCelBehaviour* ent);
+  virtual iCelPropertyClassList* GetPropertyClassList ();
+  virtual void SetBehaviour (iCelBehaviour* ent);
+  virtual iCelBehaviour* GetBehaviour () { return behaviour; }
 
   // Tell all sibling property classes that a property classes
   // had been added or removed.
   void NotifySiblingPropertyClasses ();
 
-  SCF_DECLARE_IBASE_EXT (csObject);
-
-  //--------------------- iCelEntity implementation --------------------//
-  struct CelEntity : public iCelEntity
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celEntity);
-    celEntity* GetCelEntity () const { return (celEntity*)scfParent; }
-    virtual iObject* QueryObject () { return scfParent; }
-    virtual const char* GetName () const { return scfParent->GetName (); }
-    virtual void SetName (const char* n) { scfParent->SetName (n); }
-    virtual void SetID  (uint n) { scfParent->SetEntityID (n); }
-    virtual uint GetID () const
-    {
-      return scfParent->entity_ID;
-    }
-    virtual iCelPropertyClassList* GetPropertyClassList ()
-    {
-      return scfParent->GetPropertyClassList ();
-    }
-    virtual void SetBehaviour (iCelBehaviour* ent)
-    {
-      scfParent->SetBehaviour (ent);
-    }
-    virtual iCelBehaviour* GetBehaviour ()
-    {
-      return scfParent->behaviour;
-    }
-    virtual void AddClass (csStringID cls)
-    {
-      scfParent->AddClass (cls);
-    }
-    virtual void RemoveClass (csStringID cls)
-    {
-      scfParent->RemoveClass (cls);
-    }
-    virtual bool HasClass (csStringID cls)
-    {
-      return scfParent->HasClass (cls);
-    }
-    virtual const csSet<csStringID>& GetClasses () const
-    {
-      return scfParent->GetClasses ();
-    }
-  } scfiCelEntity;
-  friend struct CelEntity;
+  virtual iObject* QueryObject () { return this; }
+  virtual void SetID  (uint n) { SetEntityID (n); }
+  virtual uint GetID () const { return entity_ID; }
 };
 
 /**
  * Implementation of iCelEntityList.
  */
-class celEntityList : public iCelEntityList
+class celEntityList : public scfImplementation1<celEntityList,iCelEntityList>
 {
 private:
   csRefArray<iCelEntity> entities;
@@ -125,8 +86,6 @@ private:
 public:
   celEntityList ();
   virtual ~celEntityList ();
-
-  SCF_DECLARE_IBASE;
 
   virtual size_t GetCount () const;
   virtual iCelEntity* Get (size_t n) const;

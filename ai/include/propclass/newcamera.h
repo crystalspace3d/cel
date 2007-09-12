@@ -53,15 +53,17 @@ struct iPcZoneManager;
 
 struct iPcNewCamera;
 
-struct iCelCameraMode : public virtual iBase
+namespace iPcmNewCamera
 {
-  SCF_INTERFACE (iCelCameraMode, 0, 0, 1);
+struct General : public virtual iBase
+{
+  SCF_INTERFACE (General, 0, 0, 1);
 
   /**
    * Tells the camera mode what camera has it attached.
    * \param camera The parent camera.
    */
-  virtual void SetParentCamera (iPcNewCamera * camera) = 0;
+  virtual void SetParentCamera (iPcNewCamera* camera) = 0;
 
   /**
    * Decides if this camera mode should use spring physics for the camera's
@@ -108,19 +110,19 @@ struct iCelCameraMode : public virtual iBase
    * Gets the desired camera position.
    * \return The desired camera position.
    */
-  virtual const csVector3 &GetPosition () const = 0;
+  virtual const csVector3& GetPosition () const = 0;
 
   /**
    * Gets the desired camera target.
    * \return The desired camera target.
    */
-  virtual const csVector3 &GetTarget () const = 0;
+  virtual const csVector3& GetTarget () const = 0;
 
   /**
    * Gets the desired camera up vector.
    * \return The desired camera up vector.
    */
-  virtual const csVector3 &GetUp () const = 0;
+  virtual const csVector3& GetUp () const = 0;
 
   /**
    * Informs the camera mode that it should compute the desired position,
@@ -130,9 +132,9 @@ struct iCelCameraMode : public virtual iBase
   virtual bool DecideCameraState () = 0;
 };
 
-struct iTrackCameraMode : public virtual iCelCameraMode
+struct Tracking : public virtual General
 {
-  SCF_INTERFACE (iTrackCameraMode, 0, 0, 1);
+  SCF_INTERFACE (Tracking, 0, 0, 1);
 
   /**
    * Resets this camera to its original state facing the same direction
@@ -172,55 +174,58 @@ struct iTrackCameraMode : public virtual iCelCameraMode
    */
   virtual void SetTargetYOffset (float targetyoffset) = 0;
 };
+} // iPcmNewCamera
 
-SCF_VERSION(iPcNewCamera, 0, 0, 3);
+typedef iPcmNewCamera::General iCelCameraMode;
 
 /**
  * This is a camera property class.
  */
-struct iPcNewCamera : public iPcCamera
+struct iPcNewCamera : public virtual iPcCamera
 {
+  SCF_INTERFACE (iPcNewCamera, 0, 0, 3);
+
   /**
    * Gets the base position of the camera in world coordinates.
    * \return The base position of the camera in world coordinates.
    */
-  virtual const csVector3 &GetBasePos () const = 0;
+  virtual const csVector3& GetBasePos () const = 0;
 
   /**
    * Gets the base direction of the camera.
    * \return The base direction of the camera.
    */
-  virtual const csVector3 &GetBaseDir () const = 0;
+  virtual const csVector3& GetBaseDir () const = 0;
 
   /**
    * Gets the base up vector of the camera.
    * \return The base up vector of the camera.
    */
-  virtual const csVector3 &GetBaseUp () const = 0;
+  virtual const csVector3& GetBaseUp () const = 0;
 
   /**
    * Gets the base transform of the camera.
    * \return The base transform of the camera.
    */
-  virtual const csReversibleTransform &GetBaseTrans () const = 0;
+  virtual const csReversibleTransform& GetBaseTrans () const = 0;
 
   /**
    * Gets the current position of the camera.
    * \return The current position of the camera.
    */
-  virtual const csVector3 &GetPos () const = 0;
+  virtual const csVector3& GetPos () const = 0;
 
   /**
    * Gets the current target of the camera.
    * \return The current target of the camera.
    */
-  virtual const csVector3 &GetTarget () const = 0;
+  virtual const csVector3& GetTarget () const = 0;
 
   /**
    * Gets the current up vector of the camera.
    * \return The current up vector of the camera.
    */
-  virtual const csVector3 &GetUp () const = 0;
+  virtual const csVector3& GetUp () const = 0;
 
   /**
    * Sets the offset from the center of the mesh's iMovable to the position of
@@ -228,7 +233,7 @@ struct iPcNewCamera : public iPcCamera
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset (const csVector3 & offset) = 0;
+  virtual void SetPositionOffset (const csVector3& offset) = 0;
 
   /**
    * Returns whether the camera will use collision detection to avoid moving
@@ -314,7 +319,8 @@ struct iPcNewCamera : public iPcCamera
   {
     CCM_FIRST_PERSON,
     CCM_THIRD_PERSON,
-    CCM_LARA_TRACK,
+    CCM_TRACKING,
+    CCM_HORIZONTAL,
     CCM_COUNT
   };
 
@@ -340,7 +346,7 @@ struct iPcNewCamera : public iPcCamera
   /**
    * Sets the current camera mode.
    * \param modeIndex The index of the current camera mode.
-   * \return 	True on successful camera mode change.
+   * \return True on successful camera mode change.
    */
   virtual bool SetCurrentCameraMode (size_t modeIndex) = 0;
 
@@ -373,6 +379,13 @@ struct iPcNewCamera : public iPcCamera
    */
   virtual iCelCameraMode* GetCameraMode (int idx = -1) = 0;
 
+  /**
+   * Gets the camera mode's specialised interface. If the specified
+   * mode does not implement that interface will return null.
+   * \param T Template parameter for camera interface
+   * \param idx If -1 it will return the current mode
+   * \return The current camera mode's interface.
+   */
   template <typename T>
   csPtr<T> QueryModeInterface (int idx = -1)
   {

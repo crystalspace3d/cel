@@ -62,44 +62,29 @@ static void Report (iObjectRegistry* object_reg, const char* msg, ...)
 
 //---------------------------------------------------------------------------
 
-class celPcPortalCallback : public iPortalCallback
+class celPcPortalCallback : public scfImplementation1<
+	celPcPortalCallback, iPortalCallback>
 {
 public:
-  celPcPortalCallback ()
+  celPcPortalCallback () : scfImplementationType (this)
   {
-    SCF_CONSTRUCT_IBASE (0);
   }
   virtual ~celPcPortalCallback ()
   {
-    SCF_DESTRUCT_IBASE ();
   }
-  SCF_DECLARE_IBASE;
   virtual bool Traverse (iPortal*, iBase*)
   {
     return false;
   }
 };
 
-SCF_IMPLEMENT_IBASE (celPcPortalCallback)
-  SCF_IMPLEMENTS_INTERFACE (iPortalCallback)
-SCF_IMPLEMENT_IBASE_END
-
 //---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE_EXT (celPcPortal)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iPcPortal)
-SCF_IMPLEMENT_IBASE_EXT_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celPcPortal::PcPortal)
-  SCF_IMPLEMENTS_INTERFACE (iPcPortal)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
 
 PropertyHolder celPcPortal::propinfo;
 
 celPcPortal::celPcPortal (iObjectRegistry* object_reg)
-	: celPcCommon (object_reg)
+	: scfImplementationType (this, object_reg)
 {
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiPcPortal);
   engine = csQueryRegistry<iEngine> (object_reg);
   if (!engine)
   {
@@ -122,7 +107,6 @@ celPcPortal::celPcPortal (iObjectRegistry* object_reg)
 
 celPcPortal::~celPcPortal ()
 {
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiPcPortal);
 }
 
 bool celPcPortal::PerformActionIndexed (int, iCelParameterBlock*,
@@ -222,7 +206,8 @@ void celPcPortal::ResolvePortal ()
   {
     iMeshWrapper* m = engine->FindMeshObject (meshname);
     if (!m) return;
-    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (m->GetMeshObject ());
+    csRef<iPortalContainer> pc = scfQueryInterface<iPortalContainer> (
+	m->GetMeshObject ());
     if (!pc) return;	// @@@ ERROR?
     if (portalname.IsEmpty ())
     {

@@ -28,8 +28,6 @@ struct iView;
 struct iPcRegion;
 struct iPcZoneManager;
 
-SCF_VERSION (iPcCamera, 0, 0, 4);
-
 /**
  * The representation of a camera.
  */

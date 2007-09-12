@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.1 The Basics</title>
+<title>Crystal Entity Layer 1.3dev: 4.1 The Basics</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.1 The Basics">
-<meta name="keywords" content="Crystal Entity Layer: 4.1 The Basics">
+<meta name="description" content="Crystal Entity Layer 1.3dev: 4.1 The Basics">
+<meta name="keywords" content="Crystal Entity Layer 1.3dev: 4.1 The Basics">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -98,17 +98,17 @@ for a box in a game. Here are the property classes you could use for that
 entity:
 </p>
 <ul>
-<li> <samp>&lsquo;pcmesh&rsquo;</samp> (see section <a href="PropClass-Mesh.html#0">Mesh</a>).
+<li> <samp>&lsquo;pcobject.mesh&rsquo;</samp> (see section <a href="PropClass-Mesh.html#0">Mesh</a>).
 This property class gives entities a 3D representation (i.e. a mesh in
 Crystal Space terminology). It is only when an entity has this property class
 that you can see it in the 3D world. In this particular example this property
 class would be setup with a mesh that represents a box.
-</li><li> <samp>&lsquo;pclinearmovement&rsquo;</samp> (see section <a href="PropClass-LinMove.html#0">Linear Movement</a>).
+</li><li> <samp>&lsquo;pcmove.linear&rsquo;</samp> (see section <a href="PropClass-LinMove.html#0">Linear Movement</a>).
 This property class is the general movement system in Crystal Entity Layer
 that does not use physics but only simple gravity and collision detection
 simulation. By attaching this property class this entity will correctly fall
 on the floor when it is released in the air.
-</li><li> <samp>&lsquo;pcinventory&rsquo;</samp>
+</li><li> <samp>&lsquo;pctools.inventory&rsquo;</samp>
 By adding this property class the box will be able to contain other items
 (entities). It really acts like a box now. You can assign various attributes
 to the inventory so that you can set the maximum capacity this box can
@@ -118,26 +118,28 @@ carry for example.
 <p>Here is another example of how you could setup your hero:
 </p>
 <ul>
-<li> <samp>&lsquo;pcmesh&rsquo;</samp> (see section <a href="PropClass-Mesh.html#0">Mesh</a>).
+<li> <samp>&lsquo;pcobject.mesh&rsquo;</samp> (see section <a href="PropClass-Mesh.html#0">Mesh</a>).
 Again we need a mesh if we plan to use our hero in third-person mode.
-</li><li> <samp>&lsquo;pclinearmovement&rsquo;</samp> (see section <a href="PropClass-LinMove.html#0">Linear Movement</a>).
-Here we again use <samp>&lsquo;pclinearmovement&rsquo;</samp>. This time we use it also to
+</li><li> <samp>&lsquo;pcmove.linear&rsquo;</samp> (see section <a href="PropClass-LinMove.html#0">Linear Movement</a>).
+Here we again use <samp>&lsquo;pcmove.linear&rsquo;</samp>. This time we use it also to
 control actual movement of the hero.
-</li><li> <samp>&lsquo;pcdefaultcamera&rsquo;</samp>
+</li><li> <samp>&lsquo;pccamera.old&rsquo;</samp>
 Our hero defines the camera. So everything the hero sees we see too. The default
 camera in Crystal Entity Layer also suports 3rd person view. It is actually a
 pretty powerful property class with lots of options on how you want the camera
-to follow the hero.
-</li><li> <samp>&lsquo;pcactormove&rsquo;</samp>
+to follow the hero. Note that it is called 'old' because we're working on a
+future new camera system.
+</li><li> <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>
 This class helps to combine the features of the three property classes
 above so that they work nicely together. It basically knows about player
-animations and how they relate to walking/running speed.
-</li><li> <samp>&lsquo;pcinventory&rsquo;</samp>
+animations and how they relate to walking/running speed. Note that it is
+called 'old' because we're working on a future new movement system.
+</li><li> <samp>&lsquo;pctools.inventory&rsquo;</samp>
 Possible a player can hold items so it is useful to have an inventory.
-</li><li> <samp>&lsquo;pccommandinput&rsquo;</samp>
+</li><li> <samp>&lsquo;pcinput.standard&rsquo;</samp>
 To be able to react to user input (mouse, keyboard, <small class="dots">...</small>) we use the
-<samp>&lsquo;pccommandinput&rsquo;</samp> property class. We also configure this property class
-so that the right input is propagate to <samp>&lsquo;pcactormove&rsquo;</samp>.
+<samp>&lsquo;pcinput.standard&rsquo;</samp> property class. We also configure this property class
+so that the right input is propagate to <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>.
 </li></ul>
 
 <p>These are only two examples. There are a lot more possibilities. It is
@@ -174,10 +176,10 @@ code.
 and in the future more ways will be added.
 </p>
 <p>Property classes send messages to the behaviour when something interesting
-happens. For example, when an entity has a <samp>&lsquo;pccommandinput&rsquo;</samp> property
+happens. For example, when an entity has a <samp>&lsquo;pcinput.standard&rsquo;</samp> property
 class then the behaviour will get messages every time a key is pressed.
 In reaction to those messages the behaviour can then call <small>API</small> calls
-in <samp>&lsquo;pcactormove&rsquo;</samp> to (for example) move the actor around.
+in <samp>&lsquo;pcmove.actor.standard&rsquo;</samp> to (for example) move the actor around.
 </p>
 <p>A behaviour is represented by the <code>iCelBehaviour</code> interface. You can
 create behaviours from <code>iCelBlLayer</code>.

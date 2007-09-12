@@ -29,8 +29,6 @@ class csVector3;
 struct iPcMechanicsObject;
 struct iPcMechanicsThrusterGroup;
 
-SCF_VERSION (iPcMechanicsThruster, 0, 0, 1);
-
 /**
  * Property class representing a thruster that affect forces on the attached
  * object.
@@ -40,8 +38,10 @@ SCF_VERSION (iPcMechanicsThruster, 0, 0, 1);
  * to get the ID of the parameter):
  * - InitThruster: parameters 'objectpctag' (string), 'position' (vector3).
  */
-struct iPcMechanicsThruster : public iBase
+struct iPcMechanicsThruster : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsThruster, 0, 0, 1);
+
   /**
    * Set the mechanics object to affect. This is required.
    * \param mechsys the object the thruster is attached to.
@@ -115,8 +115,6 @@ struct iPcMechanicsThruster : public iBase
 };
 
 
-SCF_VERSION (iPcMechanicsBalancedGroup, 0, 0, 1);
-
 enum celAxisType
 {
   CEL_AT_NONE,
@@ -134,8 +132,10 @@ enum celAxisType
  * - SetType: parameters 'type' (string, "rotation" or "translation").
  * - AddThruster: parameters 'thrusterpctag' (string), 'multiplier' (float).
  */
-struct iPcMechanicsBalancedGroup : public iBase
+struct iPcMechanicsBalancedGroup : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsBalancedGroup, 0, 0, 1);
+
   /**
    * Set this group's type.
    * \param type one of celAxisType, the type of thruster this is.
@@ -189,8 +189,6 @@ struct iPcMechanicsBalancedGroup : public iBase
 };
 
 
-SCF_VERSION (iPcMechanicsThrusterController, 0, 0, 1);
-
 /**
  * Property class that controls the thrusters attached to an object through the
  * use of balanced thruster groups.
@@ -204,8 +202,10 @@ SCF_VERSION (iPcMechanicsThrusterController, 0, 0, 1);
  * - ApplyThrust: parameters 'axisname' (string), 'thrust' (float).
  * - AddBalancedGroup: parameters 'axisname' (string), 'balancedgroup' (string).
  */
-struct iPcMechanicsThrusterController : public iBase
+struct iPcMechanicsThrusterController : public virtual iBase
 {
+  SCF_INTERFACE (iPcMechanicsThrusterController, 0, 0, 1);
+
   /**
    * Set the mechanics object to affect. This is required.
    * \param mechobj the object this controller will affect.

@@ -59,77 +59,78 @@
 namespace celCameraMode
 {
 
-celCameraMode::celCameraMode()
+celCameraMode::celCameraMode ()
 {
   parent = 0;
-
-  pos = csVector3(0,0,0);
-  target = csVector3(0,0,0);
-  up = csVector3(0,1,0);
+  pos = csVector3 (0.0f, 0.0f, 0.0f);
+  target = csVector3 (0.0f, 0.0f, 0.0f);
+  up = csVector3 (0.0f, 1.0f, 0.0f);
+  spring = 2.0f;
 }
 
-celCameraMode::~celCameraMode()
+celCameraMode::~celCameraMode ()
 {
 }
 
-void celCameraMode::SetParentCamera(iPcNewCamera * camera)
+void celCameraMode::SetParentCamera (iPcNewCamera* camera)
 {
   celCameraMode::parent = camera;
 }
 
-bool celCameraMode::UseSpringPos() const
+bool celCameraMode::UseSpringPos () const
 {
   return true;
 }
 
-bool celCameraMode::UseSpringTarget() const
+bool celCameraMode::UseSpringTarget () const
 {
   return true;
 }
 
-bool celCameraMode::UseSpringUp() const
+bool celCameraMode::UseSpringUp () const
 {
   return true;
 }
 
-bool celCameraMode::AllowCollisionDetection() const
+bool celCameraMode::AllowCollisionDetection () const
 {
   return true;
 }
 
-bool celCameraMode::DrawAttachedMesh() const
+bool celCameraMode::DrawAttachedMesh () const
 {
   return false;
 }
 
-float celCameraMode::GetSpringCoefficient() const
+float celCameraMode::GetSpringCoefficient () const
 {
-  return 15.0f;
+  return spring;
 }
 
-const csVector3 & celCameraMode::GetPosition() const
+const csVector3& celCameraMode::GetPosition () const
 {
   return pos;
 }
 
-const csVector3 & celCameraMode::GetTarget() const
+const csVector3& celCameraMode::GetTarget () const
 {
   return target;
 }
 
-const csVector3 & celCameraMode::GetUp() const
+const csVector3& celCameraMode::GetUp () const
 {
   return up;
 }
 
-bool celCameraMode::DecideCameraState()
+bool celCameraMode::DecideCameraState ()
 {
   if (!parent)
     return false;
 
-  pos = parent->GetBasePos();
-  target = pos + parent->GetBaseDir();
-  up  = parent->GetBaseUp();
+  pos = parent->GetBasePos ();
+  target = pos + parent->GetBaseDir ();
+  up  = parent->GetBaseUp ();
+  spring = parent->GetCollisionSpringCoefficient ();
   return true;
 }
 

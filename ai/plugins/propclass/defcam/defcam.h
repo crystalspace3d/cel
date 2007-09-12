@@ -170,13 +170,19 @@ public:
 /**
  * This is a camera property class.
  */
-class celPcDefaultCamera : public celPcCameraCommon
+class celPcDefaultCamera : public scfImplementationExt2<
+	celPcDefaultCamera, celPcCameraCommon, iPcDefaultCamera,
+	scfFakeInterface<iPcCamera> >
 {
 private:
   csRef<iKeyboardDriver> kbd;
   csRef<iMouseDriver> mouse;
   csRef<iCollideSystem> cdsys;
   bool use_cd;
+  // Used to restore mesh invisibility flags after returning from
+  // first person.
+  bool old_mesh_invisibility_flags_set;
+  uint32 old_mesh_invisibility_flags;
 
   static csStringID id_modename;
   static csStringID id_spring;
@@ -339,11 +345,12 @@ public:
   virtual bool SetPropertyIndexed (int idx, float b);
   virtual bool GetPropertyIndexed (int idx, float& b);
 
-  bool SetMode (iPcDefaultCamera::CameraMode cammode, bool use_cd = true);
-  iPcDefaultCamera::CameraMode GetMode () const { return cammode; }
-  bool SetModeName (const char* m, bool use_cd = true);
-  const char* GetModeName () const;
-  iPcDefaultCamera::CameraMode GetNextMode () const;
+  virtual bool SetMode (iPcDefaultCamera::CameraMode cammode,
+      bool use_cd = true);
+  virtual iPcDefaultCamera::CameraMode GetMode () const { return cammode; }
+  virtual bool SetModeName (const char* m, bool use_cd = true);
+  virtual const char* GetModeName () const;
+  virtual iPcDefaultCamera::CameraMode GetNextMode () const;
 
   iPcLinearMovement* GetLinMove ()
   {
@@ -357,12 +364,12 @@ public:
     return pcmechobj;
   }
 
-  void UpdateCamera ();
-  int GetDrawFlags ();
+  virtual void UpdateCamera ();
+  virtual int GetDrawFlags ();
 
-  void SetFollowEntity (iCelEntity* entity);
+  virtual void SetFollowEntity (iCelEntity* entity);
 
-  bool PointCamera (const char* start);
+  virtual bool PointCamera (const char* start);
 
   /**
    * Sets the current position of the camera (different for each mode)
@@ -412,7 +419,7 @@ public:
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
-  void SetPitch (float pitch, int mode = -1);
+  void SetPitch (float pitch, int mode);
 
   /**
    * Moves the pitch (up/down) of the camera
@@ -420,7 +427,7 @@ public:
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
-  void MovePitch (float deltaPitch, int mode = -1);
+  virtual void MovePitch (float deltaPitch, int mode);
 
   /**
    * Returns the pitch (up/down) of the camera
@@ -428,19 +435,19 @@ public:
    * current)
    * @return the pitch (up/down) of the camera
    */
-  float GetPitch (int mode = -1) const;
+  float GetPitch (int mode) const;
 
   /**
    * Sets the pitch (up/down) velocity of the camera
    * @param pitchVel the velocity of the pitch
    */
-  void SetPitchVelocity (float pitchVel) { pitchVelocity = pitchVel; }
+  virtual void SetPitchVelocity (float pitchVel) { pitchVelocity = pitchVel; }
 
   /**
    * Gets the pitch (up/down) velocity of the camera
    * @return the pitch (up/down) of the camera
    */
-  float GetPitchVelocity () const { return pitchVelocity; }
+  virtual float GetPitchVelocity () const { return pitchVelocity; }
 
   /**
    * Sets the yaw (left/right) of the camera
@@ -448,7 +455,7 @@ public:
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
-  void SetYaw (float yaw, int mode = -1);
+  virtual void SetYaw (float yaw, int mode);
 
   /**
    * Moves the yaw (left/right) of the camera
@@ -456,7 +463,7 @@ public:
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
-  void MoveYaw (float deltaYaw, int mode = -1);
+  void MoveYaw (float deltaYaw, int mode);
 
   /**
    * Returns the yaw (left/right) of the camera
@@ -464,19 +471,19 @@ public:
    * current)
    * @return the yaw (left/right) of the camera
    */
-  float GetYaw (int mode = -1) const;
+  virtual float GetYaw (int mode) const;
 
   /**
    * Sets the yaw (up/down) velocity of the camera
    * @param yawVel the velocity of the yaw
    */
-  void SetYawVelocity (float yawVel);
+  virtual void SetYawVelocity (float yawVel);
 
   /**
    * Gets the yaw (up/down) velocity of the camera
    * @return the yaw (up/down) of the camera
    */
-  float GetYawVelocity () const;
+  virtual float GetYawVelocity () const;
 
   /**
    * Sets the distance from the camera position to its target
@@ -484,7 +491,7 @@ public:
    * @param mode Optional - the camera mode to apply it to (leave blank for
    * current)
    */
-  void SetDistance (float distance, int mode = -1);
+  virtual void SetDistance (float distance, int mode);
 
   /**
    * Moves the distance from the camera position to its target
@@ -500,19 +507,19 @@ public:
    * current)
    * @return the distance from the camera position to its target
    */
-  float GetDistance (int mode = -1) const;
+  virtual float GetDistance (int mode=-1);
 
   /**
    * Sets the distance (zoom) velocity of the camera
    * @param distanceVel the velocity of the zoom
    */
-  void SetDistanceVelocity (float distanceVel);
+  virtual void SetDistanceVelocity (float distanceVel);
 
   /**
    * Gets the distance (zoom) velocity of the camera
    * @return the distance (zoom) velocity of the camera
    */
-  float GetDistanceVelocity () const;
+  virtual float GetDistanceVelocity () const;
 
   /**
    * Resets the actual camera data to the player position and stuff
@@ -588,7 +595,7 @@ public:
    * @param mode Optional - the camera mode to set the data (leave blank for
    * current)
    */
-  void SetTurnSpeed (float speed, int mode = -1);
+  void SetTurnSpeed (float speed, int mode);
 
   /**
    * Returns the spring coefficient of the camera
@@ -704,7 +711,7 @@ public:
    */
   float GetSwingCoef (int mode = -1) const;
 
-  void CenterCamera ();
+  virtual void CenterCamera ();
 
   /**
    * Sets the swing coefficient of the specific camera mode
@@ -712,235 +719,139 @@ public:
    * @param mode Optional - the camera mode to get the data from (leave blank
    * for current)
    */
-  void SetSwingCoef (float swingCoef, int mode = -1);
+  void SetSwingCoef (float swingCoef, int mode);
 
   virtual void Draw ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
 
-  struct PcDefaultCamera : public iPcDefaultCamera
-  {
-    SCF_DECLARE_EMBEDDED_IBASE (celPcDefaultCamera);
-    virtual bool SetRegion (iPcRegion* region, bool point = true,
+  virtual bool SetRegion (iPcRegion* region, bool point = true,
         const char* name = 0)
-    {
-      return scfParent->SetRegion (region, point, name);
-    }
-    virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
+  {
+    return celPcCameraCommon::SetRegion (region, point, name);
+  }
+  virtual bool SetZoneManager (iPcZoneManager* zonemgr, bool point,
         const char* regionname, const char* name = 0)
-    {
-      return scfParent->SetZoneManager (zonemgr, point, regionname, name);
-    }
-    virtual bool SetZoneManager (const char* entityname, bool point,
+  {
+    return celPcCameraCommon::SetZoneManager (zonemgr, point, regionname, name);
+  }
+  virtual bool SetZoneManager (const char* entityname, bool point,
         const char* regionname, const char* name = 0)
-    {
-      return scfParent->SetZoneManager (entityname, point, regionname, name);
-    }
-    virtual bool PointCamera (const char* start)
-    {
-      return scfParent->PointCamera (start);
-    }
-    virtual void SetRectangle (int x, int y, int w, int h)
-    {
-      scfParent->SetRectangle (x, y, w, h);
-    }
-    virtual void SetPerspectiveCenter (float x, float y)
-    {
-      scfParent->SetPerspectiveCenter (x, y);
-    }
-    virtual iCamera* GetCamera () const
-    {
-      return scfParent->GetCamera ();
-    }
-    virtual iView* GetView () const
-    {
-      return scfParent->GetView ();
-    }
-    virtual void SetClearZBuffer (bool flag)
-    {
-      scfParent->SetClearZBuffer (flag);
-    }
-    virtual bool GetClearZBuffer () const
-    {
-      return scfParent->GetClearZBuffer ();
-    }
-    virtual void SetClearScreen (bool flag)
-    {
-      scfParent->SetClearScreen (flag);
-    }
-    virtual bool GetClearScreen () const
-    {
-      return scfParent->GetClearScreen ();
-    }
-    virtual void DisableDistanceClipping ()
-    {
-      scfParent->DisableDistanceClipping ();
-    }
-    virtual void EnableFixedDistanceClipping (float dist)
-    {
-      scfParent->EnableFixedDistanceClipping (dist);
-    }
-    virtual void EnableAdaptiveDistanceClipping (float min_fps,
+  {
+    return celPcCameraCommon::SetZoneManager (entityname,
+	point, regionname, name);
+  }
+  virtual void SetRectangle (int x, int y, int w, int h)
+  {
+    celPcCameraCommon::SetRectangle (x, y, w, h);
+  }
+  virtual void SetPerspectiveCenter (float x, float y)
+  {
+    celPcCameraCommon::SetPerspectiveCenter (x, y);
+  }
+  virtual iCamera* GetCamera () const
+  {
+    return celPcCameraCommon::GetCamera ();
+  }
+  virtual iView* GetView () const
+  {
+    return celPcCameraCommon::GetView ();
+  }
+  virtual void SetClearZBuffer (bool flag)
+  {
+    celPcCameraCommon::SetClearZBuffer (flag);
+  }
+  virtual bool GetClearZBuffer () const
+  {
+    return celPcCameraCommon::GetClearZBuffer ();
+  }
+  virtual void SetClearScreen (bool flag)
+  {
+    celPcCameraCommon::SetClearScreen (flag);
+  }
+  virtual bool GetClearScreen () const
+  {
+    return celPcCameraCommon::GetClearScreen ();
+  }
+  virtual void DisableDistanceClipping ()
+  {
+    celPcCameraCommon::DisableDistanceClipping ();
+  }
+  virtual void EnableFixedDistanceClipping (float dist)
+  {
+    celPcCameraCommon::EnableFixedDistanceClipping (dist);
+  }
+  virtual void EnableAdaptiveDistanceClipping (float min_fps,
         float max_fps, float min_dist)
-    {
-      scfParent->EnableAdaptiveDistanceClipping (min_fps, max_fps, min_dist);
-    }
-    virtual bool UseDistanceClipping () const
-    {
-      return scfParent->UseDistanceClipping ();
-    }
-    virtual bool UseFixedDistanceClipping () const
-    {
-      return scfParent->UseFixedDistanceClipping ();
-    }
-    virtual float GetFixedDistance () const
-    {
-      return scfParent->GetFixedDistance ();
-    }
-    virtual float GetAdaptiveMinFPS () const
-    {
-      return scfParent->GetAdaptiveMinFPS ();
-    }
-    virtual float GetAdaptiveMaxFPS () const
-    {
-      return scfParent->GetAdaptiveMaxFPS ();
-    }
-    virtual float GetAdaptiveMinDistance () const
-    {
-      return scfParent->GetAdaptiveMinDistance ();
-    }
-    virtual void SetAutoDraw (bool auto_draw)
-    {
-      scfParent->SetAutoDraw (auto_draw);
-    }
-    virtual void SetFollowEntity (iCelEntity* entity)
-    {
-      scfParent->SetFollowEntity (entity);
-    }
-    virtual bool SetMode (CameraMode m, bool use_cd)
-    {
-      return scfParent->SetMode (m, use_cd);
-    }
-    virtual CameraMode GetMode () const
-    {
-      return scfParent->GetMode ();
-    }
-    virtual bool SetModeName (const char* m, bool use_cd)
-    {
-      return scfParent->SetModeName (m, use_cd);
-    }
-    virtual const char* GetModeName () const
-    {
-      return scfParent->GetModeName ();
-    }
-    virtual CameraMode GetNextMode () const
-    {
-      return scfParent->GetNextMode ();
-    }
-    virtual void SetSpringParameters (float springCoef, float
+  {
+    celPcCameraCommon::EnableAdaptiveDistanceClipping (min_fps,
+	max_fps, min_dist);
+  }
+  virtual bool UseDistanceClipping () const
+  {
+    return celPcCameraCommon::UseDistanceClipping ();
+  }
+  virtual bool UseFixedDistanceClipping () const
+  {
+    return celPcCameraCommon::UseFixedDistanceClipping ();
+  }
+  virtual float GetFixedDistance () const
+  {
+    return celPcCameraCommon::GetFixedDistance ();
+  }
+  virtual float GetAdaptiveMinFPS () const
+  {
+    return celPcCameraCommon::GetAdaptiveMinFPS ();
+  }
+  virtual float GetAdaptiveMaxFPS () const
+  {
+    return celPcCameraCommon::GetAdaptiveMaxFPS ();
+  }
+  virtual float GetAdaptiveMinDistance () const
+  {
+    return celPcCameraCommon::GetAdaptiveMinDistance ();
+  }
+  virtual void SetAutoDraw (bool auto_draw)
+  {
+    celPcCameraCommon::SetAutoDraw (auto_draw);
+  }
+  virtual void SetSpringParameters (float springCoef, float
     	inertialDampeningCoef, float springLength)
-    {
-      scfParent->SetSpringCoef (springCoef);
-      scfParent->SetDampeningCoef (inertialDampeningCoef);
-      scfParent->SetSpringLength (springLength);
-    }
-    virtual void SetMinMaxCameraDistance (float minDistance, float maxDistance)
-    {
-      scfParent->SetMinDistance (minDistance);
-      scfParent->SetMaxDistance (maxDistance);
-    }
-    virtual void SetTurnSpeed (float turnSpeed)
-    {
-      scfParent->SetTurnSpeed (turnSpeed);
-    }
-    virtual void SetSwingCoef (float swingCoef)
-    {
-      scfParent->SetSwingCoef (swingCoef);
-    }
-    virtual void SetFirstPersonOffset (const csVector3& offset)
-    {
-      scfParent->firstPersonPositionOffset = offset;
-    }
-    virtual void SetThirdPersonOffset (const csVector3& offset)
-    {
-      scfParent->thirdPersonPositionOffset = offset;
-    }
-    virtual void CenterCamera ()
-    {
-      scfParent->CenterCamera ();
-    }
-    virtual void SetPitch (float pitch)
-    {
-      scfParent->SetPitch (pitch);
-    }
-    virtual float GetPitch () const
-    {
-      return scfParent->GetPitch ();
-    }
-    virtual void SetPitchVelocity (float pitchVel)
-    {
-      scfParent->SetPitchVelocity (pitchVel);
-    }
-    virtual float GetPitchVelocity () const
-    {
-      return scfParent->GetPitchVelocity ();
-    }
-    virtual void MovePitch (float deltaPitch, int mode)
-    {
-      scfParent->MovePitch (deltaPitch, mode);
-    }
-    virtual void SetYaw (float yaw, int mode)
-    {
-      scfParent->SetYaw (yaw, mode);
-    }
-    virtual void MoveYaw (float deltaYaw, int mode)
-    {
-      scfParent->MoveYaw (deltaYaw, mode);
-    }
-    virtual float GetYaw (int mode) const
-    {
-      return scfParent->GetYaw (mode);
-    }
-    virtual void SetYawVelocity (float yawVel)
-    {
-      scfParent->SetYawVelocity (yawVel);
-    }
-    virtual float GetYawVelocity () const
-    {
-      return scfParent->GetYawVelocity ();
-    }
-    virtual void SetDistance (float distance, int mode)
-    {
-      scfParent->SetDistance (distance, mode);
-    }
-    virtual float GetDistance (int mode)
-    {
-      return scfParent->GetDistance (mode);
-    }
-    virtual void SetDistanceVelocity (float distanceVel)
-    {
-      scfParent->SetDistanceVelocity (distanceVel);
-    }
-    virtual float GetDistanceVelocity () const
-    {
-      return scfParent->GetDistanceVelocity ();
-    }
-    virtual void Draw ()
-    {
-      scfParent->Draw ();
-    }
-    virtual void UpdateCamera ()
-    {
-      scfParent->UpdateCamera ();
-    }
-    virtual int GetDrawFlags ()
-    {
-      return scfParent->GetDrawFlags ();
-    }
-  } scfiPcDefaultCamera, scfiPcCamera;
+  {
+    SetSpringCoef (springCoef);
+    SetDampeningCoef (inertialDampeningCoef);
+    SetSpringLength (springLength);
+  }
+  virtual void SetMinMaxCameraDistance (float minDistance, float maxDistance)
+  {
+    SetMinDistance (minDistance);
+    SetMaxDistance (maxDistance);
+  }
+  virtual void SetTurnSpeed (float turnSpeed)
+  {
+    SetTurnSpeed (turnSpeed, -1);
+  }
+  virtual void SetSwingCoef (float swingCoef)
+  {
+    SetSwingCoef (swingCoef, -1);
+  }
+  virtual void SetFirstPersonOffset (const csVector3& offset)
+  {
+    firstPersonPositionOffset = offset;
+  }
+  virtual void SetThirdPersonOffset (const csVector3& offset)
+  {
+    thirdPersonPositionOffset = offset;
+  }
+  virtual void SetPitch (float pitch)
+  {
+    SetPitch (pitch, -1);
+  }
+  virtual float GetPitch () const
+  {
+    return GetPitch (-1);
+  }
 };
 
 #endif // __CEL_PF_DEFAULT_CAMERA_FACTORY__

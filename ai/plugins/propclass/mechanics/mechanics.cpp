@@ -576,10 +576,6 @@ csStringID celPcMechanicsObject::param_group = csInvalidStringID;
 
 PropertyHolder celPcMechanicsObject::propinfo;
 
-SCF_IMPLEMENT_IBASE (celPcMechanicsObject::DynamicsCollisionCallback)
-  SCF_IMPLEMENTS_INTERFACE (iDynamicsCollisionCallback)
-SCF_IMPLEMENT_IBASE_END
-
 celPcMechanicsObject::celPcMechanicsObject (iObjectRegistry* object_reg)
 	: scfImplementationType (this, object_reg)
 {
@@ -1525,10 +1521,9 @@ void celPcMechanicsObject::AttachColliderBoundingBox (const csVector3& sizeadjus
   if (!GetBody ()) return;
   FindMeshLightCamera ();
   if(!pcmesh) return;
-  csBox3 boundingbox;
   csRef<iObjectModel> meshobjmodel;
   meshobjmodel=pcmesh->GetMesh ()->GetMeshObject ()->GetObjectModel ();
-  meshobjmodel->GetObjectBoundingBox(boundingbox);
+  csBox3 boundingbox = meshobjmodel->GetObjectBoundingBox();
   csOrthoTransform t;
   t.SetOrigin(boundingbox.GetCenter());
   csVector3 size = boundingbox.GetSize() + sizeadjustment;

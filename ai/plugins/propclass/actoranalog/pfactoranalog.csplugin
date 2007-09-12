@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- pfactoranalog.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>cel.pcfactory.move.actor.analog</name>
+        <implementation>celPfActorAnalog</implementation>
+        <description>CEL Analog Actor Movement Property Class Factory</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

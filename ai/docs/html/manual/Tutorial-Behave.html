@@ -11,10 +11,10 @@ Send bugs and suggestions to <users@texi2html.cvshome.org>
 
 -->
 <head>
-<title>Crystal Entity Layer: 4.2.1.5 behave.cpp</title>
+<title>Crystal Entity Layer 1.3dev: 4.2.1.5 behave.cpp</title>
 
-<meta name="description" content="Crystal Entity Layer: 4.2.1.5 behave.cpp">
-<meta name="keywords" content="Crystal Entity Layer: 4.2.1.5 behave.cpp">
+<meta name="description" content="Crystal Entity Layer 1.3dev: 4.2.1.5 behave.cpp">
+<meta name="keywords" content="Crystal Entity Layer 1.3dev: 4.2.1.5 behave.cpp">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.76">
@@ -173,9 +173,9 @@ bool BehaviourCommon::SendMessage (csStringID,
 </pre></td></tr></table>
 <p>The player behaviour is responsible for managing input (from
 <samp>&lsquo;pcinput.standard&rsquo;</samp>) and moving the actor in response to that input
-(with <samp>&lsquo;pcmove.actor&rsquo;</samp>). First we request <small>ID</small>'s from the physical
-layer for the messages from the input property class that we want to respond
-too. For every command we defined in a <code>Bind()</code> in the
+(with <samp>&lsquo;pcmove.actor.standard&rsquo;</samp>). First we request <small>ID</small>'s from the
+physical layer for the messages from the input property class that we want
+to respond too. For every command we defined in a <code>Bind()</code> in the
 <code>CreatePlayer()</code> function we get both a <samp>&lsquo;1&rsquo;</samp> (when key is pressed)
 and a <samp>&lsquo;0&rsquo;</samp> message (when key is released).
 </p>
@@ -186,9 +186,9 @@ on standard output and the <code>Drop()</code> function will drop one item from
 the inventory.
 </p>
 <p>In <code>SendMessage()</code> we test which message we got. If it is one of
-the input messages we call the appropriate <small>API</small> method in <samp>&lsquo;pcmove.actor&rsquo;</samp>
-to move, rotate, or jump the player. If it is one of the inventory messages
-then we show the inventory contents.
+the input messages we call the appropriate <small>API</small> method in
+<samp>&lsquo;pcmove.actor.standard&rsquo;</samp> to move, rotate, or jump the player. If it is
+one of the inventory messages then we show the inventory contents.
 </p>
 <table><tr><td>&nbsp;</td><td><pre class="example">BehaviourPlayer::BehaviourPlayer (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl)
   : BehaviourCommon (entity, bl, pl)

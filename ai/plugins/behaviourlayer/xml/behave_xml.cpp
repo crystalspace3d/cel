@@ -49,16 +49,11 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBehaviourXml)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
 csRandomGen celBehaviourXml::rng (1234567);
 
 celBehaviourXml::celBehaviourXml (iCelEntity* entity,
-	iObjectRegistry* object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celBehaviourXml::entity = entity;
   celBehaviourXml::object_reg = object_reg;
   name = 0;
@@ -122,7 +117,6 @@ iPcProperties* celBehaviourXml::GetProperties ()
 celBehaviourXml::~celBehaviourXml ()
 {
   delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourXml::SendMessage (const char* msg_id,
@@ -234,14 +228,9 @@ void celBehaviourXml::Quit ()
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBehaviourBootstrap)
-  SCF_IMPLEMENTS_INTERFACE (iCelBehaviour)
-SCF_IMPLEMENT_IBASE_END
-
 celBehaviourBootstrap::celBehaviourBootstrap (iCelEntity* entity,
-	iObjectRegistry* object_reg)
+	iObjectRegistry* object_reg) : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   celBehaviourBootstrap::entity = entity;
   celBehaviourBootstrap::object_reg = object_reg;
   name = 0;
@@ -250,7 +239,6 @@ celBehaviourBootstrap::celBehaviourBootstrap (iCelEntity* entity,
 celBehaviourBootstrap::~celBehaviourBootstrap ()
 {
   delete[] name;
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBehaviourBootstrap::SendMessage (const char* msg_id,

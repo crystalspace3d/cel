@@ -433,19 +433,18 @@ public:
 
   virtual size_t GetWheelCount() { return wheels.GetSize(); }
 
-  struct WheeledCollisionCallback : public iDynamicsCollisionCallback
+  struct WheeledCollisionCallback : public scfImplementation1<
+	WheeledCollisionCallback, iDynamicsCollisionCallback>
   {
     celPcWheeled* parent;
-    WheeledCollisionCallback (celPcWheeled* parent)
+    WheeledCollisionCallback (celPcWheeled* parent) :
+      scfImplementationType (this)
     {
-      SCF_CONSTRUCT_IBASE (0);
       WheeledCollisionCallback::parent = parent;
     }
     virtual ~WheeledCollisionCallback ()
     {
-      SCF_DESTRUCT_IBASE ();
     }
-    SCF_DECLARE_IBASE;
 
     virtual void Execute (iRigidBody *thisbody, iRigidBody *otherbody,
 	const csVector3& pos, const csVector3& normal, float depth)

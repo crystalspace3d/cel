@@ -29,19 +29,14 @@
 
 CS_LEAKGUARD_IMPLEMENT (htBehaviourLayer);
 
-SCF_IMPLEMENT_IBASE (htBehaviourLayer)
-  SCF_IMPLEMENTS_INTERFACE (iCelBlLayer)
-SCF_IMPLEMENT_IBASE_END
-
-htBehaviourLayer::htBehaviourLayer (HoverTest* app)
+htBehaviourLayer::htBehaviourLayer (HoverTest* app) :
+  scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   htBehaviourLayer::app = app;
 }
 
 htBehaviourLayer::~htBehaviourLayer ()
 {
-  SCF_DESTRUCT_IBASE ();
 }
 
 iCelBehaviour* htBehaviourLayer::CreateBehaviour (iCelEntity* entity,

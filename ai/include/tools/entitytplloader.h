@@ -27,8 +27,6 @@ struct iDocumentNode;
 struct iMeshWrapper;
 struct iCelEntityTemplate;
 
-SCF_VERSION (iEntityTemplateLoader, 0, 0, 1);
-
 /**
  * This interface allows one to access the celentitytpl addon
  * with an easier interface. With this addon you can load
@@ -37,6 +35,8 @@ SCF_VERSION (iEntityTemplateLoader, 0, 0, 1);
  */
 struct iEntityTemplateLoader : virtual public iBase
 {
+  SCF_INTERFACE (iEntityTemplateLoader, 0, 0, 1);
+
   /**
    * Load the entity template from the document node.
    * Returns entity template or 0 on failure. In case of failure the

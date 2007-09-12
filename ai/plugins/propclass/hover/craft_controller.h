@@ -39,13 +39,13 @@ CEL_DECLARE_FACTORY (CraftController)
 /**
  * Hover stabiliser property class.
  */
-class celPcCraftController : public celPcCommon , public celPeriodicTimer
+class celPcCraftController : public scfImplementationExt1<
+	celPcCraftController, celPcCommon , iPcCraftController>,
+	public celPeriodicTimer
 {
 public:
   celPcCraftController (iObjectRegistry* object_reg);
   virtual ~celPcCraftController ();
-
-  SCF_DECLARE_IBASE_EXT (celPcCommon);
 
   virtual csPtr<iCelDataBuffer> Save ();
   virtual bool Load (iCelDataBuffer* databuf);
@@ -104,130 +104,6 @@ public:
 
   virtual bool GetPropertyIndexed (int, float& val);
   virtual bool SetPropertyIndexed (int, float val);
-
-  struct PcCraftController : public iPcCraftController
-  {
-    SCF_DECLARE_EMBEDDED_IBASE(celPcCraftController);
-
-    virtual void StartTurnLeft ()
-    {
-      scfParent->StartTurnLeft ();
-    }
-    virtual void StopTurnLeft ()
-    {
-      scfParent->StopTurnLeft ();
-    }
-    virtual void StartTurnRight ()
-    {
-      scfParent->StartTurnRight ();
-    }
-    virtual void StopTurnRight ()
-    {
-      scfParent->StopTurnRight ();
-    }
-
-    virtual void StartTurnUp ()
-    {
-      scfParent->StartTurnUp ();
-    }
-    virtual void StopTurnUp ()
-    {
-      scfParent->StopTurnUp ();
-    }
-    virtual void StartTurnDown ()
-    {
-      scfParent->StartTurnDown ();
-    }
-    virtual void StopTurnDown ()
-    {
-      scfParent->StopTurnDown ();
-    }
-
-    virtual void SetAccTurn (float tacc)
-    {
-      scfParent->SetAccTurn (tacc);
-    }
-    virtual void SetAccPitch (float uacc)
-    {
-      scfParent->SetAccPitch (uacc);
-    }
-    virtual void SetMaxTurn (float turn)
-    {
-      scfParent->SetMaxTurn (turn);
-    }
-    virtual void SetMaxPitch (float mud)
-    {
-      scfParent->SetMaxPitch (mud);
-    }
-    virtual void SetRoll (float roll)
-    {
-      scfParent->SetRoll (roll);
-    }
-    virtual void SetThrustForce (float tf)
-    {
-      scfParent->SetThrustForce (tf);
-    }
-    virtual void SetTopSpeed (float tspeed)
-    {
-      scfParent->SetTopSpeed (tspeed);
-    }
-    virtual void SetAfterBurnerTopSpeed (float tspeed)
-    {
-      scfParent->SetAfterBurnerTopSpeed (tspeed);
-    }
-    virtual void SetRedirectVelocityRatio (float rdvr)
-    {
-      scfParent->SetRedirectVelocityRatio (rdvr);
-    }
-    virtual void SetDecelerationRate (float decr)
-    {
-      scfParent->SetDecelerationRate (decr);
-    }
-    virtual void SetBrakingSpeed (float bspd)
-    {
-      scfParent->SetBrakingSpeed (bspd);
-    }
-
-    virtual void ThrustOn ()
-    {
-      scfParent->ThrustOn ();
-    }
-    virtual void ThrustOff ()
-    {
-      scfParent->ThrustOff ();
-    }
-    virtual bool IsThrusterOn ()
-    {
-      return scfParent->IsThrusterOn ();
-    }
-
-    virtual void AfterBurnerOn ()
-    {
-      scfParent->AfterBurnerOn ();
-    }
-    virtual void AfterBurnerOff ()
-    {
-      scfParent->AfterBurnerOff ();
-    }
-
-    virtual void BrakesOn ()
-    {
-      scfParent->BrakesOn ();
-    }
-    virtual void BrakesOff ()
-    {
-      scfParent->BrakesOff ();
-    }
-
-    virtual void SlideOn ()
-    {
-      scfParent->SlideOn ();
-    }
-    virtual void SlideOff ()
-    {
-      scfParent->SlideOff ();
-    }
-  } scfiPcCraftController;
 
 private:
   static PropertyHolder propinfo;

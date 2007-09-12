@@ -43,19 +43,9 @@
 
 //---------------------------------------------------------------------------
 
-SCF_IMPLEMENT_IBASE (celBillboardLayer)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardLayer)
-SCF_IMPLEMENT_IBASE_END
-
-//---------------------------------------------------------------------------
-
-SCF_IMPLEMENT_IBASE (celBillboard)
-  SCF_IMPLEMENTS_INTERFACE (iBillboard)
-SCF_IMPLEMENT_IBASE_END
-
 celBillboard::celBillboard (celBillboardManager* mgr, celBillboardLayer* layer)
+  : scfImplementationType (this)
 {
-  SCF_CONSTRUCT_IBASE (0);
   name = 0;
   flags.SetAll (CEL_BILLBOARD_VISIBLE);
   materialname = 0;
@@ -91,7 +81,6 @@ celBillboard::~celBillboard ()
   delete[] name;
   delete[] materialname;
   delete[] clickmap;
-  SCF_DESTRUCT_IBASE ();
 }
 
 void celBillboard::GetRect (csRect& r)
@@ -132,8 +121,6 @@ void celBillboard::TranslateScreenToTexture (int sx, int sy, int& tx, int& ty)
 
 bool celBillboard::GetFromClickMap (int tx, int ty)
 {
-  if (!has_clickmap)
-    SetupMaterial ();
   if (!clickmap) return true;
   uint8 c = clickmap[ty*(1 + image_w/8) + tx/8];
   return (c & (1<<(tx%8))) != 0;
@@ -283,7 +270,7 @@ void celBillboard::SetupMaterial ()
     }
     image = 0;	// We no longer need the image.
   }
-  if (image_w != -1 && has_clickmap && bb_w != -1 && material)
+  if (image_w != -1 && bb_w != -1 && material)
     material_ok = true;
 }
 
@@ -651,10 +638,10 @@ bool celBillboard::HasFullClickmap ()
 
 bool celBillboard::In (int sx, int sy)
 {
-  if (bb_w == -1 || !has_clickmap)
+  if (bb_w == -1 || !material_ok)
   {
     SetupMaterial ();
-    if (bb_w == -1 || !has_clickmap)
+    if (bb_w == -1 || !material_ok)
       return false;
   }
   csRect r;
@@ -851,23 +838,9 @@ CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (celBillboardManager)
 
-SCF_IMPLEMENT_IBASE (celBillboardManager)
-  SCF_IMPLEMENTS_INTERFACE (iBillboardManager)
-  SCF_IMPLEMENTS_EMBEDDED_INTERFACE (iComponent)
-SCF_IMPLEMENT_IBASE_END
-
-SCF_IMPLEMENT_EMBEDDED_IBASE (celBillboardManager::Component)
-  SCF_IMPLEMENTS_INTERFACE (iComponent)
-SCF_IMPLEMENT_EMBEDDED_IBASE_END
-
-SCF_IMPLEMENT_IBASE (celBillboardManager::EventHandler)
-  SCF_IMPLEMENTS_INTERFACE (iEventHandler)
-SCF_IMPLEMENT_IBASE_END
-
-celBillboardManager::celBillboardManager (iBase* parent)
+celBillboardManager::celBillboardManager (iBase* parent) :
+  scfImplementationType (this, parent)
 {
-  SCF_CONSTRUCT_IBASE (parent);
-  SCF_CONSTRUCT_EMBEDDED_IBASE (scfiComponent);
   scfiEventHandler = 0;
   moving_billboard = 0;
   lastmove_billboard = 0;
@@ -892,8 +865,6 @@ celBillboardManager::~celBillboardManager ()
       q->RemoveListener (scfiEventHandler);
     scfiEventHandler->DecRef ();
   }
-  SCF_DESTRUCT_EMBEDDED_IBASE (scfiComponent);
-  SCF_DESTRUCT_IBASE ();
 }
 
 bool celBillboardManager::Initialize (iObjectRegistry* object_reg)
