@@ -62,7 +62,7 @@ bool MainApp::CreatePlayer ()
 				    "pccamera.old",
 				    "pcobject.mesh",
 				    "pcmove.linear",
-				    "pcmove.actorold",
+				    "pcmove.actor.standard",
 				    "pcinput.standard",
 				    "pctools.inventory",
 				    CEL_PROPCLASS_END);
@@ -132,7 +132,7 @@ bool MainApp::LoadSteering ()
 
   steering_entity = pl->CreateEntity ("steer", bl, "steering_behave",
 				      "pcmove.linear",
-				      "pcmove.actorold",
+				      "pcmove.actor.standard",
 				      "pcmove.steer",
 				      "pcobject.mesh",
 				      "pcinput.standard",
