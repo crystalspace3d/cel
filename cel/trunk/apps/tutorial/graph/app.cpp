@@ -61,7 +61,7 @@ bool MainApp::CreatePlayer ()
 				    "pccamera.old",
 				    "pcobject.mesh",
 				    "pcmove.linear",
-				    "pcmove.actorold",
+				    "pcmove.actor.standard",
 				    "pcinput.standard",
 				    "pctools.inventory",
 				    CEL_PROPCLASS_END);
@@ -122,7 +122,7 @@ bool MainApp::LoadPathFinder ()
 {
   pf_entity = pl->CreateEntity ("pf", bl, "pathfinding_behave",
 				"pcmove.linear",
-				"pcmove.actorold",
+				"pcmove.actor.standard",
 				"pcmove.steer",
 				"pcmove.pathfinder",
 				"pcobject.mesh",
