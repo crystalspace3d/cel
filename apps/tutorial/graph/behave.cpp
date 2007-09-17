@@ -445,6 +445,7 @@ bool BehaviourPF::SendMessage (csStringID msg_id,
 				     iCelPropertyClass* pc,
 				     celData& ret, iCelParameterBlock* params, va_list arg)
 {
+  puts ("BehaviourPF");
   /*
    * Here we handle all messages and calls
    * to pcpathfinder
@@ -657,7 +658,7 @@ else if (msg_id == id_pccommandinput_twoway1)
     }
   else if (msg_id == id_pccommandinput_cohesion1)
     {
-      csRef<iCelEntity> steering_entity = pl->FindEntity("steer");
+      csRef<iCelEntity> steering_entity = pl->FindEntity("pf");
       csRef<iPcSteer> pcsteer = CEL_QUERY_PROPCLASS_ENT (steering_entity,
 							 iPcSteer);
       if(!cohesion){
@@ -713,8 +714,9 @@ else if (msg_id == id_pccommandinput_twoway1)
       }
     }
  else
+ {
     return BehaviourCommon::SendMessage (msg_id, pc, ret, params, arg);
-  
+  }
   return true;
 }
 
