@@ -44,12 +44,11 @@ struct iObjectRegistry;
  */
 CEL_DECLARE_FACTORY (PathFinder)
 
-
 /**
  * This is the PathFinder property class.
  */
-class celPcPathFinder : public scfImplementationExt1<
-	celPcPathFinder, celPcCommon, iPcPathFinder>
+class celPcPathFinder : public scfImplementationExt1<celPcPathFinder,
+  celPcCommon, iPcPathFinder>
 {
 private: 
   csWeakRef<iEngine> engine;
@@ -65,7 +64,7 @@ private:
   static csStringID id_pursue_max_prediction;
   static csStringID id_is_active;
   static csStringID id_min_distance;
- 
+
   enum actionids
   {
     action_seek=0,
@@ -106,13 +105,13 @@ private:
   void FindSiblingPropertyClasses ();
   void SendMessage (const char* msg, const char* meshname = 0);
   virtual bool FollowPath ();    
-  
+
   static csStringID id_meshname;
   celOneParameterBlock* params;
 
  public:
   celPcPathFinder (iObjectRegistry* object_reg);
-  
+
   virtual ~celPcPathFinder ();
 
   virtual bool Seek (iSector* sector, const csVector3& position);
@@ -127,29 +126,28 @@ private:
 
   virtual bool FollowTwoWayPath (iCelPath* path);
 
-    virtual void Interrupt ();
+  virtual void Interrupt ();
 
   virtual void SetDelayRecheck(int delay);
 
   virtual void SetMinDistance(int distance);
 
   virtual const csVector3& GetPosition () const { return position; }
-  
+
   virtual csPtr<iCelDataBuffer> Save ();
-  
+
   virtual bool Load (iCelDataBuffer* databuf);
-  
+
   virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
-				     celData& ret);
-  
+    celData& ret);
+
   virtual void TickOnce ();
 
   virtual void StopTracking ();
-  
+
   virtual bool IsActive () {return is_active;}
 
   virtual void SetGraph (iCelGraph* graph);
 };
 
 #endif // __CEL_PF_PATHFINDER__
-

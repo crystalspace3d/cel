@@ -288,8 +288,8 @@ bool celPcSteer::Pursue (iCelEntity* target, float max_prediction)
   csWeakRef<iPcLinearMovement> targetlinmove;
   float target_yrot, cur_speed, prediction;
 
-  targetactormove = CEL_QUERY_PROPCLASS_ENT (target, iPcActorMove);
-  targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+  targetactormove = celQueryPropertyClassEntity<iPcActorMove> (target);
+  targetlinmove = celQueryPropertyClassEntity<iPcLinearMovement> (target);
   
   targetlinmove->GetLastFullPosition (position, target_yrot, sector);
   pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
@@ -329,14 +329,15 @@ void celPcSteer::CheckArrivalOff ()
 }
 
 bool celPcSteer::CheckArrival (){
-  if(check_arrival){
+  if(check_arrival)
+  {
     float sqlen = csSquaredDist::PointPoint (cur_position, position);
     if (sqlen < arrival_radius)
-      {
-	StopMovement ();
-	SendMessage ("pcsteer_arrived");
-	return true;
-      }
+    {
+      StopMovement ();
+      SendMessage ("pcsteer_arrived");
+      return true;
+    }
   }
   return false;
 }
@@ -358,10 +359,11 @@ bool celPcSteer::CollisionAvoidance ()
   if(!collision_avoidance)
     return false;
   csSectorHitBeamResult rc = cur_sector->HitBeamPortals (cur_position,
-							 position);
+    position);
 
   //If theres a collision we handle it
-  if (rc.mesh){
+  if (rc.mesh)
+  {
     //float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     /*
      * If the collision is too far away, we don�t bother to avoid it
@@ -372,53 +374,57 @@ bool celPcSteer::CollisionAvoidance ()
     csVector3 direction = cur_position - position;
     //direction = direction*ca_weight;
     cur_direction = cur_position - position;
-    SendMessage ("pcsteer_avoiding_collision", rc.mesh->QueryObject ()->GetName ());
+    SendMessage ("pcsteer_avoiding_collision", 
+      rc.mesh->QueryObject ()->GetName ());
     return true;
   }
   return false;
 }
 
-
-void celPcSteer:: CohesionOn (iCelEntityList* targets, float radius, float weight) 
+void celPcSteer:: CohesionOn (iCelEntityList* targets, float radius,
+  float weight) 
 {
   check_cohesion = true;
   cohesion_radius = radius;
   cohesion_weight = weight;
   cohesion_targets->RemoveAll();
   csRef<iCelEntityIterator> it = targets->GetIterator();
-  
+
   while(it->HasNext())
     cohesion_targets->Add(it->Next());
 }
-  
-//void celPcSteer:: CohesionOn (float radius) 
-//{
-  //check_cohesion = true;
-  //}
+
+/*void celPcSteer:: CohesionOn (float radius) 
+{
+  check_cohesion = true;
+}*/
 void celPcSteer:: CohesionOff () 
 {
   check_cohesion = false;
 }
 
-
 void celPcSteer :: Cohesion ()
 {
   bool changed = false;
-  if(check_cohesion){
+  if(check_cohesion)
+  {
     csVector3 pos(0, 0, 0);
     csVector3 target_position(0, 0, 0);
     float target_yrot;
     pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
-    
+
     csRef<iCelEntityIterator> it = cohesion_targets->GetIterator();
     csRef<iCelEntity> target;
-    while(it->HasNext()){
+    while(it->HasNext())
+    {
       target = it->Next();
-      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      csRef<iPcLinearMovement> targetlinmove =
+        celQueryPropertyClassEntity<iPcLinearMovement> (target);
       targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
-      if(csSquaredDist::PointPoint (cur_position, target_position) >= cohesion_radius){
-	pos = pos + target_position;
-	changed = true;
+      if(csSquaredDist::PointPoint (cur_position, target_position) >= cohesion_radius)
+      {
+        pos = pos + target_position;
+        changed = true;
       }
     }
     if(changed)
@@ -426,14 +432,15 @@ void celPcSteer :: Cohesion ()
   }
 }
 
-void celPcSteer:: SeparationOn (iCelEntityList* targets, float radius, float weight) 
+void celPcSteer:: SeparationOn (iCelEntityList* targets, float radius,
+  float weight) 
 {
   check_separation = true;
   separation_radius = radius;
   separation_weight = weight;
   separation_targets->RemoveAll();
   csRef<iCelEntityIterator> it = targets->GetIterator();
-  
+
   while(it->HasNext())
     separation_targets->Add(it->Next());
 }
@@ -447,65 +454,69 @@ void celPcSteer:: SeparationOff ()
 void celPcSteer :: Separation ()
 {
   bool changed = false;
-  if(check_separation){
+  if(check_separation)
+  {
     csVector3 pos(0, 0, 0);
     csVector3 target_position(0, 0, 0);
     float target_yrot;
     pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
-    
+
     csRef<iCelEntityIterator> it = separation_targets->GetIterator();
     csRef<iCelEntity> target;
-    while(it->HasNext()){
+    while(it->HasNext())
+    {
       target = it->Next();
-      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      csRef<iPcLinearMovement> targetlinmove =
+        celQueryPropertyClassEntity<iPcLinearMovement> (target);
       targetlinmove->GetLastFullPosition (target_position, target_yrot, sector);
-      if(csSquaredDist::PointPoint (cur_position, target_position) <= separation_radius){
-	pos += target_position;
-	changed = true;
+      if(csSquaredDist::PointPoint (cur_position, target_position) <= separation_radius)
+      {
+        pos += target_position;
+        changed = true;
       }
     }
     if(changed)
       cur_direction += (cur_position - pos)*separation_weight;
-  }  
+  }
 }
- 
+
 void celPcSteer:: DirectionMatchingOn (iCelEntityList* targets, float weight)
 {
   check_dm = true;
   dm_weight = weight;
   dm_targets->RemoveAll();
   csRef<iCelEntityIterator> it = targets->GetIterator();
-  
+
   while(it->HasNext())
     dm_targets->Add(it->Next());
 }
 
-
-//void celPcSteer::DirectionMatchingOn(){
-  //check_dm = true;
-  //}
-  
+/*void celPcSteer::DirectionMatchingOn()
+{
+  check_dm = true;
+}*/
 void celPcSteer:: DirectionMatchingOff ()
 {
   check_dm = false;
 }
 
-
-
 void celPcSteer :: DirectionMatching ()
 {
-  if(check_dm){
+  if (check_dm)
+  {
     csVector3 direction(0, 0, 0);
     csVector3 target_velocity(0, 0, 0);
     pclinmove->GetLastFullPosition (cur_position, cur_yrot, cur_sector);
-    
+
     csRef<iCelEntityIterator> it = dm_targets->GetIterator();
     csRef<iCelEntity> target;
-    while(it->HasNext()){
+    while(it->HasNext())
+    {
       target = it->Next();
-      csRef<iPcLinearMovement> targetlinmove = CEL_QUERY_PROPCLASS_ENT (target, iPcLinearMovement);
+      csRef<iPcLinearMovement> targetlinmove =
+        celQueryPropertyClassEntity<iPcLinearMovement> (target);
       targetlinmove->GetVelocity(target_velocity);
-      
+
       direction += target_velocity;
     }
     cur_direction += direction;
@@ -553,30 +564,31 @@ void celPcSteer::Interrupt ()
   }
 }
 
-bool celPcSteer::PerformActionIndexed (int idx,
-				       iCelParameterBlock* params,
-				       celData& ret)
+bool celPcSteer::PerformActionIndexed (int idx, iCelParameterBlock* params,
+  celData& ret)
 {
   switch (idx)
   {
-  case action_seek:
+    case action_seek:
     {
       CEL_FETCH_STRING_PAR (sectorname,params,id_sectorname);
-      if (!p_sectorname) return false;
+      if (!p_sectorname)
+        return false;
       CEL_FETCH_VECTOR3_PAR (position,params,id_position);
-      if (!p_position) return false;
+      if (!p_position)
+        return false;
       iSector* s = engine->FindSector (sectorname);
       if (!s)
-	return false;
+        return false;
       Seek(sector, position);
       // @@@ Return value?
       return true;
     }
-  case action_interrupt:
-    Interrupt ();
-    return true;
-  default:
-    return false;
+    case action_interrupt:
+      Interrupt ();
+      return true;
+    default:
+      return false;
   }
 }
 
@@ -588,7 +600,7 @@ void celPcSteer::TickOnce ()
   // set destination y value to the same as current y value so as to
   // check only on x and z axis.
   cur_position.y = position.y;
-   
+
   if(current_action == action_seek)
     Seek(sector, position);
   else if (current_action == action_flee)
@@ -601,11 +613,10 @@ void celPcSteer::FindSiblingPropertyClasses ()
 {
   if (HavePropertyClassesChanged ())
   {
-    pcactormove = CEL_QUERY_PROPCLASS_ENT (entity, iPcActorMove);
-    pclinmove = CEL_QUERY_PROPCLASS_ENT (entity, iPcLinearMovement);
-    pcmesh = CEL_QUERY_PROPCLASS_ENT (entity, iPcMesh);
+    pcactormove = celQueryPropertyClassEntity<iPcActorMove> (entity);
+    pclinmove = celQueryPropertyClassEntity<iPcLinearMovement> (entity);
+    pcmesh = celQueryPropertyClassEntity<iPcMesh> (entity);
   }
 }
 
 //---------------------------------------------------------------------------
-

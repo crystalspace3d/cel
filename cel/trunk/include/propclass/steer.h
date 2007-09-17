@@ -94,7 +94,6 @@ struct iPcSteer : public virtual iBase
    */
   virtual bool Flee (iSector* sector, const csVector3& position) = 0;
 
-  
   /**
    * Move to the specified targets position. When you call this function this property
    * class will attempt to move the linmove to the targets current position.
@@ -111,18 +110,16 @@ struct iPcSteer : public virtual iBase
    * target's future position.
    */
   virtual bool Pursue (iCelEntity* target, float max_prediction)=0;
-  
+
   /**
    * Sets arrival checking on with arrival_radius = radius
    * \param radius sets current arrival_radius
    */
-
   virtual void CheckArrivalOn (float radius) = 0;
 
   /**
    * Sets arrival checking off
    */
-
   virtual void CheckArrivalOff () = 0;
 
   /**
@@ -130,29 +127,25 @@ struct iPcSteer : public virtual iBase
    * \param lookahead sets current ca_lookahead
    * \param weight sets current ca_weight
    */
-
   virtual void CollisionAvoidanceOn (float lookahead, float weight) = 0;
-  
+
   /**
    * Sets Collision Avoidance off
    */
-
   virtual void CollisionAvoidanceOff () = 0;
 
-  
+
   /**
    * Sets Cohesion on
    * \param targets sets current cohesion_targets
    * \param radius sets current cohesion_radius
    * \param weight sets current cohesion_weight
    */
-
   virtual void CohesionOn (iCelEntityList* targets, float radius, float weight) = 0;
 
   /**
    * Sets Cohesion off
    */
-
   virtual void CohesionOff () = 0;
 
   /**
@@ -161,13 +154,11 @@ struct iPcSteer : public virtual iBase
    * \param radius sets current separation_radius
    * \param weight sets current separation_weight
    */
-  
   virtual void SeparationOn (iCelEntityList* targets, float radius, float weight) = 0;
- 
+
   /**
    * Sets Separation off
    */
-
   virtual void SeparationOff () = 0;
 
   /**
@@ -175,16 +166,12 @@ struct iPcSteer : public virtual iBase
    * \param targets sets current dm_targets
    * \param weight sets current dm_weight
    */
-
   virtual void DirectionMatchingOn (iCelEntityList* targets, float weight) = 0;
 
   /**
    * Sets Direction Matching off
    */
-
-  
   virtual void DirectionMatchingOff () = 0;
-
 
   /**
    * Interrupt a movement. The behaviour will get a 'pcsteer_interrupted'
@@ -202,18 +189,15 @@ struct iPcSteer : public virtual iBase
    */
   virtual const csVector3& GetPosition () const = 0;
 
-
   /**
    * Returns a random number using a random binomial.
    */
-
   virtual float RandomBinomial (float rate) = 0;
 
   /**
    * Sets current delay_recheck
    * \param delay sets delay_recheck
    */
-  
   virtual void SetDelayRecheck (int delay) = 0;
 
   /**
@@ -223,4 +207,3 @@ struct iPcSteer : public virtual iBase
 };
 
 #endif // __CEL_PF_STEER__
-

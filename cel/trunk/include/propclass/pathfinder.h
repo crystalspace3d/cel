@@ -81,11 +81,10 @@ struct iPcPathFinder : public virtual iBase
    * \param checklos whether to check line of sight to destination on movement
    * start.
    */
-
   virtual bool Seek (iSector* sector, const csVector3& position) = 0;
 
   virtual bool Wander (size_t distance) = 0;
-  
+
   virtual bool Pursue (iCelEntity* target, float max_prediction)=0;
 
   virtual bool FollowCyclicPath (iCelPath* path)=0;
@@ -98,7 +97,6 @@ struct iPcPathFinder : public virtual iBase
    * Interrupt a movement. The behaviour will get a 'pcmover_interrupted'
    * message if the mover was really moving. Otherwise nothing happens.
    */
-
   virtual void Interrupt () = 0;
 
   virtual void SetDelayRecheck (int delay) = 0;
@@ -110,7 +108,7 @@ struct iPcPathFinder : public virtual iBase
   virtual void StopTracking () = 0;
 
   virtual bool IsActive () = 0;
-  
+
   virtual void SetGraph (iCelGraph* graph) = 0;
 };
 

@@ -42,12 +42,11 @@ struct iObjectRegistry;
  */
 CEL_DECLARE_FACTORY (Steer)
 
-
 /**
  * This is the Steer property class.
  */
-class celPcSteer : public scfImplementationExt1<
-	celPcSteer, celPcCommon, iPcSteer>
+class celPcSteer : public scfImplementationExt1<celPcSteer, celPcCommon,
+  iPcSteer>
 {
 private: 
   csWeakRef<iEngine> engine;
@@ -73,7 +72,7 @@ private:
   static csStringID id_separation_weight;
   static csStringID id_cohesion_weight;
   static csStringID id_dm_weight;
-  
+
   enum actionids
   {
     action_seek=0,
@@ -141,15 +140,13 @@ private:
   virtual void DirectionMatching ();  
   virtual float RandomBinomial (float rate);
   virtual bool Move ();
-      
+
   static csStringID id_meshname;
   celOneParameterBlock* params;
 
-
-
 public:
   celPcSteer (iObjectRegistry* object_reg);
-  
+
   virtual ~celPcSteer ();
 
   virtual bool Seek (iSector* sector, const csVector3& position);
@@ -163,42 +160,41 @@ public:
   virtual void CheckArrivalOn(float radius);
 
   virtual void CheckArrivalOff();
-   
+
   virtual void CollisionAvoidanceOn(float lookahead, float weight);
 
   virtual void CollisionAvoidanceOff();
-  
+
   virtual void CohesionOn (iCelEntityList* targets, float radius, float weight);
-  
+
   virtual void CohesionOff ();
-  
+
   virtual void SeparationOn (iCelEntityList* targets, float radius, float weight);
- 
+
   virtual void SeparationOff ();
-  
+
   virtual void DirectionMatchingOn (iCelEntityList* targets, float weight);
-  
+
   virtual void DirectionMatchingOff ();
 
   virtual void SetDelayRecheck(int delay);
 
   virtual iSector* GetSector () const { return sector; }
-  
+
   virtual const csVector3& GetPosition () const { return position; }
-  
+
   virtual const csVector3& GetUp () const { return up; }
 
   virtual bool IsMoving () const { return is_moving; }
 
   virtual csPtr<iCelDataBuffer> Save ();
-  
-  virtual bool Load (iCelDataBuffer* databuf);
-  
-  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
-      celData& ret);
-      
-  virtual void TickOnce ();
 
+  virtual bool Load (iCelDataBuffer* databuf);
+
+  virtual bool PerformActionIndexed (int idx, iCelParameterBlock* params,
+    celData& ret);
+
+  virtual void TickOnce ();
 };
 
 #endif // __CEL_PF_STEERFACT__
