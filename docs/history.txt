@@ -3,6 +3,10 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+17-Sep-2007
+	- Genjix replaced custom GetAngle () atan2 function, and removed
+	  unused GetVector ().
+	  Commented unused squared distance variable and removed printf's.
 13-Sep-2007
 	- Genjix fixed property class names in graph and steering apps.
 12-Sep-2007

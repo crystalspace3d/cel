@@ -200,29 +200,6 @@ void celPcSteer::SendMessage (const char* msg, const char* meshname)
   }
 }
 
-static float GetAngle (const csVector3& v1, const csVector3& v2)
-{
-
-  //float ori = - atan2(v1.x, v1.y)*(180/ PI);
-  float len = sqrt (csSquaredDist::PointPoint (v1, v2));
-  float angle = acos ((v2.x-v1.x) / len);
-  if ((v2.z-v1.z) > 0) angle = 2*PI - angle;
-  angle += PI / 2.0f;
-  if (angle > 2*PI) angle -= 2*PI;
-  return angle;
-}
-
-static csVector3 GetVector (const float angle)
-{
-  csYRotMatrix3 rot(angle);
-  csVector3 vec(0, 0, 1);
-
-  //csVector3 vec(cos(angle), 0, -sin(angle));
-  //return vec;
-  return rot*vec;
-  
-}
-
 float celPcSteer::RandomBinomial (float rate)
 {
   float r = random.Get() -  random.Get();
@@ -385,24 +362,19 @@ bool celPcSteer::CollisionAvoidance ()
 
   //If theres a collision we handle it
   if (rc.mesh){
-    float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
-    
+    //float distance = csSquaredDist::PointPoint(cur_position, rc.isect);
     /*
-     * If the collision is too far away, we don´t bother to avoid it
+     * If the collision is too far away, we donï¿½t bother to avoid it
      */
     //if(distance > ca_lookahead)
     //return false;
-    
-    printf("AVOID!\n");
+
     csVector3 direction = cur_position - position;
     //direction = direction*ca_weight;
     cur_direction = cur_position - position;
     SendMessage ("pcsteer_avoiding_collision", rc.mesh->QueryObject ()->GetName ());
     return true;
   }
-
-  printf("NO!\n");
-  
   return false;
 }
 
@@ -554,13 +526,13 @@ bool celPcSteer::Move ()
   DirectionMatching();
 
   csVector3 vec (0,0,1);
-  
-  float yrot = GetAngle (cur_direction, vec);
+
+  float yrot = atan2 (-cur_direction.x, -cur_direction.z);
 
   pcactormove->RotateTo (yrot);
   pcactormove->Forward (true);
   is_moving=true;  
-  
+
   return true;
 }
 
