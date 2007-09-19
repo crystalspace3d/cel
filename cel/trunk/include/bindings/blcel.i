@@ -487,7 +487,7 @@ CEL_PC(iPcDefaultCamera, DefaultCamera, pccamera.old)
 CEL_PC(iPcSimpleCamera, SimpleCamera, pccamera.simple)
 
 %include "propclass/newcamera.h"
-CEL_PC(iPcNewCamera, Camera, pccamera.standard)
+CEL_PC(iPcNewCamera, NewCamera, pccamera.standard)
 
 //-----------------------------------------------------------------------------
 

@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+19-Sep-2007
+	- Genjix added current camera as NewCamera as it has to be consistent
+	  with CEL api.
 17-Sep-2007
 	- Genjix fixed crash in graph test application.
 	- Genjix beautified the code, made it not use macros... general
