@@ -4,6 +4,8 @@ http://cel.crystalspace3d.org/
 The history order is reversed so that new features are at the top.
 
 19-Sep-2007
+	- Genjix made seg fault bug fix to GetCameraMode() when newcamera
+	  has none.
 	- Genjix added current camera as NewCamera as it has to be consistent
 	  with CEL api.
 17-Sep-2007
