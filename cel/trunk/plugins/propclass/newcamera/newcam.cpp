@@ -596,7 +596,6 @@ void celPcNewCamera::UpdateCamera ()
   }
 
   iCelCameraMode* mode = cameraModes[currMode];
-
   if (!mode->DecideCameraState ())
     return;
 
@@ -668,8 +667,8 @@ void celPcNewCamera::UpdateCamera ()
   // to increase the chances of the camera being in the correct sector, first
   // move to from the attached mesh origin to the camera's base position, then
   // move to the desired position traversing portals as we go
-  //c->MoveWorld (basePos - c->GetTransform ().GetOrigin (), false);
-  //c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
+  c->MoveWorld (basePos - c->GetTransform ().GetOrigin (), false);
+  c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
 
   lastIdealPos = desiredCamPos;
   lastIdealTarget = desiredCamTarget;
