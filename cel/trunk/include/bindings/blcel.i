@@ -364,6 +364,8 @@ APPLY_TYPEMAP_ARGOUT_PTR(csColor, csColor& v)
 /* Rename vector getter functions so they dont shadow each other */
 %rename(GetPropertyVector3) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector3& v);
 %rename(GetPropertyVector2) iCelPropertyClass::GetPropertyVector (csStringID propertyID, csVector2& v);
+%rename(GetPropertyVector3ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector3& v);
+%rename(GetPropertyVector2ByID) iCelPropertyClass::GetPropertyVectorByID (csStringID propertyID, csVector2& v);
 
 %include "physicallayer/propclas.h"
 %extend iCelPropertyClass {
