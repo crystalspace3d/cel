@@ -143,7 +143,7 @@ class BehaviourPF : public BehaviourCommon
   int cur;
 
  public:
-  BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);
+  BehaviourPF (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
   virtual ~BehaviourPF() {}
   virtual const char* GetName () const { return "pathfinding_behave"; }
   virtual bool SendMessage (csStringID msg_id,

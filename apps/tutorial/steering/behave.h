@@ -137,7 +137,7 @@ class BehaviourSteering : public BehaviourCommon
   csRef<iCelEntityList> entities;
   
  public:
-  BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* bl);
+  BehaviourSteering (iCelEntity* entity, BehaviourLayer* bl, iCelPlLayer* pl);
   virtual ~BehaviourSteering() {}
   virtual const char* GetName () const { return "steering_behave"; }
   virtual bool SendMessage (csStringID msg_id,
