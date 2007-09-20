@@ -551,14 +551,6 @@ void celPcNewCamera::UpdateCamera ()
   csTicks elapsedTime = vc->GetElapsedTicks ();
   float elapsedSecs = elapsedTime / 1000.0f;
 
-  if (currMode >= cameraModes.GetSize ())
-  {
-    SetCurrentCameraMode (cameraModes.GetSize () - 1);
-    if (currMode >= cameraModes.GetSize ())
-      return;
-  }
-  iCelCameraMode* mode = cameraModes[currMode];
-
   // Try to get position and sector from the mesh.
   if (pcmesh)
   {
@@ -579,6 +571,31 @@ void celPcNewCamera::UpdateCamera ()
   	baseTrans.This2OtherRelative (basePosOffset);
   baseDir = baseTrans.This2OtherRelative (csVector3 (0.0f, 0.0f, -1.0f));
   baseUp  = baseTrans.This2OtherRelative (csVector3 (0.0f, 1.0f, 0.0f));
+
+  if (currMode >= cameraModes.GetSize ())
+  {
+    SetCurrentCameraMode (cameraModes.GetSize () - 1);
+    // no camera mode is attached.
+    if (currMode >= cameraModes.GetSize ())
+    {
+      if (pcmesh)
+      {
+        // so we just align the camera's pos and dir with
+        // the attached mesh
+        csReversibleTransform camTrans;
+        camTrans.SetOrigin(baseTrans.GetOrigin ());
+        camTrans.LookAt (baseDir, baseUp);
+        iCamera* c = view->GetCamera ();
+        // needs to be in the right sector
+        if (c->GetSector () != baseSector)
+          c->SetSector (baseSector);
+        c->SetTransform (camTrans);
+      }
+      return;
+    }
+  }
+
+  iCelCameraMode* mode = cameraModes[currMode];
 
   if (!mode->DecideCameraState ())
     return;
@@ -651,8 +668,8 @@ void celPcNewCamera::UpdateCamera ()
   // to increase the chances of the camera being in the correct sector, first
   // move to from the attached mesh origin to the camera's base position, then
   // move to the desired position traversing portals as we go
-  c->MoveWorld (basePos - c->GetTransform ().GetOrigin (), false);
-  c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
+  //c->MoveWorld (basePos - c->GetTransform ().GetOrigin (), false);
+  //c->MoveWorld (camPos - c->GetTransform ().GetOrigin (), false);
 
   lastIdealPos = desiredCamPos;
   lastIdealTarget = desiredCamTarget;
