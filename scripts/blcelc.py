@@ -2886,9 +2886,9 @@ class iPcMeshSelectListener(cspace.iBase):
     __del__ = lambda self : None;
 iPcMeshSelectListener_swigregister = _blcelc.iPcMeshSelectListener_swigregister
 iPcMeshSelectListener_swigregister(iPcMeshSelectListener)
-celCreateCamera = _blcelc.celCreateCamera
-celGetSetCamera = _blcelc.celGetSetCamera
-celGetCamera = _blcelc.celGetCamera
+celCreateNewCamera = _blcelc.celCreateNewCamera
+celGetSetNewCamera = _blcelc.celGetSetNewCamera
+celGetNewCamera = _blcelc.celGetNewCamera
 
 class iPcMeshSelect(cspace.iBase):
     __swig_setmethods__ = {}
