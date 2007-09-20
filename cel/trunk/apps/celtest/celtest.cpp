@@ -17,8 +17,6 @@
     MA 02111-1307, USA.
 */
 
-#define CELTST_USE_ANALOG
-
 #include "cssysdef.h"
 #include "celtest.h"
 #include "csutil/sysfunc.h"
@@ -85,12 +83,7 @@
 #include "propclass/region.h"
 #include "propclass/input.h"
 #include "propclass/linmove.h"
-#ifdef CELTST_USE_ANALOG
-  #include "propclass/actoranalog.h"
-  #include "propclass/newcamera.h"
-#else
-  #include "propclass/actormove.h"
-#endif
+#include "propclass/actoranalog.h"
 #include "propclass/quest.h"
 #include "propclass/trigger.h"
 #include "propclass/zone.h"
@@ -188,13 +181,8 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   // The Real Camera
   csRef<iCelEntity> entity_cam = pl->CreateEntity (name, bltest, "actor",
   	"pcinput.standard",
-#ifdef CELTST_USE_ANALOG
 	"pcmove.actor.analog",
 	"pccamera.standard",
-#else
-	"pccamera.standard",
-	"pcmove.actor.standard",
-#endif
 	"pcobject.mesh",
 	"pcobject.mesh.select",
 	"pcmove.linear",
@@ -206,7 +194,6 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
 
   csRef<iPcCommandInput> pcinp = CEL_QUERY_PROPCLASS_ENT (entity_cam,
   	iPcCommandInput);
-#ifdef CELTST_USE_ANALOG
   pcinp->Bind ("JoystickButton4", "ready");
   pcinp->Bind ("JoystickButton6", "lockon");
   pcinp->Bind ("JoystickButton2", "resetcam");
@@ -220,44 +207,10 @@ csPtr<iCelEntity> CelTest::CreateActor (const char* name,
   pcinp->Bind ("right", "right");
   pcinp->Bind ("up", "up");
   pcinp->Bind ("down", "down");
-#else
-  pcinp->Bind ("up", "forward");
-  pcinp->Bind ("down", "backward");
-  pcinp->Bind ("shift", "run");
-  pcinp->Bind ("m", "cammode");
-  pcinp->Bind ("left", "rotateleft");
-  pcinp->Bind ("right", "rotateright");
-  pcinp->Bind ("a", "strafeleft");
-  pcinp->Bind ("d", "straferight");
-  pcinp->Bind ("space", "jump");
-  pcinp->Bind ("x", "center");
-  pcinp->Bind ("pgup", "lookup");
-  pcinp->Bind ("pgdn", "lookdown");
-#endif
 
-#ifdef CELTST_USE_ANALOG
   csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
     entity_cam, iPcNewCamera);
   newcamera->AttachCameraMode(iPcNewCamera::CCM_TRACKING);
-#else
-  csRef<iPcNewCamera> newcamera = CEL_QUERY_PROPCLASS_ENT (
-	entity_cam, iPcNewCamera);
-  size_t first_idx = 
-    newcamera->AttachCameraMode(iPcNewCamera::CCM_FIRST_PERSON);
-  size_t third_idx =
-    newcamera->AttachCameraMode(iPcNewCamera::CCM_THIRD_PERSON);
-  newcamera->SetCurrentCameraMode(third_idx);
-  newcamera->SetCollisionDetection(true);
-  newcamera->SetPositionOffset(csVector3(0,2,0));
-
-  // Get the iPcActorMove interface so that we can set movement speed.
-  csRef<iPcActorMove> pcactormove = CEL_QUERY_PROPCLASS_ENT (entity_cam,
-  	iPcActorMove);
-  pcactormove->SetMovementSpeed (2.0f);
-  pcactormove->SetRunningSpeed (5.0f);
-  pcactormove->SetRotationSpeed (1.75f);
-  pcactormove->SetJumpingVelocity (6.31f);
-#endif
 
   csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT (entity_cam, iPcMesh);
   bool hascal3d = true;
@@ -420,9 +373,14 @@ bool CelTest::Application ()
   pl = csQueryRegistry<iCelPlLayer> (object_reg);
   if (!pl) return ReportError ("CEL physical layer missing!");
 
+  // we find the scf object already in cel's example behaviour layer
+  // in plugins/behaviourlayer/test to use
   bltest = csQueryRegistryTagInterface<iCelBlLayer> (
-  	object_reg, "iCelBlLayer.Test");
+    object_reg, "iCelBlLayer.Test");
   if (!bltest) return ReportError ("CEL test behaviour layer missing!");
+  // after we have a pointer to the behaviourlayer we want to use
+  // able to create the behaviours we want, then we register it for usage
+  // with the physical layer.
   pl->RegisterBehaviourLayer (bltest);
 
   if (!CreateRoom ()) return false;
@@ -433,103 +391,3 @@ bool CelTest::Application ()
 
   return true;
 }
-
-#if 0
-  // Create NavGraph Test Entities
-  //==============================
-  // Create Graph entity
-  csRef<iCelEntity> graph = pl->CreateEntity ("navgraph1", 0, 0,
-  	"pcgraph",
-  	CEL_PROPCLASS_END);
-  if (!graph) return 0;
-  csRef<iPcNavGraph> pcgraph = CEL_QUERY_PROPCLASS_ENT (graph, iPcNavGraph);
-
-  /* TODO Test Loading Nodes from a file
-  // Tie this graph to the current region object
-  pcgraph->SetRegion( pcregion );
-  // Load all the nodes from this region
-  pcgraph->LoadNodesFromRegion( pcregion->GetRegionName() );
-  */
-
-  // Create FPS rules for graph navigation
-  csRef<iCelEntity> graphrulesfps = pl->CreateEntity ("graphrulesfps", 0, 0,
-  	"pcgraphrulesfps",
-  	CEL_PROPCLASS_END);
-  if (!graphrulesfps) return 0;
-  csRef<iPcNavGraphRules> navrules = CEL_QUERY_PROPCLASS_ENT (graphrulesfps,
-  	iPcNavGraphRules);
-  pcgraph->SetRules (navrules);
-
-  // Create Node entities
-  int i, j;
-  for (i = -2; i<=2;i++)
-  {
-    for (j = -2; j<=2;j++)
-    {
-      csRef<iCelPropertyClass> pc = pl->CreatePropertyClass (graph, "pcnode");
-      csRef<iPcNavNode> pcnode = scfQueryInterface<iPcNavNode> (pc);
-      pcnode->SetPos (csVector3 (i,0,j));
-      pcgraph->AddNode (pcnode); // Add the Node PC to the graph
-    }
-  }
-
-  // Build Graph
-  //============
-  iCamera* camera = pccamera->GetCamera ();
-  iSector* sector = camera->GetSector();
-
-	  // use this entity for testing the nav graph
-  iCelEntity* defaultent = entity_box;
-
-  pcgraph->BuildNodeGraph (sector, defaultent);
-#if PATHFIND_VERBOSE
-  pcgraph->Dump (); // show all debug info
-#endif
-
-  // Test graph
-  //===========
-
-  // Test FindNearestNode()
-  csVector3 v (-2, 0, 0);
-  int inearest = pcgraph->FindNearestNode (&v, sector, defaultent);
-  // test FindNearestNode method
-#if PATHFIND_VERBOSE
-  ReportInfo ("Nearest Node: %d", inearest );
-#endif
-
-  // Test FindShortestPath()
-  // allocate up to 50 points on path
-  int* ipath = (int*) malloc (50 * sizeof( int ));
-  for (i = 0; i < 100; i++)
-  {
-    int itestnode = (int)(((float)rand()
-    	* (float) pcgraph->GetNodeCount()) / (float)RAND_MAX);
-    int ipathlength = 0;
-
-    // Test FindNearestNode method.
-    ipathlength = pcgraph->FindShortestPath (inearest, itestnode, ipath);
-#if PATHFIND_VERBOSE
-    ReportInfo ("Find Shortest path: from %d to %d: %d steps",
-	inearest, itestnode, ipathlength-1 );
-#endif
-
-    /* 
-      // Print out full path
-      for ( int j=0; j < ipathlength;j++)
-      {
-          csReport(object_reg, CS_REPORTER_SEVERITY_NOTIFY,
-	    "crystalspace.application.celtest", "..... %d", ipath[j]);
-      }
-     */
-  }
-  free (ipath);
-
-#if PATHFIND_VERBOSE
-  // Test FindNearestNode method.
-  ReportInfo ("Final Graph Stats: nodes: %d links: %d",
-	pcgraph->GetNodeCount(), pcgraph->GetLinkCount());
-#endif
-
-  //===============================
-#endif
-

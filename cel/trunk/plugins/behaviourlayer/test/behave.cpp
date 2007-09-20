@@ -17,8 +17,6 @@
     Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#define CELTST_USE_ANALOG
-
 #include "cssysdef.h"
 #include "iutil/objreg.h"
 #include "iengine/mesh.h"
@@ -33,6 +31,7 @@
 #include "propclass/camera.h"
 #include "propclass/defcam.h"
 #include "propclass/newcamera.h"
+#include "propclass/actoranalog.h"
 #include "propclass/inv.h"
 #include "propclass/gravity.h"
 #include "propclass/timer.h"
@@ -42,12 +41,6 @@
 #include "plugins/behaviourlayer/test/behave.h"
 #include "celtool/stdparams.h"
 #include <iostream>
-
-#ifdef CELTST_USE_ANALOG
-  #include "propclass/actoranalog.h"
-#else
-  #include "propclass/actormove.h"
-#endif
 
 //---------------------------------------------------------------------------
 
@@ -102,67 +95,6 @@ bool celBehaviourRoom::SendMessageV (const char* msg_id,
 	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
-#if 0
-  (void)arg;
-  // @@@ Should store the id's for the parameters below.
-  csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
-  if (!pl) return false;
-  const celData* butdata = params ? params->GetParameter (pl->FetchStringID (
-  	"cel.parameter.button")) : 0;
-  if (butdata)
-  {
-    iCelEntity* ent = params->GetParameter (pl->FetchStringID (
-  	  "cel.parameter.entity"))->value.ent;
-    int x = params->GetParameter (pl->FetchStringID (
-  	  "cel.parameter.x"))->value.l;
-    int y = params->GetParameter (pl->FetchStringID (
-  	  "cel.parameter.y"))->value.l;
-    int but = butdata->value.l;
-    if (!strcmp (msg_id, "pcmeshsel_up"))
-    {
-      printf ("  UP '%s' (%d,%d,%d)\n", ent->GetName (),
-      	x, y, but);
-      csRef<iPcMesh> pcmesh (
-      	CEL_QUERY_PROPCLASS (ent->GetPropertyClassList (), iPcMesh));
-      csRef<iPcCamera> pccamera (CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcCamera));
-      csRef<iCelPlLayer> pl (csQueryRegistry<iCelPlLayer> (object_reg));
-      pcmesh->Hide ();
-      iCelEntity* drop_ent = pl->GetHitEntity (pccamera->GetCamera (), x, y);
-      pcmesh->Show ();
-      if (drop_ent && !strncmp (drop_ent->GetName (), "box", 3))
-      {
-        csRef<iPcInventory> pcinv (CEL_QUERY_PROPCLASS (
-		drop_ent->GetPropertyClassList (), iPcInventory));
-        if (pcinv)
-	  if (pcinv->AddEntity (ent))
-	  {
-	    pcmesh->Hide ();
-	  }
-      }
-    }
-    else if (!strcmp (msg_id, "pcmeshsel_down"))
-      printf ("  DOWN '%s' (%d,%d,%d)\n", ent->GetName (),
-      	x, y, but);
-  }
-
-  if (butdata && !strcmp (msg_id, "pcmeshsel_move"))
-  {
-    iCelEntity* ent = params->GetParameter (pl->FetchStringID (
-  	  "cel.parameter.entity"))->value.ent;
-    csRef<iPcTooltip> pctooltip (CEL_QUERY_PROPCLASS (
-      	entity->GetPropertyClassList (), iPcTooltip));
-    if (ent)
-    {
-      pctooltip->SetText (ent->GetName ());
-      pctooltip->Show (50, 50);
-    }
-    else
-     pctooltip->Hide ();
-  }
-
-  fflush (stdout);
-#endif
   return false;
 }
 
@@ -192,7 +124,6 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
 	iCelPropertyClass*,
 	celData&, iCelParameterBlock* params, va_list arg)
 {
-#if 1
   (void)arg;
   csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (object_reg);
   iCelEntity* ent = 0;
@@ -268,7 +199,6 @@ bool celBehaviourBox::SendMessageV (const char* msg_id,
     }
   }
 
-#endif
   return false;
 }
 
@@ -295,7 +225,6 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
 
   if (pcinput_msg)
   {
-#ifdef CELTST_USE_ANALOG
     csRef<iPcActorAnalog> pcactor = celQueryPropertyClassEntity
       <iPcActorAnalog> (entity);
     if (!pcactor)
@@ -356,84 +285,6 @@ bool celBehaviourActor::SendMessageV (const char* msg_id,
       pcactor->AddAxis (1, -1);
     else if (!strcmp (msg_id+15, "down0"))
       pcactor->AddAxis (1, 1);
-#else
-    csRef<iPcActorMove> pcactormove = celQueryPropertyClassEntity
-      <iPcActorMove> (entity);
-    if (!pcactormove)
-      return false;
-
-    if (!strcmp (msg_id+15, "forward1"))
-      pcactormove->Forward (true);
-    else if (!strcmp (msg_id+15, "forward0"))
-      pcactormove->Forward (false);
-    else if (!strcmp (msg_id+15, "backward1"))
-      pcactormove->Backward (true);
-    else if (!strcmp (msg_id+15, "backward0"))
-      pcactormove->Backward (false);
-    else if (!strcmp (msg_id+15, "strafeleft1"))
-      pcactormove->StrafeLeft (true);
-    else if (!strcmp (msg_id+15, "strafeleft0"))
-      pcactormove->StrafeLeft (false);
-    else if (!strcmp (msg_id+15, "straferight1"))
-      pcactormove->StrafeRight (true);
-    else if (!strcmp (msg_id+15, "straferight0"))
-      pcactormove->StrafeRight (false);
-    else if (!strcmp (msg_id+15, "rotateleft1"))
-      pcactormove->RotateLeft (true);
-    else if (!strcmp (msg_id+15, "rotateleft0"))
-      pcactormove->RotateLeft (false);
-    else if (!strcmp (msg_id+15, "rotateright1"))
-      pcactormove->RotateRight (true);
-    else if (!strcmp (msg_id+15, "rotateright0"))
-      pcactormove->RotateRight (false);
-    else if (!strcmp (msg_id+15, "jump1"))
-      pcactormove->Jump ();
-    else if (!strcmp (msg_id+15, "run1"))
-      pcactormove->Run (true);
-    else if (!strcmp (msg_id+15, "run0"))
-      pcactormove->Run (false);
-    // Don't know any NewCamera equivalents!
-    /*else if (!strcmp (msg_id+15, "lookup1"))
-    {
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      pcdefcamera->SetPitchVelocity (1.0f);
-    }
-    else if (!strcmp (msg_id+15, "lookup0"))
-    {
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      pcdefcamera->SetPitchVelocity (0.0f);
-    }
-    else if (!strcmp (msg_id+15, "lookdown1"))
-    {
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      pcdefcamera->SetPitchVelocity (-1.0f);
-    }
-    else if (!strcmp (msg_id+15, "lookdown0"))
-    {
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      pcdefcamera->SetPitchVelocity (0.0f);
-    }
-    else if (!strcmp (msg_id+15, "center1"))
-    {
-      csRef<iPcDefaultCamera> pcdefcamera = CEL_QUERY_PROPCLASS_ENT (entity,
-      	iPcDefaultCamera);
-      pcdefcamera->CenterCamera ();
-    }*/
-    else if (!strcmp (msg_id+15, "cammode1"))
-    {
-      csRef<iPcNewCamera> pccamera =
-        celQueryPropertyClassEntity<iPcNewCamera> (entity);
-      if (pccamera)
-      {
-        pccamera->NextCameraMode ();
-        printf ("%u\n", pccamera->GetCurrentCameraModeIndex ());
-      }
-    }
-#endif
     return true;
   }
 
