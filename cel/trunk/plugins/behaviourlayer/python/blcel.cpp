@@ -4817,7 +4817,7 @@ iPcSimpleCamera *scfQuery_iPcSimpleCamera (iCelPropertyClass *pc)
 }
 
 
-iPcNewCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
+iPcNewCamera *celCreateNewCamera(iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0 ) 
 {
   csRef<iCelPropertyClass> pc;
   if (tagname)
@@ -4831,7 +4831,7 @@ iPcNewCamera *celCreateCamera(iCelPlLayer *pl, iCelEntity *entity, const char* t
 }
 
 
-iPcNewCamera * celGetSetCamera (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
+iPcNewCamera * celGetSetNewCamera (iCelPlLayer *pl, iCelEntity *entity, const char* tagname = 0)
 {
   csRef<iPcNewCamera> pclm;
   if (tagname)
@@ -4851,7 +4851,7 @@ iPcNewCamera * celGetSetCamera (iCelPlLayer *pl, iCelEntity *entity, const char*
 }
 
 
-iPcNewCamera * celGetCamera (iCelEntity *entity, const char* tagname = 0 )
+iPcNewCamera * celGetNewCamera (iCelEntity *entity, const char* tagname = 0 )
 {
   csRef<iPcNewCamera> pc;
   if (tagname)
@@ -51093,7 +51093,7 @@ SWIGINTERN PyObject *iPcNewCamera_swigregister(PyObject *SWIGUNUSEDPARM(self), P
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_celCreateCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celCreateNewCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -51110,23 +51110,23 @@ SWIGINTERN PyObject *_wrap_celCreateCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOO:celCreateCamera",&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOO:celCreateNewCamera",&obj0,&obj1,&obj2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celCreateCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celCreateNewCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
   res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateNewCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
   }
   arg2 = reinterpret_cast< iCelEntity * >(argp2);
   res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celCreateCamera" "', argument " "3"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celCreateNewCamera" "', argument " "3"" of type '" "char const *""'");
   }
   arg3 = buf3;
-  result = (iPcNewCamera *)celCreateCamera(arg1,arg2,(char const *)arg3);
+  result = (iPcNewCamera *)celCreateNewCamera(arg1,arg2,(char const *)arg3);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return resultobj;
@@ -51136,7 +51136,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celCreateCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celCreateNewCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -51148,18 +51148,18 @@ SWIGINTERN PyObject *_wrap_celCreateCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:celCreateCamera",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:celCreateNewCamera",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celCreateCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celCreateNewCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
   res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celCreateNewCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
   }
   arg2 = reinterpret_cast< iCelEntity * >(argp2);
-  result = (iPcNewCamera *)celCreateCamera(arg1,arg2);
+  result = (iPcNewCamera *)celCreateNewCamera(arg1,arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   return resultobj;
 fail:
@@ -51167,7 +51167,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celCreateCamera(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_celCreateNewCamera(PyObject *self, PyObject *args) {
   int argc;
   PyObject *argv[4];
   int ii;
@@ -51187,7 +51187,7 @@ SWIGINTERN PyObject *_wrap_celCreateCamera(PyObject *self, PyObject *args) {
       int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_celCreateCamera__SWIG_1(self, args);
+        return _wrap_celCreateNewCamera__SWIG_1(self, args);
       }
     }
   }
@@ -51204,19 +51204,19 @@ SWIGINTERN PyObject *_wrap_celCreateCamera(PyObject *self, PyObject *args) {
         int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
         _v = SWIG_CheckState(res);
         if (_v) {
-          return _wrap_celCreateCamera__SWIG_0(self, args);
+          return _wrap_celCreateNewCamera__SWIG_0(self, args);
         }
       }
     }
   }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celCreateCamera'");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celCreateNewCamera'");
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetSetCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetSetNewCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -51233,23 +51233,23 @@ SWIGINTERN PyObject *_wrap_celGetSetCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj1 = 0 ;
   PyObject * obj2 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OOO:celGetSetCamera",&obj0,&obj1,&obj2)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OOO:celGetSetNewCamera",&obj0,&obj1,&obj2)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetNewCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
   res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetNewCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
   }
   arg2 = reinterpret_cast< iCelEntity * >(argp2);
   res3 = SWIG_AsCharPtrAndSize(obj2, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celGetSetCamera" "', argument " "3"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "celGetSetNewCamera" "', argument " "3"" of type '" "char const *""'");
   }
   arg3 = buf3;
-  result = (iPcNewCamera *)celGetSetCamera(arg1,arg2,(char const *)arg3);
+  result = (iPcNewCamera *)celGetSetNewCamera(arg1,arg2,(char const *)arg3);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
   return resultobj;
@@ -51259,7 +51259,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetSetCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetSetNewCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPlLayer *arg1 = (iCelPlLayer *) 0 ;
   iCelEntity *arg2 = (iCelEntity *) 0 ;
@@ -51271,18 +51271,18 @@ SWIGINTERN PyObject *_wrap_celGetSetCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:celGetSetCamera",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:celGetSetNewCamera",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPlLayer, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetSetNewCamera" "', argument " "1"" of type '" "iCelPlLayer *""'"); 
   }
   arg1 = reinterpret_cast< iCelPlLayer * >(argp1);
   res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetSetNewCamera" "', argument " "2"" of type '" "iCelEntity *""'"); 
   }
   arg2 = reinterpret_cast< iCelEntity * >(argp2);
-  result = (iPcNewCamera *)celGetSetCamera(arg1,arg2);
+  result = (iPcNewCamera *)celGetSetNewCamera(arg1,arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   return resultobj;
 fail:
@@ -51290,7 +51290,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetSetCamera(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetSetNewCamera(PyObject *self, PyObject *args) {
   int argc;
   PyObject *argv[4];
   int ii;
@@ -51310,7 +51310,7 @@ SWIGINTERN PyObject *_wrap_celGetSetCamera(PyObject *self, PyObject *args) {
       int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_iCelEntity, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_celGetSetCamera__SWIG_1(self, args);
+        return _wrap_celGetSetNewCamera__SWIG_1(self, args);
       }
     }
   }
@@ -51327,19 +51327,19 @@ SWIGINTERN PyObject *_wrap_celGetSetCamera(PyObject *self, PyObject *args) {
         int res = SWIG_AsCharPtrAndSize(argv[2], 0, NULL, 0);
         _v = SWIG_CheckState(res);
         if (_v) {
-          return _wrap_celGetSetCamera__SWIG_0(self, args);
+          return _wrap_celGetSetNewCamera__SWIG_0(self, args);
         }
       }
     }
   }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celGetSetCamera'");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celGetSetNewCamera'");
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetNewCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelEntity *arg1 = (iCelEntity *) 0 ;
   char *arg2 = (char *) 0 ;
@@ -51352,18 +51352,18 @@ SWIGINTERN PyObject *_wrap_celGetCamera__SWIG_0(PyObject *SWIGUNUSEDPARM(self), 
   PyObject * obj0 = 0 ;
   PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:celGetCamera",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:celGetNewCamera",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetCamera" "', argument " "1"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetNewCamera" "', argument " "1"" of type '" "iCelEntity *""'"); 
   }
   arg1 = reinterpret_cast< iCelEntity * >(argp1);
   res2 = SWIG_AsCharPtrAndSize(obj1, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetCamera" "', argument " "2"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "celGetNewCamera" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = buf2;
-  result = (iPcNewCamera *)celGetCamera(arg1,(char const *)arg2);
+  result = (iPcNewCamera *)celGetNewCamera(arg1,(char const *)arg2);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   return resultobj;
@@ -51373,7 +51373,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetNewCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelEntity *arg1 = (iCelEntity *) 0 ;
   iPcNewCamera *result = 0 ;
@@ -51381,13 +51381,13 @@ SWIGINTERN PyObject *_wrap_celGetCamera__SWIG_1(PyObject *SWIGUNUSEDPARM(self), 
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:celGetCamera",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:celGetNewCamera",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelEntity, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetCamera" "', argument " "1"" of type '" "iCelEntity *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "celGetNewCamera" "', argument " "1"" of type '" "iCelEntity *""'"); 
   }
   arg1 = reinterpret_cast< iCelEntity * >(argp1);
-  result = (iPcNewCamera *)celGetCamera(arg1);
+  result = (iPcNewCamera *)celGetNewCamera(arg1);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_iPcNewCamera, 0 |  0 );
   return resultobj;
 fail:
@@ -51395,7 +51395,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_celGetCamera(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_celGetNewCamera(PyObject *self, PyObject *args) {
   int argc;
   PyObject *argv[3];
   int ii;
@@ -51411,7 +51411,7 @@ SWIGINTERN PyObject *_wrap_celGetCamera(PyObject *self, PyObject *args) {
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelEntity, 0);
     _v = SWIG_CheckState(res);
     if (_v) {
-      return _wrap_celGetCamera__SWIG_1(self, args);
+      return _wrap_celGetNewCamera__SWIG_1(self, args);
     }
   }
   if (argc == 2) {
@@ -51423,13 +51423,13 @@ SWIGINTERN PyObject *_wrap_celGetCamera(PyObject *self, PyObject *args) {
       int res = SWIG_AsCharPtrAndSize(argv[1], 0, NULL, 0);
       _v = SWIG_CheckState(res);
       if (_v) {
-        return _wrap_celGetCamera__SWIG_0(self, args);
+        return _wrap_celGetNewCamera__SWIG_0(self, args);
       }
     }
   }
   
 fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celGetCamera'");
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'celGetNewCamera'");
   return NULL;
 }
 
@@ -88386,9 +88386,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iPcNewCamera_GetCameraMode", _wrap_iPcNewCamera_GetCameraMode, METH_VARARGS, NULL},
 	 { (char *)"delete_iPcNewCamera", _wrap_delete_iPcNewCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcNewCamera_swigregister", iPcNewCamera_swigregister, METH_VARARGS, NULL},
-	 { (char *)"celCreateCamera", _wrap_celCreateCamera, METH_VARARGS, NULL},
-	 { (char *)"celGetSetCamera", _wrap_celGetSetCamera, METH_VARARGS, NULL},
-	 { (char *)"celGetCamera", _wrap_celGetCamera, METH_VARARGS, NULL},
+	 { (char *)"celCreateNewCamera", _wrap_celCreateNewCamera, METH_VARARGS, NULL},
+	 { (char *)"celGetSetNewCamera", _wrap_celGetSetNewCamera, METH_VARARGS, NULL},
+	 { (char *)"celGetNewCamera", _wrap_celGetNewCamera, METH_VARARGS, NULL},
 	 { (char *)"scfQuery_iPcNewCamera", _wrap_scfQuery_iPcNewCamera, METH_VARARGS, NULL},
 	 { (char *)"iPcMeshSelectListener_MouseDown", _wrap_iPcMeshSelectListener_MouseDown, METH_VARARGS, NULL},
 	 { (char *)"iPcMeshSelectListener_MouseUp", _wrap_iPcMeshSelectListener_MouseUp, METH_VARARGS, NULL},
