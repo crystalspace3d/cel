@@ -22596,7 +22596,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVector2ByID(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
   csStringID arg2 ;
@@ -22612,15 +22612,15 @@ SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_0(PyObj
   {
     arg3 = new csVector2();
   }
-  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_GetPropertyVectorByID",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_GetPropertyVector2ByID",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPropertyClass, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClass_GetPropertyVectorByID" "', argument " "1"" of type '" "iCelPropertyClass *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClass_GetPropertyVector2ByID" "', argument " "1"" of type '" "iCelPropertyClass *""'"); 
   }
   arg1 = reinterpret_cast< iCelPropertyClass * >(argp1);
   ecode2 = SWIG_AsVal_unsigned_SS_long(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPropertyClass_GetPropertyVectorByID" "', argument " "2"" of type '" "csStringID""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPropertyClass_GetPropertyVector2ByID" "', argument " "2"" of type '" "csStringID""'");
   } 
   arg2 = static_cast< csStringID >(val2);
   result = (bool)(arg1)->GetPropertyVectorByID(arg2,*arg3);
@@ -22634,7 +22634,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVector3ByID(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   iCelPropertyClass *arg1 = (iCelPropertyClass *) 0 ;
   csStringID arg2 ;
@@ -22650,15 +22650,15 @@ SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_1(PyObj
   {
     arg3 = new csVector3();
   }
-  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_GetPropertyVectorByID",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"OO:iCelPropertyClass_GetPropertyVector3ByID",&obj0,&obj1)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_iCelPropertyClass, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClass_GetPropertyVectorByID" "', argument " "1"" of type '" "iCelPropertyClass *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "iCelPropertyClass_GetPropertyVector3ByID" "', argument " "1"" of type '" "iCelPropertyClass *""'"); 
   }
   arg1 = reinterpret_cast< iCelPropertyClass * >(argp1);
   ecode2 = SWIG_AsVal_unsigned_SS_long(obj1, &val2);
   if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPropertyClass_GetPropertyVectorByID" "', argument " "2"" of type '" "csStringID""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "iCelPropertyClass_GetPropertyVector3ByID" "', argument " "2"" of type '" "csStringID""'");
   } 
   arg2 = static_cast< csStringID >(val2);
   result = (bool)(arg1)->GetPropertyVectorByID(arg2,*arg3);
@@ -22668,53 +22668,6 @@ SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_1(PyObj
   }
   return resultobj;
 fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_iCelPropertyClass_GetPropertyVectorByID(PyObject *self, PyObject *args) {
-  int argc;
-  PyObject *argv[3];
-  int ii;
-  
-  if (!PyTuple_Check(args)) SWIG_fail;
-  argc = PyObject_Length(args);
-  for (ii = 0; (ii < argc) && (ii < 2); ii++) {
-    argv[ii] = PyTuple_GET_ITEM(args,ii);
-  }
-  if (argc == 2) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPropertyClass, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_unsigned_SS_long(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        return _wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_0(self, args);
-      }
-    }
-  }
-  if (argc == 2) {
-    int _v;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_iCelPropertyClass, 0);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      {
-        int res = SWIG_AsVal_unsigned_SS_long(argv[1], NULL);
-        _v = SWIG_CheckState(res);
-      }
-      if (_v) {
-        return _wrap_iCelPropertyClass_GetPropertyVectorByID__SWIG_1(self, args);
-      }
-    }
-  }
-  
-fail:
-  SWIG_SetErrorMsg(PyExc_NotImplementedError,"No matching function for overloaded 'iCelPropertyClass_GetPropertyVectorByID'");
   return NULL;
 }
 
@@ -87620,7 +87573,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"iCelPropertyClass_GetPropertyFloatByID", _wrap_iCelPropertyClass_GetPropertyFloatByID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyBoolByID", _wrap_iCelPropertyClass_GetPropertyBoolByID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyStringByID", _wrap_iCelPropertyClass_GetPropertyStringByID, METH_VARARGS, NULL},
-	 { (char *)"iCelPropertyClass_GetPropertyVectorByID", _wrap_iCelPropertyClass_GetPropertyVectorByID, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_GetPropertyVector2ByID", _wrap_iCelPropertyClass_GetPropertyVector2ByID, METH_VARARGS, NULL},
+	 { (char *)"iCelPropertyClass_GetPropertyVector3ByID", _wrap_iCelPropertyClass_GetPropertyVector3ByID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyColorByID", _wrap_iCelPropertyClass_GetPropertyColorByID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyPClassByID", _wrap_iCelPropertyClass_GetPropertyPClassByID, METH_VARARGS, NULL},
 	 { (char *)"iCelPropertyClass_GetPropertyEntityByID", _wrap_iCelPropertyClass_GetPropertyEntityByID, METH_VARARGS, NULL},
