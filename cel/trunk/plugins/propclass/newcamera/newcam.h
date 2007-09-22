@@ -76,7 +76,9 @@ private:
   csReversibleTransform baseTrans;
   iSector* baseSector;
   float baseRadius;
-  csVector3 camPos, camTarget, camUp;
+  // camera_offset is where to transform the camera along the direction
+  // it is set to after first pass.
+  csVector3 camPos, camTarget, camUp, camera_offset;
   csVector3 lastIdealPos, lastIdealTarget, lastIdealUp;
   csWeakRef<iPcMesh> pcmesh;
   iSector* lastActorSector;
@@ -200,12 +202,19 @@ public:
   virtual const csVector3& GetUp () const;
 
   /**
+   * Sets the offset from the center of the mesh's iMovable
+   * \param offset the offset from the center of the mesh
+   */
+  virtual void SetPositionOffset (const csVector3& offset);
+  virtual void SetTargetPositionOffset (const csVector3& offset);
+
+  /**
    * Sets the offset from the center of the mesh's iMovable to the position of
    * the camera.
    * \param offset the offset from the center of the mesh to the camera
    *        position.
    */
-  virtual void SetPositionOffset (const csVector3& offset);
+  virtual void SetCameraPositionOffset (const csVector3& offset);
 
   /**
    * Returns whether the camera will use collision detection to avoid

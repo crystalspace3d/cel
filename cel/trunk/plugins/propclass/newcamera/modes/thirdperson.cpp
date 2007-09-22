@@ -73,7 +73,6 @@ bool ThirdPerson::DecideCameraState ()
   	->GetBaseTrans ().This2OtherRelative (posoffset);
   target = parent->GetBasePos ();
   up  = parent->GetBaseUp ();
-  spring = parent->GetCollisionSpringCoefficient ();
   return true;
 }
 

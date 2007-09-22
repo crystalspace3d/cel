@@ -3,6 +3,9 @@ http://cel.crystalspace3d.org/
 
 The history order is reversed so that new features are at the top.
 
+23-Sep-2007
+	- Genjix fixed camera SetPositionOffset (offset) to do what it actually
+	  says, and added old behaviour as SetPositionTargetOffset (offset).
 22-Sep-2007
 	- Genjix made ActorAnalog just update every frame - you will always
 	  have some minor artifact otherwise and like this is smoooth...
